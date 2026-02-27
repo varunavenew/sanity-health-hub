@@ -16,7 +16,7 @@ export const urlFor = (ref: string) => {
   const parts = ref.replace("image-", "").split("-");
   const format = parts.pop();
   const id = parts.join("-");
-  return `https://cdn.sanity.io/images/sh2sj585/production/${id}.${format}`;
+  return `https://cdn.sanity.io/images/sh2sj585/development/${id}.${format}`;
 };
 
 // Helper to get image URL from a Sanity image object
