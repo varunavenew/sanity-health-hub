@@ -1,4 +1,5 @@
 // Schema: Pricing Page (Priser)
+// Aligned with migration data: title, introText, priceCategories[], insuranceNote, seo
 
 export default {
   name: 'pricingPage',

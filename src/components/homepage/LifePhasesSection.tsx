@@ -1,7 +1,6 @@
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useHomepage } from "@/hooks/useSanity";
 
 const fallbackFaqs = [
   { id: "henvisning", question: "Henvisning", answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen." },
@@ -14,9 +13,8 @@ const fallbackFaqs = [
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const { data: homepage } = useHomepage();
 
-  const faqs = homepage?.faqs?.length ? homepage.faqs : fallbackFaqs;
+  const faqs = fallbackFaqs;
 
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);

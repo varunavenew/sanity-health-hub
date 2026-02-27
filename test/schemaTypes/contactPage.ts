@@ -1,4 +1,5 @@
 // Schema: Contact Page (Kontakt)
+// Aligned with migration data: title, introText, phone, email, address, openingHours, seo
 
 export default {
   name: 'contactPage',
@@ -56,11 +57,6 @@ export default {
           ],
         },
       ],
-    },
-    {
-      name: 'mapLocation',
-      title: 'Kartposisjon',
-      type: 'geopoint',
     },
     {
       name: 'seo',

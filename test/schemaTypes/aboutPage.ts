@@ -1,5 +1,5 @@
 // Schema: About Page (Om oss)
-// Aligned with migration data structure
+// Aligned with migration data: title, subtitle, body (blockContent), seo
 
 export default {
   name: 'aboutPage',

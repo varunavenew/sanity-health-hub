@@ -1,16 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Phone, Clock, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useHomepage } from "@/hooks/useSanity";
 
 export const BookingCTA = () => {
   const navigate = useNavigate();
-  const { data: homepage } = useHomepage();
 
-  const cta = homepage?.bookingCta || {};
-  const badge = cta.badge || "Rask og enkel booking";
-  const title = cta.title || "Bestill time hos spesialist";
-  const subtitle = cta.subtitle || "Velg fagområde, klinikk og behandler – alt i én enkel booking.";
+  const badge = "Rask og enkel booking";
+  const title = "Bestill time hos spesialist";
+  const subtitle = "Velg fagområde, klinikk og behandler – alt i én enkel booking.";
 
   return (
     <section className="py-20 md:py-28 bg-brand-dark">
