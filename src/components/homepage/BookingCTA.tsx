@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Phone, Clock, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useHomepage } from "@/hooks/useSanity";
 
 export const BookingCTA = () => {
   const navigate = useNavigate();
