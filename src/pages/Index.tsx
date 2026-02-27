@@ -1,22 +1,47 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import DoctorsSection from "@/components/DoctorsSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import CTASection from "@/components/CTASection";
-import Footer from "@/components/Footer";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { HeroCompact } from "@/components/homepage/HeroCompact";
+import { HeroBanner } from "@/components/homepage/HeroBanner";
+import { PromoBlocks } from "@/components/homepage/PromoBlocks";
+import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
+import { TaglineBanner } from "@/components/homepage/TaglineBanner";
+import { ValueBadges } from "@/components/homepage/ValueBadges";
 
-const Index = () => {
+import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
+
+import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
+
+
+interface IndexProps {
+  isChatOpen: boolean;
+}
+
+const Index = ({ isChatOpen }: IndexProps) => {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <HeroSection />
-      <ServicesSection />
-      <DoctorsSection />
-      <TestimonialsSection />
-      <CTASection />
-      <Footer />
-    </div>
+    <PageLayout isChatOpen={isChatOpen}>
+      {/* Hero carousel */}
+      <HeroBanner />
+      
+      {/* Tagline Banner */}
+      <TaglineBanner />
+      
+      {/* Fagområder */}
+      <HeroCompact />
+      
+      {/* Value badges */}
+      <ValueBadges />
+      
+      {/* Promo blocks (2 bilder) */}
+      <PromoBlocks />
+      
+      {/* FAQ */}
+      <LifePhasesSection />
+      
+      <SpecialistsSection />
+      
+      <GoogleReviewsSection />
+      <BookingCTA />
+    </PageLayout>
   );
 };
 

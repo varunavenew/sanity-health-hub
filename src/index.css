@@ -1,85 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ABC Ginto Normal Font */
+@font-face {
+  font-family: 'ABC Ginto Normal';
+  src: url('/fonts/ABCGintoNormal-Thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Ginto Normal';
+  src: url('/fonts/ABCGintoNormal-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Ginto Normal';
+  src: url('/fonts/ABCGintoNormal-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Ginto Normal';
+  src: url('/fonts/ABCGintoNormal-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Ginto Normal';
+  src: url('/fonts/ABCGintoNormal-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Ginto Normal';
+  src: url('/fonts/ABCGintoNormal-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
-    --background: 210 25% 97%;
-    --foreground: 210 50% 10%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 210 50% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 50% 10%;
-
-    --primary: 210 70% 32%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 175 45% 40%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 20% 93%;
-    --muted-foreground: 210 15% 50%;
-
-    --accent: 12 75% 58%;
-    --accent-foreground: 0 0% 100%;
-
+    /* CMedical Brand Colors – lighter/warmer palette per feedback */
+    /* Beige background, warm cream cards, dark skin accents */
+    /* Yellow: #F4FF78, Black text: #180404 */
+    --background: 35 30% 95%; /* Lighter warm beige */
+    --foreground: 0 71% 5%; /* Black #180404 */
+    --card: 35 25% 97%; /* Very light cream card */
+    --card-foreground: 0 71% 5%; /* Black */
+    --popover: 0 0% 100%; /* White popover */
+    --popover-foreground: 0 71% 5%; /* Black */
+    --primary: 22 22% 21%; /* Dark skin #42332A for primary on light */
+    --primary-foreground: 35 30% 95%; /* Light beige */
+    --secondary: 30 20% 88%; /* Lighter mid skin */
+    --secondary-foreground: 0 71% 5%; /* Black */
+    --muted: 30 18% 90%; /* Subtle muted */
+    --muted-foreground: 22 15% 40%;
+    --accent: 65 100% 73%; /* Yellow #F4FF78 */
+    --accent-foreground: 0 71% 5%; /* Black - good contrast on yellow */
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 210 70% 32%;
-
-    --radius: 0.75rem;
-
-    /* Custom tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(210 70% 32%) 0%, hsl(210 55% 22%) 50%, hsl(175 45% 30%) 100%);
-    --card-shadow: 0 4px 24px -4px hsl(210 50% 10% / 0.08);
-    --card-shadow-hover: 0 12px 40px -8px hsl(210 50% 10% / 0.15);
-    --section-alt: 210 30% 95%;
-    --teal-light: 175 40% 95%;
-    --coral-light: 12 60% 95%;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 30 15% 85%;
+    --input: 30 15% 90%;
+    --ring: 22 22% 21%; /* Dark skin */
+    --brand-dark: 22 22% 21%; /* Dark skin #42332A */
+    --brand-yellow: 65 100% 73%; /* Yellow #F4FF78 */
+    --brand-warm: 35 30% 95%; /* Light warm beige */
+    --brand-mid: 30 20% 80%; /* Mid skin lighter */
+    --brand-beige: 35 25% 92%; /* Light beige for banners */
+    --radius: 0.5rem;
+    
+    /* Chat colors */
+    --chat-background: 30 27% 93%;
+    --chat-foreground: 0 71% 5%;
+    --chat-border: 25 20% 82%;
+    --chat-ai-bubble: 25 24% 80%;
+    --user-bubble: 65 100% 80%;
+    
+    --sidebar-background: 30 27% 93%;
+    --sidebar-foreground: 0 71% 5%;
+    --sidebar-primary: 22 22% 21%;
+    --sidebar-primary-foreground: 30 27% 93%;
+    --sidebar-accent: 25 24% 80%;
+    --sidebar-accent-foreground: 0 71% 5%;
+    --sidebar-border: 25 20% 82%;
+    --sidebar-ring: 22 22% 21%;
   }
 
   .dark {
-    --background: 210 50% 6%;
-    --foreground: 210 20% 92%;
-    --card: 210 45% 10%;
-    --card-foreground: 210 20% 92%;
-    --popover: 210 45% 10%;
-    --popover-foreground: 210 20% 92%;
-    --primary: 210 60% 55%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 175 40% 45%;
+    /* Dark mode uses Dark skin as background with white text */
+    --background: 22 22% 21%; /* Dark skin #42332A */
+    --foreground: 0 0% 100%; /* White */
+    --card: 22 22% 25%;
+    --card-foreground: 0 0% 100%;
+    --popover: 22 22% 25%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%; /* White */
+    --primary-foreground: 22 22% 21%; /* Dark skin */
+    --secondary: 22 22% 28%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 210 30% 15%;
-    --muted-foreground: 210 15% 60%;
-    --accent: 12 65% 55%;
-    --accent-foreground: 0 0% 100%;
+    --muted: 22 22% 28%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 65 100% 73%; /* Yellow #F4FF78 */
+    --accent-foreground: 0 71% 5%; /* Black */
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 210 30% 18%;
-    --input: 210 30% 18%;
-    --ring: 210 60% 55%;
-    --hero-gradient: linear-gradient(135deg, hsl(210 50% 12%) 0%, hsl(210 45% 8%) 50%, hsl(175 35% 15%) 100%);
-    --card-shadow: 0 4px 24px -4px hsl(0 0% 0% / 0.3);
-    --card-shadow-hover: 0 12px 40px -8px hsl(0 0% 0% / 0.4);
-    --section-alt: 210 40% 8%;
-    --teal-light: 175 30% 12%;
-    --coral-light: 12 30% 12%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 22 18% 30%;
+    --input: 22 18% 30%;
+    --ring: 0 0% 85%;
+    --brand-dark: 22 22% 21%; /* Dark skin #42332A */
+    --brand-yellow: 65 100% 73%; /* Yellow #F4FF78 */
+    --brand-warm: 30 27% 93%; /* Light skin */
+    --brand-mid: 25 24% 74%; /* Mid skin */
+    
+    --chat-background: 22 22% 21%;
+    --chat-foreground: 0 0% 100%;
+    --chat-border: 22 18% 30%;
+    --chat-ai-bubble: 22 22% 28%;
+    --user-bubble: 65 100% 73%;
+    
+    --sidebar-background: 22 22% 21%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 65 100% 73%;
+    --sidebar-primary-foreground: 0 71% 5%;
+    --sidebar-accent: 22 22% 28%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 22 18% 30%;
+    --sidebar-ring: 65 100% 73%;
   }
 }
 
@@ -87,43 +146,170 @@
   * {
     @apply border-border;
   }
-
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'DM Sans', sans-serif;
+  
+  /* WCAG 2.4.7 - Focus visible indicator */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+    outline-style: solid;
   }
-
-  h1, h2, h3, h4 {
-    font-family: 'DM Serif Display', serif;
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'ABC Ginto Normal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
 }
 
-@layer utilities {
-  .hero-gradient {
-    background: var(--hero-gradient);
-  }
+/* CMedical Brand Gradients - Based on brand color profile */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(65 100% 73%), hsl(65 90% 78%));
+}
 
-  .section-alt {
-    background-color: hsl(var(--section-alt));
-  }
+.gradient-hero {
+  background: linear-gradient(180deg, hsl(22 22% 21%), hsl(22 22% 18%));
+}
 
-  .teal-light-bg {
-    background-color: hsl(var(--teal-light));
-  }
+.gradient-skin {
+  background: linear-gradient(135deg, hsl(25 24% 74%), hsl(30 27% 93%));
+}
 
-  .coral-light-bg {
-    background-color: hsl(var(--coral-light));
-  }
+.gradient-soft {
+  background: linear-gradient(180deg, hsl(30 27% 93%), hsl(30 20% 96%));
+}
 
-  .card-shadow {
-    box-shadow: var(--card-shadow);
-  }
+.gradient-warm {
+  background: linear-gradient(180deg, hsl(30 27% 93%), hsl(25 24% 85%));
+}
 
-  .card-shadow-hover {
-    box-shadow: var(--card-shadow-hover);
-  }
+.glass {
+  background: hsla(30 27% 93% / 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border));
+}
 
-  .text-balance {
-    text-wrap: balance;
+.glass-dark {
+  background: hsla(22 22% 21% / 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(22 18% 30%);
+}
+
+.glow-yellow {
+  box-shadow: 0 4px 24px hsl(65 100% 73% / 0.25);
+}
+
+.glow-soft {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.glow-accent {
+  box-shadow: 0 4px 24px hsl(65 100% 73% / 0.3);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-up {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-scale-up {
+  animation: scale-up 0.4s ease-out forwards;
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300;
+}
+
+.card-hover:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 12px 40px hsl(25 15% 15% / 0.08);
+}
+
+/* Stagger animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Word cloud elegant fade animation */
+@keyframes wordFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 0.8;
+    filter: blur(0);
+  }
+}
+
+/* Word cloud float animation */
+@keyframes wordFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-8px);
   }
 }
