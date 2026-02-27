@@ -1,5 +1,5 @@
 // Schema: Insurance Page (Forsikring)
-// Aligned with migration data structure
+// Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
 
 export default {
   name: 'insurancePage',

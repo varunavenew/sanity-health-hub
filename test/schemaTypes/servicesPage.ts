@@ -1,4 +1,5 @@
 // Schema: Services Page (Tjenester)
+// Aligned with migration data: title, introText, categories (references), seo
 
 export default {
   name: 'servicesPage',

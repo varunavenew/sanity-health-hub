@@ -9,11 +9,10 @@ const fetchSanity = <T>(query: string, params?: Record<string, any>): Promise<T>
 export const useHomepage = () =>
   useQuery({
     queryKey: ["sanity", "homepage"],
-    queryFn: () =>
-      fetchSanity<any>(
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
         `*[_type == "homepage"][0]{
-          title,
-          tagline,
+          title, tagline,
           heroBanner{
             slides[]{heading, subheading, ctaText, ctaLink, "image": image.asset->url}
           },
@@ -22,7 +21,41 @@ export const useHomepage = () =>
           promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
           seo
         }`
-      ),
+      );
+      if (!data) return null;
+
+      // Transform to match component expectations
+      return {
+        tagline: data.tagline,
+        heroSlides: (data.heroBanner?.slides || []).map((s: any, i: number) => ({
+          id: `slide-${i}`,
+          label: s.heading || "",
+          subtitle: s.subheading || "",
+          cta: s.ctaText || "Les mer",
+          ctaPath: s.ctaLink || "/",
+          image: s.image || "",
+          objectPosition: "center 30%",
+        })),
+        categoryCards: (data.serviceCategories || []).map((c: any) => ({
+          id: c.slug,
+          title: c.title,
+          path: `/${c.slug}`,
+          image: c.heroImage || "",
+        })),
+        valueBadges: (data.valueBadges || []).map((v: any) =>
+          typeof v === "string" ? v : v.label
+        ),
+        promoBlocks: (data.promoBlocks || []).map((p: any, i: number) => ({
+          id: `promo-${i}`,
+          title: p.title,
+          description: p.description,
+          cta: p.ctaText || "Les mer",
+          path: p.ctaLink || "/",
+          image: p.image || "",
+        })),
+        seo: data.seo,
+      };
+    },
     staleTime: 5 * 60 * 1000,
   });
 
@@ -30,16 +63,13 @@ export const useHomepage = () =>
 export interface SanitySpecialist {
   _id: string;
   name: string;
-  role: string;
-  title?: string;
-  specialties: string[];
-  expertise?: string[];
+  title: string;
+  expertise: string[];
   image: string;
   category: string;
   slug: string;
-  shortBio?: string;
   bio?: string;
-  education?: string[];
+  education?: string;
   experience?: string;
   languages?: string[];
   clinics?: string[];
@@ -58,12 +88,12 @@ export const useSpecialists = () =>
           "categories": categories[]->{ _id, title, "slug": slug.current }
         }`
       );
-      // Map fields for backward compatibility with components
       return (data || []).map((s) => ({
         ...s,
-        title: s.role,
-        expertise: s.specialties,
-        bio: s.shortBio,
+        title: s.role || "",
+        expertise: s.specialties || [],
+        bio: s.shortBio || "",
+        category: s.categories?.[0]?.slug || "",
       })) as SanitySpecialist[];
     },
     staleTime: 5 * 60 * 1000,
@@ -85,9 +115,10 @@ export const useSpecialist = (slug: string) =>
       if (!data) return null;
       return {
         ...data,
-        title: data.role,
-        expertise: data.specialties,
-        bio: data.shortBio,
+        title: data.role || "",
+        expertise: data.specialties || [],
+        bio: data.shortBio || "",
+        category: data.categories?.[0]?.slug || "",
       } as SanitySpecialist;
     },
     enabled: !!slug,
@@ -112,10 +143,9 @@ export const useGoogleReviews = () =>
           _id, author, rating, text, date
         }`
       );
-      // Map author -> name for backward compatibility
       return (data || []).map((r) => ({
         ...r,
-        name: r.author,
+        name: r.author || "",
       })) as SanityReview[];
     },
     staleTime: 5 * 60 * 1000,
@@ -131,7 +161,7 @@ export const useTreatmentCategories = () =>
           _id, title, "slug": slug.current, categoryId, description, icon, color,
           "heroImage": heroImage.asset->url,
           stats,
-          "treatments": *[_type == "treatment" && references(^._id)]{
+          "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
             _id, title, "slug": slug.current, description, "heroImage": heroImage.asset->url
           }
         }`
@@ -142,20 +172,31 @@ export const useTreatmentCategories = () =>
 export const useTreatmentCategory = (slug: string) =>
   useQuery({
     queryKey: ["sanity", "treatmentCategory", slug],
-    queryFn: () =>
-      fetchSanity<any>(
-        `*[_type == "treatmentCategory" && slug.current == $slug][0]{
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
+        `*[_type == "treatmentCategory" && (slug.current == $slug || categoryId == $slug)][0]{
           _id, title, "slug": slug.current, categoryId, description, icon, color,
           "heroImage": heroImage.asset->url,
           stats,
           seo,
-          "treatments": *[_type == "treatment" && references(^._id)]{
-            _id, title, "slug": slug.current, description,
+          "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
+            _id, title, "slug": slug.current, description, subtitle,
             "heroImage": heroImage.asset->url
           }
         }`,
         { slug }
-      ),
+      );
+      if (!data) return null;
+      // Transform treatments into services format for CategoryPage compatibility
+      return {
+        ...data,
+        services: (data.treatments || []).map((t: any) => ({
+          name: t.title,
+          path: `/behandlinger/${data.categoryId || data.slug}/${t.slug}`,
+        })),
+        faqs: [], // FAQs are on individual treatments, not category level in current schema
+      };
+    },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
@@ -166,7 +207,7 @@ export const useTreatment = (categorySlug: string, treatmentSlug: string) =>
     queryKey: ["sanity", "treatment", categorySlug, treatmentSlug],
     queryFn: () =>
       fetchSanity<any>(
-        `*[_type == "treatment" && slug.current == $treatmentSlug && category->slug.current == $categorySlug][0]{
+        `*[_type == "treatment" && slug.current == $treatmentSlug && (category->slug.current == $categorySlug || category->categoryId == $categorySlug)][0]{
           _id, title, subtitle, description, benefits, benefitsTitle,
           "heroImage": heroImage.asset->url,
           "parentCategory": category->title,
@@ -196,7 +237,7 @@ export const useAboutPage = () =>
         }`
       );
       if (!data) return null;
-      // Convert blockContent body into sections array for backward compat
+      // Convert blockContent body into sections array for backward compat with About.tsx
       const sections = (data.body || [])
         .filter((block: any) => block._type === "block")
         .map((block: any) => ({
@@ -215,8 +256,8 @@ export const useAboutPage = () =>
 export const useContactPage = () =>
   useQuery({
     queryKey: ["sanity", "contactPage"],
-    queryFn: () =>
-      fetchSanity<any>(
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
         `*[_type == "contactPage"][0]{
           title, introText, phone, email,
           "heroImage": heroImage.asset->url,
@@ -224,7 +265,13 @@ export const useContactPage = () =>
           openingHours[]{days, hours},
           seo
         }`
-      ),
+      );
+      if (!data) return null;
+      return {
+        ...data,
+        subtitle: data.introText || "",
+      };
+    },
     staleTime: 5 * 60 * 1000,
   });
 
@@ -252,8 +299,8 @@ export const usePricingPage = () =>
 export const useInsurancePage = () =>
   useQuery({
     queryKey: ["sanity", "insurancePage"],
-    queryFn: () =>
-      fetchSanity<any>(
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
         `*[_type == "insurancePage"][0]{
           title, introText,
           "heroImage": heroImage.asset->url,
@@ -262,7 +309,25 @@ export const useInsurancePage = () =>
           benefits[]{title, description},
           seo
         }`
-      ),
+      );
+      if (!data) return null;
+      return {
+        ...data,
+        subtitle: data.introText || "",
+        // Transform partners string[] to {name} objects for component compat
+        companies: (data.partners || []).map((p: string) => ({ name: p })),
+        // Map step/benefit fields for component compat
+        steps: (data.steps || []).map((s: any, i: number) => ({
+          num: String(i + 1),
+          title: s.title,
+          desc: s.description,
+        })),
+        benefits: (data.benefits || []).map((b: any) => ({
+          title: b.title,
+          desc: b.description,
+        })),
+      };
+    },
     staleTime: 5 * 60 * 1000,
   });
 
