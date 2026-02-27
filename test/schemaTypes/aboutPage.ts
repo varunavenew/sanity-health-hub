@@ -1,4 +1,5 @@
 // Schema: About Page (Om oss)
+// Aligned with migration data structure
 
 export default {
   name: 'aboutPage',
@@ -12,25 +13,20 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
+      name: 'subtitle',
+      title: 'Undertittel',
+      type: 'string',
+    },
+    {
       name: 'heroImage',
       title: 'Hero-bilde',
       type: 'image',
       options: { hotspot: true },
     },
     {
-      name: 'heroSubtitle',
-      title: 'Hero-undertekst',
-      type: 'text',
-      rows: 2,
-    },
-    {
-      name: 'mission',
-      title: 'Vår misjon',
-      type: 'object',
-      fields: [
-        { name: 'heading', title: 'Overskrift', type: 'string' },
-        { name: 'body', title: 'Tekst', type: 'blockContent' },
-      ],
+      name: 'body',
+      title: 'Innhold',
+      type: 'blockContent',
     },
     {
       name: 'values',
@@ -46,11 +42,6 @@ export default {
           ],
         },
       ],
-    },
-    {
-      name: 'history',
-      title: 'Vår historie',
-      type: 'blockContent',
     },
     {
       name: 'clinicImages',

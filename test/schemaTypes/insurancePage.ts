@@ -1,4 +1,5 @@
 // Schema: Insurance Page (Forsikring)
+// Aligned with migration data structure
 
 export default {
   name: 'insurancePage',
@@ -24,36 +25,35 @@ export default {
       rows: 3,
     },
     {
-      name: 'body',
-      title: 'Innhold',
-      type: 'blockContent',
+      name: 'partners',
+      title: 'Forsikringspartnere',
+      type: 'array',
+      of: [{ type: 'string' }],
     },
     {
-      name: 'insurancePartners',
-      title: 'Forsikringspartnere',
+      name: 'steps',
+      title: 'Steg',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'name', title: 'Navn', type: 'string' },
-            { name: 'logo', title: 'Logo', type: 'image' },
+            { name: 'title', title: 'Tittel', type: 'string' },
             { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
-            { name: 'website', title: 'Nettside', type: 'url' },
           ],
         },
       ],
     },
     {
-      name: 'faqs',
-      title: 'Vanlige spørsmål',
+      name: 'benefits',
+      title: 'Fordeler',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'question', title: 'Spørsmål', type: 'string' },
-            { name: 'answer', title: 'Svar', type: 'text', rows: 3 },
+            { name: 'title', title: 'Tittel', type: 'string' },
+            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
           ],
         },
       ],
