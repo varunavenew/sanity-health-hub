@@ -14,9 +14,8 @@ const fallbackFaqs = [
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const { data: homepage } = useHomepage();
 
-  const faqs = homepage?.faqs?.length ? homepage.faqs : fallbackFaqs;
+  const faqs = fallbackFaqs;
 
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
