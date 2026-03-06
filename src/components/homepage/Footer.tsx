@@ -1,8 +1,12 @@
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
+import { useSiteSettings } from "@/hooks/useSanity";
 
 export const Footer = () => {
+  const { data: settings } = useSiteSettings();
+  const social = settings?.socialMedia;
+
   return (
     <footer className="bg-[#180404] text-white pt-20 pb-10" role="contentinfo">
       <div className="container mx-auto px-6 md:px-16">
