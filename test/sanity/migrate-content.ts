@@ -1,25 +1,30 @@
 #!/usr/bin/env npx tsx
 /**
- * Sanity Content Migration Script
+ * Sanity Content Migration Script (with Image Uploads)
  * 
- * Pushes all hardcoded content from the React app into Sanity CMS.
+ * Pushes all hardcoded content from the React app into Sanity CMS,
+ * including uploading images from src/assets/ and linking them to documents.
  * 
  * Usage:
  *   1. Get a Sanity API token with write access from https://www.sanity.io/manage
- *   2. Run: SANITY_TOKEN=your_token npx tsx sanity/migrate-content.ts
+ *   2. Run from the test/ directory: npx tsx sanity/migrate-content.ts
  * 
  * This will create documents for:
- *   - Treatment Categories (6)
+ *   - Treatment Categories (6) with hero images
  *   - Treatments (~40+)
  *   - Specialists (~50+)
  *   - Google Reviews (14)
- *   - Homepage (1)
- *   - About Page (1)
- *   - Contact Page (1)
- *   - Pricing Page (1)
- *   - Insurance Page (1)
- *   - Services Page (1)
+ *   - Homepage (1) with hero slide images
+ *   - About Page (1) with hero image
+ *   - Contact Page (1) with hero image
+ *   - Pricing Page (1) with hero image
+ *   - Insurance Page (1) with hero image
+ *   - Services Page (1) with hero image
+ *   - Site Settings (1)
  */
+
+import * as fs from "fs";
+import * as path from "path";
 
 const PROJECT_ID = "sh2sj585";
 const DATASET = "development";
@@ -33,6 +38,104 @@ if (!TOKEN) {
 }
 
 const API_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/mutate/${DATASET}`;
+const ASSETS_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/assets/images/${DATASET}`;
+
+// Resolve path relative to project root (one level up from test/)
+const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
+
+// ============================================================
+// IMAGE UPLOAD HELPERS
+// ============================================================
+
+// Cache to avoid re-uploading the same image
+const imageCache = new Map<string, string>();
+
+/**
+ * Upload a local image file to Sanity and return the asset reference.
+ * Returns null if the file doesn't exist.
+ */
+async function uploadImage(relativePath: string, label?: string): Promise<{ _type: "image"; asset: { _type: "reference"; _ref: string } } | null> {
+  const fullPath = path.join(ASSETS_DIR, relativePath);
+  
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`  ⚠ Image not found: ${relativePath}`);
+    return null;
+  }
+
+  // Check cache
+  if (imageCache.has(relativePath)) {
+    const cachedRef = imageCache.get(relativePath)!;
+    return { _type: "image", asset: { _type: "reference", _ref: cachedRef } };
+  }
+
+  const fileBuffer = fs.readFileSync(fullPath);
+  const ext = path.extname(fullPath).slice(1).toLowerCase();
+  const mimeTypes: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+    svg: "image/svg+xml",
+    mp4: "video/mp4",
+  };
+  const contentType = mimeTypes[ext] || "application/octet-stream";
+  const filename = label ? `${label}.${ext}` : path.basename(fullPath);
+
+  const res = await fetch(`${ASSETS_URL}?filename=${encodeURIComponent(filename)}&label=${encodeURIComponent(label || "")}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": contentType,
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    body: fileBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error(`  ❌ Failed to upload ${relativePath}: ${res.status} ${errText}`);
+    return null;
+  }
+
+  const result = await res.json();
+  const assetId = result.document._id;
+  imageCache.set(relativePath, assetId);
+  console.log(`  📸 Uploaded: ${relativePath} → ${assetId}`);
+
+  return { _type: "image", asset: { _type: "reference", _ref: assetId } };
+}
+
+// ============================================================
+// IMAGE MAPPINGS
+// ============================================================
+
+// Category hero images
+const categoryImages: Record<string, string> = {
+  "category-gynekologi": "categories/gynekologi-real.jpg",
+  "category-fertilitet": "categories/fertilitet-real.jpg",
+  "category-urologi": "categories/urologi-real.jpg",
+  "category-ortopedi": "categories/ortopedi-real.jpg",
+  "category-graviditet": "categories/fertilitet-real.jpg",
+  "category-flere-fagomrader": "categories/flere-fagomrader.jpg",
+};
+
+// Hero slide images (order matches slides in buildPageDocs)
+const heroSlideImages = [
+  "hero/cmedical-hero-1.jpg",
+  "hero/cmedical-hero-2.jpg",
+  "hero/cmedical-hero-3.jpg",
+  "hero/hero-treatment.jpg",
+];
+
+// Page hero images
+const pageImages: Record<string, string> = {
+  homepage: "hero/cmedical-hero-1.jpg",
+  aboutPage: "hero/about-hero.jpg",
+  contactPage: "hero/contact-hero.jpg",
+  pricingPage: "hero/pricing-hero.jpg",
+  insurancePage: "hero/insurance-hero.jpg",
+  servicesPage: "hero/services-hero.jpg",
+};
 
 interface Mutation {
   createOrReplace: Record<string, any>;
@@ -365,6 +468,32 @@ function buildReviewDocs(): Mutation[] {
 // PAGES
 // ============================================================
 function buildPageDocs(): Mutation[] {
+  // Legacy — replaced by buildPageDocsWithImages()
+  return [];
+}
+
+/**
+ * Build page documents with uploaded images
+ */
+async function buildPageDocsWithImages(): Promise<Mutation[]> {
+  // Upload hero slide images
+  const slideImageRefs = [];
+  for (let i = 0; i < heroSlideImages.length; i++) {
+    const ref = await uploadImage(heroSlideImages[i], `hero-slide-${i + 1}`);
+    slideImageRefs.push(ref);
+  }
+
+  // Upload page hero images
+  const pageImageRefs: Record<string, any> = {};
+  for (const [pageId, imgPath] of Object.entries(pageImages)) {
+    const ref = await uploadImage(imgPath, `${pageId}-hero`);
+    if (ref) pageImageRefs[pageId] = ref;
+  }
+
+  // Upload promo block images
+  const promoImage1 = await uploadImage("hero/hero-clinic-lounge.jpg", "promo-1");
+  const promoImage2 = await uploadImage("hero/hero-technology.jpg", "promo-2");
+
   return [
     // Homepage
     {
@@ -372,12 +501,13 @@ function buildPageDocs(): Mutation[] {
         _id: "homepage",
         _type: "homepage",
         title: "CMedical – Nordens ledende klinikk for livet og underlivet",
+        ...(pageImageRefs.homepage ? { heroImage: pageImageRefs.homepage } : {}),
         heroBanner: {
           slides: [
-            { _type: "object", _key: "s1", heading: "Styrket kvinnehelse\n– i hele livsløpet", subheading: "Kvinnehelse", ctaText: "Les mer", ctaLink: "/gynekologi" },
-            { _type: "object", _key: "s2", heading: "Mannshelse\nog urologi", subheading: "Urologi", ctaText: "Les mer", ctaLink: "/urologi" },
-            { _type: "object", _key: "s3", heading: "Landets første private\nmed robotkirurgi", subheading: "Teknologi", ctaText: "Les mer", ctaLink: "/tjenester" },
-            { _type: "object", _key: "s4", heading: "Din reise til\nforeldreskap", subheading: "Fertilitet", ctaText: "Les mer", ctaLink: "/fertilitet" },
+            { _type: "object", _key: "s1", heading: "Styrket kvinnehelse\n– i hele livsløpet", subheading: "Kvinnehelse", ctaText: "Les mer", ctaLink: "/gynekologi", ...(slideImageRefs[0] ? { image: slideImageRefs[0] } : {}) },
+            { _type: "object", _key: "s2", heading: "Mannshelse\nog urologi", subheading: "Urologi", ctaText: "Les mer", ctaLink: "/urologi", ...(slideImageRefs[1] ? { image: slideImageRefs[1] } : {}) },
+            { _type: "object", _key: "s3", heading: "Landets første private\nmed robotkirurgi", subheading: "Teknologi", ctaText: "Les mer", ctaLink: "/tjenester", ...(slideImageRefs[2] ? { image: slideImageRefs[2] } : {}) },
+            { _type: "object", _key: "s4", heading: "Din reise til\nforeldreskap", subheading: "Fertilitet", ctaText: "Les mer", ctaLink: "/fertilitet", ...(slideImageRefs[3] ? { image: slideImageRefs[3] } : {}) },
           ],
         },
         tagline: "Faglig trygghet og personlig omsorg – for din helse",
@@ -394,8 +524,8 @@ function buildPageDocs(): Mutation[] {
           { _type: "object", _key: "vb3", icon: "CreditCard", label: "Tilgjengelig pris" },
         ],
         promoBlocks: [
-          { _type: "object", _key: "pb1", title: "Velkommen på fastlegeseminar", description: "Lær mer om våre tjenester og hvordan vi kan hjelpe deg og dine pasienter.", ctaText: "Les mer og boka", ctaLink: "/kontakt" },
-          { _type: "object", _key: "pb2", title: "Velkommen på fastlegeseminar", description: "Hold deg oppdatert på nyheter, arrangementer og faglig innhold fra CMedical.", ctaText: "Les mer og boka", ctaLink: "/kontakt" },
+          { _type: "object", _key: "pb1", title: "Velkommen på fastlegeseminar", description: "Lær mer om våre tjenester og hvordan vi kan hjelpe deg og dine pasienter.", ctaText: "Les mer og boka", ctaLink: "/kontakt", ...(promoImage1 ? { image: promoImage1 } : {}) },
+          { _type: "object", _key: "pb2", title: "Velkommen på fastlegeseminar", description: "Hold deg oppdatert på nyheter, arrangementer og faglig innhold fra CMedical.", ctaText: "Les mer og boka", ctaLink: "/kontakt", ...(promoImage2 ? { image: promoImage2 } : {}) },
         ],
         seo: {
           _type: "seo",
@@ -411,6 +541,7 @@ function buildPageDocs(): Mutation[] {
         _type: "aboutPage",
         title: "Om CMedical",
         subtitle: "Livet og underlivet",
+        ...(pageImageRefs.aboutPage ? { heroImage: pageImageRefs.aboutPage } : {}),
         body: blockText("CMedical er her for mennesker som ønsker trygg og spesialisert hjelp for kroppen og underlivet – uansett kjønn, livssituasjon eller behov. Vi har et særlig engasjement for kvinnehelse. Samtidig møter vi også menn med samme faglige omtanke, og ser helse i et helhetlig perspektiv – særlig når det gjelder fertilitet, som berører alle som ønsker eller forsøker å skape liv.\n\nHos oss skal du føle deg ivaretatt fra første kontakt. Vi tilbyr utredning og behandling der medisinsk presisjon kombineres med trygghet, respekt og rom for spørsmål. Målet er at du skal forstå prosessen, oppleve forutsigbarhet og få den hjelpen som passer din kropp og din livsfase.\n\nBehandlingen utføres av erfarne spesialister som samarbeider tett i tverrfaglige miljøer. Det gir deg presise vurderinger, skånsomme inngrep og god oppfølging gjennom hele forløpet.\n\nVi vet at rammene rundt behandlingen påvirker opplevelsen. Derfor møter du moderne klinikker innredet i varme toner, rolige omgivelser og ansatte som setter av nødvendig tid til deg.\n\nVi ønsker at flere skal ha tilgang til spesialisthelsetjenester. Derfor tilrettelegger vi for behandling til priser som gjør det mulig å få kvalifisert hjelp uten at det går på bekostning av omsorg eller kvalitet.\n\nHos CMedical handler alt om at du skal bli tatt på alvor – med faglig trygghet, verdighet og helhetlig støtte gjennom hele behandlingen."),
         seo: {
           _type: "seo",
@@ -426,6 +557,7 @@ function buildPageDocs(): Mutation[] {
         _type: "contactPage",
         title: "Kontakt oss",
         introText: "Har du spørsmål? Vi svarer gjerne på alle henvendelser",
+        ...(pageImageRefs.contactPage ? { heroImage: pageImageRefs.contactPage } : {}),
         phone: "22 60 00 50",
         email: "post@cmedical.no",
         address: { _type: "object", street: "Kirkeveien 64B", city: "Oslo", zip: "0366" },
@@ -446,6 +578,7 @@ function buildPageDocs(): Mutation[] {
         _type: "pricingPage",
         title: "Prisliste",
         introText: "Hos CMedical får du erfaring, spisskompetanse og moderne teknologi samlet på ett sted – en trygg og omsorgsfull opplevelse.",
+        ...(pageImageRefs.pricingPage ? { heroImage: pageImageRefs.pricingPage } : {}),
         priceCategories: [
           {
             _type: "object", _key: "pc-gyn",
@@ -505,6 +638,7 @@ function buildPageDocs(): Mutation[] {
         _type: "insurancePage",
         title: "Helseforsikring",
         introText: "Bruk forsikringen din til raskere behandling hos oss",
+        ...(pageImageRefs.insurancePage ? { heroImage: pageImageRefs.insurancePage } : {}),
         partners: ["EuroAccident", "Falck", "Fremtind", "Gjensidige", "If", "Storebrand", "Tryg"],
         steps: [
           { _type: "object", _key: "is1", title: "Få henvisning", description: "Fra fastlege eller spesialist" },
@@ -531,6 +665,7 @@ function buildPageDocs(): Mutation[] {
         _type: "servicesPage",
         title: "Tjenester",
         introText: "Finn behandlingen som passer for deg – ingen henvisning nødvendig",
+        ...(pageImageRefs.servicesPage ? { heroImage: pageImageRefs.servicesPage } : {}),
         categories: [
           { _type: "reference", _ref: "category-gynekologi", _key: "sp1" },
           { _type: "reference", _ref: "category-fertilitet", _key: "sp2" },
@@ -552,49 +687,80 @@ function buildPageDocs(): Mutation[] {
 // MAIN
 // ============================================================
 async function main() {
-  console.log("🚀 Starting Sanity content migration...");
+  console.log("🚀 Starting Sanity content migration (with images)...");
   console.log(`   Project: ${PROJECT_ID} / Dataset: ${DATASET}\n`);
 
-  // 1. Treatment Categories
-  console.log("📂 Creating treatment categories...");
+  // 1. Upload category images and attach to categories
+  console.log("🖼️  Uploading category images...");
+  for (const cat of treatmentCategories) {
+    const imgPath = categoryImages[cat._id];
+    if (imgPath) {
+      const imageRef = await uploadImage(imgPath, `category-${cat.categoryId}`);
+      if (imageRef) {
+        (cat as any).heroImage = imageRef;
+      }
+    }
+  }
+
+  // 2. Treatment Categories
+  console.log("\n📂 Creating treatment categories...");
   const categoryMutations: Mutation[] = treatmentCategories.map((cat) => ({
     createOrReplace: cat,
   }));
   await submitMutations(categoryMutations);
   console.log(`   ✅ ${categoryMutations.length} categories\n`);
 
-  // 2. Treatments
+  // 3. Treatments
   console.log("💊 Creating treatments...");
   const treatmentMutations = buildTreatmentDocs();
   await submitMutations(treatmentMutations);
   console.log(`   ✅ ${treatmentMutations.length} treatments\n`);
 
-  // 3. Specialists
+  // 4. Specialists
   console.log("👨‍⚕️ Creating specialists...");
   const specialistMutations = buildSpecialistDocs();
   await submitMutations(specialistMutations);
   console.log(`   ✅ ${specialistMutations.length} specialists\n`);
 
-  // 4. Google Reviews
+  // 5. Google Reviews
   console.log("⭐ Creating Google reviews...");
   const reviewMutations = buildReviewDocs();
   await submitMutations(reviewMutations);
   console.log(`   ✅ ${reviewMutations.length} reviews\n`);
 
-  // 5. Pages
-  console.log("📄 Creating page documents...");
-  const pageMutations = buildPageDocs();
+  // 6. Pages (with images)
+  console.log("📄 Creating page documents (uploading images)...");
+  const pageMutations = await buildPageDocsWithImages();
   await submitMutations(pageMutations);
   console.log(`   ✅ ${pageMutations.length} pages\n`);
+
+  // 7. Site Settings
+  console.log("⚙️  Creating site settings...");
+  const settingsMutation: Mutation = {
+    createOrReplace: {
+      _id: "siteSettings",
+      _type: "siteSettings",
+      title: "CMedical",
+      socialMedia: {
+        instagram: "https://www.instagram.com/cmedical.no",
+        facebook: "https://www.facebook.com/cmedical.no",
+        linkedin: "https://www.linkedin.com/company/cmedical",
+      },
+    },
+  };
+  await submitMutations([settingsMutation]);
+  console.log(`   ✅ 1 site settings\n`);
 
   const total =
     categoryMutations.length +
     treatmentMutations.length +
     specialistMutations.length +
     reviewMutations.length +
-    pageMutations.length;
+    pageMutations.length +
+    1;
 
   console.log(`\n🎉 Migration complete! ${total} documents created/updated in Sanity.`);
+  console.log(`   📸 ${imageCache.size} images uploaded.`);
   console.log("   Open Sanity Studio to verify the content.");
 }
 
