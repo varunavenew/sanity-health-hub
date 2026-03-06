@@ -83,15 +83,21 @@ export const Footer = () => {
             
             {/* Social icons */}
             <div className="flex gap-2.5">
-              <a href="#" aria-label="Følg oss på Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Instagram className="w-4 h-4 text-white/40" aria-hidden="true" />
-              </a>
-              <a href="#" aria-label="Følg oss på Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Facebook className="w-4 h-4 text-white/40" aria-hidden="true" />
-              </a>
-              <a href="#" aria-label="Følg oss på LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Linkedin className="w-4 h-4 text-white/40" aria-hidden="true" />
-              </a>
+              {(!social || social.instagram) && (
+                <a href={social?.instagram || "#"} target="_blank" rel="noopener noreferrer" aria-label="Følg oss på Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Instagram className="w-4 h-4 text-white/40" aria-hidden="true" />
+                </a>
+              )}
+              {(!social || social.facebook) && (
+                <a href={social?.facebook || "#"} target="_blank" rel="noopener noreferrer" aria-label="Følg oss på Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Facebook className="w-4 h-4 text-white/40" aria-hidden="true" />
+                </a>
+              )}
+              {(!social || social.linkedin) && (
+                <a href={social?.linkedin || "#"} target="_blank" rel="noopener noreferrer" aria-label="Følg oss på LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Linkedin className="w-4 h-4 text-white/40" aria-hidden="true" />
+                </a>
+              )}
             </div>
           </div>
         </div>
