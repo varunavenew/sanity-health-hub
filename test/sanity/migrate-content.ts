@@ -1,25 +1,30 @@
 #!/usr/bin/env npx tsx
 /**
- * Sanity Content Migration Script
+ * Sanity Content Migration Script (with Image Uploads)
  * 
- * Pushes all hardcoded content from the React app into Sanity CMS.
+ * Pushes all hardcoded content from the React app into Sanity CMS,
+ * including uploading images from src/assets/ and linking them to documents.
  * 
  * Usage:
  *   1. Get a Sanity API token with write access from https://www.sanity.io/manage
- *   2. Run: SANITY_TOKEN=your_token npx tsx sanity/migrate-content.ts
+ *   2. Run from the test/ directory: npx tsx sanity/migrate-content.ts
  * 
  * This will create documents for:
- *   - Treatment Categories (6)
+ *   - Treatment Categories (6) with hero images
  *   - Treatments (~40+)
  *   - Specialists (~50+)
  *   - Google Reviews (14)
- *   - Homepage (1)
- *   - About Page (1)
- *   - Contact Page (1)
- *   - Pricing Page (1)
- *   - Insurance Page (1)
- *   - Services Page (1)
+ *   - Homepage (1) with hero slide images
+ *   - About Page (1) with hero image
+ *   - Contact Page (1) with hero image
+ *   - Pricing Page (1) with hero image
+ *   - Insurance Page (1) with hero image
+ *   - Services Page (1) with hero image
+ *   - Site Settings (1)
  */
+
+import * as fs from "fs";
+import * as path from "path";
 
 const PROJECT_ID = "sh2sj585";
 const DATASET = "development";
@@ -33,6 +38,104 @@ if (!TOKEN) {
 }
 
 const API_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/mutate/${DATASET}`;
+const ASSETS_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/assets/images/${DATASET}`;
+
+// Resolve path relative to project root (one level up from test/)
+const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
+
+// ============================================================
+// IMAGE UPLOAD HELPERS
+// ============================================================
+
+// Cache to avoid re-uploading the same image
+const imageCache = new Map<string, string>();
+
+/**
+ * Upload a local image file to Sanity and return the asset reference.
+ * Returns null if the file doesn't exist.
+ */
+async function uploadImage(relativePath: string, label?: string): Promise<{ _type: "image"; asset: { _type: "reference"; _ref: string } } | null> {
+  const fullPath = path.join(ASSETS_DIR, relativePath);
+  
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`  ⚠ Image not found: ${relativePath}`);
+    return null;
+  }
+
+  // Check cache
+  if (imageCache.has(relativePath)) {
+    const cachedRef = imageCache.get(relativePath)!;
+    return { _type: "image", asset: { _type: "reference", _ref: cachedRef } };
+  }
+
+  const fileBuffer = fs.readFileSync(fullPath);
+  const ext = path.extname(fullPath).slice(1).toLowerCase();
+  const mimeTypes: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+    svg: "image/svg+xml",
+    mp4: "video/mp4",
+  };
+  const contentType = mimeTypes[ext] || "application/octet-stream";
+  const filename = label ? `${label}.${ext}` : path.basename(fullPath);
+
+  const res = await fetch(`${ASSETS_URL}?filename=${encodeURIComponent(filename)}&label=${encodeURIComponent(label || "")}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": contentType,
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    body: fileBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error(`  ❌ Failed to upload ${relativePath}: ${res.status} ${errText}`);
+    return null;
+  }
+
+  const result = await res.json();
+  const assetId = result.document._id;
+  imageCache.set(relativePath, assetId);
+  console.log(`  📸 Uploaded: ${relativePath} → ${assetId}`);
+
+  return { _type: "image", asset: { _type: "reference", _ref: assetId } };
+}
+
+// ============================================================
+// IMAGE MAPPINGS
+// ============================================================
+
+// Category hero images
+const categoryImages: Record<string, string> = {
+  "category-gynekologi": "categories/gynekologi-real.jpg",
+  "category-fertilitet": "categories/fertilitet-real.jpg",
+  "category-urologi": "categories/urologi-real.jpg",
+  "category-ortopedi": "categories/ortopedi-real.jpg",
+  "category-graviditet": "categories/fertilitet-real.jpg",
+  "category-flere-fagomrader": "categories/flere-fagomrader.jpg",
+};
+
+// Hero slide images (order matches slides in buildPageDocs)
+const heroSlideImages = [
+  "hero/cmedical-hero-1.jpg",
+  "hero/cmedical-hero-2.jpg",
+  "hero/cmedical-hero-3.jpg",
+  "hero/hero-treatment.jpg",
+];
+
+// Page hero images
+const pageImages: Record<string, string> = {
+  homepage: "hero/cmedical-hero-1.jpg",
+  aboutPage: "hero/about-hero.jpg",
+  contactPage: "hero/contact-hero.jpg",
+  pricingPage: "hero/pricing-hero.jpg",
+  insurancePage: "hero/insurance-hero.jpg",
+  servicesPage: "hero/services-hero.jpg",
+};
 
 interface Mutation {
   createOrReplace: Record<string, any>;
