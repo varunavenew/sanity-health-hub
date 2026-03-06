@@ -468,6 +468,32 @@ function buildReviewDocs(): Mutation[] {
 // PAGES
 // ============================================================
 function buildPageDocs(): Mutation[] {
+  // Legacy — replaced by buildPageDocsWithImages()
+  return [];
+}
+
+/**
+ * Build page documents with uploaded images
+ */
+async function buildPageDocsWithImages(): Promise<Mutation[]> {
+  // Upload hero slide images
+  const slideImageRefs = [];
+  for (let i = 0; i < heroSlideImages.length; i++) {
+    const ref = await uploadImage(heroSlideImages[i], `hero-slide-${i + 1}`);
+    slideImageRefs.push(ref);
+  }
+
+  // Upload page hero images
+  const pageImageRefs: Record<string, any> = {};
+  for (const [pageId, imgPath] of Object.entries(pageImages)) {
+    const ref = await uploadImage(imgPath, `${pageId}-hero`);
+    if (ref) pageImageRefs[pageId] = ref;
+  }
+
+  // Upload promo block images
+  const promoImage1 = await uploadImage("hero/hero-clinic-lounge.jpg", "promo-1");
+  const promoImage2 = await uploadImage("hero/hero-technology.jpg", "promo-2");
+
   return [
     // Homepage
     {
@@ -475,12 +501,13 @@ function buildPageDocs(): Mutation[] {
         _id: "homepage",
         _type: "homepage",
         title: "CMedical – Nordens ledende klinikk for livet og underlivet",
+        ...(pageImageRefs.homepage ? { heroImage: pageImageRefs.homepage } : {}),
         heroBanner: {
           slides: [
-            { _type: "object", _key: "s1", heading: "Styrket kvinnehelse\n– i hele livsløpet", subheading: "Kvinnehelse", ctaText: "Les mer", ctaLink: "/gynekologi" },
-            { _type: "object", _key: "s2", heading: "Mannshelse\nog urologi", subheading: "Urologi", ctaText: "Les mer", ctaLink: "/urologi" },
-            { _type: "object", _key: "s3", heading: "Landets første private\nmed robotkirurgi", subheading: "Teknologi", ctaText: "Les mer", ctaLink: "/tjenester" },
-            { _type: "object", _key: "s4", heading: "Din reise til\nforeldreskap", subheading: "Fertilitet", ctaText: "Les mer", ctaLink: "/fertilitet" },
+            { _type: "object", _key: "s1", heading: "Styrket kvinnehelse\n– i hele livsløpet", subheading: "Kvinnehelse", ctaText: "Les mer", ctaLink: "/gynekologi", ...(slideImageRefs[0] ? { image: slideImageRefs[0] } : {}) },
+            { _type: "object", _key: "s2", heading: "Mannshelse\nog urologi", subheading: "Urologi", ctaText: "Les mer", ctaLink: "/urologi", ...(slideImageRefs[1] ? { image: slideImageRefs[1] } : {}) },
+            { _type: "object", _key: "s3", heading: "Landets første private\nmed robotkirurgi", subheading: "Teknologi", ctaText: "Les mer", ctaLink: "/tjenester", ...(slideImageRefs[2] ? { image: slideImageRefs[2] } : {}) },
+            { _type: "object", _key: "s4", heading: "Din reise til\nforeldreskap", subheading: "Fertilitet", ctaText: "Les mer", ctaLink: "/fertilitet", ...(slideImageRefs[3] ? { image: slideImageRefs[3] } : {}) },
           ],
         },
         tagline: "Faglig trygghet og personlig omsorg – for din helse",
@@ -497,8 +524,8 @@ function buildPageDocs(): Mutation[] {
           { _type: "object", _key: "vb3", icon: "CreditCard", label: "Tilgjengelig pris" },
         ],
         promoBlocks: [
-          { _type: "object", _key: "pb1", title: "Velkommen på fastlegeseminar", description: "Lær mer om våre tjenester og hvordan vi kan hjelpe deg og dine pasienter.", ctaText: "Les mer og boka", ctaLink: "/kontakt" },
-          { _type: "object", _key: "pb2", title: "Velkommen på fastlegeseminar", description: "Hold deg oppdatert på nyheter, arrangementer og faglig innhold fra CMedical.", ctaText: "Les mer og boka", ctaLink: "/kontakt" },
+          { _type: "object", _key: "pb1", title: "Velkommen på fastlegeseminar", description: "Lær mer om våre tjenester og hvordan vi kan hjelpe deg og dine pasienter.", ctaText: "Les mer og boka", ctaLink: "/kontakt", ...(promoImage1 ? { image: promoImage1 } : {}) },
+          { _type: "object", _key: "pb2", title: "Velkommen på fastlegeseminar", description: "Hold deg oppdatert på nyheter, arrangementer og faglig innhold fra CMedical.", ctaText: "Les mer og boka", ctaLink: "/kontakt", ...(promoImage2 ? { image: promoImage2 } : {}) },
         ],
         seo: {
           _type: "seo",
@@ -514,6 +541,7 @@ function buildPageDocs(): Mutation[] {
         _type: "aboutPage",
         title: "Om CMedical",
         subtitle: "Livet og underlivet",
+        ...(pageImageRefs.aboutPage ? { heroImage: pageImageRefs.aboutPage } : {}),
         body: blockText("CMedical er her for mennesker som ønsker trygg og spesialisert hjelp for kroppen og underlivet – uansett kjønn, livssituasjon eller behov. Vi har et særlig engasjement for kvinnehelse. Samtidig møter vi også menn med samme faglige omtanke, og ser helse i et helhetlig perspektiv – særlig når det gjelder fertilitet, som berører alle som ønsker eller forsøker å skape liv.\n\nHos oss skal du føle deg ivaretatt fra første kontakt. Vi tilbyr utredning og behandling der medisinsk presisjon kombineres med trygghet, respekt og rom for spørsmål. Målet er at du skal forstå prosessen, oppleve forutsigbarhet og få den hjelpen som passer din kropp og din livsfase.\n\nBehandlingen utføres av erfarne spesialister som samarbeider tett i tverrfaglige miljøer. Det gir deg presise vurderinger, skånsomme inngrep og god oppfølging gjennom hele forløpet.\n\nVi vet at rammene rundt behandlingen påvirker opplevelsen. Derfor møter du moderne klinikker innredet i varme toner, rolige omgivelser og ansatte som setter av nødvendig tid til deg.\n\nVi ønsker at flere skal ha tilgang til spesialisthelsetjenester. Derfor tilrettelegger vi for behandling til priser som gjør det mulig å få kvalifisert hjelp uten at det går på bekostning av omsorg eller kvalitet.\n\nHos CMedical handler alt om at du skal bli tatt på alvor – med faglig trygghet, verdighet og helhetlig støtte gjennom hele behandlingen."),
         seo: {
           _type: "seo",
@@ -529,6 +557,7 @@ function buildPageDocs(): Mutation[] {
         _type: "contactPage",
         title: "Kontakt oss",
         introText: "Har du spørsmål? Vi svarer gjerne på alle henvendelser",
+        ...(pageImageRefs.contactPage ? { heroImage: pageImageRefs.contactPage } : {}),
         phone: "22 60 00 50",
         email: "post@cmedical.no",
         address: { _type: "object", street: "Kirkeveien 64B", city: "Oslo", zip: "0366" },
@@ -549,6 +578,7 @@ function buildPageDocs(): Mutation[] {
         _type: "pricingPage",
         title: "Prisliste",
         introText: "Hos CMedical får du erfaring, spisskompetanse og moderne teknologi samlet på ett sted – en trygg og omsorgsfull opplevelse.",
+        ...(pageImageRefs.pricingPage ? { heroImage: pageImageRefs.pricingPage } : {}),
         priceCategories: [
           {
             _type: "object", _key: "pc-gyn",
@@ -608,6 +638,7 @@ function buildPageDocs(): Mutation[] {
         _type: "insurancePage",
         title: "Helseforsikring",
         introText: "Bruk forsikringen din til raskere behandling hos oss",
+        ...(pageImageRefs.insurancePage ? { heroImage: pageImageRefs.insurancePage } : {}),
         partners: ["EuroAccident", "Falck", "Fremtind", "Gjensidige", "If", "Storebrand", "Tryg"],
         steps: [
           { _type: "object", _key: "is1", title: "Få henvisning", description: "Fra fastlege eller spesialist" },
@@ -634,6 +665,7 @@ function buildPageDocs(): Mutation[] {
         _type: "servicesPage",
         title: "Tjenester",
         introText: "Finn behandlingen som passer for deg – ingen henvisning nødvendig",
+        ...(pageImageRefs.servicesPage ? { heroImage: pageImageRefs.servicesPage } : {}),
         categories: [
           { _type: "reference", _ref: "category-gynekologi", _key: "sp1" },
           { _type: "reference", _ref: "category-fertilitet", _key: "sp2" },
