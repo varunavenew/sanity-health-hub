@@ -358,3 +358,28 @@ export const useClinics = () =>
       ),
     staleTime: 5 * 60 * 1000,
   });
+
+// ─── Site Settings (social media, etc.) ──────────────────────────────
+export interface SanitySocialMedia {
+  instagram?: string;
+  facebook?: string;
+  linkedin?: string;
+  twitter?: string;
+  youtube?: string;
+  tiktok?: string;
+}
+
+export const useSiteSettings = () =>
+  useQuery({
+    queryKey: ["sanity", "siteSettings"],
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
+        `*[_type == "siteSettings"][0]{
+          title,
+          socialMedia
+        }`
+      );
+      return data || null;
+    },
+    staleTime: 5 * 60 * 1000,
+  });

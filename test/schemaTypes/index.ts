@@ -13,6 +13,7 @@ import servicesPage from './servicesPage'
 import googleReview from './googleReview'
 import blockContent from './blockContent'
 import seo from './seo'
+import siteSettings from './siteSettings'
 
 export const schemaTypes = [
   // Pages
@@ -32,4 +33,5 @@ export const schemaTypes = [
   // Shared types
   blockContent,
   seo,
+  siteSettings,
 ]
