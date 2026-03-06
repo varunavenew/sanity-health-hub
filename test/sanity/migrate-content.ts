@@ -687,49 +687,80 @@ async function buildPageDocsWithImages(): Promise<Mutation[]> {
 // MAIN
 // ============================================================
 async function main() {
-  console.log("🚀 Starting Sanity content migration...");
+  console.log("🚀 Starting Sanity content migration (with images)...");
   console.log(`   Project: ${PROJECT_ID} / Dataset: ${DATASET}\n`);
 
-  // 1. Treatment Categories
-  console.log("📂 Creating treatment categories...");
+  // 1. Upload category images and attach to categories
+  console.log("🖼️  Uploading category images...");
+  for (const cat of treatmentCategories) {
+    const imgPath = categoryImages[cat._id];
+    if (imgPath) {
+      const imageRef = await uploadImage(imgPath, `category-${cat.categoryId}`);
+      if (imageRef) {
+        (cat as any).heroImage = imageRef;
+      }
+    }
+  }
+
+  // 2. Treatment Categories
+  console.log("\n📂 Creating treatment categories...");
   const categoryMutations: Mutation[] = treatmentCategories.map((cat) => ({
     createOrReplace: cat,
   }));
   await submitMutations(categoryMutations);
   console.log(`   ✅ ${categoryMutations.length} categories\n`);
 
-  // 2. Treatments
+  // 3. Treatments
   console.log("💊 Creating treatments...");
   const treatmentMutations = buildTreatmentDocs();
   await submitMutations(treatmentMutations);
   console.log(`   ✅ ${treatmentMutations.length} treatments\n`);
 
-  // 3. Specialists
+  // 4. Specialists
   console.log("👨‍⚕️ Creating specialists...");
   const specialistMutations = buildSpecialistDocs();
   await submitMutations(specialistMutations);
   console.log(`   ✅ ${specialistMutations.length} specialists\n`);
 
-  // 4. Google Reviews
+  // 5. Google Reviews
   console.log("⭐ Creating Google reviews...");
   const reviewMutations = buildReviewDocs();
   await submitMutations(reviewMutations);
   console.log(`   ✅ ${reviewMutations.length} reviews\n`);
 
-  // 5. Pages
-  console.log("📄 Creating page documents...");
-  const pageMutations = buildPageDocs();
+  // 6. Pages (with images)
+  console.log("📄 Creating page documents (uploading images)...");
+  const pageMutations = await buildPageDocsWithImages();
   await submitMutations(pageMutations);
   console.log(`   ✅ ${pageMutations.length} pages\n`);
+
+  // 7. Site Settings
+  console.log("⚙️  Creating site settings...");
+  const settingsMutation: Mutation = {
+    createOrReplace: {
+      _id: "siteSettings",
+      _type: "siteSettings",
+      title: "CMedical",
+      socialMedia: {
+        instagram: "https://www.instagram.com/cmedical.no",
+        facebook: "https://www.facebook.com/cmedical.no",
+        linkedin: "https://www.linkedin.com/company/cmedical",
+      },
+    },
+  };
+  await submitMutations([settingsMutation]);
+  console.log(`   ✅ 1 site settings\n`);
 
   const total =
     categoryMutations.length +
     treatmentMutations.length +
     specialistMutations.length +
     reviewMutations.length +
-    pageMutations.length;
+    pageMutations.length +
+    1;
 
   console.log(`\n🎉 Migration complete! ${total} documents created/updated in Sanity.`);
+  console.log(`   📸 ${imageCache.size} images uploaded.`);
   console.log("   Open Sanity Studio to verify the content.");
 }
 
