@@ -51,17 +51,17 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs uppercase tracking-[0.15em] text-white/40 mb-4 font-normal">Kontakt</h3>
             <div className="space-y-3">
-              <a href="tel:+4722600050" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
+              <a href={`tel:${settings?.phone || '+4722600050'}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                +47 22 60 00 50
+                {settings?.phone || '+47 22 60 00 50'}
               </a>
-              <a href="mailto:info@cmedical.no" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
+              <a href={`mailto:${settings?.email || 'info@cmedical.no'}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                info@cmedical.no
+                {settings?.email || 'info@cmedical.no'}
               </a>
               <div className="flex items-center gap-2.5 text-sm text-white/60 font-light">
                 <MapPin className="w-4 h-4 flex-shrink-0" />
-                Oslo · Bekkestua · Moss · Moelv
+                {settings?.address || 'Oslo · Bekkestua · Moss · Moelv'}
               </div>
             </div>
           </div>

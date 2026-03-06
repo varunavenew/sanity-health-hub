@@ -376,6 +376,9 @@ export const useSiteSettings = () =>
       const data = await fetchSanity<any>(
         `*[_type == "siteSettings"][0]{
           title,
+          phone,
+          email,
+          address,
           socialMedia
         }`
       );
