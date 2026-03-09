@@ -8,7 +8,7 @@ const menuItems = [
   { label: 'Priser', path: '/priser' },
   { label: 'Om oss', path: '/om-oss' },
   { label: 'Forsikring', path: '/forsikring' },
-  { label: 'Nyheter og artikler', path: '/aktuelt' },
+  { label: 'Aktuelt', path: '/aktuelt' },
   { label: 'Kontakt', path: '/kontakt' },
   { label: 'Spesialister', path: '/spesialister' },
 ];
