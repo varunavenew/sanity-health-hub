@@ -1,13 +1,8 @@
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
-import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 
 export const Footer = () => {
-  const { data: settings } = useSiteSettings();
-  const { data: clinics } = useClinics();
-  const social = settings?.socialMedia;
-
   return (
     <footer className="bg-[#180404] text-white pt-20 pb-10" role="contentinfo">
       <div className="container mx-auto px-6 md:px-16">
@@ -15,40 +10,31 @@ export const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Column 1: Tjenester */}
           <div>
-            <h3 className="text-xs uppercase tracking-[0.15em] text-white/40 mb-4 font-normal">Tjenester</h3>
+            <h3 className="text-xs text-white/40 mb-4 font-normal">Tjenester</h3>
             <nav className="space-y-2.5" aria-label="Tjenester">
               <Link to="/gynekologi" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Gynekologi</Link>
               <Link to="/fertilitet" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Fertilitet</Link>
               <Link to="/urologi" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Urologi</Link>
               <Link to="/ortopedi" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Ortopedi</Link>
-              <Link to="/flere-fagomrader" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Flere fagområder</Link>
+              <Link to="/flere-fagomrader" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Flere tjenester</Link>
             </nav>
           </div>
 
           {/* Column 2: Klinikker */}
           <div>
-            <h3 className="text-xs uppercase tracking-[0.15em] text-white/40 mb-4 font-normal">Klinikker</h3>
+            <h3 className="text-xs text-white/40 mb-4 font-normal">Klinikker</h3>
             <nav className="space-y-2.5" aria-label="Klinikker">
-              {clinics && clinics.length > 0 ? (
-                clinics.map((clinic) => (
-                  <Link key={clinic._id} to={`/klinikker/${clinic.slug || clinic.id}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
-                    {clinic.label}
-                  </Link>
-                ))
-              ) : (
-                <>
-                  <span className="block text-sm text-white/60 font-light">Oslo Majorstuen</span>
-                  <span className="block text-sm text-white/60 font-light">Bekkestua</span>
-                  <span className="block text-sm text-white/60 font-light">Moss</span>
-                  <span className="block text-sm text-white/60 font-light">Moelv</span>
-                </>
-              )}
+              <span className="block text-sm text-white/60 font-light">Oslo Majorstuen</span>
+              <span className="block text-sm text-white/60 font-light">Bekkestua</span>
+              <span className="block text-sm text-white/60 font-light">Ski</span>
+              <span className="block text-sm text-white/60 font-light">Moss</span>
+              <span className="block text-sm text-white/60 font-light">Moelv</span>
             </nav>
           </div>
 
           {/* Column 3: Om CMedical */}
           <div>
-            <h3 className="text-xs uppercase tracking-[0.15em] text-white/40 mb-4 font-normal">Om CMedical</h3>
+            <h3 className="text-xs text-white/40 mb-4 font-normal">Om CMedical</h3>
             <nav className="space-y-2.5" aria-label="Om CMedical">
               <Link to="/om-oss" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Om oss</Link>
               <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Spesialister</Link>
@@ -60,19 +46,19 @@ export const Footer = () => {
 
           {/* Column 4: Kontakt */}
           <div>
-            <h3 className="text-xs uppercase tracking-[0.15em] text-white/40 mb-4 font-normal">Kontakt</h3>
+            <h3 className="text-xs text-white/40 mb-4 font-normal">Kontakt</h3>
             <div className="space-y-3">
-              <a href={`tel:${settings?.phone || '+4722600050'}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
+              <a href="tel:+4722600050" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                {settings?.phone || '+47 22 60 00 50'}
+                +47 22 60 00 50
               </a>
-              <a href={`mailto:${settings?.email || 'info@cmedical.no'}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
+              <a href="mailto:info@cmedical.no" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                {settings?.email || 'info@cmedical.no'}
+                info@cmedical.no
               </a>
               <div className="flex items-center gap-2.5 text-sm text-white/60 font-light">
                 <MapPin className="w-4 h-4 flex-shrink-0" />
-                {settings?.address || 'Oslo · Bekkestua · Moss · Moelv'}
+                Oslo · Bekkestua · Ski · Moss · Moelv
               </div>
             </div>
           </div>
@@ -94,21 +80,15 @@ export const Footer = () => {
             
             {/* Social icons */}
             <div className="flex gap-2.5">
-              {(!social || social.instagram) && (
-                <a href={social?.instagram || "#"} target="_blank" rel="noopener noreferrer" aria-label="Følg oss på Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Instagram className="w-4 h-4 text-white/40" aria-hidden="true" />
-                </a>
-              )}
-              {(!social || social.facebook) && (
-                <a href={social?.facebook || "#"} target="_blank" rel="noopener noreferrer" aria-label="Følg oss på Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Facebook className="w-4 h-4 text-white/40" aria-hidden="true" />
-                </a>
-              )}
-              {(!social || social.linkedin) && (
-                <a href={social?.linkedin || "#"} target="_blank" rel="noopener noreferrer" aria-label="Følg oss på LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Linkedin className="w-4 h-4 text-white/40" aria-hidden="true" />
-                </a>
-              )}
+              <a href="#" aria-label="Følg oss på Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <Instagram className="w-4 h-4 text-white/40" aria-hidden="true" />
+              </a>
+              <a href="#" aria-label="Følg oss på Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <Facebook className="w-4 h-4 text-white/40" aria-hidden="true" />
+              </a>
+              <a href="#" aria-label="Følg oss på LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <Linkedin className="w-4 h-4 text-white/40" aria-hidden="true" />
+              </a>
             </div>
           </div>
         </div>

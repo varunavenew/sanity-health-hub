@@ -86,6 +86,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      {/* Hero */}
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
@@ -98,23 +99,38 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         </div>
       </section>
 
+      {/* Featured articles */}
       <section className="bg-background py-10 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid md:grid-cols-2 gap-6 mb-16">
             {featured.map((article) => (
-              <Link key={article.slug} to={article.link || `/aktuelt/${article.slug}`} className="group">
+              <Link
+                key={article.slug}
+                to={article.link || `/aktuelt/${article.slug}`}
+                className="group"
+              >
                 <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-4 bg-secondary">
-                  <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">{article.category}</span>
+                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full">
+                      {article.category}
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                   <Calendar className="w-3 h-3" />
                   {formatDate(article.date)}
                 </div>
-                <h2 className="text-lg md:text-xl font-medium text-foreground group-hover:text-foreground/80 transition-colors mb-2 leading-snug">{article.title}</h2>
-                <p className="text-sm text-muted-foreground font-light line-clamp-2">{article.excerpt}</p>
+                <h2 className="text-lg md:text-xl font-medium text-foreground group-hover:text-foreground/80 transition-colors mb-2 leading-snug">
+                  {article.title}
+                </h2>
+                <p className="text-sm text-muted-foreground font-light line-clamp-2">
+                  {article.excerpt}
+                </p>
                 <span className="inline-flex items-center gap-1 text-sm text-brand-dark font-medium mt-3 group-hover:gap-2 transition-all">
                   Les mer <ArrowRight className="w-4 h-4" />
                 </span>
@@ -122,22 +138,37 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             ))}
           </div>
 
+          {/* Rest of articles */}
           <h2 className="text-lg font-medium text-foreground mb-6">Flere artikler</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {rest.map((article) => (
-              <Link key={article.slug} to={article.link || `/aktuelt/${article.slug}`} className="group">
+              <Link
+                key={article.slug}
+                to={article.link || `/aktuelt/${article.slug}`}
+                className="group"
+              >
                 <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
-                  <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full">{article.category}</span>
+                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full">
+                      {article.category}
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
                   <Calendar className="w-3 h-3" />
                   {formatDate(article.date)}
                 </div>
-                <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors mb-1 leading-snug">{article.title}</h3>
-                <p className="text-xs text-muted-foreground font-light line-clamp-2">{article.excerpt}</p>
+                <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors mb-1 leading-snug">
+                  {article.title}
+                </h3>
+                <p className="text-xs text-muted-foreground font-light line-clamp-2">
+                  {article.excerpt}
+                </p>
               </Link>
             ))}
           </div>
