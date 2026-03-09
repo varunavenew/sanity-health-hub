@@ -352,8 +352,9 @@ export const useClinics = () =>
     queryKey: ["sanity", "clinics"],
     queryFn: () =>
       fetchSanity<any[]>(
-        `*[_type == "clinic"] | order(label asc){
-          _id, "id": slug.current, label, address, phone, hours, services
+        `*[_type == "clinicPage"] | order(title asc){
+          _id, "id": slug.current, "label": title, address, phone, hours, services,
+          "slug": slug.current
         }`
       ),
     staleTime: 5 * 60 * 1000,
