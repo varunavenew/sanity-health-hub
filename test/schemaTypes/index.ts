@@ -14,6 +14,8 @@ import googleReview from './googleReview'
 import blockContent from './blockContent'
 import seo from './seo'
 import siteSettings from './siteSettings'
+import clinicPage from './clinicPage'
+import clinicListPage from './clinicListPage'
 
 export const schemaTypes = [
   // Pages
@@ -23,6 +25,8 @@ export const schemaTypes = [
   pricingPage,
   insurancePage,
   servicesPage,
+  clinicPage,
+  clinicListPage,
 
   // Content
   treatmentCategory,
