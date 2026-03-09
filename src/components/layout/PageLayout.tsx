@@ -146,7 +146,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               Forsikring
             </Link>
             <Link 
-              to="/om-oss" 
+              to="/aktuelt" 
+              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
+            >
+              Aktuelt
+            </Link>
+            <Link 
+              to="/om-oss"
               className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
             >
               Om oss
