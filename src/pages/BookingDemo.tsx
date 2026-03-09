@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info } from "lucide-react";
+import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { specialists, Specialist } from "@/data/specialists";
@@ -224,6 +224,7 @@ const BookingDemo = () => {
     acceptDataProcessing: true,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [externalClinic, setExternalClinic] = useState<Clinic | null>(null);
 
   const currentStep = useMemo(() => 
     !bookingData.service ? 1 : !bookingData.clinic ? 2 : !bookingData.specialistChosen ? 3 : !bookingData.time ? 4 : 5
@@ -267,11 +268,17 @@ const BookingDemo = () => {
     const clinicsForService = getClinicsForService(categoryId);
     
     if (clinicsForService.length === 1) {
+      const onlyClinic = clinicsForService[0];
+      if (onlyClinic.bookingSystem === 'external') {
+        setBookingData({ categoryId, category: categoryLabel, service });
+        setExternalClinic(onlyClinic);
+        return;
+      }
       setBookingData({ 
         categoryId,
         category: categoryLabel, 
         service,
-        clinic: clinicsForService[0],
+        clinic: onlyClinic,
         specialistChosen: false,
         date: undefined,
         time: undefined,
@@ -297,6 +304,10 @@ const BookingDemo = () => {
     : clinics;
 
   const handleSelectClinic = (clinic: Clinic) => {
+    if (clinic.bookingSystem === 'external') {
+      setExternalClinic(clinic);
+      return;
+    }
     setBookingData({ ...bookingData, clinic, specialistChosen: false, date: undefined, time: undefined, specialist: undefined });
   };
 
@@ -375,6 +386,87 @@ const BookingDemo = () => {
     );
   }
 
+  // External clinic view (e.g., Moss → Colosseum Faust)
+  if (externalClinic) {
+    return (
+      <div className="min-h-screen bg-[#f5f4f0] flex flex-col">
+        <header className="sticky top-0 z-50 bg-foreground">
+          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <button 
+              onClick={() => setExternalClinic(null)} 
+              className="flex items-center gap-1.5 text-sm text-background/80 hover:text-background transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Tilbake</span>
+            </button>
+            <h1 className="text-sm text-background/90">CMedical {externalClinic.label}</h1>
+            <button 
+              onClick={handleClose}
+              className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
+              aria-label="Lukk"
+            >
+              <X className="w-5 h-5 text-background" />
+            </button>
+          </div>
+        </header>
+
+        <main className="flex-1 flex items-center justify-center px-6 py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="max-w-md w-full text-center"
+          >
+            <div className="mb-10">
+              <div className="w-16 h-16 rounded-full bg-brand-dark/10 flex items-center justify-center mx-auto mb-6">
+                <MapPin className="w-7 h-7 text-brand-dark/60" strokeWidth={1.5} />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+                CMedical {externalClinic.label}
+              </h2>
+              <p className="text-sm text-muted-foreground font-light">
+                {externalClinic.address}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-lg p-8 mb-6 shadow-sm">
+              <p className="text-muted-foreground font-light mb-4">
+                Ring oss for å bestille time
+              </p>
+              <a 
+                href={`tel:+47${externalClinic.phone.replace(/\s/g, '')}`}
+                className="inline-flex items-center gap-3 text-2xl md:text-3xl font-light text-foreground hover:text-foreground/80 transition-colors"
+              >
+                <Phone className="w-6 h-6" strokeWidth={1.5} />
+                +47 {externalClinic.phone}
+              </a>
+              <p className="text-xs text-muted-foreground mt-3 font-light">
+                {externalClinic.hours}
+              </p>
+            </div>
+
+            {externalClinic.externalBookingUrl && (
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <p className="text-sm text-muted-foreground font-light mb-4">
+                  Eller bestill time online hos vår samarbeidspartner
+                </p>
+                <a
+                  href={externalClinic.externalBookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-dark text-white rounded-sm hover:bg-brand-dark/90 transition-colors font-light text-sm"
+                >
+                  Bestill time online
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            )}
+          </motion.div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#f5f4f0]">
       {/* Header */}
@@ -387,7 +479,7 @@ const BookingDemo = () => {
           >
             <X className="w-5 h-5 text-background" aria-hidden="true" />
           </button>
-          <h1 className="text-sm tracking-wide text-background/90 uppercase">Bestill time</h1>
+          <h1 className="text-sm text-background/90">Bestill time</h1>
           <div className="w-9" aria-hidden="true" />
         </div>
       </header>
@@ -610,11 +702,18 @@ const BookingDemo = () => {
                       className="w-full flex items-center gap-4 p-4 bg-white rounded-lg hover:bg-muted/30 transition-colors text-left group"
                     >
                       <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
-                        <MapPin className="w-5 h-5 text-foreground" />
+                        {clinic.bookingSystem === 'external' ? (
+                          <Phone className="w-5 h-5 text-foreground" />
+                        ) : (
+                          <MapPin className="w-5 h-5 text-foreground" />
+                        )}
                       </div>
                       <div className="flex-1">
                         <p className="font-normal text-foreground">{clinic.label}</p>
                         <p className="text-sm text-muted-foreground">{clinic.address}</p>
+                        {clinic.bookingSystem === 'external' && (
+                          <p className="text-xs text-muted-foreground/70 mt-0.5 font-light">Ring for timebestilling</p>
+                        )}
                       </div>
                       <ChevronRight className="w-5 h-5 text-muted-foreground" />
                     </button>
@@ -819,27 +918,27 @@ const BookingDemo = () => {
                 <h3 className="font-normal text-lg mb-4">Din bestilling</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">Tjeneste</span>
+                    <span className="text-muted-foreground text-xs">Tjeneste</span>
                     <p className="font-normal mt-1">{bookingData.service?.name}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">Pris</span>
+                    <span className="text-muted-foreground text-xs">Pris</span>
                     <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `${bookingData.service?.price} kr`}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">Klinikk</span>
+                    <span className="text-muted-foreground text-xs">Klinikk</span>
                     <p className="font-normal mt-1">{bookingData.clinic?.label}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">Varighet</span>
+                    <span className="text-muted-foreground text-xs">Varighet</span>
                     <p className="font-normal mt-1">{bookingData.service?.duration}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">Dato</span>
+                    <span className="text-muted-foreground text-xs">Dato</span>
                     <p className="font-normal mt-1 capitalize">{bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs uppercase tracking-wider">Tid</span>
+                    <span className="text-muted-foreground text-xs">Tid</span>
                     <p className="font-normal mt-1">{bookingData.time}</p>
                   </div>
                 </div>
@@ -1055,25 +1154,25 @@ const BookingDemo = () => {
                 <div className="grid grid-cols-2 gap-3 pt-4 border-t border-foreground/10">
                   {selectedSpecialistInfo.languages && selectedSpecialistInfo.languages.length > 0 && (
                     <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs uppercase tracking-wider text-foreground/60 mb-1.5">Språk</p>
+                      <p className="text-xs text-foreground/60 mb-1.5">Språk</p>
                       <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.languages.join(", ")}</p>
                     </div>
                   )}
                   {selectedSpecialistInfo.clinics && selectedSpecialistInfo.clinics.length > 0 && (
                     <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs uppercase tracking-wider text-foreground/60 mb-1.5">Klinikk</p>
+                      <p className="text-xs text-foreground/60 mb-1.5">Klinikk</p>
                       <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.clinics.join(", ")}</p>
                     </div>
                   )}
                   {selectedSpecialistInfo.education && (
                     <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs uppercase tracking-wider text-foreground/60 mb-1.5">Utdanning</p>
+                      <p className="text-xs text-foreground/60 mb-1.5">Utdanning</p>
                       <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.education}</p>
                     </div>
                   )}
                   {selectedSpecialistInfo.experience && (
                     <div className="bg-white/50 rounded-xl p-4">
-                      <p className="text-xs uppercase tracking-wider text-foreground/60 mb-1.5">Erfaring</p>
+                      <p className="text-xs text-foreground/60 mb-1.5">Erfaring</p>
                       <p className="text-sm text-foreground font-light">{selectedSpecialistInfo.experience}</p>
                     </div>
                   )}
