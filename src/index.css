@@ -53,36 +53,32 @@
 
 @layer base {
   :root {
-    /* CMedical Brand Colors – lighter/warmer palette per feedback */
-    /* Beige background, warm cream cards, dark skin accents */
-    /* Yellow: #F4FF78, Black text: #180404 */
-    --background: 35 30% 95%; /* Lighter warm beige */
-    --foreground: 0 71% 5%; /* Black #180404 */
-    --card: 35 25% 97%; /* Very light cream card */
-    --card-foreground: 0 71% 5%; /* Black */
-    --popover: 0 0% 100%; /* White popover */
-    --popover-foreground: 0 71% 5%; /* Black */
-    --primary: 22 22% 21%; /* Dark skin #42332A for primary on light */
-    --primary-foreground: 35 30% 95%; /* Light beige */
-    --secondary: 30 20% 88%; /* Lighter mid skin */
-    --secondary-foreground: 0 71% 5%; /* Black */
-    --muted: 30 18% 90%; /* Subtle muted */
+    --background: 35 30% 95%;
+    --foreground: 0 71% 5%;
+    --card: 35 25% 97%;
+    --card-foreground: 0 71% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 71% 5%;
+    --primary: 22 22% 21%;
+    --primary-foreground: 35 30% 95%;
+    --secondary: 30 20% 88%;
+    --secondary-foreground: 0 71% 5%;
+    --muted: 30 18% 90%;
     --muted-foreground: 22 15% 40%;
-    --accent: 65 100% 73%; /* Yellow #F4FF78 */
-    --accent-foreground: 0 71% 5%; /* Black - good contrast on yellow */
+    --accent: 65 100% 73%;
+    --accent-foreground: 0 71% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 30 15% 85%;
     --input: 30 15% 90%;
-    --ring: 22 22% 21%; /* Dark skin */
-    --brand-dark: 22 22% 21%; /* Dark skin #42332A */
-    --brand-yellow: 65 100% 73%; /* Yellow #F4FF78 */
-    --brand-warm: 35 30% 95%; /* Light warm beige */
-    --brand-mid: 30 20% 80%; /* Mid skin lighter */
-    --brand-beige: 35 25% 92%; /* Light beige for banners */
+    --ring: 22 22% 21%;
+    --brand-dark: 22 22% 21%;
+    --brand-yellow: 65 100% 73%;
+    --brand-warm: 35 30% 95%;
+    --brand-mid: 30 20% 80%;
+    --brand-beige: 35 25% 92%;
     --radius: 0.5rem;
     
-    /* Chat colors */
     --chat-background: 30 27% 93%;
     --chat-foreground: 0 71% 5%;
     --chat-border: 25 20% 82%;
@@ -100,30 +96,29 @@
   }
 
   .dark {
-    /* Dark mode uses Dark skin as background with white text */
-    --background: 22 22% 21%; /* Dark skin #42332A */
-    --foreground: 0 0% 100%; /* White */
+    --background: 22 22% 21%;
+    --foreground: 0 0% 100%;
     --card: 22 22% 25%;
     --card-foreground: 0 0% 100%;
     --popover: 22 22% 25%;
     --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 100%; /* White */
-    --primary-foreground: 22 22% 21%; /* Dark skin */
+    --primary: 0 0% 100%;
+    --primary-foreground: 22 22% 21%;
     --secondary: 22 22% 28%;
     --secondary-foreground: 0 0% 100%;
     --muted: 22 22% 28%;
     --muted-foreground: 0 0% 70%;
-    --accent: 65 100% 73%; /* Yellow #F4FF78 */
-    --accent-foreground: 0 71% 5%; /* Black */
+    --accent: 65 100% 73%;
+    --accent-foreground: 0 71% 5%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 22 18% 30%;
     --input: 22 18% 30%;
     --ring: 0 0% 85%;
-    --brand-dark: 22 22% 21%; /* Dark skin #42332A */
-    --brand-yellow: 65 100% 73%; /* Yellow #F4FF78 */
-    --brand-warm: 30 27% 93%; /* Light skin */
-    --brand-mid: 25 24% 74%; /* Mid skin */
+    --brand-dark: 22 22% 21%;
+    --brand-yellow: 65 100% 73%;
+    --brand-warm: 30 27% 93%;
+    --brand-mid: 25 24% 74%;
     
     --chat-background: 22 22% 21%;
     --chat-foreground: 0 0% 100%;
@@ -147,7 +142,6 @@
     @apply border-border;
   }
   
-  /* WCAG 2.4.7 - Focus visible indicator */
   *:focus-visible {
     @apply outline-2 outline-offset-2 outline-ring;
     outline-style: solid;
@@ -166,7 +160,6 @@
   }
 }
 
-/* CMedical Brand Gradients - Based on brand color profile */
 .gradient-primary {
   background: linear-gradient(135deg, hsl(65 100% 73%), hsl(65 90% 78%));
 }
@@ -246,45 +239,22 @@
   100% { transform: translateX(-50%); }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
+.animate-slide-down { animation: slide-down 0.5s ease-out forwards; }
+.animate-fade-in { animation: fade-in 0.3s ease-out; }
+.animate-scale-up { animation: scale-up 0.4s ease-out forwards; }
+.animate-marquee { animation: marquee 40s linear infinite; }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.5s ease-out forwards;
-}
-
-.animate-slide-down {
-  animation: slide-down 0.5s ease-out forwards;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
-}
-
-.animate-scale-up {
-  animation: scale-up 0.4s ease-out forwards;
-}
-
-.animate-marquee {
-  animation: marquee 40s linear infinite;
-}
-
-/* Card hover effects */
 .card-hover {
   @apply transition-all duration-300;
 }
-
 .card-hover:hover {
   @apply -translate-y-1;
   box-shadow: 0 12px 40px hsl(25 15% 15% / 0.08);
 }
 
-/* Stagger animations */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
@@ -292,24 +262,12 @@
 .stagger-5 { animation-delay: 0.5s; }
 .stagger-6 { animation-delay: 0.6s; }
 
-/* Word cloud elegant fade animation */
 @keyframes wordFadeIn {
-  0% {
-    opacity: 0;
-    filter: blur(4px);
-  }
-  100% {
-    opacity: 0.8;
-    filter: blur(0);
-  }
+  0% { opacity: 0; filter: blur(4px); }
+  100% { opacity: 0.8; filter: blur(0); }
 }
 
-/* Word cloud float animation */
 @keyframes wordFloat {
-  0%, 100% {
-    transform: translate(-50%, -50%) translateY(0);
-  }
-  50% {
-    transform: translate(-50%, -50%) translateY(-8px);
-  }
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-8px); }
 }
