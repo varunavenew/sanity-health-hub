@@ -1,10 +1,11 @@
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
-import { useSiteSettings } from "@/hooks/useSanity";
+import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 
 export const Footer = () => {
   const { data: settings } = useSiteSettings();
+  const { data: clinics } = useClinics();
   const social = settings?.socialMedia;
 
   return (
@@ -28,10 +29,20 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs uppercase tracking-[0.15em] text-white/40 mb-4 font-normal">Klinikker</h3>
             <nav className="space-y-2.5" aria-label="Klinikker">
-              <span className="block text-sm text-white/60 font-light">Oslo Majorstuen</span>
-              <span className="block text-sm text-white/60 font-light">Bekkestua</span>
-              <span className="block text-sm text-white/60 font-light">Moss</span>
-              <span className="block text-sm text-white/60 font-light">Moelv</span>
+              {clinics && clinics.length > 0 ? (
+                clinics.map((clinic) => (
+                  <Link key={clinic._id} to={`/klinikker/${clinic.slug || clinic.id}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
+                    {clinic.label}
+                  </Link>
+                ))
+              ) : (
+                <>
+                  <span className="block text-sm text-white/60 font-light">Oslo Majorstuen</span>
+                  <span className="block text-sm text-white/60 font-light">Bekkestua</span>
+                  <span className="block text-sm text-white/60 font-light">Moss</span>
+                  <span className="block text-sm text-white/60 font-light">Moelv</span>
+                </>
+              )}
             </nav>
           </div>
 
