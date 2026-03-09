@@ -205,7 +205,7 @@ const priceCategories: PriceCategory[] = [
   },
   {
     id: 'flere',
-    label: 'Flere fagområder',
+    label: 'Flere tjenester',
     path: '/flere-fagomrader',
     subcategories: [
       {
@@ -524,7 +524,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-10">
-            <p className="text-sm tracking-widest text-white/60 mb-3 font-light">
+            <p className="text-sm text-white/60 mb-3 font-light">
               Våre spesialister
             </p>
             <h2 className="text-3xl md:text-4xl font-normal text-white">

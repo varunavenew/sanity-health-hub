@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
+import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { specialists as staticSpecialists } from "@/data/specialists";
-import { useTreatmentCategory, useSpecialists } from "@/hooks/useSanity";
+import { specialists } from "@/data/specialists";
 
 // Category data types
 interface SubService {
@@ -286,14 +286,10 @@ interface CategoryPageProps {
 // Specialists component for category pages
 const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string; categoryTitle: string }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { data: sanitySpecialists } = useSpecialists();
-  
-  // Use Sanity specialists if available, otherwise fallback to static
-  const allSpecialists = sanitySpecialists?.length ? sanitySpecialists : staticSpecialists;
   
   // Filter specialists by category
-  const categorySpecialists = allSpecialists.filter(
-    (specialist: any) => specialist.category === categoryId
+  const categorySpecialists = specialists.filter(
+    (specialist) => specialist.category === categoryId
   );
 
   const scroll = (direction: 'left' | 'right') => {
@@ -414,19 +410,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
   
-  // Get Sanity data
-  const { data: sanityCategory } = useTreatmentCategory(categoryId);
-  
-  // Use Sanity data if available, merge with hardcoded fallback
-  const staticCategory = categoryData[categoryId];
-  const category = sanityCategory ? {
-    ...staticCategory,
-    title: sanityCategory.title || staticCategory?.title,
-    description: sanityCategory.description || staticCategory?.description,
-    heroImage: sanityCategory.heroImage || staticCategory?.heroImage,
-    services: sanityCategory.services?.length ? sanityCategory.services : staticCategory?.services || [],
-    faqs: sanityCategory.faqs?.length ? sanityCategory.faqs : staticCategory?.faqs || [],
-  } : staticCategory;
+  const category = categoryData[categoryId];
   
   useEffect(() => {
     if (category) {
@@ -468,7 +452,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
           <div className="container mx-auto px-0 md:px-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
-                <p className="text-xs text-white/60 tracking-wide mb-2 font-light">
+                <p className="text-xs text-white/60 mb-2 font-light">
                   {category.subtitle}
                 </p>
                 <h1 className="text-3xl md:text-4xl font-normal text-white">
@@ -516,7 +500,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
           <div className="max-w-4xl mx-auto">
             {/* Section header */}
             <div className="text-center mb-12">
-              <p className="text-sm tracking-widest text-muted-foreground mb-3 font-light">
+              <p className="text-sm text-muted-foreground mb-3 font-light">
                 Våre behandlinger
               </p>
               <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-4">
@@ -660,6 +644,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
 
       {/* Lead popup - only on category pages */}
       <LeadPopup />
+      {categoryId === "fertilitet" && <StickyBookingCTA />}
     </PageLayout>
   );
 };

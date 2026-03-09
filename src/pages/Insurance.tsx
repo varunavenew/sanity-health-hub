@@ -3,60 +3,42 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ArrowRight, Phone, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { useInsurancePage } from "@/hooks/useSanity";
 import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
 
 interface PageProps { isChatOpen: boolean }
 
-const fallbackCompanies = [
-  { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" }, { name: "Gjensidige" },
-  { name: "If" }, { name: "Storebrand" }, { name: "Tryg" },
-];
-
-const fallbackSteps = [
-  { num: "1", title: "Få henvisning", desc: "Fra fastlege eller spesialist" },
-  { num: "2", title: "Send til forsikring", desc: "For godkjenning av dekning" },
-  { num: "3", title: "Velg CMedical", desc: "Be om behandling hos oss" },
-  { num: "4", title: "Bestill time", desc: "Vi fakturerer forsikringen direkte" },
-];
-
-const fallbackBenefits = [
-  { title: "Ingen utlegg", desc: "Du slipper å betale selv – vi sender faktura direkte til forsikringsselskapet." },
-  { title: "Raskere behandling", desc: "Få time innen kort tid med kort ventetid hos våre spesialister." },
-  { title: "Alle forsikringer", desc: "Vi har avtale med alle store forsikringsselskaper i Norge." },
+const insuranceCompanies = [
+  { name: "EuroAccident", initials: "EA", color: "bg-blue-600" },
+  { name: "Falck", initials: "F", color: "bg-red-600" },
+  { name: "Fremtind", initials: "Fr", color: "bg-teal-600" },
+  { name: "Gjensidige", initials: "Gj", color: "bg-orange-500" },
+  { name: "If", initials: "If", color: "bg-blue-500" },
+  { name: "Storebrand", initials: "S", color: "bg-emerald-600" },
+  { name: "Tryg", initials: "T", color: "bg-sky-600" },
 ];
 
 const Insurance = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const { data: page } = useInsurancePage();
   
   useEffect(() => {
     document.title = "Forsikring | CMedical - Behandling med forsikring";
   }, []);
 
-  const heroImage = page?.heroImage || insuranceHero;
-  const title = page?.title || "Helseforsikring";
-  const subtitle = page?.subtitle || "Bruk forsikringen din til raskere behandling hos oss";
-  const companies = page?.companies?.length ? page.companies : fallbackCompanies;
-  const steps = page?.steps?.length ? page.steps : fallbackSteps;
-  const benefits = page?.benefits?.length ? page.benefits : fallbackBenefits;
-
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <header className="relative">
         <div className="h-[25vh] md:h-[30vh] relative">
-          <img src={heroImage} alt="Forsikring hos CMedical" className="w-full h-full object-cover object-center" />
+          <img src={insuranceHero} alt="Forsikring hos CMedical" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
             <div className="container mx-auto">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{title}</h1>
-              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">{subtitle}</p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">Helseforsikring</h1>
+              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">Bruk forsikringen din til raskere behandling hos oss</p>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Partners */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto">
@@ -68,10 +50,8 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               <h2 className="text-2xl md:text-3xl font-light text-foreground">Vi har avtale med alle store forsikringsselskaper</h2>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-              {companies.map((company: any) => (
-                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">
-                  {company.name}
-                </div>
+              {insuranceCompanies.map((company) => (
+                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-muted-foreground font-light">
@@ -81,13 +61,17 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Steps */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-12 text-center">Slik bruker du forsikringen</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
-              {steps.map((step: any, index: number) => (
+              {[
+                { num: "1", title: "Få henvisning", desc: "Fra fastlege eller spesialist" },
+                { num: "2", title: "Send til forsikring", desc: "For godkjenning av dekning" },
+                { num: "3", title: "Velg CMedical", desc: "Be om behandling hos oss" },
+                { num: "4", title: "Bestill time", desc: "Vi fakturerer forsikringen direkte" },
+              ].map((step, index) => (
                 <div key={step.num} className="relative text-center">
                   {index < 3 && <div className="hidden md:block absolute top-6 left-[60%] w-[80%] h-px bg-border" />}
                   <div className="w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center mx-auto mb-4 relative z-10">
@@ -102,12 +86,15 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Benefits */}
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-3 gap-6">
-              {benefits.map((benefit: any) => (
+              {[
+                { title: "Ingen utlegg", desc: "Du slipper å betale selv – vi sender faktura direkte til forsikringsselskapet." },
+                { title: "Raskere behandling", desc: "Få time innen kort tid med kort ventetid hos våre spesialister." },
+                { title: "Alle forsikringer", desc: "Vi har avtale med alle store forsikringsselskaper i Norge." },
+              ].map((benefit) => (
                 <div key={benefit.title} className="p-6">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-5">
                     <Check className="w-5 h-5 text-accent" />
@@ -121,7 +108,6 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Help CTA */}
       <section className="py-12 bg-muted/50">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
