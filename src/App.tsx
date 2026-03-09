@@ -18,6 +18,10 @@ import BookingDemo from "./pages/BookingDemo";
 import Services from "./pages/Services";
 import SpecialistProfile from "./pages/SpecialistProfile";
 import Specialists from "./pages/Specialists";
+import KvinnehelsePage from "./pages/themes/KvinnehelsePage";
+import TverrfagligePage from "./pages/themes/TverrfagligePage";
+import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
+import Aktuelt from "./pages/Aktuelt";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +79,12 @@ const AppContent = () => {
         <Route path="/behandlinger/ortopedi/:subId" element={<TreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet/:subId" element={<TreatmentPage categoryId="graviditet" isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<TreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
+        {/* Theme pages */}
+        <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
+        <Route path="/tverrfaglige-team" element={<TverrfagligePage isChatOpen={false} />} />
+        <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
+        {/* Aktuelt / News */}
+        <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
         {/* Specialist routes */}
         <Route path="/spesialister" element={<Specialists isChatOpen={false} />} />
         <Route path="/spesialister/:slug" element={<SpecialistProfile isChatOpen={false} />} />
