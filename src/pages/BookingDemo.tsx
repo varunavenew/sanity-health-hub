@@ -211,6 +211,9 @@ const BookingDemo = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
+  const { data: sanityClinics } = useClinics();
+  const clinics: Clinic[] = (sanityClinics?.length ? sanityClinics : staticClinics) as Clinic[];
+  const getClinicsForService = (serviceId: string) => clinics.filter(c => c.services?.includes(serviceId));
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
