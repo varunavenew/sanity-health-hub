@@ -24,8 +24,24 @@ const specialistLabels: Record<string, string> = {
 const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const { subId } = useParams();
   const navigate = useNavigate();
+  const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
   const treatmentKey = `${categoryId}/${subId}`;
-  const treatment = treatmentContent[treatmentKey];
+  const staticTreatment = treatmentContent[treatmentKey];
+  
+  // Prefer Sanity, fallback to static
+  const treatment: TreatmentData | undefined = sanityTreatment
+    ? {
+        title: sanityTreatment.title,
+        subtitle: sanityTreatment.subtitle,
+        description: sanityTreatment.description,
+        heroImage: sanityTreatment.heroImage || staticTreatment?.heroImage || "",
+        parentCategory: sanityTreatment.parentCategory || staticTreatment?.parentCategory || categoryId,
+        benefits: sanityTreatment.benefits,
+        benefitsTitle: sanityTreatment.benefitsTitle,
+        process: sanityTreatment.process,
+        faqs: sanityTreatment.faqs,
+      }
+    : staticTreatment;
 
   useEffect(() => {
     if (treatment) {
