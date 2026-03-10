@@ -5,7 +5,7 @@ import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 // Category data types
 interface SubService {
