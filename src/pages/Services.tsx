@@ -42,6 +42,18 @@ const faqs = [
 
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
+  const { data: sanityCategories } = useTreatmentCategories();
+  const serviceCategories = sanityCategories?.length
+    ? sanityCategories.map((c: any) => ({
+        id: c.categoryId || c.slug,
+        label: c.title,
+        path: `/${c.categoryId || c.slug}`,
+        subcategories: (c.treatments || []).map((t: any) => ({
+          label: t.title,
+          path: `/behandlinger/${c.categoryId || c.slug}/${t.slug}`,
+        })),
+      }))
+    : staticServiceCategories;
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
