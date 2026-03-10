@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { specialists, Specialist } from "@/data/specialists";
+import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
 import { format, addDays } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
@@ -209,6 +209,7 @@ interface FormData {
 const BookingDemo = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { specialists } = useSpecialistsData();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);

@@ -2,7 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Globe, GraduationCap, Briefcase, Calendar, Phone, ArrowRight, ChevronRight, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { specialists, getSpecialistsByCategory, Specialist } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { serviceCategories } from "@/data/serviceCategories";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { motion } from "framer-motion";
@@ -54,8 +54,9 @@ const categoryBookingMap: Record<string, string> = {
 const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { findBySlug, byCategory } = useSpecialistsData();
 
-  const specialist = specialists.find((s) => s.slug === slug);
+  const specialist = findBySlug(slug || "");
 
   if (!specialist) {
     return (
@@ -73,7 +74,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   }
 
   // Get related specialists (same category, exclude self)
-  const relatedSpecialists = getSpecialistsByCategory(specialist.category)
+  const relatedSpecialists = byCategory(specialist.category)
     .filter((s) => s.slug !== specialist.slug)
     .slice(0, 4);
 

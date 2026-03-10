@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { getSpecialistsSortedByLastName } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
@@ -323,7 +323,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>('gynekologi');
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const specialists = getSpecialistsSortedByLastName().slice(0, 8);
+  const { sorted } = useSpecialistsData();
+  const specialists = sorted.slice(0, 8);
 
   useEffect(() => {
     document.title = "Priser | CMedical";

@@ -5,7 +5,7 @@ import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 // Category data types
 interface SubService {
@@ -286,6 +286,7 @@ interface CategoryPageProps {
 // Specialists component for category pages
 const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string; categoryTitle: string }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { specialists } = useSpecialistsData();
   
   // Filter specialists by category
   const categorySpecialists = specialists.filter(

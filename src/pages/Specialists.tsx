@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { getSpecialistsSortedByLastName, getAllClinics, Specialist } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 interface SpecialistsProps {
   isChatOpen: boolean;
@@ -20,8 +20,8 @@ const categoryLabels: Record<string, string> = {
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
-  const specialists = getSpecialistsSortedByLastName();
-  const clinicNames = getAllClinics();
+  const { sorted: specialists, allClinics } = useSpecialistsData();
+  const clinicNames = allClinics();
 
   useEffect(() => {
     document.title = "Våre spesialister | CMedical";

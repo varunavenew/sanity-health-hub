@@ -2,11 +2,11 @@ import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
-import { getSpecialistsSortedByLastName } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 export const SpecialistsSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const specialists = getSpecialistsSortedByLastName();
+  const { sorted: specialists } = useSpecialistsData();
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {

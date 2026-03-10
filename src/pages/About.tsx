@@ -5,7 +5,7 @@ import { CTASection } from "@/components/layout/CTASection";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cmedicalHands from "@/assets/hero/cmedical-hands.jpg";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { clinics } from "@/data/clinicServices";
 import { ClinicGrid } from "@/components/ClinicGrid";
 
@@ -43,6 +43,7 @@ const getClinicServiceLabels = (serviceIds: string[]) => {
 
 const About = ({ isChatOpen }: AboutProps) => {
   const navigate = useNavigate();
+  const { specialists } = useSpecialistsData();
 
   useEffect(() => {
     document.title = "Om oss | CMedical - Nordens ledende klinikk for livet og underlivet";
