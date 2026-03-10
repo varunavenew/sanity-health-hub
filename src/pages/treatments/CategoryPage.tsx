@@ -286,6 +286,7 @@ interface CategoryPageProps {
 // Specialists component for category pages
 const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string; categoryTitle: string }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { specialists } = useSpecialistsData();
   
   // Filter specialists by category
   const categorySpecialists = specialists.filter(

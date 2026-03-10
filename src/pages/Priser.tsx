@@ -323,7 +323,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>('gynekologi');
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const specialists = getSpecialistsSortedByLastName().slice(0, 8);
+  const { sorted } = useSpecialistsData();
+  const specialists = sorted.slice(0, 8);
 
   useEffect(() => {
     document.title = "Priser | CMedical";

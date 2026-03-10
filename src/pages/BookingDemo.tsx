@@ -209,6 +209,7 @@ interface FormData {
 const BookingDemo = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { specialists } = useSpecialistsData();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);

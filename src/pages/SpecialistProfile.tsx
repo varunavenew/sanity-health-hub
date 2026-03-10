@@ -74,7 +74,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   }
 
   // Get related specialists (same category, exclude self)
-  const relatedSpecialists = getSpecialistsByCategory(specialist.category)
+  const relatedSpecialists = byCategory(specialist.category)
     .filter((s) => s.slug !== specialist.slug)
     .slice(0, 4);
 

@@ -43,6 +43,7 @@ const getClinicServiceLabels = (serviceIds: string[]) => {
 
 const About = ({ isChatOpen }: AboutProps) => {
   const navigate = useNavigate();
+  const { specialists } = useSpecialistsData();
 
   useEffect(() => {
     document.title = "Om oss | CMedical - Nordens ledende klinikk for livet og underlivet";
