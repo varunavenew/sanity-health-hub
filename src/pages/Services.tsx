@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { serviceCategories } from "@/data/serviceCategories";
+import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
+import { useTreatmentCategories } from "@/hooks/useSanity";
 
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
 import urologiImg from "@/assets/categories/urologi-real.jpg";
