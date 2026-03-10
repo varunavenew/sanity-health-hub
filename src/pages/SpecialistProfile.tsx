@@ -2,7 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Globe, GraduationCap, Briefcase, Calendar, Phone, ArrowRight, ChevronRight, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { specialists, getSpecialistsByCategory, Specialist } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { serviceCategories } from "@/data/serviceCategories";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { motion } from "framer-motion";
