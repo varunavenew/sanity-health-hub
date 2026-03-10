@@ -49,6 +49,10 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
+  const { data: sanityReviews } = useGoogleReviews();
+  const googleReviews = sanityReviews && sanityReviews.length > 0
+    ? sanityReviews.map((r, i) => ({ id: i, name: r.name, rating: r.rating, text: r.text, date: r.date }))
+    : staticReviews;
   const { averageRating } = googleRatingData;
 
   // Duplicate reviews for seamless infinite scroll

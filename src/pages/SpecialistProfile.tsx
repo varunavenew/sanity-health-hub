@@ -55,6 +55,7 @@ const categoryBookingMap: Record<string, string> = {
 const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { data: sanityCategories } = useTreatmentCategories();
   const { findBySlug, byCategory } = useSpecialistsData();
 
   const specialist = findBySlug(slug || "");

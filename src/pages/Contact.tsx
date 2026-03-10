@@ -20,6 +20,8 @@ interface ContactProps {
 
 const Contact = ({ isChatOpen }: ContactProps) => {
   const navigate = useNavigate();
+  const { data: sanityClinics } = useClinics();
+  const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
