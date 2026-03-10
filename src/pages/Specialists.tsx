@@ -8,6 +8,14 @@ interface SpecialistsProps {
   isChatOpen: boolean;
 }
 
+const categoryLabels: Record<string, string> = {
+  alle: "Alle",
+  gynekologi: "Gynekologi",
+  fertilitet: "Fertilitet",
+  urologi: "Urologi",
+  ortopedi: "Ortopedi",
+  annet: "Flere fagområder",
+};
 
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const [activeFilter, setActiveFilter] = useState("alle");
