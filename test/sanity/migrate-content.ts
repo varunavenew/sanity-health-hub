@@ -798,9 +798,9 @@ async function main() {
   await submitMutations(treatmentMutations);
   console.log(`   ✅ ${treatmentMutations.length} treatments\n`);
 
-  // 4. Specialists
-  console.log("👨‍⚕️ Creating specialists...");
-  const specialistMutations = buildSpecialistDocs();
+  // 4. Specialists (with images)
+  console.log("👨‍⚕️ Creating specialists (uploading images)...");
+  const specialistMutations = await buildSpecialistDocsWithImages();
   await submitMutations(specialistMutations);
   console.log(`   ✅ ${specialistMutations.length} specialists\n`);
 
