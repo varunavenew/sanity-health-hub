@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Star, Quote, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { googleReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
+import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
+import { useGoogleReviews } from "@/hooks/useSanity";
 
 const ReviewCard = ({ review }: { review: GoogleReview }) => {
   const [isExpanded, setIsExpanded] = useState(false);

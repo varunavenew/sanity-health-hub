@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cmedicalHands from "@/assets/hero/cmedical-hands.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { clinics } from "@/data/clinicServices";
 import { ClinicGrid } from "@/components/ClinicGrid";
 
 interface AboutProps {

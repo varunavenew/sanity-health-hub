@@ -13,7 +13,8 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-import { clinics, getClinicsForService, Clinic } from "@/data/clinicServices";
+import { clinics as staticClinics, getClinicsForService as staticGetClinicsForService, Clinic } from "@/data/clinicServices";
+import { useClinics } from "@/hooks/useSanity";
 
 // Booking services data based on CMedical's actual structure
 const bookingServices = [

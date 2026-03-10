@@ -3,7 +3,8 @@ import { ArrowLeft, MapPin, Globe, GraduationCap, Briefcase, Calendar, Phone, Ar
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { serviceCategories } from "@/data/serviceCategories";
+import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
+import { useTreatmentCategories } from "@/hooks/useSanity";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { motion } from "framer-motion";
 import { useState } from "react";

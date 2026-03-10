@@ -9,7 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { CTASection } from "@/components/layout/CTASection";
-import { clinics } from "@/data/clinicServices";
+import { clinics as staticClinics } from "@/data/clinicServices";
+import { useClinics } from "@/hooks/useSanity";
 
 import contactHero from "@/assets/hero/contact-hero.jpg";
 
