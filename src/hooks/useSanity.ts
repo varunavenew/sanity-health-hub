@@ -64,6 +64,7 @@ export interface SanitySpecialist {
   _id: string;
   name: string;
   title: string;
+  subtitle?: string;
   expertise: string[];
   image: string;
   category: string;
