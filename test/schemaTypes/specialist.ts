@@ -31,6 +31,12 @@ export default {
       description: 'F.eks. "Gynekolog", "Urolog", "Ortoped"',
     },
     {
+      name: 'subtitle',
+      title: 'Undertittel',
+      type: 'string',
+      description: 'F.eks. "Robotkirurg", "Spesialist", "Kirurg"',
+    },
+    {
       name: 'specialties',
       title: 'Spesialområder',
       type: 'array',
@@ -46,6 +52,13 @@ export default {
           to: [{ type: 'treatmentCategory' }],
         },
       ],
+    },
+    {
+      name: 'clinics',
+      title: 'Klinikker',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Klinikker spesialisten jobber ved, f.eks. "Majorstuen", "Moelv"',
     },
     {
       name: 'bio',

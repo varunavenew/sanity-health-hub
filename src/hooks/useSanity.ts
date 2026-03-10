@@ -64,6 +64,7 @@ export interface SanitySpecialist {
   _id: string;
   name: string;
   title: string;
+  subtitle?: string;
   expertise: string[];
   image: string;
   category: string;
@@ -82,7 +83,7 @@ export const useSpecialists = () =>
     queryFn: async () => {
       const data = await fetchSanity<any[]>(
         `*[_type == "specialist"] | order(name asc){
-          _id, name, role, specialties, shortBio, education, languages, bookingEnabled,
+          _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
           "slug": slug.current,
           "image": photo.asset->url,
           "categories": categories[]->{ _id, title, "slug": slug.current }
@@ -91,9 +92,11 @@ export const useSpecialists = () =>
       return (data || []).map((s) => ({
         ...s,
         title: s.role || "",
+        subtitle: s.subtitle || "",
         expertise: s.specialties || [],
         bio: s.shortBio || "",
         category: s.categories?.[0]?.slug || "",
+        clinics: s.clinics || [],
       })) as SanitySpecialist[];
     },
     staleTime: 5 * 60 * 1000,
@@ -105,7 +108,7 @@ export const useSpecialist = (slug: string) =>
     queryFn: async () => {
       const data = await fetchSanity<any>(
         `*[_type == "specialist" && slug.current == $slug][0]{
-          _id, name, role, specialties, shortBio, education, languages, bookingEnabled,
+          _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
           "slug": slug.current,
           "image": photo.asset->url,
           "categories": categories[]->{ _id, title, "slug": slug.current }
@@ -116,9 +119,11 @@ export const useSpecialist = (slug: string) =>
       return {
         ...data,
         title: data.role || "",
+        subtitle: data.subtitle || "",
         expertise: data.specialties || [],
         bio: data.shortBio || "",
         category: data.categories?.[0]?.slug || "",
+        clinics: data.clinics || [],
       } as SanitySpecialist;
     },
     enabled: !!slug,

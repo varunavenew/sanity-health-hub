@@ -344,65 +344,128 @@ function buildTreatmentDocs(): Mutation[] {
 }
 
 // ============================================================
-// SPECIALISTS
+// SPECIALISTS (full data with images, bios, clinics, subtitles)
 // ============================================================
+
+// Map slug to local image file in src/assets/specialists/
+const specialistImageMap: Record<string, string> = {
+  "alenka-bindas": "specialists/alenka-bindas.jpg",
+  "anamika-choudhury": "specialists/anamika-choudhury.jpg",
+  "andreas-edenberg": "specialists/andreas-edenberg.jpg",
+  "ane-gerda-z-eriksson": "specialists/ane-gerda-z-eriksson.webp",
+  "are-haukaen-stodle": "specialists/are-haukaen-stodle.jpg",
+  "ashi-ahmad": "specialists/ashi-ahmad.webp",
+  "audun-hoegh-tangerud": "specialists/audun-hoegh-tangerud.jpg",
+  "birgir-gudbrandsson": "specialists/birgir-gudbrandsson.jpg",
+  "birgitte-aspenes": "specialists/birgitte-aspenes.jpg",
+  "birgitte-mitlid-mork": "specialists/birgitte-mitlid-mork.jpg",
+  "bjorn-brennhovd": "specialists/bjorn-brennhovd.jpg",
+  "bjorn-robstad": "specialists/bjorn-robstad.jpg",
+  "einar-andre-brevik": "specialists/einar-andre-brevik.jpg",
+  "endre-soreide": "specialists/endre-soreide.jpg",
+  "erik-berg": "specialists/erik-berg.jpg",
+  "ersan-krckov": "specialists/ersan-krckov.jpg",
+  "gilbert-moatshe": "specialists/gilbert-moatshe.webp",
+  "gunnar-dalen": "specialists/gunnar-dalen.jpg",
+  "hannah-russell": "specialists/hannah-russell.jpg",
+  "henrik-michelsen-wahl": "specialists/henrik-michelsen-wahl.jpg",
+  "ida-waagsbo-bjorntvedt": "specialists/ida-waagsbo-bjorntvedt.jpg",
+  "ingvild-skarpas-aannerud": "specialists/ingvild-skarpas-aannerud.jpg",
+  "istvan-zoltan-rigo": "specialists/istvan-zoltan-rigo.jpg",
+  "jackson-tok": "specialists/jackson-tok.jpg",
+  "jan-roland-lambrecht": "specialists/jan-roland-lambrecht.jpg",
+  "jan-ragnar-haugstvedt": "specialists/jan-ragnar-haugstvedt.jpg",
+  "jeanette-follestad": "specialists/jeanette-follestad.jpg",
+  "jonas-rydinge": "specialists/jonas-rydinge.jpg",
+  "jorgen-perminow": "specialists/jorgen-perminow.jpg",
+  "kjersti-brenden": "specialists/kjersti-brenden.jpg",
+  "kjersti-margrete-finsrud": "specialists/kjersti-margrete-finsrud.jpg",
+  "kristian-marstrand-warholm": "specialists/kristian-marstrand-warholm.jpg",
+  "kristian-ophaug": "specialists/kristian-ophaug.jpg",
+  "lars-eldar-myrseth": "specialists/lars-eldar-myrseth.webp",
+  "lars-fredrik-qvigstad": "specialists/lars-fredrik-qvigstad.jpg",
+  "line-fusdahl-hulleberg": "specialists/line-fusdahl-hulleberg.jpg",
+  "line-jacob": "specialists/line-jacob.jpg",
+  "linn-myrtveit-stensrud": "specialists/linn-myrtveit-stensrud.jpg",
+  "linnea-torsnes": "specialists/linnea-torsnes.jpg",
+  "madeleine-engen": "specialists/madeleine-engen.jpg",
+  "marc-jacob-strauss": "specialists/marc-jacob-strauss.jpg",
+  "mari-borge-eskerud": "specialists/mari-borge-eskerud.jpg",
+  "maria-thompson-clausen": "specialists/maria-thompson-clausen.jpg",
+  "marian-bale": "specialists/marian-bale.jpg",
+  "marthe-hagen": "specialists/marthe-hagen.jpg",
+  "morten-andersen": "specialists/morten-andersen.jpg",
+  "nabeel-yousaf-khan": "specialists/nabeel-yousaf-khan.jpg",
+  "nicolai-wessel": "specialists/nicolai-wessel.jpg",
+  "siri-klokstad": "specialists/siri-klokstad.webp",
+  "sondre-hassellund": "specialists/sondre-hassellund.webp",
+  "sonu-lukose": "specialists/sonu-lukose.jpg",
+  "stig-hegna": "specialists/stig-hegna.jpg",
+  "tea-berge": "specialists/tea-berge.jpg",
+  "thomas-fredrik-thaulow": "specialists/thomas-fredrik-thaulow.jpg",
+  "tom-henry-sundoen": "specialists/tom-henry-sundoen.jpg",
+  "tonje-westlie": "specialists/tonje-westlie.jpg",
+  "trond-jorgensen": "specialists/trond-jorgensen.jpg",
+};
+
 const specialistsList = [
-  { name: "Alenka Bindas", title: "Gynekolog", expertise: ["Gynekologi"], slug: "alenka-bindas", category: "gynekologi", bio: "Alenka er en erfaren gynekolog med bred kompetanse innen kvinnehelse.", education: "Medisin ved Universitetet i Ljubljana", languages: ["Norsk","Engelsk","Slovensk"] },
-  { name: "Anamika Choudhury", title: "Embryolog", expertise: ["Fertilitet","Embryologi"], slug: "anamika-choudhury", category: "fertilitet", bio: "Høyt kvalifisert embryolog med spesialkompetanse innen assistert befruktning.", education: "MSc i klinisk embryologi, Oxford", languages: ["Norsk","Engelsk","Hindi"] },
-  { name: "Andreas Edenberg", title: "Gastrokirurg", expertise: ["Gastrokirurgi","Overvektskirurgi"], slug: "andreas-edenberg", category: "annet" },
-  { name: "Ane Gerda Z Eriksson", title: "Gynekolog", expertise: ["Gynekologi","Robotkirurgi"], slug: "ane-gerda-z-eriksson", category: "gynekologi" },
-  { name: "Are Haukåen Stødle", title: "Ortoped", expertise: ["Ortopedi","Fot- og ankelkirurgi"], slug: "are-haukaen-stodle", category: "ortopedi" },
-  { name: "Ashi Ahmad", title: "Gynekolog", expertise: ["Gynekologi","Fødselshjelp","Fostermedisin"], slug: "ashi-ahmad", category: "gynekologi" },
-  { name: "Audun Høegh Tangerud", title: "Ortoped", expertise: ["Ortopedi","Hånd- og fotkirurgi"], slug: "audun-hoegh-tangerud", category: "ortopedi" },
-  { name: "Birgir Gudbrandsson", title: "Revmatolog", expertise: ["Revmatologi","Vaskulitt"], slug: "birgir-gudbrandsson", category: "annet" },
-  { name: "Birgitte Aspenes", title: "Gynekolog", expertise: ["Gynekologi","Kirurgi"], slug: "birgitte-aspenes", category: "gynekologi" },
-  { name: "Birgitte Mitlid-Mork", title: "Fertilitetslege", expertise: ["Fertilitet","IVF","Gynekologi"], slug: "birgitte-mitlid-mork", category: "fertilitet" },
-  { name: "Bjørn Brennhovd", title: "Urolog", expertise: ["Urologi","Robotkirurgi","Prostatakreft"], slug: "bjorn-brennhovd", category: "urologi" },
-  { name: "Bjørn Robstad", title: "Ortoped", expertise: ["Ortopedi","Protesekirurgi"], slug: "bjorn-robstad", category: "ortopedi" },
-  { name: "Einar Andre Brevik", title: "Karkirurg", expertise: ["Karkirurgi","Åreknuter"], slug: "einar-andre-brevik", category: "annet" },
-  { name: "Emily Livesay", title: "Gynekolog", expertise: ["Gynekologi","Fertilitet","Barselomsorg"], slug: "emily-livesay", category: "gynekologi" },
-  { name: "Endre Søreide", title: "Ortoped", expertise: ["Ortopedi","Hånd- og albuekirurgi"], slug: "endre-soreide", category: "ortopedi" },
-  { name: "Erik Berg", title: "Plastikkirurg", expertise: ["Plastikkirurgi","Rekonstruksjonskirurgi"], slug: "erik-berg", category: "annet" },
-  { name: "Ersan Krckov", title: "Endokrinolog", expertise: ["Endokrinologi","Stoffskifte"], slug: "ersan-krckov", category: "annet" },
-  { name: "Gilbert Moatshe", title: "Ortoped", expertise: ["Ortopedi","Knekirurgi","Idrettsskader"], slug: "gilbert-moatshe", category: "ortopedi" },
-  { name: "Gunnar Dalén", title: "Karkirurg", expertise: ["Karkirurgi","Åreknuter"], slug: "gunnar-dalen", category: "annet" },
-  { name: "Hannah Russell", title: "Fertilitetslege", expertise: ["Fertilitet","Gynekologi"], slug: "hannah-russell", category: "fertilitet" },
-  { name: "Ida Waagsbø Bjørntvedt", title: "Fertilitetslege", expertise: ["Fertilitet","IVF","Vulvaklinikk"], slug: "ida-waagsbo-bjorntvedt", category: "fertilitet" },
-  { name: "Ingvild Skarpås Aannerud", title: "Osteopat", expertise: ["Osteopati","Bekkenbunnshelse"], slug: "ingvild-skarpas-aannerud", category: "annet" },
-  { name: "Istvan Zoltan Rigo", title: "Ortoped", expertise: ["Ortopedi","Håndkirurgi"], slug: "istvan-zoltan-rigo", category: "ortopedi" },
-  { name: "Jackson Tok", title: "Fertilitetslege", expertise: ["Fertilitet","IVF","Mannlig infertilitet"], slug: "jackson-tok", category: "fertilitet" },
-  { name: "Jan-Ragnar Haugstvedt", title: "Ortoped", expertise: ["Ortopedi","Håndkirurgi"], slug: "jan-ragnar-haugstvedt", category: "ortopedi" },
-  { name: "Jeanette Follestad", title: "Sykepleier", expertise: ["Sykepleie","Fertilitet"], slug: "jeanette-follestad", category: "annet" },
-  { name: "Jonas Rydinge", title: "Ortoped", expertise: ["Ortopedi","Fot- og ankelkirurgi"], slug: "jonas-rydinge", category: "ortopedi" },
-  { name: "Jørgen Perminow", title: "Gynekolog", expertise: ["Gynekologi","Obstetrikk"], slug: "jorgen-perminow", category: "gynekologi" },
-  { name: "Kjersti Brenden", title: "Fertilitetslege", expertise: ["Fertilitet","IVF","Gynekologi"], slug: "kjersti-brenden", category: "fertilitet" },
-  { name: "Kjersti Margrete Finsrud", title: "Sexolog", expertise: ["Sexologi","Seksuell helse"], slug: "kjersti-margrete-finsrud", category: "annet" },
-  { name: "Kristian Marstrand Warholm", title: "Ortoped", expertise: ["Ortopedi","Hoftekirurgi","Idrettsmedisin"], slug: "kristian-marstrand-warholm", category: "ortopedi" },
-  { name: "Kristian Ophaug", title: "Fertilitetscoach", expertise: ["Fertilitet","Familieterapi"], slug: "kristian-ophaug", category: "fertilitet" },
-  { name: "Lars Eldar Myrseth", title: "Ortoped", expertise: ["Ortopedi","Håndkirurgi"], slug: "lars-eldar-myrseth", category: "ortopedi" },
-  { name: "Lars Fredrik Qvigstad", title: "Urolog", expertise: ["Urologi","Prostatakreft"], slug: "lars-fredrik-qvigstad", category: "urologi" },
-  { name: "Line Fusdahl Hulleberg", title: "Sykepleier", expertise: ["Sykepleie","Fertilitet"], slug: "line-fusdahl-hulleberg", category: "annet" },
-  { name: "Line Jacob", title: "Gynekolog", expertise: ["Gynekologi","Reproduksjonsmedisin"], slug: "line-jacob", category: "gynekologi" },
-  { name: "Linn Myrtveit-Stensrud", title: "Psykolog, PhD", expertise: ["Psykologi","Kvinnehelse"], slug: "linn-myrtveit-stensrud", category: "annet" },
-  { name: "Linnea Torsnes", title: "Hudlege", expertise: ["Hudhelse","Dermatologi"], slug: "linnea-torsnes", category: "annet" },
-  { name: "Madeleine Engen", title: "Gynekolog", expertise: ["Gynekologi","Urogynekologi"], slug: "madeleine-engen", category: "gynekologi" },
-  { name: "Marc Jacob Strauss", title: "Ortoped", expertise: ["Ortopedi","Knekirurgi","Idrettsmedisin"], slug: "marc-jacob-strauss", category: "ortopedi" },
-  { name: "Mari Borge Eskerud", title: "Ernæringsfysiolog", expertise: ["Ernæring","IBS"], slug: "mari-borge-eskerud", category: "annet" },
-  { name: "Maria Thompson Clausen", title: "Ernæringsfysiolog", expertise: ["Ernæring","Livsstilsveiledning"], slug: "maria-thompson-clausen", category: "annet" },
-  { name: "Marian Bale", title: "Gastrokirurg", expertise: ["Gastrokirurgi","Brokkbehandling"], slug: "marian-bale", category: "annet" },
-  { name: "Marthe Hagen", title: "Psykolog", expertise: ["Psykologi","Terapi"], slug: "marthe-hagen", category: "annet" },
-  { name: "Morten Andersen", title: "Urolog", expertise: ["Urologi"], slug: "morten-andersen", category: "urologi" },
-  { name: "Nabeel Yousaf Khan", title: "Urolog", expertise: ["Urologi","Prostata"], slug: "nabeel-yousaf-khan", category: "urologi" },
-  { name: "Nicolai Wessel", title: "Urolog", expertise: ["Urologi","Robotkirurgi","Prostatakreft"], slug: "nicolai-wessel", category: "urologi" },
-  { name: "Siri Kløkstad", title: "Gynekolog", expertise: ["Gynekologi","Vulvaplager"], slug: "siri-klokstad", category: "gynekologi" },
-  { name: "Sondre Hassellund", title: "Ortoped", expertise: ["Ortopedi","Hånd- og albuekirurgi"], slug: "sondre-hassellund", category: "ortopedi" },
-  { name: "Sonu Lukose", title: "Embryolog", expertise: ["Fertilitet","Embryologi","IVF"], slug: "sonu-lukose", category: "fertilitet" },
-  { name: "Stig Hegna", title: "Ortoped", expertise: ["Ortopedi","Fotkirurgi"], slug: "stig-hegna", category: "ortopedi" },
-  { name: "Tea Berge", title: "Ortoped", expertise: ["Ortopedi","Kne- og skulderkirurgi"], slug: "tea-berge", category: "ortopedi" },
-  { name: "Thomas Fredrik Thaulow", title: "Gynekolog", expertise: ["Gynekologi","Endometriose","Laparoskopi"], slug: "thomas-fredrik-thaulow", category: "gynekologi" },
-  { name: "Tom Henry Sundøen", title: "Ortoped", expertise: ["Ortopedi","Skopisk kirurgi"], slug: "tom-henry-sundoen", category: "ortopedi" },
-  { name: "Tonje Westlie", title: "Fysioterapeut", expertise: ["Fysioterapi","Håndterapi"], slug: "tonje-westlie", category: "annet" },
-  { name: "Trond Jørgensen", title: "Urolog", expertise: ["Urologi","Prostatakreft"], slug: "trond-jorgensen", category: "urologi" },
+  { name: "Alenka Bindas", title: "Gynekolog", subtitle: "Spesialist", expertise: ["Gynekologi"], slug: "alenka-bindas", category: "gynekologi", bio: "Alenka Bindas er spesialist i gynekologi. Hun har lang og bred erfaring i utredning, behandling og oppfølging av alle typer kvinnesykdommer. På grunn av hennes gode renommé og faglige dyktighet har Alenka pasienter fra hele Innlandet og andre deler av landet.", clinics: ["Moelv"] },
+  { name: "Anamika Choudhury", title: "Embryolog", subtitle: "Fertilitet", expertise: ["Fertilitet","Embryologi"], slug: "anamika-choudhury", category: "fertilitet", bio: "Anamika jobber på fertilitetsteamet og har over 12 års internasjonal erfaring innen reproduksjonsmedisin.", clinics: ["Majorstuen"] },
+  { name: "Andreas Edenberg", title: "Gastrokirurg", subtitle: "Spesialist", expertise: ["Gastrokirurgi","Overvektskirurgi","Endoskopi"], slug: "andreas-edenberg", category: "annet", bio: "Dr. Andreas Edenberg er spesialist i generell kirurgi og gastroenterologisk kirurgi, med europeisk spesialistgodkjenning i traumekirurgi.", clinics: ["Majorstuen"] },
+  { name: "Ane Gerda Z Eriksson", title: "Gynekolog", subtitle: "Robotkirurg", expertise: ["Gynekologi","Robotkirurgi","Gynekologisk kreftbehandling"], slug: "ane-gerda-z-eriksson", category: "gynekologi", bio: "Dr. Eriksson er en erfaren gynekolog med subspesialisering innen gynekologisk kreftbehandling fra Memorial Sloan Kettering Cancer Center i USA.", clinics: ["Majorstuen"] },
+  { name: "Are Haukåen Stødle", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Fot- og ankelkirurgi"], slug: "are-haukaen-stodle", category: "ortopedi", bio: "Dr. Haukåen Stødle er ortoped og spesialist i fot- og ankelkirurgi.", clinics: ["Majorstuen"] },
+  { name: "Ashi Ahmad", title: "Gynekolog", subtitle: "Fødselshjelp", expertise: ["Gynekologi","Fødselshjelp","Fostermedisin","Ultralyd","NIPT"], slug: "ashi-ahmad", category: "gynekologi", bio: "Dr. Ashi Ahmad er spesialist i fødselshjelp og gynekologi og fostermedisiner.", clinics: ["Majorstuen"] },
+  { name: "Audun Høegh Tangerud", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Hånd- og fotkirurgi"], slug: "audun-hoegh-tangerud", category: "ortopedi", bio: "Dr. Audun Høegh Tangerud er en erfaren ortopedisk kirurg med spesialisering innen hånd- og fotkirurgi.", clinics: ["Moelv"] },
+  { name: "Birgir Gudbrandsson", title: "Revmatolog", subtitle: "Vaskulitt", expertise: ["Revmatologi","Vaskulitt"], slug: "birgir-gudbrandsson", category: "annet", bio: "Fra 2017 har Birgir vært en viktig del av Revmatologisk avdeling ved Oslo Universitetssykehus Rikshospitalet.", clinics: ["Majorstuen"] },
+  { name: "Birgitte Aspenes", title: "Gynekolog", subtitle: "Kirurg", expertise: ["Gynekologi","Kirurgi","Overgangsalder","Urogynekologi"], slug: "birgitte-aspenes", category: "gynekologi", bio: "Dr. Birgitte Aspenes er utdannet lege ved Universitetet i Oslo.", clinics: ["Bekkestua"] },
+  { name: "Birgitte Mitlid-Mork", title: "Fertilitetslege", subtitle: "Gynekolog", expertise: ["Fertilitet","IVF","Gynekologi","Hormonforstyrrelser"], slug: "birgitte-mitlid-mork", category: "fertilitet", bio: "Birgitte er spesialist i fødselshjelp og kvinnesykdommer.", clinics: ["Majorstuen"] },
+  { name: "Bjørn Brennhovd", title: "Urolog", subtitle: "Kirurg", expertise: ["Urologi","Robotkirurgi","Prostatakreft"], slug: "bjorn-brennhovd", category: "urologi", bio: "Bjørn Brennhovd introduserte robotassistert kirurgi i Norge i 2004.", clinics: ["Majorstuen"] },
+  { name: "Bjørn Robstad", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Protesekirurgi","Traumatologi","Fotkirurgi"], slug: "bjorn-robstad", category: "ortopedi", bio: "Bjørn Robstad har omfattende erfaring innen ortopedisk kirurgi siden 2005.", clinics: ["Moelv"] },
+  { name: "Einar Andre Brevik", title: "Karkirurg", subtitle: "Spesialist", expertise: ["Karkirurgi","Åreknuter"], slug: "einar-andre-brevik", category: "annet", bio: "Dr. Brevik er en av Norges mest erfarne kar- og åreknutekirurger.", clinics: ["Moelv","Majorstuen"] },
+  { name: "Endre Søreide", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Hånd- og albuekirurgi","Artroskopisk kirurgi"], slug: "endre-soreide", category: "ortopedi", bio: "Dr. Endre Søreide er hånd- og albuekirurg.", clinics: ["Majorstuen"] },
+  { name: "Erik Berg", title: "Plastikkirurg", subtitle: "Spesialist", expertise: ["Plastikkirurgi","Rekonstruksjonskirurgi","Kosmetisk kirurgi"], slug: "erik-berg", category: "annet", bio: "Overlege PhD Erik Berg er spesialist i plastikkirurgi.", clinics: ["Moss"] },
+  { name: "Ersan Krckov", title: "Endokrinolog", subtitle: "Spesialist", expertise: ["Endokrinologi","Stoffskifte","Diabetes","Hormonsykdommer"], slug: "ersan-krckov", category: "annet", bio: "Dr. Ersan Krckov er spesialist i indremedisin og endokrinologi.", clinics: ["Majorstuen"] },
+  { name: "Gilbert Moatshe", title: "Ortoped", subtitle: "Knekirurg", expertise: ["Ortopedi","Knekirurgi","Skulderkirurgi","Idrettsskader"], slug: "gilbert-moatshe", category: "ortopedi", bio: "Dr. Gilbert Moatshe er spesialist i ortopedisk kirurgi ved OUS Ullevål.", clinics: ["Majorstuen"] },
+  { name: "Gunnar Dalén", title: "Karkirurg", subtitle: "Spesialist", expertise: ["Karkirurgi","Åreknuter","Venebehandling"], slug: "gunnar-dalen", category: "annet", bio: "Gunnar Dalén er spesialist i karkirurgi.", clinics: ["Majorstuen"] },
+  { name: "Hannah Russell", title: "Fertilitetslege", subtitle: "Gynekolog", expertise: ["Fertilitet","Gynekologi","POI"], slug: "hannah-russell", category: "fertilitet", bio: "Hannah Russell er spesialist i gynekologi og obstetrikk, med over 20 års erfaring.", languages: ["Norsk","Engelsk"], clinics: ["Majorstuen"] },
+  { name: "Henrik Michelsen-Wahl", title: "Gynekolog", subtitle: "Kirurg", expertise: ["Gynekologi","Endometriose","Gynekologisk kirurgi"], slug: "henrik-michelsen-wahl", category: "gynekologi", bio: "Henrik Michelsen-Wahl er gynekolog med bred erfaring.", languages: ["Norsk","Engelsk","Tysk"], clinics: ["Ski"] },
+  { name: "Ida Waagsbø Bjørntvedt", title: "Fertilitetslege", subtitle: "Gynekolog", expertise: ["Fertilitet","IVF","Vulvaklinikk","POI"], slug: "ida-waagsbo-bjorntvedt", category: "fertilitet", bio: "Dr. Bjørntvedt er gynekolog med subspesialisering innen infertilitet.", clinics: ["Majorstuen"] },
+  { name: "Ingvild Skarpås Aannerud", title: "Osteopat", subtitle: "Vulvaklinikk", expertise: ["Osteopati","Bekkenbunnshelse","Kvinnehelse"], slug: "ingvild-skarpas-aannerud", category: "annet", bio: "Ingvild er autorisert osteopat med over ti års erfaring.", clinics: ["Majorstuen"] },
+  { name: "Istvan Zoltan Rigo", title: "Ortoped", subtitle: "Håndkirurg", expertise: ["Ortopedi","Håndkirurgi","Artroskopi"], slug: "istvan-zoltan-rigo", category: "ortopedi", bio: "Istvan Zoltan Rigo er spesialist i ortopedisk kirurgi.", clinics: ["Moss"] },
+  { name: "Jackson Tok", title: "Fertilitetslege", subtitle: "Gynekolog", expertise: ["Fertilitet","IVF","Mannlig infertilitet","Mikro-TESE"], slug: "jackson-tok", category: "fertilitet", bio: "Jackson Tok er spesialist i gynekologi med subspesialisering innen infertilitet.", clinics: ["Majorstuen"] },
+  { name: "Jan Roland Lambrecht", title: "Gastrokirurg", subtitle: "Spesialist", expertise: ["Gastrokirurgi","Overvektskirurgi","Robotkirurgi","Brokkkirurgi"], slug: "jan-roland-lambrecht", category: "annet", bio: "Dr. Jan Lambrecht er spesialist i gastrokirurgi, robotassistert kirurgi og generell kirurgi.", clinics: ["Majorstuen"] },
+  { name: "Jan-Ragnar Haugstvedt", title: "Ortoped", subtitle: "Håndkirurg", expertise: ["Ortopedi","Håndkirurgi","Artroskopisk håndkirurgi"], slug: "jan-ragnar-haugstvedt", category: "ortopedi", bio: "Jan Ragnar Haugstvedt er en erfaren håndkirurg.", clinics: ["Majorstuen"] },
+  { name: "Jeanette Follestad", title: "Sykepleier", subtitle: "Fertilitet", expertise: ["Sykepleie","Fertilitet"], slug: "jeanette-follestad", category: "annet", bio: "Jeanette jobber som fertilitetssykepleier ved CMedical.", clinics: ["Majorstuen"] },
+  { name: "Jonas Rydinge", title: "Ortoped", subtitle: "Spesialist", expertise: ["Ortopedi","Fot- og ankelkirurgi"], slug: "jonas-rydinge", category: "ortopedi", bio: "Spesialist i ortopedisk kirurgi og overlege ved fot- og ankelseksjonen på Ullevål sykehus.", clinics: ["Majorstuen"] },
+  { name: "Jørgen Perminow", title: "Gynekolog", subtitle: "Spesialist", expertise: ["Gynekologi","Obstetrikk"], slug: "jorgen-perminow", category: "gynekologi", bio: "Dr. Jørgen Perminow har omfattende erfaring fra Ahus og Ullevål Sykehus.", languages: ["Norsk","Engelsk","Polsk"], clinics: ["Majorstuen"] },
+  { name: "Kjersti Brenden", title: "Fertilitetslege", subtitle: "Gynekolog", expertise: ["Fertilitet","IVF","Gynekologi","Eggdonasjon"], slug: "kjersti-brenden", category: "fertilitet", bio: "Kjersti Brenden er spesialist i gynekologi og obstetrikk med over 20 års erfaring.", clinics: ["Majorstuen"] },
+  { name: "Kjersti Margrete Finsrud", title: "Sexolog", subtitle: "Spesialist", expertise: ["Sexologi","Seksuell helse","Vulvasmerter","Prevensjon"], slug: "kjersti-margrete-finsrud", category: "annet", bio: "Kjersti er sykepleier med videreutdanning som helsesykepleier.", clinics: ["Majorstuen","Ski"] },
+  { name: "Kristian Marstrand Warholm", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Hoftekirurgi","Knekirurgi","Skulderkirurgi","Idrettsmedisin"], slug: "kristian-marstrand-warholm", category: "ortopedi", bio: "Kristian Marstrand Warholm er overlege ved OUS Ullevål.", clinics: ["Majorstuen"] },
+  { name: "Kristian Ophaug", title: "Fertilitetscoach", subtitle: "Familieterapeut", expertise: ["Fertilitet","Familieterapi","Fertilitetsrådgivning"], slug: "kristian-ophaug", category: "fertilitet", bio: "Kristian Ophaug har over 20 års erfaring som terapeut.", clinics: ["Majorstuen"] },
+  { name: "Lars Eldar Myrseth", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Håndkirurgi","Nerveskader"], slug: "lars-eldar-myrseth", category: "ortopedi", bio: "Lars Eldar Myrseth har flere års erfaring fra Rikshospitalet.", clinics: ["Majorstuen"] },
+  { name: "Lars Fredrik Qvigstad", title: "Urolog", subtitle: "Kirurg", expertise: ["Urologi","Prostatakreft"], slug: "lars-fredrik-qvigstad", category: "urologi", bio: "Lars er urolog og generell kirurg.", clinics: ["Majorstuen"] },
+  { name: "Line Fusdahl Hulleberg", title: "Sykepleier", subtitle: "Fertilitet", expertise: ["Sykepleie","Fertilitet","Inseminasjon"], slug: "line-fusdahl-hulleberg", category: "annet", bio: "Line Fusdahl Hulleberg har vært sykepleier siden 2008.", clinics: ["Majorstuen"] },
+  { name: "Line Jacob", title: "Gynekolog", subtitle: "Spesialist", expertise: ["Gynekologi","Reproduksjonsmedisin","Overgangsalder"], slug: "line-jacob", category: "gynekologi", bio: "Dr. Line Jacob er utdannet lege fra Universitetet i Oslo.", clinics: ["Bekkestua"] },
+  { name: "Linn Myrtveit-Stensrud", title: "Psykolog, PhD", subtitle: "Spesialist", expertise: ["Psykologi","Kvinnehelse","Vulvodyni","Vaginisme"], slug: "linn-myrtveit-stensrud", category: "annet", bio: "Linn er utdannet psykolog fra UiO med doktorgrad fra OsloMet.", clinics: ["Majorstuen"] },
+  { name: "Linnea Torsnes", title: "Hudlege", subtitle: "Spesialist", expertise: ["Hudhelse","Dermatologi","Hudkreft","Laserbehandling"], slug: "linnea-torsnes", category: "annet", bio: "Dr. Linnea Torsnes er spesialist i hud- og veneriske sykdommer.", clinics: ["Bekkestua"] },
+  { name: "Madeleine Engen", title: "Gynekolog", subtitle: "Kirurg", expertise: ["Gynekologi","Urogynekologi","Bekkenbunnshelse"], slug: "madeleine-engen", category: "gynekologi", bio: "Dr. Engen er spesialist innen gynekologi med ekspertise innen urogynekologi.", clinics: ["Majorstuen"] },
+  { name: "Marc Jacob Strauss", title: "Ortoped", subtitle: "Spesialist", expertise: ["Ortopedi","Knekirurgi","Idrettsmedisin","Korsbåndkirurgi"], slug: "marc-jacob-strauss", category: "ortopedi", bio: "Dr. Marc Jacob Strauss er spesialist i ortopedisk kirurgi.", clinics: ["Majorstuen"] },
+  { name: "Mari Borge Eskerud", title: "Ernæringsfysiolog", subtitle: "Spesialist", expertise: ["Ernæring","IBS","LavFODMAP","PCOS"], slug: "mari-borge-eskerud", category: "annet", bio: "Mari Borge Eskerud er klinisk ernæringsfysiolog.", clinics: ["Majorstuen"] },
+  { name: "Maria Thompson Clausen", title: "Ernæringsfysiolog", subtitle: "Spesialist", expertise: ["Ernæring","Livsstilsveiledning","IBS","Spiseforstyrrelser"], slug: "maria-thompson-clausen", category: "annet", bio: "Maria Thompson Clausen er utdannet klinisk ernæringsfysiolog fra UiO.", clinics: ["Bekkestua"] },
+  { name: "Marian Bale", title: "Gastrokirurg", subtitle: "Spesialist", expertise: ["Gastrokirurgi","Brokkbehandling","Laparoskopi"], slug: "marian-bale", category: "annet", bio: "Dr. Marian Bale er overlege og spesialist i generell kirurgi og gastrokirurgi.", clinics: ["Majorstuen"] },
+  { name: "Marthe Hagen", title: "Psykolog", subtitle: "Terapi", expertise: ["Psykologi","Terapi","Kvinnehelse","EMDR"], slug: "marthe-hagen", category: "annet", bio: "Marthe Hagen er psykolog med spesielt fokus på kvinnehelse.", clinics: ["Majorstuen"] },
+  { name: "Morten Andersen", title: "Urolog", subtitle: "Spesialist", expertise: ["Urologi","Sterilisering","Forhudsoperasjoner"], slug: "morten-andersen", category: "urologi", bio: "Morten Andersen er spesialist i kirurgi og urologi fra 1993.", clinics: ["Moelv"] },
+  { name: "Nabeel Yousaf Khan", title: "Urolog", subtitle: "Spesialist", expertise: ["Urologi","Prostata","Sterilisering"], slug: "nabeel-yousaf-khan", category: "urologi", bio: "Nabeel Yousaf Khan er urolog ved Sykehuset Innlandet Hamar.", clinics: ["Moelv"] },
+  { name: "Nicolai Wessel", title: "Urolog", subtitle: "Kirurg", expertise: ["Urologi","Robotkirurgi","Prostatakreft"], slug: "nicolai-wessel", category: "urologi", bio: "Nicolai Wessel er en erfaren spesialist innen kirurgi og urologi.", clinics: ["Majorstuen"] },
+  { name: "Siri Kløkstad", title: "Gynekolog", subtitle: "Spesialist", expertise: ["Gynekologi","Vulvaplager","Hormoner","Prevensjon"], slug: "siri-klokstad", category: "gynekologi", bio: "Siri Kløkstad er utdannet gynekolog.", clinics: ["Bekkestua"] },
+  { name: "Sondre Hassellund", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Hånd- og albuekirurgi"], slug: "sondre-hassellund", category: "ortopedi", bio: "Dr. Sondre Hassellund er hånd- og albuekirurg.", clinics: ["Majorstuen"] },
+  { name: "Sonu Lukose", title: "Embryolog", subtitle: "Fertilitetsteam", expertise: ["Fertilitet","Embryologi","IVF"], slug: "sonu-lukose", category: "fertilitet", bio: "Sonu er en ESHRE-sertifisert Senior Klinisk Embryolog.", clinics: ["Majorstuen"] },
+  { name: "Stig Hegna", title: "Ortoped", subtitle: "Kirurg", expertise: ["Ortopedi","Fotkirurgi"], slug: "stig-hegna", category: "ortopedi", bio: "Dr. Hegna er spesialist i ortopedisk kirurgi og spesialist i fotkirurgi.", clinics: ["Majorstuen"] },
+  { name: "Tea Berge", title: "Ortoped", subtitle: "Spesialist", expertise: ["Ortopedi","Kne- og skulderkirurgi"], slug: "tea-berge", category: "ortopedi", bio: "Tea er spesialist i ortopedisk kirurgi siden 2015.", clinics: ["Majorstuen"] },
+  { name: "Thomas Fredrik Thaulow", title: "Gynekolog", subtitle: "Spesialist", expertise: ["Gynekologi","Endometriose","Laparoskopi","Hysteroskopi"], slug: "thomas-fredrik-thaulow", category: "gynekologi", bio: "Thomas er en av landets fremste spesialister innen endoskopiske operasjoner.", clinics: ["Majorstuen"] },
+  { name: "Tom Henry Sundøen", title: "Ortoped", subtitle: "Spesialist", expertise: ["Ortopedi","Skopisk kirurgi","Hoftekirurgi","Idrettsmedisin"], slug: "tom-henry-sundoen", category: "ortopedi", bio: "Tom Henry Sundøen er ortopedkirurg og traumatolog.", clinics: ["Moss"] },
+  { name: "Tonje Westlie", title: "Fysioterapeut", subtitle: "Håndterapeut", expertise: ["Fysioterapi","Håndterapi","Rehabilitering"], slug: "tonje-westlie", category: "annet", bio: "Tonje er utdannet fysioterapeut ved OsloMet i 2011.", clinics: ["Majorstuen"] },
+  { name: "Trond Jørgensen", title: "Urolog", subtitle: "Kirurg", expertise: ["Urologi","Prostatakreft","Sterilisering"], slug: "trond-jorgensen", category: "urologi", bio: "Trond Jørgensen er kirurg og urolog med doktorgrad innen prostatakreft.", clinics: ["Majorstuen"] },
 ];
 
 const categoryRefMap: Record<string, string> = {
@@ -413,22 +476,41 @@ const categoryRefMap: Record<string, string> = {
   annet: "category-flere-fagomrader",
 };
 
-function buildSpecialistDocs(): Mutation[] {
-  return specialistsList.map((s) => ({
-    createOrReplace: {
-      _id: `specialist-${s.slug}`,
-      _type: "specialist",
-      name: s.name,
-      slug: { _type: "slug", current: s.slug },
-      role: s.title,
-      specialties: s.expertise,
-      categories: [{ _type: "reference", _ref: categoryRefMap[s.category] || "category-flere-fagomrader", _key: `cat-${s.slug}` }],
-      shortBio: s.bio || `${s.name} er spesialist i ${s.title.toLowerCase()} hos CMedical.`,
-      education: s.education ? [s.education] : [],
-      languages: s.languages || ["Norsk", "Engelsk"],
-      bookingEnabled: true,
-    },
-  }));
+/**
+ * Build specialist docs with uploaded images
+ */
+async function buildSpecialistDocsWithImages(): Promise<Mutation[]> {
+  const mutations: Mutation[] = [];
+  
+  for (const s of specialistsList) {
+    // Upload image if available
+    const imagePath = specialistImageMap[s.slug];
+    let photoRef = null;
+    if (imagePath) {
+      photoRef = await uploadImage(imagePath, `specialist-${s.slug}`);
+    }
+
+    mutations.push({
+      createOrReplace: {
+        _id: `specialist-${s.slug}`,
+        _type: "specialist",
+        name: s.name,
+        slug: { _type: "slug", current: s.slug },
+        role: s.title,
+        subtitle: (s as any).subtitle || "",
+        specialties: s.expertise,
+        categories: [{ _type: "reference", _ref: categoryRefMap[s.category] || "category-flere-fagomrader", _key: `cat-${s.slug}` }],
+        clinics: (s as any).clinics || [],
+        shortBio: s.bio || `${s.name} er spesialist i ${s.title.toLowerCase()} hos CMedical.`,
+        education: (s as any).education ? [(s as any).education] : [],
+        languages: s.languages || ["Norsk", "Engelsk"],
+        bookingEnabled: true,
+        ...(photoRef ? { photo: photoRef } : {}),
+      },
+    });
+  }
+  
+  return mutations;
 }
 
 // ============================================================
@@ -716,9 +798,9 @@ async function main() {
   await submitMutations(treatmentMutations);
   console.log(`   ✅ ${treatmentMutations.length} treatments\n`);
 
-  // 4. Specialists
-  console.log("👨‍⚕️ Creating specialists...");
-  const specialistMutations = buildSpecialistDocs();
+  // 4. Specialists (with images)
+  console.log("👨‍⚕️ Creating specialists (uploading images)...");
+  const specialistMutations = await buildSpecialistDocsWithImages();
   await submitMutations(specialistMutations);
   console.log(`   ✅ ${specialistMutations.length} specialists\n`);
 
