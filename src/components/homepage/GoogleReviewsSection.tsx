@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Star, Quote, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { googleReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
+import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
+import { useGoogleReviews } from "@/hooks/useSanity";
 
 const ReviewCard = ({ review }: { review: GoogleReview }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,6 +49,10 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
+  const { data: sanityReviews } = useGoogleReviews();
+  const googleReviews = sanityReviews && sanityReviews.length > 0
+    ? sanityReviews.map((r, i) => ({ id: i, name: r.name, rating: r.rating, text: r.text, date: r.date }))
+    : staticReviews;
   const { averageRating } = googleRatingData;
 
   // Duplicate reviews for seamless infinite scroll

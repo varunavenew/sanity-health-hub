@@ -3,7 +3,8 @@ import { ArrowLeft, MapPin, Globe, GraduationCap, Briefcase, Calendar, Phone, Ar
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { serviceCategories } from "@/data/serviceCategories";
+import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
+import { useTreatmentCategories } from "@/hooks/useSanity";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -54,6 +55,7 @@ const categoryBookingMap: Record<string, string> = {
 const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { data: sanityCategories } = useTreatmentCategories();
   const { findBySlug, byCategory } = useSpecialistsData();
 
   const specialist = findBySlug(slug || "");
@@ -78,9 +80,20 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     .filter((s) => s.slug !== specialist.slug)
     .slice(0, 4);
 
-  // Get related treatments from service categories
+  // Get related treatments - try Sanity categories first, then static
+  const serviceCategories = sanityCategories?.length
+    ? sanityCategories.map((c: any) => ({
+        id: c.categoryId || c.slug,
+        label: c.title,
+        path: `/${c.categoryId || c.slug}`,
+        subcategories: (c.treatments || []).map((t: any) => ({
+          label: t.title,
+          path: `/behandlinger/${c.categoryId || c.slug}/${t.slug}`,
+        })),
+      }))
+    : staticServiceCategories;
   const categoryConfig = serviceCategories.find(
-    (c) => c.id === specialist.category || (specialist.category === "annet" && c.id === "flere")
+    (c: any) => c.id === specialist.category || (specialist.category === "annet" && c.id === "flere")
   );
   const relatedTreatments = categoryConfig?.subcategories.slice(0, 6) || [];
 

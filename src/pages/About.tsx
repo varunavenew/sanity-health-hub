@@ -6,40 +6,11 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cmedicalHands from "@/assets/hero/cmedical-hands.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { clinics } from "@/data/clinicServices";
 import { ClinicGrid } from "@/components/ClinicGrid";
 
 interface AboutProps {
   isChatOpen: boolean;
 }
-
-// Map clinic service IDs to readable labels
-const getClinicServiceLabels = (serviceIds: string[]) => {
-  const labelMap: Record<string, string> = {
-    fertilitet: "Fertilitet",
-    fostermedisiner: "Fostermedisiner",
-    gynekolog: "Gynekologi",
-    ernaringsfysiolog: "Ernæringsfysiolog",
-    psykolog: "Psykologi",
-    sexolog: "Sexologi",
-    gastrokirurg: "Gastrokirurgi",
-    ortoped: "Ortopedi",
-    handterapeut: "Håndterapi",
-    revmatolog: "Revmatologi",
-    urolog: "Urologi",
-    hudlege: "Hudlege",
-    areknuter: "Åreknuter",
-    "sprengte-blodkar": "Sprengte blodkar",
-    fysioterapeut: "Fysioterapi / Osteopati",
-    uroterapi: "Uroterapi",
-    plastikkirurgi: "Plastikkirurgi",
-    karkirurgi: "Karkirurgi",
-    hjertespesialist: "Hjertespesialist",
-    almennlege: "Allmennlege",
-    endokrinolog: "Endokrinologi",
-  };
-  return serviceIds.map((id) => labelMap[id] || id).filter(Boolean);
-};
 
 const About = ({ isChatOpen }: AboutProps) => {
   const navigate = useNavigate();

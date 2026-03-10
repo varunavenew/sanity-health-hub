@@ -13,7 +13,8 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-import { clinics, getClinicsForService, Clinic } from "@/data/clinicServices";
+import { clinics as staticClinics, getClinicsForService as staticGetClinicsForService, Clinic } from "@/data/clinicServices";
+import { useClinics } from "@/hooks/useSanity";
 
 // Booking services data based on CMedical's actual structure
 const bookingServices = [
@@ -210,6 +211,9 @@ const BookingDemo = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
+  const { data: sanityClinics } = useClinics();
+  const clinics: Clinic[] = (sanityClinics?.length ? sanityClinics : staticClinics) as Clinic[];
+  const getClinicsForService = (serviceId: string) => clinics.filter(c => c.services?.includes(serviceId));
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
