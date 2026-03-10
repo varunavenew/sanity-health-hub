@@ -5,7 +5,7 @@ import { CTASection } from "@/components/layout/CTASection";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cmedicalHands from "@/assets/hero/cmedical-hands.jpg";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { clinics } from "@/data/clinicServices";
 import { ClinicGrid } from "@/components/ClinicGrid";
 
