@@ -107,7 +107,7 @@ export const useSpecialist = (slug: string) =>
     queryFn: async () => {
       const data = await fetchSanity<any>(
         `*[_type == "specialist" && slug.current == $slug][0]{
-          _id, name, role, specialties, shortBio, education, languages, bookingEnabled,
+          _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
           "slug": slug.current,
           "image": photo.asset->url,
           "categories": categories[]->{ _id, title, "slug": slug.current }
@@ -118,9 +118,11 @@ export const useSpecialist = (slug: string) =>
       return {
         ...data,
         title: data.role || "",
+        subtitle: data.subtitle || "",
         expertise: data.specialties || [],
         bio: data.shortBio || "",
         category: data.categories?.[0]?.slug || "",
+        clinics: data.clinics || [],
       } as SanitySpecialist;
     },
     enabled: !!slug,
