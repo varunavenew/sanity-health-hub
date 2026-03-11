@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useHomepage } from "@/hooks/useSanity";
 
+// Static fallback images
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
@@ -18,7 +20,7 @@ interface HeroSlide {
   objectPosition: string;
 }
 
-const heroSlides: HeroSlide[] = [
+const staticSlides: HeroSlide[] = [
   {
     id: "kvinnehelse",
     image: kvinnehelseHero,
@@ -53,8 +55,17 @@ const heroSlides: HeroSlide[] = [
 
 export const HeroBanner = () => {
   const navigate = useNavigate();
+  const { data: homepage } = useHomepage();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+
+  const heroSlides: HeroSlide[] =
+    homepage?.heroSlides && homepage.heroSlides.length > 0
+      ? homepage.heroSlides.map((s: any) => ({
+          ...s,
+          alt: s.label || "",
+        }))
+      : staticSlides;
 
   const goTo = useCallback((index: number) => {
     setDirection(index > current ? 1 : -1);
@@ -64,12 +75,12 @@ export const HeroBanner = () => {
   const next = useCallback(() => {
     setDirection(1);
     setCurrent((prev) => (prev + 1) % heroSlides.length);
-  }, []);
+  }, [heroSlides.length]);
 
   const prev = useCallback(() => {
     setDirection(-1);
     setCurrent((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  }, []);
+  }, [heroSlides.length]);
 
   useEffect(() => {
     const timer = setInterval(next, 6000);
@@ -128,7 +139,6 @@ export const HeroBanner = () => {
           className="absolute inset-0 cursor-pointer group"
           onClick={() => { if (!dragging.current) navigate(slide.ctaPath); }}
         >
-          {/* Full-width background image */}
           <img
             src={slide.image}
             alt={slide.alt}
@@ -136,11 +146,7 @@ export const HeroBanner = () => {
             style={{ objectPosition: slide.objectPosition }}
             loading={current === 0 ? "eager" : "lazy"}
           />
-
-          {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-          {/* Text overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 pb-20 md:pb-24">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
@@ -166,7 +172,6 @@ export const HeroBanner = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation controls */}
       <div className="absolute bottom-0 inset-x-0 z-20">
         <div className="container mx-auto px-6 md:px-16 pb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -181,7 +186,6 @@ export const HeroBanner = () => {
               />
             ))}
           </div>
-
           <div className="flex items-center gap-2">
             <button
               onClick={prev}
