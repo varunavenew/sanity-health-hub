@@ -1,9 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useHomepage } from "@/hooks/useSanity";
+
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
 
-const blocks = [
+const staticBlocks = [
   {
     id: "overvektskirurgi",
     title: "Robotassistert overvektskirurgi – presisjon, trygghet og varige resultater",
@@ -22,12 +24,18 @@ const blocks = [
 
 export const PromoBlocks = () => {
   const navigate = useNavigate();
+  const { data: homepage } = useHomepage();
+
+  const blocks =
+    homepage?.promoBlocks && homepage.promoBlocks.length > 0
+      ? homepage.promoBlocks
+      : staticBlocks;
 
   return (
     <section className="bg-background pt-2 md:pt-4 pb-4 md:pb-6">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-6xl mx-auto">
-          {blocks.map((block) => (
+          {blocks.map((block: any) => (
             <button
               key={block.id}
               onClick={() => navigate(block.path)}

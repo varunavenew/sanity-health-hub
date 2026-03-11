@@ -8,7 +8,7 @@ export const ServicesDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('gynekologi');
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
 
   const handleMouseEnter = () => {
