@@ -301,48 +301,73 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
             {relatedSpecialists.length > 0 && (
               <div className="mb-14">
                 <h2 className="text-xl md:text-2xl font-medium text-foreground mb-6">
-                  Våre behandlere
+                  Møt din behandler
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-5">
                   {relatedSpecialists.map((spec) => (
                     <div
                       key={spec.slug}
-                      className="flex items-start gap-4 p-4 md:p-5 rounded-xl border border-border bg-card hover:bg-secondary/20 transition-all card-hover"
+                      className="rounded-2xl border border-border overflow-hidden bg-card card-hover"
                     >
-                      <img
-                        src={spec.image}
-                        alt={spec.name}
-                        className="w-14 h-14 md:w-18 md:h-18 rounded-xl object-cover flex-shrink-0"
-                        loading="lazy"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-[15px] font-medium text-foreground">{spec.name}</h3>
-                        <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
-                        {spec.clinics && spec.clinics.length > 0 && (
-                          <p className="text-xs text-muted-foreground/70 font-light mt-1 flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            {spec.clinics.join(", ")}
-                          </p>
-                        )}
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="text-xs rounded-full h-7 px-3 font-light"
-                            onClick={() => navigate(`/spesialister/${spec.slug}`)}
-                          >
-                            Les mer
-                            <ArrowRight className="ml-1 w-3 h-3" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            className="text-xs rounded-full h-7 px-3 font-light"
-                            onClick={() => navigate(`/booking?kategori=${categoryId}`)}
-                          >
-                            <Calendar className="mr-1 w-3 h-3" />
-                            Bestill time
-                          </Button>
+                      {/* Top section with photo + info */}
+                      <div className="flex items-center gap-5 p-5 md:p-6">
+                        <img
+                          src={spec.image}
+                          alt={spec.name}
+                          className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover flex-shrink-0 ring-2 ring-border"
+                          loading="lazy"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg md:text-xl font-medium text-foreground">{spec.name}</h3>
+                          <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
+                          {spec.clinics && spec.clinics.length > 0 && (
+                            <p className="text-xs text-muted-foreground/60 font-light mt-1.5 flex items-center gap-1">
+                              <MapPin className="w-3 h-3" />
+                              {spec.clinics.join(", ")}
+                            </p>
+                          )}
+                          {/* Expertise tags */}
+                          {spec.expertise && spec.expertise.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 mt-3">
+                              {spec.expertise.slice(0, 4).map((tag) => (
+                                <span
+                                  key={tag}
+                                  className="text-[11px] px-2.5 py-1 rounded-full bg-secondary/60 text-muted-foreground font-light"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
+                      </div>
+
+                      {/* Bio section */}
+                      {spec.bio && (
+                        <div className="px-5 md:px-6 pb-2">
+                          <p className="text-sm text-foreground/70 font-light leading-relaxed line-clamp-3">
+                            {spec.bio}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      <div className="flex items-center gap-3 px-5 md:px-6 py-4 border-t border-border/50 mt-2">
+                        <Button
+                          variant="outline"
+                          className="text-sm rounded-full h-9 px-5 font-light flex-1 sm:flex-none"
+                          onClick={() => navigate(`/spesialister/${spec.slug}`)}
+                        >
+                          Les mer om {spec.name.split(" ")[0]}
+                          <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+                        </Button>
+                        <Button
+                          className="text-sm rounded-full h-9 px-5 font-light flex-1 sm:flex-none"
+                          onClick={() => navigate(`/booking?kategori=${categoryId}`)}
+                        >
+                          <Calendar className="mr-1.5 w-3.5 h-3.5" />
+                          Bestill time
+                        </Button>
                       </div>
                     </div>
                   ))}
