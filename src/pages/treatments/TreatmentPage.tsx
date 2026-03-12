@@ -111,6 +111,34 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </p>
             </div>
 
+            {/* Content Sections from cmedical.no */}
+            {treatment.sections && treatment.sections.length > 0 && (
+              <div className="mb-12 space-y-10">
+                {treatment.sections.map((section, i) => (
+                  <div key={i} id={section.id || `section-${i}`}>
+                    <h2 className="text-2xl font-normal text-foreground mb-4">{section.heading}</h2>
+                    <div className="space-y-3">
+                      {section.content.split('\n').map((line, j) => {
+                        const trimmed = line.trim();
+                        if (!trimmed) return null;
+                        if (trimmed.startsWith('- ')) {
+                          return (
+                            <div key={j} className="flex items-start gap-2 pl-2">
+                              <span className="text-foreground/50 mt-1">•</span>
+                              <p className="text-foreground/80 font-light" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
+                            </div>
+                          );
+                        }
+                        return (
+                          <p key={j} className="text-foreground/80 font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }} />
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Key Benefits */}
             {treatment.benefits && treatment.benefits.length > 0 && (
               <div className="mb-12 bg-secondary/30 rounded-xl p-8">
