@@ -274,19 +274,34 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/cyster": {
     title: "Cyster på eggstokkene",
-    subtitle: "Utredning og behandling av cyster på eggstokkene.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Cyster på eggstokkene er svært vanlig og oppdages ofte tilfeldig ved ultralyd. De fleste cyster er godartede og forsvinner av seg selv, men noen kan trenge oppfølging eller behandling.\n\nVåre gynekologer har lang erfaring med å vurdere og behandle alle typer cyster.",
-    benefits: [
-      "Grundig utredning med ultralyd",
-      "Tett oppfølging av cyster som krever observasjon",
-      "Skånsom kirurgisk fjerning ved behov",
-      "Rask avklaring gir trygghet",
+    description: "Cyster på eggstokkene er veldig vanlig og i de fleste tilfeller helt ufarlig.\n\nHver måned modnes ett egg i en av eggstokkene. Dette ligger inni i en vannpose som blir ca 2 cm stor før den sprekker. Av og til kan det dannes flere slike vannposer eller cyster som ikke sprekker, men som får vokse videre. Disse kan iblant bli ganske store og gi smerter og ubehag nederst i magen, særlig ved samleie og bevegelse. Disse cystene kalles funksjonelle cyster og blir som oftest borte av seg selv etter omtrent tre menstruasjonssykluser.\n\nHar du spørsmål knyttet til dette kan du alltid kontakte oss.",
+    sections: [
+      {
+        id: "former-for-cyste",
+        heading: "Former for cyste",
+        content: "Andre typer cyster er dermoider, endometriomer eller cystadenomer. Disse ser litt annerledes ut på ultralyd, og derfor kan vi skille dem fra funksjonelle cyster. Dette er også godartede cyster, men disse blir ikke borte av seg selv og må noen ganger opereres bort, særlig hvis de blir store og gir plager.",
+      },
+      {
+        id: "for-og-etter-overgangsalder",
+        heading: "Før og etter overgangsalder",
+        content: "Hos kvinner før overgangsalder er de aller fleste cyster godartede. Hvis gynekologen finner en cyste ved ultralydundersøkelse, blir du fulgt opp videre med ultralyd, avhengig av hva slags cyste det er du har. Det er som oftest ikke nødvendig med blodprøve.\n\nEtter overgangsalder er det mindre vanlig med cyster og risikoen for at en cyste er ondartet er større. Her vil det være viktig med blodprøve, flere ultralydundersøkelser og andre bildeundersøkelser før man eventuelt opererer bort cysten.",
+      },
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Cyster på eggstokkene av en viss størrelse, som ikke blir borte av seg selv og som gir plager, er det anbefalt å operere bort. Dette gjøres vanligvis ved hjelp av en kikkehullsoperasjon. Da får man narkose og kirurgen fjerner cysten gjennom 3-4 hull i magen din. Inngrepet tar omtrent 45 minutter, men dette avhenger blant annet av hvor store cystene er. Ønsker du å snakke med en spesialist på dette, bestill time.",
+      },
     ],
+    relatedSpecialists: ["ane-gerda-z-eriksson", "birgitte-aspenes", "henrik-michelsen-wahl"],
     faqs: [
-      { question: "Er cyster farlige?", answer: "De aller fleste cyster er godartede. Vi utreder grundig for å avklare type og behov for eventuell behandling." },
-      { question: "Må cyster alltid opereres?", answer: "Nei, mange cyster forsvinner av seg selv og trenger kun oppfølging med ultralydkontroller." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/fjerne-livmor": {
