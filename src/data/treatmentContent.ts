@@ -1212,18 +1212,33 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/skulder": {
     title: "Skulder",
-    subtitle: "Diagnostikk og behandling av skulderplager.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Skulderplager kan skyldes slitasje, betennelse, skader eller muskulære ubalanser. Vi tilbyr grundig utredning og et bredt spekter av behandlingsmuligheter.\n\nVåre skulderortopeder har lang erfaring med både konservativ og kirurgisk behandling.",
-    benefits: [
-      "Erfarne skulderortopeder",
-      "Ultralydveiledet injeksjonsbehandling",
-      "Artroscopisk skulderkirurgi",
-      "Individuelt tilpasset rehabilitering",
+    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    sections: [
+      {
+        id: "kalkskulder",
+        heading: "Kalkskulder",
+        content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen.\n\nOfte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig, dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
+      },
+      {
+        id: "slap",
+        heading: "SLAP",
+        content: "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomy)."
+      },
+      {
+        id: "frozen-shoulder",
+        heading: "Frozen shoulder",
+        content: "Frozen shoulder er en betennelse i leddhinnen i skulderleddet. Det er en smertefull tilstand hvor man opplever smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten gjennom å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
+      },
     ],
+    relatedSpecialists: ["tom-henry-sundoen"],
     faqs: [
-      { question: "Hva kan forårsake skuldersmerter?", answer: "Vanlige årsaker inkluderer impingement, rotator cuff-skader, frossen skulder og artrose." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
 
