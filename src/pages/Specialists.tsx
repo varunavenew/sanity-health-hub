@@ -109,8 +109,9 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                   <img
                     src={specialist.image}
                     alt={specialist.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 saturate-[0.7] brightness-[0.95] contrast-[1.05]"
                   />
+                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
                 </div>
                 <h3 className="text-sm font-medium text-foreground">{specialist.name}</h3>
                 <p className="text-xs text-muted-foreground font-light">{specialist.title}</p>

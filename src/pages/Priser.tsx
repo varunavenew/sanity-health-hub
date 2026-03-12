@@ -583,13 +583,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 key={specialist.slug}
                 className="group text-center"
               >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-3">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-3 bg-brand-dark">
                   <img
                     src={specialist.image}
                     alt={specialist.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 saturate-[0.7] brightness-[0.95] contrast-[1.05]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 to-transparent" />
                 </div>
                 <h3 className="font-normal text-white text-sm md:text-base">
                   {specialist.name}
