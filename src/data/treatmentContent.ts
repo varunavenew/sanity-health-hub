@@ -864,19 +864,48 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/assistert-befruktning": {
     title: "Assistert befruktning",
-    subtitle: "IUI, IVF og ICSI – skreddersydd hjelp til å bli gravid.",
+    subtitle: "Uten henvisning • Ingen ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Assistert befruktning omfatter ulike metoder for å hjelpe par og enslige med å oppnå graviditet. Vi tilbyr inseminasjon (IUI), prøverørsbehandling (IVF) og mikroinjeksjon (ICSI).\n\nValg av metode avhenger av utredningsfunn og individuelle forutsetninger.",
-    benefits: [
-      "Alle metoder for assistert befruktning under ett tak",
-      "Moderne laboratorium med erfarne embryologer",
-      "Høye suksessrater dokumentert over tid",
-      "Personlig oppfølging gjennom hele behandlingen",
+    description: "Det finnes flere ulike behandlingsmetoder ved assistert befruktning. Vi utarbeider behandlingsmetoden slik at den er tilpasset nettopp deg og dine behov. Du kan være trygg på at vi gjør grundige undersøkelser med ett mål for øyet – å hjelpe deg med å oppfylle drømmen om et barn.",
+    sections: [
+      {
+        id: "ivf",
+        heading: "IVF - In Vitro Fertilisering",
+        content: "In Vitro Fertilisering betyr «befruktning utenfor kroppen», også ofte omtalt som prøverørsbehandling. I praksis betyr det at vi ved et lite inngrep, som gjøres med lokalbedøvelse, henter ut modne egg hos kvinnen. Deretter vil eggene bli befruktet i et prøverør, for så bli satt tilbake i kvinnens livmor.\n\nMålet er å gi deg som kvinne størst mulig sjanse for å få et barn, på en så trygg måte som mulig. Hver IVF-behandling tilpasses ut fra individuelle forutsetninger. Det er derfor viktig at det gjøres en grundig fertilitetssjekk før du går i gang med behandling.",
+      },
+      {
+        id: "icsi",
+        heading: "ICSI - Intracytoplasmatisk spermieinjeksjon",
+        content: "ICSI er en behandlingsmetode som benyttes ved nedsatt sperm-funksjon. ICSI blir også ofte kalt for mikroinjeksjon. Metoden likner delvis på IVF men istedenfor at egget og spermien blir lagt sammen, blir egget injisert med sperm og deretter plassert i en inkubator. Denne behandlingen benyttes hos IVF-pasienter der det er mannlig faktor til uteblitt graviditet.",
+      },
+      {
+        id: "inseminasjon",
+        heading: "Inseminasjon (AIH)",
+        content: "Inseminasjon er en behandlingsmetode hvor vi injiserer preparert sperm rett inn i livmorhulen. Inseminasjon med donorsæd er førstevalget for single kvinner eller par der det er behov for donorsæd. Inseminasjon kan også brukes med mannens sperm dersom paret ønsker å forsøke å bli gravid før IVF.",
+      },
+      {
+        id: "donor",
+        heading: "Assistert befruktning med donor",
+        content: "Vi tilbyr assistert befruktning med donor, både egg- og sæddonasjon. Ta kontakt med oss om du ønsker å vite mer.",
+      },
+      {
+        id: "tesa-pesa",
+        heading: "TESA/PESA",
+        content: "TESA/PESA er en vanlig behandlingsmetode for å hente ut sperm fra pungen. Uthentingen gjøres med lokalbedøvelse.\n\nTESA/PESA er en metode vi benytter dersom mannen er sterilisert eller har en annen medisinsk tilstand som forårsaker alvorlig avvik eller ingen spermier i sædanalysen.\n\nTESA er et kirurgisk inngrep hvor vi går inn i testikkel for å hente sædceller. PESA er en metode hvor sædcellene suges ut av bitestikkelen via en tynn nål.\n\nEtter TESA/PESA må det benyttes ICSI som befruktningsmetode. Kvinnen gjennomgår IVF-behandling for å hente ut egg som kan befruktes i laboratoriet.",
+      },
+      {
+        id: "micro-tese",
+        heading: "Micro-TESE",
+        content: "Vi tilbyr avanserte behandlinger for menn med fertilitetsproblemer. Micro-TESE (microdissection testicular sperm extraction) er en mikrokirurgisk prosedyre som utføres under mikroskopisk veiledning for å identifisere og ekstrahere sædceller direkte fra testiklene. Dette er en effektiv metode for menn med azoospermi, hvor sædceller ikke finnes i sædprøver.\n\nStudier har vist at micro-TESE har en høyere suksessrate sammenlignet med tradisjonell TESE-prosedyre, spesielt for menn med ikke-obstruktiv azoospermi. Vår fertilitetsspesialist Jackson Tok er sertifisert for Micro-TESE ved Center for Male Reproductive Medicine og Microsurgery ved Weill Cornell University i New York City.",
+      },
     ],
+    relatedSpecialists: ["kristian-ophaug"],
     faqs: [
-      { question: "Hva er forskjellen på IUI og IVF?", answer: "Ved IUI settes sædceller inn i livmoren. Ved IVF hentes egg ut, befruktes i laboratoriet og settes tilbake som embryo." },
-      { question: "Hvor mange behandlinger trenger vi?", answer: "Dette varierer. Mange lykkes innen 3 behandlingssykluser, men det avhenger av individuelle faktorer." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "fertilitet/ivf": {
