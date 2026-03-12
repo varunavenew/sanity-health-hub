@@ -924,18 +924,21 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/psykologi": {
     title: "Psykologi",
-    subtitle: "Psykologisk støtte og samtaleterapi.",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre psykologer tilbyr samtaleterapi for ulike utfordringer, med spesialkompetanse på psykologiske aspekter ved gynekologiske tilstander, infertilitet, svangerskap og overgangsalder.\n\nVi er en del av det tverrfaglige teamet som sikrer helhetlig oppfølging.",
-    benefits: [
-      "Spesialkompetanse på kvinnehelse og fertilitet",
-      "Samtaleterapi for enkeltpersoner og par",
-      "Støtte under fertilitetsbehandling",
-      "Del av tverrfaglig team for helhetlig behandling",
+    description: "Du trenger ikke å ha en psykisk lidelse eller diagnose for å gå til psykolog. Mange ønsker å ha en nøytral samtalepartner over kortere eller lengre tid for å sortere tanker og følelser, eller motta støtte gjennom en utfordrende periode med f.eks. endometriose-, vulvodyni- eller fertilitetsbehandling. Hos oss jobber våre spesialister i unike tverrfaglige team for å hjelpe deg best mulig. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
+    sections: [
+      {
+        id: "hva-kan-vi-hjelpe-med",
+        heading: "Hva kan vi hjelpe med?",
+        content: "Hos psykolog kan du få hjelp til å håndtere smerter, bearbeide vanskelige erfaringer, utforske identitet og seksualitet, og du kan bli utredet og behandlet for psykiske lidelser. Om det dukker opp andre plager som trenger videre oppfølging, kan en psykolog henvise deg til videre utredning og behandling. Ønsker du en time til psykolog kan du bestille her eller ta kontakt med oss for mer informasjon.",
+      },
     ],
     faqs: [
-      { question: "Kan jeg gå til psykolog uten å ha annen behandling hos dere?", answer: "Ja, du kan bestille time hos psykolog uavhengig av annen behandling." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "flere-fagomrader/revmatologi": {
