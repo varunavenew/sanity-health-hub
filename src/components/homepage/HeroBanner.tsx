@@ -142,10 +142,12 @@ export const HeroBanner = () => {
           <img
             src={slide.image}
             alt={slide.alt}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02] saturate-[0.75] brightness-[0.95] contrast-[1.05]"
             style={{ objectPosition: slide.objectPosition }}
             loading={current === 0 ? "eager" : "lazy"}
           />
+          {/* Warm brand tone overlay */}
+          <div className="absolute inset-0 bg-brand-dark/10 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 pb-20 md:pb-24">
             <motion.div
