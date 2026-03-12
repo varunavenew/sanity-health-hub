@@ -4,7 +4,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import cmedicalFamilyHands from "@/assets/hero/cmedical-family-hands.jpg";
+import heroFamily from "@/assets/hero/hero-family.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ClinicGrid } from "@/components/ClinicGrid";
 
