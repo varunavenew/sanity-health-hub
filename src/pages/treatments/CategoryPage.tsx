@@ -450,7 +450,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       {/* Finansiering Section */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-8">Finansiering</h2>
