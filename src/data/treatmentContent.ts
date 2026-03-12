@@ -1635,6 +1635,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     faqs: [
       { question: "Hva er forskjellen på NIPT og fostervannsprøve?", answer: "NIPT er en screeningtest (blodprøve) uten risiko for fosteret. Fostervannsprøve er diagnostisk og gir sikkert svar, men har en liten risiko for spontanabort." },
       { question: "Hvem bør ta NIPT?", answer: "NIPT kan tilbys alle gravide, men er spesielt anbefalt ved forhøyet risiko etter KUB-test eller ved alder over 38 år." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
   "graviditet/svangerskapsteam": {
