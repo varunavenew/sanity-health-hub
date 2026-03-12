@@ -743,20 +743,29 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "urologi/robotkirurgi": {
-    title: "Robotkirurgi – Urologi",
-    subtitle: "Avansert robotassistert kirurgi for prostata, nyrer og brokk.",
+    title: "Robotassistert kirurgi",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: heroTech,
-    description: "CMedical er den eneste private aktøren i Norge som tilbyr robotassistert kirurgi innen urologi. Med da Vinci-systemet utfører vi blant annet radikal prostatektomi (RALP), behandling av godartet forstørret prostata (RASP) og brokkoperasjoner.\n\nRobotkirurgi gir bedre syn, presisjon og bevegelighet enn tradisjonell kikkhullskirurgi.",
-    benefits: [
-      "Prostatakreftkirurgi (RALP) med nerve-sparende teknikk",
-      "Behandling av godartet forstørret prostata (RASP)",
-      "Robotassistert brokkoperasjon",
-      "Kortere sykehusopphold og raskere rekonvalesens",
-      "Erfarne kirurger med høyt volum",
+    description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nVi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi, brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP).",
+    sections: [
+      {
+        id: "rask-rehabilitering",
+        heading: "Rask rehabilitering",
+        content: "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen.",
+      },
+      {
+        id: "presisjon",
+        heading: "Presisjon som merkes",
+        content: "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata.\n\n**Ergonomi – også for kirurgen:** Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.\n\n**Erfarne spesialister – trygg behandling:** Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen.",
+      },
     ],
+    relatedSpecialists: ["nicolai-wessel"],
     faqs: [
-      { question: "Hva er fordelene med robotkirurgi?", answer: "Bedre presisjon, mindre blødning, kortere rekonvalesens og ofte bedre funksjonelle resultater sammenlignet med åpen kirurgi." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/sterilisering": {
