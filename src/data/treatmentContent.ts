@@ -686,20 +686,39 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "fertilitet/infertilitet": {
     title: "Infertilitet",
-    subtitle: "Omfattende utredning av ufrivillig barnløshet.",
+    subtitle: "Uten henvisning • Ingen ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Infertilitet defineres som manglende graviditet etter ett år med regelmessig ubeskyttet samleie. Årsaken kan ligge hos kvinnen, mannen eller begge. Vi tilbyr grundig utredning og individuelt tilpasset behandling.\n\nVårt erfarne team av reproduksjonsmedisinere, gynekologer og embryologer har hjulpet tusenvis av par og enslige med å oppfylle barneønsket.",
-    benefits: [
-      "Grundig utredning av begge partnere",
-      "Hormonprøver, ultralyd og sædanalyse",
-      "Individuell behandlingsplan",
-      "Tilgang til alle former for fertilitetsbehandling",
-      "Høye suksessrater",
+    description: "Svært mange opplever at det er vanskelig å bli gravid på egenhånd. Så mange som 1 av 6 gjennomlever infertilitet, altså at graviditet ikke har lykkes til tross for gjentatte forsøk i ett år eller mer. Det finnes flere årsaker til ufrivillig barnløshet, og du skal vite at du er ikke alene.",
+    sections: [
+      {
+        id: "du-er-ikke-alene",
+        heading: "Du er ikke alene",
+        content: "Dessverre er det flere som kan fortelle at de kjenner på en skam knyttet til infertilitet. Dette er nok også årsaken for at mange velger å utsette å oppsøke gynekolog. Opplever du ufrivillig barnløshet, anbefaler vi at du tar kontakt for en fertilitetssjekk dersom du befinner deg i en av disse to situasjonene:\n\n- **Kvinne 35 år, eller yngre:** Er du en kvinne på 35 år eller yngre bør du ta kontakt for en fertilitetssjekk om du ikke har lykkes med å oppnå graviditet i løpet av 12 måneder. Ta også kontakt dersom du opplever problemer med eggløsning eller sjeldne/uregelmessige menstruasjoner.\n- **Kvinne 36 år, eller eldre:** Er du en kvinne på 36 år eller eldre bør du ta kontakt for en fertilitetssjekk dersom du ikke har lykkes med å oppnå graviditet i løpet av seks måneder.\n\nÅrsakene til ufrivillig barnløshet kan være mange, og trenger nødvendigvis ikke være knyttet til alder.\n\n**Vi kan dele utfordringene inn i fire kategorier:**\n- Kvinnelig faktor\n- Mannlig faktor\n- En blanding av de to\n- Uforklarlige årsaker\n\nDet er viktig å huske på at infertilitet rammer like mange menn som det rammer kvinner.",
+      },
+      {
+        id: "kvinnelig-faktor",
+        heading: "Kvinnelig faktor til infertilitet",
+        content: "Kvinner fødes med ett bestemt antall egg, så den kvinnelige kroppen produserer derfor ikke flere. Ved hver menstruasjon utvikles ett eller flere egg til modning. Antall egg synker med årene, og i tillegg reduseres kvaliteten på eggene. Gjennom både erfaring og ulike studier er det avdekket en rekke forhold som kan påvirke den kvinnelige fertiliteten:\n\n- Eggløsningsproblemer som skyldes hormoner\n- PCOS (polyscystiske eggstokker) – Eggposene modnes ikke slik at man får sjelden eller ingen eggløsning\n- Skade på eggleder: for eksempel etter klamydiainfeksjon eller blindtarmoperasjon\n- Utfordringer med livmor: for eksempel muskelknuter eller adenomyose\n- Endometriose\n- Medisinske årsaker knyttet til medikamentbruk, som for eksempel cellegift\n- Alder",
+      },
+      {
+        id: "mannlig-faktor",
+        heading: "Mannlig faktor til infertilitet",
+        content: "Menn produserer spermier kontinuerlig, og det er derfor ingen fare for at det «går tomt». Det er gjort en rekke studier som viser at omtrent 4 av 10 par som ikke lykkes med å bli gravide på egen hånd har en mannlig faktor som hovedårsak.\n\n- Nedsatt eller fraværende sædproduksjon (infeksjon eller genetiske tilstander)\n- Hormonelle årsaker\n- Transportfeil av sædceller\n- Vanskelig å få utløsning som følger av en operasjon eller infeksjon\n- Nedsatt evne til ereksjon eller utløsning\n- Ulike legemidler eller anabole steroider\n- Testikkelkreft",
+      },
+      {
+        id: "uforklarlige-arsaker",
+        heading: "Uforklarlige årsaker til infertilitet",
+        content: "I ca 30 % av alle infertile tilfeller finner vi ingen årsak til hvorfor man ikke lykkes med å bli gravid. Vi forstår at det kan være en frustrerende beskjed å få etter å ha prøvd en lang stund. Om alle prøvene fra fertilitetssjekken ser fine ut, kan én eller flere av årsakene nedenfor være med på å minske sjansene for en graviditet:\n\n- Røyking og alkohol har en negativ påvirkning på mannlig og kvinnelig fertilitet\n- Overvekt kan ha en negativ påvirkning for både mannlig og kvinnelig fertilitet\n- Overforbruk av ulike legemidler som Naproxen, Voltaren, Ibux og andre smertestillende har dokumentert negativ effekt på sannsynligheten for å bli gravid",
+      },
     ],
+    relatedSpecialists: ["jackson-tok", "birgitte-mitlid-mork", "kjersti-brenden"],
     faqs: [
-      { question: "Når bør vi oppsøke hjelp?", answer: "Vi anbefaler utredning etter 12 måneder uten graviditet, eller etter 6 måneder dersom kvinnen er over 35 år." },
-      { question: "Hva innebærer en fertilitetsutredning?", answer: "Utredningen inkluderer blodprøver, hormonanalyser, ultralyd av eggstokkene og sædanalyse." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "fertilitet/assistert-befruktning": {
