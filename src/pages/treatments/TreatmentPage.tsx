@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { ArrowRight, Check, Phone } from "lucide-react";
+import { ArrowRight, Check, Phone, Calendar, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
+import { specialists as allSpecialists, Specialist } from "@/data/specialists";
 import { useTreatment } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 
@@ -51,6 +52,15 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         faqs: sanityTreatment.faqs,
       }
     : staticTreatment;
+
+  // Resolve related specialists
+  const relatedSpecialists = useMemo(() => {
+    const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
+    if (!slugs || slugs.length === 0) return [];
+    return slugs
+      .map(slug => allSpecialists.find(s => s.slug === slug))
+      .filter((s): s is Specialist => !!s);
+  }, [treatment, staticTreatment]);
 
   useEffect(() => {
     if (treatment) {
@@ -210,6 +220,58 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                       <div className="pb-6">
                         <h3 className="font-normal text-foreground mb-1">{step.title}</h3>
                         <p className="text-sm text-muted-foreground font-light">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Related Specialists */}
+            {relatedSpecialists.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-normal text-foreground mb-6">
+                  Våre behandlere
+                </h2>
+                <div className="space-y-4">
+                  {relatedSpecialists.map((spec) => (
+                    <div
+                      key={spec.slug}
+                      className="flex items-start gap-4 p-5 rounded-xl border border-border bg-card hover:bg-secondary/30 transition-colors"
+                    >
+                      <img
+                        src={spec.image}
+                        alt={spec.name}
+                        className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover flex-shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-medium text-foreground">{spec.name}</h3>
+                        <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
+                        {spec.clinics && spec.clinics.length > 0 && (
+                          <p className="text-xs text-muted-foreground font-light mt-1 flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            {spec.clinics.join(", ")}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-xs rounded-full h-8 font-light"
+                            onClick={() => navigate(`/spesialister/${spec.slug}`)}
+                          >
+                            Les mer
+                            <ArrowRight className="ml-1 w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="text-xs rounded-full h-8 font-light"
+                            onClick={() => navigate(`/booking?kategori=${categoryId}`)}
+                          >
+                            <Calendar className="mr-1 w-3 h-3" />
+                            Bestill time
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))}
