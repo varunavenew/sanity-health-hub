@@ -874,18 +874,36 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/osteopati": {
     title: "Osteopati",
-    subtitle: "Helhetlig behandling av muskel- og skjelettplager.",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre osteopater tilbyr helhetlig undersøkelse og behandling av muskel- og skjelettplager. Osteopati fokuserer på kroppens evne til selvhelbredelse gjennom manuelle teknikker.\n\nVi har spesialkompetanse på bekkenbunnsplager og underlivsrelaterte smerter i samarbeid med gynekologisk avdeling.",
-    benefits: [
-      "Spesialkompetanse på bekkenbunnsplager",
-      "Helhetlig tilnærming til smertebehandling",
-      "Samarbeid med gynekologer og fysioterapeuter",
-      "Individuelt tilpasset behandlingsplan",
+    description: "Osteopati er en manuell behandlingsform som betyr at hendene er osteopatens viktigste verktøy for diagnostisering og behandling. Osteopati komplementerer medisinsk utredning og behandling.\n\nOsteopatene er autorisert helsepersonell og følger lov for helsepersonell.",
+    sections: [
+      {
+        id: "kvinnehelse",
+        heading: "Kvinnehelse",
+        content: "På det tverrfaglige behandlingsteamet hos oss har osteopaten en naturlig plass i behandlingsplanen innenfor vulvasmerter, bekkenbunnsdysfunksjon, smerter og nedsatt funksjon i muskelskjelettsystemet, i oppfølging av gravide kvinner og kvinner etter fødsel.\n\nI tillegg vil osteopatisk behandling kunne ha gunstig effekt ved smerter relatert til endometriose/adenomyose og stress.",
+      },
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Manuell behandling, fysisk aktivitet og håndtering av en stressende hverdag er noe av det vanligste osteopater jobber med. Osteopater benytter seg av et bredt spekter av manuelle behandlingsteknikker i hele kroppen. Teknikkene kan oppleves både lette og mer kraftfulle men det er viktig at behandlingene tilpasses deg og der du befinner deg i syklus, dagsform og i livet.",
+      },
+      {
+        id: "tverrfaglig",
+        heading: "Tverrfaglig",
+        content: "Det unike på CMedical er at osteopatene jobber tett i tverrfaglig team med gynekolog og urolog om ulike gynekologiske og urologiske problemstillinger.\n\nVi holder tett dialog og skreddersyr din behandling.\n\nVi vurderer bekkenbunnsfunksjon som en del av oppfølgingen av kvinnen etter fødsel, mannen før / etter prostataoperasjon eller ved inkontinens, fremfall eller smerteproblematikk.",
+      },
+      {
+        id: "mal-med-behandling",
+        heading: "Mål med behandling",
+        content: "Osteopaten er opptatt av å finne hva som er viktig for deg, og hvordan dere sammen kan skape en trygg arena der du kan bruke kroppen din på en god måte. Å skape en trygg arena for tillitsfull kommunikasjon og behandling er nødvendig for et godt resultat av behandlingen. Det er alltid et hovedmål ved hvert pasientmøte.",
+      },
     ],
     faqs: [
-      { question: "Hva er forskjellen på osteopat og fysioterapeut?", answer: "Osteopater fokuserer på hele kroppens balanse og bruker manuelle teknikker. Fysioterapeuter fokuserer ofte mer på spesifikke skader og trening." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "flere-fagomrader/plastikkirurgi": {
