@@ -682,26 +682,33 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/prostata": {
     title: "Prostata",
-    subtitle: "Prostataundersøkelse, PSA-test og robotassistert kirurgi.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Prostataproblemer er svært vanlige hos menn over 50 år. Vi tilbyr rask og grundig utredning av alle prostatatilstander, fra godartet forstørrelse til prostatakreft.\n\nCMedical er den eneste private klinikken i Norge som tilbyr robotassistert prostatakirurgi (RALP), med resultater på linje med de beste sykehusene.",
-    benefits: [
-      "Rask prostataundersøkelse med PSA og ultralyd",
-      "MR-fusjonsbiopsier for presise prøver",
-      "Robotassistert prostatakirurgi (RALP)",
-      "Robotassistert behandling av godartet forstørrelse (RASP)",
-      "Erfarne urologer med høyt operasjonsvolum",
+    description: "Prostata er en liten kjertel som ligger under urinblæren. Den produserer væske som blandes med sperm for å danne sæd, og er med på å transportere og beskytte spermcellene under ejakulasjon. Regelmessig kontroll er viktig for å oppdage og behandle eventuelle problemer knyttet til prostata tidlig.\n\nProstata vokser når du blir eldre, og er du i 50–60 årene oppfordrer vi deg til å sjekke prostata jevnlig. Våre spesialister anbefaler én prostatakontroll og en årlig blodprøve for å overvåke utviklingen over tid.",
+    sections: [
+      {
+        id: "prostataundersokelse",
+        heading: "Hvordan foregår en prostataundersøkelse?",
+        content: "En prostataundersøkelse består av PSA-blodprøve og ultralyd av prostata. Det er også nødvendig å kjenne på prostata gjennom endetarmen. Denne undersøkelsen kalles også for rektal prostataeksaminasjon (DRE). Legen eller urologen kjenner etter følgende:\n\n- Knudrete prostatakjertel\n- Asymmetri\n- Uregelmessigheter i prostatakjertel\n\nDet er mulig å få gjennomført prostataundersøkelser hos fastlegen. Stadig flere menn velger imidlertid å oppsøke privat urolog direkte for å sjekke prostata og stille spørsmål rundt prostatakreft.",
+      },
+      {
+        id: "naar-sjekke",
+        heading: "Når skal man begynne å sjekke prostata?",
+        content: "«Jeg anbefaler alle menn i 50-årsalderen å ta en PSA-test hvert år. Menn under 50 år som tilhører en risikogruppe bør også sjekke prostata jevnlig», oppfordrer Dr. Jørgensen.\n\nMed risikogrupper menes menn som har ett eller flere tilfeller av prostatakreft i familien. Risikogrupper inkluderer også menn som har kvinnelige slektninger med tilfeller av brystkreft eller eggstokkreft i ung alder.\n\nDet er 12,5 % sannsynlighet for at en mann får diagnosen prostatakreft frem til han er 75 år, med andre ord vil mer enn 1 av 10 menn få diagnosen før eller siden i sitt voksne liv.",
+      },
+      {
+        id: "robotkirurgi",
+        heading: "Robotkirurgi",
+        content: "Robotassistert laparoskopisk prostatektomi (RALP), det vil si kirurgisk fjerning av prostata med kikkhullsoperasjon, er et av våre spesialområder. Som eneste private helsespesialist siden 2018 tilbyr vi kort ventetid på ledende robotkirurger og eksperter innen prostata og urologi.\n\nVi har Norges mest erfarne team innen robotkirurgi, med over 20 års erfaring, og det største volumet av robotassisterte inngrep i landet. Vårt team består av svært erfarne kirurger, leger, anestesipersonell og sykepleiere, noe som sikrer en stille og rolig atmosfære i alle ledd.\n\nVi behandler både prostatakreft og godartede prostataforstørrelser, og har det mest moderne utstyret tilgjengelig i Norge.",
+      },
     ],
-    process: [
-      { title: "Konsultasjon", description: "Grundig samtale, PSA-blodprøve og rektal undersøkelse." },
-      { title: "Utredning", description: "MR av prostata og eventuelt biopsier for å avklare diagnosen." },
-      { title: "Behandlingsplan", description: "Individuell plan basert på funn og dine preferanser." },
-      { title: "Behandling", description: "Medisinsk eller kirurgisk behandling, inkludert robotkirurgi." },
-    ],
+    relatedSpecialists: ["trond-jorgensen"],
     faqs: [
-      { question: "Når bør jeg sjekke prostata?", answer: "Menn over 50 år, eller 45 år ved familiær disposisjon, bør vurdere regelmessig PSA-kontroll." },
-      { question: "Hva er robotkirurgi for prostata?", answer: "RALP er en minimal invasiv operasjon med robot som gir bedre presisjon, mindre blødning og raskere rekonvalesens." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/refertilisering": {
