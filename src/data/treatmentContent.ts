@@ -10,12 +10,19 @@ import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 
+export interface ContentSection {
+  id?: string; // anchor id for scroll-to
+  heading: string;
+  content: string; // supports \n for paragraphs, **bold**, _italic_, - list items
+}
+
 export interface TreatmentData {
   title: string;
   subtitle: string;
   parentCategory: string;
   heroImage: string;
   description: string;
+  sections?: ContentSection[];
   benefits?: string[];
   benefitsTitle?: string;
   process?: { title: string; description: string }[];
