@@ -155,7 +155,7 @@ export const HeroSectionSplit = () => {
         <div className="absolute bottom-0 left-0 right-0 p-8 lg:hidden bg-gradient-to-t from-brand-dark/80 to-transparent">
           <h1 className="text-3xl md:text-4xl font-medium text-white leading-tight">
             Nordens ledende klinikk for{" "}
-            <span className="text-accent">livet og underlivet</span>
+            <span className="text-white/80 italic">livet og underlivet</span>
           </h1>
         </div>
       </div>
