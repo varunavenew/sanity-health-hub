@@ -469,19 +469,23 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/labiaplastikk": {
     title: "Labiaplastikk",
-    subtitle: "Kirurgisk korreksjon av indre kjønnslepper.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Labiaplastikk er et inngrep for å redusere størrelsen på de indre kjønnsleppene. Mange oppsøker behandling på grunn av fysisk ubehag ved trening, sykkeltur eller i trange klær.\n\nInngrepet utføres av erfarne gynekologiske kirurger og gir et naturlig resultat med kort rekonvalesens.",
-    benefits: [
-      "Erfarne kirurger med fokus på naturlig resultat",
-      "Dagkirurgisk inngrep – reise hjem samme dag",
-      "Kort rekonvalesenstid",
-      "Diskret og profesjonell behandling",
+    description: "Det er normalt med ulik størrelse og utseende på kjønnslepper. Noen ganger gir store kjønnslepper smerter ved fysisk aktivitet som sykling, ridning, eller er i veien ved samleie. Da kan kirurgisk reduksjon av kjønnsleppene være løsningen.",
+    sections: [
+      {
+        id: "labiaplastikk",
+        heading: "Hva er labiaplastikk?",
+        content: "Labiaplastikk er en kirurgisk prosedyre som reduserer størrelsen på labia minora, de indre kjønnsleppene.\n\n**Teknisk prosedyre**\n\nInngrepet gjennomføres i narkose og tar ca. 20 min. Det utføres ved hjelp av fine kirurgiske teknikker med skalpell og lett diatermi. Suturer skal ikke fjernes i etterkant, de løses opp av seg selv. Forhåndsregler etter operasjon får du nøye instrukser om under utredningen og på operasjonsdagen.\n\n**Risiko og bivirkninger**\n\nRisikoene inkluderer blødning, infeksjon, arrdannelse og følelsesløshet. Det er viktig å velge en erfaren kirurg for å minimere disse risikoene.\n\n**Gjenopptakelse og resultater**\n\nGjenopptakelsen tar vanligvis noen uker, og fullstendig heling kan ta flere måneder. De fleste pasienter opplever forbedret komfort og økt selvtillit etter prosedyren.",
+      },
     ],
     faqs: [
-      { question: "Er labiaplastikk smertefullt?", answer: "Inngrepet utføres i narkose eller lokalbedøvelse. Etter inngrepet kan du oppleve noe hevelse og ubehag i 1-2 uker." },
-      { question: "Hvor lang er rekonvalesensen?", answer: "Du kan vanligvis være tilbake i jobb etter noen dager. Full rekonvalesens tar 4-6 uker." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/robotkirurgi": {
