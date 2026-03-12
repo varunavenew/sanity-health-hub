@@ -191,10 +191,10 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
 
             {/* ── Content Sections ── */}
             {treatment.sections && treatment.sections.length > 0 && (
-              <div className="mb-14 space-y-12">
+              <div className="mb-14 space-y-10">
                 {treatment.sections.map((section, i) => (
                   <div key={i} id={section.id || `section-${i}`} className="scroll-mt-24">
-                    <h2 className="text-xl md:text-2xl font-medium text-foreground mb-5 pb-3 border-b border-border/50">
+                    <h2 className="text-xl md:text-2xl font-normal text-foreground mb-4 pb-3 border-b border-border">
                       {section.heading}
                     </h2>
                     <div className="space-y-3">
@@ -206,7 +206,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                             <div key={j} className="flex items-start gap-3 pl-1">
                               <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
                               <p
-                                className="text-foreground/80 font-light leading-relaxed"
+                                className="text-foreground/80 font-light leading-[1.8]"
                                 dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }}
                               />
                             </div>
