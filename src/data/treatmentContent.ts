@@ -406,19 +406,29 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/hormonforstyrrelser": {
     title: "Hormonforstyrrelser",
-    subtitle: "Utredning og behandling av PCOS og andre hormonelle tilstander.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Hormonforstyrrelser som PCOS (polycystisk ovariesyndrom) kan gi symptomer som uregelmessige menstruasjoner, akne, økt hårvekst og vanskeligheter med å bli gravid.\n\nVåre gynekologer og endokrinologer samarbeider for å gi deg den beste utredningen og behandlingen.",
-    benefits: [
-      "Grundig hormonutredning med blodprøver",
-      "Individuelt tilpasset behandling",
-      "Tverrfaglig tilnærming med ernæringsfysiolog",
-      "Fertilitetsrådgivning ved barneønske",
+    description: "Hormonforstyrrelser refererer til unormale nivåer av hormoner i kroppen, enten det er for mye, for lite eller ujevn produksjon av visse hormoner. Les mer under om ulike sykdommer.",
+    sections: [
+      {
+        id: "pcos",
+        heading: "PCOS",
+        content: "Polycystisk ovariesyndrom (PCOS) kjennetegnes ved at kjønnshormonene er i ubalanse. Dette kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PCOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPCOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. I dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur mot PCOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
+      },
+      {
+        id: "pms-pmdd",
+        heading: "PMS og PMDD",
+        content: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75 % av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse) rammer 3-8 %.\n\nDe vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene.\n\nÅrsaken er relatert til svingende hormoner. Det er mulig å få god hjelp – du skal slippe å lide hver måned.\n\nFor spørsmål ta kontakt med oss eller bestill time.",
+      },
     ],
+    relatedSpecialists: ["birgitte-mitlid-mork", "birgitte-aspenes", "siri-klokstad"],
     faqs: [
-      { question: "Hva er PCOS?", answer: "PCOS er en hormonforstyrrelse som rammer ca. 10% av kvinner i fruktbar alder. Tilstanden kan gi uregelmessige menstruasjoner, akne og infertilitet." },
-      { question: "Kan PCOS behandles?", answer: "Ja, symptomene kan behandles effektivt med livsstilsendringer, medisiner og fertilitetsbehandling ved barneønske." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/hysteroskopi": {
