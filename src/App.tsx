@@ -85,6 +85,8 @@ const AppContent = () => {
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
         <Route path="/tverrfaglige-team" element={<TverrfagligePage isChatOpen={false} />} />
         <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
+        {/* Fastlegeveiledning */}
+        <Route path="/fastlegeveiledning-overgangsalder" element={<FastlegeveiledningOvergangsalder isChatOpen={false} />} />
         {/* Aktuelt / News */}
         <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
         <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
