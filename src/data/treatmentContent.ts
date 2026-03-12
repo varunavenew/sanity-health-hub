@@ -97,9 +97,10 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { title: "Vurdering og plan", description: "Din gynekolog gjennomgår funnene med deg og lager en eventuell videre plan." },
     ],
     faqs: [
-      { question: "Hva koster en gynekologisk undersøkelse?", answer: "En standard gynekologisk undersøkelse koster fra kr 2 100. Se vår prisliste for fullstendig oversikt." },
+      { question: "Hva koster en gynekologisk undersøkelse?", answer: "En standard gynekologisk undersøkelse koster fra 2100,-. Se vår prisliste for fullstendig oversikt." },
       { question: "Hvor lang tid tar undersøkelsen?", answer: "En vanlig undersøkelse tar 30-45 minutter, inkludert samtale." },
-      { question: "Trenger jeg henvisning?", answer: "Nei, du trenger ikke henvisning for å bestille time hos oss." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
   "gynekologi/urinlekkasje": {
