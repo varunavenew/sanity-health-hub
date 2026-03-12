@@ -23,6 +23,7 @@ import TverrfagligePage from "./pages/themes/TverrfagligePage";
 import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
 import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
+import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergangsalder";
 
 const queryClient = new QueryClient();
 
