@@ -240,19 +240,33 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/celleforandringer": {
     title: "Celleforandringer",
-    subtitle: "Oppfølging av HPV og celleforandringer, inkludert konisering.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Celleforandringer på livmorhalsen oppdages vanligvis gjennom celleprøve og er som regel forårsaket av HPV-virus. De fleste celleforandringer går tilbake av seg selv, men noen krever behandling.\n\nVi tilbyr grundig utredning, oppfølging og behandling ved behov, inkludert konisering.",
-    benefits: [
-      "Erfaren oppfølging av HPV og celleforandringer",
-      "Kolposkopi for detaljert undersøkelse",
-      "Konisering utført av erfarne spesialister",
-      "Tett oppfølgingsprogram etter behandling",
+    description: "Celleforandringer er forstadier til kreft og kalles dysplasier. Det finnes flere stadier i økende alvorlighetsgrad. Hvorvidt celleforandringene skal behandles avhenger av hvor alvorlige de er og hvilken type HPV du har.",
+    sections: [
+      {
+        id: "hpv",
+        heading: "HPV og celleforandring",
+        content: "Over 25.000 kvinner får hvert år konstatert unormale celler ved undersøkelse av livmorhalsen. Av disse behandles cirka 3000 kvinner for celleforandringer. Samtidig får cirka 300 kvinner livmorhalskreft i året.\n\nUtviklingen av livmorhalskreft tar flere år.\n\nScreening med HPV-test hvert femte år redder liv. Hvis du har fått påvist og/eller er behandlet for HPV eller celleforandringer, følges du opp tettere. Ønsker du å ta en celleprøve eller snakke med en av våre gynekologer kan du alltid kontakte oss eller bestille time.",
+      },
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Lavgradige celleforandringer i livmorhalsen går ofte tilbake av seg selv. De behandles kun hvis de vedvarer. Ved lavgradige celleforandringer anbefales det å ta en ny celleprøve om 12 måneder.\n\nHøygradige celleforandringer behandles individuelt. Her henvises man først til gynekolog som utfører kolposkopi. Det er en vanlig undersøkelse der gynekologen studerer livmorhalsen ved hjelp av et mikroskop. Samtidig tas det også en vevsprøve (biopsi) fra både livmorhalskanalen og livmortappen for å nærmere studere funnene fra celleprøven.\n\nDersom man trenger behandling gjøres det med et lite kirurgisk inngrep som kalles konisering.",
+      },
+      {
+        id: "konisering",
+        heading: "Konisering",
+        content: "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft.\n\nHos vår klinikk på Bekkestua tilbyr vi konisering i lokalbedøvelse. Inngrepet tar vanligvis rundt 15 minutter, og du blir godt ivaretatt i rolige og trygge omgivelser.\n\nVi vet at dette kan oppleves som en sårbar situasjon, derfor legger vi stor vekt på å møte deg med trygghet og omsorg gjennom hele prosessen. Inngrepet blir utført i narkose om du er veldig engstelig.",
+      },
     ],
     faqs: [
-      { question: "Hva er HPV?", answer: "HPV (humant papillomavirus) er svært vanlig og de fleste kvinner vil bli smittet i løpet av livet. De fleste blir kvitt viruset av seg selv." },
-      { question: "Hva er konisering?", answer: "Konisering er et lite inngrep der man fjerner et kjegleformet stykke vev fra livmorhalsen. Inngrepet gjøres i narkose og tar ca. 20 minutter." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/cyster": {
