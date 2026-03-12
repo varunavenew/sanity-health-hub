@@ -223,12 +223,19 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       {/* Articles */}
       <section className="bg-background py-10 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
-          {/* Pinned / Featured */}
+          {/* Featured hero layout */}
           {pinnedArticles.length > 0 && (
-            <div className="grid md:grid-cols-2 gap-6 mb-16">
-              {pinnedArticles.map((article) => (
-                <ArticleCard key={article.slug} article={article} size="large" />
-              ))}
+            <div className="mb-16 space-y-4">
+              {pinnedArticles[0] && (
+                <FeaturedHero article={pinnedArticles[0]} />
+              )}
+              {pinnedArticles.length > 1 && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  {pinnedArticles.slice(1).map((article) => (
+                    <FeaturedSide key={article.slug} article={article} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
