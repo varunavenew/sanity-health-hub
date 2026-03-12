@@ -956,19 +956,43 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/eggfrys": {
     title: "Eggfrys",
-    subtitle: "Frys ned eggene dine for fremtiden.",
+    subtitle: "Uten henvisning • Ingen ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Eggfrysing gir deg muligheten til å bevare fertiliteten for fremtiden. Prosessen ligner IVF-behandling og innebærer hormonstimulering, egguthenting og kryopreservering av eggene.\n\nJo yngre du er når eggene fryses, desto bedre kvalitet har de. Vi anbefaler eggfrysing før 35 år for best resultat.",
-    benefits: [
-      "Bevarer fertiliteten for fremtiden",
-      "Moderne vitrifikasjonsteknologi for høy overlevelsesrate",
-      "Trygg lagring i vårt kryolager",
-      "Fleksibilitet til å planlegge familieutvidelse",
+    description: "Om du ønsker å vente med en eventuell graviditet, vil kanskje det å fryse ned egg være riktig for deg. På denne måten kan fremtidige deg, selv om fruktbarheten er redusert eller borte, kunne bli gravid. Ved nedfrysning av egg henter vi ut flere modne egg som legges på frys ubefruktet.\n\nEtter opptining vil egget befruktes med donorsæd, eller sæd fra partner, før det settes tilbake i livmoren. Denne prosedyren kalles for IVF, også populært kalt prøverørsbehandling.",
+    sections: [
+      {
+        id: "hvem-kan-fryse",
+        heading: "Hvem kan fryse ned egg?",
+        content: "Alle kvinner kan i utgangspunktet fryse ned egg. De vanligste årsakene er forholdet til partner, økonomi, utdanning og jobbsituasjon. I juli 2020 ble det også tillatt å fryse ned egne egg for eget bruk. Å fryse ned egg på denne måten kalles for «social freezing».\n\nDersom du vet at du har en genetisk tilstand som reduserer eggstokkreservene, eller om du er plaget med endometriose, anbefaler vi at du benytter muligheten for å fryse ned egg.",
+      },
+      {
+        id: "aldersgrense",
+        heading: "Hva er aldersgrensen for nedfrysning av egg?",
+        content: "Studier viser at eggstokkreservene reduseres etter fylte 30 år, både når det gjelder kvalitet og antall. Dette i kombinasjon med at vi vet at fertiliteten reduseres etter fylte 35 år, anbefaler vi at du ikke er eldre enn 36 år når du fryser ned eggene. Det er store variasjoner oss kvinner imellom, så vi gjør individuelle vurderinger hos dere som er mellom 35–38 år.",
+      },
+      {
+        id: "slik-foregaar",
+        heading: "Slik foregår nedfrysning av egg",
+        content: "En syklus med uttak og nedfrysning av egg er svært lik de første trinnene i en IVF-behandling. I hovedtrekk kan vi dele nedfrysning av egg inn i åtte ulike faser:\n\n1. Hormonstimulering ved hjelp av hormonsprøyter\n2. Sjekk av follikler for å sikre ønsket vekst\n3. Eggløsningssprøyte ca. en og en halv dag før uttaket\n4. Uttaket skjer gjennom skjeden etter lokalbedøvelse og smertestillende\n5. Laboratoriet sjekker kvaliteten på eggene, og godkjente egg fryses ned\n6. De aller fleste kan dra tilbake på jobb etter en dag eller to\n7. Eggene kan oppbevares og benyttes inntil du fyller 46 år\n8. Ved opptining befruktes eggene før de dyrkes videre i 2–5 dager, for så å settes tilbake i livmoren",
+      },
+      {
+        id: "hvor-mange-egg",
+        heading: "Hvor mange egg kan jeg få på frys?",
+        content: "Fordi det ikke finnes noen garanti for at modne egg kan befruktes og dele seg slik vi ønsker, anbefaler vi at du fryser ned minimum 20 egg. Da har du best mulig odds for en graviditet.\n\nAntall modne egg ved hver behandling varierer, og det er derfor variasjoner i hvor mange behandlinger hver enkelt bør gjennomføre. De fleste må regne med to til tre omganger med stimulering og uttak.",
+      },
+      {
+        id: "risiko",
+        heading: "Hva er risiko ved nedfrysning av egg?",
+        content: "Som ved all medisinsk behandling vil det alltid være en viss risiko knyttet til behandlingen.\n\n- **Overstimulering:** I noen tilfeller kan bruk av fertilitetsmedisin føre til at eggstokkene hovner opp. Du vil da kunne oppleve smerter og stinn mage under hormonbehandlingen eller etter uttaket.\n- **Komplikasjoner ved egguttak:** Alvorlige komplikasjoner skjer svært sjelden, men det kan forekomme blødninger, infeksjon i bekkenet eller skader på tarm.\n- **Emosjonell reaksjon:** Å bestemme seg for å fryse ned egg kan oppleves som en trygghet. Det er viktig at nedfrysning ikke gir noen garanti for graviditet, men at mulighetene er større enn dersom man velger det bort.",
+      },
     ],
+    relatedSpecialists: ["kristian-ophaug"],
     faqs: [
-      { question: "Hvor lenge kan egg lagres?", answer: "Egg kan lagres frosne i mange år uten vesentlig tap av kvalitet." },
-      { question: "Hva koster eggfrysing?", answer: "Ta kontakt med oss for en uforpliktende pris-samtale. Prisen inkluderer stimulering, uthenting og lagring." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "fertilitet/donorbehandling": {
