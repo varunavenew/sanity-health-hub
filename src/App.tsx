@@ -22,6 +22,7 @@ import KvinnehelsePage from "./pages/themes/KvinnehelsePage";
 import TverrfagligePage from "./pages/themes/TverrfagligePage";
 import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
 import Aktuelt from "./pages/Aktuelt";
+import ArticlePage from "./pages/ArticlePage";
 
 const queryClient = new QueryClient();
 
@@ -85,6 +86,7 @@ const AppContent = () => {
         <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
         {/* Aktuelt / News */}
         <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
+        <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
         {/* Specialist routes */}
         <Route path="/spesialister" element={<Specialists isChatOpen={false} />} />
         <Route path="/spesialister/:slug" element={<SpecialistProfile isChatOpen={false} />} />
