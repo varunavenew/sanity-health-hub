@@ -34,6 +34,7 @@ export interface TreatmentData {
   process?: { title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
   linkedServices?: LinkedService[];
+  relatedSpecialists?: string[]; // slugs referencing specialists
 }
 
 // Key: "categoryId/subId" matching the route /behandlinger/:categoryId/:subId
