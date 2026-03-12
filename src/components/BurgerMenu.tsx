@@ -99,13 +99,13 @@ const BurgerMenu = () => {
                       <Phone className="h-4 w-4" />
                       22 00 12 34
                     </a>
-                    <a 
-                      href="mailto:post@cmedical.no" 
+                    <button 
+                      onClick={() => handleNavigate('/kontakt')}
                       className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Mail className="h-4 w-4" />
-                      post@cmedical.no
-                    </a>
+                      Kontaktskjema
+                    </button>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <MapPin className="h-4 w-4" />
                       Oslo, Bergen, Trondheim
@@ -178,13 +178,13 @@ const BurgerMenu = () => {
                       <Phone className="h-5 w-5" />
                       22 00 12 34
                     </a>
-                    <a 
-                      href="mailto:post@cmedical.no" 
+                    <button 
+                      onClick={() => handleNavigate('/kontakt')}
                       className="flex items-center gap-3 text-base text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Mail className="h-5 w-5" />
-                      post@cmedical.no
-                    </a>
+                      Kontaktskjema
+                    </button>
                     <div className="flex items-center gap-3 text-base text-foreground/70">
                       <MapPin className="h-5 w-5" />
                       Oslo, Bergen, Trondheim

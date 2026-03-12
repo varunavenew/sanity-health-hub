@@ -40,58 +40,58 @@ const priceCategories: PriceCategory[] = [
         label: 'Generell gynekologi',
         path: '/behandlinger/gynekologi/undersokelse',
         items: [
-          { name: "Gynekologisk undersøkelse", price: "kr 2100,-", duration: "30 min" },
-          { name: "Kontroll / oppfølging", price: "kr 2100,-", duration: "30 min" },
-          { name: "Digitaltime Gynekolog", price: "kr 2100,-", duration: "20 min" },
+          { name: "Gynekologisk undersøkelse", price: "2100,-", duration: "30 min" },
+          { name: "Kontroll / oppfølging", price: "2100,-", duration: "30 min" },
+          { name: "Digitaltime Gynekolog", price: "2100,-", duration: "20 min" },
         ]
       },
       {
         label: 'Hormoner og overgangsalder',
         path: '/behandlinger/gynekologi/overgangsalder',
         items: [
-          { name: "Overgangsalder", price: "kr 3200,-", duration: "45 min" },
-          { name: "PCOS / Hormonforstyrrelser", price: "kr 3200,-", duration: "45 min" },
-          { name: "Premenstruelle plager (PMS / PMDD)", price: "kr 3200,-", duration: "45 min" },
+          { name: "Overgangsalder", price: "3200,-", duration: "45 min" },
+          { name: "PCOS / Hormonforstyrrelser", price: "3200,-", duration: "45 min" },
+          { name: "Premenstruelle plager (PMS / PMDD)", price: "3200,-", duration: "45 min" },
         ]
       },
       {
         label: 'Endometriose og smerter',
         path: '/behandlinger/gynekologi/endometriose',
         items: [
-          { name: "Endometriose / adenomyose", price: "kr 3200,-", duration: "45 min" },
-          { name: "Smerter i underlivet / Vulvodyni / Vaginisme", price: "kr 3200,-", duration: "45 min" },
+          { name: "Endometriose / adenomyose", price: "3200,-", duration: "45 min" },
+          { name: "Smerter i underlivet / Vulvodyni / Vaginisme", price: "3200,-", duration: "45 min" },
         ]
       },
       {
         label: 'Blødningsforstyrrelser',
         path: '/behandlinger/gynekologi/blodningsfortyrrelser',
         items: [
-          { name: "Blødningsforstyrrelser / muskelknuter / polypper", price: "kr 3200,-", duration: "45 min" },
+          { name: "Blødningsforstyrrelser / muskelknuter / polypper", price: "3200,-", duration: "45 min" },
         ]
       },
       {
         label: 'Urinlekkasje og fremfall',
         path: '/behandlinger/gynekologi/urinlekkasje',
         items: [
-          { name: "Urinlekkasje", price: "kr 2100,-", duration: "30 min" },
-          { name: "Fremfall / tyngdefølelse underliv", price: "kr 2100,-", duration: "30 min" },
+          { name: "Urinlekkasje", price: "2100,-", duration: "30 min" },
+          { name: "Fremfall / tyngdefølelse underliv", price: "2100,-", duration: "30 min" },
         ]
       },
       {
         label: 'Graviditet og fødsel',
         path: '/behandlinger/gynekologi/graviditet',
         items: [
-          { name: "Svangerskapskontroll", price: "kr 2100,-", duration: "30 min" },
-          { name: "Tidlig ultralyd enkel", price: "kr 2100,-", duration: "30 min" },
-          { name: "Kontroll etter fødsel", price: "kr 2100,-", duration: "30 min" },
-          { name: "Ammehjelp ved brystbetennelse", price: "kr 3200,-", duration: "45 min" },
+          { name: "Svangerskapskontroll", price: "2100,-", duration: "30 min" },
+          { name: "Tidlig ultralyd enkel", price: "2100,-", duration: "30 min" },
+          { name: "Kontroll etter fødsel", price: "2100,-", duration: "30 min" },
+          { name: "Ammehjelp ved brystbetennelse", price: "3200,-", duration: "45 min" },
         ]
       },
       {
         label: 'Hudlidelser vulva',
         path: '/behandlinger/gynekologi/vulvalidelser',
         items: [
-          { name: "Hudlidelser vulva", price: "kr 2100,-", duration: "30 min" },
+          { name: "Hudlidelser vulva", price: "2100,-", duration: "30 min" },
         ]
       },
     ]
@@ -105,23 +105,23 @@ const priceCategories: PriceCategory[] = [
         label: 'Prostata',
         path: '/behandlinger/urologi/prostata',
         items: [
-          { name: "Prostataundersøkelse", price: "kr 1900,-", duration: "30 min" },
-          { name: "Uforpliktende telefonsamtale om prostata", price: "kr 0,-", duration: "15 min" },
+          { name: "Prostataundersøkelse", price: "1900,-", duration: "30 min" },
+          { name: "Uforpliktende telefonsamtale om prostata", price: "0,-", duration: "15 min" },
         ]
       },
       {
         label: 'Blære og urinveier',
         path: '/behandlinger/urologi/blaere-og-urinveier',
         items: [
-          { name: "Konsultasjon urolog", price: "kr 1900,-", duration: "30 min" },
-          { name: "Blod i urin, cystoskopi", price: "kr 2650,-", duration: "30 min" },
+          { name: "Konsultasjon urolog", price: "1900,-", duration: "30 min" },
+          { name: "Blod i urin, cystoskopi", price: "2650,-", duration: "30 min" },
         ]
       },
       {
         label: 'Sterilisering',
         path: '/behandlinger/urologi/sterilisering',
         items: [
-          { name: "Sterilisering Mann", price: "kr 6500,-", duration: "30 min" },
+          { name: "Sterilisering Mann", price: "6500,-", duration: "30 min" },
         ]
       },
     ]
@@ -135,36 +135,36 @@ const priceCategories: PriceCategory[] = [
         label: 'Utredning',
         path: '/behandlinger/fertilitet/fertilitet-infertilitet',
         items: [
-          { name: "Fertilitetsutredning enkeltperson/single", price: "kr 2850,-", duration: "1 time" },
-          { name: "Fertilitetsutredning par", price: "kr 2850,-", duration: "1 time" },
-          { name: "Uforpliktende telefonsamtale med sykepleier", price: "kr 0,-", duration: "20 min" },
+          { name: "Fertilitetsutredning enkeltperson/single", price: "2850,-", duration: "1 time" },
+          { name: "Fertilitetsutredning par", price: "2850,-", duration: "1 time" },
+          { name: "Uforpliktende telefonsamtale med sykepleier", price: "0,-", duration: "20 min" },
         ]
       },
       {
         label: 'Sædanalyse',
         path: '/behandlinger/fertilitet/saedanalyse',
         items: [
-          { name: "Enkel sædanalyse", price: "kr 1950,-", duration: "30 min" },
-          { name: "Infertilitet Mann (inkl. sædprøve)", price: "kr 2850,-", duration: "45 min" },
+          { name: "Enkel sædanalyse", price: "1950,-", duration: "30 min" },
+          { name: "Infertilitet Mann (inkl. sædprøve)", price: "2850,-", duration: "45 min" },
         ]
       },
       {
         label: 'Oppfølging',
         path: '/behandlinger/fertilitet/oppfolging',
         items: [
-          { name: "Telefonkonsultasjon fertilitet", price: "kr 2850,-", duration: "45 min" },
-          { name: "Samtaleterapi under fertilitetsbehandling", price: "kr 1000,-", duration: "1 time" },
+          { name: "Telefonkonsultasjon fertilitet", price: "2850,-", duration: "45 min" },
+          { name: "Samtaleterapi under fertilitetsbehandling", price: "1000,-", duration: "1 time" },
         ]
       },
       {
         label: 'Fosterdiagnostikk',
         path: '/behandlinger/gynekologi/graviditet',
         items: [
-          { name: "Tidlig ultralyd", price: "kr 2100,-", duration: "30 min" },
-          { name: "Organrettet ultralyd", price: "kr 2100,-", duration: "30 min" },
-          { name: "Tidlig ultralyd + NIPT-test", price: "kr 8990,-", duration: "30 min" },
-          { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "kr 9950,-", duration: "30 min" },
-          { name: "Svangerskapskontroll", price: "kr 2100,-", duration: "30 min" },
+          { name: "Tidlig ultralyd", price: "2100,-", duration: "30 min" },
+          { name: "Organrettet ultralyd", price: "2100,-", duration: "30 min" },
+          { name: "Tidlig ultralyd + NIPT-test", price: "8990,-", duration: "30 min" },
+          { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950,-", duration: "30 min" },
+          { name: "Svangerskapskontroll", price: "2100,-", duration: "30 min" },
         ]
       },
     ]
@@ -178,99 +178,140 @@ const priceCategories: PriceCategory[] = [
         label: 'Konsultasjoner',
         path: '/behandlinger/ortopedi/konsultasjon',
         items: [
-          { name: "Konsultasjon ortoped skulder", price: "kr 1800,-", duration: "30 min" },
-          { name: "Konsultasjon ortoped kne", price: "kr 1800,-", duration: "30 min" },
-          { name: "Konsultasjon ortoped hofte", price: "kr 1800,-", duration: "30 min" },
-          { name: "Konsultasjon ortoped fot/ankel", price: "kr 1800,-", duration: "30 min" },
-          { name: "Konsultasjon ortoped hånd", price: "kr 1800,-", duration: "30 min" },
-          { name: "Konsultasjon ortoped albue", price: "kr 1800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped skulder", price: "1800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped kne", price: "1800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped hofte", price: "1800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped fot/ankel", price: "1800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped hånd", price: "1800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped albue", price: "1800,-", duration: "30 min" },
         ]
       },
       {
         label: 'Håndterapi',
         path: '/behandlinger/ortopedi/hand-albue',
         items: [
-          { name: "Konsultasjon håndterapeut", price: "kr 1400,-", duration: "45 min" },
+          { name: "Konsultasjon håndterapeut", price: "1400,-", duration: "45 min" },
         ]
       },
       {
         label: 'Fysioterapi',
         path: '/behandlinger/ortopedi/fysioterapi',
         items: [
-          { name: "Oppfølgingstime Fysioterapeut / Osteopat 60 min", price: "kr 1800,-", duration: "1 time" },
-          { name: "Oppfølgingstime Fysioterapeut / Osteopat 30 min", price: "kr 950,-", duration: "30 min" },
+          { name: "Oppfølgingstime Fysioterapeut / Osteopat 60 min", price: "1800,-", duration: "1 time" },
+          { name: "Oppfølgingstime Fysioterapeut / Osteopat 30 min", price: "950,-", duration: "30 min" },
         ]
       },
     ]
   },
   {
-    id: 'flere',
-    label: 'Flere tjenester',
-    path: '/flere-fagomrader',
+    id: 'endokrinologi',
+    label: 'Endokrinologi',
+    path: '/behandlinger/flere-fagomrader/endokrinologi',
     subcategories: [
       {
         label: 'Endokrinologi',
         path: '/behandlinger/flere-fagomrader/endokrinologi',
         items: [
-          { name: "Endokrinolog 60 min konsultasjon", price: "kr 4500,-", duration: "1 time" },
-          { name: "Endokrinolog oppfølging/kontroll 30 min", price: "kr 2900,-", duration: "30 min" },
+          { name: "Endokrinolog 60 min konsultasjon", price: "4500,-", duration: "1 time" },
+          { name: "Endokrinolog oppfølging/kontroll 30 min", price: "2900,-", duration: "30 min" },
         ]
       },
+    ]
+  },
+  {
+    id: 'gastrokirurgi',
+    label: 'Gastrokirurgi',
+    path: '/behandlinger/flere-fagomrader/gastrokirurgi',
+    subcategories: [
       {
         label: 'Gastrokirurgi',
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
-          { name: "Digital konsultasjon fedme vurdering", price: "kr 0,-", duration: "45 min" },
-          { name: "Endetarmsplager", price: "kr 2100,-", duration: "30 min" },
-          { name: "Mage / tarm spesialist", price: "kr 2100,-", duration: "30 min" },
+          { name: "Digital konsultasjon fedme vurdering", price: "0,-", duration: "45 min" },
+          { name: "Endetarmsplager", price: "2100,-", duration: "30 min" },
+          { name: "Mage / tarm spesialist", price: "2100,-", duration: "30 min" },
         ]
       },
+    ]
+  },
+  {
+    id: 'psykologi',
+    label: 'Psykologi',
+    path: '/behandlinger/flere-fagomrader/psykologi',
+    subcategories: [
       {
         label: 'Psykologi',
         path: '/behandlinger/flere-fagomrader/psykologi',
         items: [
-          { name: "Psykolog 50 min", price: "kr 1900,-", duration: "1 time" },
-          { name: "Psykolog 50 min, digitaltime", price: "kr 1900,-", duration: "1 time" },
-          { name: "Psykolog 80 min", price: "kr 2500,-", duration: "1 time 30 min" },
-          { name: "Psykolog 80 min, digitaltime", price: "kr 2500,-", duration: "1 time 30 min" },
-          { name: "Psykolog partime 50 min", price: "kr 2300,-", duration: "1 time" },
-          { name: "Psykolog partime 80 min", price: "kr 2950,-", duration: "1 time 30 min" },
+          { name: "Psykolog 50 min", price: "1900,-", duration: "1 time" },
+          { name: "Psykolog 50 min, digitaltime", price: "1900,-", duration: "1 time" },
+          { name: "Psykolog 80 min", price: "2500,-", duration: "1 time 30 min" },
+          { name: "Psykolog 80 min, digitaltime", price: "2500,-", duration: "1 time 30 min" },
+          { name: "Psykolog partime 50 min", price: "2300,-", duration: "1 time" },
+          { name: "Psykolog partime 80 min", price: "2950,-", duration: "1 time 30 min" },
         ]
       },
+    ]
+  },
+  {
+    id: 'sexologi',
+    label: 'Sexologi',
+    path: '/behandlinger/flere-fagomrader/sexologi',
+    subcategories: [
       {
         label: 'Sexologi',
         path: '/behandlinger/flere-fagomrader/sexologi',
         items: [
-          { name: "Sexolog", price: "kr 1600,-", duration: "1 time" },
-          { name: "Sexolog for par", price: "kr 1600,-", duration: "1 time" },
+          { name: "Sexolog", price: "1600,-", duration: "1 time" },
+          { name: "Sexolog for par", price: "1600,-", duration: "1 time" },
         ]
       },
+    ]
+  },
+  {
+    id: 'revmatologi',
+    label: 'Revmatologi',
+    path: '/behandlinger/flere-fagomrader/revmatologi',
+    subcategories: [
       {
         label: 'Revmatologi',
         path: '/behandlinger/flere-fagomrader/revmatologi',
         items: [
-          { name: "Førstegangskonsultasjon revmatolog", price: "kr 3150,-", duration: "45 min" },
+          { name: "Førstegangskonsultasjon revmatolog", price: "3150,-", duration: "45 min" },
         ]
       },
+    ]
+  },
+  {
+    id: 'ernaering',
+    label: 'Ernæringsfysiolog',
+    path: '/behandlinger/flere-fagomrader/ernaeringsfysiolog',
+    subcategories: [
       {
         label: 'Ernæringsfysiolog',
         path: '/behandlinger/flere-fagomrader/ernaeringsfysiolog',
         items: [
-          { name: "Klinisk ernæringsfysiolog", price: "kr 1990,-", duration: "1 time" },
-          { name: "Klinisk ernæringsfysiolog oppfølging", price: "kr 1500,-", duration: "45 min" },
+          { name: "Klinisk ernæringsfysiolog", price: "1990,-", duration: "1 time" },
+          { name: "Klinisk ernæringsfysiolog oppfølging", price: "1500,-", duration: "45 min" },
         ]
       },
+    ]
+  },
+  {
+    id: 'aareknuter',
+    label: 'Åreknutebehandling',
+    path: '/behandlinger/flere-fagomrader/areknutebehandling',
+    subcategories: [
       {
         label: 'Åreknutebehandling',
         path: '/behandlinger/flere-fagomrader/areknutebehandling',
         items: [
-          { name: "Vurdering åreknuter", price: "kr 1800,-", duration: "30 min" },
+          { name: "Vurdering åreknuter", price: "1800,-", duration: "30 min" },
         ]
       },
     ]
   },
 ];
-
 const testimonials = [
   {
     id: 1,
@@ -320,7 +361,7 @@ const faqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>('gynekologi');
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
