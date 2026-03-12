@@ -204,7 +204,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                         if (trimmed.startsWith("- ")) {
                           return (
                             <div key={j} className="flex items-start gap-3 pl-1">
-                              <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
+                              <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
                               <p
                                 className="text-foreground/80 font-light leading-relaxed"
                                 dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }}
