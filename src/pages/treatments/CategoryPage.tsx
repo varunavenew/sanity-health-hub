@@ -547,7 +547,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       <LeadPopup />
-      {categoryId === "fertilitet" && <StickyBookingCTA />}
+      
     </PageLayout>
   );
 };
