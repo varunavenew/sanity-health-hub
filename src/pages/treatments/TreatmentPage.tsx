@@ -24,6 +24,7 @@ const specialistLabels: Record<string, string> = {
 const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const { subId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
   const treatmentKey = `${categoryId}/${subId}`;
   const staticTreatment = treatmentContent[treatmentKey];
