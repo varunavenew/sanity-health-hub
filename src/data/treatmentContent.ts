@@ -770,19 +770,28 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/sterilisering": {
     title: "Sterilisering",
-    subtitle: "Vasektomi – trygg og enkel sterilisering for menn.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Vasektomi er en rask og enkel prosedyre for permanent prevensjon. Inngrepet utføres poliklinisk og tar ca. 30 minutter.",
-    benefits: [
-      "Rask prosedyre – ca. 30 minutter",
-      "Lokalbedøvelse – ingen narkose nødvendig",
-      "Kort rekonvalesens – tilbake i jobb etter 1-2 dager",
-      "Svært høy sikkerhet som prevensjon",
+    description: "Sterilisering (vasektomi) er en enkel, trygg og effektiv behandling for permanent prevensjon. Hvis du er helt sikker på at du ikke ønsker flere barn i fremtiden, kan sterilisering være et alternativ.",
+    sections: [
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Sterilisering av menn foregår i lokalbedøvelse. Kirurgen legger et lite snitt på pungen, lokaliserer sædlederen som deretter hentes frem og deles. Det fjernes en bit av lederen og endene sys tett for å hindre at de gror sammen.\n\nSamme prosedyre gjentas på den andre sædlederen. Dersom det ikke har vært noen form for kirurgi i pungen tidligere, er operasjonen som oftest enkel og utført i løpet av en halvtime. Vevsbitene sendes til laboratoriet for undersøkelse slik at vi får en bekreftelse på at sædlederen er delt.",
+      },
+      {
+        id: "for-og-etter",
+        heading: "Før og etter inngrepet",
+        content: "**Slik forbereder du deg til sterilisering:** Barber testiklene dagen før operasjonen. Dette er for å hindre at hår kommer i operasjonssårene, noe som kan føre til infeksjon. Før inngrepet må du informere oss om du bruker blodfortynnende medisiner. Du må undertegne et egenerklæringsskjema. Du kan kjøre bil både før og etter operasjon.\n\n**Dette tar du hensyn til etter inngrepet:** Dagen etter steriliseringen skal du dusje med bandasjen som ble satt på etter inngrepet. Etter dusjen skifter du den våte bandasjen til en ny bandasje som du får med deg fra oss. Hevelse og misfarging er normalt, og dette vil gå over av seg selv. Stingene løser seg opp og faller av etter cirka 2–3 uker.\n\nEjakulering og orgasme vil foregå helt likt etter sterilisering, men ejakulasjonen vil se noe klarere ut da den ikke lenger inneholder sædceller. Det er viktig å gjennomføre en sædanalyse etter 3 måneder før man slutter med andre prevensjonsmidler.",
+      },
     ],
+    relatedSpecialists: ["trond-jorgensen", "nabeel-yousaf-khan"],
     faqs: [
-      { question: "Er vasektomi reversibelt?", answer: "Vasektomi skal betraktes som permanent, men refertilisering er mulig med ca. 50-80% suksessrate." },
-      { question: "Hva koster vasektomi?", answer: "Sterilisering koster kr 6 500 og inkluderer konsultasjon, inngrep og kontroll." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/testikler": {
