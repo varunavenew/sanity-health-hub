@@ -1527,19 +1527,36 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/areknuter": {
     title: "Åreknutebehandling",
-    subtitle: "Moderne behandling av åreknuter og sprengte blodkar.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Åreknuter er utvidede, synlige blodårer som kan gi smerter, hevelse og tyngdefølelse. Vi tilbyr moderne behandlingsmetoder som er skånsomme og effektive.\n\nUtredning starter med ultralydundersøkelse for å kartlegge omfanget og planlegge riktig behandling.",
+    description: "Åreknuter er veldig vanlig, og nesten 30% av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner.\n\nRisikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina.\n\nÅreknuter oppstår i de overfladiske venene grunnet svikt i klaffene. En god undersøkelse med ultralyd vil avdekke årsakene, og du vil få tilpasset en moderne og effektiv behandling.",
+    sections: [
+      {
+        id: "symptomer",
+        heading: "Symptomer",
+        content: "Symptomer varierer fra person til person. De vanligste symptomene på åreknuter er:\n\n- Smerter\n- Tunge eller trøtte bein\n- Prikkende ubehag\n- Kløe\n- Nattekramper i leggene\n- Hevelse\n\nLindres symptomene dine ved bruk av støttestrømper, så gir det en bedre prognose med tanke på lindring av symptomer. Hvis du ikke ønsker behandling for dine åreknuter etter konsultasjon, anbefaler vi bruk av støttestrømper, men disse vil kun lindre symptomer og aldri fjerne åreknutene."
+      },
+      {
+        id: "spesialist",
+        heading: "Vår karkirurg",
+        content: "Dr. Einar André Brevik er en av Norges mest erfarne kar- og åreknutekirurger. Han tilbyr fullverdig karkirurgisk vurdering og utredning for åreknuter, venøs insuffisiens ved lymfødem og lipødem, claudicatio (røykebein), Raynauds syndrom, aortaaneurismer og second opinion innen karkirurgi.\n\nDr. Brevik har vært aktiv i det karkirurgiske miljøet gjennom Norsk karkirurgisk forening som leder, nestleder og styremedlem fra 2014 til 2019. Siden 2020 har han jobbet ved karkirurgisk avdeling på Haukeland universitetssykehus.\n\nTotalt har Dr. Brevik operert over 2000 pasienter med åreknuter med de mest moderne og skånsomme metoder."
+      },
+    ],
     benefits: [
-      "Grundig ultralydundersøkelse først",
+      "En av Norges mest erfarne kar- og åreknutekirurger",
+      "Over 2000 pasienter operert",
+      "Grundig ultralydundersøkelse",
       "Moderne, skånsomme behandlingsmetoder",
       "Kort rekonvalesens",
-      "Erfarne karkirurger",
     ],
+    relatedSpecialists: ["einar-andre-brevik"],
     faqs: [
-      { question: "Hva forårsaker åreknuter?", answer: "Åreknuter skyldes svekkede klaffer i venene, ofte forårsaket av arvelig disposisjon, svangerskap, overvekt eller langvarig ståing." },
-      { question: "Hva koster utredning?", answer: "Vurdering hos spesialist koster kr 1 800 og inkluderer ultralydundersøkelse." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Nedbetaling", answer: "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon." },
     ],
   },
 
