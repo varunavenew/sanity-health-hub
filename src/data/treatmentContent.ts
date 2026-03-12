@@ -230,19 +230,29 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/blodningsforstyrrelser": {
     title: "Blødningsforstyrrelser",
-    subtitle: "Utredning og behandling av uregelmessige eller kraftige menstruasjonsblødninger.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Blødningsforstyrrelser kan ha mange årsaker – fra hormonelle ubalanser og polypper til muskelknuter og andre tilstander. Uansett årsak kan kraftige eller uregelmessige blødninger påvirke livskvaliteten betydelig.\n\nVåre gynekologer utreder grundig for å finne årsaken og tilbyr effektiv behandling.",
-    benefits: [
-      "Grundig utredning med ultralyd og eventuelt hysteroskopi",
-      "Medisinsk og kirurgisk behandling",
-      "Robotassistert fjerning av muskelknuter",
-      "Kort ventetid til konsultasjon",
+    description: "Blødningsforstyrrelser kan være at intervallet mellom menstruasjonene endrer seg, at de blir hyppigere eller sjeldnere. Det kan være at mengden blod som kommer hver gang øker eller minker, eller det kan være blødninger som kommer mellom menstruasjoner.\n\nHvis man opplever mensen som plagsomt stor, uregelmessig eller smertefull, bør dette undersøkes hos gynekolog. Da vil vi gjøre ultralyd og ta ulike prøver for å finne ut av hvorfor du har blødningsforstyrrelser.",
+    sections: [
+      {
+        id: "vanlige-arsaker",
+        heading: "Vanlige årsaker",
+        content: "Vanlige årsaker til blødningsforstyrrelser kan være overgangsalder, seksuelt overførbare infeksjoner, polypper eller muskelknuter, graviditet eller hormonelle ubalanser.\n\nBlødningsforstyrrelser som kommer etter _overgangsalderen_ skal alltid utredes. Det gjøres gjerne med ultralyd og en vevsprøve fra livmorhulen. Videre oppfølging og behandling avhenger av dette prøvesvaret.",
+      },
+      {
+        id: "prevensjon",
+        heading: "Prevensjon",
+        content: "Dersom man bruker prevensjon kan man få uregelmessige blødninger på grunn av det. Det er sjelden farlig, og som oftest er det bare å bytte prevensjonsmiddel så blir det bedre. Opplever du plager kan du alltid ta kontakt med oss eller bestille time.",
+      },
     ],
+    relatedSpecialists: ["birgitte-mitlid-mork", "birgitte-aspenes"],
     faqs: [
-      { question: "Hva kan forårsake kraftige blødninger?", answer: "Vanlige årsaker inkluderer muskelknuter, polypper, hormonforstyrrelser og endometriose." },
-      { question: "Når bør jeg oppsøke lege?", answer: "Dersom blødningene påvirker hverdagen din, du blør mellom menstruasjonene, eller blødningene har endret seg." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/celleforandringer": {
