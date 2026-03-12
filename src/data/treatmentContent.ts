@@ -1696,6 +1696,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     faqs: [
       { question: "Hvor tilbys hudhelse?", answer: "Hudhelse, rådgivning og ulike former for hudbehandling tilbys kun på CMedical Bekkestua." },
       { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
   "flere-fagomrader/overvektskirurgi": {
