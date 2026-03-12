@@ -21,9 +21,10 @@ const specialistLabels: Record<string, string> = {
   "flere-fagomrader": "spesialist",
 };
 
-// Simple inline markdown formatter for **bold** and _italic_
+// Simple inline markdown formatter for **bold**, _italic_, and [links](url)
 const formatInlineMarkdown = (text: string): string => {
   return text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline underline-offset-4 hover:text-foreground transition-colors">$1</a>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/_(.*?)_/g, '<em>$1</em>');
 };

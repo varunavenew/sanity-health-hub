@@ -23,6 +23,7 @@ import TverrfagligePage from "./pages/themes/TverrfagligePage";
 import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
 import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
+import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergangsalder";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,8 @@ const AppContent = () => {
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
         <Route path="/tverrfaglige-team" element={<TverrfagligePage isChatOpen={false} />} />
         <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
+        {/* Fastlegeveiledning */}
+        <Route path="/fastlegeveiledning-overgangsalder" element={<FastlegeveiledningOvergangsalder isChatOpen={false} />} />
         {/* Aktuelt / News */}
         <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
         <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
