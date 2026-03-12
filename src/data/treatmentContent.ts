@@ -16,6 +16,12 @@ export interface ContentSection {
   content: string; // supports \n for paragraphs, **bold**, _italic_, - list items
 }
 
+export interface LinkedService {
+  label: string;
+  description: string;
+  path: string;
+}
+
 export interface TreatmentData {
   title: string;
   subtitle: string;
@@ -27,6 +33,7 @@ export interface TreatmentData {
   benefitsTitle?: string;
   process?: { title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
+  linkedServices?: LinkedService[];
 }
 
 // Key: "categoryId/subId" matching the route /behandlinger/:categoryId/:subId
