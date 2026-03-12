@@ -357,19 +357,23 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/hysteroskopi": {
     title: "Hysteroskopi",
-    subtitle: "Undersøkelse av livmorhulen med kamera.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Hysteroskopi er en undersøkelse der et tynt kamera føres inn i livmorhulen for å undersøke slimhinnen. Metoden brukes både diagnostisk og for behandling av polypper, muskelknuter og andre tilstander.\n\nVi tilbyr office-hysteroskopi som kan utføres uten narkose, noe som gjør prosedyren raskere og enklere for pasienten.",
-    benefits: [
-      "Office-hysteroskopi uten narkose",
-      "Rask prosedyre – vanligvis under 30 minutter",
-      "Umiddelbar diagnostikk med mulighet for behandling",
-      "Ingen sykemelding nødvendig",
+    description: "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne.\n\nFordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre. Hysteroskopi er et effektivt verktøy for å kartlegge:\n- Uregelmessige blødninger\n- Mistanke om polypper eller muskelknuter i livmoren\n- Vanskeligheter med å bli gravid\n- Forandringer i livmorslimhinnen\n\nGjennom moderne teknologi og skånsomt utviklede instrumenter legger vi vekt på å gi deg en trygg opplevelse med minst mulig ubehag under undersøkelsen hos oss i CMedical.",
+    sections: [
+      {
+        id: "office-hysteroskopi",
+        heading: "Office-hysteroskopi",
+        content: "Vi tilbyr også office-hysteroskopi som kan gjennomføres uten narkose eller bedøvelse, og umiddelbart ved besøk hos gynekolog.",
+      },
     ],
     faqs: [
-      { question: "Gjør hysteroskopi vondt?", answer: "Office-hysteroskopi oppleves som noe ubehagelig, men er vanligvis godt tolerert. Vi bruker lokalanestesi ved behov." },
-      { question: "Når brukes hysteroskopi?", answer: "Vanlige indikasjoner er uregelmessige blødninger, mistanke om polypper eller muskelknuter, og som del av fertilitetsutredning." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/labiaplastikk": {
