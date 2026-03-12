@@ -362,8 +362,16 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* Introduction */}
       <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light">{category.description}</p>
+          <div className="max-w-3xl mx-auto">
+            {category.description.split('\n').map((paragraph, i) => {
+              const trimmed = paragraph.trim();
+              if (!trimmed) return null;
+              return (
+                <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
+                  {trimmed}
+                </p>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -372,12 +380,15 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section id="services" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <p className="text-sm text-muted-foreground mb-3 font-light">Våre behandlinger</p>
-              <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-4">{category.title}tjenester</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto font-light">
-                Våre spesialister tilbyr med de fagområdene du har vist. Vi har noen av Nordens ledende spesialister på behandlingsområdene.
-              </p>
+            <div className="mb-12">
+              <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-4">
+                {category.servicesHeading || `${category.title}tjenester`}
+              </h2>
+              {category.servicesIntro && (
+                <p className="text-muted-foreground font-light max-w-3xl">
+                  {category.servicesIntro}
+                </p>
+              )}
             </div>
 
             <div className="border-t border-border">
@@ -403,6 +414,79 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Spesialistklinikker Section */}
+      <section className="py-16 md:py-24 bg-secondary/30">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-6">Spesialistklinikker</h2>
+            <div className="flex flex-wrap gap-3 mb-6">
+              <span className="text-sm text-muted-foreground font-light bg-background px-4 py-2 rounded-full border border-border">Kort ventetid</span>
+              <span className="text-sm text-muted-foreground font-light bg-background px-4 py-2 rounded-full border border-border">Ingen henvisning</span>
+            </div>
+            <div className="space-y-4 mb-8">
+              <p className="text-foreground/80 font-light leading-relaxed">
+                CMedical er Nordens ledende på kvinnen og mannens underliv. Hos oss møter du engasjerte kirurger, gynekologer, fertilitetsleger og urologer som jobber med den sykdommen de kan best - i unike tverrfaglige team, bestående av osteopater, ernæringsfysiologer, sexologer, psykologer og fysioterapeuter. Sammen skreddersyr vi behandlingen tilpasset deg.
+              </p>
+              <p className="text-foreground/80 font-light leading-relaxed">
+                Hos CMedical får du erfaring, spisskompetanse og moderne teknologi samlet på ett sted – en trygg og omsorgsfull opplevelse, enten du er ny pasient eller kommer fra en annen klinikk.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/spesialister')}>
+                Spesialister <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+              <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/klinikker')}>
+                Klinikker <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Finansiering Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-8">Finansiering</h2>
+            <p className="text-foreground/80 font-light leading-relaxed mb-8">
+              Vi er et privat helsetilbud. Det betyr at du betaler selv – eller får utredning eller behandling dekket av helseforsikring.
+            </p>
+
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-lg font-normal text-foreground mb-2">Pris</h3>
+                <p className="text-foreground/80 font-light">
+                  <button onClick={() => navigate('/priser')} className="text-accent hover:underline">Prislister finnes her.</button>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-normal text-foreground mb-3">Forsikring</h3>
+                <p className="text-foreground/80 font-light leading-relaxed mb-3">
+                  <strong>Vi har forsikringsavtale med:</strong> EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg.
+                </p>
+                <p className="text-foreground/80 font-light leading-relaxed mb-3">
+                  <strong>Hvordan går jeg frem?</strong> Et typisk behandlingsløp er at du tar kontakt med lege (fastlege eller annen privat lege/legevakt) og får en henvisning til utredning/behandlingen som er nødvendig for deg. Henvisningen sender du til forsikringsselskapet ditt og du kan da be om å få time på CMedical. Forsikringsselskapet tar kontakt med oss og vi ringer deg for å sette opp en time.
+                </p>
+                <p className="text-foreground/80 font-light leading-relaxed mb-3">
+                  <strong>Hvis forsikringen ikke dekker behandlingen:</strong> Er det behandling som ikke dekkes av din forsikring, men som tilbys hos CMedical, så kan vi tilby deg behandlingen som privat betalende pasient.
+                </p>
+                <p className="text-foreground/80 font-light leading-relaxed">
+                  <strong>Selskapene har ulike regler:</strong> Forsikringsselskapene har ulike regler for hva de betaler for. De har også ulike produkter som gjør at ikke alle kunder får dekket det samme. Et av kravene som er likt hos alle selskapene er at behandlingen du ønsker gjennomført, skal være medisinsk nødvendig og at den tilbys i offentlig helsevesen. Sjekk med ditt forsikringsselskap hva din forsikring dekker.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-normal text-foreground mb-2">Nedbetaling</h3>
+                <p className="text-foreground/80 font-light">
+                  Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon.
+                </p>
+              </div>
             </div>
           </div>
         </div>
