@@ -35,22 +35,39 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // GYNEKOLOGI
   // ==========================================
   "gynekologi/tverrfaglig": {
-    title: "Tverrfaglig team",
-    subtitle: "Helhetlig oppfølging med osteopat, sexolog, psykolog og ernæringsfysiolog.",
+    title: "Tverrfaglig team: Osteopat, Sexolog, Psykolog, Ernæring",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Hos CMedical tror vi på en helhetlig tilnærming til kvinnehelse. Vårt tverrfaglige team består av osteopat, sexolog, psykolog og ernæringsfysiolog som samarbeider tett med våre gynekologer for å gi deg den beste behandlingen.\n\nVi forstår at gynekologiske plager ofte påvirker hele livssituasjonen, og derfor tilbyr vi et bredt spekter av tilleggstjenester som kan supplere din medisinske behandling.",
-    benefits: [
-      "Samarbeid mellom ulike fagdisipliner for best mulig resultat",
-      "Osteopat med spesialkompetanse på bekkenbunnen og underlivsplager",
-      "Sexolog for hjelp med intimitetsproblemer og seksuelle utfordringer",
-      "Psykolog som forstår de emosjonelle sidene ved gynekologiske tilstander",
-      "Ernæringsfysiolog for kostholdsrådgivning tilpasset din situasjon",
+    description: "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!\n\nVi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss.\n\nVi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander - fra utredning, behandling og oppfølging i etterkant.",
+    sections: [
+      {
+        id: "osteopat",
+        heading: "Osteopat",
+        content: "Osteopati er en manuell behandlingsform som betyr at hendene er osteopatens viktigste verktøy for diagnostisering og behandling. Osteopati komplementerer medisinsk utredning og behandling.\n\nPå det tverrfaglige behandlingsteamet hos oss har osteopaten en naturlig plass i behandlingsplanen innenfor vulvasmerter, bekkenbunnsdysfunksjon, smerter og nedsatt funksjon i muskelskjelettsystemet, i oppfølging av gravide kvinner og kvinner etter fødsel.\n\nI tillegg vil osteopatisk behandling kunne ha gunstig effekt ved smerter relatert til endometriose/adenomyose og stress.",
+      },
+      {
+        id: "sexolog",
+        heading: "Sexolog",
+        content: "Når man rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet.",
+      },
+      {
+        id: "psykolog",
+        heading: "Psykolog",
+        content: "Du trenger ikke å ha en psykisk lidelse eller diagnose for å gå til psykolog. Mange ønsker å ha en nøytral samtalepartner over kortere eller lengre tid for å sortere tanker og følelser, eller motta støtte gjennom en utfordrende periode med f.eks. endometriose-, vulvodyni- eller fertilitetsbehandling.\n\nHos psykolog kan du få hjelp til å håndtere smerter, bearbeide vanskelige erfaringer, utforske identitet og seksualitet, og du kan bli utredet og behandlet for psykiske lidelser.",
+      },
+      {
+        id: "ernaringsfysiolog",
+        heading: "Ernæringsfysiolog",
+        content: "Våre ernæringsfysiologer jobber tett med gynekologer og andre spesialister for å gi deg individuelt tilpasset kostholdsrådgivning. Riktig ernæring kan ha stor betydning for hormoner, fertilitet, overgangsalder og generell helse.",
+      },
     ],
     faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, du trenger ikke henvisning. Du kan bestille time direkte hos oss." },
-      { question: "Kan jeg kombinere flere tjenester?", answer: "Ja, vi tilpasser et opplegg som passer for deg. Snakk med din gynekolog om hvilke tverrfaglige tjenester som kan være aktuelle." },
-      { question: "Dekkes dette av forsikring?", answer: "Mange helseforsikringer dekker konsultasjoner hos våre spesialister. Ta kontakt med ditt forsikringsselskap for å sjekke din dekning." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/undersokelse": {
@@ -857,18 +874,36 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/osteopati": {
     title: "Osteopati",
-    subtitle: "Helhetlig behandling av muskel- og skjelettplager.",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre osteopater tilbyr helhetlig undersøkelse og behandling av muskel- og skjelettplager. Osteopati fokuserer på kroppens evne til selvhelbredelse gjennom manuelle teknikker.\n\nVi har spesialkompetanse på bekkenbunnsplager og underlivsrelaterte smerter i samarbeid med gynekologisk avdeling.",
-    benefits: [
-      "Spesialkompetanse på bekkenbunnsplager",
-      "Helhetlig tilnærming til smertebehandling",
-      "Samarbeid med gynekologer og fysioterapeuter",
-      "Individuelt tilpasset behandlingsplan",
+    description: "Osteopati er en manuell behandlingsform som betyr at hendene er osteopatens viktigste verktøy for diagnostisering og behandling. Osteopati komplementerer medisinsk utredning og behandling.\n\nOsteopatene er autorisert helsepersonell og følger lov for helsepersonell.",
+    sections: [
+      {
+        id: "kvinnehelse",
+        heading: "Kvinnehelse",
+        content: "På det tverrfaglige behandlingsteamet hos oss har osteopaten en naturlig plass i behandlingsplanen innenfor vulvasmerter, bekkenbunnsdysfunksjon, smerter og nedsatt funksjon i muskelskjelettsystemet, i oppfølging av gravide kvinner og kvinner etter fødsel.\n\nI tillegg vil osteopatisk behandling kunne ha gunstig effekt ved smerter relatert til endometriose/adenomyose og stress.",
+      },
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Manuell behandling, fysisk aktivitet og håndtering av en stressende hverdag er noe av det vanligste osteopater jobber med. Osteopater benytter seg av et bredt spekter av manuelle behandlingsteknikker i hele kroppen. Teknikkene kan oppleves både lette og mer kraftfulle men det er viktig at behandlingene tilpasses deg og der du befinner deg i syklus, dagsform og i livet.",
+      },
+      {
+        id: "tverrfaglig",
+        heading: "Tverrfaglig",
+        content: "Det unike på CMedical er at osteopatene jobber tett i tverrfaglig team med gynekolog og urolog om ulike gynekologiske og urologiske problemstillinger.\n\nVi holder tett dialog og skreddersyr din behandling.\n\nVi vurderer bekkenbunnsfunksjon som en del av oppfølgingen av kvinnen etter fødsel, mannen før / etter prostataoperasjon eller ved inkontinens, fremfall eller smerteproblematikk.",
+      },
+      {
+        id: "mal-med-behandling",
+        heading: "Mål med behandling",
+        content: "Osteopaten er opptatt av å finne hva som er viktig for deg, og hvordan dere sammen kan skape en trygg arena der du kan bruke kroppen din på en god måte. Å skape en trygg arena for tillitsfull kommunikasjon og behandling er nødvendig for et godt resultat av behandlingen. Det er alltid et hovedmål ved hvert pasientmøte.",
+      },
     ],
     faqs: [
-      { question: "Hva er forskjellen på osteopat og fysioterapeut?", answer: "Osteopater fokuserer på hele kroppens balanse og bruker manuelle teknikker. Fysioterapeuter fokuserer ofte mer på spesifikke skader og trening." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "flere-fagomrader/plastikkirurgi": {
@@ -889,18 +924,21 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/psykologi": {
     title: "Psykologi",
-    subtitle: "Psykologisk støtte og samtaleterapi.",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre psykologer tilbyr samtaleterapi for ulike utfordringer, med spesialkompetanse på psykologiske aspekter ved gynekologiske tilstander, infertilitet, svangerskap og overgangsalder.\n\nVi er en del av det tverrfaglige teamet som sikrer helhetlig oppfølging.",
-    benefits: [
-      "Spesialkompetanse på kvinnehelse og fertilitet",
-      "Samtaleterapi for enkeltpersoner og par",
-      "Støtte under fertilitetsbehandling",
-      "Del av tverrfaglig team for helhetlig behandling",
+    description: "Du trenger ikke å ha en psykisk lidelse eller diagnose for å gå til psykolog. Mange ønsker å ha en nøytral samtalepartner over kortere eller lengre tid for å sortere tanker og følelser, eller motta støtte gjennom en utfordrende periode med f.eks. endometriose-, vulvodyni- eller fertilitetsbehandling. Hos oss jobber våre spesialister i unike tverrfaglige team for å hjelpe deg best mulig. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
+    sections: [
+      {
+        id: "hva-kan-vi-hjelpe-med",
+        heading: "Hva kan vi hjelpe med?",
+        content: "Hos psykolog kan du få hjelp til å håndtere smerter, bearbeide vanskelige erfaringer, utforske identitet og seksualitet, og du kan bli utredet og behandlet for psykiske lidelser. Om det dukker opp andre plager som trenger videre oppfølging, kan en psykolog henvise deg til videre utredning og behandling. Ønsker du en time til psykolog kan du bestille her eller ta kontakt med oss for mer informasjon.",
+      },
     ],
     faqs: [
-      { question: "Kan jeg gå til psykolog uten å ha annen behandling hos dere?", answer: "Ja, du kan bestille time hos psykolog uavhengig av annen behandling." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "flere-fagomrader/revmatologi": {
@@ -940,18 +978,21 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/sexologi": {
     title: "Sexologi",
-    subtitle: "Hjelp med seksuelle utfordringer og intimitetsproblemer.",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre sexologer tilbyr rådgivning og terapi for seksuelle utfordringer som kan påvirke livskvaliteten. Vi har spesialkompetanse på problemstillinger knyttet til gynekologiske tilstander, fertilitet og overgangsalder.",
-    benefits: [
-      "Trygt og profesjonelt miljø",
-      "Spesialkompetanse på seksualitet og gynekologiske tilstander",
-      "Individuell terapi og parterapi",
-      "Del av tverrfaglig team",
+    description: "Når man rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
+    sections: [
+      {
+        id: "skreddersydd-veiledning",
+        heading: "Skreddersydd veiledning",
+        content: "Ved diagnoser som er assosiert med smerte og fysisk ubehag, gir en sexolog tilpasset veiledning for å håndtere disse utfordringene. Dette kan inkludere strategier for smertelindring, utforsking av alternative former for seksuell nytelse og styrking av kommunikasjonen om man er i et parforhold.\n\nFor par som opplever ufrivillig barnløshet, kan en sexologisk rådgiver hjelpe dem med å navigere gjennom det som er følelsesmessig utfordrende slik at intimiteten opprettholdes og stress reduseres. Dersom seksualfunksjon rammes i forbindelse med sykdom slik at lyst, tenning og orgasme rammes kan man få råd om hvordan man kan finne nye måter å opprettholde et tilfredsstillende seksualliv på.",
+      },
     ],
     faqs: [
-      { question: "Hva kan en sexolog hjelpe med?", answer: "Smerter ved samleie, nedsatt lyst, ereksjonsproblemer, intimitetsproblemer og seksuelle utfordringer knyttet til sykdom eller behandling." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "flere-fagomrader/areknuter": {
