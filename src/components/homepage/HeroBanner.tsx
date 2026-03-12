@@ -6,8 +6,8 @@ import { useHomepage } from "@/hooks/useSanity";
 
 // Static fallback images
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
+import fertilityHero from "@/assets/hero/fertility-hero.jpg";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
-import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
 
 interface HeroSlide {
   id: string;
@@ -32,14 +32,14 @@ const staticSlides: HeroSlide[] = [
     objectPosition: "center 20%",
   },
   {
-    id: "tverrfaglig",
-    image: tverrfagligTeam,
-    alt: "Tverrfaglige team",
-    label: "Tverrfaglige team\n– helhetlig behandling",
-    subtitle: "Tverrfaglighet",
+    id: "fertilitet",
+    image: fertilityHero,
+    alt: "Ledende miljø innen fertilitet",
+    label: "Ledende miljø\ninnen fertilitet",
+    subtitle: "Fertilitetsteamet",
     cta: "Les mer",
-    ctaPath: "/tverrfaglige-team",
-    objectPosition: "center 15%",
+    ctaPath: "/fertilitet",
+    objectPosition: "center 30%",
   },
   {
     id: "robotkirurgi",
