@@ -50,6 +50,16 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     }
   }, [treatment]);
 
+  // Scroll to anchor if present
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+      }
+    }
+  }, [location.hash, treatment]);
+
   if (!treatment) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
