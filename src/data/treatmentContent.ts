@@ -1320,20 +1320,36 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/gastrokirurgi": {
     title: "Gastrokirurgi",
-    subtitle: "Fedmekirurgi, gallestein og brokkoperasjoner.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Vi tilbyr et bredt spekter av gastrokirurgiske inngrep, inkludert bariatrisk kirurgi (fedmekirurgi), gallesteinsoperasjoner og brokkoperasjoner. Mange av våre inngrep utføres med robotassistert teknikk.\n\nVåre gastrokirurger har lang erfaring og høyt operasjonsvolum.",
+    description: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister.",
+    sections: [
+      {
+        id: "bariatrisk-kirurgi",
+        heading: "Bariatrisk kirurgi",
+        content: "Med bariatrisk kirurgi kan vi tilby trygge og varige løsninger for vektreduksjon."
+      },
+      {
+        id: "sleeve-gastrektomi",
+        heading: "Sleeve gastrektomi",
+        content: "Robotassistert kirurgi for sleeve gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80% av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon."
+      },
+    ],
     benefits: [
       "Robotassistert bariatrisk kirurgi (sleeve gastrektomi)",
       "Kikkhullsoperasjoner for gallestein",
-      "Robotassisterte brokkoperasjoner",
-      "Digital konsultasjon for fedmevurdering (gratis)",
+      "Utredning og behandling av endetarmsplager",
+      "Brokkbehandling med kikkehull og åpen teknikk",
+      "Gratis digital førstekonsultasjon for fedmevurdering",
       "Tverrfaglig oppfølging med ernæringsfysiolog",
     ],
+    relatedSpecialists: ["marian-bale"],
     faqs: [
-      { question: "Hvem kvalifiserer for fedmekirurgi?", answer: "Generelt kreves BMI over 40, eller over 35 med tilleggssykdommer. Vi gjør en individuell vurdering." },
-      { question: "Er det gratis konsultasjon?", answer: "Ja, vi tilbyr gratis digital konsultasjon for fedmevurdering." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "flere-fagomrader/osteopati": {
