@@ -713,17 +713,33 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/refertilisering": {
     title: "Refertilisering",
-    subtitle: "Reversering av sterilisering for menn.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Refertilisering er en mikrokirurgisk operasjon for å reversere en tidligere sterilisering. Inngrepet utføres med operasjonsmikroskop for best mulig resultat.",
-    benefits: [
-      "Erfaren mikrokirurg med høy suksessrate",
-      "Operasjonsmikroskop for presist inngrep",
-      "Dagkirurgi – reise hjem samme dag",
+    description: "Sterilisering er en enkel og vanlig prevensjonsmetode for menn. Metoden innebærer at man kutter sædlederen som transporterer sædceller fra testiklene til sædblæren.\n\nAngrer du på steriliseringen, kan sædlederne sys sammen igjen. Dette kalles refertilisering.",
+    sections: [
+      {
+        id: "resultat",
+        heading: "Resultatet av refertilisering",
+        content: "Det er flere faktorer som kan avgjøre om en refertilisering blir vellykket eller ikke. Viktige faktorer er blant annet alder, samt hvor lenge det er siden du ble sterilisert.\n\nGenerelt kan man si at 70–80 % av pasientene kan regne med å få spermier i sæduttømmingen etter inngrepet. Muligheten for graviditet vil også påvirkes av forhold hos din partner.",
+      },
+      {
+        id: "for-under-etter",
+        heading: "Før, under og etter operasjonen",
+        content: "Reversering av sterilisering gjøres i lett narkose og du kan reise hjem samme dag. Du kan oppleve litt smerter og det kan være behov for noe smertestillende. For å redusere blødning og smerter bør du unngå stor fysisk aktivitet de første dagene etter inngrepet.\n\nDu kan oppleve noe hevelse og blåfarging av huden omkring der huden er åpnet.\n\nSeksuell aktivitet kan gjenopptas etter 2–3 uker.\n\nHar du fysisk krevende arbeide? Snakk med kirurgen om eventuelt behov for sykemelding. Kontroll avtales med kirurgen.",
+      },
+      {
+        id: "saedkontroll",
+        heading: "Sædkontroll etter refertilisering",
+        content: "En kontroll med sædprøve 2–3 måneder etter inngrepet vil avdekke om refertiliseringen var vellykket. Denne analysen avdekker sædens kvalitet, vitalitet og eventuelt andre tilstander som kan påvirke sædkvaliteten. Kontroll avtales med legen.",
+      },
     ],
+    relatedSpecialists: ["nabeel-yousaf-khan"],
     faqs: [
-      { question: "Hvor stor er sjansen for suksess?", answer: "Suksessraten avhenger av hvor lang tid det har gått siden steriliseringen. Generelt er den 50-80%." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/robotkirurgi": {
