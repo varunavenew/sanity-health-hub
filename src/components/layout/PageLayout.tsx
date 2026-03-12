@@ -252,7 +252,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   <span className="text-xs text-white/60">
                     Populært:
                   </span>
-                  {['IVF-behandling', 'Gynekologisk undersøkelse', 'Ultralyd', 'Celleprøve', 'Hormonbehandling'].map((term) => (
+                  {['IVF-behandling', 'Gynekologisk undersøkelse', 'Ultralyd', 'Celleprøve', 'Hormonbehandling', 'Eggfrys'].map((term) => (
                     <button
                       key={term}
                       onClick={() => setSearchQuery(term)}
