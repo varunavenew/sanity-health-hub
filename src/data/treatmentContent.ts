@@ -106,19 +106,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Spesialisert diagnostikk og behandling av endometriose og adenomyose.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Endometriose er en tilstand der livmorslimhinnen vokser utenfor livmoren, noe som kan forårsake sterke smerter og påvirke fertiliteten. CMedical har noen av Nordens fremste eksperter på endometriose.\n\nVi tilbyr alt fra medisinsk behandling til avansert robotassistert kirurgi for dyp endometriose – noe svært få klinikker i Norge kan tilby.",
-    benefits: [
-      "Ledende ekspertise på endometriose i Norden",
-      "Robotassistert kirurgi for dyp endometriose",
-      "Tverrfaglig tilnærming med smertespesialister og psykolog",
-      "Moderne diagnostikk med ultralyd og MR",
-      "Tett samarbeid med fertilitetsklinikken ved barneønske",
-    ],
-    process: [
-      { title: "Konsultasjon", description: "Grundig samtale om symptomer, sykehistorie og eventuelle tidligere behandlinger." },
-      { title: "Diagnostikk", description: "Gynekologisk undersøkelse, ultralyd og eventuelt MR for å kartlegge omfanget." },
-      { title: "Behandlingsplan", description: "Individuell plan basert på funn, symptomer og eventuelle barneønsker." },
-      { title: "Behandling og oppfølging", description: "Medisinsk eller kirurgisk behandling med langvarig oppfølging." },
+    description: "Endometriet = slimhinnen i livmoren.\n\nHver måned vokser slimhinnen i takt med hormonsyklus, og den blir avstøtt ved mens før den bygges opp igjen. Ved endometriose vokser vev som ligner livmorslimhinnen utenfor livmorhulen. Endometriose rammer oftest kvinner i fertil alder.\n\nDet tar i gjennomsnitt syv år å bli diagnostisert i Norge – **dette vil vi endre.**\n\nVi har unik ekspertise og lang erfaring med endometriose.",
+    sections: [
+      {
+        id: "symptomer",
+        heading: "Symptomer",
+        content: "Symptomene på endometriose er individuelle. Det vanligste symptomet er smerter ved menstruasjon eller utenom. Smertene kan variere i styrke fra minimale menstruasjonssmerter til invalidiserende smerter. Andre symptomer kan være kvalme, diaré eller forstoppelse, økt trettbarhet, smerter ved vannlatning eller ved samleie. Omtrent 10% av kvinner rammes, og hele 30% av disse lider av underlivssmerter.",
+      },
+      {
+        id: "kirurgi",
+        heading: "Kirurgi",
+        content: "Vi tilbyr både tradisjonell kikkhullskirurgi (laparoskopi) og robotkirurgi ved sanering av endometriose. CMedical er den eneste private aktøren i Norge som tilbyr operasjon med robot ved endometriose. Robotkirurgi er en presis og skånsom operasjonsmetode.\n\nVed kirurgi vil endometriose på bukhinnen, i bekkenet, arrvev og sammenvoksinger klippes bort. Roboten er spesielt egnet til finkirurgi der en vil unngå nærliggende nerver og blodkar.",
+      },
     ],
     faqs: [
       { question: "Hva er symptomene på endometriose?", answer: "Vanlige symptomer er sterke menssmerter, kroniske bekkensmerter, smerter ved samleie og i noen tilfeller redusert fertilitet." },
