@@ -208,19 +208,24 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/vaginale-fremfall": {
     title: "Vaginale fremfall",
-    subtitle: "Utredning og behandling av fremfall i underlivet.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Vaginale fremfall oppstår når vev og organer i bekkenet synker ned og trykker mot eller ut av skjeden. Tilstanden er vanlig, spesielt etter fødsler, og kan gi ubehag, tyngdefølelse og urinlekkasje.\n\nVi tilbyr både konservative og kirurgiske behandlingsalternativer tilpasset din grad av fremfall og dine behov.",
-    benefits: [
-      "Erfarne gynekologer med spesialkompetanse på bekkenbunnslidelser",
-      "Moderne kirurgiske teknikker med gode resultater",
-      "Individuelt tilpasset behandlingsplan",
-      "Bekkenbunnstrening som supplement eller alternativ til kirurgi",
+    description: "Vaginalt fremfall, også kjent som prolaps, er en tilstand der organer som livmoren, blæren eller endetarmen faller ned fra deres vanlige posisjon og presser inn i skjeden. Dette skjer vanligvis på grunn av svekkelse av bekkenbunnsmuskulaturen og støttevev, som kan være forårsaket av faktorer som graviditet, fødsel, aldring eller kirurgiske inngrep.",
+    sections: [
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.\n\nHos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
+      },
     ],
+    relatedSpecialists: ["madeleine-engen"],
     faqs: [
-      { question: "Kan fremfall behandles uten kirurgi?", answer: "Ja, milde tilfeller kan ofte behandles med bekkenbunnstrening og pessar." },
-      { question: "Hva innebærer en fremfallsoperasjon?", answer: "Operasjonen reparerer det svekkede vevet og løfter organene tilbake på plass. Vi bruker moderne teknikker med kort rekonvalesens." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/blodningsforstyrrelser": {
