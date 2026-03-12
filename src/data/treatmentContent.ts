@@ -604,17 +604,23 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/forhud": {
     title: "Forhud",
-    subtitle: "Behandling av trang forhud og andre forhudsproblemer.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Trang forhud (fimose) er en vanlig tilstand som kan gi ubehag og problemer med hygiene. Vi tilbyr både konservativ og kirurgisk behandling avhengig av grad og plager.",
-    benefits: [
-      "Erfarne urologer med lang kirurgisk erfaring",
-      "Dagkirurgisk inngrep med kort rekonvalesens",
-      "Individuell vurdering av behandlingsalternativer",
+    description: "Forhuden er den hudfolden som dekker penishodet hos menn. Hos CMedical har vi urologer som kan hjelpe deg med plager knyttet til forhuden, som trang forhud og sårhet. Etter en konsultasjon med urolog kan vi diskutere ulike behandlingsalternativer basert på dine symptomer og behov.",
+    sections: [
+      {
+        id: "trang-forhud",
+        heading: "Trang forhud",
+        content: "Trang forhud, også kjent som fimose, kan være ubehagelig og skape problemer i hverdagen. Våre urologer i CMedical tilbyr skånsom behandling for denne tilstanden.\n\nNår forhuden ikke kan trekkes tilbake over penishodet, kan et mindre plastikkirurgisk inngrep være løsningen. I mer alvorlige tilfeller kan en omskjæring være nødvendig, der deler av eller hele forhuden fjernes.\n\nKontakt oss i dag for å lære mer om våre behandlingsalternativer for trang forhud og hvordan vi kan hjelpe deg med å få bedre livskvalitet.",
+      },
     ],
+    relatedSpecialists: ["trond-jorgensen"],
     faqs: [
-      { question: "Må trang forhud alltid opereres?", answer: "Nei, milde tilfeller kan ofte behandles med kortisonsalve. Kirurgi er aktuelt ved mer uttalte plager." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/infertilitet": {
