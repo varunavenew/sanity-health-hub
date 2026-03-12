@@ -168,6 +168,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                   ))}
                 </div>
               </div>
+            )}
 
             {/* Key Benefits */}
             {treatment.benefits && treatment.benefits.length > 0 && (
