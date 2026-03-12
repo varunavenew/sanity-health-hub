@@ -216,7 +216,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
   if (categorySpecialists.length === 0) return null;
 
   return (
-    <section className="py-24 md:py-32 bg-brand-dark overflow-hidden">
+    <section className="py-14 md:py-20 bg-brand-dark overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
@@ -361,7 +361,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </header>
 
       {/* Introduction */}
-      <section className="py-12 md:py-16 bg-background">
+      <section className="py-8 md:py-12 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
             {category.description.split('\n').map((paragraph, i) => {
@@ -378,7 +378,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 md:py-24 bg-background">
+      <section id="services" className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
@@ -421,7 +421,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       {/* Spesialistklinikker Section */}
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-6">Spesialistklinikker</h2>
@@ -450,7 +450,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       {/* Finansiering Section */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-8">Finansiering</h2>
@@ -497,7 +497,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
