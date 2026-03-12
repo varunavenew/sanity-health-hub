@@ -1,6 +1,7 @@
 export interface SubItem {
   label: string;
   anchor?: string;
+  path?: string;
 }
 
 export interface SubCategory {
@@ -26,10 +27,10 @@ export const serviceCategories: ServiceCategory[] = [
         label: 'Tverrfaglig team', 
         path: '/behandlinger/gynekologi/tverrfaglig',
         items: [
-          { label: 'Osteopat' },
-          { label: 'Sexolog' },
-          { label: 'Psykolog' },
-          { label: 'Ernæringsfysiolog' },
+          { label: 'Osteopat', anchor: '', path: '/behandlinger/flere-fagomrader/osteopati' },
+          { label: 'Sexolog', anchor: '', path: '/behandlinger/flere-fagomrader/sexologi' },
+          { label: 'Psykolog', anchor: '', path: '/behandlinger/flere-fagomrader/psykologi' },
+          { label: 'Ernæringsfysiolog', anchor: '', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog' },
         ]
       },
       { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse' },
