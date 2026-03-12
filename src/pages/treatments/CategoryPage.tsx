@@ -26,6 +26,8 @@ interface CategoryData {
   title: string;
   subtitle: string;
   description: string;
+  servicesIntro?: string;
+  servicesHeading?: string;
   heroImage: string;
   services: SubService[];
   faqs: { question: string; answer: string }[];
