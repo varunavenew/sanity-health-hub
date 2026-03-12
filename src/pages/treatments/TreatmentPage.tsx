@@ -53,6 +53,15 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
       }
     : staticTreatment;
 
+  // Resolve related specialists
+  const relatedSpecialists = useMemo(() => {
+    const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
+    if (!slugs || slugs.length === 0) return [];
+    return slugs
+      .map(slug => allSpecialists.find(s => s.slug === slug))
+      .filter((s): s is Specialist => !!s);
+  }, [treatment, staticTreatment]);
+
   useEffect(() => {
     if (treatment) {
       document.title = `${treatment.title} | CMedical`;
