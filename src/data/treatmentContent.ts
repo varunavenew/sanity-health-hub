@@ -568,20 +568,38 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "urologi/blaere": {
     title: "Blære og urinveier",
-    subtitle: "Utredning og behandling av blod i urinen, vannlatingsproblemer og mer.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Problemer med blæren og urinveiene er vanlige og kan ramme både kvinner og menn. Vi tilbyr grundig utredning og moderne behandling av alle tilstander som rammer blære og urinveier.\n\nVåre urologer har lang erfaring med diagnostikk og behandling, inkludert cystoskopi, TUR-P og TUR-B.",
-    benefits: [
-      "Rask utredning av blod i urinen",
-      "Cystoskopi for direkte undersøkelse av blæren",
-      "TUR-P og TUR-B for operativ behandling",
-      "Behandling av innsnevring i urinrøret",
-      "Kort ventetid – de fleste får time innen 1-3 dager",
+    description: "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis man opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
+    sections: [
+      {
+        id: "blod-i-urinen",
+        heading: "Blod i urinen",
+        content: "Synlig blod i urinen er ofte et tegn på potensielle urinveisproblemer eller sykdom. Det er derfor viktig å oppsøke en erfaren urolog for undersøkelse og rådgivning.\n\nVåre nyrer spiller en sentral rolle i å filtrere avfall og væske fra blodet for å produsere urin. Urinen blir skilt ut fra nyrene, sendes via urinlederne til urinblæren, før den skilles ut via urinrøret. Blod i urinen kan derfor stamme fra ulike deler av urinveissystemet. Det er flere mulige årsaker til blod i urinen, blant annet urinveisinfeksjoner, mulig kreft, medisinbruk, nyreinfeksjoner og forstørret prostata.",
+      },
+      {
+        id: "vannlatningsproblemer",
+        heading: "Vannlatningsproblemer",
+        content: "Vannlatingsproblemer hos menn kan omfatte symptomer som plutselig sterk vannlatingstrang, hyppig vannlating, vanskeligheter med å starte vannlating, svak urinstråle og avbrutt vannlating. Problemene kan ha en rekke årsaker og det er derfor viktig å sjekke det hvis man har symptomer.\n\nUrineringsproblemer kan deles inn i **lagringssymptomer** og **tømningssymptomer**. Lagringssymptomer inkluderer plutselig sterk vannlatingstrang, hyppig vannlating, små urinmengder, nattlig vannlating, ubehag ved blærefylling og urinlekkasje. Tømningssymptomer innebærer vanskeligheter med å starte vannlating, svak urinstråle, følelse av ufullstendig tømming, avbrutt vannlating, behov for å anstrenge seg, etterskvetting, svie eller smerte under vannlating.",
+      },
+      {
+        id: "tur-p-tur-b",
+        heading: "TUR-P og TUR-B",
+        content: "**TUR-P** (Transuretral Reseksjon av Prostata) for forstørret prostata: TUR-P er en kirurgisk behandling for forstørret prostata. Ved dette inngrepet bruker kirurgen et urinrørskop for å skånsomt fjerne overflødig prostatavev. Pasienter som gjennomgår prosedyren ligger i narkose og kan normalt reise hjem dagen etter inngrepet.\n\n**TUR-B** (Transuretral Reseksjon av Blære) for blærekreft: TUR-B er en kirurgisk metode som brukes for å fjerne svulster i blæren. Kirurgen fjerner vevet gjennom urinrøret og sender det til analyse for å avgjøre behandlingsbehovet. Blærekreft kan manifestere seg som synlig blod i urinen, og derfor er det nødvendig med en grundig undersøkelse hos urolog.",
+      },
+      {
+        id: "innsnevring-urinroret",
+        heading: "Innsnevring i urinrøret",
+        content: "Innsnevring i urinrøret, også kjent som uretrastriktur, kan forårsake problemer i nedre urinveier hos menn. Dette kan inkludere hyppige urinveisinfeksjoner og plutselige vannlatningsvansker.\n\nDiagnosen stilles ved å vurdere symptomer og utføre spesifikke medisinske undersøkelser som røntgen eller cystoskopi. Typiske symptomer inkluderer gradvis økende vanskeligheter med vannlating over tid. Urologiske undersøkelser er viktige for å bekrefte diagnosen.",
+      },
     ],
+    relatedSpecialists: ["trond-jorgensen"],
     faqs: [
-      { question: "Hva betyr blod i urinen?", answer: "Blod i urinen kan ha mange årsaker, fra ufarlige til alvorlige. Det bør alltid utredes hos urolog." },
-      { question: "Hva er cystoskopi?", answer: "Cystoskopi er en undersøkelse der et tynt kamera føres inn i blæren gjennom urinrøret for å se etter forandringer." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/forhud": {
