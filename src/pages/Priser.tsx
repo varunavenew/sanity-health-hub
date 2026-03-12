@@ -40,9 +40,9 @@ const priceCategories: PriceCategory[] = [
         label: 'Generell gynekologi',
         path: '/behandlinger/gynekologi/undersokelse',
         items: [
-          { name: "Gynekologisk undersøkelse", price: "kr 2100,-", duration: "30 min" },
-          { name: "Kontroll / oppfølging", price: "kr 2100,-", duration: "30 min" },
-          { name: "Digitaltime Gynekolog", price: "kr 2100,-", duration: "20 min" },
+          { name: "Gynekologisk undersøkelse", price: "2100,-", duration: "30 min" },
+          { name: "Kontroll / oppfølging", price: "2100,-", duration: "30 min" },
+          { name: "Digitaltime Gynekolog", price: "2100,-", duration: "20 min" },
         ]
       },
       {
