@@ -4,7 +4,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import cmedicalFamilyHands from "@/assets/hero/cmedical-family-hands.jpg";
+import heroFamily from "@/assets/hero/hero-family.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ClinicGrid } from "@/components/ClinicGrid";
 
@@ -53,7 +53,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-2xl mx-auto">
             <img 
-              src={cmedicalFamilyHands} 
+              src={heroFamily} 
               alt="Omsorg hos CMedical - Familie"
               className="w-full aspect-[3/2] object-cover"
             />
