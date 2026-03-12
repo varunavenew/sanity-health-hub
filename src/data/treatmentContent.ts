@@ -1161,18 +1161,32 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/hand-albue": {
     title: "Hånd og albue",
-    subtitle: "Spesialisert behandling av hånd- og albueplager.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr utredning og behandling av alle tilstander som rammer hånd og albue, inkludert karpaltunnelsyndrom, triggerfinger, tennisalbue og andre plager.\n\nVårt team inkluderer også håndterapeuter som kan hjelpe med rehabilitering.",
-    benefits: [
-      "Erfarne håndkirurger",
-      "Håndterapeut for rehabilitering",
-      "Dagkirurgiske inngrep",
-      "Rask utredning og behandling",
+    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    sections: [
+      {
+        id: "tennisalbue",
+        heading: "Tennisalbue",
+        content: "Diagnosen stilles ved vanlig undersøkelse og eventuelt ultralyd. Ved milde og begynnende symptomer kan smertestillende og betennelsesdempende medisin være nok. Injeksjon med PRP (platerikt blodplasma) eller lav dose kortison kan forsøkes. En periode i ro kan være nødvendig. Når plagene er større og vedvarer er operasjon indisert.\n\n**Operasjonen:** Utføres i lokalbedøvelse. Det legges et snitt på utsiden av albuen og det ødelagte senevevet fjernes, og knokkelen er stimulert for blødning for å øke tilhelingspotensialet."
+      },
+      {
+        id: "handleddsartroskopi",
+        heading: "Håndleddsartroskopi",
+        content: "Artroskopi (kikkhullsoperasjon) av håndleddet er brukt for å stille en riktig diagnose hvis du har uforklarlige smerter i håndleddet, og samtidig for å behandle eller operere en eventuell skade.\n\n**Operasjon ved smerter i håndledd:** Håndleddsartroskopi gjøres i narkose og lokalbedøvelse. Kirurgen setter inn en optikk/et lite kamera (skop) gjennom små hull i huden, samt små instrumenter gjennom andre hull. Bildet ses på en skjerm og kirurgen arbeider ut fra denne.\n\nHos oss får pasienter oppfølging av håndterapeut etter avanserte håndoperasjoner."
+      },
+      {
+        id: "carpal-tunnel",
+        heading: "Carpal tunnel syndrom",
+        content: "Carpal tunnel syndrom er en vanlig årsak til smerter og nummenhet i hånd og fingre. Tilstanden er hyppigere hos kvinner og forekommer hos 10% av befolkningen. Hos de fleste er årsaken ukjent. Reumatikere, diabetikere, stoffskiftesyke, eldre og personer med tidligere håndleddsbrudd er disponerte.\n\n**Symptomer:** Typiske symptomer er smerter og nummenhet i tommel, pekefinger og langfinger, og halve ringfinger. Ofte våkner pasientene på nattestid og må riste på hånda for å minske smerten. I langtkomne tilfeller kan den store tommelmuskelen svinne og svekkes.\n\nPlagene forårsakes av press på en nerve (nervus medianus) i en kanal i håndleddet.\n\n**Operasjon og behandling:** Inngrepet kan gjøres med kikkhullskirurgi/endoskopisk carpal tunnel. Endoskopisk operasjon fører til kortere sykmelding og raskere rehabilitering sammenlignet med åpen operasjon. Den gjøres i kortvarig narkose eller lokalbedøvelse. Båndet som danner taket av tunnelen deles for å gjøre plass for nerven."
+      },
     ],
     faqs: [
-      { question: "Hva er karpaltunnelsyndrom?", answer: "En tilstand der en nerve i håndleddet blir klemt, noe som gir nummenhet, prikking og smerter i hånden." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "ortopedi/kne": {
