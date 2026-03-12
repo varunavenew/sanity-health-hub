@@ -497,7 +497,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
