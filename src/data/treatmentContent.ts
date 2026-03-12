@@ -333,27 +333,49 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/graviditet": {
     title: "Graviditet",
-    subtitle: "Svangerskapskontroll, ultralyd og NIPT-test.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: heroPregnancy,
-    description: "Vi tilbyr omfattende oppfølging gjennom svangerskapet, fra tidlig ultralyd til organrettet ultralyd og NIPT-testing. Vårt team av fostermedisinere og jordmødre gir deg trygg og profesjonell oppfølging.\n\nVåre ultralydundersøkelser utføres med det nyeste utstyret for best mulig bildekvalitet og diagnostikk.",
-    benefits: [
-      "Tidlig ultralyd fra uke 7",
-      "NIPT-test for kromosomanalyse",
-      "Organrettet ultralyd ved uke 18-20",
-      "Erfarne fostermedisinere og jordmødre",
-      "Fleksible timer tilpasset din hverdag",
+    description: "Vi ønsker deg velkommen til oppfølging gjennom hele svangerskapet. Vi tilbyr fosterdiagnostikk, som NIPT og tidlig ultralyd. Hos oss jobber fødselsleger, gynekologspesialister og fostermedisinere. Deres kompetanse er din trygghet.",
+    sections: [
+      {
+        id: "ultralyd",
+        heading: "Ultralyd",
+        content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6-10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg. Fra uke 11 utføres ultralyd med utvendig (abdominal) ultralydprobe.\n\nOm undersøkelsen viser tegn på alvorlig sykdom eller skader hos fostret, vil du få veiledning og samtale med lege, og eventuelt henvisning til fostermedisinsk avdeling ved sykehuset.\n\nDersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Ved tidlig ultralydundersøkelse vil du få være avskjermet. Hos oss er det viktig at du føler deg komfortabel og trygg.\n\nHos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere.",
+      },
+      {
+        id: "nipt",
+        heading: "NIPT",
+        content: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det derfor ingen økt risiko for abort som for eksempel ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+      },
+      {
+        id: "6-ukerskontroll",
+        heading: "6-ukerskontroll",
+        content: "Ved 6-ukerskontrollen vil du treffe medgründer og gynekolog [Madeleine Engen](/spesialister/madeleine-engen). Hun har særlig erfaring med fødselsskader som kan føre til [vaginale fremfall](/behandlinger/gynekologi/vaginale-fremfall) eller [urinlekkasje](/behandlinger/gynekologi/urinlekkasje). Ta gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.\n\nPå denne kontrollen vil hovedfokuset være mors bekken. Dersom du ønsker så forklarer Madeleine endringer i underlivet ved hjelp av speil eller tegninger. Hun sjekker også hvor god kontroll og kontakt du har med bekkenbunnsmuskulaturen. Videre forklares eventuelle skader du har, hvordan man kan forebygge disse videre og hva man kan forvente i fremtiden.\n\n- Kort om svangerskap og fødsel\n- Renselse, amming\n- Mors psykiske helse\n- Sex og samliv\n- Prevensjon/prevensjonsveiledning\n- På indikasjon tar vi BT, puls eller blodprøver",
+      },
+      {
+        id: "traumatisk-fodsel",
+        heading: "Traumatisk fødsel",
+        content: "En av tre opplever fødselen sin som traumatisk og rundt 4 % har en så vanskelig fødselsopplevelse at det går utover hverdagen. Søvn, relasjon til barnet og partner og ikke minst en fødselsdepresjon kan gjøre livet ekstra vanskelig. Da er det viktig å kunne snakke seg gjennom og finne frem til løsninger i hverdagen.\n\nVanskelige fødselsopplevelser kan også påvirke tankene negativt med tanke på å tørre og bli gravid på nytt eller skape en sterk angst for forestående fødsel ved ny graviditet.",
+      },
+      {
+        id: "fodselsangst",
+        heading: "Fødselsangst",
+        content: "En av fem sliter med mentale helseplager i svangerskapet. Dessverre føler mange gravide at de ikke får den hjelpen de trenger. Fødselsangst kan være vanskelig å definere og det levde livet er ofte med å påvirke tankene negativt.\n\nHos oss møter du erfaren fødselslege som vil både hjelpe deg med å besvare spørsmålene du har og finne frem til en trygghet rundt det du skal gjennom.",
+      },
+      {
+        id: "for-partnere",
+        heading: "For partnere",
+        content: "Partnere kan også ha det tungt i graviditeten, under og etter fødsel. Dette blir snakket lite om og partner får sjeldent fokus på helsestasjonen eller på fødestuen. Rundt 8 % av partnere får PTSD etter fødsel og kan kjenne seg hjelpeløse i forhold til det og den nye tilværelsen som forelder. Det er også mange partnere som har fødselsangst og fødselsdepresjon.",
+      },
     ],
-    process: [
-      { title: "Tidlig ultralyd", description: "Bekreftelse av svangerskap, datering og vurdering av fosterets utvikling fra uke 7." },
-      { title: "NIPT-test (valgfritt)", description: "Blodprøve som analyserer fosterets DNA for å se etter kromosomavvik. Kan tas fra uke 10." },
-      { title: "Organrettet ultralyd", description: "Grundig gjennomgang av fosterets organer og utvikling ved uke 18-20." },
-      { title: "Svangerskapskontroller", description: "Regelmessige kontroller gjennom svangerskapet med blodprøver, ultralyd og samtale." },
-    ],
+    relatedSpecialists: ["ashi-ahmad", "madeleine-engen"],
     faqs: [
-      { question: "Når kan jeg ta tidlig ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
-      { question: "Hva er NIPT?", answer: "NIPT er en blodprøve som analyserer fragmenter av fosterets DNA i morens blod for å påvise eventuelle kromosomavvik." },
-      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/kirurgi": {
