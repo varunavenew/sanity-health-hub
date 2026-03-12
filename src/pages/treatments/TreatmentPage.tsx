@@ -21,6 +21,13 @@ const specialistLabels: Record<string, string> = {
   "flere-fagomrader": "spesialist",
 };
 
+// Simple inline markdown formatter for **bold** and _italic_
+const formatInlineMarkdown = (text: string): string => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/_(.*?)_/g, '<em>$1</em>');
+};
+
 const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const { subId } = useParams();
   const navigate = useNavigate();
