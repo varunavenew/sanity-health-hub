@@ -1247,19 +1247,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "flere-fagomrader/endokrinologi": {
     title: "Endokrinologi",
-    subtitle: "Utredning av stoffskifte, diabetes og hormonsykdommer.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Endokrinologi omhandler hormonsystemet og stoffskiftesykdommer. Vi tilbyr grundig utredning og behandling av tilstander som skjoldbruskkjertelsykdommer, diabetes, binyresykdommer og andre hormonelle tilstander.\n\nVåre endokrinologer har lang erfaring og holder seg oppdatert på den nyeste forskningen.",
+    description: "Endokrinologi er en medisinsk spesialitet som handler om hormonsystemet og sykdommer knyttet til kjertler som produserer hormoner, som for eksempel skjoldbruskkjertelen, binyrene, hypofysen og biskjoldkjertlene.\n\nEndokrinologer utreder, behandler og følger opp pasienter med hormonelle forstyrrelser. For å finne ut om du har en hormonell sykdom starter vi med en grundig konsultasjon og undersøkelse, som ofte inkluderer blodprøver og eventuelt bildeundersøkelser.\n\nHar du plager knyttet til hormoner, stoffskifte, diabetes eller andre endokrine tilstander, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
     benefits: [
       "Erfarne endokrinologer med spisskompetanse",
-      "Grundig hormonutredning med blodprøver",
+      "Grundig hormonutredning med blodprøver og bildeundersøkelser",
       "Individuelt tilpasset behandling og oppfølging",
       "Tverrfaglig samarbeid med ernæringsfysiolog",
     ],
+    relatedSpecialists: ["ersan-krckov"],
     faqs: [
-      { question: "Hva behandler en endokrinolog?", answer: "Endokrinologer behandler sykdommer i hormonsystemet, inkludert stoffskifteproblemer, diabetes, binyresykdommer og mer." },
-      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte hos oss." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "flere-fagomrader/hudlege": {
