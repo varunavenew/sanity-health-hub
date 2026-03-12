@@ -146,11 +146,11 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* ── Hero ── */}
-      <header className="relative h-[32vh] md:h-[38vh] overflow-hidden">
+      <header className="relative h-[40vh] md:h-[45vh] lg:h-[50vh] overflow-hidden">
         <img
           src={treatment.heroImage}
           alt={treatment.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
           loading="eager"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/40 to-transparent" />
