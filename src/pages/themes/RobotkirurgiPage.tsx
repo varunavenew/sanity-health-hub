@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 
@@ -32,53 +32,21 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
       {/* Content */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-8 max-w-3xl">
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">
-            Presisjon, kontroll og raskere restitusjon
-          </h2>
+          
+          {/* Intro */}
           <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Hos CMedical tilbyr vi robotassistert kirurgi som en integrert del av vårt kirurgiske behandlingstilbud. Metoden kombinerer avansert teknologi med høy kirurgisk kompetanse, og gjør det mulig å gjennomføre komplekse inngrep med stor presisjon og minimal belastning for pasienten.
+            Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.
           </p>
           <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Robotkirurgi utføres som kikkhullskirurgi, gjennom små snitt i huden. Forskjellen er at kirurgen styrer instrumentene elektronisk fra en konsoll ved siden av operasjonsbordet. Instrumentene holdes av robotarmer som gjengir kirurgens bevegelser med svært høy nøyaktighet. Et høyoppløselig, stereoskopisk 3D-kamera gir forstørret og detaljert oversikt over operasjonsfeltet.
+            Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.
           </p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            Dette gir optimal kontroll – særlig ved inngrep i områder med tett og sårbar anatomi.
+          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
+            Robotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.
           </p>
 
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Skånsom behandling ved avanserte inngrep</h2>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-4">
-            Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner hvor man ønsker å unngå åpen kirurgi (laparotomi). Metoden gir:
-          </p>
+          <p className="text-base text-foreground font-normal mb-4">Vi tilbyr robotassistert kirurgi innen blant annet:</p>
           <ul className="space-y-2 mb-6">
             {[
-              "Mindre operasjonssår",
-              "Redusert blødning",
-              "Lavere risiko for komplikasjoner",
-              "Mindre postoperativ smerte",
-              "Raskere mobilisering",
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-dark mt-2 flex-shrink-0" />
-                <span className="text-sm text-muted-foreground font-light">{item}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            De fleste pasienter kan reise hjem innen ett døgn etter inngrepet. Mange kan spise og være oppe samme kveld. Avhengig av type operasjon og arbeidssituasjon er sykemeldingsperioden ofte rundt 2–3 uker, betydelig kortere enn ved tradisjonell åpen kirurgi.
-          </p>
-
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Presisjon der det betyr mest</h2>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            I bekkenet finnes nerver og strukturer som er avgjørende for funksjoner som blærekontroll og seksualfunksjon, både hos kvinner og menn. Ved tilstander som dyp endometriose eller prostatakreft er det særlig viktig med nøyaktig disseksjon for å redusere risiko for nerveskader.
-          </p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            Robotkirurgi gir kirurgen bedre bevegelighet og kontroll enn tradisjonell laparoskopi, og er et effektivt verktøy ved nervesparende kirurgi.
-          </p>
-
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Vi tilbyr robotassistert kirurgi innen blant annet</h2>
-          <ul className="space-y-2 mb-12">
-            {[
-              "Overvektskirurgi (bariatrisk kirurgi)",
               "Muskelknuter (fertilitetsbevarende kirurgi)",
               "Dyp endometriose",
               "Hysterektomi, også ved forstørret livmor",
@@ -93,22 +61,46 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
             ))}
           </ul>
           <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            Ved enkelte krefttilfeller, som livmorkreft og prostatakreft, kan robotkirurgi være et særlig godt alternativ nettopp på grunn av presisjon og skånsomhet.
+            Hos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.
           </p>
 
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Teknologi og erfaring i samspill</h2>
+          {/* Rask rehabilitering */}
+          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Rask rehabilitering</h2>
           <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Robotsystemet er et avansert verktøy – men det er kirurgens erfaring som er avgjørende. Inngrepene utføres av spesialister innen urologi og gynekologi med solid kompetanse på både tradisjonell og robotassistert kirurgi.
+            Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.
           </p>
+          <p className="text-base text-foreground font-normal mb-2">En raskere vei til restitusjon</p>
+          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
+            Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Det gir en roligere og mer forutsigbar opplevelse etter operasjonen.
+          </p>
+          <p className="text-base text-foreground font-normal mb-2">Kortere sykemelding – raskere tilbake til hverdagen</p>
           <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            Kirurgen arbeider fra en ergonomisk tilpasset konsoll, noe som gir stabilitet, konsentrasjon og presisjon gjennom hele operasjonen.
+            Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen. Noen studier indikerer også mindre smerter etter robotkirurgi sammenlignet med vanlig kikkehullskirurgi (laparoskopi).
           </p>
 
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">En tryggere vei tilbake til hverdagen</h2>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-10">
-            Målet med robotassistert kirurgi er ikke bare å gjennomføre selve inngrepet med høy kvalitet, men å sikre en trygg og forutsigbar opplevelse før, under og etter operasjonen. Moderne teknologi, strukturert oppfølging og erfarne spesialister gir kortere rekonvalesens og raskere vei tilbake til hverdagen – med minst mulig belastning underveis.
+          {/* Presisjon */}
+          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Presisjon som merkes</h2>
+          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
+            Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata. Nerveskader i bekkenet kan gi seksuelle dysfunksjoner og problemer med blæretømming, både hos kvinner og menn. Robotkirurgi gir bedre kontroll og er et effektivt verktøy for å gjennomføre slik nervedisseksjon med lavere risiko.
+          </p>
+          <p className="text-base text-foreground font-normal mb-2">Ergonomi – også for kirurgen</p>
+          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
+            Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.
+          </p>
+          <p className="text-base text-foreground font-normal mb-2">Erfarne spesialister – trygg behandling</p>
+          <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
+            Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen.
           </p>
 
+          {/* Testimonial */}
+          <div className="bg-secondary/30 rounded-xl p-8 mb-12 border-l-4 border-foreground/20">
+            <p className="text-foreground/70 font-light italic leading-relaxed mb-4">
+              «Tilgjengelighet i en usikker periode har vært viktig. Dere svarer telefoner og mail raskt. Etter operasjonen ble jeg langt i fra glemt. Jeg kunne ta kontakt med dere langt utenfor det som var normal arbeidstid, og robotkirurgen sa jeg kunne ringe ham når som helst på døgnet. Jeg tror at min livssituasjon kanskje ikke ville vært så god som den er i dag dersom noen andre i Norge hadde utført inngrepet.»
+            </p>
+            <p className="text-sm text-muted-foreground">— Tom, 70 år</p>
+          </div>
+
+          {/* CTA */}
           <Button
             onClick={() => navigate("/booking")}
             className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-full font-light"
@@ -116,9 +108,50 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
             Bestill time
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
+
+          {/* FAQ */}
+          <div className="mt-16">
+            <h2 className="text-2xl font-normal text-foreground mb-8 text-center">
+              Ofte stilte spørsmål
+            </h2>
+            <div className="border-t border-border rounded-lg bg-white overflow-hidden">
+              {[
+                { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+                { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+                { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+                { question: "RASP", answer: "Robotassistert enkel prostatektomi (RASP) er et inngrep for godartet forstørret prostata. Operasjonen utføres robotassistert med høy presisjon." },
+                { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
+              ].map((faq, i) => (
+                <FaqItem key={i} question={faq.question} answer={faq.answer} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </PageLayout>
+  );
+};
+
+const FaqItem = ({ question, answer }: { question: string; answer: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-border last:border-b-0">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between py-5 px-6 text-left hover:bg-secondary/30 transition-colors"
+      >
+        <span className="text-base font-normal text-foreground">{question}</span>
+        {isOpen ? (
+          <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+        ) : (
+          <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+        )}
+      </button>
+      <div className={`overflow-hidden transition-all duration-300 ease-out ${isOpen ? "max-h-60 pb-5 px-6" : "max-h-0"}`}>
+        <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-light pr-8">{answer}</p>
+      </div>
+    </div>
   );
 };
 
