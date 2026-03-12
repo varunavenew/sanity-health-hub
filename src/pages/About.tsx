@@ -95,45 +95,8 @@ const About = ({ isChatOpen }: AboutProps) => {
 
       <ClinicGrid />
 
-      {/* Strategic narrative */}
-      <section className="bg-brand-warm py-16 md:py-20">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-xl md:text-2xl font-light text-foreground mb-8">
-              Faglig trygghet og personlig omsorg – for din helse
-            </h3>
-            <div className="space-y-5 text-[15px] text-brand-dark/80 font-light leading-[1.8]">
-              <p>
-                Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
-              </p>
-              <p>
-                CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.
-              </p>
-              <p>
-                Vi skal forene det fremste innen medisinsk presisjon med varme, respekt og tydelig kommunikasjon. Pasienten skal oppleve trygghet i hvert møte, forutsigbarhet i hvert steg og kvalitet i alle ledd.
-              </p>
-              <p>
-                Kvinnehelse er et strategisk satsningsområde i CMedical. Kvinners helse har i for stor grad vært underprioritert, både som del av folkeopplysning, medisinsk tilbud og i forskning. Derfor bygger vi et helhetlig og subspesialisert tilbud som følger kvinnen gjennom hele livsløpet – fra pubertet og fertilitet til barneønske og graviditet, barseltid og før, under og etter overgangsalder. Ekspertteam innen blant annet endometriose, infertilitet, vulvalidelser, fødselsskader og menopause sikrer direkte tilgang til riktig kompetanse – uten omveier.
-              </p>
-              <p className="text-brand-dark font-normal">
-                Ambisjonen er tydelig: Kvinnehelse for livet.
-              </p>
-              <p>
-                Samtidig favner tilbudet bredt innen gynekologi, fertilitet, ortopedi og urologi – fra grundig utredning til avansert kirurgi. Tverrfaglige fagområder som osteopati, psykologi, sexologi og ernæring er integrert for å sikre en helhetlig tilnærming til både kropp og livssituasjon.
-              </p>
-              <p>
-                Teknologi tas i bruk der den gir dokumentert verdi. Som landets eneste private klinikk med robotassistert kirurgi kombineres innovasjon med erfaring for å gi mer presise og skånsomme inngrep. Hos oss kommer du til den beste hjelpen – raskt.
-              </p>
-              <p>
-                CMedical skal sette en ny standard for privat spesialisthelsetjeneste – der moderne teknologi, korte beslutningslinjer og høyeste kompetanse møtes i omgivelser preget av ro og verdighet.
-              </p>
-              <p className="text-brand-dark font-normal pt-2">
-                Dette er vårt løfte: Faglig trygghet og personlig omsorg – for din helse, i alle livets faser.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Clinic Grid */}
+      <ClinicGrid />
 
       {/* Specialists section - dark themed */}
       <section className="bg-brand-dark py-16 md:py-24">
