@@ -997,19 +997,33 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/donorbehandling": {
     title: "Donorbehandling",
-    subtitle: "Behandling med donorsæd eller donoregg.",
+    subtitle: "Uten henvisning • Ingen ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Donorbehandling kan være aktuelt for enslige kvinner, par med mannlig infertilitet, eller par der egne egg ikke kan brukes. Vi tilbyr behandling med donorsæd og samarbeider med anerkjente eggdonorklinikker.\n\nAlle donorer er grundig screenet og godkjent i henhold til norsk lovverk.",
-    benefits: [
-      "Donorsæd fra godkjente sædbanker",
-      "Samarbeid med anerkjente eggdonorklinikker",
-      "Grundig veiledning gjennom hele prosessen",
-      "Støtte og rådgivning om de etiske aspektene",
+    description: "Behandling med donorsæd eller donerte egg kan være aktuelt for mange. I Norge er det ikke tillatt med samtidig donasjon av egg og sæd (såkalt dobbeldonasjon) og single kvinner i Norge får derfor ikke tilbud om eggdonasjon i henhold til bioteknologiloven. Unntak fra dette er i et likekjønnet par der den ene kvinnen kan få sine egg befruktet med donorsæd og gi befruktet egg til den andre kvinne for å oppnå graviditet (såkalt partnerdonasjon).\n\nSynes du det er vanskelig å forstå alt? Du er ikke alene. Har du spørsmål er du velkommen til å ringe oss.",
+    sections: [
+      {
+        id: "partnerdonasjon",
+        heading: "Partnerdonasjon",
+        content: "Partnerdonasjon ble tillatt i Norge 01.01.2021 og kan være aktuelt for to kvinner i et parforhold.\n\nI den nye Bioteknologiloven som kom i 2020 ble det tillat med partnerdonasjon, men det måtte da begrunnes medisinsk. Imidlertid kom det en endring og presisering i 2021, slik at begrunnelsen nå også kan være kun sosial. Dette betyr at kvinner i likekjønnet par selv kan bestemme hvem som skal gå gravid.\n\nNoen kvinner har medisinske utfordringer knyttet til sin fertilitet, eggstokker som produserer lite eller ingen egg, tidlig overgangsalder eller på andre måter har redusert eggkvalitet. Sjansen for å lykkes med reproduksjon kan da være minimale. Da kan man ha mulighet til å få egg fra en annen kvinne. Dersom eggene som brukes er av god kvalitet har man en god sjanse for å lykkes med behandling. Eggene vil da befruktes med donorsperm.\n\nPartnerdonasjon er kun aktuelt for to kvinner som er gift eller samboer i ekteskapslignende forhold.\n\nFremgangsmåte ved partnerdonasjon er ganske lik IVF-behandling. Egget hentes ut fra den ene kvinnen (giver) og befruktes med donorsæd. Embryoet fryses ned og tines, for så å settes tilbake i partners livmor (mottaker) ved et fryseforsøk. Behandlingen er tillatt der det foreligger en sosial eller medisinsk grunn til at partner (mottaker) ikke kan bli gravid med egne egg."
+      },
+      {
+        id: "donorsaed",
+        heading: "Donorsæd",
+        content: "Vi benytter donorsæd fra Livio Sperm Bank, Cryos og European Sperm Bank. Vi har god tilgang på norsk donorsæd fra Livio Sperm Bank.\n\nEtter norske retningslinjer bruker vi sæd fra ikke-anonym donor. Donor forblir anonym for kvinnen/paret, men barnet har rett til informasjon om donors identitet når han eller hun fyller 15 år. Fram til 2019 var denne aldersgrensen 18 år.\n\nOm det ønskes flere barn fra samme donor kan donorsæd reserveres til søskenforsøk hos sædbanken og/eller lagres ved klinikken vår.\n\nUnder den første samtalen med gynekolog gjennomgås rutiner for utvelgelse av sæddonor. Før behandling kan igangsettes er det viktig at donorsæd er på plass på klinikken. Kontakt oss dersom du er usikker på om klinikken har mottatt donorsæd til behandlingen.\n\nVi tilbyr behandling med norsk donorsæd – som har vært donert hos Livio Oslo og som nå er en del av CMedical sitt tilbud."
+      },
+      {
+        id: "donoregg",
+        heading: "Donoregg",
+        content: "I følge Bioteknologiloven i Norge er behandling med donoregg tillatt kun til heterofile par. Denne type behandling tilbys i situasjoner der kvinnen ikke har mulighet til å bruke egne egg på grunn av enten eggmangel eller svært redusert eggkvalitet.\n\nVi i CMedical følger disse retningslinjene i Bioteknologiloven."
+      },
     ],
+    relatedSpecialists: ["kristian-ophaug"],
     faqs: [
-      { question: "Hvem kan motta donorsæd?", answer: "Enslige kvinner og par der mannen har alvorlig nedsatt sædkvalitet kan motta donorsæd." },
-      { question: "Er donoren anonym?", answer: "I Norge er sæddonorer identitetsåpne. Barnet kan få vite donors identitet ved fylte 15 år." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "fertilitet/hysteroskopi": {
