@@ -1055,19 +1055,38 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "fertilitet/saedanalyse": {
     title: "Sædanalyse",
-    subtitle: "Grundig analyse av sædkvalitet etter WHO-standard.",
+    subtitle: "Uten henvisning • Ingen ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Sædanalyse er en sentral del av fertilitetsutredningen. Vi analyserer antall sædceller, bevegelighet og form etter WHO-standard.\n\nAnalysen gir viktig informasjon om mannens fruktbarhetspotensiale og er grunnlaget for valg av behandlingsmetode.",
-    benefits: [
-      "WHO-standardisert analysemetode",
-      "Resultat innen kort tid",
-      "Veiledning om videre steg basert på resultatet",
-      "Kan kombineres med urologisk konsultasjon",
+    description: "En sædanalyse er en trygg og enkel måte å kartlegge mannens sædkvalitet på. Prøven gir viktig informasjon om antall, bevegelighet og utseende på spermiene, og brukes ofte som første steg når man ønsker å undersøke fertilitet eller planlegger assistert befruktning.\n\nPrøven tas ved utløsning og kan leveres på klinikken. Analysen gir et tydelig bilde av sædkvaliteten og kan bidra til å avgjøre om videre utredning eller behandling er nødvendig.\n\nSædanalyse kan også være første steg dersom man ønsker å fryse ned spermier for fremtidig bruk – for eksempel før medisinsk behandling eller andre inngrep som kan påvirke fertiliteten.",
+    sections: [
+      {
+        id: "enkel-saedprove",
+        heading: "Enkel sædprøve",
+        content: "En enkel sædprøve gir en grunnleggende vurdering av mannens sædkvalitet, inkludert antall sædceller, konsentrasjon, bevegelighet og utseende. Dette gir viktig informasjon om fertilitet og kan være første steg i kartleggingen av fruktbarhet.\n\n**Forberedelser:**\n- Det anbefales 2 dagers abstinens siden siste utløsning\n- Kvelden før prøven: vask penis med såpe og vann\n- På prøvedagen: vask kun med vann, unngå kremer eller oljer\n- Prøven kan tas på klinikken eller hjemme. Ved hjemmeprøve: lever den innen én time og hold den kroppstemperert. Ikke bruk glidemiddel eller spytt\n\nAnalysen gjøres i laboratoriet, og resultatene gir oss et klart bilde av sædkvaliteten, slik at vi kan vurdere om videre undersøkelser eller behandling er nødvendig."
+      },
+      {
+        id: "utvidet-saedprove",
+        heading: "Utvidet sædprøve",
+        content: "En utvidet sædprøve gir en mer detaljert vurdering, inkludert morfologi og DNA-fragmentering. Dette kan være aktuelt ved redusert sædkvalitet eller for å kartlegge årsaker til infertilitet, inkludert gjentatte aborter.\n\n**Når kan den være nødvendig?**\n- Vedvarende redusert sædkvalitet\n- Gjentatte aborter\n\n**Forberedelser:**\n- Samme hygieneregler som for enkel prøve\n- Det anbefales 1 dags abstinens\n- Prøven tas kun på klinikken og må avtales på forhånd\n\nVed behov kan sæd også fryses ned for fremtidig bruk, for eksempel før medisinsk behandling som kan påvirke fertiliteten, sterilisering eller kjønnsbekreftende behandling."
+      },
+      {
+        id: "etter-vasektomi",
+        heading: "Sædprøve etter vasektomi/refertilisering",
+        content: "Vi anbefaler sædprøve tre måneder etter inngrepet. Dersom inngrepet er utført hos CMedical, er denne prøven kostnadsfri."
+      },
+      {
+        id: "nedfrysning",
+        heading: "Nedfrysning av sæd",
+        content: "Sæd kan fryses ned for fremtidig bruk, for eksempel før medisinsk behandling som kan påvirke fertiliteten, ved sterilisering eller i forbindelse med kjønnsbekreftende behandling.\n\n**Forberedelser:**\nFør nedfrysning må du ta lovpålagte blodprøver for HIV, hepatitt B og hepatitt C. Rekvisisjoner til prøvene får du av oss.\n\nSamme hygieneregler gjelder som ved vanlig sædprøve, og vi anbefaler 1–2 dagers avhold før prøvetaking. Prøven tas på klinikken, og timen må avtales på forhånd."
+      },
     ],
+    relatedSpecialists: ["kristian-ophaug"],
     faqs: [
-      { question: "Hvordan forbereder jeg meg?", answer: "Du bør ha 2-7 dagers avholdenhet før prøvetaking. Vi gir deg detaljert informasjon ved booking." },
-      { question: "Hva koster en sædanalyse?", answer: "En enkel sædanalyse koster kr 1 950." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "fertilitet/teamet": {
