@@ -314,21 +314,28 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/kirurgi": {
     title: "Gynekologisk kirurgi",
-    subtitle: "Avansert kirurgi inkludert robotassisterte inngrep.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: heroTech,
-    description: "CMedical tilbyr et bredt spekter av gynekologiske operasjoner, fra enkle inngrep til avansert robotassistert kirurgi. Vi er en av svært få private klinikker i Norden som tilbyr robotkirurgi innen gynekologi.\n\nVåre kirurger har høyt volum og lang erfaring, noe som gir trygge og gode resultater.",
-    benefits: [
-      "Robotassistert kirurgi med da Vinci-systemet",
-      "Fremfalloperasjoner med moderne teknikker",
-      "Operasjon for urinlekkasje",
-      "Fjerning av muskelknuter og polypper",
-      "Hysterektomi med minimal invasiv teknikk",
-      "Avansert endometriosekirurgi",
+    description: "CMedical tilbyr vi en rekke gynekologiske operasjoner utført av håndplukkede kirurger, som er ledende innen sine felt. Hos oss er både trygghet og god kommunikasjon viktig, og vi sørger for at du føler deg godt ivaretatt gjennom hele behandlingsforløpet.\n\nNår en operasjon er den beste løsningen for deg, vil vår operasjonskoordinator hjelpe deg med å finne en passende dato. Du får grundig informasjon om inngrepet og oppfølgingen, og kirurgen vil være tilgjengelig for deg også etter operasjonen.",
+    sections: [
+      {
+        id: "tjenester",
+        heading: "Våre tjenester innen gynekologisk kirurgi",
+        content: "- Fremfalloperasjoner: For prolaps i skjedevegger, livmorhals eller livmor. [Les mer →](/behandlinger/gynekologi/vaginale-fremfall)\n- Urinlekkasjeoperasjoner: Behandling av alle typer urinlekkasje. [Les mer →](/behandlinger/gynekologi/urinlekkasje)\n- Hysterektomi: Fjerning av livmor ved blødningsproblemer eller smerter. [Les mer →](/behandlinger/gynekologi/fjerne-livmor)\n- Polypper og muskelknuter: Fjerning ved hysteroskopi eller laparoskopi.\n- Endometriosebehandling: Avanserte inngrep utført av erfarne spesialister. [Les mer →](/behandlinger/gynekologi/endometriose)\n- Fjerning av eggstokkcyster, arrvev og celleforandringer.\n- Labiaplastikk/reduksjon av de små kjønnsleppene. [Les mer →](/behandlinger/gynekologi/labiaplastikk)",
+      },
+      {
+        id: "robotkirurgi",
+        heading: "Robotassistert kirurgi",
+        content: "Som den eneste private aktøren i Norge tilbyr vi robotassistert gynekologisk kirurgi. Dette sikrer presisjon og skånsomhet, og reduserer risikoen for komplikasjoner. Metoden er særlig fordelaktig ved kompleks anatomi og ved endometriose.\n\nUnder inngrepet er kirurgen alltid til stede og styrer roboten direkte fra operasjonsstuen. Med en 180-graders rotasjonsdyktig «hånd» kan roboten nå frem på områder i buk og bekken som ellers er vanskelig tilgjengelige. Denne metoden reduserer risikoen for blødninger, nerveskader og skader på organer som tarm og blære, og gir kortere sykehusopphold etter operasjonen.\n\nRobotassistert kirurgi er spesielt fordelaktig ved kompliserte tilfeller som endometriose og vanskelig tilgjengelig anatomi, og våre erfarne kirurger er blant landets fremste på området.\n\n[Les mer om robotkirurgi →](/robotassistert-kirurgi)\n\nØnsker du mer informasjon, eller har du spørsmål om andre operasjoner? Ring oss gjerne – vi er her for å hjelpe deg.\n\n_Ikke aksepter å leve med plager vi kan hjelpe deg med._",
+      },
     ],
     faqs: [
-      { question: "Er robotkirurgi trygt?", answer: "Ja, robotassistert kirurgi er vel dokumentert og gir ofte bedre resultater enn tradisjonell åpen kirurgi." },
-      { question: "Kan jeg reise hjem samme dag?", answer: "Ved mange inngrep kan du reise hjem samme dag eller dagen etter. Din kirurg vil gi deg informasjon om dette." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/hormonforstyrrelser": {
