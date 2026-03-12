@@ -1027,19 +1027,30 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "fertilitet/hysteroskopi": {
-    title: "Hysteroskopi – Fertilitet",
-    subtitle: "Undersøkelse av livmorhulen som del av fertilitetsutredning.",
+    title: "Hysteroskopi",
+    subtitle: "Uten henvisning • Ingen ventetid",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Hysteroskopi brukes i fertilitetssammenheng for å undersøke livmorhulen for polypper, septa, muskelknuter eller andre tilstander som kan påvirke implantasjon og graviditet.\n\nProsedyren kan være diagnostisk eller terapeutisk, og utføres vanligvis uten narkose.",
+    description: "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne.\n\nFordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre.",
     benefits: [
-      "Viktig del av fertilitetsutredningen",
-      "Kan avdekke og behandle årsaker til implantasjonssvikt",
-      "Office-hysteroskopi uten narkose",
-      "Rask prosedyre med umiddelbare resultater",
+      "Uregelmessige blødninger",
+      "Mistanke om polypper eller muskelknuter i livmoren",
+      "Vanskeligheter med å bli gravid",
+      "Forandringer i livmorslimhinnen",
     ],
+    sections: [
+      {
+        id: "office-hysteroskopi",
+        heading: "Office-hysteroskopi",
+        content: "Vi tilbyr også office-hysteroskopi som kan gjennomføres uten narkose eller bedøvelse, og umiddelbart ved besøk hos gynekolog."
+      },
+    ],
+    relatedSpecialists: ["kristian-ophaug"],
     faqs: [
-      { question: "Hvorfor gjøres hysteroskopi ved infertilitet?", answer: "For å sikre at livmorhulen er normal og klar for embryooverføring. Polypper og andre funn kan fjernes i samme prosedyre." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "fertilitet/saedanalyse": {
