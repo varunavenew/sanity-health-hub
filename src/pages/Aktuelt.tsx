@@ -245,7 +245,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               <h2 className="text-lg font-medium text-foreground mb-6">Flere artikler</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {visibleRest.map((article) => (
-                  <ArticleCard key={article.slug} article={article} size="small" />
+                  <ArticleCard key={article.slug} article={article} />
                 ))}
               </div>
             </>
