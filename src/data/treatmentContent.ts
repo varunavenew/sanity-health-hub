@@ -646,18 +646,38 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/nyrer": {
     title: "Nyrer",
-    subtitle: "Utredning og behandling av nyrecyster, nyrestein og nyretumor.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Vi tilbyr avansert diagnostikk og behandling av alle nyresykdommer, inkludert nyrecyster, nyrestein og nyretumorer. Ved nyrekreft tilbyr vi robotassistert kirurgi for mest mulig skånsom behandling.",
-    benefits: [
-      "Avansert bildediagnostikk med ultralyd og CT",
-      "Robotassistert kirurgi for nyrekreft",
-      "Moderne nyresteinbehandling",
-      "Oppfølging av nyrecyster",
+    description: "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robot-teknologi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep.",
+    sections: [
+      {
+        id: "nyrecyster",
+        heading: "Nyrecyster",
+        content: "Nyrecyster er væskefylte hulrom som kan utvikle seg på nyrene. De er vanligvis godartede og oppdages ofte ved medisinske undersøkelser. Behandlingen avhenger av cystens størrelse, symptomer og mistanke om ondartethet:\n\n- **Overvåkning:** Små, asymptomatiske cyster overvåkes regelmessig.\n- **Drenasje:** Store eller symptomatiske cyster kan tømmes med en nål.\n- **Kirurgi:** Kirurgisk fjerning kan være nødvendig for store, symptomatiske eller potensielt ondartede cyster.\n- **Behandling av underliggende årsak:** Hvis cyster er relatert til en annen sykdom, behandles den underliggende tilstanden.",
+      },
+      {
+        id: "tumor",
+        heading: "Tumor",
+        content: "En nyretumor er en unormal vekst av celler i nyrene. De kan være enten godartede eller ondartede. Ondartede nyretumorer, som nyrekreft eller nyrekarsinom, utgjør en alvorlig helsefare. Nyretumorer kan utvikle seg i en eller begge nyrer og oppdages vanligvis ved bildeundersøkelser som røntgen eller ultralyd.\n\nBehandlingen av nyretumorer avhenger av flere faktorer, inkludert tumorstørrelse, type og utbredelse. Vanlige behandlingsalternativer inkluderer kirurgisk fjerning av tumoren, strålebehandling, kjemoterapi, målrettet terapi og immunterapi.",
+      },
+      {
+        id: "robotkirurgi-nyrekreft",
+        heading: "Robotkirurgi for nyrekreft",
+        content: "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotkirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotkirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene.",
+      },
+      {
+        id: "nyrestein",
+        heading: "Nyrestein",
+        content: "Nyrestein, også kjent som nefrolithiasis, er små, faste formasjoner som dannes i nyrene når mineraler og salter i urinen krystalliserer. Disse steinene kan forårsake betydelig smerte når de beveger seg gjennom urinveiene.\n\nSymptomer på nyrestein kan være intense ryggsmerter, smerte i siden eller magen, hyppig vannlating, blod i urinen, og kvalme. De fleste nyresteiner er små nok til å passere naturlig, men i noen tilfeller kan de kreve medisinsk behandling.\n\nBehandlingen av nyrestein kan omfatte smertestillende medisiner, endringer i kostholdet, økt væskeinntak for å hjelpe steinene å passere, eller medisinske prosedyrer som knusing av steinene med sjokkbølger (ekstrakorporeal sjokkbølgeterapi) eller kirurgisk inngrep for å fjerne større steiner.",
+      },
     ],
+    relatedSpecialists: ["nabeel-yousaf-khan"],
     faqs: [
-      { question: "Hva gjør man med nyrestein?", answer: "Behandlingen avhenger av størrelse og plassering. Vi tilbyr ulike metoder fra medikamentell til kirurgisk behandling." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/prostata": {
