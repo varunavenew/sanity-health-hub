@@ -1283,18 +1283,35 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/ernaringsfysiolog": {
     title: "Ernæringsfysiolog",
-    subtitle: "Profesjonell kostholdsrådgivning tilpasset dine behov.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre ernæringsfysiologer hjelper deg med å optimalisere kostholdet for bedre helse, enten det handler om vektkontroll, matintoleranse, sportsernæring eller kosthold under svangerskap og fertilitetsbehandling.",
-    benefits: [
-      "Individuelt tilpasset kostholdsplan",
-      "Spesialkompetanse på ernæring ved fertilitet og svangerskap",
-      "Hjelp med matintoleranse og allergier",
-      "Oppfølging og justering over tid",
+    description: "Ernæringsfysiologi er et felt som ser på hvordan mat påvirker kroppen og helsen. Ernæringsfysiologer studerer næringsstoffer i mat, vurderer ernæringsbehov, og gir råd for å oppmuntre til en sunn livsstil.\n\nVår kliniske ernæringsfysiolog gir deg veiledning innen kosthold og livsstil, skreddersydd til deg og dine behov.",
+    sections: [
+      {
+        id: "formalet",
+        heading: "Formålet",
+        content: "Målet er å hjelpe folk med å oppnå og beholde god helse ved å følge riktig kosthold og ernæringsprinsipper. Ernæringsfysiologer gir støtte og veiledning for å hjelpe enkeltpersoner med å nå sine ernæringsmål og forbedre generelt velvære. Hos oss jobber ernæringsfysiolog med andre spesialister i de tilfellene der det er nyttig for pasienten."
+      },
+      {
+        id: "spesialisering",
+        heading: "Spesialisering",
+        content: "Vår kliniske ernæringsfysiolog Mari Borge Eskerud har spesialisering innen IBS og lavFODMAP-dietten. Hun har tidligere jobbet ved Lovisenberg Diakonale Sykehus, hvor hun har hjulpet pasienter med irritabel tarm-syndrom (IBS) gjennom evidensbasert kostholdsveiledning. Mari er sertifisert i lavFODMAP-dietten av Monash University.\n\nI tillegg til sin spesialisering innen mage- og tarmhelse, har hun særlig kompetanse innen ernæring relatert til fertilitet, overgangsalder, Polycystisk ovariesyndrom (PCOS) og graviditet. Hun jobber også med generell ernæringsveiledning for god helse og velvære.\n\nMari er medforfatter av boken «Sunn og frisk med sensitiv mage – en fullstendig guide til kosthold og mestring» (2018), sammen med Cecilie Hauge Ågotnes."
+      },
     ],
+    benefits: [
+      "Spesialisering innen IBS og lavFODMAP-dietten",
+      "Sertifisert av Monash University",
+      "Kompetanse innen ernæring ved fertilitet, PCOS og graviditet",
+      "Individuelt tilpasset kostholdsveiledning",
+      "Tverrfaglig samarbeid med andre spesialister",
+    ],
+    relatedSpecialists: ["mari-borge-eskerud"],
     faqs: [
-      { question: "Hva kan en ernæringsfysiolog hjelpe med?", answer: "Alt fra generell kostholdsrådgivning til spesifikke utfordringer som IBS, allergi, vektnedgang og sportsernæring." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Nedbetaling", answer: "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon." },
     ],
   },
   "flere-fagomrader/gastrokirurgi": {
