@@ -462,7 +462,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               <div>
                 <h3 className="text-lg font-normal text-foreground mb-2">Pris</h3>
                 <p className="text-foreground/80 font-light">
-                  <button onClick={() => navigate('/priser')} className="text-accent hover:underline">Prislister finnes her.</button>
+                  <button onClick={() => navigate('/priser')} className="text-foreground underline underline-offset-4 hover:text-foreground/70 transition-colors">Prislister finnes her.</button>
                 </p>
               </div>
 

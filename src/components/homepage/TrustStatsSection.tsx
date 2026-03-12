@@ -42,9 +42,9 @@ export const TrustStatsSection = () => {
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white leading-tight">
             Nordens ledende klinikk for{" "}
-            <span className="text-accent">livet</span>
+            <span className="text-white/80 italic">livet</span>
             <br />
-            og <span className="text-accent">underlivet</span>
+            og <span className="text-white/80 italic">underlivet</span>
           </h2>
         </div>
 
