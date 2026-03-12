@@ -435,7 +435,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </div>
       </section>
 
-      {(categoryId === "fertilitet" || (categoryId === "flere-fagomrader" && subId === "overvektskirurgi")) && <StickyBookingCTA />}
+      
     </PageLayout>
   );
 };
