@@ -252,9 +252,10 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
       >
         {categorySpecialists.map((specialist) => (
           <Link to={`/spesialister/${specialist.slug}`} key={specialist.name} className="group flex-shrink-0 w-[280px] snap-start">
-            <div className="relative aspect-[3/4] rounded-lg overflow-hidden mb-4 bg-secondary">
-              <img src={specialist.image} alt={specialist.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
+            <div className="relative aspect-[3/4] rounded-lg overflow-hidden mb-4 bg-brand-dark">
+              <img src={specialist.image} alt={specialist.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 saturate-[0.7] brightness-[0.95] contrast-[1.05]" />
+              <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="font-normal text-white mb-1">{specialist.name}</h3>
                 <p className="text-sm text-accent font-light">{specialist.title}</p>

@@ -119,13 +119,14 @@ const About = ({ isChatOpen }: AboutProps) => {
                   key={specialist.slug}
                   className="group"
                 >
-                  <div className="relative aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-white/5">
+                  <div className="relative aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-brand-dark">
                     <img 
                       src={specialist.image} 
                       alt={specialist.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 saturate-[0.7] brightness-[0.95] contrast-[1.05]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <h3 className="font-normal text-white text-sm mb-0.5">{specialist.name}</h3>
                       <p className="text-white/70 text-xs font-light">{specialist.title}</p>
