@@ -1147,18 +1147,16 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/hofte": {
     title: "Hofte",
-    subtitle: "Diagnostikk og behandling av hofteplager.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Hofteplager kan skyldes slitasje, idrettsskader, bekkenplager eller andre tilstander. Vi tilbyr grundig utredning og individuelt tilpasset behandling.\n\nVåre ortopeder har lang erfaring med hofteleddsundersøkelser og kan tilby de nyeste behandlingsmetodene.",
-    benefits: [
-      "Grundig utredning med bildediagnostikk",
-      "Injeksjonsbehandling ved behov",
-      "Operativ behandling ved indikasjon",
-      "Oppfølging og rehabilitering",
-    ],
+    description: "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfeller repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer.\n\nKontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker.",
+    relatedSpecialists: ["kristian-marstrand-warholm"],
     faqs: [
-      { question: "Hva kan forårsake hoftesmerter?", answer: "Vanlige årsaker inkluderer artrose, hofteimpingement, bursitt og muskel-/seneproblemer." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "ortopedi/hand-albue": {
