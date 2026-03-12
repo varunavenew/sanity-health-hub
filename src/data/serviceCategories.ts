@@ -1,6 +1,7 @@
 export interface SubItem {
   label: string;
   anchor?: string;
+  path?: string;
 }
 
 export interface SubCategory {
