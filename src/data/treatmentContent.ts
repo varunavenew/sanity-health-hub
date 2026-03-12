@@ -1191,19 +1191,23 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "ortopedi/kne": {
     title: "Kne",
-    subtitle: "Utredning og behandling av kneplager og kneskader.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Kneplager er svært vanlige, fra idrettsskader til slitasjegikt. Vi tilbyr komplett utredning med bildediagnostikk og erfarne ortopeder som kan gi deg riktig diagnose og behandling.\n\nVi behandler alt fra meniskskader og korsbåndskader til artrose og betennelsestilstander.",
-    benefits: [
-      "Spesialiserte kneortopeder",
-      "MR og røntgen på klinikken",
-      "Artroscopisk kirurgi (kikkhullskirurgi)",
-      "Injeksjonsbehandling",
-      "Rehabilitering med fysioterapeut",
+    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    sections: [
+      {
+        id: "bruskskader",
+        heading: "Bruskskader i kneet",
+        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet.\n\nArtrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50 åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd.\n\n**Symptomer:** Smerter ved aktivitet, hevelse og stivhet (ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
+      },
     ],
+    relatedSpecialists: ["marc-jacob-strauss"],
     faqs: [
-      { question: "Trenger jeg MR av kneet?", answer: "Din ortoped vurderer om MR er nødvendig basert på undersøkelsen. Vi har MR tilgjengelig på klinikken." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "ortopedi/skulder": {
