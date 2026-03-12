@@ -320,7 +320,7 @@ const faqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>('gynekologi');
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
