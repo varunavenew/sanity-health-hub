@@ -1112,19 +1112,37 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   "ortopedi/fot-ankel": {
     title: "Fot og ankel",
-    subtitle: "Utredning og behandling av skader og plager i fot og ankel.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr spesialisert utredning og behandling av alle tilstander som rammer fot og ankel, fra idrettsskader til degenerative forandringer.\n\nVåre ortopeder har bred erfaring med både konservativ og kirurgisk behandling.",
-    benefits: [
-      "Spesialiserte fot- og ankelortopeder",
-      "MR og røntgen tilgjengelig på klinikken",
-      "Konservativ og kirurgisk behandling",
-      "Rehabilitering med fysioterapeut",
+    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    sections: [
+      {
+        id: "kompartment-syndrom",
+        heading: "Kompartment-syndrom",
+        content: "Muskelhinnen er ikke ettergivende og tøyes ikke i forhold til muskulaturen. Dette fører til økt trykk i muskulaturen og redusert blodsirkulasjon som resulterer i smerter (manglende blodtilstrømning gir smerter på grunn av oksygenmangel). Dette skjer oftest i fremre ytre leggmuskelkompartment. Smertene varer kun i aktivitet og forsvinner som regel etter trening og i hvile.\n\n**Behandling:** Behandling av kronisk kompartment-syndrom er i første omgang å unngå provoserende belastning samt alternativ trening i en periode på 3 måneder. Deretter gjenopptas treningen gradvis med tilpasset skotøy og god støtdempning. Dersom plagene kommer tilbake, er det grunn til å vurdere operasjon.\n\n**Operasjon:** Operasjon av kronisk kompartment-syndrom foregår i narkose. Muskelhinnene spaltes gjennom to små snitt i huden."
+      },
+      {
+        id: "ballettankel",
+        heading: "Ballettankel",
+        content: "I ankelen kan trange forhold baktil gi bakre impingement eller innklemming av strukturer med påfølgende huggende smerter. Tilstanden er vanlig hos ballettdansere grunnet tåspissposisjonen, men den forekommer også hos turnere og fotballspillere.\n\nMan kan se beinpåleiringer baktil i leddet ved ballettankel. Disse kan løsne og gi frie legemer som kommer i beknip. Hos 10% av befolkningen finnes det en beinkjerne baktil for ankelleddet som ikke er vokst sammen med skinnebeinet.\n\n**Symptomer og utredning:** Smerter baktil i leddet når ankelen belastes med strak vrist. Røntgenundersøkelse, MR eller ultralyd kan verifisere funnene.\n\n**Operasjon:** Operasjonen gjøres i narkose og lokalbedøvelse. Artroskop og instrumenter brukes bakfra gjennom 7 mm åpninger for å komme inn til leddet. Deretter fjernes beinpåleiringer eller løst ben."
+      },
+      {
+        id: "haglunds-hael",
+        heading: "Haglunds hæl",
+        content: "Mellom hælbeinet og achillessenen finnes en slimpose. Denne kan bli betent på grunn av kronisk irritasjon og trange sko. Etter hvert kan denne irritasjonen føre til bein- og bruskdannelse bak på hælbeinet – det vokser frem en kul på en allerede prominent knokkel. Røntgen med skråbilder viser som regel denne kulen (Haglunds hæl). I første omgang må man bygge opp under hælen for å avlaste trykket.\n\n**Operasjonen:** Ved langvarige plager og betydelig kul kan det bli nødvendig å fjerne kulen kirurgisk. Operasjonen gjøres i lokalbedøvelse og med avslappende medisin. Det legges på en gipsskinne som pasienten beholder i to uker. Deretter starter et opptreningsprogram. Man må minst regne med åtte uker før man gjenopptar vanlig trening."
+      },
+      {
+        id: "achilles-tendinalgi",
+        heading: "Achilles tendinalgi",
+        content: "Achilles tendinalgi er egentlig flere tilstander som benevnes med samme navn:\n\n- Seneskjedebetennelse, det vil si betennelse i hinnen rundt senen (paratendinitis)\n- Skadet senevev (seneavrivning (akutt) eller slitasje (kronisk))\n\nDet er ikke alltid betennelse i selve seneskjeden som forårsaker smerten, men det kan være små mikrorifter i senen som dannes ved overbelastning. Disse skadene repareres dårlig, sannsynligvis på grunn av relativt dårlig blodsirkulasjon i området.\n\n**Behandling:** I første omgang forsøk på å få senevevet til å hele normalt med eksentrisk trening hos fysioterapeut. Sjokkbølgebehandling (ESWT) kan supplere treningen. Feilstilling i foten (pronasjon) disponerer for achillesseneplager og må korrigeres med såler og riktig skotøy.\n\nEn liten dose kortisoninjeksjon med ultralydveiledning kan forsøkes mot seneskjedebetennelse. Operasjon kan være nødvendig dersom ingen av behandlingene fører frem."
+      },
     ],
     faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte hos oss." },
-      { question: "Hva koster en konsultasjon?", answer: "Konsultasjon hos ortoped koster kr 1 800." },
+      { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hva er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "ortopedi/hofte": {
