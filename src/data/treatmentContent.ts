@@ -1438,19 +1438,30 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/revmatologi": {
     title: "Revmatologi",
-    subtitle: "Utredning og behandling av revmatiske sykdommer.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Revmatologi omfatter utredning og behandling av ledd- og bindevevssykdommer som revmatoid artritt, lupus, psoriasisartritt og andre autoimmune tilstander.\n\nVåre revmatologer tilbyr grundig utredning og moderne behandling.",
+    description: "Revmatologi er en spesialitet innen medisin som handler om å forstå og behandle problemer med ledd, muskler og bindevev i kroppen.\n\nRevmatologer utreder, behandler og følger opp pasienter med revmatisme. For å finne ut om du har revmatisme, starter vi med grundig konsultasjon og undersøkelse, som ofte innebærer ultralyd og blodprøver.\n\nHar du plager anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
+    sections: [
+      {
+        id: "utredning",
+        heading: "Utredning",
+        content: "**Diagnoser:** Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus.\n\nRevmatologer, som er spesialleger, bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten deres.\n\nVi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme."
+      },
+    ],
     benefits: [
       "Erfarne revmatologer med spesialkompetanse",
-      "Grundig utredning med blodprøver og bildediagnostikk",
-      "Moderne biologisk behandling",
-      "Tett oppfølging og justering av behandling",
+      "Grundig utredning med ultralyd og blodprøver",
+      "Behandling av revmatoid artritt og lupus",
+      "Medisiner, fysisk terapi og livsstilsråd",
     ],
+    relatedSpecialists: ["birgir-gudbrandsson"],
     faqs: [
-      { question: "Hva er symptomene på revmatisk sykdom?", answer: "Vanlige symptomer er leddsmerter, stivhet, hevelse og generell tretthet." },
-      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Nedbetaling", answer: "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon." },
     ],
   },
   "flere-fagomrader/robotkirurgi": {
