@@ -978,18 +978,21 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/sexologi": {
     title: "Sexologi",
-    subtitle: "Hjelp med seksuelle utfordringer og intimitetsproblemer.",
+    subtitle: "Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Våre sexologer tilbyr rådgivning og terapi for seksuelle utfordringer som kan påvirke livskvaliteten. Vi har spesialkompetanse på problemstillinger knyttet til gynekologiske tilstander, fertilitet og overgangsalder.",
-    benefits: [
-      "Trygt og profesjonelt miljø",
-      "Spesialkompetanse på seksualitet og gynekologiske tilstander",
-      "Individuell terapi og parterapi",
-      "Del av tverrfaglig team",
+    description: "Når man rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
+    sections: [
+      {
+        id: "skreddersydd-veiledning",
+        heading: "Skreddersydd veiledning",
+        content: "Ved diagnoser som er assosiert med smerte og fysisk ubehag, gir en sexolog tilpasset veiledning for å håndtere disse utfordringene. Dette kan inkludere strategier for smertelindring, utforsking av alternative former for seksuell nytelse og styrking av kommunikasjonen om man er i et parforhold.\n\nFor par som opplever ufrivillig barnløshet, kan en sexologisk rådgiver hjelpe dem med å navigere gjennom det som er følelsesmessig utfordrende slik at intimiteten opprettholdes og stress reduseres. Dersom seksualfunksjon rammes i forbindelse med sykdom slik at lyst, tenning og orgasme rammes kan man få råd om hvordan man kan finne nye måter å opprettholde et tilfredsstillende seksualliv på.",
+      },
     ],
     faqs: [
-      { question: "Hva kan en sexolog hjelpe med?", answer: "Smerter ved samleie, nedsatt lyst, ereksjonsproblemer, intimitetsproblemer og seksuelle utfordringer knyttet til sykdom eller behandling." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "flere-fagomrader/areknuter": {
