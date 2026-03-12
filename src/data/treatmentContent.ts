@@ -625,19 +625,23 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "urologi/infertilitet": {
     title: "Mannlig infertilitet",
-    subtitle: "Utredning av mannlig fruktbarhet, inkludert sædanalyse.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Mannlige faktorer bidrar til infertilitet i omtrent halvparten av tilfellene. Vi tilbyr grundig utredning av mannlig fruktbarhet med sædanalyse, hormonprøver og urologisk undersøkelse.\n\nVårt samarbeid med fertilitetsklinikken sikrer en helhetlig tilnærming for par med barneønske.",
-    benefits: [
-      "Sædanalyse etter WHO-standard",
-      "Hormonutredning",
-      "Urologisk undersøkelse",
-      "Tett samarbeid med fertilitetsklinikken",
+    description: "Når par opplever problemer med å få barn, er det verdt å merke seg at i omtrent 1/3 av tilfellene er årsaken ofte mannens sædkvalitet. De siste 50 årene har menns sædkvalitet blitt redusert med over 50 %. Dette skyldes flere faktorer, som arv, miljø og livsstil. Ønsker du å ta en sædtest for å sjekke kvaliteten eller få en fertilitetsutredning, så kan vi hjelpe deg. Vi samarbeider med urologer som er spesialister innen mannlig infertilitet for å gi deg den beste oppfølgingen.",
+    sections: [
+      {
+        id: "saedanalyse",
+        heading: "Sædanalyse",
+        content: "Ønsker du å sjekke sædkvaliteten din? Vi tilbyr rask og enkel sædanalyse, hvor du får resultatet samme dag.\n\nFor å få best mulig resultat fra sædprøven, anbefaler vi følgende:\n\n- Bruk det sterile plastbegeret med lokk som du får fra oss. Du kan også kjøpe det på apoteket hvis du tar prøven hjemme. Viktig: Hvis du tar prøven hjemme, må den leveres til oss innen én time og oppbevares ved kroppstemperatur.\n- Sørg for å samle all sæden i beholderen.\n- Prøv å ha sædutløsning 2–3 dager før prøvetakingen.\n- Hvis du har hatt høy feber i løpet av de siste tre ukene, kan dette påvirke resultatet.\n\nHos oss kan du bestille time til sædprøve eller komme på drop-in. Vi gir deg svaret på sædprøven senere samme dag. Hvis det er behov for videre undersøkelser, vil vi gi deg mer informasjon.",
+      },
     ],
+    relatedSpecialists: ["trond-jorgensen"],
     faqs: [
-      { question: "Hva innebærer en sædanalyse?", answer: "En sædprøve analyseres i laboratoriet for antall, bevegelighet og form på sædcellene." },
-      { question: "Kan mannlig infertilitet behandles?", answer: "I mange tilfeller ja, avhengig av årsaken. Vi tilbyr både medisinsk og kirurgisk behandling." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
     ],
   },
   "urologi/nyrer": {
