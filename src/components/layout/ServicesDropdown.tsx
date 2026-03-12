@@ -160,7 +160,10 @@ export const ServicesDropdown = () => {
                           {activeSubcategoryData.items.map((item) => (
                             <button 
                               key={item.label}
-                              onClick={() => handleNavigate(activeSubcategoryData.path)} 
+                              onClick={() => {
+                                const anchor = item.anchor || item.label.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g, 'ae').replace(/[ø]/g, 'o').replace(/[å]/g, 'a');
+                                handleNavigate(`${activeSubcategoryData.path}#${anchor}`);
+                              }}
                               className="w-full text-left py-1.5 px-2 text-[12px] font-light transition-colors rounded text-white/60 hover:text-white hover:bg-white/10"
                             >
                               {item.label}
