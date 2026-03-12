@@ -1500,7 +1500,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/sexologi": {
     title: "Sexologi",
-    subtitle: "Kort ventetid • Ingen henvisning",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Når man rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
@@ -1508,13 +1508,21 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "skreddersydd-veiledning",
         heading: "Skreddersydd veiledning",
-        content: "Ved diagnoser som er assosiert med smerte og fysisk ubehag, gir en sexolog tilpasset veiledning for å håndtere disse utfordringene. Dette kan inkludere strategier for smertelindring, utforsking av alternative former for seksuell nytelse og styrking av kommunikasjonen om man er i et parforhold.\n\nFor par som opplever ufrivillig barnløshet, kan en sexologisk rådgiver hjelpe dem med å navigere gjennom det som er følelsesmessig utfordrende slik at intimiteten opprettholdes og stress reduseres. Dersom seksualfunksjon rammes i forbindelse med sykdom slik at lyst, tenning og orgasme rammes kan man få råd om hvordan man kan finne nye måter å opprettholde et tilfredsstillende seksualliv på.",
+        content: "Ved diagnoser som er assosiert med smerte og fysisk ubehag, gir en sexolog tilpasset veiledning for å håndtere disse utfordringene. Dette kan inkludere strategier for smertelindring, utforsking av alternative former for seksuell nytelse og styrking av kommunikasjonen om man er i et parforhold.\n\nFor par som opplever ufrivillig barnløshet, kan en sexologisk rådgiver hjelpe dem med å navigere gjennom det som er følelsesmessig utfordrende slik at intimiteten opprettholdes og stress reduseres."
+      },
+      {
+        id: "kompetanseomrader",
+        heading: "Kompetanseområder",
+        content: "Vår sexolog Kjersti Margrete Finsrud er sykepleier med videreutdanning som helsesykepleier, og spesialist i sexologisk rådgivning gjennom NACS (Nordic Association of Clinical Sexology). Hun har særlig kompetanse innen:\n\n- Kvinnehelse: vulvasmerter, vaginisme, seksualitet etter overgrep og i overgangsalder\n- Seksuell identitet og orientering\n- Seksuell lyst og funksjonsutfordringer\n- Erektil dysfunksjon og prestasjonsrelaterte utfordringer\n- Hormonelle endringer gjennom ulike livsfaser\n- Veiledning om seksuelle hjelpemidler og NAV-refusjon\n- Prevensjon og seksuell helse hos unge og voksne\n\nKjersti har en helhetlig tilnærming til seksuell helse, der kropp, psyke og relasjoner ses i sammenheng. Hun er opptatt av å skape en trygg og åpen samtale, der det er rom for å dele også det som kan være vanskelig – uten skam eller tabu."
       },
     ],
+    relatedSpecialists: ["kjersti-margrete-finsrud"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Nedbetaling", answer: "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon." },
     ],
   },
   "flere-fagomrader/areknuter": {
