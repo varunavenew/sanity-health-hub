@@ -950,4 +950,133 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Hva koster utredning?", answer: "Vurdering hos spesialist koster kr 1 800 og inkluderer ultralydundersøkelse." },
     ],
   },
+
+  // ==========================================
+  // GRAVIDITET
+  // ==========================================
+  "graviditet/ultralyd": {
+    title: "Ultralyd i svangerskapet",
+    subtitle: "Tidlig ultralyd, terminbekreftelse og organrettet ultralyd.",
+    parentCategory: "Graviditet",
+    heroImage: heroPregnancy,
+    description: "Vi tilbyr ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 7 til organrettet ultralyd i uke 18-20. Våre fostermedisinere bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.\n\nTidlig ultralyd bekrefter svangerskapet, daterer terminen og vurderer fosterets utvikling. Ved organrettet ultralyd gjennomgås fosterets organer systematisk for å avdekke eventuelle avvik.",
+    benefits: [
+      "Tidlig ultralyd fra uke 7 for å bekrefte svangerskap og termin",
+      "Organrettet ultralyd uke 18-20 med detaljert gjennomgang",
+      "Erfarne fostermedisinere med spisskompetanse",
+      "Moderne utstyr for best mulig bildekvalitet",
+      "Kort ventetid – time innen få dager",
+    ],
+    process: [
+      { title: "Tidlig ultralyd (uke 7-12)", description: "Bekreftelse av svangerskap, datering av termin, antall fostre og hjerteaktivitet." },
+      { title: "Nakketranslusensmåling (uke 11-14)", description: "Vurdering av risiko for kromosomavvik, kan kombineres med blodprøve." },
+      { title: "Organrettet ultralyd (uke 18-20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum." },
+    ],
+    faqs: [
+      { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
+      { question: "Hva koster ultralyd i svangerskapet?", answer: "Se vår prisliste for oppdaterte priser. Kontakt oss gjerne for mer informasjon." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+    ],
+  },
+  "graviditet/nipt": {
+    title: "NIPT",
+    subtitle: "Non-invasiv prenatal test for kromosomanalyse.",
+    parentCategory: "Graviditet",
+    heroImage: heroPregnancy,
+    description: "NIPT (Non-Invasive Prenatal Testing) er en blodprøve som analyserer fragmenter av fosterets DNA i morens blod for å påvise eventuelle kromosomavvik. Testen kan utføres fra uke 10 og har svært høy treffsikkerhet.\n\nNIPT kan påvise trisomi 21 (Downs syndrom), trisomi 18 (Edwards syndrom) og trisomi 13 (Pataus syndrom). Testen kan også bestemme kjønn.",
+    benefits: [
+      "Kan tas fra uke 10 i svangerskapet",
+      "Svært høy treffsikkerhet (over 99% for trisomi 21)",
+      "Enkel blodprøve – ingen risiko for fosteret",
+      "Resultat innen 7-10 virkedager",
+      "Kan også bestemme kjønn",
+    ],
+    faqs: [
+      { question: "Hva er forskjellen på NIPT og fostervannsprøve?", answer: "NIPT er en screeningtest (blodprøve) uten risiko for fosteret. Fostervannsprøve er diagnostisk og gir sikkert svar, men har en liten risiko for spontanabort." },
+      { question: "Hvem bør ta NIPT?", answer: "NIPT kan tilbys alle gravide, men er spesielt anbefalt ved forhøyet risiko etter KUB-test eller ved alder over 38 år." },
+    ],
+  },
+  "graviditet/svangerskapsteam": {
+    title: "Svangerskapsteam",
+    subtitle: "Tverrfaglig oppfølging gjennom svangerskapet.",
+    parentCategory: "Graviditet",
+    heroImage: heroPregnancy,
+    description: "Vårt svangerskapsteam gir deg helhetlig oppfølging gjennom hele svangerskapet. Teamet består av erfarne fostermedisinere, jordmødre og gynekologer som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
+    benefits: [
+      "Erfarne fostermedisinere og jordmødre",
+      "Skreddersydd oppfølging tilpasset dine behov",
+      "Oppfølging av risikosvangersskap",
+      "Tilgjengelig for spørsmål gjennom hele svangerskapet",
+      "Samarbeid med fødeavdeling ved behov",
+    ],
+    faqs: [
+      { question: "Hva inkluderer svangerskapsoppfølging?", answer: "Regelmessige kontroller med blodprøver, blodtrykk, urinprøve, ultralyd og samtale om trivsel og forberedelse til fødsel." },
+      { question: "Kan jeg velge dere i stedet for fastlegen?", answer: "Ja, du kan velge privat svangerskapsoppfølging hos oss som supplement eller alternativ til oppfølging hos fastlege/jordmor." },
+    ],
+  },
+  "graviditet/fosterdiagnostikk": {
+    title: "Fosterdiagnostikk",
+    subtitle: "Avansert diagnostikk for trygt svangerskap.",
+    parentCategory: "Graviditet",
+    heroImage: heroPregnancy,
+    description: "Fosterdiagnostikk omfatter ulike undersøkelser for å vurdere fosterets helse og utvikling. Vi tilbyr et bredt spekter av diagnostiske metoder, fra ultralydundersøkelser og blodprøver til mer avanserte tester.\n\nVåre fostermedisinere har lang erfaring og spisskompetanse innen prenatal diagnostikk og kan gi deg trygg veiledning basert på dine resultater.",
+    benefits: [
+      "Erfarne fostermedisinere med spisskompetanse",
+      "KUB-test (kombinert ultralyd og blodprøve)",
+      "NIPT for høy-presisjons screening",
+      "Detaljert ultralyd med moderne utstyr",
+      "Grundig veiledning og rådgivning",
+    ],
+    faqs: [
+      { question: "Hva er KUB-test?", answer: "KUB (Kombinert Ultralyd og Blodprøve) er en screeningtest i uke 11-14 som vurderer risiko for kromosomavvik basert på nakketranslusensmåling og blodprøver." },
+      { question: "Er fosterdiagnostikk frivillig?", answer: "Ja, all fosterdiagnostikk er frivillig. Vi gir deg grundig informasjon slik at du kan ta et informert valg." },
+    ],
+  },
+
+  // ==========================================
+  // FLERE FAGOMRÅDER - tillegg
+  // ==========================================
+  "flere-fagomrader/hudhelse": {
+    title: "Hudhelse",
+    subtitle: "Hudpleie, hudforyngelse og dermatologisk rådgivning.",
+    parentCategory: "Flere fagområder",
+    heroImage: flereFagImg,
+    description: "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen. Vi utreder og behandler et bredt spekter av hudlidelser, fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i huden.\n\nI tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov. Vi tilbyr en grundig vurdering og behandling tilpasset din hud og dine behov, enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.\n\nHudhelse, rådgivning og ulike former for hudbehandling tilbys kun på CMedical Bekkestua.",
+    benefits: [
+      "Erfarne hudleger (dermatologer) med bred kompetanse",
+      "Behandling av akne, eksem, rosacea og psoriasis",
+      "Føflekksjekk og hudkreftscreening",
+      "Hudpleierådgivning tilpasset dine behov",
+      "Tilbys på CMedical Bekkestua",
+    ],
+    faqs: [
+      { question: "Hvor tilbys hudhelse?", answer: "Hudhelse, rådgivning og ulike former for hudbehandling tilbys kun på CMedical Bekkestua." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+    ],
+  },
+  "flere-fagomrader/overvektskirurgi": {
+    title: "Overvektskirurgi",
+    subtitle: "Robotassistert sleeve gastrektomi for varige resultater.",
+    parentCategory: "Flere fagområder",
+    heroImage: flereFagImg,
+    description: "Ved CMedical tilbyr vi robotassistert overvektskirurgi med høyeste presisjon og skånsomhet – en teknologi som kombinerer avansert 3D-visualisering og mikrobevegelser styrt av erfarne kirurger. Denne metoden kan gi mindre smerter, raskere restitusjon og et bedre kosmetisk resultat.\n\nRobotassistert sleeve gastrektomi (rSG) er en moderne form for overvektskirurgi, også kalt slankeoperasjon. I denne prosedyren fjernes 60–80% av magesekken for å redusere matinntaket og fremme vektnedgang. Denne typen kirurgi er særlig egnet for deg som ønsker varige resultater med minimal belastning på kroppen.\n\nEtter ett år kan pasienter som gjennomgår sleeve gastrektomi forvente et vekttap på 20–25% av total kroppsvekt, med fortsatt vekttap frem mot to år etter operasjonen.",
+    benefits: [
+      "Robotassistert kirurgi for høyeste presisjon",
+      "Mindre smerter og raskere restitusjon",
+      "Varig vekttap på 20-25% av kroppsvekt etter ett år",
+      "Gratis digital konsultasjon for vurdering",
+      "Tverrfaglig oppfølging med ernæringsfysiolog",
+    ],
+    process: [
+      { title: "Konsultasjon", description: "Gratis digital eller fysisk konsultasjon med kirurg for vurdering av egnethet." },
+      { title: "Utredning", description: "Grundig medisinsk utredning inkludert blodprøver, gastroskopi og psykologisk vurdering." },
+      { title: "Operasjon", description: "Robotassistert sleeve gastrektomi. Inngrepet tar ca. 1-2 timer." },
+      { title: "Oppfølging", description: "Tett oppfølging med ernæringsfysiolog og kirurg det første året etter operasjonen." },
+    ],
+    faqs: [
+      { question: "Hvem kvalifiserer for overvektskirurgi?", answer: "Generelt kreves BMI over 40, eller over 35 med tilleggssykdommer. Vi gjør en individuell vurdering." },
+      { question: "Er det gratis konsultasjon?", answer: "Ja, vi tilbyr gratis digital konsultasjon for vurdering av om du er egnet for overvektskirurgi." },
+      { question: "Hva er fordelene med robotassistert teknikk?", answer: "Robotassistert kirurgi gir bedre presisjon, mindre smerter, raskere restitusjon og et bedre kosmetisk resultat sammenlignet med tradisjonell teknikk." },
+    ],
+  },
 };
