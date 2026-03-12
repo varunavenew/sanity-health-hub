@@ -15,45 +15,96 @@ const formatDate = (dateStr: string) => {
   return date.toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
 };
 
-const ArticleCard = ({ article, size = "small" }: { article: Article; size?: "large" | "small" }) => {
+const ArticleCard = ({ article }: { article: Article }) => {
   const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
-  const isLarge = size === "large";
 
   return (
     <Link to={linkTo} className="group">
-      <div className={`relative ${isLarge ? "aspect-[16/10]" : "aspect-[16/10]"} rounded-sm overflow-hidden ${isLarge ? "mb-4" : "mb-3"} bg-secondary`}>
+      <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
         <img
           src={article.image}
           alt={article.title}
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className={`absolute ${isLarge ? "top-4 left-4" : "top-3 left-3"} flex gap-2`}>
-          <span className={`bg-brand-dark/80 backdrop-blur-sm text-white ${isLarge ? "text-xs px-3 py-1" : "text-[10px] px-2.5 py-0.5"} rounded-full`}>
+        <div className="absolute top-3 left-3">
+          <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full">
             {article.category}
           </span>
-          {article.pinned && isLarge && (
-            <span className="bg-accent/90 backdrop-blur-sm text-accent-foreground text-xs px-3 py-1 rounded-full">
-              Fremhevet
-            </span>
-          )}
         </div>
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
         <Calendar className="w-3 h-3" />
         {formatDate(article.date)}
       </div>
-      <h3 className={`${isLarge ? "text-lg md:text-xl" : "text-sm"} font-medium text-foreground group-hover:text-foreground/80 transition-colors ${isLarge ? "mb-2" : "mb-1"} leading-snug`}>
+      <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors mb-1 leading-snug">
         {article.title}
       </h3>
-      <p className={`${isLarge ? "text-sm" : "text-xs"} text-muted-foreground font-light line-clamp-2`}>
+      <p className="text-xs text-muted-foreground font-light line-clamp-2">
         {article.excerpt}
       </p>
-      {isLarge && (
-        <span className="inline-flex items-center gap-1 text-sm text-brand-dark font-medium mt-3 group-hover:gap-2 transition-all">
-          Les mer <ArrowRight className="w-4 h-4" />
+    </Link>
+  );
+};
+
+const FeaturedHero = ({ article }: { article: Article }) => {
+  const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
+
+  return (
+    <Link to={linkTo} className="group relative block rounded-sm overflow-hidden aspect-[16/9] md:aspect-[21/9]">
+      <img
+        src={article.image}
+        alt={article.title}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[11px] px-3 py-1 rounded-full mb-3">
+          {article.category}
         </span>
-      )}
+        <h2 className="text-xl md:text-3xl font-medium text-white mb-2 leading-tight max-w-2xl">
+          {article.title}
+        </h2>
+        <p className="text-white/70 text-sm font-light line-clamp-2 max-w-xl mb-3 hidden md:block">
+          {article.excerpt}
+        </p>
+        <div className="flex items-center gap-4">
+          <span className="text-white/50 text-xs flex items-center gap-1.5">
+            <Calendar className="w-3 h-3" />
+            {formatDate(article.date)}
+          </span>
+          <span className="inline-flex items-center gap-1 text-white/90 text-sm font-medium group-hover:gap-2 transition-all">
+            Les mer <ArrowRight className="w-4 h-4" />
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+const FeaturedSide = ({ article }: { article: Article }) => {
+  const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
+
+  return (
+    <Link to={linkTo} className="group relative block rounded-sm overflow-hidden aspect-[16/10]">
+      <img
+        src={article.image}
+        alt={article.title}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[10px] px-2.5 py-0.5 rounded-full mb-2">
+          {article.category}
+        </span>
+        <h3 className="text-sm md:text-base font-medium text-white leading-snug mb-1.5 line-clamp-2">
+          {article.title}
+        </h3>
+        <span className="text-white/50 text-xs flex items-center gap-1.5">
+          <Calendar className="w-3 h-3" />
+          {formatDate(article.date)}
+        </span>
+      </div>
     </Link>
   );
 };
@@ -172,12 +223,19 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       {/* Articles */}
       <section className="bg-background py-10 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
-          {/* Pinned / Featured */}
+          {/* Featured hero layout */}
           {pinnedArticles.length > 0 && (
-            <div className="grid md:grid-cols-2 gap-6 mb-16">
-              {pinnedArticles.map((article) => (
-                <ArticleCard key={article.slug} article={article} size="large" />
-              ))}
+            <div className="mb-16 space-y-4">
+              {pinnedArticles[0] && (
+                <FeaturedHero article={pinnedArticles[0]} />
+              )}
+              {pinnedArticles.length > 1 && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  {pinnedArticles.slice(1).map((article) => (
+                    <FeaturedSide key={article.slug} article={article} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -187,7 +245,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               <h2 className="text-lg font-medium text-foreground mb-6">Flere artikler</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {visibleRest.map((article) => (
-                  <ArticleCard key={article.slug} article={article} size="small" />
+                  <ArticleCard key={article.slug} article={article} />
                 ))}
               </div>
             </>
