@@ -130,13 +130,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Hormonbehandling og oppfølging for en bedre overgangsalder.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Overgangsalderen er en naturlig fase i livet, men for mange kvinner medfører den plagsomme symptomer som hetetokter, søvnproblemer, humørsvingninger og tørre slimhinner.\n\nHos CMedical hjelper vi deg med å forstå hva som skjer i kroppen og finner den beste behandlingen for akkurat deg. Våre gynekologer har lang erfaring med hormonbehandling og andre tilnærminger.",
-    benefits: [
-      "Individuelt tilpasset hormonbehandling",
-      "Grundig helsesjekk før oppstart av behandling",
-      "Oppfølging og justering av behandlingen over tid",
-      "Rådgivning om livsstilsendringer som kan hjelpe",
-      "Tverrfaglig tilnærming med ernæringsfysiolog og psykolog",
+    description: "Symptomer på overgangsalderen starter ofte i første halvdel av 40-årene, opplevelsene kan variere mye fra kvinne til kvinne. For noen er overgangen knapt merkbar, mens andre opplever så store utfordringer at det påvirker hverdagen deres betydelig.\n\nHos CMedical møter du et dedikert ekspert-team av spesialister på overgangsalder. Våre eksperter er medlemmer av British Menopause Society og samarbeider tett med Newson Health i Storbritannia, som er verdens ledende klinikk innen overgangsalder. Behandlingsmetodikken vår bygger på «de fire søylene» – hormoner, relasjoner, ernæring og fysisk form – som sammen sikrer en helhetlig tilnærming til dine behov.",
+    sections: [
+      {
+        id: "symptomer",
+        heading: "Symptomer",
+        content: "Overgangsalderen kan først merkes gjennom uregelmessige menstruasjoner og hetetokter, endringer i humør og en generell reduksjon i energinivå. Etter hvert kan symptomene øke, og de kan oppleves både fysisk og psykisk vanskelige.\n\nVanlige symptomer inkluderer:\n- Blødningsforstyrrelser\n- Hetetokter\n- Hjernetåke/konsentrasjonsvansker\n- Redusert hukommelse\n- Ta lettere til tårene/emosjonell\n- Søvnproblemer\n- Endringer i hud og hår\n- Smerter i ledd og muskler\n- Hyppigere hodepine\n- Redusert sexlyst\n- Økt irritabilitet\n- Urinveisinfeksjoner og tørrhet i skjeden\n\nMenopausen er egentlig bare en dato i kvinners liv, definert som uteblitt menstruasjon i 12 måneder. Tiden før dette med symptomer kalles perimenopausal, tiden etter for postmenopausal. På lengre sikt øker risikoen for tilstander som beinskjørhet, hjerte- og karsykdommer, høyt kolesterol, høyt blodtrykk, depresjon og demens. Dette skyldes nedgang i østrogen-, progesteron- og testosteronproduksjonen. Heldigvis finnes trygge og effektive behandlingsalternativer som hjelper deg med å håndtere symptomene, gir økt livskvalitet og reduserer risiko for fremtidige helseproblemer.",
+      },
+      {
+        id: "hormonbehandling",
+        heading: "Behandling",
+        content: "En kartleggingssamtale er en personlig og grundig konsultasjon med en eller flere av våre spesialister. Målet er å forstå dine individuelle utfordringer og behov i forbindelse med overgangsalderen. Samtalen varer i omtrent 45 minutter og inkluderer:\n- En detaljert gjennomgang av sykdomshistorie og livssituasjon.\n- Gynekologisk undersøkelse og relevante blodprøver ved behov.\n- Utarbeidelse av en tilpasset behandlingsplan.\n\nI samråd med deg kan vi tilby tverrfaglig oppfølging for å styrke behandlingen. Dette kan inkludere samarbeid med ernæringsfysiolog, osteopat, sexolog eller psykolog, basert på dine ønsker og behov.\n\nEn oppfølgingstime må bestilles etter 6 måneder. Våre eksperter er tilgjengelige ved ytterligere behov.\n\nVårt mål er å tilby deg en helhetlig og tilpasset behandling som gir merkbare forbedringer i din helse og livskvalitet gjennom overgangsalderen.\n\nVi hjelper deg med å ta hverdagen tilbake. Hos oss møter du et kompetent og engasjert team som lytter, veileder og utvikler en behandlingsplan som er tilpasset dine utfordringer og behov.",
+      },
     ],
     faqs: [
       { question: "Er hormonbehandling trygt?", answer: "Moderne hormonbehandling er godt dokumentert og trygt for de fleste kvinner. Vi gjør en grundig vurdering før oppstart." },
