@@ -335,8 +335,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       {/* Compact Hero Banner */}
-      <header className="relative h-[30vh] md:h-[35vh] overflow-hidden">
-        <img src={category.heroImage} alt={category.title} className="w-full h-full object-cover" />
+      <header className="relative h-[40vh] md:h-[45vh] lg:h-[50vh] overflow-hidden">
+        <img src={category.heroImage} alt={category.title} className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/40 to-brand-dark/20" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
           <div className="container mx-auto px-0 md:px-8">
