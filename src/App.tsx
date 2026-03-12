@@ -86,6 +86,7 @@ const AppContent = () => {
         <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
         {/* Aktuelt / News */}
         <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
+        <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
         {/* Specialist routes */}
         <Route path="/spesialister" element={<Specialists isChatOpen={false} />} />
         <Route path="/spesialister/:slug" element={<SpecialistProfile isChatOpen={false} />} />
