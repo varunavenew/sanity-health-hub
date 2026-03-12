@@ -227,6 +227,58 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </div>
             )}
 
+            {/* Related Specialists */}
+            {relatedSpecialists.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-normal text-foreground mb-6">
+                  Våre behandlere
+                </h2>
+                <div className="space-y-4">
+                  {relatedSpecialists.map((spec) => (
+                    <div
+                      key={spec.slug}
+                      className="flex items-start gap-4 p-5 rounded-xl border border-border bg-card hover:bg-secondary/30 transition-colors"
+                    >
+                      <img
+                        src={spec.image}
+                        alt={spec.name}
+                        className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover flex-shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-medium text-foreground">{spec.name}</h3>
+                        <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
+                        {spec.clinics && spec.clinics.length > 0 && (
+                          <p className="text-xs text-muted-foreground font-light mt-1 flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            {spec.clinics.join(", ")}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-xs rounded-full h-8 font-light"
+                            onClick={() => navigate(`/spesialister/${spec.slug}`)}
+                          >
+                            Les mer
+                            <ArrowRight className="ml-1 w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="text-xs rounded-full h-8 font-light"
+                            onClick={() => navigate(`/booking?kategori=${categoryId}`)}
+                          >
+                            <Calendar className="mr-1 w-3 h-3" />
+                            Bestill time
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* CTA Section */}
             <div className="bg-brand-dark rounded-xl p-8 md:p-12 text-center">
               <h2 className="text-2xl md:text-3xl font-normal text-white mb-3">
