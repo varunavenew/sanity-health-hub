@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { ArrowRight, Check, Phone, Calendar, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
