@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { ArrowRight, Check, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { treatmentContent, TreatmentData } from "@/data/treatmentContent";
+import { treatmentContent, TreatmentData, ContentSection } from "@/data/treatmentContent";
 import { useTreatment } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 
@@ -21,9 +21,17 @@ const specialistLabels: Record<string, string> = {
   "flere-fagomrader": "spesialist",
 };
 
+// Simple inline markdown formatter for **bold** and _italic_
+const formatInlineMarkdown = (text: string): string => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/_(.*?)_/g, '<em>$1</em>');
+};
+
 const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const { subId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
   const treatmentKey = `${categoryId}/${subId}`;
   const staticTreatment = treatmentContent[treatmentKey];
@@ -48,6 +56,16 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
       document.title = `${treatment.title} | CMedical`;
     }
   }, [treatment]);
+
+  // Scroll to anchor if present
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+      }
+    }
+  }, [location.hash, treatment]);
 
   if (!treatment) {
     return (
@@ -99,6 +117,34 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 {treatment.description}
               </p>
             </div>
+
+            {/* Content Sections from cmedical.no */}
+            {treatment.sections && treatment.sections.length > 0 && (
+              <div className="mb-12 space-y-10">
+                {treatment.sections.map((section, i) => (
+                  <div key={i} id={section.id || `section-${i}`}>
+                    <h2 className="text-2xl font-normal text-foreground mb-4">{section.heading}</h2>
+                    <div className="space-y-3">
+                      {section.content.split('\n').map((line, j) => {
+                        const trimmed = line.trim();
+                        if (!trimmed) return null;
+                        if (trimmed.startsWith('- ')) {
+                          return (
+                            <div key={j} className="flex items-start gap-2 pl-2">
+                              <span className="text-foreground/50 mt-1">•</span>
+                              <p className="text-foreground/80 font-light" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
+                            </div>
+                          );
+                        }
+                        return (
+                          <p key={j} className="text-foreground/80 font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }} />
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Key Benefits */}
             {treatment.benefits && treatment.benefits.length > 0 && (

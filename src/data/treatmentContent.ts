@@ -10,12 +10,19 @@ import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 
+export interface ContentSection {
+  id?: string; // anchor id for scroll-to
+  heading: string;
+  content: string; // supports \n for paragraphs, **bold**, _italic_, - list items
+}
+
 export interface TreatmentData {
   title: string;
   subtitle: string;
   parentCategory: string;
   heroImage: string;
   description: string;
+  sections?: ContentSection[];
   benefits?: string[];
   benefitsTitle?: string;
   process?: { title: string; description: string }[];
@@ -75,19 +82,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Effektiv behandling av stressinkontinens, tranginkontinens og blandingsinkontinens.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Urinlekkasje er svært vanlig og rammer kvinner i alle aldre. Det finnes gode behandlingsmuligheter, og du trenger ikke å leve med plagene. Hos CMedical har vi lang erfaring med utredning og behandling av alle former for urinlekkasje.\n\nVi tilbyr både konservativ behandling med bekkenbunnstrening og kirurgiske løsninger ved behov.",
-    benefits: [
-      "Spesialistkompetanse på urinlekkasje hos kvinner",
-      "Grundig utredning for å finne riktig behandlingsform",
-      "Moderne kirurgiske metoder med kort rekonvalesens",
-      "Bekkenbunnstrening med fysioterapeut",
-      "Tett oppfølging gjennom hele behandlingsforløpet",
-    ],
-    process: [
-      { title: "Utredning", description: "Grundig kartlegging av type lekkasje, omfang og eventuelle utløsende faktorer." },
-      { title: "Behandlingsplan", description: "Individuell plan som kan inkludere bekkenbunnstrening, medisiner eller kirurgi." },
-      { title: "Behandling", description: "Gjennomføring av valgt behandling med oppfølging underveis." },
-      { title: "Oppfølging", description: "Kontroll for å sikre god effekt av behandlingen." },
+    description: "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
+    sections: [
+      {
+        id: "stressinkontinens",
+        heading: "Typer urinlekkasje",
+        content: "**Stressinkontinens**\nUrinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.\n\n**Tranginkontinens**\nEn plutselig sterk trang til å late vannet etterfulgt av lekkasje. Man er ofte plaget av hyppig toalettbesøk, hvor man ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte.\n\n_Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle._\n\n**Blandingsinkontinens**\nKombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person.\n\nEr du plaget med dette anbefaler vi deg å ta kontakt med oss.",
+      },
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.).\n\nDet finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner.\n\nVed samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+      },
     ],
     faqs: [
       { question: "Er urinlekkasje normalt?", answer: "Urinlekkasje er svært vanlig, men det er ikke noe du trenger å akseptere. Det finnes gode behandlingsmuligheter." },
@@ -100,19 +106,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Spesialisert diagnostikk og behandling av endometriose og adenomyose.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Endometriose er en tilstand der livmorslimhinnen vokser utenfor livmoren, noe som kan forårsake sterke smerter og påvirke fertiliteten. CMedical har noen av Nordens fremste eksperter på endometriose.\n\nVi tilbyr alt fra medisinsk behandling til avansert robotassistert kirurgi for dyp endometriose – noe svært få klinikker i Norge kan tilby.",
-    benefits: [
-      "Ledende ekspertise på endometriose i Norden",
-      "Robotassistert kirurgi for dyp endometriose",
-      "Tverrfaglig tilnærming med smertespesialister og psykolog",
-      "Moderne diagnostikk med ultralyd og MR",
-      "Tett samarbeid med fertilitetsklinikken ved barneønske",
-    ],
-    process: [
-      { title: "Konsultasjon", description: "Grundig samtale om symptomer, sykehistorie og eventuelle tidligere behandlinger." },
-      { title: "Diagnostikk", description: "Gynekologisk undersøkelse, ultralyd og eventuelt MR for å kartlegge omfanget." },
-      { title: "Behandlingsplan", description: "Individuell plan basert på funn, symptomer og eventuelle barneønsker." },
-      { title: "Behandling og oppfølging", description: "Medisinsk eller kirurgisk behandling med langvarig oppfølging." },
+    description: "Endometriet = slimhinnen i livmoren.\n\nHver måned vokser slimhinnen i takt med hormonsyklus, og den blir avstøtt ved mens før den bygges opp igjen. Ved endometriose vokser vev som ligner livmorslimhinnen utenfor livmorhulen. Endometriose rammer oftest kvinner i fertil alder.\n\nDet tar i gjennomsnitt syv år å bli diagnostisert i Norge – **dette vil vi endre.**\n\nVi har unik ekspertise og lang erfaring med endometriose.",
+    sections: [
+      {
+        id: "symptomer",
+        heading: "Symptomer",
+        content: "Symptomene på endometriose er individuelle. Det vanligste symptomet er smerter ved menstruasjon eller utenom. Smertene kan variere i styrke fra minimale menstruasjonssmerter til invalidiserende smerter. Andre symptomer kan være kvalme, diaré eller forstoppelse, økt trettbarhet, smerter ved vannlatning eller ved samleie. Omtrent 10% av kvinner rammes, og hele 30% av disse lider av underlivssmerter.",
+      },
+      {
+        id: "kirurgi",
+        heading: "Kirurgi",
+        content: "Vi tilbyr både tradisjonell kikkhullskirurgi (laparoskopi) og robotkirurgi ved sanering av endometriose. CMedical er den eneste private aktøren i Norge som tilbyr operasjon med robot ved endometriose. Robotkirurgi er en presis og skånsom operasjonsmetode.\n\nVed kirurgi vil endometriose på bukhinnen, i bekkenet, arrvev og sammenvoksinger klippes bort. Roboten er spesielt egnet til finkirurgi der en vil unngå nærliggende nerver og blodkar.",
+      },
     ],
     faqs: [
       { question: "Hva er symptomene på endometriose?", answer: "Vanlige symptomer er sterke menssmerter, kroniske bekkensmerter, smerter ved samleie og i noen tilfeller redusert fertilitet." },
@@ -125,13 +130,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Hormonbehandling og oppfølging for en bedre overgangsalder.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Overgangsalderen er en naturlig fase i livet, men for mange kvinner medfører den plagsomme symptomer som hetetokter, søvnproblemer, humørsvingninger og tørre slimhinner.\n\nHos CMedical hjelper vi deg med å forstå hva som skjer i kroppen og finner den beste behandlingen for akkurat deg. Våre gynekologer har lang erfaring med hormonbehandling og andre tilnærminger.",
-    benefits: [
-      "Individuelt tilpasset hormonbehandling",
-      "Grundig helsesjekk før oppstart av behandling",
-      "Oppfølging og justering av behandlingen over tid",
-      "Rådgivning om livsstilsendringer som kan hjelpe",
-      "Tverrfaglig tilnærming med ernæringsfysiolog og psykolog",
+    description: "Symptomer på overgangsalderen starter ofte i første halvdel av 40-årene, opplevelsene kan variere mye fra kvinne til kvinne. For noen er overgangen knapt merkbar, mens andre opplever så store utfordringer at det påvirker hverdagen deres betydelig.\n\nHos CMedical møter du et dedikert ekspert-team av spesialister på overgangsalder. Våre eksperter er medlemmer av British Menopause Society og samarbeider tett med Newson Health i Storbritannia, som er verdens ledende klinikk innen overgangsalder. Behandlingsmetodikken vår bygger på «de fire søylene» – hormoner, relasjoner, ernæring og fysisk form – som sammen sikrer en helhetlig tilnærming til dine behov.",
+    sections: [
+      {
+        id: "symptomer",
+        heading: "Symptomer",
+        content: "Overgangsalderen kan først merkes gjennom uregelmessige menstruasjoner og hetetokter, endringer i humør og en generell reduksjon i energinivå. Etter hvert kan symptomene øke, og de kan oppleves både fysisk og psykisk vanskelige.\n\nVanlige symptomer inkluderer:\n- Blødningsforstyrrelser\n- Hetetokter\n- Hjernetåke/konsentrasjonsvansker\n- Redusert hukommelse\n- Ta lettere til tårene/emosjonell\n- Søvnproblemer\n- Endringer i hud og hår\n- Smerter i ledd og muskler\n- Hyppigere hodepine\n- Redusert sexlyst\n- Økt irritabilitet\n- Urinveisinfeksjoner og tørrhet i skjeden\n\nMenopausen er egentlig bare en dato i kvinners liv, definert som uteblitt menstruasjon i 12 måneder. Tiden før dette med symptomer kalles perimenopausal, tiden etter for postmenopausal. På lengre sikt øker risikoen for tilstander som beinskjørhet, hjerte- og karsykdommer, høyt kolesterol, høyt blodtrykk, depresjon og demens. Dette skyldes nedgang i østrogen-, progesteron- og testosteronproduksjonen. Heldigvis finnes trygge og effektive behandlingsalternativer som hjelper deg med å håndtere symptomene, gir økt livskvalitet og reduserer risiko for fremtidige helseproblemer.",
+      },
+      {
+        id: "hormonbehandling",
+        heading: "Behandling",
+        content: "En kartleggingssamtale er en personlig og grundig konsultasjon med en eller flere av våre spesialister. Målet er å forstå dine individuelle utfordringer og behov i forbindelse med overgangsalderen. Samtalen varer i omtrent 45 minutter og inkluderer:\n- En detaljert gjennomgang av sykdomshistorie og livssituasjon.\n- Gynekologisk undersøkelse og relevante blodprøver ved behov.\n- Utarbeidelse av en tilpasset behandlingsplan.\n\nI samråd med deg kan vi tilby tverrfaglig oppfølging for å styrke behandlingen. Dette kan inkludere samarbeid med ernæringsfysiolog, osteopat, sexolog eller psykolog, basert på dine ønsker og behov.\n\nEn oppfølgingstime må bestilles etter 6 måneder. Våre eksperter er tilgjengelige ved ytterligere behov.\n\nVårt mål er å tilby deg en helhetlig og tilpasset behandling som gir merkbare forbedringer i din helse og livskvalitet gjennom overgangsalderen.\n\nVi hjelper deg med å ta hverdagen tilbake. Hos oss møter du et kompetent og engasjert team som lytter, veileder og utvikler en behandlingsplan som er tilpasset dine utfordringer og behov.",
+      },
     ],
     faqs: [
       { question: "Er hormonbehandling trygt?", answer: "Moderne hormonbehandling er godt dokumentert og trygt for de fleste kvinner. Vi gjør en grundig vurdering før oppstart." },
