@@ -146,6 +146,29 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </div>
             )}
 
+            {/* Linked Services Cards */}
+            {treatment.linkedServices && treatment.linkedServices.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-normal text-foreground mb-6">Vårt tverrfaglige team</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {treatment.linkedServices.map((service) => (
+                    <button
+                      key={service.label}
+                      onClick={() => navigate(service.path)}
+                      className="text-left p-6 rounded-xl border border-border bg-card hover:bg-secondary/40 transition-all group"
+                    >
+                      <h3 className="text-lg font-normal text-foreground mb-2 group-hover:text-foreground/80 flex items-center gap-2">
+                        {service.label}
+                        <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </h3>
+                      <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                        {service.description}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
             {/* Key Benefits */}
             {treatment.benefits && treatment.benefits.length > 0 && (
               <div className="mb-12 bg-secondary/30 rounded-xl p-8">
