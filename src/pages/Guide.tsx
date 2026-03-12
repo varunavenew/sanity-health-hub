@@ -163,19 +163,19 @@ const Guide = ({ isChatOpen }: GuideProps) => {
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <span className="text-accent mt-1">•</span>
+                      <span className="text-foreground/40 mt-1">•</span>
                       <span className="text-muted-foreground font-light">Prostataundersøkelse</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-accent mt-1">•</span>
+                      <span className="text-foreground/40 mt-1">•</span>
                       <span className="text-muted-foreground font-light">Erektil dysfunksjon</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-accent mt-1">•</span>
+                      <span className="text-foreground/40 mt-1">•</span>
                       <span className="text-muted-foreground font-light">Urinveisinfeksjoner</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-accent mt-1">•</span>
+                      <span className="text-foreground/40 mt-1">•</span>
                       <span className="text-muted-foreground font-light">Kirurgiske inngrep</span>
                     </div>
                   </div>

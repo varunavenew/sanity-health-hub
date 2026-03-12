@@ -66,7 +66,7 @@ export const TrustCredibility = () => {
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-6 leading-tight">
             Trygg behandling fra{" "}
-            <span className="text-accent">Skandinavias ledende</span> spesialister
+            <span className="text-foreground font-normal">Skandinavias ledende</span> spesialister
           </h2>
         </div>
 
