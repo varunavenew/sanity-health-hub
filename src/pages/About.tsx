@@ -30,7 +30,7 @@ const About = ({ isChatOpen }: AboutProps) => {
             <header className="mb-8 pb-6 border-b border-brand-dark/10">
               <p className="text-brand-dark/40 text-xs mb-2">Om CMedical</p>
               <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
-                Din private klinikk for kvinnens og mannens hälsa
+                Din private klinikk for kvinnens og mannens helse
               </h1>
             </header>
 
