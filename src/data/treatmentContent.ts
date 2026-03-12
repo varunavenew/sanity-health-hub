@@ -103,7 +103,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/urinlekkasje": {
     title: "Urinlekkasje",
-    subtitle: "Effektiv behandling av stressinkontinens, tranginkontinens og blandingsinkontinens.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
@@ -120,9 +120,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
     ],
     faqs: [
-      { question: "Er urinlekkasje normalt?", answer: "Urinlekkasje er svært vanlig, men det er ikke noe du trenger å akseptere. Det finnes gode behandlingsmuligheter." },
-      { question: "Kan bekkenbunnstrening hjelpe?", answer: "Ja, bekkenbunnstrening er ofte førstevalg ved stressinkontinens og kan gi betydelig bedring." },
-      { question: "Når bør jeg vurdere kirurgi?", answer: "Kirurgi kan være aktuelt dersom konservativ behandling ikke gir tilstrekkelig effekt. Din gynekolog vil veilede deg." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/endometriose": {
