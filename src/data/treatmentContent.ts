@@ -82,19 +82,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Effektiv behandling av stressinkontinens, tranginkontinens og blandingsinkontinens.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Urinlekkasje er svært vanlig og rammer kvinner i alle aldre. Det finnes gode behandlingsmuligheter, og du trenger ikke å leve med plagene. Hos CMedical har vi lang erfaring med utredning og behandling av alle former for urinlekkasje.\n\nVi tilbyr både konservativ behandling med bekkenbunnstrening og kirurgiske løsninger ved behov.",
-    benefits: [
-      "Spesialistkompetanse på urinlekkasje hos kvinner",
-      "Grundig utredning for å finne riktig behandlingsform",
-      "Moderne kirurgiske metoder med kort rekonvalesens",
-      "Bekkenbunnstrening med fysioterapeut",
-      "Tett oppfølging gjennom hele behandlingsforløpet",
-    ],
-    process: [
-      { title: "Utredning", description: "Grundig kartlegging av type lekkasje, omfang og eventuelle utløsende faktorer." },
-      { title: "Behandlingsplan", description: "Individuell plan som kan inkludere bekkenbunnstrening, medisiner eller kirurgi." },
-      { title: "Behandling", description: "Gjennomføring av valgt behandling med oppfølging underveis." },
-      { title: "Oppfølging", description: "Kontroll for å sikre god effekt av behandlingen." },
+    description: "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
+    sections: [
+      {
+        id: "stressinkontinens",
+        heading: "Typer urinlekkasje",
+        content: "**Stressinkontinens**\nUrinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.\n\n**Tranginkontinens**\nEn plutselig sterk trang til å late vannet etterfulgt av lekkasje. Man er ofte plaget av hyppig toalettbesøk, hvor man ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte.\n\n_Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle._\n\n**Blandingsinkontinens**\nKombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person.\n\nEr du plaget med dette anbefaler vi deg å ta kontakt med oss.",
+      },
+      {
+        id: "behandling",
+        heading: "Behandling",
+        content: "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.).\n\nDet finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner.\n\nVed samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+      },
     ],
     faqs: [
       { question: "Er urinlekkasje normalt?", answer: "Urinlekkasje er svært vanlig, men det er ikke noe du trenger å akseptere. Det finnes gode behandlingsmuligheter." },
