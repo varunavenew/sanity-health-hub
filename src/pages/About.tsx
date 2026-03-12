@@ -51,8 +51,8 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-2xl mx-auto">
             <img 
-              src={cmedicalHands} 
-              alt="Omsorg hos CMedical"
+              src={cmedicalFamilyHands} 
+              alt="Omsorg hos CMedical - Familie"
               className="w-full aspect-[3/2] object-cover"
             />
           </div>
