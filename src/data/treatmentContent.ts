@@ -508,19 +508,17 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/spontanabort": {
     title: "Spontanabort",
-    subtitle: "Medisinsk oppfølging og støtte ved spontanabort.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "En spontanabort er en smertefull opplevelse, både fysisk og emosjonelt. Hos CMedical får du rask og omsorgsfull oppfølging med ultralyd, medisinsk behandling og psykologisk støtte ved behov.\n\nVi hjelper deg gjennom situasjonen med faglig trygghet og personlig omsorg.",
-    benefits: [
-      "Rask time for ultralydkontroll",
-      "Medisinsk eller kirurgisk behandling ved behov",
-      "Tilgang til psykolog og samtaleterapi",
-      "Veiledning om veien videre og eventuelle nye graviditeter",
-    ],
+    description: "I følge internasjonale retningslinjer blir dessverre ikke kvinner med spontanabort fulgt opp tilstrekkelig i Norge. Spontanabort oppleves for de aller fleste som et tap og da hjelper det lite å høre at det er naturens gang. Uavhengig om dere har barn fra før, om dere har forsøkt lenge eller kort å bli gravid er det viktig å bli tatt på alvor med de tankene dere har.\n\nSelve aborten kan også ha vært en tung og smertefull opplevelse og mange kjenner seg utrygge på om alt er ute av kroppen. Med både ultralyd og samtale vil vi klargjøre og berolige.\n\nI dag vil de fleste få beskjed om å vente til opp mot tre spontanaborter før det utredes om alt er som det skal. Det skal du slippe hos oss. Vi gjør en vurdering om det ligger noen bakgrunn for at du har abortert.\n\nKun en prosent av alle gravide ender med en uønsket senabort, men det er ganske mange par som tar vanskelige valg etter tidlig fosterdiagnostisering og NIPT-test. Det å ha noen å snakke med rundt disse valgene kan være med å gjøre prosessen lettere. Hos CMedical kan du snakke med våre spesialister om vanskelige tanker.\n\nGjennom mange år har vi fulgt par som har mistet barnet i mors liv, under eller etter fødsel. Vi vil veilede dere som par både i den livskrisen dere er i, også vurdere andre tiltak ved eventuelt neste svangerskap og følge deg eller dere tett opp.",
+    relatedSpecialists: ["birgitte-mitlid-mork", "ashi-ahmad"],
     faqs: [
-      { question: "Når bør jeg kontakte dere?", answer: "Ta kontakt umiddelbart ved blødning og smerter i tidlig svangerskap. Vi tilbyr rask time for avklaring." },
-      { question: "Kan jeg prøve å bli gravid igjen?", answer: "I de fleste tilfeller kan du prøve igjen etter neste menstruasjon. Din lege vil gi individuell rådgivning." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/vulvalidelser": {
