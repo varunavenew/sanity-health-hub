@@ -151,7 +151,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "gynekologi/overgangsalder": {
     title: "Overgangsalder",
-    subtitle: "Hormonbehandling og oppfølging for en bedre overgangsalder.",
+    subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Symptomer på overgangsalderen starter ofte i første halvdel av 40-årene, opplevelsene kan variere mye fra kvinne til kvinne. For noen er overgangen knapt merkbar, mens andre opplever så store utfordringer at det påvirker hverdagen deres betydelig.\n\nHos CMedical møter du et dedikert ekspert-team av spesialister på overgangsalder. Våre eksperter er medlemmer av British Menopause Society og samarbeider tett med Newson Health i Storbritannia, som er verdens ledende klinikk innen overgangsalder. Behandlingsmetodikken vår bygger på «de fire søylene» – hormoner, relasjoner, ernæring og fysisk form – som sammen sikrer en helhetlig tilnærming til dine behov.",
@@ -162,15 +162,44 @@ export const treatmentContent: Record<string, TreatmentData> = {
         content: "Overgangsalderen kan først merkes gjennom uregelmessige menstruasjoner og hetetokter, endringer i humør og en generell reduksjon i energinivå. Etter hvert kan symptomene øke, og de kan oppleves både fysisk og psykisk vanskelige.\n\nVanlige symptomer inkluderer:\n- Blødningsforstyrrelser\n- Hetetokter\n- Hjernetåke/konsentrasjonsvansker\n- Redusert hukommelse\n- Ta lettere til tårene/emosjonell\n- Søvnproblemer\n- Endringer i hud og hår\n- Smerter i ledd og muskler\n- Hyppigere hodepine\n- Redusert sexlyst\n- Økt irritabilitet\n- Urinveisinfeksjoner og tørrhet i skjeden\n\nMenopausen er egentlig bare en dato i kvinners liv, definert som uteblitt menstruasjon i 12 måneder. Tiden før dette med symptomer kalles perimenopausal, tiden etter for postmenopausal. På lengre sikt øker risikoen for tilstander som beinskjørhet, hjerte- og karsykdommer, høyt kolesterol, høyt blodtrykk, depresjon og demens. Dette skyldes nedgang i østrogen-, progesteron- og testosteronproduksjonen. Heldigvis finnes trygge og effektive behandlingsalternativer som hjelper deg med å håndtere symptomene, gir økt livskvalitet og reduserer risiko for fremtidige helseproblemer.",
       },
       {
-        id: "hormonbehandling",
+        id: "behandling",
         heading: "Behandling",
         content: "En kartleggingssamtale er en personlig og grundig konsultasjon med en eller flere av våre spesialister. Målet er å forstå dine individuelle utfordringer og behov i forbindelse med overgangsalderen. Samtalen varer i omtrent 45 minutter og inkluderer:\n- En detaljert gjennomgang av sykdomshistorie og livssituasjon.\n- Gynekologisk undersøkelse og relevante blodprøver ved behov.\n- Utarbeidelse av en tilpasset behandlingsplan.\n\nI samråd med deg kan vi tilby tverrfaglig oppfølging for å styrke behandlingen. Dette kan inkludere samarbeid med ernæringsfysiolog, osteopat, sexolog eller psykolog, basert på dine ønsker og behov.\n\nEn oppfølgingstime må bestilles etter 6 måneder. Våre eksperter er tilgjengelige ved ytterligere behov.\n\nVårt mål er å tilby deg en helhetlig og tilpasset behandling som gir merkbare forbedringer i din helse og livskvalitet gjennom overgangsalderen.\n\nVi hjelper deg med å ta hverdagen tilbake. Hos oss møter du et kompetent og engasjert team som lytter, veileder og utvikler en behandlingsplan som er tilpasset dine utfordringer og behov.",
       },
+      {
+        id: "fastlegeveiledning",
+        heading: "Fastlegeveiledning overgangsalder",
+        content: "Vi har utarbeidet en egen veiledning for fastleger om utredning og behandling av peri- og menopausale kvinner. Veilederen baserer seg på Norsk gynekologisk veileder 2024, NICE NG23 (2024), British Menopause Society (BMS) retningslinjer og European Society of Endocrinology (ESE) kliniske retningslinjer 2025.\n\n[Les fastlegeveiledning for overgangsalder →](/fastlegeveiledning-overgangsalder)",
+      },
+    ],
+    linkedServices: [
+      {
+        label: "Ernæringsfysiolog",
+        description: "Kostholdsrådgivning tilpasset hormonelle endringer og overgangsalder.",
+        path: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
+      },
+      {
+        label: "Osteopat",
+        description: "Manuell behandling for smerter i ledd og muskler knyttet til hormonelle endringer.",
+        path: "/behandlinger/flere-fagomrader/osteopati",
+      },
+      {
+        label: "Sexolog",
+        description: "Støtte og veiledning ved endringer i seksuell helse gjennom overgangsalderen.",
+        path: "/behandlinger/flere-fagomrader/sexologi",
+      },
+      {
+        label: "Psykolog",
+        description: "Samtaleterapi for å håndtere emosjonelle utfordringer i overgangsalderen.",
+        path: "/behandlinger/flere-fagomrader/psykologi",
+      },
     ],
     faqs: [
-      { question: "Er hormonbehandling trygt?", answer: "Moderne hormonbehandling er godt dokumentert og trygt for de fleste kvinner. Vi gjør en grundig vurdering før oppstart." },
-      { question: "Når bør jeg oppsøke hjelp?", answer: "Dersom symptomene påvirker din livskvalitet, bør du bestille time. Det finnes gode behandlingsmuligheter." },
-      { question: "Hva koster en konsultasjon?", answer: "En konsultasjon hos gynekolog koster fra kr 2 100. Se vår prisliste for detaljer." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
     ],
   },
   "gynekologi/vaginale-fremfall": {
