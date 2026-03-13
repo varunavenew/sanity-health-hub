@@ -606,8 +606,8 @@ async function buildPageDocsWithImages(): Promise<Mutation[]> {
           { _type: "object", _key: "vb3", icon: "CreditCard", label: "Tilgjengelig pris" },
         ],
         promoBlocks: [
-          { _type: "object", _key: "pb1", title: "Velkommen på fastlegeseminar", description: "Lær mer om våre tjenester og hvordan vi kan hjelpe deg og dine pasienter.", ctaText: "Les mer og boka", ctaLink: "/kontakt", ...(promoImage1 ? { image: promoImage1 } : {}) },
-          { _type: "object", _key: "pb2", title: "Velkommen på fastlegeseminar", description: "Hold deg oppdatert på nyheter, arrangementer og faglig innhold fra CMedical.", ctaText: "Les mer og boka", ctaLink: "/kontakt", ...(promoImage2 ? { image: promoImage2 } : {}) },
+          { _type: "object", _key: "pb1", title: "Robotassistert overvektskirurgi – presisjon, trygghet og varige resultater", ctaText: "Les mer", ctaLink: "/robotassistert-kirurgi", ...(promoImage1 ? { image: promoImage1 } : {}) },
+          { _type: "object", _key: "pb2", title: "Livio Oslo blir en del av CMedical og tilbudet til pasientene styrkes", ctaText: "Les mer", ctaLink: "/tverrfaglige-team", ...(promoImage2 ? { image: promoImage2 } : {}) },
         ],
         seo: {
           _type: "seo",
