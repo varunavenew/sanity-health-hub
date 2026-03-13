@@ -833,13 +833,20 @@ async function main() {
   await submitMutations([settingsMutation]);
   console.log(`   ✅ 1 site settings\n`);
 
+  // 8. Clinics
+  console.log("🏥 Creating clinics...");
+  const clinicMutations = buildClinicDocs();
+  await submitMutations(clinicMutations);
+  console.log(`   ✅ ${clinicMutations.length} clinics\n`);
+
   const total =
     categoryMutations.length +
     treatmentMutations.length +
     specialistMutations.length +
     reviewMutations.length +
     pageMutations.length +
-    1;
+    1 +
+    clinicMutations.length;
 
   console.log(`\n🎉 Migration complete! ${total} documents created/updated in Sanity.`);
   console.log(`   📸 ${imageCache.size} images uploaded.`);
