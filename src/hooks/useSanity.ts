@@ -1,6 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { sanityClient } from "@/lib/sanityClient";
 
+// Map Sanity treatmentCategory slugs to the internal category keys used by filters
+const mapSanityCategorySlug = (slug: string): string => {
+  const mapping: Record<string, string> = {
+    "flere-fagomrader": "annet",
+  };
+  return mapping[slug] || slug;
+};
+
 // Generic fetcher
 const fetchSanity = <T>(query: string, params?: Record<string, any>): Promise<T> =>
   sanityClient.fetch(query, params);
