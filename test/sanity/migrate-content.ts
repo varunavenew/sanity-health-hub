@@ -766,6 +766,179 @@ async function buildPageDocsWithImages(): Promise<Mutation[]> {
 }
 
 // ============================================================
+// CLINICS — from Sanity production data
+// ============================================================
+const clinicsData = [
+  {
+    _id: "clinic-majorstuen",
+    title: "Majorstuen (Oslo)",
+    address: "Sørkedalsveien 10 A og B",
+    phone: "22600050",
+    email: "majorstuen@cmedical.no",
+    hours: "08:00 - 20:00",
+    description: "Adresse: Sørkedalsveien 10 A og B.",
+  },
+  {
+    _id: "clinic-bekkestua",
+    title: "Bekkestua",
+    address: "Bærumsveien 205",
+    phone: "+47 22 60 00 50",
+    email: "bekkestua@cmedical.no",
+    hours: "Ukedager 08–16:00",
+    description: "Våre spesialister setter sin spisskompetanse sammen for å forstå hele bildet, og gi deg en helhetlig behandling.",
+  },
+  {
+    _id: "clinic-moss",
+    title: "Moss",
+    address: "Lilleengveien 8, 1523 Moss",
+    phone: "69254000",
+    email: "post@colosseumfaust.no",
+    hours: "08:00-16:00",
+    description: "Time kan enkelt bestilles online. Du trenger ikke henvisning for å bestille time, og din helseforsikring kan brukes hos oss.",
+  },
+  {
+    _id: "clinic-ski",
+    title: "Ski",
+    address: "Jernbaneveien 6A",
+    phone: "22600050",
+    hours: "08-16:00",
+    description: "Midlertidig stengt.",
+  },
+  {
+    _id: "clinic-moelv",
+    title: "Moelv",
+    address: "Møllergata 18",
+    phone: "+47 90 61 15 60",
+    email: "moelv@cmedical.no",
+    hours: "08:00 - 16:00",
+    description: "Vi har helt nye lokaler i sentrum av Moelv, med flere operasjonsstuer.",
+  },
+  {
+    _id: "clinic-fertilitet-stockholm",
+    title: "Fertilitet Stockholm",
+    address: "Sankt Göransgatan 126, 112 45 Stockholm",
+    phone: "08-404 09 91",
+    hours: "08:00-16:00",
+    description: "CMedical Fertilitet finns i nyrenoverade lokaler i Wonna Tower på Kungsholmen, Stockholm.",
+  },
+  {
+    _id: "clinic-fertilitet-uppsala",
+    title: "Fertilitet Uppsala",
+    address: "Kålsängsgränd 10d, 753 19 Uppsala",
+    phone: "018-12 80 17",
+    email: "fertuppsala@cmedical.se",
+    hours: "07:45–16:30",
+    description: "Du hittar vår klinik centralt i Uppsala nära centralstationen.",
+  },
+  {
+    _id: "clinic-gynekologi-stockholm",
+    title: "Gynekologi Stockholm",
+    address: "Sankt Göransgatan 126, 112 45 Stockholm",
+    phone: "08-404 09 99",
+    email: "gynsanktgoran@cmedical.se",
+    hours: "08:00-16:00",
+    description: "Vår klinik för gynekologi finns i nyrenoverade lokaler i Wonna Tower på Kungsholmen, Stockholm.",
+  },
+  {
+    _id: "clinic-studentgyn-gynhalsan",
+    title: "StudentGyn/GynHälsan",
+    address: "Bredgränd 4, 753 20 Uppsala",
+    phone: "018-12 82 10",
+    email: "gynuppsala@cmedical.se",
+    hours: "08:00-16:00",
+    description: "Kliniken är vackert belägen i Uppsalas gamla kvarter i närheten av Universitetsaulan.",
+  },
+  {
+    _id: "clinic-fertilitetsdoktorn",
+    title: "Fertilitetsdoktorn.se",
+    address: "Kålsängsgränd 10D",
+    phone: "fertilitetsdoktorn.se",
+    hours: "Online",
+    description: "Vänligen boka tid via fertilitetsdoktorn.se.",
+  },
+  {
+    _id: "clinic-urologi-carlanderska",
+    title: "Urologi Carlanderska",
+    address: "Carlandersplatsen, 405 45 Göteborg",
+    phone: "+46 31 81 25 23",
+    hours: "08:00-16:00",
+    description: "Välkommen till CMedical Urologi Carlanderska. Vi är verksamma vid Carlanderska sjukhuset i Göteborg.",
+  },
+  {
+    _id: "clinic-urologi-odenplan",
+    title: "Urologi Odenplan",
+    address: "Drottninggatan 97, 113 60 Stockholm",
+    phone: "+46 8 587 103 10",
+    hours: "08:00-16:00",
+    description: "Högst upp i Läkarhuset på Odenplan i Stockholm hittar du vår klinik med urologisk fullservicemottagning.",
+  },
+  {
+    _id: "clinic-urologi-sophiahemmet",
+    title: "Urologi Sophiahemmet",
+    address: "Valhallavägen 91, Hus K, 1 tr. 114 27 Stockholm",
+    phone: "+46 8 400 607 00",
+    hours: "08:00-16:00",
+    description: "Välkommen till urologkliniken på Sophiahemmet, hus K i Stockholm.",
+  },
+  {
+    _id: "clinic-urologi-varberg",
+    title: "Urologi Varberg",
+    address: "Svärdfiskgatan 3, 432 40 Varberg",
+    phone: "+46 35 16 64 43",
+    hours: "08:00-16:00",
+    description: "Välkommen till urologkliniken på Svärdfiskgatan 3 i Varberg.",
+  },
+  {
+    _id: "clinic-urologi-halmstad",
+    title: "Urologi Halmstad",
+    address: "Skansgatan 1B, 302 46 Halmstad",
+    phone: "+46 35 16 64 43",
+    hours: "08:00-16:00",
+    description: "Välkommen till urologkliniken på Skansgatan 1B i Halmstad.",
+  },
+  {
+    _id: "clinic-urologi-kristinehamn",
+    title: "Urologi Kristinehamn",
+    address: "Solrosbacken 1, 681 50 Kristinehamn",
+    phone: "+46 706 67 70 68",
+    hours: "08:00-16:00",
+    description: "CMedical Urologi Kristinehamn bedriver allmän urologisk mottagningsverksamhet.",
+  },
+  {
+    _id: "clinic-urologi-nassjo",
+    title: "Urologi Nässjö",
+    address: "Ingsbergsgatan 31, 571 81 Nässjö",
+    phone: "+46 70-202 97 24",
+    hours: "08:00-16:00",
+    description: "CMedical Urologi Nässjö bedriver allmän urologisk mottagningsverksamhet.",
+  },
+  {
+    _id: "clinic-urologi-borlange",
+    title: "Urologi Borlänge",
+    address: "Bergebyvägen 5, 784 73 Borlänge",
+    phone: "+46 24 31 08 55",
+    hours: "08:00-16:00",
+    description: "På Borlänge Sjukhus hittar du CMedical Urologi.",
+  },
+];
+
+function buildClinicDocs(): Mutation[] {
+  return clinicsData.map((clinic) => ({
+    createOrReplace: {
+      _id: clinic._id,
+      _type: "clinicPage",
+      title: clinic.title,
+      slug: { _type: "slug", current: slug(clinic.title) },
+      address: clinic.address,
+      phone: clinic.phone,
+      ...(clinic.email ? { email: clinic.email } : {}),
+      hours: clinic.hours,
+      description: clinic.description,
+    },
+  }));
+}
+
+// ============================================================
 // MAIN
 // ============================================================
 async function main() {
