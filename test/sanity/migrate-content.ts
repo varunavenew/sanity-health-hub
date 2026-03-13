@@ -911,6 +911,7 @@ async function buildArticleDocsWithImages(): Promise<Mutation[]> {
         title: article.title,
         slug: { _type: "slug", current: article.slug },
         category: article.category,
+        ...(article.body ? { body: article.body } : {}),
         ...(imageRef ? { primaryImage: { ...imageRef, ...(article.alt ? { alt: article.alt } : {}) } } : {}),
       },
     });
