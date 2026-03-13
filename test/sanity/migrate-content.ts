@@ -964,7 +964,14 @@ const articlesData: Array<{ _id: string; title: string; slug: string; category: 
   },
   { _id: "article-robotkirurgi-prostatakreft", title: "Vi tar opp kampen mot prostatakreft med robotkirurgi", slug: "vi-tar-opp-kampen-mot-prostatakreft-med-robotkirurgi", category: "fagartikkel", image: "articles/urologi.jpg" },
   { _id: "article-stillingsutlysning", title: "Operasjonssykepleier og anestesisykepleier", slug: "operasjonssykepleier-og-anestesisykepleier", category: "stillingsutlysning", image: "articles/karkirurgi.jpg", alt: "Stillingsutlysning" },
-  { _id: "article-prisliste-privatbetalende", title: "Prisliste for privatbetalende", slug: "prisliste-for-privatbetalende", category: "prisliste", image: "articles/privatbetalende.jpg" },
+  {
+    _id: "article-prisliste-privatbetalende", title: "Prisliste for privatbetalende", slug: "prisliste-for-privatbetalende", category: "prisliste", image: "articles/privatbetalende.jpg",
+    body: [
+      { _key: "d2094fc981bb", _type: "block", children: [{ _key: "885d5e1cdf7c", _type: "span", marks: [], text: "Se priser nedenfor. " }], markDefs: [], style: "h2" },
+      { _key: "587764698660", _type: "block", children: [{ _key: "47860b5101b7", _type: "span", marks: ["em"], text: "*Vi forbeholder oss retten til å gjøre endringer i prisene. Du kan alltids kontakte oss om du lurer på noe." }], markDefs: [], style: "normal" },
+      { _key: "2e06c6d19907", _type: "block", children: [{ _key: "fa4ecde63b88", _type: "span", marks: ["em"], text: "Sist endret 16.01.2024" }], markDefs: [], style: "normal" },
+    ],
+  },
   {
     _id: "article-prisliste-revmatolog", title: "Prisliste for revmatolog", slug: "prisliste-for-revmatolog", category: "prisliste", image: "articles/revmatolog.png",
     body: [
@@ -983,8 +990,32 @@ const articlesData: Array<{ _id: string; title: string; slug: string; category: 
       { _key: "c713e1419aa3", _type: "block", children: [{ _key: "3b4f5ba5d8d90", _type: "span", marks: ["em"], text: "Sist endret 02.01.2025" }], markDefs: [], style: "normal" },
     ],
   },
-  { _id: "article-prisliste-hud", title: "Prisliste for hud", slug: "prisliste-for-hud", category: "prisliste", image: "articles/karkirurgi.jpg" },
-  { _id: "article-prisliste-handterapeut", title: "Prisliste for håndterapeut", slug: "prisliste-for-handterapeut", category: "prisliste", image: "articles/handterapeut.jpg" },
+  {
+    _id: "article-prisliste-hud", title: "Prisliste for hud", slug: "prisliste-for-hud", category: "prisliste", image: "articles/karkirurgi.jpg",
+    body: [
+      { _key: "d02fca5f9035", _type: "block", children: [{ _key: "3397c804668b0", _type: "span", marks: ["strong"], text: "Hud" }], markDefs: [], style: "h2" },
+      { _key: "a147d79d456f", _type: "block", children: [{ _key: "5c4259670d77", _type: "span", marks: [], text: "Konsultasjon 30 minutter – fra kroner 2.100" }], markDefs: [], style: "normal" },
+      { _key: "9153e89906d1", _type: "block", children: [{ _key: "efc8a4b4afd10", _type: "span", marks: [], text: "Acne kontroll (innen 6 måneder) – fra kroner 1.900" }], markDefs: [], style: "normal" },
+      { _key: "d6c048aef65b", _type: "block", children: [{ _key: "ce56e80f29470", _type: "span", marks: [], text: "Føflekkfjerning (konsultasjon kommer i tillegg) – fra kroner 1.500" }], markDefs: [], style: "normal" },
+      { _key: "40381e9b50cb", _type: "block", children: [{ _key: "ae639ed650150", _type: "span", marks: [], text: "Svettebehandling Botox armhuler – fra kroner 6.900" }], markDefs: [], style: "normal" },
+      { _key: "f8d4c7b99c02", _type: "block", children: [{ _key: "2a4570f653210", _type: "span", marks: [], text: "ZO 3-step peel – fra kroner 3.500" }], markDefs: [], style: "normal" },
+      { _key: "779a23896522", _type: "block", children: [{ _key: "1a62d70b90a70", _type: "span", marks: [], text: "ZO controlled dept peel(Blue Peel) – fra kroner 12.000" }], markDefs: [], style: "normal" },
+      { _key: "eee834056399", _type: "block", children: [{ _key: "95a2f04d014e0", _type: "span", marks: [], text: "Rynkebehandling injeksjon, 1 område – fra kroner 3.750" }], markDefs: [], style: "normal" },
+      { _key: "81e94bfceb26", _type: "block", children: [{ _key: "3dc9a712c0ba0", _type: "span", marks: [], text: "Rynkebehandling injeksjon, 2 områder – fra kroner 5.500" }], markDefs: [], style: "normal" },
+      { _key: "e78e4465f4a8", _type: "block", children: [{ _key: "907ecb1d35280", _type: "span", marks: [], text: "Rynkebehandling injeksjon, 3 områder – fra kroner 6.400" }], markDefs: [], style: "normal" },
+      { _key: "486ed638bbeb", _type: "block", children: [{ _key: "ef5827abf97d0", _type: "span", marks: [], text: "Fillerbehandling Belotero 0,5 ml – fra kroner 2.900" }], markDefs: [], style: "normal" },
+      { _key: "5077508e5f07", _type: "block", children: [{ _key: "b1aec13061c60", _type: "span", marks: [], text: "Fillerbehandling Belotero 1,0 ml – fra kroner 4.200" }], markDefs: [], style: "normal" },
+      { _key: "7c493cb27257", _type: "block", children: [{ _key: "75f5a5c7ff160", _type: "span", marks: [], text: "Fillerbehandling Belotero skinbooster 2 ml – fra kroner 4.400" }], markDefs: [], style: "normal" },
+      { _key: "72fd305ad349", _type: "block", children: [{ _key: "fe0d9f41c14b0", _type: "span", marks: ["em"], text: "Det kan tilkomme kostnader for behandlinger som frysing, skraping, biopsi eller lignende i tillegg til konsultasjon. Vennligst ta kontakt på telefon eller epost.\nResepter innen 6 måneder etter konultasjon er gratis." }], markDefs: [], style: "normal" },
+    ],
+  },
+  {
+    _id: "article-prisliste-handterapeut", title: "Prisliste for håndterapeut", slug: "prisliste-for-handterapeut", category: "prisliste", image: "articles/handterapeut.jpg",
+    body: [
+      { _key: "6c7ae605c0e2", _type: "block", children: [{ _key: "efd7cd05e9190", _type: "span", marks: ["strong"], text: "Håndterapeut" }], markDefs: [], style: "h2" },
+      { _key: "4c85e288b515", _type: "block", children: [{ _key: "95ff77339a510", _type: "span", marks: [], text: "Konsultasjon 30 min – fra kroner 850" }], markDefs: [], style: "normal" },
+    ],
+  },
 ];
 
 async function buildArticleDocsWithImages(): Promise<Mutation[]> {
