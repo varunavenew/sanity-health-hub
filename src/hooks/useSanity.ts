@@ -400,3 +400,77 @@ export const useSiteSettings = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+
+// ─── Articles ────────────────────────────────────────────────────────
+export interface SanityArticle {
+  _id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  category: string;
+  pinned?: boolean;
+  featured?: boolean;
+  body?: any[];
+}
+
+export const useArticles = () =>
+  useQuery({
+    queryKey: ["sanity", "articles"],
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(
+        `*[_type == "article"] | order(publishedAt desc){
+          _id,
+          title,
+          "slug": slug.current,
+          excerpt,
+          "image": primaryImage.asset->url,
+          "imageAlt": primaryImage.alt,
+          "date": publishedAt,
+          category,
+          pinned,
+          featured,
+        }`
+      );
+      return (data || []).map((a) => ({
+        ...a,
+        image: a.image || "",
+        date: a.date || "",
+        category: a.category || "Nyheter",
+        excerpt: a.excerpt || "",
+      })) as SanityArticle[];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useArticle = (slug: string) =>
+  useQuery({
+    queryKey: ["sanity", "article", slug],
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
+        `*[_type == "article" && slug.current == $slug][0]{
+          _id,
+          title,
+          "slug": slug.current,
+          excerpt,
+          "image": primaryImage.asset->url,
+          "imageAlt": primaryImage.alt,
+          "date": publishedAt,
+          category,
+          body,
+        }`,
+        { slug }
+      );
+      if (!data) return null;
+      return {
+        ...data,
+        image: data.image || "",
+        date: data.date || "",
+        category: data.category || "Nyheter",
+        excerpt: data.excerpt || "",
+      } as SanityArticle;
+    },
+    enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });
