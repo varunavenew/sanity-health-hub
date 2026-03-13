@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { articles } from "@/data/articles";
 import { articleContent, type ContentBlock } from "@/data/articleContent";
+import { useArticle } from "@/hooks/useSanity";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
