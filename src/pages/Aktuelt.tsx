@@ -1,8 +1,9 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { articles, filterCategories, type Article } from "@/data/articles";
+import { articles as staticArticles, filterCategories, type Article } from "@/data/articles";
+import { useArticles } from "@/hooks/useSanity";
 
 interface AktueltProps {
   isChatOpen: boolean;
@@ -110,11 +111,29 @@ const FeaturedSide = ({ article }: { article: Article }) => {
 };
 
 const Aktuelt = ({ isChatOpen }: AktueltProps) => {
+  const { data: sanityArticles } = useArticles();
   const [activeFilter, setActiveFilter] = useState("Alla");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
+
+  // Use Sanity data if available, otherwise fall back to static
+  const articles: Article[] = useMemo(() => {
+    if (sanityArticles && sanityArticles.length > 0) {
+      return sanityArticles.map((a) => ({
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        image: a.image,
+        date: a.date,
+        category: a.category,
+        pinned: a.pinned,
+        featured: a.featured,
+      }));
+    }
+    return staticArticles;
+  }, [sanityArticles]);
 
   useEffect(() => {
     document.title = "Aktuelt | CMedical";

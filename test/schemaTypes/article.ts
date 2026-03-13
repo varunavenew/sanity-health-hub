@@ -56,6 +56,18 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'pinned',
+      title: 'Pinned (featured at top)',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',

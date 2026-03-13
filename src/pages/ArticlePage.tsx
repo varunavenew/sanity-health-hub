@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { articles } from "@/data/articles";
 import { articleContent, type ContentBlock } from "@/data/articleContent";
+import { useArticle } from "@/hooks/useSanity";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
@@ -65,7 +66,13 @@ const renderBlock = (block: ContentBlock, index: number) => {
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
   const { slug } = useParams<{ slug: string }>();
-  const article = articles.find((a) => a.slug === slug);
+  const { data: sanityArticle } = useArticle(slug || "");
+  const staticArticle = articles.find((a) => a.slug === slug);
+  
+  // Prefer Sanity data, fall back to static
+  const article = sanityArticle
+    ? { ...sanityArticle, image: sanityArticle.image || staticArticle?.image || "" }
+    : staticArticle;
   const content = slug ? articleContent[slug] : undefined;
 
   useEffect(() => {
