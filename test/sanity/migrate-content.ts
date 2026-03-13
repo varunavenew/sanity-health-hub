@@ -834,12 +834,58 @@ function buildClinicDocs(): Mutation[] {
 // ============================================================
 // ARTICLES (Norwegian only)
 // ============================================================
-const articlesData = [
-  { _id: "article-prisliste-psykologspesialist", title: "Prisliste for psykologspesialist", slug: "prisliste-for-psykologspesialist", category: "prisliste", image: "articles/psykologspesialist.png" },
-  { _id: "article-prisliste-sexolog", title: "Prisliste for sexolog", slug: "prisliste-for-sexolog", category: "prisliste", image: "articles/sexolog.jpg" },
-  { _id: "article-prisliste-ernaeringsfysiolog", title: "Prisliste for ernæringsfysiolog", slug: "prisliste-for-ernaeringsfysiolog", category: "prisliste", image: "articles/ernaeringsfysiolog.jpg" },
-  { _id: "article-prisliste-urologi", title: "Prisliste for urologi", slug: "prisliste-for-urologi", category: "prisliste", image: "articles/urologi.jpg", alt: "Mann på kjøkkenet med avis" },
-  { _id: "article-prisliste-gastroenterolog", title: "Prisliste for gastroenterolog/generell kirurgi", slug: "prisliste-for-gastroenterolog-generell-kirurgi", category: "prisliste", image: "articles/gastroenterolog.png" },
+const articlesData: Array<{ _id: string; title: string; slug: string; category: string; image: string; alt?: string; body?: any[] }> = [
+  {
+    _id: "article-prisliste-psykologspesialist", title: "Prisliste for psykologspesialist", slug: "prisliste-for-psykologspesialist", category: "prisliste", image: "articles/psykologspesialist.png",
+    body: [
+      { _key: "84c2415a5ec6", _type: "block", children: [{ _key: "00eab739afbe0", _type: "span", marks: ["strong"], text: "Psykologspesialist" }], markDefs: [], style: "h2" },
+      { _key: "115306c61d7f", _type: "block", children: [{ _key: "9f1e0b7ec5310", _type: "span", marks: [], text: "Konsultasjon 60 min – kroner 1.900" }], markDefs: [], style: "normal" },
+    ],
+  },
+  {
+    _id: "article-prisliste-sexolog", title: "Prisliste for sexolog", slug: "prisliste-for-sexolog", category: "prisliste", image: "articles/sexolog.jpg",
+    body: [
+      { _key: "7cc5330ef3a2", _type: "block", children: [{ _key: "30a7f1ebd20c0", _type: "span", marks: ["strong"], text: "Sexolog" }], markDefs: [], style: "h2" },
+      { _key: "a9cb571f7f8b", _type: "block", children: [{ _key: "166690990c2f0", _type: "span", marks: [], text: "Konsultasjon – fra kroner 1.600" }], markDefs: [], style: "normal" },
+    ],
+  },
+  {
+    _id: "article-prisliste-ernaeringsfysiolog", title: "Prisliste for ernæringsfysiolog", slug: "prisliste-for-ernaeringsfysiolog", category: "prisliste", image: "articles/ernaeringsfysiolog.jpg",
+    body: [
+      { _key: "144df222ea97", _type: "block", children: [{ _key: "405a91f000570", _type: "span", marks: ["strong"], text: "Ernæringsfysiolog" }], markDefs: [], style: "h2" },
+      { _key: "fd1e433b593f", _type: "block", children: [{ _key: "0b44ae26c2a90", _type: "span", marks: [], text: "Konsultasjon 45 min - kroner 1.490" }], markDefs: [], style: "normal" },
+      { _key: "c3501c552118", _type: "block", children: [{ _key: "346f5474f75d", _type: "span", marks: [], text: "Konsultasjon 60 min - kroner 1.990" }], markDefs: [], style: "normal" },
+    ],
+  },
+  {
+    _id: "article-prisliste-urologi", title: "Prisliste for urologi", slug: "prisliste-for-urologi", category: "prisliste", image: "articles/urologi.jpg", alt: "Mann på kjøkkenet med avis",
+    body: [
+      { _key: "ba302e9e0852", _type: "block", children: [{ _key: "465daf55778b0", _type: "span", marks: ["strong"], text: "Urologi" }], markDefs: [], style: "h2" },
+      { _key: "470ef17877ae", _type: "block", children: [{ _key: "9b1be0764e160", _type: "span", marks: [], text: "Konsultasjon 30 min – fra kroner 1.900" }], markDefs: [], style: "normal" },
+      { _key: "c913eaae72fe", _type: "block", children: [{ _key: "221c53e603f50", _type: "span", marks: [], text: "Konsultasjon 60 minutter – fra kroner 2.750" }], markDefs: [], style: "normal" },
+      { _key: "cd4a248cc893", _type: "block", children: [{ _key: "edf2469a6e870", _type: "span", marks: [], text: "Fimose (trang forhud) – fra kroner 9.100" }], markDefs: [], style: "normal" },
+      { _key: "d074d571d9bb", _type: "block", children: [{ _key: "5c12abb3b7890", _type: "span", marks: [], text: "Sterilisering (inkl. sædanalyse etter 3 måneder) – kroner 6.500" }], markDefs: [], style: "normal" },
+      { _key: "900e61770900", _type: "block", children: [{ _key: "4abab397e9b80", _type: "span", marks: [], text: "Sædanalyse (ikke infertilitetsutredning) – kroner 800" }], markDefs: [], style: "normal" },
+      { _key: "1c203a56cd25", _type: "block", children: [{ _key: "01615a0ba2180", _type: "span", marks: [], text: "Refertilisering – fra kroner 35.000" }], markDefs: [], style: "normal" },
+      { _key: "ab28630c4322", _type: "block", children: [{ _key: "6b97070878540", _type: "span", marks: [], text: "RALP (robotkirurgi prostatakreft) – fra kroner 178.500" }], markDefs: [], style: "normal" },
+      { _key: "0c3bb091fd57", _type: "block", children: [{ _key: "d1a71a7d90580", _type: "span", marks: [], text: "RASP (robotkirurgi godartet prostatforstørrelse) – fra kroner 178.500" }], markDefs: [], style: "normal" },
+      { _key: "9f9e44927eb0", _type: "block", children: [{ _key: "a159ddb86d170", _type: "span", marks: [], text: "TUR-P (inklusiv overnatting) – fra kroner 75.000" }], markDefs: [], style: "normal" },
+      { _key: "5a7e577488d0", _type: "block", children: [{ _key: "7a02ab61b3340", _type: "span", marks: [], text: "Core Therm (mikrobølge varmebehandling) – fra kroner 49.300" }], markDefs: [], style: "normal" },
+      { _key: "741fd1cc283a", _type: "block", children: [{ _key: "1f6dc336ecd70", _type: "span", marks: ["em"], text: "Det kan tilkomme undersøkelser i tillegg til konsultasjon. Vennligst ta kontakt på telefon eller epost." }], markDefs: [], style: "normal" },
+    ],
+  },
+  {
+    _id: "article-prisliste-gastroenterolog", title: "Prisliste for gastroenterolog/generell kirurgi", slug: "prisliste-for-gastroenterolog-generell-kirurgi", category: "prisliste", image: "articles/gastroenterolog.png",
+    body: [
+      { _key: "4b15267835ee", _type: "block", children: [{ _key: "bbc5a14dcca80", _type: "span", marks: [], text: "Pris för utredning och rådgivning i Uppsala" }], markDefs: [], style: "h2" },
+      { _key: "481d007e1c19", _type: "block", children: [{ _key: "1200cb1aa72d", _type: "span", marks: [], text: "Utredning och rådgivning gällande infertilitet är till viss del Regionfinansierad och då gäller ordinarie patientavgifter som inom Region Uppsala samt frikort. " }, { _key: "69a888900afa", _type: "span", marks: ["b7d53d6d0a01"], text: "Läs mer om kraven för att få regionsfinansierad fertilitetsutredning här. " }], markDefs: [{ _key: "b7d53d6d0a01", _type: "link", href: "https://www.akademiska.se/for-patient-och-besokare/ditt-besok/undersokning/utredning-av-ofrivillig-barnloshet/" }], style: "normal" },
+      { _key: "28f8a845bcb1", _type: "block", children: [{ _key: "51f7ac1bd614", _type: "span", marks: [], text: "\n" }, { _key: "8b766cab19521", _type: "span", marks: ["strong"], text: "Ett läkarbesök kostar 260 kr inom Region Uppsala." }], markDefs: [], style: "normal" },
+      { _key: "114d58e2b1ed", _type: "block", children: [{ _key: "49aba10dba890", _type: "span", marks: [], text: "Alla är välkomna att söka oavsett var i landet man bor. Ingen remiss behövs." }], markDefs: [], style: "normal" },
+      { _key: "b83387db8e00", _type: "block", children: [{ _key: "976f226728d40", _type: "span", marks: ["strong"], text: "Fortsatt vård och behandling" }, { _key: "976f226728d41", _type: "span", marks: [], text: "\nFortsatt vård är i huvudsak privatfinansierad med undantag för ovulationsstimulering med Letrozol." }], markDefs: [], style: "normal" },
+      { _key: "b1efa999ab46", _type: "block", children: [{ _key: "ea42e96f7ed7", _type: "span", marks: [], text: "Ring oss på telefon " }, { _key: "62c506068255", _type: "span", marks: ["84dfbe1e8cc7"], text: "018-12 80 17" }, { _key: "c6def4094686", _type: "span", marks: [], text: " för mer information eller för att boka tid." }], markDefs: [{ _key: "84dfbe1e8cc7", _type: "link", href: "tel:018128017" }], style: "normal" },
+      { _key: "fe8e521d7dc7", _type: "block", children: [{ _key: "90717dbef4b90", _type: "span", marks: [], text: "Vår klinik i Uppsala erbjuder olika behandlingar och utredningar. I nedan lista kan du se priser för de tjänster vi tillhandahåller. Priserna gäller fr o m 15 september 2024 och gäller för dig som ännu inte haft ditt första besök. Om du redan haft ett första besök inför behandling innan dess gäller tidigare priser." }], markDefs: [], style: "normal" },
+    ],
+  },
   { _id: "article-prostataundersokelse", title: "Hvordan foregår en prostataundersøkelse?", slug: "hvordan-foregar-en-prostataundersokelse", category: "fagartikkel", image: "articles/prostataundersokelse.jpg" },
   { _id: "article-prisliste-osteopat-fysioterapeut", title: "Prisliste for osteopat/fysioterapeut", slug: "prisliste-for-osteopat-fysioterapeut", category: "prisliste", image: "articles/osteopat-fysioterapeut.png" },
   { _id: "article-prisliste-gynekologi", title: "Prisliste for gynekologi", slug: "prisliste-for-gynekologi", category: "prisliste", image: "articles/gynekologi.jpg" },
