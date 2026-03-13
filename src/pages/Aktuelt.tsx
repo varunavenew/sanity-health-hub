@@ -1,8 +1,9 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { articles, filterCategories, type Article } from "@/data/articles";
+import { articles as staticArticles, filterCategories, type Article } from "@/data/articles";
+import { useArticles } from "@/hooks/useSanity";
 
 interface AktueltProps {
   isChatOpen: boolean;
