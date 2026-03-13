@@ -95,7 +95,7 @@ export const useSpecialists = () =>
         subtitle: s.subtitle || "",
         expertise: s.specialties || [],
         bio: s.shortBio || "",
-        category: s.categories?.[0]?.slug || "",
+        category: mapSanityCategorySlug(s.categories?.[0]?.slug || ""),
         clinics: s.clinics || [],
       })) as SanitySpecialist[];
     },
