@@ -965,7 +965,13 @@ const articlesData: Array<{ _id: string; title: string; slug: string; category: 
   { _id: "article-robotkirurgi-prostatakreft", title: "Vi tar opp kampen mot prostatakreft med robotkirurgi", slug: "vi-tar-opp-kampen-mot-prostatakreft-med-robotkirurgi", category: "fagartikkel", image: "articles/urologi.jpg" },
   { _id: "article-stillingsutlysning", title: "Operasjonssykepleier og anestesisykepleier", slug: "operasjonssykepleier-og-anestesisykepleier", category: "stillingsutlysning", image: "articles/karkirurgi.jpg", alt: "Stillingsutlysning" },
   { _id: "article-prisliste-privatbetalende", title: "Prisliste for privatbetalende", slug: "prisliste-for-privatbetalende", category: "prisliste", image: "articles/privatbetalende.jpg" },
-  { _id: "article-prisliste-revmatolog", title: "Prisliste for revmatolog", slug: "prisliste-for-revmatolog", category: "prisliste", image: "articles/revmatolog.png" },
+  {
+    _id: "article-prisliste-revmatolog", title: "Prisliste for revmatolog", slug: "prisliste-for-revmatolog", category: "prisliste", image: "articles/revmatolog.png",
+    body: [
+      { _key: "8b74e9bee84d", _type: "block", children: [{ _key: "db9b3b25cb230", _type: "span", marks: ["strong"], text: "Revmatolog" }], markDefs: [], style: "h2" },
+      { _key: "3634ae0d76ed", _type: "block", children: [{ _key: "eb1d6cb3c1980", _type: "span", marks: [], text: "Konsultasjon – fra kroner 3.150" }], markDefs: [], style: "normal" },
+    ],
+  },
   { _id: "article-prisliste-karkirurgi", title: "Prisliste for karkirurgi", slug: "prisliste-for-karkirurgi", category: "prisliste", image: "articles/karkirurgi.jpg" },
   {
     _id: "article-prisliste-fertilitet", title: "Prisliste for fertilitet", slug: "prisliste-for-fertilitet", category: "prisliste", image: "articles/fertilitet.png",
