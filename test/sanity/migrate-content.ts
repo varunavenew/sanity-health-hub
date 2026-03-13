@@ -832,6 +832,47 @@ function buildClinicDocs(): Mutation[] {
 }
 
 // ============================================================
+// ARTICLES (Norwegian only)
+// ============================================================
+const articlesData = [
+  { _id: "article-prisliste-psykologspesialist", title: "Prisliste for psykologspesialist", slug: "prisliste-for-psykologspesialist", category: "prisliste", image: "articles/psykologspesialist.png" },
+  { _id: "article-prisliste-sexolog", title: "Prisliste for sexolog", slug: "prisliste-for-sexolog", category: "prisliste", image: "articles/sexolog.jpg" },
+  { _id: "article-prisliste-ernaeringsfysiolog", title: "Prisliste for ernæringsfysiolog", slug: "prisliste-for-ernaeringsfysiolog", category: "prisliste", image: "articles/ernaeringsfysiolog.jpg" },
+  { _id: "article-prisliste-urologi", title: "Prisliste for urologi", slug: "prisliste-for-urologi", category: "prisliste", image: "articles/urologi.jpg", alt: "Mann på kjøkkenet med avis" },
+  { _id: "article-prisliste-gastroenterolog", title: "Prisliste for gastroenterolog/generell kirurgi", slug: "prisliste-for-gastroenterolog-generell-kirurgi", category: "prisliste", image: "articles/gastroenterolog.png" },
+  { _id: "article-prostataundersokelse", title: "Hvordan foregår en prostataundersøkelse?", slug: "hvordan-foregar-en-prostataundersokelse", category: "fagartikkel", image: "articles/prostataundersokelse.jpg" },
+  { _id: "article-prisliste-osteopat-fysioterapeut", title: "Prisliste for osteopat/fysioterapeut", slug: "prisliste-for-osteopat-fysioterapeut", category: "prisliste", image: "articles/osteopat-fysioterapeut.png" },
+  { _id: "article-prisliste-gynekologi", title: "Prisliste for gynekologi", slug: "prisliste-for-gynekologi", category: "prisliste", image: "articles/gynekologi.jpg" },
+  { _id: "article-la-deg-operere-i-norge", title: "La deg operere i Norge!", slug: "la-deg-operere-i-norge", category: "fagartikkel", image: "articles/urologi.jpg" },
+  { _id: "article-robotkirurgi-prostatakreft", title: "Vi tar opp kampen mot prostatakreft med robotkirurgi", slug: "vi-tar-opp-kampen-mot-prostatakreft-med-robotkirurgi", category: "fagartikkel", image: "articles/urologi.jpg" },
+  { _id: "article-stillingsutlysning", title: "Operasjonssykepleier og anestesisykepleier", slug: "operasjonssykepleier-og-anestesisykepleier", category: "stillingsutlysning", image: "articles/karkirurgi.jpg", alt: "Stillingsutlysning" },
+  { _id: "article-prisliste-privatbetalende", title: "Prisliste for privatbetalende", slug: "prisliste-for-privatbetalende", category: "prisliste", image: "articles/privatbetalende.jpg" },
+  { _id: "article-prisliste-revmatolog", title: "Prisliste for revmatolog", slug: "prisliste-for-revmatolog", category: "prisliste", image: "articles/revmatolog.png" },
+  { _id: "article-prisliste-karkirurgi", title: "Prisliste for karkirurgi", slug: "prisliste-for-karkirurgi", category: "prisliste", image: "articles/karkirurgi.jpg" },
+  { _id: "article-prisliste-fertilitet", title: "Prisliste for fertilitet", slug: "prisliste-for-fertilitet", category: "prisliste", image: "articles/fertilitet.png" },
+  { _id: "article-prisliste-hud", title: "Prisliste for hud", slug: "prisliste-for-hud", category: "prisliste", image: "articles/karkirurgi.jpg" },
+  { _id: "article-prisliste-handterapeut", title: "Prisliste for håndterapeut", slug: "prisliste-for-handterapeut", category: "prisliste", image: "articles/handterapeut.jpg" },
+];
+
+async function buildArticleDocsWithImages(): Promise<Mutation[]> {
+  const mutations: Mutation[] = [];
+  for (const article of articlesData) {
+    const imageRef = await uploadImage(article.image, `article-${article.slug}`);
+    mutations.push({
+      createOrReplace: {
+        _id: article._id,
+        _type: "article",
+        title: article.title,
+        slug: { _type: "slug", current: article.slug },
+        category: article.category,
+        ...(imageRef ? { primaryImage: { ...imageRef, ...(article.alt ? { alt: article.alt } : {}) } } : {}),
+      },
+    });
+  }
+  return mutations;
+}
+
+// ============================================================
 // MAIN
 // ============================================================
 async function main() {
@@ -905,6 +946,12 @@ async function main() {
   await submitMutations(clinicMutations);
   console.log(`   ✅ ${clinicMutations.length} clinics\n`);
 
+  // 9. Articles (with images)
+  console.log("📰 Creating articles (uploading images)...");
+  const articleMutations = await buildArticleDocsWithImages();
+  await submitMutations(articleMutations);
+  console.log(`   ✅ ${articleMutations.length} articles\n`);
+
   const total =
     categoryMutations.length +
     treatmentMutations.length +
@@ -912,7 +959,8 @@ async function main() {
     reviewMutations.length +
     pageMutations.length +
     1 +
-    clinicMutations.length;
+    clinicMutations.length +
+    articleMutations.length;
 
   console.log(`\n🎉 Migration complete! ${total} documents created/updated in Sanity.`);
   console.log(`   📸 ${imageCache.size} images uploaded.`);
