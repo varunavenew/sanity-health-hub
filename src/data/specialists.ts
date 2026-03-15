@@ -320,13 +320,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Ida Waagsbø Bjørntvedt",
-    title: "Fertilitetslege",
-    subtitle: "Gynekolog",
+    title: "Gynekolog",
+    subtitle: "Vulvaspesialist",
     expertise: ["Fertilitet", "IVF", "Vulvaklinikk", "POI"],
     image: idaWaagsboBjorntvedt,
     category: "fertilitet",
     slug: "ida-waagsbo-bjorntvedt",
-    bio: "Dr. Bjørntvedt er gynekolog med subspesialisering innen infertilitet. Hun har lang erfaring som overlege ved fertilitetsavdelingen på Rikshospitalet. Hun er leder for vulvaforum og har ansvar for vulvaklinikken til CMedical. Ida jobber med kvinner med eggstokksvikt før 40 år (POI), tidlig overgangsalder og andre hormonforstyrrelser. Vulvaklinikken består av et unikt multidisiplinært team.",
+    bio: "Dr. Bjørntvedt er gynekolog med subspesialisering innen infertilitet. Ida har lang erfaring og har tidligere jobbet som overlege sammen med resten av teamet ved CMedical Fertilitet på fertilitetsavdelingen på Rikshospitalet. Hun er i tillegg leder for vulvaforum og har ansvar for vulvaklinikken til CMedical.\n\nIda jobber i dag både i det offentlige og ved CMedical med kvinner med eggstokksvikt før 40 år (POI), tidlig overgangsalder og andre hormonforstyrrelser.\n\nVulvaklinikken hos oss består av et unikt multidisiplinært team med gynekolog, hudlege, sexolog, psykolog og fysioterapeut med bekkenbunnskompetanse.\n\nSammen jobber spesialistene med en tverrfaglig tilnærming til ulike problemstillinger.",
     clinics: ["Majorstuen"]
   },
   {
