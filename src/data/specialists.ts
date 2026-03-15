@@ -503,7 +503,7 @@ export const specialists: Specialist[] = [
     image: lineJacob,
     category: "gynekologi",
     slug: "line-jacob",
-    bio: "Dr. Line Jacob er utdannet lege fra Universitetet i Oslo, med erfaring fra gynekologisk avdeling ved Bærum sykehus og Rikshospitalet innen reproduksjonsmedisin og infertilitet. Hun forsker nå på sammenhengen mellom overgangsplager og risiko for demens. Line er opptatt av at det skal føles trygt og godt å komme til gynekolog.",
+    bio: "Dr. Line Jacob er utdannet lege fra Universitetet i Oslo, og har flere års erfaring fra gynekologisk avdeling ved Bærum sykehus, hvor hun spesialiserte seg på fødselshjelp og kvinnesykdommer. Hun har også jobbet ved Rikshospitalet som gynekolog innen reproduksjonsmedisin og infertilitet, og forsker nå på sammenhengen mellom overgangsplager og risiko for demens.\n\nLine er opptatt av at det skal føles trygt og godt å komme til gynekolog. Hun møter hver pasient med ro, omtanke og individuell tilnærming, og legger vekt på å skape en trygg dialog.",
     clinics: ["Bekkestua"]
   },
   {
