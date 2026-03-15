@@ -49,6 +49,7 @@ import mariBorgeEskerud from '@/assets/specialists/mari-borge-eskerud.jpg';
 import mariaThompsonClausen from '@/assets/specialists/maria-thompson-clausen.jpg';
 import marianBale from '@/assets/specialists/marian-bale.jpg';
 import martheHagen from '@/assets/specialists/marthe-hagen.jpg';
+import miaKitter from '@/assets/specialists/mia-kitter.png';
 import mortenAndersen from '@/assets/specialists/morten-andersen.jpg';
 import nabeelYousafKhan from '@/assets/specialists/nabeel-yousaf-khan.jpg';
 import nicolaiWessel from '@/assets/specialists/nicolai-wessel.jpg';
