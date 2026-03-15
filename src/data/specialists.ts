@@ -359,7 +359,7 @@ export const specialists: Specialist[] = [
     image: jacksonTok,
     category: "fertilitet",
     slug: "jackson-tok",
-    bio: "Jackson Tok er spesialist i gynekologi med subspesialisering innen ufrivillig kvinnelig og mannlig infertilitet. Han ledet etableringen av fertilitetsklinikken og er leder for CMedical Fertilitet Majorstuen. Han har sertifisering i mikrodisseksjon-TESE ved Weill Cornell Medicine i New York. I tillegg til infertilitet har Jackson god erfaring innen PCOS og menopause.",
+    bio: "Jackson Tok er spesialist i gynekologi med subspesialisering innen ufrivillig kvinnelig og mannlig infertilitet. Før CMedical jobbet Jackson som overlege ved reproduksjonsmedisinsk avdeling ved Oslo universitetssykehus, der han var ansvarlig for utredning og behandling av mannlig infertilitet.\n\nJackson ledet etableringen av fertilitetsklinikken og er nå leder for CMedical Fertilitet Majorstuen. Han har omfattende erfaring innen utredning og behandling av infertilitet på alle nivåer og har godkjent sertifisering i mikrodisseksjon-TESE (mikro-TESE) ved Centre for Male Reproductive Medicine & Microsurgery ved Weill Cornell Medicine i New York. I tillegg til infertilitet har Jackson god erfaring innen PCOS, for tidlig overgangsalder og menopause.",
     clinics: ["Majorstuen"]
   },
   {
