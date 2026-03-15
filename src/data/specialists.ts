@@ -314,7 +314,7 @@ export const specialists: Specialist[] = [
     image: henrikMichelsenWahl,
     category: "gynekologi",
     slug: "henrik-michelsen-wahl",
-    bio: "Henrik Michelsen-Wahl er gynekolog med bred erfaring og sterkt engasjement for kvinnehelse. Han har særlig kompetanse innen gynekologisk kirurgi og endometriose. Ved siden av CMedical er han overlege ved Ullevål sykehus. Han er medlem av Nasjonal kompetansetjeneste for endometriose og adenomyose (NKTEA), leder for Oslo gynekologiske forening og styremedlem i NSGE.",
+    bio: "Henrik Michelsen-Wahl er gynekolog med bred erfaring og et sterkt engasjement for kvinnehelse. Han fullførte sin spesialisering i gynekologi etter turnustjeneste ved sykehuset Elverum/Hamar i 2010, og har siden jobbet ved Elverum sykehus, Bærum sykehus og Ullevål sykehus.\n\nHenrik har særlig kompetanse innen gynekologisk kirurgi og behandling av endometriose. Ved siden av sitt arbeid hos CMedical er han overlege ved Ullevål sykehus, og han er aktiv i flere faglige fora: som medlem av Nasjonal kompetansetjeneste for endometriose og adenomyose (NKTEA), leder for Oslo gynekologiske forening (OGF) og styremedlem i den nordiske foreningen for endoskopisk gynekologisk kirurgi (NSGE).\n\nHos oss møter du en lege som tar imot alle generelle gynekologiske problemstillinger, inkludert menstruasjonssmerter og blødningsforstyrrelser. Henrik er opptatt av å lytte, skape åpen dialog og finne de løsningene som både føles riktige for pasienten og som er medisinsk trygge.\n\nHan snakker flytende norsk, engelsk og tysk – noe mange pasienter opplever som en ekstra trygghet.",
     languages: ["Norsk", "Engelsk", "Tysk"],
     clinics: ["Ski"]
   },
