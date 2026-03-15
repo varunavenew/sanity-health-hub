@@ -19,7 +19,7 @@ import einarAndreBrevik from '@/assets/specialists/einar-andre-brevik.jpg';
 import cennetAkdeniz from '@/assets/specialists/cennet-akdeniz.png';
 import endreSoreide from '@/assets/specialists/endre-soreide.jpg';
 import erikBerg from '@/assets/specialists/erik-berg.jpg';
-import ersanKrckov from '@/assets/specialists/ersan-krckov.jpg';
+// ersanKrckov removed - no longer on cmedical.no
 import gilbertMoatshe from '@/assets/specialists/gilbert-moatshe.webp';
 import gunnarDalen from '@/assets/specialists/gunnar-dalen.jpg';
 import hannahRussell from '@/assets/specialists/hannah-russell.jpg';
@@ -261,17 +261,7 @@ export const specialists: Specialist[] = [
     education: "PhD, Universitetet i Oslo (1999). Spesialist i plastikkirurgi, Haukeland Universitetssykehus",
     clinics: ["Moss"]
   },
-  {
-    name: "Ersan Krckov",
-    title: "Endokrinolog",
-    subtitle: "Spesialist",
-    expertise: ["Endokrinologi", "Stoffskifte", "Diabetes", "Hormonsykdommer"],
-    image: ersanKrckov,
-    category: "annet",
-    slug: "ersan-krckov",
-    bio: "Dr. Ersan Krckov er spesialist i indremedisin og endokrinologi, med bred erfaring innen utredning og behandling av hormonsykdommer. Han vurderer pasienter med diabetes type 1 og 2, stoffskiftesykdommer, sykdommer i binyrer, hypofyse og biskjoldkjertler, samt testikkelsvikt og hormonbehandling ved overgangsalder. Han har jobbet ved Sykehuset i Drammen, Oslo universitetssykehus og Akershus universitetssykehus.",
-    clinics: ["Majorstuen"]
-  },
+  // Ersan Krckov removed - no longer listed on cmedical.no
   {
     name: "Gilbert Moatshe",
     title: "Ortoped",

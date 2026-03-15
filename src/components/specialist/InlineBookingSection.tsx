@@ -133,93 +133,77 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     : expandedCategory;
 
   return (
-    <section className="py-10 md:py-16 bg-background">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="max-w-3xl">
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar className="w-5 h-5 text-accent" />
-              <h2 className="text-2xl md:text-3xl font-light text-foreground">
-                Bestill time
-              </h2>
-            </div>
-            <p className="text-muted-foreground font-light">
-              Velg tjeneste for å booke time hos {specialist.name.split(" ")[0]}
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {relevantCategories.map((category) => (
-              <div key={category.id} className="border border-border rounded-sm overflow-hidden">
-                <button
-                  onClick={() => relevantCategories.length > 1 && setExpandedCategory(
-                    effectiveExpanded === category.id ? null : category.id
-                  )}
-                  className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
-                    relevantCategories.length > 1 ? "hover:bg-secondary/50 cursor-pointer" : "cursor-default"
-                  }`}
-                >
-                  <span className="text-sm font-medium text-foreground">{category.label}</span>
-                  {relevantCategories.length > 1 && (
-                    effectiveExpanded === category.id 
-                      ? <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                      : <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                  )}
-                </button>
-
-                <AnimatePresence>
-                  {effectiveExpanded === category.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="border-t border-border">
-                        {category.services.map((service, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => handleSelectService(category.id, service.name)}
-                            className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-secondary/30 transition-colors border-b border-border/50 last:border-b-0 group"
-                          >
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm text-foreground font-light truncate pr-4">
-                                {service.name}
-                              </p>
-                              <div className="flex items-center gap-3 mt-1">
-                                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                                  <Clock className="w-3 h-3" />
-                                  {service.duration}
-                                </span>
-                                <span className="text-xs font-medium text-foreground">
-                                  {service.price === "0" ? "Gratis" : `kr ${parseInt(service.price).toLocaleString("nb-NO")},-`}
-                                </span>
-                              </div>
-                            </div>
-                            <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-brand-dark transition-colors shrink-0" />
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 text-center">
-            <Button
-              variant="outline"
-              className="rounded-full font-light text-sm"
-              onClick={() => navigate(`/booking?kategori=${categoryBookingMap[specialist.category] || specialist.category}`)}
+    <div>
+      <div className="space-y-3">
+        {relevantCategories.map((category) => (
+          <div key={category.id} className="border border-border rounded-sm overflow-hidden">
+            <button
+              onClick={() => relevantCategories.length > 1 && setExpandedCategory(
+                effectiveExpanded === category.id ? null : category.id
+              )}
+              className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
+                relevantCategories.length > 1 ? "hover:bg-secondary/50 cursor-pointer" : "cursor-default"
+              }`}
             >
-              Se alle tjenester og priser
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+              <span className="text-sm font-medium text-foreground">{category.label}</span>
+              {relevantCategories.length > 1 && (
+                effectiveExpanded === category.id 
+                  ? <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                  : <ChevronDown className="w-4 h-4 text-muted-foreground" />
+              )}
+            </button>
+
+            <AnimatePresence>
+              {effectiveExpanded === category.id && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="border-t border-border">
+                    {category.services.map((service, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleSelectService(category.id, service.name)}
+                        className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-secondary/30 transition-colors border-b border-border/50 last:border-b-0 group"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-foreground font-light truncate pr-4">
+                            {service.name}
+                          </p>
+                          <div className="flex items-center gap-3 mt-1">
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {service.duration}
+                            </span>
+                            <span className="text-xs font-medium text-foreground">
+                              {service.price === "0" ? "Gratis" : `kr ${parseInt(service.price).toLocaleString("nb-NO")},-`}
+                            </span>
+                          </div>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-brand-dark transition-colors shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
+        ))}
       </div>
-    </section>
+
+      <div className="mt-6 text-center">
+        <Button
+          variant="outline"
+          className="rounded-full font-light text-sm"
+          onClick={() => navigate(`/booking?kategori=${categoryBookingMap[specialist.category] || specialist.category}`)}
+        >
+          Se alle tjenester og priser
+          <ArrowRight className="ml-2 w-4 h-4" />
+        </Button>
+      </div>
+    </div>
   );
 };
