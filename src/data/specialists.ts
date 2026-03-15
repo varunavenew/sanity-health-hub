@@ -279,7 +279,8 @@ export const specialists: Specialist[] = [
     image: gilbertMoatshe,
     category: "ortopedi",
     slug: "gilbert-moatshe",
-    bio: "Dr. Gilbert Moatshe er spesialist i ortopedisk kirurgi ved OUS Ullevål. Han har spesialisert seg innen artroskopisk kirurgi og idrettsskader, med særlig ekspertise på knekirurgi (korsbånd og kneliggamentskader) samt skulderkirurgi. Han har internasjonal erfaring fra USA og Canada og har publisert over 100 vitenskapelige forskningsartikler. Hans forskningsgruppe har mottatt flere internasjonale priser fra AOSSM, AAOS og ISAKOS.",
+    bio: "Dr. Gilbert Moatshe er spesialist i ortopedisk kirurgi og arbeider ved Ortopedisk avdeling ved Oslo universitetssykehus (Ullevål). Han har spesialisert seg innen artroskopisk kirurgi og idrettsskader, med særlig ekspertise på knekirurgi (inkludert korsbånd og andre kneliggamentskader) samt skulderkirurgi (inkludert instabilitet og seneskader). Han har også internasjonal erfaring fra USA og Canada, hvor han gjennomførte videreutdanning etter spesialisering (fellowship). Dr. Gilbert Moatshe har en doktorgrad fra Universitetet i Oslo innenfor knekirurgi.\n\nHan er aktivt engasjert innenfor toppidretten og idrettskader, og han utfører forskning på dette området. Dr. Moatshe har publisert over 100 vitenskapelige forskningsartikler og bokkapitler. Hans forskningsgruppe har mottatt flere internasjonale priser fra American Orthopaedic Society for Sports Medicine (AOSSM), American Academy of Orthopaedic Surgeons (AAOS) og International Society of Arthroscopy, Knee Surgery and Orthopaedic Sports Medicine (ISAKOS). Han holder kurs og foredrag både nasjonalt og internasjonalt.",
+    education: "Doktorgrad, Universitetet i Oslo. Fellowship i USA og Canada",
     clinics: ["Majorstuen"]
   },
   {
