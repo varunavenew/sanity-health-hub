@@ -56,16 +56,12 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
                 </div>
               )}
 
-              {specialist.education && specialist.education.length > 0 && (
+              {specialist.education && (
                 <div>
                   <h3 className="text-[11px] font-medium tracking-widest uppercase text-muted-foreground/60 mb-3">
                     Utdanning
                   </h3>
-                  <div className="space-y-1">
-                    {specialist.education.map((edu) => (
-                      <p key={edu} className="text-sm text-foreground font-light">{edu}</p>
-                    ))}
-                  </div>
+                  <p className="text-sm text-foreground font-light">{specialist.education}</p>
                 </div>
               )}
 
