@@ -492,7 +492,7 @@ export const specialists: Specialist[] = [
     image: lineFusdahlHulleberg,
     category: "annet",
     slug: "line-fusdahl-hulleberg",
-    bio: "Line Fusdahl Hulleberg har vært sykepleier siden 2008. Siden 2017 har hun jobbet med assistert befruktning. Hun er teamleder for fertilitetsteamet og var en av de første sykepleierne i Norge som startet med inseminasjonsbehandling. Med et sterkt engasjement for fertilitetsbehandling har Line fokus på å støtte pasientene gjennom hele prosessen.",
+    bio: "Line Fusdahl Hulleberg har vært sykepleier siden 2008 og har bred erfaring fra Oslo Universitetssykehus. Siden 2017 har hun jobbet med assistert befruktning, først ved Oslo Universitetssykehus og senere hos oss på CMedical. Hun har vært en sentral del av fertilitetsteamet fra oppstarten hos CMedical og er i dag teamleder for fertilitetsteamet. Line var en av de første sykepleierne i Norge som startet med inseminasjonsbehandling, noe som understreker hennes viktige bidrag innen fertilitetsbehandling her i landet.\n\nMed et sterkt engasjement for fertilitetsbehandling har Line fokus på å støtte pasientene gjennom hele prosessen med å oppnå drømmen om barn. Hennes omsorgsfulle og empatiske tilnærming sikrer at pasientene føler seg trygge og godt ivaretatt i en tid som ofte kan være både emosjonelt og fysisk krevende. I tillegg til sin spesialisering innen fertilitet, har hun verdifull erfaring fra andre helsefaglige områder som styrker hennes evne til å tilby helhetlig og pasientsentrert omsorg.",
     clinics: ["Majorstuen"]
   },
   {
