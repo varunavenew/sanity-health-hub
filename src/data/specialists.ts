@@ -630,13 +630,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Nicolai Wessel",
-    title: "Urolog",
-    subtitle: "Kirurg",
-    expertise: ["Urologi", "Robotkirurgi", "Prostatakreft"],
+    title: "Urologi",
+    subtitle: "Urolog",
+    expertise: ["Urologi", "Robotkirurgi", "Prostatakreft", "Laparoskopi", "Nyre- og prostatakirurgi"],
     image: nicolaiWessel,
     category: "urologi",
     slug: "nicolai-wessel",
-    bio: "Nicolai Wessel er en erfaren spesialist innen kirurgi og urologi med spesialkompetanse innen laparoskopiske urologiske prosedyrer. Tidligere overlege ved Aker Sykehus, regnes han blant Europas mest erfarne kirurger innen robotassistert kirurgi. Han begynte med robotkirurgi i 2007 og har utført over 1.400 robotassisterte prostatakreftoperasjoner.",
+    bio: "Nicolai Wessel er en erfaren spesialist innen kirurgi og urologi med spesialkompetanse innen laparoskopiske urologiske prosedyrer og behandling av prostatakreft. Tidligere overlege ved Aker Sykehus, regnes han blant Europas mest erfarne kirurger og urologer innen robotassistert kirurgi. Nicolai begynte sitt arbeid med robotkirurgi i 2007, etter fem års erfaring med laparoskopisk nyre- og prostatakirurgi, og han har utført over 1.400 robotassisterte prostatakreftoperasjoner.\n\nHan har også deltatt i forskning som er publisert i anerkjente tidsskrifter som Scandinavian Journal of Urology, European Urology (utgitt av European Association of Urology), Urology, Nutrition and Cancer, Neurourology and Urodynamics, samt The Journal of Urology (utgitt av American Urological Association).",
     clinics: ["Majorstuen"]
   },
   {
