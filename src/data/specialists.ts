@@ -585,13 +585,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Marthe Hagen",
-    title: "Psykolog",
-    subtitle: "Terapi",
-    expertise: ["Psykologi", "Terapi", "Kvinnehelse", "EMDR"],
+    title: "Psykologi",
+    subtitle: "Psykolog",
+    expertise: ["Psykologi", "Kvinnehelse", "EMDR", "Traumer", "Angst", "Depresjon", "Kronisk sykdom"],
     image: martheHagen,
     category: "annet",
     slug: "marthe-hagen",
-    bio: "Marthe Hagen er psykolog med spesielt fokus på kvinnehelse. Hun tilbyr samtaleterapi for traumer, angst, depresjon, kronisk sykdom og utmattelse. Hun benytter kognitiv og metakognitiv terapi, eksistensielle terapiformer og EMDR. Marthe tilbyr også digitale konsultasjoner.",
+    bio: "Marthe Hagen er psykolog med et spesielt fokus og engasjement for kvinnehelse. Hun har bred erfaring fra spesialisthelsetjenesten (DPS og TSB) og fra privat praksis.\n\nMarthe tilbyr samtaleterapi for voksne innenfor et bredt spekter av problemstillinger, inkludert traumer og livsbelastninger, angst og depresjon. Hun kan også veilede og støtte i prosessen med å leve med kronisk sykdom, utmattelse, smertetilstander og andre medisinske utfordringer.\n\nSom terapeut er Marthe rolig, varm og tålmodig, og hun arbeider ut fra en helhetlig og integrativ forståelse av mental helse og psykiske vansker. Hun benytter elementer fra kognitiv og metakognitiv terapi, sammen med eksistensielle og humanistiske terapiformer. Marthe tilbyr også behandling av traumer og angsttilstander med Eye Movement Desensitization and Reprocessing (EMDR).\n\nMarthe tilbyr også digitale konsultasjoner, slik at du kan få veiledning og oppfølging uansett hvor du befinner deg. Enten du foretrekker fleksibilitet eller har behov for en digital løsning, er hun tilgjengelig for å hjelpe deg.",
     clinics: ["Majorstuen"]
   },
   {
