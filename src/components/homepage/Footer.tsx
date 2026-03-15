@@ -101,7 +101,7 @@ export const Footer = () => {
             <div className="flex gap-5 text-xs text-white/40">
               <Link to="/personvern" className="hover:text-white/70 transition-colors">Personvern</Link>
               <a href="#" className="hover:text-white/70 transition-colors">Vilkår</a>
-              <a href="#" className="hover:text-white/70 transition-colors">Karriere</a>
+              <Link to="/karriere" className="hover:text-white/70 transition-colors">Karriere</Link>
             </div>
             
             <div className="flex gap-2.5">
