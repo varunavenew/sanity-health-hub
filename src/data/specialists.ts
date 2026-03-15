@@ -187,7 +187,7 @@ export const specialists: Specialist[] = [
     image: birgitteMitlidMork,
     category: "fertilitet",
     slug: "birgitte-mitlid-mork",
-    bio: "Birgitte er spesialist i fødselshjelp og kvinnesykdommer og har jobbet ved OUS i over 10 år med reproduksjonsmedisin, gynekologi, fødselshjelp og fostermedisin. Hun har doktorgrad innen morkakefunksjon. Jobbet frem til nylig som overlege ved Reproduksjonsmedisinsk avdeling ved Rikshospitalet. Birgitte har utstrakt innsikt innen infertilitet, hormonforstyrrelser som tidlig ovarialsvikt og overgangsalder.",
+    bio: "Birgitte er spesialist i fødselshjelp og kvinnesykdommer og har jobbet ved OUS i over 10 år med reproduksjonsmedisin(IVF) gynekologi, fødselshjelp og fostermedisin.\n\nHar vært del av en større forskningsgruppe ved OUS og har Doktorgrad innen morkakefunksjon.\n\nJobbet frem til nylig til som overlege ved Reproduksjonsmedisinsk avdeling ved Rikshospitalet, og har alltid vært lidenskapelig opptatt av kvinnehelse.\n\nBirgitte har utstrakt innsikt og særlig kunnskap om infertilitet, hormonforstyrrelser som tidlig ovarialsvikt og overgangsalder og oppfølging av svangerskap.\n\nMitt ønske er at alle pasienter skal føles seg både sett og hørt uansett hvilken fase i livet de er i.",
     clinics: ["Majorstuen"]
   },
   {
