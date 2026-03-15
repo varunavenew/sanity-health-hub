@@ -481,7 +481,7 @@ export const specialists: Specialist[] = [
     image: larsFredrikQvigstad,
     category: "urologi",
     slug: "lars-fredrik-qvigstad",
-    bio: "Lars er urolog og generell kirurg og jobber til daglig på Radiumhospitalet som overlege. Han er knyttet til forskningsgruppen for prostatakreft og er doktorgradskandidat ved Universitetet i Oslo. Til daglig har Lars urologisk poliklinikk og opererer det meste innenfor urologi på Radiumhospitalet.",
+    bio: "Lars er urolog og generell kirurg og jobber til daglig på Radiumhospitalet som overlege. Han er knyttet til forskningsgruppen for prostatakreft, og er doktorgradskandidat ved Universitetet i Oslo.\n\nTil daglig har Lars urologisk poliklinikk og opererer det meste innenfor urologi på Radiumhospitalet. Lars vil styrke vårt urologteam ved å ha poliklinikk på ettermiddager.",
     clinics: ["Majorstuen"]
   },
   {
