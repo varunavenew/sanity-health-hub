@@ -331,13 +331,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Ingvild Skarpås Aannerud",
-    title: "Osteopat",
-    subtitle: "Vulvaklinikk",
-    expertise: ["Osteopati", "Bekkenbunnshelse", "Kvinnehelse"],
+    title: "Senior Osteopat",
+    subtitle: "Manuell behandling",
+    expertise: ["Osteopati", "Bekkenbunnshelse", "Kvinnehelse", "Rehabilitering etter robotkirurgi"],
     image: ingvildSkarpasAannerud,
     category: "annet",
     slug: "ingvild-skarpas-aannerud",
-    bio: "Ingvild er autorisert osteopat med over ti års erfaring innen plager som oppstår gjennom ulike faser av en kvinnes livsløp. Hun er ammeveileder og har sterkt engasjement for gravide og barselkvinner, samt kvinner og menn som opplever underlivsplager. Hun har spesialisert kompetanse innen oppfølging etter robotkirurgi, med veiledet fysikalsk rehabilitering.",
+    bio: "Ingvild Skarpås Aannerud er autorisert osteopat, utdannet ved Norges Helsehøyskole i Oslo. I over ti år har hun fordypet seg i plager som kan oppstå gjennom ulike faser av en kvinnes syklus og livsløp. Hun er også ammeveileder, og tilbyr forberedende timer innen amming, barseltid og fødsel, alltid med et varmt og støttende blikk på den nye hverdagen som venter.\n\nIngvild har et sterkt engasjement for gravide og barselkvinner, og for kvinner og menn som opplever underlivsplager som lekkasje, smerter eller erektil dysfunksjon. Som en del av kompetansesenteret for kvinnehelse samarbeider hun tett med gynekolog, urolog, sexolog og psykolog for å hjelpe pasienter med smerteproblematikk og bekkenbunnsdysfunksjon, som kan gi utfordringer som vannlatingsproblemer, fremfall og blæresmerter.\n\nHun har også spesialisert kompetanse innen oppfølging etter robotkirurgi, med veiledet fysikalsk rehabilitering og rådgivning om seksualtekniske hjelpemidler. Dette arbeidet krever både presisjon og forståelse, og Ingvild legger stor vekt på å møte pasienter med trygghet, tydelighet og god informasjon gjennom hele prosessen.\n\nSom en del av CMedical sitt tverrfaglige team følger hun både kvinner og menn før og etter operasjon, og bidrar til et helhetlig forløp der pasienter blir sett, forstått og godt ivaretatt.",
     clinics: ["Majorstuen"]
   },
   {
