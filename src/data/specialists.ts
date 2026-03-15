@@ -214,6 +214,19 @@ export const specialists: Specialist[] = [
     clinics: ["Moelv"]
   },
   {
+  {
+    name: "Cennet Akdeniz",
+    title: "Endokrinolog",
+    subtitle: "Indremedisin",
+    expertise: ["Endokrinologi", "Indremedisin", "Stoffskifte", "Diabetes"],
+    image: cennetAkdeniz,
+    category: "annet",
+    slug: "cennet-akdeni",
+    bio: "Cennet Akdeniz er spesialist i endokrinologi og indremedisin, utdannet cand.med. fra Universitetet i Oslo. Hun har bred klinisk erfaring fra både Drammen sykehus og Oslo universitetssykehus, og har arbeidet som overlege ved Oslo universitetssykehus siden 2020. Gjennom sitt arbeid har hun opparbeidet solid kompetanse innen diagnostikk og behandling av hormonelle og metabolske sykdommer.\n\nDr. Akdeniz har særlig erfaring med utredning og behandling av stoffskiftesykdommer, inkludert sykdommer i skjoldbruskkjertelen. Hun arbeider også mye med lipidforstyrrelser og høyt kolesterol, hvor målet er å redusere risikoen for hjerte- og karsykdom gjennom grundig utredning og individuelt tilpasset behandling.\n\nHun utreder og behandler også høyt blodtrykk, både essensiell hypertensjon og sekundær hypertensjon forårsaket av hormonelle tilstander. I tillegg har hun erfaring med sykdommer i binyrer og hypofyse, inkludert hormonmangel, hormonforstyrrelser og hypofyseadenomer.\n\nDr. Akdeniz arbeider også med diabetes og metabolsk helse, med særlig fokus på oppfølging av type 2-diabetes og optimalisering av metabolsk behandling. Videre utreder og behandler hun osteoporose og forstyrrelser i kroppens kalsiumbalanse, samt hormonelle tilstander som gonadesvikt, blant annet etter kreftbehandling.",
+    education: "Cand.med., Universitetet i Oslo",
+    clinics: ["Majorstuen"]
+  },
+  {
     name: "Einar Andre Brevik",
     title: "Karkirurg",
     subtitle: "Spesialist",
