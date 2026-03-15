@@ -707,13 +707,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Tom Henry Sundøen",
-    title: "Ortoped",
-    subtitle: "Spesialist",
-    expertise: ["Ortopedi", "Skopisk kirurgi", "Hoftekirurgi", "Idrettsmedisin"],
+    title: "Ortopedi",
+    subtitle: "Ortoped",
+    expertise: ["Ortopedi", "Skopisk kirurgi", "Hoftekirurgi", "Skulderkirurgi", "Knekirurgi", "Traumatologi", "Idrettsmedisin", "PRP"],
     image: tomHenrySundoen,
     category: "ortopedi",
     slug: "tom-henry-sundoen",
-    bio: "Tom Henry Sundøen er ortopedkirurg og traumatolog med særlig kompetanse innen avansert skopisk kirurgi i skulder, albue, håndledd, hofte, knær og ankel. Han utfører skopi i hofteledd som en av få ortopeder i Norge. Ved Colosseum Faust i Moss utfører han avansert ortopedisk dagkirurgi. Han har over 10 års erfaring med PRP-behandling.",
+    bio: "Tom Henry Sundøen er ortopedkirurg og traumatolog med særlig kompetanse innen avansert skopisk kirurgi i skulder, albue, håndledd, hofte, knær og ankel. Han utfører skopi i hofteledd som en av få ortopeder i Norge. Han får derfor pasienter fra hele landet.\n\nPå Colosseum Faust i Moss utfører han avansert ortopedisk dagkirurgi. Hovedtyngden er skulder-, hofte- og knekirurgi. Han kan henvise både til offentlige og private sykehus. Bruker regelmessig injeksjonsterapi via ultralyd for å sikre riktig diagnose. Lang erfaring med MR tolkning av muskel og skjelett. Over 10 års erfaring med bruk av platerikt plasma, PRP.\n\nTom Henry har medisinsk grunnutdannelse fra Tyskland og er norsk spesialist i ortopedi/kirurgisk ortopedi. Han har dessuten solid erfaring innen traumatologi, idrettsmedisin og protesekirurgi.\n\nHan har jobbet som overlege på diverse sykehus og vært sentral i oppbygging av en velfungerende dagkirurgisk enhet ved Volvat Fredrikstad.\n\nTom Henry har bred kompetanse innen ortopedi og stor kontaktflate i kirurgisk miljø og er i tillegg sakkyndig for forsikringsselskap og rettsvesen. Han gjør vurdering av medisinsk invaliditetsgrad og second opinion vurderinger.",
     clinics: ["Moss"]
   },
   {
