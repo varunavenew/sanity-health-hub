@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 
@@ -8,7 +8,7 @@ const categoryLabels: Record<string, string> = {
   fertilitet: "Fertilitet",
   urologi: "Urologi",
   ortopedi: "Ortopedi",
-  annet: "Flere tjenester",
+  annet: "Spesialist",
 };
 
 interface SpecialistHeroProps {
@@ -20,90 +20,96 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <section className="bg-background border-b border-border/40">
-      <div className="container mx-auto px-6 md:px-16 py-10 md:py-16">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
-          {/* Profile image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="shrink-0 mx-auto md:mx-0"
-          >
-            <div className="w-40 h-52 md:w-48 md:h-64 lg:w-56 lg:h-72 rounded-md overflow-hidden bg-secondary">
-              <img
-                src={specialist.image}
-                alt={specialist.name}
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-          </motion.div>
+    <section className="relative min-h-[85vh] md:min-h-[90vh] bg-brand-dark overflow-hidden">
+      {/* Full-bleed image with gradient overlay */}
+      <div className="absolute inset-0">
+        <img
+          src={specialist.image}
+          alt={specialist.name}
+          className="w-full h-full object-cover object-top"
+        />
+        {/* Cinematic gradient: transparent top → dark bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-transparent" />
+        {/* Side gradient for text readability on desktop */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-dark/30 hidden md:block" />
+      </div>
 
-          {/* Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex-1 text-center md:text-left pt-0 md:pt-2"
-          >
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground leading-tight mb-1.5">
+      {/* Content pinned to bottom */}
+      <div className="relative h-full min-h-[85vh] md:min-h-[90vh] flex flex-col justify-end">
+        <div className="container mx-auto px-6 md:px-16 pb-12 md:pb-16">
+          <div className="max-w-2xl">
+            {/* Category + subtitle pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-2 mb-5"
+            >
+              <span className="px-3 py-1 text-[11px] font-medium tracking-widest uppercase text-accent bg-accent/10 border border-accent/20 rounded-full">
+                {categoryLabel}
+              </span>
+              {specialist.subtitle && specialist.subtitle !== categoryLabel && (
+                <span className="px-3 py-1 text-[11px] font-medium tracking-widest uppercase text-white/70 border border-white/15 rounded-full">
+                  {specialist.subtitle}
+                </span>
+              )}
+            </motion.div>
+
+            {/* Name - large editorial type */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.05] tracking-tight mb-3"
+            >
               {specialist.name}
-            </h1>
+            </motion.h1>
 
-            <p className="text-sm md:text-base text-muted-foreground font-light mb-5">
+            {/* Title */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="text-base md:text-lg text-white/60 font-light mb-6"
+            >
               {specialist.title}
-            </p>
+            </motion.p>
 
-            {/* Metadata grid */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-6 justify-center md:justify-start">
-              {/* Fagområde */}
-              <div>
-                <span className="block text-[11px] font-medium tracking-widest uppercase text-muted-foreground/70 mb-1">
-                  Fagområde
-                </span>
-                <span className="text-sm text-foreground font-normal">
-                  {specialist.subtitle || categoryLabel}
-                </span>
-              </div>
-
-              {/* Klinikk */}
+            {/* Clinic + CTA row */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-col sm:flex-row sm:items-center gap-4"
+            >
               {specialist.clinics && specialist.clinics.length > 0 && (
-                <div>
-                  <span className="block text-[11px] font-medium tracking-widest uppercase text-muted-foreground/70 mb-1">
-                    Klinikk
-                  </span>
-                  <div className="flex items-center gap-1.5 text-sm text-foreground font-normal">
-                    <MapPin className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                    <span>{specialist.clinics.join(", ")}</span>
-                  </div>
+                <div className="flex items-center gap-1.5 text-sm text-white/50 font-light">
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
+                  <span>{specialist.clinics.join(" · ")}</span>
                 </div>
               )}
-            </div>
 
-            {/* Expertise tags */}
-            {specialist.expertise && specialist.expertise.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-7 justify-center md:justify-start">
-                {specialist.expertise.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 text-[11px] font-light text-muted-foreground border border-border/60 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={onScrollToBooking}
+                  className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-6 text-sm"
+                >
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Bestill time
+                </Button>
               </div>
-            )}
+            </motion.div>
+          </div>
 
-            {/* CTA */}
-            <div className="flex items-center justify-center md:justify-start gap-3">
-              <Button
-                onClick={onScrollToBooking}
-                className="rounded-full px-6"
-              >
-                <Calendar className="w-4 h-4 mr-2" />
-                Bestill time
-              </Button>
-            </div>
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="hidden md:flex items-center gap-2 mt-12 text-white/30"
+          >
+            <ArrowDown className="w-4 h-4 animate-bounce" />
+            <span className="text-[11px] tracking-widest uppercase font-light">Scroll</span>
           </motion.div>
         </div>
       </div>

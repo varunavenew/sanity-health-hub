@@ -48,40 +48,55 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      {/* Cinematic hero */}
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
 
+      {/* Bio + sidebar facts */}
       <SpecialistBio specialist={specialist} />
 
       {/* Booking */}
-      <section ref={bookingRef} className="py-14 md:py-20 bg-secondary/20 scroll-mt-20">
+      <section ref={bookingRef} className="py-20 md:py-28 bg-secondary/20 scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="max-w-2xl"
-          >
-            <h2 className="text-xl md:text-2xl font-light text-foreground mb-2">
-              Bestill time
-            </h2>
-            <p className="text-sm text-muted-foreground font-light mb-8">
-              Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
-            </p>
-            <InlineBookingSection specialist={specialist} />
-          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="md:col-span-4"
+            >
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
+                Bestill time
+              </h2>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-sm">
+                Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="md:col-span-8"
+            >
+              <InlineBookingSection specialist={specialist} />
+            </motion.div>
+          </div>
         </div>
       </section>
 
+      {/* FAQ */}
       <SpecialistFAQ />
 
+      {/* Related */}
       <RelatedSpecialists specialists={relatedSpecialists} />
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
         <Button
           onClick={scrollToBooking}
-          className="w-full rounded-full"
+          className="w-full rounded-full bg-accent text-accent-foreground hover:bg-accent/90"
         >
           <Calendar className="w-4 h-4 mr-2" />
           Bestill time hos {specialist.name.split(" ")[0]}
