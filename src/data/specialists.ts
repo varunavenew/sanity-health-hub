@@ -426,7 +426,7 @@ export const specialists: Specialist[] = [
     image: kjerstiBrenden,
     category: "fertilitet",
     slug: "kjersti-brenden",
-    bio: "Kjersti Brenden er spesialist i gynekologi og obstetrikk med over 20 års erfaring. Hun har vært en del av fertilitetsteamet ved Livio – Norges eldste fertilitetsklinikk – siden 2012. Livio ble i 2025 en del av CMedical. Hun har spisskompetanse innen fertilitetsbehandling og har vært engasjert i eggdonasjonsbehandling. Hun har sittet i styret i NOFAB.",
+    bio: "Kjersti Brenden er utdannet ved det medisinske fakultet i Oslo og fullførte i 1999.\n\nHun er spesialist i gynekologi og obstetrikk og har over 20 års erfaring som gynekolog. Hun har tidligere jobbet ved kvinneklinikken i Vestre Viken, Drammen, men har helt siden 2012 vært en del av fertilitetsteamet ved Livio - Norges eldste fertilitetsklinikk. Livio ble i 2025 en del av CMedical.\n\nI tillegg til bred erfaring i generell gynekologi har hun en spisskompetanse innen fertilitetsbehandling. Siden lovverksendringene i 2021 har hun også vært mye engasjert i spesielt eggdonasjonsbehandling som da ble tillatt i Norge.\n\nHun har sittet i styret i NOFAB (Norsk Forening for Assistert Befruktning) i perioden 2017-2019. Kjersti er opptatt av å sette pasientene i fokus, og gi medisinsk faglig oppdatert informasjon i tillegg til varme, omsorg og trygghet.",
     clinics: ["Majorstuen"]
   },
   {
