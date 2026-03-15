@@ -209,7 +209,7 @@ export const specialists: Specialist[] = [
     image: bjornRobstad,
     category: "ortopedi",
     slug: "bjorn-robstad",
-    bio: "Bjørn Robstad har omfattende erfaring innen ortopedisk kirurgi siden 2005. Han har tidligere jobbet ved OUS Ullevål, og de siste 14 årene som overlege ved Gjøvik sykehus. Hans ekspertise omfatter avansert protesekirurgi, traumatologi og fotkirurgi. Ved CMedical i Moelv utfører han operasjoner under lokalbedøvelse, inkludert Hallux Valgus, hammertåoperasjoner og karpaltunnelsyndrom.",
+    bio: "Bjørn Robstad har omfattende erfaring innen ortopedisk kirurgi, og har jobbet med ortopedi siden 2005. Han har tidligere jobbet ved OUS, Ullevål, og de siste 14 årene som overlege ved Gjøvik sykehus, hvor han de siste åtte årene har vært seksjonsoverlege. Hans ekspertise omfatter avansert protesekirurgi, traumatologi og fotkirurgi, med en særlig interesse for idrettsmedisin og idrettsskader.\n\nDr. Robstad har jobbet for CMedical i tre år, hvor han utfører operasjoner lokalt ved CMedical i Moelv under lokalbedøvelse, inkludert inngrep som Hallux Valgus, hammertåoperasjoner, inngrodde tånegler, karpaltunnelsyndrom og andre mindre prosedyrer på hender og føtter.\n\nFor pasienter med tilstander som krever generell anestesi, kan operasjoner tilbys ved CMedical i Oslo etter første konsultasjon i Moelv.",
     clinics: ["Moelv"]
   },
   {
