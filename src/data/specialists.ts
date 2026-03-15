@@ -448,7 +448,7 @@ export const specialists: Specialist[] = [
     image: kristianMarstrandWarholm,
     category: "ortopedi",
     slug: "kristian-marstrand-warholm",
-    bio: "Kristian Marstrand Warholm er overlege ved OUS Ullevål, skopi-seksjonen, og konsulent for Idrettens Helsesenter. Han fullførte sin spesialisering i 2020 og har opparbeidet omfattende erfaring innen kikkhullsoperasjoner, med fokus på hoften. Han driver aktiv forskning for å videreutvikle feltet.",
+    bio: "Kristian Marstrand Warholm er en høyt kvalifisert ortoped og en sentral del av vårt ortopediteam ved CMedical. Til daglig jobber han som overlege ved OUS Ullevål, skopi-seksjonen, og som konsulent for Idrettens Helsesenter, der han kombinerer ekspertise med engasjement for idrettsmedisin.\n\nKristian fullførte sin spesialisering som ortoped i 2020 og har siden opparbeidet seg omfattende erfaring innen kikkhullsoperasjoner, med fokus på hoften. Han har bidratt til utviklingen av moderne behandlingsmetoder for denne pasientgruppen og driver aktiv forskning for å videreutvikle feltet.\n\nI 2023 ble Kristian en verdifull tilvekst til CMedicals ortopediteam. Hans kombinasjon av kirurgisk dyktighet, forskningskompetanse og pasientfokus gjør ham til en uvurderlig ressurs for både pasienter og teamet vårt.",
     clinics: ["Majorstuen"]
   },
   {
