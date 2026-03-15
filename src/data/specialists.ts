@@ -141,7 +141,7 @@ export const specialists: Specialist[] = [
     image: ashiAhmad,
     category: "gynekologi",
     slug: "ashi-ahmad",
-    bio: "Dr. Ashi Ahmad er spesialist i fødselshjelp og gynekologi og fostermedisiner. Hun har en spesiell interesse for oppfølging av gravide kvinner og tilbyr tidlig ultralyd, organrettet ultralyd og NIPT. Dr. Ahmad jobber som overlege ved fødeavdelingen og fostermedisinsk avdeling ved OUS Rikshospitalet og har over 15 års erfaring. Hun har en doktorgrad i fødselshjelp og gynekologi.",
+    bio: "Dr. Ashi Ahmad er spesialist i fødselshjelp og gynekologi og i tillegg fostermedisiner. Hun har en spesiell interesse for oppfølging av gravide kvinner og tilbyr både tidlig ultralyd, grundig organrettet ultralyd og NIPT, i tillegg til oppfølging av fostre med tanke på vekst og trivsel.\n\nDr. Ashi Ahmad jobber som overlege ved fødeavdelingen og fostermedisinsk avdeling ved OUS Rikshospitalet og har over 15 års erfaring i faget. Hun har en doktorgrad i fødselshjelp og gynekologi og er involvert i forskning og fagutvikling, hvor hun blant annet har vært med å skrive flere kapitler i \"Veileder i Fødselshjelp\" for de norske retningslinjer for faget.",
     clinics: ["Majorstuen"]
   },
   {
