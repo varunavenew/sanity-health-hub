@@ -66,7 +66,7 @@ export const Footer = () => {
               <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Spesialister</Link>
               <Link to="/priser" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Priser</Link>
               <Link to="/forsikring" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Forsikring</Link>
-              <a href="#" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere / Ledige jobber</a>
+              <Link to="/karriere" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere / Ledige jobber</Link>
             </nav>
           </div>
 
