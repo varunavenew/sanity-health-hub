@@ -652,13 +652,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Sondre Hassellund",
-    title: "Ortoped",
-    subtitle: "Kirurg",
-    expertise: ["Ortopedi", "Hånd- og albuekirurgi"],
+    title: "Ortopedi",
+    subtitle: "Ortoped",
+    expertise: ["Ortopedi", "Håndkirurgi", "Albuekirurgi", "Kikkhullskirurgi"],
     image: sondreHassellund,
     category: "ortopedi",
     slug: "sondre-hassellund",
-    bio: "Dr. Sondre Hassellund er hånd- og albuekirurg med mange års erfaring fra hånd- og albueseksjonen på Ullevål universitetssykehus. Han har stor erfaring med akutt og planlagt kirurgi, både åpen og med kikkhullsteknikk. Sondre underviser også på nasjonale kurs for ortopeder.",
+    bio: "Dr. Sondre Hassellund er hånd- og albuekirurg med mange års erfaring fra hånd- og albueseksjonen på Ullevål universitetssykehus.\n\nHan har stor erfaring med akutt og planlagt kirurgi, både åpen kirurgi og med kikkhullsteknikk i hånd og albue.\n\nSondre underviser også på nasjonale kurs for ortopeder i hånd- og albuekirurgi.\n\nHan jobber hos oss i CMedical flere ganger i måneden.",
     clinics: ["Majorstuen"]
   },
   {
