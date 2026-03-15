@@ -403,7 +403,7 @@ export const specialists: Specialist[] = [
     image: jonasRydinge,
     category: "ortopedi",
     slug: "jonas-rydinge",
-    bio: "Spesialist i ortopedisk kirurgi og overlege ved fot- og ankelseksjonen på Ullevål sykehus. Dr. Jonas spesialiserer seg på behandling av pasienter som opplever smerter, feilstillinger eller instabilitet i foten og ankelen. Har omfattende erfaring med ettervirkninger etter leddbåndsskader, bruskproblemer og bruddskader.",
+    bio: "Spesialist i ortopedisk kirurgi og overlege ved fot- og ankelseksjonen på Ullevål sykehus i tillegg til å jobbe ved C-medical. Dr. Jonas spesialiserer seg på behandling av pasienter som opplever smerter, feilstillinger eller instabilitet i foten og ankelen. Har omfattende erfaring med pasienter som lider av ettervirkninger etter leddbåndsskader, bruskproblemer og bruddskader.",
     clinics: ["Majorstuen"]
   },
   {
