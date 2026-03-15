@@ -474,3 +474,63 @@ export const useArticle = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+
+// ─── Job Listings ────────────────────────────────────────────────────
+export const useJobListings = () =>
+  useQuery({
+    queryKey: ["sanity", "jobListings"],
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(
+        `*[_type == "jobListing" && active == true] | order(publishedAt desc){
+          _id,
+          title,
+          "slug": slug.current,
+          department,
+          location,
+          employmentType,
+          excerpt,
+          "publishedAt": publishedAt,
+          deadline,
+          contactName,
+          contactEmail,
+          contactPhone,
+          applyUrl,
+        }`
+      );
+      return (data || []).map((j) => ({
+        ...j,
+        id: j._id,
+      }));
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useJobListing = (slug: string) =>
+  useQuery({
+    queryKey: ["sanity", "jobListing", slug],
+    queryFn: async () => {
+      const data = await fetchSanity<any>(
+        `*[_type == "jobListing" && slug.current == $slug][0]{
+          _id,
+          title,
+          "slug": slug.current,
+          department,
+          location,
+          employmentType,
+          excerpt,
+          "publishedAt": publishedAt,
+          deadline,
+          contactName,
+          contactEmail,
+          contactPhone,
+          applyUrl,
+          body,
+        }`,
+        { slug }
+      );
+      if (!data) return null;
+      return { ...data, id: data._id };
+    },
+    enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });

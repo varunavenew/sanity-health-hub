@@ -13,7 +13,6 @@ import { MapPin, Clock, Briefcase, ChevronRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero/about-hero.jpg";
 
 interface KarriereProps {
   isChatOpen?: boolean;
