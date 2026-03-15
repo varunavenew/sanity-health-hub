@@ -514,7 +514,7 @@ export const specialists: Specialist[] = [
     image: linnMyrtveitStensrud,
     category: "annet",
     slug: "linn-myrtveit-stensrud",
-    bio: "Linn er utdannet psykolog fra UiO med doktorgrad fra OsloMet, med forskning på hvordan vulvodyni påvirker den enkelte og parforholdet. Hun har spesialisert seg på kvinnehelse og har bred kompetanse innen hormonelle utfordringer som PMDD, samt psykiske belastninger knyttet til fertilitet, graviditet, abort og fødsel.",
+    bio: "Linn er utdannet psykolog fra UiO med doktorgrad fra OsloMet, der hun har forsket på hvordan vulvodyni påvirker både den enkelte og parforholdet. Hun har spesialisert seg på kvinnehelse og har flere års erfaring med å møte kvinner som lever med langvarige underlivssmerter – som vulvodyni, vaginisme og endometriose.\n\nHun har også bred kompetanse innen hormonelle utfordringer som PMDD, samt psykiske belastninger knyttet til fertilitet, graviditet, abort og fødsel. Linn møter deg med en kombinasjon av faglig trygghet og ekte forståelse for hvordan kropp og psyke henger sammen.\n\nHos CMedical tilbyr Linn psykologsamtaler tilpasset din livssituasjon – uansett hvor du er i løpet.",
     clinics: ["Majorstuen"]
   },
   {
