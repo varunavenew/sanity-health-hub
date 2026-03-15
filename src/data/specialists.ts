@@ -459,7 +459,7 @@ export const specialists: Specialist[] = [
     image: kristianOphaug,
     category: "fertilitet",
     slug: "kristian-ophaug",
-    bio: "Kristian Ophaug har over 20 års erfaring som terapeut i spesialisthelsetjenesten. Han er utdannet klinisk sosionom og familieterapeut, og spesialiserer seg innen psykisk helse i svangerskap og barsel. Siden 2018 har han jobbet med par som opplever ufrivillig barnløshet. Som Norges eneste mannlige fertilitetsrådgiver gir han støtte til ufrivillig barnløse menn.",
+    bio: "Kristian Ophaug har over 20 års erfaring som terapeut i spesialisthelsetjenesten, og har siden 2022 jobbet ved Kvinneklinikken på Rikshospitalet. Han er utdannet klinisk sosionom og familieterapeut, og spesialiserer seg innen psykisk helse i svangerskap og barsel.\n\nSiden 2018 har han jobbet med par som opplever ufrivillig barnløshet og har vært fertilitetsrådgiver ved IVF-avdelingen på Oslo Universitetssykehus. Gjennom sin egen IVF-erfaring og faglige bakgrunn har Kristian utviklet et unikt tilbud innen fertilitetsrådgivning.\n\nSom Norges eneste mannlige fertilitetsrådgiver gir han støtte til ufrivillig barnløse menn, og fokuserer på begge parter for å lette utfordringene i behandlingsprosessen.\n\nKristian hjelper kvinner og menn med å uttrykke og bearbeide følelser rundt ufrivillig barnløshet, og tilbyr verktøy for å håndtere de følelsesmessige utfordringene. Han gir også råd om hvordan par kan støtte hverandre gjennom prosessen, eller til enkeltpersoner som går gjennom det alene.\n\nSamtalene tilpasses individuelle behov, og Kristian gir veiledning for å normalisere tanker og følelser, samt verktøy for å håndtere sorg ved mislykkede forsøk eller spontanaborter.",
     clinics: ["Majorstuen"]
   },
   {
