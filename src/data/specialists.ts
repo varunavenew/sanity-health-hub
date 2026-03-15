@@ -414,7 +414,7 @@ export const specialists: Specialist[] = [
     image: jorgenPerminow,
     category: "gynekologi",
     slug: "jorgen-perminow",
-    bio: "Dr. Jørgen Perminow har omfattende erfaring fra Ahus og Ullevål Sykehus. Han er spesialist i gynekologi og obstetrikk, og overlege ved Kvinneklinikken på Ahus. Dr. Perminow snakker flytende norsk og engelsk, og snakker også noe polsk. Han er dypt engasjert i kvinnehelse.",
+    bio: "Dr. Jørgen Perminow har omfattende erfaring både fra Ahus og Ullevål Sykehus. Han er spesialist i gynekologi og obstetrikk, og er også overlege ved Kvinneklinikken på Ahus. Dr. Perminow snakker flytende norsk og engelsk, og snakker også noe polsk. Han er dypt engasjert i kvinnehelse, og jobber kontinuerlig for å forbedre kvaliteten på omsorg og støtte til sine pasienter.",
     languages: ["Norsk", "Engelsk", "Polsk"],
     clinics: ["Majorstuen"]
   },
