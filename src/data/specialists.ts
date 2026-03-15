@@ -108,7 +108,7 @@ export const specialists: Specialist[] = [
     image: andreasEdenberg,
     category: "annet",
     slug: "andreas-edenberg",
-    bio: "Dr. Andreas Edenberg er spesialist i generell kirurgi og gastroenterologisk kirurgi, med europeisk spesialistgodkjenning i traumekirurgi. Han har spesialisert seg på avansert endoskopi og fedmebehandling og utfører årlig over 2000 endoskopiske undersøkelser. Andreas er en del av CMedical sitt tverrfaglige team som tilbyr robotassistert overvektskirurgi. Hans omfattende erfaring og faglige engasjement gjør ham til en ledende aktør innen sitt felt.",
+    bio: "Dr. Andreas Edenberg er spesialist i generell kirurgi og gastroenterologisk kirurgi, med europeisk spesialistgodkjenning i traumekirurgi. Han har tidligere jobbet som overlege ved Ringerike sykehus, Gjøvik sykehus og Ullevål universitetssykehus.\n\nEdenberg har spesialisert seg på avansert endoskopi og fedmebehandling og utfører årlig over 2000 endoskopiske undersøkelser. Han har en særlig interesse for fedmekirurgi og utvikling av nye teknikker innen endoskopi. Andreas er en del av CMedical sitt tverrfaglige team som tilbyr robotassistert overvektskirurgi.\n\nHans omfattende erfaring og faglige engasjement gjør ham til en ledende aktør innen sitt felt. Han har også publisert artikler om bruk av kunstig intelligens i endoskopi.\n\nTa det første steget mot en enklere hverdag og økt livskvalitet – bestill en uforpliktende konsultasjon med Dr. Andreas Edenberg.",
     clinics: ["Majorstuen"]
   },
   {
