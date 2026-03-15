@@ -663,13 +663,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Sonu Lukose",
-    title: "Embryolog",
-    subtitle: "Fertilitetsteam",
-    expertise: ["Fertilitet", "Embryologi", "IVF"],
+    title: "Fertilitet",
+    subtitle: "Embryolog",
+    expertise: ["Fertilitet", "Embryologi", "IVF", "ICSI", "PGT", "Vitrifisering"],
     image: sonuLukose,
     category: "fertilitet",
     slug: "sonu-lukose",
-    bio: "Sonu er en ESHRE-sertifisert Senior Klinisk Embryolog med mer enn et tiår med klinisk erfaring. Han har etablert Guyanas første IVF-laboratorium og er ansvarlig for de første IVF-fødslene i landet. Hans ekspertområder inkluderer oppsett av IVF-laboratorium, testikulær sperm-ICSI, embryo biopsier for PGT og embryovitrifisering.",
+    bio: "Sonu er en ESHRE-sertifisert Senior Klinisk Embryolog ved CMedical Majorstuen. Han har mer enn et tiår med klinisk erfaring fra klinikker i Sør-Amerika og India, etter sin mastergrad i klinisk embryologi.\n\nHan har etablert og jobbet med Guyanas første IVF-laboratorium og er ansvarlig for de første IVF-fødslene fra IVF, ICSI, testikulær sperm-ICSI og frosne embryooverføringer i landet.\n\nHan flyttet tilbake til India og var laboratorieleder ved flere klinikker før han flyttet til Norge, der han ble med i CMedical Oslo som en del av fertilitetsklinikken fra starten av.\n\nHans ekspertområder inkluderer oppsett av IVF-laboratorium, testikulær sperm-ICSI, embryo biopsier for PGT, embryo- og eggvitrifisering.",
     clinics: ["Majorstuen"]
   },
   {
