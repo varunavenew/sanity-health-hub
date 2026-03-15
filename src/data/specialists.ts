@@ -685,13 +685,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Tea Berge",
-    title: "Ortoped",
-    subtitle: "Spesialist",
-    expertise: ["Ortopedi", "Kne- og skulderkirurgi"],
+    title: "Ortopedi",
+    subtitle: "Ortoped",
+    expertise: ["Ortopedi", "Knekirurgi", "Skulderkirurgi", "Artroskopi", "Skulderinstabilitet"],
     image: teaBerge,
     category: "ortopedi",
     slug: "tea-berge",
-    bio: "Tea er spesialist i ortopedisk kirurgi siden 2015. Hun jobber som overlege på Artroskopiseksjonen ved Oslo Universitetssykehus med kne- og skulderkirurgi som spesialfelt. Hun forsker på skulderinstabilitet og har presentert sitt arbeid på internasjonale kongresser.",
+    bio: "Tea er spesialist i ortopedisk kirurgi og har jobbet med ortopedi siden 2015.\n\nHun jobber til daglig som overlege på Artroskopiseksjonen ved Oslo Universitetssykehus med kne- og skulderkirurgi som spesialfelt. Hun forsker på skulderinstabilitet og har presentert sitt arbeid på internasjonale kongresser.\n\nTea er en engasjert og kvalitetsbevisst ortoped og det er viktig for henne at pasienten føler seg sett, hørt og ivaretatt.",
     clinics: ["Majorstuen"]
   },
   {
