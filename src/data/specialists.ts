@@ -198,7 +198,7 @@ export const specialists: Specialist[] = [
     image: bjornBrennhovd,
     category: "urologi",
     slug: "bjorn-brennhovd",
-    bio: "Bjørn Brennhovd introduserte robotassistert kirurgi i Norge i 2004, etter å ha ledet teamet for alle urologiske kreftoperasjoner ved Radiumhospitalet i mange år. Han har utført 100–150 inngrep årlig og har hatt ledelsen for all urologisk robotkirurgi ved Oslo universitetssykehus siden 2014. Bjørn er nasjonal hovedutprøver i en stor skandinavisk multisenterstudie om behandling av høyrisiko prostatakreft.",
+    bio: "Bjørn Brennhovd introduserte robotassistert kirurgi i Norge i 2004, etter å ha ledet teamet for alle urologiske kreftoperasjoner ved Radiumhospitalet i mange år. Årlig har han utført 100–150 inngrep og har aktivt deltatt i opplæringen av helsepersonell i Norge. Bjørn har vært medisinsk ansvarlig ved urologisk avdeling på Radiumhospitalet siden 2005 og har hatt ledelsen for all urologisk robotkirurgi ved Oslo universitetssykehus siden 2014.\n\nBjørn er nasjonal hovedutprøver i en stor skandinavisk multisenterstudie om behandling av høyrisiko prostatakreft. Alle resultater fra hans praksis er nøye registrert i en database, og forskningsresultatene er publisert med ulike perspektiver i internasjonale tidsskrifter. Bjørn er også en deltaker i den nasjonale gruppen som utarbeider Nasjonale retningslinjer for behandling av prostatakreft i regi av Helsedirektoratet.",
     clinics: ["Majorstuen"]
   },
   {
