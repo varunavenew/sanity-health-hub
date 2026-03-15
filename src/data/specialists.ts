@@ -19,7 +19,7 @@ import einarAndreBrevik from '@/assets/specialists/einar-andre-brevik.jpg';
 import cennetAkdeniz from '@/assets/specialists/cennet-akdeniz.png';
 import endreSoreide from '@/assets/specialists/endre-soreide.jpg';
 import erikBerg from '@/assets/specialists/erik-berg.jpg';
-import ersanKrckov from '@/assets/specialists/ersan-krckov.jpg';
+// ersanKrckov removed - no longer on cmedical.no
 import gilbertMoatshe from '@/assets/specialists/gilbert-moatshe.webp';
 import gunnarDalen from '@/assets/specialists/gunnar-dalen.jpg';
 import hannahRussell from '@/assets/specialists/hannah-russell.jpg';
