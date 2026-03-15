@@ -49,6 +49,7 @@ import mariBorgeEskerud from '@/assets/specialists/mari-borge-eskerud.jpg';
 import mariaThompsonClausen from '@/assets/specialists/maria-thompson-clausen.jpg';
 import marianBale from '@/assets/specialists/marian-bale.jpg';
 import martheHagen from '@/assets/specialists/marthe-hagen.jpg';
+import miaKitter from '@/assets/specialists/mia-kitter.png';
 import mortenAndersen from '@/assets/specialists/morten-andersen.jpg';
 import nabeelYousafKhan from '@/assets/specialists/nabeel-yousaf-khan.jpg';
 import nicolaiWessel from '@/assets/specialists/nicolai-wessel.jpg';
@@ -592,6 +593,17 @@ export const specialists: Specialist[] = [
     category: "annet",
     slug: "marthe-hagen",
     bio: "Marthe Hagen er psykolog med et spesielt fokus og engasjement for kvinnehelse. Hun har bred erfaring fra spesialisthelsetjenesten (DPS og TSB) og fra privat praksis.\n\nMarthe tilbyr samtaleterapi for voksne innenfor et bredt spekter av problemstillinger, inkludert traumer og livsbelastninger, angst og depresjon. Hun kan også veilede og støtte i prosessen med å leve med kronisk sykdom, utmattelse, smertetilstander og andre medisinske utfordringer.\n\nSom terapeut er Marthe rolig, varm og tålmodig, og hun arbeider ut fra en helhetlig og integrativ forståelse av mental helse og psykiske vansker. Hun benytter elementer fra kognitiv og metakognitiv terapi, sammen med eksistensielle og humanistiske terapiformer. Marthe tilbyr også behandling av traumer og angsttilstander med Eye Movement Desensitization and Reprocessing (EMDR).\n\nMarthe tilbyr også digitale konsultasjoner, slik at du kan få veiledning og oppfølging uansett hvor du befinner deg. Enten du foretrekker fleksibilitet eller har behov for en digital løsning, er hun tilgjengelig for å hjelpe deg.",
+    clinics: ["Majorstuen"]
+  },
+  {
+    name: "Mia Kitter",
+    title: "Osteopati",
+    subtitle: "Osteopat",
+    expertise: ["Osteopati", "Manuell behandling", "Kvinnehelse", "Endometriose", "Muskel- og skjelettplager", "Rehabilitering"],
+    image: miaKitter,
+    category: "annet",
+    slug: "mia-kitter",
+    bio: "Mia Kitter er autorisert osteopat med bachelor i osteopati fra Høyskolen Kristiania, samt videreutdanning innen osteopati fra samme institusjon. Hun har også spesialisert seg innen kvinnehelse, med kurs i både generell kvinnehelse og endometriose, og har en særlig interesse for hvordan muskel- og skjelettplager kan påvirke livskvalitet i ulike faser av livet.\n\nHun har erfaring innen manuell behandling og rehabilitering av muskel- og skjelettplager. Hun er opptatt av å se hele mennesket, og tilpasser behandlingen til den enkeltes behov, mål og hverdag. Med bakgrunn fra både helse, trening og undervisning har hun bred erfaring med bevegelse, forebygging og funksjonell opptrening.\n\nGjennom sitt arbeid møter hun pasienter med ulike typer smerteproblematikk og funksjonsutfordringer, og legger stor vekt på trygg oppfølging, god kommunikasjon og forståelig veiledning gjennom hele behandlingsforløpet. Hennes mål er å bidra til økt funksjon, mindre smerte og bedre mestring i hverdagen.\n\nSom en del av CMedical sitt tverrfaglige team samarbeider hun tett med andre behandlere for å sikre en helhetlig og koordinert oppfølging av pasientene. Dette gir et godt grunnlag for å møte komplekse problemstillinger med både faglig bredde og individuell tilpasning.",
     clinics: ["Majorstuen"]
   },
   {
