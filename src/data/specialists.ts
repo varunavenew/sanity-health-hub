@@ -85,7 +85,7 @@ export const specialists: Specialist[] = [
     image: alenkaBIndas,
     category: "gynekologi",
     slug: "alenka-bindas",
-    bio: "Alenka Bindas er spesialist i gynekologi. Hun har lang og bred erfaring i utredning, behandling og oppfølging av alle typer kvinnesykdommer. På grunn av hennes gode renommé og faglige dyktighet har Alenka pasienter fra hele Innlandet og andre deler av landet. Hun bruker god tid ved alle undersøkelser, og det er satt av 30 minutters konsultasjon til alle pasienter.",
+    bio: "Alenka Bindas er spesialist i gynekologi. Hun har lang og bred erfaring i utredning, behandling og oppfølging av alle typer kvinnesykdommer.\n\nPå grunn av hennes gode renommé og faglige dyktighet har Alenka pasienter fra hele Innlandet og andre deler av landet. Hun bruker god tid ved alle undersøkelser, og det er satt av 30 minutters konsultasjon til alle pasienter.",
     clinics: ["Moelv"]
   },
   {
