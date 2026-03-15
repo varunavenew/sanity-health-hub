@@ -24,6 +24,7 @@ import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
 import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
 import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergangsalder";
+import Personvern from "./pages/Personvern";
 
 const queryClient = new QueryClient();
 
