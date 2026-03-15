@@ -392,7 +392,7 @@ export const specialists: Specialist[] = [
     image: jeanetteFollestad,
     category: "annet",
     slug: "jeanette-follestad",
-    bio: "Jeanette jobber som fertilitetssykepleier ved CMedical. Hun har tidligere erfaring fra hjertemedisinske avdelinger og Olafia og Vulvapoliklinikken. Jeanette har over ti års erfaring som sykepleier og brenner for kvinnehelse med en særlig forståelse for den emosjonelle og fysiske belastningen fertilitetsbehandling kan medføre.",
+    bio: "Jeanette jobber som Fertilitetssykepleier ved CMedical og jobber til daglig med å bistå pasienter gjennom fertilitetsbehandling. Hun har tidligere erfaring både fra hjertemedisinske avdelinger og spesialiserte klinikker som Olafia og Vulvapoliklinikken. Jeanette har over ti års erfaring som sykepleier og har i løpet av sin karriere utviklet en god evne til å støtte pasienter gjennom utfordrende prosesser, spesielt innen fertilitet.\n\nJeanette brenner for kvinnehelse og har en særlig forståelse for den emosjonelle og fysiske belastningen fertilitetsbehandling kan medføre. Hun møter pasienter med omsorg og en strukturert tilnærming, for å sikre at man føler seg ivaretatt i behandlingsprosessen, basert på hver pasients historie og situasjon. Gjennom sitt arbeid i tverrfaglige team er hun med på å gi pasientene oppfølging med fokus på å skape en trygg og støttende atmosfære.",
     clinics: ["Majorstuen"]
   },
   {
