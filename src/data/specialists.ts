@@ -718,13 +718,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Tonje Westlie",
-    title: "Fysioterapeut",
+    title: "Fysioterapi",
     subtitle: "Håndterapeut",
-    expertise: ["Fysioterapi", "Håndterapi", "Rehabilitering"],
+    expertise: ["Fysioterapi", "Håndterapi", "Albuekirurgi-rehabilitering", "CRPS", "Nerveskader", "Psykomotorisk fysioterapi"],
     image: tonjeWestlie,
     category: "annet",
     slug: "tonje-westlie",
-    bio: "Tonje er utdannet fysioterapeut ved OsloMet i 2011. Hun har jobbet mange år med kompliserte albue- og håndskader ved OUS og skadelegevakten. Hun er styremedlem i Norsk forening for Håndterapi og har bred erfaring med rehabilitering etter brudd, leddbåndsskader og bløtdelsskader i albue og hånd.",
+    bio: "Tonje er utdannet fysioterapeut ved OsloMet i 2011. Hun har jobbet i mange år med kompliserte albue- og håndskader ved Oslo universitetssykehus og skadelegevakten. Tonje har videreutdannet seg i psykomotorisk fysioterapi og studert rehabilitering av håndskader ved universitetet i Lund. Hun er styremedlem i Norsk forening for Håndterapi og i tillegg til OUS jobber hun i Nasjonal Kompetansetjeneste for Albuekirurgi.\n\nTonje har bred erfaring med rehabilitering etter brudd, leddbåndsskader og bløtdelsskader i albue og hånd. Hun jobber også med leddstivhet og ulike smertetilstander ved blant annet nerveskader og CRPS.",
     clinics: ["Majorstuen"]
   },
   {
