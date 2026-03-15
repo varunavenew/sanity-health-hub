@@ -596,6 +596,17 @@ export const specialists: Specialist[] = [
     clinics: ["Majorstuen"]
   },
   {
+    name: "Mia Kitter",
+    title: "Osteopati",
+    subtitle: "Osteopat",
+    expertise: ["Osteopati", "Manuell behandling", "Kvinnehelse", "Endometriose", "Muskel- og skjelettplager", "Rehabilitering"],
+    image: miaKitter,
+    category: "annet",
+    slug: "mia-kitter",
+    bio: "Mia Kitter er autorisert osteopat med bachelor i osteopati fra Høyskolen Kristiania, samt videreutdanning innen osteopati fra samme institusjon. Hun har også spesialisert seg innen kvinnehelse, med kurs i både generell kvinnehelse og endometriose, og har en særlig interesse for hvordan muskel- og skjelettplager kan påvirke livskvalitet i ulike faser av livet.\n\nHun har erfaring innen manuell behandling og rehabilitering av muskel- og skjelettplager. Hun er opptatt av å se hele mennesket, og tilpasser behandlingen til den enkeltes behov, mål og hverdag. Med bakgrunn fra både helse, trening og undervisning har hun bred erfaring med bevegelse, forebygging og funksjonell opptrening.\n\nGjennom sitt arbeid møter hun pasienter med ulike typer smerteproblematikk og funksjonsutfordringer, og legger stor vekt på trygg oppfølging, god kommunikasjon og forståelig veiledning gjennom hele behandlingsforløpet. Hennes mål er å bidra til økt funksjon, mindre smerte og bedre mestring i hverdagen.\n\nSom en del av CMedical sitt tverrfaglige team samarbeider hun tett med andre behandlere for å sikre en helhetlig og koordinert oppfølging av pasientene. Dette gir et godt grunnlag for å møte komplekse problemstillinger med både faglig bredde og individuell tilpasning.",
+    clinics: ["Majorstuen"]
+  },
+  {
     name: "Morten Andersen",
     title: "Urolog",
     subtitle: "Spesialist",
