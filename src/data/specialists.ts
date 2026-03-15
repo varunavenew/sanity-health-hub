@@ -302,7 +302,7 @@ export const specialists: Specialist[] = [
     image: hannahRussell,
     category: "fertilitet",
     slug: "hannah-russell",
-    bio: "Hannah Russell er spesialist i gynekologi og obstetrikk, med over 20 års erfaring. Hun har vært en del av CMedical siden Livio Oslo ble en del av klinikkfamilien i 2025. Hun har et særlig engasjement for prematur ovarial insuffisiens (POI) og har bidratt i nasjonal veileder for Norsk Gynekologisk Forening. Hannah er medisinsk rådgiver i komiteen for ESHRE-sertifisering for sykepleiere.",
+    bio: "Hannah Russell er spesialist i gynekologi og obstetrikk, og har vært en del av CMedical siden Livio Oslo ble en del av vår klinikkfamilie i 2025. Hun har med seg over 20 års erfaring som gynekolog, både fra Livio - Norges eldste fertilitetsklinikk - og OUS Ullevål, blant annet som overlege og tilknyttet IVF-avdelingen.\n\nHun er opprinnelig fra Irland, hvor hun både studerte medisin og jobbet som lege, før hun flyttet til Oslo i 2005. Hun har et særlig engasjement for prematur ovarial insuffisiens (POI), og har bidratt både i nasjonal veileder for Norsk Gynekologisk Forening og i fagartikler om blant annet POI.\n\nHannah er også medlem og den medisinske rådgiveren i komiteen for ESHRE-sertifisering for sykepleiere, og deltar regelmessig i internasjonale møter for kompetanseutvikling. Hun har også sittet i NOFABs valgkomité i mange år.\n\nHannah møter pasienter med både flytende norsk og engelsk, noe våre engelsktalende pasienter setter stor pris på. Hannah er opptatt av at alle hennes pasienter skal møtes med varme og forståelse, og oppleve omsorg og trygghet hele veien.",
     languages: ["Norsk", "Engelsk"],
     clinics: ["Majorstuen"]
   },
