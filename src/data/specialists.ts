@@ -16,6 +16,7 @@ import birgitteMitlidMork from '@/assets/specialists/birgitte-mitlid-mork.jpg';
 import bjornBrennhovd from '@/assets/specialists/bjorn-brennhovd.jpg';
 import bjornRobstad from '@/assets/specialists/bjorn-robstad.jpg';
 import einarAndreBrevik from '@/assets/specialists/einar-andre-brevik.jpg';
+import cennetAkdeniz from '@/assets/specialists/cennet-akdeniz.png';
 import endreSoreide from '@/assets/specialists/endre-soreide.jpg';
 import erikBerg from '@/assets/specialists/erik-berg.jpg';
 import ersanKrckov from '@/assets/specialists/ersan-krckov.jpg';
