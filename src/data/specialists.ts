@@ -244,7 +244,8 @@ export const specialists: Specialist[] = [
     image: endreSoreide,
     category: "ortopedi",
     slug: "endre-soreide",
-    bio: "Dr. Endre Søreide er hånd- og albuekirurg. Han har jobbet mange år ved seksjon for hånd- og albuekirurgi på Oslo Universitetssykehus. Han utfører avansert hånd- og albuekirurgi, inkludert artroskopisk kirurgi. Endre har en ph.d. og betydelig forskningserfaring, med forskningsopphold ved Mayo Clinic i USA. Han er også kursleder i kirurgisk teknikk.",
+    bio: "Dr. Endre Søreide er hånd- og albuekirurg. Han har jobbet mange år ved seksjon for hånd- og albuekirurgi på Oslo Universitetssykehus.\n\nHan utfører avansert hånd- og albuekirurgi, inkludert artoskopisk (kikkhulls-) kirurgi.\n\nEndre har en ph.d, betydelig forskningserfaring og har lagt bak seg et forskningsopphold ved Mayo Clinic i USA.\n\nHan har skrevet flere publikasjoner i internasjonale tidsskrift, og er også kursleder i kirurgisk teknikk, som er et obligatorisk utdanningskurs for leger i spesialisering i ortopedisk kirurgi.\n\nEndre jobber ukentlig på CMedical, bor i Oslo-området, og har stor grad av tilgjengelighet for våre pasienter.",
+    education: "Ph.d., forskningsopphold ved Mayo Clinic, USA",
     clinics: ["Majorstuen"]
   },
   {
