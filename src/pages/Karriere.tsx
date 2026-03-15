@@ -47,7 +47,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       <PageHero
         title="Karriere"
         subtitle="Bli en del av CMedical – Norges ledende private helsekonsern. Vi søker dyktige fagfolk som brenner for god pasientbehandling."
-        imageSrc={heroImage}
+        showCTA={false}
       />
 
       <section className="container mx-auto px-6 md:px-16 py-16">
