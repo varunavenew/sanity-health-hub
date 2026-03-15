@@ -608,13 +608,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Morten Andersen",
-    title: "Urolog",
-    subtitle: "Spesialist",
-    expertise: ["Urologi", "Sterilisering", "Forhudsoperasjoner"],
+    title: "Urologi",
+    subtitle: "Urolog",
+    expertise: ["Urologi", "Sterilisering", "Forhudsoperasjoner", "Refertilisering"],
     image: mortenAndersen,
     category: "urologi",
     slug: "morten-andersen",
-    bio: "Morten Andersen er spesialist i kirurgi og urologi fra 1993. Tidligere overlege ved Sykehuset Innlandet. Han har lang og bred erfaring innen de fleste urologiske problemstillinger. Utfører steriliseringer, forhudsoperasjoner, operasjoner på penis og refertiliseringer. Utreder og behandler kvinner og menn med urologiske sykdommer.",
+    bio: "Morten Andersen er spesialist i kirurgi og spesialist i urologi fra 1993.\n\nTidligere arbeidet som spesialist og overlege ved Sykehuset Innlandet. Tidligere A-hus og Rikshospitalet. Siden 2006 avtalespesialist i urologi, og nå privatpraktiserende urolog ved CMedical i Moelv. Forskningserfaring og publikasjoner. Deltatt i utdanningen av urologer.\n\nMorten har en lang og bred erfaring innen de aller fleste urologiske problemstillinger. Utfører en rekke steriliseringer og forhudsoperasjoner. Operasjoner på penis og refertiliseringer. Utreder og behandler kvinner og menn med ulike urologiske sykdommer og plager. Har pasientfokus.",
     clinics: ["Moelv"]
   },
   {
