@@ -214,7 +214,6 @@ export const specialists: Specialist[] = [
     clinics: ["Moelv"]
   },
   {
-  {
     name: "Cennet Akdeniz",
     title: "Endokrinolog",
     subtitle: "Indremedisin",
