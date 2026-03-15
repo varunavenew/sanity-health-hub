@@ -563,13 +563,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Maria Thompson Clausen",
-    title: "Ernæringsfysiolog",
-    subtitle: "Spesialist",
-    expertise: ["Ernæring", "Livsstilsveiledning", "IBS", "Spiseforstyrrelser"],
+    title: "Ernæring",
+    subtitle: "Ernæringsfysiolog",
+    expertise: ["Ernæring", "IBS", "PCOS", "Spiseforstyrrelser", "Overvekt", "Overgangsalder", "Diabetes type 2", "RED-s"],
     image: mariaThompsonClausen,
     category: "annet",
     slug: "maria-thompson-clausen",
-    bio: "Maria Thompson Clausen er utdannet klinisk ernæringsfysiolog fra UiO, med spesialisering i bulimi og overspisingslidelse. Hun har bred erfaring med livsstilsendringer, overvekt, fedme, spiseforstyrrelser, IBS, PCOS, diabetes type 2 og kosthold tilpasset overgangsalder. Hun brenner for bærekraftige, sunne valg tilpasset den enkelte.",
+    bio: "Maria Thompson Clausen er utdannet klinisk ernæringsfysiolog fra Universitetet i Oslo, med videre spesialisering i bulimi og overspisingslidelse ved Norges idrettshøyskole. Hun har i tillegg fordypet seg i irritabel tarm (IBS), og har bred erfaring med sammensatte problemstillinger innen ernæring og helse.\n\nDe siste seks årene har Maria jobbet som kostholds- og treningsveileder og hjulpet mennesker med livsstilsendringer, overvekt, fedme, spiseforstyrrelser som bulimi og overspisingslidelse (BED), samt undervekt og mangelfull ernæring. Hun har et helhetlig syn på helse, der kroppen sees i sammenheng – fysisk og mentalt.\n\nMaria tilbyr evidensbasert veiledning for blant annet: IBS (irritabel tarm), PCOS, Diabetes type 2 og insulinresistens, Overspisingslidelse og bulimi, RED-s (Relative Energy Deficiency in Sport), Kosthold tilpasset overgangsalder, IBD, Cøliaki og Spisevansker.\n\nHun brenner for å gi mennesker kunnskap og verktøy som gjør det mulig å ta bærekraftige, sunne valg – tilpasset hver enkelt kropp og livssituasjon.",
     clinics: ["Bekkestua"]
   },
   {
