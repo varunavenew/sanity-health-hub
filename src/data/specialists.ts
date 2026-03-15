@@ -536,7 +536,7 @@ export const specialists: Specialist[] = [
     image: madeleineEngen,
     category: "gynekologi",
     slug: "madeleine-engen",
-    bio: "Dr. Engen er spesialist innen gynekologi med ekspertise innen urogynekologi – urinlekkasje og vaginale fremfall. Hun er fagansvarlig for gynekologi og grunnlegger av CMedical Kvinnehelse. Hun har forskningserfaring innen urinlekkasje og har presentert på internasjonale kongresser. Dr. Engen er en tydelig stemme for kvinnehelse i media og på internasjonale arenaer.",
+    bio: "Dr. Engen er spesialist innen gynekologi med spesiell interesse og ekspertise innen urogynekologi, som omhandler tilstander som urinlekkasje og vaginale fremfall, samt utvidete «6 ukers kontroller» etter fødsel med fokus på bekkenbunn og fødselsskader. Hun har forskningserfaring innen urinlekkasje og har presentert sitt arbeid på internasjonale kongresser. Dr. Engen har tidligere hatt faglig ansvar for urogynekologi ved Bærum Sykehus. Dr. Engen har også god erfaring med utredning og behandling av overgangsalder.\n\nDr. Engen er en tydelig stemme for kvinnehelse, og deler sin kunnskap både i klinikken, i media og på internasjonale arenaer. Hun er fagansvarlig for gynekologi og grunnlegger av CMedical Kvinnehelse, og hun er medlem av European Urogynaecological Association (EUGA).",
     clinics: ["Majorstuen"]
   },
   {
