@@ -348,7 +348,7 @@ export const specialists: Specialist[] = [
     image: istvanZoltanRigo,
     category: "ortopedi",
     slug: "istvan-zoltan-rigo",
-    bio: "Istvan Zoltan Rigo er spesialist i ortopedisk kirurgi med Europeisk Diplom i Håndkirurgi (FESSH). Han har jobbet på Rikshospitalet og er overlege ved Sykehuset Østfold. Han har bred erfaring med håndkirurgi, inkludert leddbåndskader, artroskopi og protesekirurgi. Han har doktorgrad om bøyeseneskader i hånd.",
+    bio: "Istvan Zoltan Rigo er spesialist i ortopedisk kirurgi og har Europeisk Diplom i Håndkirurgi (FESSH Diplom). Han har tidligere jobbet på Rikshospitalet, som har landsdekkende ansvar for avansert håndkirurgi. Istvan jobber som overlege på Ortopedisk avdeling, Sykehuset Østfold og er engasjert i klinisk forskning.\n\nHan har bred erfaring med håndkirurgi, inkludert behandling av leddbåndskader, artroskopi (kikkhullskirurgi) og protesekirurgi av håndledd og andre ledd i hånd. Dr. Rigo har doktorgrad og skrev sin ph.d.-avhandling om bøyeseneskader i hånd. Han har også skrevet flere vitenskapelige publikasjoner og bokkapitler innen håndkirurgi, og underviser på forskjellige skandinaviske og internasjonale kurs innen håndkirurgi og artroskopisk kirurgi.\n\nI tillegg til vanlige håndkirurgiske inngrep (operasjon for carpal tunnel syndrom, triggerfinger, de Quervain syndrom og Dupuytrens kontraktur) utfører han andre avanserte håndkirurgiske inngrep, inkludert diverse artroskopiske prosedyrer, leddbåndrekonstruksjoner, avstivninger og proteseoperasjoner i håndledd og hånd.\n\nBestill time hos Istvan i Moss på telefon 69254000.",
     clinics: ["Moss"]
   },
   {
