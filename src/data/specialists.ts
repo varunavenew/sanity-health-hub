@@ -130,7 +130,7 @@ export const specialists: Specialist[] = [
     image: areHaukaaenStodle,
     category: "ortopedi",
     slug: "are-haukaen-stodle",
-    bio: "Dr. Haukåen Stødle er ortoped og spesialist i fot- og ankelkirurgi. Han var ferdig utdannet spesialist i 2014 og har lang erfaring fra ortopedisk avdeling ved Oslo Universitetssykehus. Are har doktorgrad på lisfranc-skader i foten, og har publisert en rekke forskningsartikler på tematikken. I tillegg underviser han på nasjonale kurs i ortopedi, fot- og ankelkirurgi.",
+    bio: "Dr. Haukåen Stødle er ortoped og spesialist i fot- og ankelkirurgi.\n\nHan var ferdig utdannet spesialist i 2014 og har lang erfaring fra ortopedisk avdeling ved Oslo Universitetssykehus (OUS).\n\nTil daglig behandler han alle typer kirurgiske problemstillinger som kommer til seksjon for fot- og ankelkirurgi ved OUS.\n\nHan kan også vurdere barn fra 12-årsalder samt alle voksne.\n\nAre har doktorgrad på lisfranc-skader i foten, og har publisert en rekke forskningsartikler på tematikken. I tillegg underviser han på nasjonale kurs i ortopedi, fot- og ankelkirurgi.\n\nAre har poliklinikk på ettermiddager og opererer på dagtid hos oss i CMedical.",
     clinics: ["Majorstuen"]
   },
   {
