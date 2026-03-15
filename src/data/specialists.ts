@@ -233,7 +233,7 @@ export const specialists: Specialist[] = [
     image: einarAndreBrevik,
     category: "annet",
     slug: "einar-andre-brevik",
-    bio: "Dr. Brevik er en av Norges mest erfarne kar- og åreknutekirurger. Han tilbyr fullverdig karkirurgisk vurdering og utredning for åreknuter, venøs insuffisiens, claudicatio, Raynauds syndrom og aortaaneurismer. Totalt har Dr. Brevik operert over 2000 pasienter med åreknuter med moderne og skånsomme metoder. Han arbeider også som karkirurg ved Haukeland universitetssykehus.",
+    bio: "Dr. Brevik er en av Norges mest erfarne kar- og åreknutekirurger, og er en av de svært få som tilbyr private og forsikringspasienter en fullverdig karkirurgisk vurdering og utredning for åreknuter, venøs insuffisiens ved lymfødem og lipødem, claudicatio (røykebein, gangsmerter), Raynauds syndrom (likfingre), aortaaneurismer (utvidelse av hovedpulsåren i magen), carotis (halspulsåren og risikovurdering), iliaca syndrom (endofibrose og kompresjon av bekkenpulsåren hos syklister) og som en second opinion innen karkirurgi (fornyet vurdering og informasjon).\n\nDr. Brevik har vært en meget aktiv i det karkirurgiske miljøet gjennom Norsk karkirurgisk forening som leder, nestleder og styremedlem i fra 2014 til 2019. Siden 2020 har han vært rekrutert til å jobbe ved karkirurgisk avdeling på Haukeland universitetssykehus.\n\nTotalt har Dr. Brevik vært engasjert innen privat helsetjenester siden 2014 (Volvat, Hamarklinikken, CMedical), og har operert over 2000 pasienter med åreknuter med de mest moderne og skånsomme metoder.\n\nI dag jobber Dr. Brevik ved CMedical i Moelv (alle undersøkelser) og Majorstuen (åreknuter og claudicatio).",
     clinics: ["Moelv", "Majorstuen"]
   },
   {
