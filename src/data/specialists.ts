@@ -519,13 +519,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Linnea Torsnes",
-    title: "Hudlege",
-    subtitle: "Spesialist",
+    title: "Hudhelse",
+    subtitle: "Hudlege",
     expertise: ["Hudhelse", "Dermatologi", "Hudkreft", "Laserbehandling"],
     image: linneaTorsnes,
     category: "annet",
     slug: "linnea-torsnes",
-    bio: "Dr. Linnea Torsnes er spesialist i hud- og veneriske sykdommer, med utdannelse fra Danmark og Rikshospitalet. Hun har tidligere jobbet som overlege ved hudavdelingen på Rikshospitalet. Hun behandler hudkreft, psoriasis, eksem, vorter, rosacea, akne og utfører føflekksjekker, laserbehandling og fotodynamisk terapi.",
+    bio: "Dr. Linnea Torsnes er spesialist i hud- og veneriske sykdommer, med utdannelse fra Danmark og Rikshospitalet i Oslo. Hun har omfattende erfaring innen dermatologi og har tidligere jobbet som overlege ved hudavdelingen på Rikshospitalet, Oslo universitetssykehus.\n\nHun behandler et bredt spekter av hudtilstander, inkludert hudkreft, psoriasis, eksem, vorter, rosacea, perioral dermatitt og akne. Hun har lang erfaring med føflekksjekker og utfører fjerning av føflekker ved behov. I tillegg tilbyr hun behandling for overdreven svette, ulike injeksjonsbehandlinger, fotodynamisk terapi (PDT) ved indikasjon samt laserbehandling.\n\nSom en anerkjent spesialist innen sitt felt er Dr. Torsnes medlem av Den Norske Legeforening og European Academy of Dermatology and Venereology (EADV).\n\nLinnea jobber ved vår klinikk på Bekkestua.",
     clinics: ["Bekkestua"]
   },
   {
