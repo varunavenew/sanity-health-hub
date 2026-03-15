@@ -152,7 +152,7 @@ export const specialists: Specialist[] = [
     image: audunHoeghTangerud,
     category: "ortopedi",
     slug: "audun-hoegh-tangerud",
-    bio: "Dr. Audun Høegh Tangerud er en erfaren ortopedisk kirurg med spesialisering innen hånd- og fotkirurgi. Han har omfattende erfaring med både planlagte og akutte operasjoner, og jobber også som overlege ved hånd- og albueseksjonen på Ullevål universitetssykehus. Gjennom sin karriere har han opparbeidet bred erfaring fra Ringerike sykehus og Rikshospitalet.",
+    bio: "Dr. Audun Høegh Tangerud er en erfaren ortopedisk kirurg med spesialisering innen hånd- og fotkirurgi. Han har omfattende erfaring med både planlagte og akutte operasjoner, og jobber også som overlege ved hånd- og albueseksjonen på Ullevål universitetssykehus.\n\nGjennom sin karriere har han også opparbeidet bred erfaring fra flere anerkjente sykehus, som Ringerike sykehus og Rikshospitalet.",
     clinics: ["Moelv"]
   },
   {
