@@ -21,17 +21,19 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
 
   return (
     <section className="relative min-h-[85vh] md:min-h-[90vh] bg-brand-dark overflow-hidden">
-      {/* Full-bleed image with gradient overlay */}
+      {/* Full-bleed image with color grading matching site style */}
       <div className="absolute inset-0">
         <img
           src={specialist.image}
           alt={specialist.name}
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-center saturate-[0.75] brightness-[0.95]"
         />
-        {/* Cinematic gradient: transparent top → dark bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-transparent" />
-        {/* Side gradient for text readability on desktop */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-dark/30 hidden md:block" />
+        {/* Color grading overlay for warm cohesive look */}
+        <div className="absolute inset-0 bg-brand-dark/10 mix-blend-multiply" />
+        {/* Subtle bottom gradient for text readability - less dominant */}
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent" />
+        {/* Very subtle side gradient for desktop text area */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-dark/20 hidden md:block" />
       </div>
 
       {/* Content pinned to bottom */}
