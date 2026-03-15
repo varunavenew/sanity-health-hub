@@ -552,13 +552,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Mari Borge Eskerud",
-    title: "Ernæringsfysiolog",
-    subtitle: "Spesialist",
-    expertise: ["Ernæring", "IBS", "LavFODMAP", "PCOS"],
+    title: "Ernæring",
+    subtitle: "Ernæringsfysiolog",
+    expertise: ["Ernæring", "IBS", "LavFODMAP", "PCOS", "Fertilitet", "Overgangsalder"],
     image: mariBorgeEskerud,
     category: "annet",
     slug: "mari-borge-eskerud",
-    bio: "Mari Borge Eskerud er klinisk ernæringsfysiolog med spesialisering innen IBS og lavFODMAP-dietten. Hun er sertifisert av Monash University og har også kompetanse innen ernæring relatert til fertilitet, overgangsalder, PCOS og graviditet. Mari er medforfatter av boken «Sunn og frisk med sensitiv mage».",
+    bio: "Mari Borge Eskerud er klinisk ernæringsfysiolog med spesialisering innen IBS og lavFODMAP-dietten. Hun har tidligere jobbet ved Lovisenberg Diakonale Sykehus, hvor hun har hjulpet pasienter med irritabel tarm-syndrom (IBS) gjennom evidensbasert kostholdsveiledning. Mari er sertifisert i lavFODMAP-dietten av Monash University og har et stort engasjement for å gi pasientene sine kunnskapsbasert og individuelt tilpasset behandling.\n\nI tillegg til sin spesialisering innen mage- og tarmhelse, har hun særlig kompetanse innen ernæring relatert til fertilitet, overgangsalder, Polycystisk ovariesyndrom (PCOS) og graviditet. Hun jobber også med generell ernæringsveiledning for god helse og velvære.\n\nMari er medforfatter av boken «Sunn og frisk med sensitiv mage – en fullstendig guide til kosthold og mestring» (2018), sammen med Cecilie Hauge Ågotnes.",
     clinics: ["Majorstuen"]
   },
   {
