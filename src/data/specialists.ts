@@ -574,13 +574,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Marian Bale",
-    title: "Gastrokirurg",
-    subtitle: "Spesialist",
-    expertise: ["Gastrokirurgi", "Brokkbehandling", "Laparoskopi"],
+    title: "Gastrokirurgi",
+    subtitle: "Gastrokirurg",
+    expertise: ["Gastrokirurgi", "Brokkbehandling", "Laparoskopi", "Endetarmsplager", "Generell kirurgi"],
     image: marianBale,
     category: "annet",
     slug: "marian-bale",
-    bio: "Dr. Marian Bale er overlege og spesialist i generell kirurgi og gastrokirurgi, nå overlege ved Bærum sykehus. Hun er en kapasitet på alle typer brokkbehandling og tilbyr utredning og behandling av endetarmsplager, brokk og diverse kirurgiske prosedyrer. Dr. Bale legger alltid vekt på god dialog med pasienter gjennom hele behandlingsløpet.",
+    bio: "Dr. Marian Bale er overlege og spesialist i generell kirurgi og gastrokirurgi. Hun har lang og bred kirurgisk erfaring fra blant annet Ullevål sykehus, Ahus og Diakonhjemmet sykehus og er nå overlege ved Bærum sykehus. Hun har jobbet som lege siden 2001. Dr. Bale er en kapasitet på alle typer brokkbehandling, med et stort antall laparoskopiske (kikkehull) og åpne inngrep bak seg.\n\nVed CMedical tilbyr dr. Bale blant annet utredning og behandling av endetarmsplager (hemorroider, marisker, fissurer mv.), vurdering og behandling av brokk (operasjoner med kikkehull og åpen teknikk) og diverse mindre kirurgiske prosedyrer (fjerning av fettkuler, talgcyster, føflekker med mer).\n\nI tillegg til medisinske og kirurgisk-tekniske ferdigheter, legger Dr. Bale alltid vekt på god dialog med pasienter og pårørende, både i utredningsfasen og i forbindelse med inngrep og oppfølging. Hun er veldig grundig og setter seg godt inn i hver pasients situasjon. Det er viktig for det endelige resultatet, og for at pasienten skal få en god opplevelse gjennom hele behandlingsløpet.",
     clinics: ["Majorstuen"]
   },
   {
