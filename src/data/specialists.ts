@@ -16,6 +16,7 @@ import birgitteMitlidMork from '@/assets/specialists/birgitte-mitlid-mork.jpg';
 import bjornBrennhovd from '@/assets/specialists/bjorn-brennhovd.jpg';
 import bjornRobstad from '@/assets/specialists/bjorn-robstad.jpg';
 import einarAndreBrevik from '@/assets/specialists/einar-andre-brevik.jpg';
+import cennetAkdeniz from '@/assets/specialists/cennet-akdeniz.png';
 import endreSoreide from '@/assets/specialists/endre-soreide.jpg';
 import erikBerg from '@/assets/specialists/erik-berg.jpg';
 import ersanKrckov from '@/assets/specialists/ersan-krckov.jpg';
@@ -211,6 +212,18 @@ export const specialists: Specialist[] = [
     slug: "bjorn-robstad",
     bio: "Bjørn Robstad har omfattende erfaring innen ortopedisk kirurgi, og har jobbet med ortopedi siden 2005. Han har tidligere jobbet ved OUS, Ullevål, og de siste 14 årene som overlege ved Gjøvik sykehus, hvor han de siste åtte årene har vært seksjonsoverlege. Hans ekspertise omfatter avansert protesekirurgi, traumatologi og fotkirurgi, med en særlig interesse for idrettsmedisin og idrettsskader.\n\nDr. Robstad har jobbet for CMedical i tre år, hvor han utfører operasjoner lokalt ved CMedical i Moelv under lokalbedøvelse, inkludert inngrep som Hallux Valgus, hammertåoperasjoner, inngrodde tånegler, karpaltunnelsyndrom og andre mindre prosedyrer på hender og føtter.\n\nFor pasienter med tilstander som krever generell anestesi, kan operasjoner tilbys ved CMedical i Oslo etter første konsultasjon i Moelv.",
     clinics: ["Moelv"]
+  },
+  {
+    name: "Cennet Akdeniz",
+    title: "Endokrinolog",
+    subtitle: "Indremedisin",
+    expertise: ["Endokrinologi", "Indremedisin", "Stoffskifte", "Diabetes"],
+    image: cennetAkdeniz,
+    category: "annet",
+    slug: "cennet-akdeni",
+    bio: "Cennet Akdeniz er spesialist i endokrinologi og indremedisin, utdannet cand.med. fra Universitetet i Oslo. Hun har bred klinisk erfaring fra både Drammen sykehus og Oslo universitetssykehus, og har arbeidet som overlege ved Oslo universitetssykehus siden 2020. Gjennom sitt arbeid har hun opparbeidet solid kompetanse innen diagnostikk og behandling av hormonelle og metabolske sykdommer.\n\nDr. Akdeniz har særlig erfaring med utredning og behandling av stoffskiftesykdommer, inkludert sykdommer i skjoldbruskkjertelen. Hun arbeider også mye med lipidforstyrrelser og høyt kolesterol, hvor målet er å redusere risikoen for hjerte- og karsykdom gjennom grundig utredning og individuelt tilpasset behandling.\n\nHun utreder og behandler også høyt blodtrykk, både essensiell hypertensjon og sekundær hypertensjon forårsaket av hormonelle tilstander. I tillegg har hun erfaring med sykdommer i binyrer og hypofyse, inkludert hormonmangel, hormonforstyrrelser og hypofyseadenomer.\n\nDr. Akdeniz arbeider også med diabetes og metabolsk helse, med særlig fokus på oppfølging av type 2-diabetes og optimalisering av metabolsk behandling. Videre utreder og behandler hun osteoporose og forstyrrelser i kroppens kalsiumbalanse, samt hormonelle tilstander som gonadesvikt, blant annet etter kreftbehandling.",
+    education: "Cand.med., Universitetet i Oslo",
+    clinics: ["Majorstuen"]
   },
   {
     name: "Einar Andre Brevik",
