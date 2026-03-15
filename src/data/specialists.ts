@@ -696,13 +696,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Thomas Fredrik Thaulow",
-    title: "Gynekolog",
-    subtitle: "Spesialist",
-    expertise: ["Gynekologi", "Endometriose", "Laparoskopi", "Hysteroskopi"],
+    title: "Gynekologi",
+    subtitle: "Gynekolog",
+    expertise: ["Gynekologi", "Endometriose", "Laparoskopi", "Hysteroskopi", "Endoskopisk kirurgi"],
     image: thomasFredrikThaulow,
     category: "gynekologi",
     slug: "thomas-fredrik-thaulow",
-    bio: "Thomas er en av landets fremste spesialister innen endoskopiske operasjoner og utmerker seg som en av de mest kompetente innen komplekse inngrep med laparoskopi og hysteroskopi. Han er en nøkkelperson i det dedikerte endometriose-teamet ved Ullevål sykehus, hvor han diagnostiserer og behandler de mest utfordrende tilfellene fra hele landet.",
+    bio: "Thomas er en av landets fremste spesialister innen endoskopiske operasjoner og utmerker seg som en av de mest kompetente i fagmiljøet når det gjelder å utføre svært komplekse inngrep med laparoskopi og hysteroskopi. Han er en nøkkelperson i det dedikerte endometriose-teamet ved Ullevål sykehus, hvor han diagnostiserer og behandler de mest utfordrende tilfellene fra hele landet. I tillegg er Thomas en verdifull ressurs ved CMedical Majorstuen, hvor han viderefører sin ekspertise og bidrar til å styrke teamet.",
     clinics: ["Majorstuen"]
   },
   {
