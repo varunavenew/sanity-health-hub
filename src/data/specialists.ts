@@ -291,7 +291,7 @@ export const specialists: Specialist[] = [
     image: gunnarDalen,
     category: "annet",
     slug: "gunnar-dalen",
-    bio: "Gunnar Dalén er spesialist i karkirurgi med lang erfaring i behandling av venøse sykdommer som åreknuter og sirkulasjonsplager i bena. Han bruker moderne metoder som radiofrekvensablasjon, flebektomi og sklerosering. Ved siden av CMedical arbeider han som karkirurg ved Ullevål sykehus.",
+    bio: "Gunnar Dalén er spesialist i karkirurgi med lang erfaring i behandling av venøse sykdommer som åreknuter og sirkulasjonsplager i bena. Han bruker moderne og skånsomme metoder som gir varige resultater og kort restitusjonstid, tilpasset den enkelte pasient.\n\nHan utfører behandlingsmetoder som radiofrekvensablasjon (varmebehandling av syke årer), flebektomi (lokal fjerning av åreknuter) og sklerosering; en injeksjonsbasert teknikk som egner seg godt for overfladiske årer. Ved behov kombineres metodene for optimal effekt.\n\nGunnar er en sentral del av vårt team ved den ortopediske avdelingen på CMedical. Han møter hver enkelt med trygghet og høy faglig presisjon, og legger vekt på at du skal oppleve god oppfølging gjennom hele behandlingsforløpet.\n\nVed siden av sin praksis hos oss, arbeider han også som karkirurg ved Ullevål sykehus, som bidrar til hans brede erfaring innen avansert karkirurgi og venebehandling.",
     clinics: ["Majorstuen"]
   },
   {
