@@ -176,7 +176,7 @@ export const specialists: Specialist[] = [
     image: birgitteAspenes,
     category: "gynekologi",
     slug: "birgitte-aspenes",
-    bio: "Dr. Birgitte Aspenes er utdannet lege ved Universitetet i Oslo. Hun spesialiserte seg i fødselshjelp og kvinnesykdommer ved Bærum Sykehus, hvor hun har jobbet som overlege. Hun har lang erfaring med alle gynekologiske problemstillinger, som prevensjonsveiledning, celleforandringer, blødningsforstyrrelser, overgangsalder, PMS/PMDD, PCOS og urinlekkasje. Hun er medlem av Bayers nordiske menopause råd, og har særlig kompetanse innen overgangsalderen.",
+    bio: "Dr. Birgitte Aspenes er utdannet lege ved Universitetet i Oslo. Etter noen år som allmennlege, spesialiserte hun seg i fødselshjelp og kvinnesykdommer ved Bærum Sykehus, hvor hun har jobbet som overlege. Hun har også erfaring fra kirurgisk avdeling på Bærum Sykehus og kvinneklinikken på Ullevål Sykehus.\n\nDe siste årene har Dr. Aspenes jobbet som privatpraktiserende spesialist. Hun har lang erfaring og kan hjelpe deg med alle gynekologiske problemstillinger, som prevensjonsveiledning, celleforandringer, blødningsforstyrrelser, overgangsalder, PMS/PMDD, PCOS og urinlekkasje. Hun er medlem av og jobber i Bayers nordiske menopause råd, og har særlig kompetanse innen behandling og oppfølging i overgangsalderen. Som gynekologisk kirurg opererer hun også vaginale fremfall og urinlekkasje her hos oss.\n\nHun er spesielt opptatt av å forklare og informere godt, slik at pasienten forstår sin egen diagnose og får en følelse av klarhet og kontroll.\n\nDr. Birgitte Aspenes jobber på avdeling Bekkestua.",
     clinics: ["Bekkestua"]
   },
   {
