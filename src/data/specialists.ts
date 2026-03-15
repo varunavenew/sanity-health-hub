@@ -619,13 +619,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Nabeel Yousaf Khan",
-    title: "Urolog",
-    subtitle: "Spesialist",
-    expertise: ["Urologi", "Prostata", "Sterilisering"],
+    title: "Urologi",
+    subtitle: "Urolog",
+    expertise: ["Urologi", "Prostata", "Sterilisering", "Forhudsoperasjoner", "Pungkirurgi"],
     image: nabeelYousafKhan,
     category: "urologi",
     slug: "nabeel-yousaf-khan",
-    bio: "Nabeel Yousaf Khan er urolog ved Sykehuset Innlandet Hamar. Han har bred erfaring med utredning og behandling av urologiske lidelser. Han har erfaring med kirurgi ved lidelser i pungen, penis, forhud og mannlig sterilisering. Han er doktorgradsstipendiat ved UiO og forsker på kirurgisk behandling av godartet forstørrelse av prostata.",
+    bio: "Nabeel Yousaf Khan er urolog og jobber til daglig ved Sykehuset Innlandet Hamar. Han har bred erfaring med utredning og behandling av urologiske lidelser både hos kvinner og menn. Han har erfaring med blant annet kirurgi ved lidelser i pungen, penis, forhud og gjør mannlig sterilisering. Han er for øyeblikket doktorgradsstipendiat ved Universitet i Oslo og forsker på kirurgisk behandling av godartet forstørrelse av prostata.",
     clinics: ["Moelv"]
   },
   {
