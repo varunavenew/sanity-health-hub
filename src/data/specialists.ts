@@ -96,7 +96,8 @@ export const specialists: Specialist[] = [
     image: anamikaChoudhury,
     category: "fertilitet",
     slug: "anamika-choudhury",
-    bio: "Anamika jobber på fertilitetsteamet og har over 12 års internasjonal erfaring innen reproduksjonsmedisin, og er en ledende spesialist innen sitt felt. Etter å ha fullført sin utdannelse ved University College London, startet hun sin karriere med UZ Brussel-teamet i Kuwait, før hun flyttet til Kobe, Japan. Hun flyttet til Oslo i 2017 og arbeidet ved Rikshospitalet i flere år. Hos CMedical Fertilitet har hun brukt sin ekspertise til å bygge et toppmoderne laboratorium for å kunne tilby personlige fertilitetsløsninger av høyeste kvalitet.",
+    bio: "Anamika jobber på fertilitetsteamet og har over 12 års internasjonal erfaring innen reproduksjonsmedisin, og er en ledende spesialist innen sitt felt. Etter å ha fullført sin utdannelse ved University College London, Storbritannia, startet Anamika sin karriere med UZ Brussel-teamet i Kuwait, før hun flyttet til Kobe, Japan, hvor hun jobbet med avanserte teknologier for å fryse ned egg og embryoer. Hun flyttet til Oslo, Norge i 2017 og arbeidet ved Rikshospitalet i flere år. I løpet av sin tid der bidro hun til å forbedre pasientopplevelsen og graviditetsratene betydelig.\n\nHos CMedical Fertilitet har hun brukt sin ekspertise til å bygge et toppmoderne laboratorium for å kunne tilby personlige fertilitetsløsninger av høyeste kvalitet. Hun brenner mest for pasientrettigheter og håper at hennes pasienter føler seg sett og tatt vare på. Anamika deltar også i flere nasjonale og internasjonale kongresser, inkludert NOFAB og ESHRE, og har en sterk interesse for forskning som kan omsettes til klinisk praksis.",
+    education: "University College London",
     clinics: ["Majorstuen"]
   },
   {
