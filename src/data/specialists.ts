@@ -162,7 +162,9 @@ export const specialists: Specialist[] = [
     image: birgirGudbrandsson,
     category: "annet",
     slug: "birgir-gudbrandsson",
-    bio: "Fra 2017 har Birgir vært en viktig del av Revmatologisk avdeling ved Oslo Universitetssykehus Rikshospitalet. Han har vært foreleser i revmatologi ved Universitetet i Oslo og fullførte sitt doktorgradsarbeid ved UiO i 2017, med spesialisering på vaskulitt. Hans omfattende kunnskap innen endokrinologi, kardiologi, hematologi, nyre, lunge, gastroenterologi, geriatri og revmatologi gjør ham i stand til å tilby helhetlig omsorg.",
+    bio: "Fra 2017 har Birgir vært en viktig del av Revmatologisk avdeling ved Oslo Universitetssykehus Rikshospitalet, og gjennom sitt engasjement har han formet en positiv innvirkning på pasientenes liv. Siden 2015 har han også vært den dedikerte revmatologen ved Oslo Ortopedsenter, nå CMedical, der han bringer sin ekspertise og omsorg til hver eneste konsultasjon.\n\nI løpet av årene 2012-2017 var Birgir ikke bare en foreleser i revmatologi ved Universitetet i Oslo; han var også en inspirator som delte sin lidenskap for faget med kommende helsearbeidere. Han fullførte sitt doktorgradsarbeid ved UiO i 2017, hvor han spesialiserte seg på vaskulitt.\n\nFør han ble en anerkjent revmatolog, brakte Birgir med seg sin medisinske lidenskap og kunnskap fra 2003 til 2007 som en lærling innen indremedisin ved Universitetssykehuset i Reykjavik/Landspitalinn. Hans omfattende kunnskap innen endokrinologi, kardiologi, hematologi/onkologi, nyre, lunge, gastroenterologi, geriatri og revmatologi har gjort ham i stand til å tilby helhetlig omsorg til pasienter.\n\nBirgir bærer stolt sitt medisinske diplom fra 2003 fra Island, og hans dedikasjon til å hjelpe mennesker og gjøre en positiv forskjell i helsevesenet har vært drivkraften gjennom hele hans imponerende karriere.",
+    education: "Medisinsk diplom, Island (2003). Doktorgrad i revmatologi, Universitetet i Oslo (2017)",
+    languages: ["Norsk", "Islandsk", "Engelsk"],
     clinics: ["Majorstuen"]
   },
   {

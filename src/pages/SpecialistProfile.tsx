@@ -222,9 +222,13 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
                 Om {specialist.name.split(" ")[0]}
               </h2>
-              <p className="text-lg text-muted-foreground font-light leading-relaxed">
-                {specialist.bio}
-              </p>
+              <div className="space-y-4">
+                {specialist.bio.split('\n\n').map((paragraph, idx) => (
+                  <p key={idx} className="text-lg text-muted-foreground font-light leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </section>
