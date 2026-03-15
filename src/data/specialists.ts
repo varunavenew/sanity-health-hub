@@ -641,13 +641,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Siri Kløkstad",
-    title: "Gynekolog",
-    subtitle: "Spesialist",
-    expertise: ["Gynekologi", "Vulvaplager", "Hormoner", "Prevensjon"],
+    title: "Gynekologi",
+    subtitle: "Gynekolog",
+    expertise: ["Gynekologi", "Underlivsplager", "Vulvasmerter", "Hormoner", "Prevensjon"],
     image: siriKlokstad,
     category: "gynekologi",
     slug: "siri-klokstad",
-    bio: "Siri Kløkstad er utdannet gynekolog og har jobbet ved sykehuset i Elverum og Oslo Universitetssykehus. Nå jobber hun ved CMedical og resten av tiden ved Sex og samfunn i Oslo. Siri er spesielt interessert i underlivsplager, vulvasmerter, hormoner og prevensjon.",
+    bio: "Siri Kløkstad er utdannet gynekolog og har jobbet ved både sykehuset i Elverum og Oslo Universitetsykehus.\n\nNå jobber hun en dag i uken ved CMedical og resten av tiden ved Sex og samfunn i Oslo. Siri er spesielt interessert i underlivsplager, vulvasmerter, hormoner og prevensjon.",
     clinics: ["Bekkestua"]
   },
   {
