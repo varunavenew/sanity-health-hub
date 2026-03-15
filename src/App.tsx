@@ -25,6 +25,8 @@ import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
 import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergangsalder";
 import Personvern from "./pages/Personvern";
+import Karriere from "./pages/Karriere";
+import KarriereDetail from "./pages/KarriereDetail";
 
 const queryClient = new QueryClient();
 
