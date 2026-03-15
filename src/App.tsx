@@ -25,6 +25,8 @@ import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
 import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergangsalder";
 import Personvern from "./pages/Personvern";
+import Karriere from "./pages/Karriere";
+import KarriereDetail from "./pages/KarriereDetail";
 
 const queryClient = new QueryClient();
 
@@ -90,6 +92,9 @@ const AppContent = () => {
         <Route path="/fastlegeveiledning-overgangsalder" element={<FastlegeveiledningOvergangsalder isChatOpen={false} />} />
         {/* Personvern */}
         <Route path="/personvern" element={<Personvern isChatOpen={false} />} />
+        {/* Karriere */}
+        <Route path="/karriere" element={<Karriere isChatOpen={false} />} />
+        <Route path="/karriere/:slug" element={<KarriereDetail isChatOpen={false} />} />
         {/* Aktuelt / News */}
         <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
         <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />

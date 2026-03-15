@@ -17,6 +17,7 @@ import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
 import clinicListPage from './clinicListPage'
 import article from './article'
+import jobListing from './jobListing'
 
 export const schemaTypes = [
   // Pages
@@ -35,6 +36,7 @@ export const schemaTypes = [
   specialist,
   googleReview,
   article,
+  jobListing,
 
   // Shared types
   blockContent,
