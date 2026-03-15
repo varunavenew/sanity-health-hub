@@ -674,9 +674,9 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Stig Hegna",
-    title: "Ortoped",
-    subtitle: "Kirurg",
-    expertise: ["Ortopedi", "Fotkirurgi"],
+    title: "Ortopedi",
+    subtitle: "Ortoped",
+    expertise: ["Ortopedi", "Fotkirurgi", "Ortopedisk kirurgi"],
     image: stigHegna,
     category: "ortopedi",
     slug: "stig-hegna",
