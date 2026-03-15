@@ -4,8 +4,6 @@ import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
-import { useTreatmentCategories } from "@/hooks/useSanity";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
@@ -21,7 +19,6 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const bookingRef = useRef<HTMLDivElement>(null);
-  const { data: sanityCategories } = useTreatmentCategories();
   const { findBySlug, byCategory } = useSpecialistsData();
 
   const specialist = findBySlug(slug || "");
@@ -45,74 +42,46 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     .filter((s) => s.slug !== specialist.slug)
     .slice(0, 4);
 
-  // Related treatments for potential future use
-  const serviceCategories = sanityCategories?.length
-    ? sanityCategories.map((c: any) => ({
-        id: c.categoryId || c.slug,
-        label: c.title,
-        path: `/${c.categoryId || c.slug}`,
-        subcategories: (c.treatments || []).map((t: any) => ({
-          label: t.title,
-          path: `/behandlinger/${c.categoryId || c.slug}/${t.slug}`,
-        })),
-      }))
-    : staticServiceCategories;
-
   const scrollToBooking = () => {
     bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {/* Hero with overlapping info card */}
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
 
-      {/* Bio + Expertise */}
       <SpecialistBio specialist={specialist} />
 
-      {/* Booking Section */}
-      <section ref={bookingRef} className="py-16 md:py-24 bg-card scroll-mt-20">
+      {/* Booking */}
+      <section ref={bookingRef} className="py-14 md:py-20 bg-secondary/20 scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="md:col-span-4"
-            >
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
-                Bestill time
-              </h2>
-              <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-sm">
-                Velg tjeneste og finn en tid som passer deg. Ingen henvisning nødvendig.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="md:col-span-8"
-            >
-              <InlineBookingSection specialist={specialist} />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl"
+          >
+            <h2 className="text-xl md:text-2xl font-light text-foreground mb-2">
+              Bestill time
+            </h2>
+            <p className="text-sm text-muted-foreground font-light mb-8">
+              Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
+            </p>
+            <InlineBookingSection specialist={specialist} />
+          </motion.div>
         </div>
       </section>
 
-      {/* FAQ + Financing combined */}
       <SpecialistFAQ />
 
-      {/* Related Specialists */}
       <RelatedSpecialists specialists={relatedSpecialists} />
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
         <Button
           onClick={scrollToBooking}
-          className="w-full rounded-full bg-brand-dark hover:bg-brand-dark/90 text-primary-foreground"
+          className="w-full rounded-full"
         >
           <Calendar className="w-4 h-4 mr-2" />
           Bestill time hos {specialist.name.split(" ")[0]}

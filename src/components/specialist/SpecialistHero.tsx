@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar, ChevronDown } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 
@@ -20,17 +20,17 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <section className="bg-brand-dark pt-12 pb-16 md:pt-20 md:pb-24">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row items-center md:items-end gap-8 md:gap-14">
-          {/* Profile photo - contained, not hero-bleed */}
+    <section className="bg-background border-b border-border/40">
+      <div className="container mx-auto px-6 md:px-16 py-10 md:py-16">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+          {/* Profile image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="shrink-0"
+            transition={{ duration: 0.5 }}
+            className="shrink-0 mx-auto md:mx-0"
           >
-            <div className="w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden ring-4 ring-white/10">
+            <div className="w-40 h-52 md:w-48 md:h-64 lg:w-56 lg:h-72 rounded-md overflow-hidden bg-secondary">
               <img
                 src={specialist.image}
                 alt={specialist.name}
@@ -41,48 +41,68 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
 
           {/* Info */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex-1 text-center md:text-left pb-0 md:pb-2"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex-1 text-center md:text-left pt-0 md:pt-2"
           >
-            {/* Category pill */}
-            <span className="inline-block px-3 py-1 text-xs font-medium tracking-widest uppercase text-white/80 border border-white/20 rounded-full mb-4">
-              {specialist.subtitle || categoryLabel}
-            </span>
-
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.1] mb-2">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground leading-tight mb-1.5">
               {specialist.name}
             </h1>
 
-            <p className="text-base md:text-lg text-white/60 font-light mb-1.5">
+            <p className="text-sm md:text-base text-muted-foreground font-light mb-5">
               {specialist.title}
             </p>
 
-            {/* Clinic locations */}
-            {specialist.clinics && specialist.clinics.length > 0 && (
-              <div className="flex items-center justify-center md:justify-start gap-1.5 text-sm text-white/50 font-light mb-6">
-                <MapPin className="w-3.5 h-3.5 shrink-0" />
-                <span>{specialist.clinics.join(" · ")}</span>
+            {/* Metadata grid */}
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-6 justify-center md:justify-start">
+              {/* Fagområde */}
+              <div>
+                <span className="block text-[11px] font-medium tracking-widest uppercase text-muted-foreground/70 mb-1">
+                  Fagområde
+                </span>
+                <span className="text-sm text-foreground font-normal">
+                  {specialist.subtitle || categoryLabel}
+                </span>
+              </div>
+
+              {/* Klinikk */}
+              {specialist.clinics && specialist.clinics.length > 0 && (
+                <div>
+                  <span className="block text-[11px] font-medium tracking-widest uppercase text-muted-foreground/70 mb-1">
+                    Klinikk
+                  </span>
+                  <div className="flex items-center gap-1.5 text-sm text-foreground font-normal">
+                    <MapPin className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                    <span>{specialist.clinics.join(", ")}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Expertise tags */}
+            {specialist.expertise && specialist.expertise.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-7 justify-center md:justify-start">
+                {specialist.expertise.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 text-[11px] font-light text-muted-foreground border border-border/60 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             )}
 
-            {/* CTAs */}
+            {/* CTA */}
             <div className="flex items-center justify-center md:justify-start gap-3">
               <Button
                 onClick={onScrollToBooking}
-                className="rounded-full bg-white text-brand-dark hover:bg-white/90 px-6"
+                className="rounded-full px-6"
               >
                 <Calendar className="w-4 h-4 mr-2" />
                 Bestill time
               </Button>
-              <button
-                onClick={onScrollToBooking}
-                className="flex items-center gap-1 text-sm text-white/50 hover:text-white/80 transition-colors"
-              >
-                Se tjenester
-                <ChevronDown className="w-3.5 h-3.5" />
-              </button>
             </div>
           </motion.div>
         </div>
