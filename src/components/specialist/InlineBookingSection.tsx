@@ -133,20 +133,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     : expandedCategory;
 
   return (
-    <section className="py-10 md:py-16 bg-background">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="max-w-3xl">
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar className="w-5 h-5 text-accent" />
-              <h2 className="text-2xl md:text-3xl font-light text-foreground">
-                Bestill time
-              </h2>
-            </div>
-            <p className="text-muted-foreground font-light">
-              Velg tjeneste for å booke time hos {specialist.name.split(" ")[0]}
-            </p>
-          </div>
+    <div>
 
           <div className="space-y-3">
             {relevantCategories.map((category) => (
