@@ -206,7 +206,6 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
             </Button>
           </div>
         </div>
-      </div>
-    </section>
+    </div>
   );
 };
