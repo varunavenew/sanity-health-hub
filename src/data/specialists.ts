@@ -381,7 +381,7 @@ export const specialists: Specialist[] = [
     image: janRagnarHaugstvedt,
     category: "ortopedi",
     slug: "jan-ragnar-haugstvedt",
-    bio: "Jan Ragnar Haugstvedt er en erfaren håndkirurg med flere års tjeneste ved Rikshospitalet, som har landsdekkende ansvar for håndkirurgi. Han spesialiserer seg i artroskopisk håndkirurgi og har bidratt med flere titalls publikasjoner i internasjonale tidsskrifter. Hans kompetanse dekker hele spekteret av håndkirurgi.",
+    bio: "Jan Ragnar Haugstvedt er en erfaren håndkirurg med flere års tjeneste ved Rikshospitalet, som har landsdekkende ansvar for håndkirurgi. Han spesialiserer seg særlig innen artroskopisk håndkirurgi og har bidratt til vitenskapelig litteratur med flere titalls publikasjoner i internasjonale tidsskrifter.\n\nI løpet av sin karriere har Jan Ragnar utført komplekse inngrep som proteseinsetting, rekonstruksjon av leddbånd, rekonstruksjon av blodårer og nerver, samt andre avanserte prosedyrer. Hans kompetanse dekker i prinsippet hele spekteret av håndkirurgi innenfor både det private og det offentlige helsevesenet.",
     clinics: ["Majorstuen"]
   },
   {
