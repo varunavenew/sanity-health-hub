@@ -99,7 +99,7 @@ export const Footer = () => {
           
           <div className="flex items-center gap-6">
             <div className="flex gap-5 text-xs text-white/40">
-              <a href="#" className="hover:text-white/70 transition-colors">Personvern</a>
+              <Link to="/personvern" className="hover:text-white/70 transition-colors">Personvern</Link>
               <a href="#" className="hover:text-white/70 transition-colors">Vilkår</a>
               <a href="#" className="hover:text-white/70 transition-colors">Karriere</a>
             </div>
