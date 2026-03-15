@@ -729,13 +729,13 @@ export const specialists: Specialist[] = [
   },
   {
     name: "Trond Jørgensen",
-    title: "Urolog",
-    subtitle: "Kirurg",
-    expertise: ["Urologi", "Prostatakreft", "Sterilisering"],
+    title: "Urologi",
+    subtitle: "Urolog",
+    expertise: ["Urologi", "Prostatakreft", "Sterilisering", "Fimoseoperasjoner", "Urologisk kirurgi"],
     image: trondJorgensen,
     category: "urologi",
     slug: "trond-jorgensen",
-    bio: "Trond Jørgensen er kirurg og urolog med doktorgrad innen prostatakreft. Tidligere overlege ved Oslo Universitetssykehus, urologisk avdeling. De siste 16 årene har han praktisert som privat urolog, med spesiell ekspertise innen urologisk kirurgi. Hvert år utfører han flere hundre steriliseringer og fimoseoperasjoner.",
+    bio: "Trond Jørgensen er kirurg og urolog med omfattende forskningserfaring, inkludert flere publiserte internasjonale artikler og en doktorgrad innen prostatakreft. Tidligere tjenestegjorde han som overlege ved Oslo Universitetssykehus, urologisk avdeling. De siste 16 årene har han praktisert som privat urolog, med spesiell ekspertise innen urologisk kirurgi og utredning av prostatakreft. Hvert år utfører han flere hundre steriliseringer og fimoseoperasjoner.\n\nTrond Jørgensen har forfattet eller deltatt i flere internasjonale forskningsartikler publisert i anerkjente tidsskrifter, blant annet American Association for Cancer Research, European Urology og British Journal of Cancer. Hans doktoravhandling, «Prognostic Factors in Metastatic Prostate Cancer», bygde på omfattende studier gjennomført i regi av The Scandinavian Prostatic Cancer Group (SPCG-2).",
     clinics: ["Majorstuen"]
   },
 ];
