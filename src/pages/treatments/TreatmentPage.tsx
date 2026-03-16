@@ -388,7 +388,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                         </Button>
                         <Button
                           size="sm"
-                          className="text-xs rounded-full font-light flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+                          className="text-xs rounded-full font-light flex-1 bg-brand-dark text-white hover:bg-brand-dark/90"
                           onClick={() => navigate(`/booking?kategori=${categoryId}`)}
                         >
                           <Calendar className="mr-1.5 w-3 h-3" aria-hidden="true" />
