@@ -1,15 +1,7 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
-
-const categoryLabels: Record<string, string> = {
-  gynekologi: "Gynekologi",
-  fertilitet: "Fertilitet",
-  urologi: "Urologi",
-  ortopedi: "Ortopedi",
-  annet: "Spesialist",
-};
 
 interface SpecialistHeroProps {
   specialist: Specialist;
@@ -17,14 +9,10 @@ interface SpecialistHeroProps {
 }
 
 export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHeroProps) => {
-  const categoryLabel = categoryLabels[specialist.category] || specialist.category;
-
   return (
     <div className="relative">
-      {/* Dark bg */}
       <div className="bg-brand-dark pt-32 pb-64 md:pt-36 md:pb-72" />
 
-      {/* Content positioned over the dark/light boundary */}
       <div className="absolute inset-x-0 top-0 pt-32 md:pt-36">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-10 items-start">
@@ -35,7 +23,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="text-lg md:text-xl lg:text-2xl text-white/70 font-light tracking-wide mb-1"
+                className="text-sm md:text-base text-white/50 tracking-widest uppercase mb-2"
               >
                 {specialist.title}
               </motion.p>
@@ -44,51 +32,15 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.05] tracking-tight mb-5"
+                className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.05] tracking-tight mb-8"
               >
                 {specialist.name}
               </motion.h1>
 
-              {/* Clinic & expertise */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.25 }}
-                className="space-y-3 mb-7"
-              >
-                {specialist.clinics && specialist.clinics.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-medium text-white/60">Klinikk:</span>
-                    {specialist.clinics.map((clinic) => (
-                      <span
-                        key={clinic}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/80 bg-white/10 rounded-full"
-                      >
-                        <MapPin className="w-3 h-3" aria-hidden="true" />
-                        {clinic}
-                      </span>
-                    ))}
-                  </div>
-                )}
-                {specialist.expertise && specialist.expertise.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-medium text-white/60">Fagområder:</span>
-                    {specialist.expertise.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/80 bg-white/10 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
+                transition={{ duration: 0.4, delay: 0.25 }}
               >
                 <Button
                   onClick={onScrollToBooking}
@@ -100,7 +52,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               </motion.div>
             </div>
 
-            {/* Portrait — bleeds below dark section */}
+            {/* Portrait */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -117,7 +69,6 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
         </div>
       </div>
 
-      {/* Spacer for overlapping content */}
       <div className="h-[180px] md:h-[80px] lg:h-[100px]" />
     </div>
   );
