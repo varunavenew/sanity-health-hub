@@ -453,7 +453,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-8">Finansiering</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Finansiering</h2>
             <p className="text-foreground/80 font-light leading-relaxed mb-8">
               Vi er et privat helsetilbud. Det betyr at du betaler selv – eller får utredning eller behandling dekket av helseforsikring.
             </p>
