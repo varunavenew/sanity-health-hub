@@ -18,6 +18,7 @@ import clinicPage from './clinicPage'
 import clinicListPage from './clinicListPage'
 import article from './article'
 import jobListing from './jobListing'
+import privacyPolicyPage from './privacyPolicyPage'
 
 export const schemaTypes = [
   // Pages
@@ -37,6 +38,7 @@ export const schemaTypes = [
   googleReview,
   article,
   jobListing,
+  privacyPolicyPage,
 
   // Shared types
   blockContent,
