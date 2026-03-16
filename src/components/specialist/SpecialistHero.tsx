@@ -27,7 +27,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
       {/* Content positioned over the dark/light boundary */}
       <div className="absolute inset-x-0 top-0 pt-32 md:pt-36">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-10 items-start">
 
             {/* Left: Text */}
             <div className="order-1">
