@@ -41,7 +41,7 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
       {/* Author */}
       <div className="pt-4 border-t border-brand-dark/10">
         <p className="font-normal text-brand-dark">{review.name}</p>
-        <p className="text-xs text-brand-dark/40 font-light">{review.date}</p>
+        <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
       </div>
     </div>
   );
