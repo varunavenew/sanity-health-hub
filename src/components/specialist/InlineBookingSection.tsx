@@ -145,7 +145,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                 relevantCategories.length > 1 ? "hover:bg-white/10 cursor-pointer" : "cursor-default"
               }`}
             >
-              <span className="text-sm font-medium text-foreground">{category.label}</span>
+              <span className="text-sm font-medium text-white">{category.label}</span>
               {relevantCategories.length > 1 && (
                 effectiveExpanded === category.id 
                   ? <ChevronUp className="w-4 h-4 text-muted-foreground" />
