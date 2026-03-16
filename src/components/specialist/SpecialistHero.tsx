@@ -22,7 +22,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   return (
     <header className="bg-secondary/40 pt-32 pb-0 md:pt-36 md:pb-0">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end">
           
           {/* Left: Text */}
           <div className="pb-10 md:pb-14">
