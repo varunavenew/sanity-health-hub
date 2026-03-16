@@ -159,7 +159,7 @@ export const HeroBanner = () => {
               <span className="block text-xs text-white/80 mb-3 font-light">
                 {slide.subtitle}
               </span>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
                 {slide.label}
               </h2>
               <span

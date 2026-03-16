@@ -120,7 +120,7 @@ export const GoogleReviewsSection = () => {
             <p className="text-white font-normal mb-1">
               Over 150 000 fornøyde pasienter siden 2002
             </p>
-            <p className="text-white/50 text-sm font-light">
+            <p className="text-white/70 text-sm font-light">
               Bli en del av vår historie
             </p>
           </div>

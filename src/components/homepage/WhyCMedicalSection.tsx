@@ -132,7 +132,7 @@ export const WhyCMedicalSection = () => {
                 <blockquote className="text-base md:text-lg font-light text-white/80 italic leading-relaxed">
                   "Hos CMedical handler behandling om å bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging."
                 </blockquote>
-                <p className="mt-4 text-sm text-white/40 font-light">— CMedical</p>
+                <p className="mt-4 text-sm text-white/60 font-light">— CMedical</p>
               </div>
 
               {/* CTA */}

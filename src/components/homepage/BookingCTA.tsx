@@ -97,12 +97,12 @@ export const BookingCTA = () => {
 
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8">
-            <span className="flex items-center gap-2 text-sm text-white/50">
-              <Clock className="w-4 h-4" />
+            <span className="flex items-center gap-2 text-sm text-white/70">
+              <Clock className="w-4 h-4" aria-hidden="true" />
               Ledig time innen 1–3 dager
             </span>
-            <span className="flex items-center gap-2 text-sm text-white/50">
-              <Shield className="w-4 h-4" />
+            <span className="flex items-center gap-2 text-sm text-white/70">
+              <Shield className="w-4 h-4" aria-hidden="true" />
               Ingen henvisning nødvendig
             </span>
           </div>
