@@ -59,7 +59,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
                     loading="lazy"
                   />
                 </div>
-                <h3 className="text-sm font-medium text-foreground group-hover:text-brand-dark transition-colors">
+                <p className="text-sm font-medium text-foreground group-hover:text-brand-dark transition-colors">
                   {s.name}
                 </h3>
                 <p className="text-xs text-muted-foreground font-light mt-0.5">
