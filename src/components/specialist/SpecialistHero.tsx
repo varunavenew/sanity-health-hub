@@ -67,31 +67,39 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               {specialist.title}
             </motion.p>
 
-            {/* Clinic & expertise row */}
+            {/* Clinic & expertise */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.25 }}
-              className="flex flex-wrap items-center gap-2 mb-7"
+              className="space-y-3 mb-7"
             >
               {specialist.clinics && specialist.clinics.length > 0 && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground/70 bg-[#F2ECE6] rounded-full">
-                  <MapPin className="w-3 h-3" />
-                  {specialist.clinics.join(" · ")}
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground/60">Klinikk:</span>
+                  {specialist.clinics.map((clinic) => (
+                    <span
+                      key={clinic}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground/70 bg-[#F2ECE6] rounded-full"
+                    >
+                      <MapPin className="w-3 h-3" />
+                      {clinic}
+                    </span>
+                  ))}
+                </div>
               )}
-              {specialist.expertise && specialist.expertise.length > 0 && specialist.expertise.slice(0, 4).map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground/70 bg-[#F2ECE6] rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-              {specialist.expertise && specialist.expertise.length > 4 && (
-                <span className="text-xs text-muted-foreground/50 font-light">
-                  +{specialist.expertise.length - 4} til
-                </span>
+              {specialist.expertise && specialist.expertise.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground/60">Fagområder:</span>
+                  {specialist.expertise.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground/70 bg-[#F2ECE6] rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               )}
             </motion.div>
 
