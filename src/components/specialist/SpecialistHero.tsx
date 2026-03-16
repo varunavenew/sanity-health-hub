@@ -27,10 +27,10 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
       {/* Content positioned over the dark/light boundary */}
       <div className="absolute inset-x-0 top-0 pt-32 md:pt-36">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-10 items-start">
 
             {/* Left: Text */}
-            <div className="order-1">
+            <div className="order-2 md:order-2">
               <motion.h1
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -100,12 +100,12 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               </motion.div>
             </div>
 
-            {/* Right: Portrait — close to name, bleeds below dark section */}
+            {/* Left: Portrait — bleeds below dark section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="flex justify-center md:justify-end order-2 relative z-10"
+              className="flex justify-center md:justify-start order-1 md:order-1 relative z-10"
             >
               <img
                 src={specialist.image}
