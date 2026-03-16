@@ -110,7 +110,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             >
               <Button
                 onClick={onScrollToBooking}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-7 text-sm h-11"
+                className="rounded-full bg-white text-[#42332A] hover:bg-white/90 px-7 text-sm h-11"
               >
                 <Calendar className="w-4 h-4 mr-2" />
                 Bestill time
