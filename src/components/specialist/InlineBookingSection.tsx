@@ -162,7 +162,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="border-t border-border">
+                  <div className="border-t border-white/10">
                     {category.services.map((service, idx) => (
                       <button
                         key={idx}
