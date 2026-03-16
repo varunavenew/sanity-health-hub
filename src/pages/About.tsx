@@ -105,7 +105,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <p className="text-white/50 text-xs mb-3">Vårt team</p>
+              <p className="text-white/60 text-xs mb-3">Vårt team</p>
               <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
                 Møt våre spesialister
               </h2>
