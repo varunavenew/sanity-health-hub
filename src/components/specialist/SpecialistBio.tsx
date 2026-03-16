@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Specialist } from "@/data/specialists";
-import { GraduationCap, Languages, Briefcase, MapPin } from "lucide-react";
+import { GraduationCap, Languages } from "lucide-react";
 
 interface SpecialistBioProps {
   specialist: Specialist;
