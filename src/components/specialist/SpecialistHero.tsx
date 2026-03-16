@@ -118,7 +118,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
       </div>
 
       {/* Spacer for overlapping content */}
-      <div className="h-[280px] md:h-[180px] lg:h-[200px]" />
+      <div className="h-[220px] md:h-[120px] lg:h-[140px]" />
     </div>
   );
 };
