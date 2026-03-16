@@ -22,10 +22,24 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   return (
     <header className="bg-secondary/40 pt-32 pb-0 md:pt-36 md:pb-0">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 md:gap-4 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-2 md:gap-4 items-end">
           
-          {/* Left: Text */}
-          <div className="pb-10 md:pb-14">
+          {/* Left: Portrait */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="flex justify-center md:justify-start items-end order-2 md:order-1"
+          >
+            <img
+              src={specialist.image}
+              alt={specialist.name}
+              className="w-[240px] md:w-[300px] lg:w-[340px] aspect-[3/4] object-cover object-top rounded-t-2xl saturate-[0.8] brightness-[0.97]"
+            />
+          </motion.div>
+
+          {/* Right: Text */}
+          <div className="pb-10 md:pb-14 order-1 md:order-2">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -79,20 +93,6 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               </Button>
             </motion.div>
           </div>
-
-          {/* Right: Portrait — flush to bottom */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="flex justify-center md:justify-end items-end"
-          >
-            <img
-              src={specialist.image}
-              alt={specialist.name}
-              className="w-[240px] md:w-[300px] lg:w-[340px] aspect-[3/4] object-cover object-top rounded-t-2xl saturate-[0.8] brightness-[0.97]"
-            />
-          </motion.div>
         </div>
       </div>
     </header>
