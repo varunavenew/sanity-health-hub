@@ -104,7 +104,7 @@ export const SpecialistsSection = () => {
               </div>
             </div>
 
-            <p className="text-sm text-white/60 font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-white/70 font-normal px-1">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         
