@@ -100,7 +100,7 @@ const SpecialistCarouselSection = ({
   return (
     <section className="py-14 md:py-20 bg-secondary">
       <div className="container mx-auto px-6 md:px-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
             <div>
               <p className="text-sm text-muted-foreground font-light mb-3">Dine behandlere</p>
