@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
 import { specialists as allSpecialists, Specialist } from "@/data/specialists";
-import { useTreatment } from "@/hooks/useSanity";
+import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 
 interface TreatmentPageProps {
