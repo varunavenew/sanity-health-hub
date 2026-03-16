@@ -171,7 +171,7 @@ const SpecialistCarouselSection = ({
                     className="text-xs rounded-full font-light flex-1"
                     onClick={() => navigate(`/spesialister/${spec.slug}`)}
                   >
-                    Les mer
+                    Les mer om {spec.name.split(' ')[0]}
                     <ArrowRight className="ml-1 w-3 h-3" aria-hidden="true" />
                   </Button>
                   <Button
