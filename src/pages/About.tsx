@@ -63,7 +63,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         {/* Continued content */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-2xl mx-auto">
-            <div className="space-y-5 text-brand-dark/80 text-[15px] leading-[1.8] font-light">
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
               <p>
                 Kvinnehelse er et strategisk satsningsområde i CMedical. Kvinners helse har i for stor grad vært underprioritert, både som del av folkeopplysning, medisinsk tilbud og i forskning. Derfor bygger vi et helhetlig og subspesialisert tilbud som følger kvinnen gjennom hele livsløpet – fra pubertet og fertilitet til barneønske og graviditet, barseltid og før, under og etter overgangsalder. Ekspertteam innen blant annet endometriose, infertilitet, vulvalidelser, fødselsskader og menopause sikrer direkte tilgang til riktig kompetanse – uten omveier.
               </p>
