@@ -342,8 +342,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
           <div className="container mx-auto px-0 md:px-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
-                <p className="text-xs text-white/60 mb-2 font-light">{category.subtitle}</p>
-                <h1 className="text-3xl md:text-4xl font-normal text-white">{category.title}</h1>
+                <p className="text-xs text-white/70 mb-2 font-light">{category.subtitle}</p>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{category.title}</h1>
               </div>
               <div className="flex items-center gap-3">
                 <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-6 font-normal" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
