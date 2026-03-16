@@ -29,7 +29,7 @@ const formatInlineMarkdown = (text: string): string => {
 };
 
 /* ─── FAQ Accordion ─── */
-const TreatmentFaq = ({ question, answer, isLast }: { question: string; answer: string; isLast: boolean }) => {
+const TreatmentFaq = ({ question, answer, isLast, customContent }: { question: string; answer: string; isLast: boolean; customContent?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -51,9 +51,13 @@ const TreatmentFaq = ({ question, answer, isLast }: { question: string; answer: 
         className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
       >
         <div className="overflow-hidden">
-          <p className="text-muted-foreground text-sm md:text-[15px] leading-relaxed font-light px-5 md:px-6 pb-5 pr-12">
-            {answer}
-          </p>
+          <div className="px-5 md:px-6 pb-5 pr-12">
+            {customContent || (
+              <p className="text-muted-foreground text-sm md:text-[15px] leading-relaxed font-light">
+                {answer}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -189,14 +193,16 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </div>
             </div>
 
-            {/* ── Content Sections ── */}
-            {treatment.sections && treatment.sections.length > 0 && (
-              <div className="mb-14 space-y-10">
-                {treatment.sections.map((section, i) => (
-                  <div key={i} id={section.id || `section-${i}`} className="scroll-mt-24">
-                    <h2 className="text-xl md:text-2xl font-normal text-foreground mb-4 pb-3 border-b border-border">
-                      {section.heading}
-                    </h2>
+            {/* ── All sections as accordions ── */}
+            <div className="mb-14 rounded-2xl border border-border/50 overflow-hidden">
+              {/* Content Sections */}
+              {treatment.sections && treatment.sections.length > 0 && treatment.sections.map((section, i) => (
+                <TreatmentFaq
+                  key={`section-${i}`}
+                  question={section.heading}
+                  answer=""
+                  isLast={false}
+                  customContent={
                     <div className="space-y-3">
                       {section.content.split("\n").map((line, j) => {
                         const trimmed = line.trim();
@@ -205,175 +211,121 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                           return (
                             <div key={j} className="flex items-start gap-3 pl-1">
                               <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
-                              <p
-                                className="text-foreground/80 font-light leading-[1.8]"
-                                dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }}
-                              />
+                              <p className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
                             </div>
                           );
                         }
-                        return (
-                          <p
-                            key={j}
-                            className="text-foreground/80 font-light leading-[1.8]"
-                            dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }}
-                          />
-                        );
+                        return <p key={j} className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }} />;
                       })}
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  }
+                />
+              ))}
 
-            {/* ── Linked Services ── */}
-            {treatment.linkedServices && treatment.linkedServices.length > 0 && (
-              <div className="mb-14">
-                <h2 className="text-xl md:text-2xl font-medium text-foreground mb-6">Vårt tverrfaglige team</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {treatment.linkedServices.map((service) => (
-                    <button
-                      key={service.label}
-                      onClick={() => navigate(service.path)}
-                      className="text-left p-5 md:p-6 rounded-xl border border-border bg-card hover:bg-secondary/40 hover:border-border/80 transition-all group card-hover"
-                    >
-                      <h3 className="text-base md:text-lg font-normal text-foreground mb-2 flex items-center gap-2">
-                        {service.label}
-                        <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
-                      </h3>
-                      <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                        {service.description}
-                      </p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* ── Benefits ── */}
-            {treatment.benefits && treatment.benefits.length > 0 && (
-              <div className="mb-14 rounded-2xl overflow-hidden border border-border/50">
-                <div className="bg-secondary/40 px-6 md:px-8 py-5">
-                  <h2 className="text-xl md:text-2xl font-medium text-foreground">
-                    {treatment.benefitsTitle || "Hvorfor velge oss"}
-                  </h2>
-                </div>
-                <div className="px-6 md:px-8 py-6 space-y-4 bg-card/50">
-                  {treatment.benefits.map((benefit, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-accent-foreground" />
-                      </div>
-                      <p className="text-foreground/80 font-light text-[15px] leading-relaxed">{benefit}</p>
+              {/* Linked Services */}
+              {treatment.linkedServices && treatment.linkedServices.length > 0 && (
+                <TreatmentFaq
+                  question="Vårt tverrfaglige team"
+                  answer=""
+                  isLast={false}
+                  customContent={
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {treatment.linkedServices.map((service) => (
+                        <button key={service.label} onClick={() => navigate(service.path)} className="text-left p-4 rounded-xl border border-border bg-card hover:bg-secondary/40 transition-all group">
+                          <h3 className="text-sm font-normal text-foreground mb-1 flex items-center gap-2">{service.label} <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" /></h3>
+                          <p className="text-xs text-muted-foreground font-light leading-relaxed">{service.description}</p>
+                        </button>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                  }
+                />
+              )}
 
-            {/* ── Treatment Process ── */}
-            {treatment.process && treatment.process.length > 0 && (
-              <div className="mb-14">
-                <h2 className="text-xl md:text-2xl font-medium text-foreground mb-8">
-                  Slik foregår behandlingen
-                </h2>
-                <div className="relative">
-                  {/* Timeline line */}
-                  <div className="absolute left-4 top-4 bottom-4 w-px bg-border" />
-                  <div className="space-y-0">
-                    {treatment.process.map((step, i) => (
-                      <div key={i} className="flex gap-5 relative">
-                        <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0 z-10">
-                          {i + 1}
+              {/* Benefits */}
+              {treatment.benefits && treatment.benefits.length > 0 && (
+                <TreatmentFaq
+                  question={treatment.benefitsTitle || "Hvorfor velge oss"}
+                  answer=""
+                  isLast={false}
+                  customContent={
+                    <div className="space-y-3">
+                      {treatment.benefits.map((benefit, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5"><Check className="w-3 h-3 text-accent-foreground" /></div>
+                          <p className="text-foreground/80 font-light text-[15px] leading-relaxed">{benefit}</p>
                         </div>
-                        <div className="pb-8 pt-1 flex-1">
-                          <h3 className="font-medium text-foreground mb-1 text-[15px]">{step.title}</h3>
-                          <p className="text-sm text-muted-foreground font-light leading-relaxed">{step.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+                      ))}
+                    </div>
+                  }
+                />
+              )}
 
-            {/* ── Related Specialists ── */}
-            {relatedSpecialists.length > 0 && (
-              <div className="mb-14">
-                <h2 className="text-xl md:text-2xl font-medium text-foreground mb-6">
-                  Møt din behandler
-                </h2>
-                <div className="space-y-5">
-                  {relatedSpecialists.map((spec) => (
-                    <div
-                      key={spec.slug}
-                      className="rounded-2xl border border-border overflow-hidden bg-card card-hover"
-                    >
-                      {/* Top section with photo + info */}
-                      <div className="flex items-center gap-5 p-5 md:p-6">
-                        <img
-                          src={spec.image}
-                          alt={spec.name}
-                          className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover flex-shrink-0 ring-2 ring-border"
-                          loading="lazy"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-lg md:text-xl font-medium text-foreground">{spec.name}</h3>
-                          <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
-                          {spec.clinics && spec.clinics.length > 0 && (
-                            <p className="text-xs text-muted-foreground/60 font-light mt-1.5 flex items-center gap-1">
-                              <MapPin className="w-3 h-3" />
-                              {spec.clinics.join(", ")}
-                            </p>
-                          )}
-                          {/* Expertise tags */}
-                          {spec.expertise && spec.expertise.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 mt-3">
-                              {spec.expertise.slice(0, 4).map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="text-[11px] px-2.5 py-1 rounded-full bg-secondary/60 text-muted-foreground font-light"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
+              {/* Treatment Process */}
+              {treatment.process && treatment.process.length > 0 && (
+                <TreatmentFaq
+                  question="Slik foregår behandlingen"
+                  answer=""
+                  isLast={false}
+                  customContent={
+                    <div className="relative">
+                      <div className="absolute left-4 top-4 bottom-4 w-px bg-border" />
+                      <div className="space-y-0">
+                        {treatment.process.map((step, i) => (
+                          <div key={i} className="flex gap-5 relative">
+                            <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0 z-10">{i + 1}</div>
+                            <div className="pb-6 pt-1 flex-1">
+                              <h3 className="font-medium text-foreground mb-1 text-[15px]">{step.title}</h3>
+                              <p className="text-sm text-muted-foreground font-light leading-relaxed">{step.description}</p>
                             </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Bio section */}
-                      {spec.bio && (
-                        <div className="px-5 md:px-6 pb-2">
-                          <p className="text-sm text-foreground/70 font-light leading-relaxed line-clamp-3">
-                            {spec.bio}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Actions */}
-                      <div className="flex items-center gap-3 px-5 md:px-6 py-4 border-t border-border/50 mt-2">
-                        <Button
-                          variant="outline"
-                          className="text-sm rounded-full h-9 px-5 font-light flex-1 sm:flex-none"
-                          onClick={() => navigate(`/spesialister/${spec.slug}`)}
-                        >
-                          Les mer om {spec.name.split(" ")[0]}
-                          <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-                        </Button>
-                        <Button
-                          className="text-sm rounded-full h-9 px-5 font-light flex-1 sm:flex-none"
-                          onClick={() => navigate(`/booking?kategori=${categoryId}`)}
-                        >
-                          <Calendar className="mr-1.5 w-3.5 h-3.5" />
-                          Bestill time
-                        </Button>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                  }
+                />
+              )}
+
+              {/* Related Specialists */}
+              {relatedSpecialists.length > 0 && (
+                <TreatmentFaq
+                  question="Møt din behandler"
+                  answer=""
+                  isLast={false}
+                  customContent={
+                    <div className="space-y-4">
+                      {relatedSpecialists.map((spec) => (
+                        <div key={spec.slug} className="rounded-xl border border-border overflow-hidden bg-card">
+                          <div className="flex items-center gap-4 p-4">
+                            <img src={spec.image} alt={spec.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0 ring-2 ring-border" loading="lazy" />
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-base font-medium text-foreground">{spec.name}</h3>
+                              <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
+                              {spec.clinics && spec.clinics.length > 0 && (
+                                <p className="text-xs text-muted-foreground/60 font-light mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{spec.clinics.join(", ")}</p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3 px-4 py-3 border-t border-border/50">
+                            <Button variant="outline" size="sm" className="text-xs rounded-full font-light flex-1 sm:flex-none" onClick={() => navigate(`/spesialister/${spec.slug}`)}>Les mer <ArrowRight className="ml-1 w-3 h-3" /></Button>
+                            <Button size="sm" className="text-xs rounded-full font-light flex-1 sm:flex-none" onClick={() => navigate(`/booking?kategori=${categoryId}`)}><Calendar className="mr-1 w-3 h-3" /> Bestill time</Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                />
+              )}
+
+              {/* FAQ items */}
+              {treatment.faqs && treatment.faqs.length > 0 && treatment.faqs.map((faq, i) => (
+                <TreatmentFaq
+                  key={`faq-${i}`}
+                  question={faq.question}
+                  answer={faq.answer}
+                  isLast={i === treatment.faqs!.length - 1}
+                />
+              ))}
+            </div>
 
             {/* ── CTA ── */}
             <div className="bg-brand-dark rounded-2xl p-8 md:p-12 text-center mb-14">
@@ -403,25 +355,6 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 </Button>
               </div>
             </div>
-
-            {/* ── FAQ ── */}
-            {treatment.faqs && treatment.faqs.length > 0 && (
-              <div className="mb-14">
-                <h2 className="text-xl md:text-2xl font-medium text-foreground mb-6">
-                  Ofte stilte spørsmål
-                </h2>
-                <div className="rounded-xl border border-border overflow-hidden bg-card">
-                  {treatment.faqs.map((faq, i) => (
-                    <TreatmentFaq
-                      key={i}
-                      question={faq.question}
-                      answer={faq.answer}
-                      isLast={i === treatment.faqs!.length - 1}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* ── Back link ── */}
             <button
