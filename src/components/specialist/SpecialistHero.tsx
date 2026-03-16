@@ -34,7 +34,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             <img
               src={specialist.image}
               alt={specialist.name}
-              className="w-[240px] md:w-[300px] lg:w-[340px] aspect-[3/4] object-cover object-top rounded-t-2xl saturate-[0.8] brightness-[0.97]"
+              className="w-[200px] md:w-[240px] lg:w-[280px] aspect-[3/4] object-cover object-top rounded-t-2xl saturate-[0.8] brightness-[0.97]"
             />
           </motion.div>
 
