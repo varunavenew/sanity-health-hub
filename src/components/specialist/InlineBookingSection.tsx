@@ -148,8 +148,8 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
               <span className="text-sm font-medium text-white">{category.label}</span>
               {relevantCategories.length > 1 && (
                 effectiveExpanded === category.id 
-                  ? <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                  : <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                  ? <ChevronUp className="w-4 h-4 text-white/50" />
+                  : <ChevronDown className="w-4 h-4 text-white/50" />
               )}
             </button>
 
