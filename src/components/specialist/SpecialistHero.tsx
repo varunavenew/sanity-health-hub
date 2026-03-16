@@ -22,25 +22,25 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   return (
     <section className="relative bg-primary overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 min-h-[65vh] md:min-h-[70vh]">
+        <div className="flex flex-col md:flex-row md:items-stretch min-h-[60vh] md:min-h-[65vh]">
           
-          {/* Left: Image – aligned to bottom, full height */}
+          {/* Left: Image container – takes natural height, pinned to bottom */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative flex items-end justify-center order-1 pt-16 md:pt-0 self-end"
+            className="relative w-full md:w-[40%] lg:w-[38%] shrink-0 flex items-end justify-center pt-12 md:pt-0"
           >
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-accent/8 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[250px] bg-accent/8 rounded-full blur-[80px] pointer-events-none" />
             <img
               src={specialist.image}
               alt={specialist.name}
-              className="relative w-auto max-h-[50vh] md:max-h-[65vh] object-contain object-bottom saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
+              className="relative max-h-[45vh] md:max-h-[58vh] w-auto object-contain object-bottom saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
             />
           </motion.div>
 
           {/* Right: Content – vertically centered */}
-          <div className="flex flex-col justify-center py-8 md:py-16 order-2">
+          <div className="flex-1 flex flex-col justify-center py-8 md:py-14 md:pl-12 lg:pl-16">
             {/* Category */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
