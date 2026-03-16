@@ -298,75 +298,117 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </div>
       </section>
 
-      {/* ── Specialist Section ── */}
-      {displaySpecialists.length > 0 && (
-        <section className="py-14 md:py-20 bg-secondary">
-          <div className="container mx-auto px-6 md:px-8">
-            <div className="max-w-3xl mx-auto">
-              <p className="text-sm text-muted-foreground font-light mb-3">Dine behandlere</p>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
-                Møt våre spesialister
-              </h2>
-              <p className="text-muted-foreground font-light mb-10">
-                Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
-              </p>
+      {/* ── Specialist Carousel ── */}
+      {displaySpecialists.length > 0 && (() => {
+        const sorted = [...displaySpecialists].sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'nb')
+        );
+        const totalPages = Math.ceil(sorted.length / 2);
 
-              <div className="space-y-4">
-                {displaySpecialists.map((spec) => (
-                  <div key={spec.slug} className="rounded-2xl border border-border overflow-hidden bg-background">
-                    <div className="flex items-center gap-4 p-5">
-                      <img
-                        src={spec.image}
-                        alt={spec.name}
-                        className="w-16 h-16 rounded-full object-cover flex-shrink-0 ring-2 ring-border"
-                        loading="lazy"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-base font-medium text-foreground">{spec.name}</h3>
-                        <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
-                        {spec.clinics && spec.clinics.length > 0 && (
-                          <p className="text-xs text-muted-foreground font-light mt-1 flex items-center gap-1">
-                            <MapPin className="w-3 h-3" aria-hidden="true" />
-                            {spec.clinics.join(', ')}
-                          </p>
-                        )}
-                      </div>
+        return (
+          <section className="py-14 md:py-20 bg-secondary">
+            <div className="container mx-auto px-6 md:px-8">
+              <div className="max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+                  <div>
+                    <p className="text-sm text-muted-foreground font-light mb-3">Dine behandlere</p>
+                    <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+                      Møt våre spesialister
+                    </h2>
+                    <p className="text-muted-foreground font-light">
+                      Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
+                    </p>
+                  </div>
+                  {totalPages > 1 && (
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => scrollRef.current?.scrollBy({ left: -scrollRef.current.offsetWidth, behavior: 'smooth' })}
+                        aria-label="Forrige spesialister"
+                        className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-background transition-colors text-foreground"
+                      >
+                        <ChevronLeft className="w-5 h-5" aria-hidden="true" />
+                      </button>
+                      <button
+                        onClick={() => scrollRef.current?.scrollBy({ left: scrollRef.current.offsetWidth, behavior: 'smooth' })}
+                        aria-label="Neste spesialister"
+                        className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-background transition-colors text-foreground"
+                      >
+                        <ChevronRight className="w-5 h-5" aria-hidden="true" />
+                      </button>
                     </div>
-                    {spec.expertise.length > 0 && (
-                      <div className="px-5 pb-3">
-                        <div className="flex flex-wrap gap-1.5">
-                          {spec.expertise.map((tag) => (
-                            <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground font-light">{tag}</span>
-                          ))}
+                  )}
+                </div>
+
+                <div
+                  ref={scrollRef}
+                  className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
+                >
+                  {sorted.map((spec) => (
+                    <div
+                      key={spec.slug}
+                      className="flex-shrink-0 w-[calc(100%-8px)] sm:w-[calc(50%-8px)] snap-start rounded-2xl border border-border overflow-hidden bg-background"
+                    >
+                      <div className="flex items-center gap-4 p-5">
+                        <img
+                          src={spec.image}
+                          alt={spec.name}
+                          className="w-14 h-14 rounded-full object-cover flex-shrink-0 ring-2 ring-border"
+                          loading="lazy"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-[15px] font-medium text-foreground">{spec.name}</h3>
+                          <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
+                          {spec.clinics && spec.clinics.length > 0 && (
+                            <p className="text-xs text-muted-foreground font-light mt-1 flex items-center gap-1">
+                              <MapPin className="w-3 h-3" aria-hidden="true" />
+                              {spec.clinics.join(', ')}
+                            </p>
+                          )}
                         </div>
                       </div>
-                    )}
-                    <div className="flex items-center gap-3 px-5 py-3.5 border-t border-border/50">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-xs rounded-full font-light flex-1 sm:flex-none"
-                        onClick={() => navigate(`/spesialister/${spec.slug}`)}
-                      >
-                        Les mer om {spec.name.split(' ')[0]}
-                        <ArrowRight className="ml-1 w-3 h-3" aria-hidden="true" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="text-xs rounded-full font-light flex-1 sm:flex-none bg-accent text-accent-foreground hover:bg-accent/90"
-                        onClick={() => navigate(`/booking?kategori=${categoryId}`)}
-                      >
-                        <Calendar className="mr-1.5 w-3 h-3" aria-hidden="true" />
-                        Bestill time hos {spec.name.split(' ')[0]}
-                      </Button>
+                      {spec.expertise.length > 0 && (
+                        <div className="px-5 pb-3">
+                          <div className="flex flex-wrap gap-1.5">
+                            {spec.expertise.slice(0, 4).map((tag) => (
+                              <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground font-light">{tag}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 px-5 py-3.5 border-t border-border/50">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs rounded-full font-light flex-1"
+                          onClick={() => navigate(`/spesialister/${spec.slug}`)}
+                        >
+                          Les mer
+                          <ArrowRight className="ml-1 w-3 h-3" aria-hidden="true" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="text-xs rounded-full font-light flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
+                          onClick={() => navigate(`/booking?kategori=${categoryId}`)}
+                        >
+                          <Calendar className="mr-1.5 w-3 h-3" aria-hidden="true" />
+                          Bestill time
+                        </Button>
+                      </div>
                     </div>
+                  ))}
+                </div>
+
+                {sorted.length > 2 && (
+                  <div className="sm:hidden flex justify-center mt-3">
+                    <span className="text-xs text-muted-foreground">Sveip for å se flere →</span>
                   </div>
-                ))}
+                )}
               </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        );
+      })()}
 
       {/* ── General FAQ Section ── */}
       {(() => {
