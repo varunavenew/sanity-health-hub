@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Specialist } from "@/data/specialists";
-import { GraduationCap, Languages, Briefcase, MapPin } from "lucide-react";
+import { GraduationCap, Languages } from "lucide-react";
 
 interface SpecialistBioProps {
   specialist: Specialist;
@@ -45,17 +45,8 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10"
           >
-            {specialist.clinics && specialist.clinics.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <MapPin className="w-4 h-4 text-foreground/30" />
-                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Klinikk</span>
-                </div>
-                <p className="text-sm text-foreground font-light leading-relaxed">{specialist.clinics.join(", ")}</p>
-              </div>
-            )}
             {specialist.education && (
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -72,24 +63,6 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
                   <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Språk</span>
                 </div>
                 <p className="text-sm text-foreground font-light leading-relaxed">{specialist.languages.join(", ")}</p>
-              </div>
-            )}
-            {specialist.expertise && specialist.expertise.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Briefcase className="w-4 h-4 text-foreground/30" />
-                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Kompetanseområder</span>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {specialist.expertise.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 text-[11px] font-light text-foreground/70 border border-foreground/12 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
             )}
           </motion.div>
