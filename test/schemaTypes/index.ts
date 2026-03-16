@@ -40,6 +40,7 @@ export const schemaTypes = [
   article,
   jobListing,
   privacyPolicyPage,
+  faq,
 
   // Shared types
   blockContent,

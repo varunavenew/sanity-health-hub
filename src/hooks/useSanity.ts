@@ -534,3 +534,29 @@ export const useJobListing = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+
+// ─── FAQs ────────────────────────────────────────────────────────────
+export const useFaqs = (category?: string) =>
+  useQuery({
+    queryKey: ["sanity", "faqs", category],
+    queryFn: () =>
+      fetchSanity<{ question: string; answer: string; category?: string }[]>(
+        category
+          ? `*[_type == "faq" && category == $category] | order(sortOrder asc) { question, answer, category }`
+          : `*[_type == "faq"] | order(sortOrder asc) { question, answer, category }`,
+        category ? { category } : undefined
+      ),
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
+  useQuery({
+    queryKey: ["sanity", "faqs", "treatment", categorySlug],
+    queryFn: () =>
+      fetchSanity<{ question: string; answer: string }[]>(
+        `*[_type == "faq" && relatedTreatmentCategory->slug.current == $slug] | order(sortOrder asc) { question, answer }`,
+        { slug: categorySlug }
+      ),
+    enabled: !!categorySlug,
+    staleTime: 5 * 60 * 1000,
+  });
