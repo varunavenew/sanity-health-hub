@@ -72,7 +72,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 )}
                 {specialist.expertise && specialist.expertise.length > 0 && (
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-medium text-foreground/40">Fagområder:</span>
+                    <span className="text-xs font-medium text-white/40">Fagområder:</span>
                     {specialist.expertise.map((tag) => (
                       <span
                         key={tag}
