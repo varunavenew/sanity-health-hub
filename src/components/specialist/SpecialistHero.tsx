@@ -20,130 +20,110 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <section className="relative bg-primary overflow-hidden">
+    <header className="bg-primary pt-32 pb-16 md:pt-40 md:pb-20">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end min-h-[55vh] md:min-h-[60vh]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
           
-          {/* Left: Full image, never cropped */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full md:w-[35%] shrink-0 flex items-end justify-center pt-12 md:pt-8"
-          >
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200px] h-[200px] bg-accent/8 rounded-full blur-[80px] pointer-events-none" />
-            <img
-              src={specialist.image}
-              alt={specialist.name}
-              className="relative w-auto max-w-[200px] md:max-w-[260px] lg:max-w-[300px] h-auto object-contain saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
-            />
-          </motion.div>
-
-          {/* Right: Content – vertically centered */}
-          <div className="flex-1 flex flex-col justify-center py-8 md:py-14 md:pl-12 lg:pl-16">
-            {/* Category */}
+          {/* Left: Text content */}
+          <div className="md:col-span-7 lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="mb-4"
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="flex items-center gap-2 mb-5"
             >
-              <span className="px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-accent bg-accent/15 rounded-full">
+              <span className="px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] uppercase text-accent bg-accent/12 rounded-full">
                 {categoryLabel}
               </span>
+              {specialist.subtitle && specialist.subtitle !== categoryLabel && (
+                <span className="px-3 py-1.5 text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40 border border-primary-foreground/10 rounded-full">
+                  {specialist.subtitle}
+                </span>
+              )}
             </motion.div>
 
-            {/* Name */}
             <motion.h1
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-light text-primary-foreground leading-[1.08] tracking-tight mb-2"
+              transition={{ duration: 0.5, delay: 0.18 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-medium text-primary-foreground leading-[1.05] tracking-tight mb-3"
             >
               {specialist.name}
             </motion.h1>
 
-            {/* Title */}
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="text-sm md:text-base text-primary-foreground/50 font-light mb-6"
+              transition={{ duration: 0.4, delay: 0.28 }}
+              className="text-base md:text-lg text-primary-foreground/50 font-light mb-7 max-w-lg"
             >
               {specialist.title}
             </motion.p>
 
-            {/* Info chips */}
+            {/* Meta row */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.38 }}
-              className="flex flex-wrap items-center gap-2.5 mb-5"
+              transition={{ duration: 0.4, delay: 0.36 }}
+              className="flex flex-wrap items-center gap-2.5 mb-8"
             >
               {specialist.clinics && specialist.clinics.length > 0 && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-primary-foreground/60 border border-primary-foreground/10 rounded-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-primary-foreground/55 border border-primary-foreground/10 rounded-full">
                   <MapPin className="w-3 h-3 text-accent" />
                   {specialist.clinics.join(" · ")}
                 </span>
               )}
-              {specialist.education && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-primary-foreground/60 border border-primary-foreground/10 rounded-full">
-                  <GraduationCap className="w-3 h-3 text-accent" />
-                  Spesialist
-                </span>
-              )}
               {specialist.languages && specialist.languages.length > 0 && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-primary-foreground/60 border border-primary-foreground/10 rounded-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-primary-foreground/55 border border-primary-foreground/10 rounded-full">
                   <Languages className="w-3 h-3 text-accent" />
                   {specialist.languages.join(", ")}
                 </span>
               )}
             </motion.div>
 
-            {/* Expertise tags */}
-            {specialist.expertise && specialist.expertise.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.45 }}
-                className="flex flex-wrap gap-1.5 mb-8"
-              >
-                {specialist.expertise.slice(0, 5).map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 text-[11px] font-light text-primary-foreground/40 border border-primary-foreground/8 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-                {specialist.expertise.length > 5 && (
-                  <span className="px-2.5 py-1 text-[11px] font-light text-primary-foreground/30">
-                    +{specialist.expertise.length - 5} til
-                  </span>
-                )}
-              </motion.div>
-            )}
-
-            {/* CTA */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.52 }}
+              transition={{ duration: 0.4, delay: 0.44 }}
+              className="flex flex-col sm:flex-row gap-3"
             >
               <Button
                 onClick={onScrollToBooking}
-                className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-8 text-sm h-11"
+                className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-8 text-sm h-11 w-full sm:w-auto"
               >
                 <Calendar className="w-4 h-4 mr-2" />
                 Bestill time
               </Button>
+              <Button
+                variant="ghost"
+                className="rounded-full px-8 text-sm h-11 border border-primary-foreground/15 text-primary-foreground hover:bg-primary-foreground/10 w-full sm:w-auto"
+                onClick={() => {
+                  document.getElementById('specialist-bio')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Les mer
+              </Button>
             </motion.div>
           </div>
+
+          {/* Right: Portrait image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="md:col-span-5 lg:col-span-5 flex justify-center md:justify-end"
+          >
+            <div className="relative">
+              <div className="absolute -inset-6 bg-accent/6 rounded-full blur-3xl pointer-events-none" />
+              <img
+                src={specialist.image}
+                alt={specialist.name}
+                className="relative w-[220px] md:w-[280px] lg:w-[320px] aspect-[3/4] object-cover object-top rounded-2xl saturate-[0.8] brightness-[0.95]"
+              />
+            </div>
+          </motion.div>
         </div>
       </div>
-
-      {/* Bottom accent line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-    </section>
+    </header>
   );
 };
