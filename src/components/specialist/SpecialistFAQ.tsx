@@ -28,7 +28,7 @@ const AccordionItem = ({ title, children, defaultOpen = false }: { title: string
 
 export const SpecialistFAQ = () => {
   return (
-    <section className="py-16 md:py-24 bg-secondary/30">
+    <section className="py-16 md:py-24 bg-[#F2ECE6]">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
           {/* Left: Section headers */}
