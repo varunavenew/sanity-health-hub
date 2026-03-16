@@ -119,7 +119,7 @@ export const WhyCMedicalSection = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-normal text-white mb-1">{reason.title}</h3>
-                      <p className="text-sm text-white/50 font-light leading-relaxed">
+                      <p className="text-sm text-white/60 font-light leading-relaxed">
                         {reason.description}
                       </p>
                     </div>
