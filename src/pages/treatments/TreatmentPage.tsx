@@ -101,13 +101,24 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
       }
     : staticTreatment;
 
-  const relatedSpecialists = useMemo(() => {
+  // Get related specialists: explicit slugs first, fallback to all in category
+  const displaySpecialists = useMemo(() => {
     const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
-    if (!slugs || slugs.length === 0) return [];
-    return slugs
-      .map(slug => allSpecialists.find(s => s.slug === slug))
-      .filter((s): s is Specialist => !!s);
-  }, [treatment, staticTreatment]);
+    if (slugs && slugs.length > 0) {
+      return slugs
+        .map(slug => allSpecialists.find(s => s.slug === slug))
+        .filter((s): s is Specialist => !!s);
+    }
+    // Fallback: all specialists in this category
+    return allSpecialists.filter(s => s.category === categoryId);
+  }, [treatment, staticTreatment, categoryId]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollSpecialists = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: direction === 'left' ? -320 : 320, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     if (treatment) {
