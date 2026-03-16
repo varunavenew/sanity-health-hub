@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Plus, Minus, ChevronRight } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
+import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Plus, Minus, ChevronRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
