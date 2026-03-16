@@ -291,28 +291,46 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 />
               )}
 
-              {/* Related Specialists - moved outside accordion as visible carousel */}
-
-              {/* FAQ items — Sanity FAQs first, then treatment-level, then static fallback */}
-              {(() => {
-                const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
-                const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
-                const faqs = dynamicFaqs || treatmentFaqs;
-                if (!faqs || faqs.length === 0) return null;
-                return faqs.map((faq, i) => (
-                  <TreatmentFaq
-                    key={`faq-${i}`}
-                    question={faq.question}
-                    answer={faq.answer}
-                    isLast={i === faqs.length - 1}
-                  />
-                ));
-              })()}
+              {/* Related Specialists - shown as carousel below */}
             </div>
 
           </div>
         </div>
       </section>
+
+      {/* ── Specialist Carousel ── */}
+      {displaySpecialists.length > 0 && (
+        <section className="py-14 md:py-20 bg-brand-dark overflow-hidden">
+          {/* ... carousel content rendered below ... */}
+        </section>
+      )}
+
+      {/* ── General FAQ Section ── */}
+      {(() => {
+        const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
+        const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
+        const faqs = dynamicFaqs || treatmentFaqs;
+        if (!faqs || faqs.length === 0) return null;
+        return (
+          <section className="py-14 md:py-20 bg-secondary">
+            <div className="container mx-auto px-6 md:px-8">
+              <div className="max-w-3xl mx-auto">
+                <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Ofte stilte spørsmål</h2>
+                <div className="rounded-2xl border border-border/50 overflow-hidden bg-background">
+                  {faqs.map((faq, i) => (
+                    <TreatmentFaq
+                      key={`faq-${i}`}
+                      question={faq.question}
+                      answer={faq.answer}
+                      isLast={i === faqs.length - 1}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── Specialist Carousel ── */}
       {displaySpecialists.length > 0 && (
