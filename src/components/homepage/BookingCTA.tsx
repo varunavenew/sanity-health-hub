@@ -37,10 +37,10 @@ export const BookingCTA = () => {
           </div>
 
           {/* Header */}
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white mb-4">
+          <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
             Bestill time hos spesialist
           </h2>
-          <p className="text-white/60 font-light text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-white/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
             Velg fagområde, klinikk og behandler – alt i én enkel booking.
           </p>
 
