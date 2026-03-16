@@ -31,7 +31,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
   const staticJob = staticJobListings.find((j) => j.slug === slug);
   const job = (sanityJob && !isError) ? sanityJob : staticJob;
 
-  if (isLoading) {
+  if (isLoading && !staticJob) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 max-w-3xl">
