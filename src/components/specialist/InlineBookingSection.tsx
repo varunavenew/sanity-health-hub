@@ -170,7 +170,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                         className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/10 transition-colors border-b border-white/5 last:border-b-0 group"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-foreground font-light truncate pr-4">
+                          <p className="text-sm text-white/90 font-light truncate pr-4">
                             {service.name}
                           </p>
                           <div className="flex items-center gap-3 mt-1">
