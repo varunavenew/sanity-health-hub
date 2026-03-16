@@ -291,23 +291,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 />
               )}
 
-              {/* Related Specialists - moved outside accordion as visible carousel */}
-
-              {/* FAQ items — Sanity FAQs first, then treatment-level, then static fallback */}
-              {(() => {
-                const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
-                const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
-                const faqs = dynamicFaqs || treatmentFaqs;
-                if (!faqs || faqs.length === 0) return null;
-                return faqs.map((faq, i) => (
-                  <TreatmentFaq
-                    key={`faq-${i}`}
-                    question={faq.question}
-                    answer={faq.answer}
-                    isLast={i === faqs.length - 1}
-                  />
-                ));
-              })()}
+              {/* Related Specialists - shown as carousel below */}
             </div>
 
           </div>
@@ -322,7 +306,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               <div className="max-w-xl">
                 <p className="text-sm text-white/70 font-light mb-3">Dine behandlere</p>
                 <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
-                  Møt våre {treatment.title.toLowerCase()}-spesialister
+                  Møt våre spesialister
                 </h2>
                 <p className="text-white/70 font-light">
                   Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
@@ -387,12 +371,37 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </section>
       )}
 
+      {/* ── General FAQ Section ── */}
+      {(() => {
+        const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
+        const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
+        const faqs = dynamicFaqs || treatmentFaqs;
+        if (!faqs || faqs.length === 0) return null;
+        return (
+          <section className="py-14 md:py-20 bg-secondary">
+            <div className="container mx-auto px-6 md:px-8">
+              <div className="max-w-3xl mx-auto">
+                <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Ofte stilte spørsmål</h2>
+                <div className="rounded-2xl border border-border/50 overflow-hidden bg-background">
+                  {faqs.map((faq, i) => (
+                    <TreatmentFaq
+                      key={`faq-${i}`}
+                      question={faq.question}
+                      answer={faq.answer}
+                      isLast={i === faqs.length - 1}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
       {/* ── CTA Section ── */}
       <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-8">
           <div className="max-w-3xl mx-auto">
-
-            {/* ── CTA ── */}
             <div className="bg-brand-dark rounded-2xl p-8 md:p-12 text-center mb-14">
               <h2 className="text-2xl md:text-3xl font-normal text-white mb-3">
                 Klar for å ta neste steg?
@@ -421,7 +430,6 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </div>
             </div>
 
-            {/* ── Back link ── */}
             <button
               onClick={() => navigate(`/${categoryId}`)}
               className="text-sm text-muted-foreground hover:text-foreground font-light flex items-center gap-1.5 transition-colors"
@@ -433,7 +441,6 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </div>
       </section>
 
-      
     </PageLayout>
   );
 };
