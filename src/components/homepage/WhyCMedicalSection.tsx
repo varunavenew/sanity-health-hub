@@ -96,7 +96,7 @@ export const WhyCMedicalSection = () => {
               <p className="text-sm text-white/60 font-light mb-4 tracking-wide">
                 Hvorfor CMedical
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-6 leading-tight">
                 Behandling handler om å
                 <br />
                 <span className="font-normal">bli tatt på alvor</span>
