@@ -31,23 +31,23 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
 
             {/* Left: Text */}
             <div className="order-2 md:order-2">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+                className="text-lg md:text-xl lg:text-2xl text-white/50 font-light tracking-wide mb-1"
+              >
+                {specialist.title}
+              </motion.p>
+
               <motion.h1
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-[1.05] tracking-tight mb-3"
+                className="text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-[1.05] tracking-tight mb-5"
               >
                 {specialist.name}
               </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="text-base md:text-lg text-white/60 font-light mb-5 max-w-md"
-              >
-                {specialist.title}
-              </motion.p>
 
               {/* Clinic & expertise */}
               <motion.div
