@@ -25,14 +25,9 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl space-y-5"
+          className="max-w-3xl space-y-6"
         >
-          {introParagraph && (
-            <p className="text-lg md:text-xl lg:text-2xl text-foreground font-light leading-[1.7]">
-              {introParagraph}
-            </p>
-          )}
-          {remainingParagraphs.map((paragraph, idx) => (
+          {bioSections.map((paragraph, idx) => (
             <p key={idx} className="text-[15px] md:text-base text-muted-foreground font-light leading-[1.85]">
               {paragraph}
             </p>
