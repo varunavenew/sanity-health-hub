@@ -30,7 +30,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
           <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-10 items-start">
 
             {/* Left: Text */}
-            <div className="order-1">
+            <div className="order-2 md:order-2">
               <motion.h1
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
