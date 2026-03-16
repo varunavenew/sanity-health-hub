@@ -20,7 +20,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <header className="bg-[#CCBAAD] pt-32 pb-0 md:pt-36 md:pb-0">
+    <header className="bg-[#42332A] pt-32 pb-0 md:pt-36 md:pb-0">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-2 md:gap-4 items-end">
           
@@ -44,7 +44,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-foreground/70 bg-white/30 rounded-full mb-5"
+              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-white/70 bg-white/15 rounded-full mb-5"
             >
               {categoryLabel}
             </motion.span>
@@ -53,7 +53,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-medium text-foreground leading-[1.05] tracking-tight mb-3"
+              className="text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-[1.05] tracking-tight mb-3"
             >
               {specialist.name}
             </motion.h1>
@@ -62,7 +62,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className="text-base md:text-lg text-muted-foreground font-light mb-5 max-w-md"
+              className="text-base md:text-lg text-white/60 font-light mb-5 max-w-md"
             >
               {specialist.title}
             </motion.p>
@@ -76,11 +76,11 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             >
               {specialist.clinics && specialist.clinics.length > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-medium text-muted-foreground/60">Klinikk:</span>
+                  <span className="text-xs font-medium text-white/40">Klinikk:</span>
                   {specialist.clinics.map((clinic) => (
                     <span
                       key={clinic}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-foreground/70 bg-white/30 rounded-full"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/70 bg-white/10 rounded-full"
                     >
                       <MapPin className="w-3 h-3" />
                       {clinic}
@@ -90,11 +90,11 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               )}
               {specialist.expertise && specialist.expertise.length > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-medium text-muted-foreground/60">Fagområder:</span>
+                  <span className="text-xs font-medium text-white/40">Fagområder:</span>
                   {specialist.expertise.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-foreground/70 bg-white/30 rounded-full"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/70 bg-white/10 rounded-full"
                     >
                       {tag}
                     </span>
@@ -110,7 +110,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
             >
               <Button
                 onClick={onScrollToBooking}
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-7 text-sm h-11"
+                className="rounded-full bg-white text-[#42332A] hover:bg-white/90 px-7 text-sm h-11"
               >
                 <Calendar className="w-4 h-4 mr-2" />
                 Bestill time
