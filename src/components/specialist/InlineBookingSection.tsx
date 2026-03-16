@@ -167,7 +167,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                       <button
                         key={idx}
                         onClick={() => handleSelectService(category.id, service.name)}
-                        className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-secondary/30 transition-colors border-b border-border/50 last:border-b-0 group"
+                        className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/10 transition-colors border-b border-white/5 last:border-b-0 group"
                       >
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-foreground font-light truncate pr-4">
