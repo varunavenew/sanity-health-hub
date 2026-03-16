@@ -19,6 +19,7 @@ import clinicListPage from './clinicListPage'
 import article from './article'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
+import faq from './faq'
 
 export const schemaTypes = [
   // Pages
