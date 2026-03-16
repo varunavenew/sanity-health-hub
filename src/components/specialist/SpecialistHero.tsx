@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar, ArrowDown } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 
@@ -20,98 +20,74 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <section className="relative min-h-[85vh] md:min-h-[90vh] bg-brand-dark overflow-hidden">
-      {/* Full-bleed image with color grading matching site style */}
-      <div className="absolute inset-0">
-        <img
-          src={specialist.image}
-          alt={specialist.name}
-          className="w-full h-full object-cover object-center saturate-[0.75] brightness-[0.95]"
-        />
-        {/* Color grading overlay for warm cohesive look */}
-        <div className="absolute inset-0 bg-brand-dark/10 mix-blend-multiply" />
-        {/* Subtle bottom gradient for text readability - less dominant */}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent" />
-        {/* Very subtle side gradient for desktop text area */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-dark/20 hidden md:block" />
-      </div>
-
-      {/* Content pinned to bottom */}
-      <div className="relative h-full min-h-[85vh] md:min-h-[90vh] flex flex-col justify-end">
-        <div className="container mx-auto px-6 md:px-16 pb-12 md:pb-16">
-          <div className="max-w-2xl">
-            {/* Category + subtitle pills */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex items-center gap-2 mb-5"
-            >
-              <span className="px-3 py-1 text-[11px] font-medium tracking-widest uppercase text-accent bg-accent/10 border border-accent/20 rounded-full">
+    <section className="bg-secondary/30 pt-8 md:pt-12 pb-0 overflow-hidden">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-end">
+          {/* Text content - left side */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col justify-center py-8 md:py-16"
+          >
+            {/* Category pill */}
+            <div className="flex items-center gap-2 mb-6">
+              <span className="px-3 py-1 text-[11px] font-medium tracking-widest uppercase text-accent-foreground bg-accent/10 border border-accent/20 rounded-full">
                 {categoryLabel}
               </span>
               {specialist.subtitle && specialist.subtitle !== categoryLabel && (
-                <span className="px-3 py-1 text-[11px] font-medium tracking-widest uppercase text-white/70 border border-white/15 rounded-full">
+                <span className="px-3 py-1 text-[11px] font-medium tracking-widest uppercase text-muted-foreground border border-border rounded-full">
                   {specialist.subtitle}
                 </span>
               )}
-            </motion.div>
+            </div>
 
-            {/* Name - large editorial type */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.05] tracking-tight mb-3"
-            >
+            {/* Name */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-3">
               {specialist.name}
-            </motion.h1>
+            </h1>
 
             {/* Title */}
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-base md:text-lg text-white/60 font-light mb-6"
-            >
+            <p className="text-base md:text-lg text-muted-foreground font-light mb-6">
               {specialist.title}
-            </motion.p>
+            </p>
 
-            {/* Clinic + CTA row */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col sm:flex-row sm:items-center gap-4"
-            >
-              {specialist.clinics && specialist.clinics.length > 0 && (
-                <div className="flex items-center gap-1.5 text-sm text-white/50 font-light">
-                  <MapPin className="w-3.5 h-3.5 shrink-0" />
-                  <span>{specialist.clinics.join(" · ")}</span>
-                </div>
-              )}
-
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={onScrollToBooking}
-                  className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-6 text-sm"
-                >
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Bestill time
-                </Button>
+            {/* Clinic info */}
+            {specialist.clinics && specialist.clinics.length > 0 && (
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground font-light mb-8">
+                <MapPin className="w-3.5 h-3.5 shrink-0 text-accent" />
+                <span>{specialist.clinics.join(" · ")}</span>
               </div>
-            </motion.div>
-          </div>
+            )}
 
-          {/* Scroll indicator */}
+            {/* CTA */}
+            <div>
+              <Button
+                onClick={onScrollToBooking}
+                className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-8 text-sm"
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                Bestill time
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* Image - right side, full height, no crop */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="hidden md:flex items-center gap-2 mt-12 text-white/30"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="relative flex justify-center md:justify-end"
           >
-            <ArrowDown className="w-4 h-4 animate-bounce" />
-            <span className="text-[11px] tracking-widest uppercase font-light">Scroll</span>
+            <div className="relative w-full max-w-md md:max-w-lg">
+              <img
+                src={specialist.image}
+                alt={specialist.name}
+                className="w-full h-auto object-contain rounded-t-2xl saturate-[0.75] brightness-[0.95]"
+              />
+              {/* Subtle warm overlay */}
+              <div className="absolute inset-0 bg-brand-dark/5 mix-blend-multiply rounded-t-2xl pointer-events-none" />
+            </div>
           </motion.div>
         </div>
       </div>
