@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar } from "lucide-react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { articles } from "@/data/articles";
 import { articleContent, type ContentBlock } from "@/data/articleContent";
 import { useArticle } from "@/hooks/useSanity";
+import { urlFor } from "@/lib/sanityClient";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
