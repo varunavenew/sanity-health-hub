@@ -71,7 +71,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
               className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
                 activeClinic === "alle"
                   ? "bg-white/20 text-white"
-                  : "border border-white/20 text-white/50 hover:bg-white/10"
+                  : "border border-white/20 text-white/60 hover:bg-white/10"
               }`}
             >
               <MapPin className="w-3 h-3" />
