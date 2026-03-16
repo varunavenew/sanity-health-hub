@@ -50,41 +50,41 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
             {specialist.clinics && specialist.clinics.length > 0 && (
               <div className="py-6 md:py-8 pr-6 md:pr-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-3.5 h-3.5 text-primary-foreground/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Klinikk</span>
+                  <MapPin className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Klinikk</span>
                 </div>
-                <p className="text-sm text-primary-foreground/80 font-light">{specialist.clinics.join(", ")}</p>
+                <p className="text-sm text-[#F2ECE6]/80 font-light">{specialist.clinics.join(", ")}</p>
               </div>
             )}
             {specialist.education && (
               <div className="py-6 md:py-8 px-6 md:px-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <GraduationCap className="w-3.5 h-3.5 text-primary-foreground/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Utdanning</span>
+                  <GraduationCap className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Utdanning</span>
                 </div>
-                <p className="text-sm text-primary-foreground/80 font-light">{specialist.education}</p>
+                <p className="text-sm text-[#F2ECE6]/80 font-light">{specialist.education}</p>
               </div>
             )}
             {specialist.languages && specialist.languages.length > 0 && (
               <div className="py-6 md:py-8 px-6 md:px-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <Languages className="w-3.5 h-3.5 text-primary-foreground/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Språk</span>
+                  <Languages className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Språk</span>
                 </div>
-                <p className="text-sm text-primary-foreground/80 font-light">{specialist.languages.join(", ")}</p>
+                <p className="text-sm text-[#F2ECE6]/80 font-light">{specialist.languages.join(", ")}</p>
               </div>
             )}
             {specialist.expertise && specialist.expertise.length > 0 && (
               <div className="py-6 md:py-8 pl-6 md:pl-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <Briefcase className="w-3.5 h-3.5 text-primary-foreground/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Kompetanseområder</span>
+                  <Briefcase className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Kompetanseområder</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {specialist.expertise.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 text-[11px] font-light text-primary-foreground/70 border border-primary-foreground/10 rounded-full"
+                      className="px-2.5 py-1 text-[11px] font-light text-[#F2ECE6]/70 border border-[#F2ECE6]/15 rounded-full"
                     >
                       {tag}
                     </span>
