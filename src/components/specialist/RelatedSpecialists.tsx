@@ -37,7 +37,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
             onClick={() => navigate("/spesialister")}
           >
             Se alle
-            <ArrowRight className="ml-1.5 w-4 h-4" />
+            <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden="true" />
           </Button>
         </motion.div>
 
