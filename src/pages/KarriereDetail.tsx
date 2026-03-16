@@ -25,13 +25,13 @@ interface KarriereDetailProps {
 
 const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
   const { slug } = useParams<{ slug: string }>();
-  const { data: sanityJob, isLoading } = useJobListing(slug || "");
+  const { data: sanityJob, isLoading, isError } = useJobListing(slug || "");
 
   // Fallback to static
   const staticJob = staticJobListings.find((j) => j.slug === slug);
-  const job = sanityJob || staticJob;
+  const job = (sanityJob && !isError) ? sanityJob : staticJob;
 
-  if (isLoading) {
+  if (isLoading && !staticJob) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 max-w-3xl">
