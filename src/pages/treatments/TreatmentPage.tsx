@@ -133,8 +133,8 @@ const SpecialistCarouselSection = ({
             )}
           </div>
 
-          {/* Grid – adapts to count */}
-          <div className={`grid gap-4 mx-auto ${currentSpecs.length === 1 ? 'grid-cols-1 max-w-sm' : currentSpecs.length === 2 ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl' : currentSpecs.length === 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-3xl' : 'grid-cols-1 sm:grid-cols-2'}`}>
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {currentSpecs.map((spec) => (
               <div key={spec.slug} className="rounded-2xl border border-border overflow-hidden bg-background">
                 <div className="flex items-center gap-4 p-5">
