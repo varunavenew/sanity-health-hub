@@ -141,6 +141,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
               onClick={() => relevantCategories.length > 1 && setExpandedCategory(
                 effectiveExpanded === category.id ? null : category.id
               )}
+              aria-expanded={effectiveExpanded === category.id}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
                 relevantCategories.length > 1 ? "hover:bg-white/30 cursor-pointer" : "cursor-default"
               }`}
