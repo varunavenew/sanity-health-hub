@@ -38,53 +38,53 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
       )}
 
       {/* Facts strip — dark bg with warm light text */}
-      <div className="bg-primary">
-        <div className="container mx-auto px-6 md:px-16">
+      <div className="bg-[#F2ECE6]">
+        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#F2ECE6]/10"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10"
           >
             {specialist.clinics && specialist.clinics.length > 0 && (
-              <div className="py-6 md:py-8 pr-6 md:pr-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Klinikk</span>
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <MapPin className="w-4 h-4 text-foreground/30" />
+                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Klinikk</span>
                 </div>
-                <p className="text-sm text-[#F2ECE6]/80 font-light">{specialist.clinics.join(", ")}</p>
+                <p className="text-sm text-foreground font-light leading-relaxed">{specialist.clinics.join(", ")}</p>
               </div>
             )}
             {specialist.education && (
-              <div className="py-6 md:py-8 px-6 md:px-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <GraduationCap className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Utdanning</span>
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <GraduationCap className="w-4 h-4 text-foreground/30" />
+                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Utdanning</span>
                 </div>
-                <p className="text-sm text-[#F2ECE6]/80 font-light">{specialist.education}</p>
+                <p className="text-sm text-foreground font-light leading-relaxed">{specialist.education}</p>
               </div>
             )}
             {specialist.languages && specialist.languages.length > 0 && (
-              <div className="py-6 md:py-8 px-6 md:px-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <Languages className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Språk</span>
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Languages className="w-4 h-4 text-foreground/30" />
+                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Språk</span>
                 </div>
-                <p className="text-sm text-[#F2ECE6]/80 font-light">{specialist.languages.join(", ")}</p>
+                <p className="text-sm text-foreground font-light leading-relaxed">{specialist.languages.join(", ")}</p>
               </div>
             )}
             {specialist.expertise && specialist.expertise.length > 0 && (
-              <div className="py-6 md:py-8 pl-6 md:pl-8">
-                <div className="flex items-center gap-2 mb-2">
-                  <Briefcase className="w-3.5 h-3.5 text-[#F2ECE6]/30" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2ECE6]/50">Kompetanseområder</span>
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Briefcase className="w-4 h-4 text-foreground/30" />
+                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Kompetanseområder</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {specialist.expertise.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 text-[11px] font-light text-[#F2ECE6]/70 border border-[#F2ECE6]/15 rounded-full"
+                      className="px-2.5 py-1 text-[11px] font-light text-foreground/70 border border-foreground/12 rounded-full"
                     >
                       {tag}
                     </span>
