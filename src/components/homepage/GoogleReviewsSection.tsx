@@ -64,7 +64,7 @@ export const GoogleReviewsSection = () => {
         {/* Header with Google rating */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-brand-dark/50 font-medium mb-3">
+            <p className="text-sm text-brand-dark/60 font-light mb-3">
               Våre pasienter forteller
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-brand-dark leading-tight">
