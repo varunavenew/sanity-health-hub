@@ -9,10 +9,11 @@ const AccordionItem = ({ title, children, defaultOpen = false }: { title: string
     <div className="border-b border-border/40 last:border-b-0">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
         className="w-full flex items-center justify-between py-5 text-sm font-normal text-foreground hover:text-brand-dark transition-colors"
       >
         {title}
-        {open ? <Minus className="w-4 h-4 text-muted-foreground" /> : <Plus className="w-4 h-4 text-muted-foreground" />}
+        {open ? <Minus className="w-4 h-4 text-muted-foreground" aria-hidden="true" /> : <Plus className="w-4 h-4 text-muted-foreground" aria-hidden="true" />}
       </button>
       <motion.div
         initial={false}

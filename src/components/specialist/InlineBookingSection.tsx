@@ -202,7 +202,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
           onClick={() => navigate(`/booking?kategori=${categoryBookingMap[specialist.category] || specialist.category}`)}
         >
           Se alle tjenester og priser
-          <ArrowRight className="ml-2 w-4 h-4" />
+          <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
         </Button>
       </div>
     </div>

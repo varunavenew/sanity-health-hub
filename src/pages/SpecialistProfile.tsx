@@ -100,7 +100,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
           onClick={scrollToBooking}
           className="w-full rounded-full bg-accent text-accent-foreground hover:bg-accent/90"
         >
-          <Calendar className="w-4 h-4 mr-2" />
+          <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
           Bestill time hos {firstName}
         </Button>
       </div>
