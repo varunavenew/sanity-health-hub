@@ -44,7 +44,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-foreground/70 bg-white/30 rounded-full mb-5"
+              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-white/70 bg-white/15 rounded-full mb-5"
             >
               {categoryLabel}
             </motion.span>
