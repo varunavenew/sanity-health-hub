@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
 import { specialists as allSpecialists, Specialist } from "@/data/specialists";
-import { useTreatment } from "@/hooks/useSanity";
+import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 
 interface TreatmentPageProps {
@@ -83,6 +83,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
+  const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
   const treatmentKey = `${categoryId}/${subId}`;
   const staticTreatment = treatmentContent[treatmentKey];
 
@@ -310,15 +311,21 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 />
               )}
 
-              {/* FAQ items */}
-              {treatment.faqs && treatment.faqs.length > 0 && treatment.faqs.map((faq, i) => (
-                <TreatmentFaq
-                  key={`faq-${i}`}
-                  question={faq.question}
-                  answer={faq.answer}
-                  isLast={i === treatment.faqs!.length - 1}
-                />
-              ))}
+              {/* FAQ items — Sanity FAQs first, then treatment-level, then static fallback */}
+              {(() => {
+                const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
+                const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
+                const faqs = dynamicFaqs || treatmentFaqs;
+                if (!faqs || faqs.length === 0) return null;
+                return faqs.map((faq, i) => (
+                  <TreatmentFaq
+                    key={`faq-${i}`}
+                    question={faq.question}
+                    answer={faq.answer}
+                    isLast={i === faqs.length - 1}
+                  />
+                ));
+              })()}
             </div>
 
             {/* ── CTA ── */}
