@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 
@@ -23,7 +23,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="text-sm md:text-base text-white/50 tracking-widest uppercase mb-2"
+                className="text-sm md:text-base text-white/50 tracking-wide mb-2"
               >
                 {specialist.title}
               </motion.p>
@@ -32,10 +32,38 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.05] tracking-tight mb-8"
+                className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.05] tracking-tight mb-6"
               >
                 {specialist.name}
               </motion.h1>
+
+              {/* Tags: clinics filled, expertise outline */}
+              {((specialist.clinics && specialist.clinics.length > 0) || (specialist.expertise && specialist.expertise.length > 0)) && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="flex flex-wrap items-center gap-2 mb-6"
+                >
+                  {specialist.clinics?.map((clinic) => (
+                    <span
+                      key={clinic}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-white bg-white/15 rounded-full"
+                    >
+                      <MapPin className="w-3 h-3" aria-hidden="true" />
+                      {clinic}
+                    </span>
+                  ))}
+                  {specialist.expertise?.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center px-3.5 py-1.5 text-xs font-medium text-white/70 border border-white/20 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </motion.div>
+              )}
 
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
