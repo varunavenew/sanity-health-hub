@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
-import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
