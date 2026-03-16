@@ -93,7 +93,7 @@ export const WhyCMedicalSection = () => {
           >
             {/* Header */}
             <div className="px-8 lg:px-16 py-16 lg:pt-32 lg:pb-16">
-              <p className="text-sm text-white/50 font-medium mb-4 tracking-wide">
+              <p className="text-sm text-white/60 font-light mb-4 tracking-wide">
                 Hvorfor CMedical
               </p>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
