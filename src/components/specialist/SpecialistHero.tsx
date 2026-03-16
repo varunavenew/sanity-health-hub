@@ -94,7 +94,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                   {specialist.expertise.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-foreground/70 bg-white/30 rounded-full"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/70 bg-white/10 rounded-full"
                     >
                       {tag}
                     </span>
