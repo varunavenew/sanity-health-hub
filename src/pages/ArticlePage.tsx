@@ -198,7 +198,10 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
             </h1>
 
             {/* Body */}
-            {content ? (
+            {/* Body: prefer Sanity Portable Text, then static content, then excerpt */}
+            {sanityArticle?.body && sanityArticle.body.length > 0 ? (
+              <div><PortableText value={sanityArticle.body} components={portableTextComponents} /></div>
+            ) : content ? (
               <div>{content.map(renderBlock)}</div>
             ) : (
               <p className="text-foreground/80 font-light leading-relaxed">{article.excerpt}</p>
