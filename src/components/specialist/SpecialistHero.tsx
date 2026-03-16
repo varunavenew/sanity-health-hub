@@ -95,7 +95,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                   className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-7 text-sm h-11"
                 >
                   <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-                  Bestill time
+                  Bestill time hos {specialist.name.split(" ")[0]}
                 </Button>
               </motion.div>
             </div>
