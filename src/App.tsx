@@ -40,7 +40,7 @@ const ScrollToTop = () => {
         return;
       }
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [location.pathname, location.hash]);
   return null;
 };
