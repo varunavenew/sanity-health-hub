@@ -37,7 +37,7 @@ export const PageHero = ({
             {title}
           </h1>
           
-          <p className={`text-lg md:text-xl font-normal leading-relaxed max-w-2xl mb-8 ${
+          <p className={`text-base md:text-lg font-light leading-relaxed max-w-2xl mb-8 ${
             dark ? 'text-white/70' : 'text-muted-foreground'
           }`}>
             {subtitle}
