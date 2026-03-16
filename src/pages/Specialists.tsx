@@ -38,11 +38,11 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            <p className="text-white/50 text-xs mb-2">Vårt team</p>
-            <h1 className="text-3xl md:text-4xl font-light text-white mb-3">
+            <p className="text-white/60 text-xs mb-2">Vårt team</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
               Våre spesialister
             </h1>
-            <p className="text-white/60 font-light text-sm">
+            <p className="text-white/70 font-light text-base md:text-lg">
               Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
             </p>
           </div>
