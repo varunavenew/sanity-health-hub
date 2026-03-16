@@ -184,7 +184,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                             </span>
                           </div>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" aria-hidden="true" />
                       </button>
                     ))}
                   </div>
