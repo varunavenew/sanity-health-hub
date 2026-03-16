@@ -39,13 +39,7 @@ const TreatmentFaq = ({ question, answer, isLast, customContent }: { question: s
         className="w-full flex items-center justify-between py-5 px-5 md:px-6 text-left hover:bg-secondary/20 transition-colors group"
       >
         <span className="text-[15px] md:text-base font-normal text-foreground pr-4">{question}</span>
-        <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${isOpen ? "bg-foreground" : "bg-secondary"}`}>
-          {isOpen ? (
-            <Minus className={`w-3.5 h-3.5 ${isOpen ? "text-background" : "text-muted-foreground"}`} />
-          ) : (
-            <Plus className="w-3.5 h-3.5 text-muted-foreground" />
-          )}
-        </div>
+        {isOpen ? <Minus className="w-4 h-4 text-muted-foreground flex-shrink-0" /> : <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
       </button>
       <div
         className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
