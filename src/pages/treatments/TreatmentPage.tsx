@@ -28,14 +28,12 @@ const formatInlineMarkdown = (text: string): string => {
     .replace(/_(.*?)_/g, '<em>$1</em>');
 };
 
-/* ─── FAQ Accordion ─── */
-const TreatmentFaq = ({ question, answer, isLast, customContent }: { question: string; answer: string; isLast: boolean; customContent?: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+/* ─── FAQ Accordion (controlled: only one open at a time) ─── */
+const TreatmentFaq = ({ question, answer, isLast, customContent, isOpen, onToggle }: { question: string; answer: string; isLast: boolean; customContent?: React.ReactNode; isOpen: boolean; onToggle: () => void }) => {
   return (
     <div className={`${!isLast ? "border-b border-border" : ""}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="w-full flex items-center justify-between py-5 px-5 md:px-6 text-left hover:bg-secondary/20 transition-colors group"
       >
         <span className="text-[15px] md:text-base font-normal text-foreground pr-4">{question}</span>
@@ -56,6 +54,13 @@ const TreatmentFaq = ({ question, answer, isLast, customContent }: { question: s
       </div>
     </div>
   );
+};
+
+/* ─── Accordion Group (manages single-open state) ─── */
+const AccordionGroup = ({ children }: { children: (openIndex: number | null, setOpenIndex: (i: number | null) => void) => React.ReactNode }) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const toggle = (i: number | null) => setOpenIndex(prev => prev === i ? null : i);
+  return <>{children(openIndex, toggle)}</>;
 };
 
 /* ─── Quick Info Badges ─── */
