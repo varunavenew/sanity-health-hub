@@ -22,7 +22,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   return (
     <div className="relative">
       {/* Dark bg — compact, just enough for name + subtitle */}
-      <div className="bg-[#42332A] pt-32 pb-56 md:pt-36 md:pb-64" />
+      <div className="bg-[#42332A] pt-32 pb-64 md:pt-36 md:pb-72" />
 
       {/* Content positioned over the dark/light boundary */}
       <div className="absolute inset-x-0 top-0 pt-32 md:pt-36">
