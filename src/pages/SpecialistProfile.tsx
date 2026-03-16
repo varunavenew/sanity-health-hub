@@ -70,7 +70,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
                 Bestill time hos {firstName}
               </h2>
-              <p className="text-sm text-foreground/60 font-light leading-relaxed max-w-sm">
+              <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-sm">
                 Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
               </p>
             </motion.div>
