@@ -67,7 +67,7 @@ export const GoogleReviewsSection = () => {
             <p className="text-sm text-brand-dark/60 font-light mb-3">
               Våre pasienter forteller
             </p>
-            <h2 className="text-3xl md:text-5xl font-light text-brand-dark leading-tight">
+            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
               Trygghet, omsorg og helsehjelp i livets ulike faser
             </h2>
           </div>
