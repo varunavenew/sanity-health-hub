@@ -101,7 +101,7 @@ export const WhyCMedicalSection = () => {
                 <br />
                 <span className="font-normal">bli tatt på alvor</span>
               </h2>
-              <p className="text-white/60 font-light text-base md:text-[17px] max-w-md leading-relaxed">
+              <p className="text-white/70 font-light text-base md:text-lg max-w-md leading-relaxed">
                 Faglig trygghet, respekt og helhetlig oppfølging – for kvinner, menn og alle som drømmer om å skape liv.
               </p>
             </div>
