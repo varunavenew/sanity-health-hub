@@ -142,7 +142,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                 effectiveExpanded === category.id ? null : category.id
               )}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
-                relevantCategories.length > 1 ? "hover:bg-secondary/50 cursor-pointer" : "cursor-default"
+                relevantCategories.length > 1 ? "hover:bg-white/10 cursor-pointer" : "cursor-default"
               }`}
             >
               <span className="text-sm font-medium text-foreground">{category.label}</span>
