@@ -24,18 +24,18 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-2 min-h-[65vh] md:min-h-[70vh]">
           
-          {/* Left: Image – vertically centered & full */}
+          {/* Left: Image – aligned to bottom, full height */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative flex items-end justify-center md:justify-start order-1 pt-16 md:pt-0"
+            className="relative flex items-end justify-center order-1 pt-16 md:pt-0 self-end"
           >
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-accent/8 rounded-full blur-[100px] pointer-events-none" />
             <img
               src={specialist.image}
               alt={specialist.name}
-              className="relative w-full max-w-[260px] md:max-w-[340px] lg:max-w-[380px] h-auto object-contain saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
+              className="relative w-auto max-h-[50vh] md:max-h-[65vh] object-contain object-bottom saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
             />
           </motion.div>
 
