@@ -35,7 +35,7 @@ const About = ({ isChatOpen }: AboutProps) => {
             </header>
 
             {/* Main content */}
-            <div className="space-y-5 text-brand-dark/80 text-[15px] leading-[1.8] font-light">
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
               <p>
                 Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
               </p>
