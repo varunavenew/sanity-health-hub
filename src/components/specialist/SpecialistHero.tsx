@@ -30,7 +30,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-muted-foreground bg-background/60 border border-border/50 rounded-full mb-5"
+              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-foreground/70 bg-[#F2ECE6] rounded-full mb-5"
             >
               {categoryLabel}
             </motion.span>
