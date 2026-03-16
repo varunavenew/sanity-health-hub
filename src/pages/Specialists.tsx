@@ -116,8 +116,8 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 <h3 className="text-sm font-medium text-foreground">{specialist.name}</h3>
                 <p className="text-xs text-muted-foreground font-light">{specialist.title}</p>
                 {specialist.clinics && specialist.clinics.length > 0 && (
-                  <p className="flex items-center gap-1 text-[11px] text-muted-foreground/50 font-light mt-0.5">
-                    <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
+                  <p className="flex items-center gap-1 text-[11px] text-muted-foreground/60 font-light mt-0.5">
+                    <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
                     {specialist.clinics.join(' · ')}
                   </p>
                 )}

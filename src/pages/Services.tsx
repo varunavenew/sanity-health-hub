@@ -203,8 +203,8 @@ const Services = ({ isChatOpen }: PageProps) => {
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-6">Ta vare på livet og underlivet</h2>
-            <p className="text-base md:text-[17px] font-light text-white/60 mb-10 max-w-xl mx-auto">Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging</p>
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-6">Ta vare på livet og underlivet</h2>
+            <p className="text-base md:text-lg font-light text-white/70 mb-10 max-w-xl mx-auto">Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="rounded-sm bg-white text-brand-dark hover:bg-white/90 px-10" onClick={() => navigate("/booking")}>
                 Bestill time <ArrowRight className="ml-2 w-4 h-4" />

@@ -109,7 +109,7 @@ const About = ({ isChatOpen }: AboutProps) => {
               <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
                 Møt våre spesialister
               </h2>
-              <p className="text-white/60 font-light max-w-xl mx-auto">
+              <p className="text-white/70 font-light max-w-xl mx-auto">
                 Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
               </p>
             </div>
