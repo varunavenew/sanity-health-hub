@@ -100,12 +100,12 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               </motion.div>
             </div>
 
-            {/* Right: Portrait — close to name, bleeds below dark section */}
+            {/* Left: Portrait — bleeds below dark section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="flex justify-center md:justify-end order-2 relative z-10"
+              className="flex justify-center md:justify-start order-1 md:order-1 relative z-10"
             >
               <img
                 src={specialist.image}
