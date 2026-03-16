@@ -25,7 +25,7 @@ export const SpecialistsSection = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
             <p className="text-sm text-white/70 font-light mb-3">Våre eksperter</p>
-            <h2 className="text-3xl md:text-4xl font-normal text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
               Møt våre spesialister
             </h2>
             <p className="text-white/70 font-light">
