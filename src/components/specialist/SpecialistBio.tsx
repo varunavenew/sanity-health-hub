@@ -37,38 +37,6 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
         </div>
       )}
 
-      {/* Facts strip — dark bg with warm light text */}
-      <div className="bg-[#F2ECE6]">
-        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10"
-          >
-            {specialist.education && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <GraduationCap className="w-4 h-4 text-foreground/30" />
-                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Utdanning</span>
-                </div>
-                <p className="text-sm text-foreground font-light leading-relaxed">{specialist.education}</p>
-              </div>
-            )}
-            {specialist.languages && specialist.languages.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Languages className="w-4 h-4 text-foreground/30" />
-                  <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-foreground/40">Språk</span>
-                </div>
-                <p className="text-sm text-foreground font-light leading-relaxed">{specialist.languages.join(", ")}</p>
-              </div>
-            )}
-          </motion.div>
-        </div>
-      </div>
-
       {/* Remaining bio */}
       {remainingParagraphs.length > 0 && (
         <div className="py-14 md:py-20">
