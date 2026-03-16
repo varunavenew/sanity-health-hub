@@ -29,7 +29,7 @@ const formatInlineMarkdown = (text: string): string => {
 };
 
 /* ─── FAQ Accordion ─── */
-const TreatmentFaq = ({ question, answer, isLast }: { question: string; answer: string; isLast: boolean }) => {
+const TreatmentFaq = ({ question, answer, isLast, customContent }: { question: string; answer: string; isLast: boolean; customContent?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -51,9 +51,13 @@ const TreatmentFaq = ({ question, answer, isLast }: { question: string; answer: 
         className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
       >
         <div className="overflow-hidden">
-          <p className="text-muted-foreground text-sm md:text-[15px] leading-relaxed font-light px-5 md:px-6 pb-5 pr-12">
-            {answer}
-          </p>
+          <div className="px-5 md:px-6 pb-5 pr-12">
+            {customContent || (
+              <p className="text-muted-foreground text-sm md:text-[15px] leading-relaxed font-light">
+                {answer}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
