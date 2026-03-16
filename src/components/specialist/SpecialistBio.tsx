@@ -95,9 +95,6 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
           </motion.div>
         </div>
       </div>
-          </motion.div>
-        </div>
-      </div>
 
       {/* Remaining bio */}
       {remainingParagraphs.length > 0 && (
