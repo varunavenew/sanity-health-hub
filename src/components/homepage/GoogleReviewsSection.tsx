@@ -79,7 +79,7 @@ export const GoogleReviewsSection = () => {
                 <Star className="w-5 h-5 text-[#FBBC05] fill-[#FBBC05]" />
                 <span className="text-brand-dark font-semibold text-lg tracking-tight">Goldstar</span>
               </div>
-              <span className="text-xs text-brand-dark/50">Anmeldelser</span>
+              <span className="text-xs text-brand-dark/60">Anmeldelser</span>
             </div>
             <div className="w-px h-12 bg-brand-dark/10" />
             <div>
