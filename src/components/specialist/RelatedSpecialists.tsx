@@ -77,7 +77,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
             onClick={() => navigate("/spesialister")}
           >
             Se alle spesialister
-            <ArrowRight className="ml-2 w-4 h-4" />
+            <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
           </Button>
         </div>
       </div>
