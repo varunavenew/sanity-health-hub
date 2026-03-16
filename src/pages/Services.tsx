@@ -181,7 +181,7 @@ const Services = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
             <p className="text-xs text-muted-foreground text-center mb-3 font-light">Spørsmål & svar</p>
-            <h3 className="text-xl md:text-2xl font-normal text-foreground text-center mb-8">Ofte stilte spørsmål</h3>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">Ofte stilte spørsmål</h2>
             <div className="space-y-0 border-t border-border">
               {faqs.map((faq) => (
                 <div key={faq.id} className="border-b border-border">
