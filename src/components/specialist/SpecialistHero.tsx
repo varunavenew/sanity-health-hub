@@ -22,20 +22,20 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   return (
     <section className="relative bg-primary overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-stretch min-h-[60vh] md:min-h-[65vh]">
+        <div className="flex flex-col md:flex-row md:items-end min-h-[55vh] md:min-h-[60vh]">
           
-          {/* Left: Image container – takes natural height, pinned to bottom */}
+          {/* Left: Full image, never cropped */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative w-full md:w-[40%] lg:w-[38%] shrink-0 flex items-end justify-center pt-12 md:pt-0"
+            className="relative w-full md:w-[35%] shrink-0 flex items-end justify-center pt-12 md:pt-8"
           >
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[250px] h-[250px] bg-accent/8 rounded-full blur-[80px] pointer-events-none" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200px] h-[200px] bg-accent/8 rounded-full blur-[80px] pointer-events-none" />
             <img
               src={specialist.image}
               alt={specialist.name}
-              className="relative max-h-[45vh] md:max-h-[58vh] w-auto object-contain object-bottom saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
+              className="relative w-auto max-w-[200px] md:max-w-[260px] lg:max-w-[300px] h-auto object-contain saturate-[0.8] brightness-[0.95] drop-shadow-2xl"
             />
           </motion.div>
 
