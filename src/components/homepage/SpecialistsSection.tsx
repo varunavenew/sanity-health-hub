@@ -25,7 +25,7 @@ export const SpecialistsSection = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
             <p className="text-sm text-white/70 font-light mb-3">Våre eksperter</p>
-            <h2 className="text-3xl md:text-4xl font-normal text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
               Møt våre spesialister
             </h2>
             <p className="text-white/70 font-light">
@@ -38,12 +38,14 @@ export const SpecialistsSection = () => {
               <button 
                 onClick={() => scroll('left')}
                 className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                aria-label="Scroll spesialister til venstre"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => scroll('right')}
                 className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                aria-label="Scroll spesialister til høyre"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -104,7 +106,7 @@ export const SpecialistsSection = () => {
               </div>
             </div>
 
-            <p className="text-sm text-white/60 font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-white/70 font-normal px-1">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         

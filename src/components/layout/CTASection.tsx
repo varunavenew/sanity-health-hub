@@ -27,10 +27,10 @@ export const CTASection = ({
     <section className={`py-20 md:py-28 ${dark ? 'bg-brand-dark' : 'bg-secondary/30'}`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-normal mb-6 ${dark ? 'text-white' : 'text-foreground'}`}>
+          <h2 className={`text-2xl md:text-3xl font-light mb-6 ${dark ? 'text-white' : 'text-foreground'}`}>
             {title}
           </h2>
-          <p className={`text-base md:text-[17px] font-light mb-10 ${dark ? 'text-white/70' : 'text-muted-foreground'}`}>
+          <p className={`text-base md:text-lg font-light mb-10 ${dark ? 'text-white/70' : 'text-muted-foreground'}`}>
             {subtitle}
           </p>
           

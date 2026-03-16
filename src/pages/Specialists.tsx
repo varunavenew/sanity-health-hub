@@ -38,11 +38,11 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            <p className="text-white/50 text-xs mb-2">Vårt team</p>
-            <h1 className="text-3xl md:text-4xl font-light text-white mb-3">
+            <p className="text-white/60 text-xs mb-2">Vårt team</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
               Våre spesialister
             </h1>
-            <p className="text-white/60 font-light text-sm">
+            <p className="text-white/70 font-light text-base md:text-lg">
               Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
             </p>
           </div>
@@ -71,7 +71,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
               className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
                 activeClinic === "alle"
                   ? "bg-white/20 text-white"
-                  : "border border-white/20 text-white/50 hover:bg-white/10"
+                  : "border border-white/20 text-white/60 hover:bg-white/10"
               }`}
             >
               <MapPin className="w-3 h-3" />
@@ -84,7 +84,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
                   activeClinic === clinic
                     ? "bg-white/20 text-white"
-                    : "border border-white/20 text-white/50 hover:bg-white/10"
+                    : "border border-white/20 text-white/60 hover:bg-white/10"
                 }`}
               >
                 <MapPin className="w-3 h-3" />
@@ -116,8 +116,8 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 <h3 className="text-sm font-medium text-foreground">{specialist.name}</h3>
                 <p className="text-xs text-muted-foreground font-light">{specialist.title}</p>
                 {specialist.clinics && specialist.clinics.length > 0 && (
-                  <p className="flex items-center gap-1 text-[11px] text-muted-foreground/50 font-light mt-0.5">
-                    <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
+                  <p className="flex items-center gap-1 text-[11px] text-muted-foreground/60 font-light mt-0.5">
+                    <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
                     {specialist.clinics.join(' · ')}
                   </p>
                 )}

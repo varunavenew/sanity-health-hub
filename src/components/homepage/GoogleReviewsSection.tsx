@@ -41,7 +41,7 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
       {/* Author */}
       <div className="pt-4 border-t border-brand-dark/10">
         <p className="font-normal text-brand-dark">{review.name}</p>
-        <p className="text-xs text-brand-dark/40 font-light">{review.date}</p>
+        <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
       </div>
     </div>
   );
@@ -64,10 +64,10 @@ export const GoogleReviewsSection = () => {
         {/* Header with Google rating */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-brand-dark/50 font-medium mb-3">
+            <p className="text-sm text-brand-dark/60 font-light mb-3">
               Våre pasienter forteller
             </p>
-            <h2 className="text-3xl md:text-5xl font-light text-brand-dark leading-tight">
+            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
               Trygghet, omsorg og helsehjelp i livets ulike faser
             </h2>
           </div>
@@ -79,7 +79,7 @@ export const GoogleReviewsSection = () => {
                 <Star className="w-5 h-5 text-[#FBBC05] fill-[#FBBC05]" />
                 <span className="text-brand-dark font-semibold text-lg tracking-tight">Goldstar</span>
               </div>
-              <span className="text-xs text-brand-dark/50">Anmeldelser</span>
+              <span className="text-xs text-brand-dark/60">Anmeldelser</span>
             </div>
             <div className="w-px h-12 bg-brand-dark/10" />
             <div>
@@ -120,7 +120,7 @@ export const GoogleReviewsSection = () => {
             <p className="text-white font-normal mb-1">
               Over 150 000 fornøyde pasienter siden 2002
             </p>
-            <p className="text-white/50 text-sm font-light">
+            <p className="text-white/70 text-sm font-light">
               Bli en del av vår historie
             </p>
           </div>

@@ -93,15 +93,15 @@ export const WhyCMedicalSection = () => {
           >
             {/* Header */}
             <div className="px-8 lg:px-16 py-16 lg:pt-32 lg:pb-16">
-              <p className="text-sm text-white/50 font-medium mb-4 tracking-wide">
+              <p className="text-sm text-white/60 font-light mb-4 tracking-wide">
                 Hvorfor CMedical
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-6 leading-tight">
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-6 leading-tight">
                 Behandling handler om å
                 <br />
                 <span className="font-normal">bli tatt på alvor</span>
               </h2>
-              <p className="text-white/60 font-light text-base md:text-[17px] max-w-md leading-relaxed">
+              <p className="text-white/70 font-light text-base md:text-lg max-w-md leading-relaxed">
                 Faglig trygghet, respekt og helhetlig oppfølging – for kvinner, menn og alle som drømmer om å skape liv.
               </p>
             </div>
@@ -119,7 +119,7 @@ export const WhyCMedicalSection = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-normal text-white mb-1">{reason.title}</h3>
-                      <p className="text-sm text-white/50 font-light leading-relaxed">
+                      <p className="text-sm text-white/60 font-light leading-relaxed">
                         {reason.description}
                       </p>
                     </div>
@@ -132,7 +132,7 @@ export const WhyCMedicalSection = () => {
                 <blockquote className="text-base md:text-lg font-light text-white/80 italic leading-relaxed">
                   "Hos CMedical handler behandling om å bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging."
                 </blockquote>
-                <p className="mt-4 text-sm text-white/40 font-light">— CMedical</p>
+                <p className="mt-4 text-sm text-white/60 font-light">— CMedical</p>
               </div>
 
               {/* CTA */}

@@ -28,14 +28,14 @@ const About = ({ isChatOpen }: AboutProps) => {
           <div className="max-w-2xl mx-auto">
             {/* Header */}
             <header className="mb-8 pb-6 border-b border-brand-dark/10">
-              <p className="text-brand-dark/40 text-xs mb-2">Om CMedical</p>
-              <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
+              <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
                 Faglig trygghet og personlig omsorg – for din helse
               </h1>
             </header>
 
             {/* Main content */}
-            <div className="space-y-5 text-brand-dark/80 text-[15px] leading-[1.8] font-light">
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
               <p>
                 Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
               </p>
@@ -63,7 +63,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         {/* Continued content */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-2xl mx-auto">
-            <div className="space-y-5 text-brand-dark/80 text-[15px] leading-[1.8] font-light">
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
               <p>
                 Kvinnehelse er et strategisk satsningsområde i CMedical. Kvinners helse har i for stor grad vært underprioritert, både som del av folkeopplysning, medisinsk tilbud og i forskning. Derfor bygger vi et helhetlig og subspesialisert tilbud som følger kvinnen gjennom hele livsløpet – fra pubertet og fertilitet til barneønske og graviditet, barseltid og før, under og etter overgangsalder. Ekspertteam innen blant annet endometriose, infertilitet, vulvalidelser, fødselsskader og menopause sikrer direkte tilgang til riktig kompetanse – uten omveier.
               </p>
@@ -105,11 +105,11 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <p className="text-white/50 text-xs mb-3">Vårt team</p>
+              <p className="text-white/60 text-xs mb-3">Vårt team</p>
               <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
                 Møt våre spesialister
               </h2>
-              <p className="text-white/60 font-light max-w-xl mx-auto">
+              <p className="text-white/70 font-light max-w-xl mx-auto">
                 Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
               </p>
             </div>

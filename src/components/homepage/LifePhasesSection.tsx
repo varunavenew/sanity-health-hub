@@ -93,9 +93,9 @@ export const LifePhasesSection = () => {
       <div className="container mx-auto px-4 md:px-8">
         {/* FAQ Section */}
         <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
-          <h3 className="text-xl md:text-2xl font-normal text-foreground text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">
             Ofte stilte spørsmål
-          </h3>
+          </h2>
           
           <div className="space-y-0 border-t border-border">
             {faqs.map((faq) => (

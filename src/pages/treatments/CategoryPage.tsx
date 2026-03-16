@@ -221,7 +221,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
             <p className="text-sm text-white/70 font-light mb-3">Våre {categoryTitle.toLowerCase()}-eksperter</p>
-            <h2 className="text-3xl md:text-4xl font-normal text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
               Møt våre {categoryTitle.toLowerCase()}-spesialister
             </h2>
             <p className="text-white/70 font-light">
@@ -342,8 +342,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
           <div className="container mx-auto px-0 md:px-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
-                <p className="text-xs text-white/60 mb-2 font-light">{category.subtitle}</p>
-                <h1 className="text-3xl md:text-4xl font-normal text-white">{category.title}</h1>
+                <p className="text-xs text-white/70 mb-2 font-light">{category.subtitle}</p>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{category.title}</h1>
               </div>
               <div className="flex items-center gap-3">
                 <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-6 font-normal" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
@@ -382,7 +382,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-normal text-foreground mb-4">
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
                 {category.servicesHeading || `${category.title}tjenester`}
               </h2>
               {category.servicesIntro && (
@@ -424,7 +424,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-6">Spesialistklinikker</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Spesialistklinikker</h2>
             <div className="flex flex-wrap gap-3 mb-6">
               <span className="text-sm text-muted-foreground font-light bg-background px-4 py-2 rounded-full border border-border">Kort ventetid</span>
               <span className="text-sm text-muted-foreground font-light bg-background px-4 py-2 rounded-full border border-border">Ingen henvisning</span>
@@ -453,7 +453,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-8">Finansiering</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Finansiering</h2>
             <p className="text-foreground/80 font-light leading-relaxed mb-8">
               Vi er et privat helsetilbud. Det betyr at du betaler selv – eller får utredning eller behandling dekket av helseforsikring.
             </p>
@@ -501,7 +501,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-normal text-foreground mb-4">Ofte stilte spørsmål</h2>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Ofte stilte spørsmål</h2>
               <p className="text-muted-foreground font-light">
                 Det kan være enkelt å være pasient hos oss. Finner du ikke svar på det du lurer på, finner du kontaktinformasjonen vår nedenfor.
               </p>
@@ -528,7 +528,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-16 md:py-20 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-normal text-white mb-4">Klar for å ta neste steg?</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">Klar for å ta neste steg?</h2>
             <p className="text-white/70 font-light mb-8 max-w-lg mx-auto">
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
             </p>

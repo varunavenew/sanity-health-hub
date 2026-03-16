@@ -108,7 +108,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       <section className="bg-background pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16 text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
-          <p className="text-sm md:text-[15px] text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
+          <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
           <div className="flex items-center justify-center gap-3 mb-8">
             <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary/60 text-xs font-light text-foreground/70">Ingen henvisning</span>
             <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary/60 text-xs font-light text-foreground/70">Ingen ventetid</span>
@@ -181,7 +181,7 @@ const Services = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
             <p className="text-xs text-muted-foreground text-center mb-3 font-light">Spørsmål & svar</p>
-            <h3 className="text-xl md:text-2xl font-normal text-foreground text-center mb-8">Ofte stilte spørsmål</h3>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">Ofte stilte spørsmål</h2>
             <div className="space-y-0 border-t border-border">
               {faqs.map((faq) => (
                 <div key={faq.id} className="border-b border-border">
@@ -203,8 +203,8 @@ const Services = ({ isChatOpen }: PageProps) => {
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-6">Ta vare på livet og underlivet</h2>
-            <p className="text-base md:text-[17px] font-light text-white/60 mb-10 max-w-xl mx-auto">Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging</p>
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-6">Ta vare på livet og underlivet</h2>
+            <p className="text-base md:text-lg font-light text-white/70 mb-10 max-w-xl mx-auto">Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="rounded-sm bg-white text-brand-dark hover:bg-white/90 px-10" onClick={() => navigate("/booking")}>
                 Bestill time <ArrowRight className="ml-2 w-4 h-4" />

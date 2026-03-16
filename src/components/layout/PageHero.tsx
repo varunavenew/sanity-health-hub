@@ -33,11 +33,11 @@ export const PageHero = ({
             </div>
           )}
           
-          <h1 className={`text-4xl md:text-6xl lg:text-7xl font-medium mb-6 ${dark ? 'text-white' : 'text-foreground'}`}>
+          <h1 className={`text-3xl md:text-4xl lg:text-5xl font-light mb-6 ${dark ? 'text-white' : 'text-foreground'}`}>
             {title}
           </h1>
           
-          <p className={`text-lg md:text-xl font-normal leading-relaxed max-w-2xl mb-8 ${
+          <p className={`text-base md:text-lg font-light leading-relaxed max-w-2xl mb-8 ${
             dark ? 'text-white/70' : 'text-muted-foreground'
           }`}>
             {subtitle}

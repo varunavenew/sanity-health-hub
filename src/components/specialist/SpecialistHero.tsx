@@ -21,21 +21,21 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
 
   return (
     <div className="relative">
-      {/* Dark bg — compact, just enough for name + subtitle */}
-      <div className="bg-[#42332A] pt-32 pb-64 md:pt-36 md:pb-72" />
+      {/* Dark bg */}
+      <div className="bg-brand-dark pt-32 pb-64 md:pt-36 md:pb-72" />
 
       {/* Content positioned over the dark/light boundary */}
       <div className="absolute inset-x-0 top-0 pt-32 md:pt-36">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 md:gap-10 items-start">
 
-            {/* Left: Text */}
+            {/* Text */}
             <div className="order-2 md:order-2">
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="text-lg md:text-xl lg:text-2xl text-white/50 font-light tracking-wide mb-1"
+                className="text-lg md:text-xl lg:text-2xl text-white/60 font-light tracking-wide mb-1"
               >
                 {specialist.title}
               </motion.p>
@@ -58,13 +58,13 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               >
                 {specialist.clinics && specialist.clinics.length > 0 && (
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-medium text-white/40">Klinikk:</span>
+                    <span className="text-xs font-medium text-white/60">Klinikk:</span>
                     {specialist.clinics.map((clinic) => (
                       <span
                         key={clinic}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/70 bg-white/10 rounded-full"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/80 bg-white/10 rounded-full"
                       >
-                        <MapPin className="w-3 h-3" />
+                        <MapPin className="w-3 h-3" aria-hidden="true" />
                         {clinic}
                       </span>
                     ))}
@@ -72,11 +72,11 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 )}
                 {specialist.expertise && specialist.expertise.length > 0 && (
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-medium text-white/40">Fagområder:</span>
+                    <span className="text-xs font-medium text-white/60">Fagområder:</span>
                     {specialist.expertise.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/70 bg-white/10 rounded-full"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/80 bg-white/10 rounded-full"
                       >
                         {tag}
                       </span>
@@ -92,15 +92,15 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               >
                 <Button
                   onClick={onScrollToBooking}
-                  className="rounded-full bg-white text-[#42332A] hover:bg-white/90 px-7 text-sm h-11"
+                  className="rounded-full bg-white text-primary hover:bg-white/90 px-7 text-sm h-11"
                 >
-                  <Calendar className="w-4 h-4 mr-2" />
+                  <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                   Bestill time
                 </Button>
               </motion.div>
             </div>
 
-            {/* Left: Portrait — bleeds below dark section */}
+            {/* Portrait — bleeds below dark section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
