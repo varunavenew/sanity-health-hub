@@ -37,7 +37,7 @@ export const SpecialistsSection = () => {
             <div className="hidden md:flex items-center gap-2">
               <button 
                 onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white" aria-label="Scroll spesialister til venstre">
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
