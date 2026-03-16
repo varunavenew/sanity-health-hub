@@ -347,7 +347,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                   {sorted.map((spec) => (
                     <div
                       key={spec.slug}
-                      className="flex-shrink-0 w-[calc(100%-8px)] sm:w-[calc(50%-8px)] snap-start rounded-2xl border border-border overflow-hidden bg-background"
+                      className="flex-shrink-0 w-[calc(100%-8px)] sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] snap-start rounded-2xl border border-border overflow-hidden bg-background"
                     >
                       <div className="flex items-center gap-4 p-5">
                         <img
