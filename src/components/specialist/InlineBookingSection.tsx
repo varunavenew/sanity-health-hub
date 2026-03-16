@@ -176,11 +176,11 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                           </p>
                           <div className="flex items-center gap-3 mt-1">
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
+                              <Clock className="w-3 h-3" aria-hidden="true" />
                               {service.duration}
                             </span>
                             <span className="text-xs font-medium text-foreground">
-                              {service.price === "0" ? "Gratis" : `kr ${parseInt(service.price).toLocaleString("nb-NO")},-`}
+                              {service.price === "0" ? "Gratis" : `${parseInt(service.price).toLocaleString("nb-NO")},-`}
                             </span>
                           </div>
                         </div>
