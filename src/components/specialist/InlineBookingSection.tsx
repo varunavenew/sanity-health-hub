@@ -136,7 +136,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     <div>
       <div className="space-y-3">
         {relevantCategories.map((category) => (
-          <div key={category.id} className="border border-border rounded-sm overflow-hidden">
+          <div key={category.id} className="border border-white/15 rounded-sm overflow-hidden bg-white/5">
             <button
               onClick={() => relevantCategories.length > 1 && setExpandedCategory(
                 effectiveExpanded === category.id ? null : category.id
