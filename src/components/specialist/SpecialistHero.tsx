@@ -62,7 +62,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                     {specialist.clinics.map((clinic) => (
                       <span
                         key={clinic}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-foreground/70 bg-[#F2ECE6] rounded-full"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-white/70 bg-white/10 rounded-full"
                       >
                         <MapPin className="w-3 h-3" />
                         {clinic}
