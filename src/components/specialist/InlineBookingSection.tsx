@@ -141,6 +141,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
               onClick={() => relevantCategories.length > 1 && setExpandedCategory(
                 effectiveExpanded === category.id ? null : category.id
               )}
+              aria-expanded={effectiveExpanded === category.id}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
                 relevantCategories.length > 1 ? "hover:bg-white/30 cursor-pointer" : "cursor-default"
               }`}
@@ -148,8 +149,8 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
               <span className="text-sm font-medium text-foreground">{category.label}</span>
               {relevantCategories.length > 1 && (
                 effectiveExpanded === category.id 
-                  ? <ChevronUp className="w-4 h-4 text-foreground/40" />
-                  : <ChevronDown className="w-4 h-4 text-foreground/40" />
+                  ? <ChevronUp className="w-4 h-4 text-foreground/40" aria-hidden="true" />
+                  : <ChevronDown className="w-4 h-4 text-foreground/40" aria-hidden="true" />
               )}
             </button>
 
@@ -175,15 +176,15 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                           </p>
                           <div className="flex items-center gap-3 mt-1">
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
+                              <Clock className="w-3 h-3" aria-hidden="true" />
                               {service.duration}
                             </span>
                             <span className="text-xs font-medium text-foreground">
-                              {service.price === "0" ? "Gratis" : `kr ${parseInt(service.price).toLocaleString("nb-NO")},-`}
+                              {service.price === "0" ? "Gratis" : `${parseInt(service.price).toLocaleString("nb-NO")},-`}
                             </span>
                           </div>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" aria-hidden="true" />
                       </button>
                     ))}
                   </div>
@@ -201,7 +202,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
           onClick={() => navigate(`/booking?kategori=${categoryBookingMap[specialist.category] || specialist.category}`)}
         >
           Se alle tjenester og priser
-          <ArrowRight className="ml-2 w-4 h-4" />
+          <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
         </Button>
       </div>
     </div>

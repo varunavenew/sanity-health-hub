@@ -24,9 +24,9 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
           className="flex items-end justify-between mb-10"
         >
           <div>
-            <h3 className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-2">
+            <p className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-2">
               Samme fagområde
-            </h3>
+            </p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground">
               Andre spesialister
             </h2>
@@ -37,7 +37,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
             onClick={() => navigate("/spesialister")}
           >
             Se alle
-            <ArrowRight className="ml-1.5 w-4 h-4" />
+            <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden="true" />
           </Button>
         </motion.div>
 
@@ -59,9 +59,9 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
                     loading="lazy"
                   />
                 </div>
-                <h3 className="text-sm font-medium text-foreground group-hover:text-brand-dark transition-colors">
+                <p className="text-sm font-medium text-foreground group-hover:text-brand-dark transition-colors">
                   {s.name}
-                </h3>
+                </p>
                 <p className="text-xs text-muted-foreground font-light mt-0.5">
                   {s.subtitle || s.title}
                 </p>
@@ -77,7 +77,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
             onClick={() => navigate("/spesialister")}
           >
             Se alle spesialister
-            <ArrowRight className="ml-2 w-4 h-4" />
+            <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
           </Button>
         </div>
       </div>

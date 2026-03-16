@@ -35,7 +35,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="text-lg md:text-xl lg:text-2xl text-white/60 font-light tracking-wide mb-1"
+                className="text-lg md:text-xl lg:text-2xl text-white/70 font-light tracking-wide mb-1"
               >
                 {specialist.title}
               </motion.p>
@@ -44,7 +44,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-[1.05] tracking-tight mb-5"
+                className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.05] tracking-tight mb-5"
               >
                 {specialist.name}
               </motion.h1>
@@ -92,7 +92,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               >
                 <Button
                   onClick={onScrollToBooking}
-                  className="rounded-full bg-white text-primary hover:bg-white/90 px-7 text-sm h-11"
+                  className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 px-7 text-sm h-11"
                 >
                   <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                   Bestill time
