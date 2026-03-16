@@ -45,7 +45,7 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 divide-x divide-primary-foreground/10"
+            className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#F2ECE6]/10"
           >
             {specialist.clinics && specialist.clinics.length > 0 && (
               <div className="py-6 md:py-8 pr-6 md:pr-8">
