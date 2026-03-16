@@ -311,15 +311,21 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 />
               )}
 
-              {/* FAQ items */}
-              {treatment.faqs && treatment.faqs.length > 0 && treatment.faqs.map((faq, i) => (
-                <TreatmentFaq
-                  key={`faq-${i}`}
-                  question={faq.question}
-                  answer={faq.answer}
-                  isLast={i === treatment.faqs!.length - 1}
-                />
-              ))}
+              {/* FAQ items — Sanity FAQs first, then treatment-level, then static fallback */}
+              {(() => {
+                const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
+                const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
+                const faqs = dynamicFaqs || treatmentFaqs;
+                if (!faqs || faqs.length === 0) return null;
+                return faqs.map((faq, i) => (
+                  <TreatmentFaq
+                    key={`faq-${i}`}
+                    question={faq.question}
+                    answer={faq.answer}
+                    isLast={i === faqs.length - 1}
+                  />
+                ));
+              })()}
             </div>
 
             {/* ── CTA ── */}
