@@ -20,7 +20,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <header className="bg-secondary/40 pt-32 pb-0 md:pt-36 md:pb-0">
+    <header className="bg-[#CCBAAD] pt-32 pb-0 md:pt-36 md:pb-0">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-2 md:gap-4 items-end">
           
@@ -44,7 +44,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-foreground/70 bg-[#F2ECE6] rounded-full mb-5"
+              className="inline-block px-3 py-1 text-[10px] font-medium tracking-[0.2em] uppercase text-foreground/70 bg-white/30 rounded-full mb-5"
             >
               {categoryLabel}
             </motion.span>
@@ -80,7 +80,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                   {specialist.clinics.map((clinic) => (
                     <span
                       key={clinic}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground/70 bg-[#F2ECE6] rounded-full"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-foreground/70 bg-white/30 rounded-full"
                     >
                       <MapPin className="w-3 h-3" />
                       {clinic}
@@ -94,7 +94,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                   {specialist.expertise.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted-foreground/70 bg-[#F2ECE6] rounded-full"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs text-foreground/70 bg-white/30 rounded-full"
                     >
                       {tag}
                     </span>
