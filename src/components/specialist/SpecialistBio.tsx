@@ -37,107 +37,84 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
         </div>
       )}
 
-      {/* Quick facts strip */}
-      <div className="border-b border-border/30">
+      {/* Facts strip — dark bg with warm light text */}
+      <div className="bg-primary">
         <div className="container mx-auto px-6 md:px-16">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border/30"
+            className="grid grid-cols-2 md:grid-cols-4 divide-x divide-primary-foreground/10"
           >
             {specialist.clinics && specialist.clinics.length > 0 && (
               <div className="py-6 md:py-8 pr-6 md:pr-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-3.5 h-3.5 text-muted-foreground/50" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-muted-foreground/60">Klinikk</span>
+                  <MapPin className="w-3.5 h-3.5 text-primary-foreground/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Klinikk</span>
                 </div>
-                <p className="text-sm text-foreground font-light">{specialist.clinics.join(", ")}</p>
+                <p className="text-sm text-primary-foreground/80 font-light">{specialist.clinics.join(", ")}</p>
               </div>
             )}
             {specialist.education && (
               <div className="py-6 md:py-8 px-6 md:px-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <GraduationCap className="w-3.5 h-3.5 text-muted-foreground/50" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-muted-foreground/60">Utdanning</span>
+                  <GraduationCap className="w-3.5 h-3.5 text-primary-foreground/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Utdanning</span>
                 </div>
-                <p className="text-sm text-foreground font-light">{specialist.education}</p>
+                <p className="text-sm text-primary-foreground/80 font-light">{specialist.education}</p>
               </div>
             )}
             {specialist.languages && specialist.languages.length > 0 && (
               <div className="py-6 md:py-8 px-6 md:px-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <Languages className="w-3.5 h-3.5 text-muted-foreground/50" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-muted-foreground/60">Språk</span>
+                  <Languages className="w-3.5 h-3.5 text-primary-foreground/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Språk</span>
                 </div>
-                <p className="text-sm text-foreground font-light">{specialist.languages.join(", ")}</p>
+                <p className="text-sm text-primary-foreground/80 font-light">{specialist.languages.join(", ")}</p>
               </div>
             )}
             {specialist.expertise && specialist.expertise.length > 0 && (
               <div className="py-6 md:py-8 pl-6 md:pl-8">
                 <div className="flex items-center gap-2 mb-2">
-                  <Briefcase className="w-3.5 h-3.5 text-muted-foreground/50" />
-                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-muted-foreground/60">Fagområder</span>
+                  <Briefcase className="w-3.5 h-3.5 text-primary-foreground/30" />
+                  <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-primary-foreground/40">Kompetanseområder</span>
                 </div>
-                <p className="text-sm text-foreground font-light">{specialist.expertise.slice(0, 3).join(", ")}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {specialist.expertise.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 text-[11px] font-light text-primary-foreground/70 border border-primary-foreground/10 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
           </motion.div>
         </div>
       </div>
 
-      {/* Remaining bio + expertise sidebar */}
-      {(remainingParagraphs.length > 0 || (specialist.expertise && specialist.expertise.length > 0)) && (
+      {/* Remaining bio */}
+      {remainingParagraphs.length > 0 && (
         <div className="py-14 md:py-20">
           <div className="container mx-auto px-6 md:px-16">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
-              {/* Bio text */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="md:col-span-7 lg:col-span-8"
-              >
-                {remainingParagraphs.length > 0 && (
-                  <div className="space-y-5">
-                    {remainingParagraphs.map((paragraph, idx) => (
-                      <p key={idx} className="text-[15px] md:text-base text-muted-foreground font-light leading-[1.85] max-w-prose">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-
-              {/* Expertise tags */}
-              {specialist.expertise && specialist.expertise.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="md:col-span-5 lg:col-span-4"
-                >
-                  <div className="md:sticky md:top-32">
-                    <h3 className="text-[11px] font-medium tracking-widest uppercase text-muted-foreground/50 mb-4">
-                      Kompetanseområder
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {specialist.expertise.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1.5 text-xs font-light text-foreground/80 bg-secondary/60 border border-border/40 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="max-w-3xl"
+            >
+              <div className="space-y-5">
+                {remainingParagraphs.map((paragraph, idx) => (
+                  <p key={idx} className="text-[15px] md:text-base text-muted-foreground font-light leading-[1.85]">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       )}
