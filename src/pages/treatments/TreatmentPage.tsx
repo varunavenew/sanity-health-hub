@@ -280,36 +280,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 />
               )}
 
-              {/* Related Specialists */}
-              {relatedSpecialists.length > 0 && (
-                <TreatmentFaq
-                  question="Møt din behandler"
-                  answer=""
-                  isLast={false}
-                  customContent={
-                    <div className="space-y-4">
-                      {relatedSpecialists.map((spec) => (
-                        <div key={spec.slug} className="rounded-xl border border-border overflow-hidden bg-card">
-                          <div className="flex items-center gap-4 p-4">
-                            <img src={spec.image} alt={spec.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0 ring-2 ring-border" loading="lazy" />
-                            <div className="flex-1 min-w-0">
-                              <h3 className="text-base font-medium text-foreground">{spec.name}</h3>
-                              <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
-                              {spec.clinics && spec.clinics.length > 0 && (
-                                <p className="text-xs text-muted-foreground/60 font-light mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{spec.clinics.join(", ")}</p>
-                              )}
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-3 px-4 py-3 border-t border-border/50">
-                            <Button variant="outline" size="sm" className="text-xs rounded-full font-light flex-1 sm:flex-none" onClick={() => navigate(`/spesialister/${spec.slug}`)}>Les mer <ArrowRight className="ml-1 w-3 h-3" /></Button>
-                            <Button size="sm" className="text-xs rounded-full font-light flex-1 sm:flex-none" onClick={() => navigate(`/booking?kategori=${categoryId}`)}><Calendar className="mr-1 w-3 h-3" /> Bestill time</Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  }
-                />
-              )}
+              {/* Related Specialists - moved outside accordion as visible carousel */}
 
               {/* FAQ items — Sanity FAQs first, then treatment-level, then static fallback */}
               {(() => {
