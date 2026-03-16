@@ -20,7 +20,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
   const categoryLabel = categoryLabels[specialist.category] || specialist.category;
 
   return (
-    <header className="bg-[#CCBAAD] pt-32 pb-0 md:pt-36 md:pb-0">
+    <header className="bg-[#42332A] pt-32 pb-0 md:pt-36 md:pb-0">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-2 md:gap-4 items-end">
           
