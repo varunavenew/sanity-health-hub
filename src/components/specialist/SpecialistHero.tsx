@@ -58,7 +58,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               >
                 {specialist.clinics && specialist.clinics.length > 0 && (
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-medium text-foreground/40">Klinikk:</span>
+                    <span className="text-xs font-medium text-white/40">Klinikk:</span>
                     {specialist.clinics.map((clinic) => (
                       <span
                         key={clinic}
