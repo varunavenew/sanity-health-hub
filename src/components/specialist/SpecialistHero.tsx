@@ -62,7 +62,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className="text-base md:text-lg text-muted-foreground font-light mb-5 max-w-md"
+              className="text-base md:text-lg text-white/60 font-light mb-5 max-w-md"
             >
               {specialist.title}
             </motion.p>
