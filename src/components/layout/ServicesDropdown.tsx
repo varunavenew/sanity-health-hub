@@ -2,24 +2,28 @@ import { useState, useRef } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { serviceCategories } from '@/data/serviceCategories';
+import { useServiceCategories } from '@/hooks/useServiceCategories';
 
 export const ServicesDropdown = () => {
+  const { categories: serviceCategories } = useServiceCategories();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>('gynekologi');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (!activeCategory && serviceCategories.length > 0) {
+      setActiveCategory(serviceCategories[0].id);
+    }
     setIsOpen(true);
   };
 
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-      setActiveCategory('gynekologi');
+      setActiveCategory(null);
       setActiveSubcategory(null);
     }, 150);
   };
@@ -27,19 +31,19 @@ export const ServicesDropdown = () => {
   const handleNavigate = (path: string) => {
     navigate(path);
     setIsOpen(false);
-    setActiveCategory('gynekologi');
+    setActiveCategory(null);
     setActiveSubcategory(null);
   };
 
   const handleNavigateServices = () => {
     navigate('/tjenester');
     setIsOpen(false);
-    setActiveCategory('gynekologi');
+    setActiveCategory(null);
     setActiveSubcategory(null);
   };
 
-  const activeCategoryData = serviceCategories.find(c => c.id === activeCategory)!;
-  const activeSubcategoryData = activeSubcategory 
+  const activeCategoryData = serviceCategories.find(c => c.id === activeCategory) || serviceCategories[0];
+  const activeSubcategoryData = activeCategoryData && activeSubcategory 
     ? activeCategoryData.subcategories.find(s => s.label === activeSubcategory)
     : null;
 
