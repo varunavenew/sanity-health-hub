@@ -143,10 +143,10 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
               )}
               aria-expanded={effectiveExpanded === category.id}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
-                relevantCategories.length > 1 ? "hover:bg-white/30 cursor-pointer" : "cursor-default"
+                relevantCategories.length > 1 ? "hover:bg-white/15 cursor-pointer" : "cursor-default"
               }`}
             >
-              <span className="text-sm font-medium text-foreground">{category.label}</span>
+              <span className="text-sm font-medium text-white">{category.label}</span>
               {relevantCategories.length > 1 && (
                 effectiveExpanded === category.id 
                   ? <ChevronUp className="w-4 h-4 text-foreground/40" aria-hidden="true" />
