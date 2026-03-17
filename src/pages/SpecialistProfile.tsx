@@ -57,7 +57,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       <SpecialistBio specialist={specialist} />
 
       {/* 3. Booking — the conversion point */}
-      <section ref={bookingRef} className="py-14 md:py-20 bg-brand-mid scroll-mt-20">
+      <section ref={bookingRef} className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
             <motion.div
