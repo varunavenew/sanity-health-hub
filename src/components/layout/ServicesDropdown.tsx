@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { serviceCategories } from '@/data/serviceCategories';
+import { useServiceCategories } from '@/hooks/useServiceCategories';
 
 export const ServicesDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
