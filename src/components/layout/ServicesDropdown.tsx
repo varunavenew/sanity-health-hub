@@ -14,6 +14,9 @@ export const ServicesDropdown = () => {
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (!activeCategory && serviceCategories.length > 0) {
+      setActiveCategory(serviceCategories[0].id);
+    }
     setIsOpen(true);
   };
 
