@@ -67,10 +67,10 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
               transition={{ duration: 0.5 }}
               className="md:col-span-4"
             >
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
                 Bestill time hos {firstName}
               </h2>
-              <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-sm">
+              <p className="text-sm text-white/60 font-light leading-relaxed max-w-sm">
                 Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
               </p>
             </motion.div>
