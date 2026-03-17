@@ -35,6 +35,11 @@ const staticFeatured = [
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { data: sanityCategories } = useTreatmentCategories();
+  const { data: sanityFaqs } = useFaqs("tjenester");
+
+  const faqs = sanityFaqs && sanityFaqs.length > 0
+    ? sanityFaqs.map((f, i) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
+    : staticFaqs;
 
   const serviceCategories = sanityCategories?.length
     ? sanityCategories.map((c: any) => ({
