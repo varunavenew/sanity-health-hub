@@ -23,7 +23,7 @@ export const ServicesDropdown = () => {
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-      setActiveCategory('gynekologi');
+      setActiveCategory(null);
       setActiveSubcategory(null);
     }, 150);
   };
