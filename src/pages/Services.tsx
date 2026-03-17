@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
-import { useTreatmentCategories } from "@/hooks/useSanity";
+import { useTreatmentCategories, useFaqs } from "@/hooks/useSanity";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
