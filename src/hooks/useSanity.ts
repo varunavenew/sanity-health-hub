@@ -562,14 +562,25 @@ export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
   });
 
 // ─── Service Categories (for dropdown menu) ─────────────────────────
+
+// Preferred display order for categories in the dropdown
+const CATEGORY_ORDER = [
+  "gynekologi",
+  "graviditet",
+  "urologi",
+  "fertilitet",
+  "ortopedi",
+  "flere-fagomrader",
+];
+
 export const useServiceCategoriesFromSanity = () =>
   useQuery({
     queryKey: ["sanity", "serviceCategories"],
     queryFn: async () => {
       const data = await fetchSanity<any[]>(
-        `*[_type == "treatmentCategory"] | order(title asc){
+        `*[_type == "treatmentCategory"]{
           _id, title, categoryId, "slug": slug.current,
-          "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
+          "treatments": treatments[]->{ 
             _id, title, "slug": slug.current,
             subItems[]{label, anchor, path}
           }
@@ -577,7 +588,16 @@ export const useServiceCategoriesFromSanity = () =>
       );
       if (!data || data.length === 0) return null;
 
-      return data.map((cat) => ({
+      // Sort categories by preferred order
+      const sorted = [...data].sort((a, b) => {
+        const idA = a.categoryId || a.slug;
+        const idB = b.categoryId || b.slug;
+        const orderA = CATEGORY_ORDER.indexOf(idA);
+        const orderB = CATEGORY_ORDER.indexOf(idB);
+        return (orderA === -1 ? 999 : orderA) - (orderB === -1 ? 999 : orderB);
+      });
+
+      return sorted.map((cat) => ({
         id: cat.categoryId || cat.slug,
         label: cat.title,
         path: `/${cat.categoryId || cat.slug}`,
