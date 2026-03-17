@@ -560,3 +560,37 @@ export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
     enabled: !!categorySlug,
     staleTime: 5 * 60 * 1000,
   });
+
+// ─── Service Categories (for dropdown menu) ─────────────────────────
+export const useServiceCategoriesFromSanity = () =>
+  useQuery({
+    queryKey: ["sanity", "serviceCategories"],
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(
+        `*[_type == "treatmentCategory"] | order(title asc){
+          _id, title, categoryId, "slug": slug.current,
+          "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
+            _id, title, "slug": slug.current,
+            subItems[]{label, anchor, path}
+          }
+        }`
+      );
+      if (!data || data.length === 0) return null;
+
+      return data.map((cat) => ({
+        id: cat.categoryId || cat.slug,
+        label: cat.title,
+        path: `/${cat.categoryId || cat.slug}`,
+        subcategories: (cat.treatments || []).map((t: any) => ({
+          label: t.title,
+          path: `/behandlinger/${cat.categoryId || cat.slug}/${t.slug}`,
+          items: (t.subItems || []).map((item: any) => ({
+            label: item.label,
+            anchor: item.anchor || undefined,
+            path: item.path || undefined,
+          })),
+        })),
+      }));
+    },
+    staleTime: 5 * 60 * 1000,
+  });
