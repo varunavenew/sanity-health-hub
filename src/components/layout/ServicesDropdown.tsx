@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useServiceCategories } from '@/hooks/useServiceCategories';
 
 export const ServicesDropdown = () => {
+  const { categories: serviceCategories } = useServiceCategories();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<string>('gynekologi');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
