@@ -1,19 +1,26 @@
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
-import { useSiteSettings, useTreatmentCategories, useClinics } from "@/hooks/useSanity";
+import { useSiteSettings, useClinics } from "@/hooks/useSanity";
+import { useServiceCategories } from "@/hooks/useServiceCategories";
+
+const FOOTER_CATEGORY_ORDER = ["gynekologi", "fertilitet", "urologi", "ortopedi", "flere-fagomrader"];
+const FOOTER_LABEL_MAP: Record<string, string> = { "flere-fagomrader": "Flere tjenester" };
 
 export const Footer = () => {
   const { data: settings } = useSiteSettings();
-  const { data: categories } = useTreatmentCategories();
+  const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
 
-  // Services links from Sanity or static
-  const serviceLinks = categories && categories.length > 0
-    ? categories.slice(0, 5).map((c: any) => ({
-        label: c.title,
-        path: `/${c.categoryId || c.slug}`,
-      }))
+  // Services links sorted to match reference design
+  const serviceLinks = categories.length > 0
+    ? [...categories]
+        .filter((c) => FOOTER_CATEGORY_ORDER.includes(c.id))
+        .sort((a, b) => FOOTER_CATEGORY_ORDER.indexOf(a.id) - FOOTER_CATEGORY_ORDER.indexOf(b.id))
+        .map((c) => ({
+          label: FOOTER_LABEL_MAP[c.id] || c.label,
+          path: c.path,
+        }))
     : [
         { label: "Gynekologi", path: "/gynekologi" },
         { label: "Fertilitet", path: "/fertilitet" },
