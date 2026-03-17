@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
-import { useTreatmentCategories } from "@/hooks/useSanity";
+import { useTreatmentCategories, useFaqs } from "@/hooks/useSanity";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
@@ -18,7 +18,7 @@ interface PageProps {
   isChatOpen: boolean;
 }
 
-const faqs = [
+const staticFaqs = [
   { id: "henvisning", question: "Trenger jeg henvisning?", answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen." },
   { id: "ventetid", question: "Hva er ventetiden?", answer: "Vi tilbyr korte ventetider. De fleste får time innen 1-3 dager, avhengig av behandlingstype og tilgjengelighet." },
   { id: "sykemelding", question: "Kan jeg få sykemelding?", answer: "Våre spesialister kan skrive sykemelding hvis det er medisinsk grunnlag for det. Dette vurderes individuelt i forbindelse med konsultasjonen." },
@@ -35,6 +35,11 @@ const staticFeatured = [
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { data: sanityCategories } = useTreatmentCategories();
+  const { data: sanityFaqs } = useFaqs("tjenester");
+
+  const faqs = sanityFaqs && sanityFaqs.length > 0
+    ? sanityFaqs.map((f, i) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
+    : staticFaqs;
 
   const serviceCategories = sanityCategories?.length
     ? sanityCategories.map((c: any) => ({
