@@ -87,6 +87,31 @@ export default {
         },
       ],
     },
+    // Sub-items (shown in 3rd column of service dropdown)
+    {
+      name: 'subItems',
+      title: 'Undermeny-elementer',
+      description: 'Vises som tredje kolonne i tjeneste-dropdown i menyen',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Tittel', type: 'string', validation: (Rule: any) => Rule.required() },
+            { name: 'anchor', title: 'Anker (valgfritt)', type: 'string', description: 'Anker-lenke på siden (#seksjon)' },
+            { name: 'path', title: 'Egen URL (valgfritt)', type: 'string', description: 'Full URL hvis elementet skal lenke til en annen side' },
+          ],
+          preview: {
+            select: { title: 'label' },
+          },
+        },
+      ],
+    },
+    {
+      name: 'subtitle',
+      title: 'Undertittel',
+      type: 'string',
+    },
     {
       name: 'seo',
       title: 'SEO',
