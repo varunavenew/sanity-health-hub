@@ -42,8 +42,8 @@ export const ServicesDropdown = () => {
     setActiveSubcategory(null);
   };
 
-  const activeCategoryData = serviceCategories.find(c => c.id === activeCategory)!;
-  const activeSubcategoryData = activeSubcategory 
+  const activeCategoryData = serviceCategories.find(c => c.id === activeCategory) || serviceCategories[0];
+  const activeSubcategoryData = activeCategoryData && activeSubcategory 
     ? activeCategoryData.subcategories.find(s => s.label === activeSubcategory)
     : null;
 
