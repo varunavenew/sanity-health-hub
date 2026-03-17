@@ -7,6 +7,7 @@ interface SpecialistBioProps {
 
 export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
   const bioSections = specialist.bio?.split('\n\n') || [];
+  const firstName = specialist.name.split(" ")[0];
 
   if (!specialist.bio) {
     return null;
@@ -22,8 +23,11 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
           transition={{ duration: 0.6 }}
           className="max-w-3xl space-y-6"
         >
+          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+            Om {firstName}
+          </h2>
           {bioSections.map((paragraph, idx) => (
-            <p key={idx} className="text-[15px] md:text-base text-muted-foreground font-light leading-[1.85]">
+            <p key={idx} className="text-base md:text-lg text-foreground/80 font-light leading-[1.85]">
               {paragraph}
             </p>
           ))}
