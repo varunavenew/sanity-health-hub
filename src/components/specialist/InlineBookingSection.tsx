@@ -136,21 +136,21 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     <div>
       <div className="space-y-3">
         {relevantCategories.map((category) => (
-          <div key={category.id} className="border border-foreground/10 rounded-sm overflow-hidden bg-white/20">
+          <div key={category.id} className="border border-white/15 rounded-sm overflow-hidden bg-white/10">
             <button
               onClick={() => relevantCategories.length > 1 && setExpandedCategory(
                 effectiveExpanded === category.id ? null : category.id
               )}
               aria-expanded={effectiveExpanded === category.id}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
-                relevantCategories.length > 1 ? "hover:bg-white/30 cursor-pointer" : "cursor-default"
+                relevantCategories.length > 1 ? "hover:bg-white/15 cursor-pointer" : "cursor-default"
               }`}
             >
-              <span className="text-sm font-medium text-foreground">{category.label}</span>
+              <span className="text-sm font-medium text-white">{category.label}</span>
               {relevantCategories.length > 1 && (
                 effectiveExpanded === category.id 
-                  ? <ChevronUp className="w-4 h-4 text-foreground/40" aria-hidden="true" />
-                  : <ChevronDown className="w-4 h-4 text-foreground/40" aria-hidden="true" />
+                  ? <ChevronUp className="w-4 h-4 text-white/40" aria-hidden="true" />
+                  : <ChevronDown className="w-4 h-4 text-white/40" aria-hidden="true" />
               )}
             </button>
 
@@ -163,28 +163,28 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="border-t border-foreground/10">
+                  <div className="border-t border-white/10">
                     {category.services.map((service, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleSelectService(category.id, service.name)}
-                        className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/30 transition-colors border-b border-foreground/5 last:border-b-0 group"
+                        className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/15 transition-colors border-b border-white/5 last:border-b-0 group"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-foreground font-light truncate pr-4">
+                          <p className="text-sm text-white font-light truncate pr-4">
                             {service.name}
                           </p>
                           <div className="flex items-center gap-3 mt-1">
-                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                            <span className="text-xs text-white/50 flex items-center gap-1">
                               <Clock className="w-3 h-3" aria-hidden="true" />
                               {service.duration}
                             </span>
-                            <span className="text-xs font-medium text-foreground">
+                            <span className="text-xs font-medium text-white/80">
                               {service.price === "0" ? "Gratis" : `${parseInt(service.price).toLocaleString("nb-NO")},-`}
                             </span>
                           </div>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" aria-hidden="true" />
+                        <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors shrink-0" aria-hidden="true" />
                       </button>
                     ))}
                   </div>
@@ -198,7 +198,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
       <div className="mt-6 text-center">
         <Button
           variant="outline"
-          className="rounded-full font-light text-sm"
+          className="rounded-full font-light text-sm border-white/30 text-white hover:bg-white/10"
           onClick={() => navigate(`/booking?kategori=${categoryBookingMap[specialist.category] || specialist.category}`)}
         >
           Se alle tjenester og priser

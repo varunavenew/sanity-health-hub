@@ -57,7 +57,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       <SpecialistBio specialist={specialist} />
 
       {/* 3. Booking — the conversion point */}
-      <section ref={bookingRef} className="py-14 md:py-20 bg-brand-mid scroll-mt-20">
+      <section ref={bookingRef} className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
             <motion.div
@@ -67,10 +67,10 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
               transition={{ duration: 0.5 }}
               className="md:col-span-4"
             >
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
                 Bestill time hos {firstName}
               </h2>
-              <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-sm">
+              <p className="text-sm text-white/60 font-light leading-relaxed max-w-sm">
                 Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
               </p>
             </motion.div>
