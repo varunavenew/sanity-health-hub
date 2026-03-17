@@ -4,22 +4,39 @@ import { ArrowRight, Phone, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
+import { useInsurancePage } from "@/hooks/useSanity";
 
 interface PageProps { isChatOpen: boolean }
 
-const insuranceCompanies = [
-  { name: "EuroAccident", initials: "EA", color: "bg-blue-600" },
-  { name: "Falck", initials: "F", color: "bg-red-600" },
-  { name: "Fremtind", initials: "Fr", color: "bg-teal-600" },
-  { name: "Gjensidige", initials: "Gj", color: "bg-orange-500" },
-  { name: "If", initials: "If", color: "bg-blue-500" },
-  { name: "Storebrand", initials: "S", color: "bg-emerald-600" },
-  { name: "Tryg", initials: "T", color: "bg-sky-600" },
+const staticCompanies = [
+  { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" },
+  { name: "Gjensidige" }, { name: "If" }, { name: "Storebrand" }, { name: "Tryg" },
+];
+
+const staticSteps = [
+  { num: "1", title: "Få henvisning", desc: "Fra fastlege eller spesialist" },
+  { num: "2", title: "Send til forsikring", desc: "For godkjenning av dekning" },
+  { num: "3", title: "Velg CMedical", desc: "Be om behandling hos oss" },
+  { num: "4", title: "Bestill time", desc: "Vi fakturerer forsikringen direkte" },
+];
+
+const staticBenefits = [
+  { title: "Ingen utlegg", desc: "Du slipper å betale selv – vi sender faktura direkte til forsikringsselskapet." },
+  { title: "Raskere behandling", desc: "Få time innen kort tid med kort ventetid hos våre spesialister." },
+  { title: "Alle forsikringer", desc: "Vi har avtale med alle store forsikringsselskaper i Norge." },
 ];
 
 const Insurance = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  
+  const { data: page } = useInsurancePage();
+
+  const title = page?.title || "Helseforsikring";
+  const subtitle = page?.subtitle || "Bruk forsikringen din til raskere behandling hos oss";
+  const heroImage = page?.heroImage || insuranceHero;
+  const companies = page?.companies?.length ? page.companies : staticCompanies;
+  const steps = page?.steps?.length ? page.steps : staticSteps;
+  const benefits = page?.benefits?.length ? page.benefits : staticBenefits;
+
   useEffect(() => {
     document.title = "Forsikring | CMedical - Behandling med forsikring";
   }, []);
@@ -28,12 +45,12 @@ const Insurance = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <header className="relative">
         <div className="h-[25vh] md:h-[30vh] relative">
-          <img src={insuranceHero} alt="Forsikring hos CMedical" className="w-full h-full object-cover object-center" />
+          <img src={heroImage} alt="Forsikring hos CMedical" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
             <div className="container mx-auto">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">Helseforsikring</h1>
-              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">Bruk forsikringen din til raskere behandling hos oss</p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{title}</h1>
+              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">{subtitle}</p>
             </div>
           </div>
         </div>
@@ -50,7 +67,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               <h2 className="text-2xl md:text-3xl font-light text-foreground">Vi har avtale med alle store forsikringsselskaper</h2>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
-              {insuranceCompanies.map((company) => (
+              {companies.map((company: any) => (
                 <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
               ))}
             </div>
@@ -66,16 +83,11 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-12 text-center">Slik bruker du forsikringen</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
-              {[
-                { num: "1", title: "Få henvisning", desc: "Fra fastlege eller spesialist" },
-                { num: "2", title: "Send til forsikring", desc: "For godkjenning av dekning" },
-                { num: "3", title: "Velg CMedical", desc: "Be om behandling hos oss" },
-                { num: "4", title: "Bestill time", desc: "Vi fakturerer forsikringen direkte" },
-              ].map((step, index) => (
-                <div key={step.num} className="relative text-center">
-                  {index < 3 && <div className="hidden md:block absolute top-6 left-[60%] w-[80%] h-px bg-border" />}
+              {steps.map((step: any, index: number) => (
+                <div key={step.num || index} className="relative text-center">
+                  {index < steps.length - 1 && <div className="hidden md:block absolute top-6 left-[60%] w-[80%] h-px bg-border" />}
                   <div className="w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center mx-auto mb-4 relative z-10">
-                    <span className="text-lg font-medium">{step.num}</span>
+                    <span className="text-lg font-medium">{step.num || String(index + 1)}</span>
                   </div>
                   <h3 className="font-normal text-foreground mb-1">{step.title}</h3>
                   <p className="text-sm text-muted-foreground font-light">{step.desc}</p>
@@ -90,11 +102,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { title: "Ingen utlegg", desc: "Du slipper å betale selv – vi sender faktura direkte til forsikringsselskapet." },
-                { title: "Raskere behandling", desc: "Få time innen kort tid med kort ventetid hos våre spesialister." },
-                { title: "Alle forsikringer", desc: "Vi har avtale med alle store forsikringsselskaper i Norge." },
-              ].map((benefit) => (
+              {benefits.map((benefit: any) => (
                 <div key={benefit.title} className="p-6">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-5">
                     <Check className="w-5 h-5 text-accent" />
