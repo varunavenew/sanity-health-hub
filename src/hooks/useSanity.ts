@@ -561,6 +561,33 @@ export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
     staleTime: 5 * 60 * 1000,
   });
 
+// ─── Theme Pages (Kvinnehelse, etc.) ─────────────────────────────────
+export const useThemePage = (slug: string) =>
+  useQuery({
+    queryKey: ["sanity", "themePage", slug],
+    queryFn: () =>
+      fetchSanity<{
+        title: string;
+        heroImage?: string;
+        introTexts?: string[];
+        sections?: { heading: string; paragraphs?: string[]; bulletPoints?: string[] }[];
+        lifePhases?: { title: string; text: string }[];
+        ctaText?: string;
+        ctaLink?: string;
+      }>(
+        `*[_type == "themePage" && slug.current == $slug][0]{
+          title,
+          "heroImage": heroImage.asset->url,
+          introTexts,
+          sections[]{heading, paragraphs, bulletPoints},
+          lifePhases[]{title, text},
+          ctaText, ctaLink
+        }`,
+        { slug }
+      ),
+    staleTime: 5 * 60 * 1000,
+  });
+
 // ─── Service Categories (for dropdown menu) ─────────────────────────
 
 // Preferred display order for categories in the dropdown

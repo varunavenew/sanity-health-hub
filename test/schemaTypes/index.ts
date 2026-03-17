@@ -20,6 +20,7 @@ import article from './article'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
 import faq from './faq'
+import themePage from './themePage'
 
 export const schemaTypes = [
   // Pages
@@ -31,6 +32,7 @@ export const schemaTypes = [
   servicesPage,
   clinicPage,
   clinicListPage,
+  themePage,
 
   // Content
   treatmentCategory,
