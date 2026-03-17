@@ -38,7 +38,7 @@ export const ServicesDropdown = () => {
   const handleNavigateServices = () => {
     navigate('/tjenester');
     setIsOpen(false);
-    setActiveCategory('gynekologi');
+    setActiveCategory(null);
     setActiveSubcategory(null);
   };
 
