@@ -30,7 +30,8 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
             Tilbake til overgangsalder
           </button>
           <h1 className="text-3xl md:text-4xl font-normal text-white mb-4">
-            Fastlegeveiledning overgangsalder
+            {sanityData?.title || "Fastlegeveiledning overgangsalder"}
+          </h1>
           </h1>
           <p className="text-white/70 font-light">
             Veileder for fastleger – Forenklet utredning og behandling av peri- og menopause
