@@ -108,32 +108,16 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           </p>
 
           {/* Rask rehabilitering */}
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Rask rehabilitering</h2>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.
-          </p>
-          <p className="text-base text-foreground font-normal mb-2">En raskere vei til restitusjon</p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Det gir en roligere og mer forutsigbar opplevelse etter operasjonen.
-          </p>
-          <p className="text-base text-foreground font-normal mb-2">Kortere sykemelding – raskere tilbake til hverdagen</p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen. Noen studier indikerer også mindre smerter etter robotkirurgi sammenlignet med vanlig kikkehullskirurgi (laparoskopi).
-          </p>
-
-          {/* Presisjon */}
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Presisjon som merkes</h2>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata. Nerveskader i bekkenet kan gi seksuelle dysfunksjoner og problemer med blæretømming, både hos kvinner og menn. Robotkirurgi gir bedre kontroll og er et effektivt verktøy for å gjennomføre slik nervedisseksjon med lavere risiko.
-          </p>
-          <p className="text-base text-foreground font-normal mb-2">Ergonomi – også for kirurgen</p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.
-          </p>
-          <p className="text-base text-foreground font-normal mb-2">Erfarne spesialister – trygg behandling</p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-12">
-            Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen.
-          </p>
+          {sections.map((section: any, sIdx: number) => (
+            <div key={sIdx} className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">{section.heading}</h2>
+              {(section.paragraphs || []).map((p: string, pIdx: number) => (
+                <p key={pIdx} className="text-base text-muted-foreground font-light leading-relaxed mb-6">
+                  {p}
+                </p>
+              ))}
+            </div>
+          ))}
 
           {/* Testimonial */}
           <div className="bg-secondary/30 rounded-xl p-8 mb-12 border-l-4 border-foreground/20">
