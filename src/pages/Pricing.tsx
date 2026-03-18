@@ -29,10 +29,12 @@ const Pricing = ({ isChatOpen }: PageProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("gynecology");
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const { data: sanityPricing } = usePricingPage();
+  const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
 
   useEffect(() => {
-    document.title = "Prisliste | CMedical - Transparent prising";
-  }, []);
+    document.title = sanityPricing?.title || "Prisliste | CMedical - Transparent prising";
+  }, [sanityPricing]);
 
   const gynecologyPrices: PriceCategory[] = [
     {
