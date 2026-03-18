@@ -307,9 +307,9 @@ function toSlug(str: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-// Deterministic ID from category + slug
+// Deterministic ID — aligned with migrate-content.ts to avoid duplicates
 function catId(categoryId: string): string {
-  return `treatmentCategory-${categoryId}`;
+  return `category-${categoryId}`;
 }
 
 function treatmentId(categoryId: string, slug: string): string {
