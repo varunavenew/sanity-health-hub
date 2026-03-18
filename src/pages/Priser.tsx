@@ -8,6 +8,9 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
+// Note: The page uses Sanity data via usePricingPage() when available,
+// falling back to the static priceCategories below.
+
 interface PageProps { isChatOpen: boolean }
 
 interface PriceItem {
