@@ -103,11 +103,11 @@ const BurgerMenu = () => {
                   </h3>
                   <div className="space-y-2">
                     <a 
-                      href="tel:+4722001234" 
+                      href={`tel:${phone.replace(/\s/g, '')}`}
                       className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Phone className="h-4 w-4" />
-                      22 00 12 34
+                      {phone}
                     </a>
                     <button 
                       onClick={() => handleNavigate('/kontakt')}
@@ -118,7 +118,7 @@ const BurgerMenu = () => {
                     </button>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <MapPin className="h-4 w-4" />
-                      Oslo, Bergen, Trondheim
+                      {address}
                     </div>
                   </div>
                 </div>
