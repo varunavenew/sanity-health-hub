@@ -127,10 +127,10 @@ const BurgerMenu = () => {
               {/* CTA Button */}
               <div className="px-5 pb-5">
                 <button 
-                  onClick={() => handleNavigate('/booking')}
+                  onClick={() => handleNavigate(ctaButton.path)}
                   className="w-full py-3 text-sm font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-colors"
                 >
-                  Bestill time
+                  {ctaButton.label}
                 </button>
               </div>
             </motion.div>
