@@ -182,11 +182,11 @@ const BurgerMenu = () => {
                   </h3>
                   <div className="space-y-3">
                     <a 
-                      href="tel:+4722001234" 
+                      href={`tel:${phone.replace(/\s/g, '')}`}
                       className="flex items-center gap-3 text-base text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Phone className="h-5 w-5" />
-                      22 00 12 34
+                      {phone}
                     </a>
                     <button 
                       onClick={() => handleNavigate('/kontakt')}
@@ -197,7 +197,7 @@ const BurgerMenu = () => {
                     </button>
                     <div className="flex items-center gap-3 text-base text-foreground/70">
                       <MapPin className="h-5 w-5" />
-                      Oslo, Bergen, Trondheim
+                      {address}
                     </div>
                   </div>
                 </div>
@@ -205,10 +205,10 @@ const BurgerMenu = () => {
                 {/* CTA */}
                 <div className="mt-8">
                   <button 
-                    onClick={() => handleNavigate('/booking')}
+                    onClick={() => handleNavigate(ctaButton.path)}
                     className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-colors"
                   >
-                    Bestill time
+                    {ctaButton.label}
                   </button>
                 </div>
               </div>
