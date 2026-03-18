@@ -19,6 +19,15 @@ const BurgerMenu = () => {
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const { data: siteSettings } = useSiteSettings();
+
+  const menuItems = siteSettings?.mainNavigation?.length
+    ? siteSettings.mainNavigation.map((item: any) => ({ label: item.label, path: item.path }))
+    : staticMenuItems;
+
+  const ctaButton = siteSettings?.ctaButton || { label: 'Bestill time', path: '/booking' };
+  const phone = siteSettings?.phone || '22 00 12 34';
+  const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 
   useEffect(() => {
     if (!isMenuOpen) return;
