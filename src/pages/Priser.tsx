@@ -397,8 +397,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
       <header className="relative">
         <div className="h-[25vh] md:h-[30vh] relative">
           <img 
-            src={pricingHero} 
-            alt="Priser" 
+            src={heroImage} 
+            alt={pageTitle} 
             className="w-full h-full object-cover object-[50%_30%]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
@@ -406,10 +406,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
             <div className="container mx-auto">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">
-                Prisliste
+                {pageTitle}
               </h1>
               <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">
-                Oversiktlige priser sortert etter fagområde
+                {pageSubtitle}
               </p>
             </div>
           </div>
