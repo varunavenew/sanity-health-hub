@@ -371,6 +371,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
+  const { data: sanityPricing } = usePricingPage();
+  const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
+  const pageTitle = sanityPricing?.title || "Prisliste";
+  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter fagområde";
 
   useEffect(() => {
     document.title = "Priser | CMedical";
