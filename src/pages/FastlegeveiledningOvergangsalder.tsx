@@ -10,6 +10,7 @@ interface PageProps {
 }
 
 const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
+  const { data: sanityData } = useThemePage("fastlegeveiledning-overgangsalder");
   const navigate = useNavigate();
 
   useEffect(() => {
