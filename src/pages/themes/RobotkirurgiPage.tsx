@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
+import { useThemePage } from "@/hooks/useSanity";
+import { getImageUrl } from "@/lib/sanityClient";
 
 interface PageProps {
   isChatOpen: boolean;
