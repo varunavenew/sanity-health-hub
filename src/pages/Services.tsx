@@ -42,15 +42,25 @@ const Services = ({ isChatOpen }: PageProps) => {
     : staticFaqs;
 
   const serviceCategories = sanityCategories?.length
-    ? sanityCategories.map((c: any) => ({
-        id: c.categoryId || c.slug,
-        label: c.title,
-        path: `/${c.categoryId || c.slug}`,
-        subcategories: (c.treatments || []).map((t: any) => ({
-          label: t.title,
-          path: `/behandlinger/${c.categoryId || c.slug}/${t.slug}`,
-        })),
-      }))
+    ? (() => {
+        const seen = new Set<string>();
+        return sanityCategories
+          .filter((c: any) => {
+            const key = c.categoryId || c.slug;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          })
+          .map((c: any) => ({
+            id: c.categoryId || c.slug,
+            label: c.title,
+            path: `/${c.categoryId || c.slug}`,
+            subcategories: (c.treatments || []).map((t: any) => ({
+              label: t.title,
+              path: `/behandlinger/${c.categoryId || c.slug}/${t.slug}`,
+            })),
+          }));
+      })()
     : staticServiceCategories;
 
   // Featured service cards from Sanity
