@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
 import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
+import { useSiteSettings } from "@/hooks/useSanity";
 
 import BurgerMenu from "@/components/BurgerMenu";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
