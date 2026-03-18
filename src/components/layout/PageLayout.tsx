@@ -28,6 +28,21 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { data: siteSettings } = useSiteSettings();
+
+  // Navigation items from Sanity or static fallback
+  const navItems = siteSettings?.mainNavigation?.length
+    ? siteSettings.mainNavigation
+    : [
+        { _key: "tjenester", label: "Tjenester", path: "/tjenester", isServicesDropdown: true },
+        { _key: "priser", label: "Priser", path: "/priser" },
+        { _key: "forsikring", label: "Forsikring", path: "/forsikring" },
+        { _key: "aktuelt", label: "Aktuelt", path: "/aktuelt" },
+        { _key: "om-oss", label: "Om oss", path: "/om-oss" },
+        { _key: "kontakt", label: "Kontakt", path: "/kontakt" },
+      ];
+
+  const ctaButton = siteSettings?.ctaButton || { label: "Bestill time", path: "/booking" };
 
   // Close search when clicking outside
   useEffect(() => {
