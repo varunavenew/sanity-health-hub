@@ -615,8 +615,17 @@ export const useServiceCategoriesFromSanity = () =>
       );
       if (!data || data.length === 0) return null;
 
+      // Deduplicate by categoryId (both migration scripts may have created entries)
+      const seen = new Set<string>();
+      const unique = data.filter((cat) => {
+        const id = cat.categoryId || cat.slug;
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      });
+
       // Sort categories by preferred order
-      const sorted = [...data].sort((a, b) => {
+      const sorted = [...unique].sort((a, b) => {
         const idA = a.categoryId || a.slug;
         const idB = b.categoryId || b.slug;
         const orderA = CATEGORY_ORDER.indexOf(idA);
