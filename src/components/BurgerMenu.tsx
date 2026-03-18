@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSiteSettings } from '@/hooks/useSanity';
 
-const menuItems = [
+const staticMenuItems = [
   { label: 'Tjenester', path: '/tjenester' },
   { label: 'Priser', path: '/priser' },
   { label: 'Om oss', path: '/om-oss' },
@@ -18,6 +19,15 @@ const BurgerMenu = () => {
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const { data: siteSettings } = useSiteSettings();
+
+  const menuItems = siteSettings?.mainNavigation?.length
+    ? siteSettings.mainNavigation.map((item: any) => ({ label: item.label, path: item.path }))
+    : staticMenuItems;
+
+  const ctaButton = siteSettings?.ctaButton || { label: 'Bestill time', path: '/booking' };
+  const phone = siteSettings?.phone || '22 00 12 34';
+  const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -93,11 +103,11 @@ const BurgerMenu = () => {
                   </h3>
                   <div className="space-y-2">
                     <a 
-                      href="tel:+4722001234" 
+                      href={`tel:${phone.replace(/\s/g, '')}`}
                       className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Phone className="h-4 w-4" />
-                      22 00 12 34
+                      {phone}
                     </a>
                     <button 
                       onClick={() => handleNavigate('/kontakt')}
@@ -108,7 +118,7 @@ const BurgerMenu = () => {
                     </button>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <MapPin className="h-4 w-4" />
-                      Oslo, Bergen, Trondheim
+                      {address}
                     </div>
                   </div>
                 </div>
@@ -117,10 +127,10 @@ const BurgerMenu = () => {
               {/* CTA Button */}
               <div className="px-5 pb-5">
                 <button 
-                  onClick={() => handleNavigate('/booking')}
+                  onClick={() => handleNavigate(ctaButton.path)}
                   className="w-full py-3 text-sm font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-colors"
                 >
-                  Bestill time
+                  {ctaButton.label}
                 </button>
               </div>
             </motion.div>
@@ -172,11 +182,11 @@ const BurgerMenu = () => {
                   </h3>
                   <div className="space-y-3">
                     <a 
-                      href="tel:+4722001234" 
+                      href={`tel:${phone.replace(/\s/g, '')}`}
                       className="flex items-center gap-3 text-base text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Phone className="h-5 w-5" />
-                      22 00 12 34
+                      {phone}
                     </a>
                     <button 
                       onClick={() => handleNavigate('/kontakt')}
@@ -187,7 +197,7 @@ const BurgerMenu = () => {
                     </button>
                     <div className="flex items-center gap-3 text-base text-foreground/70">
                       <MapPin className="h-5 w-5" />
-                      Oslo, Bergen, Trondheim
+                      {address}
                     </div>
                   </div>
                 </div>
@@ -195,10 +205,10 @@ const BurgerMenu = () => {
                 {/* CTA */}
                 <div className="mt-8">
                   <button 
-                    onClick={() => handleNavigate('/booking')}
+                    onClick={() => handleNavigate(ctaButton.path)}
                     className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-colors"
                   >
-                    Bestill time
+                    {ctaButton.label}
                   </button>
                 </div>
               </div>
