@@ -393,7 +393,19 @@ export const useSiteSettings = () =>
           phone,
           email,
           address,
-          socialMedia
+          socialMedia,
+          mainNavigation[]{
+            _key,
+            label,
+            path,
+            isServicesDropdown
+          },
+          ctaButton{ label, path },
+          notFoundTitle,
+          notFoundText,
+          "notFoundImage": notFoundImage.asset->url,
+          notFoundCtaLabel,
+          notFoundCtaPath
         }`
       );
       return data || null;

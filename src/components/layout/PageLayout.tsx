@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
 import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
+import { useSiteSettings } from "@/hooks/useSanity";
 
 import BurgerMenu from "@/components/BurgerMenu";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
@@ -27,6 +28,21 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { data: siteSettings } = useSiteSettings();
+
+  // Navigation items from Sanity or static fallback
+  const navItems = siteSettings?.mainNavigation?.length
+    ? siteSettings.mainNavigation
+    : [
+        { _key: "tjenester", label: "Tjenester", path: "/tjenester", isServicesDropdown: true },
+        { _key: "priser", label: "Priser", path: "/priser" },
+        { _key: "forsikring", label: "Forsikring", path: "/forsikring" },
+        { _key: "aktuelt", label: "Aktuelt", path: "/aktuelt" },
+        { _key: "om-oss", label: "Om oss", path: "/om-oss" },
+        { _key: "kontakt", label: "Kontakt", path: "/kontakt" },
+      ];
+
+  const ctaButton = siteSettings?.ctaButton || { label: "Bestill time", path: "/booking" };
 
   // Close search when clicking outside
   useEffect(() => {
@@ -132,37 +148,19 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             
             {/* Main Navigation - Always visible */}
           <div className="hidden md:flex items-center gap-1 text-white">
-            <ServicesDropdown />
-            <Link 
-              to="/priser" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Priser
-            </Link>
-            <Link 
-              to="/forsikring" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Forsikring
-            </Link>
-            <Link 
-              to="/aktuelt" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Aktuelt
-            </Link>
-            <Link 
-              to="/om-oss"
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Om oss
-            </Link>
-            <Link 
-              to="/kontakt" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Kontakt
-            </Link>
+              {navItems.map((item: any) =>
+                item.isServicesDropdown ? (
+                  <ServicesDropdown key={item._key} />
+                ) : (
+                  <Link
+                    key={item._key}
+                    to={item.path}
+                    className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
           </div>
 
           {/* Right side: Search, CTA, Menu */}
@@ -176,13 +174,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
 
-            {/* Bestill time CTA */}
+            {/* CTA Button */}
             <Button 
               size="sm" 
               className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-4 md:px-6 text-sm"
-              onClick={() => navigate('/booking')}
+              onClick={() => navigate(ctaButton.path)}
             >
-              Bestill time
+              {ctaButton.label}
             </Button>
             
             {/* Burger Menu */}
