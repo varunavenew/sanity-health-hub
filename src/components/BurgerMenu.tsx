@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSiteSettings } from '@/hooks/useSanity';
 
-const menuItems = [
+const staticMenuItems = [
   { label: 'Tjenester', path: '/tjenester' },
   { label: 'Priser', path: '/priser' },
   { label: 'Om oss', path: '/om-oss' },
