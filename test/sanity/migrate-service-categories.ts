@@ -7,6 +7,8 @@
  */
 
 import { createClient } from "@sanity/client";
+import * as fs from "fs";
+import * as path from "path";
 
 const client = createClient({
   projectId: "sh2sj585",
@@ -15,6 +17,72 @@ const client = createClient({
   useCdn: false,
   token: process.env.SANITY_TOKEN, // Needs write access
 });
+
+// ── Image Upload Helpers ──
+
+const ASSETS_DIR = path.resolve(__dirname, "../../src/assets");
+const imageCache = new Map<string, string>();
+
+async function uploadImage(
+  relativePath: string,
+  label?: string
+): Promise<{ _type: "image"; asset: { _type: "reference"; _ref: string } } | null> {
+  const fullPath = path.join(ASSETS_DIR, relativePath);
+
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`  ⚠ Image not found: ${relativePath}`);
+    return null;
+  }
+
+  if (imageCache.has(relativePath)) {
+    const cachedRef = imageCache.get(relativePath)!;
+    return { _type: "image", asset: { _type: "reference", _ref: cachedRef } };
+  }
+
+  const fileBuffer = fs.readFileSync(fullPath);
+  const ext = path.extname(fullPath).slice(1).toLowerCase();
+  const mimeTypes: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+  };
+  const contentType = mimeTypes[ext] || "application/octet-stream";
+  const filename = label ? `${label}.${ext}` : path.basename(fullPath);
+
+  const res = await fetch(
+    `https://${client.config().projectId}.api.sanity.io/v2024-01-01/assets/images/${client.config().dataset}?filename=${encodeURIComponent(filename)}&label=${encodeURIComponent(label || "")}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": contentType,
+        Authorization: `Bearer ${client.config().token}`,
+      },
+      body: fileBuffer,
+    }
+  );
+
+  if (!res.ok) {
+    console.error(`  ❌ Failed to upload ${relativePath}: ${res.status}`);
+    return null;
+  }
+
+  const result = await res.json();
+  const assetId = result.document._id;
+  imageCache.set(relativePath, assetId);
+  console.log(`  📸 Uploaded: ${relativePath} → ${assetId}`);
+  return { _type: "image", asset: { _type: "reference", _ref: assetId } };
+}
+
+// Category hero images mapping
+const categoryImages: Record<string, string> = {
+  gynekologi: "categories/gynekologi-real.jpg",
+  fertilitet: "categories/fertilitet-real.jpg",
+  urologi: "categories/urologi-real.jpg",
+  ortopedi: "categories/ortopedi-real.jpg",
+  graviditet: "categories/fertilitet-real.jpg",
+  "flere-fagomrader": "categories/flere-fagomrader.jpg",
+};
 
 // ── Static data (mirrored from src/data/serviceCategories.ts) ──
 
