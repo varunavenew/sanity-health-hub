@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import cmedicalLogo from "@/assets/cmedical-logo-updated.png";
 import BurgerMenu from "@/components/BurgerMenu";
+import { useThemePage } from "@/hooks/useSanity";
 
 interface GuideProps {
   isChatOpen: boolean;

@@ -5,8 +5,13 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { usePricingPage } from "@/hooks/useSanity";
+import { getImageUrl } from "@/lib/sanityClient";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
+
+// Note: The page uses Sanity data via usePricingPage() when available,
+// falling back to the static priceCategories below.
 
 interface PageProps { isChatOpen: boolean }
 
@@ -366,6 +371,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
+  const { data: sanityPricing } = usePricingPage();
+  const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
+  const pageTitle = sanityPricing?.title || "Prisliste";
+  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter fagområde";
 
   useEffect(() => {
     document.title = "Priser | CMedical";
@@ -394,8 +403,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
       <header className="relative">
         <div className="h-[25vh] md:h-[30vh] relative">
           <img 
-            src={pricingHero} 
-            alt="Priser" 
+            src={heroImage} 
+            alt={pageTitle} 
             className="w-full h-full object-cover object-[50%_30%]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
@@ -403,10 +412,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
             <div className="container mx-auto">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">
-                Prisliste
+                {pageTitle}
               </h1>
               <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">
-                Oversiktlige priser sortert etter fagområde
+                {pageSubtitle}
               </p>
             </div>
           </div>

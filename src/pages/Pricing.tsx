@@ -6,6 +6,8 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
 import { RelatedServices, allServices } from "@/components/layout/RelatedServices";
 import { Link } from "react-router-dom";
+import { usePricingPage } from "@/hooks/useSanity";
+import { getImageUrl } from "@/lib/sanityClient";
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
 interface PageProps { isChatOpen: boolean }
@@ -27,10 +29,12 @@ const Pricing = ({ isChatOpen }: PageProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("gynecology");
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const { data: sanityPricing } = usePricingPage();
+  const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
 
   useEffect(() => {
-    document.title = "Prisliste | CMedical - Transparent prising";
-  }, []);
+    document.title = sanityPricing?.title || "Prisliste | CMedical - Transparent prising";
+  }, [sanityPricing]);
 
   const gynecologyPrices: PriceCategory[] = [
     {

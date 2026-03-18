@@ -7,14 +7,48 @@ import { Button } from "@/components/ui/button";
 import heroFamily from "@/assets/hero/hero-family.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ClinicGrid } from "@/components/ClinicGrid";
+import { useAboutPage } from "@/hooks/useSanity";
+import { getImageUrl } from "@/lib/sanityClient";
 
 interface AboutProps {
   isChatOpen: boolean;
 }
 
+// Static fallback content
+const staticContent = {
+  title: "Faglig trygghet og personlig omsorg – for din helse",
+  introParagraphs: [
+    "Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.",
+    "CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.",
+    "Vi skal forene det fremste innen medisinsk presisjon med varme, respekt og tydelig kommunikasjon. Pasienten skal oppleve trygghet i hvert møte, forutsigbarhet i hvert steg og kvalitet i alle ledd.",
+  ],
+  bodyParagraphs: [
+    { text: "Kvinnehelse er et strategisk satsningsområde i CMedical. Kvinners helse har i for stor grad vært underprioritert, både som del av folkeopplysning, medisinsk tilbud og i forskning. Derfor bygger vi et helhetlig og subspesialisert tilbud som følger kvinnen gjennom hele livsløpet – fra pubertet og fertilitet til barneønske og graviditet, barseltid og før, under og etter overgangsalder. Ekspertteam innen blant annet endometriose, infertilitet, vulvalidelser, fødselsskader og menopause sikrer direkte tilgang til riktig kompetanse – uten omveier.", bold: false },
+    { text: "Ambisjonen er tydelig: Kvinnehelse for livet.", bold: true },
+    { text: "Samtidig favner tilbudet bredt innen gynekologi, fertilitet, ortopedi og urologi – fra grundig utredning til avansert kirurgi. Tverrfaglige fagområder som osteopati, psykologi, sexologi og ernæring er integrert for å sikre en helhetlig tilnærming til både kropp og livssituasjon.", bold: false },
+    { text: "Teknologi tas i bruk der den gir dokumentert verdi. Som landets eneste private klinikk med robotassistert kirurgi kombineres innovasjon med erfaring for å gi mer presise og skånsomme inngrep. Hos oss kommer du til den beste hjelpen – raskt.", bold: false },
+    { text: "CMedical skal sette en ny standard for privat spesialisthelsetjeneste – der moderne teknologi, korte beslutningslinjer og høyeste kompetanse møtes i omgivelser preget av ro og verdighet.", bold: false },
+    { text: "Dette er vårt løfte: Faglig trygghet og personlig omsorg – for din helse, i alle livets faser.", bold: true },
+  ],
+};
+
 const About = ({ isChatOpen }: AboutProps) => {
   const navigate = useNavigate();
   const { specialists } = useSpecialistsData();
+  const { data: sanityData } = useAboutPage();
+
+  // Use Sanity data if available, otherwise static fallback
+  const title = sanityData?.title || staticContent.title;
+  const heroImage = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : heroFamily;
+  
+  // Map Sanity sections back into paragraph structure, or use static
+  const introParagraphs = sanityData?.sections?.length
+    ? sanityData.sections.slice(0, 3).map((s: any) => s.content)
+    : staticContent.introParagraphs;
+  
+  const bodyParagraphs = sanityData?.sections?.length && sanityData.sections.length > 3
+    ? sanityData.sections.slice(3).map((s: any) => ({ text: s.content, bold: false }))
+    : staticContent.bodyParagraphs;
 
   useEffect(() => {
     document.title = "Om oss | CMedical - Nordens ledende klinikk for livet og underlivet";
@@ -30,21 +64,15 @@ const About = ({ isChatOpen }: AboutProps) => {
             <header className="mb-8 pb-6 border-b border-brand-dark/10">
               <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
-                Faglig trygghet og personlig omsorg – for din helse
+                {title}
               </h1>
             </header>
 
-            {/* Main content */}
+            {/* Main content - intro */}
             <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              <p>
-                Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
-              </p>
-              <p>
-                CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.
-              </p>
-              <p>
-                Vi skal forene det fremste innen medisinsk presisjon med varme, respekt og tydelig kommunikasjon. Pasienten skal oppleve trygghet i hvert møte, forutsigbarhet i hvert steg og kvalitet i alle ledd.
-              </p>
+              {introParagraphs.map((p: string, i: number) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -53,7 +81,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-2xl mx-auto">
             <img 
-              src={heroFamily} 
+              src={heroImage} 
               alt="Omsorg hos CMedical - Familie"
               className="w-full aspect-[3/2] object-cover object-[30%_20%]"
             />
@@ -64,24 +92,11 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-2xl mx-auto">
             <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              <p>
-                Kvinnehelse er et strategisk satsningsområde i CMedical. Kvinners helse har i for stor grad vært underprioritert, både som del av folkeopplysning, medisinsk tilbud og i forskning. Derfor bygger vi et helhetlig og subspesialisert tilbud som følger kvinnen gjennom hele livsløpet – fra pubertet og fertilitet til barneønske og graviditet, barseltid og før, under og etter overgangsalder. Ekspertteam innen blant annet endometriose, infertilitet, vulvalidelser, fødselsskader og menopause sikrer direkte tilgang til riktig kompetanse – uten omveier.
-              </p>
-              <p className="text-brand-dark font-normal">
-                Ambisjonen er tydelig: Kvinnehelse for livet.
-              </p>
-              <p>
-                Samtidig favner tilbudet bredt innen gynekologi, fertilitet, ortopedi og urologi – fra grundig utredning til avansert kirurgi. Tverrfaglige fagområder som osteopati, psykologi, sexologi og ernæring er integrert for å sikre en helhetlig tilnærming til både kropp og livssituasjon.
-              </p>
-              <p>
-                Teknologi tas i bruk der den gir dokumentert verdi. Som landets eneste private klinikk med robotassistert kirurgi kombineres innovasjon med erfaring for å gi mer presise og skånsomme inngrep. Hos oss kommer du til den beste hjelpen – raskt.
-              </p>
-              <p>
-                CMedical skal sette en ny standard for privat spesialisthelsetjeneste – der moderne teknologi, korte beslutningslinjer og høyeste kompetanse møtes i omgivelser preget av ro og verdighet.
-              </p>
-              <p className="text-brand-dark font-normal pt-2">
-                Dette er vårt løfte: Faglig trygghet og personlig omsorg – for din helse, i alle livets faser.
-              </p>
+              {bodyParagraphs.map((p: any, i: number) => (
+                <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
+                  {p.text || p}
+                </p>
+              ))}
             </div>
 
             {/* CTA */}

@@ -3,17 +3,19 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useThemePage } from "@/hooks/useSanity";
 
 interface PageProps {
   isChatOpen: boolean;
 }
 
 const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
+  const { data: sanityData } = useThemePage("fastlegeveiledning-overgangsalder");
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Fastlegeveiledning overgangsalder | CMedical";
-  }, []);
+    document.title = sanityData?.title ? `${sanityData.title} | CMedical` : "Fastlegeveiledning overgangsalder | CMedical";
+  }, [sanityData]);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -28,7 +30,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
             Tilbake til overgangsalder
           </button>
           <h1 className="text-3xl md:text-4xl font-normal text-white mb-4">
-            Fastlegeveiledning overgangsalder
+            {sanityData?.title || "Fastlegeveiledning overgangsalder"}
           </h1>
           <p className="text-white/70 font-light">
             Veileder for fastleger – Forenklet utredning og behandling av peri- og menopause
