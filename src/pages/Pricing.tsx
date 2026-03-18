@@ -6,6 +6,8 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
 import { RelatedServices, allServices } from "@/components/layout/RelatedServices";
 import { Link } from "react-router-dom";
+import { usePricingPage } from "@/hooks/useSanity";
+import { getImageUrl } from "@/lib/sanityClient";
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
 interface PageProps { isChatOpen: boolean }
