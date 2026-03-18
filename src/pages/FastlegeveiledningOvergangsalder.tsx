@@ -14,8 +14,8 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Fastlegeveiledning overgangsalder | CMedical";
-  }, []);
+    document.title = sanityData?.title ? `${sanityData.title} | CMedical` : "Fastlegeveiledning overgangsalder | CMedical";
+  }, [sanityData]);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
