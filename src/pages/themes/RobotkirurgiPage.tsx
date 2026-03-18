@@ -9,8 +9,62 @@ interface PageProps {
   isChatOpen: boolean;
 }
 
+// Static fallback content
+const staticContent = {
+  title: "Robotassistert kirurgi",
+  introTexts: [
+    "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.",
+    "Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.",
+    "Robotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.",
+  ],
+  bulletPoints: [
+    "Muskelknuter (fertilitetsbevarende kirurgi)",
+    "Dyp endometriose",
+    "Hysterektomi, også ved forstørret livmor",
+    "Brokk",
+    "Godartet forstørret prostata (RASP)",
+    "Prostatakreft (RALP)",
+  ],
+  sections: [
+    {
+      heading: "Rask rehabilitering",
+      paragraphs: [
+        "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.",
+        "En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.",
+        "Kortere sykemelding – raskere tilbake til hverdagen: Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker.",
+      ],
+    },
+    {
+      heading: "Presisjon som merkes",
+      paragraphs: [
+        "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep.",
+        "Ergonomi – også for kirurgen: Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse.",
+        "Erfarne spesialister – trygg behandling: Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi.",
+      ],
+    },
+  ],
+  testimonial: {
+    text: "«Tilgjengelighet i en usikker periode har vært viktig. Dere svarer telefoner og mail raskt. Etter operasjonen ble jeg langt i fra glemt. Jeg kunne ta kontakt med dere langt utenfor det som var normal arbeidstid, og robotkirurgen sa jeg kunne ringe ham når som helst på døgnet. Jeg tror at min livssituasjon kanskje ikke ville vært så god som den er i dag dersom noen andre i Norge hadde utført inngrepet.»",
+    author: "— Tom, 70 år",
+  },
+  faqs: [
+    { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+    { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+    { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+    { question: "RASP", answer: "Robotassistert enkel prostatektomi (RASP) er et inngrep for godartet forstørret prostata. Operasjonen utføres robotassistert med høy presisjon." },
+    { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
+  ],
+};
+
 const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
+  const { data: sanityData } = useThemePage("robotkirurgi");
+
+  // Use Sanity data with static fallback
+  const title = sanityData?.title || staticContent.title;
+  const heroImg = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : robotkirurgiHero;
+  const introTexts = sanityData?.introTexts?.length ? sanityData.introTexts : staticContent.introTexts;
+  const sections = sanityData?.sections?.length ? sanityData.sections : staticContent.sections;
 
   useEffect(() => {
     document.title = "Robotassistert kirurgi | CMedical";
