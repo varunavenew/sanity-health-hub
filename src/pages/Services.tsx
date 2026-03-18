@@ -65,13 +65,21 @@ const Services = ({ isChatOpen }: PageProps) => {
 
   // Featured service cards from Sanity
   const featuredServices = sanityCategories?.length
-    ? sanityCategories
-        .filter((c: any) => ["gynekologi", "urologi", "fertilitet", "ortopedi"].includes(c.categoryId || c.slug))
-        .map((c: any) => ({
-          label: c.title,
-          image: c.heroImage || staticFeatured.find(s => s.label === c.title)?.image || "",
-          path: `/${c.categoryId || c.slug}`,
-        }))
+    ? (() => {
+        const seen = new Set<string>();
+        return sanityCategories
+          .filter((c: any) => {
+            const key = c.categoryId || c.slug;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return ["gynekologi", "urologi", "fertilitet", "ortopedi"].includes(key);
+          })
+          .map((c: any) => ({
+            label: c.title,
+            image: c.heroImage || staticFeatured.find(s => s.label === c.title)?.image || "",
+            path: `/${c.categoryId || c.slug}`,
+          }));
+      })()
     : staticFeatured;
 
   const [openFaq, setOpenFaq] = useState<string | null>(null);
