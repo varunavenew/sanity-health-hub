@@ -74,11 +74,11 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       {/* Hero */}
       <section className="relative h-[30vh] min-h-[220px] overflow-hidden">
-        <img src={robotkirurgiHero} alt="Robotassistert kirurgi" className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
+        <img src={heroImg} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
           <div className="container mx-auto">
-            <h1 className="text-3xl md:text-5xl font-light text-white">Robotassistert kirurgi</h1>
+            <h1 className="text-3xl md:text-5xl font-light text-white">{title}</h1>
           </div>
         </div>
       </section>
