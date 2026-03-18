@@ -387,18 +387,25 @@ function treatmentId(categoryId: string, slug: string): string {
 // ── Build transaction ──
 
 async function migrate() {
-  console.log("🚀 Migrating service categories to Sanity...\n");
+  console.log("🚀 Migrating service categories to Sanity (with images)...\n");
 
   const tx = client.transaction();
 
   for (const cat of serviceCategories) {
     const categoryDocId = catId(cat.id);
 
+    // Upload hero image for this category
+    const imagePath = categoryImages[cat.id];
+    let heroImage = null;
+    if (imagePath) {
+      console.log(`  🖼 Uploading hero image for ${cat.label}...`);
+      heroImage = await uploadImage(imagePath, `category-${cat.id}`);
+    }
+
     // Collect treatment references
     const treatmentRefs: { _type: string; _ref: string; _key: string }[] = [];
 
     for (const sub of cat.subcategories) {
-      // Extract slug from path: /behandlinger/{categoryId}/{slug}
       const pathParts = sub.path.split("/");
       const slug = pathParts[pathParts.length - 1];
       const docId = treatmentId(cat.id, slug);
@@ -409,7 +416,6 @@ async function migrate() {
         _key: slug,
       });
 
-      // Build subItems for 3rd column
       const subItems = (sub.items || []).map((item, idx) => ({
         _key: `item-${idx}`,
         _type: "object",
@@ -418,7 +424,6 @@ async function migrate() {
         path: item.path || undefined,
       }));
 
-      // Create treatment document
       tx.createOrReplace({
         _id: docId,
         _type: "treatment",
@@ -432,7 +437,7 @@ async function migrate() {
       console.log(`  📄 Treatment: ${sub.label} (${docId})`);
     }
 
-    // Create category document
+    // Create category document WITH hero image
     tx.createOrReplace({
       _id: categoryDocId,
       _type: "treatmentCategory",
@@ -440,6 +445,7 @@ async function migrate() {
       slug: { _type: "slug", current: cat.id === "flere" ? "flere-fagomrader" : cat.id },
       categoryId: cat.id === "flere" ? "flere-fagomrader" : cat.id,
       treatments: treatmentRefs,
+      ...(heroImage ? { heroImage } : {}),
     });
 
     console.log(`📁 Category: ${cat.label} (${categoryDocId})`);
