@@ -148,35 +148,44 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             
             {/* Main Navigation - Always visible */}
           <div className="hidden md:flex items-center gap-1 text-white">
-            <ServicesDropdown />
-            <Link 
-              to="/priser" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
+              {navItems.map((item: any) =>
+                item.isServicesDropdown ? (
+                  <ServicesDropdown key={item._key} />
+                ) : (
+                  <Link
+                    key={item._key}
+                    to={item.path}
+                    className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
+          </div>
+
+          {/* Right side: Search, CTA, Menu */}
+          <div className="flex items-center gap-2">
+            {/* Search Toggle */}
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="p-2 rounded-full transition-all hover:bg-white/10 text-white"
+              aria-label="Søk"
             >
-              Priser
-            </Link>
-            <Link 
-              to="/forsikring" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
+              {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            </button>
+
+            {/* CTA Button */}
+            <Button 
+              size="sm" 
+              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-4 md:px-6 text-sm"
+              onClick={() => navigate(ctaButton.path)}
             >
-              Forsikring
-            </Link>
-            <Link 
-              to="/aktuelt" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Aktuelt
-            </Link>
-            <Link 
-              to="/om-oss"
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
-              Om oss
-            </Link>
-            <Link 
-              to="/kontakt" 
-              className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-            >
+              {ctaButton.label}
+            </Button>
+            
+            {/* Burger Menu */}
+            <BurgerMenu />
+          </div>
               Kontakt
             </Link>
           </div>
