@@ -186,33 +186,6 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {/* Burger Menu */}
             <BurgerMenu />
           </div>
-              Kontakt
-            </Link>
-          </div>
-
-          {/* Right side: Search, CTA, Menu */}
-          <div className="flex items-center gap-2">
-            {/* Search Toggle */}
-            <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 rounded-full transition-all hover:bg-white/10 text-white"
-              aria-label="Søk"
-            >
-              {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
-            </button>
-
-            {/* Bestill time CTA */}
-            <Button 
-              size="sm" 
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-4 md:px-6 text-sm"
-              onClick={() => navigate('/booking')}
-            >
-              Bestill time
-            </Button>
-            
-            {/* Burger Menu */}
-            <BurgerMenu />
-          </div>
         </div>
 
         {/* Search Overlay - Inside nav for consistent styling */}
