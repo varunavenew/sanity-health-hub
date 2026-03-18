@@ -5,6 +5,8 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { usePricingPage } from "@/hooks/useSanity";
+import { getImageUrl } from "@/lib/sanityClient";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
