@@ -142,13 +142,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
               Ofte stilte spørsmål
             </h2>
             <div className="border-t border-border rounded-lg bg-white overflow-hidden">
-              {[
-                { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-                { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-                { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-                { question: "RASP", answer: "Robotassistert enkel prostatektomi (RASP) er et inngrep for godartet forstørret prostata. Operasjonen utføres robotassistert med høy presisjon." },
-                { question: "Selskapet", answer: "CMedical ble etablert i 2013 og er et nordisk privathelsetilbud med klinikker i Norge og Sverige. Vi gjennomfører omtrent 50.000 konsultasjoner i året." },
-              ].map((faq, i) => (
+              {staticContent.faqs.map((faq, i) => (
                 <FaqItem key={i} question={faq.question} answer={faq.answer} />
               ))}
             </div>
