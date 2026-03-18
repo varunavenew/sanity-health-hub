@@ -88,26 +88,15 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-4 md:px-8 max-w-3xl">
           
           {/* Intro */}
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.
-          </p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.
-          </p>
-          <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-            Robotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.
-          </p>
+          {introTexts.map((text: string, i: number) => (
+            <p key={i} className="text-base text-muted-foreground font-light leading-relaxed mb-6">
+              {text}
+            </p>
+          ))}
 
           <p className="text-base text-foreground font-normal mb-4">Vi tilbyr robotassistert kirurgi innen blant annet:</p>
           <ul className="space-y-2 mb-6">
-            {[
-              "Muskelknuter (fertilitetsbevarende kirurgi)",
-              "Dyp endometriose",
-              "Hysterektomi, også ved forstørret livmor",
-              "Brokk",
-              "Godartet forstørret prostata (RASP)",
-              "Prostatakreft (RALP)",
-            ].map((item) => (
+            {(sanityData?.sections?.[0]?.bulletPoints || staticContent.bulletPoints).map((item: string) => (
               <li key={item} className="flex items-start gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-dark mt-2 flex-shrink-0" />
                 <span className="text-sm text-muted-foreground font-light">{item}</span>
