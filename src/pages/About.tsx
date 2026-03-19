@@ -51,8 +51,11 @@ const About = ({ isChatOpen }: AboutProps) => {
     ? sanityData.sections.slice(3).map((s: any) => ({ text: s.content, bold: false }))
     : staticContent.bodyParagraphs;
 
+  const seoTitle = "Om oss – Faglig trygghet og personlig omsorg";
+  const seoDescription = "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Siden 2002 har over 150 000 pasienter fått behandling hos oss.";
+
   useEffect(() => {
-    document.title = "Om oss | CMedical - Nordens ledende klinikk for livet og underlivet";
+    document.title = `${seoTitle} | CMedical`;
   }, []);
 
   return (
