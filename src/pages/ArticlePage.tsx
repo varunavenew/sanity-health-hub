@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { articles } from "@/data/articles";
 import { articleContent, type ContentBlock } from "@/data/articleContent";
 import { useArticle } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
 
 interface ArticlePageProps {
