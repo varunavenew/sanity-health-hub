@@ -59,7 +59,7 @@ const About = ({ isChatOpen }: AboutProps) => {
       {/* Letter-style content */}
       <article className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             {/* Header */}
             <header className="mb-8 pb-6 border-b border-brand-dark/10">
               <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
