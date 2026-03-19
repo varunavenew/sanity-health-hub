@@ -7,6 +7,7 @@ import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "
 import { specialists as allSpecialists, Specialist } from "@/data/specialists";
 import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface TreatmentPageProps {
   categoryId: string;
