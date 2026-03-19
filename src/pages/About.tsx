@@ -79,7 +79,7 @@ const About = ({ isChatOpen }: AboutProps) => {
 
         {/* Image */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <img 
               src={heroImage} 
               alt="Omsorg hos CMedical - Familie"
