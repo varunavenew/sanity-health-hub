@@ -508,8 +508,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Ofte stilte spørsmål</h2>
+            <div className="mb-8">
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
               <p className="text-muted-foreground font-light">
                 Det kan være enkelt å være pasient hos oss. Finner du ikke svar på det du lurer på, finner du kontaktinformasjonen vår nedenfor.
               </p>
