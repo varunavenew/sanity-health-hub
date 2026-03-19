@@ -107,6 +107,7 @@ export const LifePhasesSection = () => {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
       </Helmet>
+      <div className="container mx-auto px-4 md:px-8">
         {/* FAQ Section */}
         <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">
