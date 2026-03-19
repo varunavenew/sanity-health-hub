@@ -448,7 +448,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       {category.label}
                     </span>
                     <span className="text-sm font-light text-muted-foreground">
-                      {category.subcategories.reduce((sum, sub) => sum + sub.items.length, 0)} tjenester
+                      {expandedCategory === category.id ? 'Lukk prisliste' : 'Se priser'}
                     </span>
                   </div>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10`}>
