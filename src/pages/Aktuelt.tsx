@@ -87,7 +87,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
 
 const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { data: sanityArticles } = useArticles();
-  const [activeFilter, setActiveFilter] = useState("Alla");
+  const [activeFilter, setActiveFilter] = useState("Alle");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
   const [isLoading, setIsLoading] = useState(false);
@@ -120,7 +120,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   }, [activeFilter, searchQuery]);
 
   const filteredArticles = articles.filter((a) => {
-    const matchesFilter = activeFilter === "Alla" || a.category === activeFilter;
+    const matchesFilter = activeFilter === "Alle" || a.category === activeFilter;
     const matchesSearch =
       !searchQuery ||
       a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -11,7 +11,7 @@ export interface Article {
 }
 
 export const filterCategories = [
-  "Alla",
+  "Alle",
   "Pasienthistorier",
   "Oss i media",
   "Fagartiklar",
