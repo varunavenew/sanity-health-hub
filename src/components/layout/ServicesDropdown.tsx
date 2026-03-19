@@ -82,7 +82,7 @@ export const ServicesDropdown = () => {
               <div className="flex">
                 {/* Column 1 - Main Categories */}
                 <div className="w-[180px] p-4 border-r border-white/10">
-                  <h3 className="text-white/50 text-[10px] uppercase tracking-wider mb-2 font-light px-2">
+                  <h3 className="text-white/50 text-xs uppercase tracking-wider mb-2 font-light px-2">
                     Fagområder
                   </h3>
                   <nav className="space-y-0">
