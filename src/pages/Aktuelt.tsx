@@ -87,7 +87,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
 
 const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { data: sanityArticles } = useArticles();
-  const [activeFilter, setActiveFilter] = useState("Alla");
+  const [activeFilter, setActiveFilter] = useState("Alle");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
   const [isLoading, setIsLoading] = useState(false);
