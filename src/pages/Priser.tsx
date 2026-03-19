@@ -640,10 +640,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             <p className="text-foreground text-sm font-light underline underline-offset-4 decoration-foreground/20 group-hover/item:decoration-foreground/60 transition-colors">
                                               {item.name}
                                             </p>
-                                            <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
-                                              <Clock className="w-3 h-3" />
-                                              {item.duration}
-                                            </p>
+                                            {item.duration && (
+                                              <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
+                                                <Clock className="w-3 h-3" />
+                                                {item.duration}
+                                              </p>
+                                            )}
                                           </div>
                                           <div className="flex items-center gap-3">
                                             <p className="font-normal text-foreground text-sm">
