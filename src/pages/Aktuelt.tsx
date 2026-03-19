@@ -219,17 +219,12 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         <div className="container mx-auto px-6 md:px-16">
           {/* Featured hero layout */}
           {pinnedArticles.length > 0 && (
-            <div className="mb-16 space-y-4">
-              {pinnedArticles[0] && (
-                <FeaturedHero article={pinnedArticles[0]} />
-              )}
-              {pinnedArticles.length > 1 && (
-                <div className="grid md:grid-cols-2 gap-4">
-                  {pinnedArticles.slice(1).map((article) => (
-                    <FeaturedSide key={article.slug} article={article} />
-                  ))}
-                </div>
-              )}
+            <div className="mb-16">
+              <div className="grid md:grid-cols-2 gap-4">
+                {pinnedArticles.slice(0, 4).map((article) => (
+                  <FeaturedCard key={article.slug} article={article} />
+                ))}
+              </div>
             </div>
           )}
 
