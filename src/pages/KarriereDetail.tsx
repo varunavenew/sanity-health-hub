@@ -109,6 +109,30 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={`${job.title} – Karriere hos CMedical`}
+        description={job.excerpt || `Søk på stillingen ${job.title} hos CMedical ${job.location}.`}
+        canonical={`/karriere/${job.slug}`}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Karriere", path: "/karriere" },
+          { name: job.title, path: `/karriere/${job.slug}` },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "JobPosting",
+          title: job.title,
+          description: job.excerpt,
+          hiringOrganization: {
+            "@type": "Organization",
+            name: "CMedical",
+          },
+          jobLocation: {
+            "@type": "Place",
+            address: job.location,
+          },
+        }}
+      />
       <div className="pt-28 pb-20 container mx-auto px-6 md:px-16">
         <Link
           to="/karriere"
