@@ -27,6 +27,7 @@ import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergang
 import Personvern from "./pages/Personvern";
 import Karriere from "./pages/Karriere";
 import KarriereDetail from "./pages/KarriereDetail";
+import ClinicDetailPage from "./pages/ClinicDetailPage";
 
 const queryClient = new QueryClient();
 
