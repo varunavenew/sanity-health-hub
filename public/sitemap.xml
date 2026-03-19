@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Hovedsider -->
+  <url><loc>https://cmedical.no/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://cmedical.no/tjenester</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cmedical.no/priser</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cmedical.no/forsikring</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/om-oss</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/kontakt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/spesialister</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cmedical.no/aktuelt</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/booking</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cmedical.no/karriere</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://cmedical.no/personvern</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+  <!-- Fagområder (kategori) -->
+  <url><loc>https://cmedical.no/gynekologi</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cmedical.no/fertilitet</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cmedical.no/urologi</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://cmedical.no/ortopedi</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cmedical.no/graviditet</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cmedical.no/flere-fagomrader</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Temasider -->
+  <url><loc>https://cmedical.no/kvinnehelse</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cmedical.no/robotassistert-kirurgi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/tverrfaglige-team</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Gynekologi-behandlinger -->
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/undersokelse</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/urinlekkasje</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/endometriose</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/overgangsalder</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/vaginale-fremfall</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/blodningsforstyrrelser</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/celleforandringer</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/cyster</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/fjerne-livmor</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/pms-pmdd</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/labiaplastikk</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/vaginal-torrhet</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/vulvalidelser</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/kirurgi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/gynekologi/robotkirurgi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Fertilitet-behandlinger -->
+  <url><loc>https://cmedical.no/behandlinger/fertilitet/infertilitet</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/fertilitet/assistert-befruktning</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/fertilitet/donorbehandling</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/fertilitet/eggfrys</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/fertilitet/hormonforstyrrelser</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/fertilitet/hysteroskopi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Urologi-behandlinger -->
+  <url><loc>https://cmedical.no/behandlinger/urologi/blaere</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/urologi/forhud</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/urologi/infertilitet</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/urologi/nyrer</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/urologi/prevensjon</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Ortopedi-behandlinger -->
+  <url><loc>https://cmedical.no/behandlinger/ortopedi/fot-ankel</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/ortopedi/hofte</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/ortopedi/hand-albue</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://cmedical.no/behandlinger/ortopedi/kne</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Klinikker -->
+  <url><loc>https://cmedical.no/klinikker/majorstuen</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://cmedical.no/klinikker/bekkestua</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://cmedical.no/klinikker/moss</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://cmedical.no/klinikker/ski</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://cmedical.no/klinikker/moelv</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>
