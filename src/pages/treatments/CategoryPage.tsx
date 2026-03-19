@@ -76,12 +76,10 @@ const staticCategoryData: Record<string, CategoryData> = {
     services: [
       { name: "Infertilitet", path: "/behandlinger/fertilitet/infertilitet" },
       { name: "Assistert befruktning", path: "/behandlinger/fertilitet/assistert-befruktning" },
-      { name: "IVF", path: "/behandlinger/fertilitet/ivf" },
+      { name: "Assistert befruktning med donor", path: "/behandlinger/fertilitet/donorbehandling" },
       { name: "Eggfrys", path: "/behandlinger/fertilitet/eggfrys" },
-      { name: "Donorbehandling", path: "/behandlinger/fertilitet/donorbehandling" },
+      { name: "Hormonforstyrrelser", path: "/behandlinger/fertilitet/hormonforstyrrelser" },
       { name: "Hysteroskopi", path: "/behandlinger/fertilitet/hysteroskopi" },
-      { name: "Sædanalyse", path: "/behandlinger/fertilitet/saedanalyse" },
-      { name: "Om oss / Fertilitetsteamet", path: "/behandlinger/fertilitet/teamet" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
