@@ -48,7 +48,7 @@ const getSpecialistLabel = (categoryId: string): string => {
 const staticCategoryData: Record<string, CategoryData> = {
   urologi: {
     id: "urologi", title: "Urologi", subtitle: "Ingen ventetid • Ingen henvisning",
-    description: "Urologi er en medisinsk spesialitet som omhandler plager og sykdommer knyttet til mannens underliv og urinorganer hos begge kjønn herunder penis, prostata, testikler urinblære og nyrer. Har du smerter, forstyrrelser med vannlating eller bare ønsker en generell sjekk vil vår gruppe av spesialister kunne hjelpe.\n\nI CMedical har vi flere av Nordens ledende spesialister innen urologi. En erfaren urolog er tilgjengelig hver dag og i tillegg har vi et bredt tverrfaglig team med spesialister som har spisskompetanse på ulike undergrupper av sykdommer.\n\nCMedical er eneste private aktør i Norge som tilbyr robotoperasjoner. Vi kan tilby inngrep med robot på prostata både for kreft og godartet forstørrelse, brokk, utposninger på urinblære og enkelte nyreinngrep.\n\nTa gjerne kontakt med oss for en uforpliktende prat.",
+    description: "Urologi er en medisinsk spesialitet som omhandler plager og sykdommer knyttet til mannens underliv og urinorganer hos begge kjønn herunder penis, prostata, testikler urinblære og nyrer. Har du smerter, forstyrrelser med vannlating eller bare ønsker en generell sjekk vil vår gruppe av spesialister kunne hjelpe.\n\nI CMedical har vi flere av Nordens ledende spesialister innen urologi.",
     servicesHeading: "Urologispesialister",
     servicesIntro: "Våre spesialister jobber med de fagområdene de kan best. Vi har noen av Nordens ledende spesialister på følgende områder:",
     heroImage: urologiImg,
@@ -57,11 +57,7 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Forhud", path: "/behandlinger/urologi/forhud" },
       { name: "Mannlig infertilitet", path: "/behandlinger/urologi/infertilitet" },
       { name: "Nyrer", path: "/behandlinger/urologi/nyrer" },
-      { name: "Prostata", path: "/behandlinger/urologi/prostata" },
-      { name: "Refertilisering", path: "/behandlinger/urologi/refertilisering" },
-      { name: "Robotassistert kirurgi", path: "/behandlinger/urologi/robotkirurgi" },
-      { name: "Sterilisering", path: "/behandlinger/urologi/sterilisering" },
-      { name: "Testikler og pung", path: "/behandlinger/urologi/testikler" },
+      { name: "Prevensjon", path: "/behandlinger/urologi/prevensjon" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
