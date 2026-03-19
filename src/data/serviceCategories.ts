@@ -281,21 +281,6 @@ export const serviceCategories: ServiceCategory[] = [
         ]
       },
       {
-        label: 'Hudhelse',
-        path: '/behandlinger/flere-fagomrader/hudhelse',
-        items: [
-          { label: 'Behandlingsutstyr' },
-          { label: 'Hudbehandlinger' },
-          { label: 'Kosmetiske behandlinger' },
-          { label: 'Behandling av pigmentforandringer og solskader' },
-          { label: 'Rødhet og synlige blodkar' },
-          { label: 'Forbedring av hudstruktur' },
-          { label: 'Hudhelse og kosmetisk dermatologi' },
-          { label: 'Behandling av elastitet og volum' },
-          { label: 'Hudpleieprodukter' },
-        ]
-      },
-      {
         label: 'Ernæringsfysiolog',
         path: '/behandlinger/flere-fagomrader/ernaringsfysiolog',
         items: [

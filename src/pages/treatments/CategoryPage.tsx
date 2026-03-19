@@ -150,7 +150,7 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Endokrinologi", path: "/behandlinger/flere-fagomrader/endokrinologi" },
       { name: "Ernæringsfysiolog", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
       { name: "Hudlege", path: "/behandlinger/flere-fagomrader/hudlege" },
-      { name: "Hudhelse", path: "/behandlinger/flere-fagomrader/hudhelse" },
+      
       { name: "Gastrokirurgi", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
       { name: "Overvektskirurgi", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
       { name: "Osteopati", path: "/behandlinger/flere-fagomrader/osteopati" },
