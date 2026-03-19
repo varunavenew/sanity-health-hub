@@ -127,14 +127,18 @@ const staticCategoryData: Record<string, CategoryData> = {
     ],
   },
   graviditet: {
-    id: "graviditet", title: "Graviditet", subtitle: "Kort ventetid • Ingen henvisning",
+    id: "graviditet", title: "Graviditet og fostermedisin", subtitle: "Kort ventetid • Ingen henvisning",
     description: "Vi tilbyr trygg og helhetlig oppfølging gjennom svangerskapet.",
     heroImage: gynekologiImg,
     services: [
       { name: "Ultralyd", path: "/behandlinger/graviditet/ultralyd" },
       { name: "NIPT", path: "/behandlinger/graviditet/nipt" },
-      { name: "Svangerskapsteam", path: "/behandlinger/graviditet/svangerskapsteam" },
-      { name: "Fosterdiagnostikk", path: "/behandlinger/graviditet/fosterdiagnostikk" },
+      { name: "6-ukerskontroll etter fødsel", path: "/behandlinger/graviditet/6-ukerskontroll" },
+      { name: "Traumatisk fødsel", path: "/behandlinger/graviditet/traumatisk-fodsel" },
+      { name: "Fødselsangst", path: "/behandlinger/graviditet/fodselsangst" },
+      { name: "For partnere", path: "/behandlinger/graviditet/for-partnere" },
+      { name: "Fostermedisin", path: "/behandlinger/graviditet/fostermedisin" },
+      { name: "Spontanabort", path: "/behandlinger/graviditet/spontanabort" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
