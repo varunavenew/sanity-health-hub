@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import { useThemePage } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -86,6 +87,15 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Kvinnehelse for livet – Helhetlig kvinnehelse gjennom alle livsfaser"
+        description="CMedical tilbyr helhetlig kvinnehelse fra pubertet til senior. Gynekologi, fertilitet, hormonbehandling og tverrfaglig oppfølging – av ledende spesialister."
+        canonical="/kvinnehelse"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Kvinnehelse", path: "/kvinnehelse" },
+        ]}
+      />
       {/* Hero */}
       <section className="relative h-[30vh] min-h-[220px] overflow-hidden">
         <img src={heroImage} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 30%" }} />

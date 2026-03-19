@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 // Static fallback images
 import urologiImg from "@/assets/categories/urologi.jpg";
@@ -342,6 +343,26 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={`${category.title} – Spesialistbehandling hos CMedical`}
+        description={category.description.split('\n')[0].slice(0, 155)}
+        canonical={`/${categoryId}`}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Tjenester", path: "/tjenester" },
+          { name: category.title, path: `/${categoryId}` },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "MedicalSpecialty",
+          name: category.title,
+          description: category.description.split('\n')[0],
+          provider: {
+            "@type": "MedicalClinic",
+            name: "CMedical",
+          },
+        }}
+      />
       {/* Compact Hero Banner */}
       <header className="relative h-[30vh] md:h-[35vh] overflow-hidden">
         <img src={category.heroImage} alt={category.title} className="w-full h-full object-cover object-[center_30%]" />

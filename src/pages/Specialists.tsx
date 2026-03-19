@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 interface SpecialistsProps {
@@ -35,6 +36,15 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Våre spesialister – Ledende eksperter samlet på ett sted"
+        description="Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig."
+        canonical="/spesialister"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Spesialister", path: "/spesialister" },
+        ]}
+      />
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">

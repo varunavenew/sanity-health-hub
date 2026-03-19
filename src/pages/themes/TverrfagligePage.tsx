@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
 import { useThemePage } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -56,6 +57,15 @@ const TverrfagligePage = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Tverrfaglige team – Helhetlig behandling som standard"
+        description="Hos CMedical samarbeider spesialister på tvers av fagfelt for helhetlig behandling. Gynekologer, urologer, psykologer, ernæringsfysiologer og osteopater under samme tak."
+        canonical="/tverrfaglige-team"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Tverrfaglige team", path: "/tverrfaglige-team" },
+        ]}
+      />
       {/* Hero */}
       <section className="relative h-[30vh] min-h-[220px] overflow-hidden">
         <img src={heroImage} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />

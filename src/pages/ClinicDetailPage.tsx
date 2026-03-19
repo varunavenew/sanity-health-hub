@@ -6,6 +6,7 @@ import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLin
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug } from "@/data/clinicServices";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
@@ -69,6 +70,28 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={`CMedical ${clinic.label} – Klinikk`}
+        description={`Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`}
+        canonical={`/klinikker/${clinic.slug}`}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Om oss", path: "/om-oss" },
+          { name: `CMedical ${clinic.label}`, path: `/klinikker/${clinic.slug}` },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "MedicalClinic",
+          name: `CMedical ${clinic.label}`,
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: clinic.address,
+            addressCountry: "NO",
+          },
+          telephone: clinic.phone ? `+47 ${clinic.phone}` : undefined,
+          url: `https://cmedical.no/klinikker/${clinic.slug}`,
+        }}
+      />
       {/* Header */}
       <div className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">

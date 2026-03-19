@@ -7,6 +7,7 @@ import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "
 import { specialists as allSpecialists, Specialist } from "@/data/specialists";
 import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface TreatmentPageProps {
   categoryId: string;
@@ -296,6 +297,27 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={`${treatment.title} – ${treatment.parentCategory || categoryId}`}
+        description={treatment.description.split('\n')[0].slice(0, 155)}
+        canonical={`/behandlinger/${categoryId}/${subId}`}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: treatment.parentCategory || categoryId, path: `/${categoryId}` },
+          { name: treatment.title, path: `/behandlinger/${categoryId}/${subId}` },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "MedicalProcedure",
+          name: treatment.title,
+          description: treatment.description.split('\n')[0],
+          howPerformed: treatment.subtitle || undefined,
+          provider: {
+            "@type": "MedicalClinic",
+            name: "CMedical",
+          },
+        }}
+      />
       {/* ── Hero ── */}
       <header className="relative h-[32vh] md:h-[38vh] overflow-hidden">
         <img

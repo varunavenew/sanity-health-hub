@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { useNavigate } from "react-router-dom";
 import { useThemePage } from "@/hooks/useSanity";
 
@@ -19,6 +20,17 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Fastlegeveiledning overgangsalder"
+        description="Praktisk veileder for fastleger ved utredning og behandling av peri- og menopausale kvinner. Basert på norske og internasjonale retningslinjer."
+        canonical="/fastlegeveiledning-overgangsalder"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Gynekologi", path: "/gynekologi" },
+          { name: "Overgangsalder", path: "/behandlinger/gynekologi/overgangsalder" },
+          { name: "Fastlegeveiledning", path: "/fastlegeveiledning-overgangsalder" },
+        ]}
+      />
       {/* Hero */}
       <section className="bg-brand-dark py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-8 max-w-3xl">

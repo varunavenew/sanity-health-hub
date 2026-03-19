@@ -9,6 +9,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface AboutProps {
   isChatOpen: boolean;
@@ -50,12 +51,24 @@ const About = ({ isChatOpen }: AboutProps) => {
     ? sanityData.sections.slice(3).map((s: any) => ({ text: s.content, bold: false }))
     : staticContent.bodyParagraphs;
 
+  const seoTitle = "Om oss – Faglig trygghet og personlig omsorg";
+  const seoDescription = "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Siden 2002 har over 150 000 pasienter fått behandling hos oss.";
+
   useEffect(() => {
-    document.title = "Om oss | CMedical - Nordens ledende klinikk for livet og underlivet";
+    document.title = `${seoTitle} | CMedical`;
   }, []);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={seoTitle}
+        description={seoDescription}
+        canonical="/om-oss"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Om oss", path: "/om-oss" },
+        ]}
+      />
       {/* Letter-style content */}
       <article className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">

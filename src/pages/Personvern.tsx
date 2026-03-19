@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { sanityClient } from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanityClient";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PersonvernProps {
   isChatOpen?: boolean;
@@ -220,6 +221,16 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Personvernerklæring"
+        description="Les CMedicals personvernerklæring. Informasjon om hvordan vi behandler dine personopplysninger i samsvar med GDPR og norsk personvernlovgivning."
+        canonical="/personvern"
+        noIndex={false}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Personvern", path: "/personvern" },
+        ]}
+      />
       <div className="container mx-auto px-6 md:px-16 py-20 max-w-3xl">
         <h1 className="text-3xl md:text-4xl font-bold mb-10 text-foreground">{title}</h1>
 

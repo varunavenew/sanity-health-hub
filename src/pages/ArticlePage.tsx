@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { articles } from "@/data/articles";
 import { articleContent, type ContentBlock } from "@/data/articleContent";
 import { useArticle } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
 
 interface ArticlePageProps {
@@ -154,6 +155,18 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={article.title}
+        description={article.excerpt || `Les om ${article.title} hos CMedical.`}
+        canonical={`/aktuelt/${article.slug}`}
+        type="article"
+        publishedAt={article.date}
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Aktuelt", path: "/aktuelt" },
+          { name: article.title, path: `/aktuelt/${article.slug}` },
+        ]}
+      />
       {/* Header */}
       <div className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
