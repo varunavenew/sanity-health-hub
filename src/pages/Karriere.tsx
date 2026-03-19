@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageHero } from "@/components/layout/PageHero";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { useJobListings } from "@/hooks/useSanity";
 import {
   staticJobListings,
