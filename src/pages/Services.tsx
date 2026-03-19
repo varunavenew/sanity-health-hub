@@ -149,7 +149,7 @@ const Services = ({ isChatOpen }: PageProps) => {
                     <button key={item.label + item.path} onClick={() => { navigate(item.path); setShowResults(false); setSearchQuery(""); }} className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${idx === selectedIdx ? "bg-muted/60" : "hover:bg-muted/40"} ${idx !== 0 ? "border-t border-border/30" : ""}`}>
                       <div>
                         <span className="text-sm font-light text-foreground">{item.label}</span>
-                        <span className="ml-2 text-[10px] text-muted-foreground/60">{item.category}</span>
+                        <span className="ml-2 text-xs text-muted-foreground/60">{item.category}</span>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/40" />
                     </button>

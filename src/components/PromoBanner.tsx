@@ -38,10 +38,10 @@ export const PromoBanner = () => {
                 key={index} 
                 className="inline-flex items-center mx-6 group"
               >
-                <span className="text-brand-dark/70 text-[11px] mr-2 font-medium">
+                <span className="text-brand-dark/70 text-xs mr-2 font-medium">
                   {condition.icon}
                 </span>
-                <span className="text-brand-dark/90 text-[11px] font-light tracking-[0.15em] uppercase">
+                <span className="text-brand-dark/90 text-xs font-light tracking-[0.15em] uppercase">
                   {condition.text}
                 </span>
               </span>
@@ -50,7 +50,7 @@ export const PromoBanner = () => {
             {/* Tagline with visual separator */}
             <span className="inline-flex items-center mx-10">
               <span className="w-8 h-px bg-brand-dark/20 mr-4" />
-              <span className="text-brand-dark text-[11px] font-medium tracking-[0.2em] uppercase">
+              <span className="text-brand-dark text-xs font-medium tracking-[0.2em] uppercase">
                 I alle livets faser
               </span>
               <span className="w-8 h-px bg-brand-dark/20 ml-4" />

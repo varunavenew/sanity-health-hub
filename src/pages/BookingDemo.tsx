@@ -596,7 +596,7 @@ const BookingDemo = () => {
                       <div className="flex items-center gap-3 ml-auto mr-4">
                         <div className="flex items-center gap-1.5">
                           {availableClinicsForCategory.length === clinics.length ? (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light">
                               Alle klinikker
                             </span>
                           ) : availableClinicsForCategory.length > 0 ? (
@@ -609,7 +609,7 @@ const BookingDemo = () => {
                               return (
                                 <span
                                   key={clinic.id}
-                                  className="text-[10px] px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light"
+                                  className="text-xs px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light"
                                 >
                                   {clinicName}
                                 </span>
@@ -777,7 +777,7 @@ const BookingDemo = () => {
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
                       </div>
                       <span className="text-sm font-normal text-foreground leading-tight">{spec.name}</span>
-                      <span className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{spec.title}</span>
+                      <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{spec.title}</span>
                     </button>
                     <button
                       onClick={(e) => {

@@ -221,7 +221,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3">
-                      <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full">
+                      <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
                         {rel.category}
                       </span>
                     </div>
