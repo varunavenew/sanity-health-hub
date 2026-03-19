@@ -15,7 +15,7 @@ export const ClinicGrid = () => {
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8 text-center">
-            <p className="text-muted-foreground text-xs tracking-[0.15em] mb-2">Våre klinikker</p>
+            <p className="text-muted-foreground text-xs mb-2">Våre klinikker</p>
             <h2 id="clinics-heading" className="text-2xl md:text-3xl font-light text-foreground">
               Til stede der du er
             </h2>
