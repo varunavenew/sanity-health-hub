@@ -75,6 +75,15 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Robotassistert kirurgi – Presisjon og skånsomhet"
+        description="CMedical tilbyr robotassistert kirurgi innen gynekologi og urologi. Mindre smerte, raskere rekonvalesens og færre komplikasjoner med Da Vinci-robot."
+        canonical="/robotassistert-kirurgi"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Robotassistert kirurgi", path: "/robotassistert-kirurgi" },
+        ]}
+      />
       {/* Hero */}
       <section className="relative h-[30vh] min-h-[220px] overflow-hidden">
         <img src={heroImg} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />

@@ -51,6 +51,29 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={`${specialist.name} – ${specialist.title}`}
+        description={`Bestill time hos ${specialist.name}, ${specialist.title} hos CMedical. ${specialist.expertise?.join(', ')}. Ingen henvisning nødvendig.`}
+        canonical={`/spesialister/${specialist.slug}`}
+        type="profile"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Spesialister", path: "/spesialister" },
+          { name: specialist.name, path: `/spesialister/${specialist.slug}` },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Physician",
+          name: specialist.name,
+          jobTitle: specialist.title,
+          medicalSpecialty: specialist.expertise || [],
+          worksFor: {
+            "@type": "MedicalClinic",
+            name: "CMedical",
+          },
+          url: `https://cmedical.no/spesialister/${specialist.slug}`,
+        }}
+      />
       {/* 1. Hero — warm intro with portrait */}
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
 
