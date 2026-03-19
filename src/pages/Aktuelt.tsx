@@ -120,7 +120,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   }, [activeFilter, searchQuery]);
 
   const filteredArticles = articles.filter((a) => {
-    const matchesFilter = activeFilter === "Alla" || a.category === activeFilter;
+    const matchesFilter = activeFilter === "Alle" || a.category === activeFilter;
     const matchesSearch =
       !searchQuery ||
       a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
