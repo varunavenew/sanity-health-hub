@@ -10,6 +10,7 @@ import { SpecialistBio } from "@/components/specialist/SpecialistBio";
 import { SpecialistFAQ } from "@/components/specialist/SpecialistFAQ";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { motion } from "framer-motion";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
