@@ -48,25 +48,27 @@ const ArticleCard = ({ article }: { article: Article }) => {
   );
 };
 
-const FeaturedHero = ({ article }: { article: Article }) => {
+const FeaturedCard = ({ article }: { article: Article }) => {
   const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
 
   return (
-    <Link to={linkTo} className="group relative block rounded-sm overflow-hidden aspect-[16/9] md:aspect-[21/9]">
-      <img
-        src={article.image}
-        alt={article.title}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[11px] px-3 py-1 rounded-full mb-3">
+    <Link to={linkTo} className="group relative block rounded-sm overflow-hidden">
+      <div className="aspect-[4/3] overflow-hidden">
+        <img
+          src={article.image}
+          alt={article.title}
+          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[10px] px-2.5 py-0.5 rounded-full mb-2">
           {article.category}
         </span>
-        <h2 className="text-xl md:text-3xl font-medium text-white mb-2 leading-tight max-w-2xl">
+        <h3 className="text-base md:text-lg font-medium text-white leading-snug mb-2 line-clamp-2">
           {article.title}
-        </h2>
-        <p className="text-white/70 text-sm font-light line-clamp-2 max-w-xl mb-3 hidden md:block">
+        </h3>
+        <p className="text-white/60 text-xs font-light line-clamp-2 mb-2 hidden md:block">
           {article.excerpt}
         </p>
         <div className="flex items-center gap-4">
@@ -74,37 +76,10 @@ const FeaturedHero = ({ article }: { article: Article }) => {
             <Calendar className="w-3 h-3" />
             {formatDate(article.date)}
           </span>
-          <span className="inline-flex items-center gap-1 text-white/90 text-sm font-medium group-hover:gap-2 transition-all">
-            Les mer <ArrowRight className="w-4 h-4" />
+          <span className="inline-flex items-center gap-1 text-white/90 text-xs font-medium group-hover:gap-2 transition-all">
+            Les mer <ArrowRight className="w-3.5 h-3.5" />
           </span>
         </div>
-      </div>
-    </Link>
-  );
-};
-
-const FeaturedSide = ({ article }: { article: Article }) => {
-  const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
-
-  return (
-    <Link to={linkTo} className="group relative block rounded-sm overflow-hidden aspect-[16/10]">
-      <img
-        src={article.image}
-        alt={article.title}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-[10px] px-2.5 py-0.5 rounded-full mb-2">
-          {article.category}
-        </span>
-        <h3 className="text-sm md:text-base font-medium text-white leading-snug mb-1.5 line-clamp-2">
-          {article.title}
-        </h3>
-        <span className="text-white/50 text-xs flex items-center gap-1.5">
-          <Calendar className="w-3 h-3" />
-          {formatDate(article.date)}
-        </span>
       </div>
     </Link>
   );
