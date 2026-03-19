@@ -18,6 +18,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface KarriereDetailProps {
   isChatOpen?: boolean;
