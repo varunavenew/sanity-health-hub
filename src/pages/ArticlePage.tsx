@@ -168,12 +168,14 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       </div>
 
       {/* Hero image */}
-      <div className="relative w-full h-[30vh] md:h-[40vh] bg-secondary overflow-hidden">
-        <img
-          src={article.image}
-          alt={article.title}
-          className="w-full h-full object-cover object-center"
-        />
+      <div className="relative w-full bg-secondary overflow-hidden">
+        <div className="aspect-[4/3] md:aspect-[16/9]">
+          <img
+            src={article.image}
+            alt={article.title}
+            className="w-full h-full object-cover object-top"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
 
