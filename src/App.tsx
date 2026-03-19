@@ -27,6 +27,7 @@ import FastlegeveiledningOvergangsalder from "./pages/FastlegeveiledningOvergang
 import Personvern from "./pages/Personvern";
 import Karriere from "./pages/Karriere";
 import KarriereDetail from "./pages/KarriereDetail";
+import ClinicDetailPage from "./pages/ClinicDetailPage";
 
 const queryClient = new QueryClient();
 
@@ -104,6 +105,8 @@ const AppContent = () => {
         {/* Booking demo */}
         <Route path="/booking" element={<BookingDemo />} />
         <Route path="/bestill-time" element={<BookingDemo />} />
+        {/* Clinic detail pages */}
+        <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
