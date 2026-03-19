@@ -2,14 +2,43 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
-import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowRight, ArrowLeft, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getClinicBySlug, clinics } from "@/data/clinicServices";
-import { serviceCategories } from "@/data/serviceCategories";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { getClinicBySlug } from "@/data/clinicServices";
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
 }
+
+// Static FAQ per clinic
+const clinicFaqs: Record<string, { q: string; a: string }[]> = {
+  majorstuen: [
+    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning. Dersom du ønsker å bruke forsikring eller offentlig refusjon, kan det være krav om henvisning fra fastlege." },
+    { q: "Kan jeg bruke helseforsikring?", a: "Ja, vi samarbeider med de fleste forsikringsselskap. Ta kontakt med ditt forsikringsselskap i forkant for å avklare dekning." },
+    { q: "Hvor lang tid tar en konsultasjon?", a: "En standardkonsultasjon varer normalt 30–45 minutter, avhengig av type undersøkelse." },
+    { q: "Er det ventetid for time?", a: "Vi tilstreber kort ventetid. De fleste får time innen 1–2 uker." },
+  ],
+  bekkestua: [
+    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med ditt forsikringsselskap dersom du ønsker forsikringsdekning." },
+    { q: "Hvilke tjenester tilbys på Bekkestua?", a: "Vi tilbyr gynekologi og hudlege ved vår klinikk på Bekkestua." },
+    { q: "Er det parkering?", a: "Ja, det er gratis parkering rett utenfor klinikken." },
+  ],
+  ski: [
+    { q: "Hvilke tjenester tilbys i Ski?", a: "Vi tilbyr gynekologiske tjenester ved vår klinikk i Ski." },
+    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning." },
+  ],
+  moss: [
+    { q: "Hvordan bestiller jeg time i Moss?", a: "Timebestilling gjøres via Colosseum Faust sitt bookingsystem." },
+    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med forsikringsselskapet dersom relevant." },
+    { q: "Er det parkering?", a: "Ja, det er gratis parkering rett utenfor klinikken." },
+  ],
+  moelv: [
+    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning." },
+    { q: "Hvilke tjenester tilbys i Moelv?", a: "Vi tilbyr gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin." },
+    { q: "Er det parkering?", a: "Ja, det er gratis parkering rett utenfor klinikken." },
+  ],
+};
 
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const { slug } = useParams<{ slug: string }>();
@@ -36,18 +65,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     );
   }
 
-  // Map service IDs to readable labels
-  const serviceLabels = clinic.services
-    .map(serviceId => {
-      const cat = serviceCategories.find(c => c.id === serviceId);
-      return cat?.label;
-    })
-    .filter(Boolean);
-
-  // Also include services not in categories
-  const unmappedServices = clinic.services.filter(
-    s => !serviceCategories.find(c => c.id === s)
-  );
+  const faqs = clinicFaqs[clinic.slug] || [];
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -81,7 +99,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             <h2 className="text-lg font-normal text-foreground mb-6">Praktisk informasjon</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Address & contact */}
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
@@ -95,7 +112,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     )}
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3">
                   <Phone className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                   <div>
@@ -105,7 +121,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </a>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-3">
                   <Clock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                   <div>
@@ -115,7 +130,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 </div>
               </div>
 
-              {/* Transport & access */}
               <div className="space-y-4">
                 {clinic.detail.publicTransport && (
                   <div className="flex items-start gap-3">
@@ -126,7 +140,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </div>
                   </div>
                 )}
-
                 {clinic.detail.parking && (
                   <div className="flex items-start gap-3">
                     <Car className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
@@ -136,7 +149,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </div>
                   </div>
                 )}
-
                 {clinic.detail.accessibility && (
                   <div className="flex items-start gap-3">
                     <Accessibility className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
@@ -152,30 +164,21 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </div>
       </section>
 
-      {/* Services offered */}
-      {serviceLabels.length > 0 && (
-        <section className="bg-muted/50 py-10 md:py-14">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-lg font-normal text-foreground mb-6">Fagområder på denne klinikken</h2>
-              <div className="flex flex-wrap gap-2">
-                {serviceLabels.map((label) => {
-                  const cat = serviceCategories.find(c => c.label === label);
-                  return (
-                    <Link
-                      key={label}
-                      to={cat?.path || '#'}
-                      className="px-4 py-2 bg-background text-sm font-light text-foreground rounded-sm border border-border/60 hover:border-brand-dark/30 transition-colors"
-                    >
-                      {label}
-                    </Link>
-                  );
-                })}
-              </div>
+      {/* Clinic images placeholder */}
+      <section className="bg-muted/50 py-10 md:py-14">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-lg font-normal text-foreground mb-6">Fra klinikken</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="aspect-[4/3] bg-brand-mid/20 rounded-sm flex items-center justify-center">
+                  <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Google Maps embed */}
       <section className="bg-background py-10 md:py-14">
@@ -197,6 +200,29 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      {faqs.length > 0 && (
+        <section className="bg-muted/50 py-10 md:py-14">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-lg font-normal text-foreground mb-6">Ofte stilte spørsmål</h2>
+              <Accordion type="single" collapsible className="space-y-2">
+                {faqs.map((faq, i) => (
+                  <AccordionItem key={i} value={`faq-${i}`} className="bg-background border border-border/40 rounded-sm px-5">
+                    <AccordionTrigger className="text-sm font-normal text-foreground py-4 hover:no-underline">
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-sm text-muted-foreground font-light pb-4 leading-relaxed">
+                      {faq.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </section>
+      )}
 
       <CTASection
         title="Bestill time"
