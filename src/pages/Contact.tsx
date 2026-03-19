@@ -48,6 +48,15 @@ const Contact = ({ isChatOpen }: ContactProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Kontakt oss"
+        description="Kontakt CMedical – bestill time, ring oss eller besøk en av våre klinikker. Vi svarer gjerne på alle henvendelser om gynekologi, fertilitet og urologi."
+        canonical="/kontakt"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Kontakt", path: "/kontakt" },
+        ]}
+      />
       {/* Hero Section */}
       <header className="relative">
         <div className="h-[25vh] md:h-[30vh] relative">

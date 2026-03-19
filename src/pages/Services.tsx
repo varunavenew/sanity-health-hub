@@ -128,6 +128,15 @@ const Services = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Tjenester – Finn behandlingen som passer for deg"
+        description="Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."
+        canonical="/tjenester"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Tjenester", path: "/tjenester" },
+        ]}
+      />
       {/* Hero header */}
       <section className="bg-background pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16 text-center">
