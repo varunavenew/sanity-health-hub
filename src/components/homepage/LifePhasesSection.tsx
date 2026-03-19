@@ -1,6 +1,7 @@
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 // Import category images from CMedical
 import urologiImg from "@/assets/categories/urologi.jpg";
