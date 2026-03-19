@@ -62,47 +62,36 @@ const About = ({ isChatOpen }: AboutProps) => {
           {/* Header */}
           <header className="mb-8 pb-6 border-b border-brand-dark/10">
             <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark max-w-3xl">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
               {title}
             </h1>
           </header>
 
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16">
-            {/* Left column - intro text */}
-            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {introParagraphs.map((p: string, i: number) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-
-            {/* Right column - image */}
-            <div>
-              <img 
-                src={heroImage} 
-                alt="Omsorg hos CMedical - Familie"
-                className="w-full aspect-[3/2] object-cover object-[30%_20%] rounded-sm"
-              />
-            </div>
+          {/* Main content - intro */}
+          <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+            {introParagraphs.map((p: string, i: number) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
+        </div>
+
+        {/* Image */}
+        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
+          <img 
+            src={heroImage} 
+            alt="Omsorg hos CMedical - Familie"
+            className="w-full aspect-[3/2] object-cover object-[30%_20%]"
+          />
         </div>
 
         {/* Continued content */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16">
-            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {bodyParagraphs.slice(0, Math.ceil(bodyParagraphs.length / 2)).map((p: any, i: number) => (
-                <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
-                  {p.text || p}
-                </p>
-              ))}
-            </div>
-            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {bodyParagraphs.slice(Math.ceil(bodyParagraphs.length / 2)).map((p: any, i: number) => (
-                <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
-                  {p.text || p}
-                </p>
-              ))}
-            </div>
+          <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+            {bodyParagraphs.map((p: any, i: number) => (
+              <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
+                {p.text || p}
+              </p>
+            ))}
           </div>
 
           {/* CTA */}
