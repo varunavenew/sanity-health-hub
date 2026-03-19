@@ -263,7 +263,10 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
               {/* Info overlay at bottom */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="font-normal text-white mb-0.5">{specialist.name}</h3>
-                <p className="text-sm text-white/70 font-light">{specialist.title}</p>
+                <p className="text-sm text-white/70 font-light">
+                  {specialist.title}
+                  {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
+                </p>
               </div>
             </div>
             <p className="text-sm text-white/70 font-normal px-1">{specialist.expertise.join(', ')}</p>
