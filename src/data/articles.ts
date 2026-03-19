@@ -115,6 +115,8 @@ export const articles: Article[] = [
       "https://cdn.sanity.io/images/bk8rw7yi/production/d31e037d4dbce186dfade4ab6bca8a970aff5284-6000x4000.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-12-05",
     category: "Oss i media",
+    pinned: true,
+    featured: true,
   },
   {
     slug: "jeg-matte-grate-pa-telefonen-for-a-bli-tatt-pa-alvor",
