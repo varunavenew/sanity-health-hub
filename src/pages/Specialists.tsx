@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
 interface SpecialistsProps {
