@@ -777,7 +777,7 @@ const BookingDemo = () => {
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
                       </div>
                       <span className="text-sm font-normal text-foreground leading-tight">{spec.name}</span>
-                      <span className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{spec.title}</span>
+                      <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{spec.title}</span>
                     </button>
                     <button
                       onClick={(e) => {
