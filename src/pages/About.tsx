@@ -118,13 +118,13 @@ const About = ({ isChatOpen }: AboutProps) => {
       {/* Specialists section - dark themed */}
       <section className="bg-brand-dark py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-10">
               <p className="text-white/60 text-xs mb-3">Vårt team</p>
-              <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
                 Møt våre spesialister
               </h2>
-              <p className="text-white/70 font-light max-w-xl mx-auto">
+              <p className="text-white/70 font-light max-w-xl">
                 Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
               </p>
             </div>
