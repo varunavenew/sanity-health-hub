@@ -90,7 +90,7 @@ const About = ({ isChatOpen }: AboutProps) => {
 
         {/* Continued content */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
               {bodyParagraphs.map((p: any, i: number) => (
                 <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
