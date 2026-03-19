@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 import { useThemePage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {
   isChatOpen: boolean;
