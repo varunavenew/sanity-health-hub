@@ -649,7 +649,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                           </div>
                                           <div className="flex items-center gap-3">
                                             <p className="font-normal text-foreground text-sm">
-                                              fra {item.price}
+                                              {item.price === "0,-" ? "Gratis" : item.price}
                                             </p>
                                             <ArrowRight className="w-3.5 h-3.5 text-foreground/20 group-hover/item:text-foreground/50 transition-colors" />
                                           </div>
