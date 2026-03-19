@@ -316,6 +316,89 @@ const priceCategories: PriceCategory[] = [
       },
     ]
   },
+  {
+    id: 'graviditet',
+    label: 'Graviditet og fostermedisin',
+    path: '/behandlinger/graviditet',
+    subcategories: [
+      {
+        label: 'Svangerskapskontroll',
+        path: '/behandlinger/graviditet/svangerskapskontroll',
+        items: [
+          { name: "Svangerskapskontroll", price: "2100,-", duration: "30 min" },
+          { name: "Tidlig ultralyd enkel", price: "2100,-", duration: "30 min" },
+          { name: "Kontroll etter fødsel", price: "2100,-", duration: "30 min" },
+        ]
+      },
+      {
+        label: 'Fosterdiagnostikk',
+        path: '/behandlinger/graviditet/fosterdiagnostikk',
+        items: [
+          { name: "Tidlig ultralyd + NIPT-test", price: "8990,-", duration: "30 min" },
+          { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950,-", duration: "30 min" },
+          { name: "Organrettet ultralyd", price: "2100,-", duration: "30 min" },
+        ]
+      },
+      {
+        label: 'Fødselsforberedelse',
+        path: '/behandlinger/graviditet/fodselsforberedelse',
+        items: [
+          { name: "Ammehjelp ved brystbetennelse", price: "3200,-", duration: "45 min" },
+          { name: "Fødselsangst – samtale", price: "1900,-", duration: "50 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'hudlege',
+    label: 'Hudlege',
+    path: '/behandlinger/flere-fagomrader/hudlege',
+    subcategories: [
+      {
+        label: 'Dermatologi',
+        path: '/behandlinger/flere-fagomrader/hudlege',
+        items: [
+          { name: "Konsultasjon hudlege", price: "2100,-", duration: "30 min" },
+          { name: "Føflekksjekk", price: "2100,-", duration: "30 min" },
+          { name: "Akne-behandling", price: "2100,-", duration: "30 min" },
+          { name: "Eksem / psoriasis", price: "2100,-", duration: "30 min" },
+          { name: "Hudkreft – utredning", price: "2100,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'osteopati',
+    label: 'Osteopati',
+    path: '/behandlinger/flere-fagomrader/osteopati',
+    subcategories: [
+      {
+        label: 'Osteopati',
+        path: '/behandlinger/flere-fagomrader/osteopati',
+        items: [
+          { name: "Osteopat førstekonsultasjon 60 min", price: "1800,-", duration: "1 time" },
+          { name: "Osteopat oppfølging 60 min", price: "1800,-", duration: "1 time" },
+          { name: "Osteopat oppfølging 30 min", price: "950,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'overvektskirurgi',
+    label: 'Overvektskirurgi',
+    path: '/behandlinger/flere-fagomrader/overvektskirurgi',
+    subcategories: [
+      {
+        label: 'Overvektskirurgi',
+        path: '/behandlinger/flere-fagomrader/overvektskirurgi',
+        items: [
+          { name: "Digital konsultasjon fedme vurdering", price: "0,-", duration: "45 min" },
+          { name: "Gastric sleeve", price: "Ta kontakt", duration: "–" },
+          { name: "Gastric bypass", price: "Ta kontakt", duration: "–" },
+        ]
+      },
+    ]
+  },
 ];
 const testimonials = [
   {
