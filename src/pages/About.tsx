@@ -9,6 +9,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface AboutProps {
   isChatOpen: boolean;
