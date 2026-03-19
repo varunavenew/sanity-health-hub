@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
 import { useInsurancePage } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps { isChatOpen: boolean }
 
