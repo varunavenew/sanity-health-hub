@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 // Static fallback images
 import urologiImg from "@/assets/categories/urologi.jpg";
