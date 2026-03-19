@@ -23,9 +23,15 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="text-sm md:text-base text-white/50 tracking-wide mb-2"
+                className="text-sm md:text-base text-white/50 tracking-wide mb-2 flex flex-wrap items-center gap-x-3"
               >
-                {specialist.title}
+                <span>{specialist.title}</span>
+                {specialist.subtitle && specialist.subtitle !== specialist.title && (
+                  <>
+                    <span className="text-white/30">·</span>
+                    <span>{specialist.subtitle}</span>
+                  </>
+                )}
               </motion.p>
 
               <motion.h1
