@@ -156,7 +156,7 @@ const About = ({ isChatOpen }: AboutProps) => {
               ))}
             </div>
             
-            <div className="text-center mt-10">
+            <div className="mt-10">
               <Button 
                 className="rounded-sm bg-transparent border border-white/30 text-white hover:bg-white hover:text-brand-dark transition-colors font-light"
                 asChild

@@ -540,7 +540,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             <p className="text-white/70 font-light mb-8 max-w-lg">
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-8 font-normal" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />
