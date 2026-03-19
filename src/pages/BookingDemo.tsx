@@ -609,7 +609,7 @@ const BookingDemo = () => {
                               return (
                                 <span
                                   key={clinic.id}
-                                  className="text-[10px] px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light"
+                                  className="text-xs px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light"
                                 >
                                   {clinicName}
                                 </span>
