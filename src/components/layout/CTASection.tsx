@@ -26,15 +26,15 @@ export const CTASection = ({
   return (
     <section className={`py-20 md:py-28 ${dark ? 'bg-brand-dark' : 'bg-secondary/30'}`}>
       <div className="container mx-auto px-6 md:px-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className={`text-2xl md:text-3xl font-light mb-6 ${dark ? 'text-white' : 'text-foreground'}`}>
+        <div className="max-w-3xl mx-auto">
+          <h2 className={`text-2xl md:text-3xl font-light mb-4 ${dark ? 'text-white' : 'text-foreground'}`}>
             {title}
           </h2>
-          <p className={`text-base md:text-lg font-light mb-10 ${dark ? 'text-white/70' : 'text-muted-foreground'}`}>
+          <p className={`text-base md:text-lg font-light mb-10 max-w-xl ${dark ? 'text-white/70' : 'text-muted-foreground'}`}>
             {subtitle}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button 
               size="lg"
               className="bg-white text-brand-dark hover:bg-white/90 rounded-sm px-8 font-light"
