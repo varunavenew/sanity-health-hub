@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
 import { useTreatmentCategories, useFaqs } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
