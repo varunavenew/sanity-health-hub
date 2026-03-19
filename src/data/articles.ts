@@ -17,7 +17,7 @@ export const filterCategories = [
   "Fagartiklar",
   "Nyheter",
   "Teknologi",
-  "SoMe",
+  "Digitale kanaler",
 ];
 
 export const articles: Article[] = [
