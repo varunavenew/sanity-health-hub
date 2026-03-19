@@ -41,7 +41,7 @@ export const PromoBanner = () => {
                 <span className="text-brand-dark/70 text-xs mr-2 font-medium">
                   {condition.icon}
                 </span>
-                <span className="text-brand-dark/90 text-[11px] font-light tracking-[0.15em] uppercase">
+                <span className="text-brand-dark/90 text-xs font-light tracking-[0.15em] uppercase">
                   {condition.text}
                 </span>
               </span>
