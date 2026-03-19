@@ -109,7 +109,7 @@ export const ServicesDropdown = () => {
 
                 {/* Column 2 - Subcategories */}
                 <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-auto border-r border-white/10">
-                  <h3 className="text-white/50 text-[10px] uppercase tracking-wider mb-2 font-light px-2">
+                  <h3 className="text-white/50 text-xs uppercase tracking-wider mb-2 font-light px-2">
                     {activeCategoryData.label}
                   </h3>
                   <AnimatePresence mode="wait">
