@@ -6,6 +6,7 @@ import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLin
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug } from "@/data/clinicServices";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
