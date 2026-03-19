@@ -37,10 +37,9 @@ export const ClinicGrid = () => {
     <section className="bg-muted/50 py-10 md:py-14" aria-labelledby="clinics-heading">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-5xl mx-auto">
-          <div className="mb-8 text-center">
-            <p className="text-muted-foreground text-xs mb-2">Våre klinikker</p>
-            <h2 id="clinics-heading" className="text-2xl md:text-3xl font-light text-foreground">
-              Til stede der du er
+          <div className="mb-8">
+            <h2 id="clinics-heading" className="text-lg font-normal text-foreground">
+              Våre klinikker
             </h2>
           </div>
 
