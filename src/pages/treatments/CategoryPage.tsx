@@ -371,7 +371,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* Introduction */}
       <section className="py-8 md:py-12 bg-background">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mx-auto">
             {category.description.split('\n').map((paragraph, i) => {
               const trimmed = paragraph.trim();
               if (!trimmed) return null;
@@ -508,8 +508,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Ofte stilte spørsmål</h2>
+            <div className="mb-8">
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
               <p className="text-muted-foreground font-light">
                 Det kan være enkelt å være pasient hos oss. Finner du ikke svar på det du lurer på, finner du kontaktinformasjonen vår nedenfor.
               </p>
@@ -535,12 +535,12 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* CTA */}
       <section className="py-16 md:py-20 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">Klar for å ta neste steg?</h2>
-            <p className="text-white/70 font-light mb-8 max-w-lg mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-3">Klar for å ta neste steg?</h2>
+            <p className="text-white/70 font-light mb-8 max-w-lg">
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-8 font-normal" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />

@@ -686,14 +686,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
       {/* Specialists Section - Dark background */}
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-10">
+          <div className="mb-10">
             <p className="text-sm text-white/60 mb-3 font-light">
               Våre spesialister
             </p>
             <h2 className="text-3xl md:text-4xl font-normal text-white">
               Erfaring, spisskompetanse og moderne teknologi
             </h2>
-            <p className="text-white/70 mt-3 max-w-2xl mx-auto font-light">
+            <p className="text-white/70 mt-3 max-w-2xl font-light">
               Samlet på ett sted for å gi deg den beste behandlingen.
             </p>
           </div>
@@ -788,7 +788,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-normal text-foreground text-center mb-12">
+            <h3 className="text-2xl md:text-3xl font-normal text-foreground mb-8">
               Ofte stilte spørsmål om priser
             </h3>
             

@@ -59,7 +59,7 @@ const About = ({ isChatOpen }: AboutProps) => {
       {/* Letter-style content */}
       <article className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             {/* Header */}
             <header className="mb-8 pb-6 border-b border-brand-dark/10">
               <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
@@ -79,7 +79,7 @@ const About = ({ isChatOpen }: AboutProps) => {
 
         {/* Image */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <img 
               src={heroImage} 
               alt="Omsorg hos CMedical - Familie"
@@ -90,7 +90,7 @@ const About = ({ isChatOpen }: AboutProps) => {
 
         {/* Continued content */}
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
               {bodyParagraphs.map((p: any, i: number) => (
                 <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
@@ -118,13 +118,13 @@ const About = ({ isChatOpen }: AboutProps) => {
       {/* Specialists section - dark themed */}
       <section className="bg-brand-dark py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-10">
               <p className="text-white/60 text-xs mb-3">Vårt team</p>
-              <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
                 Møt våre spesialister
               </h2>
-              <p className="text-white/70 font-light max-w-xl mx-auto">
+              <p className="text-white/70 font-light max-w-xl">
                 Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
               </p>
             </div>
@@ -156,7 +156,7 @@ const About = ({ isChatOpen }: AboutProps) => {
               ))}
             </div>
             
-            <div className="text-center mt-10">
+            <div className="mt-10">
               <Button 
                 className="rounded-sm bg-transparent border border-white/30 text-white hover:bg-white hover:text-brand-dark transition-colors font-light"
                 asChild
