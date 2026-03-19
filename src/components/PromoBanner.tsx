@@ -38,7 +38,7 @@ export const PromoBanner = () => {
                 key={index} 
                 className="inline-flex items-center mx-6 group"
               >
-                <span className="text-brand-dark/70 text-[11px] mr-2 font-medium">
+                <span className="text-brand-dark/70 text-xs mr-2 font-medium">
                   {condition.icon}
                 </span>
                 <span className="text-brand-dark/90 text-[11px] font-light tracking-[0.15em] uppercase">
