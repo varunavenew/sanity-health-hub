@@ -180,7 +180,6 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Hofte", path: "/behandlinger/ortopedi/hofte" },
       { name: "Hånd og albue", path: "/behandlinger/ortopedi/hand-albue" },
       { name: "Kne", path: "/behandlinger/ortopedi/kne" },
-      { name: "Skulder", path: "/behandlinger/ortopedi/skulder" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
