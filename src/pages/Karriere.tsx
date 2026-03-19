@@ -44,6 +44,15 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Karriere – Bli en del av CMedical"
+        description="Se ledige stillinger hos CMedical. Vi søker dyktige fagfolk som brenner for god pasientbehandling. Konkurransedyktige betingelser og godt fagmiljø."
+        canonical="/karriere"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Karriere", path: "/karriere" },
+        ]}
+      />
       <PageHero
         title="Karriere"
         subtitle="Bli en del av CMedical – Norges ledende private helsekonsern. Vi søker dyktige fagfolk som brenner for god pasientbehandling."

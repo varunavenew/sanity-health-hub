@@ -511,6 +511,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title="Priser – Oversiktlig prisliste sortert etter fagområde"
+        description="Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising."
+        canonical="/priser"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Priser", path: "/priser" },
+        ]}
+      />
       {/* Hero Section - Compact */}
       <header className="relative">
         <div className="h-[25vh] md:h-[30vh] relative">
