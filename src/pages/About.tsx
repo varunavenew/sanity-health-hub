@@ -60,6 +60,15 @@ const About = ({ isChatOpen }: AboutProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <PageSEO
+        title={seoTitle}
+        description={seoDescription}
+        canonical="/om-oss"
+        breadcrumbs={[
+          { name: "Hjem", path: "/" },
+          { name: "Om oss", path: "/om-oss" },
+        ]}
+      />
       {/* Letter-style content */}
       <article className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
