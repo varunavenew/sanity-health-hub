@@ -65,7 +65,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Flere fagområder', path: '/behandlinger/flere-fagomrader', category: 'Fagområde', keywords: ['andre', 'øvrige'] },
   { label: 'Endokrinologi', path: '/behandlinger/flere-fagomrader/endokrinologi', category: 'Andre', keywords: ['hormoner', 'skjoldbruskkjertel', 'diabetes'] },
   { label: 'Hudlege', path: '/behandlinger/flere-fagomrader/hudlege', category: 'Andre', keywords: ['hud', 'dermatolog', 'utslett'] },
-  { label: 'Hudhelse', path: '/behandlinger/flere-fagomrader/hudhelse', category: 'Andre', keywords: ['hudpleie', 'kosmetisk', 'dermatologi', 'hudbehandling'] },
+  
   { label: 'Ernæringsfysiolog', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog', category: 'Andre', keywords: ['ernæring', 'kosthold', 'diett'] },
   { label: 'Gastrokirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi', category: 'Andre', keywords: ['mage', 'tarm', 'bariatrisk'] },
   { label: 'Overvektskirurgi', path: '/behandlinger/flere-fagomrader/overvektskirurgi', category: 'Andre', keywords: ['fedmekirurgi', 'sleeve', 'gastrektomi', 'overvekt'] },
