@@ -444,13 +444,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                   aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
                 >
                   <div className="flex items-center gap-4">
-                    <span
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleNavigate(category.path);
-                      }}
-                      className="text-xl md:text-2xl font-light text-foreground underline underline-offset-4 decoration-foreground/20 hover:decoration-foreground/60 transition-colors"
-                    >
+                    <span className="text-xl md:text-2xl font-light text-foreground">
                       {category.label}
                     </span>
                     <span className="text-sm font-light text-muted-foreground">
