@@ -157,7 +157,7 @@ export const ServicesDropdown = () => {
                       className="overflow-hidden"
                     >
                       <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-auto">
-                        <h3 className="text-white/50 text-[10px] uppercase tracking-wider mb-2 font-light px-2">
+                        <h3 className="text-white/50 text-xs uppercase tracking-wider mb-2 font-light px-2">
                           {activeSubcategoryData.label}
                         </h3>
                         <nav className="grid grid-cols-1 gap-0">

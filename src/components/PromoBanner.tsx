@@ -50,7 +50,7 @@ export const PromoBanner = () => {
             {/* Tagline with visual separator */}
             <span className="inline-flex items-center mx-10">
               <span className="w-8 h-px bg-brand-dark/20 mr-4" />
-              <span className="text-brand-dark text-[11px] font-medium tracking-[0.2em] uppercase">
+              <span className="text-brand-dark text-xs font-medium tracking-[0.2em] uppercase">
                 I alle livets faser
               </span>
               <span className="w-8 h-px bg-brand-dark/20 ml-4" />
