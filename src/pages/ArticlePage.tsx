@@ -154,50 +154,43 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {/* Back link */}
-      <div className="bg-brand-dark pt-24 pb-4 md:pt-28">
+      {/* Header */}
+      <div className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <Link
             to="/aktuelt"
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
             Tilbake til Aktuelt
           </Link>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="bg-white/10 text-white/80 text-xs px-3 py-1 rounded-full">
+              {article.category}
+            </span>
+            <span className="text-white/40 text-xs flex items-center gap-1.5">
+              <Calendar className="w-3 h-3" />
+              {formatDate(article.date)}
+            </span>
+          </div>
+          <h1 className="text-2xl md:text-4xl font-light text-white leading-tight max-w-3xl">
+            {article.title}
+          </h1>
         </div>
-      </div>
-
-      {/* Hero image */}
-      <div className="relative w-full bg-secondary overflow-hidden">
-        <div className="aspect-[4/3] md:aspect-[16/9]">
-          <img
-            src={article.image}
-            alt={article.title}
-            className="w-full h-full object-cover object-top"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
 
       {/* Article content */}
       <article className="bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto py-10 md:py-16">
-            {/* Meta */}
-            <div className="flex items-center gap-3 mb-6">
-              <span className="bg-brand-dark/10 text-brand-dark text-xs px-3 py-1 rounded-full">
-                {article.category}
-              </span>
-              <span className="text-muted-foreground text-xs flex items-center gap-1.5">
-                <Calendar className="w-3 h-3" />
-                {formatDate(article.date)}
-              </span>
+            {/* Featured image */}
+            <div className="rounded-sm overflow-hidden mb-10 -mt-0">
+              <img
+                src={article.image}
+                alt={article.title}
+                className="w-full rounded-sm"
+              />
             </div>
-
-            {/* Title */}
-            <h1 className="text-2xl md:text-4xl font-medium text-foreground leading-tight mb-8">
-              {article.title}
-            </h1>
 
             {/* Body */}
             {/* Body: prefer Sanity Portable Text, then static content, then excerpt */}
