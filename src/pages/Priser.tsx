@@ -510,7 +510,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-4 md:px-8">
           {/* Categories - Direct content */}
           <div className="max-w-5xl mx-auto space-y-4">
-            {priceCategories.map((category) => (
+            {(() => {
+              const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
+              const first = priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id));
+              const rest = priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb'));
+              return [...first, ...rest];
+            })().map((category) => (
               <div 
                 key={category.id}
                 className={`rounded-xl overflow-hidden transition-all duration-300 border ${
