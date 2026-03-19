@@ -4,8 +4,8 @@ import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 
-const FOOTER_CATEGORY_ORDER = ["gynekologi", "fertilitet", "urologi", "ortopedi", "flere-fagomrader"];
-const FOOTER_LABEL_MAP: Record<string, string> = { "flere-fagomrader": "Flere tjenester" };
+const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
+const FOOTER_LABEL_MAP: Record<string, string> = { "flere": "Flere tjenester" };
 
 export const Footer = () => {
   const { data: settings } = useSiteSettings();

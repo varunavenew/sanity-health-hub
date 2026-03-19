@@ -606,10 +606,10 @@ export const useThemePage = (slug: string) =>
 const CATEGORY_ORDER = [
   "gynekologi",
   "graviditet",
-  "urologi",
   "fertilitet",
+  "urologi",
   "ortopedi",
-  "flere-fagomrader",
+  "flere",
 ];
 
 export const useServiceCategoriesFromSanity = () =>
