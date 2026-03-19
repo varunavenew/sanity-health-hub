@@ -535,9 +535,9 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* CTA */}
       <section className="py-16 md:py-20 bg-brand-dark">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">Klar for å ta neste steg?</h2>
-            <p className="text-white/70 font-light mb-8 max-w-lg mx-auto">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-3">Klar for å ta neste steg?</h2>
+            <p className="text-white/70 font-light mb-8 max-w-lg">
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
