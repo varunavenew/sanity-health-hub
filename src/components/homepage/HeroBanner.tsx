@@ -159,9 +159,9 @@ export const HeroBanner = () => {
               <span className="block text-xs text-white/80 mb-3 font-light">
                 {slide.subtitle}
               </span>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
+              <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
                 {slide.label}
-              </h2>
+              </p>
               <span
                 className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
                 onClick={(e) => { e.stopPropagation(); navigate(slide.ctaPath); }}

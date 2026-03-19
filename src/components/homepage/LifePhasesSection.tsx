@@ -1,6 +1,7 @@
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 // Import category images from CMedical
 import urologiImg from "@/assets/categories/urologi.jpg";
@@ -88,8 +89,24 @@ export const LifePhasesSection = () => {
     setOpenFaq(openFaq === id ? null : id);
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <section id="life-phases" className="py-6 md:py-10 bg-background">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
+      </Helmet>
       <div className="container mx-auto px-4 md:px-8">
         {/* FAQ Section */}
         <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
