@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { sanityClient } from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanityClient";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PersonvernProps {
   isChatOpen?: boolean;
