@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import { useThemePage } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {
   isChatOpen: boolean;
