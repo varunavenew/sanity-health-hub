@@ -5,12 +5,10 @@ import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { TaglineBanner } from "@/components/homepage/TaglineBanner";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
-
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
-
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
-
+import { HomepageSEO } from "@/components/seo/HomepageSEO";
 
 interface IndexProps {
   isChatOpen: boolean;
@@ -19,27 +17,38 @@ interface IndexProps {
 const Index = ({ isChatOpen }: IndexProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <HomepageSEO />
+
+      {/* H1 – synlig for søkemotorer, visuelt integrert i hero */}
+      <h1 className="sr-only">
+        CMedical – Skandinavias ledende klinikk for gynekologi, fertilitet og urologi
+      </h1>
+
       {/* Hero carousel */}
       <HeroBanner />
       
       {/* Tagline Banner */}
       <TaglineBanner />
       
-      {/* Fagområder */}
+      {/* H2: Fagområder */}
       <HeroCompact />
       
       {/* Value badges */}
       <ValueBadges />
       
-      {/* Promo blocks (2 bilder) */}
+      {/* H2: Promo blocks */}
       <PromoBlocks />
       
-      {/* FAQ */}
+      {/* H2: FAQ */}
       <LifePhasesSection />
       
+      {/* H2: Spesialister */}
       <SpecialistsSection />
       
+      {/* H2: Anmeldelser */}
       <GoogleReviewsSection />
+
+      {/* H2: Booking CTA */}
       <BookingCTA />
     </PageLayout>
   );
