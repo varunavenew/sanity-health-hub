@@ -146,7 +146,10 @@ const About = ({ isChatOpen }: AboutProps) => {
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <h3 className="font-normal text-white text-sm mb-0.5">{specialist.name}</h3>
-                      <p className="text-white/70 text-xs font-light">{specialist.title}</p>
+                      <p className="text-white/70 text-xs font-light">
+                        {specialist.title}
+                        {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
+                      </p>
                     </div>
                   </div>
                 </Link>
