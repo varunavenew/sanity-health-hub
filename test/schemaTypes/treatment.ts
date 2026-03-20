@@ -87,6 +87,54 @@ export default {
         },
       ],
     },
+    // Content sections (accordion items on treatment page)
+    {
+      name: 'sections',
+      title: 'Innholdsseksjoner',
+      description: 'Detaljerte seksjoner som vises som trekkspill på behandlingssiden',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'id', title: 'Anker-ID', type: 'string', description: 'Brukes for scroll-til-seksjon' },
+            { name: 'heading', title: 'Overskrift', type: 'string', validation: (Rule: any) => Rule.required() },
+            { name: 'content', title: 'Innhold', type: 'text', rows: 10, description: 'Støtter **bold**, _italic_, - lister, [lenke](url)' },
+          ],
+          preview: {
+            select: { title: 'heading' },
+          },
+        },
+      ],
+    },
+    // Related specialists (by slug)
+    {
+      name: 'relatedSpecialists',
+      title: 'Relaterte spesialister',
+      description: 'Slug-referanser til spesialister som vises på behandlingssiden',
+      type: 'array',
+      of: [{ type: 'string' }],
+    },
+    // Linked services (cross-links to other treatments)
+    {
+      name: 'linkedServices',
+      title: 'Koblede tjenester',
+      description: 'Lenker til relaterte tjenester/behandlinger',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Tittel', type: 'string', validation: (Rule: any) => Rule.required() },
+            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
+            { name: 'path', title: 'URL-sti', type: 'string', validation: (Rule: any) => Rule.required() },
+          ],
+          preview: {
+            select: { title: 'label' },
+          },
+        },
+      ],
+    },
     // Sub-items (shown in 3rd column of service dropdown)
     {
       name: 'subItems',
