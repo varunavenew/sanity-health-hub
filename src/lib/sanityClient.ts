@@ -1,8 +1,11 @@
 import { createClient } from "@sanity/client";
 
+const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID || "sh2sj585";
+const SANITY_DATASET = import.meta.env.VITE_SANITY_DATASET || "development";
+
 export const sanityClient = createClient({
-  projectId: "sh2sj585",
-  dataset: "development",
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_DATASET,
   apiVersion: "2024-01-01",
   useCdn: false,
 });
@@ -16,7 +19,7 @@ export const urlFor = (ref: string) => {
   const parts = ref.replace("image-", "").split("-");
   const format = parts.pop();
   const id = parts.join("-");
-  return `https://cdn.sanity.io/images/sh2sj585/development/${id}.${format}`;
+  return `https://cdn.sanity.io/images/${SANITY_PROJECT_ID}/${SANITY_DATASET}/${id}.${format}`;
 };
 
 // Helper to get image URL from a Sanity image object
