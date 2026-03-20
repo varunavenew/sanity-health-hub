@@ -57,6 +57,9 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current =
   parentCategoryLabel,
   process[]{title, description},
   faqs[]{question, answer},
+  sections[]{id, heading, content},
+  relatedSpecialists,
+  linkedServices[]{label, description, path},
   seo
 }`;
 
