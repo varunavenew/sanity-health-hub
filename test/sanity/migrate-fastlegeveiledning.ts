@@ -1,15 +1,7 @@
 // Migration: Populate Fastlegeveiledning overgangsalder theme page in Sanity
 // Run: npx ts-node --esm sanity/migrate-fastlegeveiledning.ts
 
-import { createClient } from "@sanity/client";
-
-const client = createClient({
-  projectId: "sh2sj585",
-  dataset: "development",
-  apiVersion: "2024-01-01",
-  useCdn: false,
-  token: process.env.SANITY_TOKEN,
-});
+import { sanityClient as client } from "./config";
 
 async function migrate() {
   const page = {

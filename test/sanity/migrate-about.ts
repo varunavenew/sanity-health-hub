@@ -1,17 +1,9 @@
 // Migration: Populate About Page (Om oss) in Sanity (with hero image)
 // Run: npx ts-node --esm sanity/migrate-about.ts
 
-import { createClient } from "@sanity/client";
+import { sanityClient as client } from "./config";
 import * as fs from "fs";
 import * as path from "path";
-
-const client = createClient({
-  projectId: "sh2sj585",
-  dataset: "development",
-  apiVersion: "2024-01-01",
-  useCdn: false,
-  token: process.env.SANITY_TOKEN,
-});
 
 async function uploadImage(filename: string, subfolder = "hero") {
   const absolutePath = path.resolve(__dirname, `../../src/assets/${subfolder}`, filename);
