@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
+import { clinics as staticClinics } from "@/data/clinicServices";
 
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = { "flere": "Flere tjenester" };
@@ -29,10 +30,10 @@ export const Footer = () => {
         { label: "Flere tjenester", path: "/flere-fagomrader" },
       ];
 
-  // Clinic names from Sanity or static
-  const clinicNames = clinics && clinics.length > 0
-    ? clinics.map((c: any) => c.label || c.title || c.id)
-    : ["Oslo Majorstuen", "Bekkestua", "Ski", "Moss", "Moelv"];
+  // Clinic links from Sanity or static
+  const clinicLinks = clinics && clinics.length > 0
+    ? clinics.map((c: any) => ({ label: c.label || c.title, slug: c.slug || c.id }))
+    : staticClinics.map(c => ({ label: c.label, slug: c.slug }));
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";
@@ -59,8 +60,8 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs text-white/40 mb-4 font-normal">Klinikker</h3>
             <nav className="space-y-2.5" aria-label="Klinikker">
-              {clinicNames.map((name: string) => (
-                <span key={name} className="block text-sm text-white/60 font-light">{name}</span>
+              {clinicLinks.map((clinic) => (
+                <Link key={clinic.slug} to={`/klinikker/${clinic.slug}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">{clinic.label}</Link>
               ))}
             </nav>
           </div>
