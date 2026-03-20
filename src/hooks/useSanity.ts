@@ -1,5 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import { sanityClient } from "@/lib/sanityClient";
+import {
+  HOMEPAGE_QUERY,
+  SPECIALISTS_QUERY,
+  SPECIALIST_BY_SLUG_QUERY,
+  GOOGLE_REVIEWS_QUERY,
+  TREATMENT_CATEGORIES_QUERY,
+  TREATMENT_CATEGORY_BY_SLUG_QUERY,
+  TREATMENT_BY_SLUG_QUERY,
+  ABOUT_PAGE_QUERY,
+  CONTACT_PAGE_QUERY,
+  PRICING_PAGE_QUERY,
+  INSURANCE_PAGE_QUERY,
+  SERVICES_PAGE_QUERY,
+  CLINICS_QUERY,
+  SITE_SETTINGS_QUERY,
+  ARTICLES_QUERY,
+  ARTICLE_BY_SLUG_QUERY,
+  JOB_LISTINGS_QUERY,
+  JOB_LISTING_BY_SLUG_QUERY,
+  FAQS_QUERY,
+  FAQS_BY_CATEGORY_QUERY,
+  FAQS_BY_TREATMENT_CATEGORY_QUERY,
+  THEME_PAGE_QUERY,
+  SERVICE_CATEGORIES_DROPDOWN_QUERY,
+} from "@/lib/queries";
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
 const mapSanityCategorySlug = (slug: string): string => {
@@ -18,21 +43,9 @@ export const useHomepage = () =>
   useQuery({
     queryKey: ["sanity", "homepage"],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "homepage"][0]{
-          title, tagline,
-          heroBanner{
-            slides[]{heading, subheading, ctaText, ctaLink, "image": image.asset->url}
-          },
-          "serviceCategories": serviceCategories[]->{ _id, title, "slug": slug.current, description, icon, color, "heroImage": heroImage.asset->url },
-          valueBadges[]{icon, label},
-          promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
-          seo
-        }`
-      );
+      const data = await fetchSanity<any>(HOMEPAGE_QUERY);
       if (!data) return null;
 
-      // Transform to match component expectations
       return {
         tagline: data.tagline,
         heroSlides: (data.heroBanner?.slides || []).map((s: any, i: number) => ({
@@ -89,14 +102,7 @@ export const useSpecialists = () =>
   useQuery({
     queryKey: ["sanity", "specialists"],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(
-        `*[_type == "specialist"] | order(name asc){
-          _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
-          "slug": slug.current,
-          "image": photo.asset->url,
-          "categories": categories[]->{ _id, title, "slug": slug.current }
-        }`
-      );
+      const data = await fetchSanity<any[]>(SPECIALISTS_QUERY);
       return (data || []).map((s) => ({
         ...s,
         title: s.role || "",
@@ -114,15 +120,7 @@ export const useSpecialist = (slug: string) =>
   useQuery({
     queryKey: ["sanity", "specialist", slug],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "specialist" && slug.current == $slug][0]{
-          _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
-          "slug": slug.current,
-          "image": photo.asset->url,
-          "categories": categories[]->{ _id, title, "slug": slug.current }
-        }`,
-        { slug }
-      );
+      const data = await fetchSanity<any>(SPECIALIST_BY_SLUG_QUERY, { slug });
       if (!data) return null;
       return {
         ...data,
@@ -151,11 +149,7 @@ export const useGoogleReviews = () =>
   useQuery({
     queryKey: ["sanity", "googleReviews"],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(
-        `*[_type == "googleReview"] | order(_createdAt desc){
-          _id, author, rating, text, date
-        }`
-      );
+      const data = await fetchSanity<any[]>(GOOGLE_REVIEWS_QUERY);
       return (data || []).map((r) => ({
         ...r,
         name: r.author || "",
@@ -168,17 +162,7 @@ export const useGoogleReviews = () =>
 export const useTreatmentCategories = () =>
   useQuery({
     queryKey: ["sanity", "treatmentCategories"],
-    queryFn: () =>
-      fetchSanity<any[]>(
-        `*[_type == "treatmentCategory"] | order(title asc){
-          _id, title, "slug": slug.current, categoryId, description, icon, color,
-          "heroImage": heroImage.asset->url,
-          stats,
-          "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
-            _id, title, "slug": slug.current, description, "heroImage": heroImage.asset->url
-          }
-        }`
-      ),
+    queryFn: () => fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -186,28 +170,15 @@ export const useTreatmentCategory = (slug: string) =>
   useQuery({
     queryKey: ["sanity", "treatmentCategory", slug],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "treatmentCategory" && (slug.current == $slug || categoryId == $slug)][0]{
-          _id, title, "slug": slug.current, categoryId, description, icon, color,
-          "heroImage": heroImage.asset->url,
-          stats,
-          seo,
-          "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
-            _id, title, "slug": slug.current, description, subtitle,
-            "heroImage": heroImage.asset->url
-          }
-        }`,
-        { slug }
-      );
+      const data = await fetchSanity<any>(TREATMENT_CATEGORY_BY_SLUG_QUERY, { slug });
       if (!data) return null;
-      // Transform treatments into services format for CategoryPage compatibility
       return {
         ...data,
         services: (data.treatments || []).map((t: any) => ({
           name: t.title,
           path: `/behandlinger/${data.categoryId || data.slug}/${t.slug}`,
         })),
-        faqs: [], // FAQs are on individual treatments, not category level in current schema
+        faqs: [],
       };
     },
     enabled: !!slug,
@@ -219,19 +190,7 @@ export const useTreatment = (categorySlug: string, treatmentSlug: string) =>
   useQuery({
     queryKey: ["sanity", "treatment", categorySlug, treatmentSlug],
     queryFn: () =>
-      fetchSanity<any>(
-        `*[_type == "treatment" && slug.current == $treatmentSlug && (category->slug.current == $categorySlug || category->categoryId == $categorySlug)][0]{
-          _id, title, subtitle, description, benefits, benefitsTitle,
-          "heroImage": heroImage.asset->url,
-          "parentCategory": category->title,
-          "parentSlug": category->slug.current,
-          parentCategoryLabel,
-          process[]{title, description},
-          faqs[]{question, answer},
-          seo
-        }`,
-        { categorySlug, treatmentSlug }
-      ),
+      fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }),
     enabled: !!categorySlug && !!treatmentSlug,
     staleTime: 5 * 60 * 1000,
   });
@@ -241,26 +200,15 @@ export const useAboutPage = () =>
   useQuery({
     queryKey: ["sanity", "aboutPage"],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "aboutPage"][0]{
-          title, subtitle, "heroImage": heroImage.asset->url,
-          body,
-          values,
-          seo
-        }`
-      );
+      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY);
       if (!data) return null;
-      // Convert blockContent body into sections array for backward compat with About.tsx
       const sections = (data.body || [])
         .filter((block: any) => block._type === "block")
         .map((block: any) => ({
           title: "",
           content: (block.children || []).map((c: any) => c.text).join(""),
         }));
-      return {
-        ...data,
-        sections,
-      };
+      return { ...data, sections };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -270,20 +218,9 @@ export const useContactPage = () =>
   useQuery({
     queryKey: ["sanity", "contactPage"],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "contactPage"][0]{
-          title, introText, phone, email,
-          "heroImage": heroImage.asset->url,
-          address{street, city, zip},
-          openingHours[]{days, hours},
-          seo
-        }`
-      );
+      const data = await fetchSanity<any>(CONTACT_PAGE_QUERY);
       if (!data) return null;
-      return {
-        ...data,
-        subtitle: data.introText || "",
-      };
+      return { ...data, subtitle: data.introText || "" };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -292,19 +229,7 @@ export const useContactPage = () =>
 export const usePricingPage = () =>
   useQuery({
     queryKey: ["sanity", "pricingPage"],
-    queryFn: () =>
-      fetchSanity<any>(
-        `*[_type == "pricingPage"][0]{
-          title, introText, insuranceNote,
-          "heroImage": heroImage.asset->url,
-          priceCategories[]{
-            categoryName,
-            "categoryRef": category->{ _id, title, "slug": slug.current },
-            items[]{name, price, priceLabel, note}
-          },
-          seo
-        }`
-      ),
+    queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -313,23 +238,12 @@ export const useInsurancePage = () =>
   useQuery({
     queryKey: ["sanity", "insurancePage"],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "insurancePage"][0]{
-          title, introText,
-          "heroImage": heroImage.asset->url,
-          partners,
-          steps[]{title, description},
-          benefits[]{title, description},
-          seo
-        }`
-      );
+      const data = await fetchSanity<any>(INSURANCE_PAGE_QUERY);
       if (!data) return null;
       return {
         ...data,
         subtitle: data.introText || "",
-        // Transform partners string[] to {name} objects for component compat
         companies: (data.partners || []).map((p: string) => ({ name: p })),
-        // Map step/benefit fields for component compat
         steps: (data.steps || []).map((s: any, i: number) => ({
           num: String(i + 1),
           title: s.title,
@@ -348,32 +262,19 @@ export const useInsurancePage = () =>
 export const useServicesPage = () =>
   useQuery({
     queryKey: ["sanity", "servicesPage"],
-    queryFn: () =>
-      fetchSanity<any>(
-        `*[_type == "servicesPage"][0]{
-          title, introText,
-          "categories": categories[]->{ _id, title, "slug": slug.current, description, icon, color, "heroImage": heroImage.asset->url },
-          seo
-        }`
-      ),
+    queryFn: () => fetchSanity<any>(SERVICES_PAGE_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 
-// ─── Clinics (from homepage or dedicated type) ───────────────────────
+// ─── Clinics ─────────────────────────────────────────────────────────
 export const useClinics = () =>
   useQuery({
     queryKey: ["sanity", "clinics"],
-    queryFn: () =>
-      fetchSanity<any[]>(
-        `*[_type == "clinicPage"] | order(title asc){
-          _id, "id": slug.current, "label": title, address, phone, hours, services,
-          "slug": slug.current
-        }`
-      ),
+    queryFn: () => fetchSanity<any[]>(CLINICS_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 
-// ─── Site Settings (social media, etc.) ──────────────────────────────
+// ─── Site Settings ───────────────────────────────────────────────────
 export interface SanitySocialMedia {
   instagram?: string;
   facebook?: string;
@@ -387,27 +288,7 @@ export const useSiteSettings = () =>
   useQuery({
     queryKey: ["sanity", "siteSettings"],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "siteSettings"][0]{
-          title,
-          phone,
-          email,
-          address,
-          socialMedia,
-          mainNavigation[]{
-            _key,
-            label,
-            path,
-            isServicesDropdown
-          },
-          ctaButton{ label, path },
-          notFoundTitle,
-          notFoundText,
-          "notFoundImage": notFoundImage.asset->url,
-          notFoundCtaLabel,
-          notFoundCtaPath
-        }`
-      );
+      const data = await fetchSanity<any>(SITE_SETTINGS_QUERY);
       return data || null;
     },
     staleTime: 5 * 60 * 1000,
@@ -431,20 +312,7 @@ export const useArticles = () =>
   useQuery({
     queryKey: ["sanity", "articles"],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(
-        `*[_type == "article"] | order(publishedAt desc){
-          _id,
-          title,
-          "slug": slug.current,
-          excerpt,
-          "image": primaryImage.asset->url,
-          "imageAlt": primaryImage.alt,
-          "date": publishedAt,
-          category,
-          pinned,
-          featured,
-        }`
-      );
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY);
       return (data || []).map((a) => ({
         ...a,
         image: a.image || "",
@@ -460,20 +328,7 @@ export const useArticle = (slug: string) =>
   useQuery({
     queryKey: ["sanity", "article", slug],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "article" && slug.current == $slug][0]{
-          _id,
-          title,
-          "slug": slug.current,
-          excerpt,
-          "image": primaryImage.asset->url,
-          "imageAlt": primaryImage.alt,
-          "date": publishedAt,
-          category,
-          body,
-        }`,
-        { slug }
-      );
+      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug });
       if (!data) return null;
       return {
         ...data,
@@ -492,23 +347,7 @@ export const useJobListings = () =>
   useQuery({
     queryKey: ["sanity", "jobListings"],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(
-        `*[_type == "jobListing" && active == true] | order(publishedAt desc){
-          _id,
-          title,
-          "slug": slug.current,
-          department,
-          location,
-          employmentType,
-          excerpt,
-          "publishedAt": publishedAt,
-          deadline,
-          contactName,
-          contactEmail,
-          contactPhone,
-          applyUrl,
-        }`
-      );
+      const data = await fetchSanity<any[]>(JOB_LISTINGS_QUERY);
       return (data || []).map((j) => ({
         ...j,
         id: j._id,
@@ -521,25 +360,7 @@ export const useJobListing = (slug: string) =>
   useQuery({
     queryKey: ["sanity", "jobListing", slug],
     queryFn: async () => {
-      const data = await fetchSanity<any>(
-        `*[_type == "jobListing" && slug.current == $slug][0]{
-          _id,
-          title,
-          "slug": slug.current,
-          department,
-          location,
-          employmentType,
-          excerpt,
-          "publishedAt": publishedAt,
-          deadline,
-          contactName,
-          contactEmail,
-          contactPhone,
-          applyUrl,
-          body,
-        }`,
-        { slug }
-      );
+      const data = await fetchSanity<any>(JOB_LISTING_BY_SLUG_QUERY, { slug });
       if (!data) return null;
       return { ...data, id: data._id };
     },
@@ -553,9 +374,7 @@ export const useFaqs = (category?: string) =>
     queryKey: ["sanity", "faqs", category],
     queryFn: () =>
       fetchSanity<{ question: string; answer: string; category?: string }[]>(
-        category
-          ? `*[_type == "faq" && category == $category] | order(sortOrder asc) { question, answer, category }`
-          : `*[_type == "faq"] | order(sortOrder asc) { question, answer, category }`,
+        category ? FAQS_BY_CATEGORY_QUERY : FAQS_QUERY,
         category ? { category } : undefined
       ),
     staleTime: 5 * 60 * 1000,
@@ -566,7 +385,7 @@ export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
     queryKey: ["sanity", "faqs", "treatment", categorySlug],
     queryFn: () =>
       fetchSanity<{ question: string; answer: string }[]>(
-        `*[_type == "faq" && relatedTreatmentCategory->slug.current == $slug] | order(sortOrder asc) { question, answer }`,
+        FAQS_BY_TREATMENT_CATEGORY_QUERY,
         { slug: categorySlug }
       ),
     enabled: !!categorySlug,
@@ -586,23 +405,11 @@ export const useThemePage = (slug: string) =>
         lifePhases?: { title: string; text: string }[];
         ctaText?: string;
         ctaLink?: string;
-      }>(
-        `*[_type == "themePage" && slug.current == $slug][0]{
-          title,
-          "heroImage": heroImage.asset->url,
-          introTexts,
-          sections[]{heading, paragraphs, bulletPoints},
-          lifePhases[]{title, text},
-          ctaText, ctaLink
-        }`,
-        { slug }
-      ),
+      }>(THEME_PAGE_QUERY, { slug }),
     staleTime: 5 * 60 * 1000,
   });
 
 // ─── Service Categories (for dropdown menu) ─────────────────────────
-
-// Preferred display order for categories in the dropdown
 const CATEGORY_ORDER = [
   "gynekologi",
   "graviditet",
@@ -616,18 +423,9 @@ export const useServiceCategoriesFromSanity = () =>
   useQuery({
     queryKey: ["sanity", "serviceCategories"],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(
-        `*[_type == "treatmentCategory"]{
-          _id, title, categoryId, "slug": slug.current,
-          "treatments": treatments[]->{ 
-            _id, title, "slug": slug.current,
-            subItems[]{label, anchor, path}
-          }
-        }`
-      );
+      const data = await fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY);
       if (!data || data.length === 0) return null;
 
-      // Deduplicate by categoryId (both migration scripts may have created entries)
       const seen = new Set<string>();
       const unique = data.filter((cat) => {
         const id = cat.categoryId || cat.slug;
@@ -636,7 +434,6 @@ export const useServiceCategoriesFromSanity = () =>
         return true;
       });
 
-      // Sort categories by preferred order
       const sorted = [...unique].sort((a, b) => {
         const idA = a.categoryId || a.slug;
         const idB = b.categoryId || b.slug;
