@@ -30,10 +30,10 @@ export const Footer = () => {
         { label: "Flere tjenester", path: "/flere-fagomrader" },
       ];
 
-  // Clinic names from Sanity or static
-  const clinicNames = clinics && clinics.length > 0
-    ? clinics.map((c: any) => c.label || c.title || c.id)
-    : ["Oslo Majorstuen", "Bekkestua", "Ski", "Moss", "Moelv"];
+  // Clinic links from Sanity or static
+  const clinicLinks = clinics && clinics.length > 0
+    ? clinics.map((c: any) => ({ label: c.label || c.title, slug: c.slug || c.id }))
+    : staticClinics.map(c => ({ label: c.label, slug: c.slug }));
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";
