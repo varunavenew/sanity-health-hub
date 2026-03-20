@@ -233,13 +233,16 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     ? {
         title: sanityTreatment.title,
         subtitle: sanityTreatment.subtitle,
-        description: sanityTreatment.description,
+        description: sanityTreatment.description || "",
         heroImage: sanityTreatment.heroImage || staticTreatment?.heroImage || "",
         parentCategory: sanityTreatment.parentCategory || staticTreatment?.parentCategory || categoryId,
         benefits: sanityTreatment.benefits,
         benefitsTitle: sanityTreatment.benefitsTitle,
         process: sanityTreatment.process,
         faqs: sanityTreatment.faqs,
+        sections: sanityTreatment.sections,
+        relatedSpecialists: sanityTreatment.relatedSpecialists,
+        linkedServices: sanityTreatment.linkedServices,
       }
     : staticTreatment;
 
