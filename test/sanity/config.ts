@@ -10,16 +10,14 @@
  */
 import { createClient } from "@sanity/client";
 
-const requiredVars = ["SANITY_PROJECT_ID", "SANITY_DATASET", "SANITY_TOKEN"] as const;
-const missing = requiredVars.filter((v) => !process.env[v]);
-if (missing.length) {
-  console.error(`❌ Missing environment variables: ${missing.join(", ")}`);
-  console.error("   Set them in your deployment environment or .env file.");
+if (!process.env.SANITY_TOKEN) {
+  console.error("❌ Missing environment variable: SANITY_TOKEN");
+  console.error("   Set it in your deployment environment or .env file.");
   process.exit(1);
 }
 
-export const PROJECT_ID = process.env.SANITY_PROJECT_ID!;
-export const DATASET = process.env.SANITY_DATASET!;
+export const PROJECT_ID = process.env.SANITY_PROJECT_ID || "8auguusb";
+export const DATASET = process.env.SANITY_DATASET || "production";
 export const API_VERSION = "2024-01-01";
 const TOKEN = process.env.SANITY_TOKEN!;
 
