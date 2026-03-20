@@ -25,19 +25,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-
-const PROJECT_ID = "sh2sj585";
-const DATASET = "development";
-const API_VERSION = "2024-01-01";
-const TOKEN = 'skZq2dG4GHzIeFIovU9Cr30K8IqH0ac6UYXR5M6FEanMtxMZNB6iHRRrQIeDppP1ZDuxStTU6fBS601kWeixOJcUixxqhbVbFRcdnyIJxJ0tIYVKnhxMo3j72K6rAaMqxOJ2XUIYwHurrBTuwlTAvXehiNpnuq3OvGojIZjvbml74PLzEQ0X';
-
-if (!TOKEN) {
-  console.error("❌ Missing SANITY_TOKEN. Get one from https://www.sanity.io/manage");
-  console.error("   Run: SANITY_TOKEN=your_token npx tsx sanity/migrate-content.ts");
-  process.exit(1);
-}
-
-const API_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/mutate/${DATASET}`;
+import { PROJECT_ID, DATASET, API_URL, SANITY_TOKEN as TOKEN } from "./config";
 const ASSETS_URL = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/assets/images/${DATASET}`;
 
 // Resolve path relative to project root (one level up from test/)
