@@ -60,8 +60,8 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs text-white/40 mb-4 font-normal">Klinikker</h3>
             <nav className="space-y-2.5" aria-label="Klinikker">
-              {clinicNames.map((name: string) => (
-                <span key={name} className="block text-sm text-white/60 font-light">{name}</span>
+              {clinicLinks.map((clinic) => (
+                <Link key={clinic.slug} to={`/klinikker/${clinic.slug}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">{clinic.label}</Link>
               ))}
             </nav>
           </div>
