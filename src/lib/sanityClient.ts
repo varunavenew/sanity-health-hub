@@ -1,7 +1,7 @@
 import { createClient } from "@sanity/client";
 
-const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID || "sh2sj585";
-const SANITY_DATASET = import.meta.env.VITE_SANITY_DATASET || "development";
+const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID || "8auguusb";
+const SANITY_DATASET = import.meta.env.VITE_SANITY_DATASET || "production";
 
 export const sanityClient = createClient({
   projectId: SANITY_PROJECT_ID,

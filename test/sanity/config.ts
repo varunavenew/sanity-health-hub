@@ -16,8 +16,8 @@ if (!process.env.SANITY_TOKEN) {
   process.exit(1);
 }
 
-export const PROJECT_ID = process.env.SANITY_PROJECT_ID!;
-export const DATASET = process.env.SANITY_DATASET!;
+export const PROJECT_ID = process.env.SANITY_PROJECT_ID || "8auguusb";
+export const DATASET = process.env.SANITY_DATASET || "production";
 export const API_VERSION = "2024-01-01";
 const TOKEN = process.env.SANITY_TOKEN!;
 
