@@ -150,6 +150,34 @@ export default {
       ],
     },
     {
+      name: 'detail',
+      title: 'Praktisk informasjon',
+      type: 'object',
+      options: { collapsible: true },
+      fields: [
+        { name: 'parking', title: 'Parkering', type: 'text', rows: 2 },
+        { name: 'publicTransport', title: 'Kollektivtransport', type: 'text', rows: 2 },
+        { name: 'accessibility', title: 'Tilgjengelighet', type: 'text', rows: 2 },
+      ],
+    },
+    {
+      name: 'faqs',
+      title: 'FAQ',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'question', title: 'Spørsmål', type: 'string', validation: (Rule: any) => Rule.required() },
+            { name: 'answer', title: 'Svar', type: 'text', rows: 3, validation: (Rule: any) => Rule.required() },
+          ],
+          preview: {
+            select: { title: 'question' },
+          },
+        },
+      ],
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',

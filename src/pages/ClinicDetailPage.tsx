@@ -6,50 +6,87 @@ import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLin
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug } from "@/data/clinicServices";
+import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
 }
 
-// Static FAQ per clinic
-const clinicFaqs: Record<string, { q: string; a: string }[]> = {
+// Static FAQ fallback per clinic
+const clinicFaqs: Record<string, { question: string; answer: string }[]> = {
   majorstuen: [
-    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning. Dersom du ønsker å bruke forsikring eller offentlig refusjon, kan det være krav om henvisning fra fastlege." },
-    { q: "Kan jeg bruke helseforsikring?", a: "Ja, vi samarbeider med de fleste forsikringsselskap. Ta kontakt med ditt forsikringsselskap i forkant for å avklare dekning." },
-    { q: "Hvor lang tid tar en konsultasjon?", a: "En standardkonsultasjon varer normalt 30–45 minutter, avhengig av type undersøkelse." },
-    { q: "Er det ventetid for time?", a: "Vi tilstreber kort ventetid. De fleste får time innen 1–2 uker." },
+    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Dersom du ønsker å bruke forsikring eller offentlig refusjon, kan det være krav om henvisning fra fastlege." },
+    { question: "Kan jeg bruke helseforsikring?", answer: "Ja, vi samarbeider med de fleste forsikringsselskap. Ta kontakt med ditt forsikringsselskap i forkant for å avklare dekning." },
+    { question: "Hvor lang tid tar en konsultasjon?", answer: "En standardkonsultasjon varer normalt 30–45 minutter, avhengig av type undersøkelse." },
+    { question: "Er det ventetid for time?", answer: "Vi tilstreber kort ventetid. De fleste får time innen 1–2 uker." },
   ],
   bekkestua: [
-    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med ditt forsikringsselskap dersom du ønsker forsikringsdekning." },
-    { q: "Hvilke tjenester tilbys på Bekkestua?", a: "Vi tilbyr gynekologi og hudlege ved vår klinikk på Bekkestua." },
-    { q: "Er det parkering?", a: "Ja, det er gratis parkering rett utenfor klinikken." },
+    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med ditt forsikringsselskap dersom du ønsker forsikringsdekning." },
+    { question: "Hvilke tjenester tilbys på Bekkestua?", answer: "Vi tilbyr gynekologi og hudlege ved vår klinikk på Bekkestua." },
+    { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
   ],
   ski: [
-    { q: "Hvilke tjenester tilbys i Ski?", a: "Vi tilbyr gynekologiske tjenester ved vår klinikk i Ski." },
-    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning." },
+    { question: "Hvilke tjenester tilbys i Ski?", answer: "Vi tilbyr gynekologiske tjenester ved vår klinikk i Ski." },
+    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning." },
   ],
   moss: [
-    { q: "Hvordan bestiller jeg time i Moss?", a: "Timebestilling gjøres via Colosseum Faust sitt bookingsystem." },
-    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med forsikringsselskapet dersom relevant." },
-    { q: "Er det parkering?", a: "Ja, det er gratis parkering rett utenfor klinikken." },
+    { question: "Hvordan bestiller jeg time i Moss?", answer: "Timebestilling gjøres via Colosseum Faust sitt bookingsystem." },
+    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med forsikringsselskapet dersom relevant." },
+    { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
   ],
   moelv: [
-    { q: "Trenger jeg henvisning?", a: "For de fleste konsultasjoner trenger du ikke henvisning." },
-    { q: "Hvilke tjenester tilbys i Moelv?", a: "Vi tilbyr gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin." },
-    { q: "Er det parkering?", a: "Ja, det er gratis parkering rett utenfor klinikken." },
+    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning." },
+    { question: "Hvilke tjenester tilbys i Moelv?", answer: "Vi tilbyr gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin." },
+    { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
   ],
 };
 
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const { slug } = useParams<{ slug: string }>();
-  const clinic = slug ? getClinicBySlug(slug) : undefined;
+  const { data: sanityClinic, isLoading } = useClinic(slug || "");
+  const staticClinic = slug ? getClinicBySlug(slug) : undefined;
+
+  // Merge: Sanity first, static fallback
+  const clinic = sanityClinic || (staticClinic ? {
+    id: staticClinic.id,
+    slug: staticClinic.slug,
+    label: staticClinic.label,
+    address: staticClinic.address,
+    phone: staticClinic.phone,
+    hours: staticClinic.hours,
+    description: staticClinic.detail.description,
+    detail: {
+      parking: staticClinic.detail.parking,
+      publicTransport: staticClinic.detail.publicTransport,
+      accessibility: staticClinic.detail.accessibility,
+    },
+    mapsUrl: staticClinic.mapsUrl,
+    faqs: clinicFaqs[staticClinic.slug] || [],
+    booking: undefined,
+    seo: undefined,
+  } : undefined);
 
   useEffect(() => {
     if (clinic) {
       document.title = `CMedical ${clinic.label} | Klinikk`;
     }
   }, [clinic]);
+
+  if (isLoading) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="bg-brand-warm pt-24 pb-16">
+          <div className="container mx-auto px-6 md:px-16 text-center">
+            <div className="animate-pulse space-y-4 max-w-3xl mx-auto">
+              <div className="h-8 bg-brand-mid/20 rounded w-1/3" />
+              <div className="h-4 bg-brand-mid/20 rounded w-2/3" />
+            </div>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (!clinic) {
     return (
@@ -66,13 +103,15 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     );
   }
 
-  const faqs = clinicFaqs[clinic.slug] || [];
+  const faqs = clinic.faqs || [];
+  const detail = clinic.detail || {};
+  const mapsUrl = clinic.mapsUrl || (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={`CMedical ${clinic.label} – Klinikk`}
-        description={`Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`}
+        title={clinic.seo?.metaTitle || `CMedical ${clinic.label} – Klinikk`}
+        description={clinic.seo?.metaDescription || `Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`}
         canonical={`/klinikker/${clinic.slug}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -109,7 +148,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             </header>
 
             <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {clinic.detail.description}
+              {clinic.description}
             </p>
           </div>
         </div>
@@ -128,8 +167,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   <div>
                     <p className="text-sm font-normal text-foreground">Adresse</p>
                     <p className="text-sm text-muted-foreground font-light">{clinic.address}</p>
-                    {clinic.mapsUrl && (
-                      <a href={clinic.mapsUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-dark/70 hover:underline inline-flex items-center gap-1 mt-1">
+                    {mapsUrl && (
+                      <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-dark/70 hover:underline inline-flex items-center gap-1 mt-1">
                         Vis i kart <ExternalLink className="w-3 h-3" />
                       </a>
                     )}
@@ -139,7 +178,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   <Phone className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Telefon</p>
-                    <a href={`tel:+47${clinic.phone.replace(/\s/g, '')}`} className="text-sm text-muted-foreground font-light hover:underline">
+                    <a href={`tel:+47${clinic.phone?.replace(/\s/g, '')}`} className="text-sm text-muted-foreground font-light hover:underline">
                       {clinic.phone}
                     </a>
                   </div>
@@ -154,30 +193,30 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               </div>
 
               <div className="space-y-4">
-                {clinic.detail.publicTransport && (
+                {detail.publicTransport && (
                   <div className="flex items-start gap-3">
                     <Train className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Kollektivtransport</p>
-                      <p className="text-sm text-muted-foreground font-light">{clinic.detail.publicTransport}</p>
+                      <p className="text-sm text-muted-foreground font-light">{detail.publicTransport}</p>
                     </div>
                   </div>
                 )}
-                {clinic.detail.parking && (
+                {detail.parking && (
                   <div className="flex items-start gap-3">
                     <Car className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Parkering</p>
-                      <p className="text-sm text-muted-foreground font-light">{clinic.detail.parking}</p>
+                      <p className="text-sm text-muted-foreground font-light">{detail.parking}</p>
                     </div>
                   </div>
                 )}
-                {clinic.detail.accessibility && (
+                {detail.accessibility && (
                   <div className="flex items-start gap-3">
                     <Accessibility className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Tilgjengelighet</p>
-                      <p className="text-sm text-muted-foreground font-light">{clinic.detail.accessibility}</p>
+                      <p className="text-sm text-muted-foreground font-light">{detail.accessibility}</p>
                     </div>
                   </div>
                 )}
@@ -193,11 +232,17 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           <div className="max-w-3xl mx-auto">
             <h2 className="text-lg font-normal text-foreground mb-6">Fra klinikken</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="aspect-[4/3] bg-brand-mid/20 rounded-sm flex items-center justify-center">
-                  <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
+              {clinic.primaryImage ? (
+                <div className="aspect-[4/3] col-span-2 md:col-span-3 rounded-sm overflow-hidden">
+                  <img src={clinic.primaryImage} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-              ))}
+              ) : (
+                [1, 2, 3].map((i) => (
+                  <div key={i} className="aspect-[4/3] bg-brand-mid/20 rounded-sm flex items-center justify-center">
+                    <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -231,13 +276,13 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             <div className="max-w-3xl mx-auto">
               <h2 className="text-lg font-normal text-foreground mb-6">Ofte stilte spørsmål</h2>
               <Accordion type="single" collapsible className="space-y-2">
-                {faqs.map((faq, i) => (
+                {faqs.map((faq: { question: string; answer: string }, i: number) => (
                   <AccordionItem key={i} value={`faq-${i}`} className="bg-background border border-border/40 rounded-sm px-5">
                     <AccordionTrigger className="text-sm font-normal text-foreground py-4 hover:no-underline">
-                      {faq.q}
+                      {faq.question}
                     </AccordionTrigger>
                     <AccordionContent className="text-sm text-muted-foreground font-light pb-4 leading-relaxed">
-                      {faq.a}
+                      {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
                 ))}

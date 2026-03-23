@@ -14,6 +14,7 @@ import {
   INSURANCE_PAGE_QUERY,
   SERVICES_PAGE_QUERY,
   CLINICS_QUERY,
+  CLINIC_BY_SLUG_QUERY,
   SITE_SETTINGS_QUERY,
   ARTICLES_QUERY,
   ARTICLE_BY_SLUG_QUERY,
@@ -271,6 +272,14 @@ export const useClinics = () =>
   useQuery({
     queryKey: ["sanity", "clinics"],
     queryFn: () => fetchSanity<any[]>(CLINICS_QUERY),
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useClinic = (slug: string) =>
+  useQuery({
+    queryKey: ["sanity", "clinic", slug],
+    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }),
+    enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
 
