@@ -121,6 +121,7 @@ const renderBlock = (block: ContentBlock, index: number) => {
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
   const { slug } = useParams<{ slug: string }>();
   const { data: sanityArticle } = useArticle(slug || "");
+  const { data: sanityArticles } = useArticles();
   const staticArticle = articles.find((a) => a.slug === slug);
   
   // Prefer Sanity data, fall back to static
@@ -128,6 +129,24 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     ? { ...sanityArticle, image: sanityArticle.image || staticArticle?.image || "" }
     : staticArticle;
   const content = slug ? articleContent[slug] : undefined;
+
+  // Build related articles from Sanity first, then static fallback
+  const related = useMemo(() => {
+    if (!article) return [];
+    const allArticles = sanityArticles && sanityArticles.length > 0
+      ? sanityArticles.map((a: any) => ({
+          slug: a.slug,
+          title: a.title,
+          excerpt: a.excerpt,
+          image: a.image,
+          date: a.date,
+          category: a.category,
+        }))
+      : articles;
+    return allArticles
+      .filter((a: any) => a.category === article.category && a.slug !== article.slug)
+      .slice(0, 3);
+  }, [article, sanityArticles]);
 
   useEffect(() => {
     if (article) {
@@ -147,11 +166,6 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       </PageLayout>
     );
   }
-
-  // Get related articles (same category, excluding current)
-  const related = articles
-    .filter((a) => a.category === article.category && a.slug !== article.slug)
-    .slice(0, 3);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
