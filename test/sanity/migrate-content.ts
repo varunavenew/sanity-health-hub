@@ -599,8 +599,8 @@ async function buildPageDocsWithImages(): Promise<Mutation[]> {
         ],
         seo: {
           _type: "seo",
-          metaTitle: "CMedical – Nordens ledende klinikk for livet og underlivet",
-          metaDescription: "Spesialisert behandling innen gynekologi, fertilitet, urologi og ortopedi. Robotassistert kirurgi, kort ventetid og erfarne spesialister.",
+          metaTitle: "CMedical – Skandinavias ledende helhetskonsept",
+          metaDescription: "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
         },
       },
     },
