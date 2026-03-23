@@ -313,7 +313,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
           "@context": "https://schema.org",
           "@type": "MedicalProcedure",
           name: treatment.title,
-          description: treatment.description?.split('\n')[0] || "",
+          description: (treatment.description || "").split('\n')[0] || "",
           howPerformed: treatment.subtitle || undefined,
           provider: {
             "@type": "MedicalClinic",
