@@ -68,6 +68,7 @@ const treatments: Array<{
   faqs?: Array<{ question: string; answer: string }>;
   linkedServices?: Array<{ label: string; description: string; path: string }>;
   relatedSpecialists?: string[];
+  subItems?: Array<{ label: string; anchor?: string; path?: string }>;
 }> = [
   // ==========================================
   // GYNEKOLOGI
