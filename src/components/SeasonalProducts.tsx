@@ -38,6 +38,7 @@ export const SeasonalProducts = () => {
                     src={product?.image}
                     alt={product?.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
                   />
                 </div>
                 <div className="absolute top-4 left-4">

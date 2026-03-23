@@ -37,6 +37,7 @@ export const ExpertiseSection = () => {
               src={cmedicalFamily} 
               alt="CMedical familie"
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
 

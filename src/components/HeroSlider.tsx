@@ -64,6 +64,7 @@ export const HeroSlider = () => {
               src={slide.image}
               alt={slide.title}
               className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
             
