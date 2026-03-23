@@ -274,6 +274,14 @@ export const useClinics = () =>
     staleTime: 5 * 60 * 1000,
   });
 
+export const useClinic = (slug: string) =>
+  useQuery({
+    queryKey: ["sanity", "clinic", slug],
+    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }),
+    enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });
+
 // ─── Site Settings ───────────────────────────────────────────────────
 export interface SanitySocialMedia {
   instagram?: string;
