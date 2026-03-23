@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { urlFor } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanityClient";
 
 // Static fallback values
 const DEFAULTS = {
@@ -80,11 +80,7 @@ interface HomepageSEOProps {
 export const HomepageSEO = ({ seo }: HomepageSEOProps) => {
   const title = seo?.metaTitle || DEFAULTS.title;
   const description = seo?.metaDescription || DEFAULTS.description;
-  const ogImage = seo?.ogImage
-    ? typeof seo.ogImage === "string"
-      ? seo.ogImage
-      : urlFor(seo.ogImage).width(1200).height(630).url()
-    : undefined;
+  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
 
   return (
     <Helmet>
