@@ -361,7 +361,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
             {/* Introduction */}
             <div className="mb-14">
               <div className="text-base md:text-[17px] text-foreground/80 leading-[1.8] font-light whitespace-pre-line">
-                {treatment.description}
+                {treatment.description || ""}
               </div>
             </div>
 
