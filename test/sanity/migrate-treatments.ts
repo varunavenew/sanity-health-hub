@@ -45,6 +45,7 @@ async function submitMutations(mutations: Mutation[]) {
 // Category reference mapping
 const categoryRefs: Record<string, string> = {
   "Gynekologi": "category-gynekologi",
+  "Graviditet": "category-graviditet",
   "Fertilitet": "category-fertilitet",
   "Urologi": "category-urologi",
   "Ortopedi": "category-ortopedi",
