@@ -302,7 +302,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={`${treatment.title} – ${treatment.parentCategory || categoryId}`}
-        description={treatment.description.split('\n')[0].slice(0, 155)}
+        description={(treatment.description || "").split('\n')[0].slice(0, 155)}
         canonical={`/behandlinger/${categoryId}/${subId}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
