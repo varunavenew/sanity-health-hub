@@ -379,14 +379,14 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                         return (
                           <TreatmentFaq
                             key={`section-${i}`}
-                            question={section.heading}
+                            question={section.heading || `Seksjon ${i + 1}`}
                             answer=""
                             isLast={false}
                             isOpen={openIndex === myIdx}
                             onToggle={() => setOpenIndex(myIdx)}
                             customContent={
                               <div className="space-y-3">
-                                {section.content.split("\n").map((line, j) => {
+                                {(section.content || "").split("\n").map((line, j) => {
                                   const trimmed = line.trim();
                                   if (!trimmed) return null;
                                   if (trimmed.startsWith("- ")) {
