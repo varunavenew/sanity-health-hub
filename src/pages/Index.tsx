@@ -9,15 +9,18 @@ import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { HomepageSEO } from "@/components/seo/HomepageSEO";
+import { useHomepage } from "@/hooks/useSanity";
 
 interface IndexProps {
   isChatOpen: boolean;
 }
 
 const Index = ({ isChatOpen }: IndexProps) => {
+  const { data: homepage } = useHomepage();
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <HomepageSEO />
+      <HomepageSEO seo={homepage?.seo} />
 
       {/* H1 – synlig for søkemotorer, visuelt integrert i hero */}
       <h1 className="sr-only">

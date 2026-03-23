@@ -80,7 +80,11 @@ interface HomepageSEOProps {
 export const HomepageSEO = ({ seo }: HomepageSEOProps) => {
   const title = seo?.metaTitle || DEFAULTS.title;
   const description = seo?.metaDescription || DEFAULTS.description;
-  const ogImage = seo?.ogImage ? urlFor(seo.ogImage).width(1200).height(630).url() : undefined;
+  const ogImage = seo?.ogImage
+    ? typeof seo.ogImage === "string"
+      ? seo.ogImage
+      : urlFor(seo.ogImage).width(1200).height(630).url()
+    : undefined;
 
   return (
     <Helmet>
