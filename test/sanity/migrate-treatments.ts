@@ -45,6 +45,7 @@ async function submitMutations(mutations: Mutation[]) {
 // Category reference mapping
 const categoryRefs: Record<string, string> = {
   "Gynekologi": "category-gynekologi",
+  "Graviditet": "category-graviditet",
   "Fertilitet": "category-fertilitet",
   "Urologi": "category-urologi",
   "Ortopedi": "category-ortopedi",
@@ -67,6 +68,7 @@ const treatments: Array<{
   faqs?: Array<{ question: string; answer: string }>;
   linkedServices?: Array<{ label: string; description: string; path: string }>;
   relatedSpecialists?: string[];
+  subItems?: Array<{ label: string; anchor?: string; path?: string }>;
 }> = [
   // ==========================================
   // GYNEKOLOGI
@@ -326,6 +328,14 @@ const treatments: Array<{
   { key: "ortopedi/skulder", title: "Skulder", subtitle: "Ingen ventetid • Ingen henvisning", parentCategory: "Ortopedi", description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi.", sections: [{ id: "kalkskulder", heading: "Kalkskulder", content: "Årsaken til kalkskulder er kalk i senen." }, { id: "slap", heading: "SLAP", content: "SLAP er øvre leddleppe-skade i skulderbladskålen." }, { id: "frozen-shoulder", heading: "Frozen shoulder", content: "Frozen shoulder er en betennelse i leddhinnen i skulderleddet." }], relatedSpecialists: ["tom-henry-sundoen"], faqs: [{ question: "Henvisning", answer: "Ingen henvisning nødvendig." }, { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." }] },
 
   // ==========================================
+  // GRAVIDITET
+  // ==========================================
+  { key: "graviditet/ultralyd", title: "Ultralyd i svangerskapet", subtitle: "Tidlig ultralyd, terminbekreftelse og organrettet ultralyd.", parentCategory: "Graviditet", description: "Vi tilbyr ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 7 til organrettet ultralyd i uke 18-20. Våre fostermedisinere bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.\n\nTidlig ultralyd bekrefter svangerskapet, daterer terminen og vurderer fosterets utvikling. Ved organrettet ultralyd gjennomgås fosterets organer systematisk for å avdekke eventuelle avvik.", benefits: ["Tidlig ultralyd fra uke 7 for å bekrefte svangerskap og termin", "Organrettet ultralyd uke 18-20 med detaljert gjennomgang", "Erfarne fostermedisinere med spisskompetanse", "Moderne utstyr for best mulig bildekvalitet", "Kort ventetid – time innen få dager"], process: [{ title: "Tidlig ultralyd (uke 7-12)", description: "Bekreftelse av svangerskap, datering av termin, antall fostre og hjerteaktivitet." }, { title: "Nakketranslusensmåling (uke 11-14)", description: "Vurdering av risiko for kromosomavvik, kan kombineres med blodprøve." }, { title: "Organrettet ultralyd (uke 18-20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum." }], faqs: [{ question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." }, { question: "Hva koster ultralyd i svangerskapet?", answer: "Se vår prisliste for oppdaterte priser. Kontakt oss gjerne for mer informasjon." }, { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." }, { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." }] },
+  { key: "graviditet/nipt", title: "NIPT", subtitle: "Non-invasiv prenatal test for kromosomanalyse.", parentCategory: "Graviditet", description: "NIPT (Non-Invasive Prenatal Testing) er en blodprøve som analyserer fragmenter av fosterets DNA i morens blod for å påvise eventuelle kromosomavvik. Testen kan utføres fra uke 10 og har svært høy treffsikkerhet.\n\nNIPT kan påvise trisomi 21 (Downs syndrom), trisomi 18 (Edwards syndrom) og trisomi 13 (Pataus syndrom). Testen kan også bestemme kjønn.", benefits: ["Kan tas fra uke 10 i svangerskapet", "Svært høy treffsikkerhet (over 99% for trisomi 21)", "Enkel blodprøve – ingen risiko for fosteret", "Resultat innen 7-10 virkedager", "Kan også bestemme kjønn"], faqs: [{ question: "Hva er forskjellen på NIPT og fostervannsprøve?", answer: "NIPT er en screeningtest (blodprøve) uten risiko for fosteret. Fostervannsprøve er diagnostisk og gir sikkert svar, men har en liten risiko for spontanabort." }, { question: "Hvem bør ta NIPT?", answer: "NIPT kan tilbys alle gravide, men er spesielt anbefalt ved forhøyet risiko etter KUB-test eller ved alder over 38 år." }, { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." }] },
+  { key: "graviditet/svangerskapsteam", title: "Svangerskapsteam", subtitle: "Tverrfaglig oppfølging gjennom svangerskapet.", parentCategory: "Graviditet", description: "Vårt svangerskapsteam gir deg helhetlig oppfølging gjennom hele svangerskapet. Teamet består av erfarne fostermedisinere, jordmødre og gynekologer som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.", benefits: ["Erfarne fostermedisinere og jordmødre", "Skreddersydd oppfølging tilpasset dine behov", "Oppfølging av risikosvangersskap", "Tilgjengelig for spørsmål gjennom hele svangerskapet", "Samarbeid med fødeavdeling ved behov"], faqs: [{ question: "Hva inkluderer svangerskapsoppfølging?", answer: "Regelmessige kontroller med blodprøver, blodtrykk, urinprøve, ultralyd og samtale om trivsel og forberedelse til fødsel." }, { question: "Kan jeg velge dere i stedet for fastlegen?", answer: "Ja, du kan velge privat svangerskapsoppfølging hos oss som supplement eller alternativ til oppfølging hos fastlege/jordmor." }, { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." }] },
+  { key: "graviditet/fosterdiagnostikk", title: "Fosterdiagnostikk", subtitle: "Avansert diagnostikk for trygt svangerskap.", parentCategory: "Graviditet", description: "Fosterdiagnostikk omfatter ulike undersøkelser for å vurdere fosterets helse og utvikling. Vi tilbyr et bredt spekter av diagnostiske metoder, fra ultralydundersøkelser og blodprøver til mer avanserte tester.\n\nVåre fostermedisinere har lang erfaring og spisskompetanse innen prenatal diagnostikk og kan gi deg trygg veiledning basert på dine resultater.", benefits: ["Erfarne fostermedisinere med spisskompetanse", "KUB-test (kombinert ultralyd og blodprøve)", "NIPT for høy-presisjons screening", "Detaljert ultralyd med moderne utstyr", "Grundig veiledning og rådgivning"], faqs: [{ question: "Hva er KUB-test?", answer: "KUB (Kombinert Ultralyd og Blodprøve) er en screeningtest i uke 11-14 som vurderer risiko for kromosomavvik basert på nakketranslusensmåling og blodprøver." }, { question: "Er fosterdiagnostikk frivillig?", answer: "Ja, all fosterdiagnostikk er frivillig. Vi gir deg grundig informasjon slik at du kan ta et informert valg." }, { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." }] },
+
+  // ==========================================
   // FLERE FAGOMRÅDER
   // ==========================================
   { key: "flere-fagomrader/endokrinologi", title: "Endokrinologi", subtitle: "Ingen ventetid • Ingen henvisning", parentCategory: "Flere fagområder", description: "Endokrinologi er en medisinsk spesialitet som handler om hormonsystemet og sykdommer knyttet til kjertler som produserer hormoner.", benefits: ["Erfarne endokrinologer med spisskompetanse", "Grundig hormonutredning med blodprøver og bildeundersøkelser", "Individuelt tilpasset behandling og oppfølging", "Tverrfaglig samarbeid med ernæringsfysiolog"], relatedSpecialists: ["ersan-krckov"], faqs: [{ question: "Henvisning", answer: "Ingen henvisning nødvendig." }, { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." }] },
@@ -402,6 +412,16 @@ function buildTreatmentDocs(): Mutation[] {
         label: ls.label,
         description: ls.description,
         path: ls.path,
+      }));
+    }
+
+    if (t.subItems) {
+      doc.subItems = t.subItems.map((item, i) => ({
+        _type: "object",
+        _key: `sub${i}`,
+        label: item.label,
+        anchor: item.anchor || undefined,
+        path: item.path || undefined,
       }));
     }
 

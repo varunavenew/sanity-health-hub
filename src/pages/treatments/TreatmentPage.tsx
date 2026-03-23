@@ -229,20 +229,21 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const treatmentKey = `${categoryId}/${subId}`;
   const staticTreatment = treatmentContent[treatmentKey];
 
+  // Merge Sanity data with static fallback — Sanity stubs may lack content
   const treatment: TreatmentData | undefined = sanityTreatment
     ? {
-        title: sanityTreatment.title,
-        subtitle: sanityTreatment.subtitle,
-        description: sanityTreatment.description || "",
+        title: sanityTreatment.title || staticTreatment?.title || "",
+        subtitle: sanityTreatment.subtitle || staticTreatment?.subtitle,
+        description: sanityTreatment.description || staticTreatment?.description || "",
         heroImage: sanityTreatment.heroImage || staticTreatment?.heroImage || "",
         parentCategory: sanityTreatment.parentCategory || staticTreatment?.parentCategory || categoryId,
-        benefits: sanityTreatment.benefits,
-        benefitsTitle: sanityTreatment.benefitsTitle,
-        process: sanityTreatment.process,
-        faqs: sanityTreatment.faqs,
-        sections: sanityTreatment.sections,
-        relatedSpecialists: sanityTreatment.relatedSpecialists,
-        linkedServices: sanityTreatment.linkedServices,
+        benefits: (sanityTreatment.benefits && sanityTreatment.benefits.length > 0) ? sanityTreatment.benefits : staticTreatment?.benefits,
+        benefitsTitle: sanityTreatment.benefitsTitle || staticTreatment?.benefitsTitle,
+        process: (sanityTreatment.process && sanityTreatment.process.length > 0) ? sanityTreatment.process : staticTreatment?.process,
+        faqs: (sanityTreatment.faqs && sanityTreatment.faqs.length > 0) ? sanityTreatment.faqs : staticTreatment?.faqs,
+        sections: (sanityTreatment.sections && sanityTreatment.sections.length > 0) ? sanityTreatment.sections : staticTreatment?.sections,
+        relatedSpecialists: (sanityTreatment.relatedSpecialists && sanityTreatment.relatedSpecialists.length > 0) ? sanityTreatment.relatedSpecialists : staticTreatment?.relatedSpecialists,
+        linkedServices: (sanityTreatment.linkedServices && sanityTreatment.linkedServices.length > 0) ? sanityTreatment.linkedServices : staticTreatment?.linkedServices,
       }
     : staticTreatment;
 

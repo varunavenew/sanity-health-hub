@@ -416,15 +416,20 @@ async function migrate() {
         path: item.path || undefined,
       }));
 
-      tx.createOrReplace({
+      // Create stub only if treatment doesn't exist yet (preserve content from migrate-treatments)
+      tx.createIfNotExists({
         _id: docId,
         _type: "treatment",
         title: sub.label,
         slug: { _type: "slug", current: slug },
         category: { _type: "reference", _ref: categoryDocId },
         parentCategoryLabel: cat.label,
-        subItems: subItems.length > 0 ? subItems : undefined,
       });
+
+      // Always patch subItems (dropdown menu data) without overwriting other fields
+      if (subItems.length > 0) {
+        tx.patch(docId, { set: { subItems } });
+      }
 
       console.log(`  📄 Treatment: ${sub.label} (${docId})`);
     }
