@@ -17,73 +17,73 @@ import * as path from "path";
 
 // Category images: categoryDocId → local file path (relative to project root)
 const categoryImages: Record<string, string> = {
-  "category-gynekologi": "../src/assets/categories/gynekologi.jpg",
-  "category-fertilitet": "../src/assets/categories/fertilitet.jpg",
-  "category-urologi": "../src/assets/categories/urologi.jpg",
-  "category-ortopedi": "../src/assets/categories/ortopedi.jpg",
-  "category-flere-fagomrader": "../src/assets/categories/flere-fagomrader.jpg",
+  "category-gynekologi": "../../src/assets/categories/gynekologi.jpg",
+  "category-fertilitet": "../../src/assets/categories/fertilitet.jpg",
+  "category-urologi": "../../src/assets/categories/urologi.jpg",
+  "category-ortopedi": "../../src/assets/categories/ortopedi.jpg",
+  "category-flere-fagomrader": "../../src/assets/categories/flere-fagomrader.jpg",
 };
 
 // Treatment images: treatmentSlug → local file path
 // Maps each treatment to its appropriate hero image
 const treatmentImageMap: Record<string, string> = {
   // Gynekologi treatments → gynekologi image
-  "tverrfaglig": "../src/assets/categories/gynekologi.jpg",
-  "undersokelse": "../src/assets/categories/gynekologi.jpg",
-  "celleprove": "../src/assets/categories/gynekologi.jpg",
-  "hpv": "../src/assets/categories/gynekologi.jpg",
-  "endometriose": "../src/assets/categories/gynekologi.jpg",
-  "livmortransplantasjon": "../src/assets/categories/gynekologi.jpg",
-  "muskelknuter": "../src/assets/categories/gynekologi.jpg",
-  "eggstokkcyster": "../src/assets/categories/gynekologi.jpg",
-  "bekkenorganprolaps": "../src/assets/categories/gynekologi.jpg",
-  "overgangsalder": "../src/assets/categories/gynekologi.jpg",
-  "p-stav": "../src/assets/categories/gynekologi.jpg",
-  "hormonspiral": "../src/assets/categories/gynekologi.jpg",
-  "vulvasmerter": "../src/assets/categories/gynekologi.jpg",
-  "blodningsforstyrrelser": "../src/assets/categories/gynekologi.jpg",
-  "robotkirurgi": "../src/assets/categories/gynekologi.jpg",
+  "tverrfaglig": "../../src/assets/categories/gynekologi.jpg",
+  "undersokelse": "../../src/assets/categories/gynekologi.jpg",
+  "celleprove": "../../src/assets/categories/gynekologi.jpg",
+  "hpv": "../../src/assets/categories/gynekologi.jpg",
+  "endometriose": "../../src/assets/categories/gynekologi.jpg",
+  "livmortransplantasjon": "../../src/assets/categories/gynekologi.jpg",
+  "muskelknuter": "../../src/assets/categories/gynekologi.jpg",
+  "eggstokkcyster": "../../src/assets/categories/gynekologi.jpg",
+  "bekkenorganprolaps": "../../src/assets/categories/gynekologi.jpg",
+  "overgangsalder": "../../src/assets/categories/gynekologi.jpg",
+  "p-stav": "../../src/assets/categories/gynekologi.jpg",
+  "hormonspiral": "../../src/assets/categories/gynekologi.jpg",
+  "vulvasmerter": "../../src/assets/categories/gynekologi.jpg",
+  "blodningsforstyrrelser": "../../src/assets/categories/gynekologi.jpg",
+  "robotkirurgi": "../../src/assets/categories/gynekologi.jpg",
 
   // Graviditet treatments → pregnancy/family images
-  "ultralyd": "../src/assets/hero/hero-pregnancy.jpg",
-  "nipt": "../src/assets/hero/hero-pregnancy.jpg",
-  "svangerskapsteam": "../src/assets/hero/hero-family.jpg",
-  "fosterdiagnostikk": "../src/assets/hero/hero-pregnancy.jpg",
+  "ultralyd": "../../src/assets/hero/hero-pregnancy.jpg",
+  "nipt": "../../src/assets/hero/hero-pregnancy.jpg",
+  "svangerskapsteam": "../../src/assets/hero/hero-family.jpg",
+  "fosterdiagnostikk": "../../src/assets/hero/hero-pregnancy.jpg",
 
   // Fertilitet treatments
-  "ivf": "../src/assets/categories/fertilitet.jpg",
-  "inseminasjon": "../src/assets/categories/fertilitet.jpg",
-  "eggdonasjon": "../src/assets/categories/fertilitet.jpg",
-  "fertilitetsutredning": "../src/assets/categories/fertilitet.jpg",
-  "nedfrysing-av-egg": "../src/assets/categories/fertilitet.jpg",
+  "ivf": "../../src/assets/categories/fertilitet.jpg",
+  "inseminasjon": "../../src/assets/categories/fertilitet.jpg",
+  "eggdonasjon": "../../src/assets/categories/fertilitet.jpg",
+  "fertilitetsutredning": "../../src/assets/categories/fertilitet.jpg",
+  "nedfrysing-av-egg": "../../src/assets/categories/fertilitet.jpg",
 
   // Urologi treatments
-  "prostataplager": "../src/assets/categories/urologi.jpg",
-  "urinveisinfeksjon": "../src/assets/categories/urologi.jpg",
-  "urinlekkasje": "../src/assets/categories/urologi.jpg",
-  "erektil-dysfunksjon": "../src/assets/categories/urologi.jpg",
-  "vasektomi": "../src/assets/categories/urologi.jpg",
-  "overaktiv-blare": "../src/assets/categories/urologi.jpg",
-  "urologisk-undersokelse": "../src/assets/categories/urologi.jpg",
+  "prostataplager": "../../src/assets/categories/urologi.jpg",
+  "urinveisinfeksjon": "../../src/assets/categories/urologi.jpg",
+  "urinlekkasje": "../../src/assets/categories/urologi.jpg",
+  "erektil-dysfunksjon": "../../src/assets/categories/urologi.jpg",
+  "vasektomi": "../../src/assets/categories/urologi.jpg",
+  "overaktiv-blare": "../../src/assets/categories/urologi.jpg",
+  "urologisk-undersokelse": "../../src/assets/categories/urologi.jpg",
 
   // Ortopedi treatments
-  "ortopedisk-undersokelse": "../src/assets/categories/ortopedi.jpg",
-  "idrettsskader": "../src/assets/categories/ortopedi.jpg",
-  "kne": "../src/assets/categories/ortopedi.jpg",
-  "skulder": "../src/assets/categories/ortopedi.jpg",
-  "hofte": "../src/assets/categories/ortopedi.jpg",
-  "rygg": "../src/assets/categories/ortopedi.jpg",
+  "ortopedisk-undersokelse": "../../src/assets/categories/ortopedi.jpg",
+  "idrettsskader": "../../src/assets/categories/ortopedi.jpg",
+  "kne": "../../src/assets/categories/ortopedi.jpg",
+  "skulder": "../../src/assets/categories/ortopedi.jpg",
+  "hofte": "../../src/assets/categories/ortopedi.jpg",
+  "rygg": "../../src/assets/categories/ortopedi.jpg",
 
   // Flere fagområder
-  "osteopati": "../src/assets/categories/flere-fagomrader.jpg",
-  "sexologi": "../src/assets/categories/flere-fagomrader.jpg",
-  "psykologi": "../src/assets/categories/flere-fagomrader.jpg",
-  "ernaringsfysiolog": "../src/assets/categories/flere-fagomrader.jpg",
-  "uroterapeut": "../src/assets/categories/flere-fagomrader.jpg",
+  "osteopati": "../../src/assets/categories/flere-fagomrader.jpg",
+  "sexologi": "../../src/assets/categories/flere-fagomrader.jpg",
+  "psykologi": "../../src/assets/categories/flere-fagomrader.jpg",
+  "ernaringsfysiolog": "../../src/assets/categories/flere-fagomrader.jpg",
+  "uroterapeut": "../../src/assets/categories/flere-fagomrader.jpg",
 };
 
 // Also add a graviditet category image
-categoryImages["category-graviditet"] = "../src/assets/hero/hero-pregnancy.jpg";
+categoryImages["category-graviditet"] = "../../src/assets/hero/hero-pregnancy.jpg";
 
 // ─── Upload helper ───────────────────────────────────────────────────
 
