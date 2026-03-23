@@ -23,156 +23,114 @@ export const serviceCategories: ServiceCategory[] = [
     label: 'Gynekologi',
     path: '/gynekologi',
     subcategories: [
+      {
+        label: 'Tverrfaglig team',
+        path: '/behandlinger/gynekologi/tverrfaglig',
+        items: [
+          { label: 'Osteopat', path: '/behandlinger/flere-fagomrader/osteopati' },
+          { label: 'Sexolog', path: '/behandlinger/flere-fagomrader/sexologi' },
+          { label: 'Psykolog', path: '/behandlinger/flere-fagomrader/psykologi' },
+          { label: 'Ernæringsfysiolog', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog' },
+        ],
+      },
       { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse' },
       {
         label: 'Urinlekkasje',
         path: '/behandlinger/gynekologi/urinlekkasje',
         items: [
-          { label: 'Typer urinlekkasje' },
-          { label: 'Behandling urinlekkasje' },
-        ]
+          { label: 'Stressinkontinens' },
+          { label: 'Tranginkontinens' },
+          { label: 'Blandingsinkontinens' },
+        ],
       },
       {
         label: 'Endometriose',
         path: '/behandlinger/gynekologi/endometriose',
-        items: [
-          { label: 'Symptomer' },
-          { label: 'Kirurgi' },
-          { label: 'Adenomyose' },
-        ]
+        items: [{ label: 'Symptomer' }, { label: 'Kirurgi' }],
       },
       {
         label: 'Overgangsalder',
         path: '/behandlinger/gynekologi/overgangsalder',
-        items: [
-          { label: 'Symptomer' },
-          { label: 'Behandling' },
-          { label: 'Fastlegeveiledning' },
-        ]
+        items: [{ label: 'Symptomer' }, { label: 'Hormonbehandling' }],
       },
       { label: 'Vaginale fremfall', path: '/behandlinger/gynekologi/vaginale-fremfall' },
       { label: 'Blødningsforstyrrelser', path: '/behandlinger/gynekologi/blodningsforstyrrelser' },
       {
         label: 'Celleforandringer',
         path: '/behandlinger/gynekologi/celleforandringer',
-        items: [
-          { label: 'HPV og celleforandringer' },
-          { label: 'Konisering' },
-        ]
+        items: [{ label: 'HPV og celleforandring' }, { label: 'Konisering' }],
       },
       {
         label: 'Cyster på eggstokkene',
         path: '/behandlinger/gynekologi/cyster',
-        items: [
-          { label: 'Former for cyste' },
-        ]
+        items: [{ label: 'Former for cyste' }, { label: 'Behandling' }],
+      },
+      { label: 'Fjerne livmor', path: '/behandlinger/gynekologi/fjerne-livmor' },
+      {
+        label: 'Graviditet',
+        path: '/behandlinger/gynekologi/graviditet',
+        items: [{ label: 'Ultralyd' }, { label: 'NIPT' }, { label: 'Svangerskapsteam' }],
       },
       {
-        label: 'Fjerne livmor',
-        path: '/behandlinger/gynekologi/fjerne-livmor',
+        label: 'Gynekologisk kirurgi',
+        path: '/behandlinger/gynekologi/kirurgi',
         items: [
-          { label: 'Fjerning av livmor/hysterektomi' },
-        ]
+          { label: 'Fremfalloperasjoner' },
+          { label: 'Urinlekkasjeoperasjoner' },
+          { label: 'Hysterektomi' },
+          { label: 'Polypper og muskelknuter' },
+          { label: 'Endometriosebehandling' },
+        ],
       },
-      { label: 'PMS og PMDD', path: '/behandlinger/gynekologi/pms-pmdd' },
+      {
+        label: 'Hormonforstyrrelser',
+        path: '/behandlinger/gynekologi/hormonforstyrrelser',
+        items: [{ label: 'PCOS' }],
+      },
+      {
+        label: 'Hysteroskopi',
+        path: '/behandlinger/gynekologi/hysteroskopi',
+        items: [{ label: 'Office-hysteroskopi' }],
+      },
       { label: 'Labiaplastikk', path: '/behandlinger/gynekologi/labiaplastikk' },
-      { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/vaginal-torrhet' },
       {
-        label: 'Vulvalidelser',
-        path: '/behandlinger/gynekologi/vulvalidelser',
-        items: [
-          { label: 'Infeksjoner' },
-          { label: 'Vaginisme' },
-          { label: 'Vulvodyni' },
-          { label: 'Botoxbehandling for vaginisme/vulvalidelser' },
-        ]
-      },
-      { label: 'Gynekologisk kirurgi', path: '/behandlinger/gynekologi/kirurgi' },
-      {
-        label: 'Robotassistert kirurgi',
+        label: 'Robotkirurgi',
         path: '/behandlinger/gynekologi/robotkirurgi',
-        items: [
-          { label: 'Rask rehabilitering' },
-          { label: 'Høy presisjon' },
-        ]
+        items: [{ label: 'Muskelknuter' }, { label: 'Dyp endometriose' }, { label: 'Hysterektomi' }],
       },
-    ]
+      { label: 'Spontanabort', path: '/behandlinger/gynekologi/spontanabort' },
+      { label: 'Vulvalidelser', path: '/behandlinger/gynekologi/vulvalidelser' },
+    ],
   },
   {
     id: 'graviditet',
-    label: 'Graviditet og fostermedisin',
+    label: 'Graviditet',
     path: '/graviditet',
     subcategories: [
       { label: 'Ultralyd', path: '/behandlinger/graviditet/ultralyd' },
       { label: 'NIPT', path: '/behandlinger/graviditet/nipt' },
-      { label: '6-ukerskontroll etter fødsel', path: '/behandlinger/graviditet/6-ukerskontroll' },
-      { label: 'Traumatisk fødsel', path: '/behandlinger/graviditet/traumatisk-fodsel' },
-      { label: 'Fødselsangst', path: '/behandlinger/graviditet/fodselsangst' },
-      { label: 'For partnere', path: '/behandlinger/graviditet/for-partnere' },
-      { label: 'Fostermedisin', path: '/behandlinger/graviditet/fostermedisin' },
-      { label: 'Spontanabort', path: '/behandlinger/graviditet/spontanabort' },
-    ]
+      { label: 'Svangerskapsteam', path: '/behandlinger/graviditet/svangerskapsteam' },
+      { label: 'Fosterdiagnostikk', path: '/behandlinger/graviditet/fosterdiagnostikk' },
+    ],
   },
   {
     id: 'fertilitet',
     label: 'Fertilitet',
     path: '/fertilitet',
     subcategories: [
+      { label: 'Infertilitet', path: '/behandlinger/fertilitet/infertilitet' },
+      { label: 'Assistert befruktning', path: '/behandlinger/fertilitet/assistert-befruktning' },
       {
-        label: 'Infertilitet',
-        path: '/behandlinger/fertilitet/infertilitet',
-        items: [
-          { label: 'Du er ikke alene' },
-          { label: 'Kvinnelig faktor infertilitet' },
-          { label: 'Mannlig faktor infertilitet' },
-          { label: 'Uforklarlige årsaker til infertilitet' },
-        ]
+        label: 'IVF',
+        path: '/behandlinger/fertilitet/ivf',
+        items: [{ label: 'Det første møtet' }, { label: 'Fertilitetssjekk' }, { label: 'Behandling' }],
       },
-      {
-        label: 'Assistert befruktning',
-        path: '/behandlinger/fertilitet/assistert-befruktning',
-        items: [
-          { label: 'IVF - In Vitro Fertilisering' },
-          { label: 'ICSI - Intracytoplasmatisk spermieinjeksjon' },
-          { label: 'Inseminasjon (AIH)' },
-          { label: 'TESA/PESA' },
-          { label: 'Micro-TESE' },
-        ]
-      },
-      {
-        label: 'Assistert befruktning med donor',
-        path: '/behandlinger/fertilitet/donorbehandling',
-        items: [
-          { label: 'Partnerdonasjon' },
-          { label: 'Donorsæd' },
-        ]
-      },
-      {
-        label: 'Eggfrys',
-        path: '/behandlinger/fertilitet/eggfrys',
-        items: [
-          { label: 'Hvem kan fryse ned egg?' },
-          { label: 'Hva er aldersgrensen for nedfrysning av egg?' },
-          { label: 'Slik foregår nedfrysning av egg' },
-          { label: 'Hvor mange egg kan jeg få på frys?' },
-          { label: 'Hva er risiko ved nedfrysning av egg?' },
-        ]
-      },
-      {
-        label: 'Hormonforstyrrelser',
-        path: '/behandlinger/fertilitet/hormonforstyrrelser',
-        items: [
-          { label: 'PCOS' },
-        ]
-      },
-      {
-        label: 'Hysteroskopi',
-        path: '/behandlinger/fertilitet/hysteroskopi',
-        items: [
-          { label: 'Office-hysteroskopi' },
-        ]
-      },
-    ]
+      { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys' },
+      { label: 'Donorbehandling', path: '/behandlinger/fertilitet/donorbehandling' },
+      { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi' },
+      { label: 'Sædanalyse', path: '/behandlinger/fertilitet/saedanalyse' },
+      { label: 'Fertilitetsteamet', path: '/behandlinger/fertilitet/teamet' },
+    ],
   },
   {
     id: 'urologi',
@@ -187,21 +145,17 @@ export const serviceCategories: ServiceCategory[] = [
           { label: 'Vannlatningsproblemer' },
           { label: 'TUR-P og TUR-B' },
           { label: 'Innsnevring i urinrøret' },
-        ]
+        ],
       },
       {
         label: 'Forhud',
         path: '/behandlinger/urologi/forhud',
-        items: [
-          { label: 'Trang forhud' },
-        ]
+        items: [{ label: 'Trang forhud' }],
       },
       {
         label: 'Mannlig infertilitet',
         path: '/behandlinger/urologi/infertilitet',
-        items: [
-          { label: 'Sædanalyse' },
-        ]
+        items: [{ label: 'Sædanalyse' }],
       },
       {
         label: 'Nyrer',
@@ -209,64 +163,54 @@ export const serviceCategories: ServiceCategory[] = [
         items: [
           { label: 'Nyrecyster' },
           { label: 'Tumor' },
-        ]
+          { label: 'Robotkirurgi for nyrekreft' },
+          { label: 'Nyrestein' },
+        ],
       },
       {
-        label: 'Prevensjon',
-        path: '/behandlinger/urologi/prevensjon',
-        items: [
-          { label: 'Behandling' },
-        ]
+        label: 'Prostata',
+        path: '/behandlinger/urologi/prostata',
+        items: [{ label: 'Prostataundersøkelse' }, { label: 'Robotkirurgi' }],
       },
-    ]
+      { label: 'Refertilisering', path: '/behandlinger/urologi/refertilisering' },
+      {
+        label: 'Robotkirurgi',
+        path: '/behandlinger/urologi/robotkirurgi',
+        items: [
+          { label: 'Prostatakreft (RALP)' },
+          { label: 'Godartet forstørret prostata (RASP)' },
+          { label: 'Brokk' },
+        ],
+      },
+      { label: 'Sterilisering', path: '/behandlinger/urologi/sterilisering' },
+      {
+        label: 'Testikler og pung',
+        path: '/behandlinger/urologi/testikler',
+        items: [{ label: 'Testikkelkreft' }, { label: 'Kul i pungen' }],
+      },
+    ],
   },
   {
     id: 'ortopedi',
     label: 'Ortopedi',
     path: '/ortopedi',
     subcategories: [
-      {
-        label: 'Fot og ankel',
-        path: '/behandlinger/ortopedi/fot-ankel',
-        items: [
-          { label: 'Kompartment-syndrom' },
-          { label: 'Ballettankel' },
-          { label: 'Haglunds hæl' },
-          { label: 'Achilles tendinalgi' },
-        ]
-      },
+      { label: 'Fot og ankel', path: '/behandlinger/ortopedi/fot-ankel' },
       { label: 'Hofte', path: '/behandlinger/ortopedi/hofte' },
-      {
-        label: 'Hånd og albue',
-        path: '/behandlinger/ortopedi/hand-albue',
-        items: [
-          { label: 'Tennisalbue' },
-          { label: 'Håndleddsartroskopi' },
-          { label: 'Carpal tunnel syndrom' },
-        ]
-      },
-      {
-        label: 'Kne',
-        path: '/behandlinger/ortopedi/kne',
-        items: [
-          { label: 'Bruskskader i kneet' },
-        ]
-      },
-    ]
+      { label: 'Hånd og albue', path: '/behandlinger/ortopedi/hand-albue' },
+      { label: 'Kne', path: '/behandlinger/ortopedi/kne' },
+      { label: 'Skulder', path: '/behandlinger/ortopedi/skulder' },
+    ],
   },
   {
-    id: 'flere',
+    id: 'flere-fagomrader',
     label: 'Flere fagområder',
     path: '/flere-fagomrader',
     subcategories: [
       {
         label: 'Endokrinologi',
         path: '/behandlinger/flere-fagomrader/endokrinologi',
-        items: [
-          { label: 'Stoffskifte' },
-          { label: 'Diabetes' },
-          { label: 'Hormonsykdommer' },
-        ]
+        items: [{ label: 'Stoffskifte' }, { label: 'Diabetes' }, { label: 'Hormonsykdommer' }],
       },
       {
         label: 'Hudlege',
@@ -278,57 +222,55 @@ export const serviceCategories: ServiceCategory[] = [
           { label: 'Psoriasis' },
           { label: 'Føflekksjekk' },
           { label: 'Hudkreft' },
-        ]
+        ],
       },
       {
-        label: 'Ernæringsfysiolog',
-        path: '/behandlinger/flere-fagomrader/ernaringsfysiolog',
-        items: [
-          { label: 'Formålet' },
-        ]
+        label: 'Hudhelse',
+        path: '/behandlinger/flere-fagomrader/hudhelse',
+        items: [{ label: 'Hudpleie' }, { label: 'Hudforyngelse' }],
       },
+      { label: 'Ernæringsfysiolog', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog' },
       {
         label: 'Gastrokirurgi',
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
           { label: 'Bariatrisk kirurgi' },
           { label: 'Sleeve gastrektomi' },
-        ]
+          { label: 'Gallestein' },
+          { label: 'Brokk' },
+        ],
       },
+      { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },
       {
         label: 'Overvektskirurgi',
         path: '/behandlinger/flere-fagomrader/overvektskirurgi',
-        items: [
-          { label: 'Sleeve gastrektomi' },
-          { label: 'Sleeve gastrektomi - Før operasjonen' },
-          { label: 'Sleeve gastrektomi - Under operasjonen' },
-          { label: 'Sleeve gastrektomi - Etter operasjonen' },
-          { label: 'Sleeve gastrektomi - Tiden etter hjemkomst' },
-          { label: 'Sleeve gastrektomi - Fordeler med moderne kirurgi' },
-        ]
+        items: [{ label: 'Gastrisk bypass' }, { label: 'Sleeve gastrektomi' }, { label: 'Utredning' }],
       },
-      { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },
+      { label: 'Plastikkirurgi', path: '/behandlinger/flere-fagomrader/plastikkirurgi' },
       { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi' },
+      {
+        label: 'Revmatologi',
+        path: '/behandlinger/flere-fagomrader/revmatologi',
+        items: [{ label: 'Utredning' }, { label: 'Revmatoid artritt' }, { label: 'Lupus' }],
+      },
+      {
+        label: 'Robotkirurgi',
+        path: '/behandlinger/flere-fagomrader/robotkirurgi',
+        items: [
+          { label: 'Muskelknuter' },
+          { label: 'Dyp endometriose' },
+          { label: 'Hysterektomi' },
+          { label: 'Brokk' },
+          { label: 'Prostatakreft (RALP)' },
+          { label: 'Godartet forstørret prostata (RASP)' },
+        ],
+      },
       { label: 'Sexologi', path: '/behandlinger/flere-fagomrader/sexologi' },
       {
-        label: 'Kvinnehelse',
-        path: '/behandlinger/flere-fagomrader/kvinnehelse',
-        items: [
-          { label: 'Behandling' },
-          { label: 'Tverrfaglig' },
-          { label: 'Mål med behandling' },
-        ]
+        label: 'Åreknutebehandling',
+        path: '/behandlinger/flere-fagomrader/areknuter',
+        items: [{ label: 'Symptomer' }, { label: 'Behandling' }, { label: 'Ultralydundersøkelse' }],
       },
-      {
-        label: 'Tverrfaglig team',
-        path: '/behandlinger/flere-fagomrader/tverrfaglig',
-        items: [
-          { label: 'Osteopat', path: '/behandlinger/flere-fagomrader/osteopati' },
-          { label: 'Sexolog', path: '/behandlinger/flere-fagomrader/sexologi' },
-          { label: 'Psykolog', path: '/behandlinger/flere-fagomrader/psykologi' },
-          { label: 'Ernæringsfysiolog', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog' },
-        ]
-      },
-    ]
+    ],
   },
 ];
