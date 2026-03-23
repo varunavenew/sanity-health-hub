@@ -1,4 +1,13 @@
 import { Helmet } from "react-helmet-async";
+import { urlFor } from "@/lib/sanityClient";
+
+// Static fallback values
+const DEFAULTS = {
+  title: "CMedical – Skandinavias ledende helhetskonsept",
+  description:
+    "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
+  url: "https://cmedical.no/",
+};
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -6,8 +15,7 @@ const jsonLd = {
   name: "CMedical",
   url: "https://cmedical.no",
   logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/qmg4FOZcsPVySaA19fmuxrFmWZJ3/uploads/1762763982098-cmedical.png",
-  description:
-    "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
+  description: DEFAULTS.description,
   telephone: "+47 22 95 75 00",
   address: {
     "@type": "PostalAddress",
@@ -60,28 +68,36 @@ const breadcrumbJsonLd = {
   ],
 };
 
-export const HomepageSEO = () => (
-  <Helmet>
-    <title>CMedical – Skandinavias ledende helhetskonsept</title>
-    <meta
-      name="description"
-      content="Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig."
-    />
-    <link rel="canonical" href="https://cmedical.no/" />
-    <meta
-      property="og:title"
-      content="CMedical – Skandinavias ledende helhetskonsept"
-    />
-    <meta
-      property="og:description"
-      content="Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi."
-    />
-    <meta property="og:url" content="https://cmedical.no/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="nb_NO" />
-    <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-    <script type="application/ld+json">
-      {JSON.stringify(breadcrumbJsonLd)}
-    </script>
-  </Helmet>
-);
+interface HomepageSEOProps {
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    ogImage?: any;
+    noIndex?: boolean;
+  } | null;
+}
+
+export const HomepageSEO = ({ seo }: HomepageSEOProps) => {
+  const title = seo?.metaTitle || DEFAULTS.title;
+  const description = seo?.metaDescription || DEFAULTS.description;
+  const ogImage = seo?.ogImage ? urlFor(seo.ogImage).width(1200).height(630).url() : undefined;
+
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <link rel="canonical" href={DEFAULTS.url} />
+      {seo?.noIndex && <meta name="robots" content="noindex, nofollow" />}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:url" content={DEFAULTS.url} />
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content="nb_NO" />
+      {ogImage && <meta property="og:image" content={ogImage} />}
+      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbJsonLd)}
+      </script>
+    </Helmet>
+  );
+};
