@@ -302,7 +302,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={`${treatment.title} – ${treatment.parentCategory || categoryId}`}
-        description={treatment.description.split('\n')[0].slice(0, 155)}
+        description={(treatment.description || "").split('\n')[0].slice(0, 155)}
         canonical={`/behandlinger/${categoryId}/${subId}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -313,7 +313,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
           "@context": "https://schema.org",
           "@type": "MedicalProcedure",
           name: treatment.title,
-          description: treatment.description?.split('\n')[0] || "",
+          description: (treatment.description || "").split('\n')[0] || "",
           howPerformed: treatment.subtitle || undefined,
           provider: {
             "@type": "MedicalClinic",
@@ -361,7 +361,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
             {/* Introduction */}
             <div className="mb-14">
               <div className="text-base md:text-[17px] text-foreground/80 leading-[1.8] font-light whitespace-pre-line">
-                {treatment.description}
+                {treatment.description || ""}
               </div>
             </div>
 
@@ -379,14 +379,14 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                         return (
                           <TreatmentFaq
                             key={`section-${i}`}
-                            question={section.heading}
+                            question={section.heading || `Seksjon ${i + 1}`}
                             answer=""
                             isLast={false}
                             isOpen={openIndex === myIdx}
                             onToggle={() => setOpenIndex(myIdx)}
                             customContent={
                               <div className="space-y-3">
-                                {section.content.split("\n").map((line, j) => {
+                                {(section.content || "").split("\n").map((line, j) => {
                                   const trimmed = line.trim();
                                   if (!trimmed) return null;
                                   if (trimmed.startsWith("- ")) {
