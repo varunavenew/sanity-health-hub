@@ -415,6 +415,16 @@ function buildTreatmentDocs(): Mutation[] {
       }));
     }
 
+    if (t.subItems) {
+      doc.subItems = t.subItems.map((item, i) => ({
+        _type: "object",
+        _key: `sub${i}`,
+        label: item.label,
+        anchor: item.anchor || undefined,
+        path: item.path || undefined,
+      }));
+    }
+
     return { createOrReplace: doc };
   });
 }
