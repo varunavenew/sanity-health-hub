@@ -4,8 +4,8 @@ import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Pl
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
-import { specialists as allSpecialists, Specialist } from "@/data/specialists";
-import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
+import { Specialist } from "@/data/specialists";
+import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 
