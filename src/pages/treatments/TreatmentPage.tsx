@@ -4,8 +4,8 @@ import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Pl
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
-import { specialists as allSpecialists, Specialist } from "@/data/specialists";
-import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
+import { Specialist } from "@/data/specialists";
+import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 
@@ -226,6 +226,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const location = useLocation();
   const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
   const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
+  const { data: sanitySpecialists } = useSpecialists();
   const treatmentKey = `${categoryId}/${subId}`;
   const staticTreatment = treatmentContent[treatmentKey];
 
@@ -248,16 +249,20 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     : staticTreatment;
 
   // Get related specialists: explicit slugs first, fallback to all in category
+  const allSpecs: Specialist[] = (sanitySpecialists || []).map(s => ({
+    ...s,
+    category: s.category || "",
+  })) as Specialist[];
+
   const displaySpecialists = useMemo(() => {
     const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
     if (slugs && slugs.length > 0) {
       return slugs
-        .map(slug => allSpecialists.find(s => s.slug === slug))
+        .map(slug => allSpecs.find(s => s.slug === slug))
         .filter((s): s is Specialist => !!s);
     }
-    // Fallback: all specialists in this category
-    return allSpecialists.filter(s => s.category === categoryId);
-  }, [treatment, staticTreatment, categoryId]);
+    return allSpecs.filter(s => s.category === categoryId);
+  }, [treatment, staticTreatment, categoryId, allSpecs]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollSpecialists = (direction: 'left' | 'right') => {
