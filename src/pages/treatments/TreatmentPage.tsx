@@ -4,8 +4,8 @@ import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Pl
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
-import { specialists as allSpecialists, Specialist } from "@/data/specialists";
-import { useTreatment, useFaqsByTreatmentCategory } from "@/hooks/useSanity";
+import { Specialist } from "@/data/specialists";
+import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 
@@ -226,34 +226,43 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const location = useLocation();
   const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
   const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
+  const { data: sanitySpecialists } = useSpecialists();
   const treatmentKey = `${categoryId}/${subId}`;
   const staticTreatment = treatmentContent[treatmentKey];
 
+  // Merge Sanity data with static fallback — Sanity stubs may lack content
   const treatment: TreatmentData | undefined = sanityTreatment
     ? {
-        title: sanityTreatment.title,
-        subtitle: sanityTreatment.subtitle,
-        description: sanityTreatment.description,
+        title: sanityTreatment.title || staticTreatment?.title || "",
+        subtitle: sanityTreatment.subtitle || staticTreatment?.subtitle,
+        description: sanityTreatment.description || staticTreatment?.description || "",
         heroImage: sanityTreatment.heroImage || staticTreatment?.heroImage || "",
         parentCategory: sanityTreatment.parentCategory || staticTreatment?.parentCategory || categoryId,
-        benefits: sanityTreatment.benefits,
-        benefitsTitle: sanityTreatment.benefitsTitle,
-        process: sanityTreatment.process,
-        faqs: sanityTreatment.faqs,
+        benefits: (sanityTreatment.benefits && sanityTreatment.benefits.length > 0) ? sanityTreatment.benefits : staticTreatment?.benefits,
+        benefitsTitle: sanityTreatment.benefitsTitle || staticTreatment?.benefitsTitle,
+        process: (sanityTreatment.process && sanityTreatment.process.length > 0) ? sanityTreatment.process : staticTreatment?.process,
+        faqs: (sanityTreatment.faqs && sanityTreatment.faqs.length > 0) ? sanityTreatment.faqs : staticTreatment?.faqs,
+        sections: (sanityTreatment.sections && sanityTreatment.sections.length > 0) ? sanityTreatment.sections : staticTreatment?.sections,
+        relatedSpecialists: (sanityTreatment.relatedSpecialists && sanityTreatment.relatedSpecialists.length > 0) ? sanityTreatment.relatedSpecialists : staticTreatment?.relatedSpecialists,
+        linkedServices: (sanityTreatment.linkedServices && sanityTreatment.linkedServices.length > 0) ? sanityTreatment.linkedServices : staticTreatment?.linkedServices,
       }
     : staticTreatment;
 
   // Get related specialists: explicit slugs first, fallback to all in category
+  const allSpecs: Specialist[] = (sanitySpecialists || []).map(s => ({
+    ...s,
+    category: s.category || "",
+  })) as Specialist[];
+
   const displaySpecialists = useMemo(() => {
     const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
     if (slugs && slugs.length > 0) {
       return slugs
-        .map(slug => allSpecialists.find(s => s.slug === slug))
+        .map(slug => allSpecs.find(s => s.slug === slug))
         .filter((s): s is Specialist => !!s);
     }
-    // Fallback: all specialists in this category
-    return allSpecialists.filter(s => s.category === categoryId);
-  }, [treatment, staticTreatment, categoryId]);
+    return allSpecs.filter(s => s.category === categoryId);
+  }, [treatment, staticTreatment, categoryId, allSpecs]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollSpecialists = (direction: 'left' | 'right') => {
@@ -299,7 +308,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={`${treatment.title} – ${treatment.parentCategory || categoryId}`}
-        description={treatment.description.split('\n')[0].slice(0, 155)}
+        description={(treatment.description || "").split('\n')[0].slice(0, 155)}
         canonical={`/behandlinger/${categoryId}/${subId}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -310,7 +319,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
           "@context": "https://schema.org",
           "@type": "MedicalProcedure",
           name: treatment.title,
-          description: treatment.description?.split('\n')[0] || "",
+          description: (treatment.description || "").split('\n')[0] || "",
           howPerformed: treatment.subtitle || undefined,
           provider: {
             "@type": "MedicalClinic",
@@ -358,7 +367,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
             {/* Introduction */}
             <div className="mb-14">
               <div className="text-base md:text-[17px] text-foreground/80 leading-[1.8] font-light whitespace-pre-line">
-                {treatment.description}
+                {treatment.description || ""}
               </div>
             </div>
 
@@ -376,14 +385,14 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                         return (
                           <TreatmentFaq
                             key={`section-${i}`}
-                            question={section.heading}
+                            question={section.heading || `Seksjon ${i + 1}`}
                             answer=""
                             isLast={false}
                             isOpen={openIndex === myIdx}
                             onToggle={() => setOpenIndex(myIdx)}
                             customContent={
                               <div className="space-y-3">
-                                {section.content.split("\n").map((line, j) => {
+                                {(section.content || "").split("\n").map((line, j) => {
                                   const trimmed = line.trim();
                                   if (!trimmed) return null;
                                   if (trimmed.startsWith("- ")) {
