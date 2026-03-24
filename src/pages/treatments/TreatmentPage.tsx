@@ -249,16 +249,20 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     : staticTreatment;
 
   // Get related specialists: explicit slugs first, fallback to all in category
+  const allSpecs: Specialist[] = (sanitySpecialists || []).map(s => ({
+    ...s,
+    category: s.category || "",
+  })) as Specialist[];
+
   const displaySpecialists = useMemo(() => {
     const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
     if (slugs && slugs.length > 0) {
       return slugs
-        .map(slug => allSpecialists.find(s => s.slug === slug))
+        .map(slug => allSpecs.find(s => s.slug === slug))
         .filter((s): s is Specialist => !!s);
     }
-    // Fallback: all specialists in this category
-    return allSpecialists.filter(s => s.category === categoryId);
-  }, [treatment, staticTreatment, categoryId]);
+    return allSpecs.filter(s => s.category === categoryId);
+  }, [treatment, staticTreatment, categoryId, allSpecs]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollSpecialists = (direction: 'left' | 'right') => {
