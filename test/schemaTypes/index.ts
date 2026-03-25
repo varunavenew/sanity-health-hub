@@ -21,6 +21,7 @@ import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
 import faq from './faq'
 import themePage from './themePage'
+import product from './product'
 
 export const schemaTypes = [
   // Pages
@@ -43,6 +44,7 @@ export const schemaTypes = [
   jobListing,
   privacyPolicyPage,
   faq,
+  product,
 
   // Shared types
   blockContent,
