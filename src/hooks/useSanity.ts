@@ -25,6 +25,10 @@ import {
   FAQS_BY_TREATMENT_CATEGORY_QUERY,
   THEME_PAGE_QUERY,
   SERVICE_CATEGORIES_DROPDOWN_QUERY,
+  PRODUCTS_QUERY,
+  SEASONAL_PRODUCTS_QUERY,
+  TOP_RATED_PRODUCTS_QUERY,
+  PRODUCT_BY_SLUG_QUERY,
 } from "@/lib/queries";
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
@@ -466,5 +470,65 @@ export const useServiceCategoriesFromSanity = () =>
         })),
       }));
     },
+    staleTime: 5 * 60 * 1000,
+  });
+
+// ─── Products ────────────────────────────────────────────────────────
+export interface SanityProduct {
+  _id: string;
+  name: string;
+  slug: string;
+  category: string;
+  price: string;
+  rating: number;
+  image: string;
+  tags: string[];
+  intent: string;
+  description: string;
+  benefits?: string[];
+  results?: string;
+  howItWorks?: string;
+  isSeasonal?: boolean;
+  seasonalOrder?: number;
+}
+
+export const useProducts = () =>
+  useQuery({
+    queryKey: ["sanity", "products"],
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(PRODUCTS_QUERY);
+      return (data || []) as SanityProduct[];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useSeasonalProducts = () =>
+  useQuery({
+    queryKey: ["sanity", "seasonalProducts"],
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(SEASONAL_PRODUCTS_QUERY);
+      return (data || []) as SanityProduct[];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useTopRatedProducts = () =>
+  useQuery({
+    queryKey: ["sanity", "topRatedProducts"],
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(TOP_RATED_PRODUCTS_QUERY);
+      return (data || []) as SanityProduct[];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useProduct = (slug: string) =>
+  useQuery({
+    queryKey: ["sanity", "product", slug],
+    queryFn: async () => {
+      const data = await fetchSanity<any>(PRODUCT_BY_SLUG_QUERY, { slug });
+      return data as SanityProduct | null;
+    },
+    enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
