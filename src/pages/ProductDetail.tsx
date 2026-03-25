@@ -3,6 +3,7 @@ import { ArrowLeft, ShoppingBag, Star, Check, Search, User, Heart } from "lucide
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useProduct, useProducts } from "@/hooks/useSanity";
 import { allProducts } from "@/data/mockData";
 
 interface ProductDetailProps {
@@ -12,9 +13,24 @@ interface ProductDetailProps {
 export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  const product = allProducts.find(p => p.id === id);
-  
+
+  // Try fetching from Sanity by slug
+  const { data: sanityProduct, isLoading } = useProduct(id || "");
+  const { data: allSanityProducts } = useProducts();
+
+  // Fallback: try matching by slug first, then by id in static data
+  const product = sanityProduct
+    || allSanityProducts?.find(p => p.slug === id)
+    || allProducts.find(p => p.id === id);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">Laster produkt...</div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -122,16 +138,18 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
                 {product.description}
               </p>
               
-              <div className="flex flex-wrap gap-2 mb-8">
-                {product.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium text-sm"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              {product.tags && product.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {product.tags.map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium text-sm"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Benefits */}
@@ -142,7 +160,7 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
                   Fordeler for din hud
                 </h2>
                 <ul className="space-y-3">
-                  {product.benefits.map((benefit, i) => (
+                  {product.benefits.map((benefit: string, i: number) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="text-primary text-xl mt-0.5">✓</span>
                       <span className="text-muted-foreground">{benefit}</span>
