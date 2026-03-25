@@ -25,6 +25,10 @@ import {
   FAQS_BY_TREATMENT_CATEGORY_QUERY,
   THEME_PAGE_QUERY,
   SERVICE_CATEGORIES_DROPDOWN_QUERY,
+  PRODUCTS_QUERY,
+  SEASONAL_PRODUCTS_QUERY,
+  TOP_RATED_PRODUCTS_QUERY,
+  PRODUCT_BY_SLUG_QUERY,
 } from "@/lib/queries";
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters

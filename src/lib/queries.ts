@@ -232,3 +232,28 @@ export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"
     subItems[]{label, anchor, path}
   }
 }`;
+
+export const PRODUCTS_QUERY = `*[_type == "product"] | order(sortOrder asc){
+  _id, name, "slug": slug.current, category, price, rating,
+  "image": image.asset->url,
+  tags, intent, description, benefits, results, howItWorks,
+  isSeasonal, seasonalOrder
+}`;
+
+export const SEASONAL_PRODUCTS_QUERY = `*[_type == "product" && isSeasonal == true] | order(seasonalOrder asc){
+  _id, name, "slug": slug.current, category, price, rating,
+  "image": image.asset->url,
+  tags, intent, description
+}`;
+
+export const TOP_RATED_PRODUCTS_QUERY = `*[_type == "product"] | order(rating desc)[0..3]{
+  _id, name, "slug": slug.current, category, price, rating,
+  "image": image.asset->url,
+  tags, intent, description
+}`;
+
+export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && slug.current == $slug][0]{
+  _id, name, "slug": slug.current, category, price, rating,
+  "image": image.asset->url,
+  tags, intent, description, benefits, results, howItWorks
+}`;
