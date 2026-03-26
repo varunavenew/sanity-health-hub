@@ -16,6 +16,21 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 
+// Illustrations
+import gynekologiIllustration from "@/assets/illustrations/gynekologi.png";
+import fertilitetIllustration from "@/assets/illustrations/fertilitet.png";
+import urologiIllustration from "@/assets/illustrations/urologi.png";
+import ortopediIllustration from "@/assets/illustrations/ortopedi.png";
+import graviditetIllustration from "@/assets/illustrations/graviditet.png";
+
+const categoryIllustrations: Record<string, string> = {
+  gynekologi: gynekologiIllustration,
+  fertilitet: fertilitetIllustration,
+  urologi: urologiIllustration,
+  ortopedi: ortopediIllustration,
+  graviditet: graviditetIllustration,
+};
+
 interface SubService {
   name: string;
   subServices?: { name: string; path?: string }[];
