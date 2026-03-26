@@ -53,6 +53,10 @@ export const useHomepage = () =>
 
       return {
         tagline: data.tagline,
+        statsBar: (data.statsBar || []).map((s: any) => ({
+          value: s.value,
+          label: s.label,
+        })),
         heroSlides: (data.heroBanner?.slides || []).map((s: any, i: number) => ({
           id: `slide-${i}`,
           label: s.heading || "",

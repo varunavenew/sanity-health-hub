@@ -7,6 +7,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   },
   "serviceCategories": serviceCategories[]->{ _id, title, "slug": slug.current, description, icon, color, "heroImage": heroImage.asset->url },
   valueBadges[]{icon, label},
+  statsBar[]{value, label},
   promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
   seo
 }`;
