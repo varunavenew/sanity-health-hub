@@ -45,11 +45,11 @@ const Index = ({ isChatOpen }: IndexProps) => {
       {/* H2: FAQ */}
       <LifePhasesSection />
       
-      {/* H2: Spesialister */}
-      <SpecialistsSection />
-      
       {/* H2: Anmeldelser */}
       <GoogleReviewsSection />
+
+      {/* H2: Spesialister */}
+      <SpecialistsSection />
 
       {/* H2: Booking CTA */}
       <BookingCTA />
