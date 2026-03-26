@@ -32,11 +32,11 @@ const Index = ({ isChatOpen }: IndexProps) => {
       {/* Hero carousel */}
       <HeroBanner />
       
-      {/* Statistikk */}
-      <StatsBar />
-      
       {/* Tagline Banner */}
       <TaglineBanner />
+      
+      {/* Statistikk */}
+      <StatsBar />
       
       {/* H2: Fagområder */}
       <HeroCompact />
