@@ -835,6 +835,7 @@ const BookingDemo = () => {
                     return date < today || date.getDay() === 0 || date.getDay() === 6;
                   }}
                   fromDate={new Date()}
+                  defaultMonth={new Date()}
                   className="!w-full"
                   locale={nb}
                 />
