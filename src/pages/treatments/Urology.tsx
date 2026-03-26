@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageHero } from "@/components/layout/PageHero";
 import { CTASection } from "@/components/layout/CTASection";
 import { RelatedServices, allServices } from "@/components/layout/RelatedServices";
+import { useFaqs } from "@/hooks/useSanity";
 import {
   Accordion,
   AccordionContent,
