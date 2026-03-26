@@ -929,7 +929,8 @@ const BookingDemo = () => {
                   </div>
                   <div>
                     <span className="text-muted-foreground text-xs">Pris</span>
-                    <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `${bookingData.service?.price} kr`}</p>
+                    <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `fra ${bookingData.service?.price} kr`}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground text-xs">Klinikk</span>
