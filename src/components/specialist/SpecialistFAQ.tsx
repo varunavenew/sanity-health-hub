@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
 import { motion } from "framer-motion";
+import { useFaqs } from "@/hooks/useSanity";
 
 const AccordionItem = ({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) => {
   const [open, setOpen] = useState(defaultOpen);
@@ -27,7 +28,33 @@ const AccordionItem = ({ title, children, defaultOpen = false }: { title: string
   );
 };
 
+// Static fallbacks
+const staticFinansiering = [
+  { question: "Pris", answer: "Prislister finnes på vår prisside.", link: "/priser" },
+  { question: "Forsikring", answer: "Vi har forsikringsavtale med: EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Ta kontakt med legen din for henvisning. Send den til forsikringsselskapet og be om time på CMedical." },
+  { question: "Nedbetaling", answer: "Nedbetaling er tilgjengelig på utvalgte klinikker. Spør oss for mer informasjon." },
+];
+
+const staticPraktisk = [
+  { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk uten refusjonsavtale med det offentlige." },
+  { question: "Hvor lang er ventetiden?", answer: "Vi har svært korte ventetider. Generelt får du hjelp innen en uke." },
+  { question: "Kan jeg få sykemelding?", answer: "Ja, ved behov kan vi skrive ut sykmelding i henhold til nasjonale retningslinjer." },
+  { question: "Hva skjer i en utredning?", answer: "Vi anbefaler å starte med en konsultasjon. En vanlig utredning varer ca 30 minutter." },
+  { question: "Personvernerklæring", answer: "personvern", link: "/personvern" },
+];
+
 export const SpecialistFAQ = () => {
+  const { data: sanityFinansiering } = useFaqs("finansiering");
+  const { data: sanityPraktisk } = useFaqs("praktisk");
+
+  const finansiering = sanityFinansiering && sanityFinansiering.length > 0
+    ? sanityFinansiering
+    : staticFinansiering;
+
+  const praktisk = sanityPraktisk && sanityPraktisk.length > 0
+    ? sanityPraktisk
+    : staticPraktisk;
+
   return (
     <section className="py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-6 md:px-16">
@@ -61,27 +88,17 @@ export const SpecialistFAQ = () => {
               <h3 className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-4">
                 Finansiering
               </h3>
-              <AccordionItem title="Pris">
-                <p className="text-sm text-muted-foreground font-light">
-                  <Link to="/priser" className="text-brand-dark font-normal hover:underline">Prislister finnes her.</Link>
-                </p>
-              </AccordionItem>
-              <AccordionItem title="Forsikring">
-                <div className="space-y-3">
+              {finansiering.map((item: any, i: number) => (
+                <AccordionItem key={i} title={item.question}>
                   <p className="text-sm text-muted-foreground font-light">
-                    <strong className="text-foreground">Vi har forsikringsavtale med:</strong><br />
-                    EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg.
+                    {item.question === "Pris" ? (
+                      <Link to="/priser" className="text-brand-dark font-normal hover:underline">Prislister finnes her.</Link>
+                    ) : (
+                      item.answer
+                    )}
                   </p>
-                  <p className="text-sm text-muted-foreground font-light">
-                    <strong className="text-foreground">Hvordan går jeg frem?</strong> Ta kontakt med legen din for henvisning. Send den til forsikringsselskapet og be om time på CMedical.
-                  </p>
-                </div>
-              </AccordionItem>
-              <AccordionItem title="Nedbetaling">
-                <p className="text-sm text-muted-foreground font-light">
-                  Nedbetaling er tilgjengelig på utvalgte klinikker. Spør oss for mer informasjon.
-                </p>
-              </AccordionItem>
+                </AccordionItem>
+              ))}
             </div>
 
             {/* Generelt group */}
@@ -89,31 +106,17 @@ export const SpecialistFAQ = () => {
               <h3 className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-4">
                 Ofte stilte spørsmål
               </h3>
-              <AccordionItem title="Trenger jeg henvisning?">
-                <p className="text-sm text-muted-foreground font-light">
-                  Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk uten refusjonsavtale med det offentlige.
-                </p>
-              </AccordionItem>
-              <AccordionItem title="Hvor lang er ventetiden?">
-                <p className="text-sm text-muted-foreground font-light">
-                  Vi har svært korte ventetider. Generelt får du hjelp <strong className="text-foreground">innen en uke</strong>.
-                </p>
-              </AccordionItem>
-              <AccordionItem title="Kan jeg få sykemelding?">
-                <p className="text-sm text-muted-foreground font-light">
-                  Ja, ved behov kan vi skrive ut sykmelding i henhold til nasjonale retningslinjer.
-                </p>
-              </AccordionItem>
-              <AccordionItem title="Hva skjer i en utredning?">
-                <p className="text-sm text-muted-foreground font-light">
-                  Vi anbefaler å starte med en konsultasjon. En vanlig utredning varer ca <strong className="text-foreground">30 minutter</strong>.
-                </p>
-              </AccordionItem>
-              <AccordionItem title="Personvernerklæring">
-                <p className="text-sm text-muted-foreground font-light">
-                  Her finner du vår <Link to="/personvern" className="text-brand-dark font-normal hover:underline">personvernerklæring</Link>.
-                </p>
-              </AccordionItem>
+              {praktisk.map((item: any, i: number) => (
+                <AccordionItem key={i} title={item.question}>
+                  <p className="text-sm text-muted-foreground font-light">
+                    {item.question === "Personvernerklæring" ? (
+                      <>Her finner du vår <Link to="/personvern" className="text-brand-dark font-normal hover:underline">personvernerklæring</Link>.</>
+                    ) : (
+                      item.answer
+                    )}
+                  </p>
+                </AccordionItem>
+              ))}
             </div>
           </motion.div>
         </div>
