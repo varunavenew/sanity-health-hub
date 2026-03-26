@@ -39,6 +39,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         { _key: "forsikring", label: "Forsikring", path: "/forsikring" },
         { _key: "aktuelt", label: "Aktuelt", path: "/aktuelt" },
         { _key: "om-oss", label: "Om oss", path: "/om-oss" },
+        { _key: "klinikker", label: "Klinikker", path: "/klinikker/majorstuen" },
         { _key: "kontakt", label: "Kontakt", path: "/kontakt" },
       ];
 
