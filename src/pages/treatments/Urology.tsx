@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageHero } from "@/components/layout/PageHero";
 import { CTASection } from "@/components/layout/CTASection";
 import { RelatedServices, allServices } from "@/components/layout/RelatedServices";
+import { useFaqs } from "@/hooks/useSanity";
 import {
   Accordion,
   AccordionContent,
@@ -15,10 +16,20 @@ import {
 
 interface PageProps { isChatOpen: boolean }
 
+const staticUrologyFaqs = [
+  { question: "Når bør jeg få sjekket prostata?", answer: "Menn over 50 år anbefales regelmessig prostataundersøkelse. Ved familiær risiko eller symptomer, sjekk tidligere." },
+  { question: "Er behandling av erektil dysfunksjon effektivt?", answer: "Ja, moderne behandling har høy suksessrate. Vi tilbyr både medikamentell og andre løsninger." },
+  { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning fra fastlege." },
+  { question: "Er behandlingen konfidensiell?", answer: "Ja, alt er strengt konfidensielt. Vi behandler alle henvendelser diskret." },
+];
+
 const Urology = ({ isChatOpen }: PageProps) => {
   useEffect(() => {
     document.title = "Urologi | CMedical - Mannehelse og urologisk behandling";
   }, []);
+
+  const { data: sanityFaqs } = useFaqs("urologi");
+  const faqItems = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : staticUrologyFaqs;
 
   const services = [
     "Blære og urinveier",
@@ -157,30 +168,14 @@ const Urology = ({ isChatOpen }: PageProps) => {
               <h2 className="text-3xl md:text-4xl font-medium mb-4 text-foreground">Vanlige spørsmål</h2>
             </div>
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="text-left font-medium">Når bør jeg få sjekket prostata?</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  Menn over 50 år anbefales regelmessig prostataundersøkelse. Ved familiær risiko eller symptomer, sjekk tidligere.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger className="text-left font-medium">Er behandling av erektil dysfunksjon effektivt?</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  Ja, moderne behandling har høy suksessrate. Vi tilbyr både medikamentell og andre løsninger.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger className="text-left font-medium">Trenger jeg henvisning?</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  Nei, du kan bestille time direkte uten henvisning fra fastlege.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-4">
-                <AccordionTrigger className="text-left font-medium">Er behandlingen konfidensiell?</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  Ja, alt er strengt konfidensielt. Vi behandler alle henvendelser diskret.
-                </AccordionContent>
-              </AccordionItem>
+              {faqItems.map((faq: any, i: number) => (
+                <AccordionItem key={i} value={`item-${i}`}>
+                  <AccordionTrigger className="text-left font-medium">{faq.question}</AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
         </div>

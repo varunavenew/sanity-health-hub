@@ -55,6 +55,21 @@ export default {
         },
       ],
     },
+    // Stats Bar
+    {
+      name: 'statsBar',
+      title: 'Statistikkbar',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'value', title: 'Verdi', type: 'string' },
+            { name: 'label', title: 'Etikett', type: 'string' },
+          ],
+        },
+      ],
+    },
     // Value Badges
     {
       name: 'valueBadges',

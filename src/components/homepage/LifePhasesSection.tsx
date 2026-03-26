@@ -2,53 +2,9 @@ import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useFaqs } from "@/hooks/useSanity";
 
-// Import category images from CMedical
-import urologiImg from "@/assets/categories/urologi.jpg";
-import fertilitetImg from "@/assets/categories/fertilitet.jpg";
-import gynekologiImg from "@/assets/categories/gynekologi.jpg";
-import ortopediImg from "@/assets/categories/ortopedi.jpg";
-import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
-
-const categories = [
-  {
-    id: "urologi",
-    title: "Urologi",
-    subtitle: "Blære, nyrer og prostata",
-    image: urologiImg,
-    path: "/behandlinger/urologi",
-  },
-  {
-    id: "fertilitet",
-    title: "Fertilitet",
-    subtitle: "Veien til familielykke",
-    image: fertilitetImg,
-    path: "/behandlinger/fertilitet",
-  },
-  {
-    id: "gynekologi",
-    title: "Gynekologi",
-    subtitle: "Underlivshelse",
-    image: gynekologiImg,
-    path: "/behandlinger/gynekologi",
-  },
-  {
-    id: "ortopedi",
-    title: "Ortopedi",
-    subtitle: "Bevegelse uten smerte",
-    image: ortopediImg,
-    path: "/behandlinger/ortopedi",
-  },
-  {
-    id: "flere-fagomrader",
-    title: "Flere tjenester",
-    subtitle: "Se alle våre tjenester",
-    image: flereFagomraderImg,
-    path: "/behandlinger/flere-fagomrader",
-  },
-];
-
-const faqs = [
+const staticFaqs = [
   {
     id: "henvisning",
     question: "Henvisning",
@@ -84,6 +40,11 @@ const faqs = [
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const { data: sanityFaqs } = useFaqs("generelt");
+
+  const faqs = sanityFaqs && sanityFaqs.length > 0
+    ? sanityFaqs.map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
+    : staticFaqs;
 
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
