@@ -5,6 +5,7 @@ import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { TaglineBanner } from "@/components/homepage/TaglineBanner";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
+import { StatsBar } from "@/components/homepage/StatsBar";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";

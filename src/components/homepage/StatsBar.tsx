@@ -1,5 +1,3 @@
-import { useHomepage } from "@/hooks/useSanity";
-
 const staticStats = [
   { value: "15 000+", label: "pasienter behandlet" },
   { value: "8+", label: "års erfaring med robotkirurgi" },
@@ -8,10 +6,7 @@ const staticStats = [
 ];
 
 export const StatsBar = () => {
-  const { data: homepage } = useHomepage();
-  const stats = homepage?.stats && homepage.stats.length > 0
-    ? homepage.stats
-    : staticStats;
+  const stats = staticStats;
 
   return (
     <section className="bg-brand-dark text-white py-10 md:py-14">
