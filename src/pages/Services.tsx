@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { ArrowRight, Plus, Minus, ChevronRight, Search } from "lucide-react";
+import { ArrowRight, Plus, Minus, ChevronRight, Search, Baby, Stethoscope, Heart, Bone, Syringe, Brain, Apple, Scissors, Activity, Scale, HandHeart, Smile, Microscope, Zap, HeartPulse } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,6 +32,27 @@ const staticFeatured = [
   { label: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
   { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
 ];
+
+// Icon mapping for "Flere tjenester" grid
+const serviceIcons: Record<string, any> = {
+  "Graviditet": Baby,
+  "Graviditet og fostermedisin": Baby,
+  "Endokrinologi": Syringe,
+  "Hudlege": Smile,
+  "Hudhelse": HeartPulse,
+  "Ernæringsfysiolog": Apple,
+  "Gastrokirurgi": Scissors,
+  "Osteopati": HandHeart,
+  "Overvektskirurgi": Scale,
+  "Plastikkirurgi": Microscope,
+  "Psykologi": Brain,
+  "Revmatologi": Activity,
+  "Sexologi": Heart,
+  "Robotkirurgi": Zap,
+  "Åreknutebehandling": Stethoscope,
+  "Kvinnehelse": HeartPulse,
+  "Tverrfaglig team": Stethoscope,
+};
 
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
@@ -116,15 +137,24 @@ const Services = ({ isChatOpen }: PageProps) => {
 
   useEffect(() => { document.title = "Tjenester | CMedical"; }, []);
 
-  // Build flat A-Ø list
-  const allServices: { label: string; path: string }[] = [];
+  // Build "Flere tjenester" list — everything NOT in the 4 featured cards
   const primaryIds = ["gynekologi", "urologi", "fertilitet", "ortopedi"];
-  primaryIds.forEach(id => { const cat = serviceCategories.find((c: any) => c.id === id); if (cat) allServices.push({ label: cat.label, path: cat.path }); });
-  const graviditetCat = serviceCategories.find((c: any) => c.id === "graviditet");
-  if (graviditetCat) allServices.push({ label: graviditetCat.label, path: graviditetCat.path });
-  const flereCat = serviceCategories.find((c: any) => c.id === "flere");
-  if (flereCat) flereCat.subcategories.forEach((sub: any) => allServices.push({ label: sub.label, path: sub.path }));
-  allServices.sort((a, b) => a.label.localeCompare(b.label, "nb"));
+  const additionalServices: { label: string; path: string }[] = [];
+
+  // Add non-primary categories
+  serviceCategories.forEach((cat: any) => {
+    if (!primaryIds.includes(cat.id)) {
+      if (cat.id === "flere" || cat.id === "flere-fagomrader") {
+        // Expand subcategories
+        cat.subcategories?.forEach((sub: any) => {
+          additionalServices.push({ label: sub.label, path: sub.path });
+        });
+      } else {
+        additionalServices.push({ label: cat.label, path: cat.path });
+      }
+    }
+  });
+  additionalServices.sort((a, b) => a.label.localeCompare(b.label, "nb"));
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -140,17 +170,18 @@ const Services = ({ isChatOpen }: PageProps) => {
       {/* Hero header */}
       <section className="bg-background pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16 text-center">
+          <p className="text-sm text-muted-foreground font-light mb-2">Fagområder</p>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
           <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
           <div className="flex items-center justify-center gap-3 mb-8">
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary/60 text-xs font-light text-foreground/70">Ingen henvisning</span>
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary/60 text-xs font-light text-foreground/70">Ingen ventetid</span>
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-border text-sm font-light text-foreground/70">Ingen henvisning</span>
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-border text-sm font-light text-foreground/70">Ingen ventetid</span>
           </div>
 
           <div ref={searchRef} className="relative max-w-lg mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-foreground/30" />
-              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller tjeneste..." className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/15 bg-card/80 text-[15px] font-light text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-foreground/30 transition-all" />
+              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller fagområde..." className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/15 bg-card/80 text-[15px] font-light text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-foreground/30 transition-all" />
             </div>
             <AnimatePresence>
               {showResults && (
@@ -171,11 +202,11 @@ const Services = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Featured services */}
+      {/* Fagområder — Featured services */}
       <section className="bg-background pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto">
-            <p className="text-xs text-muted-foreground font-light mb-6">Utvalgte tjenester</p>
+            <p className="text-sm text-muted-foreground font-light mb-6">Fagområder</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {featuredServices.map((item: any, idx: number) => (
                 <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] rounded-sm overflow-hidden">
@@ -192,28 +223,42 @@ const Services = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* All services A-Ø */}
-      <section className="bg-background pb-16 md:pb-24">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-5xl mx-auto">
-            <p className="text-xs text-muted-foreground font-light mb-6">Alle tjenester</p>
-            <div className="divide-y divide-border/50">
-              {allServices.map((item, idx) => (
-                <motion.button key={item.label} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.02 }} onClick={() => navigate(item.path)} className="w-full flex items-center justify-between py-4 md:py-5 group text-left">
-                  <span className="text-base md:text-lg font-light text-foreground group-hover:text-foreground/80 transition-colors">{item.label}</span>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground/60 transition-all group-hover:translate-x-0.5" />
-                </motion.button>
-              ))}
+      {/* Flere tjenester — 2-column grid with icons */}
+      {additionalServices.length > 0 && (
+        <section className="bg-background pb-16 md:pb-24">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-5xl mx-auto">
+              <p className="text-sm text-muted-foreground font-light mb-6">Flere tjenester</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0">
+                {additionalServices.map((item, idx) => {
+                  const IconComponent = serviceIcons[item.label] || Stethoscope;
+                  return (
+                    <motion.button
+                      key={item.label}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: idx * 0.02 }}
+                      onClick={() => navigate(item.path)}
+                      className="w-full flex items-center gap-4 py-4 md:py-5 group text-left border-b border-border/40"
+                    >
+                      <IconComponent className="w-5 h-5 text-muted-foreground/60 flex-shrink-0" strokeWidth={1.5} />
+                      <span className="text-base font-light text-foreground group-hover:text-foreground/80 transition-colors flex-1">{item.label}</span>
+                      <ChevronRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground/60 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
+                    </motion.button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* FAQ */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
-            <p className="text-xs text-muted-foreground mb-3 font-light">Spørsmål & svar</p>
+            <p className="text-sm text-muted-foreground mb-3 font-light">Spørsmål & svar</p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Ofte stilte spørsmål</h2>
             <div className="space-y-0 border-t border-border">
               {faqs.map((faq) => (
