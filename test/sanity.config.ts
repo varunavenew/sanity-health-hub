@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'test',
 
-  projectId: process.env.SANITY_PROJECT_ID || '8auguusb',
+  projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
   dataset: process.env.SANITY_DATASET || 'production',
 
   plugins: [structureTool(), visionTool()],
