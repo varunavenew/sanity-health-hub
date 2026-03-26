@@ -16,6 +16,21 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 
+// Illustrations
+import gynekologiIllustration from "@/assets/illustrations/gynekologi.png";
+import fertilitetIllustration from "@/assets/illustrations/fertilitet.png";
+import urologiIllustration from "@/assets/illustrations/urologi.png";
+import ortopediIllustration from "@/assets/illustrations/ortopedi.png";
+import graviditetIllustration from "@/assets/illustrations/graviditet.png";
+
+const categoryIllustrations: Record<string, string> = {
+  gynekologi: gynekologiIllustration,
+  fertilitet: fertilitetIllustration,
+  urologi: urologiIllustration,
+  ortopedi: ortopediIllustration,
+  graviditet: graviditetIllustration,
+};
+
 interface SubService {
   name: string;
   subServices?: { name: string; path?: string }[];
@@ -389,19 +404,33 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </header>
 
-      {/* Introduction */}
+      {/* Introduction with illustration */}
       <section className="py-8 md:py-12 bg-background">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto">
-            {category.description.split('\n').map((paragraph, i) => {
-              const trimmed = paragraph.trim();
-              if (!trimmed) return null;
-              return (
-                <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
-                  {trimmed}
-                </p>
-              );
-            })}
+          <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8 items-start">
+            <div className="flex-1 max-w-3xl">
+              {category.description.split('\n').map((paragraph, i) => {
+                const trimmed = paragraph.trim();
+                if (!trimmed) return null;
+                return (
+                  <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
+                    {trimmed}
+                  </p>
+                );
+              })}
+            </div>
+            {categoryIllustrations[categoryId] && (
+              <div className="hidden md:block flex-shrink-0 w-32 lg:w-40 opacity-30">
+                <img
+                  src={categoryIllustrations[categoryId]}
+                  alt=""
+                  className="w-full h-auto"
+                  loading="lazy"
+                  width={512}
+                  height={512}
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>
