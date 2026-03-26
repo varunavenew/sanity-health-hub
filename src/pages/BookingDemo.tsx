@@ -19,6 +19,17 @@ import { useClinics } from "@/hooks/useSanity";
 // Booking services data based on CMedical's actual structure
 const bookingServices = [
   {
+    id: "fostermedisiner",
+    label: "Graviditet - fostermedisiner",
+    services: [
+      { name: "Organrettet ultralyd (En mer avansert ultralyd)", price: "2100", duration: "30 minutter" },
+      { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950", duration: "30 minutter" },
+      { name: "Svangerskapskontroll", price: "2100", duration: "30 minutter" },
+      { name: "Tidlig ultralyd + NIPT-test", price: "8990", duration: "30 minutter" },
+      { name: "Tidlig ultralyd", price: "2100", duration: "30 minutter" },
+    ]
+  },
+  {
     id: "fertilitet",
     label: "Fertilitet",
     services: [
@@ -29,17 +40,6 @@ const bookingServices = [
       { name: "Samtaleterapi under fertilitetsbehandling", price: "1000", duration: "1 time" },
       { name: "Telefonkonsultasjon fertilitet", price: "2850", duration: "45 minutter" },
       { name: "Uforpliktende telefonsamtale om fertilitet med sykepleier", price: "0", duration: "20 minutter" },
-    ]
-  },
-  {
-    id: "fostermedisiner",
-    label: "Fostermedisiner - graviditet",
-    services: [
-      { name: "Organrettet ultralyd (En mer avansert ultralyd)", price: "2100", duration: "30 minutter" },
-      { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950", duration: "30 minutter" },
-      { name: "Svangerskapskontroll", price: "2100", duration: "30 minutter" },
-      { name: "Tidlig ultralyd + NIPT-test", price: "8990", duration: "30 minutter" },
-      { name: "Tidlig ultralyd", price: "2100", duration: "30 minutter" },
     ]
   },
   {
