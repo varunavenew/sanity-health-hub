@@ -5,6 +5,7 @@ import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { TaglineBanner } from "@/components/homepage/TaglineBanner";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
+import { StatsBar } from "@/components/homepage/StatsBar";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -30,6 +31,9 @@ const Index = ({ isChatOpen }: IndexProps) => {
       {/* Hero carousel */}
       <HeroBanner />
       
+      {/* Statistikk */}
+      <StatsBar />
+      
       {/* Tagline Banner */}
       <TaglineBanner />
       
@@ -45,11 +49,11 @@ const Index = ({ isChatOpen }: IndexProps) => {
       {/* H2: FAQ */}
       <LifePhasesSection />
       
-      {/* H2: Spesialister */}
-      <SpecialistsSection />
-      
       {/* H2: Anmeldelser */}
       <GoogleReviewsSection />
+
+      {/* H2: Spesialister */}
+      <SpecialistsSection />
 
       {/* H2: Booking CTA */}
       <BookingCTA />
