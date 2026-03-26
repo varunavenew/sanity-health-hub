@@ -6,6 +6,7 @@ import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { TaglineBanner } from "@/components/homepage/TaglineBanner";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { StatsBar } from "@/components/homepage/StatsBar";
+import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -48,6 +49,9 @@ const Index = ({ isChatOpen }: IndexProps) => {
       
       {/* H2: FAQ */}
       <LifePhasesSection />
+
+      {/* SoMe Feed */}
+      <SoMeFeed />
       
       {/* H2: Anmeldelser */}
       <GoogleReviewsSection />
