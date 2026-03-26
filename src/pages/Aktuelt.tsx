@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -266,6 +267,9 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           )}
         </div>
       </section>
+
+      {/* SoMe Feed */}
+      <SoMeFeed />
     </PageLayout>
   );
 };

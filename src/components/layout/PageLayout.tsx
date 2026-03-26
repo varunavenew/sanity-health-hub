@@ -4,6 +4,7 @@ import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
 import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
+import { LanguageSelector } from "@/components/layout/LanguageSelector";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
 import { useSiteSettings } from "@/hooks/useSanity";
 
@@ -39,6 +40,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         { _key: "forsikring", label: "Forsikring", path: "/forsikring" },
         { _key: "aktuelt", label: "Aktuelt", path: "/aktuelt" },
         { _key: "om-oss", label: "Om oss", path: "/om-oss" },
+        { _key: "klinikker", label: "Klinikker", path: "/klinikker/majorstuen" },
         { _key: "kontakt", label: "Kontakt", path: "/kontakt" },
       ];
 
@@ -164,7 +166,9 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           </div>
 
           {/* Right side: Search, CTA, Menu */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            {/* Language Selector */}
+            <LanguageSelector />
             {/* Search Toggle */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}

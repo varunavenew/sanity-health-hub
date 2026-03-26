@@ -74,7 +74,8 @@ export const Footer = () => {
               <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Spesialister</Link>
               <Link to="/priser" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Priser</Link>
               <Link to="/forsikring" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Forsikring</Link>
-              <Link to="/karriere" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere / Ledige jobber</Link>
+              <Link to="/aktuelt" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Aktuelt</Link>
+              <Link to="/karriere" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere</Link>
             </nav>
           </div>
 
@@ -108,7 +109,6 @@ export const Footer = () => {
           <div className="flex items-center gap-6">
             <div className="flex gap-5 text-xs text-white/40">
               <Link to="/personvern" className="hover:text-white/70 transition-colors">Personvern</Link>
-              <Link to="/karriere" className="hover:text-white/70 transition-colors">Karriere</Link>
             </div>
             
             <div className="flex gap-2.5">

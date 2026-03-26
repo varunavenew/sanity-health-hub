@@ -19,6 +19,17 @@ import { useClinics } from "@/hooks/useSanity";
 // Booking services data based on CMedical's actual structure
 const bookingServices = [
   {
+    id: "fostermedisiner",
+    label: "Graviditet - fostermedisiner",
+    services: [
+      { name: "Organrettet ultralyd (En mer avansert ultralyd)", price: "2100", duration: "30 minutter" },
+      { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950", duration: "30 minutter" },
+      { name: "Svangerskapskontroll", price: "2100", duration: "30 minutter" },
+      { name: "Tidlig ultralyd + NIPT-test", price: "8990", duration: "30 minutter" },
+      { name: "Tidlig ultralyd", price: "2100", duration: "30 minutter" },
+    ]
+  },
+  {
     id: "fertilitet",
     label: "Fertilitet",
     services: [
@@ -29,17 +40,6 @@ const bookingServices = [
       { name: "Samtaleterapi under fertilitetsbehandling", price: "1000", duration: "1 time" },
       { name: "Telefonkonsultasjon fertilitet", price: "2850", duration: "45 minutter" },
       { name: "Uforpliktende telefonsamtale om fertilitet med sykepleier", price: "0", duration: "20 minutter" },
-    ]
-  },
-  {
-    id: "fostermedisiner",
-    label: "Fostermedisiner - graviditet",
-    services: [
-      { name: "Organrettet ultralyd (En mer avansert ultralyd)", price: "2100", duration: "30 minutter" },
-      { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950", duration: "30 minutter" },
-      { name: "Svangerskapskontroll", price: "2100", duration: "30 minutter" },
-      { name: "Tidlig ultralyd + NIPT-test", price: "8990", duration: "30 minutter" },
-      { name: "Tidlig ultralyd", price: "2100", duration: "30 minutter" },
     ]
   },
   {
@@ -835,6 +835,7 @@ const BookingDemo = () => {
                     return date < today || date.getDay() === 0 || date.getDay() === 6;
                   }}
                   fromDate={new Date()}
+                  defaultMonth={new Date()}
                   className="!w-full"
                   locale={nb}
                 />
@@ -928,7 +929,8 @@ const BookingDemo = () => {
                   </div>
                   <div>
                     <span className="text-muted-foreground text-xs">Pris</span>
-                    <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `${bookingData.service?.price} kr`}</p>
+                    <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `fra ${bookingData.service?.price} kr`}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
                   </div>
                   <div>
                     <span className="text-muted-foreground text-xs">Klinikk</span>

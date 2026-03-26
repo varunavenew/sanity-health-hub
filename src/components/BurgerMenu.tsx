@@ -7,6 +7,7 @@ import { useSiteSettings } from '@/hooks/useSanity';
 const staticMenuItems = [
   { label: 'Tjenester', path: '/tjenester' },
   { label: 'Priser', path: '/priser' },
+  { label: 'Klinikker', path: '/klinikker/majorstuen' },
   { label: 'Om oss', path: '/om-oss' },
   { label: 'Forsikring', path: '/forsikring' },
   { label: 'Aktuelt', path: '/aktuelt' },
