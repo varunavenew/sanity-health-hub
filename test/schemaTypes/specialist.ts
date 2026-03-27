@@ -1,10 +1,11 @@
 // Schema: Specialist (Spesialist)
+import { SpecialistIcon } from './icons'
 
 export default {
   name: 'specialist',
   title: 'Spesialist',
   type: 'document',
-  icon: () => '👨‍⚕️',
+  icon: SpecialistIcon,
   fields: [
     {
       name: 'name',

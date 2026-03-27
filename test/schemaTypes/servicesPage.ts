@@ -1,11 +1,12 @@
 // Schema: Services Page (Tjenester)
 // Aligned with migration data: title, introText, categories (references), seo
+import { TreatmentIcon } from './icons'
 
 export default {
   name: 'servicesPage',
   title: 'Tjenester',
   type: 'document',
-  icon: () => '🩺',
+  icon: TreatmentIcon,
   fields: [
     {
       name: 'title',

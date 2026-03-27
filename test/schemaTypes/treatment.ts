@@ -1,11 +1,12 @@
 // Schema: Treatment (sub-treatment page)
 // Individual treatment pages under each category
+import { TreatmentIcon } from './icons'
 
 export default {
   name: 'treatment',
   title: 'Behandling',
   type: 'document',
-  icon: () => '💊',
+  icon: TreatmentIcon,
   fields: [
     {
       name: 'title',

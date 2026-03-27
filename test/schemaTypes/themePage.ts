@@ -1,11 +1,12 @@
 // Schema: Theme Page (e.g. Kvinnehelse, Robotkirurgi, Tverrfaglige)
 // Reusable schema for thematic focus area pages
+import { ThemeIcon } from './icons'
 
 export default {
   name: 'themePage',
   title: 'Temasider',
   type: 'document',
-  icon: () => '🎨',
+  icon: ThemeIcon,
   fields: [
     {
       name: 'title',

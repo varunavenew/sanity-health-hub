@@ -1,11 +1,12 @@
 // Schema: Homepage
 // Sanity document type for the main landing page
+import { HomeIcon } from './icons'
 
 export default {
   name: 'homepage',
   title: 'Forside',
   type: 'document',
-  icon: () => '🏠',
+  icon: HomeIcon,
   fields: [
     {
       name: 'title',

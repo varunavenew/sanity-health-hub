@@ -1,8 +1,10 @@
+import { PrivacyIcon } from './icons'
+
 export default {
   name: 'privacyPolicyPage',
   title: 'Privacy Policy',
   type: 'document',
-  icon: () => '🔒',
+  icon: PrivacyIcon,
   fields: [
     {
       name: 'title',

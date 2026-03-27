@@ -1,9 +1,11 @@
 // Schema: Clinic Page
+import { ClinicIcon } from './icons'
+
 export default {
   name: 'clinicPage',
   title: 'Klinikk',
   type: 'document',
-  icon: () => '🏥',
+  icon: ClinicIcon,
   fields: [
     {
       name: 'title',
