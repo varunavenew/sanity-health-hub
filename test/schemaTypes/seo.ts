@@ -4,6 +4,7 @@ export default {
   name: 'seo',
   title: 'SEO',
   type: 'object',
+  icon: () => '🔍',
   fields: [
     {
       name: 'metaTitle',

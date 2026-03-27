@@ -4,6 +4,7 @@ export default {
   name: 'specialist',
   title: 'Spesialist',
   type: 'document',
+  icon: () => '👨‍⚕️',
   fields: [
     {
       name: 'name',

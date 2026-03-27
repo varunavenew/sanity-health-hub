@@ -5,6 +5,7 @@ export default {
   name: 'treatment',
   title: 'Behandling',
   type: 'document',
+  icon: () => '💊',
   fields: [
     {
       name: 'title',

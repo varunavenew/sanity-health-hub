@@ -5,6 +5,7 @@ export default {
   name: 'faq',
   title: 'FAQ',
   type: 'document',
+  icon: () => '❓',
   fields: [
     {
       name: 'question',

@@ -4,6 +4,7 @@ export default defineType({
   name: 'article',
   title: 'Article / Page',
   type: 'document',
+  icon: () => '📰',
   fields: [
     defineField({
       name: 'title',

@@ -3,6 +3,7 @@ export default {
   name: 'clinicListPage',
   title: 'Klinikkoversikt',
   type: 'document',
+  icon: () => '📋',
   fields: [
     {
       name: 'title',

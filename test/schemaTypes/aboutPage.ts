@@ -5,6 +5,7 @@ export default {
   name: 'aboutPage',
   title: 'Om oss',
   type: 'document',
+  icon: () => 'ℹ️',
   fields: [
     {
       name: 'title',

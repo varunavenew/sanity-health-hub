@@ -5,6 +5,7 @@ export default {
   name: 'jobListing',
   title: 'Stillingsannonse',
   type: 'document',
+  icon: () => '💼',
   fields: [
     {
       name: 'title',

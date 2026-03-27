@@ -5,6 +5,7 @@ export default {
   name: 'siteSettings',
   title: 'Nettstedsinnstillinger',
   type: 'document',
+  icon: () => '⚙️',
   groups: [
     { name: 'general', title: 'Generelt', default: true },
     { name: 'navigation', title: 'Navigasjon' },

@@ -5,6 +5,7 @@ export default {
   name: 'treatmentCategory',
   title: 'Behandlingskategori',
   type: 'document',
+  icon: () => '📂',
   fields: [
     {
       name: 'title',

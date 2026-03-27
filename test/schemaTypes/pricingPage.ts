@@ -5,6 +5,7 @@ export default {
   name: 'pricingPage',
   title: 'Priser',
   type: 'document',
+  icon: () => '💰',
   fields: [
     {
       name: 'title',
