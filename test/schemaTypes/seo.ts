@@ -1,10 +1,11 @@
 // Schema: SEO object (reusable across all pages)
+import { SEOIcon } from './icons'
 
 export default {
   name: 'seo',
   title: 'SEO',
   type: 'object',
-  icon: () => '🔍',
+  icon: SEOIcon,
   fields: [
     {
       name: 'metaTitle',

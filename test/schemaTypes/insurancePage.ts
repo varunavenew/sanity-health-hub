@@ -1,11 +1,12 @@
 // Schema: Insurance Page (Forsikring)
 // Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
+import { InsuranceIcon } from './icons'
 
 export default {
   name: 'insurancePage',
   title: 'Forsikring',
   type: 'document',
-  icon: () => '🛡️',
+  icon: InsuranceIcon,
   fields: [
     {
       name: 'title',

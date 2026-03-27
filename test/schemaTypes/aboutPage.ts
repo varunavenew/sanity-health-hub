@@ -1,11 +1,12 @@
 // Schema: About Page (Om oss)
 // Aligned with migration data: title, subtitle, body (blockContent), seo
+import { GenericIcon } from './icons'
 
 export default {
   name: 'aboutPage',
   title: 'Om oss',
   type: 'document',
-  icon: () => 'ℹ️',
+  icon: GenericIcon,
   fields: [
     {
       name: 'title',
