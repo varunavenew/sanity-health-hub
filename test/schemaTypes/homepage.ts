@@ -5,6 +5,7 @@ export default {
   name: 'homepage',
   title: 'Forside',
   type: 'document',
+  icon: () => '🏠',
   fields: [
     {
       name: 'title',

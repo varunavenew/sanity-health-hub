@@ -5,6 +5,7 @@ export default {
   name: 'servicesPage',
   title: 'Tjenester',
   type: 'document',
+  icon: () => '🩺',
   fields: [
     {
       name: 'title',

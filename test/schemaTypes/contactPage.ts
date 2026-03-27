@@ -5,6 +5,7 @@ export default {
   name: 'contactPage',
   title: 'Kontakt',
   type: 'document',
+  icon: () => '📞',
   fields: [
     {
       name: 'title',

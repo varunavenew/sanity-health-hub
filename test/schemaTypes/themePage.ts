@@ -5,6 +5,7 @@ export default {
   name: 'themePage',
   title: 'Temasider',
   type: 'document',
+  icon: () => '🎨',
   fields: [
     {
       name: 'title',

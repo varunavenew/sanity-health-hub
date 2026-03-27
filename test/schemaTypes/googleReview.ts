@@ -4,6 +4,7 @@ export default {
   name: 'googleReview',
   title: 'Google-anmeldelse',
   type: 'document',
+  icon: () => '⭐',
   fields: [
     {
       name: 'author',

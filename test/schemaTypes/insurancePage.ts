@@ -5,6 +5,7 @@ export default {
   name: 'insurancePage',
   title: 'Forsikring',
   type: 'document',
+  icon: () => '🛡️',
   fields: [
     {
       name: 'title',

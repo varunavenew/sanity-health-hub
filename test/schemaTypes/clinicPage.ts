@@ -3,6 +3,7 @@ export default {
   name: 'clinicPage',
   title: 'Klinikk',
   type: 'document',
+  icon: () => '🏥',
   fields: [
     {
       name: 'title',

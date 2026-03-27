@@ -4,6 +4,7 @@ export default defineType({
   name: 'product',
   title: 'Product',
   type: 'document',
+  icon: () => '🛍️',
   fields: [
     defineField({
       name: 'name',
