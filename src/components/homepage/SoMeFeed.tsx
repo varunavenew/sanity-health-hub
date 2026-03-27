@@ -1,6 +1,7 @@
-import { Instagram, Linkedin, ExternalLink } from "lucide-react";
+import { Instagram, Linkedin, Facebook, Youtube, Twitter } from "lucide-react";
+import { useSiteSettings } from "@/hooks/useSanity";
 
-// Mock social media posts – will be replaced with real API integration
+// Mock social media posts – images will be replaced with real API integration
 const mockPosts = [
   {
     id: "1",
@@ -9,52 +10,46 @@ const mockPosts = [
     caption: "Vårt team er klare for en ny uke med å hjelpe pasienter! 💛 #CMedical #Kvinnehelse",
     date: "2 dager siden",
     likes: 124,
-    url: "https://instagram.com/cmedical",
   },
   {
     id: "2",
     platform: "linkedin" as const,
     image: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=400&h=400&fit=crop",
-    caption: "Vi er stolte av å annonsere vår nye robotassisterte kirurgienhet. Les mer om hvordan dette gjør behandlingen tryggere.",
+    caption: "Vi er stolte av å annonsere vår nye robotassisterte kirurgienhet.",
     date: "4 dager siden",
     likes: 89,
-    url: "https://linkedin.com/company/cmedical",
   },
   {
     id: "3",
     platform: "instagram" as const,
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=400&fit=crop",
-    caption: "Visste du at vi tilbyr uforpliktende telefonsamtaler med sykepleier om fertilitet? Helt gratis 🤍",
+    caption: "Visste du at vi tilbyr uforpliktende telefonsamtaler med sykepleier om fertilitet? 🤍",
     date: "5 dager siden",
     likes: 201,
-    url: "https://instagram.com/cmedical",
   },
   {
     id: "4",
     platform: "instagram" as const,
     image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop",
-    caption: "Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen til teamet! 🩺",
+    caption: "Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen! 🩺",
     date: "1 uke siden",
     likes: 156,
-    url: "https://instagram.com/cmedical",
   },
   {
     id: "5",
     platform: "linkedin" as const,
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
-    caption: "CMedical deltar på Nordens største konferanse for reproduksjonsmedisin. Spennende dager!",
+    caption: "CMedical deltar på Nordens største konferanse for reproduksjonsmedisin.",
     date: "1 uke siden",
     likes: 67,
-    url: "https://linkedin.com/company/cmedical",
   },
   {
     id: "6",
     platform: "instagram" as const,
     image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=400&fit=crop",
-    caption: "Trygge omgivelser for deg og din familie. Velkommen til våre nyrenoverte lokaler på Majorstuen ✨",
+    caption: "Trygge omgivelser for deg og din familie. Velkommen til våre nyrenoverte lokaler ✨",
     date: "2 uker siden",
     likes: 312,
-    url: "https://instagram.com/cmedical",
   },
 ];
 
@@ -63,7 +58,32 @@ const PlatformIcon = ({ platform }: { platform: "instagram" | "linkedin" }) => {
   return <Linkedin className="w-4 h-4" />;
 };
 
+// Fallback social media URLs
+const fallbackSocial = {
+  instagram: "https://www.instagram.com/cmedical.no",
+  facebook: "https://www.facebook.com/cmedical.no",
+  linkedin: "https://www.linkedin.com/company/cmedical",
+};
+
 export const SoMeFeed = () => {
+  const { data: settings } = useSiteSettings();
+  const social = settings?.socialMedia || fallbackSocial;
+
+  // Build list of active social links
+  const socialLinks = [
+    social?.instagram && { platform: "Instagram", url: social.instagram, icon: Instagram },
+    social?.facebook && { platform: "Facebook", url: social.facebook, icon: Facebook },
+    social?.linkedin && { platform: "LinkedIn", url: social.linkedin, icon: Linkedin },
+    social?.youtube && { platform: "YouTube", url: social.youtube, icon: Youtube },
+    social?.twitter && { platform: "X", url: social.twitter, icon: Twitter },
+  ].filter(Boolean) as { platform: string; url: string; icon: React.ElementType }[];
+
+  // Map mock posts to use social URLs from settings
+  const getPostUrl = (platform: "instagram" | "linkedin") => {
+    if (platform === "instagram") return social?.instagram || fallbackSocial.instagram;
+    return social?.linkedin || fallbackSocial.linkedin;
+  };
+
   return (
     <section className="py-10 md:py-16 bg-secondary/30">
       <div className="container mx-auto px-4 md:px-8">
@@ -75,24 +95,18 @@ export const SoMeFeed = () => {
             </h2>
           </div>
           <div className="flex items-center gap-3">
-            <a
-              href="https://instagram.com/cmedical"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Instagram className="w-4 h-4" />
-              <span className="hidden md:inline">Instagram</span>
-            </a>
-            <a
-              href="https://linkedin.com/company/cmedical"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Linkedin className="w-4 h-4" />
-              <span className="hidden md:inline">LinkedIn</span>
-            </a>
+            {socialLinks.map(({ platform, url, icon: Icon }) => (
+              <a
+                key={platform}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Icon className="w-4 h-4" />
+                <span className="hidden md:inline">{platform}</span>
+              </a>
+            ))}
           </div>
         </div>
 
@@ -100,7 +114,7 @@ export const SoMeFeed = () => {
           {mockPosts.map((post) => (
             <a
               key={post.id}
-              href={post.url}
+              href={getPostUrl(post.platform)}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative aspect-square rounded-sm overflow-hidden bg-secondary"
