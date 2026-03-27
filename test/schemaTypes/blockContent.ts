@@ -3,6 +3,7 @@
 
 export default {
   name: 'blockContent',
+  icon: () => '📝',
   title: 'Block Content',
   type: 'array',
   of: [
