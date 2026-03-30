@@ -2,9 +2,9 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {SpecialistIcon} from './schemaTypes/icons'
+import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 
-const hiddenTypes = ['specialist', 'specialistsPage']
+const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial']
 
 export default defineConfig({
   name: 'default',
@@ -20,6 +20,7 @@ export default defineConfig({
           (item) => !hiddenTypes.includes(item.getId() || '')
         )
         const mid = Math.floor(otherItems.length / 2)
+
         const specialistsItem = S.listItem()
           .title('Specialists')
           .icon(SpecialistIcon)
@@ -38,11 +39,34 @@ export default defineConfig({
                 S.documentTypeListItem('specialist').title('Our specialists'),
               ])
           )
+
+        const priserItem = S.listItem()
+          .title('Priser')
+          .icon(PricingIcon)
+          .child(
+            S.list()
+              .title('Priser')
+              .items([
+                S.listItem()
+                  .title('Prisliste')
+                  .icon(PricingIcon)
+                  .child(
+                    S.document()
+                      .schemaType('pricingPage')
+                      .documentId('pricingPage')
+                  ),
+                S.documentTypeListItem('testimonial')
+                  .title('Tilbakemeldinger')
+                  .icon(ReviewIcon),
+              ])
+          )
+
         return S.list()
           .title('Content')
           .items([
             ...otherItems.slice(0, mid),
             specialistsItem,
+            priserItem,
             ...otherItems.slice(mid),
           ])
       },
