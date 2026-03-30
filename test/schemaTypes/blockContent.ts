@@ -1,35 +1,35 @@
-// Schema: Block Content (rich text)
-// Reusable Portable Text schema for body content
+// Schema: Block Content (rik tekst)
+// Gjenbrukbart Portable Text-skjema for brødtekst
 import { BlockContentIcon } from './icons'
 
 export default {
   name: 'blockContent',
   icon: BlockContentIcon,
-  title: 'Block Content',
+  title: 'Rik tekst',
   type: 'array',
   of: [
     {
       type: 'block',
       styles: [
         { title: 'Normal', value: 'normal' },
-        { title: 'H2', value: 'h2' },
-        { title: 'H3', value: 'h3' },
-        { title: 'H4', value: 'h4' },
-        { title: 'Quote', value: 'blockquote' },
+        { title: 'Overskrift 2', value: 'h2' },
+        { title: 'Overskrift 3', value: 'h3' },
+        { title: 'Overskrift 4', value: 'h4' },
+        { title: 'Sitat', value: 'blockquote' },
       ],
       lists: [
-        { title: 'Bullet', value: 'bullet' },
-        { title: 'Numbered', value: 'number' },
+        { title: 'Punktliste', value: 'bullet' },
+        { title: 'Nummerert liste', value: 'number' },
       ],
       marks: {
         decorators: [
-          { title: 'Strong', value: 'strong' },
-          { title: 'Emphasis', value: 'em' },
+          { title: 'Fet', value: 'strong' },
+          { title: 'Kursiv', value: 'em' },
         ],
         annotations: [
           {
             name: 'link',
-            title: 'Link',
+            title: 'Lenke',
             type: 'object',
             fields: [
               { name: 'href', title: 'URL', type: 'url' },
