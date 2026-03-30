@@ -19,6 +19,11 @@ export default defineConfig({
         S.list()
           .title('Content')
           .items([
+            // All other types (auto-generated, excluding hidden ones)
+            ...S.documentTypeListItems().filter(
+              (item) => !hiddenTypes.includes(item.getId() || '')
+            ),
+            S.divider(),
             // Custom Specialists group
             S.listItem()
               .title('Specialists')
@@ -38,11 +43,6 @@ export default defineConfig({
                     S.documentTypeListItem('specialist').title('Our specialists'),
                   ])
               ),
-            S.divider(),
-            // All other types (auto-generated, excluding hidden ones)
-            ...S.documentTypeListItems().filter(
-              (item) => !hiddenTypes.includes(item.getId() || '')
-            ),
           ]),
     }),
     visionTool(),
