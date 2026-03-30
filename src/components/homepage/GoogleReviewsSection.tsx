@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Star, Quote, ArrowRight, User } from "lucide-react";
+import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
