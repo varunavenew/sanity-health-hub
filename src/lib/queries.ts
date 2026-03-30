@@ -266,6 +266,11 @@ export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(_createdAt 
   _id, name, age, rating, text, location, treatment
 }`;
 
+export const SOCIAL_POSTS_QUERY = `*[_type == "socialPost"] | order(sortOrder asc, date desc)[0..5]{
+  _id, platform, caption, postUrl, date, likes,
+  "image": image.asset->url
+}`;
+
 export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && slug.current == $slug][0]{
   _id, name, "slug": slug.current, category, price, rating,
   "image": image.asset->url,

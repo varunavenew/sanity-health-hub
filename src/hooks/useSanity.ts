@@ -32,6 +32,7 @@ import {
   TESTIMONIALS_QUERY,
   PRODUCT_BY_SLUG_QUERY,
   SPECIALISTS_PAGE_QUERY,
+  SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
@@ -585,6 +586,27 @@ export const useTestimonials = () =>
     queryKey: ["sanity", "testimonials"],
     queryFn: async () => {
       const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY);
+      return data || [];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+// ─── Social Posts ────────────────────────────────────────────────────
+export interface SanitySocialPost {
+  _id: string;
+  platform: "instagram" | "linkedin" | "facebook" | "youtube";
+  image: string;
+  caption?: string;
+  postUrl?: string;
+  date?: string;
+  likes?: number;
+}
+
+export const useSocialPosts = () =>
+  useQuery({
+    queryKey: ["sanity", "socialPosts"],
+    queryFn: async () => {
+      const data = await fetchSanity<SanitySocialPost[]>(SOCIAL_POSTS_QUERY);
       return data || [];
     },
     staleTime: 5 * 60 * 1000,
