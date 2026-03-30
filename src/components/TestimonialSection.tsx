@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { PartialStars } from "@/components/ui/partial-stars";
 import { useTestimonials } from "@/hooks/useSanity";
 
 const staticTestimonials = [
@@ -89,11 +90,7 @@ export const TestimonialSection = () => {
               <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2"/>
             </svg>
             <span className="text-foreground font-normal">4,6</span>
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className={`w-5 h-5 ${i < 4 ? 'fill-foreground/70 text-foreground/70' : 'text-foreground/30'}`} />
-              ))}
-            </div>
+            <PartialStars rating={4.6} size="w-5 h-5" />
           </div>
           <p className="text-muted-foreground font-light">Gjennomsnittsvurdering på Google fra over 1000 fornøyde pasienter</p>
         </div>
