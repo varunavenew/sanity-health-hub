@@ -58,6 +58,7 @@ const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { data: sanityCategories } = useTreatmentCategories();
   const { data: sanityFaqs } = useFaqs("tjenester");
+  const { data: servicesPage } = useServicesPage();
 
   const faqs = sanityFaqs && sanityFaqs.length > 0
     ? sanityFaqs.map((f, i) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
@@ -159,8 +160,8 @@ const Services = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Tjenester – Finn behandlingen som passer for deg"
-        description="Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."
+        title={servicesPage?.seo?.metaTitle || "Tjenester – Finn behandlingen som passer for deg"}
+        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."}
         canonical="/tjenester"
         breadcrumbs={[
           { name: "Hjem", path: "/" },

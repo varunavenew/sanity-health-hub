@@ -58,8 +58,8 @@ const TverrfagligePage = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Tverrfaglige team – Helhetlig behandling som standard"
-        description="Hos CMedical samarbeider spesialister på tvers av fagfelt for helhetlig behandling. Gynekologer, urologer, psykologer, ernæringsfysiologer og osteopater under samme tak."
+        title={sanityData?.seo?.metaTitle || "Tverrfaglige team – Helhetlig behandling som standard"}
+        description={sanityData?.seo?.metaDescription || "Hos CMedical samarbeider spesialister på tvers av fagfelt for helhetlig behandling. Gynekologer, urologer, psykologer, ernæringsfysiologer og osteopater under samme tak."}
         canonical="/tverrfaglige-team"
         breadcrumbs={[
           { name: "Hjem", path: "/" },

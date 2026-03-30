@@ -45,8 +45,8 @@ const Insurance = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Helseforsikring – Bruk forsikringen din hos CMedical"
-        description="CMedical har avtale med alle store forsikringsselskaper. Ingen utlegg – vi fakturerer forsikringen direkte. Kort ventetid og ledende spesialister."
+        title={page?.seo?.metaTitle || "Helseforsikring – Bruk forsikringen din hos CMedical"}
+        description={page?.seo?.metaDescription || "CMedical har avtale med alle store forsikringsselskaper. Ingen utlegg – vi fakturerer forsikringen direkte. Kort ventetid og ledende spesialister."}
         canonical="/forsikring"
         breadcrumbs={[
           { name: "Hjem", path: "/" },

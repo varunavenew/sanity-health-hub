@@ -88,8 +88,8 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Kvinnehelse for livet – Helhetlig kvinnehelse gjennom alle livsfaser"
-        description="CMedical tilbyr helhetlig kvinnehelse fra pubertet til senior. Gynekologi, fertilitet, hormonbehandling og tverrfaglig oppfølging – av ledende spesialister."
+        title={sanityData?.seo?.metaTitle || "Kvinnehelse for livet – Helhetlig kvinnehelse gjennom alle livsfaser"}
+        description={sanityData?.seo?.metaDescription || "CMedical tilbyr helhetlig kvinnehelse fra pubertet til senior. Gynekologi, fertilitet, hormonbehandling og tverrfaglig oppfølging – av ledende spesialister."}
         canonical="/kvinnehelse"
         breadcrumbs={[
           { name: "Hjem", path: "/" },

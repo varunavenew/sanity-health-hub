@@ -22,6 +22,7 @@ interface ContactProps {
 const Contact = ({ isChatOpen }: ContactProps) => {
   const navigate = useNavigate();
   const { data: sanityClinics } = useClinics();
+  const { data: contactPage } = useContactPage();
   const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -49,8 +50,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Kontakt oss"
-        description="Kontakt CMedical – bestill time, ring oss eller besøk en av våre klinikker. Vi svarer gjerne på alle henvendelser om gynekologi, fertilitet og urologi."
+        title={contactPage?.seo?.metaTitle || "Kontakt oss"}
+        description={contactPage?.seo?.metaDescription || "Kontakt CMedical – bestill time, ring oss eller besøk en av våre klinikker. Vi svarer gjerne på alle henvendelser om gynekologi, fertilitet og urologi."}
         canonical="/kontakt"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
