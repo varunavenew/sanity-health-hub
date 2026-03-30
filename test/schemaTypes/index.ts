@@ -48,6 +48,7 @@ export const schemaTypes = [
   privacyPolicyPage,
   faq,
   product,
+  testimonial,
 
   // Shared types
   blockContent,
