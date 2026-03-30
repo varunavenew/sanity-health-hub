@@ -235,6 +235,10 @@ export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"
   }
 }`;
 
+export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
+  title, subtitle, body, seo
+}`;
+
 export const PRODUCTS_QUERY = `*[_type == "product"] | order(sortOrder asc){
   _id, name, "slug": slug.current, category, price, rating,
   "image": image.asset->url,
