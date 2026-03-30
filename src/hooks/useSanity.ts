@@ -28,6 +28,7 @@ import {
   PRODUCTS_QUERY,
   SEASONAL_PRODUCTS_QUERY,
   TOP_RATED_PRODUCTS_QUERY,
+  TESTIMONIALS_QUERY,
   PRODUCT_BY_SLUG_QUERY,
   SPECIALISTS_PAGE_QUERY,
 } from "@/lib/queries";
@@ -550,5 +551,25 @@ export const useProduct = (slug: string) =>
       return data as SanityProduct | null;
     },
     enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });
+
+export interface SanityTestimonial {
+  _id: string;
+  name: string;
+  age?: number;
+  rating: number;
+  text: string;
+  location?: string;
+  treatment?: string;
+}
+
+export const useTestimonials = () =>
+  useQuery({
+    queryKey: ["sanity", "testimonials"],
+    queryFn: async () => {
+      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY);
+      return data || [];
+    },
     staleTime: 5 * 60 * 1000,
   });

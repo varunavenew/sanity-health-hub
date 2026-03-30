@@ -1,6 +1,7 @@
 import { Star } from "lucide-react";
+import { useTestimonials } from "@/hooks/useSanity";
 
-const testimonials = [
+const staticTestimonials = [
   {
     id: 1,
     name: "Maria S.",
@@ -58,6 +59,20 @@ const testimonials = [
 ];
 
 export const TestimonialSection = () => {
+  const { data: sanityTestimonials } = useTestimonials();
+
+  const testimonials = sanityTestimonials && sanityTestimonials.length > 0
+    ? sanityTestimonials.map((t, i) => ({
+        id: i + 1,
+        name: t.name,
+        age: t.age,
+        rating: t.rating,
+        text: t.text,
+        location: t.location,
+        treatment: t.treatment,
+      }))
+    : staticTestimonials;
+
   return (
     <section id="tilbakemeldinger" className="py-20 bg-background">
       <div className="container mx-auto px-6 md:px-16">
@@ -99,18 +114,20 @@ export const TestimonialSection = () => {
               </p>
               <div className="flex items-center justify-between pt-4 border-t border-muted">
                 <div>
-                  <p className="font-light">{testimonial.name}, {testimonial.age}</p>
+                  <p className="font-light">{testimonial.name}{testimonial.age ? `, ${testimonial.age}` : ''}</p>
                   <p className="text-sm text-muted-foreground">{testimonial.location}</p>
                 </div>
-                <div className={`text-xs px-3 py-1 rounded-full ${
-                  testimonial.treatment === 'Gynekologi' 
-                    ? 'bg-pink-100 text-pink-700' 
-                    : testimonial.treatment === 'Fertilitet'
-                    ? 'bg-emerald-100 text-emerald-700'
-                    : 'bg-blue-100 text-blue-700'
-                }`}>
-                  {testimonial.treatment}
-                </div>
+                {testimonial.treatment && (
+                  <div className={`text-xs px-3 py-1 rounded-full ${
+                    testimonial.treatment === 'Gynekologi' 
+                      ? 'bg-pink-100 text-pink-700' 
+                      : testimonial.treatment === 'Fertilitet'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : 'bg-blue-100 text-blue-700'
+                  }`}>
+                    {testimonial.treatment}
+                  </div>
+                )}
               </div>
             </div>
           ))}
