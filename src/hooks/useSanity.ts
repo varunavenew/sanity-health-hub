@@ -553,3 +553,23 @@ export const useProduct = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+
+export interface SanityTestimonial {
+  _id: string;
+  name: string;
+  age?: number;
+  rating: number;
+  text: string;
+  location?: string;
+  treatment?: string;
+}
+
+export const useTestimonials = () =>
+  useQuery({
+    queryKey: ["sanity", "testimonials"],
+    queryFn: async () => {
+      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY);
+      return data || [];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
