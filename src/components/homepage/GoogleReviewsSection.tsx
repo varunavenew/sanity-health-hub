@@ -120,12 +120,7 @@ export const GoogleReviewsSection = () => {
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-2xl font-normal text-brand-dark">{averageRating}</span>
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(averageRating) ? 'text-[#FBBC05] fill-[#FBBC05]' : i < averageRating ? 'text-[#FBBC05] fill-[#FBBC05]/50' : 'text-brand-dark/20'}`} 
-                      />
-                    ))}
+                    <PartialStars rating={averageRating} />
                   </div>
                 </div>
               </div>
@@ -139,12 +134,7 @@ export const GoogleReviewsSection = () => {
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(legelistenRating) ? 'text-[#FBBC05] fill-[#FBBC05]' : i < legelistenRating ? 'text-[#FBBC05] fill-[#FBBC05]/50' : 'text-brand-dark/20'}`} 
-                      />
-                    ))}
+                    <PartialStars rating={legelistenRating} />
                   </div>
                 </div>
               </div>
