@@ -16,7 +16,7 @@ import blockContent from './blockContent'
 import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
-import clinicListPage from './clinicListPage'
+
 import article from './article'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
@@ -36,7 +36,7 @@ export const schemaTypes = [
   insurancePage,
   servicesPage,
   clinicPage,
-  clinicListPage,
+  
   themePage,
   specialistsPage,
 
