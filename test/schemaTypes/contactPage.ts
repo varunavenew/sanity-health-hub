@@ -1,10 +1,12 @@
 // Schema: Contact Page (Kontakt)
 // Aligned with migration data: title, introText, phone, email, address, openingHours, seo
+import { ContactIcon } from './icons'
 
 export default {
   name: 'contactPage',
   title: 'Kontakt',
   type: 'document',
+  icon: ContactIcon,
   fields: [
     {
       name: 'title',

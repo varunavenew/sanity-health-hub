@@ -223,7 +223,8 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && slug.current == $slug
   introTexts,
   sections[]{heading, paragraphs, bulletPoints},
   lifePhases[]{title, text},
-  ctaText, ctaLink
+  ctaText, ctaLink,
+  seo
 }`;
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{
@@ -232,6 +233,10 @@ export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"
     _id, title, "slug": slug.current,
     subItems[]{label, anchor, path}
   }
+}`;
+
+export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
+  title, subtitle, body, seo
 }`;
 
 export const PRODUCTS_QUERY = `*[_type == "product"] | order(sortOrder asc){

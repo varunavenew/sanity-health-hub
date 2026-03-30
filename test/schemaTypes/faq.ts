@@ -1,10 +1,12 @@
 // Schema: FAQ
 // Standalone FAQ documents, optionally linked to a category/page
+import { FAQIcon } from './icons'
 
 export default {
   name: 'faq',
   title: 'FAQ',
   type: 'document',
+  icon: FAQIcon,
   fields: [
     {
       name: 'question',

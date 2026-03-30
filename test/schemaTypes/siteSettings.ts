@@ -1,10 +1,12 @@
 // Schema: Site Settings
 // Global settings: navigation menu, contact info, social media, 404 page
+import { SettingsIcon } from './icons'
 
 export default {
   name: 'siteSettings',
   title: 'Nettstedsinnstillinger',
   type: 'document',
+  icon: SettingsIcon,
   groups: [
     { name: 'general', title: 'Generelt', default: true },
     { name: 'navigation', title: 'Navigasjon' },

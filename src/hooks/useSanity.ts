@@ -29,6 +29,7 @@ import {
   SEASONAL_PRODUCTS_QUERY,
   TOP_RATED_PRODUCTS_QUERY,
   PRODUCT_BY_SLUG_QUERY,
+  SPECIALISTS_PAGE_QUERY,
 } from "@/lib/queries";
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
@@ -422,6 +423,7 @@ export const useThemePage = (slug: string) =>
         lifePhases?: { title: string; text: string }[];
         ctaText?: string;
         ctaLink?: string;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
       }>(THEME_PAGE_QUERY, { slug }),
     staleTime: 5 * 60 * 1000,
   });
@@ -474,6 +476,20 @@ export const useServiceCategoriesFromSanity = () =>
         })),
       }));
     },
+    staleTime: 5 * 60 * 1000,
+  });
+
+// ─── Specialists Page ────────────────────────────────────────────────
+export const useSpecialistsPage = () =>
+  useQuery({
+    queryKey: ["sanity", "specialistsPage"],
+    queryFn: () =>
+      fetchSanity<{
+        title?: string;
+        subtitle?: string;
+        body?: any;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
+      }>(SPECIALISTS_PAGE_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 

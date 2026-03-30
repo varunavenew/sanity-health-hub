@@ -1,10 +1,12 @@
 // Schema: Treatment Category
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
+import { CategoryIcon } from './icons'
 
 export default {
   name: 'treatmentCategory',
   title: 'Behandlingskategori',
   type: 'document',
+  icon: CategoryIcon,
   fields: [
     {
       name: 'title',

@@ -1,8 +1,10 @@
 // Schema: Block Content (rich text)
 // Reusable Portable Text schema for body content
+import { BlockContentIcon } from './icons'
 
 export default {
   name: 'blockContent',
+  icon: BlockContentIcon,
   title: 'Block Content',
   type: 'array',
   of: [

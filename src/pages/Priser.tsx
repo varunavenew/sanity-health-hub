@@ -516,8 +516,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Priser – Oversiktlig prisliste sortert etter fagområde"
-        description="Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising."
+        title={sanityPricing?.seo?.metaTitle || "Priser – Oversiktlig prisliste sortert etter fagområde"}
+        description={sanityPricing?.seo?.metaDescription || "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising."}
         canonical="/priser"
         breadcrumbs={[
           { name: "Hjem", path: "/" },

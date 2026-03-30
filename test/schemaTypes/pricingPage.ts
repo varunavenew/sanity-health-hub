@@ -1,10 +1,12 @@
 // Schema: Pricing Page (Priser)
 // Aligned with migration data: title, introText, priceCategories[], insuranceNote, seo
+import { PricingIcon } from './icons'
 
 export default {
   name: 'pricingPage',
   title: 'Priser',
   type: 'document',
+  icon: PricingIcon,
   fields: [
     {
       name: 'title',

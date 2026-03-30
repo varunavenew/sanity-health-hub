@@ -1,10 +1,12 @@
 // Schema: Job Listing
 // Stillingsannonser for karrieresiden
+import { JobIcon } from './icons'
 
 export default {
   name: 'jobListing',
   title: 'Stillingsannonse',
   type: 'document',
+  icon: JobIcon,
   fields: [
     {
       name: 'title',

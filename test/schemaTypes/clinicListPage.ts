@@ -1,8 +1,11 @@
 // Schema: Clinic List Page (singleton)
+import { ListIcon } from './icons'
+
 export default {
   name: 'clinicListPage',
   title: 'Klinikkoversikt',
   type: 'document',
+  icon: ListIcon,
   fields: [
     {
       name: 'title',
