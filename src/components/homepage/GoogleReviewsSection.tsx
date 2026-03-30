@@ -43,10 +43,8 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
       <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
       
       {/* Stars */}
-      <div className="flex gap-0.5 mb-4">
-        {[...Array(review.rating)].map((_, i) => (
-          <Star key={i} className="w-4 h-4 text-[#FBBC05] fill-[#FBBC05]" />
-        ))}
+      <div className="mb-4">
+        <PartialStars rating={review.rating || 5} />
       </div>
 
       {/* Review text */}
