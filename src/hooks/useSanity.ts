@@ -422,6 +422,7 @@ export const useThemePage = (slug: string) =>
         lifePhases?: { title: string; text: string }[];
         ctaText?: string;
         ctaLink?: string;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
       }>(THEME_PAGE_QUERY, { slug }),
     staleTime: 5 * 60 * 1000,
   });

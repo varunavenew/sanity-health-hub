@@ -223,7 +223,8 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && slug.current == $slug
   introTexts,
   sections[]{heading, paragraphs, bulletPoints},
   lifePhases[]{title, text},
-  ctaText, ctaLink
+  ctaText, ctaLink,
+  seo
 }`;
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{
