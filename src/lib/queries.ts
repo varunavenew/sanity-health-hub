@@ -30,6 +30,10 @@ export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_created
   _id, author, rating, text, date
 }`;
 
+export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][0]{
+  heading, subheading, googleAverageRating, legelistenAverageRating, ctaTitle, ctaSubtitle
+}`;
+
 export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"] | order(title asc){
   _id, title, "slug": slug.current, categoryId, description, icon, color,
   "heroImage": heroImage.asset->url,

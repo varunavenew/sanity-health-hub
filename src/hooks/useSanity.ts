@@ -5,6 +5,7 @@ import {
   SPECIALISTS_QUERY,
   SPECIALIST_BY_SLUG_QUERY,
   GOOGLE_REVIEWS_QUERY,
+  GOOGLE_REVIEW_SETTINGS_QUERY,
   TREATMENT_CATEGORIES_QUERY,
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
   TREATMENT_BY_SLUG_QUERY,
@@ -166,6 +167,21 @@ export const useGoogleReviews = () =>
         name: r.author || "",
       })) as SanityReview[];
     },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useGoogleReviewSettings = () =>
+  useQuery({
+    queryKey: ["sanity", "googleReviewSettings"],
+    queryFn: () =>
+      fetchSanity<{
+        heading: string;
+        subheading: string;
+        googleAverageRating: number;
+        legelistenAverageRating: number;
+        ctaTitle: string;
+        ctaSubtitle: string;
+      }>(GOOGLE_REVIEW_SETTINGS_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 

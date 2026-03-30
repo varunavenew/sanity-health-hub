@@ -11,6 +11,7 @@ import pricingPage from './pricingPage'
 import insurancePage from './insurancePage'
 import servicesPage from './servicesPage'
 import googleReview from './googleReview'
+import googleReviewSettings from './googleReviewSettings'
 import blockContent from './blockContent'
 import seo from './seo'
 import siteSettings from './siteSettings'
@@ -43,6 +44,7 @@ export const schemaTypes = [
   treatment,
   specialist,
   googleReview,
+  googleReviewSettings,
   article,
   jobListing,
   privacyPolicyPage,

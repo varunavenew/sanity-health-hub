@@ -4,7 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 
-const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial']
+const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial', 'googleReview', 'googleReviewSettings']
 
 export default defineConfig({
   name: 'default',
@@ -61,12 +61,34 @@ export default defineConfig({
               ])
           )
 
+        const googleReviewsItem = S.listItem()
+          .title('Google Reviews')
+          .icon(ReviewIcon)
+          .child(
+            S.list()
+              .title('Google Reviews')
+              .items([
+                S.listItem()
+                  .title('Om Google Reviews')
+                  .icon(ReviewIcon)
+                  .child(
+                    S.document()
+                      .schemaType('googleReviewSettings')
+                      .documentId('googleReviewSettings')
+                  ),
+                S.documentTypeListItem('googleReview')
+                  .title('Google-anmeldelser')
+                  .icon(ReviewIcon),
+              ])
+          )
+
         return S.list()
           .title('Content')
           .items([
             ...otherItems.slice(0, mid),
             specialistsItem,
             priserItem,
+            googleReviewsItem,
             ...otherItems.slice(mid),
           ])
       },
