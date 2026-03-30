@@ -15,35 +15,37 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S, context) =>
-        S.list()
+      structure: (S, context) => {
+        const otherItems = S.documentTypeListItems().filter(
+          (item) => !hiddenTypes.includes(item.getId() || '')
+        )
+        const mid = Math.floor(otherItems.length / 2)
+        const specialistsItem = S.listItem()
+          .title('Specialists')
+          .icon(SpecialistIcon)
+          .child(
+            S.list()
+              .title('Specialists')
+              .items([
+                S.listItem()
+                  .title('About our specialists')
+                  .icon(SpecialistIcon)
+                  .child(
+                    S.document()
+                      .schemaType('specialistsPage')
+                      .documentId('specialistsPage')
+                  ),
+                S.documentTypeListItem('specialist').title('Our specialists'),
+              ])
+          )
+        return S.list()
           .title('Content')
           .items([
-            // All other types (auto-generated, excluding hidden ones)
-            ...S.documentTypeListItems().filter(
-              (item) => !hiddenTypes.includes(item.getId() || '')
-            ),
-            S.divider(),
-            // Custom Specialists group
-            S.listItem()
-              .title('Specialists')
-              .icon(SpecialistIcon)
-              .child(
-                S.list()
-                  .title('Specialists')
-                  .items([
-                    S.listItem()
-                      .title('About our specialists')
-                      .icon(SpecialistIcon)
-                      .child(
-                        S.document()
-                          .schemaType('specialistsPage')
-                          .documentId('specialistsPage')
-                      ),
-                    S.documentTypeListItem('specialist').title('Our specialists'),
-                  ])
-              ),
-          ]),
+            ...otherItems.slice(0, mid),
+            specialistsItem,
+            ...otherItems.slice(mid),
+          ])
+      },
     }),
     visionTool(),
   ],
