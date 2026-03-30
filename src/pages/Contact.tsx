@@ -10,7 +10,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { CTASection } from "@/components/layout/CTASection";
 import { clinics as staticClinics } from "@/data/clinicServices";
-import { useClinics } from "@/hooks/useSanity";
+import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 import contactHero from "@/assets/hero/contact-hero.jpg";
