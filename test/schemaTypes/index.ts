@@ -23,6 +23,7 @@ import faq from './faq'
 import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
+import testimonial from './testimonial'
 
 export const schemaTypes = [
   // Pages

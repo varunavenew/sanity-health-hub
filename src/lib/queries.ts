@@ -258,6 +258,10 @@ export const TOP_RATED_PRODUCTS_QUERY = `*[_type == "product"] | order(rating de
   tags, intent, description
 }`;
 
+export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(_createdAt desc){
+  _id, name, age, rating, text, location, treatment
+}`;
+
 export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && slug.current == $slug][0]{
   _id, name, "slug": slug.current, category, price, rating,
   "image": image.asset->url,
