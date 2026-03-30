@@ -4,6 +4,8 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {SpecialistIcon} from './schemaTypes/icons'
 
+const hiddenTypes = ['specialist', 'specialistsPage']
+
 export default defineConfig({
   name: 'default',
   title: 'sanity',
@@ -13,21 +15,11 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S, context) =>
         S.list()
           .title('Content')
           .items([
-            // Homepage
-            S.listItem()
-              .title('Homepage')
-              .child(
-                S.document().schemaType('homepage').documentId('homepage')
-              ),
-            // Categories
-            S.documentTypeListItem('treatmentCategory').title('Categories'),
-            // Clinics
-            S.documentTypeListItem('clinicPage').title('Clinics'),
-            // Specialists group
+            // Custom Specialists group
             S.listItem()
               .title('Specialists')
               .icon(SpecialistIcon)
@@ -47,43 +39,10 @@ export default defineConfig({
                   ])
               ),
             S.divider(),
-            // Treatments
-            S.documentTypeListItem('treatment').title('Treatments'),
-            // Articles
-            S.documentTypeListItem('article').title('Articles'),
-            // Job listings
-            S.documentTypeListItem('jobListing').title('Job listings'),
-            // Products
-            S.documentTypeListItem('product').title('Products'),
-            // FAQs
-            S.documentTypeListItem('faq').title('FAQs'),
-            // Google reviews
-            S.documentTypeListItem('googleReview').title('Google Reviews'),
-            S.divider(),
-            // Pages
-            S.listItem()
-              .title('Pages')
-              .child(
-                S.list()
-                  .title('Pages')
-                  .items([
-                    S.listItem().title('About').child(S.document().schemaType('aboutPage').documentId('aboutPage')),
-                    S.listItem().title('Contact').child(S.document().schemaType('contactPage').documentId('contactPage')),
-                    S.listItem().title('Pricing').child(S.document().schemaType('pricingPage').documentId('pricingPage')),
-                    S.listItem().title('Insurance').child(S.document().schemaType('insurancePage').documentId('insurancePage')),
-                    S.listItem().title('Services').child(S.document().schemaType('servicesPage').documentId('servicesPage')),
-                    S.listItem().title('Privacy Policy').child(S.document().schemaType('privacyPolicyPage').documentId('privacyPolicyPage')),
-                    S.documentTypeListItem('themePage').title('Theme Pages'),
-                    S.documentTypeListItem('clinicListPage').title('Clinic List Page'),
-                  ])
-              ),
-            S.divider(),
-            // Site settings
-            S.listItem()
-              .title('Site Settings')
-              .child(
-                S.document().schemaType('siteSettings').documentId('siteSettings')
-              ),
+            // All other types (auto-generated, excluding hidden ones)
+            ...S.documentTypeListItems().filter(
+              (item) => !hiddenTypes.includes(item.getId() || '')
+            ),
           ]),
     }),
     visionTool(),
