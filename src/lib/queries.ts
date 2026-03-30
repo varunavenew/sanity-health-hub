@@ -276,7 +276,3 @@ export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && slug.current == $s
   "image": image.asset->url,
   tags, intent, description, benefits, results, howItWorks
 }`;
-  _id, name, "slug": slug.current, category, price, rating,
-  "image": image.asset->url,
-  tags, intent, description, benefits, results, howItWorks
-}`;
