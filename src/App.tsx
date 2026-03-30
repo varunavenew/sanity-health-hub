@@ -18,6 +18,7 @@ import BookingDemo from "./pages/BookingDemo";
 import Services from "./pages/Services";
 import SpecialistProfile from "./pages/SpecialistProfile";
 import Specialists from "./pages/Specialists";
+import AboutSpecialists from "./pages/AboutSpecialists";
 import KvinnehelsePage from "./pages/themes/KvinnehelsePage";
 import TverrfagligePage from "./pages/themes/TverrfagligePage";
 import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
@@ -101,6 +102,7 @@ const AppContent = () => {
         <Route path="/aktuelt" element={<Aktuelt isChatOpen={false} />} />
         <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
         {/* Specialist routes */}
+        <Route path="/om-spesialister" element={<AboutSpecialists isChatOpen={false} />} />
         <Route path="/spesialister" element={<Specialists isChatOpen={false} />} />
         <Route path="/spesialister/:slug" element={<SpecialistProfile isChatOpen={false} />} />
         {/* Booking demo */}
