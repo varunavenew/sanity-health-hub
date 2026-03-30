@@ -2,9 +2,9 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {SpecialistIcon} from './schemaTypes/icons'
+import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 
-const hiddenTypes = ['specialist', 'specialistsPage']
+const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial']
 
 export default defineConfig({
   name: 'default',
