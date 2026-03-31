@@ -66,6 +66,7 @@ export default defineConfig({
 
   plugins: [
     structureTool({
+      defaultDocumentNode,
       structure: (S, context) => {
         const otherItems = S.documentTypeListItems().filter(
           (item) => !hiddenTypes.includes(item.getId() || '')
