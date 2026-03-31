@@ -6,7 +6,11 @@ import {schemaTypes} from './schemaTypes'
 import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 
 // Base URL for the frontend preview
-const PREVIEW_BASE_URL = 'https://sanity-care-craft.lovable.app'
+// Uses localhost:5173 during local dev, production URL otherwise
+const PREVIEW_BASE_URL =
+  typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? 'http://localhost:5173'
+    : 'https://sanity-care-craft.lovable.app'
 
 // Map schema types to their frontend URL paths
 function resolvePreviewUrl(schemaType: string, slug?: string) {
