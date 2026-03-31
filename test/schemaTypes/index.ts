@@ -25,7 +25,7 @@ import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
 import testimonial from './testimonial'
-import socialPost from './socialPost'
+
 
 export const schemaTypes = [
   // Pages
@@ -52,7 +52,7 @@ export const schemaTypes = [
   faq,
   product,
   testimonial,
-  socialPost,
+  
 
   // Shared types
   blockContent,
