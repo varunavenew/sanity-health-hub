@@ -12,8 +12,31 @@ const PREVIEW_BASE_URL =
     ? 'http://localhost:8080'
     : 'https://sanity-care-craft.lovable.app'
 
+// Map schema types to their frontend URL paths
+function resolvePreviewUrl(schemaType: string, slug?: string) {
+  const routes: Record<string, string> = {
+    article: '/aktuelt/',
+    treatment: '/behandlinger/',
+    treatmentCategory: '/tjenester/',
+    specialist: '/spesialister/',
+    themePage: '/tema/',
+    homepage: '/',
+    aboutPage: '/om-oss',
+    contactPage: '/kontakt',
+    pricingPage: '/priser',
+    insurancePage: '/forsikring',
+    servicesPage: '/tjenester',
+    clinicPage: '/klinikker/',
+    jobListing: '/karriere/',
+  }
+  const base = routes[schemaType]
+  if (!base) return PREVIEW_BASE_URL
+  if (slug) return `${PREVIEW_BASE_URL}${base}${slug}`
+  return `${PREVIEW_BASE_URL}${base}`
+}
+
 // Default document node with preview pane for content types
-const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType, documentId}) => {
+const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
     'article', 'treatment', 'treatmentCategory', 'specialist',
     'themePage', 'homepage', 'aboutPage', 'contactPage',
@@ -24,7 +47,10 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType, docume
     return S.document().views([
       S.view.form().title('About'),
       S.view.component(Iframe).options({
-        url: `${PREVIEW_BASE_URL}/api/preview?id=${documentId}`,
+        url: (doc: any) => {
+          const slug = doc?.slug?.current
+          return resolvePreviewUrl(schemaType, slug)
+        },
         reload: {button: true},
       }).title('View'),
     ])
