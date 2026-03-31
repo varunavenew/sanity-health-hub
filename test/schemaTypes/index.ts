@@ -52,7 +52,7 @@ export const schemaTypes = [
   faq,
   product,
   testimonial,
-  socialPost,
+  
 
   // Shared types
   blockContent,
