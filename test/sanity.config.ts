@@ -1,8 +1,59 @@
 import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
+import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {Iframe} from 'sanity-plugin-iframe-pane'
 import {schemaTypes} from './schemaTypes'
 import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
+
+// Base URL for the frontend preview
+const PREVIEW_BASE_URL = 'https://sanity-care-craft.lovable.app'
+
+// Map schema types to their frontend URL paths
+function resolvePreviewUrl(schemaType: string, slug?: string) {
+  const routes: Record<string, string> = {
+    article: '/aktuelt/',
+    treatment: '/behandlinger/',
+    treatmentCategory: '/tjenester/',
+    specialist: '/spesialister/',
+    themePage: '/tema/',
+    homepage: '/',
+    aboutPage: '/om-oss',
+    contactPage: '/kontakt',
+    pricingPage: '/priser',
+    insurancePage: '/forsikring',
+    servicesPage: '/tjenester',
+    clinicPage: '/klinikker/',
+    jobListing: '/karriere/',
+  }
+  const base = routes[schemaType]
+  if (!base) return PREVIEW_BASE_URL
+  if (slug) return `${PREVIEW_BASE_URL}${base}${slug}`
+  return `${PREVIEW_BASE_URL}${base}`
+}
+
+// Default document node with preview pane for content types
+const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
+  const previewableTypes = [
+    'article', 'treatment', 'treatmentCategory', 'specialist',
+    'themePage', 'homepage', 'aboutPage', 'contactPage',
+    'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
+  ]
+
+  if (previewableTypes.includes(schemaType)) {
+    return S.document().views([
+      S.view.form(),
+      S.view.component(Iframe).options({
+        url: (doc: any) => {
+          const slug = doc?.slug?.current
+          return resolvePreviewUrl(schemaType, slug)
+        },
+        reload: {button: true},
+      }).title('View'),
+    ])
+  }
+
+  return S.document().views([S.view.form()])
+}
 
 const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial', 'googleReview', 'googleReviewSettings']
 
