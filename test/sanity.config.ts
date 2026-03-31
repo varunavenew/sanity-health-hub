@@ -9,7 +9,7 @@ import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 // Uses localhost:5173 during local dev, production URL otherwise
 const PREVIEW_BASE_URL =
   typeof window !== 'undefined' && window.location.hostname === 'localhost'
-    ? 'http://localhost:5173'
+    ? 'http://localhost:8080'
     : 'https://sanity-care-craft.lovable.app'
 
 // Map schema types to their frontend URL paths
