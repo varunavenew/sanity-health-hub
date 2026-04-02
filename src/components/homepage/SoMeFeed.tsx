@@ -1,44 +1,23 @@
 import { Instagram, Linkedin, Facebook, Youtube, Twitter } from "lucide-react";
-import { useSiteSettings, useSocialPosts } from "@/hooks/useSanity";
+import { useSiteSettings } from "@/hooks/useSanity";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-// Static fallback posts
+// Local fallback images
+import socialPost1 from "@/assets/social/social-post-1.jpg";
+import socialPost2 from "@/assets/social/social-post-2.jpg";
+import socialPost3 from "@/assets/social/social-post-3.jpg";
+import socialPost4 from "@/assets/social/social-post-4.jpg";
+import socialPost5 from "@/assets/social/social-post-5.jpg";
+import socialPost6 from "@/assets/social/social-post-6.jpg";
+
 const fallbackPosts = [
-  {
-    id: "1",
-    platform: "instagram" as const,
-    image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&h=400&fit=crop",
-    caption: "Vårt team er klare for en ny uke med å hjelpe pasienter! 💛 #CMedical #Kvinnehelse",
-  },
-  {
-    id: "2",
-    platform: "linkedin" as const,
-    image: "https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=400&h=400&fit=crop",
-    caption: "Vi er stolte av å annonsere vår nye robotassisterte kirurgienhet.",
-  },
-  {
-    id: "3",
-    platform: "instagram" as const,
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=400&fit=crop",
-    caption: "Visste du at vi tilbyr uforpliktende telefonsamtaler med sykepleier om fertilitet? 🤍",
-  },
-  {
-    id: "4",
-    platform: "instagram" as const,
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop",
-    caption: "Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen! 🩺",
-  },
-  {
-    id: "5",
-    platform: "linkedin" as const,
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
-    caption: "CMedical deltar på Nordens største konferanse for reproduksjonsmedisin.",
-  },
-  {
-    id: "6",
-    platform: "instagram" as const,
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=400&fit=crop",
-    caption: "Trygge omgivelser for deg og din familie. Velkommen til våre nyrenoverte lokaler ✨",
-  },
+  { id: "1", platform: "instagram" as const, image: socialPost1, caption: "Vårt team er klare for en ny uke med å hjelpe pasienter! 💛 #CMedical #Kvinnehelse", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "2", platform: "instagram" as const, image: socialPost2, caption: "Vi er stolte av å annonsere vår nye robotassisterte kirurgienhet.", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "3", platform: "instagram" as const, image: socialPost3, caption: "Visste du at vi tilbyr uforpliktende telefonsamtaler med sykepleier om fertilitet? 🤍", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "4", platform: "instagram" as const, image: socialPost4, caption: "Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen! 🩺", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "5", platform: "instagram" as const, image: socialPost5, caption: "CMedical deltar på Nordens største konferanse for reproduksjonsmedisin.", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "6", platform: "instagram" as const, image: socialPost6, caption: "Trygge omgivelser for deg og din familie. Velkommen til våre nyrenoverte lokaler ✨", permalink: "https://www.instagram.com/cmedical.no" },
 ];
 
 const PlatformIcon = ({ platform }: { platform: string }) => {
@@ -51,30 +30,39 @@ const PlatformIcon = ({ platform }: { platform: string }) => {
   }
 };
 
-// Fallback social media URLs
 const fallbackSocial = {
   instagram: "https://www.instagram.com/cmedical.no",
   facebook: "https://www.facebook.com/cmedical.no",
   linkedin: "https://www.linkedin.com/company/cmedical",
 };
 
+const fetchInstagramPosts = async () => {
+  const { data, error } = await supabase.functions.invoke("instagram-feed");
+  if (error) throw error;
+  return data?.posts || [];
+};
+
 export const SoMeFeed = () => {
   const { data: settings } = useSiteSettings();
-  const { data: sanityPosts } = useSocialPosts();
   const social = settings?.socialMedia || fallbackSocial;
 
-  // Use Sanity posts if available, otherwise fallback
-  const posts = sanityPosts && sanityPosts.length > 0
-    ? sanityPosts.map((p) => ({
-        id: p._id,
-        platform: p.platform,
+  const { data: livePosts } = useQuery({
+    queryKey: ["instagram-feed"],
+    queryFn: fetchInstagramPosts,
+    staleTime: 1000 * 60 * 15, // 15 min cache
+    retry: 1,
+  });
+
+  const posts = livePosts && livePosts.length > 0
+    ? livePosts.map((p: any) => ({
+        id: p.id,
+        platform: "instagram" as const,
         image: p.image,
-        caption: p.caption || "",
-        postUrl: p.postUrl,
+        caption: p.caption,
+        permalink: p.permalink,
       }))
     : fallbackPosts;
 
-  // Build list of active social links
   const socialLinks = [
     social?.instagram && { platform: "Instagram", url: social.instagram, icon: Instagram },
     social?.facebook && { platform: "Facebook", url: social.facebook, icon: Facebook },
@@ -82,15 +70,6 @@ export const SoMeFeed = () => {
     social?.youtube && { platform: "YouTube", url: social.youtube, icon: Youtube },
     social?.twitter && { platform: "X", url: social.twitter, icon: Twitter },
   ].filter(Boolean) as { platform: string; url: string; icon: React.ElementType }[];
-
-  const getPostUrl = (post: typeof posts[0]) => {
-    if ('postUrl' in post && post.postUrl) return post.postUrl;
-    const platform = post.platform;
-    if (platform === "instagram") return social?.instagram || fallbackSocial.instagram;
-    if (platform === "linkedin") return social?.linkedin || fallbackSocial.linkedin;
-    if (platform === "facebook") return social?.facebook || fallbackSocial.facebook;
-    return "#";
-  };
 
   return (
     <section className="py-10 md:py-16 bg-secondary/30">
@@ -122,7 +101,7 @@ export const SoMeFeed = () => {
           {posts.map((post) => (
             <a
               key={post.id}
-              href={getPostUrl(post)}
+              href={post.permalink}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative aspect-square rounded-sm overflow-hidden bg-secondary"
