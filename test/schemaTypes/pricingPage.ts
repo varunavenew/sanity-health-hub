@@ -62,6 +62,13 @@ export default {
       ],
     },
     {
+      name: 'testimonials',
+      title: 'Tilbakemeldinger',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'testimonial' }] }],
+      description: 'Velg tilbakemeldinger som skal vises på prissiden',
+    },
+    {
       name: 'insuranceNote',
       title: 'Forsikringsinformasjon',
       type: 'text',

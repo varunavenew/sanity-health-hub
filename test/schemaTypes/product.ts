@@ -3,26 +3,26 @@ import { ProductIcon } from './icons'
 
 export default defineType({
   name: 'product',
-  title: 'Product',
+  title: 'Produkt',
   type: 'document',
   icon: ProductIcon,
   fields: [
     defineField({
       name: 'name',
-      title: 'Name',
+      title: 'Produktnavn',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
+      title: 'URL-slug',
       type: 'slug',
       options: {source: 'name', maxLength: 96},
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Kategori',
       type: 'string',
       options: {
         list: [
@@ -37,68 +37,68 @@ export default defineType({
     }),
     defineField({
       name: 'price',
-      title: 'Price',
+      title: 'Pris',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'rating',
-      title: 'Rating',
+      title: 'Vurdering',
       type: 'number',
       validation: (Rule) => Rule.min(0).max(5),
     }),
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Bilde',
       type: 'image',
       options: {hotspot: true},
     }),
     defineField({
       name: 'tags',
-      title: 'Tags',
+      title: 'Merkelapper',
       type: 'array',
       of: [{type: 'string'}],
     }),
     defineField({
       name: 'intent',
-      title: 'Intent',
+      title: 'Bruksområde',
       type: 'string',
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Beskrivelse',
       type: 'text',
     }),
     defineField({
       name: 'benefits',
-      title: 'Benefits',
+      title: 'Fordeler',
       type: 'array',
       of: [{type: 'string'}],
     }),
     defineField({
       name: 'results',
-      title: 'Results',
+      title: 'Resultater',
       type: 'text',
     }),
     defineField({
       name: 'howItWorks',
-      title: 'How It Works',
+      title: 'Slik fungerer det',
       type: 'text',
     }),
     defineField({
       name: 'isSeasonal',
-      title: 'Seasonal Featured',
+      title: 'Sesongfremhevet',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'seasonalOrder',
-      title: 'Seasonal Display Order',
+      title: 'Sesong visningsrekkefølge',
       type: 'number',
     }),
     defineField({
       name: 'sortOrder',
-      title: 'Sort Order',
+      title: 'Sorteringsrekkefølge',
       type: 'number',
     }),
   ],

@@ -11,11 +11,12 @@ import pricingPage from './pricingPage'
 import insurancePage from './insurancePage'
 import servicesPage from './servicesPage'
 import googleReview from './googleReview'
+import googleReviewSettings from './googleReviewSettings'
 import blockContent from './blockContent'
 import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
-import clinicListPage from './clinicListPage'
+
 import article from './article'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
@@ -23,6 +24,8 @@ import faq from './faq'
 import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
+import testimonial from './testimonial'
+
 
 export const schemaTypes = [
   // Pages
@@ -33,7 +36,7 @@ export const schemaTypes = [
   insurancePage,
   servicesPage,
   clinicPage,
-  clinicListPage,
+  
   themePage,
   specialistsPage,
 
@@ -42,11 +45,14 @@ export const schemaTypes = [
   treatment,
   specialist,
   googleReview,
+  googleReviewSettings,
   article,
   jobListing,
   privacyPolicyPage,
   faq,
   product,
+  testimonial,
+  
 
   // Shared types
   blockContent,

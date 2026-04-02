@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Star, Quote, ArrowRight, User } from "lucide-react";
+import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
-import { useGoogleReviews } from "@/hooks/useSanity";
+import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,10 +43,8 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
       <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
       
       {/* Stars */}
-      <div className="flex gap-0.5 mb-4">
-        {[...Array(review.rating)].map((_, i) => (
-          <Star key={i} className="w-4 h-4 text-[#FBBC05] fill-[#FBBC05]" />
-        ))}
+      <div className="mb-4">
+        <PartialStars rating={review.rating || 5} />
       </div>
 
       {/* Review text */}
@@ -81,10 +80,16 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
   const { data: sanityReviews } = useGoogleReviews();
+  const { data: settings } = useGoogleReviewSettings();
   const googleReviewsList = sanityReviews && sanityReviews.length > 0
     ? sanityReviews.map((r, i) => ({ id: i, name: r.name, rating: r.rating, text: r.text, date: r.date, source: 'google' as const }))
     : staticReviews;
-  const { averageRating } = googleRatingData;
+  const averageRating = settings?.googleAverageRating ?? googleRatingData.averageRating;
+  const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
+  const heading = settings?.heading ?? "Trygghet, omsorg og helsehjelp i livets ulike faser";
+  const subheading = settings?.subheading ?? "Våre pasienter forteller";
+  const ctaTitle = settings?.ctaTitle ?? "Over 150 000 fornøyde pasienter siden 2002";
+  const ctaSubtitle = settings?.ctaSubtitle ?? "Bli en del av vår historie";
 
   // Duplicate reviews for seamless infinite scroll
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
@@ -96,10 +101,10 @@ export const GoogleReviewsSection = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
             <p className="text-sm text-brand-dark/60 font-light mb-3">
-              Våre pasienter forteller
+              {subheading}
             </p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
-              Trygghet, omsorg og helsehjelp i livets ulike faser
+              {heading}
             </h2>
           </div>
 
@@ -113,12 +118,7 @@ export const GoogleReviewsSection = () => {
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-2xl font-normal text-brand-dark">{averageRating}</span>
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(averageRating) ? 'text-[#FBBC05] fill-[#FBBC05]' : i < averageRating ? 'text-[#FBBC05] fill-[#FBBC05]/50' : 'text-brand-dark/20'}`} 
-                      />
-                    ))}
+                    <PartialStars rating={averageRating} />
                   </div>
                 </div>
               </div>
@@ -130,14 +130,9 @@ export const GoogleReviewsSection = () => {
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">4.8</span>
+                  <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
                   <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < 5 ? 'text-[#FBBC05] fill-[#FBBC05]' : 'text-brand-dark/20'}`} 
-                      />
-                    ))}
+                    <PartialStars rating={legelistenRating} />
                   </div>
                 </div>
               </div>
@@ -163,10 +158,10 @@ export const GoogleReviewsSection = () => {
         <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-sm bg-brand-dark">
           <div className="text-center sm:text-left">
             <p className="text-white font-normal mb-1">
-              Over 150 000 fornøyde pasienter siden 2002
+              {ctaTitle}
             </p>
             <p className="text-white/70 text-sm font-light">
-              Bli en del av vår historie
+              {ctaSubtitle}
             </p>
           </div>
           <Button 

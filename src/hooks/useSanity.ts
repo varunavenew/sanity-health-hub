@@ -5,6 +5,7 @@ import {
   SPECIALISTS_QUERY,
   SPECIALIST_BY_SLUG_QUERY,
   GOOGLE_REVIEWS_QUERY,
+  GOOGLE_REVIEW_SETTINGS_QUERY,
   TREATMENT_CATEGORIES_QUERY,
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
   TREATMENT_BY_SLUG_QUERY,
@@ -28,8 +29,10 @@ import {
   PRODUCTS_QUERY,
   SEASONAL_PRODUCTS_QUERY,
   TOP_RATED_PRODUCTS_QUERY,
+  TESTIMONIALS_QUERY,
   PRODUCT_BY_SLUG_QUERY,
   SPECIALISTS_PAGE_QUERY,
+  SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
@@ -165,6 +168,21 @@ export const useGoogleReviews = () =>
         name: r.author || "",
       })) as SanityReview[];
     },
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useGoogleReviewSettings = () =>
+  useQuery({
+    queryKey: ["sanity", "googleReviewSettings"],
+    queryFn: () =>
+      fetchSanity<{
+        heading: string;
+        subheading: string;
+        googleAverageRating: number;
+        legelistenAverageRating: number;
+        ctaTitle: string;
+        ctaSubtitle: string;
+      }>(GOOGLE_REVIEW_SETTINGS_QUERY),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -550,5 +568,46 @@ export const useProduct = (slug: string) =>
       return data as SanityProduct | null;
     },
     enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });
+
+export interface SanityTestimonial {
+  _id: string;
+  name: string;
+  age?: number;
+  rating: number;
+  text: string;
+  location?: string;
+  treatment?: string;
+}
+
+export const useTestimonials = () =>
+  useQuery({
+    queryKey: ["sanity", "testimonials"],
+    queryFn: async () => {
+      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY);
+      return data || [];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+// ─── Social Posts ────────────────────────────────────────────────────
+export interface SanitySocialPost {
+  _id: string;
+  platform: "instagram" | "linkedin" | "facebook" | "youtube";
+  image: string;
+  caption?: string;
+  postUrl?: string;
+  date?: string;
+  likes?: number;
+}
+
+export const useSocialPosts = () =>
+  useQuery({
+    queryKey: ["sanity", "socialPosts"],
+    queryFn: async () => {
+      const data = await fetchSanity<SanitySocialPost[]>(SOCIAL_POSTS_QUERY);
+      return data || [];
+    },
     staleTime: 5 * 60 * 1000,
   });

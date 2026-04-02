@@ -3,50 +3,50 @@ import { ArticleIcon } from './icons'
 
 export default defineType({
   name: 'article',
-  title: 'Article / Page',
+  title: 'Artikkel / Side',
   type: 'document',
   icon: ArticleIcon,
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Tittel',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
+      title: 'URL-slug',
       type: 'slug',
       options: {source: 'title'},
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'primaryImage',
-      title: 'Primary Image',
+      title: 'Hovedbilde',
       type: 'image',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt text',
+          title: 'Alt-tekst',
           type: 'string',
         }),
       ],
     }),
     defineField({
       name: 'excerpt',
-      title: 'Excerpt',
+      title: 'Utdrag',
       type: 'text',
       rows: 3,
     }),
     defineField({
       name: 'body',
-      title: 'Body',
+      title: 'Innhold',
       type: 'blockContent',
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Kategori',
       type: 'string',
       options: {
         list: [
@@ -59,19 +59,19 @@ export default defineType({
     }),
     defineField({
       name: 'pinned',
-      title: 'Pinned (featured at top)',
+      title: 'Festet (fremhevet øverst)',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'featured',
-      title: 'Featured',
+      title: 'Fremhevet',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Published at',
+      title: 'Publiseringsdato',
       type: 'datetime',
     }),
     defineField({

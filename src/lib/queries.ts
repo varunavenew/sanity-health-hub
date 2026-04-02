@@ -30,6 +30,10 @@ export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_created
   _id, author, rating, text, date
 }`;
 
+export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][0]{
+  heading, subheading, googleAverageRating, legelistenAverageRating, ctaTitle, ctaSubtitle
+}`;
+
 export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"] | order(title asc){
   _id, title, "slug": slug.current, categoryId, description, icon, color,
   "heroImage": heroImage.asset->url,
@@ -256,6 +260,15 @@ export const TOP_RATED_PRODUCTS_QUERY = `*[_type == "product"] | order(rating de
   _id, name, "slug": slug.current, category, price, rating,
   "image": image.asset->url,
   tags, intent, description
+}`;
+
+export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(_createdAt desc){
+  _id, name, age, rating, text, location, treatment
+}`;
+
+export const SOCIAL_POSTS_QUERY = `*[_type == "socialPost"] | order(sortOrder asc, date desc)[0..5]{
+  _id, platform, caption, postUrl, date, likes,
+  "image": image.asset->url
 }`;
 
 export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && slug.current == $slug][0]{
