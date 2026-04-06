@@ -37,7 +37,7 @@ export const Footer = () => {
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";
-  const address = settings?.address || "Oslo · Bekkestua · Ski · Moss · Moelv";
+  const address = settings?.address || "Oslo · Bekkestua · Moss · Moelv";
   const social = settings?.socialMedia || {};
 
   return (
