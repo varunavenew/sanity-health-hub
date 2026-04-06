@@ -224,7 +224,7 @@ const priceCategories: PriceCategory[] = [
         label: 'Håndterapi',
         path: '/behandlinger/ortopedi/hand-albue',
         items: [
-          { name: "Konsultasjon håndterapeut", price: "1.400,-", duration: "45 min" },
+          { name: "Konsultasjon håndterapeut", price: "1.400,-", duration: "60 min" },
         ]
       },
       {
@@ -296,8 +296,8 @@ const priceCategories: PriceCategory[] = [
         label: 'Sexologi',
         path: '/behandlinger/flere-fagomrader/sexologi',
         items: [
-          { name: "Sexolog", price: "1.600,-", duration: "1 time" },
-          { name: "Sexolog for par", price: "1.600,-", duration: "1 time" },
+          { name: "Sexolog individuell", price: "1.750,-", duration: "1 time" },
+          { name: "Sexolog for par", price: "1.850,-", duration: "1 time" },
         ]
       },
     ]
@@ -326,7 +326,7 @@ const priceCategories: PriceCategory[] = [
         path: '/behandlinger/flere-fagomrader/ernaeringsfysiolog',
         items: [
           { name: "Klinisk ernæringsfysiolog", price: "1.990,-", duration: "1 time" },
-          { name: "Klinisk ernæringsfysiolog oppfølging", price: "1.500,-", duration: "45 min" },
+          { name: "Klinisk ernæringsfysiolog oppfølging", price: "1.490,-", duration: "45 min" },
         ]
       },
     ]
@@ -340,7 +340,9 @@ const priceCategories: PriceCategory[] = [
         label: 'Åreknutebehandling',
         path: '/behandlinger/flere-fagomrader/areknutebehandling',
         items: [
-          { name: "Vurdering åreknuter", price: "1.800,-", duration: "30 min" },
+          { name: "Konsultasjon 30 min", price: "1.400,-", duration: "30 min" },
+          { name: "Åreknuteoperasjon (laser/radiofrekvens – ett ben)", price: "fra 20.900,-", duration: "" },
+          { name: "Flebektomi/extripasjon – ett ben", price: "11.000,-", duration: "" },
         ]
       },
     ]
@@ -354,8 +356,8 @@ const priceCategories: PriceCategory[] = [
         label: 'Svangerskapskontroll',
         path: '/behandlinger/graviditet/svangerskapskontroll',
         items: [
-          { name: "Svangerskapskontroll", price: "2.100,-", duration: "30 min" },
-          { name: "Tidlig ultralyd enkel", price: "2.100,-", duration: "30 min" },
+          { name: "Svangerskapskontroll", price: "2.150,-", duration: "30 min" },
+          { name: "Tidlig ultralyd enkel", price: "2.150,-", duration: "30 min" },
           { name: "Kontroll etter fødsel", price: "2.100,-", duration: "30 min" },
         ]
       },
@@ -369,11 +371,14 @@ const priceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'Fødselsforberedelse',
+        label: 'Fødselsforberedelse og oppfølging',
         path: '/behandlinger/graviditet/fodselsforberedelse',
         items: [
+          { name: "Fødselsforberedende samtale", price: "3.200,-", duration: "45 min" },
+          { name: "Konsultasjon etter abort eller dødfødsel", price: "3.200,-", duration: "45 min" },
+          { name: "Konsultasjon fødselsangst", price: "3.200,-", duration: "45 min" },
+          { name: "Konsultasjon traumatisk fødsel", price: "3.200,-", duration: "45 min" },
           { name: "Ammehjelp ved brystbetennelse", price: "3.200,-", duration: "45 min" },
-          { name: "Fødselsangst – samtale", price: "1.900,-", duration: "50 min" },
         ]
       },
     ]
