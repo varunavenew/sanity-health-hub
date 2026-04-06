@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Check, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const languages = [
   { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
@@ -8,13 +9,15 @@ const languages = [
 
 export const LanguageSelector = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState("nb");
   const containerRef = useRef<HTMLDivElement>(null);
+  const { i18n, t } = useTranslation();
 
+  const currentLang = i18n.language;
   const current = languages.find((l) => l.code === currentLang) || languages[0];
 
   const handleSelect = (code: string) => {
-    setCurrentLang(code);
+    i18n.changeLanguage(code);
+    localStorage.setItem("i18n-lang", code);
     setIsOpen(false);
   };
 
@@ -23,7 +26,7 @@ export const LanguageSelector = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-1.5 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-all"
-        aria-label="Velg språk"
+        aria-label={t("nav.selectLanguage")}
       >
         <span className="text-sm">{current.flag}</span>
         <span className="text-xs font-medium">{current.short}</span>
