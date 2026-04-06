@@ -371,128 +371,126 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </div>
             </div>
 
-            {/* ── All sections as accordions (only one open at a time) ── */}
-            <div className="mb-14 rounded-2xl border border-border/50 overflow-hidden">
-              <AccordionGroup>
-                {(openIndex, setOpenIndex) => {
-                  let idx = -1;
-                  const next = () => ++idx;
-                  return (
-                    <>
-                      {/* Content Sections */}
-                      {treatment.sections && treatment.sections.length > 0 && treatment.sections.map((section, i) => {
-                        const myIdx = next();
-                        return (
-                          <TreatmentFaq
-                            key={`section-${i}`}
-                            question={section.heading || `Seksjon ${i + 1}`}
-                            answer=""
-                            isLast={false}
-                            isOpen={openIndex === myIdx}
-                            onToggle={() => setOpenIndex(myIdx)}
-                            customContent={
-                              <div className="space-y-3">
-                                {(section.content || "").split("\n").map((line, j) => {
-                                  const trimmed = line.trim();
-                                  if (!trimmed) return null;
-                                  if (trimmed.startsWith("- ")) {
-                                    return (
-                                      <div key={j} className="flex items-start gap-3 pl-1">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
-                                        <p className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
-                                      </div>
-                                    );
-                                  }
-                                  return <p key={j} className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }} />;
-                                })}
-                              </div>
-                            }
-                          />
-                        );
+            {/* ── Content Sections — displayed openly, not in accordion ── */}
+            {treatment.sections && treatment.sections.length > 0 && (
+              <div className="mb-14 space-y-10">
+                {treatment.sections.map((section, i) => (
+                  <div key={`section-${i}`} className="rounded-2xl border border-border/50 bg-card p-6 md:p-8">
+                    <h3 className="text-lg md:text-xl font-normal text-foreground mb-4">{section.heading || `Seksjon ${i + 1}`}</h3>
+                    <div className="space-y-3">
+                      {(section.content || "").split("\n").map((line, j) => {
+                        const trimmed = line.trim();
+                        if (!trimmed) return null;
+                        if (trimmed.startsWith("- ")) {
+                          return (
+                            <div key={j} className="flex items-start gap-3 pl-1">
+                              <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
+                              <p className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
+                            </div>
+                          );
+                        }
+                        return <p key={j} className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }} />;
                       })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-                      {/* Linked Services */}
-                      {treatment.linkedServices && treatment.linkedServices.length > 0 && (() => {
-                        const myIdx = next();
-                        return (
-                          <TreatmentFaq
-                            question="Vårt tverrfaglige team"
-                            answer=""
-                            isLast={false}
-                            isOpen={openIndex === myIdx}
-                            onToggle={() => setOpenIndex(myIdx)}
-                            customContent={
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {treatment.linkedServices!.map((service) => (
-                                  <button key={service.label} onClick={() => navigate(service.path)} className="text-left p-4 rounded-xl border border-border bg-card hover:bg-secondary/40 transition-all group">
-                                    <h3 className="text-sm font-normal text-foreground mb-1 flex items-center gap-2">{service.label} <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" /></h3>
-                                    <p className="text-xs text-muted-foreground font-light leading-relaxed">{service.description}</p>
-                                  </button>
-                                ))}
-                              </div>
-                            }
-                          />
-                        );
-                      })()}
+            {/* ── Linked Services, Benefits, Process — in accordion ── */}
+            {((treatment.linkedServices && treatment.linkedServices.length > 0) ||
+              (treatment.benefits && treatment.benefits.length > 0) ||
+              (treatment.process && treatment.process.length > 0)) && (
+              <div className="mb-14 rounded-2xl border border-border/50 overflow-hidden">
+                <AccordionGroup>
+                  {(openIndex, setOpenIndex) => {
+                    let idx = -1;
+                    const next = () => ++idx;
+                    return (
+                      <>
+                        {/* Linked Services */}
+                        {treatment.linkedServices && treatment.linkedServices.length > 0 && (() => {
+                          const myIdx = next();
+                          return (
+                            <TreatmentFaq
+                              question="Vårt tverrfaglige team"
+                              answer=""
+                              isLast={false}
+                              isOpen={openIndex === myIdx}
+                              onToggle={() => setOpenIndex(myIdx)}
+                              customContent={
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                  {treatment.linkedServices!.map((service) => (
+                                    <button key={service.label} onClick={() => navigate(service.path)} className="text-left p-4 rounded-xl border border-border bg-card hover:bg-secondary/40 transition-all group">
+                                      <h3 className="text-sm font-normal text-foreground mb-1 flex items-center gap-2">{service.label} <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" /></h3>
+                                      <p className="text-xs text-muted-foreground font-light leading-relaxed">{service.description}</p>
+                                    </button>
+                                  ))}
+                                </div>
+                              }
+                            />
+                          );
+                        })()}
 
-                      {/* Benefits */}
-                      {treatment.benefits && treatment.benefits.length > 0 && (() => {
-                        const myIdx = next();
-                        return (
-                          <TreatmentFaq
-                            question={treatment.benefitsTitle || "Hvorfor velge oss"}
-                            answer=""
-                            isLast={false}
-                            isOpen={openIndex === myIdx}
-                            onToggle={() => setOpenIndex(myIdx)}
-                            customContent={
-                              <div className="space-y-3">
-                                {treatment.benefits!.map((benefit, i) => (
-                                  <div key={i} className="flex items-start gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5"><Check className="w-3 h-3 text-accent-foreground" /></div>
-                                    <p className="text-foreground/80 font-light text-[15px] leading-relaxed">{benefit}</p>
-                                  </div>
-                                ))}
-                              </div>
-                            }
-                          />
-                        );
-                      })()}
-
-                      {/* Treatment Process */}
-                      {treatment.process && treatment.process.length > 0 && (() => {
-                        const myIdx = next();
-                        return (
-                          <TreatmentFaq
-                            question="Slik foregår behandlingen"
-                            answer=""
-                            isLast={false}
-                            isOpen={openIndex === myIdx}
-                            onToggle={() => setOpenIndex(myIdx)}
-                            customContent={
-                              <div className="relative">
-                                <div className="absolute left-4 top-4 bottom-4 w-px bg-border" />
-                                <div className="space-y-0">
-                                  {treatment.process!.map((step, i) => (
-                                    <div key={i} className="flex gap-5 relative">
-                                      <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0 z-10">{i + 1}</div>
-                                      <div className="pb-6 pt-1 flex-1">
-                                        <h3 className="font-medium text-foreground mb-1 text-[15px]">{step.title}</h3>
-                                        <p className="text-sm text-muted-foreground font-light leading-relaxed">{step.description}</p>
-                                      </div>
+                        {/* Benefits */}
+                        {treatment.benefits && treatment.benefits.length > 0 && (() => {
+                          const myIdx = next();
+                          return (
+                            <TreatmentFaq
+                              question={treatment.benefitsTitle || "Hvorfor velge oss"}
+                              answer=""
+                              isLast={false}
+                              isOpen={openIndex === myIdx}
+                              onToggle={() => setOpenIndex(myIdx)}
+                              customContent={
+                                <div className="space-y-3">
+                                  {treatment.benefits!.map((benefit, i) => (
+                                    <div key={i} className="flex items-start gap-3">
+                                      <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5"><Check className="w-3 h-3 text-accent-foreground" /></div>
+                                      <p className="text-foreground/80 font-light text-[15px] leading-relaxed">{benefit}</p>
                                     </div>
                                   ))}
                                 </div>
-                              </div>
-                            }
-                          />
-                        );
-                      })()}
-                    </>
-                  );
-                }}
-              </AccordionGroup>
-            </div>
+                              }
+                            />
+                          );
+                        })()}
+
+                        {/* Treatment Process */}
+                        {treatment.process && treatment.process.length > 0 && (() => {
+                          const myIdx = next();
+                          return (
+                            <TreatmentFaq
+                              question="Slik foregår behandlingen"
+                              answer=""
+                              isLast={false}
+                              isOpen={openIndex === myIdx}
+                              onToggle={() => setOpenIndex(myIdx)}
+                              customContent={
+                                <div className="relative">
+                                  <div className="absolute left-4 top-4 bottom-4 w-px bg-border" />
+                                  <div className="space-y-0">
+                                    {treatment.process!.map((step, i) => (
+                                      <div key={i} className="flex gap-5 relative">
+                                        <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0 z-10">{i + 1}</div>
+                                        <div className="pb-6 pt-1 flex-1">
+                                          <h3 className="font-medium text-foreground mb-1 text-[15px]">{step.title}</h3>
+                                          <p className="text-sm text-muted-foreground font-light leading-relaxed">{step.description}</p>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              }
+                            />
+                          );
+                        })()}
+                      </>
+                    );
+                  }}
+                </AccordionGroup>
+              </div>
+            )}
 
           </div>
         </div>
