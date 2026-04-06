@@ -81,6 +81,43 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
   return (
     <section className="py-10 md:py-16 bg-secondary/30">
       <div className="container mx-auto px-4 md:px-8">
+  const displayPosts = maxPosts ? posts.slice(0, maxPosts) : posts;
+
+  if (compact) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {displayPosts.map((post) => (
+          <a
+            key={post.id}
+            href={post.permalink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative aspect-square rounded-sm overflow-hidden bg-secondary"
+          >
+            <img
+              src={post.image}
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
+            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
+                <PlatformIcon platform={post.platform} />
+              </div>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <p className="text-white text-xs line-clamp-2 font-light">{post.caption}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <section className="py-10 md:py-16 bg-secondary/30">
+      <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-end justify-between mb-8 max-w-6xl mx-auto">
           <div>
             <p className="text-xs text-muted-foreground mb-2 font-light">Følg oss</p>
@@ -105,7 +142,7 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-6xl mx-auto">
-          {posts.map((post) => (
+          {displayPosts.map((post) => (
             <a
               key={post.id}
               href={post.permalink}
