@@ -1,13 +1,16 @@
 import { useHomepage } from "@/hooks/useSanity";
-
-const staticBadges = [
-  "Trygg og moderne behandlingsteknologi",
-  "Behagelige lokaler",
-  "Tilgjengelig pris",
-];
+import { useTranslation } from "react-i18next";
 
 export const ValueBadges = () => {
   const { data: homepage } = useHomepage();
+  const { t } = useTranslation();
+
+  const staticBadges = [
+    t("valueBadges.tech"),
+    t("valueBadges.comfort"),
+    t("valueBadges.price"),
+  ];
+
   const badges = homepage?.valueBadges && homepage.valueBadges.length > 0
     ? homepage.valueBadges
     : staticBadges;

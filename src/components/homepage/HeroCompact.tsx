@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useHomepage } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 // Static fallback images
 import urologiImg from "@/assets/categories/urologi-real.jpg";
@@ -21,6 +22,7 @@ const staticCategories = [
 export const HeroCompact = () => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
+  const { t } = useTranslation();
 
   const serviceCategories =
     homepage?.categoryCards && homepage.categoryCards.length > 0
@@ -32,7 +34,7 @@ export const HeroCompact = () => {
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-6xl mx-auto mb-6 md:mb-8">
           <h2 className="text-xl md:text-2xl font-light text-foreground text-center">
-            Våre tjenester
+            {t("services.title")}
           </h2>
         </div>
         
@@ -50,7 +52,7 @@ export const HeroCompact = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
               className="group relative overflow-hidden rounded-sm aspect-[3/4] shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer text-left md:rounded-sm rounded-none"
-              aria-label={`Se behandlinger innen ${category.title}`}
+              aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
                 src={category.image}
