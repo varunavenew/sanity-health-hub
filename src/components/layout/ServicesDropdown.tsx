@@ -3,9 +3,11 @@ import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useServiceCategories } from '@/hooks/useServiceCategories';
+import { useTranslation } from 'react-i18next';
 
 export const ServicesDropdown = () => {
   const { categories: serviceCategories } = useServiceCategories();
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
@@ -65,7 +67,7 @@ export const ServicesDropdown = () => {
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        Tjenester
+        {t("nav.services")}
         <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
       </button>
 
@@ -83,7 +85,7 @@ export const ServicesDropdown = () => {
                 {/* Column 1 - Main Categories */}
                 <div className="w-[180px] p-4 border-r border-white/10">
                   <h3 className="text-white/50 text-xs uppercase tracking-wider mb-2 font-light px-2">
-                    Tjenester
+                    {t("nav.services")}
                   </h3>
                   <nav className="space-y-0">
                     {serviceCategories.map((category) => (
