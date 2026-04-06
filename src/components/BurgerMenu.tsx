@@ -3,30 +3,32 @@ import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
-
-const staticMenuItems = [
-  { label: 'Tjenester', path: '/tjenester' },
-  { label: 'Priser', path: '/priser' },
-  { label: 'Klinikker', path: '/klinikker/majorstuen' },
-  { label: 'Om oss', path: '/om-oss' },
-  { label: 'Forsikring', path: '/forsikring' },
-  { label: 'Aktuelt', path: '/aktuelt' },
-  { label: 'Kontakt', path: '/kontakt' },
-  { label: 'Spesialister', path: '/spesialister' },
-];
+import { useTranslation } from 'react-i18next';
 
 const BurgerMenu = () => {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { data: siteSettings } = useSiteSettings();
 
+  const staticMenuItems = [
+    { label: t('nav.services'), path: '/tjenester' },
+    { label: t('nav.pricing'), path: '/priser' },
+    { label: t('nav.clinics'), path: '/klinikker/majorstuen' },
+    { label: t('nav.about'), path: '/om-oss' },
+    { label: t('nav.insurance'), path: '/forsikring' },
+    { label: t('nav.news'), path: '/aktuelt' },
+    { label: t('nav.contact'), path: '/kontakt' },
+    { label: t('nav.specialists'), path: '/spesialister' },
+  ];
+
   const menuItems = siteSettings?.mainNavigation?.length
     ? siteSettings.mainNavigation.map((item: any) => ({ label: item.label, path: item.path }))
     : staticMenuItems;
 
-  const ctaButton = siteSettings?.ctaButton || { label: 'Bestill time', path: '/booking' };
+  const ctaButton = siteSettings?.ctaButton || { label: t('nav.bookAppointment'), path: '/booking' };
   const phone = siteSettings?.phone || '22 00 12 34';
   const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 
@@ -62,7 +64,7 @@ const BurgerMenu = () => {
         ref={buttonRef}
         className="p-2.5 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-white/90 transition-all border border-border/30 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        aria-label={isMenuOpen ? "Lukk meny" : "Åpne meny"}
+        aria-label={isMenuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
         aria-expanded={isMenuOpen}
         aria-haspopup="true"
       >
@@ -83,7 +85,7 @@ const BurgerMenu = () => {
             >
               <div className="p-5">
                 <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 font-medium">
-                  Meny
+                  {t("nav.menu")}
                 </h3>
                 <nav className="space-y-0.5">
                   {menuItems.map((item) => (
@@ -97,10 +99,10 @@ const BurgerMenu = () => {
                   ))}
                 </nav>
 
-                {/* Hurtig kontakt */}
+                {/* Quick contact */}
                 <div className="mt-5 pt-5 border-t border-border">
                   <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 font-medium">
-                    Hurtig kontakt
+                    {t("nav.quickContact")}
                   </h3>
                   <div className="space-y-2">
                     <a 
@@ -115,7 +117,7 @@ const BurgerMenu = () => {
                       className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Mail className="h-4 w-4" />
-                      Kontaktskjema
+                      {t("nav.contactForm")}
                     </button>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <MapPin className="h-4 w-4" />
@@ -146,14 +148,14 @@ const BurgerMenu = () => {
               className="md:hidden fixed inset-0 top-0 bg-white z-50 overflow-y-auto"
               role="dialog"
               aria-modal="true"
-              aria-label="Navigasjonsmeny"
+              aria-label={t("nav.navigationMenu")}
             >
               {/* Mobile Header */}
               <div className="flex items-center justify-end p-4 border-b border-border">
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
-                  aria-label="Lukk meny"
+                  aria-label={t("nav.closeMenu")}
                 >
                   <X className="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -162,7 +164,7 @@ const BurgerMenu = () => {
               {/* Mobile Content */}
               <div className="p-6">
                 <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-4 font-medium">
-                  Meny
+                  {t("nav.menu")}
                 </h3>
                 <nav className="space-y-1">
                   {menuItems.map((item) => (
@@ -176,10 +178,10 @@ const BurgerMenu = () => {
                   ))}
                 </nav>
 
-                {/* Hurtig kontakt */}
+                {/* Quick contact */}
                 <div className="mt-8 pt-6 border-t border-border">
                   <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-4 font-medium">
-                    Hurtig kontakt
+                    {t("nav.quickContact")}
                   </h3>
                   <div className="space-y-3">
                     <a 
@@ -194,7 +196,7 @@ const BurgerMenu = () => {
                       className="flex items-center gap-3 text-base text-foreground/70 hover:text-foreground transition-colors"
                     >
                       <Mail className="h-5 w-5" />
-                      Kontaktskjema
+                      {t("nav.contactForm")}
                     </button>
                     <div className="flex items-center gap-3 text-base text-foreground/70">
                       <MapPin className="h-5 w-5" />
