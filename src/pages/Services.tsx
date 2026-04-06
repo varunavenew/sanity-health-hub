@@ -207,7 +207,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       <section className="bg-background pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto">
-            <p className="text-sm text-muted-foreground font-light mb-6">Fagområder</p>
+            <p className="text-sm text-muted-foreground font-light mb-6">Utvalgte tjenester</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {featuredServices.map((item: any, idx: number) => (
                 <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] rounded-sm overflow-hidden">
