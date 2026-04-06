@@ -218,6 +218,7 @@ const priceCategories: PriceCategory[] = [
           { name: "Konsultasjon ortoped fot/ankel", price: "1.800,-", duration: "30 min" },
           { name: "Konsultasjon ortoped hånd", price: "1.800,-", duration: "30 min" },
           { name: "Konsultasjon ortoped albue", price: "1.800,-", duration: "30 min" },
+          { name: "Second opinion konsultasjon", price: "fra 2.800,-", duration: "" },
         ]
       },
       {
