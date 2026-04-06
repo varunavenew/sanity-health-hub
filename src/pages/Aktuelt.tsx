@@ -174,7 +174,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title="Aktuelt – Nyheter og fagartikler"
-        description="Hold deg oppdatert på det siste innen medisin, teknologi og nyheter fra CMedical. Fagartikler, nyheter og innsikt fra våre spesialister."
+        description="Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical. Fagartikler, nyheter og innsikt fra våre spesialister."
         canonical="/aktuelt"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -188,7 +188,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             <p className="text-white/50 text-xs mb-2">Nyheter & Fagartikler</p>
             <h1 className="text-3xl md:text-4xl font-light text-white mb-3">Aktuelt</h1>
             <p className="text-white/60 font-light text-sm">
-              Hold deg oppdatert på det siste innen medisin, teknologi og nyheter fra CMedical.
+              Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical.
             </p>
           </div>
         </div>
