@@ -550,6 +550,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
       {/* Price List Section */}
       <section id="prisliste" className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
+          {/* Pricing disclaimer */}
+          <div className="max-w-5xl mx-auto mb-6">
+            <p className="text-sm text-muted-foreground font-light">
+              Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.
+            </p>
+          </div>
           {/* Categories - Direct content */}
           <div className="max-w-5xl mx-auto space-y-4">
             {(() => {
