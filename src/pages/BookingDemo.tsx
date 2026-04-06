@@ -577,7 +577,12 @@ const BookingDemo = () => {
               </h2>
               
               <div className="space-y-3">
-                {[...bookingServices].sort((a, b) => a.label.localeCompare(b.label, 'nb')).map((category) => {
+                {[...bookingServices].sort((a, b) => {
+                  // "Graviditet - fostermedisiner" always first
+                  if (a.id === 'fostermedisiner') return -1;
+                  if (b.id === 'fostermedisiner') return 1;
+                  return a.label.localeCompare(b.label, 'nb');
+                }).map((category) => {
                   const availableClinicsForCategory = getClinicsForService(category.id);
                   
                   return (
