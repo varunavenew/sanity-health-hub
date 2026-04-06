@@ -2,17 +2,19 @@ import { MapPin, Phone, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useClinics } from "@/hooks/useSanity";
 import { clinics as staticClinics } from "@/data/clinicServices";
+import { useTranslation } from "react-i18next";
 
 export const ClinicGrid = () => {
   const { data: sanityClinics } = useClinics();
   const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
+  const { t } = useTranslation();
 
   return (
     <section className="bg-muted/50 py-10 md:py-14" aria-labelledby="clinics-heading">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto">
           <h2 id="clinics-heading" className="text-lg font-normal text-foreground mb-6">
-            Våre klinikker
+            {t("clinicGrid.title")}
           </h2>
 
           <div className="divide-y divide-border/60">
