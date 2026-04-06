@@ -40,7 +40,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/1b6782dd6bb68860c34de07a6522605faa161d22-4318x2879.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2026-03-05",
-    category: "Fagartiklar",
+    category: "Fagartikler",
   },
   {
     slug: "nar-kroppen-ikke-fungerer-etter-fodsel-og-ingen-lytter",
@@ -50,7 +50,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/d362bd71e8041ad17a85c756ec9bc7c6d638b817-5464x8192.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2026-02-26",
-    category: "Fagartiklar",
+    category: "Fagartikler",
   },
   {
     slug: "minis-historie-gjennom-mutterns-oyne",
@@ -176,6 +176,6 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/472a177365d6d13a8a884152e437da2b738fe92b-8192x5464.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-08-10",
-    category: "Fagartiklar",
+    category: "Fagartikler",
   },
 ];
