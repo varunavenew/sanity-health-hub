@@ -199,6 +199,8 @@ const priceCategories: PriceCategory[] = [
           { name: "Blodprøver tatt hos CMedical", price: "250,-", duration: "" },
           { name: "Henvisning offentlig sykehus", price: "900,-", duration: "" },
           { name: "Administrasjonsgebyr", price: "300,-", duration: "" },
+          { name: "Ikke møtt til fertilitetsutredning (avbest. min 24t før)", price: "2.850,-", duration: "" },
+          { name: "Ikke møtt til ultralydkontroll/sædanalyse (avbest. min 24t før)", price: "1.950,-", duration: "" },
         ]
       },
     ]
