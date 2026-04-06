@@ -66,23 +66,6 @@ export const clinics: Clinic[] = [
     },
   },
   { 
-    id: "ski", 
-    slug: "ski",
-    label: "Ski", 
-    address: "Ski",
-    phone: "22 60 00 50",
-    hours: "Man–Fre 08:00–16:00",
-    bookingSystem: "metodika",
-    mapsUrl: "https://maps.google.com/?q=Ski+Norway",
-    services: ["gynekolog"],
-    detail: {
-      description: "CMedical Ski tilbyr gynekologiske tjenester i Ski sentrum, sør for Oslo. Et praktisk tilbud for pasienter i Follo-regionen.",
-      parking: "Parkering tilgjengelig i nærheten.",
-      publicTransport: "Ski stasjon (tog fra Oslo S) – kort gangavstand.",
-      accessibility: "Tilrettelagt for rullestolbrukere.",
-    },
-  },
-  { 
     id: "moss", 
     slug: "moss",
     label: "Moss", 
