@@ -488,7 +488,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               {category.services.map((service, index) => (
                 <div key={index} className="border-b border-border">
                   <button onClick={() => handleServiceClick(service)} className="w-full flex items-center justify-between py-5 text-left transition-colors group">
-                    <span className="text-base md:text-lg font-normal text-foreground group-hover:text-brand-dark transition-colors">{service.name}</span>
+                    <div className="flex items-center gap-3">
+                      {(() => { const Icon = getServiceIcon(service.name); return <Icon className="w-5 h-5 text-muted-foreground group-hover:text-brand-dark transition-colors flex-shrink-0" strokeWidth={1.5} />; })()}
+                      <span className="text-base md:text-lg font-normal text-foreground group-hover:text-brand-dark transition-colors">{service.name}</span>
+                    </div>
                     {service.subServices && service.subServices.length > 0 ? (
                       expandedService === service.name ? <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" /> : <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                     ) : (
