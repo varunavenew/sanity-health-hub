@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Phone, Clock, Shield, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { clinics } from "@/data/clinicServices";
+import { useTranslation } from "react-i18next";
 
 const callableClinics = clinics.map(c => ({
   label: c.label,
@@ -11,6 +12,7 @@ const callableClinics = clinics.map(c => ({
 
 export const BookingCTA = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [showClinicPicker, setShowClinicPicker] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -32,16 +34,16 @@ export const BookingCTA = () => {
           <div className="flex justify-center mb-6">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm text-white/80">
               <Calendar className="w-4 h-4" />
-              Rask og enkel booking
+              {t("booking.badge")}
             </span>
           </div>
 
           {/* Header */}
           <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
-            Bestill time hos spesialist
+            {t("booking.title")}
           </h2>
           <p className="text-white/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
-            Velg tjeneste, klinikk og behandler – alt i én enkel booking.
+            {t("booking.subtitle")}
           </p>
 
           {/* CTA Buttons */}
@@ -52,11 +54,11 @@ export const BookingCTA = () => {
               onClick={() => navigate("/booking")}
             >
               <Calendar className="mr-2 w-5 h-5" />
-              Bestill time nå
+              {t("booking.bookNow")}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
 
-            {/* Ring oss with clinic picker */}
+            {/* Call us with clinic picker */}
             <div className="relative" ref={dropdownRef}>
               <Button
                 size="lg"
@@ -65,13 +67,13 @@ export const BookingCTA = () => {
                 onClick={() => setShowClinicPicker(!showClinicPicker)}
               >
                 <Phone className="mr-2 w-5 h-5" />
-                Ring oss
+                {t("booking.callUs")}
                 <ChevronDown className={`ml-2 w-4 h-4 transition-transform ${showClinicPicker ? 'rotate-180' : ''}`} />
               </Button>
 
               {showClinicPicker && (
                 <div className="absolute top-full mt-2 left-0 right-0 bg-white rounded-lg shadow-xl border border-border overflow-hidden z-50 min-w-[240px]">
-                  <p className="px-4 pt-3 pb-2 text-xs text-muted-foreground font-light">Velg klinikk</p>
+                  <p className="px-4 pt-3 pb-2 text-xs text-muted-foreground font-light">{t("booking.selectClinic")}</p>
                   {callableClinics.map((clinic) => (
                     <a
                       key={clinic.label}
@@ -87,7 +89,7 @@ export const BookingCTA = () => {
                       onClick={() => { setShowClinicPicker(false); navigate("/kontakt"); }}
                       className="w-full px-4 py-3 text-sm text-brand-dark hover:bg-secondary transition-colors text-left font-light"
                     >
-                      Gå til kontaktsiden →
+                      {t("booking.goToContact")}
                     </button>
                   </div>
                 </div>
@@ -99,11 +101,11 @@ export const BookingCTA = () => {
           <div className="flex flex-wrap items-center justify-center gap-8">
             <span className="flex items-center gap-2 text-sm text-white/70">
               <Clock className="w-4 h-4" aria-hidden="true" />
-              Ledig time innen 1–3 dager
+              {t("booking.availableTime")}
             </span>
             <span className="flex items-center gap-2 text-sm text-white/70">
               <Shield className="w-4 h-4" aria-hidden="true" />
-              Ingen henvisning nødvendig
+              {t("booking.noReferral")}
             </span>
           </div>
         </div>

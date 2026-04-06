@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { useTranslation } from "react-i18next";
 
 export const SpecialistsSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { sorted: specialists } = useSpecialistsData();
+  const { t } = useTranslation();
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -24,12 +26,12 @@ export const SpecialistsSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-white/70 font-light mb-3">Våre eksperter</p>
+            <p className="text-sm text-white/70 font-light mb-3">{t("specialists.subtitle")}</p>
             <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
-              Møt våre spesialister
+              {t("specialists.title")}
             </h2>
             <p className="text-white/70 font-light">
-              Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
+              {t("specialists.description")}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -38,14 +40,14 @@ export const SpecialistsSection = () => {
               <button 
                 onClick={() => scroll('left')}
                 className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
-                aria-label="Scroll spesialister til venstre"
+                aria-label={t("specialists.scrollLeft")}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => scroll('right')}
                 className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
-                aria-label="Scroll spesialister til høyre"
+                aria-label={t("specialists.scrollRight")}
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -55,7 +57,7 @@ export const SpecialistsSection = () => {
               asChild
             >
               <Link to="/spesialister">
-                Se alle {specialists.length} spesialister
+                {t("specialists.seeAll", { count: specialists.length })}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -86,7 +88,6 @@ export const SpecialistsSection = () => {
                 alt={specialist.name}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              {/* Gradient overlays for text readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
@@ -119,15 +120,15 @@ export const SpecialistsSection = () => {
             <div className="w-16 h-16 rounded-full bg-white/15 flex items-center justify-center mb-4">
               <ArrowRight className="w-6 h-6 text-white" />
             </div>
-            <p className="text-white font-normal mb-1">Se alle</p>
-            <p className="text-white/60 text-sm font-light">{specialists.length} spesialister</p>
+            <p className="text-white font-normal mb-1">{t("specialists.seeAllShort")}</p>
+            <p className="text-white/60 text-sm font-light">{t("specialists.count", { count: specialists.length })}</p>
           </div>
         </div>
       </div>
 
       {/* Mobile scroll hint */}
       <div className="md:hidden flex justify-center mt-4 gap-1">
-        <span className="text-xs text-white/60">Sveip for å se flere →</span>
+        <span className="text-xs text-white/60">{t("specialists.swipeHint")}</span>
       </div>
     </section>
   );

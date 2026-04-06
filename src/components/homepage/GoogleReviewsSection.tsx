@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
 import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,6 +33,7 @@ const SourceBadge = ({ source }: { source: 'google' | 'legelisten' }) => (
 
 const ReviewCard = ({ review }: { review: GoogleReview }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useTranslation();
   const maxLength = 120;
   const isLongText = review.text.length > maxLength;
   const displayText = isExpanded ? review.text : review.text.slice(0, maxLength);
@@ -39,30 +41,22 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 
   return (
     <div className="group relative flex-shrink-0 w-[380px] p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300">
-      {/* Quote icon */}
       <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
-      
-      {/* Stars */}
       <div className="mb-4">
         <PartialStars rating={review.rating || 5} />
       </div>
-
-      {/* Review text */}
       <p className="text-brand-dark font-light leading-relaxed mb-2 text-base">
         "{displayText}{isLongText && !isExpanded && '...'}"
       </p>
-      
       {isLongText && (
         <button 
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-sm text-brand-dark/60 hover:text-brand-dark underline mb-4"
         >
-          {isExpanded ? 'Vis mindre' : 'Les mer'}
+          {isExpanded ? t("reviews.readLess") : t("reviews.readMore")}
         </button>
       )}
       {!isLongText && <div className="mb-4" />}
-
-      {/* Author */}
       <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
         <div>
           <p className={`text-brand-dark ${isAnonymous ? 'italic text-brand-dark/60 font-light' : 'font-normal'} flex items-center gap-2`}>
@@ -79,6 +73,7 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { data: sanityReviews } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
   const googleReviewsList = sanityReviews && sanityReviews.length > 0
@@ -86,54 +81,39 @@ export const GoogleReviewsSection = () => {
     : staticReviews;
   const averageRating = settings?.googleAverageRating ?? googleRatingData.averageRating;
   const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
-  const heading = settings?.heading ?? "Trygghet, omsorg og helsehjelp i livets ulike faser";
-  const subheading = settings?.subheading ?? "Våre pasienter forteller";
-  const ctaTitle = settings?.ctaTitle ?? "Over 150 000 fornøyde pasienter siden 2002";
-  const ctaSubtitle = settings?.ctaSubtitle ?? "Bli en del av vår historie";
+  const heading = settings?.heading ?? t("reviews.heading");
+  const subheading = settings?.subheading ?? t("reviews.subheading");
+  const ctaTitle = settings?.ctaTitle ?? t("reviews.ctaTitle");
+  const ctaSubtitle = settings?.ctaSubtitle ?? t("reviews.ctaSubtitle");
 
-  // Duplicate reviews for seamless infinite scroll
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
 
   return (
     <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16 relative">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-brand-dark/60 font-light mb-3">
-              {subheading}
-            </p>
-            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
-              {heading}
-            </h2>
+            <p className="text-sm text-brand-dark/60 font-light mb-3">{subheading}</p>
+            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{heading}</h2>
           </div>
-
-          {/* Rating cards – Google & Legelisten */}
           <div className="flex items-center gap-4">
-            {/* Google Reviews */}
             <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
               <GoogleIcon />
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-2xl font-normal text-brand-dark">{averageRating}</span>
-                  <div className="flex">
-                    <PartialStars rating={averageRating} />
-                  </div>
+                  <div className="flex"><PartialStars rating={averageRating} /></div>
                 </div>
               </div>
             </div>
-
-            {/* Legelisten */}
             <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
               <LegelistenIcon />
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
-                  <div className="flex">
-                    <PartialStars rating={legelistenRating} />
-                  </div>
+                  <div className="flex"><PartialStars rating={legelistenRating} /></div>
                 </div>
               </div>
             </div>
@@ -141,11 +121,9 @@ export const GoogleReviewsSection = () => {
         </div>
       </div>
 
-      {/* Auto-scrolling Reviews */}
       <div className="relative mt-8">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
-        
         <div className="flex gap-6 animate-scroll-left hover:[animation-play-state:paused]">
           {duplicatedReviews.map((review, index) => (
             <ReviewCard key={`${review.id}-${index}`} review={review} />
@@ -153,23 +131,18 @@ export const GoogleReviewsSection = () => {
         </div>
       </div>
 
-      {/* Bottom CTA */}
       <div className="container mx-auto px-6 md:px-16 mt-16 text-center">
         <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-sm bg-brand-dark">
           <div className="text-center sm:text-left">
-            <p className="text-white font-normal mb-1">
-              {ctaTitle}
-            </p>
-            <p className="text-white/70 text-sm font-light">
-              {ctaSubtitle}
-            </p>
+            <p className="text-white font-normal mb-1">{ctaTitle}</p>
+            <p className="text-white/70 text-sm font-light">{ctaSubtitle}</p>
           </div>
           <Button 
             size="lg" 
             className="rounded-full px-8 bg-white text-brand-dark hover:bg-white/90 flex-shrink-0"
             onClick={() => navigate('/booking')}
           >
-            Bestill time
+            {t("nav.bookAppointment")}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
