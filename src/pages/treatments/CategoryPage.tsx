@@ -2,7 +2,19 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
-import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin } from "lucide-react";
+import {
+  ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin,
+  Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
+  Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
+  Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
+  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { useTreatmentCategory } from "@/hooks/useSanity";
+import { PageSEO } from "@/components/seo/PageSEO";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
