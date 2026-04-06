@@ -225,51 +225,55 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         </div>
       </section>
 
-      {/* Articles */}
-      <section className="bg-background py-10 md:py-16">
-        <div className="container mx-auto px-6 md:px-16">
-          {/* Featured hero layout */}
-          {pinnedArticles.length > 0 && (
-            <div className="mb-16">
-              <div className="grid md:grid-cols-2 gap-4">
-                {pinnedArticles.slice(0, 4).map((article) => (
-                  <FeaturedCard key={article.slug} article={article} />
-                ))}
-              </div>
-            </div>
-          )}
+      {/* Show SoMe feed when "Sosiale medier" filter is active */}
+      {activeFilter === "Sosiale medier" ? (
+        <SoMeFeed />
+      ) : (
+        <>
+          {/* Articles */}
+          <section className="bg-background py-10 md:py-16">
+            <div className="container mx-auto px-6 md:px-16">
+              {/* Featured hero layout */}
+              {pinnedArticles.length > 0 && (
+                <div className="mb-16">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {pinnedArticles.slice(0, 4).map((article) => (
+                      <FeaturedCard key={article.slug} article={article} />
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Rest of articles */}
-          {visibleRest.length > 0 && (
-            <>
-              <h2 className="text-lg font-medium text-foreground mb-6">Flere artikler</h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                {visibleRest.map((article) => (
-                  <ArticleCard key={article.slug} article={article} />
-                ))}
-              </div>
-            </>
-          )}
+              {/* Rest of articles */}
+              {visibleRest.length > 0 && (
+                <>
+                  <h2 className="text-lg font-medium text-foreground mb-6">Flere artikler</h2>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {visibleRest.map((article) => (
+                      <ArticleCard key={article.slug} article={article} />
+                    ))}
+                  </div>
+                </>
+              )}
 
-          {/* Infinite scroll trigger */}
-          {hasMore && (
-            <div ref={loaderRef} className="flex justify-center py-10">
-              {isLoading && (
-                <Loader2 className="w-6 h-6 text-muted-foreground animate-spin" />
+              {/* Infinite scroll trigger */}
+              {hasMore && (
+                <div ref={loaderRef} className="flex justify-center py-10">
+                  {isLoading && (
+                    <Loader2 className="w-6 h-6 text-muted-foreground animate-spin" />
+                  )}
+                </div>
+              )}
+
+              {filteredArticles.length === 0 && (
+                <div className="text-center py-16">
+                  <p className="text-muted-foreground font-light">Ingen artikler funnet for dette filteret.</p>
+                </div>
               )}
             </div>
-          )}
-
-          {filteredArticles.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground font-light">Ingen artikler funnet for dette filteret.</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* SoMe Feed */}
-      <SoMeFeed />
+          </section>
+        </>
+      )}
     </PageLayout>
   );
 };

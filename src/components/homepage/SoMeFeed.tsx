@@ -18,6 +18,8 @@ const fallbackPosts = [
   { id: "4", platform: "instagram" as const, image: socialPost4, caption: "Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen! 🩺", permalink: "https://www.instagram.com/cmedical.no" },
   { id: "5", platform: "instagram" as const, image: socialPost5, caption: "CMedical deltar på Nordens største konferanse for reproduksjonsmedisin.", permalink: "https://www.instagram.com/cmedical.no" },
   { id: "6", platform: "instagram" as const, image: socialPost6, caption: "Trygge omgivelser for deg og din familie. Velkommen til våre nyrenoverte lokaler ✨", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "7", platform: "instagram" as const, image: socialPost1, caption: "En ny dag, en ny mulighet til å hjelpe familier på veien mot drømmen 🌟", permalink: "https://www.instagram.com/cmedical.no" },
+  { id: "8", platform: "instagram" as const, image: socialPost3, caption: "Vi er her for deg – uansett hvor du er i livet. Bestill en uforpliktende samtale i dag 💙", permalink: "https://www.instagram.com/cmedical.no" },
 ];
 
 const PlatformIcon = ({ platform }: { platform: string }) => {
@@ -97,7 +99,7 @@ export const SoMeFeed = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-6xl mx-auto">
           {posts.map((post) => (
             <a
               key={post.id}
