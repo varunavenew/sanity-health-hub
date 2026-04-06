@@ -78,9 +78,6 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
     social?.twitter && { platform: "X", url: social.twitter, icon: Twitter },
   ].filter(Boolean) as { platform: string; url: string; icon: React.ElementType }[];
 
-  return (
-    <section className="py-10 md:py-16 bg-secondary/30">
-      <div className="container mx-auto px-4 md:px-8">
   const displayPosts = maxPosts ? posts.slice(0, maxPosts) : posts;
 
   if (compact) {
@@ -94,12 +91,7 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
             rel="noopener noreferrer"
             className="group relative aspect-square rounded-sm overflow-hidden bg-secondary"
           >
-            <img
-              src={post.image}
-              alt=""
-              loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+            <img src={post.image} alt="" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
             <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
@@ -121,41 +113,21 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
         <div className="flex items-end justify-between mb-8 max-w-6xl mx-auto">
           <div>
             <p className="text-xs text-muted-foreground mb-2 font-light">Følg oss</p>
-            <h2 className="text-2xl md:text-3xl font-light text-foreground">
-              Fra våre sosiale medier
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground">Fra våre sosiale medier</h2>
           </div>
           <div className="flex items-center gap-3">
             {socialLinks.map(({ platform, url, icon: Icon }) => (
-              <a
-                key={platform}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <a key={platform} href={url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
                 <Icon className="w-4 h-4" />
                 <span className="hidden md:inline">{platform}</span>
               </a>
             ))}
           </div>
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-6xl mx-auto">
           {displayPosts.map((post) => (
-            <a
-              key={post.id}
-              href={post.permalink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative aspect-square rounded-sm overflow-hidden bg-secondary"
-            >
-              <img
-                src={post.image}
-                alt=""
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
+            <a key={post.id} href={post.permalink} target="_blank" rel="noopener noreferrer" className="group relative aspect-square rounded-sm overflow-hidden bg-secondary">
+              <img src={post.image} alt="" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
               <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
