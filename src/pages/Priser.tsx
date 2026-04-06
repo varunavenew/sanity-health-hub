@@ -261,9 +261,17 @@ const priceCategories: PriceCategory[] = [
         label: 'Gastrokirurgi',
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
-          { name: "Digital konsultasjon fedme vurdering", price: "0,-", duration: "45 min" },
-          { name: "Endetarmsplager", price: "2.100,-", duration: "30 min" },
-          { name: "Mage / tarm spesialist", price: "2.100,-", duration: "30 min" },
+          { name: "Førstegangskonsultasjon fedme vurdering", price: "Gratis", duration: "45 min" },
+          { name: "Konsultasjon 30 min (kun samtale)", price: "2.100,-", duration: "30 min" },
+          { name: "Anorektoskopi inkl. konsultasjon", price: "fra 4.700,-", duration: "" },
+          { name: "Tillegg strikkbehandling (endetarmsundersøkelse)", price: "1.500,-", duration: "" },
+          { name: "Mariskfjerning i lokal", price: "fra 7.200,-", duration: "" },
+          { name: "Botox for analfissur", price: "5.200,-", duration: "" },
+          { name: "Småkirurgi i lokal (fettkul, føflekk)", price: "fra 5.000,-", duration: "" },
+          { name: "Inngrodd tånegl", price: "fra 5.500,-", duration: "" },
+          { name: "Hemorideoperasjon", price: "fra 28.000,-", duration: "" },
+          { name: "Lyskebrokk kikkhullsoperasjon", price: "fra 40.000,-", duration: "" },
+          { name: "Navlebrokk kikkhullsoperasjon", price: "fra 46.860,-", duration: "" },
         ]
       },
     ]
