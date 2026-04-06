@@ -272,6 +272,22 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               )}
             </div>
           </section>
+
+          {/* SoMe preview section - always visible on non-SoMe filters */}
+          <section className="bg-secondary/30 border-t border-border">
+            <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-medium text-foreground">Følg oss på sosiale medier</h2>
+                <button
+                  onClick={() => setActiveFilter("Sosiale medier")}
+                  className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
+                >
+                  Se alle <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              <SoMeFeed maxPosts={4} compact />
+            </div>
+          </section>
         </>
       )}
     </PageLayout>
