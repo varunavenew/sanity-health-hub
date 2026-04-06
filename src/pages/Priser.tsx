@@ -490,7 +490,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
     : staticFaqs;
   const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
   const pageTitle = sanityPricing?.title || "Prisliste";
-  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter fagområde";
+  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter tjeneste";
 
   useEffect(() => {
     document.title = "Priser | CMedical";
@@ -516,7 +516,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={sanityPricing?.seo?.metaTitle || "Priser – Oversiktlig prisliste sortert etter fagområde"}
+        title={sanityPricing?.seo?.metaTitle || "Priser – Oversiktlig prisliste sortert etter tjeneste"}
         description={sanityPricing?.seo?.metaDescription || "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising."}
         canonical="/priser"
         breadcrumbs={[

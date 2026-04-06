@@ -83,7 +83,7 @@ export const ServicesDropdown = () => {
                 {/* Column 1 - Main Categories */}
                 <div className="w-[180px] p-4 border-r border-white/10">
                   <h3 className="text-white/50 text-xs uppercase tracking-wider mb-2 font-light px-2">
-                    Fagområder
+                    Tjenester
                   </h3>
                   <nav className="space-y-0">
                     {serviceCategories.map((category) => (

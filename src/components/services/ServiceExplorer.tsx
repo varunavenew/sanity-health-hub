@@ -22,7 +22,7 @@ export const ServiceExplorer = () => {
         {/* Column 1 - Categories */}
         <div className="lg:w-[220px] p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-white/10">
           <h3 className="text-white/50 text-[11px] uppercase tracking-wider mb-4 font-light">
-            Fagområder
+            Tjenester
           </h3>
           <nav className="space-y-0.5">
             {serviceCategories.map((category) => (

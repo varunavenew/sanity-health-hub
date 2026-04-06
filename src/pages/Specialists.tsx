@@ -15,7 +15,7 @@ const categoryLabels: Record<string, string> = {
   fertilitet: "Fertilitet",
   urologi: "Urologi",
   ortopedi: "Ortopedi",
-  annet: "Flere fagområder",
+  annet: "Flere tjenester",
 };
 
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
