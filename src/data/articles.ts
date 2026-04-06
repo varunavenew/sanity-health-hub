@@ -14,7 +14,7 @@ export const filterCategories = [
   "Alle",
   "Pasienthistorier",
   "Oss i media",
-  "Fagartiklar",
+  "Fagartikler",
   "Nyheter",
   "Sosiale medier",
 ];
