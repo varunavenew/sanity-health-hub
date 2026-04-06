@@ -80,7 +80,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/11f45ca6a82256cd2bfc61fc0d267d302975a09f-3519x4000.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2026-01-28",
-    category: "Teknologi",
+    category: "Nyheter",
     pinned: true,
     featured: true,
   },

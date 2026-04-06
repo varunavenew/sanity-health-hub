@@ -564,7 +564,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               <div>
                 <h3 className="text-lg font-normal text-foreground mb-3">Forsikring</h3>
                 <p className="text-foreground/80 font-light leading-relaxed mb-3">
-                  <strong>Vi har forsikringsavtale med:</strong> EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg.
+                  <strong>Vi har forsikringsavtale med:</strong> EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse.
                 </p>
                 <p className="text-foreground/80 font-light leading-relaxed mb-3">
                   <strong>Hvordan går jeg frem?</strong> Et typisk behandlingsløp er at du tar kontakt med lege (fastlege eller annen privat lege/legevakt) og får en henvisning til utredning/behandlingen som er nødvendig for deg. Henvisningen sender du til forsikringsselskapet ditt og du kan da be om å få time på CMedical. Forsikringsselskapet tar kontakt med oss og vi ringer deg for å sette opp en time.

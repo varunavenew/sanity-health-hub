@@ -69,7 +69,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               <div className="bg-brand-dark rounded-2xl p-8 text-white">
                 <h3 className="text-2xl font-medium mb-4">Bestill time raskt</h3>
                 <p className="text-white/70 mb-6 leading-relaxed">
-                  Få time innen 1-3 dager. Ingen henvisning fra fastlege er nødvendig.
+                  Få time innen 1-3 dager. Ingen henvisning fra allmennlege er nødvendig.
                 </p>
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center gap-3 text-white/80">
@@ -137,7 +137,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               { title: "Erfarne spesialister", desc: "Gynekologer med lang erfaring og oppdatert kunnskap" },
               { title: "Moderne utstyr", desc: "Nyeste innen ultralyd og diagnostisk teknologi" },
               { title: "Diskret og trygt", desc: "Din privatliv og komfort er vår prioritet" },
-              { title: "Ingen henvisning", desc: "Bestill time direkte uten fastlege" }
+              { title: "Ingen henvisning", desc: "Bestill time direkte uten allmennlege" }
             ].map((item, idx) => (
               <div key={idx} className="bg-card p-6 rounded-xl border border-border/50">
                 <h3 className="text-lg font-medium mb-2">{item.title}</h3>
@@ -157,7 +157,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
             </div>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-left font-medium">Trenger jeg henvisning fra fastlege?</AccordionTrigger>
+                <AccordionTrigger className="text-left font-medium">Trenger jeg henvisning fra allmennlege?</AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">
                   Nei, du kan bestille time direkte hos oss uten henvisning. Dette gjør det raskere og enklere å få hjelp.
                 </AccordionContent>

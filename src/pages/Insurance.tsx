@@ -11,11 +11,11 @@ interface PageProps { isChatOpen: boolean }
 
 const staticCompanies = [
   { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" },
-  { name: "Gjensidige" }, { name: "If" }, { name: "Storebrand" }, { name: "Tryg" },
+  { name: "Gjensidige" }, { name: "Storebrand" }, { name: "Tryg" }, { name: "Vertikal Helse" },
 ];
 
 const staticSteps = [
-  { num: "1", title: "Få henvisning", desc: "Fra fastlege eller spesialist" },
+  { num: "1", title: "Få henvisning", desc: "Fra allmennlege eller spesialist" },
   { num: "2", title: "Send til forsikring", desc: "For godkjenning av dekning" },
   { num: "3", title: "Velg CMedical", desc: "Be om behandling hos oss" },
   { num: "4", title: "Bestill time", desc: "Vi fakturerer forsikringen direkte" },
@@ -84,6 +84,16 @@ const Insurance = ({ isChatOpen }: PageProps) => {
             <p className="mt-10 text-center text-sm text-muted-foreground font-light">
               Finner du ikke ditt selskap? <Link to="/kontakt" className="underline hover:no-underline">Kontakt oss</Link> – vi hjelper deg.
             </p>
+
+            <div className="mt-8 p-6 bg-muted/50 rounded-xl border border-border text-center">
+              <h3 className="font-normal text-foreground mb-2">Har du spørsmål om behandlingsforsikring?</h3>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                Ta kontakt med en av våre klinikker, eller ditt forsikringsselskap.
+              </p>
+              <p className="text-sm text-muted-foreground font-light mt-2">
+                B2B-henvendelser: <a href="mailto:post@cmedical.no" className="underline hover:no-underline">post@cmedical.no</a>
+              </p>
+            </div>
           </div>
         </div>
       </section>
