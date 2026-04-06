@@ -307,7 +307,7 @@ export const specialists: Specialist[] = [
     slug: "henrik-michelsen-wahl",
     bio: "Henrik Michelsen-Wahl er gynekolog med bred erfaring og et sterkt engasjement for kvinnehelse. Han fullførte sin spesialisering i gynekologi etter turnustjeneste ved sykehuset Elverum/Hamar i 2010, og har siden jobbet ved Elverum sykehus, Bærum sykehus og Ullevål sykehus.\n\nHenrik har særlig kompetanse innen gynekologisk kirurgi og behandling av endometriose. Ved siden av sitt arbeid hos CMedical er han overlege ved Ullevål sykehus, og han er aktiv i flere faglige fora: som medlem av Nasjonal kompetansetjeneste for endometriose og adenomyose (NKTEA), leder for Oslo gynekologiske forening (OGF) og styremedlem i den nordiske foreningen for endoskopisk gynekologisk kirurgi (NSGE).\n\nHos oss møter du en lege som tar imot alle generelle gynekologiske problemstillinger, inkludert menstruasjonssmerter og blødningsforstyrrelser. Henrik er opptatt av å lytte, skape åpen dialog og finne de løsningene som både føles riktige for pasienten og som er medisinsk trygge.\n\nHan snakker flytende norsk, engelsk og tysk – noe mange pasienter opplever som en ekstra trygghet.",
     languages: ["Norsk", "Engelsk", "Tysk"],
-    clinics: ["Ski"]
+    clinics: ["Majorstuen"]
   },
   {
     name: "Ida Waagsbø Bjørntvedt",
@@ -429,7 +429,7 @@ export const specialists: Specialist[] = [
     category: "annet",
     slug: "kjersti-margrete-finsrud",
     bio: "Kjersti er sykepleier med videreutdanning som helsesykepleier, og spesialist i sexologisk rådgivning gjennom NACS. Hun tar imot enkeltpersoner og par i alle aldre. Hun har kompetanse innen vulvasmerter, vaginisme, seksuell identitet, erektil dysfunksjon og hormonelle endringer. Hun tilbyr også prevensjonsveiledning og er godkjent vaksinatør.",
-    clinics: ["Majorstuen", "Ski"]
+    clinics: ["Majorstuen"]
   },
   {
     name: "Kristian Marstrand Warholm",
