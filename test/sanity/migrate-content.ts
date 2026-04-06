@@ -785,14 +785,6 @@ const clinicsData = [
     description: "Time kan enkelt bestilles online. Du trenger ikke henvisning for å bestille time, og din helseforsikring kan brukes hos oss.",
   },
   {
-    _id: "clinic-ski",
-    title: "Ski",
-    address: "Jernbaneveien 6A",
-    phone: "22600050",
-    hours: "08-16:00",
-    description: "Midlertidig stengt.",
-  },
-  {
     _id: "clinic-moelv",
     title: "Moelv",
     address: "Møllergata 18",
