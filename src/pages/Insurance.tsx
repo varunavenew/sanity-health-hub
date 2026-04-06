@@ -10,8 +10,8 @@ import { PageSEO } from "@/components/seo/PageSEO";
 interface PageProps { isChatOpen: boolean }
 
 const staticCompanies = [
-  { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" },
-  { name: "Gjensidige" }, { name: "Storebrand" }, { name: "Tryg" }, { name: "Vertikal Helse" },
+  { name: "ERGO" }, { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" },
+  { name: "Gjensidige" }, { name: "Tryg" }, { name: "Vertikal Helse" },
 ];
 
 const staticSteps = [
