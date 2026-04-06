@@ -12,6 +12,7 @@ import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { HomepageSEO } from "@/components/seo/HomepageSEO";
 import { useHomepage } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 interface IndexProps {
   isChatOpen: boolean;
@@ -19,45 +20,25 @@ interface IndexProps {
 
 const Index = ({ isChatOpen }: IndexProps) => {
   const { data: homepage } = useHomepage();
+  const { t } = useTranslation();
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <HomepageSEO seo={homepage?.seo} />
 
-      {/* H1 – synlig for søkemotorer, visuelt integrert i hero */}
       <h1 className="sr-only">
-        CMedical – Skandinavias ledende klinikk for gynekologi, fertilitet og urologi
+        {t("h1")}
       </h1>
 
-      {/* Hero carousel */}
       <HeroBanner />
-      
-      {/* Tagline Banner */}
       <TaglineBanner />
-      
-      {/* Statistikk */}
       <StatsBar />
-      
-      {/* H2: Fagområder */}
       <HeroCompact />
-      
-      {/* Value badges */}
       <ValueBadges />
-      
-      {/* H2: Promo blocks */}
       <PromoBlocks />
-      
-      {/* H2: FAQ */}
       <LifePhasesSection />
-
-      
-      {/* H2: Anmeldelser */}
       <GoogleReviewsSection />
-
-      {/* H2: Spesialister */}
       <SpecialistsSection />
-
-      {/* H2: Booking CTA */}
       <BookingCTA />
     </PageLayout>
   );

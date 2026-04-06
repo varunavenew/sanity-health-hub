@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useHomepage } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 // Static fallback images
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
@@ -20,44 +21,45 @@ interface HeroSlide {
   objectPosition: string;
 }
 
-const staticSlides: HeroSlide[] = [
-  {
-    id: "kvinnehelse",
-    image: kvinnehelseHero,
-    alt: "Kvinnehelse for livet",
-    label: "Kvinnehelse\nfor livet",
-    subtitle: "Kvinnehelse",
-    cta: "Les mer",
-    ctaPath: "/kvinnehelse",
-    objectPosition: "center 20%",
-  },
-  {
-    id: "fertilitet",
-    image: fertilityHero,
-    alt: "Ledende miljø innen fertilitet",
-    label: "Ledende miljø\ninnen fertilitet",
-    subtitle: "Fertilitetsteamet",
-    cta: "Les mer",
-    ctaPath: "/fertilitet",
-    objectPosition: "center 30%",
-  },
-  {
-    id: "robotkirurgi",
-    image: robotkirurgiHero,
-    alt: "Robotassistert kirurgi",
-    label: "Robotassistert\nkirurgi",
-    subtitle: "Teknologi",
-    cta: "Les mer",
-    ctaPath: "/robotassistert-kirurgi",
-    objectPosition: "center 40%",
-  },
-];
-
 export const HeroBanner = () => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
+  const { t } = useTranslation();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+
+  const staticSlides: HeroSlide[] = [
+    {
+      id: "kvinnehelse",
+      image: kvinnehelseHero,
+      alt: t("hero.kvinnehelse.label"),
+      label: t("hero.kvinnehelse.label"),
+      subtitle: t("hero.kvinnehelse.subtitle"),
+      cta: t("hero.readMore"),
+      ctaPath: "/kvinnehelse",
+      objectPosition: "center 20%",
+    },
+    {
+      id: "fertilitet",
+      image: fertilityHero,
+      alt: t("hero.fertilitet.label"),
+      label: t("hero.fertilitet.label"),
+      subtitle: t("hero.fertilitet.subtitle"),
+      cta: t("hero.readMore"),
+      ctaPath: "/fertilitet",
+      objectPosition: "center 30%",
+    },
+    {
+      id: "robotkirurgi",
+      image: robotkirurgiHero,
+      alt: t("hero.robotkirurgi.label"),
+      label: t("hero.robotkirurgi.label"),
+      subtitle: t("hero.robotkirurgi.subtitle"),
+      cta: t("hero.readMore"),
+      ctaPath: "/robotassistert-kirurgi",
+      objectPosition: "center 40%",
+    },
+  ];
 
   const heroSlides: HeroSlide[] =
     homepage?.heroSlides && homepage.heroSlides.length > 0
@@ -146,7 +148,6 @@ export const HeroBanner = () => {
             style={{ objectPosition: slide.objectPosition }}
             loading={current === 0 ? "eager" : "lazy"}
           />
-          {/* Warm brand tone overlay */}
           <div className="absolute inset-0 bg-brand-dark/10 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 pb-20 md:pb-24">
@@ -184,7 +185,7 @@ export const HeroBanner = () => {
                 className={`h-1 rounded-full transition-all duration-300 ${
                   i === current ? "w-8 bg-white" : "w-4 bg-white/30 hover:bg-white/50"
                 }`}
-                aria-label={`Gå til slide ${i + 1}`}
+                aria-label={t("hero.goToSlide", { num: i + 1 })}
               />
             ))}
           </div>
@@ -192,14 +193,14 @@ export const HeroBanner = () => {
             <button
               onClick={prev}
               className="w-10 h-10 rounded-sm border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
-              aria-label="Forrige slide"
+              aria-label={t("hero.prevSlide")}
             >
               <ChevronLeft className="w-5 h-5 text-white" />
             </button>
             <button
               onClick={next}
               className="w-10 h-10 rounded-sm border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
-              aria-label="Neste slide"
+              aria-label={t("hero.nextSlide")}
             >
               <ChevronRight className="w-5 h-5 text-white" />
             </button>

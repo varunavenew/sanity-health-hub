@@ -1,10 +1,10 @@
 import { useHomepage } from "@/hooks/useSanity";
-
-const STATIC_TAGLINE = "Faglig trygghet og personlig omsorg – for din helse";
+import { useTranslation } from "react-i18next";
 
 export const TaglineBanner = () => {
   const { data: homepage } = useHomepage();
-  const tagline = homepage?.tagline || STATIC_TAGLINE;
+  const { t } = useTranslation();
+  const tagline = homepage?.tagline || t("tagline");
 
   return (
     <div className="w-full py-3 md:py-4 bg-accent">

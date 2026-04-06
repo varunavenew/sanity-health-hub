@@ -1,14 +1,17 @@
 import { useHomepage } from "@/hooks/useSanity";
-
-const staticStats = [
-  { value: "15 000+", label: "pasienter behandlet" },
-  { value: "8+", label: "års erfaring med robotkirurgi" },
-  { value: "5", label: "klinikker i Norge" },
-  { value: "50+", label: "spesialister" },
-];
+import { useTranslation } from "react-i18next";
 
 export const StatsBar = () => {
   const { data: homepage } = useHomepage();
+  const { t } = useTranslation();
+
+  const staticStats = [
+    { value: "15 000+", label: t("stats.patients") },
+    { value: "8+", label: t("stats.experience") },
+    { value: "5", label: t("stats.clinics") },
+    { value: "50+", label: t("stats.specialists") },
+  ];
+
   const stats = homepage?.statsBar && homepage.statsBar.length > 0
     ? homepage.statsBar
     : staticStats;

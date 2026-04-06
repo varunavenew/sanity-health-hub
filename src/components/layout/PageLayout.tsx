@@ -7,6 +7,7 @@ import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
 import { LanguageSelector } from "@/components/layout/LanguageSelector";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
 import { useSiteSettings } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
@@ -18,6 +19,7 @@ interface PageLayoutProps {
 }
 
 export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayoutProps) => {
+  const { t } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -31,20 +33,20 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const navigate = useNavigate();
   const { data: siteSettings } = useSiteSettings();
 
-  // Navigation items from Sanity or static fallback
+  // Navigation items from Sanity or static fallback (translated)
   const navItems = siteSettings?.mainNavigation?.length
     ? siteSettings.mainNavigation
     : [
-        { _key: "tjenester", label: "Tjenester", path: "/tjenester", isServicesDropdown: true },
-        { _key: "priser", label: "Priser", path: "/priser" },
-        { _key: "forsikring", label: "Forsikring", path: "/forsikring" },
-        { _key: "aktuelt", label: "Aktuelt", path: "/aktuelt" },
-        { _key: "om-oss", label: "Om oss", path: "/om-oss" },
-        { _key: "klinikker", label: "Klinikker", path: "/klinikker/majorstuen" },
-        { _key: "kontakt", label: "Kontakt", path: "/kontakt" },
+        { _key: "tjenester", label: t("nav.services"), path: "/tjenester", isServicesDropdown: true },
+        { _key: "priser", label: t("nav.pricing"), path: "/priser" },
+        { _key: "forsikring", label: t("nav.insurance"), path: "/forsikring" },
+        { _key: "aktuelt", label: t("nav.news"), path: "/aktuelt" },
+        { _key: "om-oss", label: t("nav.about"), path: "/om-oss" },
+        { _key: "klinikker", label: t("nav.clinics"), path: "/klinikker/majorstuen" },
+        { _key: "kontakt", label: t("nav.contact"), path: "/kontakt" },
       ];
 
-  const ctaButton = siteSettings?.ctaButton || { label: "Bestill time", path: "/booking" };
+  const ctaButton = siteSettings?.ctaButton || { label: t("nav.bookAppointment"), path: "/booking" };
 
   // Close search when clicking outside
   useEffect(() => {
@@ -126,7 +128,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:text-accent-foreground focus:px-4 focus:py-2 focus:rounded-md focus:text-sm"
       >
-        Hopp til hovedinnhold
+        {t("nav.skipToContent")}
       </a>
 
       {/* Combined Header - Banner + Nav that hide/show together */}
@@ -173,7 +175,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="p-2 rounded-full transition-all hover:bg-white/10 text-white"
-              aria-label="Søk"
+              aria-label={t("nav.search")}
             >
               {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
@@ -197,13 +199,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           <div ref={searchContainerRef} className="container mx-auto px-4 md:px-8 pb-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 animate-fade-in">
               <form onSubmit={handleSearch} role="search" className="flex items-center gap-3">
-                <label htmlFor="site-search" className="sr-only">Søk på nettsiden</label>
+                <label htmlFor="site-search" className="sr-only">{t("nav.searchLabel")}</label>
                 <Search className="h-5 w-5 text-white/70" aria-hidden="true" />
                 <input
                   ref={inputRef}
                   id="site-search"
                   type="search"
-                  placeholder="Søk etter behandlinger, spesialister, klinikker..."
+                  placeholder={t("nav.searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -219,7 +221,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   variant="ghost"
                   className="rounded-full hover:bg-white/10 text-white"
                 >
-                  Søk
+                  {t("nav.search")}
                 </Button>
               </form>
               
@@ -252,7 +254,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               {!searchQuery && (
                 <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-white/20">
                   <span className="text-xs text-white/60">
-                    Populært:
+                    {t("nav.popular")}
                   </span>
                   {['IVF-behandling', 'Gynekologisk undersøkelse', 'Ultralyd', 'Celleprøve', 'Hormonbehandling', 'Eggfrys'].map((term) => (
                     <button

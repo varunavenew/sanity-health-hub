@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useFaqs } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 const staticFaqs = [
   {
@@ -39,6 +40,7 @@ const staticFaqs = [
 
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { data: sanityFaqs } = useFaqs("generelt");
 
@@ -72,7 +74,7 @@ export const LifePhasesSection = () => {
         {/* FAQ Section */}
         <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">
-            Ofte stilte spørsmål
+            {t("faq.title")}
           </h2>
           
           <div className="space-y-0 border-t border-border">
@@ -115,7 +117,7 @@ export const LifePhasesSection = () => {
             onClick={() => navigate('/booking')}
             className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground rounded-full font-normal hover:bg-secondary transition-colors"
           >
-            Bestill time
+            {t("nav.bookAppointment")}
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

@@ -4,14 +4,18 @@ import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { clinics as staticClinics } from "@/data/clinicServices";
+import { useTranslation } from "react-i18next";
 
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
-const FOOTER_LABEL_MAP: Record<string, string> = { "flere": "Flere tjenester" };
+const FOOTER_LABEL_MAP: Record<string, string> = {};
 
 export const Footer = () => {
+  const { t } = useTranslation();
   const { data: settings } = useSiteSettings();
   const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
+
+  FOOTER_LABEL_MAP["flere"] = t("footer.moreServices");
 
   // Services links sorted to match reference design
   const serviceLinks = categories.length > 0
@@ -27,7 +31,7 @@ export const Footer = () => {
         { label: "Fertilitet", path: "/fertilitet" },
         { label: "Urologi", path: "/urologi" },
         { label: "Ortopedi", path: "/ortopedi" },
-        { label: "Flere tjenester", path: "/flere-fagomrader" },
+        { label: t("footer.moreServices"), path: "/flere-fagomrader" },
       ];
 
   // Clinic links from Sanity or static
@@ -46,8 +50,8 @@ export const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Column 1: Tjenester */}
           <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">Tjenester</h3>
-            <nav className="space-y-2.5" aria-label="Tjenester">
+            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.services")}</h3>
+            <nav className="space-y-2.5" aria-label={t("footer.services")}>
               {serviceLinks.map((link: any) => (
                 <Link key={link.path} to={link.path} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
                   {link.label}
@@ -58,8 +62,8 @@ export const Footer = () => {
 
           {/* Column 2: Klinikker */}
           <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">Klinikker</h3>
-            <nav className="space-y-2.5" aria-label="Klinikker">
+            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.clinics")}</h3>
+            <nav className="space-y-2.5" aria-label={t("footer.clinics")}>
               {clinicLinks.map((clinic) => (
                 <Link key={clinic.slug} to={`/klinikker/${clinic.slug}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">{clinic.label}</Link>
               ))}
@@ -68,20 +72,20 @@ export const Footer = () => {
 
           {/* Column 3: Om CMedical */}
           <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">Om CMedical</h3>
-            <nav className="space-y-2.5" aria-label="Om CMedical">
-              <Link to="/om-oss" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Om oss</Link>
-              <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Spesialister</Link>
-              <Link to="/priser" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Priser</Link>
-              <Link to="/forsikring" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Forsikring</Link>
-              <Link to="/aktuelt" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Aktuelt</Link>
+            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.aboutCMedical")}</h3>
+            <nav className="space-y-2.5" aria-label={t("footer.aboutCMedical")}>
+              <Link to="/om-oss" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.about")}</Link>
+              <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.specialists")}</Link>
+              <Link to="/priser" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.pricing")}</Link>
+              <Link to="/forsikring" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.insurance")}</Link>
+              <Link to="/aktuelt" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.news")}</Link>
               <Link to="/karriere" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere</Link>
             </nav>
           </div>
 
           {/* Column 4: Kontakt */}
           <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">Kontakt</h3>
+            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.contact")}</h3>
             <div className="space-y-3">
               <a href={`tel:${phone.replace(/\s/g, '')}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
                 <Phone className="w-4 h-4 flex-shrink-0" />
@@ -103,22 +107,22 @@ export const Footer = () => {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-4">
             <img src={logoNegative} alt="CMedical" className="h-10" />
-            <p className="text-xs text-white/30">© {new Date().getFullYear()} CMedical. Alle rettigheter reservert.</p>
+            <p className="text-xs text-white/30">© {new Date().getFullYear()} CMedical. {t("footer.rights")}</p>
           </div>
           
           <div className="flex items-center gap-6">
             <div className="flex gap-5 text-xs text-white/40">
-              <Link to="/personvern" className="hover:text-white/70 transition-colors">Personvern</Link>
+              <Link to="/personvern" className="hover:text-white/70 transition-colors">{t("footer.privacy")}</Link>
             </div>
             
             <div className="flex gap-2.5">
-              <a href={social.instagram || "#"} aria-label="Følg oss på Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+              <a href={social.instagram || "#"} aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
                 <Instagram className="w-4 h-4 text-white/40" aria-hidden="true" />
               </a>
-              <a href={social.facebook || "#"} aria-label="Følg oss på Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+              <a href={social.facebook || "#"} aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
                 <Facebook className="w-4 h-4 text-white/40" aria-hidden="true" />
               </a>
-              <a href={social.linkedin || "#"} aria-label="Følg oss på LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+              <a href={social.linkedin || "#"} aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
                 <Linkedin className="w-4 h-4 text-white/40" aria-hidden="true" />
               </a>
             </div>
