@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Globe, Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
 const languages = [
   { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
@@ -25,7 +25,7 @@ export const LanguageSelector = () => {
         className="flex items-center gap-2 px-3 py-1.5 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-all"
         aria-label="Velg språk"
       >
-        <Globe className="w-3.5 h-3.5 opacity-70" strokeWidth={1.5} />
+        <span className="text-sm">{current.flag}</span>
         <span className="text-xs font-medium">{current.short}</span>
         <ChevronDown className={`w-3 h-3 opacity-60 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
