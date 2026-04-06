@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
-import { Globe, Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
 const languages = [
-  { code: "nb", label: "Norsk", flag: "🇳🇴" },
-  { code: "en", label: "English", flag: "🇬🇧" },
+  { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
+  { code: "en", label: "English", short: "EN", flag: "🇬🇧" },
 ];
 
 export const LanguageSelector = () => {
@@ -16,25 +16,23 @@ export const LanguageSelector = () => {
   const handleSelect = (code: string) => {
     setCurrentLang(code);
     setIsOpen(false);
-    // Future: trigger i18n context switch or navigate to locale route
   };
 
   return (
     <div className="relative" ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-2 py-1.5 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-all"
         aria-label="Velg språk"
       >
-        <Globe className="w-4 h-4" />
-        <span className="hidden md:inline text-xs">{current.flag}</span>
+        <span className="text-xs font-medium tracking-wide">{current.short}</span>
         <ChevronDown className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 top-full mt-2 z-50 bg-brand-dark/95 backdrop-blur-md border border-white/15 rounded-lg shadow-xl overflow-hidden min-w-[140px]">
+          <div className="absolute right-0 top-full mt-2 z-50 bg-brand-dark/95 backdrop-blur-md border border-white/15 rounded-lg shadow-xl overflow-hidden min-w-[150px]">
             {languages.map((lang) => (
               <button
                 key={lang.code}
