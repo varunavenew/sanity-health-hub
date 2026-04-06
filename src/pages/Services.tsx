@@ -20,7 +20,7 @@ interface PageProps {
 }
 
 const staticFaqs = [
-  { id: "henvisning", question: "Trenger jeg henvisning?", answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra allmennlege eller spesialist, ta den gjerne med til konsultasjonen." },
+  { id: "henvisning", question: "Trenger jeg henvisning?", answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen." },
   { id: "ventetid", question: "Hva er ventetiden?", answer: "Vi tilbyr korte ventetider. De fleste får time innen 1-3 dager, avhengig av behandlingstype og tilgjengelighet." },
   { id: "sykemelding", question: "Kan jeg få sykemelding?", answer: "Våre spesialister kan skrive sykemelding hvis det er medisinsk grunnlag for det. Dette vurderes individuelt i forbindelse med konsultasjonen." },
   { id: "utredning", question: "Hvordan foregår utredning?", answer: "Vi tilbyr grundig utredning innen alle våre tjenester. Utredningen tilpasses din situasjon og kan inkludere samtale, undersøkelse, blodprøver og bildediagnostikk." },

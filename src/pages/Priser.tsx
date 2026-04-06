@@ -457,7 +457,7 @@ const staticFaqs = [
   {
     id: "henvisning",
     question: "Trenger jeg henvisning?",
-    answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra allmennlege eller spesialist, ta den gjerne med til konsultasjonen.",
+    answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen.",
   },
   {
     id: "betaling",

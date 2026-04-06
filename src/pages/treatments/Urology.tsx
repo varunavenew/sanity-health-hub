@@ -19,7 +19,7 @@ interface PageProps { isChatOpen: boolean }
 const staticUrologyFaqs = [
   { question: "Når bør jeg få sjekket prostata?", answer: "Menn over 50 år anbefales regelmessig prostataundersøkelse. Ved familiær risiko eller symptomer, sjekk tidligere." },
   { question: "Er behandling av erektil dysfunksjon effektivt?", answer: "Ja, moderne behandling har høy suksessrate. Vi tilbyr både medikamentell og andre løsninger." },
-  { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning fra allmennlege." },
+  { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning fra fastlege." },
   { question: "Er behandlingen konfidensiell?", answer: "Ja, alt er strengt konfidensielt. Vi behandler alle henvendelser diskret." },
 ];
 
