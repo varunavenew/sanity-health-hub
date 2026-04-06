@@ -23,6 +23,62 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 
+// Icon mapping for treatment services
+const serviceIconMap: Record<string, LucideIcon> = {
+  "Gynekologisk undersøkelse": Stethoscope,
+  "Urinlekkasje": Droplets,
+  "Endometriose": Ribbon,
+  "Overgangsalder": Sun,
+  "Vaginale fremfall": HeartPulse,
+  "Blødningsforstyrrelser": Activity,
+  "Celleforandringer": Microscope,
+  "Cyster på eggstokkene": CircleDot,
+  "Fjerne livmor": Scissors,
+  "PMS og PMDD": Heart,
+  "Labiaplastikk": Flower2,
+  "Vaginal tørrhet": Droplets,
+  "Vulvalidelser": ShieldCheck,
+  "Gynekologisk kirurgi": Scissors,
+  "Robotassistert kirurgi": Bot,
+  "Infertilitet": Dna,
+  "Assistert befruktning": FlaskConical,
+  "Assistert befruktning med donor": TestTube,
+  "Eggfrys": Snowflake,
+  "Hormonforstyrrelser": Pill,
+  "Hysteroskopi": Scan,
+  "Blære og urinveier": Droplets,
+  "Forhud": ShieldCheck,
+  "Mannlig infertilitet": Dna,
+  "Nyrer": Activity,
+  "Prevensjon": Pill,
+  "Fot og ankel": Footprints,
+  "Hofte": BicepsFlexed,
+  "Hånd og albue": Hand,
+  "Kne": Bone,
+  "Ultralyd": Scan,
+  "NIPT": Microscope,
+  "6-ukerskontroll etter fødsel": Baby,
+  "Traumatisk fødsel": HeartPulse,
+  "Fødselsangst": Heart,
+  "For partnere": Users,
+  "Fostermedisin": Baby,
+  "Spontanabort": Heart,
+  "Endokrinologi": Syringe,
+  "Ernæringsfysiolog": Apple,
+  "Hudlege": Flower2,
+  "Gastrokirurgi": Scissors,
+  "Overvektskirurgi": Scissors,
+  "Osteopati": Hand,
+  "Psykologi": Brain,
+  "Sexologi": Smile,
+  "Kvinnehelse": Heart,
+  "Tverrfaglig team": Users,
+};
+
+const getServiceIcon = (name: string): LucideIcon => {
+  return serviceIconMap[name] || Stethoscope;
+};
+
 interface SubService {
   name: string;
   subServices?: { name: string; path?: string }[];
