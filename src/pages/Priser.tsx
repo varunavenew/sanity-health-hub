@@ -53,11 +53,8 @@ const priceCategories: PriceCategory[] = [
         label: 'Operasjoner og inngrep',
         path: '/behandlinger/gynekologi/operasjoner',
         items: [
-          { name: "TVT operasjon", price: "fra 46.000,-", duration: "" },
-          { name: "Fremfallsoperasjon", price: "fra 44.000,-", duration: "" },
-          { name: "Konisering", price: "fra 9.930,-", duration: "" },
-          { name: "Botox blære", price: "fra 16.000,-", duration: "" },
-          { name: "Labiaplastikk", price: "fra 40.000,-", duration: "" },
+          { name: "Osteopat/fysioterapeut konsultasjon 60 min", price: "1.800,-", duration: "1 time" },
+          { name: "Osteopat/fysioterapeut oppfølging 30 min", price: "950,-", duration: "30 min" },
         ]
       },
     ]
