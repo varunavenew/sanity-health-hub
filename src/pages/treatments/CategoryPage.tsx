@@ -2,12 +2,19 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
-import { ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin } from "lucide-react";
+import {
+  ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin,
+  Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
+  Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
+  Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
+  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import type { LucideIcon } from "lucide-react";
 
 // Static fallback images
 import urologiImg from "@/assets/categories/urologi.jpg";
@@ -15,6 +22,62 @@ import fertilitetImg from "@/assets/categories/fertilitet.jpg";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
+
+// Icon mapping for treatment services
+const serviceIconMap: Record<string, LucideIcon> = {
+  "Gynekologisk undersøkelse": Stethoscope,
+  "Urinlekkasje": Droplets,
+  "Endometriose": Ribbon,
+  "Overgangsalder": Sun,
+  "Vaginale fremfall": HeartPulse,
+  "Blødningsforstyrrelser": Activity,
+  "Celleforandringer": Microscope,
+  "Cyster på eggstokkene": CircleDot,
+  "Fjerne livmor": Scissors,
+  "PMS og PMDD": Heart,
+  "Labiaplastikk": Flower2,
+  "Vaginal tørrhet": Droplets,
+  "Vulvalidelser": ShieldCheck,
+  "Gynekologisk kirurgi": Scissors,
+  "Robotassistert kirurgi": Bot,
+  "Infertilitet": Dna,
+  "Assistert befruktning": FlaskConical,
+  "Assistert befruktning med donor": TestTube,
+  "Eggfrys": Snowflake,
+  "Hormonforstyrrelser": Pill,
+  "Hysteroskopi": Scan,
+  "Blære og urinveier": Droplets,
+  "Forhud": ShieldCheck,
+  "Mannlig infertilitet": Dna,
+  "Nyrer": Activity,
+  "Prevensjon": Pill,
+  "Fot og ankel": Footprints,
+  "Hofte": BicepsFlexed,
+  "Hånd og albue": Hand,
+  "Kne": Bone,
+  "Ultralyd": Scan,
+  "NIPT": Microscope,
+  "6-ukerskontroll etter fødsel": Baby,
+  "Traumatisk fødsel": HeartPulse,
+  "Fødselsangst": Heart,
+  "For partnere": Users,
+  "Fostermedisin": Baby,
+  "Spontanabort": Heart,
+  "Endokrinologi": Syringe,
+  "Ernæringsfysiolog": Apple,
+  "Hudlege": Flower2,
+  "Gastrokirurgi": Scissors,
+  "Overvektskirurgi": Scissors,
+  "Osteopati": Hand,
+  "Psykologi": Brain,
+  "Sexologi": Smile,
+  "Kvinnehelse": Heart,
+  "Tverrfaglig team": Users,
+};
+
+const getServiceIcon = (name: string): LucideIcon => {
+  return serviceIconMap[name] || Stethoscope;
+};
 
 interface SubService {
   name: string;
@@ -425,7 +488,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               {category.services.map((service, index) => (
                 <div key={index} className="border-b border-border">
                   <button onClick={() => handleServiceClick(service)} className="w-full flex items-center justify-between py-5 text-left transition-colors group">
-                    <span className="text-base md:text-lg font-normal text-foreground group-hover:text-brand-dark transition-colors">{service.name}</span>
+                    <div className="flex items-center gap-3">
+                      {(() => { const Icon = getServiceIcon(service.name); return <Icon className="w-5 h-5 text-muted-foreground group-hover:text-brand-dark transition-colors flex-shrink-0" strokeWidth={1.5} />; })()}
+                      <span className="text-base md:text-lg font-normal text-foreground group-hover:text-brand-dark transition-colors">{service.name}</span>
+                    </div>
                     {service.subServices && service.subServices.length > 0 ? (
                       expandedService === service.name ? <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" /> : <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                     ) : (
