@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "services": "Tjenester",
+    "pricing": "Priser",
+    "insurance": "Forsikring",
+    "news": "Aktuelt",
+    "about": "Om oss",
+    "clinics": "Klinikker",
+    "contact": "Kontakt",
+    "specialists": "Spesialister",
+    "bookAppointment": "Bestill time",
+    "bookNow": "Bestill time nå",
+    "search": "Søk",
+    "searchPlaceholder": "Søk etter behandlinger, spesialister, klinikker...",
+    "searchLabel": "Søk på nettsiden",
+    "popular": "Populært:",
+    "menu": "Meny",
+    "quickContact": "Hurtig kontakt",
+    "contactForm": "Kontaktskjema",
+    "openMenu": "Åpne meny",
+    "closeMenu": "Lukk meny",
+    "skipToContent": "Hopp til hovedinnhold",
+    "selectLanguage": "Velg språk",
+    "navigationMenu": "Navigasjonsmeny"
+  },
+  "hero": {
+    "kvinnehelse": {
+      "label": "Kvinnehelse\nfor livet",
+      "subtitle": "Kvinnehelse"
+    },
+    "fertilitet": {
+      "label": "Ledende miljø\ninnen fertilitet",
+      "subtitle": "Fertilitetsteamet"
+    },
+    "robotkirurgi": {
+      "label": "Robotassistert\nkirurgi",
+      "subtitle": "Teknologi"
+    },
+    "readMore": "Les mer",
+    "goToSlide": "Gå til slide {{num}}",
+    "prevSlide": "Forrige slide",
+    "nextSlide": "Neste slide"
+  },
+  "tagline": "Faglig trygghet og personlig omsorg – for din helse",
+  "stats": {
+    "patients": "pasienter behandlet",
+    "experience": "års erfaring med robotkirurgi",
+    "clinics": "klinikker i Norge",
+    "specialists": "spesialister"
+  },
+  "services": {
+    "title": "Våre tjenester",
+    "seeAll": "Se alle tjenester",
+    "featuredServices": "Utvalgte tjenester",
+    "moreServices": "Flere tjenester",
+    "noReferral": "Ingen henvisning",
+    "noWaiting": "Ingen ventetid",
+    "findTreatment": "Finn behandlingen som passer for deg",
+    "searchPlaceholder": "Søk etter behandling eller fagområde...",
+    "seeAllTreatments": "Se behandlinger innen {{name}}"
+  },
+  "specialists": {
+    "title": "Møt våre spesialister",
+    "subtitle": "Våre eksperter",
+    "description": "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
+    "seeAll": "Se alle {{count}} spesialister",
+    "seeAllShort": "Se alle",
+    "ourTeam": "Vårt team",
+    "swipeHint": "Sveip for å se flere →",
+    "scrollLeft": "Scroll spesialister til venstre",
+    "scrollRight": "Scroll spesialister til høyre",
+    "filters": {
+      "all": "Alle",
+      "gynecology": "Gynekologi",
+      "fertility": "Fertilitet",
+      "urology": "Urologi",
+      "orthopedics": "Ortopedi",
+      "other": "Flere tjenester",
+      "allClinics": "Alle klinikker"
+    },
+    "count": "{{count}} spesialister"
+  },
+  "reviews": {
+    "heading": "Trygghet, omsorg og helsehjelp i livets ulike faser",
+    "subheading": "Våre pasienter forteller",
+    "readMore": "Les mer",
+    "readLess": "Vis mindre",
+    "ctaTitle": "Over 150 000 fornøyde pasienter siden 2002",
+    "ctaSubtitle": "Bli en del av vår historie"
+  },
+  "faq": {
+    "title": "Ofte stilte spørsmål",
+    "subtitle": "Spørsmål & svar"
+  },
+  "booking": {
+    "badge": "Rask og enkel booking",
+    "title": "Bestill time hos spesialist",
+    "subtitle": "Velg tjeneste, klinikk og behandler – alt i én enkel booking.",
+    "bookNow": "Bestill time nå",
+    "callUs": "Ring oss",
+    "selectClinic": "Velg klinikk",
+    "goToContact": "Gå til kontaktsiden →",
+    "availableTime": "Ledig time innen 1–3 dager",
+    "noReferral": "Ingen henvisning nødvendig"
+  },
+  "cta": {
+    "title": "Ta vare på livet og underlivet",
+    "subtitle": "Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging",
+    "bookNow": "Book time nå",
+    "bookConsultation": "Book konsultasjon",
+    "contactUs": "Kontakt oss",
+    "seePricing": "Se prisliste"
+  },
+  "footer": {
+    "services": "Tjenester",
+    "clinics": "Klinikker",
+    "aboutCMedical": "Om CMedical",
+    "contact": "Kontakt",
+    "privacy": "Personvern",
+    "rights": "Alle rettigheter reservert.",
+    "moreServices": "Flere tjenester"
+  },
+  "about": {
+    "label": "Om CMedical",
+    "title": "Faglig trygghet og personlig omsorg – for din helse",
+    "seoTitle": "Om oss – Faglig trygghet og personlig omsorg",
+    "seoDescription": "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Siden 2002 har over 150 000 pasienter fått behandling hos oss."
+  },
+  "contact": {
+    "title": "Kontakt oss",
+    "subtitle": "Har du spørsmål? Vi svarer gjerne på alle henvendelser",
+    "quickHelp": "Trenger du rask hjelp?",
+    "quickHelpDesc": "Du trenger ingen henvisning. Ring oss direkte eller bestill time online – vi har korte ventetider.",
+    "bookDirect": "Vil du booke direkte?",
+    "bookDirectDesc": "Velg tjeneste, klinikk og behandler – alt i én enkel booking.",
+    "hasInsurance": "Har du helseforsikring?",
+    "hasInsuranceDesc": "De fleste av våre behandlinger dekkes av helseforsikring. Sjekk med ditt selskap.",
+    "readAboutInsurance": "Les om forsikring",
+    "sendMessage": "Send oss en melding",
+    "responseTime": "Vi svarer på alle henvendelser innen 24 timer",
+    "form": {
+      "name": "Navn",
+      "namePlaceholder": "Ditt navn",
+      "phone": "Telefon",
+      "email": "E-post",
+      "emailPlaceholder": "din@email.no",
+      "clinic": "Klinikk",
+      "clinicPlaceholder": "Velg klinikk",
+      "subject": "Emne",
+      "subjectPlaceholder": "Hva gjelder henvendelsen?",
+      "message": "Melding",
+      "messagePlaceholder": "Beskriv din henvendelse...",
+      "submit": "Send melding"
+    },
+    "toast": {
+      "title": "Melding sendt!",
+      "description": "Vi vil ta kontakt med deg innen 24 timer."
+    }
+  },
+  "insurance": {
+    "title": "Helseforsikring",
+    "subtitle": "Bruk forsikringen din til raskere behandling hos oss",
+    "partners": "Våre samarbeidspartnere",
+    "agreementTitle": "Vi har avtale med alle store forsikringsselskaper",
+    "notFound": "Finner du ikke ditt selskap?",
+    "contactUsHelp": "Kontakt oss",
+    "weHelp": "– vi hjelper deg.",
+    "insuranceQuestion": "Har du spørsmål om behandlingsforsikring?",
+    "insuranceAnswer": "Ta kontakt med en av våre klinikker, eller ditt forsikringsselskap.",
+    "b2b": "B2B-henvendelser:",
+    "howTo": "Slik bruker du forsikringen",
+    "needHelp": "Trenger du hjelp?",
+    "weGuide": "Vi veileder deg gjennom hele prosessen"
+  },
+  "pricing": {
+    "title": "Prisliste",
+    "subtitle": "Oversikt over våre priser",
+    "seoTitle": "Priser – Oversiktlig prisliste for alle behandlinger",
+    "duration": "Varighet"
+  },
+  "news": {
+    "title": "Aktuelt",
+    "subtitle": "Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical.",
+    "label": "Nyheter & Fagartikler",
+    "searchPlaceholder": "Søk i artikler...",
+    "moreArticles": "Flere artikler",
+    "noArticles": "Ingen artikler funnet for dette filteret.",
+    "readMore": "Les mer"
+  },
+  "clinicGrid": {
+    "title": "Våre klinikker"
+  },
+  "valueBadges": {
+    "tech": "Trygg og moderne behandlingsteknologi",
+    "comfort": "Behagelige lokaler",
+    "price": "Tilgjengelig pris"
+  },
+  "h1": "CMedical – Skandinavias ledende klinikk for gynekologi, fertilitet og urologi"
+}
