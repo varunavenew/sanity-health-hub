@@ -44,7 +44,12 @@ const fetchInstagramPosts = async () => {
   return data?.posts || [];
 };
 
-export const SoMeFeed = () => {
+interface SoMeFeedProps {
+  maxPosts?: number;
+  compact?: boolean;
+}
+
+export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
   const { data: settings } = useSiteSettings();
   const social = settings?.socialMedia || fallbackSocial;
 
