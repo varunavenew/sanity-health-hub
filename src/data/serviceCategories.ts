@@ -204,7 +204,7 @@ export const serviceCategories: ServiceCategory[] = [
   },
   {
     id: 'flere-fagomrader',
-    label: 'Flere fagområder',
+    label: 'Flere tjenester',
     path: '/flere-fagomrader',
     subcategories: [
       {

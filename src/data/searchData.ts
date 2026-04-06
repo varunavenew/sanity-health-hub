@@ -9,7 +9,7 @@ export interface SearchItem {
 
 export const searchItems: SearchItem[] = [
   // Gynekologi
-  { label: 'Gynekologi', path: '/behandlinger/gynekologi', category: 'Fagområde', keywords: ['gyn', 'kvinne', 'underlivsplager'] },
+  { label: 'Gynekologi', path: '/behandlinger/gynekologi', category: 'Tjeneste', keywords: ['gyn', 'kvinne', 'underlivsplager'] },
   { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse', category: 'Gynekologi', keywords: ['undersøkelse', 'kontroll'] },
   { label: 'Urinlekkasje', path: '/behandlinger/gynekologi/urinlekkasje', category: 'Gynekologi', keywords: ['inkontinens', 'lekkasje'] },
   { label: 'Endometriose', path: '/behandlinger/gynekologi/endometriose', category: 'Gynekologi', keywords: ['smerter', 'underlivssmerter', 'adenomyose'] },

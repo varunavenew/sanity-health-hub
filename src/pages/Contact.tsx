@@ -108,7 +108,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
               <Calendar className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
               <h3 className="font-normal text-xl text-white mb-3">Vil du booke direkte?</h3>
               <p className="text-white/70 leading-relaxed text-base font-light flex-1">
-                Velg fagområde, klinikk og behandler – alt i én enkel booking.
+                Velg tjeneste, klinikk og behandler – alt i én enkel booking.
               </p>
               <div className="mt-6">
                 <Button 
