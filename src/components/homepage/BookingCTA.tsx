@@ -41,7 +41,7 @@ export const BookingCTA = () => {
             Bestill time hos spesialist
           </h2>
           <p className="text-white/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
-            Velg fagområde, klinikk og behandler – alt i én enkel booking.
+            Velg tjeneste, klinikk og behandler – alt i én enkel booking.
           </p>
 
           {/* CTA Buttons */}
