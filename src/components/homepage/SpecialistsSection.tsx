@@ -21,7 +21,7 @@ export const SpecialistsSection = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-brand-dark overflow-hidden">
+    <section className="pt-24 md:pt-32 pb-10 md:pb-14 bg-brand-dark overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
