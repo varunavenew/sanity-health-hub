@@ -128,7 +128,7 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
           {/* Product info */}
           <div className="flex flex-col">
             <div className="mb-6">
-              <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">
+              <p className="text-sm text-muted-foreground mb-2">
                 {product.category.replace('_', ' ')}
               </p>
               <h1 className="text-4xl font-serif font-bold mb-4 text-foreground">

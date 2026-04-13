@@ -90,10 +90,10 @@ export const TrustSection = () => {
                 Bli med over 250,000 fornøyde kunder som har oppnådd strålende hud med våre prisbelønte produkter
               </p>
               <div className="flex flex-wrap gap-4 justify-center pt-4">
-                <button className="px-8 py-4 bg-primary text-white font-medium rounded-full hover:bg-primary/90 transition-all hover:scale-105 shadow-lg">
+                <button className="px-8 py-4 bg-primary text-white font-medium rounded-2xl hover:bg-primary/90 transition-all hover:scale-105 shadow-lg">
                   Snakk med Ida - AI Hudekspert
                 </button>
-                <button className="px-8 py-4 bg-white border-2 border-primary/20 font-medium rounded-full hover:border-primary/40 transition-all hover:scale-105">
+                <button className="px-8 py-4 bg-white border-2 border-primary/20 font-medium rounded-2xl hover:border-primary/40 transition-all hover:scale-105">
                   Se Alle Produkter
                 </button>
               </div>

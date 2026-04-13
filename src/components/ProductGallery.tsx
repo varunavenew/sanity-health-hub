@@ -69,7 +69,7 @@ export const ProductGallery = ({ products, title, description, recommendedProduc
               </div>
               <div className="p-4">
                 <div className="mb-2">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">{product.category}</p>
+                  <p className="text-sm text-muted-foreground mb-1">{product.category}</p>
                   <h3 className="font-medium text-base mb-1 group-hover:text-primary transition-colors">{product.name}</h3>
                 </div>
                 
