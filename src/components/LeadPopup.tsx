@@ -60,7 +60,7 @@ export const LeadPopup = ({ show = true }: LeadPopupProps) => {
         <div className="fixed bottom-6 right-6 z-50">
           <Button
             onClick={() => setIsOpen(true)}
-            className="rounded-full shadow-2xl px-5 py-3 h-auto text-sm font-light bg-accent text-accent-foreground hover:bg-accent/90 transition-all"
+            className="rounded-2xl shadow-2xl px-5 py-3 h-auto text-sm font-light bg-accent text-accent-foreground hover:bg-accent/90 transition-all"
           >
             {POPUP_CONFIG.triggerLabel}
           </Button>
