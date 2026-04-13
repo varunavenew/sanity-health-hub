@@ -85,7 +85,7 @@ export const SpecialistFAQ = () => {
           >
             {/* Finansiering group */}
             <div className="mb-8">
-              <h3 className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-4">
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">
                 Finansiering
               </h3>
               {finansiering.map((item: any, i: number) => (
@@ -103,7 +103,7 @@ export const SpecialistFAQ = () => {
 
             {/* Generelt group */}
             <div>
-              <h3 className="text-xs font-medium tracking-widest uppercase text-muted-foreground mb-4">
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">
                 Ofte stilte spørsmål
               </h3>
               {praktisk.map((item: any, i: number) => (

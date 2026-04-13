@@ -108,7 +108,7 @@ export const TreatmentShowcase = () => {
               {/* Content */}
               <div className={`space-y-6 ${index % 2 === 1 ? 'md:col-start-1 md:row-start-1' : ''}`}>
                 <div className="space-y-2">
-                  <div className="text-sm text-primary font-normal tracking-wide uppercase">
+                  <div className="text-sm text-primary font-normal">
                     {treatment.subtitle}
                   </div>
                   <h3 className="text-4xl md:text-5xl font-light tracking-tight">

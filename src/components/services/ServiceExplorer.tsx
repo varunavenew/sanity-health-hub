@@ -21,7 +21,7 @@ export const ServiceExplorer = () => {
       <div className="flex flex-col lg:flex-row min-h-[450px]">
         {/* Column 1 - Categories */}
         <div className="lg:w-[220px] p-5 lg:p-6 border-b lg:border-b-0 lg:border-r border-white/10">
-          <h3 className="text-white/50 text-[11px] uppercase tracking-wider mb-4 font-light">
+          <h3 className="text-white/50 text-sm tracking-wider mb-4 font-light">
             Tjenester
           </h3>
           <nav className="space-y-0.5">
@@ -67,7 +67,7 @@ export const ServiceExplorer = () => {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.15 }}
               >
-                <h3 className="text-white/50 text-[11px] uppercase tracking-wider mb-4 font-light">
+                <h3 className="text-white/50 text-sm tracking-wider mb-4 font-light">
                   {activeCategoryData.label}
                 </h3>
                 <nav className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-0.5">
@@ -108,7 +108,7 @@ export const ServiceExplorer = () => {
               className="overflow-hidden"
             >
               <div className="w-[200px] lg:w-[220px] p-5 lg:p-6 bg-white/[0.03] max-h-[500px] overflow-y-auto">
-                <h3 className="text-white/50 text-[11px] uppercase tracking-wider mb-4 font-light">
+                <h3 className="text-white/50 text-sm tracking-wider mb-4 font-light">
                   {activeSubcategoryData.label}
                 </h3>
                 <nav className="space-y-0.5">

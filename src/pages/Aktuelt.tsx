@@ -212,7 +212,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
-                className={`px-4 py-1.5 rounded-full text-sm transition-colors ${
+                className={`px-4 py-1.5 rounded-2xl text-sm transition-colors ${
                   activeFilter === cat
                     ? "bg-brand-dark text-white"
                     : "bg-secondary/60 text-foreground/70 hover:bg-secondary hover:text-foreground"

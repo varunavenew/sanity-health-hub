@@ -131,7 +131,7 @@ const BurgerMenu = () => {
               <div className="px-5 pb-5">
                 <button 
                   onClick={() => handleNavigate(ctaButton.path)}
-                  className="w-full py-3 text-sm font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-colors"
+                  className="w-full py-3 text-sm font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
                 >
                   {ctaButton.label}
                 </button>
@@ -209,7 +209,7 @@ const BurgerMenu = () => {
                 <div className="mt-8">
                   <button 
                     onClick={() => handleNavigate(ctaButton.path)}
-                    className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-full transition-colors"
+                    className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
                   >
                     {ctaButton.label}
                   </button>

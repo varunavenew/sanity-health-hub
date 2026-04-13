@@ -115,7 +115,7 @@ export const LifePhasesSection = () => {
         <div className="mt-12 md:mt-16 text-center">
           <button
             onClick={() => navigate('/booking')}
-            className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground rounded-full font-normal hover:bg-secondary transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground rounded-2xl font-normal hover:bg-secondary transition-colors"
           >
             {t("nav.bookAppointment")}
             <ArrowRight className="w-4 h-4" />

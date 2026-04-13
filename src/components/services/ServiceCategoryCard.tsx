@@ -82,7 +82,7 @@ const ServiceCategoryCard = ({
               </p>
             </div>
 
-            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] font-light text-foreground/70 whitespace-nowrap pt-1">
+            <div className="flex items-center gap-1.5 text-sm font-light text-foreground/70 whitespace-nowrap pt-1">
               <span className="hidden sm:inline">{isOpen ? 'Lukk' : `${totalTreatments} behandlinger`}</span>
               <ChevronRight
                 className={`w-3.5 h-3.5 text-foreground/70 transition-transform duration-300 ${isOpen ? "rotate-90" : ""}`}
@@ -140,7 +140,7 @@ const ServiceCategoryCard = ({
                     e.stopPropagation();
                     navigate(`/booking?kategori=${id}`);
                   }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors"
                 >
                   Bestill time for {label.toLowerCase()}
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -150,7 +150,7 @@ const ServiceCategoryCard = ({
                     e.stopPropagation();
                     handleNavigate(path);
                   }}
-                  className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] font-light text-foreground/50 hover:text-foreground/80 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-light text-foreground/50 hover:text-foreground/80 transition-colors"
                 >
                   Les mer
                   <ArrowRight className="w-3 h-3" />

@@ -120,11 +120,11 @@ export const LeadPopup = ({ show = true }: LeadPopupProps) => {
                 <Button
                   type="submit"
                   disabled={isSending || !contact.trim()}
-                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full"
+                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl"
                 >
                   {isSending ? "Sender..." : POPUP_CONFIG.buttonLabel}
                 </Button>
-                <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
+                <p className="text-sm text-muted-foreground text-center leading-relaxed">
                   Vi behandler dine personopplysninger i samsvar med GDPR.
                 </p>
               </form>
