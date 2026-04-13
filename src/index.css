@@ -124,16 +124,16 @@
     --chat-foreground: 0 0% 100%;
     --chat-border: 22 18% 30%;
     --chat-ai-bubble: 22 22% 28%;
-    --user-bubble: 65 100% 73%;
+    --user-bubble: 65 100% 74%;
     
     --sidebar-background: 22 22% 21%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 65 100% 73%;
+    --sidebar-primary: 65 100% 74%;
     --sidebar-primary-foreground: 0 71% 5%;
     --sidebar-accent: 22 22% 28%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 22 18% 30%;
-    --sidebar-ring: 65 100% 73%;
+    --sidebar-ring: 65 100% 74%;
   }
 }
 
@@ -161,7 +161,7 @@
 }
 
 .gradient-primary {
-  background: linear-gradient(135deg, hsl(65 100% 73%), hsl(65 90% 78%));
+  background: linear-gradient(135deg, hsl(65 100% 74%), hsl(65 90% 78%));
 }
 
 .gradient-hero {
@@ -193,7 +193,7 @@
 }
 
 .glow-yellow {
-  box-shadow: 0 4px 24px hsl(65 100% 73% / 0.25);
+  box-shadow: 0 4px 24px hsl(65 100% 74% / 0.25);
 }
 
 .glow-soft {
@@ -201,7 +201,7 @@
 }
 
 .glow-accent {
-  box-shadow: 0 4px 24px hsl(65 100% 73% / 0.3);
+  box-shadow: 0 4px 24px hsl(65 100% 74% / 0.3);
 }
 
 @keyframes float {
