@@ -140,7 +140,7 @@ const ServiceCategoryCard = ({
                     e.stopPropagation();
                     navigate(`/booking?kategori=${id}`);
                   }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent text-accent-foreground text-sm font-light hover:bg-accent/90 transition-colors"
                 >
                   Bestill time for {label.toLowerCase()}
                   <ArrowRight className="w-3.5 h-3.5" />
