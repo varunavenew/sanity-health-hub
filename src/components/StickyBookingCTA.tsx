@@ -7,12 +7,11 @@ export const StickyBookingCTA = () => {
   return (
     <button
       onClick={() => navigate('/booking')}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-5 py-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
-      style={{ backgroundColor: '#CCBAAD' }}
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full px-5 py-3 bg-accent text-accent-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-accent/90"
       aria-label="Book gratis konsultasjon"
     >
-      <Calendar className="w-4 h-4 text-brand-dark" strokeWidth={1.5} />
-      <span className="text-sm font-medium text-brand-dark whitespace-nowrap">
+      <Calendar className="w-4 h-4" strokeWidth={1.5} />
+      <span className="text-sm font-medium whitespace-nowrap">
         Book gratis konsultasjon
       </span>
     </button>

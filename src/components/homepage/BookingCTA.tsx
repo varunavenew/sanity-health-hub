@@ -49,8 +49,8 @@ export const BookingCTA = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button
+              variant="cta-dark"
               size="lg"
-              className="bg-white text-brand-dark hover:bg-white/90 rounded-sm px-10 h-14 text-base font-light"
               onClick={() => navigate("/booking")}
             >
               <Calendar className="mr-2 w-5 h-5" />
@@ -61,9 +61,9 @@ export const BookingCTA = () => {
             {/* Call us with clinic picker */}
             <div className="relative" ref={dropdownRef}>
               <Button
+                variant="cta-outline"
                 size="lg"
-                variant="ghost"
-                className="bg-transparent border border-white/30 text-white hover:bg-white hover:text-brand-dark rounded-sm px-8 h-14 text-base font-light w-full"
+                className="text-white border-white/30 hover:bg-white hover:text-brand-dark"
                 onClick={() => setShowClinicPicker(!showClinicPicker)}
               >
                 <Phone className="mr-2 w-5 h-5" />

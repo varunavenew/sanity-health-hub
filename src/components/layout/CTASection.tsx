@@ -36,8 +36,8 @@ export const CTASection = ({
           
           <div className="flex flex-col sm:flex-row gap-4">
             <Button 
+              variant="cta-dark"
               size="lg"
-              className="bg-white text-brand-dark hover:bg-white/90 rounded-sm px-8 font-light"
               onClick={() => {
                 if (isExternalLink(primaryLink)) {
                   window.location.href = primaryLink;
@@ -60,13 +60,13 @@ export const CTASection = ({
 
             {secondaryCTA && secondaryLink && (
               <Button 
+                variant="cta-outline"
                 size="lg"
-                variant="ghost"
-                className={`rounded-sm px-8 font-light ${
+                className={
                   dark 
-                    ? 'text-white border border-white hover:bg-white hover:text-brand-dark' 
-                    : 'border border-border hover:bg-secondary'
-                }`}
+                    ? 'text-white border-white/30 hover:bg-white hover:text-brand-dark' 
+                    : ''
+                }
                 asChild={!isExternalLink(secondaryLink)}
               >
                 {isExternalLink(secondaryLink) ? (

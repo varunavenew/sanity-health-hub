@@ -206,14 +206,14 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
                 <h3 className="text-lg font-semibold text-foreground mb-4">Søk på stillingen</h3>
                 {job.applyUrl ? (
                   <a href={job.applyUrl} target="_blank" rel="noopener noreferrer">
-                    <Button className="w-full rounded-full" size="lg">
+                    <Button variant="cta" className="w-full" size="lg">
                       Søk her
                       <ExternalLink className="h-4 w-4 ml-2" />
                     </Button>
                   </a>
                 ) : (
                   <a href={`mailto:${job.contactEmail || "jobb@cmedical.no"}?subject=Søknad: ${job.title}`}>
-                    <Button className="w-full rounded-full" size="lg">
+                    <Button variant="cta" className="w-full" size="lg">
                       Send søknad på e-post
                       <Mail className="h-4 w-4 ml-2" />
                     </Button>

@@ -43,7 +43,7 @@ export const ServiceCategories = () => {
           ))}
         </div>
         <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="rounded-md px-8" onClick={() => navigate('/booking')}>
+          <Button variant="cta-outline" size="lg" onClick={() => navigate('/booking')}>
             Se alle behandlinger <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>

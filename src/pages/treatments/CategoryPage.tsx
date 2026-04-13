@@ -438,11 +438,11 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{category.title}</h1>
               </div>
               <div className="flex items-center gap-3">
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-6 font-normal" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
+                <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                   Bestill time for {category.title.toLowerCase()}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
-                <Button size="lg" variant="ghost" className="bg-transparent border border-accent/70 text-accent hover:bg-accent/10 rounded-md px-6 font-normal" onClick={() => navigate('/kontakt')}>
+                <Button variant="cta-outline" size="lg" onClick={() => navigate('/kontakt')}>
                   <Phone className="mr-2 w-4 h-4" />
                   Ring for konsultasjon
                 </Button>
@@ -628,11 +628,11 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-8 font-normal" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
+              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
-              <Button size="lg" variant="ghost" className="bg-transparent border border-white text-white hover:bg-white hover:text-brand-dark rounded-md px-8 font-normal" onClick={() => navigate('/kontakt')}>
+              <Button variant="cta-outline" size="lg" className="text-white border-white/30 hover:bg-white hover:text-brand-dark" onClick={() => navigate('/kontakt')}>
                 <Phone className="mr-2 w-4 h-4" />
                 Ring for konsultasjon
               </Button>
