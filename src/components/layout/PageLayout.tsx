@@ -183,7 +183,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {/* CTA Button */}
             <Button 
               size="sm" 
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-4 md:px-6 text-sm"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-4 md:px-6 text-sm"
               onClick={() => navigate(ctaButton.path)}
             >
               {ctaButton.label}
