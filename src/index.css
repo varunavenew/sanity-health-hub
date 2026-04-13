@@ -65,7 +65,7 @@
     --secondary-foreground: 0 71% 5%;
     --muted: 30 18% 90%;
     --muted-foreground: 22 15% 40%;
-    --accent: 65 100% 73%;
+    --accent: 65 100% 74%;
     --accent-foreground: 0 71% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -73,7 +73,7 @@
     --input: 30 15% 90%;
     --ring: 22 22% 21%;
     --brand-dark: 22 22% 21%;
-    --brand-yellow: 65 100% 73%;
+    --brand-yellow: 65 100% 74%;
     --brand-warm: 35 30% 95%;
     --brand-mid: 30 20% 80%;
     --brand-beige: 35 25% 92%;
@@ -108,7 +108,7 @@
     --secondary-foreground: 0 0% 100%;
     --muted: 22 22% 28%;
     --muted-foreground: 0 0% 70%;
-    --accent: 65 100% 73%;
+    --accent: 65 100% 74%;
     --accent-foreground: 0 71% 5%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -116,7 +116,7 @@
     --input: 22 18% 30%;
     --ring: 0 0% 85%;
     --brand-dark: 22 22% 21%;
-    --brand-yellow: 65 100% 73%;
+    --brand-yellow: 65 100% 74%;
     --brand-warm: 30 27% 93%;
     --brand-mid: 25 24% 74%;
     
@@ -124,16 +124,16 @@
     --chat-foreground: 0 0% 100%;
     --chat-border: 22 18% 30%;
     --chat-ai-bubble: 22 22% 28%;
-    --user-bubble: 65 100% 73%;
+    --user-bubble: 65 100% 74%;
     
     --sidebar-background: 22 22% 21%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 65 100% 73%;
+    --sidebar-primary: 65 100% 74%;
     --sidebar-primary-foreground: 0 71% 5%;
     --sidebar-accent: 22 22% 28%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 22 18% 30%;
-    --sidebar-ring: 65 100% 73%;
+    --sidebar-ring: 65 100% 74%;
   }
 }
 
@@ -161,7 +161,7 @@
 }
 
 .gradient-primary {
-  background: linear-gradient(135deg, hsl(65 100% 73%), hsl(65 90% 78%));
+  background: linear-gradient(135deg, hsl(65 100% 74%), hsl(65 90% 78%));
 }
 
 .gradient-hero {
@@ -193,7 +193,7 @@
 }
 
 .glow-yellow {
-  box-shadow: 0 4px 24px hsl(65 100% 73% / 0.25);
+  box-shadow: 0 4px 24px hsl(65 100% 74% / 0.25);
 }
 
 .glow-soft {
@@ -201,7 +201,7 @@
 }
 
 .glow-accent {
-  box-shadow: 0 4px 24px hsl(65 100% 73% / 0.3);
+  box-shadow: 0 4px 24px hsl(65 100% 74% / 0.3);
 }
 
 @keyframes float {
