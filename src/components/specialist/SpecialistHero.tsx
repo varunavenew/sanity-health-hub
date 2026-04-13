@@ -77,8 +77,9 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 transition={{ duration: 0.4, delay: 0.25 }}
               >
                 <Button
+                  variant="cta"
+                  size="lg"
                   onClick={onScrollToBooking}
-                  className="rounded-full bg-brand-mid text-brand-dark hover:bg-brand-mid/90 px-7 text-sm h-11"
                 >
                   <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                   Bestill time hos {specialist.name.split(" ")[0]}

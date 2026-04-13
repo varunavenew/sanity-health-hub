@@ -138,8 +138,8 @@ export const GoogleReviewsSection = () => {
             <p className="text-white/70 text-sm font-light">{ctaSubtitle}</p>
           </div>
           <Button 
-            size="lg" 
-            className="rounded-full px-8 bg-white text-brand-dark hover:bg-white/90 flex-shrink-0"
+            variant="cta-dark"
+            size="lg"
             onClick={() => navigate('/booking')}
           >
             {t("nav.bookAppointment")}

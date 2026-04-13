@@ -189,7 +189,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
             ønsker å bli en del av CMedical-familien.
           </p>
           <a href="mailto:jobb@cmedical.no">
-            <Button size="lg" className="rounded-full px-8">
+            <Button variant="cta" size="lg">
               Send spontansøknad
             </Button>
           </a>
