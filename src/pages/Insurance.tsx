@@ -23,7 +23,7 @@ const staticSteps = [
 
 const staticBenefits = [
   { title: "Ingen utlegg", desc: "Du slipper å betale selv – vi sender faktura direkte til forsikringsselskapet." },
-  { title: "Raskere behandling", desc: "Få time innen kort tid med kort ventetid hos våre spesialister." },
+  { title: "Enkelt å bruke", desc: "Har du egenandel på forsikringen betaler du det på behandlingsstedet." },
   { title: "Alle forsikringer", desc: "Vi har avtale med alle store forsikringsselskaper i Norge." },
 ];
 
