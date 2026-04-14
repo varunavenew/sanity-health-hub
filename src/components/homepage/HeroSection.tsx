@@ -51,17 +51,18 @@ export const HeroSection = () => {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button
+              variant="cta-dark"
               size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-medium px-8 h-14 text-base rounded-md shadow-lg glow-yellow"
+              className="px-8 h-14 text-base shadow-lg"
               onClick={() => navigate('/booking')}
             >
               Bestill time
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
+              variant="cta-outline-dark"
               size="lg"
-              variant="outline"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 font-normal px-8 h-14 text-base rounded-md backdrop-blur-sm"
+              className="px-8 h-14 text-base"
               onClick={scrollToLifePhases}
             >
               Utforsk våre tjenester

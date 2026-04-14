@@ -295,7 +295,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
                 <ChevronRight className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
-            <Button className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button variant="cta-dark" className="rounded-2xl">
               Se alle {categorySpecialists.length} spesialister
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
@@ -628,7 +628,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
+              <Button variant="cta-dark" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

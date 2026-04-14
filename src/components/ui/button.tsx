@@ -7,12 +7,14 @@ import { cn } from "@/lib/utils";
 /**
  * Button Design System — CTA Guidelines
  * ─────────────────────────────────────────
- * Primary CTA:   variant="cta"          — Accent/yellow pill button, used for main actions (booking, submit)
- * Secondary CTA: variant="cta-outline"  — Outlined pill button, used alongside a primary CTA (contact, call)
- * Dark bg CTA:   variant="cta-dark"     — White pill button on dark backgrounds
+ * Primary CTA:      variant="cta"              — Accent/yellow button, used for main actions on LIGHT backgrounds
+ * Secondary CTA:    variant="cta-outline"       — Outlined button, used alongside a primary CTA on LIGHT backgrounds
+ * Dark bg primary:  variant="cta-dark"          — White button on dark backgrounds (hero, brand-dark sections)
+ * Dark bg secondary:variant="cta-outline-dark"  — Semi-transparent white outline on dark backgrounds
  *
+ * RULE: On dark backgrounds (bg-brand-dark, hero images), NEVER use "cta" (yellow).
+ *       Use "cta-dark" for primary and "cta-outline-dark" for secondary.
  * Standard variants (default, outline, ghost, link, secondary) remain for non-CTA UI elements.
- * All CTA buttons use rounded-full (pill shape) and consistent h-12 px-8 sizing.
  */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-normal ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",

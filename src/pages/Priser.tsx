@@ -887,17 +887,17 @@ const Priser = ({ isChatOpen }: PageProps) => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
+                variant="cta-dark"
                 size="lg" 
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-md px-8" 
+                className="px-8"
                 onClick={() => navigate('/booking')}
               >
                 Bestill time
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button 
+                variant="cta-outline-dark"
                 size="lg" 
-                variant="outline" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20 rounded-md" 
                 asChild
               >
                 <Link to="/kontakt">

@@ -131,8 +131,8 @@ export const TreatmentShowcase = () => {
 
                 <div className="flex gap-4 mt-8">
                   <Button
-                    variant="default"
-                    className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full"
+                    variant="cta"
+                    className="font-light"
                     onClick={() => window.location.href = '/booking'}
                   >
                     Book time

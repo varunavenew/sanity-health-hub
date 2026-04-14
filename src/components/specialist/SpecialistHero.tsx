@@ -77,7 +77,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 transition={{ duration: 0.4, delay: 0.25 }}
               >
                 <Button
-                  variant="cta"
+                  variant="cta-dark"
                   size="lg"
                   onClick={onScrollToBooking}
                 >

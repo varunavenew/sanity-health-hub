@@ -98,7 +98,8 @@ const Urology = ({ isChatOpen }: PageProps) => {
                   </div>
                 </div>
                 <Button 
-                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-full"
+                  variant="cta-dark"
+                  className="w-full"
                   onClick={() => window.location.href = '/booking'}
                 >
                   Bestill diskret time
