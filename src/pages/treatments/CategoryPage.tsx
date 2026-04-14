@@ -438,7 +438,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{category.title}</h1>
               </div>
               <div className="flex items-center gap-3">
-                <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
+                <Button variant="cta-dark" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                   Bestill time for {category.title.toLowerCase()}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
