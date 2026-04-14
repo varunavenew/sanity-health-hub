@@ -69,7 +69,8 @@ export const TrustStatsSection = () => {
         {/* CTA */}
         <div className="mt-12 text-center">
           <Button 
-            className="rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
+            variant="cta"
+            className=""
             onClick={() => navigate('/booking')}
           >
             Bestill time nå
