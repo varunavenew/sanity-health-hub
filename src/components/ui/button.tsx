@@ -28,6 +28,7 @@ const buttonVariants = cva(
         // ── CTA variants (standardised across the entire site) ──
         cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90",
         "cta-outline": "rounded-2xl border border-current bg-transparent hover:bg-foreground/5",
+        "cta-outline-dark": "rounded-2xl border border-white/40 text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-brand-dark transition-colors",
         "cta-dark": "rounded-2xl bg-white text-brand-dark hover:bg-white/90",
       },
       size: {

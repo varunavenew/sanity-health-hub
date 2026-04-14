@@ -442,7 +442,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                   Bestill time for {category.title.toLowerCase()}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
-                <Button variant="cta-outline" size="lg" onClick={() => navigate('/kontakt')}>
+                <Button variant="cta-outline-dark" size="lg" onClick={() => navigate('/kontakt')}>
                   <Phone className="mr-2 w-4 h-4" />
                   Ring for konsultasjon
                 </Button>
