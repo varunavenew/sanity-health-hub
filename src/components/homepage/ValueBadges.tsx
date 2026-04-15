@@ -19,7 +19,7 @@ export const ValueBadges = () => {
     : staticBadges;
 
   return (
-    <section className="py-6 md:py-10 bg-background">
+    <section className="py-4 md:py-6 bg-background">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3">
           {badges.map((badge: string, i: number) => {
