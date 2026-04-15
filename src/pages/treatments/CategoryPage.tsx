@@ -471,7 +471,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl">
-            {category.description.split('\n').map((paragraph, i) => {
+            {category.description.split('\n').slice(1).map((paragraph, i) => {
               const trimmed = paragraph.trim();
               if (!trimmed) return null;
               return (
@@ -480,18 +480,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                 </p>
               );
             })}
-
-            {/* Inline CTA */}
-            <div className="flex flex-wrap items-center gap-4 mt-8">
-              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
-                Bestill time for {category.title.toLowerCase()}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button variant="cta-outline" size="lg" onClick={() => navigate('/kontakt')}>
-                <Phone className="mr-2 w-4 h-4" />
-                Ring for konsultasjon
-              </Button>
-            </div>
           </div>
         </div>
       </section>
