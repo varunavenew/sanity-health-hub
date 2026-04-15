@@ -27,29 +27,29 @@ export const BookingCTA = () => {
   }, []);
 
   return (
-    <section className="pt-10 md:pt-14 pb-20 md:pb-28 bg-background">
+    <section className="pt-10 md:pt-14 pb-20 md:pb-28 bg-brand-dark">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">
           {/* Tag — NOT a button, clearly styled as label */}
           <div className="flex justify-center mb-6">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground font-light">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-white/60 font-light">
               <Calendar className="w-3.5 h-3.5" />
               {t("booking.badge")}
             </span>
           </div>
 
           {/* Header */}
-          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
+          <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
             {t("booking.title")}
           </h2>
-          <p className="text-muted-foreground font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-white/60 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
             {t("booking.subtitle")}
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button
-              variant="cta"
+              variant="cta-dark"
               size="lg"
               onClick={() => navigate("/booking")}
             >
@@ -61,7 +61,7 @@ export const BookingCTA = () => {
             {/* Call us with clinic picker */}
             <div className="relative" ref={dropdownRef}>
               <Button
-                variant="cta-outline"
+                variant="cta-outline-dark"
                 size="lg"
                 onClick={() => setShowClinicPicker(!showClinicPicker)}
               >
@@ -98,11 +98,11 @@ export const BookingCTA = () => {
 
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8">
-            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="flex items-center gap-2 text-sm text-white/50">
               <Clock className="w-4 h-4" aria-hidden="true" />
               {t("booking.availableTime")}
             </span>
-            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="flex items-center gap-2 text-sm text-white/50">
               <Shield className="w-4 h-4" aria-hidden="true" />
               {t("booking.noReferral")}
             </span>
