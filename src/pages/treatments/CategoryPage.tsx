@@ -468,22 +468,24 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </header>
 
-      {/* ── 2. Introduction ── */}
-      <section className="py-10 md:py-14 bg-background">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl">
-            {category.description.split('\n').slice(1).map((paragraph, i) => {
-              const trimmed = paragraph.trim();
-              if (!trimmed) return null;
-              return (
-                <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
-                  {trimmed}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* ── 2. Introduction (only if ≥2 extra paragraphs) ── */}
+      {(() => {
+        const extraParagraphs = category.description.split('\n').slice(1).filter(p => p.trim());
+        if (extraParagraphs.length < 2) return null;
+        return (
+          <section className="py-10 md:py-14 bg-background">
+            <div className="container mx-auto px-6 md:px-16">
+              <div className="max-w-3xl">
+                {extraParagraphs.map((paragraph, i) => (
+                  <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
+                    {paragraph.trim()}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── 3. Services: 2-column grid ── */}
       <section id="services" className="py-10 md:py-14 bg-secondary/30">
