@@ -428,19 +428,41 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         }}
       />
 
-      {/* ── 1. Hero ── */}
-      <header className="relative aspect-[21/9] md:aspect-[3/1] overflow-hidden">
-        <img
-          src={category.heroImage}
-          alt={category.title}
-          className="w-full h-full object-cover object-[center_30%]"
-          style={{ borderRadius: 0 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/40 to-brand-dark/20" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-          <div className="container mx-auto px-0 md:px-8">
-            <p className="text-xs text-white/70 mb-2 font-light">{category.subtitle}</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{category.title}</h1>
+      {/* ── 1. Hero: Split-screen ── */}
+      <header className="bg-brand-dark">
+        <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
+          {/* Left: text */}
+          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+            <p className="text-xs text-white/50 font-light tracking-wide mb-4">{category.subtitle}</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.1] mb-6">
+              {category.title}
+            </h1>
+            <p className="text-base text-white/60 font-light leading-relaxed max-w-md mb-8">
+              {category.description.split('\n')[0]?.slice(0, 160)}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
+                Bestill time
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="lg"
+                className="border border-white/30 text-white hover:bg-white hover:text-brand-dark rounded-2xl"
+                onClick={() => navigate('/kontakt')}
+              >
+                <Phone className="mr-2 w-4 h-4" />
+                Kontakt oss
+              </Button>
+            </div>
+          </div>
+          {/* Right: image */}
+          <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
+            <img
+              src={category.heroImage}
+              alt={category.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </div>
         </div>
       </header>
@@ -449,7 +471,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl">
-            {category.description.split('\n').map((paragraph, i) => {
+            {category.description.split('\n').slice(1).map((paragraph, i) => {
               const trimmed = paragraph.trim();
               if (!trimmed) return null;
               return (
@@ -458,18 +480,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                 </p>
               );
             })}
-
-            {/* Inline CTA */}
-            <div className="flex flex-wrap items-center gap-4 mt-8">
-              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
-                Bestill time for {category.title.toLowerCase()}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button variant="cta-outline" size="lg" onClick={() => navigate('/kontakt')}>
-                <Phone className="mr-2 w-4 h-4" />
-                Ring for konsultasjon
-              </Button>
-            </div>
           </div>
         </div>
       </section>
