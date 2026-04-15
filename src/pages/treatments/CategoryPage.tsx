@@ -549,33 +549,70 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
 
 
       {/* ── 6. Finansiering ── */}
-      <section className="py-10 md:py-14 bg-secondary/30">
+      <section className="py-14 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl">
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Finansiering</h2>
-            <p className="text-foreground/80 font-light leading-relaxed mb-8">
+          <div className="max-w-4xl mb-10">
+            <p className="text-sm text-muted-foreground font-light mb-2">Praktisk informasjon</p>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Finansiering</h2>
+            <p className="text-foreground/80 font-light leading-relaxed">
               Vi er et privat helsetilbud. Du betaler selv – eller får behandling dekket av helseforsikring.
             </p>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div>
-                <h3 className="text-base font-normal text-foreground mb-2">Pris</h3>
-                <p className="text-foreground/80 font-light text-sm">
-                  <button onClick={() => navigate('/priser')} className="text-foreground underline underline-offset-4 hover:text-foreground/70 transition-colors">Se prisliste →</button>
-                </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl">
+            {/* Pris */}
+            <button
+              onClick={() => navigate('/priser')}
+              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-accent/40 hover:shadow-md transition-all duration-300"
+            >
+              <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
               </div>
-              <div>
-                <h3 className="text-base font-normal text-foreground mb-2">Forsikring</h3>
-                <p className="text-foreground/80 font-light text-sm leading-relaxed">
-                  Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse.
-                </p>
+              <h3 className="text-base font-normal text-foreground mb-1.5">Priser</h3>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
+                Oversikt over priser for konsultasjoner, undersøkelser og behandlinger.
+              </p>
+              <span className="text-sm text-foreground font-normal inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                Se prisliste <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </button>
+
+            {/* Forsikring */}
+            <button
+              onClick={() => navigate('/forsikring')}
+              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-accent/40 hover:shadow-md transition-all duration-300"
+            >
+              <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center mb-4">
+                <ShieldCheck className="w-5 h-5 text-accent" strokeWidth={1.5} />
               </div>
-              <div>
-                <h3 className="text-base font-normal text-foreground mb-2">Nedbetaling</h3>
-                <p className="text-foreground/80 font-light text-sm">
-                  Nedbetaling tilgjengelig på utvalgte klinikker. Spør oss.
-                </p>
+              <h3 className="text-base font-normal text-foreground mb-1.5">Forsikring</h3>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
+                Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse.
+              </p>
+              <span className="text-sm text-foreground font-normal inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                Les mer <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </button>
+
+            {/* Nedbetaling */}
+            <button
+              onClick={() => navigate('/kontakt')}
+              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-accent/40 hover:shadow-md transition-all duration-300"
+            >
+              <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
+                </svg>
               </div>
-            </div>
+              <h3 className="text-base font-normal text-foreground mb-1.5">Nedbetaling</h3>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
+                Nedbetaling tilgjengelig på utvalgte klinikker. Kontakt oss for mer informasjon.
+              </p>
+              <span className="text-sm text-foreground font-normal inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                Kontakt oss <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </button>
           </div>
         </div>
       </section>
