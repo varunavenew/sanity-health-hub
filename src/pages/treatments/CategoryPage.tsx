@@ -7,7 +7,7 @@ import {
   Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
   Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
   Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
-  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed
+  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed, Play
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -571,7 +571,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             </div>
           </div>
         </section>
-      )
+      )}
 
       {/* ── 4. Specialists ── */}
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
