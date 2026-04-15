@@ -627,7 +627,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
               Ofte stilte spørsmål
             </h2>
-            <div className="border-t border-border/60">
+            <div className="border-t border-border/60 text-left">
               {category.faqs.map((faq, index) => (
                 <div key={index} className="border-b border-border/60">
                   <button
