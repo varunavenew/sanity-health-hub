@@ -562,10 +562,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             {/* Pris */}
             <button
               onClick={() => navigate('/priser')}
-              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-accent/40 hover:shadow-md transition-all duration-300"
+              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-11 h-11 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-brand-dark/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                 </svg>
               </div>
@@ -581,10 +581,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             {/* Forsikring */}
             <button
               onClick={() => navigate('/forsikring')}
-              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-accent/40 hover:shadow-md transition-all duration-300"
+              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center mb-4">
-                <ShieldCheck className="w-5 h-5 text-accent" strokeWidth={1.5} />
+              <div className="w-11 h-11 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
+                <ShieldCheck className="w-5 h-5 text-brand-dark/70" strokeWidth={1.5} />
               </div>
               <h3 className="text-base font-normal text-foreground mb-1.5">Forsikring</h3>
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
@@ -598,10 +598,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             {/* Nedbetaling */}
             <button
               onClick={() => navigate('/kontakt')}
-              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-accent/40 hover:shadow-md transition-all duration-300"
+              className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-full bg-accent/15 flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-11 h-11 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-brand-dark/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
                 </svg>
               </div>
