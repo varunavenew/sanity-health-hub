@@ -471,7 +471,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 2. Introduction ── */}
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl">
+          <div className="max-w-3xl">
             {category.description.split('\n').slice(1).map((paragraph, i) => {
               const trimmed = paragraph.trim();
               if (!trimmed) return null;
@@ -488,7 +488,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 3. Services: 2-column grid ── */}
       <section id="services" className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl mb-8">
+          <div className="max-w-3xl mb-8">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
               {category.servicesHeading || `${category.title}tjenester`}
             </h2>
@@ -551,14 +551,14 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 6. Finansiering ── */}
       <section className="py-14 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl mb-10">
+          <div className="max-w-3xl mb-10">
             <p className="text-sm text-muted-foreground font-light mb-2">Praktisk informasjon</p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Finansiering</h2>
             <p className="text-foreground/80 font-light leading-relaxed">
               Vi er et privat helsetilbud. Du betaler selv – eller får behandling dekket av helseforsikring.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl">
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl">
             {/* Pris */}
             <button
               onClick={() => navigate('/priser')}
@@ -620,7 +620,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 7. FAQ ── */}
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl">
+          <div className="max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
             <p className="text-muted-foreground font-light mb-8">
               Finner du ikke svar på det du lurer på? Ta gjerne kontakt med oss.
@@ -648,7 +648,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 8. Final CTA ── */}
       <section className="py-14 md:py-20 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl">
+          <div className="max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-light text-white mb-2">Klar for å ta neste steg?</h2>
             <p className="text-white/60 font-light mb-8">
               Bestill time enkelt online – ingen henvisning nødvendig.
