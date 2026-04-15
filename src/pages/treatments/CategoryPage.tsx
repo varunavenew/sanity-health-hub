@@ -355,11 +355,11 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
 
 /**
  * ─── LAYOUT ALIGNMENT RULE ───
- * All content sections use the same container + max-w-4xl + text-left alignment.
- * Hero uses edge-to-edge widescreen image with 0px border-radius.
- * This ensures consistent left-edge alignment across the entire page.
+ * Text sections use max-w-3xl for readable line lengths.
+ * Grid sections (services, cards) use full container width for better use of space.
  */
-const CONTENT_MAX_W = "max-w-4xl";
+const TEXT_MAX_W = "max-w-3xl";
+const GRID_MAX_W = "max-w-6xl";
 
 interface CategoryPageProps {
   categoryId: string;
