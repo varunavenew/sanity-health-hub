@@ -7,7 +7,7 @@ import {
   Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
   Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
   Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
-  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed
+  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed, Play
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -542,6 +542,36 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
           </div>
         </div>
       </section>
+
+      {/* ── 3b. Video (optional placeholder) ── */}
+      {categoryId === "gynekologi" && (
+        <section className="py-14 md:py-20 bg-background">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-5xl">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <p className="text-sm text-muted-foreground font-light mb-2">Se video</p>
+                  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
+                    Bli bedre kjent med våre tjenester
+                  </h2>
+                  <p className="text-foreground/70 font-light leading-relaxed">
+                    Her kan du se en kort introduksjon til hvordan vi jobber, hva du kan forvente av en konsultasjon, og hvordan våre spesialister kan hjelpe deg.
+                  </p>
+                </div>
+                <div className="aspect-video bg-secondary/50 rounded-lg flex items-center justify-center border border-border/40">
+                  <div className="text-center p-8">
+                    <div className="w-16 h-16 rounded-full bg-brand-dark/10 flex items-center justify-center mx-auto mb-4">
+                      <Play className="w-7 h-7 text-brand-dark ml-1" />
+                    </div>
+                    <p className="text-sm text-muted-foreground font-light">Videoplassering</p>
+                    <p className="text-xs text-muted-foreground/60 mt-1">Legg til video via Sanity CMS</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── 4. Specialists ── */}
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
