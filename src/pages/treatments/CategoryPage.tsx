@@ -499,7 +499,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
             )}
           </div>
 
-          <div className="grid md:grid-cols-2 gap-x-8 border-t border-border">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-x-8 border-t border-border">
             {category.services.map((service, index) => (
               <div key={index} className="border-b border-border">
                 <button
