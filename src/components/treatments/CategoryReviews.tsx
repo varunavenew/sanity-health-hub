@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
-import { Quote, Star, ChevronLeft, ChevronRight, User } from "lucide-react";
+import { useRef } from "react";
+import { Quote, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
 
-// Keywords per category to filter relevant reviews
 const categoryKeywords: Record<string, string[]> = {
   gynekologi: ["gynekolog", "kvinne", "ida", "siri", "eggfrys", "egg", "ivf", "osteopat", "ingvild"],
   fertilitet: ["fertil", "ivf", "eggfrys", "egg", "prøverør", "befruktning", "embryo", "jackson", "birgitte"],
@@ -14,16 +13,15 @@ const categoryKeywords: Record<string, string[]> = {
 
 function getRelevantReviews(categoryId: string): GoogleReview[] {
   const keywords = categoryKeywords[categoryId] || [];
-  if (keywords.length === 0) return staticReviews.slice(0, 6);
+  if (keywords.length === 0) return staticReviews.slice(0, 8);
 
   const matched = staticReviews.filter((r) =>
     keywords.some((kw) => r.text.toLowerCase().includes(kw) || r.name.toLowerCase().includes(kw))
   );
 
-  // Fill up to 6 with remaining reviews if not enough matches
   if (matched.length >= 6) return matched.slice(0, 8);
   const remaining = staticReviews.filter((r) => !matched.includes(r));
-  return [...matched, ...remaining].slice(0, 6);
+  return [...matched, ...remaining].slice(0, 8);
 }
 
 const GoogleIcon = () => (
@@ -50,16 +48,11 @@ interface CategoryReviewsProps {
 
 export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsProps) => {
   const reviews = getRelevantReviews(categoryId);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const amount = 340;
-    scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
-  };
+  const duplicated = [...reviews, ...reviews];
+  const legelistenRating = 4.8;
 
   return (
-    <section className="py-14 md:py-20 bg-brand-warm overflow-hidden">
+    <section className="py-14 md:py-20 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
@@ -68,63 +61,68 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
               Hva pasientene sier om {categoryTitle.toLowerCase()}
             </h2>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-3 px-4 py-3 bg-white rounded-sm border border-brand-dark/10">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
               <GoogleIcon />
-              <div className="flex items-center gap-1.5">
-                <span className="text-lg font-normal text-brand-dark">{googleRatingData.averageRating}</span>
-                <PartialStars rating={googleRatingData.averageRating} />
+              <div>
+                <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-2xl font-normal text-brand-dark">{googleRatingData.averageRating}</span>
+                  <PartialStars rating={googleRatingData.averageRating} />
+                </div>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-2">
-              <button onClick={() => scroll("left")} className="w-9 h-9 rounded-full border border-brand-dark/20 flex items-center justify-center hover:bg-brand-dark/5 transition-colors" aria-label="Forrige">
-                <ChevronLeft className="w-4 h-4 text-brand-dark/60" />
-              </button>
-              <button onClick={() => scroll("right")} className="w-9 h-9 rounded-full border border-brand-dark/20 flex items-center justify-center hover:bg-brand-dark/5 transition-colors" aria-label="Neste">
-                <ChevronRight className="w-4 h-4 text-brand-dark/60" />
-              </button>
+            <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
+              <LegelistenIcon />
+              <div>
+                <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
+                  <PartialStars rating={legelistenRating} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        ref={scrollRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide px-6 md:px-16 pb-2 snap-x snap-mandatory"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {reviews.map((review) => {
-          const isAnonymous = review.name === "Anonym";
-          return (
-            <div
-              key={review.id}
-              className="flex-shrink-0 w-[320px] md:w-[360px] snap-start bg-white rounded-sm border border-brand-dark/10 p-6 flex flex-col justify-between"
-            >
-              <div>
-                <Quote className="w-6 h-6 text-brand-dark/10 rotate-180 mb-3" />
-                <div className="mb-3">
+      {/* Infinite marquee */}
+      <div className="relative mt-8">
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
+        <div className="flex gap-6 animate-scroll-left hover:[animation-play-state:paused]">
+          {duplicated.map((review, index) => {
+            const isAnonymous = review.name === "Anonym";
+            return (
+              <div
+                key={`${review.id}-${index}`}
+                className="flex-shrink-0 w-[380px] p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
+              >
+                <Quote className="w-8 h-8 text-brand-dark/10 rotate-180 mb-3" />
+                <div className="mb-4">
                   <PartialStars rating={review.rating} />
                 </div>
-                <p className="text-brand-dark font-light leading-relaxed text-[15px] line-clamp-5">
-                  "{review.text}"
+                <p className="text-brand-dark font-light leading-relaxed text-base mb-2">
+                  "{review.text.length > 120 ? review.text.slice(0, 120) + '...' : review.text}"
                 </p>
-              </div>
-              <div className="pt-4 mt-4 border-t border-brand-dark/10 flex items-center justify-between">
-                <div>
-                  <p className={`text-sm text-brand-dark ${isAnonymous ? "italic opacity-60" : "font-normal"} flex items-center gap-1.5`}>
-                    {isAnonymous && <User className="w-3 h-3" />}
-                    {review.name}
-                  </p>
-                  <p className="text-xs text-brand-dark/50 font-light">{review.date}</p>
+                <div className="mb-4" />
+                <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                  <div>
+                    <p className={`text-brand-dark ${isAnonymous ? "italic text-brand-dark/60 font-light" : "font-normal"} flex items-center gap-2`}>
+                      {isAnonymous && <User className="w-3.5 h-3.5" />}
+                      {review.name}
+                    </p>
+                    <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                    {review.source === "google" ? <GoogleIcon /> : <LegelistenIcon />}
+                    <span>{review.source === "google" ? "Google" : "Legelisten"}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5 text-xs text-brand-dark/40">
-                  {review.source === "google" ? <GoogleIcon /> : <LegelistenIcon />}
-                  <span>{review.source === "google" ? "Google" : "Legelisten"}</span>
-                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
