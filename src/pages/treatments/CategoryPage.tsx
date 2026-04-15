@@ -14,6 +14,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import type { LucideIcon } from "lucide-react";
 
 // Static fallback images
