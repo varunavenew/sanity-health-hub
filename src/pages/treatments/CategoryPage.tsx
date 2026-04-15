@@ -543,6 +543,9 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 4. Specialists ── */}
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
 
+      {/* ── 5. Reviews ── */}
+      <CategoryReviews categoryId={categoryId} categoryTitle={category.title} />
+
       {/* ── 5. Klinikker ── */}
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
