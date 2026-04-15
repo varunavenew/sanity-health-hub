@@ -653,12 +653,14 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 8. Final CTA ── */}
       <section className="py-14 md:py-20 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-2">Klar for å ta neste steg?</h2>
-            <p className="text-white/60 font-light mb-8">
-              Bestill time enkelt online – ingen henvisning nødvendig.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-2">Klar for å ta neste steg?</h2>
+              <p className="text-white/60 font-light">
+                Bestill time enkelt online – ingen henvisning nødvendig.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
               <Button variant="cta-dark" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />
