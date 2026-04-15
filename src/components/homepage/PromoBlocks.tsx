@@ -32,14 +32,21 @@ export const PromoBlocks = () => {
       : staticBlocks;
 
   return (
-    <section className="bg-background pt-2 md:pt-4 pb-4 md:pb-6">
+    <section className="bg-secondary/30 pt-10 md:pt-14 pb-4 md:pb-6">
       <div className="container mx-auto px-4 md:px-8">
+        {/* Section heading */}
+        <div className="max-w-6xl mx-auto mb-6 md:mb-8">
+          <h2 className="text-xl md:text-2xl font-light text-foreground">
+            Nyheter og artikler
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-6xl mx-auto">
           {blocks.map((block: any) => (
             <button
               key={block.id}
               onClick={() => navigate(block.path)}
-              className="group relative overflow-hidden rounded-sm aspect-[16/9] text-left cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300"
+              className="group relative overflow-hidden aspect-[16/9] text-left cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300"
             >
               <img
                 src={block.image}

@@ -21,16 +21,16 @@ export const SpecialistsSection = () => {
   };
 
   return (
-    <section className="pt-24 md:pt-32 pb-10 md:pb-14 bg-brand-dark overflow-hidden">
+    <section className="pt-24 md:pt-32 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-white/70 font-light mb-3">{t("specialists.subtitle")}</p>
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
+            <p className="text-sm text-muted-foreground font-light mb-3">{t("specialists.subtitle")}</p>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               {t("specialists.title")}
             </h2>
-            <p className="text-white/70 font-light">
+            <p className="text-muted-foreground font-light">
               {t("specialists.description")}
             </p>
           </div>
@@ -39,21 +39,21 @@ export const SpecialistsSection = () => {
             <div className="hidden md:flex items-center gap-2">
               <button 
                 onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
                 aria-label={t("specialists.scrollLeft")}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => scroll('right')}
-                className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
                 aria-label={t("specialists.scrollRight")}
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
             <Button 
-              className="rounded-full bg-white/10 border border-white/30 text-white hover:bg-white/20"
+              variant="cta-outline"
               asChild
             >
               <Link to="/spesialister">
@@ -82,13 +82,12 @@ export const SpecialistsSection = () => {
             className="group flex-shrink-0 w-[280px] snap-start"
           >
             {/* Image */}
-            <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-3 bg-brand-dark">
+            <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-3 bg-secondary">
               <img
                 src={specialist.image}
                 alt={specialist.name}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
 
@@ -110,25 +109,25 @@ export const SpecialistsSection = () => {
               </div>
             </div>
 
-            <p className="text-sm text-white/70 font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-muted-foreground font-normal px-1">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         
         {/* "See all" card at end */}
         <div className="flex-shrink-0 w-[280px] snap-start">
-          <div className="aspect-[3/4] rounded-sm bg-white/10 border border-white/20 flex flex-col items-center justify-center cursor-pointer hover:bg-white/15 transition-colors">
-            <div className="w-16 h-16 rounded-full bg-white/15 flex items-center justify-center mb-4">
-              <ArrowRight className="w-6 h-6 text-white" />
+          <div className="aspect-[3/4] rounded-sm bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
+            <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
+              <ArrowRight className="w-6 h-6 text-foreground" />
             </div>
-            <p className="text-white font-normal mb-1">{t("specialists.seeAllShort")}</p>
-            <p className="text-white/60 text-sm font-light">{t("specialists.count", { count: specialists.length })}</p>
+            <p className="text-foreground font-normal mb-1">{t("specialists.seeAllShort")}</p>
+            <p className="text-muted-foreground text-sm font-light">{t("specialists.count", { count: specialists.length })}</p>
           </div>
         </div>
       </div>
 
       {/* Mobile scroll hint */}
       <div className="md:hidden flex justify-center mt-4 gap-1">
-        <span className="text-xs text-white/60">{t("specialists.swipeHint")}</span>
+        <span className="text-xs text-muted-foreground">{t("specialists.swipeHint")}</span>
       </div>
     </section>
   );

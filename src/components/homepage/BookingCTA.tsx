@@ -27,29 +27,29 @@ export const BookingCTA = () => {
   }, []);
 
   return (
-    <section className="pt-10 md:pt-14 pb-20 md:pb-28 bg-brand-dark">
+    <section className="pt-10 md:pt-14 pb-20 md:pb-28 bg-background">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Badge */}
+          {/* Tag — NOT a button, clearly styled as label */}
           <div className="flex justify-center mb-6">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm text-white/80">
-              <Calendar className="w-4 h-4" />
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground font-light">
+              <Calendar className="w-3.5 h-3.5" />
               {t("booking.badge")}
             </span>
           </div>
 
           {/* Header */}
-          <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
+          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
             {t("booking.title")}
           </h2>
-          <p className="text-white/70 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-muted-foreground font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
             {t("booking.subtitle")}
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button
-              variant="cta-dark"
+              variant="cta"
               size="lg"
               onClick={() => navigate("/booking")}
             >
@@ -63,7 +63,6 @@ export const BookingCTA = () => {
               <Button
                 variant="cta-outline"
                 size="lg"
-                className="text-white border-white/30 hover:bg-white hover:text-brand-dark"
                 onClick={() => setShowClinicPicker(!showClinicPicker)}
               >
                 <Phone className="mr-2 w-5 h-5" />
@@ -99,11 +98,11 @@ export const BookingCTA = () => {
 
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8">
-            <span className="flex items-center gap-2 text-sm text-white/70">
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" aria-hidden="true" />
               {t("booking.availableTime")}
             </span>
-            <span className="flex items-center gap-2 text-sm text-white/70">
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
               <Shield className="w-4 h-4" aria-hidden="true" />
               {t("booking.noReferral")}
             </span>
