@@ -214,7 +214,6 @@ const staticCategoryData: Record<string, CategoryData> = {
       { name: "Endokrinologi", path: "/behandlinger/flere-fagomrader/endokrinologi" },
       { name: "Ernæringsfysiolog", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
       { name: "Hudlege", path: "/behandlinger/flere-fagomrader/hudlege" },
-      
       { name: "Gastrokirurgi", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
       { name: "Overvektskirurgi", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
       { name: "Osteopati", path: "/behandlinger/flere-fagomrader/osteopati" },
@@ -316,7 +315,6 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
 
-              {/* Clinic location - top left */}
               {specialist.clinics && specialist.clinics.length > 0 && (
                 <div className="absolute top-3 left-3 flex items-center gap-1 text-white/80 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
                   <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
@@ -324,7 +322,6 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
                 </div>
               )}
 
-              {/* Info overlay at bottom */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="font-normal text-white mb-0.5">{specialist.name}</h3>
                 <p className="text-sm text-white/70 font-light">
@@ -355,6 +352,14 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
   );
 };
 
+/**
+ * ─── LAYOUT ALIGNMENT RULE ───
+ * All content sections use the same container + max-w-4xl + text-left alignment.
+ * Hero uses edge-to-edge widescreen image with 0px border-radius.
+ * This ensures consistent left-edge alignment across the entire page.
+ */
+const CONTENT_MAX_W = "max-w-4xl";
+
 interface CategoryPageProps {
   categoryId: string;
   isChatOpen: boolean;
@@ -365,7 +370,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
   
-  // Fetch from Sanity with static fallback
   const { data: sanityCategory } = useTreatmentCategory(categoryId);
   const staticCategory = staticCategoryData[categoryId];
 
@@ -426,9 +430,15 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
           },
         }}
       />
-      {/* Compact Hero Banner */}
-      <header className="relative h-[30vh] md:h-[35vh] overflow-hidden">
-        <img src={category.heroImage} alt={category.title} className="w-full h-full object-cover object-[center_30%]" />
+
+      {/* ── Hero: Edge-to-edge widescreen image, 0px border-radius ── */}
+      <header className="relative aspect-[21/9] md:aspect-[3/1] overflow-hidden">
+        <img
+          src={category.heroImage}
+          alt={category.title}
+          className="w-full h-full object-cover object-[center_30%]"
+          style={{ borderRadius: 0 }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/40 to-brand-dark/20" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
           <div className="container mx-auto px-0 md:px-8">
@@ -452,10 +462,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </header>
 
-      {/* Introduction */}
-      <section className="py-8 md:py-12 bg-background">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto">
+      {/* ── Introduction ── */}
+      <section className="py-10 md:py-14 bg-background">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className={CONTENT_MAX_W}>
             {category.description.split('\n').map((paragraph, i) => {
               const trimmed = paragraph.trim();
               if (!trimmed) return null;
@@ -469,16 +479,16 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* ── Services Section ── */}
       <section id="services" className="py-10 md:py-14 bg-background">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-12">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className={CONTENT_MAX_W}>
+            <div className="mb-10">
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
                 {category.servicesHeading || `${category.title}tjenester`}
               </h2>
               {category.servicesIntro && (
-                <p className="text-muted-foreground font-light max-w-3xl">
+                <p className="text-muted-foreground font-light">
                   {category.servicesIntro}
                 </p>
               )}
@@ -515,14 +525,15 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* Spesialistklinikker Section */}
+      {/* ── Spesialistklinikker Section ── */}
       <section className="py-10 md:py-14 bg-secondary/30">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-4xl mx-auto">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className={CONTENT_MAX_W}>
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Spesialistklinikker</h2>
             <div className="flex flex-wrap gap-3 mb-6">
-              <span className="text-sm text-muted-foreground font-light bg-background px-4 py-2 rounded-full border border-border">Kort ventetid</span>
-              <span className="text-sm text-muted-foreground font-light bg-background px-4 py-2 rounded-full border border-border">Ingen henvisning</span>
+              <span className="text-sm text-muted-foreground font-light">Kort ventetid</span>
+              <span className="w-px h-4 bg-border self-center" />
+              <span className="text-sm text-muted-foreground font-light">Ingen henvisning</span>
             </div>
             <div className="space-y-4 mb-8">
               <p className="text-foreground/80 font-light leading-relaxed">
@@ -544,10 +555,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* Finansiering Section */}
+      {/* ── Finansiering Section ── */}
       <section className="py-10 md:py-14 bg-background">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-4xl mx-auto">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className={CONTENT_MAX_W}>
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Finansiering</h2>
             <p className="text-foreground/80 font-light leading-relaxed mb-8">
               Vi er et privat helsetilbud. Det betyr at du betaler selv – eller får utredning eller behandling dekket av helseforsikring.
@@ -588,13 +599,13 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* Specialists Section */}
+      {/* ── Specialists Section ── */}
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
 
-      {/* FAQ Section */}
+      {/* ── FAQ Section ── */}
       <section className="py-10 md:py-14 bg-secondary/30">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className={CONTENT_MAX_W}>
             <div className="mb-8">
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
               <p className="text-muted-foreground font-light">
@@ -619,10 +630,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ── CTA ── */}
       <section className="py-16 md:py-20 bg-brand-dark">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className={CONTENT_MAX_W}>
             <h2 className="text-2xl md:text-3xl font-light text-white mb-3">Klar for å ta neste steg?</h2>
             <p className="text-white/70 font-light mb-8 max-w-lg">
               Bestill time enkelt online eller ring oss for en uforpliktende konsultasjon. Ingen henvisning nødvendig.
