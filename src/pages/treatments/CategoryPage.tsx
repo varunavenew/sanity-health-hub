@@ -547,30 +547,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 5. Reviews ── */}
       <CategoryReviews categoryId={categoryId} categoryTitle={category.title} />
 
-      {/* ── 5. Klinikker ── */}
-      <section className="py-10 md:py-14 bg-background">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-4xl">
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Spesialistklinikker</h2>
-            <div className="flex items-center gap-3 mb-5 text-sm text-muted-foreground font-light">
-              <span>Kort ventetid</span>
-              <span className="w-px h-4 bg-border" />
-              <span>Ingen henvisning</span>
-            </div>
-            <p className="text-foreground/80 font-light leading-relaxed mb-4">
-              CMedical er Nordens ledende på kvinnen og mannens underliv. Hos oss møter du engasjerte spesialister som jobber med den sykdommen de kan best – i unike tverrfaglige team.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-6">
-              <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/spesialister')}>
-                Spesialister <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/klinikker')}>
-                Klinikker <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── 6. Finansiering ── */}
       <section className="py-10 md:py-14 bg-secondary/30">
