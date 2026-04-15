@@ -618,28 +618,39 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       {/* ── 7. FAQ ── */}
-      <section className="py-10 md:py-14 bg-background">
+      <section className="py-14 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
-            <p className="text-muted-foreground font-light mb-8">
-              Finner du ikke svar på det du lurer på? Ta gjerne kontakt med oss.
-            </p>
-            <div className="border-t border-border">
-              {category.faqs.map((faq, index) => (
-                <div key={index} className="border-b border-border">
-                  <button onClick={() => toggleFaq(`faq-${index}`)} className="w-full flex items-center justify-between py-5 text-left hover:bg-secondary/30 transition-colors">
-                    <span className="text-base font-normal text-foreground">{faq.question}</span>
-                    {openFaq === `faq-${index}`
-                      ? <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                      : <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    }
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-out ${openFaq === `faq-${index}` ? "max-h-40 pb-5" : "max-h-0"}`}>
-                    <p className="text-muted-foreground text-sm leading-relaxed pr-8 font-light">{faq.answer}</p>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 max-w-6xl">
+            {/* Left: heading */}
+            <div className="md:col-span-4">
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
+                Ofte stilte spørsmål
+              </h2>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                Finner du ikke svar på det du lurer på? Ta gjerne kontakt med oss.
+              </p>
+            </div>
+            {/* Right: accordion */}
+            <div className="md:col-span-8">
+              <div className="border-t border-border/60">
+                {category.faqs.map((faq, index) => (
+                  <div key={index} className="border-b border-border/60">
+                    <button
+                      onClick={() => toggleFaq(`faq-${index}`)}
+                      className="w-full flex items-center justify-between py-5 text-left transition-colors"
+                    >
+                      <span className="text-base font-normal text-foreground">{faq.question}</span>
+                      {openFaq === `faq-${index}`
+                        ? <Minus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                        : <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                      }
+                    </button>
+                    <div className={`overflow-hidden transition-all duration-300 ease-out ${openFaq === `faq-${index}` ? "max-h-60 pb-5" : "max-h-0"}`}>
+                      <p className="text-muted-foreground text-sm leading-relaxed pr-8 font-light">{faq.answer}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
