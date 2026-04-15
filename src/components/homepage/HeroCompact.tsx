@@ -30,7 +30,7 @@ export const HeroCompact = () => {
       : staticCategories;
 
   return (
-    <section className="bg-background py-12 md:py-16 pb-4 md:pb-6">
+    <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-6xl mx-auto mb-6 md:mb-8">
           <h2 className="text-xl md:text-2xl font-light text-foreground text-center">
