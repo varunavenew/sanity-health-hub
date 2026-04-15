@@ -34,10 +34,10 @@ const Index = ({ isChatOpen }: IndexProps) => {
       <TaglineBanner />
       <StatsBar />
       <HeroCompact />
+      <GoogleReviewsSection />
       <ValueBadges />
       <PromoBlocks />
       <LifePhasesSection />
-      <GoogleReviewsSection />
       <SpecialistsSection />
       <BookingCTA />
     </PageLayout>

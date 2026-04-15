@@ -17,15 +17,15 @@ export const StatsBar = () => {
     : staticStats;
 
   return (
-    <section className="bg-brand-dark text-white py-10 md:py-14">
+    <section className="bg-secondary/50 py-10 md:py-14">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 max-w-5xl mx-auto text-center">
           {stats.map((stat: any, i: number) => (
             <div key={i} className="space-y-1">
-              <p className="text-2xl md:text-3xl lg:text-4xl font-light tracking-tight">
+              <p className="text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-foreground">
                 {stat.value}
               </p>
-              <p className="text-sm text-white/60 font-light">
+              <p className="text-sm text-muted-foreground font-light">
                 {stat.label}
               </p>
             </div>
