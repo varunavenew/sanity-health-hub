@@ -428,7 +428,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         }}
       />
 
-      {/* ── 1. Hero: Compact widescreen banner ── */}
+      {/* ── 1. Hero ── */}
       <header className="relative aspect-[21/9] md:aspect-[3/1] overflow-hidden">
         <img
           src={category.heroImage}
@@ -445,57 +445,30 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </header>
 
-      {/* ── 2. Intro + Quick Booking: Split layout ── */}
+      {/* ── 2. Introduction ── */}
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="grid lg:grid-cols-[1fr_340px] gap-10 lg:gap-16 items-start">
-            {/* Left: Description */}
-            <div>
-              {category.description.split('\n').map((paragraph, i) => {
-                const trimmed = paragraph.trim();
-                if (!trimmed) return null;
-                return (
-                  <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
-                    {trimmed}
-                  </p>
-                );
-              })}
-            </div>
+          <div className="max-w-4xl">
+            {category.description.split('\n').map((paragraph, i) => {
+              const trimmed = paragraph.trim();
+              if (!trimmed) return null;
+              return (
+                <p key={i} className="text-base md:text-[17px] text-foreground/80 leading-relaxed font-light mb-4 last:mb-0">
+                  {trimmed}
+                </p>
+              );
+            })}
 
-            {/* Right: Quick booking card */}
-            <div className="bg-brand-dark rounded-lg p-6 lg:sticky lg:top-24">
-              <h3 className="text-lg font-light text-white mb-2">Bestill time raskt</h3>
-              <p className="text-sm text-white/60 font-light mb-5 leading-relaxed">
-                Få time innen 1–3 dager. Ingen henvisning fra fastlege nødvendig.
-              </p>
-              <div className="space-y-3 mb-6 text-sm text-white/70 font-light">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                  Erfarne {getSpecialistLabel(categoryId)}er
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                  Moderne utstyr og diagnostikk
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                  Diskret og trygt miljø
-                </div>
-              </div>
-              <Button
-                variant="cta-dark"
-                className="w-full"
-                onClick={() => navigate(`/booking?kategori=${categoryId}`)}
-              >
+            {/* Inline CTA */}
+            <div className="flex flex-wrap items-center gap-4 mt-8">
+              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
-              <button
-                onClick={() => navigate('/kontakt')}
-                className="w-full text-center mt-3 text-sm text-white/50 hover:text-white/70 transition-colors font-light"
-              >
-                Eller ring for konsultasjon →
-              </button>
+              <Button variant="cta-outline" size="lg" onClick={() => navigate('/kontakt')}>
+                <Phone className="mr-2 w-4 h-4" />
+                Ring for konsultasjon
+              </Button>
             </div>
           </div>
         </div>
@@ -504,18 +477,18 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       {/* ── 3. Services: 2-column grid ── */}
       <section id="services" className="py-10 md:py-14 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="mb-10">
+          <div className="max-w-4xl mb-8">
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">
               {category.servicesHeading || `${category.title}tjenester`}
             </h2>
             {category.servicesIntro && (
-              <p className="text-muted-foreground font-light max-w-3xl">
+              <p className="text-muted-foreground font-light">
                 {category.servicesIntro}
               </p>
             )}
           </div>
 
-          <div className="grid md:grid-cols-2 gap-x-6 gap-y-0 border-t border-border">
+          <div className="grid md:grid-cols-2 gap-x-8 border-t border-border">
             {category.services.map((service, index) => (
               <div key={index} className="border-b border-border">
                 <button
@@ -526,10 +499,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                     {(() => {
                       const Icon = getServiceIcon(service.name);
                       return (
-                        <Icon
-                          className="w-5 h-5 text-muted-foreground group-hover:text-brand-dark transition-colors flex-shrink-0"
-                          strokeWidth={1.5}
-                        />
+                        <Icon className="w-5 h-5 text-muted-foreground group-hover:text-brand-dark transition-colors flex-shrink-0" strokeWidth={1.5} />
                       );
                     })()}
                     <span className="text-base font-normal text-foreground group-hover:text-brand-dark transition-colors">
@@ -537,11 +507,9 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                     </span>
                   </div>
                   {service.subServices && service.subServices.length > 0 ? (
-                    expandedService === service.name ? (
-                      <Minus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                    ) : (
-                      <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                    )
+                    expandedService === service.name
+                      ? <Minus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                      : <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   ) : (
                     <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 group-hover:translate-x-1 transition-transform" />
                   )}
@@ -549,14 +517,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
                 {service.subServices && expandedService === service.name && (
                   <div className="pb-4 pl-4 space-y-2">
                     {service.subServices.map((subService, subIndex) => (
-                      <button
-                        key={subIndex}
-                        onClick={() => subService.path && navigate(subService.path)}
-                        className="w-full flex items-center justify-between py-3 px-4 text-left hover:bg-background rounded-lg transition-colors group"
-                      >
-                        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                          {subService.name}
-                        </span>
+                      <button key={subIndex} onClick={() => subService.path && navigate(subService.path)} className="w-full flex items-center justify-between py-3 px-4 text-left hover:bg-background rounded-lg transition-colors group">
+                        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">{subService.name}</span>
                         <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0 group-hover:translate-x-1 transition-transform" />
                       </button>
                     ))}
@@ -568,102 +530,86 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* ── 4. Specialists (social proof) ── */}
+      {/* ── 4. Specialists ── */}
       <CategorySpecialists categoryId={categoryId} categoryTitle={category.title} />
 
-      {/* ── 5. Spesialistklinikker + Finansiering: Split ── */}
+      {/* ── 5. Klinikker ── */}
       <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Klinikker */}
-            <div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Spesialistklinikker</h2>
-              <div className="flex items-center gap-3 mb-5 text-sm text-muted-foreground font-light">
-                <span>Kort ventetid</span>
-                <span className="w-px h-4 bg-border" />
-                <span>Ingen henvisning</span>
-              </div>
-              <p className="text-foreground/80 font-light leading-relaxed mb-4">
-                CMedical er Nordens ledende på kvinnen og mannens underliv. Hos oss møter du engasjerte spesialister som jobber med den sykdommen de kan best – i unike tverrfaglige team.
-              </p>
-              <p className="text-foreground/80 font-light leading-relaxed mb-6">
-                Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/spesialister')}>
-                  Spesialister <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-                <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/klinikker')}>
-                  Klinikker <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
+          <div className="max-w-4xl">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Spesialistklinikker</h2>
+            <div className="flex items-center gap-3 mb-5 text-sm text-muted-foreground font-light">
+              <span>Kort ventetid</span>
+              <span className="w-px h-4 bg-border" />
+              <span>Ingen henvisning</span>
             </div>
+            <p className="text-foreground/80 font-light leading-relaxed mb-4">
+              CMedical er Nordens ledende på kvinnen og mannens underliv. Hos oss møter du engasjerte spesialister som jobber med den sykdommen de kan best – i unike tverrfaglige team.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-6">
+              <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/spesialister')}>
+                Spesialister <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+              <Button variant="outline" className="rounded-full font-normal" onClick={() => navigate('/klinikker')}>
+                Klinikker <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Finansiering */}
-            <div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Finansiering</h2>
-              <p className="text-foreground/80 font-light leading-relaxed mb-6">
-                Vi er et privat helsetilbud. Du betaler selv – eller får behandling dekket av helseforsikring.
-              </p>
-              <div className="space-y-5">
-                <div>
-                  <h3 className="text-base font-normal text-foreground mb-1">Pris</h3>
-                  <p className="text-foreground/80 font-light text-sm">
-                    <button onClick={() => navigate('/priser')} className="text-foreground underline underline-offset-4 hover:text-foreground/70 transition-colors">
-                      Se prisliste →
-                    </button>
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-base font-normal text-foreground mb-1">Forsikring</h3>
-                  <p className="text-foreground/80 font-light text-sm leading-relaxed">
-                    Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse. Sjekk med ditt forsikringsselskap hva din forsikring dekker.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-base font-normal text-foreground mb-1">Nedbetaling</h3>
-                  <p className="text-foreground/80 font-light text-sm">
-                    Vi tilbyr nedbetaling på utvalgte klinikker. Spør oss for mer informasjon.
-                  </p>
-                </div>
+      {/* ── 6. Finansiering ── */}
+      <section className="py-10 md:py-14 bg-secondary/30">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-4xl">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">Finansiering</h2>
+            <p className="text-foreground/80 font-light leading-relaxed mb-8">
+              Vi er et privat helsetilbud. Du betaler selv – eller får behandling dekket av helseforsikring.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div>
+                <h3 className="text-base font-normal text-foreground mb-2">Pris</h3>
+                <p className="text-foreground/80 font-light text-sm">
+                  <button onClick={() => navigate('/priser')} className="text-foreground underline underline-offset-4 hover:text-foreground/70 transition-colors">Se prisliste →</button>
+                </p>
+              </div>
+              <div>
+                <h3 className="text-base font-normal text-foreground mb-2">Forsikring</h3>
+                <p className="text-foreground/80 font-light text-sm leading-relaxed">
+                  Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-base font-normal text-foreground mb-2">Nedbetaling</h3>
+                <p className="text-foreground/80 font-light text-sm">
+                  Nedbetaling tilgjengelig på utvalgte klinikker. Spør oss.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 6. FAQ ── */}
-      <section className="py-10 md:py-14 bg-secondary/30">
+      {/* ── 7. FAQ ── */}
+      <section className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="grid lg:grid-cols-[1fr_2fr] gap-10 lg:gap-16">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
-              <p className="text-muted-foreground font-light text-sm">
-                Finner du ikke svar på det du lurer på? Ta gjerne kontakt med oss.
-              </p>
-            </div>
-            <div className="space-y-0 border-t border-border bg-background rounded-lg overflow-hidden">
+          <div className="max-w-4xl">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">Ofte stilte spørsmål</h2>
+            <p className="text-muted-foreground font-light mb-8">
+              Finner du ikke svar på det du lurer på? Ta gjerne kontakt med oss.
+            </p>
+            <div className="border-t border-border">
               {category.faqs.map((faq, index) => (
-                <div key={index} className="border-b border-border last:border-b-0">
-                  <button
-                    onClick={() => toggleFaq(`faq-${index}`)}
-                    className="w-full flex items-center justify-between py-5 px-6 text-left hover:bg-secondary/30 transition-colors"
-                  >
+                <div key={index} className="border-b border-border">
+                  <button onClick={() => toggleFaq(`faq-${index}`)} className="w-full flex items-center justify-between py-5 text-left hover:bg-secondary/30 transition-colors">
                     <span className="text-base font-normal text-foreground">{faq.question}</span>
-                    {openFaq === `faq-${index}` ? (
-                      <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    ) : (
-                      <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    )}
+                    {openFaq === `faq-${index}`
+                      ? <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                      : <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    }
                   </button>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-out ${
-                      openFaq === `faq-${index}` ? "max-h-40 pb-5 px-6" : "max-h-0"
-                    }`}
-                  >
-                    <p className="text-muted-foreground text-sm leading-relaxed pr-8 font-light">
-                      {faq.answer}
-                    </p>
+                  <div className={`overflow-hidden transition-all duration-300 ease-out ${openFaq === `faq-${index}` ? "max-h-40 pb-5" : "max-h-0"}`}>
+                    <p className="text-muted-foreground text-sm leading-relaxed pr-8 font-light">{faq.answer}</p>
                   </div>
                 </div>
               ))}
@@ -672,17 +618,15 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* ── 7. Final CTA ── */}
+      {/* ── 8. Final CTA ── */}
       <section className="py-14 md:py-20 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-light text-white mb-2">Klar for å ta neste steg?</h2>
-              <p className="text-white/60 font-light">
-                Bestill time enkelt online – ingen henvisning nødvendig.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
+          <div className="max-w-4xl">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-2">Klar for å ta neste steg?</h2>
+            <p className="text-white/60 font-light mb-8">
+              Bestill time enkelt online – ingen henvisning nødvendig.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="cta-dark" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
                 Bestill time for {category.title.toLowerCase()}
                 <ArrowRight className="ml-2 w-4 h-4" />
