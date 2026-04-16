@@ -144,7 +144,7 @@ export const HeroBanner = () => {
           <img
             src={slide.image}
             alt={slide.alt}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02] saturate-[0.75] brightness-[0.95] contrast-[1.05]"
+            className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02] saturate-[0.75] brightness-[0.95] contrast-[1.05] ${slide.id === "fertilitet" ? "[transform:scaleX(-1)]" : ""}`}
             style={{ objectPosition: slide.objectPosition }}
             loading={current === 0 ? "eager" : "lazy"}
           />
