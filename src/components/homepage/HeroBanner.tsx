@@ -116,9 +116,9 @@ export const HeroBanner = () => {
   const slide = heroSlides[current];
 
   const variants = {
-    enter: (d: number) => ({ x: d > 0 ? "100%" : "-100%", opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
+    enter: { opacity: 0 },
+    center: { opacity: 1 },
+    exit: { opacity: 0 },
   };
 
   return (
@@ -129,7 +129,7 @@ export const HeroBanner = () => {
       onPointerUp={onPointerUp}
       style={{ cursor: "grab" }}
     >
-      <AnimatePresence custom={direction} mode="wait">
+      <AnimatePresence custom={direction} mode="popLayout">
         <motion.div
           key={slide.id}
           custom={direction}
@@ -137,7 +137,7 @@ export const HeroBanner = () => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
           className="absolute inset-0 cursor-pointer group"
           onClick={() => { if (!dragging.current) navigate(slide.ctaPath); }}
         >
