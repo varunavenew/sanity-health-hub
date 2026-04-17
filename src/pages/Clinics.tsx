@@ -20,8 +20,8 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         description="Oversikt over alle CMedical-klinikker i Norge. Finn nærmeste klinikk – med adresse, telefon, åpningstider og fagområder."
         canonical="/klinikker"
         breadcrumbs={[
-          { name: "Hjem", url: "/" },
-          { name: "Klinikker", url: "/klinikker" },
+          { name: "Hjem", path: "/" },
+          { name: "Klinikker", path: "/klinikker" },
         ]}
       />
 
