@@ -109,7 +109,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Concept video */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="pt-10 md:pt-14 pb-6 md:pb-8 bg-background">
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
           <div className="mb-8 max-w-2xl">
             <p className="text-sm text-muted-foreground font-light mb-2">Konseptfilm</p>
@@ -127,7 +127,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Content */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="pt-6 md:pt-8 pb-16 md:pb-24 bg-background">
         <div className="container mx-auto px-4 md:px-8 max-w-3xl">
           {/* Intro texts */}
           {introTexts.map((text, i) => (
