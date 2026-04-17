@@ -29,6 +29,7 @@ import Personvern from "./pages/Personvern";
 import Karriere from "./pages/Karriere";
 import KarriereDetail from "./pages/KarriereDetail";
 import ClinicDetailPage from "./pages/ClinicDetailPage";
+import Clinics from "./pages/Clinics";
 
 const queryClient = new QueryClient();
 
@@ -108,7 +109,8 @@ const AppContent = () => {
         {/* Booking demo */}
         <Route path="/booking" element={<BookingDemo />} />
         <Route path="/bestill-time" element={<BookingDemo />} />
-        {/* Clinic detail pages */}
+        {/* Clinic pages */}
+        <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
