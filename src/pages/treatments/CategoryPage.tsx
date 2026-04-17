@@ -23,6 +23,7 @@ import fertilitetImg from "@/assets/categories/fertilitet.jpg";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
+import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
 
 // Icon mapping for treatment services
 const serviceIconMap: Record<string, LucideIcon> = {
@@ -188,7 +189,7 @@ const staticCategoryData: Record<string, CategoryData> = {
   graviditet: {
     id: "graviditet", title: "Graviditet og fostermedisin", subtitle: "Kort ventetid • Ingen henvisning",
     description: "Vi tilbyr trygg og helhetlig oppfølging gjennom svangerskapet.",
-    heroImage: gynekologiImg,
+    heroImage: graviditetImg,
     services: [
       { name: "Ultralyd", path: "/behandlinger/graviditet/ultralyd" },
       { name: "NIPT", path: "/behandlinger/graviditet/nipt" },
