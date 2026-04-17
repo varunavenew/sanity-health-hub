@@ -27,7 +27,7 @@ export const BookingCTA = () => {
   }, []);
 
   return (
-    <section className="pt-10 md:pt-14 pb-20 md:pb-28 bg-brand-dark">
+    <section className="py-20 md:py-28 bg-brand-dark">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">
           {/* Header */}
