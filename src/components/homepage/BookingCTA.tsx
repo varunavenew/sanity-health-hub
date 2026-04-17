@@ -30,14 +30,6 @@ export const BookingCTA = () => {
     <section className="pt-10 md:pt-14 pb-20 md:pb-28 bg-brand-dark">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Tag — NOT a button, clearly styled as label */}
-          <div className="flex justify-center mb-6">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 text-xs text-white/60 font-light">
-              <Calendar className="w-3.5 h-3.5" />
-              {t("booking.badge")}
-            </span>
-          </div>
-
           {/* Header */}
           <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
             {t("booking.title")}
