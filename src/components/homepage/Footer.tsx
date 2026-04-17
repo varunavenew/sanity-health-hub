@@ -99,6 +99,17 @@ export const Footer = () => {
                 <MapPin className="w-4 h-4 flex-shrink-0" />
                 {address}
               </div>
+              <div className="flex gap-2.5 pt-3">
+                <a href={social.instagram || "#"} aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Instagram className="w-4 h-4 text-white/60" aria-hidden="true" />
+                </a>
+                <a href={social.facebook || "#"} aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Facebook className="w-4 h-4 text-white/60" aria-hidden="true" />
+                </a>
+                <a href={social.linkedin || "#"} aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Linkedin className="w-4 h-4 text-white/60" aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -110,22 +121,8 @@ export const Footer = () => {
             <p className="text-xs text-white/30">© {new Date().getFullYear()} CMedical. {t("footer.rights")}</p>
           </div>
           
-          <div className="flex items-center gap-6">
-            <div className="flex gap-5 text-xs text-white/40">
-              <Link to="/personvern" className="hover:text-white/70 transition-colors">{t("footer.privacy")}</Link>
-            </div>
-            
-            <div className="flex gap-2.5">
-              <a href={social.instagram || "#"} aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Instagram className="w-4 h-4 text-white/40" aria-hidden="true" />
-              </a>
-              <a href={social.facebook || "#"} aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Facebook className="w-4 h-4 text-white/40" aria-hidden="true" />
-              </a>
-              <a href={social.linkedin || "#"} aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Linkedin className="w-4 h-4 text-white/40" aria-hidden="true" />
-              </a>
-            </div>
+          <div className="flex gap-5 text-xs text-white/40">
+            <Link to="/personvern" className="hover:text-white/70 transition-colors">{t("footer.privacy")}</Link>
           </div>
         </div>
       </div>
