@@ -228,9 +228,9 @@ const Services = ({ isChatOpen }: PageProps) => {
       {additionalServices.length > 0 && (
         <section className="bg-background pb-16 md:pb-24">
           <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-3xl mx-auto">
-              <p className="text-sm text-muted-foreground font-light mb-6 text-center">Flere tjenester</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-0">
+            <div className="max-w-5xl mx-auto">
+              <p className="text-sm text-muted-foreground font-light mb-6">Flere tjenester</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0">
                 {additionalServices.map((item, idx) => {
                   const IconComponent = serviceIcons[item.label] || Stethoscope;
                   return (
