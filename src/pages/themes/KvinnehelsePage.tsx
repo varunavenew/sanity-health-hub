@@ -108,6 +108,24 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {/* Concept video */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+          <div className="mb-8 max-w-2xl">
+            <p className="text-sm text-muted-foreground font-light mb-2">Konseptfilm</p>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Kvinnehelse gjennom hele livet</h2>
+            <p className="text-base text-muted-foreground font-light leading-relaxed">
+              En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg.
+            </p>
+          </div>
+          <VideoPlayer
+            thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
+            videoUrl="/videos/kvinnehelse-konsept.mp4"
+            title="Kvinnehelse gjennom hele livet"
+          />
+        </div>
+      </section>
+
       {/* Content */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-8 max-w-3xl">
