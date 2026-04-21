@@ -7,7 +7,6 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { specialists } from "@/data/specialists";
-import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import {
   gynekologiContent, gynekologiServices, gynekologiServiceGroups, gynekologiFaqs,
 } from "./gynekologiContent";
@@ -17,8 +16,8 @@ interface PageProps { isChatOpen: boolean }
 
 /**
  * IndexVariant – modern, calm, structured.
- * Inspired by editorial index pages: numbered service register,
- * generous whitespace, single focus per section.
+ * Services are placed immediately after the intro (the main focus).
+ * Each chapter is led by a brand-format image (4:5 portrait) and a numbered list.
  */
 const IndexVariant = ({ isChatOpen }: PageProps) => {
   useEffect(() => {
@@ -34,6 +33,8 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
     () =>
       gynekologiServiceGroups.map((g) => ({
         label: g.label,
+        caption: g.caption,
+        image: g.image,
         services: gynekologiServices.filter((s) => g.serviceNames.includes(s.name)),
       })),
     []
@@ -56,8 +57,8 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </div>
 
-      {/* HERO — focused, single column */}
-      <section className="bg-background pt-16 md:pt-24 pb-20 md:pb-28">
+      {/* HERO – tight, intro carries to services */}
+      <section className="bg-background pt-14 md:pt-20 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-10">
             <span className="inline-block w-8 h-px bg-foreground/40 align-middle mr-3" />
@@ -91,38 +92,10 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Wide image, isolated */}
-      <section className="bg-background">
-        <div className="container mx-auto px-6 md:px-16 max-w-7xl">
-          <div className="aspect-[21/9] overflow-hidden rounded-3xl bg-muted">
-            <img
-              src={gynekologiImg}
-              alt={gynekologiContent.title}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 35%" }}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Continued description, breathing room */}
-      {restDescription.length > 0 && (
-        <section className="bg-background py-24 md:py-32">
-          <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-            {restDescription.map((p, i) => (
-              <p
-                key={i}
-                className="text-lg md:text-xl font-light text-foreground leading-[1.65] mb-6 last:mb-0"
-              >
-                {p}
-              </p>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* THE INDEX — full register of services, two-column with sticky label */}
-      <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
+      {/* THE INDEX — primary focus, immediately after intro.
+          Each chapter is led by a brand-format portrait image (4:5)
+          paired with a numbered, calm service list. */}
+      <section className="bg-brand-warm py-20 md:py-28 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-20">
             <div className="col-span-12 md:col-span-5">
@@ -140,30 +113,61 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="space-y-16 md:space-y-20">
+          <div className="space-y-20 md:space-y-28">
             {groupsWithServices.map((group, gi) => {
               const startIndex = groupsWithServices
                 .slice(0, gi)
                 .reduce((acc, g) => acc + g.services.length, 0);
+              const imageFirst = gi % 2 === 0;
               return (
-                <div key={group.label} className="grid grid-cols-12 gap-8 md:gap-12">
-                  <div className="col-span-12 md:col-span-4">
-                    <div className="md:sticky md:top-28">
-                      <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-3">
-                        Kapittel {String(gi + 1).padStart(2, "0")}
-                      </p>
-                      <h3 className="text-2xl md:text-3xl font-light text-foreground leading-tight">
-                        {group.label}
-                      </h3>
+                <div
+                  key={group.label}
+                  className="grid grid-cols-12 gap-8 md:gap-12 items-start"
+                >
+                  {/* Image column — brand-format 4:5 portrait */}
+                  <div
+                    className={`col-span-12 md:col-span-5 ${
+                      imageFirst ? "md:order-1" : "md:order-2 md:col-start-8"
+                    }`}
+                  >
+                    <div className="md:sticky md:top-28 space-y-5">
+                      <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-muted">
+                        <img
+                          src={group.image}
+                          alt={group.label}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-3">
+                          Kapittel {String(gi + 1).padStart(2, "0")}
+                        </p>
+                        <h3 className="text-2xl md:text-3xl font-light text-foreground leading-tight mb-2">
+                          {group.label}
+                        </h3>
+                        <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                          {group.caption}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-span-12 md:col-span-8">
+
+                  {/* Service list column */}
+                  <div
+                    className={`col-span-12 md:col-span-6 ${
+                      imageFirst ? "md:order-2 md:col-start-7" : "md:order-1"
+                    }`}
+                  >
                     <ul>
                       {group.services.map((s, si) => {
                         const Icon = s.icon;
                         const num = startIndex + si + 1;
                         return (
-                          <li key={s.name} className="border-b border-border/50 first:border-t">
+                          <li
+                            key={s.name}
+                            className="border-b border-border/50 first:border-t"
+                          >
                             <Link
                               to={s.path}
                               className="group flex items-center gap-6 py-5 md:py-6 hover:gap-8 transition-all duration-300"
@@ -171,7 +175,10 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
                               <span className="text-xs font-light text-muted-foreground tabular-nums w-8">
                                 {String(num).padStart(2, "0")}
                               </span>
-                              <Icon className="w-4 h-4 text-foreground/50 flex-shrink-0" strokeWidth={1.5} />
+                              <Icon
+                                className="w-4 h-4 text-foreground/50 flex-shrink-0"
+                                strokeWidth={1.5}
+                              />
                               <span className="text-base md:text-lg font-light text-foreground flex-1">
                                 {s.name}
                               </span>
@@ -192,8 +199,24 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {/* Continued description — calm aftermath of the register */}
+      {restDescription.length > 0 && (
+        <section className="bg-background py-24 md:py-32">
+          <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+            {restDescription.map((p, i) => (
+              <p
+                key={i}
+                className="text-lg md:text-xl font-light text-foreground leading-[1.65] mb-6 last:mb-0"
+              >
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Specialists — clean editorial row */}
-      <section className="bg-background py-24 md:py-32">
+      <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-14 md:mb-16">
             <div className="max-w-xl">
@@ -216,7 +239,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
             {gynSpecialists.map((s) => (
               <Link key={s.slug} to={`/spesialister/${s.slug}`} className="group block">
-                <div className="aspect-[3/4] overflow-hidden bg-muted rounded-2xl mb-4">
+                <div className="aspect-[4/5] overflow-hidden bg-muted rounded-2xl mb-4">
                   <img
                     src={s.image}
                     alt={s.name}
@@ -238,7 +261,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
 
       {/* FAQ */}
-      <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
+      <section className="bg-background py-24 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
           <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
             Vanlige spørsmål
@@ -262,7 +285,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Closing CTA — calm, not loud */}
-      <section className="bg-background py-24 md:py-32 border-t border-border/40">
+      <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl text-center">
           <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
             Klar når du er det
