@@ -11,6 +11,7 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import {
   gynekologiContent, gynekologiServices, gynekologiServiceGroups, gynekologiFaqs,
 } from "./gynekologiContent";
+import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -232,6 +233,9 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* Reviews */}
+      <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
 
       {/* FAQ */}
       <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
