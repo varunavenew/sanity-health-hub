@@ -237,6 +237,9 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {/* Reviews */}
+      <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
+
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">

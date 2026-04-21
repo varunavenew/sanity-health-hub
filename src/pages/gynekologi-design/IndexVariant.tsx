@@ -234,6 +234,9 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {/* Reviews */}
+      <CategoryReviews categoryId="gynekologi" categoryTitle="Gynekologi" />
+
       {/* FAQ */}
       <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
