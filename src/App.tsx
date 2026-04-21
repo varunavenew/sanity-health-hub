@@ -30,6 +30,10 @@ import Karriere from "./pages/Karriere";
 import KarriereDetail from "./pages/KarriereDetail";
 import ClinicDetailPage from "./pages/ClinicDetailPage";
 import Clinics from "./pages/Clinics";
+import DesignHub from "./pages/gynekologi-design/DesignHub";
+import EditorialVariant from "./pages/gynekologi-design/EditorialVariant";
+import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
+import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 
 const queryClient = new QueryClient();
 
@@ -109,6 +113,11 @@ const AppContent = () => {
         {/* Booking demo */}
         <Route path="/booking" element={<BookingDemo />} />
         <Route path="/bestill-time" element={<BookingDemo />} />
+        {/* Gynekologi design demos */}
+        <Route path="/gynekologi-design" element={<DesignHub isChatOpen={false} />} />
+        <Route path="/gynekologi-design/editorial" element={<EditorialVariant isChatOpen={false} />} />
+        <Route path="/gynekologi-design/journey" element={<JourneyVariant isChatOpen={false} />} />
+        <Route path="/gynekologi-design/atelier" element={<AtelierVariant isChatOpen={false} />} />
         {/* Clinic pages */}
         <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
