@@ -118,24 +118,8 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Continued description – calm, single column */}
-      {restDescription.length > 0 && (
-        <section className="bg-background py-20 md:py-24 border-t border-border/60">
-          <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-            {restDescription.map((p, i) => (
-              <p
-                key={i}
-                className="text-lg md:text-xl font-light text-foreground leading-[1.6] mb-6 last:mb-0"
-              >
-                {p}
-              </p>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Services – numbered editorial list, the new twist */}
-      <section className="bg-background pb-24 md:pb-32">
+      {/* Services – numbered editorial list, the new twist (moved up under hero) */}
+      <section className="bg-background py-20 md:py-24 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-14 md:mb-16">
             <div className="col-span-12 md:col-span-5">
@@ -187,6 +171,22 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
           </ul>
         </div>
       </section>
+
+      {/* Continued description – calm, single column (moved below services) */}
+      {restDescription.length > 0 && (
+        <section className="bg-brand-warm py-20 md:py-24">
+          <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+            {restDescription.map((p, i) => (
+              <p
+                key={i}
+                className="text-lg md:text-xl font-light text-foreground leading-[1.6] mb-6 last:mb-0"
+              >
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Specialists – horizontal strip on warm bg */}
       <section className="bg-brand-warm py-20 md:py-28">
