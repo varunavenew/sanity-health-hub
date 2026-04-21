@@ -49,7 +49,8 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       {/* HERO – two-image composition with sticky meta */}
       <section className="bg-brand-warm pt-10 md:pt-14 pb-20 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
-          <div className="grid grid-cols-12 gap-8 md:gap-10 items-end mb-12 md:mb-16">
+          <div className="grid grid-cols-12 gap-8 md:gap-12 items-center">
+            {/* LEFT: all text, left-aligned */}
             <div className="col-span-12 md:col-span-7">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
                 CMedical Kvinnehelse
@@ -60,10 +61,8 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
               <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light mt-6">
                 {gynekologiContent.subtitle}
               </p>
-            </div>
 
-            <div className="col-span-12 md:col-span-5 md:pb-2">
-              <p className="text-base md:text-lg text-foreground/80 font-light leading-relaxed">
+              <p className="text-base md:text-lg text-foreground/80 font-light leading-relaxed mt-10 max-w-xl">
                 {intro}
               </p>
               <div className="flex items-center gap-3 mt-8">
@@ -82,36 +81,15 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
                 </Link>
               </div>
             </div>
-          </div>
 
-          {/* Two-image hero composition – brand 4:5 + 16:9 */}
-          <div className="grid grid-cols-12 gap-4 md:gap-6">
-            <div className="col-span-12 md:col-span-8">
-              <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
-                <img
-                  src={gynekologiImg}
-                  alt={gynekologiContent.title}
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: "center 35%" }}
-                />
-              </div>
-            </div>
-            <div className="col-span-12 md:col-span-4 flex flex-col gap-4">
-              <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-muted flex-1">
+            {/* RIGHT: brand 4:5 portrait image */}
+            <div className="col-span-12 md:col-span-5">
+              <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-muted">
                 <img
                   src={gynekologiReal}
-                  alt="CMedical klinikk"
-                  loading="lazy"
+                  alt={gynekologiContent.title}
                   className="w-full h-full object-cover"
                 />
-              </div>
-              <div className="rounded-2xl bg-foreground text-background p-6 md:p-7">
-                <p className="text-xs uppercase tracking-[0.22em] text-background/60 font-light mb-3">
-                  Hos oss
-                </p>
-                <p className="text-lg md:text-xl font-light leading-snug">
-                  Direkte tilgang til riktig ekspertise — uten henvisning.
-                </p>
               </div>
             </div>
           </div>
