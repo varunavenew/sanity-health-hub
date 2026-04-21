@@ -3,37 +3,20 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from "@/components/ui/accordion";
 import { specialists } from "@/data/specialists";
-import gynHero from "@/assets/hero/gynecology-hero.jpg";
-import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
-import heroFamily from "@/assets/hero/hero-family.jpg";
+import gynekologiImg from "@/assets/categories/gynekologi.jpg";
+import {
+  gynekologiContent, gynekologiServices, gynekologiServiceGroups, gynekologiFaqs,
+} from "./gynekologiContent";
 
 interface PageProps { isChatOpen: boolean }
 
-const chapters = [
-  {
-    no: "01",
-    title: "Den vanlige timen",
-    body: "Rutineundersøkelse, celleprøve, prevensjonsveiledning og gynekologisk ultralyd. Alt på samme sted, med tid til samtalen som faktisk betyr noe.",
-    services: ["Rutineundersøkelse", "Celleprøve & HPV", "Prevensjon & P-stav", "Ultralyd"],
-  },
-  {
-    no: "02",
-    title: "Når noe ikke kjennes riktig",
-    body: "Smerter, uregelmessige blødninger, gjentatte infeksjoner. Vi tar symptomene på alvor – og bruker den tiden som trengs for å finne ut av det.",
-    services: ["Endometriose", "PCOS", "Underlivsinfeksjoner", "Blødningsforstyrrelser"],
-  },
-  {
-    no: "03",
-    title: "Livet skifter form",
-    body: "Perimenopause, overgangsalder og hormonelle endringer er ikke noe man bare skal komme seg gjennom. Det er en fase som fortjener faglig følge.",
-    services: ["Hormonbehandling", "Overgangsalder", "Beinhelse", "Søvn & energi"],
-  },
-];
-
 const EditorialVariant = ({ isChatOpen }: PageProps) => {
   useEffect(() => {
-    document.title = "Gynekologi · Editorial | CMedical";
+    document.title = `${gynekologiContent.title} · Editorial | CMedical`;
   }, []);
 
   const gynSpecialists = useMemo(
@@ -41,9 +24,20 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
     []
   );
 
+  const groupsWithServices = useMemo(
+    () =>
+      gynekologiServiceGroups.map((g) => ({
+        label: g.label,
+        services: gynekologiServices.filter((s) => g.serviceNames.includes(s.name)),
+      })),
+    []
+  );
+
+  const [intro, ...restDescription] = gynekologiContent.description.split("\n\n");
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {/* Back link */}
+      {/* Back */}
       <div className="bg-brand-warm pt-24 md:pt-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <Link
@@ -56,22 +50,21 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </div>
 
-      {/* HERO – editorial split */}
+      {/* HERO */}
       <section className="bg-brand-warm pt-10 md:pt-14 pb-20 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 items-end">
             <div className="col-span-12 md:col-span-7">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
-                Gynekologi
+                {gynekologiContent.title} · {gynekologiContent.subtitle}
               </p>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-foreground leading-[0.95] tracking-tight">
-                Et fag som <em className="italic font-light">lytter</em> – og en time som rekker.
+                Kvinnehelse <em className="italic font-light">som folkehelse</em>.
               </h1>
             </div>
             <div className="col-span-12 md:col-span-5">
               <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-                Hos CMedical møter du gynekologer som tar seg tid. 30 minutter er ikke et unntak –
-                det er normalen. Ingen henvisning. Time innen 1–3 dager.
+                {intro}
               </p>
               <div className="flex items-center gap-4 mt-8">
                 <Button
@@ -97,85 +90,82 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm">
         <div className="w-full h-[55vh] min-h-[420px] overflow-hidden">
           <img
-            src={gynHero}
-            alt="Gynekologisk konsultasjon hos CMedical"
+            src={gynekologiImg}
+            alt={gynekologiContent.title}
             className="w-full h-full object-cover"
             style={{ objectPosition: "center 35%" }}
           />
         </div>
       </section>
 
-      {/* Pull quote */}
-      <section className="bg-brand-warm py-24 md:py-32">
-        <div className="container mx-auto px-6 md:px-16 max-w-4xl">
-          <p className="text-2xl md:text-4xl font-light text-foreground leading-[1.25] tracking-tight">
-            «Jeg ble hørt på en måte jeg ikke har opplevd før. Det var første gang jeg gikk fra en
-            gynekolog og følte at jeg faktisk forsto min egen kropp.»
-          </p>
-          <p className="text-sm text-muted-foreground font-light mt-8">
-            — Pasient, 34, Oslo
-          </p>
-        </div>
-      </section>
+      {/* Continued description */}
+      {restDescription.length > 0 && (
+        <section className="bg-brand-warm py-20 md:py-24">
+          <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+            {restDescription.map((p, i) => (
+              <p
+                key={i}
+                className="text-lg md:text-xl font-light text-foreground leading-[1.6] mb-6 last:mb-0"
+              >
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* Chapters – tjenester som kapitler */}
+      {/* Services as chapters – using real groupings of real services */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 md:mb-20 max-w-2xl">
             <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-              Hva vi behandler
+              {gynekologiContent.servicesHeading}
             </p>
-            <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
-              Tre kapitler i et kvinneliv
+            <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-6">
+              Alt under samme tak
             </h2>
+            <p className="text-base text-muted-foreground font-light leading-relaxed">
+              {gynekologiContent.servicesIntro}
+            </p>
           </div>
 
-          <div className="space-y-20 md:space-y-28">
-            {chapters.map((c, i) => (
-              <article
-                key={c.no}
-                className={`grid grid-cols-12 gap-6 md:gap-12 items-start ${
-                  i % 2 === 1 ? "md:[direction:rtl]" : ""
-                }`}
-              >
-                <div className="col-span-12 md:col-span-5 [direction:ltr]">
-                  <p className="text-7xl md:text-8xl font-light text-foreground/10 leading-none mb-2">
-                    {c.no}
+          <div className="space-y-16 md:space-y-20">
+            {groupsWithServices.map((group, i) => (
+              <article key={group.label}>
+                <div className="flex items-baseline gap-6 mb-8">
+                  <p className="text-7xl md:text-8xl font-light text-foreground/10 leading-none">
+                    {String(i + 1).padStart(2, "0")}
                   </p>
-                  <h3 className="text-2xl md:text-3xl font-light text-foreground leading-tight mb-5">
-                    {c.title}
+                  <h3 className="text-2xl md:text-3xl font-light text-foreground">
+                    {group.label}
                   </h3>
-                  <p className="text-base text-muted-foreground font-light leading-relaxed mb-6">
-                    {c.body}
-                  </p>
-                  <ul className="flex flex-wrap gap-2">
-                    {c.services.map((s) => (
-                      <li
-                        key={s}
-                        className="text-xs font-light text-foreground/70 px-3 py-1.5 rounded-full border border-border/70"
-                      >
-                        {s}
+                </div>
+                <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
+                  {group.services.map((s) => {
+                    const Icon = s.icon;
+                    return (
+                      <li key={s.name}>
+                        <Link
+                          to={s.path}
+                          className="bg-background hover:bg-muted/40 transition-colors flex items-center gap-4 p-5 md:p-6 h-full"
+                        >
+                          <Icon className="w-5 h-5 text-foreground/70 flex-shrink-0" strokeWidth={1.5} />
+                          <span className="text-base font-light text-foreground flex-1">
+                            {s.name}
+                          </span>
+                          <ArrowRight className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+                        </Link>
                       </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="col-span-12 md:col-span-7 [direction:ltr]">
-                  <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
-                    <img
-                      src={i === 0 ? gynHero : i === 1 ? heroFamily : heroPregnancy}
-                      alt={c.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
+                    );
+                  })}
+                </ul>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Spesialister – minimal rad */}
+      {/* Specialists */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12 md:mb-16">
@@ -198,11 +188,7 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
             {gynSpecialists.map((s) => (
-              <Link
-                key={s.slug}
-                to={`/spesialister/${s.slug}`}
-                className="group block"
-              >
+              <Link key={s.slug} to={`/spesialister/${s.slug}`} className="group block">
                 <div className="aspect-[4/5] overflow-hidden bg-muted mb-5 rounded-sm">
                   <img
                     src={s.image}
@@ -224,11 +210,35 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="bg-background py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            Vanlige spørsmål
+          </p>
+          <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
+            Det folk spør om
+          </h2>
+          <Accordion type="single" collapsible className="w-full">
+            {gynekologiFaqs.map((faq, i) => (
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger className="text-left font-light text-base">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground font-light leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
       {/* Closing CTA */}
       <section className="bg-brand-dark py-20 md:py-28 text-white">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl text-center">
           <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-6">
-            Time innen 1–3 dager. Ingen henvisning.
+            Time innen kort tid. Ingen henvisning.
           </h2>
           <p className="text-base text-white/70 font-light leading-relaxed max-w-xl mx-auto mb-10">
             Vi tror på faglig trygghet, tid til samtalen og en oppfølging som faktisk henger sammen.

@@ -3,43 +3,28 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+} from "@/components/ui/accordion";
 import { specialists } from "@/data/specialists";
-import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
-import gynHero from "@/assets/hero/gynecology-hero.jpg";
-import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
-import heroFamily from "@/assets/hero/hero-family.jpg";
+import gynekologiImg from "@/assets/categories/gynekologi.jpg";
+import {
+  gynekologiContent, gynekologiServices, gynekologiFaqs,
+} from "./gynekologiContent";
 
 interface PageProps { isChatOpen: boolean }
 
-const tags = [
-  "Rutineundersøkelse",
-  "Celleprøve & HPV",
-  "Ultralyd",
-  "Prevensjon",
-  "P-stav",
-  "Endometriose",
-  "PCOS",
-  "Underlivsinfeksjoner",
-  "Blødningsforstyrrelser",
-  "Overgangsalder",
-  "Hormonbehandling",
-  "Fertilitetsutredning",
-  "Bekkenhelse",
-  "Urogynekologi",
-];
-
-const galleryRow1 = [gynHero, kvinnehelseHero, heroPregnancy];
-const galleryRow2 = [heroFamily, heroPregnancy, gynHero];
-
 const AtelierVariant = ({ isChatOpen }: PageProps) => {
   useEffect(() => {
-    document.title = "Gynekologi · Atelier | CMedical";
+    document.title = `${gynekologiContent.title} · Atelier | CMedical`;
   }, []);
 
   const gynSpecialists = useMemo(
     () => specialists.filter((s) => s.category === "gynekologi").slice(0, 6),
     []
   );
+
+  const [intro, ...restDescription] = gynekologiContent.description.split("\n\n");
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -56,15 +41,15 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </div>
 
-      {/* HERO – Full bleed image with caption underneath */}
+      {/* HERO – full bleed image */}
       <section className="bg-brand-warm pt-10 md:pt-12 pb-6 md:pb-8">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-2xl bg-muted">
             <img
-              src={heroPregnancy}
-              alt="Gynekologi hos CMedical"
+              src={gynekologiImg}
+              alt={gynekologiContent.title}
               className="w-full h-full object-cover"
-              style={{ objectPosition: "center 40%" }}
+              style={{ objectPosition: "center 35%" }}
             />
           </div>
         </div>
@@ -75,20 +60,20 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-12 mt-6 md:mt-8">
             <div className="col-span-12 md:col-span-2">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light">
-                Gynekologi
+                {gynekologiContent.title}
               </p>
               <p className="text-xs text-muted-foreground font-light mt-2">
-                CMedical · 2026
+                {gynekologiContent.subtitle}
               </p>
             </div>
             <div className="col-span-12 md:col-span-7">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground leading-[1.02] tracking-tight">
-                Et rom for kroppen, samtalen og det som ikke alltid sies.
+                CMedical Kvinnehelse – direkte tilgang til riktig ekspertise, uten omveier.
               </h1>
             </div>
             <div className="col-span-12 md:col-span-3 flex flex-col justify-end">
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
-                Privat gynekologisk klinikk i Oslo. Time innen 1–3 dager. Ingen henvisning.
+                {intro}
               </p>
               <Button
                 className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light h-11 w-full md:w-auto"
@@ -102,74 +87,55 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Tjenester som tags */}
-      <section className="bg-background py-20 md:py-28 border-t border-border/60">
+      {/* Continued description */}
+      {restDescription.length > 0 && (
+        <section className="bg-background py-20 md:py-28 border-t border-border/60">
+          <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+            {restDescription.map((p, i) => (
+              <p
+                key={i}
+                className="text-lg md:text-xl font-light text-foreground leading-[1.6] mb-6 last:mb-0"
+              >
+                {p}
+              </p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Tjenester – ALL 15 services as a tag wall */}
+      <section className="bg-background pb-20 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-6 md:gap-12">
             <div className="col-span-12 md:col-span-4">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-                Tjenester
+                {gynekologiContent.servicesHeading}
               </p>
               <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-6">
                 Hele bredden – samlet på ett sted
               </h2>
               <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                Fra rutineundersøkelse til avansert utredning. Ett team, samme journal,
-                kontinuerlig oppfølging.
+                {gynekologiContent.servicesIntro}
               </p>
             </div>
             <div className="col-span-12 md:col-span-8">
               <ul className="flex flex-wrap gap-2.5">
-                {tags.map((t) => (
-                  <li
-                    key={t}
-                    className="text-sm font-light text-foreground px-4 py-2.5 rounded-full border border-border hover:bg-muted transition-colors cursor-default"
-                  >
-                    {t}
-                  </li>
-                ))}
+                {gynekologiServices.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <li key={s.name}>
+                      <Link
+                        to={s.path}
+                        className="inline-flex items-center gap-2 text-sm font-light text-foreground px-4 py-2.5 rounded-full border border-border hover:bg-muted hover:border-foreground/40 transition-colors"
+                      >
+                        <Icon className="w-3.5 h-3.5 text-foreground/60" strokeWidth={1.5} />
+                        {s.name}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery / atelier strips */}
-      <section className="bg-background pb-20 md:pb-28">
-        <div className="container mx-auto px-6 md:px-16 max-w-7xl">
-          <div className="grid grid-cols-3 gap-3 md:gap-5">
-            {galleryRow1.map((img, i) => (
-              <div
-                key={`r1-${i}`}
-                className={`overflow-hidden rounded-2xl bg-muted ${
-                  i === 1 ? "aspect-[3/4]" : "aspect-square"
-                }`}
-              >
-                <img
-                  src={img}
-                  alt=""
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-3 gap-3 md:gap-5 mt-3 md:mt-5">
-            {galleryRow2.map((img, i) => (
-              <div
-                key={`r2-${i}`}
-                className={`overflow-hidden rounded-2xl bg-muted ${
-                  i === 0 ? "aspect-[3/4]" : "aspect-square"
-                }`}
-              >
-                <img
-                  src={img}
-                  alt=""
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -197,11 +163,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
             {gynSpecialists.map((s) => (
-              <Link
-                key={s.slug}
-                to={`/spesialister/${s.slug}`}
-                className="group block"
-              >
+              <Link key={s.slug} to={`/spesialister/${s.slug}`} className="group block">
                 <div className="aspect-[3/4] overflow-hidden bg-muted rounded-2xl mb-3">
                   <img
                     src={s.image}
@@ -218,21 +180,31 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Pasienthistorie – sitat-blokk */}
+      {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-10">
-            Pasienthistorie
+        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            Vanlige spørsmål
           </p>
-          <p className="text-2xl md:text-4xl font-light text-foreground leading-[1.25] tracking-tight">
-            Det føltes ikke som en klinikk. Det føltes som et rom hvor jeg endelig fikk lov til å
-            være pasient – og menneske – samtidig.
-          </p>
-          <p className="text-sm text-muted-foreground font-light mt-8">— Thea, 28</p>
+          <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
+            Det folk spør om
+          </h2>
+          <Accordion type="single" collapsible className="w-full">
+            {gynekologiFaqs.map((faq, i) => (
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger className="text-left font-light text-base">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground font-light leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
-      {/* Final CTA – minimal */}
+      {/* Final CTA */}
       <section className="bg-brand-warm py-20 md:py-28 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
           <div>
