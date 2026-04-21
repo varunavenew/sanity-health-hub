@@ -51,6 +51,16 @@ const variants = [
     image: gynHero,
     tone: "Stillere design, sterkere innhold.",
   },
+  {
+    slug: "klassisk-plus",
+    eyebrow: "Variant 05",
+    title: "Klassisk+",
+    subtitle: "Som dagens side – med en frisk vri",
+    description:
+      "Bygget på den kjente strukturen fra /gynekologi: hero, intro, tjenesteliste, spesialister og FAQ. Vrien er en to-bilde hero, en nummerert to-kolonners tjenesteliste og roligere typografi.",
+    image: kvinnehelseHero,
+    tone: "Trygg gjenkjennelse, bedre rytme.",
+  },
 ];
 
 const DesignHub = ({ isChatOpen }: PageProps) => {
