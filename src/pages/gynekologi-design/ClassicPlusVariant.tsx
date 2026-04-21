@@ -189,7 +189,7 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       )}
 
       {/* Specialists – horizontal strip on warm bg */}
-      <section className="bg-brand-warm py-20 md:py-28">
+      <section className="bg-background py-20 md:py-28 border-t border-border/60">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="flex items-end justify-between mb-12 md:mb-14">
             <div className="max-w-xl">
