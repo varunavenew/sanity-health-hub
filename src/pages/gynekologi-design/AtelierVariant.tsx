@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUpRight } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +9,7 @@ import {
 import { specialists } from "@/data/specialists";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import {
-  gynekologiContent, gynekologiServices, gynekologiFaqs,
+  gynekologiContent, gynekologiServices, gynekologiServiceGroups, gynekologiFaqs,
 } from "./gynekologiContent";
 
 interface PageProps { isChatOpen: boolean }
@@ -21,6 +21,15 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
 
   const gynSpecialists = useMemo(
     () => specialists.filter((s) => s.category === "gynekologi").slice(0, 6),
+    []
+  );
+
+  const groupsWithServices = useMemo(
+    () =>
+      gynekologiServiceGroups.map((g) => ({
+        label: g.label,
+        services: gynekologiServices.filter((s) => g.serviceNames.includes(s.name)),
+      })),
     []
   );
 
@@ -41,48 +50,40 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
         </div>
       </div>
 
-      {/* HERO – full bleed image */}
-      <section className="bg-brand-warm pt-10 md:pt-12 pb-6 md:pb-8">
+      {/* HERO – tighter, more editorial */}
+      <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
-          <div className="aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-2xl bg-muted">
-            <img
-              src={gynekologiImg}
-              alt={gynekologiContent.title}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 35%" }}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-brand-warm pb-20 md:pb-28">
-        <div className="container mx-auto px-6 md:px-16 max-w-7xl">
-          <div className="grid grid-cols-12 gap-6 md:gap-12 mt-6 md:mt-8">
-            <div className="col-span-12 md:col-span-2">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light">
-                {gynekologiContent.title}
+          <div className="grid grid-cols-12 gap-8 md:gap-12 items-end mb-12 md:mb-16">
+            <div className="col-span-12 md:col-span-8">
+              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
+                {gynekologiContent.title} — {gynekologiContent.subtitle}
               </p>
-              <p className="text-xs text-muted-foreground font-light mt-2">
-                {gynekologiContent.subtitle}
-              </p>
-            </div>
-            <div className="col-span-12 md:col-span-7">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground leading-[1.02] tracking-tight">
-                CMedical Kvinnehelse – direkte tilgang til riktig ekspertise, uten omveier.
+              <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-light text-foreground leading-[0.98] tracking-tight">
+                Direkte tilgang<br />
+                til riktig ekspertise.
               </h1>
             </div>
-            <div className="col-span-12 md:col-span-3 flex flex-col justify-end">
-              <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
+            <div className="col-span-12 md:col-span-4">
+              <p className="text-base text-muted-foreground font-light leading-relaxed mb-8">
                 {intro}
               </p>
               <Button
-                className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light h-11 w-full md:w-auto"
+                className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light h-11 px-6"
                 onClick={() => (window.location.href = "/booking")}
               >
                 Bestill time
                 <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
               </Button>
             </div>
+          </div>
+
+          <div className="aspect-[21/9] overflow-hidden rounded-2xl bg-muted">
+            <img
+              src={gynekologiImg}
+              alt={gynekologiContent.title}
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 35%" }}
+            />
           </div>
         </div>
       </section>
@@ -103,44 +104,68 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
         </section>
       )}
 
-      {/* Tjenester – ALL 15 services as a tag wall */}
-      <section className="bg-background pb-20 md:pb-28">
+      {/* Tjenester – full list, clearly grouped, premium gallery rhythm */}
+      <section className="bg-background pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
-          <div className="grid grid-cols-12 gap-6 md:gap-12">
-            <div className="col-span-12 md:col-span-4">
+          <div className="grid grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-20">
+            <div className="col-span-12 md:col-span-5">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
                 {gynekologiContent.servicesHeading}
               </p>
-              <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-6">
-                Hele bredden – samlet på ett sted
+              <h2 className="text-4xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
+                Hele bredden,<br />
+                samlet på ett sted.
               </h2>
-              <p className="text-sm text-muted-foreground font-light leading-relaxed">
+            </div>
+            <div className="col-span-12 md:col-span-6 md:col-start-7 flex md:items-end">
+              <p className="text-base text-muted-foreground font-light leading-relaxed">
                 {gynekologiContent.servicesIntro}
               </p>
             </div>
-            <div className="col-span-12 md:col-span-8">
-              <ul className="flex flex-wrap gap-2.5">
-                {gynekologiServices.map((s) => {
-                  const Icon = s.icon;
-                  return (
-                    <li key={s.name}>
-                      <Link
-                        to={s.path}
-                        className="inline-flex items-center gap-2 text-sm font-light text-foreground px-4 py-2.5 rounded-full border border-border hover:bg-muted hover:border-foreground/40 transition-colors"
-                      >
-                        <Icon className="w-3.5 h-3.5 text-foreground/60" strokeWidth={1.5} />
-                        {s.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+          </div>
+
+          <div className="space-y-20 md:space-y-24">
+            {groupsWithServices.map((group, i) => (
+              <article key={group.label} className="grid grid-cols-12 gap-8 md:gap-12">
+                <div className="col-span-12 md:col-span-4">
+                  <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-3">
+                    {String(i + 1).padStart(2, "0")} — Tema
+                  </p>
+                  <h3 className="text-2xl md:text-3xl font-light text-foreground leading-tight">
+                    {group.label}
+                  </h3>
+                </div>
+                <div className="col-span-12 md:col-span-8">
+                  <ul className="divide-y divide-border/60 border-t border-b border-border/60">
+                    {group.services.map((s) => {
+                      const Icon = s.icon;
+                      return (
+                        <li key={s.name}>
+                          <Link
+                            to={s.path}
+                            className="group flex items-center gap-5 py-5 hover:px-3 transition-all duration-300"
+                          >
+                            <Icon className="w-5 h-5 text-foreground/60 flex-shrink-0" strokeWidth={1.5} />
+                            <span className="text-lg font-light text-foreground flex-1">
+                              {s.name}
+                            </span>
+                            <ArrowUpRight
+                              className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
+                              strokeWidth={1.5}
+                            />
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Specialists – portrait wall */}
+      {/* Specialists – portrait wall on warm bg */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="flex items-end justify-between mb-12 md:mb-16">

@@ -34,6 +34,7 @@ import DesignHub from "./pages/gynekologi-design/DesignHub";
 import EditorialVariant from "./pages/gynekologi-design/EditorialVariant";
 import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
 import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
+import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 
 const queryClient = new QueryClient();
 
@@ -118,6 +119,7 @@ const AppContent = () => {
         <Route path="/gynekologi-design/editorial" element={<EditorialVariant isChatOpen={false} />} />
         <Route path="/gynekologi-design/journey" element={<JourneyVariant isChatOpen={false} />} />
         <Route path="/gynekologi-design/atelier" element={<AtelierVariant isChatOpen={false} />} />
+        <Route path="/gynekologi-design/index" element={<IndexVariant isChatOpen={false} />} />
         {/* Clinic pages */}
         <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
