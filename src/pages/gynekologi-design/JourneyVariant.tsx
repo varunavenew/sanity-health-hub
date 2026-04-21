@@ -13,6 +13,7 @@ import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import {
   gynekologiContent, gynekologiServices, gynekologiServiceGroups, gynekologiFaqs,
 } from "./gynekologiContent";
+import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 
 interface PageProps { isChatOpen: boolean }
 
