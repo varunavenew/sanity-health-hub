@@ -7,6 +7,10 @@ import {
   CircleDot, Scissors, Heart, Flower2, ShieldCheck, Bot, Pill, Scan,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import gynekologiReal from "@/assets/categories/gynekologi-real.jpg";
+import gynekologiHero from "@/assets/categories/gynekologi.jpg";
+import fertilitetReal from "@/assets/categories/fertilitet-real.jpg";
+import flereReal from "@/assets/categories/flere-fagomrader.jpg";
 
 export const gynekologiContent = {
   title: "Gynekologi",
@@ -72,13 +76,19 @@ export const gynekologiFaqs = [
 
 // Thematic groupings of the same 15 services – useful for editorial/journey
 // variants that want to tell a story without inventing new services.
+// Each group has an associated image from the brand-approved category library
+// so visual variants can lead each chapter with imagery in the house style.
 export const gynekologiServiceGroups = [
   {
     label: "Den vanlige timen",
+    caption: "Rutine, screening og forebygging",
+    image: gynekologiHero,
     serviceNames: ["Gynekologisk undersøkelse", "Celleforandringer", "Vaginal tørrhet"],
   },
   {
     label: "Når noe ikke kjennes riktig",
+    caption: "Utredning av smerter, blødninger og plager",
+    image: gynekologiReal,
     serviceNames: [
       "Endometriose",
       "Blødningsforstyrrelser",
@@ -89,10 +99,14 @@ export const gynekologiServiceGroups = [
   },
   {
     label: "Livet skifter form",
+    caption: "Overgangsalder, fødselsskader og hormonelle faser",
+    image: fertilitetReal,
     serviceNames: ["Overgangsalder", "Urinlekkasje", "Vaginale fremfall"],
   },
   {
     label: "Når kirurgi er svaret",
+    caption: "Skånsom og robotassistert gynekologisk kirurgi",
+    image: flereReal,
     serviceNames: [
       "Gynekologisk kirurgi",
       "Robotassistert kirurgi",
