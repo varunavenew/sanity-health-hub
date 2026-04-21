@@ -90,7 +90,7 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
       {/* Variants */}
       <section className="bg-background pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {variants.map((v) => (
               <Link
                 key={v.slug}
