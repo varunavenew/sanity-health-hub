@@ -42,7 +42,7 @@ export const HeroCompact = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4 max-w-6xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-5 gap-0 max-w-6xl mx-auto"
         >
           {serviceCategories.map((category: any, index: number) => (
             <motion.button
