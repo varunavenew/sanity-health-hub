@@ -337,7 +337,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
         ))}
         
         <Link to="/spesialister" className="flex-shrink-0 w-[280px] snap-start">
-          <div className="aspect-[3/4] rounded-lg bg-white/10 border border-white/20 flex flex-col items-center justify-center hover:bg-white/15 transition-colors">
+          <div className="aspect-[3/4] bg-white/10 border border-white/20 flex flex-col items-center justify-center hover:bg-white/15 transition-colors">
             <div className="w-16 h-16 rounded-full bg-accent/30 flex items-center justify-center mb-4">
               <ArrowRight className="w-6 h-6 text-accent" aria-hidden="true" />
             </div>

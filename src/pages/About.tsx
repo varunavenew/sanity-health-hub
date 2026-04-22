@@ -142,20 +142,19 @@ const About = ({ isChatOpen }: AboutProps) => {
               </p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
               {specialists.slice(0, 8).map((specialist) => (
                 <Link
                   to={`/spesialister/${specialist.slug}`}
                   key={specialist.slug}
                   className="group"
                 >
-                  <div className="relative aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-brand-dark">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-brand-dark">
                     <img 
                       src={specialist.image} 
                       alt={specialist.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 saturate-[0.7] brightness-[0.95] contrast-[1.05]"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                     />
-                    <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <h3 className="font-normal text-white text-sm mb-0.5">{specialist.name}</h3>
