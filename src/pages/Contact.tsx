@@ -91,18 +91,18 @@ const Contact = ({ isChatOpen }: ContactProps) => {
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {/* Quick Help Card */}
+            {/* Vil du at vi skal kontakte deg? Card */}
             <div className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
               <Calendar className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
-              <h3 className="font-normal text-xl text-white mb-3">{t("contact.quickHelp")}</h3>
+              <h3 className="font-normal text-xl text-white mb-3">Vil du at vi skal kontakte deg?</h3>
               <p className="text-white/70 leading-relaxed mb-6 text-base font-light flex-1">
-                {t("contact.quickHelpDesc")}
+                Fyll ut et kort skjema – velg klinikk, fagområde og når det passer best at vi ringer.
               </p>
-              <Button 
+              <Button
                 className="bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
-                onClick={() => navigate('/booking')}
+                onClick={() => setContactDialogOpen(true)}
               >
-                {t("nav.bookAppointment")}
+                Be om å bli kontaktet
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
