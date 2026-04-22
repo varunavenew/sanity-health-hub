@@ -70,7 +70,7 @@ export const HeroCompact = () => {
                 </div>
               </div>
               
-              <div className="absolute inset-0 rounded-sm border-2 border-transparent group-hover:border-accent/50 transition-colors duration-300" aria-hidden="true" />
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-accent/50 transition-colors duration-300" aria-hidden="true" />
             </motion.button>
           ))}
         </motion.div>
