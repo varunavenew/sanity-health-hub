@@ -42,7 +42,7 @@ export const HeroCompact = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4 max-w-6xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-5 gap-0 max-w-6xl mx-auto"
         >
           {serviceCategories.map((category: any, index: number) => (
             <motion.button
@@ -51,7 +51,7 @@ export const HeroCompact = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
-              className="group relative overflow-hidden rounded-sm aspect-[3/4] shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer text-left md:rounded-sm rounded-none"
+              className="group relative overflow-hidden aspect-[3/4] hover:shadow-lg transition-shadow duration-300 cursor-pointer text-left"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
@@ -70,7 +70,7 @@ export const HeroCompact = () => {
                 </div>
               </div>
               
-              <div className="absolute inset-0 rounded-sm border-2 border-transparent group-hover:border-accent/50 transition-colors duration-300" aria-hidden="true" />
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-accent/50 transition-colors duration-300" aria-hidden="true" />
             </motion.button>
           ))}
         </motion.div>
