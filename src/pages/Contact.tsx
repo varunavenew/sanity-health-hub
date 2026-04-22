@@ -252,6 +252,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         secondaryCTA={t("cta.seePricing")}
         secondaryLink="/priser"
       />
+
+      <ContactRequestDialog open={contactDialogOpen} onOpenChange={setContactDialogOpen} />
     </PageLayout>
   );
 };
