@@ -306,12 +306,12 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
 
       <div 
         ref={scrollContainerRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16 snap-x snap-mandatory"
+        className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16 snap-x snap-mandatory"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
       >
         {categorySpecialists.map((specialist) => (
           <Link to={`/spesialister/${specialist.slug}`} key={specialist.name} className="group flex-shrink-0 w-[280px] snap-start">
-            <div className="relative aspect-[3/4] rounded-sm overflow-hidden bg-brand-dark">
+            <div className="relative aspect-[3/4] overflow-hidden bg-brand-dark">
               <img src={specialist.image} alt={specialist.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
