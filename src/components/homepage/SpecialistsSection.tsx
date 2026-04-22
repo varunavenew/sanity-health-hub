@@ -68,7 +68,7 @@ export const SpecialistsSection = () => {
       {/* Horizontal scroll container */}
       <div 
         ref={scrollContainerRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16 snap-x snap-mandatory"
+        className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none',
@@ -82,11 +82,11 @@ export const SpecialistsSection = () => {
             className="group flex-shrink-0 w-[280px] snap-start"
           >
             {/* Image */}
-            <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-3 bg-secondary">
+            <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
               <img
                 src={specialist.image}
                 alt={specialist.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
@@ -109,13 +109,13 @@ export const SpecialistsSection = () => {
               </div>
             </div>
 
-            <p className="text-sm text-muted-foreground font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         
         {/* "See all" card at end */}
         <div className="flex-shrink-0 w-[280px] snap-start">
-          <div className="aspect-[3/4] rounded-sm bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
+          <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
             <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
               <ArrowRight className="w-6 h-6 text-foreground" />
             </div>
