@@ -28,6 +28,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const { data: contactPage } = useContactPage();
   const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
   const { toast } = useToast();
+  const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
