@@ -431,15 +431,15 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       />
 
       {/* ── 1. Hero: Split-screen ── */}
-      <header className="bg-brand-dark">
+      <header className="bg-brand-warm">
         <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
           {/* Left: text */}
           <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
-            <p className="text-xs text-white/50 font-light tracking-wide mb-4">{category.subtitle}</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-[1.1] mb-6">
+            <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">{category.subtitle}</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
               {category.title}
             </h1>
-            <p className="text-base text-white/60 font-light leading-relaxed max-w-md mb-8">
+            <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
               {category.description.split('\n')[0]?.slice(0, 160)}
             </p>
             <div className="flex flex-wrap gap-3">
@@ -450,7 +450,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               <Button
                 variant="ghost"
                 size="lg"
-                className="border border-white/30 text-white hover:bg-white hover:text-brand-dark rounded-2xl"
+                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-2xl"
                 onClick={() => navigate('/kontakt')}
               >
                 <Phone className="mr-2 w-4 h-4" />
