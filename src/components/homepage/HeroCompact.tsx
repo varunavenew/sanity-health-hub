@@ -73,7 +73,6 @@ export const HeroCompact = () => {
             </motion.button>
           ))}
         </motion.div>
-      </div>
     </section>
   );
 };
