@@ -115,7 +115,7 @@ export const SpecialistsSection = () => {
         
         {/* "See all" card at end */}
         <div className="flex-shrink-0 w-[280px] snap-start">
-          <div className="aspect-[3/4] rounded-sm bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
+          <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
             <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
               <ArrowRight className="w-6 h-6 text-foreground" />
             </div>
