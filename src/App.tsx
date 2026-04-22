@@ -36,6 +36,7 @@ import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
 import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
+import Gynekologi from "./pages/treatments/Gynekologi";
 
 const queryClient = new QueryClient();
 
@@ -71,8 +72,8 @@ const AppContent = () => {
         <Route path="/om-oss" element={<About isChatOpen={false} />} />
         <Route path="/kontakt" element={<Contact isChatOpen={false} />} />
         {/* Treatment category routes */}
-        <Route path="/gynecology" element={<CategoryPage categoryId="gynekologi" isChatOpen={false} />} />
-        <Route path="/gynekologi" element={<CategoryPage categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/gynecology" element={<Gynekologi isChatOpen={false} />} />
+        <Route path="/gynekologi" element={<Gynekologi isChatOpen={false} />} />
         <Route path="/fertility" element={<CategoryPage categoryId="fertilitet" isChatOpen={false} />} />
         <Route path="/fertilitet" element={<CategoryPage categoryId="fertilitet" isChatOpen={false} />} />
         <Route path="/urology" element={<CategoryPage categoryId="urologi" isChatOpen={false} />} />
@@ -81,7 +82,7 @@ const AppContent = () => {
         <Route path="/graviditet" element={<CategoryPage categoryId="graviditet" isChatOpen={false} />} />
         <Route path="/flere-fagomrader" element={<CategoryPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Norwegian slugs */}
-        <Route path="/behandlinger/gynekologi" element={<CategoryPage categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/behandlinger/gynekologi" element={<Gynekologi isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet" element={<CategoryPage categoryId="fertilitet" isChatOpen={false} />} />
         <Route path="/behandlinger/urologi" element={<CategoryPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi" element={<CategoryPage categoryId="ortopedi" isChatOpen={false} />} />
