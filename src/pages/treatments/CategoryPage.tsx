@@ -311,7 +311,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
       >
         {categorySpecialists.map((specialist) => (
           <Link to={`/spesialister/${specialist.slug}`} key={specialist.name} className="group flex-shrink-0 w-[280px] snap-start">
-            <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-3 bg-brand-dark">
+            <div className="relative aspect-[3/4] rounded-sm overflow-hidden bg-brand-dark">
               <img src={specialist.image} alt={specialist.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
@@ -332,7 +332,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
                 </p>
               </div>
             </div>
-            <p className="text-sm text-white/70 font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-white/70 font-normal px-1 mt-1.5">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         
