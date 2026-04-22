@@ -92,6 +92,38 @@ async function migrate() {
       label: "Bestill time",
       path: "/booking",
     },
+    footerNavigation: [
+      {
+        _key: "col-tjenester",
+        _type: "footerColumn",
+        heading: "Tjenester",
+        links: [
+          { _key: "fl-gyn", _type: "footerLink", label: "Gynekologi", path: "/gynekologi" },
+          { _key: "fl-grav", _type: "footerLink", label: "Graviditet", path: "/graviditet" },
+          { _key: "fl-fert", _type: "footerLink", label: "Fertilitet", path: "/fertilitet" },
+          { _key: "fl-uro", _type: "footerLink", label: "Urologi", path: "/urologi" },
+          { _key: "fl-ort", _type: "footerLink", label: "Ortopedi", path: "/ortopedi" },
+          { _key: "fl-flere", _type: "footerLink", label: "Flere fagområder", path: "/flere-fagomrader" },
+        ],
+      },
+      {
+        _key: "col-om",
+        _type: "footerColumn",
+        heading: "Om CMedical",
+        links: [
+          { _key: "fl-omoss", _type: "footerLink", label: "Om oss", path: "/om-oss" },
+          { _key: "fl-spes", _type: "footerLink", label: "Spesialister", path: "/spesialister" },
+          { _key: "fl-pris", _type: "footerLink", label: "Priser", path: "/priser" },
+          { _key: "fl-fors", _type: "footerLink", label: "Forsikring", path: "/forsikring" },
+          { _key: "fl-akt", _type: "footerLink", label: "Aktuelt", path: "/aktuelt" },
+          { _key: "fl-kar", _type: "footerLink", label: "Karriere", path: "/karriere" },
+        ],
+      },
+    ],
+    footerBottomLinks: [
+      { _key: "fbl-pers", _type: "footerLink", label: "Personvern", path: "/personvern" },
+    ],
+    footerCopyright: "Alle rettigheter reservert.",
     socialMedia: {
       instagram: "https://www.instagram.com/cmedical.no",
       facebook: "https://www.facebook.com/cmedical.no",
