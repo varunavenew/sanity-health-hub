@@ -31,19 +31,18 @@ export const HeroCompact = () => {
 
   return (
     <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="max-w-6xl mx-auto mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-light text-foreground text-center">
-            {t("services.title")}
-          </h2>
-        </div>
-        
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-5 gap-0 max-w-6xl mx-auto"
-        >
+      <div className="mb-6 md:mb-8 px-4 md:px-8">
+        <h2 className="text-xl md:text-2xl font-light text-foreground text-center">
+          {t("services.title")}
+        </h2>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="grid grid-cols-2 md:grid-cols-5 gap-0 w-full"
+      >
           {serviceCategories.map((category: any, index: number) => (
             <motion.button
               key={category.id}
@@ -74,7 +73,6 @@ export const HeroCompact = () => {
             </motion.button>
           ))}
         </motion.div>
-      </div>
     </section>
   );
 };
