@@ -50,15 +50,15 @@ export const HeroCompact = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
-              className="group relative overflow-hidden aspect-[3/4] hover:shadow-lg transition-shadow duration-300 cursor-pointer text-left"
+              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
                 src={category.image}
                 alt=""
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent opacity-80 transition-opacity duration-300" aria-hidden="true" />
               
               <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                 <div className="flex items-center justify-between">
@@ -68,8 +68,6 @@ export const HeroCompact = () => {
                   <ArrowRight className="w-4 h-4 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" aria-hidden="true" />
                 </div>
               </div>
-              
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-accent/50 transition-colors duration-300" aria-hidden="true" />
             </motion.button>
           ))}
         </motion.div>
