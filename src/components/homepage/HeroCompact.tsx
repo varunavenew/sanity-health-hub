@@ -56,7 +56,7 @@ export const HeroCompact = () => {
               <img
                 src={category.image}
                 alt=""
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent opacity-80 transition-opacity duration-300" aria-hidden="true" />
               
