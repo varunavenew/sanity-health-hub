@@ -306,7 +306,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
 
       <div 
         ref={scrollContainerRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16 snap-x snap-mandatory"
+        className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16 snap-x snap-mandatory"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
       >
         {categorySpecialists.map((specialist) => (
