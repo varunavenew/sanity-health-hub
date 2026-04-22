@@ -156,11 +156,15 @@ export const Footer = () => {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-4">
             <img src={logoNegative} alt="CMedical" className="h-10" />
-            <p className="text-xs text-white/30">© {new Date().getFullYear()} CMedical. {t("footer.rights")}</p>
+            <p className="text-xs text-white/30">© {new Date().getFullYear()} CMedical. {footerCopyright}</p>
           </div>
           
           <div className="flex gap-5 text-xs text-white/40">
-            <Link to="/personvern" className="hover:text-white/70 transition-colors">{t("footer.privacy")}</Link>
+            {footerBottomLinks.map((link, i) => (
+              <Link key={(link._key || link.path) + i} to={link.path} className="hover:text-white/70 transition-colors">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
