@@ -211,7 +211,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
 
       {/* ── 5. Spesialistene – full-bleed grid, no gaps ── */}
       {categorySpecialists.length > 0 && (
-        <section className="bg-brand-warm pt-16 md:pt-24 pb-0">
+        <section className="bg-brand-warm pt-8 md:pt-10 pb-0">
           <div className="container mx-auto px-6 md:px-16 max-w-6xl">
             <div className="mb-10 md:mb-14 max-w-2xl">
               <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">
