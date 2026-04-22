@@ -41,7 +41,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
           </Button>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {specialists.map((s, idx) => (
             <motion.div
               key={s.slug}
@@ -51,20 +51,21 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
               transition={{ duration: 0.5, delay: idx * 0.08 }}
             >
               <Link to={`/spesialister/${s.slug}`} className="group block">
-                <div className="aspect-[3/4] rounded-sm overflow-hidden mb-3 bg-secondary">
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
                   <img
                     src={s.image}
                     alt={s.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="font-normal text-white text-sm mb-0.5">{s.name}</h3>
+                    <p className="text-white/70 text-xs font-light pr-4">
+                      {s.subtitle || s.title}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm font-medium text-foreground group-hover:text-brand-dark transition-colors">
-                  {s.name}
-                </p>
-                <p className="text-xs text-muted-foreground font-light mt-0.5">
-                  {s.subtitle || s.title}
-                </p>
               </Link>
             </motion.div>
           ))}
