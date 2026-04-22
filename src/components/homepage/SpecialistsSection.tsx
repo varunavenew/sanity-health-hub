@@ -82,11 +82,11 @@ export const SpecialistsSection = () => {
             className="group flex-shrink-0 w-[280px] snap-start"
           >
             {/* Image */}
-            <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-3 bg-secondary">
+            <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
               <img
                 src={specialist.image}
                 alt={specialist.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
@@ -109,7 +109,7 @@ export const SpecialistsSection = () => {
               </div>
             </div>
 
-            <p className="text-sm text-muted-foreground font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         
