@@ -51,7 +51,7 @@ export const HeroCompact = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
-              className="group relative overflow-hidden rounded-sm aspect-[3/4] shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer text-left md:rounded-sm rounded-none"
+              className="group relative overflow-hidden aspect-[3/4] hover:shadow-lg transition-shadow duration-300 cursor-pointer text-left"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
