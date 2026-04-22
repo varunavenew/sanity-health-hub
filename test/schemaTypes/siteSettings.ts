@@ -11,7 +11,6 @@ export default {
     { name: 'general', title: 'Generelt', default: true },
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'social', title: 'Sosiale medier' },
-    { name: 'footer', title: 'Footer' },
     { name: 'notFound', title: '404-side' },
   ],
   fields: [
@@ -103,91 +102,6 @@ export default {
           initialValue: '/booking',
         },
       ],
-    },
-
-    // ── Footer Navigation ──
-    {
-      name: 'footerNavigation',
-      title: 'Footer-kolonner',
-      type: 'array',
-      group: 'footer',
-      description: 'Lenkekolonner som vises i footeren (f.eks. "Om CMedical"). Dra for å endre rekkefølge.',
-      of: [
-        {
-          type: 'object',
-          name: 'footerColumn',
-          title: 'Footer-kolonne',
-          fields: [
-            {
-              name: 'heading',
-              title: 'Overskrift',
-              type: 'string',
-              validation: (Rule: any) => Rule.required(),
-            },
-            {
-              name: 'links',
-              title: 'Lenker',
-              type: 'array',
-              of: [
-                {
-                  type: 'object',
-                  name: 'footerLink',
-                  fields: [
-                    {
-                      name: 'label',
-                      title: 'Tekst',
-                      type: 'string',
-                      validation: (Rule: any) => Rule.required(),
-                    },
-                    {
-                      name: 'path',
-                      title: 'Lenke',
-                      type: 'string',
-                      description: 'Intern sti (f.eks. /om-oss) eller full URL',
-                      validation: (Rule: any) => Rule.required(),
-                    },
-                  ],
-                  preview: {
-                    select: { title: 'label', subtitle: 'path' },
-                  },
-                },
-              ],
-            },
-          ],
-          preview: {
-            select: { title: 'heading', links: 'links' },
-            prepare({ title, links }: any) {
-              const count = Array.isArray(links) ? links.length : 0;
-              return { title, subtitle: `${count} lenke${count === 1 ? '' : 'r'}` };
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: 'footerBottomLinks',
-      title: 'Footer bunn-lenker',
-      type: 'array',
-      group: 'footer',
-      description: 'Små lenker nederst i footeren (f.eks. Personvern)',
-      of: [
-        {
-          type: 'object',
-          name: 'footerLink',
-          fields: [
-            { name: 'label', title: 'Tekst', type: 'string', validation: (Rule: any) => Rule.required() },
-            { name: 'path', title: 'Lenke', type: 'string', validation: (Rule: any) => Rule.required() },
-          ],
-          preview: { select: { title: 'label', subtitle: 'path' } },
-        },
-      ],
-    },
-    {
-      name: 'footerCopyright',
-      title: 'Copyright-tekst',
-      type: 'string',
-      group: 'footer',
-      description: 'Vises etter "© ÅÅÅÅ CMedical." — f.eks. "Alle rettigheter reservert."',
     },
 
     // ── Social Media ──
