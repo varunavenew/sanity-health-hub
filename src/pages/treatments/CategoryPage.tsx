@@ -332,7 +332,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
                 </p>
               </div>
             </div>
-            <p className="text-sm text-white/70 font-normal px-1">{specialist.expertise.join(', ')}</p>
+            <p className="text-sm text-white/70 font-normal px-1 mt-3">{specialist.expertise.join(', ')}</p>
           </Link>
         ))}
         
