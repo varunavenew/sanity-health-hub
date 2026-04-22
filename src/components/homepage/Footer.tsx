@@ -43,47 +43,85 @@ export const Footer = () => {
   const email = settings?.email || "info@cmedical.no";
   const address = settings?.address || "Oslo · Bekkestua · Moss · Moelv";
   const social = settings?.socialMedia || {};
+  const footerColumns: Array<{ heading: string; links: Array<{ label: string; path: string; _key?: string }> }> =
+    (settings as any)?.footerNavigation || [];
+  const footerBottomLinks: Array<{ label: string; path: string; _key?: string }> =
+    (settings as any)?.footerBottomLinks || [{ label: t("footer.privacy"), path: "/personvern" }];
+  const footerCopyright: string = (settings as any)?.footerCopyright || t("footer.rights");
+
+  // Fallback "Om CMedical" column when Sanity has no footerNavigation set
+  const fallbackAboutColumn = {
+    heading: t("footer.aboutCMedical"),
+    links: [
+      { label: t("nav.about"), path: "/om-oss" },
+      { label: t("nav.specialists"), path: "/spesialister" },
+      { label: t("nav.pricing"), path: "/priser" },
+      { label: t("nav.insurance"), path: "/forsikring" },
+      { label: t("nav.news"), path: "/aktuelt" },
+      { label: "Karriere", path: "/karriere" },
+    ],
+  };
 
   return (
     <footer className="bg-[#180404] text-white pt-20 pb-10" role="contentinfo">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
-          {/* Column 1: Tjenester */}
-          <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.services")}</h3>
-            <nav className="space-y-2.5" aria-label={t("footer.services")}>
-              {serviceLinks.map((link: any) => (
-                <Link key={link.path} to={link.path} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          {footerColumns.length > 0 ? (
+            footerColumns.map((col, idx) => (
+              <div key={col.heading + idx}>
+                <h3 className="text-xs text-white/40 mb-4 font-normal">{col.heading}</h3>
+                <nav className="space-y-2.5" aria-label={col.heading}>
+                  {(col.links || []).map((link, i) => (
+                    <Link
+                      key={(link._key || link.path) + i}
+                      to={link.path}
+                      className="block text-sm text-white/60 hover:text-white transition-colors font-light"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            ))
+          ) : (
+            <>
+              {/* Column 1: Tjenester (fallback) */}
+              <div>
+                <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.services")}</h3>
+                <nav className="space-y-2.5" aria-label={t("footer.services")}>
+                  {serviceLinks.map((link: any) => (
+                    <Link key={link.path} to={link.path} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
 
-          {/* Column 2: Klinikker */}
-          <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.clinics")}</h3>
-            <nav className="space-y-2.5" aria-label={t("footer.clinics")}>
-              {clinicLinks.map((clinic) => (
-                <Link key={clinic.slug} to={`/klinikker/${clinic.slug}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">{clinic.label}</Link>
-              ))}
-            </nav>
-          </div>
+              {/* Column 2: Klinikker (fallback) */}
+              <div>
+                <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.clinics")}</h3>
+                <nav className="space-y-2.5" aria-label={t("footer.clinics")}>
+                  {clinicLinks.map((clinic) => (
+                    <Link key={clinic.slug} to={`/klinikker/${clinic.slug}`} className="block text-sm text-white/60 hover:text-white transition-colors font-light">{clinic.label}</Link>
+                  ))}
+                </nav>
+              </div>
 
-          {/* Column 3: Om CMedical */}
-          <div>
-            <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.aboutCMedical")}</h3>
-            <nav className="space-y-2.5" aria-label={t("footer.aboutCMedical")}>
-              <Link to="/om-oss" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.about")}</Link>
-              <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.specialists")}</Link>
-              <Link to="/priser" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.pricing")}</Link>
-              <Link to="/forsikring" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.insurance")}</Link>
-              <Link to="/aktuelt" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.news")}</Link>
-              <Link to="/karriere" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere</Link>
-            </nav>
-          </div>
+              {/* Column 3: Om CMedical (fallback) */}
+              <div>
+                <h3 className="text-xs text-white/40 mb-4 font-normal">{fallbackAboutColumn.heading}</h3>
+                <nav className="space-y-2.5" aria-label={fallbackAboutColumn.heading}>
+                  {fallbackAboutColumn.links.map((link) => (
+                    <Link key={link.path} to={link.path} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            </>
+          )}
 
-          {/* Column 4: Kontakt */}
+          {/* Kontakt-kolonnen er alltid dynamisk fra siteSettings */}
           <div>
             <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.contact")}</h3>
             <div className="space-y-3">
