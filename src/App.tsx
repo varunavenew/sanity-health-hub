@@ -36,6 +36,7 @@ import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
 import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
+import Gynekologi from "./pages/treatments/Gynekologi";
 
 const queryClient = new QueryClient();
 
