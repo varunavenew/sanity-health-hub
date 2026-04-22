@@ -36,7 +36,7 @@ import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
 import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
-import Gynekologi from "./pages/treatments/Gynekologi";
+import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 
 const queryClient = new QueryClient();
 
@@ -72,22 +72,22 @@ const AppContent = () => {
         <Route path="/om-oss" element={<About isChatOpen={false} />} />
         <Route path="/kontakt" element={<Contact isChatOpen={false} />} />
         {/* Treatment category routes */}
-        <Route path="/gynecology" element={<Gynekologi isChatOpen={false} />} />
-        <Route path="/gynekologi" element={<Gynekologi isChatOpen={false} />} />
-        <Route path="/fertility" element={<CategoryPage categoryId="fertilitet" isChatOpen={false} />} />
-        <Route path="/fertilitet" element={<CategoryPage categoryId="fertilitet" isChatOpen={false} />} />
-        <Route path="/urology" element={<CategoryPage categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/urologi" element={<CategoryPage categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/ortopedi" element={<CategoryPage categoryId="ortopedi" isChatOpen={false} />} />
-        <Route path="/graviditet" element={<CategoryPage categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/flere-fagomrader" element={<CategoryPage categoryId="flere-fagomrader" isChatOpen={false} />} />
+        <Route path="/gynecology" element={<CategoryPageNew categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/gynekologi" element={<CategoryPageNew categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/fertility" element={<CategoryPageNew categoryId="fertilitet" isChatOpen={false} />} />
+        <Route path="/fertilitet" element={<CategoryPageNew categoryId="fertilitet" isChatOpen={false} />} />
+        <Route path="/urology" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
+        <Route path="/urologi" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
+        <Route path="/ortopedi" element={<CategoryPageNew categoryId="ortopedi" isChatOpen={false} />} />
+        <Route path="/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
+        <Route path="/flere-fagomrader" element={<CategoryPageNew categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Norwegian slugs */}
-        <Route path="/behandlinger/gynekologi" element={<Gynekologi isChatOpen={false} />} />
-        <Route path="/behandlinger/fertilitet" element={<CategoryPage categoryId="fertilitet" isChatOpen={false} />} />
-        <Route path="/behandlinger/urologi" element={<CategoryPage categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/behandlinger/ortopedi" element={<CategoryPage categoryId="ortopedi" isChatOpen={false} />} />
-        <Route path="/behandlinger/graviditet" element={<CategoryPage categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader" element={<CategoryPage categoryId="flere-fagomrader" isChatOpen={false} />} />
+        <Route path="/behandlinger/gynekologi" element={<CategoryPageNew categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/behandlinger/fertilitet" element={<CategoryPageNew categoryId="fertilitet" isChatOpen={false} />} />
+        <Route path="/behandlinger/urologi" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
+        <Route path="/behandlinger/ortopedi" element={<CategoryPageNew categoryId="ortopedi" isChatOpen={false} />} />
+        <Route path="/behandlinger/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader" element={<CategoryPageNew categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<TreatmentPage categoryId="gynekologi" isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<TreatmentPage categoryId="fertilitet" isChatOpen={false} />} />
