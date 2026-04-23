@@ -6,6 +6,18 @@ import { useClinics } from "@/hooks/useSanity";
 import { clinics as staticClinics, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
 
+import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
+import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
+import imgMoss from "@/assets/clinics/moss.jpg";
+import imgMoelv from "@/assets/clinics/moelv.jpg";
+
+const clinicImages: Record<string, string> = {
+  majorstuen: imgMajorstuen,
+  bekkestua: imgBekkestua,
+  moss: imgMoss,
+  moelv: imgMoelv,
+};
+
 interface ClinicsProps {
   isChatOpen: boolean;
 }
@@ -55,7 +67,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         }}
       />
 
-      {/* Hero – compact so clinic cards are visible above the fold */}
+      {/* Hero */}
       <header className="bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16 py-12 md:py-16">
           <div className="max-w-3xl">
@@ -78,54 +90,79 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         </div>
       </header>
 
-      {/* Clinic cards */}
-      <section className="bg-background py-10 md:py-14" aria-labelledby="clinics-heading">
-        <div className="container mx-auto px-6 md:px-16">
-          <h2 id="clinics-heading" className="sr-only">
-            Liste over klinikker
-          </h2>
+      {/* Clinic split-screen rows */}
+      <section className="bg-background" aria-labelledby="clinics-heading">
+        <h2 id="clinics-heading" className="sr-only">
+          Liste over klinikker
+        </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
-            {list.map((clinic: Clinic) => {
-              const detailHref = `/klinikker/${clinic.slug}`;
-              const serviceCount = clinic.services?.length || 0;
-              return (
-                <article
-                  key={clinic.id}
-                  className="group flex flex-col bg-brand-warm/40 border border-border/50 rounded-sm overflow-hidden transition-all hover:border-brand-dark/30 hover:shadow-[0_8px_30px_-12px_hsl(var(--brand-dark)/0.15)]"
+        {list.map((clinic: Clinic, idx: number) => {
+          const detailHref = `/klinikker/${clinic.slug}`;
+          const serviceCount = clinic.services?.length || 0;
+          const image = clinicImages[clinic.slug];
+          const reverse = idx % 2 === 1;
+          const altBg = idx % 2 === 1 ? "bg-brand-warm/40" : "bg-background";
+
+          return (
+            <div
+              key={clinic.id}
+              className={`${altBg} border-t border-border/40`}
+            >
+              <div className="container mx-auto px-6 md:px-16 py-12 md:py-20">
+                <div
+                  className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
+                    reverse ? "lg:[&>*:first-child]:order-2" : ""
+                  }`}
                 >
-                  {/* Header strip */}
+                  {/* Image */}
                   <Link
                     to={detailHref}
-                    className="block px-6 md:px-8 pt-6 md:pt-8 pb-4"
+                    className="group block overflow-hidden rounded-sm aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5]"
                     aria-label={`Les mer om CMedical ${clinic.label}`}
                   >
-                    <p className="text-xs text-muted-foreground font-light mb-1">Klinikk</p>
-                    <h3 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight group-hover:text-foreground transition-colors">
-                      CMedical {clinic.label}
-                    </h3>
+                    {image ? (
+                      <img
+                        src={image}
+                        alt={`CMedical ${clinic.label}`}
+                        loading="lazy"
+                        width={1024}
+                        height={1024}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-brand-mid/20" />
+                    )}
                   </Link>
 
-                  {/* Body */}
-                  <div className="px-6 md:px-8 pb-6 md:pb-8 flex flex-col gap-4 flex-1">
+                  {/* Content */}
+                  <div className="flex flex-col">
+                    <p className="text-xs text-muted-foreground font-light uppercase tracking-[0.15em] mb-3">
+                      0{idx + 1} · Klinikk
+                    </p>
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-tight mb-5">
+                      <Link to={detailHref} className="hover:text-foreground transition-colors">
+                        CMedical {clinic.label}
+                      </Link>
+                    </h3>
+
                     {clinic.detail?.description && (
-                      <p className="text-sm text-muted-foreground font-light leading-relaxed line-clamp-3">
+                      <p className="text-base text-muted-foreground font-light leading-[1.8] mb-8 max-w-md">
                         {clinic.detail.description}
                       </p>
                     )}
 
-                    {/* Key info rows */}
-                    <ul className="space-y-2.5 mt-1">
+                    {/* Key info */}
+                    <ul className="space-y-3 mb-7 border-t border-border/50 pt-6">
                       <li className="flex items-start gap-3 text-sm">
-                        <MapPin className="w-3.5 h-3.5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        <MapPin className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                         <span className="text-foreground font-light">{clinic.address}</span>
                       </li>
                       <li className="flex items-start gap-3 text-sm">
-                        <Clock className="w-3.5 h-3.5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        <Clock className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                         <span className="text-foreground font-light">{clinic.hours}</span>
                       </li>
                       <li className="flex items-start gap-3 text-sm">
-                        <Phone className="w-3.5 h-3.5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        <Phone className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                         {clinic.phone ? (
                           <a
                             href={`tel:+47${String(clinic.phone).replace(/\s/g, "")}`}
@@ -140,27 +177,27 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                     </ul>
 
                     {/* Practical chips */}
-                    <div className="flex flex-wrap gap-2 pt-1">
+                    <div className="flex flex-wrap gap-2 mb-8">
                       {clinic.detail?.parking && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/70 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Car className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           Parkering
                         </span>
                       )}
                       {clinic.detail?.publicTransport && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/70 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Train className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           Kollektiv
                         </span>
                       )}
                       {clinic.detail?.accessibility && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/70 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Accessibility className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           Universelt utformet
                         </span>
                       )}
                       {serviceCount > 0 && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/70 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
                           <Stethoscope className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           {serviceCount} tjenester
                         </span>
@@ -168,10 +205,10 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                     </div>
 
                     {/* CTA row */}
-                    <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
+                    <div className="flex items-center gap-6">
                       <Link
                         to={detailHref}
-                        className="inline-flex items-center gap-1.5 text-sm font-normal text-brand-dark hover:gap-2.5 transition-all"
+                        className="inline-flex items-center gap-1.5 text-sm font-normal text-brand-dark hover:gap-2.5 transition-all border-b border-brand-dark/40 hover:border-brand-dark pb-1"
                       >
                         Les mer om klinikken
                         <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
@@ -188,11 +225,11 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                       )}
                     </div>
                   </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </section>
 
       <CTASection
