@@ -2,12 +2,36 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
-import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+
+// Lookup: service-ID → display label + optional link
+const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
+  fertilitet: { label: "Fertilitet", path: "/behandlinger/fertilitet" },
+  fostermedisiner: { label: "Fostermedisin" },
+  gynekolog: { label: "Gynekologi", path: "/behandlinger/gynekologi" },
+  ernaringsfysiolog: { label: "Ernæringsfysiolog", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+  psykolog: { label: "Psykolog", path: "/behandlinger/flere-fagomrader/psykologi" },
+  sexolog: { label: "Sexolog", path: "/behandlinger/flere-fagomrader/sexologi" },
+  gastrokirurg: { label: "Gastrokirurgi" },
+  ortoped: { label: "Ortopedi", path: "/behandlinger/ortopedi" },
+  handterapeut: { label: "Håndterapeut" },
+  revmatolog: { label: "Revmatolog" },
+  urolog: { label: "Urologi", path: "/behandlinger/urologi" },
+  hudlege: { label: "Hudlege" },
+  areknuter: { label: "Åreknuter" },
+  "sprengte-blodkar": { label: "Sprengte blodkar" },
+  fysioterapeut: { label: "Fysioterapeut" },
+  uroterapi: { label: "Uroterapi" },
+  plastikkirurgi: { label: "Plastikkirurgi" },
+  karkirurgi: { label: "Karkirurgi" },
+  hjertespesialist: { label: "Hjertespesialist" },
+  almennlege: { label: "Allmennlege" },
+};
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
