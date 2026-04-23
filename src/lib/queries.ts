@@ -63,7 +63,11 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current =
   process[]{title, description},
   faqs[]{question, answer},
   sections[]{id, heading, content},
-  relatedSpecialists,
+  "relatedSpecialists": relatedSpecialists[]->{
+    _id, name, role, subtitle, "slug": slug.current,
+    "image": photo.asset->url,
+    specialties
+  },
   linkedServices[]{label, description, path},
   seo
 }`;

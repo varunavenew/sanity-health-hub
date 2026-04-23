@@ -255,11 +255,16 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   })) as Specialist[];
 
   const displaySpecialists = useMemo(() => {
-    const slugs = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
-    if (slugs && slugs.length > 0) {
-      return slugs
+    // Sanity returns dereferenced objects; static fallback returns slug strings.
+    const related = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
+    if (related && related.length > 0) {
+      const slugs: string[] = related
+        .map((item: any) => (typeof item === "string" ? item : item?.slug))
+        .filter((s): s is string => !!s);
+      const matched = slugs
         .map(slug => allSpecs.find(s => s.slug === slug))
         .filter((s): s is Specialist => !!s);
+      if (matched.length > 0) return matched;
     }
     return allSpecs.filter(s => s.category === categoryId);
   }, [treatment, staticTreatment, categoryId, allSpecs]);
