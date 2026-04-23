@@ -87,6 +87,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     },
     mapsUrl: staticClinic.mapsUrl,
     faqs: clinicFaqs[staticClinic.slug] || [],
+    services: staticClinic.services,
     booking: undefined,
     seo: undefined,
   } : undefined);
