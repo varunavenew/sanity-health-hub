@@ -73,7 +73,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     }
   }, [clinic]);
 
-  if (isLoading) {
+  // Only show skeleton if Sanity is still loading AND we have no static fallback
+  if (isLoading && !staticClinic) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="bg-brand-warm pt-24 pb-16">
