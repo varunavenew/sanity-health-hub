@@ -12,10 +12,20 @@ interface ClinicsProps {
 
 const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const { data: sanityClinics } = useClinics();
-  // Prefer static (richer detail) – merge Sanity overrides where available
+  // Prefer static (richer detail) – merge in only Sanity fields that have a value,
+  // so a null/undefined value from Sanity never blanks out a working static field.
   const list: any[] = staticClinics.map((s) => {
     const fromSanity = sanityClinics?.find((c: any) => c.slug === s.slug);
-    return fromSanity ? { ...s, ...fromSanity, detail: { ...s.detail, ...(fromSanity.detail || {}) } } : s;
+    if (!fromSanity) return s;
+    const overrides: Record<string, any> = {};
+    for (const [key, value] of Object.entries(fromSanity)) {
+      if (value !== null && value !== undefined && value !== "") overrides[key] = value;
+    }
+    return {
+      ...s,
+      ...overrides,
+      detail: { ...s.detail, ...(fromSanity.detail || {}) },
+    };
   });
 
   return (
