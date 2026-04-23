@@ -59,8 +59,8 @@ export default {
       name: 'clinics',
       title: 'Klinikker',
       type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Klinikker spesialisten jobber ved, f.eks. "Majorstuen", "Moelv"',
+      of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
+      description: 'Klinikker spesialisten jobber ved – velg fra eksisterende klinikkdokumenter.',
     },
     {
       name: 'bio',

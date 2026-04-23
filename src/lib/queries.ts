@@ -13,14 +13,16 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
 }`;
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist"] | order(name asc){
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
+  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  "clinics": clinics[]->title,
   "slug": slug.current,
   "image": photo.asset->url,
   "categories": categories[]->{ _id, title, "slug": slug.current }
 }`;
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && slug.current == $slug][0]{
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled, clinics,
+  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  "clinics": clinics[]->title,
   "slug": slug.current,
   "image": photo.asset->url,
   "categories": categories[]->{ _id, title, "slug": slug.current }
