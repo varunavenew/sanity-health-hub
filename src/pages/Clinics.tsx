@@ -55,19 +55,19 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         }}
       />
 
-      {/* Hero */}
+      {/* Hero – compact so clinic cards are visible above the fold */}
       <header className="bg-brand-dark">
-        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16 py-12 md:py-16">
           <div className="max-w-3xl">
-            <p className="text-sm text-white/60 font-light mb-4">Våre klinikker</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight mb-6">
+            <p className="text-sm text-white/60 font-light mb-3">Våre klinikker</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight mb-4">
               Finn din nærmeste klinikk
             </h1>
-            <p className="text-base md:text-lg text-white/70 font-light leading-relaxed max-w-xl">
+            <p className="text-base text-white/70 font-light leading-relaxed max-w-xl">
               CMedical har klinikker over hele Østlandet og Innlandet. Velg din lokasjon for å se
               tjenester, åpningstider, parkering og kontaktinformasjon.
             </p>
-            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/60 font-light">
+            <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/60 font-light">
               <span>{list.length} klinikker</span>
               <span aria-hidden="true">·</span>
               <span>Ingen henvisning nødvendig</span>
@@ -79,7 +79,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
       </header>
 
       {/* Clinic cards */}
-      <section className="bg-background py-16 md:py-24" aria-labelledby="clinics-heading">
+      <section className="bg-background py-10 md:py-14" aria-labelledby="clinics-heading">
         <div className="container mx-auto px-6 md:px-16">
           <h2 id="clinics-heading" className="sr-only">
             Liste over klinikker
