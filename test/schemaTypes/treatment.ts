@@ -109,13 +109,18 @@ export default {
         },
       ],
     },
-    // Related specialists (by slug)
+    // Related specialists (true references)
     {
       name: 'relatedSpecialists',
       title: 'Relaterte spesialister',
-      description: 'Slug-referanser til spesialister som vises på behandlingssiden',
+      description: 'Velg spesialister som skal vises på denne behandlingssiden. Hvis tom, vises alle spesialister i kategorien automatisk.',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'specialist' }],
+        },
+      ],
     },
     // Linked services (cross-links to other treatments)
     {
