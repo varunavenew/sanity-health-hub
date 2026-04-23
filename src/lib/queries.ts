@@ -150,6 +150,11 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
     isServicesDropdown
   },
   ctaButton{ label, path },
+  footerAboutLinks[]{
+    _key,
+    label,
+    path
+  },
   notFoundTitle,
   notFoundText,
   "notFoundImage": notFoundImage.asset->url,

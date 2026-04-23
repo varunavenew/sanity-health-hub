@@ -74,12 +74,21 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.aboutCMedical")}</h3>
             <nav className="space-y-2.5" aria-label={t("footer.aboutCMedical")}>
-              <Link to="/om-oss" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.about")}</Link>
-              <Link to="/spesialister" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.specialists")}</Link>
-              <Link to="/priser" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.pricing")}</Link>
-              <Link to="/forsikring" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.insurance")}</Link>
-              <Link to="/aktuelt" className="block text-sm text-white/60 hover:text-white transition-colors font-light">{t("nav.news")}</Link>
-              <Link to="/karriere" className="block text-sm text-white/60 hover:text-white transition-colors font-light">Karriere</Link>
+              {(settings?.footerAboutLinks?.length
+                ? settings.footerAboutLinks
+                : [
+                    { _key: "om-oss", label: t("nav.about"), path: "/om-oss" },
+                    { _key: "spesialister", label: t("nav.specialists"), path: "/spesialister" },
+                    { _key: "priser", label: t("nav.pricing"), path: "/priser" },
+                    { _key: "forsikring", label: t("nav.insurance"), path: "/forsikring" },
+                    { _key: "aktuelt", label: t("nav.news"), path: "/aktuelt" },
+                    { _key: "karriere", label: "Karriere", path: "/karriere" },
+                  ]
+              ).map((link: any) => (
+                <Link key={link._key || link.path} to={link.path} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </div>
 

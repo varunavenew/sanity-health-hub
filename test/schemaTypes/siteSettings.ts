@@ -10,6 +10,7 @@ export default {
   groups: [
     { name: 'general', title: 'Generelt', default: true },
     { name: 'navigation', title: 'Navigasjon' },
+    { name: 'footer', title: 'Footer' },
     { name: 'social', title: 'Sosiale medier' },
     { name: 'notFound', title: '404-side' },
   ],
@@ -100,6 +101,40 @@ export default {
           title: 'Lenke',
           type: 'string',
           initialValue: '/booking',
+        },
+      ],
+    },
+
+    // ── Footer ──
+    {
+      name: 'footerAboutLinks',
+      title: 'Om CMedical-lenker (footer)',
+      type: 'array',
+      group: 'footer',
+      description: 'Lenker som vises i "Om CMedical"-kolonnen i footeren. Dra for å endre rekkefølge.',
+      of: [
+        {
+          type: 'object',
+          name: 'footerLink',
+          title: 'Footer-lenke',
+          fields: [
+            {
+              name: 'label',
+              title: 'Tekst',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'path',
+              title: 'Lenke',
+              type: 'string',
+              description: 'Intern sti, f.eks. /om-oss eller /priser',
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'path' },
+          },
         },
       ],
     },
