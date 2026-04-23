@@ -42,7 +42,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         { _key: "forsikring", label: t("nav.insurance"), path: "/forsikring" },
         { _key: "aktuelt", label: t("nav.news"), path: "/aktuelt" },
         { _key: "om-oss", label: t("nav.about"), path: "/om-oss" },
-        { _key: "klinikker", label: t("nav.clinics"), path: "/klinikker/majorstuen" },
+        { _key: "klinikker", label: t("nav.clinics"), path: "/klinikker" },
         { _key: "kontakt", label: t("nav.contact"), path: "/kontakt" },
       ];
 
