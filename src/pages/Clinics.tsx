@@ -126,12 +126,16 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                       </li>
                       <li className="flex items-start gap-3 text-sm">
                         <Phone className="w-3.5 h-3.5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
-                        <a
-                          href={`tel:+47${clinic.phone.replace(/\s/g, "")}`}
-                          className="text-foreground font-light hover:underline underline-offset-4"
-                        >
-                          {clinic.phone}
-                        </a>
+                        {clinic.phone ? (
+                          <a
+                            href={`tel:+47${String(clinic.phone).replace(/\s/g, "")}`}
+                            className="text-foreground font-light hover:underline underline-offset-4"
+                          >
+                            {clinic.phone}
+                          </a>
+                        ) : (
+                          <span className="text-muted-foreground font-light">—</span>
+                        )}
                       </li>
                     </ul>
 
