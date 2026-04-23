@@ -2,12 +2,36 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
-import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getClinicBySlug } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+
+// Lookup: service-ID → display label + optional link
+const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
+  fertilitet: { label: "Fertilitet", path: "/behandlinger/fertilitet" },
+  fostermedisiner: { label: "Fostermedisin" },
+  gynekolog: { label: "Gynekologi", path: "/behandlinger/gynekologi" },
+  ernaringsfysiolog: { label: "Ernæringsfysiolog", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+  psykolog: { label: "Psykolog", path: "/behandlinger/flere-fagomrader/psykologi" },
+  sexolog: { label: "Sexolog", path: "/behandlinger/flere-fagomrader/sexologi" },
+  gastrokirurg: { label: "Gastrokirurgi" },
+  ortoped: { label: "Ortopedi", path: "/behandlinger/ortopedi" },
+  handterapeut: { label: "Håndterapeut" },
+  revmatolog: { label: "Revmatolog" },
+  urolog: { label: "Urologi", path: "/behandlinger/urologi" },
+  hudlege: { label: "Hudlege" },
+  areknuter: { label: "Åreknuter" },
+  "sprengte-blodkar": { label: "Sprengte blodkar" },
+  fysioterapeut: { label: "Fysioterapeut" },
+  uroterapi: { label: "Uroterapi" },
+  plastikkirurgi: { label: "Plastikkirurgi" },
+  karkirurgi: { label: "Karkirurgi" },
+  hjertespesialist: { label: "Hjertespesialist" },
+  almennlege: { label: "Allmennlege" },
+};
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
@@ -63,6 +87,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     },
     mapsUrl: staticClinic.mapsUrl,
     faqs: clinicFaqs[staticClinic.slug] || [],
+    services: staticClinic.services,
     booking: undefined,
     seo: undefined,
   } : undefined);
@@ -136,7 +161,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       <div className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
-            <Link to="/om-oss" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
+            <Link to="/klinikker" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
               <ArrowLeft className="w-3 h-3" />
               Alle klinikker
             </Link>
@@ -226,6 +251,49 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           </div>
         </div>
       </section>
+
+      {/* Services at this clinic */}
+      {clinic.services && clinic.services.length > 0 && (
+        <section className="bg-brand-warm/40 py-10 md:py-14">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-2 mb-2">
+                <Stethoscope className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+                <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">Tilbud</p>
+              </div>
+              <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
+              <p className="text-sm text-muted-foreground font-light mb-6">
+                CMedical {clinic.label} tilbyr {clinic.services.length} ulike fagområder. Klikk for å lese mer.
+              </p>
+
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
+                {clinic.services.map((id: string) => {
+                  const svc = SERVICE_LABELS[id] || { label: id };
+                  const content = (
+                    <span className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
+                      <span>{svc.label}</span>
+                      {svc.path && (
+                        <ArrowRight className="w-3.5 h-3.5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} aria-hidden="true" />
+                      )}
+                    </span>
+                  );
+                  return (
+                    <li key={id} className="group">
+                      {svc.path ? (
+                        <Link to={svc.path} aria-label={`Les mer om ${svc.label}`}>
+                          {content}
+                        </Link>
+                      ) : (
+                        content
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Clinic images placeholder */}
       <section className="bg-muted/50 py-10 md:py-14">
