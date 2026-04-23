@@ -16,7 +16,7 @@ const BurgerMenu = () => {
   const staticMenuItems = [
     { label: t('nav.services'), path: '/tjenester' },
     { label: t('nav.pricing'), path: '/priser' },
-    { label: t('nav.clinics'), path: '/klinikker/majorstuen' },
+    { label: t('nav.clinics'), path: '/klinikker' },
     { label: t('nav.about'), path: '/om-oss' },
     { label: t('nav.insurance'), path: '/forsikring' },
     { label: t('nav.news'), path: '/aktuelt' },
