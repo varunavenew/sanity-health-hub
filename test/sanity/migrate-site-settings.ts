@@ -92,6 +92,14 @@ async function migrate() {
       label: "Bestill time",
       path: "/booking",
     },
+    footerAboutLinks: [
+      { _key: "footer-om-oss", _type: "footerLink", label: "Om oss", path: "/om-oss" },
+      { _key: "footer-spesialister", _type: "footerLink", label: "Spesialister", path: "/spesialister" },
+      { _key: "footer-priser", _type: "footerLink", label: "Priser", path: "/priser" },
+      { _key: "footer-forsikring", _type: "footerLink", label: "Forsikring", path: "/forsikring" },
+      { _key: "footer-aktuelt", _type: "footerLink", label: "Aktuelt", path: "/aktuelt" },
+      { _key: "footer-karriere", _type: "footerLink", label: "Karriere", path: "/karriere" },
+    ],
     socialMedia: {
       instagram: "https://www.instagram.com/cmedical.no",
       facebook: "https://www.facebook.com/cmedical.no",
