@@ -86,6 +86,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   "heroImage": heroImage.asset->url,
   address{street, city, zip},
   openingHours[]{days, hours},
+  ctaCards[]{icon, title, description, ctaText, ctaAction, ctaLink, variant},
   seo
 }`;
 

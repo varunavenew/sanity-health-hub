@@ -61,6 +61,58 @@ export default {
       ],
     },
     {
+      name: 'ctaCards',
+      title: 'Hjelpekort (CTA-seksjon)',
+      type: 'array',
+      description: 'De tre kortene som vises under klinikkoversikten',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'icon',
+              title: 'Ikon',
+              type: 'string',
+              description: 'Lucide ikon-navn (Calendar, Shield, Phone, Mail, MessageCircle)',
+            },
+            { name: 'title', title: 'Tittel', type: 'string' },
+            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 3 },
+            { name: 'ctaText', title: 'Knappetekst', type: 'string' },
+            {
+              name: 'ctaAction',
+              title: 'Handling',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Åpne kontakt-modal', value: 'openContactDialog' },
+                  { title: 'Naviger til lenke', value: 'navigate' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'navigate',
+            },
+            { name: 'ctaLink', title: 'CTA-lenke (hvis naviger)', type: 'string' },
+            {
+              name: 'variant',
+              title: 'Knappevariant',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Solid (hvit fyll)', value: 'solid' },
+                  { title: 'Outline (kun kant)', value: 'outline' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'solid',
+            },
+          ],
+          preview: {
+            select: { title: 'title', subtitle: 'ctaText' },
+          },
+        },
+      ],
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',

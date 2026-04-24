@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Calendar, Shield } from "lucide-react";
+import { ArrowRight, Calendar, Shield, Phone, Mail, MessageCircle, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -87,63 +87,87 @@ const Contact = ({ isChatOpen }: ContactProps) => {
 
       <ClinicGrid />
 
-      {/* Help Cards Section - without chat reference */}
-      <section className="py-16 md:py-24 bg-brand-dark">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {/* Vil du at vi skal kontakte deg? Card */}
-            <div className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
-              <Calendar className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
-              <h3 className="font-normal text-xl text-white mb-3">Vil du at vi skal kontakte deg?</h3>
-              <p className="text-white/70 leading-relaxed mb-6 text-base font-light flex-1">
-                Fyll ut et kort skjema – velg klinikk, fagområde og når det passer best at vi ringer.
-              </p>
-              <Button
-                className="bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
-                onClick={() => setContactDialogOpen(true)}
-              >
-                Be om å bli kontaktet
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </div>
+      {/* Help Cards Section - dynamic from Sanity with static fallback */}
+      {(() => {
+        const iconMap: Record<string, LucideIcon> = {
+          Calendar, Shield, Phone, Mail, MessageCircle,
+        };
 
-            {/* Book Directly Card */}
-            <div className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
-              <Calendar className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
-              <h3 className="font-normal text-xl text-white mb-3">{t("contact.bookDirect")}</h3>
-              <p className="text-white/70 leading-relaxed text-base font-light flex-1">
-                {t("contact.bookDirectDesc")}
-              </p>
-              <div className="mt-6">
-                <Button 
-                  className="bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
-                  onClick={() => navigate('/booking')}
-                >
-                  {t("booking.bookNow")}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+        const fallbackCards = [
+          {
+            icon: "Calendar",
+            title: "Vil du at vi skal kontakte deg?",
+            description: "Fyll ut et kort skjema – velg klinikk, fagområde og når det passer best at vi ringer.",
+            ctaText: "Be om å bli kontaktet",
+            ctaAction: "openContactDialog",
+            variant: "solid",
+          },
+          {
+            icon: "Calendar",
+            title: t("contact.bookDirect"),
+            description: t("contact.bookDirectDesc"),
+            ctaText: t("booking.bookNow"),
+            ctaAction: "navigate",
+            ctaLink: "/booking",
+            variant: "solid",
+          },
+          {
+            icon: "Shield",
+            title: t("contact.hasInsurance"),
+            description: t("contact.hasInsuranceDesc"),
+            ctaText: t("contact.readAboutInsurance"),
+            ctaAction: "navigate",
+            ctaLink: "/forsikring",
+            variant: "outline",
+          },
+        ];
+
+        const cards = contactPage?.ctaCards?.length ? contactPage.ctaCards : fallbackCards;
+
+        return (
+          <section className="py-16 md:py-24 bg-brand-dark">
+            <div className="container mx-auto px-6 md:px-16">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                {cards.map((card: any, i: number) => {
+                  const Icon = iconMap[card.icon] || Calendar;
+                  const isOutline = card.variant === "outline";
+                  const handleClick = () => {
+                    if (card.ctaAction === "openContactDialog") {
+                      setContactDialogOpen(true);
+                    } else if (card.ctaLink) {
+                      if (card.ctaLink.startsWith("http")) {
+                        window.open(card.ctaLink, "_blank", "noopener,noreferrer");
+                      } else {
+                        navigate(card.ctaLink);
+                      }
+                    }
+                  };
+                  return (
+                    <div key={i} className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
+                      <Icon className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
+                      <h3 className="font-normal text-xl text-white mb-3">{card.title}</h3>
+                      <p className="text-white/70 leading-relaxed mb-6 text-base font-light flex-1">
+                        {card.description}
+                      </p>
+                      <Button
+                        className={
+                          isOutline
+                            ? "rounded-sm w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
+                            : "bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
+                        }
+                        onClick={handleClick}
+                      >
+                        {card.ctaText}
+                        {!isOutline && <ArrowRight className="ml-2 w-4 h-4" />}
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-            {/* Insurance Card */}
-            <div className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
-              <Shield className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
-              <h3 className="font-normal text-xl text-white mb-3">{t("contact.hasInsurance")}</h3>
-              <p className="text-white/70 leading-relaxed text-base font-light flex-1">
-                {t("contact.hasInsuranceDesc")}
-              </p>
-              <div className="mt-6">
-                <Button 
-                  className="rounded-sm w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
-                  onClick={() => navigate('/forsikring')}
-                >
-                  {t("contact.readAboutInsurance")}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        );
+      })()}
 
       {/* Contact Form Section */}
       <section className="py-16 md:py-24 bg-brand-warm">
