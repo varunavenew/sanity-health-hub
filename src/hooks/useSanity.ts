@@ -342,6 +342,9 @@ export interface SanityArticle {
   pinned?: boolean;
   featured?: boolean;
   body?: any[];
+  videoUrl?: string;
+  videoThumbnail?: string;
+  videoCaption?: string;
 }
 
 export const useArticles = () =>

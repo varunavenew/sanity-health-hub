@@ -8,6 +8,7 @@ import { articleContent, type ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
+import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
@@ -210,14 +211,36 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       <article className="bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto py-10 md:py-16">
-            {/* Featured image */}
-            <div className="rounded-sm overflow-hidden mb-10 -mt-0">
-              <img
-                src={article.image}
-                alt={article.title}
-                className="w-full rounded-sm"
-              />
-            </div>
+            {/* Featured video or image */}
+            {sanityArticle?.videoUrl ? (
+              <figure className="mb-10">
+                {sanityArticle.videoUrl.endsWith(".mp4") ? (
+                  <VideoPlayer
+                    videoUrl={sanityArticle.videoUrl}
+                    thumbnailUrl={sanityArticle.videoThumbnail || article.image}
+                    title={sanityArticle.videoCaption || article.title}
+                  />
+                ) : (
+                  <VideoEmbed
+                    embedUrl={sanityArticle.videoUrl}
+                    title={sanityArticle.videoCaption || article.title}
+                  />
+                )}
+                {sanityArticle.videoCaption && (
+                  <figcaption className="text-sm text-muted-foreground mt-2">
+                    {sanityArticle.videoCaption}
+                  </figcaption>
+                )}
+              </figure>
+            ) : (
+              <div className="rounded-sm overflow-hidden mb-10 -mt-0">
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="w-full rounded-sm"
+                />
+              </div>
+            )}
 
             {/* Body */}
             {/* Body: prefer Sanity Portable Text, then static content, then excerpt */}

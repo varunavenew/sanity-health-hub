@@ -192,6 +192,9 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && slug.current == $s
   "date": publishedAt,
   category,
   body,
+  videoUrl,
+  videoCaption,
+  "videoThumbnail": videoThumbnail.asset->url,
 }`;
 
 export const JOB_LISTINGS_QUERY = `*[_type == "jobListing" && active == true] | order(publishedAt desc){
