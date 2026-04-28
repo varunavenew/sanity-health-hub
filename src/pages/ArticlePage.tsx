@@ -8,6 +8,7 @@ import { articleContent, type ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
+import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
