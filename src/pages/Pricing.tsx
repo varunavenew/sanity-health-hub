@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Search, ArrowRight, ChevronDown, Heart, Baby, Stethoscope, Shield, CheckCircle, CreditCard, Wallet, Clock, Calendar, X } from "lucide-react";
+import { Search, ArrowRight, ChevronDown, Shield, CheckCircle, CreditCard, Wallet, Clock, Calendar, X } from "lucide-react";
+import { getIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -118,9 +119,9 @@ const Pricing = ({ isChatOpen }: PageProps) => {
   };
 
   const tabs = [
-    { id: "gynecology", label: "Gynekologi", icon: Heart, prices: gynecologyPrices, link: "/behandlinger/gynekologi" },
-    { id: "fertility", label: "Fertilitet", icon: Baby, prices: fertilityPrices, link: "/behandlinger/fertilitet" },
-    { id: "urology", label: "Urologi", icon: Stethoscope, prices: urologyPrices, link: "/behandlinger/urologi" },
+    { id: "gynecology", label: "Gynekologi", icon: getIcon("gynekologi-cl"), prices: gynecologyPrices, link: "/behandlinger/gynekologi" },
+    { id: "fertility", label: "Fertilitet", icon: getIcon("fertilitet-cl"), prices: fertilityPrices, link: "/behandlinger/fertilitet" },
+    { id: "urology", label: "Urologi", icon: getIcon("urologi-cl"), prices: urologyPrices, link: "/behandlinger/urologi" },
   ];
 
   const currentTab = tabs.find(t => t.id === activeTab) || tabs[0];
