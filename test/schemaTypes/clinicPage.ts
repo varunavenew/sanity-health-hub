@@ -181,10 +181,34 @@ export default {
       ],
     },
     {
+      name: 'sortOrder',
+      title: 'Sorteringsrekkefølge',
+      type: 'number',
+      description: 'Lavere tall vises først i klinikkoversikten.',
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
       options: { collapsible: true, collapsed: true },
     },
   ],
+  orderings: [
+    {
+      title: 'Manuell rekkefølge',
+      name: 'sortOrderAsc',
+      by: [
+        { field: 'sortOrder', direction: 'asc' },
+        { field: 'title', direction: 'asc' },
+      ],
+    },
+    {
+      title: 'Navn (A–Å)',
+      name: 'titleAsc',
+      by: [{ field: 'title', direction: 'asc' }],
+    },
+  ],
+  preview: {
+    select: { title: 'title', subtitle: 'address', media: 'primaryImage' },
+  },
 }
