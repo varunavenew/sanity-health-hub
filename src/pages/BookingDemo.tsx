@@ -218,6 +218,9 @@ const BookingDemo = () => {
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  // When user arrives with ?kategori=..., filter step 1 to that category only.
+  // Cleared by "Vis alle tjenester" button so the user can change their mind.
+  const [filterToCategoryId, setFilterToCategoryId] = useState<string | null>(null);
   const [selectedSpecialistInfo, setSelectedSpecialistInfo] = useState<Specialist | null>(null);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
