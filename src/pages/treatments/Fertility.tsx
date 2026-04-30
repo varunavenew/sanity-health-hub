@@ -120,22 +120,22 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           {/* Left — copy + CTA */}
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
             <div className="max-w-xl w-full">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-normal mb-6 bg-white/10 text-white/80">
-                <span className="w-2 h-2 rounded-full bg-accent" />
-                Fertilitet
-              </div>
-
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 text-white leading-tight">
-                Fertilitetsbehandling for alle veier til foreldreskap
-              </h2>
-
-              <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-white/70">
-                Vi tilbyr fertilitet for alle som ønsker barn. Med fagmiljøet
-                vårt under samme tak, korte ventetider og en behandling som
-                møter dere som mennesker — ikke kun som en sak.
+              <p className="text-xs tracking-wide text-white/60 mb-8">
+                Fertilitet — CMedical
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-white leading-[1.05]">
+                Noen ganger trenger kroppen <span className="underline decoration-accent decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien
+              </h2>
+
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-white/70">
+                Å ville bli foreldre er noe av det sterkeste man kan kjenne på.
+                For mange går det av seg selv. For andre tar det litt lenger
+                tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og
+                det finnes svar.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
                 <Button
                   variant="cta-dark"
                   size="lg"
@@ -147,16 +147,22 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   }
                 >
                   Bestill konsultasjon
-                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
-                <Button
-                  asChild
-                  variant="cta-outline-dark"
-                  size="lg"
-                  className="px-8 w-full sm:w-auto"
+                <Link
+                  to="/kontakt"
+                  className="text-sm font-light text-white/85 hover:text-white border-b border-white/40 hover:border-white pb-0.5 transition-colors"
                 >
-                  <Link to="/kontakt">Kontakt oss</Link>
-                </Button>
+                  Gratis prat med sykepleier
+                </Link>
+              </div>
+
+              <div className="flex items-center gap-3 text-sm font-light text-white/70">
+                <div className="flex">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                  ))}
+                </div>
+                <span>4,7 av 5 — Norges eldste private fertilitetsklinikk</span>
               </div>
             </div>
           </div>
