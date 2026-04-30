@@ -154,8 +154,12 @@ export default defineType({
       const flags = [pinned && '📌', featured && '⭐'].filter(Boolean).join(' ')
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'Ingen dato'
       const cat = categoryLabels[category] || category || 'Ingen kategori'
+      // title is now an internationalizedArray — pull NO entry first, fallback to first
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => t._key === 'no')?.value || title[0]?.value || 'Uten tittel')
+        : (title || 'Uten tittel')
       return {
-        title: `${flags ? flags + ' ' : ''}${title}`,
+        title: `${flags ? flags + ' ' : ''}${titleStr}`,
         subtitle: `${cat} · ${date}`,
         media,
       }
