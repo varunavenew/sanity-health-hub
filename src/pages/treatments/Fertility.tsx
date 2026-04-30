@@ -127,18 +127,18 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
         <div className="relative container mx-auto px-6 md:px-16 pb-16 md:pb-24 pt-32">
           <div className="max-w-3xl text-white">
-            <p className="text-sm tracking-wide text-accent mb-4">
+            <p className="text-sm tracking-wide text-white/70 mb-4">
               Fertilitet hos CMedical
             </p>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] mb-6">
-              Veien til foreldreskap er
+              Veien til foreldreskap
               <br />
-              <span className="italic font-extralight">deres egen.</span>
+              er deres egen.
             </h2>
             <p className="text-base md:text-lg font-light text-white/80 max-w-xl mb-8 leading-relaxed">
-              Klinikk og laboratorium under samme tak. Erfarne spesialister.
-              Tett oppfølging og åpen dør for spørsmålene som ingen andre tør å
-              svare på.
+              Klinikk og laboratorium under samme tak. Erfarne spesialister
+              som tar seg tid. Tett oppfølging gjennom hele forløpet — også
+              etter svaret.
             </p>
 
             {/* Segment chooser */}
