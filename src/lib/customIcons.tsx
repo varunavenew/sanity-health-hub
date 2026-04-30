@@ -1555,452 +1555,513 @@ export const WeightSurgeryIcon = make("WeightSurgeryIcon", () => (
 ));
 
 /* =========================================================================
- * CLAUDE.AI proposal — Scandinavian editorial set ("-cl" suffix)
- * Submitted by client. Symbolic, never brutal. 24×24, stroke 1.5, currentColor.
+ * CLAUDE.AI editorial set ("-cl" suffix)
+ * Scandinavian editorial. Symbolic, never brutal. 24×24, stroke 1.5, currentColor.
+ * Includes umbrella/category icons (gynekologi, fertilitet, urologi, ortopedi, flere-fagomrader)
+ * and pregnancy icons (ultralyd, nipt, svangerskapsteam, fosterdiagnostikk).
  * ========================================================================= */
 
-// --- Gynekologi ---
+export const ClGynekologiIcon = make("ClGynekologiIcon", () => (
+  <>
+    <path d="M12 5c-5 4-5 10 0 14 5-4 5-10 0-14Z"/>
+    <circle cx="12" cy="12" r="1.4"/>
+  </>
+));
+export const ClFertilitetIcon = make("ClFertilitetIcon", () => (
+  <>
+    <circle cx="12" cy="13" r="5.5"/>
+    <path d="M12 7.5V5"/>
+    <path d="M12 7c1 0 2-.5 2.5-1.5"/>
+    <path d="M12 7c-1 0-2-.5-2.5-1.5"/>
+  </>
+));
+export const ClUrologiIcon = make("ClUrologiIcon", () => (
+  <>
+    <path d="M12 4l-3 5h6Z"/>
+    <path d="M7 12c0 4 2 7 5 7s5-3 5-7c0-2-2-3-5-3s-5 1-5 3Z"/>
+  </>
+));
+export const ClOrtopediIcon = make("ClOrtopediIcon", () => (
+  <>
+    <circle cx="7" cy="7" r="2"/>
+    <circle cx="17" cy="17" r="2"/>
+    <path d="M8.5 8.5l7 7"/>
+  </>
+));
+export const ClFlereFagomraderIcon = make("ClFlereFagomraderIcon", () => (
+  <>
+    <circle cx="6" cy="6" r="1.5"/>
+    <circle cx="18" cy="6" r="1.5"/>
+    <circle cx="6" cy="18" r="1.5"/>
+    <circle cx="18" cy="18" r="1.5"/>
+    <circle cx="12" cy="12" r="1.5"/>
+    <path d="M7.5 7.5l3 3"/>
+    <path d="M16.5 7.5l-3 3"/>
+    <path d="M7.5 16.5l3-3"/>
+    <path d="M16.5 16.5l-3-3"/>
+  </>
+));
+export const ClUltralydIcon = make("ClUltralydIcon", () => (
+  <>
+    <path d="M5 19a4 4 0 0 1 4-4"/>
+    <path d="M5 19a9 9 0 0 1 9-9"/>
+    <path d="M5 19a14 14 0 0 1 14-14"/>
+    <circle cx="5" cy="19" r="1" fill="currentColor"/>
+  </>
+));
+export const ClNiptIcon = make("ClNiptIcon", () => (
+  <>
+    <path d="M12 5c-3 4-5 7-5 9.5 0 2 2 3.5 5 3.5s5-1.5 5-3.5c0-2.5-2-5.5-5-9.5Z"/>
+    <path d="M10.5 13l3 2"/>
+    <path d="M13.5 13l-3 2"/>
+  </>
+));
+export const ClSvangerskapsteamIcon = make("ClSvangerskapsteamIcon", () => (
+  <>
+    <path d="M7 19c0-5 2-9 5-9s5 4 5 9"/>
+    <circle cx="6" cy="6" r="1.6"/>
+    <circle cx="12" cy="5" r="1.6"/>
+    <circle cx="18" cy="6" r="1.6"/>
+  </>
+));
+export const ClFosterdiagnostikkIcon = make("ClFosterdiagnostikkIcon", () => (
+  <>
+    <path d="M4 13h4l1.5-3.5L11 16l1.5-7L14 13h6"/>
+  </>
+));
 export const ClGynekologiskUndersokelseIcon = make("ClGynekologiskUndersokelseIcon", () => (
   <>
-    <circle cx="12" cy="12" r="1.4" />
-    <path d="M12 10.5c-1.4-1.6-1.4-4.4 0-6 1.4 1.6 1.4 4.4 0 6Z" />
-    <path d="M13.5 12c1.6-1.4 4.4-1.4 6 0-1.6 1.4-4.4 1.4-6 0Z" />
-    <path d="M12 13.5c1.4 1.6 1.4 4.4 0 6-1.4-1.6-1.4-4.4 0-6Z" />
-    <path d="M10.5 12c-1.6-1.4-4.4-1.4-6 0 1.6 1.4 4.4 1.4 6 0Z" />
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M12 10.5c-1.4-1.6-1.4-4.4 0-6 1.4 1.6 1.4 4.4 0 6Z"/>
+    <path d="M13.5 12c1.6-1.4 4.4-1.4 6 0-1.6 1.4-4.4 1.4-6 0Z"/>
+    <path d="M12 13.5c1.4 1.6 1.4 4.4 0 6-1.4-1.6-1.4-4.4 0-6Z"/>
+    <path d="M10.5 12c-1.6-1.4-4.4-1.4-6 0 1.6 1.4 4.4 1.4 6 0Z"/>
   </>
 ));
 export const ClUrinlekkasjeIcon = make("ClUrinlekkasjeIcon", () => (
   <>
-    <path d="M5 11c0 5 4 8 7 8s7-3 7-8" />
-    <path d="M12 6c-1.6 2.5-3 4.5-3 6.2 0 1.6 1.4 2.8 3 2.8s3-1.2 3-2.8c0-1.7-1.4-3.7-3-6.2Z" />
+    <path d="M5 11c0 5 4 8 7 8s7-3 7-8"/>
+    <path d="M12 6c-1.6 2.5-3 4.5-3 6.2 0 1.6 1.4 2.8 3 2.8s3-1.2 3-2.8c0-1.7-1.4-3.7-3-6.2Z"/>
   </>
 ));
 export const ClEndometrioseIcon = make("ClEndometrioseIcon", () => (
   <>
-    <circle cx="12" cy="12" r="7" />
-    <path d="M8 12a4 4 0 0 1 4-4" />
-    <path d="M16 12a4 4 0 0 1-4 4" />
-    <circle cx="12" cy="12" r="1" />
+    <circle cx="12" cy="12" r="7"/>
+    <path d="M8 12a4 4 0 0 1 4-4"/>
+    <path d="M16 12a4 4 0 0 1-4 4"/>
+    <circle cx="12" cy="12" r="1"/>
   </>
 ));
 export const ClOvergangsalderIcon = make("ClOvergangsalderIcon", () => (
   <>
-    <circle cx="6" cy="12" r="2.5" />
-    <path d="M12 9.5a2.5 2.5 0 0 1 0 5" />
-    <path d="M18 9.5a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 0 0-5Z" />
+    <circle cx="6" cy="12" r="2.5"/>
+    <path d="M12 9.5a2.5 2.5 0 0 1 0 5"/>
+    <path d="M18 9.5a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 0 0-5Z"/>
   </>
 ));
 export const ClVaginaleFremfallIcon = make("ClVaginaleFremfallIcon", () => (
   <>
-    <path d="M5 19v-7a7 7 0 0 1 14 0v7" />
-    <path d="M9 14v5" />
-    <path d="M15 14v5" />
+    <path d="M5 19v-7a7 7 0 0 1 14 0v7"/>
+    <path d="M9 14v5"/>
+    <path d="M15 14v5"/>
   </>
 ));
 export const ClBlodningsforstyrrelserIcon = make("ClBlodningsforstyrrelserIcon", () => (
   <>
-    <path d="M19 12a7 7 0 1 1-2-4.9" />
-    <path d="M19 5v3.5h-3.5" />
-    <circle cx="9" cy="18" r="1" fill="currentColor" stroke="none" />
+    <path d="M19 12a7 7 0 1 1-2-4.9"/>
+    <path d="M19 5v3.5h-3.5"/>
+    <circle cx="9" cy="18" r="1" fill="currentColor"/>
   </>
 ));
 export const ClCelleforandringerIcon = make("ClCelleforandringerIcon", () => (
   <>
-    <path d="M12 4 9 5.5v3L12 10l3-1.5v-3Z" />
-    <path d="M8 14l-3 1.5v3L8 20l3-1.5v-3Z" />
-    <path d="M16 14l-3 1.5v3L16 20l3-1.5v-3Z" />
-    <circle cx="16" cy="17" r="1" fill="currentColor" stroke="none" />
+    <path d="M12 4 9 5.5v3L12 10l3-1.5v-3Z"/>
+    <path d="M8 14l-3 1.5v3L8 20l3-1.5v-3Z"/>
+    <path d="M16 14l-3 1.5v3L16 20l3-1.5v-3Z"/>
+    <circle cx="16" cy="17" r="1" fill="currentColor"/>
   </>
 ));
 export const ClCysterIcon = make("ClCysterIcon", () => (
   <>
-    <circle cx="9" cy="10" r="3" />
-    <circle cx="16" cy="11" r="2" />
-    <circle cx="13" cy="16" r="2.5" />
+    <circle cx="9" cy="10" r="3"/>
+    <circle cx="16" cy="11" r="2"/>
+    <circle cx="13" cy="16" r="2.5"/>
   </>
 ));
 export const ClFjerneLivmorIcon = make("ClFjerneLivmorIcon", () => (
   <>
-    <path d="M5 13c0 4 3 6 7 6s7-2 7-6" />
-    <path d="M9 11a3 3 0 0 1 6 0" />
-    <path d="M12 5v3" />
+    <path d="M5 13c0 4 3 6 7 6s7-2 7-6"/>
+    <path d="M9 11a3 3 0 0 1 6 0"/>
+    <path d="M12 5v3"/>
   </>
 ));
 export const ClGraviditetIcon = make("ClGraviditetIcon", () => (
   <>
-    <path d="M19 12a7 7 0 1 1-7-7" />
-    <circle cx="12" cy="13" r="2" />
+    <path d="M19 12a7 7 0 1 1-7-7"/>
+    <circle cx="12" cy="13" r="2"/>
   </>
 ));
 export const ClGynekologiskKirurgiIcon = make("ClGynekologiskKirurgiIcon", () => (
   <>
-    <circle cx="12" cy="12" r="7" />
-    <circle cx="12" cy="12" r="3.5" />
-    <circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="12" r="7"/>
+    <circle cx="12" cy="12" r="3.5"/>
+    <circle cx="12" cy="12" r=".8" fill="currentColor"/>
   </>
 ));
 export const ClHormonforstyrrelserIcon = make("ClHormonforstyrrelserIcon", () => (
   <>
-    <path d="M4 10c2-2 4 2 6 0s4 2 6 0 4 2 4 0" />
-    <path d="M4 15c2 2 4-2 6 0s4-2 6 0" />
+    <path d="M4 10c2-2 4 2 6 0s4 2 6 0 4 2 4 0"/>
+    <path d="M4 15c2 2 4-2 6 0s4-2 6 0"/>
   </>
 ));
 export const ClHysteroskopiIcon = make("ClHysteroskopiIcon", () => (
   <>
-    <path d="M5 12c2-3 12-3 14 0-2 3-12 3-14 0Z" />
-    <circle cx="12" cy="12" r="1.4" />
-    <path d="M3 12h2" />
+    <path d="M5 12c2-3 12-3 14 0-2 3-12 3-14 0Z"/>
+    <circle cx="12" cy="12" r="1.4"/>
+    <path d="M3 12h2"/>
   </>
 ));
 export const ClLabiaplastikkIcon = make("ClLabiaplastikkIcon", () => (
   <>
-    <path d="M12 5c-4 3-5 7-3 13 2-2 3-5 3-9" />
-    <path d="M12 5c4 3 5 7 3 13-2-2-3-5-3-9" />
+    <path d="M12 5c-4 3-5 7-3 13 2-2 3-5 3-9"/>
+    <path d="M12 5c4 3 5 7 3 13-2-2-3-5-3-9"/>
   </>
 ));
 export const ClRobotkirurgiGynIcon = make("ClRobotkirurgiGynIcon", () => (
   <>
-    <path d="M5 8V5h3" />
-    <path d="M19 8V5h-3" />
-    <path d="M5 16v3h3" />
-    <path d="M19 16v3h-3" />
-    <circle cx="12" cy="12" r="2.5" />
-    <circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none" />
+    <path d="M5 8V5h3"/>
+    <path d="M19 8V5h-3"/>
+    <path d="M5 16v3h3"/>
+    <path d="M19 16v3h-3"/>
+    <circle cx="12" cy="12" r="2.5"/>
+    <circle cx="12" cy="12" r=".8" fill="currentColor"/>
   </>
 ));
 export const ClSpontanabortIcon = make("ClSpontanabortIcon", () => (
   <>
-    <path d="M5 14c0 3 3 5 7 5s7-2 7-5" />
-    <path d="M12 5c-2 2-3 5-1 8 2-2 2-5 1-8Z" />
+    <path d="M5 14c0 3 3 5 7 5s7-2 7-5"/>
+    <path d="M12 5c-2 2-3 5-1 8 2-2 2-5 1-8Z"/>
   </>
 ));
 export const ClVulvalidelserIcon = make("ClVulvalidelserIcon", () => (
   <>
-    <path d="M12 5c-4 0-7 2-7 6 0 5 4 8 7 9 3-1 7-4 7-9 0-4-3-6-7-6Z" />
-    <circle cx="12" cy="13" r="1.4" />
+    <path d="M12 5c-4 0-7 2-7 6 0 5 4 8 7 9 3-1 7-4 7-9 0-4-3-6-7-6Z"/>
+    <circle cx="12" cy="13" r="1.4"/>
   </>
 ));
 export const ClPmsPmddIcon = make("ClPmsPmddIcon", () => (
   <>
-    <circle cx="12" cy="12" r="7" />
-    <path d="M7 13c1.5-1.5 2.5 1.5 4 0s2.5-1.5 4 0 1-1 2-1" />
+    <circle cx="12" cy="12" r="7"/>
+    <path d="M7 13c1.5-1.5 2.5 1.5 4 0s2.5-1.5 4 0 1-1 2-1"/>
   </>
 ));
 export const ClVaginalTorrhetIcon = make("ClVaginalTorrhetIcon", () => (
   <>
-    <path d="M12 6c-2 3-3 5-3 7 0 2 1.4 3 3 3s3-1 3-3c0-2-1-4-3-7Z" />
-    <path d="M12 16v3" />
-    <path d="M12 17.5c1 0 2-1 3-2" />
+    <path d="M12 6c-2 3-3 5-3 7 0 2 1.4 3 3 3s3-1 3-3c0-2-1-4-3-7Z"/>
+    <path d="M12 16v3"/>
+    <path d="M12 17.5c1 0 2-1 3-2"/>
   </>
 ));
 export const ClTverrfagligTeamIcon = make("ClTverrfagligTeamIcon", () => (
   <>
-    <circle cx="9" cy="10" r="4" />
-    <circle cx="15" cy="10" r="4" />
-    <circle cx="12" cy="15" r="4" />
+    <circle cx="9" cy="10" r="4"/>
+    <circle cx="15" cy="10" r="4"/>
+    <circle cx="12" cy="15" r="4"/>
   </>
 ));
-
-// --- Fertilitet ---
 export const ClInfertilitetIcon = make("ClInfertilitetIcon", () => (
   <>
-    <circle cx="11" cy="11" r="5.5" />
-    <path d="M15 15l4 4" />
-    <circle cx="11" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="11" cy="11" r="5.5"/>
+    <path d="M15 15l4 4"/>
+    <circle cx="11" cy="11" r="1" fill="currentColor"/>
   </>
 ));
 export const ClAssistertBefruktningIcon = make("ClAssistertBefruktningIcon", () => (
   <>
-    <circle cx="12" cy="12" r="1.6" />
-    <path d="M5 12a7 7 0 0 1 7-7" />
-    <path d="M19 12a7 7 0 0 1-7 7" />
+    <circle cx="12" cy="12" r="1.6"/>
+    <path d="M5 12a7 7 0 0 1 7-7"/>
+    <path d="M19 12a7 7 0 0 1-7 7"/>
   </>
 ));
 export const ClIvfIcon = make("ClIvfIcon", () => (
   <>
-    <path d="M5 12h14" />
-    <path d="M5 12c0 4 3 6 7 6s7-2 7-6" />
-    <circle cx="12" cy="14" r="1.2" fill="currentColor" stroke="none" />
+    <path d="M5 12h14"/>
+    <path d="M5 12c0 4 3 6 7 6s7-2 7-6"/>
+    <circle cx="12" cy="14" r="1.2" fill="currentColor"/>
   </>
 ));
 export const ClEggfrysIcon = make("ClEggfrysIcon", () => (
   <>
-    <circle cx="12" cy="12" r="2.5" />
-    <path d="M12 4v5" />
-    <path d="M12 15v5" />
-    <path d="M4 12h5" />
-    <path d="M15 12h5" />
-    <path d="M6.5 6.5l3 3" />
-    <path d="M14.5 14.5l3 3" />
-    <path d="M17.5 6.5l-3 3" />
-    <path d="M9.5 14.5l-3 3" />
+    <circle cx="12" cy="12" r="2.5"/>
+    <path d="M12 4v5"/>
+    <path d="M12 15v5"/>
+    <path d="M4 12h5"/>
+    <path d="M15 12h5"/>
+    <path d="M6.5 6.5l3 3"/>
+    <path d="M14.5 14.5l3 3"/>
+    <path d="M17.5 6.5l-3 3"/>
+    <path d="M9.5 14.5l-3 3"/>
   </>
 ));
 export const ClDonorbehandlingIcon = make("ClDonorbehandlingIcon", () => (
   <>
-    <circle cx="12" cy="13" r="6" />
-    <path d="M5 8h14" />
-    <path d="M9 8c0-2 3-2 3 0" />
-    <path d="M15 8c0-2-3-2-3 0" />
+    <circle cx="12" cy="13" r="6"/>
+    <path d="M5 8h14"/>
+    <path d="M9 8c0-2 3-2 3 0"/>
+    <path d="M15 8c0-2-3-2-3 0"/>
   </>
 ));
 export const ClSaedanalyseIcon = make("ClSaedanalyseIcon", () => (
   <>
-    <circle cx="11" cy="11" r="5.5" />
-    <path d="M15 15l4 4" />
-    <circle cx="9" cy="11" r=".6" fill="currentColor" stroke="none" />
-    <circle cx="13" cy="11" r=".6" fill="currentColor" stroke="none" />
-    <circle cx="11" cy="13" r=".6" fill="currentColor" stroke="none" />
+    <circle cx="11" cy="11" r="5.5"/>
+    <path d="M15 15l4 4"/>
+    <circle cx="9" cy="11" r=".6" fill="currentColor"/>
+    <circle cx="13" cy="11" r=".6" fill="currentColor"/>
+    <circle cx="11" cy="13" r=".6" fill="currentColor"/>
   </>
 ));
 export const ClFertilitetsteametIcon = make("ClFertilitetsteametIcon", () => (
   <>
-    <circle cx="6" cy="16" r="2.2" />
-    <circle cx="18" cy="16" r="2.2" />
-    <circle cx="12" cy="6" r="2.2" />
-    <path d="M11 7.8l-3.5 6.4" />
-    <path d="M13 7.8l3.5 6.4" />
-    <path d="M8.2 16h7.6" />
+    <circle cx="6" cy="16" r="2.2"/>
+    <circle cx="18" cy="16" r="2.2"/>
+    <circle cx="12" cy="6" r="2.2"/>
+    <path d="M11 7.8l-3.5 6.4"/>
+    <path d="M13 7.8l3.5 6.4"/>
+    <path d="M8.2 16h7.6"/>
   </>
 ));
 export const ClInseminasjonIcon = make("ClInseminasjonIcon", () => (
   <>
-    <path d="M7 8h10l-4 9h-2Z" />
-    <path d="M12 4v3" />
-    <circle cx="12" cy="6" r=".7" fill="currentColor" stroke="none" />
+    <path d="M7 8h10l-4 9h-2Z"/>
+    <path d="M12 4v3"/>
+    <circle cx="12" cy="6" r=".7" fill="currentColor"/>
   </>
 ));
 export const ClEggdonasjonIcon = make("ClEggdonasjonIcon", () => (
   <>
-    <circle cx="12" cy="9" r="3" />
-    <path d="M5 14c0 3 2 5 7 5s7-2 7-5" />
+    <circle cx="12" cy="9" r="3"/>
+    <path d="M5 14c0 3 2 5 7 5s7-2 7-5"/>
   </>
 ));
 export const ClSaeddonasjonIcon = make("ClSaeddonasjonIcon", () => (
   <>
-    <circle cx="12" cy="6" r="1.4" />
-    <path d="M7 11h10v2c0 2-2 3-5 3s-5-1-5-3v-2Z" />
-    <path d="M12 16v3" />
-    <path d="M9 19h6" />
+    <circle cx="12" cy="6" r="1.4"/>
+    <path d="M7 11h10v2c0 2-2 3-5 3s-5-1-5-3v-2Z"/>
+    <path d="M12 16v3"/>
+    <path d="M9 19h6"/>
   </>
 ));
-
-// --- Urologi ---
 export const ClBlaereIcon = make("ClBlaereIcon", () => (
   <>
-    <path d="M12 4v3" />
-    <path d="M11 4h2" />
-    <path d="M5 14c0 4 3 6 7 6s7-2 7-6c0-4-3-7-7-7s-7 3-7 7Z" />
+    <path d="M12 4v3"/>
+    <path d="M11 4h2"/>
+    <path d="M5 14c0 4 3 6 7 6s7-2 7-6c0-4-3-7-7-7s-7 3-7 7Z"/>
   </>
 ));
 export const ClForhudIcon = make("ClForhudIcon", () => (
   <>
-    <circle cx="12" cy="12" r="6" />
-    <circle cx="12" cy="12" r="2.5" />
+    <circle cx="12" cy="12" r="6"/>
+    <circle cx="12" cy="12" r="2.5"/>
   </>
 ));
 export const ClMannligInfertilitetIcon = make("ClMannligInfertilitetIcon", () => (
   <>
-    <path d="M5 12h4" />
-    <path d="M11 12h2" />
-    <path d="M15 12h4" />
-    <circle cx="5" cy="12" r="1.4" />
-    <circle cx="19" cy="12" r="1.4" />
+    <path d="M5 12h4"/>
+    <path d="M11 12h2"/>
+    <path d="M15 12h4"/>
+    <circle cx="5" cy="12" r="1.4"/>
+    <circle cx="19" cy="12" r="1.4"/>
   </>
 ));
 export const ClNyrerIcon = make("ClNyrerIcon", () => (
   <>
-    <path d="M9 7c-3 1-4 4-3 7s4 4 5 2c0-2 0-4 0-6s-1-4-2-3Z" />
-    <path d="M15 7c3 1 4 4 3 7s-4 4-5 2c0-2 0-4 0-6s1-4 2-3Z" />
+    <path d="M9 7c-3 1-4 4-3 7s4 4 5 2c0-2 0-4 0-6s-1-4-2-3Z"/>
+    <path d="M15 7c3 1 4 4 3 7s-4 4-5 2c0-2 0-4 0-6s1-4 2-3Z"/>
   </>
 ));
 export const ClProstataIcon = make("ClProstataIcon", () => (
   <>
-    <path d="M12 4 7 6v6c0 4 2 7 5 8 3-1 5-4 5-8V6Z" />
-    <circle cx="12" cy="12" r="1.4" />
+    <path d="M12 4 7 6v6c0 4 2 7 5 8 3-1 5-4 5-8V6Z"/>
+    <circle cx="12" cy="12" r="1.4"/>
   </>
 ));
 export const ClRefertiliseringIcon = make("ClRefertiliseringIcon", () => (
   <>
-    <path d="M4 14c3 0 5-2 7-2" />
-    <path d="M20 10c-3 0-5 2-7 2" />
-    <path d="M11 12h2" />
-    <circle cx="11" cy="12" r=".8" fill="currentColor" stroke="none" />
-    <circle cx="13" cy="12" r=".8" fill="currentColor" stroke="none" />
+    <path d="M4 14c3 0 5-2 7-2"/>
+    <path d="M20 10c-3 0-5 2-7 2"/>
+    <path d="M11 12h2"/>
+    <circle cx="11" cy="12" r=".8" fill="currentColor"/>
+    <circle cx="13" cy="12" r=".8" fill="currentColor"/>
   </>
 ));
 export const ClRobotkirurgiUroIcon = make("ClRobotkirurgiUroIcon", () => (
   <>
-    <path d="M4 7V4h3" />
-    <path d="M20 7V4h-3" />
-    <path d="M4 17v3h3" />
-    <path d="M20 17v3h-3" />
-    <circle cx="12" cy="12" r="3" />
+    <path d="M4 7V4h3"/>
+    <path d="M20 7V4h-3"/>
+    <path d="M4 17v3h3"/>
+    <path d="M20 17v3h-3"/>
+    <circle cx="12" cy="12" r="3"/>
   </>
 ));
 export const ClSteriliseringIcon = make("ClSteriliseringIcon", () => (
   <>
-    <path d="M9 9c-2 2-2 4 0 6s4 2 6 0 2-4 0-6-4-2-6 0Z" />
-    <path d="M9.5 9.5l5 5" />
+    <path d="M9 9c-2 2-2 4 0 6s4 2 6 0 2-4 0-6-4-2-6 0Z"/>
+    <path d="M9.5 9.5l5 5"/>
   </>
 ));
 export const ClTestiklerIcon = make("ClTestiklerIcon", () => (
   <>
-    <path d="M6 9c-1 4 0 8 3 9h6c3-1 4-5 3-9-1-2-4-3-6-3s-5 1-6 3Z" />
-    <circle cx="10" cy="13" r="2" />
-    <circle cx="14" cy="13" r="2" />
+    <path d="M6 9c-1 4 0 8 3 9h6c3-1 4-5 3-9-1-2-4-3-6-3s-5 1-6 3Z"/>
+    <circle cx="10" cy="13" r="2"/>
+    <circle cx="14" cy="13" r="2"/>
   </>
 ));
 export const ClUrinveisinfeksjonIcon = make("ClUrinveisinfeksjonIcon", () => (
   <>
-    <path d="M12 7c-2 3-3 5-3 7 0 1.6 1.4 2.8 3 2.8s3-1.2 3-2.8c0-2-1-4-3-7Z" />
-    <path d="M5 12a7 7 0 0 1 3-5.8" />
-    <path d="M19 12a7 7 0 0 1-3 5.8" />
+    <path d="M12 7c-2 3-3 5-3 7 0 1.6 1.4 2.8 3 2.8s3-1.2 3-2.8c0-2-1-4-3-7Z"/>
+    <path d="M5 12a7 7 0 0 1 3-5.8"/>
+    <path d="M19 12a7 7 0 0 1-3 5.8"/>
   </>
 ));
 export const ClErektilDysfunksjonIcon = make("ClErektilDysfunksjonIcon", () => (
   <>
-    <path d="M12 19V7" />
-    <path d="M12 12c2 0 4-2 4-4" />
-    <path d="M12 10c-2 0-4-2-4-4" />
-    <path d="M9 19h6" />
+    <path d="M12 19V7"/>
+    <path d="M12 12c2 0 4-2 4-4"/>
+    <path d="M12 10c-2 0-4-2-4-4"/>
+    <path d="M9 19h6"/>
   </>
 ));
-
-// --- Ortopedi ---
 export const ClFotAnkelIcon = make("ClFotAnkelIcon", () => (
   <>
-    <path d="M9 4v8a3 3 0 0 0 3 3h7" />
-    <circle cx="9" cy="12" r="1.8" />
+    <path d="M9 4v8a3 3 0 0 0 3 3h7"/>
+    <circle cx="9" cy="12" r="1.8"/>
   </>
 ));
 export const ClHofteIcon = make("ClHofteIcon", () => (
   <>
-    <path d="M5 12a7 7 0 0 1 7-7" />
-    <circle cx="12" cy="12" r="3" />
-    <path d="M14 14v5" />
+    <path d="M5 12a7 7 0 0 1 7-7"/>
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M14 14v5"/>
   </>
 ));
 export const ClHandAlbueIcon = make("ClHandAlbueIcon", () => (
   <>
-    <path d="M5 6v5" />
-    <circle cx="5" cy="11" r="1.6" />
-    <path d="M5.8 12.2L13 17" />
-    <path d="M13 17l3-1 2 1-1 2h-3Z" />
+    <path d="M5 6v5"/>
+    <circle cx="5" cy="11" r="1.6"/>
+    <path d="M5.8 12.2L13 17"/>
+    <path d="M13 17l3-1 2 1-1 2h-3Z"/>
   </>
 ));
 export const ClKneIcon = make("ClKneIcon", () => (
   <>
-    <path d="M19 5l-7 7" />
-    <circle cx="12" cy="12" r="2" />
-    <path d="M12 12l-7 7" />
+    <path d="M19 5l-7 7"/>
+    <circle cx="12" cy="12" r="2"/>
+    <path d="M12 12l-7 7"/>
   </>
 ));
 export const ClSkulderIcon = make("ClSkulderIcon", () => (
   <>
-    <circle cx="6" cy="8" r="2" />
-    <path d="M6 8c3 0 6-2 10-2" />
-    <path d="M6 8v11" />
+    <circle cx="6" cy="8" r="2"/>
+    <path d="M6 8c3 0 6-2 10-2"/>
+    <path d="M6 8v11"/>
   </>
 ));
-
-// --- Flere fagområder ---
 export const ClEndokrinologiIcon = make("ClEndokrinologiIcon", () => (
   <>
-    <circle cx="12" cy="6" r="2" />
-    <circle cx="7" cy="14" r="2" />
-    <circle cx="17" cy="14" r="2" />
-    <path d="M12 8l-3.5 4" />
-    <path d="M12 8l3.5 4" />
-    <path d="M9 14h6" />
+    <circle cx="12" cy="6" r="2"/>
+    <circle cx="7" cy="14" r="2"/>
+    <circle cx="17" cy="14" r="2"/>
+    <path d="M12 8l-3.5 4"/>
+    <path d="M12 8l3.5 4"/>
+    <path d="M9 14h6"/>
   </>
 ));
 export const ClHudlegeIcon = make("ClHudlegeIcon", () => (
   <>
-    <path d="M4 10c3-2 6 2 9 0s6 2 7 0" />
-    <path d="M4 14c3-2 6 2 9 0s6 2 7 0" />
+    <path d="M4 10c3-2 6 2 9 0s6 2 7 0"/>
+    <path d="M4 14c3-2 6 2 9 0s6 2 7 0"/>
   </>
 ));
 export const ClErnaringsfysiologIcon = make("ClErnaringsfysiologIcon", () => (
   <>
-    <circle cx="12" cy="14" r="6" />
-    <path d="M12 8c0-2 1-4 3-4" />
-    <path d="M12 8V6" />
+    <circle cx="12" cy="14" r="6"/>
+    <path d="M12 8c0-2 1-4 3-4"/>
+    <path d="M12 8V6"/>
   </>
 ));
 export const ClGastrokirurgiIcon = make("ClGastrokirurgiIcon", () => (
   <>
-    <path d="M7 5c0 4 10 4 10 7s-10 3-10 7" />
-    <circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none" />
+    <path d="M7 5c0 4 10 4 10 7s-10 3-10 7"/>
+    <circle cx="12" cy="12" r=".8" fill="currentColor"/>
   </>
 ));
 export const ClOsteopatiIcon = make("ClOsteopatiIcon", () => (
   <>
-    <path d="M12 4v16" />
-    <path d="M10 7h4" />
-    <path d="M10 11h4" />
-    <path d="M10 15h4" />
-    <path d="M10 19h4" />
+    <path d="M12 4v16"/>
+    <path d="M10 7h4"/>
+    <path d="M10 11h4"/>
+    <path d="M10 15h4"/>
+    <path d="M10 19h4"/>
   </>
 ));
 export const ClPlastikkirurgiIcon = make("ClPlastikkirurgiIcon", () => (
   <>
-    <path d="M9 5c0 3-2 4-2 7s2 3 2 6" />
-    <path d="M14 6c0 2 2 4 2 7s-2 4-2 6" />
-    <path d="M9 12h5" />
+    <path d="M9 5c0 3-2 4-2 7s2 3 2 6 0 1.5 0 1.5"/>
+    <path d="M14 6c0 2 2 4 2 7s-2 4-2 6"/>
+    <path d="M9 12h5"/>
   </>
 ));
 export const ClPsykologiIcon = make("ClPsykologiIcon", () => (
   <>
-    <path d="M6 19c0-7 3-13 8-13 3 0 4 3 4 6s-3 4-5 3" />
-    <circle cx="13" cy="11" r="1.2" />
+    <path d="M6 19c0-7 3-13 8-13 3 0 4 3 4 6s-3 4-5 3"/>
+    <circle cx="13" cy="11" r="1.2"/>
   </>
 ));
 export const ClRevmatologiIcon = make("ClRevmatologiIcon", () => (
   <>
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 4v3" />
-    <path d="M12 17v3" />
-    <path d="M4 12h3" />
-    <path d="M17 12h3" />
-    <path d="M6 6l2 2" />
-    <path d="M16 16l2 2" />
-    <path d="M18 6l-2 2" />
-    <path d="M8 16l-2 2" />
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M12 4v3"/>
+    <path d="M12 17v3"/>
+    <path d="M4 12h3"/>
+    <path d="M17 12h3"/>
+    <path d="M6 6l2 2"/>
+    <path d="M16 16l2 2"/>
+    <path d="M18 6l-2 2"/>
+    <path d="M8 16l-2 2"/>
   </>
 ));
 export const ClSexologiIcon = make("ClSexologiIcon", () => (
   <>
-    <circle cx="9" cy="12" r="4" />
-    <circle cx="15" cy="12" r="4" />
+    <circle cx="9" cy="12" r="4"/>
+    <circle cx="15" cy="12" r="4"/>
   </>
 ));
 export const ClAreknuterIcon = make("ClAreknuterIcon", () => (
   <>
-    <path d="M12 19V5" />
-    <path d="M12 9L8 6" />
-    <path d="M12 12l4-3" />
-    <path d="M12 14L7 12" />
-    <path d="M12 16l5-2" />
+    <path d="M12 19V5"/>
+    <path d="M12 9L8 6"/>
+    <path d="M12 12l4-3"/>
+    <path d="M12 14L7 12"/>
+    <path d="M12 16l5-2"/>
   </>
 ));
 export const ClHudhelseIcon = make("ClHudhelseIcon", () => (
   <>
-    <path d="M4 17h16" />
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 5v2" />
-    <path d="M5 12h2" />
-    <path d="M17 12h2" />
-    <path d="M7 7l1.5 1.5" />
-    <path d="M17 7l-1.5 1.5" />
+    <path d="M4 17h16"/>
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M12 5v2"/>
+    <path d="M5 12h2"/>
+    <path d="M17 12h2"/>
+    <path d="M7 7l1.5 1.5"/>
+    <path d="M17 7l-1.5 1.5"/>
   </>
 ));
 export const ClOvervektskirurgiIcon = make("ClOvervektskirurgiIcon", () => (
   <>
-    <path d="M12 6v13" />
-    <path d="M9 19h6" />
-    <path d="M5 10h14" />
-    <path d="M3 14l2-4 2 4Z" />
-    <path d="M17 14l2-4 2 4Z" />
+    <path d="M12 6v13"/>
+    <path d="M9 19h6"/>
+    <path d="M5 10h14"/>
+    <path d="M3 14l2-4 2 4Z"/>
+    <path d="M17 14l2-4 2 4Z"/>
   </>
 ));

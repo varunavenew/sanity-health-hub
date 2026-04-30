@@ -100,6 +100,11 @@ import {
   PlasticSurgeryIcon, PsychologyIcon, RheumatologyIcon, SexologyIcon,
   VaricoseVeinsIcon, SkinHealthIcon, WeightSurgeryIcon,
   // Claude.ai editorial proposal ("-cl" suffix)
+  // Umbrella / kategori-ledere
+  ClGynekologiIcon, ClFertilitetIcon, ClUrologiIcon, ClOrtopediIcon, ClFlereFagomraderIcon,
+  // Graviditet
+  ClUltralydIcon, ClNiptIcon, ClSvangerskapsteamIcon, ClFosterdiagnostikkIcon,
+  // Behandlinger
   ClGynekologiskUndersokelseIcon, ClUrinlekkasjeIcon, ClEndometrioseIcon, ClOvergangsalderIcon,
   ClVaginaleFremfallIcon, ClBlodningsforstyrrelserIcon, ClCelleforandringerIcon, ClCysterIcon,
   ClFjerneLivmorIcon, ClGraviditetIcon, ClGynekologiskKirurgiIcon, ClHormonforstyrrelserIcon,
@@ -427,6 +432,17 @@ export const ICONS = {
   "weight-surgery-sym": c(WeightSurgeryIcon),
 
   // ===== Claude.ai editorial proposal ("-cl" suffix) =====
+  // Umbrella / kategori-ledere
+  "gynekologi-cl": c(ClGynekologiIcon),
+  "fertilitet-cl": c(ClFertilitetIcon),
+  "urologi-cl": c(ClUrologiIcon),
+  "ortopedi-cl": c(ClOrtopediIcon),
+  "flere-fagomrader-cl": c(ClFlereFagomraderIcon),
+  // Graviditet
+  "ultralyd-cl": c(ClUltralydIcon),
+  "nipt-cl": c(ClNiptIcon),
+  "svangerskapsteam-cl": c(ClSvangerskapsteamIcon),
+  "fosterdiagnostikk-cl": c(ClFosterdiagnostikkIcon),
   // Gynekologi
   "gynekologisk-undersokelse-cl": c(ClGynekologiskUndersokelseIcon),
   "urinlekkasje-cl": c(ClUrinlekkasjeIcon),
