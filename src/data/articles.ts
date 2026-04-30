@@ -15,9 +15,12 @@ export const filterCategories = [
   "Pasienthistorier",
   "Oss i media",
   "Fagartikler",
-  "Nyheter",
-  "Sosiale medier",
+  "Nytt fra oss",
 ];
+
+// Map legacy "Nyheter" category from existing data/Sanity to "Nytt fra oss"
+export const normalizeCategory = (cat: string) =>
+  cat === "Nyheter" ? "Nytt fra oss" : cat;
 
 export const articles: Article[] = [
   {
