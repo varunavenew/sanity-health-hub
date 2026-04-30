@@ -290,6 +290,7 @@ const BookingDemo = () => {
           resolvedCategoryId = derivedCat.id;
           resolvedCategoryLabel = derivedCat.label;
           setExpandedCategory(derivedCat.id);
+          setFilterToCategoryId(derivedCat.id);
         }
       }
     }
