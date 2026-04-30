@@ -196,7 +196,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Hva kan vi hjelpe deg med?
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                Fortell oss hvor du er — vi finner veien videre.
+                Fortell oss hvor du er
+                <span className="block">— vi finner veien videre.</span>
               </h2>
             </div>
 
