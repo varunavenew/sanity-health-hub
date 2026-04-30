@@ -900,7 +900,7 @@ const articlesData: Array<{ _id: string; title: string; slug: string; category: 
       { _key: "36689791de7b", _type: "block", children: [{ _key: "398001be5bf40", _type: "span", marks: [], text: "Det er mulig å få gjennomført prostataundersøkelser hos fastlegen. Stadig flere menn velger imidlertid å oppsøke privat urolog direkte for å sjekke prostata og stille spørsmål rundt prostatakreft. Dersom årlig prostatasjekk gir indikasjon på prostatakreft, forstørret prostata eller betennelser er det nødvendig med videre undersøkelser." }], markDefs: [], style: "normal" },
       { _key: "01c17f5c3ea4", _type: "block", children: [{ _key: "27a42f1117530", _type: "span", marks: ["strong"], text: "Hvor kan jeg bestille prostataundersøkelse og hva koster prostatasjekk?" }], markDefs: [], style: "h2" },
       { _key: "5c11dfc47474", _type: "block", children: [{ _key: "6ed7241e448c0", _type: "span", marks: [], text: "Veiledende priser for en privat urologisk konsultasjon hos C-Medical er 1700 kr og opp. Privat prostataundersøkelse og PSA-utredning koster kr 3350 kr. C-Medical er en av Skandinavias ledende tilbydere av spesialisthelsetjenester innen blant annet urologi, gynekologi og ortopedi." }], markDefs: [], style: "normal" },
-      { _key: "ac7080a6e2ff", _type: "block", children: [{ _key: "1977fd483dca0", _type: "span", marks: ["strong"], text: "Vi tilbyr prostataundersøkelser privat ved våre klinikker i Oslo (Majorstuen), Stavanger og på Moelv." }], markDefs: [], style: "normal" },
+      { _key: "ac7080a6e2ff", _type: "block", children: [{ _key: "1977fd483dca0", _type: "span", marks: ["strong"], text: "Vi tilbyr prostataundersøkelser privat ved våre klinikker i Oslo (Majorstuen) og på Moelv." }], markDefs: [], style: "normal" },
     ],
   },
   {

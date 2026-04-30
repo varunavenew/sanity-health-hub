@@ -356,7 +356,7 @@ export const useArticles = () =>
         ...a,
         image: a.image || "",
         date: a.date || "",
-        category: a.category || "Nyheter",
+        category: a.category || "Nytt fra oss",
         excerpt: a.excerpt || "",
       })) as SanityArticle[];
     },
@@ -373,7 +373,7 @@ export const useArticle = (slug: string) =>
         ...data,
         image: data.image || "",
         date: data.date || "",
-        category: data.category || "Nyheter",
+        category: data.category || "Nytt fra oss",
         excerpt: data.excerpt || "",
       } as SanityArticle;
     },
