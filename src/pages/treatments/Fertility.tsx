@@ -529,7 +529,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Menneskene bak
               </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground whitespace-nowrap">
                 Spesialistene som følger deg.
               </h2>
             </div>
