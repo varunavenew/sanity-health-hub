@@ -688,13 +688,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      <CTASection
-        title="Ta det første steget — på deres premisser."
-        subtitle="Den første samtalen er gratis og helt uforpliktende."
-        primaryCTA="Bestill digital rådgiving"
-        secondaryCTA="Snakk med en sykepleier"
-        secondaryLink="/kontakt"
-      />
     </PageLayout>
   );
 };
