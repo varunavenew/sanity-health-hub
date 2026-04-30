@@ -75,8 +75,10 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current =
 }`;
 
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
-  title, subtitle, "heroImage": heroImage.asset->url,
-  body,
+  "title": coalesce(title[_key == $lang][0].value, title[_key == "no"][0].value, title),
+  "subtitle": coalesce(subtitle[_key == $lang][0].value, subtitle[_key == "no"][0].value, subtitle),
+  "heroImage": heroImage.asset->url,
+  "body": coalesce(body[_key == $lang][0].value, body[_key == "no"][0].value, body),
   values,
   seo
 }`;
