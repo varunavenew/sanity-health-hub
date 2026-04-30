@@ -349,7 +349,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 CMedical i tall
               </p>
               <p className="text-xs font-light text-muted-foreground/80">
-                Norges eldste private fertilitetsklinikk
+                CMedical i tall
               </p>
             </div>
             <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-border/60">
