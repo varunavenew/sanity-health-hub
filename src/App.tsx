@@ -61,6 +61,7 @@ const AppContent = () => {
     <>
       <Routes>
         <Route path="/" element={<Index isChatOpen={false} />} />
+        <Route path="/icon-preview" element={<IconPreview />} />
         <Route path="/product/:id" element={<ProductDetail isChatOpen={false} />} />
         <Route path="/produkt/:id" element={<ProductDetail isChatOpen={false} />} />
         <Route path="/about" element={<About isChatOpen={false} />} />
