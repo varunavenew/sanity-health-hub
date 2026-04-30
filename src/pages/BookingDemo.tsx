@@ -647,16 +647,34 @@ const BookingDemo = () => {
               className="space-y-4"
             >
               <h2 className="text-2xl font-light text-foreground text-center mb-6">
-                Velg tjeneste
+                {filterToCategoryId
+                  ? `Velg tjeneste innen ${bookingServices.find(c => c.id === filterToCategoryId)?.label ?? ""}`
+                  : "Velg tjeneste"}
               </h2>
-              
+
+              {filterToCategoryId && (
+                <div className="flex justify-center -mt-2 mb-2">
+                  <button
+                    onClick={() => {
+                      setFilterToCategoryId(null);
+                      setExpandedCategory(null);
+                    }}
+                    className="text-sm text-foreground/70 hover:text-foreground underline underline-offset-4"
+                  >
+                    Vis alle tjenester
+                  </button>
+                </div>
+              )}
+
               <div className="space-y-3">
-                {[...bookingServices].sort((a, b) => {
-                  // "Graviditet - fostermedisiner" always first
-                  if (a.id === 'fostermedisiner') return -1;
-                  if (b.id === 'fostermedisiner') return 1;
-                  return a.label.localeCompare(b.label, 'nb');
-                }).map((category) => {
+                {[...bookingServices]
+                  .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
+                  .sort((a, b) => {
+                    // "Graviditet - fostermedisiner" always first
+                    if (a.id === 'fostermedisiner') return -1;
+                    if (b.id === 'fostermedisiner') return 1;
+                    return a.label.localeCompare(b.label, 'nb');
+                  }).map((category) => {
                   const availableClinicsForCategory = getClinicsForService(category.id);
                   
                   return (
