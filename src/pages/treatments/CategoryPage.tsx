@@ -7,7 +7,7 @@ import {
   Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
   Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
   Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
-  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed, Play
+  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed, Play, Coins, CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
