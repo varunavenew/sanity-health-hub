@@ -152,8 +152,11 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 
-  // Top 4 featured (pinned first, then most recent to fill up to 4)
-  const featuredTop = sortedArticles.slice(0, 4);
+  // Top featured: editor-controlled via the `featured` flag in Sanity.
+  // Falls back to pinned/most-recent when no articles are explicitly flagged.
+  const explicitlyFeatured = sortedArticles.filter((a) => a.featured).slice(0, 4);
+  const featuredTop =
+    explicitlyFeatured.length > 0 ? explicitlyFeatured : sortedArticles.slice(0, 4);
   const featuredSlugs = new Set(featuredTop.map((a) => a.slug));
   const restArticles = sortedArticles.filter((a) => !featuredSlugs.has(a.slug));
   const visibleRest = restArticles.slice(0, visibleCount);
