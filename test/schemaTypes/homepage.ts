@@ -7,18 +7,25 @@ export default {
   title: 'Forside',
   type: 'document',
   icon: HomeIcon,
+  groups: [
+    { name: 'hero', title: 'Hero & tagline', default: true },
+    { name: 'sections', title: 'Seksjoner' },
+    { name: 'seo', title: 'SEO & meta' },
+  ],
   fields: [
     {
       name: 'title',
       title: 'Sidetittel',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
+      group: 'hero',
     },
     // Hero Banner
     {
       name: 'heroBanner',
       title: 'Hero Banner',
       type: 'object',
+      group: 'hero',
       fields: [
         {
           name: 'slides',
@@ -34,6 +41,9 @@ export default {
                 { name: 'ctaText', title: 'CTA-tekst', type: 'string' },
                 { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
               ],
+              preview: {
+                select: { title: 'heading', subtitle: 'subheading', media: 'image' },
+              },
             },
           ],
         },
@@ -44,6 +54,7 @@ export default {
       name: 'tagline',
       title: 'Tagline Banner',
       type: 'string',
+      group: 'hero',
     },
     // Service Categories (Tjenester)
     {
@@ -51,6 +62,7 @@ export default {
       title: 'Tjenester (kategorier)',
       description: 'Kategoriene som vises i tjeneste-griden på forsiden',
       type: 'array',
+      group: 'sections',
       of: [
         {
           type: 'reference',
@@ -63,6 +75,7 @@ export default {
       name: 'statsBar',
       title: 'Statistikkbar',
       type: 'array',
+      group: 'sections',
       of: [
         {
           type: 'object',
@@ -70,6 +83,9 @@ export default {
             { name: 'value', title: 'Verdi', type: 'string' },
             { name: 'label', title: 'Etikett', type: 'string' },
           ],
+          preview: {
+            select: { title: 'value', subtitle: 'label' },
+          },
         },
       ],
     },
@@ -78,6 +94,7 @@ export default {
       name: 'valueBadges',
       title: 'Verdibadges',
       type: 'array',
+      group: 'sections',
       of: [
         {
           type: 'object',
@@ -85,6 +102,9 @@ export default {
             { name: 'icon', title: 'Ikon', type: 'string', description: 'Lucide icon name' },
             { name: 'label', title: 'Tekst', type: 'string' },
           ],
+          preview: {
+            select: { title: 'label', subtitle: 'icon' },
+          },
         },
       ],
     },
@@ -93,6 +113,7 @@ export default {
       name: 'promoBlocks',
       title: 'Promosjonsblokker',
       type: 'array',
+      group: 'sections',
       of: [
         {
           type: 'object',
@@ -103,6 +124,9 @@ export default {
             { name: 'ctaText', title: 'CTA-tekst', type: 'string' },
             { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
           ],
+          preview: {
+            select: { title: 'title', subtitle: 'description', media: 'image' },
+          },
         },
       ],
     },
@@ -111,6 +135,7 @@ export default {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      group: 'seo',
     },
   ],
   preview: {
