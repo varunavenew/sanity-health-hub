@@ -99,6 +99,22 @@ import {
   EndocrinologyIcon, DermatologyIcon, NutritionIcon, GastroSurgeryIcon, OsteopathyIcon,
   PlasticSurgeryIcon, PsychologyIcon, RheumatologyIcon, SexologyIcon,
   VaricoseVeinsIcon, SkinHealthIcon, WeightSurgeryIcon,
+  // Claude.ai editorial proposal ("-cl" suffix)
+  ClGynekologiskUndersokelseIcon, ClUrinlekkasjeIcon, ClEndometrioseIcon, ClOvergangsalderIcon,
+  ClVaginaleFremfallIcon, ClBlodningsforstyrrelserIcon, ClCelleforandringerIcon, ClCysterIcon,
+  ClFjerneLivmorIcon, ClGraviditetIcon, ClGynekologiskKirurgiIcon, ClHormonforstyrrelserIcon,
+  ClHysteroskopiIcon, ClLabiaplastikkIcon, ClRobotkirurgiGynIcon, ClSpontanabortIcon,
+  ClVulvalidelserIcon, ClPmsPmddIcon, ClVaginalTorrhetIcon, ClTverrfagligTeamIcon,
+  ClInfertilitetIcon, ClAssistertBefruktningIcon, ClIvfIcon, ClEggfrysIcon,
+  ClDonorbehandlingIcon, ClSaedanalyseIcon, ClFertilitetsteametIcon, ClInseminasjonIcon,
+  ClEggdonasjonIcon, ClSaeddonasjonIcon,
+  ClBlaereIcon, ClForhudIcon, ClMannligInfertilitetIcon, ClNyrerIcon, ClProstataIcon,
+  ClRefertiliseringIcon, ClRobotkirurgiUroIcon, ClSteriliseringIcon, ClTestiklerIcon,
+  ClUrinveisinfeksjonIcon, ClErektilDysfunksjonIcon,
+  ClFotAnkelIcon, ClHofteIcon, ClHandAlbueIcon, ClKneIcon, ClSkulderIcon,
+  ClEndokrinologiIcon, ClHudlegeIcon, ClErnaringsfysiologIcon, ClGastrokirurgiIcon,
+  ClOsteopatiIcon, ClPlastikkirurgiIcon, ClPsykologiIcon, ClRevmatologiIcon,
+  ClSexologiIcon, ClAreknuterIcon, ClHudhelseIcon, ClOvervektskirurgiIcon,
 } from "./customIcons";
 
 // Cast helper for custom icons (LucideProps-compatible API)
