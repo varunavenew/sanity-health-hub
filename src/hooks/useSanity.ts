@@ -1,5 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { sanityClient } from "@/lib/sanityClient";
+
+/**
+ * Map the i18next UI language code to the Sanity language key used by
+ * `sanity-plugin-internationalized-array`. UI uses `nb` (Bokmål) but the
+ * Studio plugin is configured with `no` for simplicity.
+ */
+const useSanityLang = (): "no" | "en" => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language || "nb";
+  if (lang.startsWith("en")) return "en";
+  return "no";
+};
 import {
   HOMEPAGE_QUERY,
   SPECIALISTS_QUERY,
