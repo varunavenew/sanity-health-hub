@@ -37,6 +37,7 @@ import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
+import IconPreview from "./pages/IconPreview";
 
 const queryClient = new QueryClient();
 
