@@ -166,6 +166,7 @@ export default defineConfig({
           .title('Content')
           .items([
             ...otherItems.slice(0, mid),
+            articleItem,
             specialistsItem,
             priserItem,
             googleReviewsItem,
