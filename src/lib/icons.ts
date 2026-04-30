@@ -29,6 +29,7 @@ import {
   Camera, Video, Play, Lock, Settings, Globe, Mic,
   type LucideIcon,
 } from "lucide-react";
+import { GynecologyIcon, FertilityIcon, RobotSurgeryIcon } from "./customIcons";
 
 export const ICONS = {
   // health
