@@ -10,14 +10,20 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Tittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'URL-slug',
       type: 'slug',
-      options: {source: 'title'},
+      // Source from the Norwegian title entry
+      options: {
+        source: (doc: any) => {
+          const title = (doc?.title || []).find((t: any) => t._key === 'no')?.value
+          return title || ''
+        },
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -29,20 +35,19 @@ export default defineType({
         defineField({
           name: 'alt',
           title: 'Alt-tekst',
-          type: 'string',
+          type: 'internationalizedArrayString',
         }),
       ],
     }),
     defineField({
       name: 'excerpt',
       title: 'Utdrag',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     }),
     defineField({
       name: 'body',
       title: 'Innhold',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     }),
     defineField({
       name: 'videoUrl',
