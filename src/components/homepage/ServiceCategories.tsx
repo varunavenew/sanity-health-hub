@@ -43,7 +43,8 @@ export const ServiceCategories = () => {
                 Se alle <ArrowRight className="w-4 h-4" />
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
         <div className="text-center mt-12">
           <Button variant="cta-outline" size="lg" onClick={() => navigate('/booking')}>
