@@ -1,5 +1,6 @@
-import { ArrowRight, Heart, Baby, Stethoscope, Wallet, Building2, Phone, LucideIcon } from "lucide-react";
+import { ArrowRight, Wallet, Building2, Phone, type LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getIcon } from "@/lib/icons";
 
 interface Service {
   title: string;
@@ -62,19 +63,19 @@ export const allServices: Service[] = [
     title: "Gynekologi",
     description: "Undersøkelser, celleprøve og behandlinger for kvinner",
     link: "/behandlinger/gynekologi",
-    icon: Heart
+    icon: getIcon("gynekologi-cl")
   },
   {
     title: "Fertilitet",
     description: "IVF, IUI og fertilitetsutredning for par og single",
     link: "/behandlinger/fertilitet",
-    icon: Baby
+    icon: getIcon("fertilitet-cl")
   },
   {
     title: "Urologi",
     description: "Prostata, urinveisplager og mannlig helse",
     link: "/behandlinger/urologi",
-    icon: Stethoscope
+    icon: getIcon("urologi-cl")
   },
   {
     title: "Prisliste",

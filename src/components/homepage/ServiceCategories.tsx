@@ -1,16 +1,17 @@
-import { ArrowRight, Activity, Stethoscope, Baby, Thermometer, HeartPulse, UserRound, Scissors, Scan } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { getIcon } from "@/lib/icons";
 
 const categories = [
-  { icon: Stethoscope, title: "Gynekologi", services: ["Celleprøve", "Hormonutredning", "Spiral", "Overgangsalder"] },
-  { icon: UserRound, title: "Urologi & Mannehelse", services: ["Prostatautredning", "Urinveier", "Erektil dysfunksjon", "Mannlig fertilitet"] },
-  { icon: Baby, title: "Fertilitet & IVF", services: ["Fertilitetsutredning", "IVF-forberedelse", "Eggdonasjon", "Sædanalyse"] },
-  { icon: Scan, title: "Graviditet & Ultralyd", services: ["Tidlig ultralyd", "NIPT-test", "Svangerskapskontroll", "3D/4D ultralyd"] },
-  { icon: Activity, title: "Bekkenhelse", services: ["Bekkenbunnsutredning", "Kroniske smerter", "Endometriose", "Prolaps"] },
-  { icon: HeartPulse, title: "Seksuell Helse", services: ["Seksologisk rådgivning", "STI-testing", "Intimhelse", "Par-terapi"] },
-  { icon: Thermometer, title: "Hormoner & Endokrinologi", services: ["Hormonterapi", "PCOS", "Stoffskifte", "Testosteron"] },
-  { icon: Scissors, title: "Kirurgi", services: ["Gynekologisk kirurgi", "Urologisk kirurgi", "Laparoskopi", "Intimkirurgi"] },
+  { iconKey: "gynekologi-cl", title: "Gynekologi", services: ["Celleprøve", "Hormonutredning", "Spiral", "Overgangsalder"] },
+  { iconKey: "urologi-cl", title: "Urologi & Mannehelse", services: ["Prostatautredning", "Urinveier", "Erektil dysfunksjon", "Mannlig fertilitet"] },
+  { iconKey: "fertilitet-cl", title: "Fertilitet & IVF", services: ["Fertilitetsutredning", "IVF-forberedelse", "Eggdonasjon", "Sædanalyse"] },
+  { iconKey: "ultralyd-cl", title: "Graviditet & Ultralyd", services: ["Tidlig ultralyd", "NIPT-test", "Svangerskapskontroll", "3D/4D ultralyd"] },
+  { iconKey: "vaginale-fremfall-cl", title: "Bekkenhelse", services: ["Bekkenbunnsutredning", "Kroniske smerter", "Endometriose", "Prolaps"] },
+  { iconKey: "sexologi-cl", title: "Seksuell Helse", services: ["Seksologisk rådgivning", "STI-testing", "Intimhelse", "Par-terapi"] },
+  { iconKey: "endokrinologi-cl", title: "Hormoner & Endokrinologi", services: ["Hormonterapi", "PCOS", "Stoffskifte", "Testosteron"] },
+  { iconKey: "gynekologisk-kirurgi-cl", title: "Kirurgi", services: ["Gynekologisk kirurgi", "Urologisk kirurgi", "Laparoskopi", "Intimkirurgi"] },
 ];
 
 export const ServiceCategories = () => {
@@ -25,10 +26,12 @@ export const ServiceCategories = () => {
           <p className="text-muted-foreground font-light text-base">Uansett hva du opplever – vi har spesialister som kan hjelpe.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {categories.map((category, index) => (
+          {categories.map((category, index) => {
+            const Icon = getIcon(category.iconKey);
+            return (
             <div key={category.title} className="group p-5 rounded-lg bg-card border border-border/50 card-hover cursor-pointer opacity-0 animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
               <div className="w-10 h-10 rounded-lg bg-brand-dark/10 flex items-center justify-center mb-4 group-hover:bg-brand-dark/20 transition-colors">
-                <category.icon className="w-5 h-5 text-foreground" />
+                <Icon className="w-5 h-5 text-foreground" strokeWidth={1.5} />
               </div>
               <h3 className="font-normal text-foreground mb-3">{category.title}</h3>
               <ul className="space-y-1.5 mb-4">
@@ -40,7 +43,8 @@ export const ServiceCategories = () => {
                 Se alle <ArrowRight className="w-4 h-4" />
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
         <div className="text-center mt-12">
           <Button variant="cta-outline" size="lg" onClick={() => navigate('/booking')}>
