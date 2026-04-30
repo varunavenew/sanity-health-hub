@@ -237,22 +237,28 @@ export const useTreatment = (categorySlug: string, treatmentSlug: string) =>
   });
 
 // ─── About Page ──────────────────────────────────────────────────────
-export const useAboutPage = () =>
-  useQuery({
-    queryKey: ["sanity", "aboutPage"],
+export const useAboutPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "aboutPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY);
+      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY, { lang });
       if (!data) return null;
-      const sections = (data.body || [])
-        .filter((block: any) => block._type === "block")
+      // Normalize array-typed leftovers if any
+      const title = typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? "");
+      const subtitle = typeof data.subtitle === "string" ? data.subtitle : (data.subtitle?.[0]?.value ?? "");
+      const body = Array.isArray(data.body) && data.body[0]?._type === "block" ? data.body : (data.body?.[0]?.value ?? data.body);
+      const sections = (body || [])
+        .filter((block: any) => block && block._type === "block")
         .map((block: any) => ({
           title: "",
           content: (block.children || []).map((c: any) => c.text).join(""),
         }));
-      return { ...data, sections };
+      return { ...data, title, subtitle, body, sections };
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Contact Page ────────────────────────────────────────────────────
 export const useContactPage = () =>
