@@ -100,6 +100,11 @@ import {
   PlasticSurgeryIcon, PsychologyIcon, RheumatologyIcon, SexologyIcon,
   VaricoseVeinsIcon, SkinHealthIcon, WeightSurgeryIcon,
   // Claude.ai editorial proposal ("-cl" suffix)
+  // Umbrella / kategori-ledere
+  ClGynekologiIcon, ClFertilitetIcon, ClUrologiIcon, ClOrtopediIcon, ClFlereFagomraderIcon,
+  // Graviditet
+  ClUltralydIcon, ClNiptIcon, ClSvangerskapsteamIcon, ClFosterdiagnostikkIcon,
+  // Behandlinger
   ClGynekologiskUndersokelseIcon, ClUrinlekkasjeIcon, ClEndometrioseIcon, ClOvergangsalderIcon,
   ClVaginaleFremfallIcon, ClBlodningsforstyrrelserIcon, ClCelleforandringerIcon, ClCysterIcon,
   ClFjerneLivmorIcon, ClGraviditetIcon, ClGynekologiskKirurgiIcon, ClHormonforstyrrelserIcon,
