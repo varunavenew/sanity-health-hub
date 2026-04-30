@@ -1,16 +1,17 @@
-import { ArrowRight, Activity, Stethoscope, Baby, Thermometer, HeartPulse, UserRound, Scissors, Scan } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { getIcon } from "@/lib/icons";
 
 const categories = [
-  { icon: Stethoscope, title: "Gynekologi", services: ["Celleprøve", "Hormonutredning", "Spiral", "Overgangsalder"] },
-  { icon: UserRound, title: "Urologi & Mannehelse", services: ["Prostatautredning", "Urinveier", "Erektil dysfunksjon", "Mannlig fertilitet"] },
-  { icon: Baby, title: "Fertilitet & IVF", services: ["Fertilitetsutredning", "IVF-forberedelse", "Eggdonasjon", "Sædanalyse"] },
-  { icon: Scan, title: "Graviditet & Ultralyd", services: ["Tidlig ultralyd", "NIPT-test", "Svangerskapskontroll", "3D/4D ultralyd"] },
-  { icon: Activity, title: "Bekkenhelse", services: ["Bekkenbunnsutredning", "Kroniske smerter", "Endometriose", "Prolaps"] },
-  { icon: HeartPulse, title: "Seksuell Helse", services: ["Seksologisk rådgivning", "STI-testing", "Intimhelse", "Par-terapi"] },
-  { icon: Thermometer, title: "Hormoner & Endokrinologi", services: ["Hormonterapi", "PCOS", "Stoffskifte", "Testosteron"] },
-  { icon: Scissors, title: "Kirurgi", services: ["Gynekologisk kirurgi", "Urologisk kirurgi", "Laparoskopi", "Intimkirurgi"] },
+  { iconKey: "gynekologi-cl", title: "Gynekologi", services: ["Celleprøve", "Hormonutredning", "Spiral", "Overgangsalder"] },
+  { iconKey: "urologi-cl", title: "Urologi & Mannehelse", services: ["Prostatautredning", "Urinveier", "Erektil dysfunksjon", "Mannlig fertilitet"] },
+  { iconKey: "fertilitet-cl", title: "Fertilitet & IVF", services: ["Fertilitetsutredning", "IVF-forberedelse", "Eggdonasjon", "Sædanalyse"] },
+  { iconKey: "ultralyd-cl", title: "Graviditet & Ultralyd", services: ["Tidlig ultralyd", "NIPT-test", "Svangerskapskontroll", "3D/4D ultralyd"] },
+  { iconKey: "vaginale-fremfall-cl", title: "Bekkenhelse", services: ["Bekkenbunnsutredning", "Kroniske smerter", "Endometriose", "Prolaps"] },
+  { iconKey: "sexologi-cl", title: "Seksuell Helse", services: ["Seksologisk rådgivning", "STI-testing", "Intimhelse", "Par-terapi"] },
+  { iconKey: "endokrinologi-cl", title: "Hormoner & Endokrinologi", services: ["Hormonterapi", "PCOS", "Stoffskifte", "Testosteron"] },
+  { iconKey: "gynekologisk-kirurgi-cl", title: "Kirurgi", services: ["Gynekologisk kirurgi", "Urologisk kirurgi", "Laparoskopi", "Intimkirurgi"] },
 ];
 
 export const ServiceCategories = () => {
