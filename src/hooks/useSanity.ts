@@ -360,39 +360,45 @@ export interface SanityArticle {
   videoCaption?: string;
 }
 
-export const useArticles = () =>
-  useQuery({
-    queryKey: ["sanity", "articles"],
+export const useArticles = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "articles", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(ARTICLES_QUERY);
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang });
       return (data || []).map((a) => ({
         ...a,
+        title: typeof a.title === "string" ? a.title : (a.title?.[0]?.value ?? ""),
+        excerpt: typeof a.excerpt === "string" ? a.excerpt : (a.excerpt?.[0]?.value ?? ""),
         image: a.image || "",
         date: a.date || "",
         category: a.category || "Nytt fra oss",
-        excerpt: a.excerpt || "",
       })) as SanityArticle[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useArticle = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "article", slug],
+export const useArticle = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "article", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang });
       if (!data) return null;
       return {
         ...data,
+        title: typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? ""),
+        excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
         image: data.image || "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
-        excerpt: data.excerpt || "",
       } as SanityArticle;
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Job Listings ────────────────────────────────────────────────────
 export const useJobListings = () =>
