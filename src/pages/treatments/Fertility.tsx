@@ -438,15 +438,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5">
                 <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Hvorfor velge oss
+                  Hvorfor CMedical
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
-                  Det som skiller oss fra andre fertilitetsklinikker.
+                  Fire ting vi gjør annerledes.
                 </h2>
                 <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Hos CMedical sitter alt — fra første konsultasjon til
+                  Hos oss sitter alt — fra første konsultasjon til
                   embryolaboratoriet — under samme tak. Det betyr færre
-                  ledd, raskere svar og en behandling som faktisk er
+                  ledd, raskere svar, og en behandling som faktisk er
                   personlig.
                 </p>
               </div>
