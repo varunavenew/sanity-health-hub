@@ -500,7 +500,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </div>
               <Link
                 to="/spesialister?kategori=fertilitet"
-                className="text-sm font-light text-foreground hover:text-accent-foreground transition-colors"
+                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
               >
                 Se alle fertilitetsspesialister →
               </Link>
