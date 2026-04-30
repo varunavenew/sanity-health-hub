@@ -168,7 +168,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
             <div className="lg:col-span-7">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 For deg
               </p>
               <h2
@@ -262,7 +262,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-16">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Steg for steg
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-5">
@@ -327,7 +327,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     </div>
                   </div>
                   <div className="lg:col-span-5">
-                    <div className="text-xs tracking-widest text-accent mb-3">
+                    <div className="text-xs tracking-wide text-foreground/60 mb-3">
                       Steg {step.n} · {step.kicker}
                     </div>
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground leading-tight mb-5">
@@ -378,7 +378,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
             <div className="lg:col-span-7">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Bli kjent med Madeleine
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
@@ -438,7 +438,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5">
-                <p className="text-xs tracking-widest text-accent uppercase mb-4">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
                   Hvorfor velge oss
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
@@ -494,7 +494,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
               <div className="max-w-xl">
-                <p className="text-xs tracking-widest text-accent uppercase mb-4">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
                   Menneskene bak
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
@@ -550,7 +550,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Som sett på TV2
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight mb-6">
@@ -592,7 +592,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Vårt tilbud
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-4">
@@ -652,7 +652,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-12">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Klinikkene våre
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
@@ -706,7 +706,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
             <div className="mb-12">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Vanlige spørsmål
               </p>
               <h2 className="text-3xl md:text-4xl font-light text-foreground">
