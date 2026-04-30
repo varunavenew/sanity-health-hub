@@ -123,7 +123,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Fertilitet — CMedical
               </p>
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.04] text-foreground mb-8">
-                Noen ganger trenger kroppen <span className="text-accent-foreground/90 underline decoration-accent decoration-[3px] underline-offset-[6px]">litt hjelp</span> på veien.
+                Noen ganger trenger kroppen <span className="underline decoration-brand-dark/40 decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien.
               </h2>
               <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed max-w-xl mb-10">
                 Vi tilbyr fertilitet for alle som ønsker barn. Med fagmiljøet
