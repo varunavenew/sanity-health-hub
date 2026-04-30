@@ -67,5 +67,11 @@ export default {
   ],
   preview: {
     select: { title: 'title', media: 'heroImage' },
+    prepare({ title, media }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => t._key === 'no')?.value || title[0]?.value || 'Om oss')
+        : (title || 'Om oss')
+      return { title: titleStr, media }
+    },
   },
 }
