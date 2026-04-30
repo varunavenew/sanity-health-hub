@@ -8,6 +8,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
+import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
 import madeleineEngen from "@/assets/specialists/madeleine-engen.jpg";
 
 interface PageProps {
@@ -112,30 +113,33 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </h1>
 
       {/* ============================================================
-          1. HERO — split: lys venstre med tekst + lys høyre med "Første"-kort
+          1. HERO — mørk brand-dark, samme mønster som øvrige tjenestesider
       ============================================================ */}
-      <section className="bg-secondary/40">
-        <div className="container mx-auto px-6 md:px-16 pt-28 pb-16 md:pt-36 md:pb-24">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+      <header className="bg-brand-dark pt-32 pb-20 md:pt-40 md:pb-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             {/* Left — copy + CTA */}
             <div className="lg:col-span-7">
-              <p className="text-xs tracking-wide text-foreground/60 mb-5">
-                Fertilitet — CMedical
-              </p>
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.04] text-foreground mb-8">
-                Noen ganger trenger kroppen <span className="underline decoration-brand-dark/40 decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien.
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-normal mb-6 bg-white/10 text-white/80">
+                <span className="w-2 h-2 rounded-full bg-accent" />
+                Fertilitet
+              </div>
+
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 text-white">
+                Fertilitetsbehandling for alle veier til foreldreskap
               </h2>
-              <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed max-w-xl mb-10">
+
+              <p className="text-base md:text-lg font-light leading-relaxed max-w-2xl mb-8 text-white/70">
                 Vi tilbyr fertilitet for alle som ønsker barn. Med fagmiljøet
                 vårt under samme tak, korte ventetider og en behandling som
                 møter dere som mennesker — ikke kun som en sak.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 mb-8">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button
-                  variant="cta"
+                  variant="cta-dark"
                   size="lg"
-                  className="px-8"
+                  className="px-8 w-full sm:w-auto"
                   onClick={() =>
                     (window.location.href = buildBookingUrl({
                       kategori: "fertilitet",
@@ -143,44 +147,33 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   }
                 >
                   Bestill konsultasjon
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
-                <Link
-                  to="/pricing"
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
+                <Button
+                  asChild
+                  variant="cta-outline-dark"
+                  size="lg"
+                  className="px-8 w-full sm:w-auto"
                 >
-                  Gratis gjennomført rådgiving →
-                </Link>
-              </div>
-
-              <div className="flex items-center gap-3 text-sm text-muted-foreground font-light">
-                <div className="flex">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
-                  ))}
-                </div>
-                <span>4,7 av 5 — basert på 1 200+ pasientvurderinger</span>
+                  <Link to="/kontakt">Kontakt oss</Link>
+                </Button>
               </div>
             </div>
 
-            {/* Right — "Første"-kort */}
+            {/* Right — coverbilde */}
             <div className="lg:col-span-5">
-              <div className="aspect-[4/5] overflow-hidden rounded-sm bg-secondary mb-6">
+              <div className="aspect-[4/5] overflow-hidden rounded-sm bg-secondary">
                 <img
-                  src={journeyConsultation}
-                  alt="Første samtale hos CMedical"
+                  src={fertilityHeroImg}
+                  alt="Fertilitetsbehandling hos CMedical"
                   className="w-full h-full object-cover"
                 />
-              </div>
-              <div className="bg-secondary/60 p-6 rounded-sm border border-border/40">
-                <p className="text-xs tracking-wide text-foreground/60 mb-2">Første</p>
-                <p className="text-base font-light text-foreground leading-relaxed">
-                  Konsultasjon hvor vi får et tydelig bilde av hvor dere står — og hva som er neste steg.
-                </p>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </header>
+
 
       {/* ============================================================
           2. MØRK SEGMENT-SEKSJON — "Fortell oss hvor du er"
