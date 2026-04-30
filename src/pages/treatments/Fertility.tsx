@@ -570,7 +570,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           10. FORSIKRINGSAVTALER — strimmel
       ============================================================ */}
-      <section className="bg-[hsl(var(--brand-dark))]/95 text-white border-t border-white/10 py-10">
+      <section className="bg-brand-dark text-white border-t border-white/10 py-10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
             <p className="text-xs tracking-wide text-white/60 flex-shrink-0">
