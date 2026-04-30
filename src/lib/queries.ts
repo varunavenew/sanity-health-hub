@@ -116,12 +116,13 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   seo
 }`;
 
-export const CLINICS_QUERY = `*[_type == "clinicPage"] | order(title asc){
+export const CLINICS_QUERY = `*[_type == "clinicPage"] | order(sortOrder asc, title asc){
   _id, "id": slug.current, "label": title, address, phone, hours, services,
   "slug": slug.current,
   description, email, contactDescription,
   valueProposition,
   locationSearch,
+  sortOrder,
   "primaryImage": primaryImage.asset->url,
   booking,
   detail,
@@ -135,12 +136,13 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && slug.current == 
   description, email, contactDescription,
   valueProposition,
   locationSearch,
+  sortOrder,
   "primaryImage": primaryImage.asset->url,
   booking,
   detail,
   faqs[]{question, answer},
   specialists[]->{ name, "slug": slug.current, "image": photo.asset->url, role },
-  treatments[]->{ title, "slug": slug.current },
+  treatments[]->{ title, "slug": slug.current, "categorySlug": category->slug.current, "categoryLabel": parentCategoryLabel },
   seo
 }`;
 
