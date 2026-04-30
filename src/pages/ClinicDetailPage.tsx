@@ -361,12 +361,73 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </section>
       )}
 
-      <CTASection
-        title="Bestill time"
-        subtitle={`Book konsultasjon ved CMedical ${clinic.label}`}
-        primaryCTA="Book time nå"
-        secondaryCTA="Kontakt oss"
-        secondaryLink="/kontakt"
+      {/* Specialists at this clinic (Sanity-only) */}
+      {Array.isArray((clinic as any).specialists) && (clinic as any).specialists.length > 0 && (
+        <section className="bg-background py-10 md:py-14">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+                <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">Spesialister</p>
+              </div>
+              <h2 className="text-lg font-normal text-foreground mb-6">Spesialister ved klinikken</h2>
+              <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+                {(clinic as any).specialists.map((s: any) => (
+                  <li key={s.slug}>
+                    <Link to={`/spesialister/${s.slug}`} className="group block">
+                      <div className="aspect-[3/4] bg-brand-mid/20 overflow-hidden rounded-sm mb-2">
+                        {s.image && (
+                          <img
+                            src={s.image}
+                            alt={s.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                        )}
+                      </div>
+                      <p className="text-sm font-normal text-foreground group-hover:text-brand-dark transition-colors">{s.name}</p>
+                      {s.role && <p className="text-xs text-muted-foreground font-light">{s.role}</p>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Treatments at this clinic (cross-links) */}
+      {Array.isArray((clinic as any).treatments) && (clinic as any).treatments.length > 0 && (
+        <section className="bg-brand-warm/40 py-10 md:py-14">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-lg font-normal text-foreground mb-6">Behandlinger ved klinikken</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
+                {(clinic as any).treatments.map((t: any) => {
+                  const href = t.categorySlug
+                    ? `/behandlinger/${t.categorySlug}/${t.slug}`
+                    : `/behandlinger/${t.slug}`;
+                  return (
+                    <li key={t.slug} className="group">
+                      <Link to={href} className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
+                        <span>{t.title}</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} aria-hidden="true" />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Standardized booking flow */}
+      <ClinicBookingBlock
+        booking={(clinic as any).booking}
+        clinicLabel={clinic.label}
+        phone={clinic.phone}
+        email={(clinic as any).email}
       />
     </PageLayout>
   );
