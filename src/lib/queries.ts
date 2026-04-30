@@ -171,13 +171,19 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   notFoundCtaPath
 }`;
 
+// ─── Articles (localized) ────────────────────────────────────────────
+// `title`, `excerpt`, `body` are internationalizedArray fields stored as
+// [{_key:'no', value:...},{_key:'en', value:...}]. We pick the entry that
+// matches $lang and fall back to the Norwegian entry. Legacy un-migrated
+// docs may still hold plain strings — we coalesce both shapes and let the
+// frontend hook normalize.
 export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publishedAt desc){
   _id,
-  title,
+  "title": coalesce(title[_key == $lang][0].value, title[_key == "no"][0].value, title),
   "slug": slug.current,
-  excerpt,
+  "excerpt": coalesce(excerpt[_key == $lang][0].value, excerpt[_key == "no"][0].value, excerpt),
   "image": primaryImage.asset->url,
-  "imageAlt": primaryImage.alt,
+  "imageAlt": coalesce(primaryImage.alt[_key == $lang][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
   pinned,
@@ -186,14 +192,14 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publis
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && slug.current == $slug][0]{
   _id,
-  title,
+  "title": coalesce(title[_key == $lang][0].value, title[_key == "no"][0].value, title),
   "slug": slug.current,
-  excerpt,
+  "excerpt": coalesce(excerpt[_key == $lang][0].value, excerpt[_key == "no"][0].value, excerpt),
   "image": primaryImage.asset->url,
-  "imageAlt": primaryImage.alt,
+  "imageAlt": coalesce(primaryImage.alt[_key == $lang][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
-  body,
+  "body": coalesce(body[_key == $lang][0].value, body[_key == "no"][0].value, body),
   videoUrl,
   videoCaption,
   "videoThumbnail": videoThumbnail.asset->url,
