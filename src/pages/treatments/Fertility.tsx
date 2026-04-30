@@ -146,7 +146,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Button>
                 <Link
                   to="/pricing"
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-light text-foreground hover:text-accent-foreground transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
                 >
                   Gratis gjennomført rådgiving →
                 </Link>
