@@ -216,7 +216,7 @@ const GROUPS: Group[] = [
       { label: "Infertilitet (utredning)", usage: "/fertilitet/infertilitet", lucide: "help-circle", custom: "fertility-assessment-sym" },
       { label: "Assistert befruktning", usage: "/fertilitet/assistert-befruktning", lucide: "heart-handshake", custom: "assisted-fertilisation-sym" },
       { label: "IVF", usage: "/fertilitet/ivf", lucide: "baby", custom: "ivf-sym" },
-      { label: "Eggfrys", usage: "/fertilitet/eggfrys", lucide: "snowflake", custom: "egg-freeze-sym" },
+      { label: "Eggfrys", usage: "/fertilitet/eggfrys", lucide: "circle-dot", custom: "egg-freeze-sym" },
       { label: "Donorbehandling", usage: "/fertilitet/donorbehandling", lucide: "users", custom: "donor-treatment-sym" },
       { label: "Hysteroskopi (fert)", usage: "/fertilitet/hysteroskopi", lucide: "scan", custom: "hysteroscopy-sym" },
       { label: "Sædanalyse", usage: "/fertilitet/saedanalyse", lucide: "microscope", custom: "sperm-analysis-sym" },
