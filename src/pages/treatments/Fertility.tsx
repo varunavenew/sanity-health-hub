@@ -521,7 +521,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                   </div>
-                  <h3 className="text-base font-normal text-foreground mb-0.5 group-hover:text-accent-foreground transition-colors">
+                  <h3 className="text-base font-normal text-foreground mb-0.5 group-hover:text-foreground/70 transition-colors">
                     {sp.name}
                   </h3>
                   <p className="text-sm font-light text-muted-foreground">
