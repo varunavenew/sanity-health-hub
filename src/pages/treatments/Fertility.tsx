@@ -572,34 +572,56 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
 
-        {/* Kant-i-kant grid uten luft mellom kortene — som hjem */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-          {fertilitySpecialists.map((sp) => (
-            <Link
-              key={sp.slug}
-              to={`/spesialister/${sp.slug}`}
-              className="group block"
-            >
-              <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                <img
-                  src={sp.image}
-                  alt={sp.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
+        {/* Kant-i-kant grid — synkronisert med promo-seksjonen over */}
+        <div className={`grid grid-cols-2 gap-0 ${promoSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
+          {promoSpecialists.map((sp, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <button
+                key={sp.slug}
+                type="button"
+                onClick={() => setActiveIndex(i)}
+                aria-label={`Vis ${sp.name} i promo`}
+                aria-pressed={isActive}
+                className="group relative block text-left focus:outline-none"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                  <img
+                    src={sp.image}
+                    alt={sp.name}
+                    loading="lazy"
+                    className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05] ${
+                      isActive ? "scale-[1.03]" : ""
+                    }`}
+                  />
+                  <div
+                    className={`absolute inset-0 transition-opacity duration-500 ${
+                      isActive
+                        ? "bg-gradient-to-t from-brand-dark/40 via-brand-dark/0 to-transparent"
+                        : "bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10"
+                    }`}
+                  />
 
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                  <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                    {sp.name}
-                  </h3>
-                  <p className="text-sm font-light text-white/75">
-                    {sp.subtitle || sp.title}
-                  </p>
+                  {/* Aktiv-indikator */}
+                  {isActive && (
+                    <span className="absolute top-3 left-3 inline-flex items-center gap-2 bg-brand-yellow text-brand-dark text-[11px] font-normal px-2.5 py-1 rounded-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-dark animate-pulse" />
+                      Vises nå
+                    </span>
+                  )}
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
+                      {sp.name}
+                    </h3>
+                    <p className="text-sm font-light text-white/75">
+                      {sp.subtitle || sp.title}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </section>
 
