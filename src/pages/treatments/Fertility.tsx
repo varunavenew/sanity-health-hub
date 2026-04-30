@@ -273,108 +273,100 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          4. HVORFOR CMEDICAL — split screen: tekst venstre, bilde + flytende stat-kort høyre
+          4. HVORFOR CMEDICAL — rolig split: tekst + punkter venstre, bilde høyre
       ============================================================ */}
       <section className="bg-background">
-        <div className="grid lg:grid-cols-12 lg:min-h-[640px]">
-          {/* Left — copy + numbered steps (wide) */}
-          <div className="lg:col-span-9 px-6 md:px-16 lg:px-20 py-20 lg:py-24 flex flex-col">
-            <div className="w-full max-w-5xl flex-1">
-              <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
-                {/* Heading + intro */}
-                <div className="lg:col-span-7">
-                  <p className="text-xs tracking-wide text-foreground/60 mb-5">
-                    Hvorfor CMedical
-                  </p>
-                  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
-                    Det beste fra to klinikker — samlet på ett sted.
-                  </h2>
-                  <p className="text-base font-light text-muted-foreground leading-relaxed max-w-md">
-                    Livio og CMedical Sandvika har slått seg sammen. Det betyr
-                    mer erfaring, samme team — og et tilbud som dekker hele
-                    veien.
-                  </p>
-                </div>
+        <div className="grid lg:grid-cols-12">
+          {/* Left — copy + numbered steps */}
+          <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+            <div className="max-w-xl">
+              <p className="text-xs tracking-wide text-foreground/60 mb-5">
+                Hvorfor CMedical
+              </p>
+              <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+                Det beste fra to klinikker — samlet på ett sted.
+              </h2>
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
+                Livio og CMedical Sandvika har slått seg sammen. Det betyr mer
+                erfaring, samme team — og et tilbud som dekker hele veien.
+              </p>
 
-                {/* Numbered steps */}
-                <div className="lg:col-span-5 space-y-8">
-                  {[
-                    {
-                      n: "01",
-                      title: "Et trygt sted å starte",
-                      desc:
-                        "Klinikk og laboratorium under samme tak. Ingen lange transporter, ingen mellommenn — bare oss og dere.",
-                    },
-                    {
-                      n: "02",
-                      title: "Ledende kompetanse",
-                      desc:
-                        "Spesialister med erfaring fra Rikshospitalet, Livio og internasjonale fertilitetssentre.",
-                    },
-                    {
-                      n: "03",
-                      title: "Tett oppfølging",
-                      desc:
-                        "Vi følger dere før, under og etter — også gjennom de vanskelige beskjedene.",
-                    },
-                  ].map((step) => (
-                    <div key={step.n} className="grid grid-cols-12 gap-4">
-                      <div className="col-span-2 text-sm font-light text-foreground/40 tracking-wider pt-1">
-                        {step.n}
-                      </div>
-                      <div className="col-span-10">
-                        <h3 className="text-base font-normal text-foreground mb-1.5">
-                          {step.title}
-                        </h3>
-                        <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                          {step.desc}
-                        </p>
-                      </div>
+              <div className="divide-y divide-border/60 border-t border-border/60">
+                {[
+                  {
+                    n: "01",
+                    title: "Et trygt sted å starte",
+                    desc:
+                      "Klinikk og laboratorium under samme tak. Ingen lange transporter, ingen mellommenn — bare oss og dere.",
+                  },
+                  {
+                    n: "02",
+                    title: "Ledende kompetanse",
+                    desc:
+                      "Spesialister med erfaring fra Rikshospitalet, Livio og internasjonale fertilitetssentre.",
+                  },
+                  {
+                    n: "03",
+                    title: "Tett oppfølging",
+                    desc:
+                      "Vi følger dere før, under og etter — også gjennom de vanskelige beskjedene.",
+                  },
+                ].map((step) => (
+                  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                      {step.n}
                     </div>
-                  ))}
-                </div>
+                    <div className="col-span-10 md:col-span-11">
+                      <h3 className="text-base font-normal text-foreground mb-1.5">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Right — image (narrow) */}
-          <div className="lg:col-span-3 relative bg-secondary/40 min-h-[320px] lg:min-h-full overflow-hidden">
+          {/* Right — image */}
+          <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
             <img
               src={heroClinicLounge}
               alt="CMedical fertilitetsklinikk i Sandvika"
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-brand-dark/15" />
           </div>
         </div>
 
-        {/* Stat stripe — full bredde, men løftet opp slik at den bryter inn i bildet/seksjonen over */}
-        <div className="px-6 md:px-16 lg:px-20 -mt-16 lg:-mt-20 relative z-10 pb-20 lg:pb-24">
-          <div className="bg-background border border-border/60 shadow-[0_24px_60px_-30px_hsl(var(--brand-dark)/0.25)] px-6 md:px-10 py-8 md:py-10">
-            <div className="flex items-end justify-between mb-6">
+        {/* Stat-stripe — rolig, kant-i-kant, ingen flytende kort */}
+        <div className="border-t border-border/60">
+          <div className="px-6 md:px-16 lg:px-20 py-10 md:py-12">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-8">
               <p className="text-xs tracking-wide text-foreground/60">
                 CMedical i tall
               </p>
-              <p className="text-xs font-light text-muted-foreground/80 hidden md:block">
+              <p className="text-xs font-light text-muted-foreground/80">
                 Norges eldste private fertilitetsklinikk
               </p>
             </div>
-            <dl className="grid grid-cols-2 md:grid-cols-4 divide-y divide-x-0 md:divide-y-0 md:divide-x divide-border/60">
+            <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-border/60">
               {[
                 { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
                 { k: "Ventetid", v: "Ingen", sub: "Time samme uke" },
                 { k: "Henvisning", v: "Nei", sub: "Book direkte" },
                 { k: "Vurdering", v: "4,7", sub: "1 200+ pasienter", star: true },
-              ].map((row) => (
+              ].map((row, i) => (
                 <div
                   key={row.k}
-                  className="py-6 md:py-2 md:px-6 first:md:pl-0 last:md:pr-0"
+                  className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
                 >
                   <dt className="text-xs font-light text-muted-foreground mb-3 tracking-wide">
                     {row.k}
                   </dt>
-                  <dd className="text-2xl md:text-3xl lg:text-[2rem] font-light text-foreground tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
+                  <dd className="text-2xl md:text-3xl font-light text-foreground tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
                     {row.v}
                     {row.star && (
                       <Star className="w-4 h-4 fill-brand-dark text-brand-dark translate-y-[-3px]" />
