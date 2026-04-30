@@ -1023,3 +1023,204 @@ export const HomeThinIcon = make("HomeThinIcon", () => (
     <path d="M10 21 v-6 h4 v6" />
   </>
 ));
+
+/* =========================================================================
+ * SYMBOLIC SUBSPECIALITY — symbolske, ikke-brutale, unike per undertjeneste
+ * Erstatter Scissors/Droplets/HeartPulse som blir repeterende eller for direkte
+ * ========================================================================= */
+
+// Fjerne livmor — symbolsk: en lukket sirkel som "slippes fri" (ikke saks!)
+// To halvmåner som skiller seg = avslutning av en livsfase, mykt og verdig
+export const HysterectomyIcon = make("HysterectomyIcon", () => (
+  <>
+    <path d="M7 12 a5 5 0 0 1 5 -5" />
+    <path d="M17 12 a5 5 0 0 0 -5 -5" />
+    <path d="M9 16 l-2 2 M15 16 l2 2" />
+    <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Gynekologisk kirurgi — symbolsk: presisjons-sirkel med markør (ikke saks)
+export const PrecisionSurgeryIcon = make("PrecisionSurgeryIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="7" />
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 3 v3 M12 18 v3 M3 12 h3 M18 12 h3" />
+  </>
+));
+
+// Sirkumsisjon — symbolsk: konsentrisk ring (anatomisk nøytral)
+export const CircumcisionIcon = make("CircumcisionIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="8" />
+    <circle cx="12" cy="12" r="4" strokeDasharray="2 2" />
+  </>
+));
+
+// Vaginale fremfall — symbolsk: pil som støtter opp (struktur), ikke hjerte-puls
+export const ProlapseSupportIcon = make("ProlapseSupportIcon", () => (
+  <>
+    <path d="M5 18 h14" />
+    <path d="M12 18 v-9" />
+    <path d="M9 12 l3 -3 l3 3" />
+    <path d="M7 14 l5 -5 l5 5" opacity="0.4" />
+  </>
+));
+
+// Vulvalidelser — symbolsk: omsorgsskjold med dråpe (mykere enn shield-check)
+export const VulvarCareIcon = make("VulvarCareIcon", () => (
+  <>
+    <path d="M12 3 L19 6 v6 c0 4 -3 7 -7 9 c-4 -2 -7 -5 -7 -9 V6 z" />
+    <path d="M12 9 c -1.5 2 -2.5 3.5 -2.5 5 a 2.5 2.5 0 0 0 5 0 c 0 -1.5 -1 -3 -2.5 -5 z" />
+  </>
+));
+
+// Vaginal tørrhet — symbolsk: balanse / fukt (mer subtilt enn dråpe)
+export const HydrationBalanceIcon = make("HydrationBalanceIcon", () => (
+  <>
+    <path d="M8 5 c -1 2 -2 3.5 -2 5 a 2 2 0 0 0 4 0 c 0 -1.5 -1 -3 -2 -5 z" />
+    <path d="M16 14 c -1 2 -2 3.5 -2 5 a 2 2 0 0 0 4 0 c 0 -1.5 -1 -3 -2 -5 z" />
+    <path d="M5 19 L19 5" opacity="0.3" />
+  </>
+));
+
+// Urinlekkasje — symbolsk: kontroll / sirkel med liten dråpe (ikke 3 dråper)
+export const ContinenceIcon = make("ContinenceIcon", () => (
+  <>
+    <circle cx="12" cy="13" r="7" />
+    <path d="M12 9 c -1 1.5 -1.5 2.5 -1.5 3.5 a 1.5 1.5 0 0 0 3 0 c 0 -1 -0.5 -2 -1.5 -3.5 z" />
+  </>
+));
+
+// Endometriose — symbolsk: bånd-sløyfe (mer raffinert enn awareness ribbon)
+export const EndometriosisIcon = make("EndometriosisIcon", () => (
+  <>
+    <path d="M10 4 C 8 8 8 12 11 14" />
+    <path d="M14 4 C 16 8 16 12 13 14" />
+    <path d="M11 14 L9 20 L12 17 L15 20 L13 14" />
+  </>
+));
+
+// Cyster — symbolsk: små bobler (kluster, ikke én sirkel-prikk)
+export const CystClusterIcon = make("CystClusterIcon", () => (
+  <>
+    <circle cx="9" cy="10" r="3" />
+    <circle cx="15" cy="13" r="2.5" />
+    <circle cx="11" cy="16" r="2" />
+  </>
+));
+
+// Celleforandringer — symbolsk: rutemønster med én avvikende celle
+export const CellChangeIcon = make("CellChangeIcon", () => (
+  <>
+    <circle cx="8" cy="8" r="2" />
+    <circle cx="14" cy="8" r="2" />
+    <circle cx="8" cy="14" r="2" />
+    <circle cx="14" cy="14" r="2.5" strokeWidth="2" />
+  </>
+));
+
+// Blødningsforstyrrelser — symbolsk: månesyklus (4 faser)
+export const CycleIcon = make("CycleIcon", () => (
+  <>
+    <circle cx="6" cy="12" r="2" />
+    <circle cx="11" cy="12" r="2" fill="currentColor" stroke="none" opacity="0.3" />
+    <circle cx="16" cy="12" r="2" fill="currentColor" stroke="none" opacity="0.6" />
+    <circle cx="21" cy="12" r="2" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Labiaplastikk — symbolsk: sommerfugl-form (mykt, organisk, ikke blomst)
+export const ButterflySymbolIcon = make("ButterflySymbolIcon", () => (
+  <>
+    <path d="M12 8 v10" />
+    <path d="M12 9 C 8 6 4 7 4 11 C 4 14 8 15 12 13" />
+    <path d="M12 9 C 16 6 20 7 20 11 C 20 14 16 15 12 13" />
+  </>
+));
+
+// PMS / PMDD — symbolsk: bølge (humør, syklus), ikke hjerte
+export const MoodWaveIcon = make("MoodWaveIcon", () => (
+  <>
+    <path d="M3 14 C 6 9 9 9 12 12 C 15 15 18 15 21 10" />
+    <circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Overgangsalder — symbolsk: horisont / soloppgang (livsfase), ikke sol
+export const HorizonIcon = make("HorizonIcon", () => (
+  <>
+    <path d="M3 17 h18" />
+    <path d="M5 17 a7 7 0 0 1 14 0" />
+    <path d="M12 6 v2 M7 8 l1 1.5 M17 8 l-1 1.5" />
+  </>
+));
+
+// Prostata — symbolsk: rund form i ramme (anatomisk nøytral)
+export const ProstateIcon = make("ProstateIcon", () => (
+  <>
+    <path d="M7 10 a5 5 0 0 1 10 0 v2 a5 4 0 0 1 -10 0 z" />
+    <path d="M11 7 v-2 M13 7 v-2" />
+  </>
+));
+
+// Erektil dysfunksjon — symbolsk: livsenergi-bølge oppover
+export const VitalityIcon = make("VitalityIcon", () => (
+  <>
+    <path d="M5 18 L9 12 L13 15 L19 6" />
+    <path d="M19 11 V6 h-5" />
+  </>
+));
+
+// Urinveisinfeksjon — symbolsk: skjold med liten markør
+export const UrinaryHealthIcon = make("UrinaryHealthIcon", () => (
+  <>
+    <path d="M12 3 L19 6 v6 c0 4 -3 7 -7 9 c-4 -2 -7 -5 -7 -9 V6 z" />
+    <circle cx="12" cy="11" r="1.5" fill="currentColor" stroke="none" />
+    <path d="M12 13 v3" />
+  </>
+));
+
+// IVF — symbolsk: omsorgshender om celle (varmere enn egg-sirkel)
+export const IvfIcon = make("IvfIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M5 17 C 5 13 7 10 12 10" />
+    <path d="M19 17 C 19 13 17 10 12 10" />
+    <circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none" />
+  </>
+));
+
+// IUI / inseminasjon — symbolsk: målrettet bevegelse (ikke sprøyte)
+export const InseminationIcon = make("InseminationIcon", () => (
+  <>
+    <circle cx="16" cy="12" r="4" />
+    <path d="M3 12 h7" />
+    <path d="M8 9 l3 3 l-3 3" />
+  </>
+));
+
+// Eggdonasjon — symbolsk: gave-sirkel (donor-konsept)
+export const EggDonationIcon = make("EggDonationIcon", () => (
+  <>
+    <ellipse cx="12" cy="13" rx="5" ry="6" />
+    <path d="M9 7 L12 4 L15 7" />
+  </>
+));
+
+// Sæddonasjon — symbolsk: bevegelses-spiral
+export const SpermDonationIcon = make("SpermDonationIcon", () => (
+  <>
+    <circle cx="8" cy="12" r="3" />
+    <path d="M11 12 C 14 9 17 14 20 11" />
+  </>
+));
+
+// Fertilitetsutredning — symbolsk: forstørrelsesglass over hjerte
+export const FertilityAssessmentIcon = make("FertilityAssessmentIcon", () => (
+  <>
+    <circle cx="10" cy="10" r="5" />
+    <path d="M14 14 L19 19" />
+    <path d="M10 8 c -1 1 -1.5 2 -1.5 3 a 1.5 1.5 0 0 0 3 0 c 0 -1 -0.5 -2 -1.5 -3 z" />
+  </>
+));
