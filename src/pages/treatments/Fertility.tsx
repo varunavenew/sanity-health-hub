@@ -127,18 +127,18 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
         <div className="relative container mx-auto px-6 md:px-16 pb-16 md:pb-24 pt-32">
           <div className="max-w-3xl text-white">
-            <p className="text-sm tracking-wide text-accent mb-4">
+            <p className="text-sm tracking-wide text-white/70 mb-4">
               Fertilitet hos CMedical
             </p>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] mb-6">
-              Veien til foreldreskap er
+              Veien til foreldreskap
               <br />
-              <span className="italic font-extralight">deres egen.</span>
+              er deres egen.
             </h2>
             <p className="text-base md:text-lg font-light text-white/80 max-w-xl mb-8 leading-relaxed">
-              Klinikk og laboratorium under samme tak. Erfarne spesialister.
-              Tett oppfølging og åpen dør for spørsmålene som ingen andre tør å
-              svare på.
+              Klinikk og laboratorium under samme tak. Erfarne spesialister
+              som tar seg tid. Tett oppfølging gjennom hele forløpet — også
+              etter svaret.
             </p>
 
             {/* Segment chooser */}
@@ -168,8 +168,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
             <div className="lg:col-span-7">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
-                For deg
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Hvor er du nå?
               </p>
               <h2
                 key={segment.id}
@@ -262,7 +262,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-16">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Steg for steg
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-5">
@@ -327,7 +327,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     </div>
                   </div>
                   <div className="lg:col-span-5">
-                    <div className="text-xs tracking-widest text-accent mb-3">
+                    <div className="text-xs tracking-wide text-foreground/60 mb-3">
                       Steg {step.n} · {step.kicker}
                     </div>
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground leading-tight mb-5">
@@ -378,23 +378,22 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
             <div className="lg:col-span-7">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Bli kjent med Madeleine
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
                 «Ingen skal måtte gjette seg gjennom kroppen sin.»
               </h2>
-              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6 italic">
-                Madeleine Engen er gynekolog, kirurg og fagansvarlig for
-                kvinnehelse hos CMedical. Hun jobber tett med
-                fertilitetsteamet og er en tydelig stemme for kvinnehelse —
-                både i klinikken, i media og på internasjonale fagarenaer.
+              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6">
+                Det er ord Madeleine Engen lever etter. Hun er gynekolog,
+                kirurg og fagansvarlig for kvinnehelse hos CMedical — og en
+                tydelig stemme for kvinnehelse i Norge.
               </p>
               <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
                 Med spesialkompetanse innen urogynekologi, hormoner og
                 overgangsalder møter Madeleine pasientene sine med både
-                medisinsk presisjon og en sjelden varme. Mange av våre
-                fertilitetspasienter starter med en samtale hos henne — for
+                medisinsk presisjon og en sjelden varme. Mange som vurderer
+                fertilitetsbehandling starter med en samtale hos henne — for
                 å få oversikt før den større reisen begynner.
               </p>
 
@@ -433,21 +432,21 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           5. HVORFOR CMEDICAL — USP-strimmel
       ============================================================ */}
-      <section className="py-20 md:py-28 bg-secondary/40">
+      <section className="py-20 md:py-28 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               <div className="lg:col-span-5">
-                <p className="text-xs tracking-widest text-accent uppercase mb-4">
-                  Hvorfor velge oss
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Hvorfor CMedical
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
-                  Det som skiller oss fra andre fertilitetsklinikker.
+                  Fire ting vi gjør annerledes.
                 </h2>
                 <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Hos CMedical sitter alt — fra første konsultasjon til
+                  Hos oss sitter alt — fra første konsultasjon til
                   embryolaboratoriet — under samme tak. Det betyr færre
-                  ledd, raskere svar og en behandling som faktisk er
+                  ledd, raskere svar, og en behandling som faktisk er
                   personlig.
                 </p>
               </div>
@@ -494,7 +493,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
               <div className="max-w-xl">
-                <p className="text-xs tracking-widest text-accent uppercase mb-4">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
                   Menneskene bak
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
@@ -550,7 +549,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Som sett på TV2
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight mb-6">
@@ -592,7 +591,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Vårt tilbud
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-4">
@@ -652,7 +651,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-12">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Klinikkene våre
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
@@ -706,7 +705,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
             <div className="mb-12">
-              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Vanlige spørsmål
               </p>
               <h2 className="text-3xl md:text-4xl font-light text-foreground">
