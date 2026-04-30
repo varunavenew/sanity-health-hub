@@ -169,7 +169,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
             <div className="lg:col-span-7">
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                For deg
+                Hvor er du nå?
               </p>
               <h2
                 key={segment.id}
