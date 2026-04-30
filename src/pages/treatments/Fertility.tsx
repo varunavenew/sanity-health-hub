@@ -8,6 +8,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
+import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
 import madeleineEngen from "@/assets/specialists/madeleine-engen.jpg";
 
 interface PageProps {
