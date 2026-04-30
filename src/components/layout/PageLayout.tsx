@@ -6,6 +6,7 @@ import { Footer } from "@/components/homepage/Footer";
 import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
 import { LanguageSelector } from "@/components/layout/LanguageSelector";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
+import { useSmartSearch } from "@/hooks/useSmartSearch";
 import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
@@ -85,12 +86,12 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
-  // Update suggestions when search query changes
+  // Hybrid search: local instant + AI fallback for symptom/slang queries
+  const { results: smartResults, isAiLoading } = useSmartSearch(searchQuery, 8);
   useEffect(() => {
-    const results = searchSuggestions(searchQuery);
-    setSuggestions(results);
+    setSuggestions(smartResults);
     setSelectedIndex(-1);
-  }, [searchQuery]);
+  }, [smartResults]);
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -221,7 +222,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   variant="ghost"
                   className="rounded-full hover:bg-white/10 text-white"
                 >
-                  {t("nav.search")}
+                  {isAiLoading ? "Tenker…" : t("nav.search")}
                 </Button>
               </form>
               
