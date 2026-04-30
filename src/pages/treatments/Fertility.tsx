@@ -525,7 +525,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       <section className="bg-secondary/40 pt-20 md:pt-28 pb-0">
         <div className="container mx-auto px-6 md:px-16 mb-10 md:mb-14">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div className="max-w-xl">
+            <div>
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Menneskene bak
               </p>
