@@ -368,6 +368,25 @@ type ClaudeGroup = { title: string; icons: ClaudeItem[] };
 
 const CLAUDE_GROUPS: ClaudeGroup[] = [
   {
+    title: "Paraply / kategori-ledere",
+    icons: [
+      { key: "gynekologi-cl", label: "Gynekologi", description: "Vesica piscis med roligt sentrum" },
+      { key: "fertilitet-cl", label: "Fertilitet", description: "Sirkel med spirende topp" },
+      { key: "urologi-cl", label: "Urologi", description: "Dråpe i et mykt kar" },
+      { key: "ortopedi-cl", label: "Ortopedi", description: "To leddpunkter forbundet" },
+      { key: "flere-fagomrader-cl", label: "Flere fagområder", description: "Konstellasjonsmønster" },
+    ],
+  },
+  {
+    title: "Graviditet",
+    icons: [
+      { key: "ultralyd-cl", label: "Ultralyd", description: "Tre konsentriske buer" },
+      { key: "nipt-cl", label: "NIPT", description: "Dråpe med to fine kryss" },
+      { key: "svangerskapsteam-cl", label: "Svangerskapsteam", description: "Mage-kurve med tre figurer" },
+      { key: "fosterdiagnostikk-cl", label: "Fosterdiagnostikk", description: "Myk hjerterytme over horisont" },
+    ],
+  },
+  {
     title: "Gynekologi",
     icons: [
       { key: "gynekologisk-undersokelse-cl", label: "Gynekologisk undersøkelse", description: "Fire kronblader rundt et roligt sentrum" },
