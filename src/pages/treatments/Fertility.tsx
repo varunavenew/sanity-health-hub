@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { CTASection } from "@/components/layout/CTASection";
+
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 
@@ -477,11 +477,31 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. PROMO — bli kjent med spesialistene (auto-roterer hvert 10s)
+          7. SPESIALISTER — overskrift + promo (10s rotasjon) + grid
       ============================================================ */}
       <section className="bg-secondary/40">
-        <div className="grid lg:grid-cols-12 lg:min-h-[680px]">
-          {/* Left — bilde, kant-i-kant uten luft */}
+        {/* Overskrift over forhåndsvisningen */}
+        <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Menneskene bak
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground whitespace-nowrap">
+                Spesialistene som følger deg.
+              </h2>
+            </div>
+            <Link
+              to="/spesialister?kategori=fertilitet"
+              className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
+            >
+              Se alle fertilitetsspesialister →
+            </Link>
+          </div>
+        </div>
+
+        {/* Promo — forhåndsvisning */}
+        <div className="grid lg:grid-cols-12 lg:min-h-[640px]">
           <div className="lg:col-span-5 relative bg-secondary min-h-[420px] lg:min-h-full overflow-hidden">
             <img
               key={activeSpecialist.slug}
@@ -494,16 +514,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             />
           </div>
 
-          {/* Right — tekst */}
-          <div className="lg:col-span-7 flex items-center px-6 md:px-16 lg:px-20 py-20 lg:py-24">
+          <div className="lg:col-span-7 flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-20">
             <div key={activeSpecialist.slug} className="w-full max-w-2xl animate-fade-in">
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Bli kjent med {activeSpecialist.name.split(" ")[0]}
               </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
+              <h3 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
                 {activeSpecialist.title}
                 {activeSpecialist.subtitle ? ` — ${activeSpecialist.subtitle}` : ""}.
-              </h2>
+              </h3>
               {activeSpecialist.bio && (
                 <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-8 line-clamp-6">
                   {activeSpecialist.bio.split("\n\n")[0]}
@@ -528,7 +547,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Button>
               </div>
 
-              {/* Progress-indikatorer */}
               <div className="flex items-center gap-2">
                 {promoSpecialists.map((sp, i) => (
                   <button
@@ -547,30 +565,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ============================================================
-          8. SPESIALISTER — menneskene bak
-      ============================================================ */}
-      <section className="bg-secondary/40 pt-20 md:pt-28 pb-0">
-        <div className="container mx-auto px-6 md:px-16 mb-10 md:mb-14">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                Menneskene bak
-              </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground whitespace-nowrap">
-                Spesialistene som følger deg.
-              </h2>
-            </div>
-            <Link
-              to="/spesialister?kategori=fertilitet"
-              className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
-            >
-              Se alle fertilitetsspesialister →
-            </Link>
-          </div>
-        </div>
 
         {/* Kant-i-kant grid — synkronisert med promo-seksjonen over */}
         <div className={`grid grid-cols-2 gap-0 ${promoSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
@@ -688,13 +683,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      <CTASection
-        title="Ta det første steget — på deres premisser."
-        subtitle="Den første samtalen er gratis og helt uforpliktende."
-        primaryCTA="Bestill digital rådgiving"
-        secondaryCTA="Snakk med en sykepleier"
-        secondaryLink="/kontakt"
-      />
     </PageLayout>
   );
 };
