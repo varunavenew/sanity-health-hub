@@ -358,7 +358,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           5. TESTIMONIAL — grønn smal banner
       ============================================================ */}
-      <section className="bg-[hsl(150_22%_22%)] text-white py-16 md:py-20">
+      <section className="bg-brand-dark text-white py-16 md:py-20 border-t border-white/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
             <div className="flex justify-center mb-6">
