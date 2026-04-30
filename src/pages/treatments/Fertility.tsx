@@ -413,7 +413,53 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          6. BLI KJENT MED MADELEINE — trygghet og person
+          6. HVA VI TILBYR — tjeneste-grid
+      ============================================================ */}
+      <section className="bg-background py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-5">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Tjenester
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Hva vi tilbyr.
+                </h2>
+              </div>
+              <div className="lg:col-span-7">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Fra første samtale til oppfølging — hele fertilitetstilbudet
+                  vårt finner du her. Trenger du hjelp til å velge, kan du
+                  alltid ringe oss for en uforpliktende prat.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 rounded-sm overflow-hidden">
+              {services.map((s) => (
+                <div
+                  key={s.title}
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
+                >
+                  <div>
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          7. BLI KJENT MED MADELEINE — trygghet og person
       ============================================================ */}
       <section className="bg-secondary/40">
         <div className="grid lg:grid-cols-12 lg:min-h-[680px]">
@@ -468,52 +514,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   </Link>
                 </Button>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
-          7. HVA VI TILBYR — tjeneste-grid
-      ============================================================ */}
-      <section className="bg-background py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-              <div className="lg:col-span-5">
-                <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Tjenester
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Hva vi tilbyr.
-                </h2>
-              </div>
-              <div className="lg:col-span-7">
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Fra første samtale til oppfølging — hele fertilitetstilbudet
-                  vårt finner du her. Trenger du hjelp til å velge, kan du
-                  alltid ringe oss for en uforpliktende prat.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 rounded-sm overflow-hidden">
-              {services.map((s) => (
-                <div
-                  key={s.title}
-                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
-                >
-                  <div>
-                    <h3 className="text-base font-normal text-foreground mb-1.5">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm font-light text-muted-foreground leading-snug">
-                      {s.desc}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0" />
-                </div>
-              ))}
             </div>
           </div>
         </div>
