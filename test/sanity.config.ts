@@ -75,9 +75,22 @@ export default defineConfig({
       defaultDocumentNode,
       structure: (S, context) => {
         const otherItems = S.documentTypeListItems().filter(
-          (item) => !hiddenTypes.includes(item.getId() || '')
+          (item) => !hiddenTypes.includes(item.getId() || '') && item.getId() !== 'article'
         )
         const mid = Math.floor(otherItems.length / 2)
+
+        // Custom Article list with pinned-first default ordering
+        const articleItem = S.listItem()
+          .title('Artikler / Aktuelt')
+          .schemaType('article')
+          .child(
+            S.documentTypeList('article')
+              .title('Artikler / Aktuelt')
+              .defaultOrdering([
+                { field: 'pinned', direction: 'desc' },
+                { field: 'publishedAt', direction: 'desc' },
+              ])
+          )
 
         const specialistsItem = S.listItem()
           .title('Specialists')
@@ -94,7 +107,16 @@ export default defineConfig({
                       .schemaType('specialistsPage')
                       .documentId('specialistsPage')
                   ),
-                S.documentTypeListItem('specialist').title('Our specialists'),
+                S.documentTypeListItem('specialist')
+                  .title('Our specialists')
+                  .child(
+                    S.documentTypeList('specialist')
+                      .title('Our specialists')
+                      .defaultOrdering([
+                        { field: 'sortOrder', direction: 'asc' },
+                        { field: 'name', direction: 'asc' },
+                      ])
+                  ),
               ])
           )
 
