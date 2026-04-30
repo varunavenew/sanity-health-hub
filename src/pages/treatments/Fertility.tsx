@@ -256,56 +256,92 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          4. HVOR BEGYNNER JEG? — 3-stegs reise
+          4. STEG FOR STEG — pasientreisen med ekte bilder
       ============================================================ */}
       <section className="py-20 md:py-28 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-16">
               <p className="text-xs tracking-widest text-accent uppercase mb-4">
-                Hvor begynner jeg?
+                Steg for steg
               </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                Tre steg til en plan dere kan stå i.
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-5">
+                Fra første samtale til to streker.
               </h2>
+              <p className="text-base font-light text-muted-foreground leading-relaxed">
+                Det meste av frykten ligger i det ukjente. Her ser du hvordan
+                et typisk forløp ser ut hos oss — fra dere går inn døra første
+                gang, til dagen dere får svar.
+              </p>
             </div>
 
-            <ol className="grid md:grid-cols-3 gap-px bg-border rounded-2xl overflow-hidden">
+            <div className="space-y-20 md:space-y-28">
               {[
                 {
                   n: "01",
-                  title: "Utredning",
+                  kicker: "Første møte",
+                  title: "En samtale uten forpliktelser.",
                   desc:
-                    "Komplett kartlegging av begge parter. Vi finner årsaken — eller utelukker dem.",
+                    "Dere møter en spesialist som tar seg tid. Vi går gjennom historikken deres, hva dere har prøvd, hva dere lurer på — og legger en plan sammen. Ingen henvisning, ingen ventetid.",
+                  img: journeyConsultation,
+                  alt: "Par i samtale med spesialist hos CMedical",
+                  reverse: false,
                 },
                 {
                   n: "02",
-                  title: "Prøver & analyser",
+                  kicker: "Utredning og lab",
+                  title: "Klinikk og laboratorium under samme tak.",
                   desc:
-                    "Hormonprofil, ultralyd og sædanalyse. Alt under samme tak — ingen henvisning frem og tilbake.",
+                    "Hormonprofil, ultralyd, sædanalyse — alt hos oss. Embryologene jobber i samme bygg som spesialistene, så svar og beslutninger går raskere. Eggene dine forlater aldri huset.",
+                  img: journeyLab,
+                  alt: "Embryolog i CMedicals fertilitetslaboratorium",
+                  reverse: true,
                 },
                 {
                   n: "03",
-                  title: "Digital rådgiving — gratis",
+                  kicker: "Behandling og svar",
+                  title: "Tett oppfølging — også etter testen.",
                   desc:
-                    "Vi går gjennom resultatene og tegner opp veien videre. Helt uforpliktende.",
+                    "Vi følger dere hele veien — fra stimulering og embryooverføring, gjennom ventetiden, til svaret kommer. Og vi er der etter også, uansett utfall.",
+                  img: journeyResult,
+                  alt: "To hender holder positiv graviditetstest og ultralydbilde",
+                  reverse: false,
                 },
               ].map((step) => (
-                <li key={step.n} className="bg-background p-8 md:p-10">
-                  <div className="text-xs tracking-widest text-accent mb-6">
-                    {step.n}
+                <div
+                  key={step.n}
+                  className={`grid lg:grid-cols-12 gap-10 lg:gap-16 items-center ${
+                    step.reverse ? "lg:[&>*:first-child]:order-2" : ""
+                  }`}
+                >
+                  <div className="lg:col-span-7">
+                    <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
+                      <img
+                        src={step.img}
+                        alt={step.alt}
+                        loading="lazy"
+                        width={1280}
+                        height={960}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-light mb-3 text-foreground">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                    {step.desc}
-                  </p>
-                </li>
+                  <div className="lg:col-span-5">
+                    <div className="text-xs tracking-widest text-accent mb-3">
+                      Steg {step.n} · {step.kicker}
+                    </div>
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground leading-tight mb-5">
+                      {step.title}
+                    </h3>
+                    <p className="text-base font-light text-muted-foreground leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
               ))}
-            </ol>
+            </div>
 
-            <div className="mt-10">
+            <div className="mt-16">
               <Button
                 size="lg"
                 className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8 font-light"
@@ -318,6 +354,77 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Bestill første samtale
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          4b. BLI KJENT MED MADELEINE — trygghet og person
+      ============================================================ */}
+      <section className="py-20 md:py-28 bg-secondary/40">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div className="lg:col-span-5">
+              <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-secondary">
+                <img
+                  src={madeleineEngen}
+                  alt="Madeleine Engen — fagansvarlig kvinnehelse hos CMedical"
+                  loading="lazy"
+                  width={1024}
+                  height={1280}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="lg:col-span-7">
+              <p className="text-xs tracking-widest text-accent uppercase mb-4">
+                Bli kjent med Madeleine
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
+                «Ingen skal måtte gjette seg gjennom kroppen sin.»
+              </h2>
+              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6 italic">
+                Madeleine Engen er gynekolog, kirurg og fagansvarlig for
+                kvinnehelse hos CMedical. Hun jobber tett med
+                fertilitetsteamet og er en tydelig stemme for kvinnehelse —
+                både i klinikken, i media og på internasjonale fagarenaer.
+              </p>
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
+                Med spesialkompetanse innen urogynekologi, hormoner og
+                overgangsalder møter Madeleine pasientene sine med både
+                medisinsk presisjon og en sjelden varme. Mange av våre
+                fertilitetspasienter starter med en samtale hos henne — for
+                å få oversikt før den større reisen begynner.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-7 font-light"
+                >
+                  <Link to="/spesialister/madeleine-engen">
+                    Les mer om Madeleine
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full px-7 font-light"
+                >
+                  <Link
+                    to={buildBookingUrl({
+                      kategori: "fertilitet",
+                      spesialist: "madeleine-engen",
+                    })}
+                  >
+                    Bestill time hos Madeleine
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
