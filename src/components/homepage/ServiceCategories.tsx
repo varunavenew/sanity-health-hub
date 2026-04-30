@@ -26,10 +26,12 @@ export const ServiceCategories = () => {
           <p className="text-muted-foreground font-light text-base">Uansett hva du opplever – vi har spesialister som kan hjelpe.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {categories.map((category, index) => (
+          {categories.map((category, index) => {
+            const Icon = getIcon(category.iconKey);
+            return (
             <div key={category.title} className="group p-5 rounded-lg bg-card border border-border/50 card-hover cursor-pointer opacity-0 animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
               <div className="w-10 h-10 rounded-lg bg-brand-dark/10 flex items-center justify-center mb-4 group-hover:bg-brand-dark/20 transition-colors">
-                <category.icon className="w-5 h-5 text-foreground" />
+                <Icon className="w-5 h-5 text-foreground" strokeWidth={1.5} />
               </div>
               <h3 className="font-normal text-foreground mb-3">{category.title}</h3>
               <ul className="space-y-1.5 mb-4">
