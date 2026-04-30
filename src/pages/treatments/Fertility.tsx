@@ -514,50 +514,53 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           8. SPESIALISTER — menneskene bak
       ============================================================ */}
       <section className="bg-secondary/40 py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-              <div className="max-w-xl">
-                <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Menneskene bak
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Spesialistene som følger deg.
-                </h2>
-              </div>
-              <Link
-                to="/spesialister?kategori=fertilitet"
-                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
-              >
-                Se alle fertilitetsspesialister →
-              </Link>
+        <div className="container mx-auto px-6 md:px-16 mb-10 md:mb-14">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="max-w-xl">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Menneskene bak
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                Spesialistene som følger deg.
+              </h2>
             </div>
+            <Link
+              to="/spesialister?kategori=fertilitet"
+              className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
+            >
+              Se alle fertilitetsspesialister →
+            </Link>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {fertilitySpecialists.map((sp) => (
-                <Link
-                  key={sp.slug}
-                  to={`/spesialister/${sp.slug}`}
-                  className="group block"
-                >
-                  <div className="aspect-[3/4] overflow-hidden rounded-sm mb-4 bg-secondary">
-                    <img
-                      src={sp.image}
-                      alt={sp.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <h3 className="text-base font-normal text-foreground mb-0.5 group-hover:text-foreground/70 transition-colors">
+        {/* Kant-i-kant grid uten luft mellom kortene — som hjem */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+          {fertilitySpecialists.map((sp) => (
+            <Link
+              key={sp.slug}
+              to={`/spesialister/${sp.slug}`}
+              className="group block"
+            >
+              <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                <img
+                  src={sp.image}
+                  alt={sp.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                  <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
                     {sp.name}
                   </h3>
-                  <p className="text-sm font-light text-muted-foreground">
+                  <p className="text-sm font-light text-white/75">
                     {sp.subtitle || sp.title}
                   </p>
-                </Link>
-              ))}
-            </div>
-          </div>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
