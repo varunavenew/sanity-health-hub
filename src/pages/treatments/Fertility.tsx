@@ -271,10 +271,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       ============================================================ */}
       <section className="bg-background">
         <div className="grid lg:grid-cols-12 lg:min-h-[640px]">
-          {/* Left — copy + numbered steps + stat-stripe (3/4) */}
-          <div className="lg:col-span-9 flex items-center px-6 md:px-16 lg:px-20 py-20 lg:py-24">
-            <div className="w-full max-w-5xl">
-              <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14 lg:mb-20">
+          {/* Left — copy + numbered steps (wide) */}
+          <div className="lg:col-span-9 px-6 md:px-16 lg:px-20 py-20 lg:py-24 flex flex-col">
+            <div className="w-full max-w-5xl flex-1">
+              <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
                 {/* Heading + intro */}
                 <div className="lg:col-span-7">
                   <p className="text-xs tracking-wide text-foreground/60 mb-5">
@@ -328,49 +328,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   ))}
                 </div>
               </div>
-
-              {/* Horizontal stat stripe — finere visuelt */}
-              <div className="border-t border-border/60 pt-10">
-                <div className="flex items-end justify-between mb-6">
-                  <p className="text-xs tracking-wide text-foreground/60">
-                    CMedical i tall
-                  </p>
-                  <p className="text-xs font-light text-muted-foreground/80 hidden md:block">
-                    Norges eldste private fertilitetsklinikk
-                  </p>
-                </div>
-                <dl className="grid grid-cols-2 md:grid-cols-4 divide-y divide-x-0 md:divide-y-0 md:divide-x divide-border/60">
-                  {[
-                    { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
-                    { k: "Ventetid", v: "Ingen", sub: "Time samme uke" },
-                    { k: "Henvisning", v: "Nei", sub: "Book direkte" },
-                    { k: "Vurdering", v: "4,7", sub: "1 200+ pasienter", star: true },
-                  ].map((row) => (
-                    <div
-                      key={row.k}
-                      className="py-6 md:py-2 md:px-6 first:md:pl-0 last:md:pr-0 group"
-                    >
-                      <dt className="text-xs font-light text-muted-foreground mb-3 tracking-wide">
-                        {row.k}
-                      </dt>
-                      <dd className="text-2xl md:text-3xl lg:text-[2rem] font-light text-foreground tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
-                        {row.v}
-                        {row.star && (
-                          <Star className="w-4 h-4 fill-brand-dark text-brand-dark translate-y-[-3px]" />
-                        )}
-                      </dd>
-                      <p className="text-xs font-light text-muted-foreground/70">
-                        {row.sub}
-                      </p>
-                    </div>
-                  ))}
-                </dl>
-              </div>
             </div>
           </div>
 
-          {/* Right — smal bilde-stripe (1/4) */}
-          <div className="lg:col-span-3 relative bg-secondary/40 min-h-[280px] lg:min-h-full overflow-hidden">
+          {/* Right — image (narrow) */}
+          <div className="lg:col-span-3 relative bg-secondary/40 min-h-[320px] lg:min-h-full overflow-hidden">
             <img
               src={heroClinicLounge}
               alt="CMedical fertilitetsklinikk i Sandvika"
@@ -380,7 +342,49 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-brand-dark/15" />
           </div>
         </div>
+
+        {/* Stat stripe — full bredde, men løftet opp slik at den bryter inn i bildet/seksjonen over */}
+        <div className="px-6 md:px-16 lg:px-20 -mt-16 lg:-mt-20 relative z-10 pb-20 lg:pb-24">
+          <div className="bg-background border border-border/60 shadow-[0_24px_60px_-30px_hsl(var(--brand-dark)/0.25)] px-6 md:px-10 py-8 md:py-10">
+            <div className="flex items-end justify-between mb-6">
+              <p className="text-xs tracking-wide text-foreground/60">
+                CMedical i tall
+              </p>
+              <p className="text-xs font-light text-muted-foreground/80 hidden md:block">
+                Norges eldste private fertilitetsklinikk
+              </p>
+            </div>
+            <dl className="grid grid-cols-2 md:grid-cols-4 divide-y divide-x-0 md:divide-y-0 md:divide-x divide-border/60">
+              {[
+                { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
+                { k: "Ventetid", v: "Ingen", sub: "Time samme uke" },
+                { k: "Henvisning", v: "Nei", sub: "Book direkte" },
+                { k: "Vurdering", v: "4,7", sub: "1 200+ pasienter", star: true },
+              ].map((row) => (
+                <div
+                  key={row.k}
+                  className="py-6 md:py-2 md:px-6 first:md:pl-0 last:md:pr-0"
+                >
+                  <dt className="text-xs font-light text-muted-foreground mb-3 tracking-wide">
+                    {row.k}
+                  </dt>
+                  <dd className="text-2xl md:text-3xl lg:text-[2rem] font-light text-foreground tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
+                    {row.v}
+                    {row.star && (
+                      <Star className="w-4 h-4 fill-brand-dark text-brand-dark translate-y-[-3px]" />
+                    )}
+                  </dd>
+                  <p className="text-xs font-light text-muted-foreground/70">
+                    {row.sub}
+                  </p>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
       </section>
+
+
 
 
 
