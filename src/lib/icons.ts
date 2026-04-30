@@ -89,6 +89,16 @@ import {
   CystClusterIcon, CellChangeIcon, CycleIcon, ButterflySymbolIcon, MoodWaveIcon,
   HorizonIcon, ProstateIcon, VitalityIcon, UrinaryHealthIcon,
   IvfIcon, InseminationIcon, EggDonationIcon, SpermDonationIcon, FertilityAssessmentIcon,
+  // Extended symbolic — alle gjenværende undertjenester
+  InterdisciplinaryIcon, HormonesIcon, HysteroscopyIcon, RoboticArmIcon,
+  PregnancyLossIcon, PregnancyBumpIcon,
+  BladderIcon, ForeskinIcon, MaleInfertilityIcon, KidneysIcon, RefertilisationIcon,
+  SterilisationIcon, TesticlesIcon,
+  EggFreezeIcon, DonorTreatmentIcon, SpermAnalysisIcon, FertilityTeamIcon, AssistedFertilisationIcon,
+  FootIcon, HipIcon, ArmIcon, KneeIcon, ShoulderIcon,
+  EndocrinologyIcon, DermatologyIcon, NutritionIcon, GastroSurgeryIcon, OsteopathyIcon,
+  PlasticSurgeryIcon, PsychologyIcon, RheumatologyIcon, SexologyIcon,
+  VaricoseVeinsIcon, SkinHealthIcon, WeightSurgeryIcon,
 } from "./customIcons";
 
 // Cast helper for custom icons (LucideProps-compatible API)
