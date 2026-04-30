@@ -83,6 +83,12 @@ import {
   HandshakeThinIcon, SparkRayThinIcon, TemperatureThinIcon, BandageThinIcon,
   DnaThinIcon, EggCellThinIcon, MaleSignThinIcon, FemaleSignThinIcon,
   StepsThinIcon, ChecklistThinIcon, StarCircleThinIcon, RefreshThinIcon, HomeThinIcon,
+  // Symbolic subspeciality (unique, non-brutal — replaces repeated Scissors/Droplets etc.)
+  HysterectomyIcon, PrecisionSurgeryIcon, CircumcisionIcon, ProlapseSupportIcon,
+  VulvarCareIcon, HydrationBalanceIcon, ContinenceIcon, EndometriosisIcon,
+  CystClusterIcon, CellChangeIcon, CycleIcon, ButterflySymbolIcon, MoodWaveIcon,
+  HorizonIcon, ProstateIcon, VitalityIcon, UrinaryHealthIcon,
+  IvfIcon, InseminationIcon, EggDonationIcon, SpermDonationIcon, FertilityAssessmentIcon,
 } from "./customIcons";
 
 // Cast helper for custom icons (LucideProps-compatible API)
