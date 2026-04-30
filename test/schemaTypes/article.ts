@@ -129,11 +129,6 @@ export default defineType({
       name: 'publishedAtAsc',
       by: [{field: 'publishedAt', direction: 'asc'}],
     },
-    {
-      title: 'Tittel (A–Å)',
-      name: 'titleAsc',
-      by: [{field: 'title', direction: 'asc'}],
-    },
   ],
   preview: {
     select: {
