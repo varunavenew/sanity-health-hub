@@ -113,23 +113,23 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </h1>
 
       {/* ============================================================
-          1. HERO — mørk brand-dark, samme mønster som øvrige tjenestesider
+          1. HERO — split screen 50/50, bilde kant-i-kant
       ============================================================ */}
-      <header className="bg-brand-dark pt-32 pb-20 md:pt-40 md:pb-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            {/* Left — copy + CTA */}
-            <div className="lg:col-span-7">
+      <header className="bg-brand-dark pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          {/* Left — copy + CTA */}
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+            <div className="max-w-xl w-full">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-normal mb-6 bg-white/10 text-white/80">
                 <span className="w-2 h-2 rounded-full bg-accent" />
                 Fertilitet
               </div>
 
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 text-white">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 text-white leading-tight">
                 Fertilitetsbehandling for alle veier til foreldreskap
               </h2>
 
-              <p className="text-base md:text-lg font-light leading-relaxed max-w-2xl mb-8 text-white/70">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-8 text-white/70">
                 Vi tilbyr fertilitet for alle som ønsker barn. Med fagmiljøet
                 vårt under samme tak, korte ventetider og en behandling som
                 møter dere som mennesker — ikke kun som en sak.
@@ -159,20 +159,19 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Button>
               </div>
             </div>
+          </div>
 
-            {/* Right — coverbilde */}
-            <div className="lg:col-span-5">
-              <div className="aspect-[4/5] overflow-hidden rounded-sm bg-secondary">
-                <img
-                  src={fertilityHeroImg}
-                  alt="Fertilitetsbehandling hos CMedical"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+          {/* Right — coverbilde, fyller hele halvdelen */}
+          <div className="relative min-h-[420px] lg:min-h-full">
+            <img
+              src={fertilityHeroImg}
+              alt="Fertilitetsbehandling hos CMedical"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </div>
         </div>
       </header>
+
 
 
       {/* ============================================================
