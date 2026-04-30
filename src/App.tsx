@@ -37,6 +37,7 @@ import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
+import IconPreview from "./pages/IconPreview";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const AppContent = () => {
     <>
       <Routes>
         <Route path="/" element={<Index isChatOpen={false} />} />
+        <Route path="/icon-preview" element={<IconPreview />} />
         <Route path="/product/:id" element={<ProductDetail isChatOpen={false} />} />
         <Route path="/produkt/:id" element={<ProductDetail isChatOpen={false} />} />
         <Route path="/about" element={<About isChatOpen={false} />} />
