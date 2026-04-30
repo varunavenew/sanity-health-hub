@@ -7,7 +7,7 @@ import {
   Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
   Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
   Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
-  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed, Play
+  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed, Play, Coins, CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -569,12 +569,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               onClick={() => navigate('/priser')}
               className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-brand-dark/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-              </div>
-              <h3 className="text-base font-normal text-foreground mb-1.5">Priser</h3>
+              <h3 className="text-base font-normal text-foreground mb-1.5 inline-flex items-center gap-2">
+                <Coins className="w-4 h-4 text-brand-dark/60" strokeWidth={1.5} aria-hidden="true" />
+                Priser
+              </h3>
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
                 Oversikt over priser for konsultasjoner, undersøkelser og behandlinger.
               </p>
@@ -588,10 +586,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               onClick={() => navigate('/forsikring')}
               className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
-                <ShieldCheck className="w-5 h-5 text-brand-dark/70" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-base font-normal text-foreground mb-1.5">Forsikring</h3>
+              <h3 className="text-base font-normal text-foreground mb-1.5 inline-flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-brand-dark/60" strokeWidth={1.5} aria-hidden="true" />
+                Forsikring
+              </h3>
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
                 Vi har avtale med EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse.
               </p>
@@ -605,12 +603,10 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               onClick={() => navigate('/kontakt')}
               className="group bg-background rounded-xl border border-border/60 p-6 text-left hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-full bg-brand-dark/10 flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-brand-dark/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
-                </svg>
-              </div>
-              <h3 className="text-base font-normal text-foreground mb-1.5">Nedbetaling</h3>
+              <h3 className="text-base font-normal text-foreground mb-1.5 inline-flex items-center gap-2">
+                <CreditCard className="w-4 h-4 text-brand-dark/60" strokeWidth={1.5} aria-hidden="true" />
+                Nedbetaling
+              </h3>
               <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">
                 Nedbetaling tilgjengelig på utvalgte klinikker. Kontakt oss for mer informasjon.
               </p>

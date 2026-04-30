@@ -23,10 +23,10 @@ export const NewsletterSection = () => {
     <section className="py-16 bg-gradient-to-br from-primary/5 to-background">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Mail className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="text-3xl font-bold mb-3">Meld deg på vårt nyhetsbrev</h2>
+          <h2 className="text-3xl font-light mb-3 inline-flex items-center gap-3">
+            <Mail className="w-6 h-6 text-primary" strokeWidth={1.5} aria-hidden="true" />
+            Meld deg på vårt nyhetsbrev
+          </h2>
           <p className="text-muted-foreground mb-8">
             Få eksklusive tilbud, hudpleietips fra Ida, og vær først til å høre om nye produkter
           </p>
