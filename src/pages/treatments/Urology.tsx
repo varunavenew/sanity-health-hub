@@ -100,7 +100,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
                 <Button 
                   variant="cta-dark"
                   className="w-full"
-                  onClick={() => window.location.href = '/booking'}
+                  onClick={() => window.location.href = '/booking?kategori=urologi'}
                 >
                   Bestill diskret time
                   <ArrowRight className="ml-2 w-4 h-4" />

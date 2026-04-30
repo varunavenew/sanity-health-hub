@@ -426,6 +426,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       <ClinicBookingBlock
         booking={(clinic as any).booking}
         clinicLabel={clinic.label}
+        clinicId={clinic.id}
         phone={clinic.phone}
         email={(clinic as any).email}
       />

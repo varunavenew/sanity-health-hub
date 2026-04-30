@@ -125,7 +125,10 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
 
   const handleSelectService = (categoryId: string, serviceName: string) => {
     const kategori = categoryBookingMap[specialist.category] || categoryId;
-    navigate(`/booking?kategori=${kategori}`);
+    // Pre-fill specialist + category + specific service so user lands on clinic step
+    const tjeneste = encodeURIComponent(serviceName);
+    const spesialist = specialist.slug ? `&spesialist=${specialist.slug}` : "";
+    navigate(`/booking?kategori=${kategori}&tjeneste=${tjeneste}${spesialist}`);
   };
 
   const effectiveExpanded = relevantCategories.length === 1 
@@ -199,7 +202,11 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
         <Button
           variant="outline"
           className="rounded-full font-light text-sm bg-brand-mid text-brand-dark border-brand-mid hover:bg-brand-mid/80"
-          onClick={() => navigate(`/booking?kategori=${categoryBookingMap[specialist.category] || specialist.category}`)}
+          onClick={() => {
+            const kategori = categoryBookingMap[specialist.category] || specialist.category;
+            const spesialist = specialist.slug ? `&spesialist=${specialist.slug}` : "";
+            navigate(`/booking?kategori=${kategori}${spesialist}`);
+          }}
         >
           Se alle tjenester og priser
           <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />

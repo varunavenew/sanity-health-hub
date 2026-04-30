@@ -11,6 +11,7 @@ export interface ClinicBookingData {
 interface ClinicBookingBlockProps {
   booking?: ClinicBookingData;
   clinicLabel: string;
+  clinicId?: string;
   phone?: string;
   email?: string;
 }
@@ -22,6 +23,7 @@ interface ClinicBookingBlockProps {
 export const ClinicBookingBlock = ({
   booking,
   clinicLabel,
+  clinicId,
   phone,
   email,
 }: ClinicBookingBlockProps) => {
@@ -52,7 +54,9 @@ export const ClinicBookingBlock = ({
                   href={
                     booking?.serviceProviderId
                       ? `https://booking.pasientsky.no/?serviceProviderId=${booking.serviceProviderId}`
-                      : "/booking"
+                      : clinicId
+                        ? `/booking?klinikk=${clinicId}`
+                        : "/booking"
                   }
                   target={booking?.serviceProviderId ? "_blank" : undefined}
                   rel={booking?.serviceProviderId ? "noopener noreferrer" : undefined}
