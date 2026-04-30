@@ -91,8 +91,44 @@ export default {
       type: 'boolean',
       initialValue: true,
     },
+    {
+      name: 'sortOrder',
+      title: 'Sorteringsrekkefølge',
+      type: 'number',
+      description: 'Lavere tall vises først. La stå tom for alfabetisk.',
+    },
+  ],
+  orderings: [
+    {
+      title: 'Manuell rekkefølge',
+      name: 'sortOrderAsc',
+      by: [
+        { field: 'sortOrder', direction: 'asc' },
+        { field: 'name', direction: 'asc' },
+      ],
+    },
+    {
+      title: 'Navn (A–Å)',
+      name: 'nameAsc',
+      by: [{ field: 'name', direction: 'asc' }],
+    },
+    {
+      title: 'Rolle → Navn',
+      name: 'roleName',
+      by: [
+        { field: 'role', direction: 'asc' },
+        { field: 'name', direction: 'asc' },
+      ],
+    },
   ],
   preview: {
-    select: { title: 'name', subtitle: 'role', media: 'photo' },
+    select: { title: 'name', subtitle: 'role', media: 'photo', booking: 'bookingEnabled' },
+    prepare({ title, subtitle, media, booking }: any) {
+      return {
+        title: `${booking === false ? '🚫 ' : ''}${title}`,
+        subtitle: subtitle || 'Ingen rolle',
+        media,
+      }
+    },
   },
 }
