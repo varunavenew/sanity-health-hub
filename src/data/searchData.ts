@@ -83,17 +83,120 @@ export const searchItems: SearchItem[] = [
   { label: 'Bestill time', path: '/booking', category: 'Side', keywords: ['bestill', 'time', 'avtale', 'booking'] },
 ];
 
+import Fuse from "fuse.js";
+import { expandQuery } from "./searchSynonyms";
+
+// Normaliser diakritikk: æ→ae, ø→o, å→a + lowercase
+const normalize = (s: string): string =>
+  s
+    .toLowerCase()
+    .replace(/æ/g, "ae")
+    .replace(/ø/g, "o")
+    .replace(/å/g, "a")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+// Forhåndsbygd, normalisert indeks for raskere matching
+type IndexedItem = SearchItem & {
+  _label: string;
+  _category: string;
+  _keywords: string;
+  _all: string;
+};
+
+const indexedItems: IndexedItem[] = searchItems.map((item) => ({
+  ...item,
+  _label: normalize(item.label),
+  _category: normalize(item.category),
+  _keywords: (item.keywords || []).map(normalize).join(" "),
+  _all: normalize(
+    [item.label, item.category, ...(item.keywords || [])].join(" ")
+  ),
+}));
+
+// Fuse for typo-toleranse (fallback når strict ikke gir treff)
+const fuse = new Fuse(indexedItems, {
+  keys: [
+    { name: "_label", weight: 0.6 },
+    { name: "_keywords", weight: 0.3 },
+    { name: "_category", weight: 0.1 },
+  ],
+  threshold: 0.4, // 0 = eksakt, 1 = match alt
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+  includeScore: true,
+});
+
+/**
+ * Google-aktig søk:
+ * 1) Utvider query med synonymer (symptom → behandling)
+ * 2) Tokeniserer på mellomrom (alle ord må matche – AND)
+ * 3) Vekter: label-prefix > label-substring > keyword > category
+ * 4) Faller tilbake til Fuse fuzzy ved typo / få treff
+ */
 export function searchSuggestions(query: string, limit = 8): SearchItem[] {
-  if (!query.trim()) return [];
-  
-  const normalizedQuery = query.toLowerCase().trim();
-  
-  return searchItems
-    .filter(item => {
-      const labelMatch = item.label.toLowerCase().includes(normalizedQuery);
-      const categoryMatch = item.category.toLowerCase().includes(normalizedQuery);
-      const keywordMatch = item.keywords?.some(kw => kw.toLowerCase().includes(normalizedQuery));
-      return labelMatch || categoryMatch || keywordMatch;
+  const raw = query.trim();
+  if (!raw) return [];
+
+  const expanded = expandQuery(raw);
+  const tokens = normalize(expanded)
+    .split(/\s+/)
+    .filter((t) => t.length >= 2);
+
+  if (tokens.length === 0) return [];
+
+  // Strict-pass: alle tokens må finnes et sted i item, med ranking
+  const scored = indexedItems
+    .map((item) => {
+      let score = 0;
+      let allMatched = true;
+
+      for (const token of tokens) {
+        let tokenScore = 0;
+
+        if (item._label.startsWith(token)) tokenScore += 100;
+        else if (item._label.includes(` ${token}`)) tokenScore += 70;
+        else if (item._label.includes(token)) tokenScore += 50;
+
+        if (item._keywords.includes(token)) tokenScore += 30;
+        if (item._category.includes(token)) tokenScore += 10;
+
+        if (tokenScore === 0) {
+          // Token ikke funnet i dette item — krev minst delvis match
+          if (!item._all.includes(token)) {
+            allMatched = false;
+            break;
+          }
+          tokenScore = 5;
+        }
+
+        score += tokenScore;
+      }
+
+      return { item, score, allMatched };
     })
-    .slice(0, limit);
+    .filter((r) => r.allMatched && r.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (scored.length >= 3) {
+    return scored.slice(0, limit).map((r) => r.item);
+  }
+
+  // Fuzzy fallback: typo-toleranse via Fuse
+  const fuzzyQuery = normalize(raw);
+  const fuzzy = fuse.search(fuzzyQuery, { limit: limit * 2 });
+
+  // Slå sammen strict + fuzzy, dedupliser på path
+  const seen = new Set(scored.map((r) => r.item.path));
+  const merged: SearchItem[] = scored.map((r) => r.item);
+
+  for (const f of fuzzy) {
+    if (!seen.has(f.item.path)) {
+      seen.add(f.item.path);
+      merged.push(f.item);
+      if (merged.length >= limit) break;
+    }
+  }
+
+  return merged.slice(0, limit);
 }
