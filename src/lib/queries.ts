@@ -169,7 +169,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   notFoundCtaPath
 }`;
 
-export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
+export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publishedAt desc){
   _id,
   title,
   "slug": slug.current,

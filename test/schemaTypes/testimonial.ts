@@ -48,8 +48,35 @@ export default {
         ],
       },
     },
+    {
+      name: 'sortOrder',
+      title: 'Sorteringsrekkefølge',
+      type: 'number',
+    },
+  ],
+  orderings: [
+    {
+      title: 'Manuell rekkefølge',
+      name: 'sortOrderAsc',
+      by: [
+        { field: 'sortOrder', direction: 'asc' },
+        { field: 'name', direction: 'asc' },
+      ],
+    },
+    {
+      title: 'Vurdering (høyest først)',
+      name: 'ratingDesc',
+      by: [{ field: 'rating', direction: 'desc' }],
+    },
   ],
   preview: {
-    select: { title: 'name', subtitle: 'treatment' },
+    select: { title: 'name', subtitle: 'treatment', rating: 'rating' },
+    prepare({ title, subtitle, rating }: any) {
+      const stars = '★'.repeat(rating || 0) + '☆'.repeat(Math.max(0, 5 - (rating || 0)))
+      return {
+        title,
+        subtitle: `${stars}  ${subtitle || ''}`.trim(),
+      }
+    },
   },
 }

@@ -102,11 +102,42 @@ export default defineType({
       type: 'number',
     }),
   ],
+  orderings: [
+    {
+      title: 'Manuell rekkefølge',
+      name: 'sortOrderAsc',
+      by: [
+        {field: 'sortOrder', direction: 'asc'},
+        {field: 'name', direction: 'asc'},
+      ],
+    },
+    {
+      title: 'Sesongrekkefølge',
+      name: 'seasonalOrderAsc',
+      by: [
+        {field: 'seasonalOrder', direction: 'asc'},
+        {field: 'name', direction: 'asc'},
+      ],
+    },
+    {
+      title: 'Navn (A–Å)',
+      name: 'nameAsc',
+      by: [{field: 'name', direction: 'asc'}],
+    },
+  ],
   preview: {
     select: {
       title: 'name',
       subtitle: 'category',
       media: 'image',
+      seasonal: 'isSeasonal',
+    },
+    prepare({title, subtitle, media, seasonal}) {
+      return {
+        title: `${seasonal ? '🌟 ' : ''}${title}`,
+        subtitle,
+        media,
+      }
     },
   },
 })

@@ -91,12 +91,33 @@ export default {
       ],
     },
     {
+      name: 'sortOrder',
+      title: 'Sorteringsrekkefølge',
+      type: 'number',
+      description: 'Lavere tall vises først. La stå tom for alfabetisk.',
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
     },
   ],
+  orderings: [
+    {
+      title: 'Manuell rekkefølge',
+      name: 'sortOrderAsc',
+      by: [
+        { field: 'sortOrder', direction: 'asc' },
+        { field: 'title', direction: 'asc' },
+      ],
+    },
+    {
+      title: 'Tittel (A–Å)',
+      name: 'titleAsc',
+      by: [{ field: 'title', direction: 'asc' }],
+    },
+  ],
   preview: {
-    select: { title: 'title', media: 'heroImage' },
+    select: { title: 'title', subtitle: 'categoryId', media: 'heroImage' },
   },
 }

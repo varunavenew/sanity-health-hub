@@ -168,9 +168,38 @@ export default {
       type: 'string',
     },
     {
+      name: 'sortOrder',
+      title: 'Sorteringsrekkefølge',
+      type: 'number',
+      description: 'Lavere tall vises først innenfor kategorien.',
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+    },
+  ],
+  orderings: [
+    {
+      title: 'Manuell rekkefølge',
+      name: 'sortOrderAsc',
+      by: [
+        { field: 'sortOrder', direction: 'asc' },
+        { field: 'title', direction: 'asc' },
+      ],
+    },
+    {
+      title: 'Kategori → Tittel',
+      name: 'categoryTitle',
+      by: [
+        { field: 'parentCategoryLabel', direction: 'asc' },
+        { field: 'title', direction: 'asc' },
+      ],
+    },
+    {
+      title: 'Tittel (A–Å)',
+      name: 'titleAsc',
+      by: [{ field: 'title', direction: 'asc' }],
     },
   ],
   preview: {
@@ -178,6 +207,13 @@ export default {
       title: 'title',
       subtitle: 'parentCategoryLabel',
       media: 'heroImage',
+    },
+    prepare({ title, subtitle, media }: any) {
+      return {
+        title,
+        subtitle: subtitle || 'Ingen kategori',
+        media,
+      }
     },
   },
 }
