@@ -83,13 +83,17 @@ export const ICONS = {
   "settings": Settings,
   "globe": Globe,
   "mic": Mic,
+  // custom CMedical icons (same render API as Lucide)
+  "gynecology": GynecologyIcon as unknown as LucideIcon,
+  "fertility": FertilityIcon as unknown as LucideIcon,
+  "robot-surgery": RobotSurgeryIcon as unknown as LucideIcon,
 } as const satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;
 
 /**
- * Resolve an icon name (kebab-case or PascalCase) to a Lucide component.
- * Falls back to HelpCircle if name is unknown — never throws.
+ * Resolve an icon name (kebab-case or PascalCase) to an icon component
+ * (Lucide or custom CMedical). Falls back to HelpCircle if unknown.
  */
 export function getIcon(name?: string | null): LucideIcon {
   if (!name) return HelpCircle;
