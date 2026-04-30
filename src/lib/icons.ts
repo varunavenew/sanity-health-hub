@@ -83,6 +83,12 @@ import {
   HandshakeThinIcon, SparkRayThinIcon, TemperatureThinIcon, BandageThinIcon,
   DnaThinIcon, EggCellThinIcon, MaleSignThinIcon, FemaleSignThinIcon,
   StepsThinIcon, ChecklistThinIcon, StarCircleThinIcon, RefreshThinIcon, HomeThinIcon,
+  // Symbolic subspeciality (unique, non-brutal — replaces repeated Scissors/Droplets etc.)
+  HysterectomyIcon, PrecisionSurgeryIcon, CircumcisionIcon, ProlapseSupportIcon,
+  VulvarCareIcon, HydrationBalanceIcon, ContinenceIcon, EndometriosisIcon,
+  CystClusterIcon, CellChangeIcon, CycleIcon, ButterflySymbolIcon, MoodWaveIcon,
+  HorizonIcon, ProstateIcon, VitalityIcon, UrinaryHealthIcon,
+  IvfIcon, InseminationIcon, EggDonationIcon, SpermDonationIcon, FertilityAssessmentIcon,
 } from "./customIcons";
 
 // Cast helper for custom icons (LucideProps-compatible API)
@@ -333,6 +339,30 @@ export const ICONS = {
   "star-circle-cm": c(StarCircleThinIcon),
   "refresh-cm": c(RefreshThinIcon),
   "home-cm": c(HomeThinIcon),
+
+  // ===== Symbolic subspeciality (unique per behandling, non-brutal) =====
+  "hysterectomy-sym": c(HysterectomyIcon),
+  "precision-surgery-sym": c(PrecisionSurgeryIcon),
+  "circumcision-sym": c(CircumcisionIcon),
+  "prolapse-support-sym": c(ProlapseSupportIcon),
+  "vulvar-care-sym": c(VulvarCareIcon),
+  "hydration-balance-sym": c(HydrationBalanceIcon),
+  "continence-sym": c(ContinenceIcon),
+  "endometriosis-sym": c(EndometriosisIcon),
+  "cyst-cluster-sym": c(CystClusterIcon),
+  "cell-change-sym": c(CellChangeIcon),
+  "cycle-sym": c(CycleIcon),
+  "butterfly-sym": c(ButterflySymbolIcon),
+  "mood-wave-sym": c(MoodWaveIcon),
+  "horizon-sym": c(HorizonIcon),
+  "prostate-sym": c(ProstateIcon),
+  "vitality-sym": c(VitalityIcon),
+  "urinary-health-sym": c(UrinaryHealthIcon),
+  "ivf-sym": c(IvfIcon),
+  "insemination-sym": c(InseminationIcon),
+  "egg-donation-sym": c(EggDonationIcon),
+  "sperm-donation-sym": c(SpermDonationIcon),
+  "fertility-assessment-sym": c(FertilityAssessmentIcon),
 } as const satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;
