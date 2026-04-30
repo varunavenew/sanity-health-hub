@@ -300,6 +300,39 @@ export const ICONS = {
   "twitter-cm": c(TwitterThinIcon),
   "apple-cm": c(AppleThinIcon),
   "bot-cm": c(BotThinIcon),
+
+  // ===== Subspeciality — Lucide today =====
+  "droplets": Droplets,
+  "ribbon": Ribbon,
+  "sun": Sun,
+  "circle-dot": CircleDot,
+  "flower": Flower2,
+  "heart-handshake": HeartHandshake,
+  "home": Home,
+  "refresh": RefreshCw,
+  "list-checks": ListChecks,
+  "footprints": Footprints,
+  "dna": Dna,
+
+  // ===== Subspeciality — CMedical custom =====
+  "droplet-cm": c(DropletThinIcon),
+  "ribbon-cm": c(RibbonThinIcon),
+  "sun-cm": c(SunThinIcon),
+  "circle-dot-cm": c(CircleDotThinIcon),
+  "flower-cm": c(FlowerThinIcon),
+  "handshake-cm": c(HandshakeThinIcon),
+  "spark-ray-cm": c(SparkRayThinIcon),
+  "temperature-cm": c(TemperatureThinIcon),
+  "bandage-cm": c(BandageThinIcon),
+  "dna-cm": c(DnaThinIcon),
+  "egg-cell-cm": c(EggCellThinIcon),
+  "male-sign-cm": c(MaleSignThinIcon),
+  "female-sign-cm": c(FemaleSignThinIcon),
+  "steps-cm": c(StepsThinIcon),
+  "checklist-cm": c(ChecklistThinIcon),
+  "star-circle-cm": c(StarCircleThinIcon),
+  "refresh-cm": c(RefreshThinIcon),
+  "home-cm": c(HomeThinIcon),
 } as const satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;
