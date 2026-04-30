@@ -20,6 +20,10 @@ import clinicMajorstuen from "@/assets/clinics/majorstuen.jpg";
 import clinicBekkestua from "@/assets/clinics/bekkestua.jpg";
 import familyHero from "@/assets/hero/cmedical-family.jpg";
 import handsHero from "@/assets/hero/cmedical-hands.jpg";
+import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
+import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
+import journeyResult from "@/assets/fertility/journey-03-result.jpg";
+import madeleineEngen from "@/assets/specialists/madeleine-engen.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
