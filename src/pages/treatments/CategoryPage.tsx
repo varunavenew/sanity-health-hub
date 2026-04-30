@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import {
-  ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin,
+  ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin, ShieldCheck,
   Play, Coins, CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
