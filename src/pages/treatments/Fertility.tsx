@@ -102,6 +102,24 @@ const Fertility = ({ isChatOpen }: PageProps) => {
     []
   );
 
+  // Promo-rotasjon: starter med Madeleine, deretter fertilitetsspesialistene
+  const promoSpecialists = useMemo(() => {
+    const madeleine = specialists.find((s) => s.slug === "madeleine-engen");
+    const list = madeleine ? [madeleine, ...fertilitySpecialists] : fertilitySpecialists;
+    return list;
+  }, [fertilitySpecialists]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeSpecialist = promoSpecialists[activeIndex] ?? promoSpecialists[0];
+
+  useEffect(() => {
+    if (promoSpecialists.length <= 1) return;
+    const id = window.setInterval(() => {
+      setActiveIndex((i) => (i + 1) % promoSpecialists.length);
+    }, 10000);
+    return () => window.clearInterval(id);
+  }, [promoSpecialists.length]);
+
   useEffect(() => {
     document.title =
       "Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap";
