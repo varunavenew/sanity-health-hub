@@ -76,6 +76,14 @@ export const serviceIconKeyMap: Record<string, string> = {
   "Sexologi": "sexologi-cl",
   "Kvinnehelse": "gynekologi-cl",
   "Tverrfaglig team": "tverrfaglig-team-cl",
+  // Aliaser brukt i /tjenester-grid og menyer
+  "Graviditet": "graviditet-cl",
+  "Graviditet og fostermedisin": "graviditet-cl",
+  "Hudhelse": "hudlege-cl",
+  "Plastikkirurgi": "labiaplastikk-cl",
+  "Revmatologi": "ortopedi-cl",
+  "Robotkirurgi": "robotkirurgi-gyn-cl",
+  "Åreknutebehandling": "blaere-cl",
 };
 
 export const getServiceIcon = (name: string): LucideIcon =>
