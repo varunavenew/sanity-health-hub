@@ -21,6 +21,7 @@ export default {
       title: 'Navn',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
+      group: 'overview',
     },
     {
       name: 'slug',
@@ -28,74 +29,71 @@ export default {
       type: 'slug',
       options: { source: 'title' },
       validation: (Rule: any) => Rule.required(),
+      group: 'overview',
     },
     {
       name: 'primaryImage',
       title: 'Hovedbilde',
       type: 'image',
       options: { hotspot: true },
+      group: 'overview',
     },
     {
       name: 'description',
       title: 'Beskrivelse',
       type: 'text',
       rows: 3,
+      group: 'overview',
     },
     {
       name: 'valueProposition',
       title: 'Verdiforslag',
       type: 'object',
       options: { collapsible: true },
+      group: 'overview',
       fields: [
-        {
-          name: 'valueProposition1',
-          title: 'Verdiforslag 1',
-          type: 'string',
-        },
-        {
-          name: 'valueProposition2',
-          title: 'Åpningstider',
-          type: 'string',
-          placeholder: '08:00–16:00',
-        },
-        {
-          name: 'socialProof',
-          title: 'Sosialt bevis',
-          type: 'string',
-        },
+        { name: 'valueProposition1', title: 'Verdiforslag 1', type: 'string' },
+        { name: 'valueProposition2', title: 'Åpningstider', type: 'string', placeholder: '08:00–16:00' },
+        { name: 'socialProof', title: 'Sosialt bevis', type: 'string' },
       ],
     },
     {
       name: 'address',
       title: 'Adresse',
       type: 'string',
+      group: 'contact',
     },
     {
       name: 'phone',
       title: 'Telefon',
       type: 'string',
+      group: 'contact',
     },
     {
       name: 'email',
       title: 'E-post',
       type: 'string',
+      group: 'contact',
     },
     {
       name: 'hours',
       title: 'Åpningstider',
       type: 'string',
+      group: 'contact',
     },
     {
       name: 'contactDescription',
       title: 'Kontaktbeskrivelse',
       type: 'text',
       rows: 3,
+      group: 'contact',
     },
     {
       name: 'locationSearch',
       title: 'Koordinater',
       type: 'object',
       options: { collapsible: true },
+      group: 'contact',
       fields: [
         { name: 'lat', title: 'Breddegrad', type: 'number' },
         { name: 'lng', title: 'Lengdegrad', type: 'number' },
@@ -106,12 +104,14 @@ export default {
       title: 'Behandlinger',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
+      group: 'related',
     },
     {
       name: 'specialists',
       title: 'Spesialister',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
+      group: 'related',
     },
     {
       name: 'services',
@@ -119,12 +119,14 @@ export default {
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Kategori-IDer som denne klinikken tilbyr',
+      group: 'related',
     },
     {
       name: 'booking',
       title: 'Booking',
       type: 'object',
       options: { collapsible: true },
+      group: 'booking',
       fields: [
         {
           name: 'method',
@@ -166,6 +168,7 @@ export default {
       title: 'Praktisk informasjon',
       type: 'object',
       options: { collapsible: true },
+      group: 'practical',
       fields: [
         { name: 'parking', title: 'Parkering', type: 'text', rows: 2 },
         { name: 'publicTransport', title: 'Kollektivtransport', type: 'text', rows: 2 },
@@ -176,6 +179,7 @@ export default {
       name: 'faqs',
       title: 'FAQ',
       type: 'array',
+      group: 'faq',
       of: [
         {
           type: 'object',
@@ -183,9 +187,7 @@ export default {
             { name: 'question', title: 'Spørsmål', type: 'string', validation: (Rule: any) => Rule.required() },
             { name: 'answer', title: 'Svar', type: 'text', rows: 3, validation: (Rule: any) => Rule.required() },
           ],
-          preview: {
-            select: { title: 'question' },
-          },
+          preview: { select: { title: 'question' } },
         },
       ],
     },
@@ -194,12 +196,14 @@ export default {
       title: 'Sorteringsrekkefølge',
       type: 'number',
       description: 'Lavere tall vises først i klinikkoversikten.',
+      group: 'overview',
     },
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
       options: { collapsible: true, collapsed: true },
+      group: 'seo',
     },
   ],
   orderings: [
