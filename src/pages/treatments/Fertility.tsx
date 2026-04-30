@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -101,6 +101,24 @@ const Fertility = ({ isChatOpen }: PageProps) => {
     () => specialists.filter((s) => s.category === "fertilitet").slice(0, 4),
     []
   );
+
+  // Promo-rotasjon: starter med Madeleine, deretter fertilitetsspesialistene
+  const promoSpecialists = useMemo(() => {
+    const madeleine = specialists.find((s) => s.slug === "madeleine-engen");
+    const list = madeleine ? [madeleine, ...fertilitySpecialists] : fertilitySpecialists;
+    return list;
+  }, [fertilitySpecialists]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeSpecialist = promoSpecialists[activeIndex] ?? promoSpecialists[0];
+
+  useEffect(() => {
+    if (promoSpecialists.length <= 1) return;
+    const id = window.setInterval(() => {
+      setActiveIndex((i) => (i + 1) % promoSpecialists.length);
+    }, 10000);
+    return () => window.clearInterval(id);
+  }, [promoSpecialists.length]);
 
   useEffect(() => {
     document.title =
@@ -459,60 +477,72 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. BLI KJENT MED MADELEINE — trygghet og person
+          7. PROMO — bli kjent med spesialistene (auto-roterer hvert 10s)
       ============================================================ */}
       <section className="bg-secondary/40">
         <div className="grid lg:grid-cols-12 lg:min-h-[680px]">
           {/* Left — bilde, kant-i-kant uten luft */}
           <div className="lg:col-span-5 relative bg-secondary min-h-[420px] lg:min-h-full overflow-hidden">
             <img
-              src={madeleineEngen}
-              alt="Madeleine Engen — fagansvarlig kvinnehelse hos CMedical"
+              key={activeSpecialist.slug}
+              src={activeSpecialist.image}
+              alt={`${activeSpecialist.name} — ${activeSpecialist.title} hos CMedical`}
               loading="lazy"
               width={1024}
               height={1280}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover animate-fade-in"
             />
           </div>
 
           {/* Right — tekst */}
           <div className="lg:col-span-7 flex items-center px-6 md:px-16 lg:px-20 py-20 lg:py-24">
-            <div className="w-full max-w-2xl">
+            <div key={activeSpecialist.slug} className="w-full max-w-2xl animate-fade-in">
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                Bli kjent med Madeleine
+                Bli kjent med {activeSpecialist.name.split(" ")[0]}
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
-                «Ingen skal måtte gjette seg gjennom kroppen sin.»
+                {activeSpecialist.title}
+                {activeSpecialist.subtitle ? ` — ${activeSpecialist.subtitle}` : ""}.
               </h2>
-              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6">
-                Det er ord Madeleine Engen lever etter. Hun er gynekolog,
-                kirurg og fagansvarlig for kvinnehelse hos CMedical — og en
-                tydelig stemme for kvinnehelse i Norge.
-              </p>
-              <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
-                Med spesialkompetanse innen urogynekologi, hormoner og
-                overgangsalder møter Madeleine pasientene sine med både
-                medisinsk presisjon og en sjelden varme. Mange som vurderer
-                fertilitetsbehandling starter med en samtale hos henne — for
-                å få oversikt før den større reisen begynner.
-              </p>
+              {activeSpecialist.bio && (
+                <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-8 line-clamp-6">
+                  {activeSpecialist.bio.split("\n\n")[0]}
+                </p>
+              )}
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <Button asChild variant="cta" size="lg" className="px-7">
                   <Link
                     to={buildBookingUrl({
                       kategori: "fertilitet",
-                      spesialist: "madeleine-engen",
+                      spesialist: activeSpecialist.slug,
                     })}
                   >
-                    Bestill time hos Madeleine
+                    Bestill time hos {activeSpecialist.name.split(" ")[0]}
                   </Link>
                 </Button>
                 <Button asChild variant="cta-outline" size="lg" className="px-7">
-                  <Link to="/spesialister/madeleine-engen">
-                    Les mer om Madeleine
+                  <Link to={`/spesialister/${activeSpecialist.slug}`}>
+                    Les mer om {activeSpecialist.name.split(" ")[0]}
                   </Link>
                 </Button>
+              </div>
+
+              {/* Progress-indikatorer */}
+              <div className="flex items-center gap-2">
+                {promoSpecialists.map((sp, i) => (
+                  <button
+                    key={sp.slug}
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    aria-label={`Vis ${sp.name}`}
+                    className={`h-[2px] transition-all duration-300 ${
+                      i === activeIndex
+                        ? "w-10 bg-foreground"
+                        : "w-6 bg-foreground/25 hover:bg-foreground/50"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -542,34 +572,56 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
 
-        {/* Kant-i-kant grid uten luft mellom kortene — som hjem */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-          {fertilitySpecialists.map((sp) => (
-            <Link
-              key={sp.slug}
-              to={`/spesialister/${sp.slug}`}
-              className="group block"
-            >
-              <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                <img
-                  src={sp.image}
-                  alt={sp.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/75 via-brand-dark/10 to-transparent" />
+        {/* Kant-i-kant grid — synkronisert med promo-seksjonen over */}
+        <div className={`grid grid-cols-2 gap-0 ${promoSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
+          {promoSpecialists.map((sp, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <button
+                key={sp.slug}
+                type="button"
+                onClick={() => setActiveIndex(i)}
+                aria-label={`Vis ${sp.name} i promo`}
+                aria-pressed={isActive}
+                className="group relative block text-left focus:outline-none"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                  <img
+                    src={sp.image}
+                    alt={sp.name}
+                    loading="lazy"
+                    className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05] ${
+                      isActive ? "scale-[1.03]" : ""
+                    }`}
+                  />
+                  <div
+                    className={`absolute inset-0 transition-opacity duration-500 ${
+                      isActive
+                        ? "bg-gradient-to-t from-brand-dark/40 via-brand-dark/0 to-transparent"
+                        : "bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10"
+                    }`}
+                  />
 
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                  <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                    {sp.name}
-                  </h3>
-                  <p className="text-sm font-light text-white/75">
-                    {sp.subtitle || sp.title}
-                  </p>
+                  {/* Aktiv-indikator */}
+                  {isActive && (
+                    <span className="absolute top-3 left-3 inline-flex items-center gap-2 bg-brand-yellow text-brand-dark text-[11px] font-normal px-2.5 py-1 rounded-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-dark animate-pulse" />
+                      Vises nå
+                    </span>
+                  )}
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
+                      {sp.name}
+                    </h3>
+                    <p className="text-sm font-light text-white/75">
+                      {sp.subtitle || sp.title}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </section>
 
