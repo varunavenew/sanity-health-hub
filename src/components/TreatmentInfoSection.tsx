@@ -57,13 +57,9 @@ export const TreatmentInfoSection = () => {
           {treatmentSteps.map((step) => (
             <div key={step.number} className="relative">
               <div className="bg-background rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
-                    <span className="text-xl font-light text-accent-foreground">
-                      {step.number}
-                    </span>
-                  </div>
-                  <step.icon className="w-6 h-6 text-accent" />
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl font-light text-accent">{step.number}</span>
+                  <step.icon className="w-5 h-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <h3 className="text-lg font-light mb-2">{step.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
