@@ -1,146 +1,303 @@
-import { ICONS, getIcon, type IconName } from "@/lib/icons";
+import { getIcon, type IconName } from "@/lib/icons";
 
-const CUSTOM_KEYS: IconName[] = ["gynecology", "fertility", "robot-surgery"];
+/**
+ * Icon proposal preview for client review.
+ * - "lucide" = current production icon
+ * - "custom" = proposed CMedical replacement (key with -cm suffix, or unique speciality icon)
+ *
+ * Pairs without a Lucide equivalent (e.g. "gynecology") show only the custom icon.
+ */
 
-const GROUPS: { title: string; keys: IconName[] }[] = [
+type Pair = {
+  label: string;        // Norwegian label
+  usage?: string;       // Where it's used on the site
+  lucide?: IconName;    // current Lucide key
+  custom: IconName;     // proposed custom key
+};
+
+type Group = {
+  title: string;
+  intro?: string;
+  pairs: Pair[];
+};
+
+const GROUPS: Group[] = [
   {
-    title: "CMedical custom (forslag)",
-    keys: CUSTOM_KEYS,
+    title: "1 — Medisinske spesialiteter (ny — finnes ikke i Lucide)",
+    intro:
+      "Helt nye, CMedical-spesifikke ikoner som gir merket et eget særpreg. Brukes i meny, kategorisider, FAQ og treatment-lister.",
+    pairs: [
+      { label: "Gynekologi", usage: "Tjenester, meny, kategorier", custom: "gynecology" },
+      { label: "Fertilitet", usage: "Tjenester, kategorier", custom: "fertility" },
+      { label: "Robotassistert kirurgi", usage: "Robotkirurgi-side, treatments", custom: "robot-surgery" },
+      { label: "Urologi", usage: "Tjenester, kategorier", custom: "urology" },
+      { label: "Graviditet", usage: "Kvinnehelse, treatment-sider", custom: "pregnancy" },
+      { label: "Overgangsalder / menopause", usage: "Fastlegeveiledning, kvinnehelse", custom: "menopause" },
+      { label: "Ultralyd", usage: "Behandlingssider, prisliste", custom: "ultrasound" },
+      { label: "Konsultasjon", usage: "Booking, behandlingsflyt", custom: "consultation" },
+      { label: "Fastlege", usage: "Forsikring, henvisning", custom: "gp-doctor" },
+      { label: "Forsikring (skjold)", usage: "Forsikrings-side, badges", custom: "insurance-shield" },
+      { label: "Privatklinikk", usage: "Klinikk-sider, footer", custom: "private-clinic" },
+      { label: "Behandlingsplan", usage: "Pasientreise, info-blokker", custom: "treatment-plan" },
+      { label: "Før / etter", usage: "BeforeAfter-seksjon", custom: "before-after" },
+      { label: "Konfidensielt / trygt", usage: "Personvern, tillit-blokker", custom: "confidential" },
+    ],
   },
   {
-    title: "Helse / medisinsk",
-    keys: ["heart-pulse", "stethoscope", "microscope", "pill", "syringe", "activity", "shield-check", "heart"],
+    title: "2 — Navigasjon og knapper",
+    intro: "Brukes i CTA-knapper, lister, meny, breadcrumbs, accordion, paginering.",
+    pairs: [
+      { label: "Pil høyre", usage: "Alle 'Les mer' / CTA-lenker", lucide: "arrow-right", custom: "arrow-right-cm" },
+      { label: "Pil venstre", usage: "Tilbake-knapper", lucide: "arrow-left", custom: "arrow-left-cm" },
+      { label: "Pil opp-høyre", usage: "Eksterne lenker, design-hub", lucide: "arrow-up-right", custom: "arrow-up-right-cm" },
+      { label: "Chevron høyre", usage: "Breadcrumbs, services-dropdown", lucide: "chevron-right", custom: "chevron-right-cm" },
+      { label: "Chevron venstre", usage: "Carousel, paginering", lucide: "chevron-left", custom: "chevron-left-cm" },
+      { label: "Chevron ned", usage: "Accordion, dropdown", lucide: "chevron-down", custom: "chevron-down-cm" },
+      { label: "Chevron opp", usage: "Accordion åpen", lucide: "chevron-up", custom: "chevron-up-cm" },
+      { label: "Pluss", usage: "FAQ lukket, legg til", lucide: "plus", custom: "plus-cm" },
+      { label: "Minus", usage: "FAQ åpen, fjern", lucide: "minus", custom: "minus-cm" },
+      { label: "Sjekk", usage: "Lister, valgt tilstand", lucide: "check", custom: "check-cm" },
+      { label: "Sjekk i sirkel", usage: "Trust-blokker, fordeler", lucide: "check-circle", custom: "check-circle-cm" },
+      { label: "Lukk (X)", usage: "Modal, drawer, popup", lucide: "x", custom: "x-cm" },
+      { label: "Søk", usage: "Header, command, søkefelt", lucide: "search", custom: "search-cm" },
+      { label: "Hjelp", usage: "Tooltip, FAQ", lucide: "help-circle", custom: "help-circle-cm" },
+      { label: "Meny (burger)", usage: "Mobil-meny", custom: "menu-cm" },
+      { label: "Ekstern lenke", usage: "Lenker til andre nettsider", lucide: "external-link", custom: "external-link-cm" },
+      { label: "Mer (3 prikker)", usage: "Sekundær meny", lucide: "more-horizontal", custom: "more-horizontal-cm" },
+    ],
   },
   {
-    title: "Navigasjon / UI",
-    keys: ["arrow-right", "arrow-left", "chevron-right", "chevron-down", "check", "x", "plus", "minus", "search", "help-circle"],
+    title: "3 — Kontakt og lokasjon",
+    intro: "Header, footer, klinikk-kort, kontaktside, spesialist-profil.",
+    pairs: [
+      { label: "Telefon", usage: "Header, footer, kontakt", custom: "phone-cm", lucide: "phone" },
+      { label: "E-post", usage: "Footer, newsletter, kontakt", lucide: "mail", custom: "mail-cm" },
+      { label: "Adresse / kart", usage: "Klinikker, footer, spesialist", lucide: "map-pin", custom: "map-pin-cm" },
+      { label: "Åpningstider", usage: "Klinikk-side", lucide: "clock", custom: "clock-cm" },
+      { label: "Kalender / booking", usage: "Sticky CTA, booking, spesialist", lucide: "calendar", custom: "calendar-cm" },
+      { label: "Bygg / klinikk", usage: "Klinikk-grid, value badges", lucide: "building", custom: "building-cm" },
+      { label: "Tog", usage: "Kollektiv-info klinikk", lucide: "train", custom: "train-cm" },
+      { label: "Bil / parkering", usage: "Klinikk-info", lucide: "car", custom: "car-cm" },
+    ],
   },
   {
-    title: "Kontakt / lokasjon",
-    keys: ["phone", "mail", "map-pin", "clock", "calendar", "building"],
+    title: "4 — Mennesker og omsorg",
+    intro: "Spesialist-presentasjon, om-oss, stats, testimonials.",
+    pairs: [
+      { label: "Person", usage: "Profil, anonym bruker", lucide: "user", custom: "user-cm" },
+      { label: "Personer (team)", usage: "Stats, om-oss, WhyCMedical", lucide: "users", custom: "users-cm" },
+      { label: "Verifisert person", usage: "Spesialist-godkjenning", lucide: "user-check", custom: "user-check-cm" },
+      { label: "Baby", usage: "Fertilitet, graviditet", lucide: "baby", custom: "baby-cm" },
+      { label: "Hjerte", usage: "Favoritt, omsorg", lucide: "heart", custom: "heart-cm" },
+      { label: "Hånd-hjerte", usage: "Verdier, omsorg", lucide: "hand-heart", custom: "hand-heart-cm" },
+    ],
   },
   {
-    title: "Mennesker / omsorg",
-    keys: ["users", "user", "user-check", "baby"],
+    title: "5 — Helse og medisin",
+    intro: "Behandlingssider, kategorier, prisliste, fagområder.",
+    pairs: [
+      { label: "Hjerte-puls", usage: "Helse, vitale tegn", lucide: "heart-pulse", custom: "heart-pulse-cm" },
+      { label: "Stetoskop", usage: "Konsultasjon, generell helse", lucide: "stethoscope", custom: "stethoscope-cm" },
+      { label: "Mikroskop", usage: "Lab, diagnose", lucide: "microscope", custom: "microscope-cm" },
+      { label: "Pille / medisin", usage: "Behandling, resept", lucide: "pill", custom: "pill-cm" },
+      { label: "Sprøyte / injeksjon", usage: "Vaksine, behandling", lucide: "syringe", custom: "syringe-cm" },
+      { label: "Aktivitet", usage: "Helse, livsstil", lucide: "activity", custom: "activity-cm" },
+      { label: "Skann", usage: "MR, røntgen, FaceScan", lucide: "scan", custom: "scan-cm" },
+      { label: "Journal / clipboard", usage: "Pasientjournal, sjekkliste", lucide: "clipboard", custom: "clipboard-cm" },
+      { label: "Skjelett / ortopedi", usage: "Ortopedi-kategori", lucide: "bone", custom: "bone-cm" },
+      { label: "Hjerne / nevrologi", usage: "Nevro-relatert", lucide: "brain", custom: "brain-cm" },
+      { label: "Saks / kirurgi", usage: "Kirurgi-tjenester", lucide: "scissors", custom: "scissors-cm" },
+      { label: "Termometer", usage: "Symptomer, feber", lucide: "thermometer", custom: "thermometer-cm" },
+      { label: "Smil / trivsel", usage: "Pasienterfaring", lucide: "smile", custom: "smile-cm" },
+      { label: "Tilgjengelighet", usage: "Universell utforming", lucide: "accessibility", custom: "accessibility-cm" },
+    ],
   },
   {
-    title: "Info / tillit",
-    keys: ["info", "star", "award", "file-text", "book-open", "sparkles"],
+    title: "6 — Tillit og dokumenter",
+    intro: "Trust-blokker, sertifiseringer, FAQ, artikler, personvern.",
+    pairs: [
+      { label: "Skjold", usage: "Trygghet, sikkerhet", lucide: "shield", custom: "shield-cm" },
+      { label: "Skjold med sjekk", usage: "Garantier, ValueBadges", lucide: "shield-check", custom: "shield-check-cm" },
+      { label: "Pris / utmerkelse", usage: "Awards, sertifiseringer", lucide: "award", custom: "award-cm" },
+      { label: "Stjerne", usage: "Reviews, rating", lucide: "star", custom: "star-cm" },
+      { label: "Info", usage: "Hjelpetekst, varsler", lucide: "info", custom: "info-cm" },
+      { label: "Glitter / premium", usage: "Premium-banner, sesong", lucide: "sparkles", custom: "sparkles-cm" },
+      { label: "Sitat", usage: "Testimonials, reviews", lucide: "quote", custom: "quote-cm" },
+      { label: "Dokument", usage: "Artikler, rapporter, henvisning", lucide: "file-text", custom: "file-text-cm" },
+      { label: "Godkjent dokument", usage: "Sertifikater, godkjenning", lucide: "file-check", custom: "file-check-cm" },
+      { label: "Bok / guide", usage: "Guide-side, ressurser", lucide: "book-open", custom: "book-open-cm" },
+      { label: "Vekt / juridisk", usage: "Personvern, vilkår", lucide: "scale", custom: "scale-cm" },
+      { label: "Lås / privat", usage: "Personvern, login", lucide: "lock", custom: "lock-cm" },
+    ],
   },
   {
-    title: "Økonomi",
-    keys: ["coins", "credit-card", "tag"],
+    title: "7 — Pris, handel og pakker",
+    intro: "Prisliste, produkter, pakker, betaling.",
+    pairs: [
+      { label: "Mynt / pris", usage: "Pris-badges, ValueBadges", lucide: "coins", custom: "coins-cm" },
+      { label: "Kredittkort / betaling", usage: "Betaling, kassen", lucide: "credit-card", custom: "credit-card-cm" },
+      { label: "Pris-tag", usage: "Tilbud, kampanjer", lucide: "tag", custom: "tag-cm" },
+      { label: "Handlepose", usage: "Produkter, kassen", lucide: "shopping-bag", custom: "shopping-bag-cm" },
+      { label: "Pakke / bundle", usage: "BundlePackages", lucide: "package", custom: "package-cm" },
+      { label: "Lommebok", usage: "Betaling, refusjon", lucide: "wallet", custom: "wallet-cm" },
+      { label: "Timer / tilbud", usage: "Sale-seksjon, kampanje", lucide: "timer", custom: "timer-cm" },
+      { label: "Trend opp", usage: "Mest sett, populært", lucide: "trending-up", custom: "trending-up-cm" },
+    ],
   },
   {
-    title: "Diverse",
-    keys: ["camera", "video", "play", "lock", "settings", "globe", "mic"],
+    title: "8 — Karriere",
+    intro: "Karriere-side, jobbannonser, om-oss.",
+    pairs: [
+      { label: "Utdanning / kvalifikasjon", usage: "Spesialist-CV, expertise", lucide: "graduation-cap", custom: "graduation-cap-cm" },
+      { label: "Stilling / jobb", usage: "Karriere, jobbannonse", lucide: "briefcase", custom: "briefcase-cm" },
+    ],
+  },
+  {
+    title: "9 — Media og chat",
+    intro: "Hero-bilder, video-spiller, chat, IDA-assistent, Instagram.",
+    pairs: [
+      { label: "Kamera", usage: "FaceScan, IDA Guide", lucide: "camera", custom: "camera-cm" },
+      { label: "Video", usage: "Video-seksjoner", lucide: "video", custom: "video-cm" },
+      { label: "Play", usage: "VideoPlayer, VisualStorytelling", lucide: "play", custom: "play-cm" },
+      { label: "Send", usage: "HeroChat, kontaktskjema", lucide: "send", custom: "send-cm" },
+      { label: "Chat-melding", usage: "ChatBubble, support", lucide: "message-circle", custom: "message-cm" },
+      { label: "Bot / IDA", usage: "ChatBubble, IDA-assistent", lucide: "bot", custom: "bot-cm" },
+      { label: "Mikrofon", usage: "Voice input", lucide: "mic", custom: "mic-cm" },
+      { label: "Globus / språk", usage: "LanguageSelector", lucide: "globe", custom: "globe-cm" },
+      { label: "Innstillinger", usage: "Bruker-innstillinger", lucide: "settings", custom: "settings-cm" },
+      { label: "Loader", usage: "Lasting", lucide: "loader", custom: "loader-cm" },
+      { label: "Lyn / rask", usage: "Hurtighet, energi", lucide: "zap", custom: "zap-cm" },
+    ],
+  },
+  {
+    title: "10 — Sosiale medier",
+    intro: "Footer, SoMe-feed, deling.",
+    pairs: [
+      { label: "Instagram", usage: "Footer, SoMeFeed", lucide: "instagram", custom: "instagram-cm" },
+      { label: "Facebook", usage: "Footer", lucide: "facebook", custom: "facebook-cm" },
+      { label: "LinkedIn", usage: "Footer, karriere", lucide: "linkedin", custom: "linkedin-cm" },
+      { label: "YouTube", usage: "Footer, video", lucide: "youtube", custom: "youtube-cm" },
+      { label: "X (Twitter)", usage: "Footer", lucide: "twitter", custom: "twitter-cm" },
+      { label: "Apple", usage: "App-lenker, login", lucide: "apple", custom: "apple-cm" },
+    ],
   },
 ];
 
-const SIZES = [16, 20, 24, 32];
+const SIZES = [16, 20, 24];
 
-const Swatch = ({
-  name,
-  isCustom,
+const Cell = ({
+  iconKey,
+  label,
 }: {
-  name: IconName;
-  isCustom: boolean;
+  iconKey?: IconName;
+  label: string;
 }) => {
-  const Icon = getIcon(name);
-  return (
-    <div className="border border-foreground/10 rounded-md p-4 flex flex-col gap-3 bg-background">
-      <div className="flex items-center justify-between">
-        <code className="text-[11px] text-foreground/60">{name}</code>
-        {isCustom && (
-          <span
-            className="text-[10px] px-1.5 py-0.5 rounded"
-            style={{ background: "#F4FF78", color: "#42332A" }}
-          >
-            CUSTOM
-          </span>
-        )}
+  if (!iconKey) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[80px] text-[10px] text-foreground/30">
+        — finnes ikke i Lucide —
       </div>
-
-      {/* Sizes */}
-      <div className="flex items-end gap-4 min-h-[44px]">
+    );
+  }
+  const Icon = getIcon(iconKey);
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-end gap-3 min-h-[36px]">
         {SIZES.map((sz) => (
-          <div key={sz} className="flex flex-col items-center gap-1">
-            <Icon size={sz} strokeWidth={1.5} />
-            <span className="text-[10px] text-foreground/40">{sz}</span>
-          </div>
+          <Icon key={sz} size={sz} strokeWidth={1.5} />
         ))}
       </div>
-
-      {/* Background tests */}
-      <div className="flex flex-wrap gap-2 pt-2 border-t border-foreground/5">
-        <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80">
-          <Icon size={16} strokeWidth={1.5} /> tekst
-        </span>
+      <div className="flex gap-1.5">
         <span
-          className="inline-flex items-center gap-1.5 text-xs px-2 py-1 rounded"
+          className="inline-flex items-center justify-center w-6 h-6 rounded"
           style={{ background: "#42332A", color: "#F2ECE6" }}
         >
           <Icon size={14} strokeWidth={1.5} />
         </span>
         <span
-          className="inline-flex items-center gap-1.5 text-xs px-2 py-1 rounded"
+          className="inline-flex items-center justify-center w-6 h-6 rounded"
           style={{ background: "#CCBAAD", color: "#42332A" }}
         >
           <Icon size={14} strokeWidth={1.5} />
         </span>
         <span
-          className="inline-flex items-center gap-1.5 text-xs px-2 py-1 rounded"
+          className="inline-flex items-center justify-center w-6 h-6 rounded"
           style={{ background: "#F4FF78", color: "#42332A" }}
         >
           <Icon size={14} strokeWidth={1.5} />
         </span>
       </div>
+      <code className="text-[10px] text-foreground/40">{iconKey}</code>
     </div>
   );
 };
 
 const IconPreview = () => {
-  const allKeys = Object.keys(ICONS) as IconName[];
-  const total = allKeys.length;
+  const totalProposed = GROUPS.reduce((n, g) => n + g.pairs.length, 0);
 
   return (
     <main className="min-h-screen bg-background text-foreground p-6 md:p-12 font-light">
-      <div className="max-w-6xl mx-auto space-y-10">
-        <header className="space-y-2">
-          <h1 className="text-2xl">Ikon-bibliotek — CMedical</h1>
-          <p className="text-sm text-foreground/60 max-w-2xl">
-            Alle ikoner som brukes på siden via <code>getIcon()</code>. {total} ikoner totalt:
-            tre custom-tegnede CMedical-ikoner (gult merke) + Lucide-ikoner i samme stil
-            (1.5px stroke, currentColor). Vist i 16/20/24/32 px og mot lys, mørk, mid skin-tone og gul accent.
+      <div className="max-w-6xl mx-auto space-y-12">
+        <header className="space-y-3 max-w-3xl">
+          <h1 className="text-2xl">Ikon-forslag for CMedical</h1>
+          <p className="text-sm text-foreground/70 leading-relaxed">
+            Komplett forslag til et CMedical-eget ikon-sett som dekker alle behov på siden i dag.
+            Totalt <strong>{totalProposed} ikoner</strong> i 10 kategorier — fra navigasjon og
+            kontakt til medisinske spesialiteter. Hver rad viser dagens Lucide-ikon ved siden av
+            CMedical-forslaget, så du enkelt kan sammenligne.
           </p>
-          <p className="text-xs text-foreground/50">
-            Regel: ikoner brukes kun funksjonelt (16–24 px ved tekst). Aldri som store dekorative elementer.
-          </p>
+          <ul className="text-xs text-foreground/60 list-disc pl-5 space-y-1">
+            <li>Tegnet i samme tynne stil (1.5px stroke, currentColor) — fungerer i alle farger</li>
+            <li>Vises i 16 / 20 / 24 px og mot mørk skin-tone, mid skin-tone og gul accent</li>
+            <li>Brukes kun funksjonelt (ved tekst, i lister, i knapper) — aldri som store dekorelementer</li>
+            <li>14 helt nye spesialitets-ikoner finnes ikke i Lucide og gir merket særpreg</li>
+          </ul>
         </header>
 
-        {GROUPS.map((group) => (
-          <section key={group.title} className="space-y-4">
-            <h2 className="text-base border-b border-foreground/10 pb-2">
-              {group.title}{" "}
-              <span className="text-xs text-foreground/40 ml-2">
-                {group.keys.length} ikoner
-              </span>
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {group.keys.map((key) => (
-                <Swatch
-                  key={key}
-                  name={key}
-                  isCustom={CUSTOM_KEYS.includes(key)}
-                />
+        {GROUPS.map((group, gi) => (
+          <section key={gi} className="space-y-4">
+            <div className="space-y-1 border-b border-foreground/10 pb-3">
+              <h2 className="text-base">{group.title}</h2>
+              {group.intro && (
+                <p className="text-xs text-foreground/55">{group.intro}</p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-[2fr_3fr_3fr] gap-x-6 gap-y-1 text-xs text-foreground/40 px-2">
+              <div>Bruksområde</div>
+              <div>I dag (Lucide)</div>
+              <div>Forslag (CMedical)</div>
+            </div>
+
+            <div className="divide-y divide-foreground/5 border border-foreground/10 rounded-md">
+              {group.pairs.map((p) => (
+                <div
+                  key={p.custom}
+                  className="grid grid-cols-[2fr_3fr_3fr] gap-x-6 px-4 py-4 items-start"
+                >
+                  <div className="space-y-1">
+                    <div className="text-sm">{p.label}</div>
+                    {p.usage && (
+                      <div className="text-[11px] text-foreground/50">{p.usage}</div>
+                    )}
+                  </div>
+                  <Cell iconKey={p.lucide} label={p.label} />
+                  <Cell iconKey={p.custom} label={p.label} />
+                </div>
               ))}
             </div>
           </section>
         ))}
 
-        <footer className="pt-8 border-t border-foreground/10 text-xs text-foreground/50">
-          Mangler du et ikon? Be meg lage flere custom-tegnede CMedical-ikoner
-          (urologi, fastlege, ultralyd, graviditet, behandlingsplan, før/etter, m.fl.)
+        <footer className="pt-8 border-t border-foreground/10 text-xs text-foreground/55 space-y-2">
+          <p>
+            <strong>Neste steg:</strong> Når kunden har godkjent stilen (eventuelt med justeringer
+            på enkelte ikoner), bytter vi defaultet i <code>getIcon()</code> til custom-versjonen
+            for hvert godkjent navn — alle steder på siden oppdateres automatisk.
+          </p>
+          <p>
+            Mangler du et ikon for noe spesifikt? Si fra, så tegner jeg det.
+          </p>
         </footer>
       </div>
     </main>
