@@ -11,13 +11,13 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'subtitle',
       title: 'Undertittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'heroImage',
@@ -28,7 +28,7 @@ export default {
     {
       name: 'body',
       title: 'Innhold',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'values',
@@ -67,5 +67,11 @@ export default {
   ],
   preview: {
     select: { title: 'title', media: 'heroImage' },
+    prepare({ title, media }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => t._key === 'no')?.value || title[0]?.value || 'Om oss')
+        : (title || 'Om oss')
+      return { title: titleStr, media }
+    },
   },
 }

@@ -1,5 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { sanityClient } from "@/lib/sanityClient";
+
+/**
+ * Map the i18next UI language code to the Sanity language key used by
+ * `sanity-plugin-internationalized-array`. UI uses `nb` (Bokmål) but the
+ * Studio plugin is configured with `no` for simplicity.
+ */
+const useSanityLang = (): "no" | "en" => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language || "nb";
+  if (lang.startsWith("en")) return "en";
+  return "no";
+};
 import {
   HOMEPAGE_QUERY,
   SPECIALISTS_QUERY,
@@ -224,22 +237,28 @@ export const useTreatment = (categorySlug: string, treatmentSlug: string) =>
   });
 
 // ─── About Page ──────────────────────────────────────────────────────
-export const useAboutPage = () =>
-  useQuery({
-    queryKey: ["sanity", "aboutPage"],
+export const useAboutPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "aboutPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY);
+      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY, { lang });
       if (!data) return null;
-      const sections = (data.body || [])
-        .filter((block: any) => block._type === "block")
+      // Normalize array-typed leftovers if any
+      const title = typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? "");
+      const subtitle = typeof data.subtitle === "string" ? data.subtitle : (data.subtitle?.[0]?.value ?? "");
+      const body = Array.isArray(data.body) && data.body[0]?._type === "block" ? data.body : (data.body?.[0]?.value ?? data.body);
+      const sections = (body || [])
+        .filter((block: any) => block && block._type === "block")
         .map((block: any) => ({
           title: "",
           content: (block.children || []).map((c: any) => c.text).join(""),
         }));
-      return { ...data, sections };
+      return { ...data, title, subtitle, body, sections };
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Contact Page ────────────────────────────────────────────────────
 export const useContactPage = () =>
@@ -347,39 +366,45 @@ export interface SanityArticle {
   videoCaption?: string;
 }
 
-export const useArticles = () =>
-  useQuery({
-    queryKey: ["sanity", "articles"],
+export const useArticles = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "articles", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(ARTICLES_QUERY);
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang });
       return (data || []).map((a) => ({
         ...a,
+        title: typeof a.title === "string" ? a.title : (a.title?.[0]?.value ?? ""),
+        excerpt: typeof a.excerpt === "string" ? a.excerpt : (a.excerpt?.[0]?.value ?? ""),
         image: a.image || "",
         date: a.date || "",
         category: a.category || "Nytt fra oss",
-        excerpt: a.excerpt || "",
       })) as SanityArticle[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useArticle = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "article", slug],
+export const useArticle = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "article", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang });
       if (!data) return null;
       return {
         ...data,
+        title: typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? ""),
+        excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
         image: data.image || "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
-        excerpt: data.excerpt || "",
       } as SanityArticle;
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Job Listings ────────────────────────────────────────────────────
 export const useJobListings = () =>

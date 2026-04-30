@@ -10,14 +10,20 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Tittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'URL-slug',
       type: 'slug',
-      options: {source: 'title'},
+      // Source from the Norwegian title entry
+      options: {
+        source: (doc: any) => {
+          const title = (doc?.title || []).find((t: any) => t._key === 'no')?.value
+          return title || ''
+        },
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -29,20 +35,19 @@ export default defineType({
         defineField({
           name: 'alt',
           title: 'Alt-tekst',
-          type: 'string',
+          type: 'internationalizedArrayString',
         }),
       ],
     }),
     defineField({
       name: 'excerpt',
       title: 'Utdrag',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     }),
     defineField({
       name: 'body',
       title: 'Innhold',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     }),
     defineField({
       name: 'videoUrl',
@@ -124,11 +129,6 @@ export default defineType({
       name: 'publishedAtAsc',
       by: [{field: 'publishedAt', direction: 'asc'}],
     },
-    {
-      title: 'Tittel (A–Å)',
-      name: 'titleAsc',
-      by: [{field: 'title', direction: 'asc'}],
-    },
   ],
   preview: {
     select: {
@@ -149,8 +149,12 @@ export default defineType({
       const flags = [pinned && '📌', featured && '⭐'].filter(Boolean).join(' ')
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'Ingen dato'
       const cat = categoryLabels[category] || category || 'Ingen kategori'
+      // title is now an internationalizedArray — pull NO entry first, fallback to first
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => t._key === 'no')?.value || title[0]?.value || 'Uten tittel')
+        : (title || 'Uten tittel')
       return {
-        title: `${flags ? flags + ' ' : ''}${title}`,
+        title: `${flags ? flags + ' ' : ''}${titleStr}`,
         subtitle: `${cat} · ${date}`,
         media,
       }
