@@ -8,13 +8,10 @@
 // so all links continue to work.
 
 import {
-  Stethoscope, Droplets, Ribbon, Sun, HeartPulse, Microscope, Scissors,
-  Baby, Syringe, Flower2, ShieldCheck, Scan, CircleDot, Bot, Hand,
-  Bone, Footprints, Activity, Apple, Brain, Smile, Heart, Users,
-  Pill, Dna, Snowflake, FlaskConical, TestTube, BicepsFlexed,
   Calendar, MessageCircle, HeartHandshake, Clock,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { getIcon } from "@/lib/icons";
 
 import urologiImg from "@/assets/categories/urologi.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet.jpg";
@@ -23,65 +20,69 @@ import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";
 import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
 
-export const serviceIconMap: Record<string, LucideIcon> = {
+// Map service display name -> Claude.ai (-cl) icon key registered in src/lib/icons.ts
+export const serviceIconKeyMap: Record<string, string> = {
   // Gynekologi
-  "Gynekologisk undersøkelse": Stethoscope,
-  "Urinlekkasje": Droplets,
-  "Endometriose": Ribbon,
-  "Overgangsalder": Sun,
-  "Vaginale fremfall": HeartPulse,
-  "Blødningsforstyrrelser": Activity,
-  "Celleforandringer": Microscope,
-  "Cyster på eggstokkene": CircleDot,
-  "Fjerne livmor": Scissors,
-  "PMS og PMDD": Heart,
-  "Labiaplastikk": Flower2,
-  "Vaginal tørrhet": Droplets,
-  "Vulvalidelser": ShieldCheck,
-  "Gynekologisk kirurgi": Scissors,
-  "Robotassistert kirurgi": Bot,
+  "Gynekologisk undersøkelse": "gynekologisk-undersokelse-cl",
+  "Urinlekkasje": "urinlekkasje-cl",
+  "Endometriose": "endometriose-cl",
+  "Overgangsalder": "overgangsalder-cl",
+  "Vaginale fremfall": "vaginale-fremfall-cl",
+  "Blødningsforstyrrelser": "blodningsforstyrrelser-cl",
+  "Celleforandringer": "celleforandringer-cl",
+  "Cyster på eggstokkene": "cyster-cl",
+  "Fjerne livmor": "fjerne-livmor-cl",
+  "PMS og PMDD": "pms-pmdd-cl",
+  "Labiaplastikk": "labiaplastikk-cl",
+  "Vaginal tørrhet": "vaginal-torrhet-cl",
+  "Vulvalidelser": "vulvalidelser-cl",
+  "Gynekologisk kirurgi": "gynekologisk-kirurgi-cl",
+  "Robotassistert kirurgi": "robotkirurgi-gyn-cl",
   // Fertilitet
-  "Infertilitet": Dna,
-  "Assistert befruktning": FlaskConical,
-  "Assistert befruktning med donor": TestTube,
-  "Eggfrys": Snowflake,
-  "Hormonforstyrrelser": Pill,
-  "Hysteroskopi": Scan,
+  "Infertilitet": "infertilitet-cl",
+  "Assistert befruktning": "assistert-befruktning-cl",
+  "Assistert befruktning med donor": "donorbehandling-cl",
+  "Eggfrys": "eggfrys-cl",
+  "Hormonforstyrrelser": "hormonforstyrrelser-cl",
+  "Hysteroskopi": "hysteroskopi-cl",
   // Urologi
-  "Blære og urinveier": Droplets,
-  "Forhud": ShieldCheck,
-  "Mannlig infertilitet": Dna,
-  "Nyrer": Activity,
-  "Prevensjon": Pill,
+  "Blære og urinveier": "blaere-cl",
+  "Forhud": "forhud-cl",
+  "Mannlig infertilitet": "mannlig-infertilitet-cl",
+  "Nyrer": "nyrer-cl",
+  "Prevensjon": "hormonforstyrrelser-cl",
   // Ortopedi
-  "Fot og ankel": Footprints,
-  "Hofte": BicepsFlexed,
-  "Hånd og albue": Hand,
-  "Kne": Bone,
+  "Fot og ankel": "fot-ankel-cl",
+  "Hofte": "hofte-cl",
+  "Hånd og albue": "hand-albue-cl",
+  "Kne": "kne-cl",
   // Graviditet
-  "Ultralyd": Scan,
-  "NIPT": Microscope,
-  "6-ukerskontroll etter fødsel": Baby,
-  "Traumatisk fødsel": HeartPulse,
-  "Fødselsangst": Heart,
-  "For partnere": Users,
-  "Fostermedisin": Baby,
-  "Spontanabort": Heart,
+  "Ultralyd": "ultralyd-cl",
+  "NIPT": "nipt-cl",
+  "6-ukerskontroll etter fødsel": "graviditet-cl",
+  "Traumatisk fødsel": "svangerskapsteam-cl",
+  "Fødselsangst": "psykologi-cl",
+  "For partnere": "tverrfaglig-team-cl",
+  "Fostermedisin": "fosterdiagnostikk-cl",
+  "Spontanabort": "spontanabort-cl",
   // Flere fagområder
-  "Endokrinologi": Syringe,
-  "Ernæringsfysiolog": Apple,
-  "Hudlege": Flower2,
-  "Gastrokirurgi": Scissors,
-  "Overvektskirurgi": Scissors,
-  "Osteopati": Hand,
-  "Psykologi": Brain,
-  "Sexologi": Smile,
-  "Kvinnehelse": Heart,
-  "Tverrfaglig team": Users,
+  "Endokrinologi": "endokrinologi-cl",
+  "Ernæringsfysiolog": "ernaringsfysiolog-cl",
+  "Hudlege": "hudlege-cl",
+  "Gastrokirurgi": "gastrokirurgi-cl",
+  "Overvektskirurgi": "overvektskirurgi-cl",
+  "Osteopati": "osteopati-cl",
+  "Psykologi": "psykologi-cl",
+  "Sexologi": "sexologi-cl",
+  "Kvinnehelse": "gynekologi-cl",
+  "Tverrfaglig team": "tverrfaglig-team-cl",
 };
 
 export const getServiceIcon = (name: string): LucideIcon =>
-  serviceIconMap[name] || Stethoscope;
+  getIcon(serviceIconKeyMap[name] ?? "flere-fagomrader-cl");
+
+// Backwards-compat: legacy name kept so existing imports don't break.
+export const serviceIconMap = serviceIconKeyMap;
 
 export interface ServiceGroup {
   label: string;
