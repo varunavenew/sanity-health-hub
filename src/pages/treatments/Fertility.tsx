@@ -463,10 +463,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. SPESIALISTER — overskrift + promo (10s rotasjon) + grid
+          7. SPESIALISTER — overskrift + grid
       ============================================================ */}
       <section className="bg-secondary/40">
-        {/* Overskrift over forhåndsvisningen */}
         <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
@@ -486,123 +485,34 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
 
-        {/* Promo — forhåndsvisning */}
-        <div className="grid lg:grid-cols-12 lg:min-h-[640px]">
-          <div className="lg:col-span-5 relative bg-secondary min-h-[420px] lg:min-h-full overflow-hidden">
-            <img
-              key={activeSpecialist.slug}
-              src={activeSpecialist.image}
-              alt={`${activeSpecialist.name} — ${activeSpecialist.title} hos CMedical`}
-              loading="lazy"
-              width={1024}
-              height={1280}
-              className="absolute inset-0 w-full h-full object-cover animate-fade-in"
-            />
-          </div>
-
-          <div className="lg:col-span-7 flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-20">
-            <div key={activeSpecialist.slug} className="w-full max-w-2xl animate-fade-in">
-              <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                Bli kjent med {activeSpecialist.name.split(" ")[0]}
-              </p>
-              <h3 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
-                {activeSpecialist.title}
-                {activeSpecialist.subtitle ? ` — ${activeSpecialist.subtitle}` : ""}.
-              </h3>
-              {activeSpecialist.bio && (
-                <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-8 line-clamp-6">
-                  {activeSpecialist.bio.split("\n\n")[0]}
-                </p>
-              )}
-
-              <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Button asChild variant="cta" size="lg" className="px-7">
-                  <Link
-                    to={buildBookingUrl({
-                      kategori: "fertilitet",
-                      spesialist: activeSpecialist.slug,
-                    })}
-                  >
-                    Bestill time hos {activeSpecialist.name.split(" ")[0]}
-                  </Link>
-                </Button>
-                <Button asChild variant="cta-outline" size="lg" className="px-7">
-                  <Link to={`/spesialister/${activeSpecialist.slug}`}>
-                    Les mer om {activeSpecialist.name.split(" ")[0]}
-                  </Link>
-                </Button>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {promoSpecialists.map((sp, i) => (
-                  <button
-                    key={sp.slug}
-                    type="button"
-                    onClick={() => setActiveIndex(i)}
-                    aria-label={`Vis ${sp.name}`}
-                    className={`h-[2px] transition-all duration-300 ${
-                      i === activeIndex
-                        ? "w-10 bg-foreground"
-                        : "w-6 bg-foreground/25 hover:bg-foreground/50"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        {/* Kant-i-kant grid — synkronisert med promo-seksjonen over */}
-        <div className={`grid grid-cols-2 gap-0 ${promoSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
-          {promoSpecialists.map((sp, i) => {
-            const isActive = i === activeIndex;
-            return (
-              <button
-                key={sp.slug}
-                type="button"
-                onClick={() => setActiveIndex(i)}
-                aria-label={`Vis ${sp.name} i promo`}
-                aria-pressed={isActive}
-                className="group relative block text-left focus:outline-none"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img
-                    src={sp.image}
-                    alt={sp.name}
-                    loading="lazy"
-                    className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05] ${
-                      isActive ? "scale-[1.03]" : ""
-                    }`}
-                  />
-                  <div
-                    className={`absolute inset-0 transition-opacity duration-500 ${
-                      isActive
-                        ? "bg-gradient-to-t from-brand-dark/40 via-brand-dark/0 to-transparent"
-                        : "bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10"
-                    }`}
-                  />
-
-                  {/* Aktiv-indikator */}
-                  {isActive && (
-                    <span className="absolute top-3 left-3 inline-flex items-center gap-2 bg-brand-yellow text-brand-dark text-[11px] font-normal px-2.5 py-1 rounded-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-dark animate-pulse" />
-                      Vises nå
-                    </span>
-                  )}
-
-                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                      {sp.name}
-                    </h3>
-                    <p className="text-sm font-light text-white/75">
-                      {sp.subtitle || sp.title}
-                    </p>
-                  </div>
+        {/* Kant-i-kant grid */}
+        <div className={`grid grid-cols-2 gap-0 ${fertilitySpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
+          {fertilitySpecialists.map((sp) => (
+            <Link
+              key={sp.slug}
+              to={`/spesialister/${sp.slug}`}
+              aria-label={`Les mer om ${sp.name}`}
+              className="group relative block text-left focus:outline-none"
+            >
+              <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                <img
+                  src={sp.image}
+                  alt={sp.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                  <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
+                    {sp.name}
+                  </h3>
+                  <p className="text-sm font-light text-white/75">
+                    {sp.subtitle || sp.title}
+                  </p>
                 </div>
-              </button>
-            );
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
