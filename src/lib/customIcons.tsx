@@ -1224,3 +1224,332 @@ export const FertilityAssessmentIcon = make("FertilityAssessmentIcon", () => (
     <path d="M10 8 c -1 1 -1.5 2 -1.5 3 a 1.5 1.5 0 0 0 3 0 c 0 -1 -0.5 -2 -1.5 -3 z" />
   </>
 ));
+
+/* =========================================================================
+ * EXTENDED SYMBOLIC SET — for alle gjenværende undertjenester
+ * ========================================================================= */
+
+// Tverrfaglig team — flettede sirkler
+export const InterdisciplinaryIcon = make("InterdisciplinaryIcon", () => (
+  <>
+    <circle cx="9" cy="10" r="4" />
+    <circle cx="15" cy="10" r="4" />
+    <circle cx="12" cy="16" r="4" />
+  </>
+));
+
+// Hormoner — molekyl-kjede
+export const HormonesIcon = make("HormonesIcon", () => (
+  <>
+    <circle cx="6" cy="12" r="2.5" />
+    <circle cx="18" cy="12" r="2.5" />
+    <circle cx="12" cy="6" r="2.5" />
+    <circle cx="12" cy="18" r="2.5" />
+    <path d="M8 12 h8 M12 8 v8" />
+  </>
+));
+
+// Hysteroskopi — kikkertinngang i sirkel
+export const HysteroscopyIcon = make("HysteroscopyIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="8" />
+    <circle cx="12" cy="12" r="3" />
+    <path d="M4 12 h2 M18 12 h2" />
+  </>
+));
+
+// Robotkirurgi (alt) — presisjons-arm
+export const RoboticArmIcon = make("RoboticArmIcon", () => (
+  <>
+    <circle cx="6" cy="6" r="2" />
+    <path d="M7.5 7.5 L12 12 L17 9" />
+    <circle cx="17" cy="9" r="2" />
+    <path d="M17 11 V18" />
+    <path d="M14 18 H20" />
+  </>
+));
+
+// Spontanabort — omsorgs-hjerte med pause-linje (verdig, ikke trist)
+export const PregnancyLossIcon = make("PregnancyLossIcon", () => (
+  <>
+    <path d="M12 19 C 5 14 4 9 8 7 C 10 6 11 7 12 9 C 13 7 14 6 16 7 C 20 9 19 14 12 19 z" />
+    <path d="M9 13 h6" strokeWidth="2" />
+  </>
+));
+
+// Graviditet (alt) — magekontur
+export const PregnancyBumpIcon = make("PregnancyBumpIcon", () => (
+  <>
+    <path d="M9 4 v4 a 5 5 0 0 0 5 5 a 5 5 0 0 1 0 10 H9 V4" />
+    <circle cx="13" cy="11" r="0.8" fill="currentColor" stroke="none" />
+  </>
+));
+
+/* === UROLOGI === */
+
+// Blære — pære-form
+export const BladderIcon = make("BladderIcon", () => (
+  <>
+    <path d="M12 5 v3" />
+    <path d="M7 12 a5 6 0 1 0 10 0 a 4 3 0 0 0 -10 0 z" />
+  </>
+));
+
+// Forhud — ring med åpning
+export const ForeskinIcon = make("ForeskinIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="7" />
+    <path d="M9 12 a3 3 0 0 1 6 0" />
+  </>
+));
+
+// Mannlig infertilitet — Mars med spørsmål
+export const MaleInfertilityIcon = make("MaleInfertilityIcon", () => (
+  <>
+    <circle cx="10" cy="14" r="4" />
+    <path d="M13 11 L19 5 M14 5 h5 v5" />
+    <path d="M10 13 v0.5 M10 15.5 v0.5" strokeWidth="2" />
+  </>
+));
+
+// Nyrer — bønneform (par)
+export const KidneysIcon = make("KidneysIcon", () => (
+  <>
+    <path d="M5 8 c -2 2 -2 6 0 8 c 2 1 4 0 4 -3 c 0 -3 -2 -6 -4 -5 z" />
+    <path d="M19 8 c 2 2 2 6 0 8 c -2 1 -4 0 -4 -3 c 0 -3 2 -6 4 -5 z" />
+  </>
+));
+
+// Refertilisering — Mars + bro/sirkel
+export const RefertilisationIcon = make("RefertilisationIcon", () => (
+  <>
+    <circle cx="8" cy="14" r="3" />
+    <circle cx="16" cy="14" r="3" />
+    <path d="M11 14 h2" />
+    <path d="M5 11 a3 3 0 0 1 14 0" />
+  </>
+));
+
+// Sterilisering — Mars med X / låst
+export const SterilisationIcon = make("SterilisationIcon", () => (
+  <>
+    <circle cx="10" cy="14" r="4" />
+    <path d="M13 11 L19 5 M14 5 h5 v5" />
+    <path d="M8 12 l4 4 M12 12 l-4 4" strokeWidth="1.5" />
+  </>
+));
+
+// Testikler — to ovale former
+export const TesticlesIcon = make("TesticlesIcon", () => (
+  <>
+    <ellipse cx="9" cy="14" rx="3" ry="4" />
+    <ellipse cx="15" cy="14" rx="3" ry="4" />
+    <path d="M12 7 v3" />
+  </>
+));
+
+/* === FERTILITET === */
+
+// Eggfrys — egg + snøflak
+export const EggFreezeIcon = make("EggFreezeIcon", () => (
+  <>
+    <ellipse cx="12" cy="13" rx="5" ry="6" />
+    <path d="M12 10 v6 M9.5 11 l5 4 M14.5 11 l-5 4" strokeWidth="1" />
+  </>
+));
+
+// Donorbehandling — to sirkler + pil mellom
+export const DonorTreatmentIcon = make("DonorTreatmentIcon", () => (
+  <>
+    <circle cx="6" cy="12" r="3" />
+    <circle cx="18" cy="12" r="3" />
+    <path d="M9 12 h6" />
+    <path d="M13 10 l2 2 l-2 2" />
+  </>
+));
+
+// Sædanalyse — mikroskop-rute med spermie
+export const SpermAnalysisIcon = make("SpermAnalysisIcon", () => (
+  <>
+    <rect x="4" y="4" width="16" height="16" rx="2" />
+    <circle cx="9" cy="11" r="2" />
+    <path d="M11 11 C 13 9 16 14 18 11" />
+  </>
+));
+
+// Fertilitetsteamet — gruppe-sirkler
+export const FertilityTeamIcon = make("FertilityTeamIcon", () => (
+  <>
+    <circle cx="8" cy="9" r="2.5" />
+    <circle cx="16" cy="9" r="2.5" />
+    <circle cx="12" cy="15" r="2.5" />
+    <path d="M5 19 a 3 3 0 0 1 6 0 M13 19 a 3 3 0 0 1 6 0" />
+  </>
+));
+
+// Assistert befruktning — to celler som møtes
+export const AssistedFertilisationIcon = make("AssistedFertilisationIcon", () => (
+  <>
+    <circle cx="9" cy="12" r="3.5" />
+    <circle cx="16" cy="12" r="1.5" />
+    <path d="M16 12 C 14 11 13 13 12.5 12" />
+  </>
+));
+
+/* === ORTOPEDI === */
+
+// Fot og ankel — fotsåle
+export const FootIcon = make("FootIcon", () => (
+  <>
+    <path d="M9 4 c -2 0 -3 2 -3 5 v6 c0 3 2 5 4 5 c 2 0 3 -2 3 -4 v-6 c 0 -4 -1 -6 -4 -6 z" />
+    <circle cx="14" cy="6" r="0.8" fill="currentColor" stroke="none" />
+    <circle cx="15" cy="9" r="0.8" fill="currentColor" stroke="none" />
+    <circle cx="15" cy="12" r="0.8" fill="currentColor" stroke="none" />
+    <circle cx="14" cy="15" r="0.8" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Hofte — leddkule i hofteskål
+export const HipIcon = make("HipIcon", () => (
+  <>
+    <path d="M5 5 h6 a3 3 0 0 1 3 3 v3 a4 4 0 0 1 -4 4 H7" />
+    <circle cx="14" cy="14" r="4" />
+    <path d="M14 18 v3" />
+  </>
+));
+
+// Hånd og albue — vinklet arm
+export const ArmIcon = make("ArmIcon", () => (
+  <>
+    <path d="M4 19 L10 13 L14 17" />
+    <circle cx="10" cy="13" r="1.5" />
+    <path d="M14 17 L18 13 L20 14" />
+    <path d="M18 11 v-2 M20 11 v-2 M16 11 v-2" />
+  </>
+));
+
+// Kne — bøyd ben
+export const KneeIcon = make("KneeIcon", () => (
+  <>
+    <path d="M9 4 v6" />
+    <circle cx="9" cy="11" r="2.5" />
+    <path d="M9 13 L15 18 L19 18" />
+  </>
+));
+
+// Skulder — leddkule øverst
+export const ShoulderIcon = make("ShoulderIcon", () => (
+  <>
+    <circle cx="8" cy="8" r="3" />
+    <path d="M8 11 v4 L13 19" />
+    <path d="M11 11 H17 L19 14" />
+  </>
+));
+
+/* === FLERE FAGOMRÅDER === */
+
+// Endokrinologi — molekyl + sky
+export const EndocrinologyIcon = make("EndocrinologyIcon", () => (
+  <>
+    <circle cx="12" cy="9" r="3" />
+    <circle cx="7" cy="15" r="2" />
+    <circle cx="17" cy="15" r="2" />
+    <path d="M10 11 L8 14 M14 11 L16 14" />
+  </>
+));
+
+// Hudlege — ansiktssilhuett med flekk
+export const DermatologyIcon = make("DermatologyIcon", () => (
+  <>
+    <path d="M7 6 a 5 7 0 0 1 10 0 v8 a 5 5 0 0 1 -10 0 z" />
+    <circle cx="14" cy="11" r="1" fill="currentColor" stroke="none" />
+    <circle cx="10" cy="9" r="0.6" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Ernæringsfysiolog — eple
+export const NutritionIcon = make("NutritionIcon", () => (
+  <>
+    <path d="M12 8 c -3 -1 -7 0 -7 5 c 0 5 4 8 7 8 c 3 0 7 -3 7 -8 c 0 -5 -4 -6 -7 -5 z" />
+    <path d="M12 8 v-2 a 2 2 0 0 1 2 -2" />
+    <path d="M10 5 c 0 1 1 2 2 3" />
+  </>
+));
+
+// Gastrokirurgi — magesirkel med snitt-markør
+export const GastroSurgeryIcon = make("GastroSurgeryIcon", () => (
+  <>
+    <path d="M8 5 c -2 2 -3 5 -3 8 c 0 4 3 7 7 7 c 4 0 7 -3 7 -7 c 0 -3 -1 -5 -3 -7" />
+    <path d="M9 11 h6 M11 8 h2" />
+  </>
+));
+
+// Osteopati — ryggrad-segmenter
+export const OsteopathyIcon = make("OsteopathyIcon", () => (
+  <>
+    <path d="M12 3 v18" />
+    <circle cx="12" cy="6" r="1.5" />
+    <circle cx="12" cy="10" r="1.5" />
+    <circle cx="12" cy="14" r="1.5" />
+    <circle cx="12" cy="18" r="1.5" />
+  </>
+));
+
+// Plastikkirurgi — ansikt-profil
+export const PlasticSurgeryIcon = make("PlasticSurgeryIcon", () => (
+  <>
+    <path d="M16 4 C 8 4 6 11 8 14 L8 18 a 2 2 0 0 0 2 2 H14 v-3 c2 0 3 -2 3 -4 c 2 -1 1 -3 0 -4 c 0 -3 -1 -5 -1 -5 z" />
+    <circle cx="11" cy="11" r="0.6" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Psykologi — hode med tankekrøll
+export const PsychologyIcon = make("PsychologyIcon", () => (
+  <>
+    <path d="M8 6 a 5 5 0 0 1 10 0 v6 a 3 3 0 0 1 -3 3 H13 v3 H10 v-4 a 5 5 0 0 1 -2 -4 z" />
+    <path d="M11 9 c 1 -1 3 0 2 2 c -1 1 -1 2 0 2.5" />
+  </>
+));
+
+// Revmatologi — leddhånd
+export const RheumatologyIcon = make("RheumatologyIcon", () => (
+  <>
+    <path d="M7 20 V11 a 1 1 0 0 1 2 0 V8 a 1 1 0 0 1 2 0 V7 a 1 1 0 0 1 2 0 V8 a 1 1 0 0 1 2 0 V11 a 4 4 0 0 1 -4 4 H10 a 3 3 0 0 1 -3 -3 z" />
+    <circle cx="13" cy="12" r="1" strokeDasharray="1 1" />
+  </>
+));
+
+// Sexologi — to flettede ringer
+export const SexologyIcon = make("SexologyIcon", () => (
+  <>
+    <circle cx="9" cy="12" r="4" />
+    <circle cx="15" cy="12" r="4" />
+  </>
+));
+
+// Åreknuter — slynget linje
+export const VaricoseVeinsIcon = make("VaricoseVeinsIcon", () => (
+  <>
+    <path d="M9 4 C 13 7 6 11 10 14 C 14 17 8 19 12 21" />
+    <path d="M15 4 C 17 8 13 12 16 16 C 18 19 16 20 14 21" opacity="0.5" />
+  </>
+));
+
+// Hudhelse — sol+hud (ulik fra hudlege)
+export const SkinHealthIcon = make("SkinHealthIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="5" />
+    <path d="M12 4 v2 M12 18 v2 M4 12 h2 M18 12 h2 M6.5 6.5 l1.4 1.4 M16.1 16.1 l1.4 1.4 M6.5 17.5 l1.4 -1.4 M16.1 7.9 l1.4 -1.4" opacity="0.5" />
+    <circle cx="11" cy="11" r="0.6" fill="currentColor" stroke="none" />
+    <circle cx="13" cy="13" r="0.6" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Overvektskirurgi — kropp med pil ned
+export const WeightSurgeryIcon = make("WeightSurgeryIcon", () => (
+  <>
+    <circle cx="12" cy="6" r="2" />
+    <path d="M9 19 V13 a 3 3 0 0 1 6 0 V19" />
+    <path d="M18 10 v4 l-2 -2 M18 14 l2 -2" />
+  </>
+));
