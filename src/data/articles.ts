@@ -83,7 +83,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/11f45ca6a82256cd2bfc61fc0d267d302975a09f-3519x4000.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2026-01-28",
-    category: "Nyheter",
+    category: "Nytt fra oss",
     pinned: true,
     featured: true,
   },
@@ -105,7 +105,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/32d26b009155315ee9079e632d50526ed728d822-4853x5037.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-12-18",
-    category: "Nyheter",
+    category: "Nytt fra oss",
     pinned: true,
     featured: true,
   },
@@ -149,7 +149,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/3480faeccb875c3efde636db2e2a32f0c473c967-3456x4608.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-10-15",
-    category: "Nyheter",
+    category: "Nytt fra oss",
   },
   {
     slug: "cmedical-kjoper-livio-oslo",
@@ -159,7 +159,7 @@ export const articles: Article[] = [
     image:
       "https://cdn.sanity.io/images/bk8rw7yi/production/9d98db67b0bed43cb6748e735176901b526eecf3-3456x4016.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-09-22",
-    category: "Nyheter",
+    category: "Nytt fra oss",
   },
   {
     slug: "tanken-slo-meg-ikke-at-det-kunne-vaere-meg",
