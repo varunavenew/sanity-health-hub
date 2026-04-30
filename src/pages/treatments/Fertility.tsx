@@ -576,7 +576,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           9. MØRK SLUTT-CTA — "Usikker på hvor du skal begynne?"
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-24">
+      <section className="bg-[#180404] text-white py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
