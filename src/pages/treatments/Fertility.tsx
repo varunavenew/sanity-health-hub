@@ -323,26 +323,44 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
             {/* Right — sammenligningskort */}
             <div className="lg:col-span-5">
-              <div className="bg-secondary/50 p-7 rounded-sm">
-                <p className="text-xs tracking-wide text-foreground/60 mb-6">
-                  CMedical i tall
-                </p>
-                <dl className="divide-y divide-border/60">
+              <div className="bg-background border border-border/60 rounded-sm overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                {/* Header */}
+                <div className="px-8 pt-8 pb-6 border-b border-border/60">
+                  <p className="text-[11px] tracking-[0.18em] uppercase text-muted-foreground mb-2">
+                    CMedical
+                  </p>
+                  <p className="text-2xl font-light text-foreground">
+                    I tall
+                  </p>
+                </div>
+
+                {/* Stats grid */}
+                <dl>
                   {[
-                    { k: "Klinikker", v: "Norges eldste" },
-                    { k: "Ventetid", v: "Ingen" },
-                    { k: "Henvisning nødvendig", v: "Nei" },
-                    { k: "Vurdering", v: "4,7 ★" },
-                  ].map((row) => (
+                    { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
+                    { k: "Ventetid", v: "Ingen", sub: "Ofte time samme uke" },
+                    { k: "Henvisning", v: "Nei", sub: "Book direkte" },
+                    { k: "Vurdering", v: "4,7", sub: "1 200+ pasienter", star: true },
+                  ].map((row, idx) => (
                     <div
                       key={row.k}
-                      className="flex items-baseline justify-between py-4"
+                      className={`px-8 py-5 flex items-end justify-between gap-6 ${
+                        idx !== 3 ? "border-b border-border/50" : ""
+                      }`}
                     >
-                      <dt className="text-sm font-light text-muted-foreground">
-                        {row.k}
-                      </dt>
-                      <dd className="text-base font-normal text-foreground">
+                      <div>
+                        <dt className="text-sm font-light text-muted-foreground mb-0.5">
+                          {row.k}
+                        </dt>
+                        <p className="text-xs font-light text-muted-foreground/70">
+                          {row.sub}
+                        </p>
+                      </div>
+                      <dd className="text-2xl md:text-3xl font-light text-foreground tracking-tight flex items-baseline gap-1.5">
                         {row.v}
+                        {row.star && (
+                          <Star className="w-4 h-4 fill-brand-dark text-brand-dark translate-y-[-2px]" />
+                        )}
                       </dd>
                     </div>
                   ))}
