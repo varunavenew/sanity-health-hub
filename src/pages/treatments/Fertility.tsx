@@ -384,17 +384,16 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
                 «Ingen skal måtte gjette seg gjennom kroppen sin.»
               </h2>
-              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6 italic">
-                Madeleine Engen er gynekolog, kirurg og fagansvarlig for
-                kvinnehelse hos CMedical. Hun jobber tett med
-                fertilitetsteamet og er en tydelig stemme for kvinnehelse —
-                både i klinikken, i media og på internasjonale fagarenaer.
+              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6">
+                Det er ord Madeleine Engen lever etter. Hun er gynekolog,
+                kirurg og fagansvarlig for kvinnehelse hos CMedical — og en
+                tydelig stemme for kvinnehelse i Norge.
               </p>
               <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
                 Med spesialkompetanse innen urogynekologi, hormoner og
                 overgangsalder møter Madeleine pasientene sine med både
-                medisinsk presisjon og en sjelden varme. Mange av våre
-                fertilitetspasienter starter med en samtale hos henne — for
+                medisinsk presisjon og en sjelden varme. Mange som vurderer
+                fertilitetsbehandling starter med en samtale hos henne — for
                 å få oversikt før den større reisen begynner.
               </p>
 
