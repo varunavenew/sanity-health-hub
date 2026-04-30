@@ -11,13 +11,13 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'subtitle',
       title: 'Undertittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'heroImage',
@@ -28,7 +28,7 @@ export default {
     {
       name: 'body',
       title: 'Innhold',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'values',
