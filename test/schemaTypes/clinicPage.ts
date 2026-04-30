@@ -6,6 +6,15 @@ export default {
   title: 'Klinikk',
   type: 'document',
   icon: ClinicIcon,
+  groups: [
+    { name: 'overview', title: 'Oversikt', default: true },
+    { name: 'contact', title: 'Kontakt & adresse' },
+    { name: 'practical', title: 'Praktisk info' },
+    { name: 'related', title: 'Behandlinger & spesialister' },
+    { name: 'booking', title: 'Booking' },
+    { name: 'faq', title: 'FAQ' },
+    { name: 'seo', title: 'SEO & meta' },
+  ],
   fields: [
     {
       name: 'title',
