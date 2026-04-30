@@ -97,28 +97,14 @@ const insurance = [
    ────────────────────────────────────────────────────────────── */
 
 const Fertility = ({ isChatOpen }: PageProps) => {
-  const fertilitySpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "fertilitet").slice(0, 4),
-    []
-  );
-
-  // Promo-rotasjon: starter med Madeleine, deretter fertilitetsspesialistene
-  const promoSpecialists = useMemo(() => {
+  // Spesialister: Madeleine først, deretter resten av fertilitetsspesialistene
+  const fertilitySpecialists = useMemo(() => {
+    const fertility = specialists.filter((s) => s.category === "fertilitet");
     const madeleine = specialists.find((s) => s.slug === "madeleine-engen");
-    const list = madeleine ? [madeleine, ...fertilitySpecialists] : fertilitySpecialists;
-    return list;
-  }, [fertilitySpecialists]);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeSpecialist = promoSpecialists[activeIndex] ?? promoSpecialists[0];
-
-  useEffect(() => {
-    if (promoSpecialists.length <= 1) return;
-    const id = window.setInterval(() => {
-      setActiveIndex((i) => (i + 1) % promoSpecialists.length);
-    }, 10000);
-    return () => window.clearInterval(id);
-  }, [promoSpecialists.length]);
+    const withoutMadeleine = fertility.filter((s) => s.slug !== "madeleine-engen");
+    const list = madeleine ? [madeleine, ...withoutMadeleine] : fertility;
+    return list.slice(0, 5);
+  }, []);
 
   useEffect(() => {
     document.title =
