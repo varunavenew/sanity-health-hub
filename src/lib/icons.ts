@@ -75,6 +75,11 @@ import {
   // Social custom
   InstagramThinIcon, FacebookThinIcon, LinkedinThinIcon, YoutubeThinIcon, TwitterThinIcon,
   AppleThinIcon, BotThinIcon,
+  // Subspeciality custom (gynekologi/urologi/fertilitet undertjenester)
+  DropletThinIcon, RibbonThinIcon, SunThinIcon, CircleDotThinIcon, FlowerThinIcon,
+  HandshakeThinIcon, SparkRayThinIcon, TemperatureThinIcon, BandageThinIcon,
+  DnaThinIcon, EggCellThinIcon, MaleSignThinIcon, FemaleSignThinIcon,
+  StepsThinIcon, ChecklistThinIcon, StarCircleThinIcon, RefreshThinIcon, HomeThinIcon,
 } from "./customIcons";
 
 // Cast helper for custom icons (LucideProps-compatible API)
