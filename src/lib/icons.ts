@@ -38,6 +38,9 @@ import {
   Timer, TrendingUp, Zap, Loader2, Circle,
   // Social
   Instagram, Facebook, Linkedin, Youtube, Twitter, Apple, Bot,
+  // Subspeciality (Lucide today-equivalents for gynekologi/urologi undertjenester)
+  Droplets, Ribbon, Sun, CircleDot, Flower2, HeartHandshake, Home, RefreshCw, ListChecks,
+  Footprints, Dna,
   type LucideIcon,
 } from "lucide-react";
 
