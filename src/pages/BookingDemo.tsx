@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 import { clinics as staticClinics, getClinicsForService as staticGetClinicsForService, Clinic } from "@/data/clinicServices";
 import { useClinics } from "@/hooks/useSanity";
+import { categoryPageToBookingId, slugifyNo } from "@/lib/bookingLinks";
 
 // Booking services data based on CMedical's actual structure
 const bookingServices = [
@@ -241,25 +242,93 @@ const BookingDemo = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep]);
 
-  // Pre-expand category from URL param (e.g., /booking?kategori=gynekolog)
+  // Prefill from URL params: ?kategori=gynekologi&tjeneste=endometriose&spesialist=slug&klinikk=majorstuen
+  // Jumps to the first unfilled step so users coming from a specific
+  // page never have to start over.
   useEffect(() => {
-    const kategori = searchParams.get('kategori');
-    if (kategori && !bookingData.service) {
-      // Map category page IDs to booking service IDs
-      const categoryToBookingMap: Record<string, string> = {
-        gynekologi: 'gynekolog',
-        urologi: 'urolog',
-        fertilitet: 'fertilitet',
-        ortopedi: 'ortoped',
-        'flere-fagomrader': 'flere',
-      };
-      const bookingCategoryId = categoryToBookingMap[kategori] || kategori;
-      const matchingCategory = bookingServices.find(c => c.id === bookingCategoryId);
+    if (bookingData.service || bookingData.clinic || bookingData.specialist) return;
+    if (specialists.length === 0) return;
+
+    const kategori = searchParams.get("kategori");
+    const tjeneste = searchParams.get("tjeneste");
+    const spesialistSlug = searchParams.get("spesialist");
+    const klinikkId = searchParams.get("klinikk");
+
+    if (!kategori && !tjeneste && !spesialistSlug && !klinikkId) return;
+
+    // 1. Resolve category
+    let resolvedCategoryId: string | undefined;
+    let resolvedCategoryLabel: string | undefined;
+    if (kategori) {
+      const bookingCategoryId = categoryPageToBookingId[kategori] || kategori;
+      const matchingCategory = bookingServices.find((c) => c.id === bookingCategoryId);
       if (matchingCategory) {
+        resolvedCategoryId = matchingCategory.id;
+        resolvedCategoryLabel = matchingCategory.label;
         setExpandedCategory(matchingCategory.id);
       }
     }
-  }, [searchParams]);
+
+    // If specialist is given but no category, derive from the specialist's category
+    let resolvedSpecialist: Specialist | undefined;
+    if (spesialistSlug) {
+      resolvedSpecialist = specialists.find((s) => s.slug === spesialistSlug);
+      if (resolvedSpecialist && !resolvedCategoryId) {
+        const specCatToBookingId: Record<string, string> = {
+          gynekologi: "gynekolog",
+          fertilitet: "fertilitet",
+          urologi: "urolog",
+          ortopedi: "ortoped",
+        };
+        const derivedId = specCatToBookingId[resolvedSpecialist.category];
+        const derivedCat = derivedId ? bookingServices.find((c) => c.id === derivedId) : undefined;
+        if (derivedCat) {
+          resolvedCategoryId = derivedCat.id;
+          resolvedCategoryLabel = derivedCat.label;
+          setExpandedCategory(derivedCat.id);
+        }
+      }
+    }
+
+    // 2. Resolve specific service within category (slug or fuzzy name match)
+    let resolvedService: { name: string; price: string; duration: string } | undefined;
+    if (tjeneste && resolvedCategoryId) {
+      const cat = bookingServices.find((c) => c.id === resolvedCategoryId);
+      const targetSlug = slugifyNo(tjeneste);
+      resolvedService = cat?.services.find((s) => {
+        const nameSlug = slugifyNo(s.name);
+        return nameSlug === targetSlug || nameSlug.includes(targetSlug) || targetSlug.includes(nameSlug);
+      });
+    }
+
+    // 3. Resolve clinic
+    let resolvedClinic: Clinic | undefined;
+    if (klinikkId) {
+      resolvedClinic = clinics.find((c) => c.id === klinikkId);
+    }
+    // Auto-select clinic if a service is resolved and only one clinic offers it
+    if (!resolvedClinic && resolvedCategoryId && resolvedService) {
+      const clinicsForService = clinics.filter((c) => c.services?.includes(resolvedCategoryId!));
+      if (clinicsForService.length === 1) {
+        resolvedClinic = clinicsForService[0];
+      }
+    }
+
+    // 4. Commit prefilled state — only if we have at least service/clinic/specialist
+    if (resolvedService || resolvedClinic || resolvedSpecialist) {
+      const next: BookingData = {};
+      if (resolvedCategoryId) next.categoryId = resolvedCategoryId;
+      if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
+      if (resolvedService) next.service = resolvedService;
+      if (resolvedClinic) next.clinic = resolvedClinic;
+      if (resolvedSpecialist) {
+        next.specialist = resolvedSpecialist;
+        next.specialistChosen = true;
+      }
+      setBookingData(next);
+    }
+    // If only kategori was given, expandedCategory is already set above.
+  }, [searchParams, specialists, clinics]);
 
   const filteredSpecialists = specialists.slice(0, 8);
 
