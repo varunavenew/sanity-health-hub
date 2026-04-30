@@ -384,6 +384,36 @@ const IconPreview = () => {
           </ul>
         </header>
 
+        {/* ============================================================
+            Claude.ai editorial proposal — Scandinavian set
+            ============================================================ */}
+        <section className="space-y-5 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
+          <div className="space-y-2 max-w-3xl">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+              Forslag fra Claude.ai
+            </div>
+            <h2 className="text-xl">Scandinavian editorial-sett — 53 symbolske ikoner</h2>
+            <p className="text-sm text-foreground/65 leading-relaxed">
+              Tegnet etter brief: 1.5px strek, runde hjørner, currentColor, padding 3–21,
+              leselig ned til 16px. Symbolsk og aldri brutalt — ingen sakser, sprøyter eller
+              anatomisk eksplisitte former. Hvert ikon er unikt for sin behandling/tjeneste.
+            </p>
+          </div>
+
+          {CLAUDE_GROUPS.map((group, gi) => (
+            <div key={gi} className="space-y-3 pt-4">
+              <h3 className="text-[11px] uppercase tracking-[0.18em] text-foreground/55 border-b border-foreground/10 pb-2">
+                {group.title}
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {group.icons.map((it) => (
+                  <ClaudeCard key={it.key} label={it.label} description={it.description} iconKey={it.key} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+
         {GROUPS.map((group, gi) => (
           <section key={gi} className="space-y-4">
             <div className="space-y-1 border-b border-foreground/10 pb-3">
