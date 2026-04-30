@@ -155,7 +155,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               <div className="flex items-center gap-3 text-sm text-muted-foreground font-light">
                 <div className="flex">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
                   ))}
                 </div>
                 <span>4,7 av 5 — basert på 1 200+ pasientvurderinger</span>
