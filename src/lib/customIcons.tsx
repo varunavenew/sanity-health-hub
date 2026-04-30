@@ -858,3 +858,168 @@ export const CircleThinIcon = make("CircleThinIcon", () => (
 export const DotThinIcon = make("DotThinIcon", () => (
   <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
 ));
+
+/* =========================================================================
+ * SUBSPECIALITIES — gynekologi/urologi/fertilitet undertjenester
+ * ========================================================================= */
+
+// Dråpe — urinlekkasje, vaginal tørrhet
+export const DropletThinIcon = make("DropletThinIcon", () => (
+  <path d="M12 3 c -3 5 -6 8 -6 11.5 a 6 6 0 0 0 12 0 C 18 11 15 8 12 3 z" />
+));
+
+// Bånd / sløyfe — endometriose (awareness ribbon)
+export const RibbonThinIcon = make("RibbonThinIcon", () => (
+  <>
+    <path d="M9 4 L12 11 L15 4" />
+    <path d="M9 4 C 7 9 7 13 10 17 L12 20 L14 17 C 17 13 17 9 15 4" />
+  </>
+));
+
+// Sol — overgangsalder / menopause (varme, livsfase)
+export const SunThinIcon = make("SunThinIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="3.5" />
+    <path d="M12 3 v2 M12 19 v2 M3 12 h2 M19 12 h2 M5.5 5.5 l1.4 1.4 M17.1 17.1 l1.4 1.4 M5.5 18.5 l1.4 -1.4 M17.1 6.9 l1.4 -1.4" />
+  </>
+));
+
+// Sirkel-prikk — cyster (hul kule med kjerne)
+export const CircleDotThinIcon = make("CircleDotThinIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="8" />
+    <circle cx="12" cy="12" r="2.5" />
+  </>
+));
+
+// Blomst — labiaplastikk / kvinnelige inngrep (organisk, mykt)
+export const FlowerThinIcon = make("FlowerThinIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="2" />
+    <path d="M12 10 C 10 7 10 4 12 3 C 14 4 14 7 12 10" />
+    <path d="M12 14 C 10 17 10 20 12 21 C 14 20 14 17 12 14" />
+    <path d="M10 12 C 7 10 4 10 3 12 C 4 14 7 14 10 12" />
+    <path d="M14 12 C 17 10 20 10 21 12 C 20 14 17 14 14 12" />
+  </>
+));
+
+// Knytte hender — HeartHandshake (omsorg, plan, oppfølging)
+export const HandshakeThinIcon = make("HandshakeThinIcon", () => (
+  <>
+    <path d="M3 12 L7 8 L12 13 L17 8 L21 12" />
+    <path d="M7 14 L10 17 a1.5 1.5 0 0 0 2.1 0 L14 15" />
+    <path d="M12 13 L13.5 14.5 a1.5 1.5 0 0 0 2.1 0 L17 13" />
+  </>
+));
+
+// Solkrone / lys — symptomer/varme (alternativ for menopause i listing)
+export const SparkRayThinIcon = make("SparkRayThinIcon", () => (
+  <path d="M12 4 L13 10 L19 11 L13 12 L12 18 L11 12 L5 11 L11 10 z" />
+));
+
+// Termometer-stripe — feber/symptom (alternativ thinner)
+export const TemperatureThinIcon = make("TemperatureThinIcon", () => (
+  <>
+    <path d="M10 4 a2 2 0 0 1 4 0 v10 a3.5 3.5 0 1 1 -4 0 z" />
+    <path d="M12 6 v9" />
+  </>
+));
+
+// Føtus / graviditet alt — enklere ikon for "Pregnancy" i undertjeneste-rader
+// (brukes ikke som default — vi har PregnancyIcon allerede)
+
+// Knapp-pil — for "Les mer" alt
+// (allerede dekket av ArrowRightLineIcon)
+
+// Plaster — generelle inngrep / sårbehandling
+export const BandageThinIcon = make("BandageThinIcon", () => (
+  <>
+    <rect x="3" y="9" width="18" height="6" rx="2" transform="rotate(-25 12 12)" />
+    <circle cx="10.5" cy="11" r="0.6" fill="currentColor" stroke="none" />
+    <circle cx="13.5" cy="13" r="0.6" fill="currentColor" stroke="none" />
+    <circle cx="11" cy="13.5" r="0.6" fill="currentColor" stroke="none" />
+    <circle cx="13" cy="10.5" r="0.6" fill="currentColor" stroke="none" />
+  </>
+));
+
+// DNA-helix — fertilitet / genetisk
+export const DnaThinIcon = make("DnaThinIcon", () => (
+  <>
+    <path d="M7 4 C 7 8 17 10 17 14 C 17 18 7 16 7 20" />
+    <path d="M17 4 C 17 8 7 10 7 14 C 7 18 17 16 17 20" />
+    <path d="M9 7 h6 M9 11 h6 M9 17 h6 M9 13 h6" />
+  </>
+));
+
+// Egg-celle — IVF / eggdonasjon
+export const EggCellThinIcon = make("EggCellThinIcon", () => (
+  <>
+    <ellipse cx="12" cy="13" rx="6.5" ry="7.5" />
+    <circle cx="12" cy="13" r="2" />
+  </>
+));
+
+// Mannlig / urologi alt — Mars-symbol (for prostata/urologi underrader)
+export const MaleSignThinIcon = make("MaleSignThinIcon", () => (
+  <>
+    <circle cx="10" cy="14" r="5" />
+    <path d="M14 10 L20 4 M15 4 h5 v5" />
+  </>
+));
+
+// Kvinnelig — Venus-symbol (kvinnehelse alt)
+export const FemaleSignThinIcon = make("FemaleSignThinIcon", () => (
+  <>
+    <circle cx="12" cy="9" r="5" />
+    <path d="M12 14 v7 M9 18 h6" />
+  </>
+));
+
+// Pasient-reise / steg — for "Steg 01..04"
+export const StepsThinIcon = make("StepsThinIcon", () => (
+  <>
+    <path d="M3 19 h4 v-4 h4 v-4 h4 v-4 h4" />
+    <circle cx="3.5" cy="19" r="0.8" fill="currentColor" stroke="none" />
+  </>
+));
+
+// Sjekkliste – alt for clipboard (mer minimal)
+export const ChecklistThinIcon = make("ChecklistThinIcon", () => (
+  <>
+    <rect x="5" y="4" width="14" height="17" rx="2" />
+    <path d="M9 9 l1.2 1.2 L13 7.5" />
+    <path d="M14 9 h3" />
+    <path d="M9 14 l1.2 1.2 L13 12.5" />
+    <path d="M14 14 h3" />
+    <path d="M9 19 h8" />
+  </>
+));
+
+// Stjerne-cirkel — kvalitet
+export const StarCircleThinIcon = make("StarCircleThinIcon", () => (
+  <>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7.5 l1.4 2.8 l3.1 0.4 l-2.3 2.1 l0.6 3.0 l-2.8 -1.5 l-2.8 1.5 l0.6 -3.0 l-2.3 -2.1 l3.1 -0.4 z" />
+  </>
+));
+
+// Hjerne-puls — nevrologi alt
+// (har Brain allerede)
+
+// Sirkel + pil — tilbakestill / fornye
+export const RefreshThinIcon = make("RefreshThinIcon", () => (
+  <>
+    <path d="M4 12 a8 8 0 0 1 14 -5" />
+    <path d="M18 4 v4 h-4" />
+    <path d="M20 12 a8 8 0 0 1 -14 5" />
+    <path d="M6 20 v-4 h4" />
+  </>
+));
+
+// Hus / hjem (klinikk hjemme)
+export const HomeThinIcon = make("HomeThinIcon", () => (
+  <>
+    <path d="M4 11 L12 4 L20 11 V20 a1 1 0 0 1 -1 1 H5 a1 1 0 0 1 -1 -1 z" />
+    <path d="M10 21 v-6 h4 v6" />
+  </>
+));

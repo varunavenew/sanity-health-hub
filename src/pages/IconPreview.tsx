@@ -181,6 +181,87 @@ const GROUPS: Group[] = [
       { label: "Apple", usage: "App-lenker, login", lucide: "apple", custom: "apple-cm" },
     ],
   },
+  {
+    title: "11 — Undertjenester: Gynekologi",
+    intro:
+      "Ikoner brukt på gynekologi-listen og underbehandlinger (gynekologiContent.ts, behandlingssider, meny).",
+    pairs: [
+      { label: "Gynekologisk undersøkelse", usage: "/behandlinger/gynekologi/undersokelse", lucide: "stethoscope", custom: "stethoscope-cm" },
+      { label: "Urinlekkasje", usage: "/behandlinger/gynekologi/urinlekkasje", lucide: "droplets", custom: "droplet-cm" },
+      { label: "Endometriose", usage: "/behandlinger/gynekologi/endometriose", lucide: "ribbon", custom: "ribbon-cm" },
+      { label: "Overgangsalder", usage: "/behandlinger/gynekologi/overgangsalder", lucide: "sun", custom: "sun-cm" },
+      { label: "Vaginale fremfall", usage: "/behandlinger/gynekologi/vaginale-fremfall", lucide: "heart-pulse", custom: "heart-pulse-cm" },
+      { label: "Blødningsforstyrrelser", usage: "/behandlinger/gynekologi/blodningsforstyrrelser", lucide: "activity", custom: "activity-cm" },
+      { label: "Celleforandringer", usage: "/behandlinger/gynekologi/celleforandringer", lucide: "microscope", custom: "microscope-cm" },
+      { label: "Cyster på eggstokkene", usage: "/behandlinger/gynekologi/cyster", lucide: "circle-dot", custom: "circle-dot-cm" },
+      { label: "Fjerne livmor", usage: "/behandlinger/gynekologi/fjerne-livmor", lucide: "scissors", custom: "scissors-cm" },
+      { label: "PMS og PMDD", usage: "/behandlinger/gynekologi/pms-pmdd", lucide: "heart", custom: "heart-cm" },
+      { label: "Labiaplastikk", usage: "/behandlinger/gynekologi/labiaplastikk", lucide: "flower", custom: "flower-cm" },
+      { label: "Vaginal tørrhet", usage: "/behandlinger/gynekologi/vaginal-torrhet", lucide: "droplets", custom: "droplet-cm" },
+      { label: "Vulvalidelser", usage: "/behandlinger/gynekologi/vulvalidelser", lucide: "shield-check", custom: "shield-check-cm" },
+      { label: "Gynekologisk kirurgi", usage: "/behandlinger/gynekologi/kirurgi", lucide: "scissors", custom: "scissors-cm" },
+      { label: "Robotassistert kirurgi", usage: "/behandlinger/gynekologi/robotkirurgi", lucide: "bot", custom: "robot-surgery" },
+    ],
+  },
+  {
+    title: "12 — Undertjenester: Fertilitet",
+    intro: "Ikoner for fertilitets-tjenester og IVF-behandlinger.",
+    pairs: [
+      { label: "IVF-behandling", usage: "Fertilitet-side, prisliste", lucide: "baby", custom: "egg-cell-cm" },
+      { label: "Fertilitetsutredning", usage: "Fertilitet-side", lucide: "microscope", custom: "dna-cm" },
+      { label: "Eggdonasjon", usage: "Fertilitet-side", lucide: "circle-dot", custom: "egg-cell-cm" },
+      { label: "Sæddonasjon", usage: "Fertilitet-side", lucide: "activity", custom: "dna-cm" },
+      { label: "IUI / inseminasjon", usage: "Fertilitet-side", lucide: "syringe", custom: "syringe-cm" },
+      { label: "Graviditet (oppfølging)", usage: "Fertilitet, kvinnehelse", lucide: "baby", custom: "pregnancy" },
+    ],
+  },
+  {
+    title: "13 — Undertjenester: Urologi",
+    intro: "Ikoner for urologi-tjenester og prostata-behandlinger.",
+    pairs: [
+      { label: "Prostata-undersøkelse", usage: "/behandlinger/urologi/prostata", lucide: "stethoscope", custom: "male-sign-cm" },
+      { label: "Urinveisinfeksjon", usage: "Urologi-side", lucide: "droplets", custom: "droplet-cm" },
+      { label: "Forstørret prostata", usage: "Urologi, PromoBanner", lucide: "user", custom: "male-sign-cm" },
+      { label: "Erektil dysfunksjon", usage: "Urologi-side", lucide: "heart-pulse", custom: "heart-pulse-cm" },
+      { label: "Sirkumsisjon", usage: "Urologi-side", lucide: "scissors", custom: "scissors-cm" },
+    ],
+  },
+  {
+    title: "14 — Pasientreise & prosess",
+    intro: "Steg 01–04 brukt på alle behandlingssider (categoryPageContent.ts, JourneyVariant).",
+    pairs: [
+      { label: "Steg — bestill time", usage: "Steg 01: Booking", lucide: "calendar", custom: "calendar-cm" },
+      { label: "Steg — samtale", usage: "Steg 02: Konsultasjon", lucide: "message-circle", custom: "message-cm" },
+      { label: "Steg — plan / omsorg", usage: "Steg 03: Behandlingsplan", lucide: "heart-handshake", custom: "handshake-cm" },
+      { label: "Steg — oppfølging", usage: "Steg 04: Oppfølging", lucide: "clock", custom: "clock-cm" },
+      { label: "Sjekkliste / journal", usage: "Pasientreise, henvisning", lucide: "list-checks", custom: "checklist-cm" },
+      { label: "Steg-progresjon", usage: "Alternativ for trinn-grafikk", lucide: "footprints", custom: "steps-cm" },
+    ],
+  },
+  {
+    title: "15 — Klinikk & tilgjengelighet",
+    intro: "Klinikkside, header, footer, klinikk-grid.",
+    pairs: [
+      { label: "Klinikk / hjem", usage: "Klinikker, footer, hjem-lenke", lucide: "home", custom: "home-cm" },
+      { label: "Tilgjengelighet (HC)", usage: "Klinikk-info", lucide: "accessibility", custom: "accessibility-cm" },
+      { label: "Tog", usage: "Kollektiv-info klinikk", lucide: "train", custom: "train-cm" },
+      { label: "Bil / parkering", usage: "Klinikk-info", lucide: "car", custom: "car-cm" },
+      { label: "Bygg", usage: "Klinikk-grid", lucide: "building", custom: "building-cm" },
+      { label: "Oppdater / fornye", usage: "Refresh-handlinger", lucide: "refresh", custom: "refresh-cm" },
+    ],
+  },
+  {
+    title: "16 — Premium / banner / kvalitet",
+    intro: "PremiumBanner, ValueBadges, TrustSection.",
+    pairs: [
+      { label: "Stjerne i sirkel", usage: "Kvalitetsmerke, badges", lucide: "star", custom: "star-circle-cm" },
+      { label: "Glitter / premium", usage: "PremiumBanner", lucide: "sparkles", custom: "sparkles-cm" },
+      { label: "Tidsbegrenset tilbud", usage: "SaleSection", lucide: "timer", custom: "timer-cm" },
+      { label: "Trend opp", usage: "Mest valgte", lucide: "trending-up", custom: "trending-up-cm" },
+      { label: "Plaster / behandling", usage: "Småinngrep, sårbehandling", lucide: "shield-check", custom: "bandage-cm" },
+      { label: "Temperatur / symptom", usage: "Symptomliste", lucide: "thermometer", custom: "temperature-cm" },
+    ],
+  },
 ];
 
 const SIZES = [16, 20, 24];
