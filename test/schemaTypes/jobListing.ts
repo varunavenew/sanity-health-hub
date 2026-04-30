@@ -23,7 +23,7 @@ export default {
     },
     {
       name: 'department',
-      title: 'Avdeling / Fagområde',
+      title: 'Avdeling / Tjenesteområde',
       type: 'string',
       options: {
         list: [

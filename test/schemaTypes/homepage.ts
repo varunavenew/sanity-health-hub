@@ -45,10 +45,11 @@ export default {
       title: 'Tagline Banner',
       type: 'string',
     },
-    // Service Categories (Fagområder)
+    // Service Categories (Tjenester)
     {
       name: 'serviceCategories',
-      title: 'Fagområder',
+      title: 'Tjenester (kategorier)',
+      description: 'Kategoriene som vises i tjeneste-griden på forsiden',
       type: 'array',
       of: [
         {

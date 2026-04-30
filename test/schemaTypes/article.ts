@@ -70,22 +70,25 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'Prisliste', value: 'prisliste'},
           {title: 'Fagartikkel', value: 'fagartikkel'},
-          {title: 'Nyheter', value: 'nyheter'},
+          {title: 'Nytt fra oss', value: 'nyheter'},
+          {title: 'Prisliste', value: 'prisliste'},
           {title: 'Stillingsutlysning', value: 'stillingsutlysning'},
         ],
       },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'pinned',
-      title: 'Festet (fremhevet øverst)',
+      title: 'Festet (fremhevet øverst i Aktuelt)',
+      description: 'Inntil 4 festede artikler vises i topp-griden på /aktuelt',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'featured',
       title: 'Fremhevet',
+      description: 'Brukes for utvalgte fremhevninger på forsiden / kampanjer',
       type: 'boolean',
       initialValue: false,
     }),
@@ -93,6 +96,8 @@ export default defineType({
       name: 'publishedAt',
       title: 'Publiseringsdato',
       type: 'datetime',
+      initialValue: () => new Date().toISOString(),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'seo',
@@ -100,16 +105,53 @@ export default defineType({
       type: 'seo',
     }),
   ],
+  orderings: [
+    {
+      title: 'Festet + nyeste først',
+      name: 'pinnedThenDate',
+      by: [
+        {field: 'pinned', direction: 'desc'},
+        {field: 'publishedAt', direction: 'desc'},
+      ],
+    },
+    {
+      title: 'Publiseringsdato (nyeste først)',
+      name: 'publishedAtDesc',
+      by: [{field: 'publishedAt', direction: 'desc'}],
+    },
+    {
+      title: 'Publiseringsdato (eldste først)',
+      name: 'publishedAtAsc',
+      by: [{field: 'publishedAt', direction: 'asc'}],
+    },
+    {
+      title: 'Tittel (A–Å)',
+      name: 'titleAsc',
+      by: [{field: 'title', direction: 'asc'}],
+    },
+  ],
   preview: {
     select: {
       title: 'title',
       media: 'primaryImage',
       category: 'category',
+      pinned: 'pinned',
+      featured: 'featured',
+      publishedAt: 'publishedAt',
     },
-    prepare({title, media, category}) {
+    prepare({title, media, category, pinned, featured, publishedAt}) {
+      const categoryLabels: Record<string, string> = {
+        fagartikkel: 'Fagartikkel',
+        nyheter: 'Nytt fra oss',
+        prisliste: 'Prisliste',
+        stillingsutlysning: 'Stillingsutlysning',
+      }
+      const flags = [pinned && '📌', featured && '⭐'].filter(Boolean).join(' ')
+      const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'Ingen dato'
+      const cat = categoryLabels[category] || category || 'Ingen kategori'
       return {
-        title,
-        subtitle: category,
+        title: `${flags ? flags + ' ' : ''}${title}`,
+        subtitle: `${cat} · ${date}`,
         media,
       }
     },
