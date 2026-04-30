@@ -362,6 +362,123 @@ const Cell = ({
   );
 };
 
+// Claude.ai editorial proposal — grouped data
+type ClaudeItem = { key: IconName; label: string; description: string };
+type ClaudeGroup = { title: string; icons: ClaudeItem[] };
+
+const CLAUDE_GROUPS: ClaudeGroup[] = [
+  {
+    title: "Gynekologi",
+    icons: [
+      { key: "gynekologisk-undersokelse-cl", label: "Gynekologisk undersøkelse", description: "Fire kronblader rundt et roligt sentrum" },
+      { key: "urinlekkasje-cl", label: "Urinlekkasje", description: "Dråpe trygt favnet av en åpen skål" },
+      { key: "endometriose-cl", label: "Endometriose", description: "Lag som folder seg innover" },
+      { key: "overgangsalder-cl", label: "Overgangsalder", description: "Tre månefaser side om side" },
+      { key: "vaginale-fremfall-cl", label: "Vaginale fremfall", description: "Hvelv båret av to lette søyler" },
+      { key: "blodningsforstyrrelser-cl", label: "Blødningsforstyrrelser", description: "Syklus med uregelmessig markør" },
+      { key: "celleforandringer-cl", label: "Celleforandringer", description: "Tre celler, én med stille sentrum" },
+      { key: "cyster-cl", label: "Cyster", description: "Tre myke former samlet" },
+      { key: "fjerne-livmor-cl", label: "Fjerne livmor", description: "Åpen skål som løfter et tegn" },
+      { key: "graviditet-cl", label: "Graviditet", description: "Halvmåne som favner et frø" },
+      { key: "gynekologisk-kirurgi-cl", label: "Gynekologisk kirurgi", description: "Konsentriske sirkler mot et punkt" },
+      { key: "hormonforstyrrelser-cl", label: "Hormonforstyrrelser", description: "To bølger ute av takt" },
+      { key: "hysteroskopi-cl", label: "Hysteroskopi", description: "Slank linse med en lysstråle" },
+      { key: "labiaplastikk-cl", label: "Labiaplastikk", description: "To organiske kronblader som møtes" },
+      { key: "robotkirurgi-gyn-cl", label: "Robotkirurgi (gyn)", description: "Hjørnemarkører, presist sentrum" },
+      { key: "spontanabort-cl", label: "Spontanabort", description: "Fallende blad fanget av åpne hender" },
+      { key: "vulvalidelser-cl", label: "Vulvalidelser", description: "Mykt skjold med roligt sentrum" },
+      { key: "pms-pmdd-cl", label: "PMS / PMDD", description: "Stille bølge inne i en sirkel" },
+      { key: "vaginal-torrhet-cl", label: "Vaginal tørrhet", description: "Dråpe med et nytt skudd" },
+      { key: "tverrfaglig-team-cl", label: "Tverrfaglig team", description: "Tre overlappende ringer" },
+    ],
+  },
+  {
+    title: "Fertilitet",
+    icons: [
+      { key: "infertilitet-cl", label: "Infertilitet", description: "Søkende blikk over et lite frø" },
+      { key: "assistert-befruktning-cl", label: "Assistert befruktning", description: "To favnende buer rundt et sentrum" },
+      { key: "ivf-cl", label: "IVF", description: "Grunn skål som rommer ett frø" },
+      { key: "eggfrys-cl", label: "Eggfrys", description: "Krystallinsk mønster rundt en sirkel" },
+      { key: "donorbehandling-cl", label: "Donorbehandling", description: "Sirkel ombundet av et bånd" },
+      { key: "saedanalyse-cl", label: "Sædanalyse", description: "Linsefelt over små markører" },
+      { key: "fertilitetsteamet-cl", label: "Fertilitetsteamet", description: "Tre tette punkter forbundet" },
+      { key: "inseminasjon-cl", label: "Inseminasjon", description: "Åpen trakt med et frø ovenfra" },
+      { key: "eggdonasjon-cl", label: "Eggdonasjon", description: "Åpen skål som løfter en sirkel" },
+      { key: "saeddonasjon-cl", label: "Sæddonasjon", description: "Kalk med en dråpe over" },
+    ],
+  },
+  {
+    title: "Urologi",
+    icons: [
+      { key: "blaere-cl", label: "Blære", description: "Mykt kar med stille forbindelse oppover" },
+      { key: "forhud-cl", label: "Forhud", description: "To hvilende konsentriske ringer" },
+      { key: "mannlig-infertilitet-cl", label: "Mannlig infertilitet", description: "Vei med to brudd" },
+      { key: "nyrer-cl", label: "Nyrer", description: "To rolige bønneformer" },
+      { key: "prostata-cl", label: "Prostata", description: "Mykt skjold med oppmerksomt sentrum" },
+      { key: "refertilisering-cl", label: "Refertilisering", description: "To buer som møtes igjen" },
+      { key: "robotkirurgi-uro-cl", label: "Robotkirurgi (uro)", description: "Hjørnerom rammer et større sentrum" },
+      { key: "sterilisering-cl", label: "Sterilisering", description: "Lukket løkke som krysser seg selv" },
+      { key: "testikler-cl", label: "Testikler", description: "To sirkler i en myk pose" },
+      { key: "urinveisinfeksjon-cl", label: "Urinveisinfeksjon", description: "Dråpe omsluttet av to favnende buer" },
+      { key: "erektil-dysfunksjon-cl", label: "Erektil dysfunksjon", description: "Spire som strekker seg oppover" },
+    ],
+  },
+  {
+    title: "Ortopedi",
+    icons: [
+      { key: "fot-ankel-cl", label: "Fot / ankel", description: "Vinklet linje med et roligt leddpunkt" },
+      { key: "hofte-cl", label: "Hofte", description: "Kule møter en bue" },
+      { key: "hand-albue-cl", label: "Hånd / albue", description: "Vinkel med leddpunkt" },
+      { key: "kne-cl", label: "Kne", description: "To linjer møtes i hvilende leddpunkt" },
+      { key: "skulder-cl", label: "Skulder", description: "Kuleledd som hviler ut i en arm" },
+    ],
+  },
+  {
+    title: "Flere fagområder",
+    icons: [
+      { key: "endokrinologi-cl", label: "Endokrinologi", description: "Tre kjertler i et stille nettverk" },
+      { key: "hudlege-cl", label: "Hudlege", description: "To parallelle bølger" },
+      { key: "ernaringsfysiolog-cl", label: "Ernæringsfysiolog", description: "Frukt med et lite blad" },
+      { key: "gastrokirurgi-cl", label: "Gastrokirurgi", description: "S-formet bue med stille sentrum" },
+      { key: "osteopati-cl", label: "Osteopati", description: "Oppadgående søyle med myke ribber" },
+      { key: "plastikkirurgi-cl", label: "Plastikkirurgi", description: "To møtende profiler" },
+      { key: "psykologi-cl", label: "Psykologi", description: "Profil i ro med lyttende sentrum" },
+      { key: "revmatologi-cl", label: "Revmatologi", description: "Ledd kranset av varme stråler" },
+      { key: "sexologi-cl", label: "Sexologi", description: "To ringer som møtes" },
+      { key: "areknuter-cl", label: "Åreknuter", description: "Forgrenet mønster — blodets vei" },
+      { key: "hudhelse-cl", label: "Hudhelse", description: "Sol som hever seg over en horisont" },
+      { key: "overvektskirurgi-cl", label: "Overvektskirurgi", description: "Vekt i balanse" },
+    ],
+  },
+];
+
+const ClaudeCard = ({ label, description, iconKey }: { label: string; description: string; iconKey: IconName }) => {
+  const Icon = getIcon(iconKey);
+  return (
+    <div className="rounded-md border border-foreground/10 bg-background overflow-hidden">
+      <div className="grid grid-cols-4">
+        <div className="aspect-square flex items-center justify-center" style={{ background: "#F2ECE6", color: "#42332A" }}>
+          <Icon size={26} strokeWidth={1.5} />
+        </div>
+        <div className="aspect-square flex items-center justify-center border-l border-foreground/5" style={{ background: "#CCBAAD", color: "#42332A" }}>
+          <Icon size={26} strokeWidth={1.5} />
+        </div>
+        <div className="aspect-square flex items-center justify-center border-l border-foreground/5" style={{ background: "#42332A", color: "#F2ECE6" }}>
+          <Icon size={26} strokeWidth={1.5} />
+        </div>
+        <div className="aspect-square flex items-center justify-center border-l border-foreground/5" style={{ background: "#F4FF78", color: "#42332A" }}>
+          <Icon size={26} strokeWidth={1.5} />
+        </div>
+      </div>
+      <div className="p-3 space-y-1">
+        <div className="text-[13px]">{label}</div>
+        <div className="text-[11px] text-foreground/55 leading-snug">{description}</div>
+        <code className="text-[10px] text-foreground/40">{iconKey}</code>
+      </div>
+    </div>
+  );
+};
+
 const IconPreview = () => {
   const totalProposed = GROUPS.reduce((n, g) => n + g.pairs.length, 0);
 
