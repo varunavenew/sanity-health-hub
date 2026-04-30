@@ -222,7 +222,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   variant="ghost"
                   className="rounded-full hover:bg-white/10 text-white"
                 >
-                  {t("nav.search")}
+                  {isAiLoading ? "Tenker…" : t("nav.search")}
                 </Button>
               </form>
               
