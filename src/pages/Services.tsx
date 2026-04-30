@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { ArrowRight, Plus, Minus, ChevronRight, Search, Baby, Stethoscope, Heart, Bone, Syringe, Brain, Apple, Scissors, Activity, Scale, HandHeart, Smile, Microscope, Zap, HeartPulse } from "lucide-react";
+import { ArrowRight, Plus, Minus, ChevronRight, Search } from "lucide-react";
+import { getServiceIcon } from "@/pages/treatments/categoryPageContent";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,26 +34,7 @@ const staticFeatured = [
   { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
 ];
 
-// Icon mapping for "Flere tjenester" grid
-const serviceIcons: Record<string, any> = {
-  "Graviditet": Baby,
-  "Graviditet og fostermedisin": Baby,
-  "Endokrinologi": Syringe,
-  "Hudlege": Smile,
-  "Hudhelse": HeartPulse,
-  "Ernæringsfysiolog": Apple,
-  "Gastrokirurgi": Scissors,
-  "Osteopati": HandHeart,
-  "Overvektskirurgi": Scale,
-  "Plastikkirurgi": Microscope,
-  "Psykologi": Brain,
-  "Revmatologi": Activity,
-  "Sexologi": Heart,
-  "Robotkirurgi": Zap,
-  "Åreknutebehandling": Stethoscope,
-  "Kvinnehelse": HeartPulse,
-  "Tverrfaglig team": Stethoscope,
-};
+// Icons for "Flere tjenester" grid use the shared Claude.ai (-cl) set via getServiceIcon
 
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
@@ -228,7 +210,7 @@ const Services = ({ isChatOpen }: PageProps) => {
               <p className="text-sm text-muted-foreground font-light mb-6">Flere tjenester</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0">
                 {additionalServices.map((item, idx) => {
-                  const IconComponent = serviceIcons[item.label] || Stethoscope;
+                  const IconComponent = getServiceIcon(item.label);
                   return (
                     <motion.button
                       key={item.label}
