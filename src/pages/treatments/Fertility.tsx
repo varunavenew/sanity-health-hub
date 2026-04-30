@@ -233,7 +233,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 For deg som
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                Alle er velkomne — uansett utgangspunkt.
+                Alle er velkomne
+                <br />
+                <span className="text-foreground/70">— uansett utgangspunkt.</span>
               </h2>
             </div>
 
