@@ -477,60 +477,72 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. BLI KJENT MED MADELEINE — trygghet og person
+          7. PROMO — bli kjent med spesialistene (auto-roterer hvert 10s)
       ============================================================ */}
       <section className="bg-secondary/40">
         <div className="grid lg:grid-cols-12 lg:min-h-[680px]">
           {/* Left — bilde, kant-i-kant uten luft */}
           <div className="lg:col-span-5 relative bg-secondary min-h-[420px] lg:min-h-full overflow-hidden">
             <img
-              src={madeleineEngen}
-              alt="Madeleine Engen — fagansvarlig kvinnehelse hos CMedical"
+              key={activeSpecialist.slug}
+              src={activeSpecialist.image}
+              alt={`${activeSpecialist.name} — ${activeSpecialist.title} hos CMedical`}
               loading="lazy"
               width={1024}
               height={1280}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover animate-fade-in"
             />
           </div>
 
           {/* Right — tekst */}
           <div className="lg:col-span-7 flex items-center px-6 md:px-16 lg:px-20 py-20 lg:py-24">
-            <div className="w-full max-w-2xl">
+            <div key={activeSpecialist.slug} className="w-full max-w-2xl animate-fade-in">
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                Bli kjent med Madeleine
+                Bli kjent med {activeSpecialist.name.split(" ")[0]}
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
-                «Ingen skal måtte gjette seg gjennom kroppen sin.»
+                {activeSpecialist.title}
+                {activeSpecialist.subtitle ? ` — ${activeSpecialist.subtitle}` : ""}.
               </h2>
-              <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-6">
-                Det er ord Madeleine Engen lever etter. Hun er gynekolog,
-                kirurg og fagansvarlig for kvinnehelse hos CMedical — og en
-                tydelig stemme for kvinnehelse i Norge.
-              </p>
-              <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
-                Med spesialkompetanse innen urogynekologi, hormoner og
-                overgangsalder møter Madeleine pasientene sine med både
-                medisinsk presisjon og en sjelden varme. Mange som vurderer
-                fertilitetsbehandling starter med en samtale hos henne — for
-                å få oversikt før den større reisen begynner.
-              </p>
+              {activeSpecialist.bio && (
+                <p className="text-base md:text-lg font-light text-foreground/85 leading-relaxed mb-8 line-clamp-6">
+                  {activeSpecialist.bio.split("\n\n")[0]}
+                </p>
+              )}
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <Button asChild variant="cta" size="lg" className="px-7">
                   <Link
                     to={buildBookingUrl({
                       kategori: "fertilitet",
-                      spesialist: "madeleine-engen",
+                      spesialist: activeSpecialist.slug,
                     })}
                   >
-                    Bestill time hos Madeleine
+                    Bestill time hos {activeSpecialist.name.split(" ")[0]}
                   </Link>
                 </Button>
                 <Button asChild variant="cta-outline" size="lg" className="px-7">
-                  <Link to="/spesialister/madeleine-engen">
-                    Les mer om Madeleine
+                  <Link to={`/spesialister/${activeSpecialist.slug}`}>
+                    Les mer om {activeSpecialist.name.split(" ")[0]}
                   </Link>
                 </Button>
+              </div>
+
+              {/* Progress-indikatorer */}
+              <div className="flex items-center gap-2">
+                {promoSpecialists.map((sp, i) => (
+                  <button
+                    key={sp.slug}
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    aria-label={`Vis ${sp.name}`}
+                    className={`h-[2px] transition-all duration-300 ${
+                      i === activeIndex
+                        ? "w-10 bg-foreground"
+                        : "w-6 bg-foreground/25 hover:bg-foreground/50"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
