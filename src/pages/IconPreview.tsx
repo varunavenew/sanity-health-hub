@@ -507,7 +507,7 @@ const IconPreview = () => {
         <section className="space-y-5 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
           <div className="space-y-2 max-w-3xl">
             <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
-              Forslag fra Claude.ai
+              Nytt forslag
             </div>
             <h2 className="text-xl">Scandinavian editorial-sett — 53 symbolske ikoner</h2>
             <p className="text-sm text-foreground/65 leading-relaxed">
