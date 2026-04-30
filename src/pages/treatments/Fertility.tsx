@@ -123,7 +123,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Fertilitet — CMedical
               </p>
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.04] text-foreground mb-8">
-                Noen ganger trenger kroppen <span className="text-accent-foreground/90 underline decoration-accent decoration-[3px] underline-offset-[6px]">litt hjelp</span> på veien.
+                Noen ganger trenger kroppen <span className="underline decoration-brand-dark/40 decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien.
               </h2>
               <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed max-w-xl mb-10">
                 Vi tilbyr fertilitet for alle som ønsker barn. Med fagmiljøet
@@ -146,7 +146,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Button>
                 <Link
                   to="/pricing"
-                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-light text-foreground hover:text-accent-foreground transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
                 >
                   Gratis gjennomført rådgiving →
                 </Link>
@@ -155,7 +155,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               <div className="flex items-center gap-3 text-sm text-muted-foreground font-light">
                 <div className="flex">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
                   ))}
                 </div>
                 <span>4,7 av 5 — basert på 1 200+ pasientvurderinger</span>
@@ -255,7 +255,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   </p>
                   <Link
                     to={a.href}
-                    className="inline-flex items-center text-sm font-light text-foreground hover:text-accent-foreground hover:gap-2.5 gap-2 transition-all"
+                    className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
                   >
                     Les mer
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -358,7 +358,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           5. TESTIMONIAL — grønn smal banner
       ============================================================ */}
-      <section className="bg-[hsl(150_22%_22%)] text-white py-16 md:py-20">
+      <section className="bg-brand-dark text-white py-16 md:py-20 border-t border-white/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
             <div className="flex justify-center mb-6">
@@ -500,7 +500,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </div>
               <Link
                 to="/spesialister?kategori=fertilitet"
-                className="text-sm font-light text-foreground hover:text-accent-foreground transition-colors"
+                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
               >
                 Se alle fertilitetsspesialister →
               </Link>
@@ -521,7 +521,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                   </div>
-                  <h3 className="text-base font-normal text-foreground mb-0.5 group-hover:text-accent-foreground transition-colors">
+                  <h3 className="text-base font-normal text-foreground mb-0.5 group-hover:text-foreground/70 transition-colors">
                     {sp.name}
                   </h3>
                   <p className="text-sm font-light text-muted-foreground">
@@ -570,7 +570,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           10. FORSIKRINGSAVTALER — strimmel
       ============================================================ */}
-      <section className="bg-[hsl(var(--brand-dark))]/95 text-white border-t border-white/10 py-10">
+      <section className="bg-brand-dark text-white border-t border-white/10 py-10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
             <p className="text-xs tracking-wide text-white/60 flex-shrink-0">
