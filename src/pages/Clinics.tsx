@@ -26,7 +26,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const { data: sanityClinics } = useClinics();
   // Prefer static (richer detail) – merge in only Sanity fields that have a value,
   // so a null/undefined value from Sanity never blanks out a working static field.
-  const list: any[] = staticClinics.map((s) => {
+  const merged: any[] = staticClinics.map((s) => {
     const fromSanity = sanityClinics?.find((c: any) => c.slug === s.slug);
     if (!fromSanity) return s;
     const overrides: Record<string, any> = {};
@@ -38,6 +38,12 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
       ...overrides,
       detail: { ...s.detail, ...(fromSanity.detail || {}) },
     };
+  });
+  // Respect Sanity sortOrder when available; fallback to original static order.
+  const list: any[] = [...merged].sort((a, b) => {
+    const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
+    const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
+    return ao - bo;
   });
 
   return (
@@ -95,7 +101,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         {list.map((clinic: Clinic, idx: number) => {
           const detailHref = `/klinikker/${clinic.slug}`;
           const serviceCount = clinic.services?.length || 0;
-          const image = clinicImages[clinic.slug];
+          const image = (clinic as any).primaryImage || clinicImages[clinic.slug];
           const reverse = idx % 2 === 1;
           const altBg = idx % 2 === 1 ? "bg-brand-warm/40" : "bg-background";
 
