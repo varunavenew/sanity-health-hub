@@ -87,7 +87,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </div>
                 <Button 
                   className="w-full bg-accent text-accent-foreground hover:bg-accent/90 rounded-full"
-                  onClick={() => window.location.href = '/booking'}
+                  onClick={() => window.location.href = '/booking?kategori=gynekologi'}
                 >
                   Bestill time
                   <ArrowRight className="ml-2 w-4 h-4" />
