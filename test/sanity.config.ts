@@ -2,7 +2,15 @@ import {defineConfig} from 'sanity'
 import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {Iframe} from 'sanity-plugin-iframe-pane'
+import {internationalizedArray} from 'sanity-plugin-internationalized-array'
 import {schemaTypes} from './schemaTypes'
+
+// Languages enabled for field-level localization across the project.
+// Add SE here later if/when Swedish content is added.
+export const SUPPORTED_LANGUAGES = [
+  {id: 'no', title: 'Norsk'},
+  {id: 'en', title: 'English'},
+] as const
 import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 
 // Base URL for the frontend preview
@@ -175,6 +183,14 @@ export default defineConfig({
       },
     }),
     visionTool(),
+    internationalizedArray({
+      languages: SUPPORTED_LANGUAGES.map((l) => ({id: l.id, title: l.title})),
+      defaultLanguages: ['no'],
+      // The base types we want a localized variant of.
+      // Studio will register: internationalizedArrayString, internationalizedArrayText,
+      // internationalizedArrayBlockContent (Portable Text)
+      fieldTypes: ['string', 'text', 'blockContent'],
+    }),
   ],
 
   schema: {
