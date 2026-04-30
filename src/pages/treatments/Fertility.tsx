@@ -413,22 +413,23 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           6. BLI KJENT MED MADELEINE — trygghet og person
       ============================================================ */}
-      <section className="bg-secondary/40 py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            <div className="lg:col-span-5">
-              <div className="aspect-[4/5] overflow-hidden rounded-sm bg-secondary">
-                <img
-                  src={madeleineEngen}
-                  alt="Madeleine Engen — fagansvarlig kvinnehelse hos CMedical"
-                  loading="lazy"
-                  width={1024}
-                  height={1280}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="lg:col-span-7">
+      <section className="bg-secondary/40">
+        <div className="grid lg:grid-cols-12 lg:min-h-[680px]">
+          {/* Left — bilde, kant-i-kant uten luft */}
+          <div className="lg:col-span-5 relative bg-secondary min-h-[420px] lg:min-h-full overflow-hidden">
+            <img
+              src={madeleineEngen}
+              alt="Madeleine Engen — fagansvarlig kvinnehelse hos CMedical"
+              loading="lazy"
+              width={1024}
+              height={1280}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Right — tekst */}
+          <div className="lg:col-span-7 flex items-center px-6 md:px-16 lg:px-20 py-20 lg:py-24">
+            <div className="w-full max-w-2xl">
               <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Bli kjent med Madeleine
               </p>
