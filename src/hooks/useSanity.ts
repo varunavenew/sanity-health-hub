@@ -474,7 +474,7 @@ export const useArticle = (slug: string) => {
   return useQuery({
     queryKey: ["sanity", "article", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang });
+      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang }, lang);
       if (!data) return null;
       return {
         ...data,
