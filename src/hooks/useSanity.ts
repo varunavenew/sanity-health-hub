@@ -56,9 +56,57 @@ const mapSanityCategorySlug = (slug: string): string => {
   return mapping[slug] || slug;
 };
 
-// Generic fetcher
-const fetchSanity = <T>(query: string, params?: Record<string, any>): Promise<T> =>
-  sanityClient.fetch(query, params);
+/**
+ * Detect a sanity-plugin-internationalized-array entry, e.g.
+ *   { _type: "internationalizedArrayStringValue", _key, language, value }
+ * v4 used `_key` for language, v5 uses `language`. Support both.
+ */
+const isI18nEntry = (v: any): boolean =>
+  v && typeof v === "object" && typeof v._type === "string" &&
+  v._type.startsWith("internationalizedArray") && "value" in v;
+
+const isI18nEntryArray = (arr: any): boolean =>
+  Array.isArray(arr) && arr.length > 0 && arr.every(isI18nEntry);
+
+const pickI18nValue = (arr: any[], lang: "no" | "en"): any => {
+  const match = arr.find((e) => (e.language || e._key) === lang);
+  if (match) return match.value;
+  const fallback = arr.find((e) => (e.language || e._key) === "no") || arr[0];
+  return fallback?.value;
+};
+
+/**
+ * Recursively walk a Sanity result and replace any internationalizedArray
+ * value arrays with the plain value for the current language. This makes
+ * it safe for the rest of the app to render `data.title` etc. as React
+ * children without needing per-query coalesce.
+ */
+const normalizeI18n = (input: any, lang: "no" | "en"): any => {
+  if (input == null) return input;
+  if (Array.isArray(input)) {
+    if (isI18nEntryArray(input)) {
+      return normalizeI18n(pickI18nValue(input, lang), lang);
+    }
+    return input.map((item) => normalizeI18n(item, lang));
+  }
+  if (typeof input === "object") {
+    // Don't recurse into Portable Text blocks — they have their own _type
+    // like "block"/"span" and must be passed through untouched to renderers.
+    const out: any = {};
+    for (const k of Object.keys(input)) {
+      out[k] = normalizeI18n(input[k], lang);
+    }
+    return out;
+  }
+  return input;
+};
+
+// Generic fetcher — auto-normalizes internationalizedArray fields
+const fetchSanity = async <T>(query: string, params?: Record<string, any>): Promise<T> => {
+  const lang: "no" | "en" = params?.lang === "en" ? "en" : "no";
+  const data = await sanityClient.fetch(query, params);
+  return normalizeI18n(data, lang) as T;
+};
 
 // ─── Homepage ────────────────────────────────────────────────────────
 export const useHomepage = () =>
