@@ -264,18 +264,21 @@ export const useGoogleReviewSettings = () => {
 };
 
 // ─── Treatment Categories ────────────────────────────────────────────
-export const useTreatmentCategories = () =>
-  useQuery({
-    queryKey: ["sanity", "treatmentCategories"],
-    queryFn: () => fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY),
+export const useTreatmentCategories = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatmentCategories", lang],
+    queryFn: () => fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useTreatmentCategory = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "treatmentCategory", slug],
+export const useTreatmentCategory = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatmentCategory", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(TREATMENT_CATEGORY_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(TREATMENT_CATEGORY_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
       return {
         ...data,
@@ -289,16 +292,19 @@ export const useTreatmentCategory = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Treatment (sub-treatment) ───────────────────────────────────────
-export const useTreatment = (categorySlug: string, treatmentSlug: string) =>
-  useQuery({
-    queryKey: ["sanity", "treatment", categorySlug, treatmentSlug],
+export const useTreatment = (categorySlug: string, treatmentSlug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatment", categorySlug, treatmentSlug, lang],
     queryFn: () =>
-      fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }),
+      fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }, lang),
     enabled: !!categorySlug && !!treatmentSlug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── About Page ──────────────────────────────────────────────────────
 export const useAboutPage = () => {
