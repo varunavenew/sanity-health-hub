@@ -580,11 +580,12 @@ const CATEGORY_ORDER = [
   "flere",
 ];
 
-export const useServiceCategoriesFromSanity = () =>
-  useQuery({
-    queryKey: ["sanity", "serviceCategories"],
+export const useServiceCategoriesFromSanity = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "serviceCategories", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY);
+      const data = await fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang);
       if (!data || data.length === 0) return null;
 
       const seen = new Set<string>();
@@ -620,6 +621,7 @@ export const useServiceCategoriesFromSanity = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Specialists Page ────────────────────────────────────────────────
 export const useSpecialistsPage = () =>
