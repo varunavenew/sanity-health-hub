@@ -421,15 +421,17 @@ export interface SanitySocialMedia {
   tiktok?: string;
 }
 
-export const useSiteSettings = () =>
-  useQuery({
-    queryKey: ["sanity", "siteSettings"],
+export const useSiteSettings = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "siteSettings", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(SITE_SETTINGS_QUERY);
+      const data = await fetchSanity<any>(SITE_SETTINGS_QUERY, undefined, lang);
       return data || null;
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Articles ────────────────────────────────────────────────────────
 export interface SanityArticle {
