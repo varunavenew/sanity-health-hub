@@ -491,11 +491,12 @@ export const useArticle = (slug: string) => {
 };
 
 // ─── Job Listings ────────────────────────────────────────────────────
-export const useJobListings = () =>
-  useQuery({
-    queryKey: ["sanity", "jobListings"],
+export const useJobListings = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "jobListings", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(JOB_LISTINGS_QUERY);
+      const data = await fetchSanity<any[]>(JOB_LISTINGS_QUERY, undefined, lang);
       return (data || []).map((j) => ({
         ...j,
         id: j._id,
@@ -503,42 +504,51 @@ export const useJobListings = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useJobListing = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "jobListing", slug],
+export const useJobListing = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "jobListing", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(JOB_LISTING_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(JOB_LISTING_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
       return { ...data, id: data._id };
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── FAQs ────────────────────────────────────────────────────────────
-export const useFaqs = (category?: string) =>
-  useQuery({
-    queryKey: ["sanity", "faqs", category],
+export const useFaqs = (category?: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "faqs", category, lang],
     queryFn: () =>
       fetchSanity<{ question: string; answer: string; category?: string }[]>(
         category ? FAQS_BY_CATEGORY_QUERY : FAQS_QUERY,
-        category ? { category } : undefined
+        category ? { category } : undefined,
+        lang
       ),
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
-  useQuery({
-    queryKey: ["sanity", "faqs", "treatment", categorySlug],
+export const useFaqsByTreatmentCategory = (categorySlug?: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "faqs", "treatment", categorySlug, lang],
     queryFn: () =>
       fetchSanity<{ question: string; answer: string }[]>(
         FAQS_BY_TREATMENT_CATEGORY_QUERY,
-        { slug: categorySlug }
+        { slug: categorySlug },
+        lang
       ),
     enabled: !!categorySlug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Theme Pages (Kvinnehelse, etc.) ─────────────────────────────────
 export const useThemePage = (slug: string) =>
