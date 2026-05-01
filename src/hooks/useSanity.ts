@@ -551,9 +551,10 @@ export const useFaqsByTreatmentCategory = (categorySlug?: string) => {
 };
 
 // ─── Theme Pages (Kvinnehelse, etc.) ─────────────────────────────────
-export const useThemePage = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "themePage", slug],
+export const useThemePage = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "themePage", slug, lang],
     queryFn: () =>
       fetchSanity<{
         title: string;
@@ -564,9 +565,10 @@ export const useThemePage = (slug: string) =>
         ctaText?: string;
         ctaLink?: string;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(THEME_PAGE_QUERY, { slug }),
+      }>(THEME_PAGE_QUERY, { slug }, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Service Categories (for dropdown menu) ─────────────────────────
 const CATEGORY_ORDER = [
