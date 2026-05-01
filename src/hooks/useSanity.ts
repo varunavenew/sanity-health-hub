@@ -231,11 +231,12 @@ export interface SanityReview {
   date: string;
 }
 
-export const useGoogleReviews = () =>
-  useQuery({
-    queryKey: ["sanity", "googleReviews"],
+export const useGoogleReviews = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "googleReviews", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(GOOGLE_REVIEWS_QUERY);
+      const data = await fetchSanity<any[]>(GOOGLE_REVIEWS_QUERY, undefined, lang);
       return (data || []).map((r) => ({
         ...r,
         name: r.author || "",
@@ -243,10 +244,12 @@ export const useGoogleReviews = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useGoogleReviewSettings = () =>
-  useQuery({
-    queryKey: ["sanity", "googleReviewSettings"],
+export const useGoogleReviewSettings = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "googleReviewSettings", lang],
     queryFn: () =>
       fetchSanity<{
         heading: string;
@@ -255,9 +258,10 @@ export const useGoogleReviewSettings = () =>
         legelistenAverageRating: number;
         ctaTitle: string;
         ctaSubtitle: string;
-      }>(GOOGLE_REVIEW_SETTINGS_QUERY),
+      }>(GOOGLE_REVIEW_SETTINGS_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Treatment Categories ────────────────────────────────────────────
 export const useTreatmentCategories = () =>
