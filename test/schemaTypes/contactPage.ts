@@ -11,7 +11,7 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -23,8 +23,7 @@ export default {
     {
       name: 'introText',
       title: 'Introduksjonstekst',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'phone',
@@ -54,7 +53,7 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'days', title: 'Dager', type: 'string' },
+            { name: 'days', title: 'Dager', type: 'internationalizedArrayString' },
             { name: 'hours', title: 'Timer', type: 'string' },
           ],
         },
@@ -75,9 +74,9 @@ export default {
               type: 'string',
               description: 'Lucide ikon-navn (Calendar, Shield, Phone, Mail, MessageCircle)',
             },
-            { name: 'title', title: 'Tittel', type: 'string' },
-            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 3 },
-            { name: 'ctaText', title: 'Knappetekst', type: 'string' },
+            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'ctaText', title: 'Knappetekst', type: 'internationalizedArrayString' },
             {
               name: 'ctaAction',
               title: 'Handling',
@@ -108,6 +107,13 @@ export default {
           ],
           preview: {
             select: { title: 'title', subtitle: 'ctaText' },
+            prepare({ title, subtitle }: any) {
+              const pick = (v: any) =>
+                Array.isArray(v)
+                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                  : (v || '')
+              return { title: pick(title), subtitle: pick(subtitle) }
+            },
           },
         },
       ],
@@ -120,5 +126,11 @@ export default {
   ],
   preview: {
     select: { title: 'title' },
+    prepare({ title }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Kontakt')
+        : (title || 'Kontakt')
+      return { title: titleStr }
+    },
   },
 }
