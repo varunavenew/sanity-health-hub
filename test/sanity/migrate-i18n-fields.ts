@@ -174,7 +174,11 @@ async function migrateField(
     const changedFormat = JSON.stringify(normalizedValue) !== JSON.stringify(currentValue)
     const hasEn = normalizedValue.some((e: any) => getEntryLanguage(e) === 'en')
     const noEntry = normalizedValue.find((e: any) => getEntryLanguage(e) === 'no')
-    if (hasEn || !noEntry || !TRANSLATE) return { changed: false, value: currentValue }
+    if (hasEn || !noEntry || !TRANSLATE) {
+      return changedFormat
+        ? { changed: true, value: normalizedValue }
+        : { changed: false, value: currentValue }
+    }
 
     let enValue: any = ''
     if (valueType === 'internationalizedArrayBlockContentValue' && Array.isArray(noEntry.value)) {
