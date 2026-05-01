@@ -313,9 +313,9 @@ const SCHEMAS: Array<{
   {
     type: 'specialist',
     topFields: {
-      name: 'internationalizedArrayStringValue',
-      title: 'internationalizedArrayStringValue',
+      // NOTE: `name` is a person name → never translated, stays as plain string.
       role: 'internationalizedArrayStringValue',
+      subtitle: 'internationalizedArrayStringValue',
       bio: 'internationalizedArrayBlockContentValue',
       shortBio: 'internationalizedArrayTextValue',
     },
