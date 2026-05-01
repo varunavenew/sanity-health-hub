@@ -2,6 +2,11 @@
 // Individual treatment pages under each category
 import { TreatmentIcon } from './icons'
 
+const pickNo = (v: any) =>
+  Array.isArray(v)
+    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+    : (v || '')
+
 export default {
   name: 'treatment',
   title: 'Behandling',
@@ -11,14 +16,17 @@ export default {
     {
       name: 'title',
       title: 'Behandlingsnavn',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'slug',
       title: 'URL-slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 96 },
+      options: {
+        source: (doc: any) => pickNo(doc?.title),
+        maxLength: 96,
+      },
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -31,7 +39,7 @@ export default {
     {
       name: 'parentCategoryLabel',
       title: 'Overordnet kategori (visningsnavn)',
-      type: 'string',
+      type: 'internationalizedArrayString',
       description: 'F.eks. "Gynekologi" — vises som breadcrumb',
     },
     {
@@ -43,21 +51,19 @@ export default {
     {
       name: 'description',
       title: 'Introduksjonstekst',
-      type: 'text',
-      rows: 6,
+      type: 'internationalizedArrayText',
     },
     // Benefits
     {
       name: 'benefitsTitle',
       title: 'Fordeler-tittel',
-      type: 'string',
-      initialValue: 'Hvorfor velge oss',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'benefits',
       title: 'Fordeler',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{ type: 'internationalizedArrayString' }],
     },
     // Treatment Process
     {
@@ -68,8 +74,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Steg-tittel', type: 'string' },
-            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
+            { name: 'title', title: 'Steg-tittel', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
         },
       ],
@@ -83,8 +89,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'question', title: 'Spørsmål', type: 'string' },
-            { name: 'answer', title: 'Svar', type: 'text', rows: 3 },
+            { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString' },
+            { name: 'answer', title: 'Svar', type: 'internationalizedArrayText' },
           ],
         },
       ],
@@ -100,11 +106,14 @@ export default {
           type: 'object',
           fields: [
             { name: 'id', title: 'Anker-ID', type: 'string', description: 'Brukes for scroll-til-seksjon' },
-            { name: 'heading', title: 'Overskrift', type: 'string', validation: (Rule: any) => Rule.required() },
-            { name: 'content', title: 'Innhold', type: 'text', rows: 10, description: 'Støtter **bold**, _italic_, - lister, [lenke](url)' },
+            { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
+            { name: 'content', title: 'Innhold', type: 'internationalizedArrayText', description: 'Støtter **bold**, _italic_, - lister, [lenke](url)' },
           ],
           preview: {
             select: { title: 'heading' },
+            prepare({ title }: any) {
+              return { title: pickNo(title) }
+            },
           },
         },
       ],
@@ -132,12 +141,15 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'label', title: 'Tittel', type: 'string', validation: (Rule: any) => Rule.required() },
-            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
+            { name: 'label', title: 'Tittel', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
+            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
             { name: 'path', title: 'URL-sti', type: 'string', validation: (Rule: any) => Rule.required() },
           ],
           preview: {
             select: { title: 'label' },
+            prepare({ title }: any) {
+              return { title: pickNo(title) }
+            },
           },
         },
       ],
@@ -152,12 +164,15 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'label', title: 'Tittel', type: 'string', validation: (Rule: any) => Rule.required() },
+            { name: 'label', title: 'Tittel', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
             { name: 'anchor', title: 'Anker (valgfritt)', type: 'string', description: 'Anker-lenke på siden (#seksjon)' },
             { name: 'path', title: 'Egen URL (valgfritt)', type: 'string', description: 'Full URL hvis elementet skal lenke til en annen side' },
           ],
           preview: {
             select: { title: 'label' },
+            prepare({ title }: any) {
+              return { title: pickNo(title) }
+            },
           },
         },
       ],
@@ -165,7 +180,7 @@ export default {
     {
       name: 'subtitle',
       title: 'Undertittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'sortOrder',
@@ -189,14 +204,6 @@ export default {
       ],
     },
     {
-      title: 'Kategori → Tittel',
-      name: 'categoryTitle',
-      by: [
-        { field: 'parentCategoryLabel', direction: 'asc' },
-        { field: 'title', direction: 'asc' },
-      ],
-    },
-    {
       title: 'Tittel (A–Å)',
       name: 'titleAsc',
       by: [{ field: 'title', direction: 'asc' }],
@@ -210,8 +217,8 @@ export default {
     },
     prepare({ title, subtitle, media }: any) {
       return {
-        title,
-        subtitle: subtitle || 'Ingen kategori',
+        title: pickNo(title) || 'Behandling',
+        subtitle: pickNo(subtitle) || 'Ingen kategori',
         media,
       }
     },
