@@ -101,19 +101,26 @@ const normalizeI18n = (input: any, lang: "no" | "en"): any => {
   return input;
 };
 
-// Generic fetcher — auto-normalizes internationalizedArray fields
-const fetchSanity = async <T>(query: string, params?: Record<string, any>): Promise<T> => {
-  const lang: "no" | "en" = params?.lang === "en" ? "en" : "no";
+// Generic fetcher — auto-normalizes internationalizedArray fields.
+// `lang` may be passed explicitly (3rd arg), or via params.lang, otherwise "no".
+const fetchSanity = async <T>(
+  query: string,
+  params?: Record<string, any>,
+  lang?: "no" | "en"
+): Promise<T> => {
+  const resolved: "no" | "en" =
+    lang || (params?.lang === "en" ? "en" : "no");
   const data = await sanityClient.fetch(query, params);
-  return normalizeI18n(data, lang) as T;
+  return normalizeI18n(data, resolved) as T;
 };
 
 // ─── Homepage ────────────────────────────────────────────────────────
-export const useHomepage = () =>
-  useQuery({
-    queryKey: ["sanity", "homepage"],
+export const useHomepage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "homepage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(HOMEPAGE_QUERY);
+      const data = await fetchSanity<any>(HOMEPAGE_QUERY, undefined, lang);
       if (!data) return null;
 
       return {
@@ -153,6 +160,7 @@ export const useHomepage = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Specialists ─────────────────────────────────────────────────────
 export interface SanitySpecialist {
@@ -172,11 +180,12 @@ export interface SanitySpecialist {
   bookingEnabled?: boolean;
 }
 
-export const useSpecialists = () =>
-  useQuery({
-    queryKey: ["sanity", "specialists"],
+export const useSpecialists = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialists", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SPECIALISTS_QUERY);
+      const data = await fetchSanity<any[]>(SPECIALISTS_QUERY, undefined, lang);
       return (data || []).map((s) => ({
         ...s,
         title: s.role || "",
@@ -189,12 +198,14 @@ export const useSpecialists = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useSpecialist = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "specialist", slug],
+export const useSpecialist = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialist", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(SPECIALIST_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(SPECIALIST_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
       return {
         ...data,
@@ -209,6 +220,7 @@ export const useSpecialist = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Google Reviews ──────────────────────────────────────────────────
 export interface SanityReview {
@@ -219,11 +231,12 @@ export interface SanityReview {
   date: string;
 }
 
-export const useGoogleReviews = () =>
-  useQuery({
-    queryKey: ["sanity", "googleReviews"],
+export const useGoogleReviews = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "googleReviews", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(GOOGLE_REVIEWS_QUERY);
+      const data = await fetchSanity<any[]>(GOOGLE_REVIEWS_QUERY, undefined, lang);
       return (data || []).map((r) => ({
         ...r,
         name: r.author || "",
@@ -231,10 +244,12 @@ export const useGoogleReviews = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useGoogleReviewSettings = () =>
-  useQuery({
-    queryKey: ["sanity", "googleReviewSettings"],
+export const useGoogleReviewSettings = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "googleReviewSettings", lang],
     queryFn: () =>
       fetchSanity<{
         heading: string;
@@ -243,23 +258,27 @@ export const useGoogleReviewSettings = () =>
         legelistenAverageRating: number;
         ctaTitle: string;
         ctaSubtitle: string;
-      }>(GOOGLE_REVIEW_SETTINGS_QUERY),
+      }>(GOOGLE_REVIEW_SETTINGS_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Treatment Categories ────────────────────────────────────────────
-export const useTreatmentCategories = () =>
-  useQuery({
-    queryKey: ["sanity", "treatmentCategories"],
-    queryFn: () => fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY),
+export const useTreatmentCategories = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatmentCategories", lang],
+    queryFn: () => fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useTreatmentCategory = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "treatmentCategory", slug],
+export const useTreatmentCategory = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatmentCategory", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(TREATMENT_CATEGORY_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(TREATMENT_CATEGORY_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
       return {
         ...data,
@@ -273,16 +292,19 @@ export const useTreatmentCategory = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Treatment (sub-treatment) ───────────────────────────────────────
-export const useTreatment = (categorySlug: string, treatmentSlug: string) =>
-  useQuery({
-    queryKey: ["sanity", "treatment", categorySlug, treatmentSlug],
+export const useTreatment = (categorySlug: string, treatmentSlug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "treatment", categorySlug, treatmentSlug, lang],
     queryFn: () =>
-      fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }),
+      fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }, lang),
     enabled: !!categorySlug && !!treatmentSlug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── About Page ──────────────────────────────────────────────────────
 export const useAboutPage = () => {
@@ -290,7 +312,7 @@ export const useAboutPage = () => {
   return useQuery({
     queryKey: ["sanity", "aboutPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY, { lang });
+      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY, { lang }, lang);
       if (!data) return null;
       // Normalize array-typed leftovers if any
       const title = typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? "");
@@ -309,31 +331,36 @@ export const useAboutPage = () => {
 };
 
 // ─── Contact Page ────────────────────────────────────────────────────
-export const useContactPage = () =>
-  useQuery({
-    queryKey: ["sanity", "contactPage"],
+export const useContactPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "contactPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(CONTACT_PAGE_QUERY);
+      const data = await fetchSanity<any>(CONTACT_PAGE_QUERY, undefined, lang);
       if (!data) return null;
       return { ...data, subtitle: data.introText || "" };
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Pricing Page ────────────────────────────────────────────────────
-export const usePricingPage = () =>
-  useQuery({
-    queryKey: ["sanity", "pricingPage"],
-    queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY),
+export const usePricingPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "pricingPage", lang],
+    queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Insurance Page ──────────────────────────────────────────────────
-export const useInsurancePage = () =>
-  useQuery({
-    queryKey: ["sanity", "insurancePage"],
+export const useInsurancePage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "insurancePage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(INSURANCE_PAGE_QUERY);
+      const data = await fetchSanity<any>(INSURANCE_PAGE_QUERY, undefined, lang);
       if (!data) return null;
       return {
         ...data,
@@ -352,30 +379,37 @@ export const useInsurancePage = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Services Page ───────────────────────────────────────────────────
-export const useServicesPage = () =>
-  useQuery({
-    queryKey: ["sanity", "servicesPage"],
-    queryFn: () => fetchSanity<any>(SERVICES_PAGE_QUERY),
+export const useServicesPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "servicesPage", lang],
+    queryFn: () => fetchSanity<any>(SERVICES_PAGE_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Clinics ─────────────────────────────────────────────────────────
-export const useClinics = () =>
-  useQuery({
-    queryKey: ["sanity", "clinics"],
-    queryFn: () => fetchSanity<any[]>(CLINICS_QUERY),
+export const useClinics = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "clinics", lang],
+    queryFn: () => fetchSanity<any[]>(CLINICS_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useClinic = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "clinic", slug],
-    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }),
+export const useClinic = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "clinic", slug, lang],
+    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang),
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Site Settings ───────────────────────────────────────────────────
 export interface SanitySocialMedia {
@@ -387,15 +421,17 @@ export interface SanitySocialMedia {
   tiktok?: string;
 }
 
-export const useSiteSettings = () =>
-  useQuery({
-    queryKey: ["sanity", "siteSettings"],
+export const useSiteSettings = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "siteSettings", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(SITE_SETTINGS_QUERY);
+      const data = await fetchSanity<any>(SITE_SETTINGS_QUERY, undefined, lang);
       return data || null;
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Articles ────────────────────────────────────────────────────────
 export interface SanityArticle {
@@ -419,7 +455,7 @@ export const useArticles = () => {
   return useQuery({
     queryKey: ["sanity", "articles", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang });
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang }, lang);
       return (data || []).map((a) => ({
         ...a,
         title: typeof a.title === "string" ? a.title : (a.title?.[0]?.value ?? ""),
@@ -438,7 +474,7 @@ export const useArticle = (slug: string) => {
   return useQuery({
     queryKey: ["sanity", "article", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang });
+      const data = await fetchSanity<any>(ARTICLE_BY_SLUG_QUERY, { slug, lang }, lang);
       if (!data) return null;
       return {
         ...data,
@@ -455,11 +491,12 @@ export const useArticle = (slug: string) => {
 };
 
 // ─── Job Listings ────────────────────────────────────────────────────
-export const useJobListings = () =>
-  useQuery({
-    queryKey: ["sanity", "jobListings"],
+export const useJobListings = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "jobListings", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(JOB_LISTINGS_QUERY);
+      const data = await fetchSanity<any[]>(JOB_LISTINGS_QUERY, undefined, lang);
       return (data || []).map((j) => ({
         ...j,
         id: j._id,
@@ -467,47 +504,57 @@ export const useJobListings = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useJobListing = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "jobListing", slug],
+export const useJobListing = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "jobListing", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(JOB_LISTING_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(JOB_LISTING_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
       return { ...data, id: data._id };
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── FAQs ────────────────────────────────────────────────────────────
-export const useFaqs = (category?: string) =>
-  useQuery({
-    queryKey: ["sanity", "faqs", category],
+export const useFaqs = (category?: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "faqs", category, lang],
     queryFn: () =>
       fetchSanity<{ question: string; answer: string; category?: string }[]>(
         category ? FAQS_BY_CATEGORY_QUERY : FAQS_QUERY,
-        category ? { category } : undefined
+        category ? { category } : undefined,
+        lang
       ),
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useFaqsByTreatmentCategory = (categorySlug?: string) =>
-  useQuery({
-    queryKey: ["sanity", "faqs", "treatment", categorySlug],
+export const useFaqsByTreatmentCategory = (categorySlug?: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "faqs", "treatment", categorySlug, lang],
     queryFn: () =>
       fetchSanity<{ question: string; answer: string }[]>(
         FAQS_BY_TREATMENT_CATEGORY_QUERY,
-        { slug: categorySlug }
+        { slug: categorySlug },
+        lang
       ),
     enabled: !!categorySlug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Theme Pages (Kvinnehelse, etc.) ─────────────────────────────────
-export const useThemePage = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "themePage", slug],
+export const useThemePage = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "themePage", slug, lang],
     queryFn: () =>
       fetchSanity<{
         title: string;
@@ -518,9 +565,10 @@ export const useThemePage = (slug: string) =>
         ctaText?: string;
         ctaLink?: string;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(THEME_PAGE_QUERY, { slug }),
+      }>(THEME_PAGE_QUERY, { slug }, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Service Categories (for dropdown menu) ─────────────────────────
 const CATEGORY_ORDER = [
@@ -532,11 +580,12 @@ const CATEGORY_ORDER = [
   "flere",
 ];
 
-export const useServiceCategoriesFromSanity = () =>
-  useQuery({
-    queryKey: ["sanity", "serviceCategories"],
+export const useServiceCategoriesFromSanity = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "serviceCategories", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY);
+      const data = await fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang);
       if (!data || data.length === 0) return null;
 
       const seen = new Set<string>();
@@ -572,20 +621,23 @@ export const useServiceCategoriesFromSanity = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Specialists Page ────────────────────────────────────────────────
-export const useSpecialistsPage = () =>
-  useQuery({
-    queryKey: ["sanity", "specialistsPage"],
+export const useSpecialistsPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialistsPage", lang],
     queryFn: () =>
       fetchSanity<{
         title?: string;
         subtitle?: string;
         body?: any;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(SPECIALISTS_PAGE_QUERY),
+      }>(SPECIALISTS_PAGE_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Products ────────────────────────────────────────────────────────
 export interface SanityProduct {
@@ -606,46 +658,54 @@ export interface SanityProduct {
   seasonalOrder?: number;
 }
 
-export const useProducts = () =>
-  useQuery({
-    queryKey: ["sanity", "products"],
+export const useProducts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "products", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(PRODUCTS_QUERY);
+      const data = await fetchSanity<any[]>(PRODUCTS_QUERY, undefined, lang);
       return (data || []) as SanityProduct[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useSeasonalProducts = () =>
-  useQuery({
-    queryKey: ["sanity", "seasonalProducts"],
+export const useSeasonalProducts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "seasonalProducts", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SEASONAL_PRODUCTS_QUERY);
+      const data = await fetchSanity<any[]>(SEASONAL_PRODUCTS_QUERY, undefined, lang);
       return (data || []) as SanityProduct[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useTopRatedProducts = () =>
-  useQuery({
-    queryKey: ["sanity", "topRatedProducts"],
+export const useTopRatedProducts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "topRatedProducts", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(TOP_RATED_PRODUCTS_QUERY);
+      const data = await fetchSanity<any[]>(TOP_RATED_PRODUCTS_QUERY, undefined, lang);
       return (data || []) as SanityProduct[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useProduct = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "product", slug],
+export const useProduct = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "product", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(PRODUCT_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(PRODUCT_BY_SLUG_QUERY, { slug }, lang);
       return data as SanityProduct | null;
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 export interface SanityTestimonial {
   _id: string;
@@ -657,15 +717,17 @@ export interface SanityTestimonial {
   treatment?: string;
 }
 
-export const useTestimonials = () =>
-  useQuery({
-    queryKey: ["sanity", "testimonials"],
+export const useTestimonials = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "testimonials", lang],
     queryFn: async () => {
-      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY);
+      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY, undefined, lang);
       return data || [];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Social Posts ────────────────────────────────────────────────────
 export interface SanitySocialPost {
@@ -678,12 +740,14 @@ export interface SanitySocialPost {
   likes?: number;
 }
 
-export const useSocialPosts = () =>
-  useQuery({
-    queryKey: ["sanity", "socialPosts"],
+export const useSocialPosts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "socialPosts", lang],
     queryFn: async () => {
-      const data = await fetchSanity<SanitySocialPost[]>(SOCIAL_POSTS_QUERY);
+      const data = await fetchSanity<SanitySocialPost[]>(SOCIAL_POSTS_QUERY, undefined, lang);
       return data || [];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
