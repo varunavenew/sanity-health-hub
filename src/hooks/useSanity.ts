@@ -312,7 +312,7 @@ export const useAboutPage = () => {
   return useQuery({
     queryKey: ["sanity", "aboutPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY, { lang });
+      const data = await fetchSanity<any>(ABOUT_PAGE_QUERY, { lang }, lang);
       if (!data) return null;
       // Normalize array-typed leftovers if any
       const title = typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? "");
