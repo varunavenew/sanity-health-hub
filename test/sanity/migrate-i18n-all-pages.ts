@@ -380,9 +380,38 @@ async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
     }
   }
 
-  // Nested arrays / objects (supports dotted paths like heroBanner.slides)
+  // Nested arrays / objects (supports dotted paths like heroBanner.slides
+  // and array-wildcard paths like priceCategories[].items)
   if (schema.nested) {
     for (const [path, nestedMap] of Object.entries(schema.nested)) {
+      // Wildcard array path: parent[].child
+      if (path.includes('[].')) {
+        const [parentKey, childKey] = path.split('[].')
+        const parentArr = doc[parentKey]
+        if (!Array.isArray(parentArr)) continue
+        const newParent = JSON.parse(JSON.stringify(parentArr))
+        let parentChanged = false
+        for (let i = 0; i < newParent.length; i++) {
+          const childArr = newParent[i]?.[childKey]
+          if (!Array.isArray(childArr)) continue
+          for (let j = 0; j < childArr.length; j++) {
+            const item = childArr[j]
+            if (item && typeof item === 'object') {
+              const r = await wrapObjectFields(item, nestedMap)
+              if (r.changed) {
+                childArr[j] = r.value
+                parentChanged = true
+              }
+            }
+          }
+        }
+        if (parentChanged) {
+          // Merge with any existing patch on the same top-level key
+          patches[parentKey] = newParent
+        }
+        continue
+      }
+
       const cur = getByPath(doc, path)
       if (!cur) continue
 
@@ -399,14 +428,20 @@ async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
           }
         }
         if (changed) {
-          // For dotted paths we patch the top-level container
           const topKey = path.split('.')[0]
           if (path.includes('.')) {
             const container = JSON.parse(JSON.stringify(doc[topKey] || {}))
             setByPath({ [topKey]: container }, path, newArr)
             patches[topKey] = container
           } else {
-            patches[path] = newArr
+            // If a wildcard pass already wrote this key, merge categoryName onto it
+            if (patches[path]) {
+              for (let i = 0; i < newArr.length; i++) {
+                patches[path][i] = { ...patches[path][i], ...newArr[i] }
+              }
+            } else {
+              patches[path] = newArr
+            }
           }
         }
       } else if (typeof cur === 'object') {
@@ -423,6 +458,7 @@ async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
         }
       }
     }
+  }
   }
 
   return patches
