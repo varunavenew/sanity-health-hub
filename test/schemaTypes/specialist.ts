@@ -1,6 +1,11 @@
 // Schema: Specialist (Spesialist)
 import { SpecialistIcon } from './icons'
 
+const pickNo = (v: any) =>
+  Array.isArray(v)
+    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+    : (v || '')
+
 export default {
   name: 'specialist',
   title: 'Spesialist',
@@ -12,6 +17,7 @@ export default {
       title: 'Navn',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
+      description: 'Personnavn (oversettes ikke)',
     },
     {
       name: 'slug',
@@ -29,20 +35,20 @@ export default {
     {
       name: 'role',
       title: 'Tittel/rolle',
-      type: 'string',
+      type: 'internationalizedArrayString',
       description: 'F.eks. "Gynekolog", "Urolog", "Ortoped"',
     },
     {
       name: 'subtitle',
       title: 'Undertittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       description: 'F.eks. "Robotkirurg", "Spesialist", "Kirurg"',
     },
     {
       name: 'specialties',
       title: 'Spesialområder',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{ type: 'internationalizedArrayString' }],
     },
     {
       name: 'categories',
@@ -65,25 +71,25 @@ export default {
     {
       name: 'bio',
       title: 'Biografi',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'shortBio',
       title: 'Kort biografi',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'education',
       title: 'Utdanning',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{ type: 'internationalizedArrayString' }],
     },
     {
       name: 'languages',
       title: 'Språk',
       type: 'array',
       of: [{ type: 'string' }],
+      description: 'Språkkoder/navn (oversettes ikke)',
     },
     {
       name: 'bookingEnabled',
@@ -125,8 +131,8 @@ export default {
     select: { title: 'name', subtitle: 'role', media: 'photo', booking: 'bookingEnabled' },
     prepare({ title, subtitle, media, booking }: any) {
       return {
-        title: `${booking === false ? '🚫 ' : ''}${title}`,
-        subtitle: subtitle || 'Ingen rolle',
+        title: `${booking === false ? '🚫 ' : ''}${title || ''}`,
+        subtitle: pickNo(subtitle) || 'Ingen rolle',
         media,
       }
     },
