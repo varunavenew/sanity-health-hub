@@ -331,7 +331,6 @@ export const useAboutPage = () => {
 };
 
 // ─── Contact Page ────────────────────────────────────────────────────
-export const useContactPage = () =>
 export const useContactPage = () => {
   const lang = useSanityLang();
   return useQuery({
