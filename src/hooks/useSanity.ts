@@ -332,30 +332,36 @@ export const useAboutPage = () => {
 
 // ─── Contact Page ────────────────────────────────────────────────────
 export const useContactPage = () =>
-  useQuery({
-    queryKey: ["sanity", "contactPage"],
+export const useContactPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "contactPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(CONTACT_PAGE_QUERY);
+      const data = await fetchSanity<any>(CONTACT_PAGE_QUERY, undefined, lang);
       if (!data) return null;
       return { ...data, subtitle: data.introText || "" };
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Pricing Page ────────────────────────────────────────────────────
-export const usePricingPage = () =>
-  useQuery({
-    queryKey: ["sanity", "pricingPage"],
-    queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY),
+export const usePricingPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "pricingPage", lang],
+    queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Insurance Page ──────────────────────────────────────────────────
-export const useInsurancePage = () =>
-  useQuery({
-    queryKey: ["sanity", "insurancePage"],
+export const useInsurancePage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "insurancePage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(INSURANCE_PAGE_QUERY);
+      const data = await fetchSanity<any>(INSURANCE_PAGE_QUERY, undefined, lang);
       if (!data) return null;
       return {
         ...data,
@@ -374,30 +380,37 @@ export const useInsurancePage = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Services Page ───────────────────────────────────────────────────
-export const useServicesPage = () =>
-  useQuery({
-    queryKey: ["sanity", "servicesPage"],
-    queryFn: () => fetchSanity<any>(SERVICES_PAGE_QUERY),
+export const useServicesPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "servicesPage", lang],
+    queryFn: () => fetchSanity<any>(SERVICES_PAGE_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Clinics ─────────────────────────────────────────────────────────
-export const useClinics = () =>
-  useQuery({
-    queryKey: ["sanity", "clinics"],
-    queryFn: () => fetchSanity<any[]>(CLINICS_QUERY),
+export const useClinics = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "clinics", lang],
+    queryFn: () => fetchSanity<any[]>(CLINICS_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useClinic = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "clinic", slug],
-    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }),
+export const useClinic = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "clinic", slug, lang],
+    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang),
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Site Settings ───────────────────────────────────────────────────
 export interface SanitySocialMedia {
