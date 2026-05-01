@@ -180,11 +180,12 @@ export interface SanitySpecialist {
   bookingEnabled?: boolean;
 }
 
-export const useSpecialists = () =>
-  useQuery({
-    queryKey: ["sanity", "specialists"],
+export const useSpecialists = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialists", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SPECIALISTS_QUERY);
+      const data = await fetchSanity<any[]>(SPECIALISTS_QUERY, undefined, lang);
       return (data || []).map((s) => ({
         ...s,
         title: s.role || "",
@@ -197,12 +198,14 @@ export const useSpecialists = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useSpecialist = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "specialist", slug],
+export const useSpecialist = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialist", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(SPECIALIST_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(SPECIALIST_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
       return {
         ...data,
@@ -217,6 +220,7 @@ export const useSpecialist = (slug: string) =>
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Google Reviews ──────────────────────────────────────────────────
 export interface SanityReview {
