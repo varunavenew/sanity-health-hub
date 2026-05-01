@@ -167,8 +167,13 @@ async function migrateField(
   // Already migrated?
   if (isAlreadyI18nArray(currentValue)) {
     // Backfill EN if missing and translation is enabled
-    const hasEn = currentValue.some((e: any) => e._key === 'en')
-    const noEntry = currentValue.find((e: any) => e._key === 'no')
+    const normalizedValue = currentValue.map((entry: any) => {
+      const language = getEntryLanguage(entry)
+      return language ? { ...entry, language } : entry
+    })
+    const changedFormat = JSON.stringify(normalizedValue) !== JSON.stringify(currentValue)
+    const hasEn = normalizedValue.some((e: any) => getEntryLanguage(e) === 'en')
+    const noEntry = normalizedValue.find((e: any) => getEntryLanguage(e) === 'no')
     if (hasEn || !noEntry || !TRANSLATE) return { changed: false, value: currentValue }
 
     let enValue: any = ''
@@ -180,7 +185,7 @@ async function migrateField(
     if (!enValue) return { changed: false, value: currentValue }
     return {
       changed: true,
-      value: [...currentValue, makeI18nEntry('en', enValue, valueType)],
+      value: [...normalizedValue, makeI18nEntry('en', enValue, valueType)],
     }
   }
 
