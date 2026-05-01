@@ -115,11 +115,12 @@ const fetchSanity = async <T>(
 };
 
 // ─── Homepage ────────────────────────────────────────────────────────
-export const useHomepage = () =>
-  useQuery({
-    queryKey: ["sanity", "homepage"],
+export const useHomepage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "homepage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(HOMEPAGE_QUERY);
+      const data = await fetchSanity<any>(HOMEPAGE_QUERY, undefined, lang);
       if (!data) return null;
 
       return {
@@ -159,6 +160,7 @@ export const useHomepage = () =>
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Specialists ─────────────────────────────────────────────────────
 export interface SanitySpecialist {
