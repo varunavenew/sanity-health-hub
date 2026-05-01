@@ -455,7 +455,7 @@ export const useArticles = () => {
   return useQuery({
     queryKey: ["sanity", "articles", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang });
+      const data = await fetchSanity<any[]>(ARTICLES_QUERY, { lang }, lang);
       return (data || []).map((a) => ({
         ...a,
         title: typeof a.title === "string" ? a.title : (a.title?.[0]?.value ?? ""),
