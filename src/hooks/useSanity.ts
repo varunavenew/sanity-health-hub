@@ -624,18 +624,20 @@ export const useServiceCategoriesFromSanity = () => {
 };
 
 // ─── Specialists Page ────────────────────────────────────────────────
-export const useSpecialistsPage = () =>
-  useQuery({
-    queryKey: ["sanity", "specialistsPage"],
+export const useSpecialistsPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialistsPage", lang],
     queryFn: () =>
       fetchSanity<{
         title?: string;
         subtitle?: string;
         body?: any;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(SPECIALISTS_PAGE_QUERY),
+      }>(SPECIALISTS_PAGE_QUERY, undefined, lang),
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Products ────────────────────────────────────────────────────────
 export interface SanityProduct {
@@ -656,46 +658,54 @@ export interface SanityProduct {
   seasonalOrder?: number;
 }
 
-export const useProducts = () =>
-  useQuery({
-    queryKey: ["sanity", "products"],
+export const useProducts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "products", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(PRODUCTS_QUERY);
+      const data = await fetchSanity<any[]>(PRODUCTS_QUERY, undefined, lang);
       return (data || []) as SanityProduct[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useSeasonalProducts = () =>
-  useQuery({
-    queryKey: ["sanity", "seasonalProducts"],
+export const useSeasonalProducts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "seasonalProducts", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SEASONAL_PRODUCTS_QUERY);
+      const data = await fetchSanity<any[]>(SEASONAL_PRODUCTS_QUERY, undefined, lang);
       return (data || []) as SanityProduct[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useTopRatedProducts = () =>
-  useQuery({
-    queryKey: ["sanity", "topRatedProducts"],
+export const useTopRatedProducts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "topRatedProducts", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(TOP_RATED_PRODUCTS_QUERY);
+      const data = await fetchSanity<any[]>(TOP_RATED_PRODUCTS_QUERY, undefined, lang);
       return (data || []) as SanityProduct[];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
-export const useProduct = (slug: string) =>
-  useQuery({
-    queryKey: ["sanity", "product", slug],
+export const useProduct = (slug: string) => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "product", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(PRODUCT_BY_SLUG_QUERY, { slug });
+      const data = await fetchSanity<any>(PRODUCT_BY_SLUG_QUERY, { slug }, lang);
       return data as SanityProduct | null;
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
+};
 
 export interface SanityTestimonial {
   _id: string;
@@ -707,15 +717,17 @@ export interface SanityTestimonial {
   treatment?: string;
 }
 
-export const useTestimonials = () =>
-  useQuery({
-    queryKey: ["sanity", "testimonials"],
+export const useTestimonials = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "testimonials", lang],
     queryFn: async () => {
-      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY);
+      const data = await fetchSanity<SanityTestimonial[]>(TESTIMONIALS_QUERY, undefined, lang);
       return data || [];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
 
 // ─── Social Posts ────────────────────────────────────────────────────
 export interface SanitySocialPost {
@@ -728,12 +740,14 @@ export interface SanitySocialPost {
   likes?: number;
 }
 
-export const useSocialPosts = () =>
-  useQuery({
-    queryKey: ["sanity", "socialPosts"],
+export const useSocialPosts = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "socialPosts", lang],
     queryFn: async () => {
-      const data = await fetchSanity<SanitySocialPost[]>(SOCIAL_POSTS_QUERY);
+      const data = await fetchSanity<SanitySocialPost[]>(SOCIAL_POSTS_QUERY, undefined, lang);
       return data || [];
     },
     staleTime: 5 * 60 * 1000,
   });
+};
