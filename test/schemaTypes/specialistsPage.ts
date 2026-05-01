@@ -10,14 +10,13 @@ export default {
     {
       name: 'title',
       title: 'Tittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'subtitle',
       title: 'Undertekst',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
       description: 'Kort beskrivelse under hovedtittelen',
     },
     {
@@ -29,7 +28,7 @@ export default {
     {
       name: 'body',
       title: 'Innhold',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
       description: 'Hovedinnhold for "Om våre spesialister"-siden',
     },
     {
@@ -40,5 +39,11 @@ export default {
   ],
   preview: {
     select: { title: 'title' },
+    prepare({ title }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Spesialister')
+        : (title || 'Spesialister')
+      return { title: titleStr }
+    },
   },
 }
