@@ -253,6 +253,11 @@ const SCHEMAS: Array<{
     },
     nested: {
       priceCategories: { categoryName: 'internationalizedArrayStringValue' },
+      'priceCategories[].items': {
+        name: 'internationalizedArrayStringValue',
+        priceLabel: 'internationalizedArrayStringValue',
+        note: 'internationalizedArrayStringValue',
+      },
     },
   },
   {
