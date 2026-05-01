@@ -9,12 +9,12 @@
  *   body:    [ {_type:'block', ...} , {_type:'image', ...} ]
  *
  * Target shape (after migration):
- *   title:   [{_key:'no', _type:'internationalizedArrayStringValue',      value:'Velkommen'},
- *             {_key:'en', _type:'internationalizedArrayStringValue',      value:'Welcome'}]
- *   excerpt: [{_key:'no', _type:'internationalizedArrayTextValue',        value:'...'},
- *             {_key:'en', _type:'internationalizedArrayTextValue',        value:'...'}]
- *   body:    [{_key:'no', _type:'internationalizedArrayBlockContentValue', value:[...blocks]},
- *             {_key:'en', _type:'internationalizedArrayBlockContentValue', value:[...blocks]}]
+ *   title:   [{_key:'auto', language:'no', _type:'internationalizedArrayStringValue',      value:'Velkommen'},
+ *             {_key:'auto', language:'en', _type:'internationalizedArrayStringValue',      value:'Welcome'}]
+ *   excerpt: [{_key:'auto', language:'no', _type:'internationalizedArrayTextValue',        value:'...'},
+ *             {_key:'auto', language:'en', _type:'internationalizedArrayTextValue',        value:'...'}]
+ *   body:    [{_key:'auto', language:'no', _type:'internationalizedArrayBlockContentValue', value:[...blocks]},
+ *             {_key:'auto', language:'en', _type:'internationalizedArrayBlockContentValue', value:[...blocks]}]
  *
  * Idempotent: skips fields that are already arrays of i18n entries.
  *
@@ -52,10 +52,14 @@ function isAlreadyI18nArray(val: unknown): boolean {
     val.length > 0 &&
     typeof val[0] === 'object' &&
     val[0] !== null &&
-    '_key' in (val[0] as any) &&
     'value' in (val[0] as any) &&
-    (val[0] as any)._key?.length <= 5 // 'no' / 'en' — distinguishes from PT blocks
+    typeof (val[0] as any)._type === 'string' &&
+    (val[0] as any)._type.startsWith('internationalizedArray')
   )
+}
+
+function getEntryLanguage(entry: any): string | undefined {
+  return entry?.language || entry?._key
 }
 
 function isPortableTextArray(val: unknown): boolean {
@@ -71,7 +75,7 @@ function isPortableTextArray(val: unknown): boolean {
 }
 
 function makeI18nEntry(lang: 'no' | 'en', value: any, valueType: I18nValueType) {
-  return { _key: lang, _type: valueType, value }
+  return { _type: valueType, language: lang, value }
 }
 
 // Strip _key from inner PT blocks so Sanity assigns fresh ones for EN copy
@@ -163,9 +167,18 @@ async function migrateField(
   // Already migrated?
   if (isAlreadyI18nArray(currentValue)) {
     // Backfill EN if missing and translation is enabled
-    const hasEn = currentValue.some((e: any) => e._key === 'en')
-    const noEntry = currentValue.find((e: any) => e._key === 'no')
-    if (hasEn || !noEntry || !TRANSLATE) return { changed: false, value: currentValue }
+    const normalizedValue = currentValue.map((entry: any) => {
+      const language = getEntryLanguage(entry)
+      return language ? { ...entry, language } : entry
+    })
+    const changedFormat = JSON.stringify(normalizedValue) !== JSON.stringify(currentValue)
+    const hasEn = normalizedValue.some((e: any) => getEntryLanguage(e) === 'en')
+    const noEntry = normalizedValue.find((e: any) => getEntryLanguage(e) === 'no')
+    if (hasEn || !noEntry || !TRANSLATE) {
+      return changedFormat
+        ? { changed: true, value: normalizedValue }
+        : { changed: false, value: currentValue }
+    }
 
     let enValue: any = ''
     if (valueType === 'internationalizedArrayBlockContentValue' && Array.isArray(noEntry.value)) {
@@ -176,7 +189,7 @@ async function migrateField(
     if (!enValue) return { changed: false, value: currentValue }
     return {
       changed: true,
-      value: [...currentValue, makeI18nEntry('en', enValue, valueType)],
+      value: [...normalizedValue, makeI18nEntry('en', enValue, valueType)],
     }
   }
 

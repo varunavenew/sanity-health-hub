@@ -75,10 +75,10 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current =
 }`;
 
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
-  "title": coalesce(title[_key == $lang][0].value, title[_key == "no"][0].value, title),
-  "subtitle": coalesce(subtitle[_key == $lang][0].value, subtitle[_key == "no"][0].value, subtitle),
+  "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  "subtitle": coalesce(subtitle[language == $lang][0].value, subtitle[_key == $lang][0].value, subtitle[language == "no"][0].value, subtitle[_key == "no"][0].value, subtitle),
   "heroImage": heroImage.asset->url,
-  "body": coalesce(body[_key == $lang][0].value, body[_key == "no"][0].value, body),
+  "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
   values,
   seo
 }`;
@@ -175,17 +175,17 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
 
 // ─── Articles (localized) ────────────────────────────────────────────
 // `title`, `excerpt`, `body` are internationalizedArray fields stored as
-// [{_key:'no', value:...},{_key:'en', value:...}]. We pick the entry that
+// [{language:'no', value:...},{language:'en', value:...}]. We pick the entry that
 // matches $lang and fall back to the Norwegian entry. Legacy un-migrated
 // docs may still hold plain strings — we coalesce both shapes and let the
 // frontend hook normalize.
 export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publishedAt desc){
   _id,
-  "title": coalesce(title[_key == $lang][0].value, title[_key == "no"][0].value, title),
+  "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   "slug": slug.current,
-  "excerpt": coalesce(excerpt[_key == $lang][0].value, excerpt[_key == "no"][0].value, excerpt),
+  "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
   "image": primaryImage.asset->url,
-  "imageAlt": coalesce(primaryImage.alt[_key == $lang][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
+  "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
   pinned,
@@ -194,14 +194,14 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publis
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && slug.current == $slug][0]{
   _id,
-  "title": coalesce(title[_key == $lang][0].value, title[_key == "no"][0].value, title),
+  "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   "slug": slug.current,
-  "excerpt": coalesce(excerpt[_key == $lang][0].value, excerpt[_key == "no"][0].value, excerpt),
+  "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
   "image": primaryImage.asset->url,
-  "imageAlt": coalesce(primaryImage.alt[_key == $lang][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
+  "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
-  "body": coalesce(body[_key == $lang][0].value, body[_key == "no"][0].value, body),
+  "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
   videoUrl,
   videoCaption,
   "videoThumbnail": videoThumbnail.asset->url,
