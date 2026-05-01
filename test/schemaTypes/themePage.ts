@@ -11,14 +11,20 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'slug',
       title: 'URL-slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 96 },
+      options: {
+        source: (doc: any) => {
+          const t = (doc?.title || []).find((e: any) => (e.language || e._key) === 'no')?.value
+          return t || ''
+        },
+        maxLength: 96,
+      },
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -31,7 +37,7 @@ export default {
       name: 'introTexts',
       title: 'Introduksjonstekster',
       type: 'array',
-      of: [{ type: 'text', rows: 4 }],
+      of: [{ type: 'internationalizedArrayText' }],
     },
     {
       name: 'sections',
@@ -41,22 +47,29 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'heading', title: 'Overskrift', type: 'string' },
+            { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
             {
               name: 'paragraphs',
               title: 'Avsnitt',
               type: 'array',
-              of: [{ type: 'text', rows: 4 }],
+              of: [{ type: 'internationalizedArrayText' }],
             },
             {
               name: 'bulletPoints',
               title: 'Punktliste (valgfritt)',
               type: 'array',
-              of: [{ type: 'string' }],
+              of: [{ type: 'internationalizedArrayString' }],
             },
           ],
           preview: {
             select: { title: 'heading' },
+            prepare({ title }: any) {
+              const pick = (v: any) =>
+                Array.isArray(v)
+                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                  : (v || '')
+              return { title: pick(title) }
+            },
           },
         },
       ],
@@ -70,11 +83,18 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Fasens tittel', type: 'string' },
-            { name: 'text', title: 'Beskrivelse', type: 'text', rows: 3 },
+            { name: 'title', title: 'Fasens tittel', type: 'internationalizedArrayString' },
+            { name: 'text', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
           preview: {
             select: { title: 'title' },
+            prepare({ title }: any) {
+              const pick = (v: any) =>
+                Array.isArray(v)
+                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                  : (v || '')
+              return { title: pick(title) }
+            },
           },
         },
       ],
@@ -82,8 +102,7 @@ export default {
     {
       name: 'ctaText',
       title: 'CTA-knappetekst',
-      type: 'string',
-      initialValue: 'Bestill time',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'ctaLink',
@@ -101,6 +120,12 @@ export default {
     select: {
       title: 'title',
       media: 'heroImage',
+    },
+    prepare({ title, media }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Temaside')
+        : (title || 'Temaside')
+      return { title: titleStr, media }
     },
   },
 }
