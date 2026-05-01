@@ -52,9 +52,9 @@ function isAlreadyI18nArray(val: unknown): boolean {
     val.length > 0 &&
     typeof val[0] === 'object' &&
     val[0] !== null &&
-    '_key' in (val[0] as any) &&
     'value' in (val[0] as any) &&
-    (val[0] as any)._key?.length <= 5 // 'no' / 'en' — distinguishes from PT blocks
+    typeof (val[0] as any)._type === 'string' &&
+    (val[0] as any)._type.startsWith('internationalizedArray')
   )
 }
 
