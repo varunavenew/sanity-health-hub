@@ -1,6 +1,11 @@
 // Schema: Clinic Page
 import { ClinicIcon } from './icons'
 
+const pickNo = (v: any) =>
+  Array.isArray(v)
+    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+    : (v || '')
+
 export default {
   name: 'clinicPage',
   title: 'Klinikk',
@@ -19,7 +24,7 @@ export default {
     {
       name: 'title',
       title: 'Navn',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
       group: 'overview',
     },
@@ -27,7 +32,9 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'title' },
+      options: {
+        source: (doc: any) => pickNo(doc?.title),
+      },
       validation: (Rule: any) => Rule.required(),
       group: 'overview',
     },
@@ -41,8 +48,7 @@ export default {
     {
       name: 'description',
       title: 'Beskrivelse',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
       group: 'overview',
     },
     {
@@ -52,9 +58,9 @@ export default {
       options: { collapsible: true },
       group: 'overview',
       fields: [
-        { name: 'valueProposition1', title: 'Verdiforslag 1', type: 'string' },
+        { name: 'valueProposition1', title: 'Verdiforslag 1', type: 'internationalizedArrayString' },
         { name: 'valueProposition2', title: 'Åpningstider', type: 'string', placeholder: '08:00–16:00' },
-        { name: 'socialProof', title: 'Sosialt bevis', type: 'string' },
+        { name: 'socialProof', title: 'Sosialt bevis', type: 'internationalizedArrayString' },
       ],
     },
     {
@@ -84,8 +90,7 @@ export default {
     {
       name: 'contactDescription',
       title: 'Kontaktbeskrivelse',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
       group: 'contact',
     },
     {
@@ -157,8 +162,7 @@ export default {
         {
           name: 'closedMessage',
           title: 'Melding når stengt',
-          type: 'text',
-          rows: 2,
+          type: 'internationalizedArrayText',
           hidden: ({ parent }: any) => parent?.method !== 'closed',
         },
       ],
@@ -170,9 +174,9 @@ export default {
       options: { collapsible: true },
       group: 'practical',
       fields: [
-        { name: 'parking', title: 'Parkering', type: 'text', rows: 2 },
-        { name: 'publicTransport', title: 'Kollektivtransport', type: 'text', rows: 2 },
-        { name: 'accessibility', title: 'Tilgjengelighet', type: 'text', rows: 2 },
+        { name: 'parking', title: 'Parkering', type: 'internationalizedArrayText' },
+        { name: 'publicTransport', title: 'Kollektivtransport', type: 'internationalizedArrayText' },
+        { name: 'accessibility', title: 'Tilgjengelighet', type: 'internationalizedArrayText' },
       ],
     },
     {
@@ -184,10 +188,15 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'question', title: 'Spørsmål', type: 'string', validation: (Rule: any) => Rule.required() },
-            { name: 'answer', title: 'Svar', type: 'text', rows: 3, validation: (Rule: any) => Rule.required() },
+            { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
+            { name: 'answer', title: 'Svar', type: 'internationalizedArrayText', validation: (Rule: any) => Rule.required() },
           ],
-          preview: { select: { title: 'question' } },
+          preview: {
+            select: { title: 'question' },
+            prepare({ title }: any) {
+              return { title: pickNo(title) }
+            },
+          },
         },
       ],
     },
@@ -223,5 +232,8 @@ export default {
   ],
   preview: {
     select: { title: 'title', subtitle: 'address', media: 'primaryImage' },
+    prepare({ title, subtitle, media }: any) {
+      return { title: pickNo(title) || 'Klinikk', subtitle: subtitle || '', media }
+    },
   },
 }

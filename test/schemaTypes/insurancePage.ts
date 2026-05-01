@@ -11,7 +11,7 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -23,14 +23,14 @@ export default {
     {
       name: 'introText',
       title: 'Introduksjonstekst',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'partners',
       title: 'Forsikringspartnere',
       type: 'array',
       of: [{ type: 'string' }],
+      description: 'Navn på forsikringspartnere (ikke oversettes)',
     },
     {
       name: 'steps',
@@ -40,8 +40,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Tittel', type: 'string' },
-            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
+            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
         },
       ],
@@ -54,8 +54,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Tittel', type: 'string' },
-            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
+            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
         },
       ],
@@ -68,5 +68,11 @@ export default {
   ],
   preview: {
     select: { title: 'title', media: 'heroImage' },
+    prepare({ title, media }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Forsikring')
+        : (title || 'Forsikring')
+      return { title: titleStr, media }
+    },
   },
 }

@@ -11,7 +11,7 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -23,8 +23,7 @@ export default {
     {
       name: 'introText',
       title: 'Introduksjonstekst',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'categories',
@@ -45,5 +44,11 @@ export default {
   ],
   preview: {
     select: { title: 'title' },
+    prepare({ title }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Tjenester')
+        : (title || 'Tjenester')
+      return { title: titleStr }
+    },
   },
 }

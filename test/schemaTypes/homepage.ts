@@ -16,7 +16,7 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
       group: 'hero',
     },
@@ -36,13 +36,20 @@ export default {
               type: 'object',
               fields: [
                 { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-                { name: 'heading', title: 'Overskrift', type: 'string' },
-                { name: 'subheading', title: 'Undertekst', type: 'string' },
-                { name: 'ctaText', title: 'CTA-tekst', type: 'string' },
+                { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+                { name: 'subheading', title: 'Undertekst', type: 'internationalizedArrayString' },
+                { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },
                 { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
               ],
               preview: {
                 select: { title: 'heading', subtitle: 'subheading', media: 'image' },
+                prepare({ title, subtitle, media }: any) {
+                  const pick = (v: any) =>
+                    Array.isArray(v)
+                      ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                      : (v || '')
+                  return { title: pick(title), subtitle: pick(subtitle), media }
+                },
               },
             },
           ],
@@ -53,7 +60,7 @@ export default {
     {
       name: 'tagline',
       title: 'Tagline Banner',
-      type: 'string',
+      type: 'internationalizedArrayString',
       group: 'hero',
     },
     // Service Categories (Tjenester)
@@ -81,10 +88,17 @@ export default {
           type: 'object',
           fields: [
             { name: 'value', title: 'Verdi', type: 'string' },
-            { name: 'label', title: 'Etikett', type: 'string' },
+            { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
           ],
           preview: {
             select: { title: 'value', subtitle: 'label' },
+            prepare({ title, subtitle }: any) {
+              const pick = (v: any) =>
+                Array.isArray(v)
+                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                  : (v || '')
+              return { title: title || '', subtitle: pick(subtitle) }
+            },
           },
         },
       ],
@@ -100,10 +114,17 @@ export default {
           type: 'object',
           fields: [
             { name: 'icon', title: 'Ikon', type: 'string', description: 'Lucide icon name' },
-            { name: 'label', title: 'Tekst', type: 'string' },
+            { name: 'label', title: 'Tekst', type: 'internationalizedArrayString' },
           ],
           preview: {
             select: { title: 'label', subtitle: 'icon' },
+            prepare({ title, subtitle }: any) {
+              const pick = (v: any) =>
+                Array.isArray(v)
+                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                  : (v || '')
+              return { title: pick(title), subtitle: subtitle || '' }
+            },
           },
         },
       ],
@@ -119,13 +140,20 @@ export default {
           type: 'object',
           fields: [
             { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-            { name: 'title', title: 'Tittel', type: 'string' },
-            { name: 'description', title: 'Beskrivelse', type: 'text' },
-            { name: 'ctaText', title: 'CTA-tekst', type: 'string' },
+            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },
             { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
           ],
           preview: {
             select: { title: 'title', subtitle: 'description', media: 'image' },
+            prepare({ title, subtitle, media }: any) {
+              const pick = (v: any) =>
+                Array.isArray(v)
+                  ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                  : (v || '')
+              return { title: pick(title), subtitle: pick(subtitle), media }
+            },
           },
         },
       ],
@@ -140,5 +168,11 @@ export default {
   ],
   preview: {
     select: { title: 'title' },
+    prepare({ title }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Forside')
+        : (title || 'Forside')
+      return { title: titleStr }
+    },
   },
 }

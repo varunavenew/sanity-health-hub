@@ -2,6 +2,11 @@
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
 import { CategoryIcon } from './icons'
 
+const pickNo = (v: any) =>
+  Array.isArray(v)
+    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+    : (v || '')
+
 export default {
   name: 'treatmentCategory',
   title: 'Behandlingskategori',
@@ -11,14 +16,17 @@ export default {
     {
       name: 'title',
       title: 'Kategorinavn',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'slug',
       title: 'URL-slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 96 },
+      options: {
+        source: (doc: any) => pickNo(doc?.title),
+        maxLength: 96,
+      },
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -43,13 +51,12 @@ export default {
     {
       name: 'description',
       title: 'Kort beskrivelse',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'longDescription',
       title: 'Utvidet beskrivelse',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'icon',
@@ -63,7 +70,6 @@ export default {
       type: 'string',
       description: 'Accent-farge for kategorien (HSL-verdi)',
     },
-    // Treatments within this category
     {
       name: 'treatments',
       title: 'Behandlinger',
@@ -75,7 +81,6 @@ export default {
         },
       ],
     },
-    // Stats
     {
       name: 'stats',
       title: 'Statistikk',
@@ -85,7 +90,7 @@ export default {
           type: 'object',
           fields: [
             { name: 'value', title: 'Verdi', type: 'string' },
-            { name: 'label', title: 'Etikett', type: 'string' },
+            { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
           ],
         },
       ],
@@ -119,5 +124,8 @@ export default {
   ],
   preview: {
     select: { title: 'title', subtitle: 'categoryId', media: 'heroImage' },
+    prepare({ title, subtitle, media }: any) {
+      return { title: pickNo(title) || 'Kategori', subtitle: subtitle || '', media }
+    },
   },
 }

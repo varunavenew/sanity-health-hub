@@ -11,7 +11,7 @@ export default {
     {
       name: 'title',
       title: 'Sidetittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -23,8 +23,7 @@ export default {
     {
       name: 'introText',
       title: 'Introduksjonstekst',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'priceCategories',
@@ -34,7 +33,7 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'categoryName', title: 'Kategorinavn', type: 'string' },
+            { name: 'categoryName', title: 'Kategorinavn', type: 'internationalizedArrayString' },
             {
               name: 'category',
               title: 'Behandlingskategori',
@@ -49,10 +48,10 @@ export default {
                 {
                   type: 'object',
                   fields: [
-                    { name: 'name', title: 'Behandling', type: 'string' },
+                    { name: 'name', title: 'Behandling', type: 'internationalizedArrayString' },
                     { name: 'price', title: 'Pris (NOK)', type: 'number' },
-                    { name: 'priceLabel', title: 'Prisvisning', type: 'string', description: 'F.eks. "fra 2500,-" eller "1500,- per time"' },
-                    { name: 'note', title: 'Merknad', type: 'string' },
+                    { name: 'priceLabel', title: 'Prisvisning', type: 'internationalizedArrayString', description: 'F.eks. "fra 2500,-" eller "1500,- per time"' },
+                    { name: 'note', title: 'Merknad', type: 'internationalizedArrayString' },
                   ],
                 },
               ],
@@ -71,8 +70,7 @@ export default {
     {
       name: 'insuranceNote',
       title: 'Forsikringsinformasjon',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
     },
     {
       name: 'seo',
@@ -82,5 +80,11 @@ export default {
   ],
   preview: {
     select: { title: 'title' },
+    prepare({ title }: any) {
+      const titleStr = Array.isArray(title)
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Priser')
+        : (title || 'Priser')
+      return { title: titleStr }
+    },
   },
 }
