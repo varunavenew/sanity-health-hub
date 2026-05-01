@@ -101,11 +101,17 @@ const normalizeI18n = (input: any, lang: "no" | "en"): any => {
   return input;
 };
 
-// Generic fetcher — auto-normalizes internationalizedArray fields
-const fetchSanity = async <T>(query: string, params?: Record<string, any>): Promise<T> => {
-  const lang: "no" | "en" = params?.lang === "en" ? "en" : "no";
+// Generic fetcher — auto-normalizes internationalizedArray fields.
+// `lang` may be passed explicitly (3rd arg), or via params.lang, otherwise "no".
+const fetchSanity = async <T>(
+  query: string,
+  params?: Record<string, any>,
+  lang?: "no" | "en"
+): Promise<T> => {
+  const resolved: "no" | "en" =
+    lang || (params?.lang === "en" ? "en" : "no");
   const data = await sanityClient.fetch(query, params);
-  return normalizeI18n(data, lang) as T;
+  return normalizeI18n(data, resolved) as T;
 };
 
 // ─── Homepage ────────────────────────────────────────────────────────
