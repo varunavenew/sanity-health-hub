@@ -20,7 +20,7 @@ export default defineType({
       // Source from the Norwegian title entry
       options: {
         source: (doc: any) => {
-          const title = (doc?.title || []).find((t: any) => t._key === 'no')?.value
+          const title = (doc?.title || []).find((t: any) => (t.language || t._key) === 'no')?.value
           return title || ''
         },
       },
@@ -151,7 +151,7 @@ export default defineType({
       const cat = categoryLabels[category] || category || 'Ingen kategori'
       // title is now an internationalizedArray — pull NO entry first, fallback to first
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => t._key === 'no')?.value || title[0]?.value || 'Uten tittel')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Uten tittel')
         : (title || 'Uten tittel')
       return {
         title: `${flags ? flags + ' ' : ''}${titleStr}`,
