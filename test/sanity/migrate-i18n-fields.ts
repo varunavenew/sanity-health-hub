@@ -9,12 +9,12 @@
  *   body:    [ {_type:'block', ...} , {_type:'image', ...} ]
  *
  * Target shape (after migration):
- *   title:   [{_key:'no', _type:'internationalizedArrayStringValue',      value:'Velkommen'},
- *             {_key:'en', _type:'internationalizedArrayStringValue',      value:'Welcome'}]
- *   excerpt: [{_key:'no', _type:'internationalizedArrayTextValue',        value:'...'},
- *             {_key:'en', _type:'internationalizedArrayTextValue',        value:'...'}]
- *   body:    [{_key:'no', _type:'internationalizedArrayBlockContentValue', value:[...blocks]},
- *             {_key:'en', _type:'internationalizedArrayBlockContentValue', value:[...blocks]}]
+ *   title:   [{_key:'auto', language:'no', _type:'internationalizedArrayStringValue',      value:'Velkommen'},
+ *             {_key:'auto', language:'en', _type:'internationalizedArrayStringValue',      value:'Welcome'}]
+ *   excerpt: [{_key:'auto', language:'no', _type:'internationalizedArrayTextValue',        value:'...'},
+ *             {_key:'auto', language:'en', _type:'internationalizedArrayTextValue',        value:'...'}]
+ *   body:    [{_key:'auto', language:'no', _type:'internationalizedArrayBlockContentValue', value:[...blocks]},
+ *             {_key:'auto', language:'en', _type:'internationalizedArrayBlockContentValue', value:[...blocks]}]
  *
  * Idempotent: skips fields that are already arrays of i18n entries.
  *
@@ -58,6 +58,10 @@ function isAlreadyI18nArray(val: unknown): boolean {
   )
 }
 
+function getEntryLanguage(entry: any): string | undefined {
+  return entry?.language || entry?._key
+}
+
 function isPortableTextArray(val: unknown): boolean {
   return (
     Array.isArray(val) &&
@@ -71,7 +75,7 @@ function isPortableTextArray(val: unknown): boolean {
 }
 
 function makeI18nEntry(lang: 'no' | 'en', value: any, valueType: I18nValueType) {
-  return { _key: lang, _type: valueType, value }
+  return { _type: valueType, language: lang, value }
 }
 
 // Strip _key from inner PT blocks so Sanity assigns fresh ones for EN copy
