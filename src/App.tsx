@@ -77,8 +77,8 @@ const AppContent = () => {
         <Route path="/om-oss" element={<About isChatOpen={false} />} />
         <Route path="/kontakt" element={<Contact isChatOpen={false} />} />
         {/* Treatment category routes */}
-        <Route path="/gynecology" element={<CategoryPageNew categoryId="gynekologi" isChatOpen={false} />} />
-        <Route path="/gynekologi" element={<CategoryPageNew categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/gynecology" element={<Gynecology isChatOpen={false} />} />
+        <Route path="/gynekologi" element={<Gynecology isChatOpen={false} />} />
         <Route path="/fertility" element={<Fertility isChatOpen={false} />} />
         <Route path="/fertilitet" element={<Fertility isChatOpen={false} />} />
         <Route path="/urology" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
