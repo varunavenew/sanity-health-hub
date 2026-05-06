@@ -177,7 +177,6 @@ const gynekologi: CategoryNewContent = {
     "Fjerne livmor": "/behandlinger/gynekologi/fjerne-livmor",
     "PMS og PMDD": "/behandlinger/gynekologi/pms-pmdd",
     "Labiaplastikk": "/behandlinger/gynekologi/labiaplastikk",
-    "Vaginal tørrhet": "/behandlinger/gynekologi/vaginal-torrhet",
     "Vulvalidelser": "/behandlinger/gynekologi/vulvalidelser",
     "Gynekologisk kirurgi": "/behandlinger/gynekologi/kirurgi",
     "Robotassistert kirurgi": "/behandlinger/gynekologi/robotkirurgi",
@@ -185,7 +184,7 @@ const gynekologi: CategoryNewContent = {
   groups: [
     {
       label: "Den vanlige timen",
-      serviceNames: ["Gynekologisk undersøkelse", "Celleforandringer", "Vaginal tørrhet"],
+      serviceNames: ["Gynekologisk undersøkelse", "Celleforandringer"],
     },
     {
       label: "Når noe ikke kjennes riktig",
@@ -282,16 +281,18 @@ const fertilitet: CategoryNewContent = {
   serviceLinks: {
     "Infertilitet": "/behandlinger/fertilitet/infertilitet",
     "Assistert befruktning": "/behandlinger/fertilitet/assistert-befruktning",
+    "IVF": "/behandlinger/fertilitet/ivf",
     "Assistert befruktning med donor": "/behandlinger/fertilitet/donorbehandling",
     "Eggfrys": "/behandlinger/fertilitet/eggfrys",
-    "Hormonforstyrrelser": "/behandlinger/fertilitet/hormonforstyrrelser",
+    "Sædanalyse": "/behandlinger/fertilitet/saedanalyse",
     "Hysteroskopi": "/behandlinger/fertilitet/hysteroskopi",
+    "Vårt team": "/behandlinger/fertilitet/teamet",
   },
   groups: [
-    { label: "Når graviditeten lar vente på seg", serviceNames: ["Infertilitet", "Hormonforstyrrelser"] },
-    { label: "Assistert befruktning", serviceNames: ["Assistert befruktning", "Assistert befruktning med donor"] },
+    { label: "Når graviditeten lar vente på seg", serviceNames: ["Infertilitet", "Sædanalyse"] },
+    { label: "Assistert befruktning", serviceNames: ["IVF", "Assistert befruktning", "Assistert befruktning med donor"] },
     { label: "For fremtiden", serviceNames: ["Eggfrys"] },
-    { label: "Utredning og inngrep", serviceNames: ["Hysteroskopi"] },
+    { label: "Utredning og inngrep", serviceNames: ["Hysteroskopi", "Vårt team"] },
   ],
   faqs: standardFaqs,
   journey: [
@@ -370,18 +371,13 @@ const graviditet: CategoryNewContent = {
   serviceLinks: {
     "Ultralyd": "/behandlinger/graviditet/ultralyd",
     "NIPT": "/behandlinger/graviditet/nipt",
-    "6-ukerskontroll etter fødsel": "/behandlinger/graviditet/6-ukerskontroll",
-    "Traumatisk fødsel": "/behandlinger/graviditet/traumatisk-fodsel",
-    "Fødselsangst": "/behandlinger/graviditet/fodselsangst",
-    "For partnere": "/behandlinger/graviditet/for-partnere",
-    "Fostermedisin": "/behandlinger/graviditet/fostermedisin",
-    "Spontanabort": "/behandlinger/graviditet/spontanabort",
+    "Fosterdiagnostikk": "/behandlinger/graviditet/fosterdiagnostikk",
+    "Svangerskapsteam": "/behandlinger/graviditet/svangerskapsteam",
   },
   groups: [
-    { label: "Tidlig i svangerskapet", serviceNames: ["Ultralyd", "NIPT", "Fostermedisin"] },
-    { label: "Når noe ikke går som planlagt", serviceNames: ["Spontanabort", "Traumatisk fødsel"] },
-    { label: "Mental helse rundt fødsel", serviceNames: ["Fødselsangst", "For partnere"] },
-    { label: "Etter fødsel", serviceNames: ["6-ukerskontroll etter fødsel"] },
+    { label: "Tidlig i svangerskapet", serviceNames: ["Ultralyd", "NIPT"] },
+    { label: "Utredning", serviceNames: ["Fosterdiagnostikk"] },
+    { label: "Helhetlig oppfølging", serviceNames: ["Svangerskapsteam"] },
   ],
   faqs: standardFaqs.slice(0, 3),
   journey: [
