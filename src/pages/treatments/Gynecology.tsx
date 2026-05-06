@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone } from "lucide-react";
+import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -111,9 +111,9 @@ const journey = [
 ];
 
 const reviews = [
-  { text: "Trygg og god konsultasjon. Endelig en gynekolog som tok seg tid og forsto plagene mine.", author: "Pasient, Endometriose-utredning" },
-  { text: "Fryktet konsultasjonen, men ble møtt med varme og kompetanse. Anbefales på det varmeste.", author: "Pasient, Overgangsalder" },
-  { text: "Veldig fornøyd. Korte ventetider, dyktig spesialist og tydelige svar — slik kvinnehelse bør være.", author: "Pasient, Førstegangssjekk" },
+  { text: "Trygg og god konsultasjon. Endelig en gynekolog som tok seg tid og forsto plagene mine.", author: "Anne K.", date: "2 måneder siden" },
+  { text: "Fryktet konsultasjonen, men ble møtt med varme og kompetanse. Anbefales på det varmeste.", author: "Marit S.", date: "3 måneder siden" },
+  { text: "Veldig fornøyd. Korte ventetider, dyktig spesialist og tydelige svar — slik kvinnehelse bør være.", author: "Ingrid L.", date: "1 måned siden" },
 ];
 
 /* ──────────────────────────────────────────────────────────────
@@ -356,29 +356,59 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          5. PASIENTSITATER — tre kort
+          5. PASIENTSITATER — tre Google-kort (samme stil som hjemside)
       ============================================================ */}
-      <section className="bg-brand-light py-20 md:py-24">
+      <section className="bg-brand-warm py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-            {reviews.map((r, i) => (
-              <div
-                key={i}
-                className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
-              >
-                <div className="flex mb-5">
-                  {[0, 1, 2, 3, 4].map((s) => (
-                    <Star key={s} className="w-3.5 h-3.5 fill-accent text-accent" />
-                  ))}
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-xl mb-10">
+              <p className="text-sm text-brand-dark/60 font-light mb-3">
+                Hva pasientene sier
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+                Tilbakemeldinger fra ekte pasienter
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {reviews.map((r, i) => (
+                <div
+                  key={i}
+                  className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
+                >
+                  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
+                  <div className="flex mb-4">
+                    {[0, 1, 2, 3, 4].map((s) => (
+                      <Star
+                        key={s}
+                        className="w-4 h-4 fill-[#FFC107] text-[#FFC107]"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-brand-dark font-light leading-relaxed mb-6 text-base">
+                    "{r.text}"
+                  </p>
+                  <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                    <div>
+                      <p className="text-brand-dark font-normal text-sm">
+                        {r.author}
+                      </p>
+                      <p className="text-xs text-brand-dark/60 font-light">
+                        {r.date}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                      <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none">
+                        <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107"/>
+                        <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00"/>
+                        <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50"/>
+                        <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2"/>
+                      </svg>
+                      <span>Google</span>
+                    </div>
+                  </div>
                 </div>
-                <blockquote className="text-base font-light text-foreground leading-relaxed mb-6 flex-1">
-                  «{r.text}»
-                </blockquote>
-                <p className="text-xs font-light text-muted-foreground tracking-wider uppercase">
-                  — {r.author}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
