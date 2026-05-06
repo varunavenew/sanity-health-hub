@@ -13,6 +13,7 @@ import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import { clinics as staticClinics } from "@/data/clinicServices";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { SplitHero } from "@/components/layout/SplitHero";
 import { useTranslation } from "react-i18next";
 
 import contactHero from "@/assets/hero/contact-hero.jpg";
