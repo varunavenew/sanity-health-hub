@@ -87,7 +87,7 @@ const AppContent = () => {
         <Route path="/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
         <Route path="/flere-fagomrader" element={<CategoryPageNew categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Norwegian slugs */}
-        <Route path="/behandlinger/gynekologi" element={<CategoryPageNew categoryId="gynekologi" isChatOpen={false} />} />
+        <Route path="/behandlinger/gynekologi" element={<Gynecology isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet" element={<Fertility isChatOpen={false} />} />
         <Route path="/behandlinger/urologi" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi" element={<CategoryPageNew categoryId="ortopedi" isChatOpen={false} />} />
