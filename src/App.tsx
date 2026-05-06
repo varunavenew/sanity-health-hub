@@ -38,6 +38,8 @@ import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import Fertility from "./pages/treatments/Fertility";
+import Gynecology from "./pages/treatments/Gynecology";
+import GynekologiskUndersokelse from "./pages/treatments/GynekologiskUndersokelse";
 import IconPreview from "./pages/IconPreview";
 
 const queryClient = new QueryClient();
