@@ -70,7 +70,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         image={contactHero}
         imageAlt="Kontakt CMedical"
         primaryCta={{ label: "Bestill time", to: "/booking" }}
-        secondaryCta={{ label: "Ring oss", to: "tel:+4722000000" }}
+        secondaryCta={{ label: "Se klinikker", to: "/klinikker" }}
       />
 
       <ClinicGrid />
