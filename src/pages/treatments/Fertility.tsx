@@ -161,10 +161,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Link>
               </div>
 
-              <div className="inline-flex items-center gap-3 rounded-sm bg-white px-4 py-3 text-sm font-light text-brand-dark shadow-sm">
+              <div className="inline-flex items-center gap-3 text-sm font-light text-white/90">
                 <div className="flex" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
+                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
                   ))}
                 </div>
                 <span>4,7 av 5 — Norges eldste private fertilitetsklinikk</span>
