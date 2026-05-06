@@ -310,9 +310,26 @@ const SCHEMAS: Array<{
     type: 'clinicPage',
     topFields: {
       title: 'internationalizedArrayStringValue',
-      subtitle: 'internationalizedArrayStringValue',
-      introText: 'internationalizedArrayTextValue',
-      body: 'internationalizedArrayBlockContentValue',
+      description: 'internationalizedArrayTextValue',
+      contactDescription: 'internationalizedArrayTextValue',
+    },
+    nested: {
+      valueProposition: {
+        valueProposition1: 'internationalizedArrayStringValue',
+        socialProof: 'internationalizedArrayStringValue',
+      },
+      detail: {
+        parking: 'internationalizedArrayTextValue',
+        publicTransport: 'internationalizedArrayTextValue',
+        accessibility: 'internationalizedArrayTextValue',
+      },
+      faqs: {
+        question: 'internationalizedArrayStringValue',
+        answer: 'internationalizedArrayTextValue',
+      },
+      booking: {
+        closedMessage: 'internationalizedArrayTextValue',
+      },
     },
   },
   {
