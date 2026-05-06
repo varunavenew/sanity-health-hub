@@ -53,18 +53,15 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           { name: "Forsikring", path: "/forsikring" },
         ]}
       />
-      <header className="relative">
-        <div className="h-[25vh] md:h-[30vh] relative">
-          <img src={heroImage} alt="Forsikring hos CMedical" className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
-            <div className="container mx-auto">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">{title}</h1>
-              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">{subtitle}</p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SplitHero
+        eyebrow="Bruk forsikringen din hos CMedical"
+        title={title}
+        description={subtitle}
+        image={heroImage}
+        imageAlt="Forsikring hos CMedical"
+        primaryCta={{ label: "Bestill time", to: "/booking" }}
+        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+      />
 
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-6 md:px-16">
