@@ -1,10 +1,11 @@
-import { useEffect, ReactNode } from "react";
+import { useEffect, ReactNode, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { specialists, type Specialist } from "@/data/specialists";
 
 export interface SubTreatmentContent {
   // Meta
@@ -42,6 +43,11 @@ export interface SubTreatmentContent {
   // Final CTA
   ctaTitle: string;
   ctaDescription: string;
+  // Specialists section
+  specialistCategory?: Specialist["category"];
+  specialistSlugs?: string[]; // optional whitelist of who does this service
+  specialistCtaLabel?: string;
+  specialistCtaHref?: string;
 }
 
 interface Props {
@@ -49,10 +55,27 @@ interface Props {
   content: SubTreatmentContent;
 }
 
+const insurancePartners = [
+  "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
+];
+
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   useEffect(() => {
     document.title = `${c.title} | CMedical`;
   }, [c.title]);
+
+  const sectionSpecialists = useMemo(() => {
+    if (c.specialistSlugs && c.specialistSlugs.length > 0) {
+      const ordered = c.specialistSlugs
+        .map((slug) => specialists.find((s) => s.slug === slug))
+        .filter((s): s is Specialist => Boolean(s));
+      if (ordered.length > 0) return ordered.slice(0, 5);
+    }
+    if (c.specialistCategory) {
+      return specialists.filter((s) => s.category === c.specialistCategory).slice(0, 5);
+    }
+    return [];
+  }, [c.specialistSlugs, c.specialistCategory]);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -292,11 +315,64 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </section>
       )}
 
-      {/* 6. CTA */}
+      {/* 6. SPESIALISTER — som utfører denne tjenesten */}
+      {sectionSpecialists.length > 0 && (
+        <section className="bg-brand-warm">
+          <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Menneskene bak
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Spesialistene som følger deg.
+                </h2>
+              </div>
+              <Link
+                to={c.specialistCtaHref ?? `/spesialister?kategori=${c.specialistCategory ?? ""}`}
+                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
+              >
+                {c.specialistCtaLabel ?? "Se alle spesialister"} →
+              </Link>
+            </div>
+          </div>
+          <div className={`grid grid-cols-2 gap-0 ${sectionSpecialists.length === 5 ? "md:grid-cols-5" : `md:grid-cols-${sectionSpecialists.length}`}`}>
+            {sectionSpecialists.map((sp) => (
+              <Link
+                key={sp.slug}
+                to={`/spesialister/${sp.slug}`}
+                aria-label={`Les mer om ${sp.name}`}
+                className="group relative block text-left focus:outline-none"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                  <img
+                    src={sp.image}
+                    alt={sp.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
+                      {sp.name}
+                    </h3>
+                    <p className="text-sm font-light text-white/75">
+                      {sp.subtitle || sp.title}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 7. BESTILL TIME — primær CTA */}
       <section className="bg-brand-dark text-white py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
+              <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">Bestill time</p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
                 {c.ctaTitle}
               </h2>
@@ -306,15 +382,71 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             </div>
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
               <Button asChild variant="cta-dark" size="lg" className="px-8">
-                <Link to={buildBookingUrl(c.booking)}>Bestill time</Link>
+                <Link to={buildBookingUrl(c.booking)}>Bestill {c.title.toLowerCase()}</Link>
               </Button>
               <a
                 href="tel:+4722000000"
                 className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
               >
                 <Phone className="w-4 h-4" />
-                Ring oss på 22 00 00 00
+                Eller ring oss på 22 00 00 00
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. USIKKER PÅ HVOR DU SKAL BEGYNNE — lys, sekundær */}
+      <section className="bg-brand-light text-brand-dark py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
+                Usikker på hvor du skal begynne?
+              </h2>
+              <p className="text-base md:text-lg font-light text-brand-dark/70 leading-relaxed max-w-lg">
+                Ring oss, så hjelper vi deg å finne riktig første steg. Vi tar oss tid — og det koster ingenting.
+              </p>
+            </div>
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
+              <Button asChild variant="cta" size="lg" className="px-8">
+                <Link to="/kontakt">Book konsultasjon</Link>
+              </Button>
+              <a
+                href="tel:+4722000000"
+                className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/85 hover:text-brand-dark transition-colors px-2"
+              >
+                <Phone className="w-4 h-4" />
+                Eller ring oss på 22 00 00 00
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. SAMARBEIDSPARTNERE / FORSIKRING — før footer */}
+      <section className="bg-[#180404] text-white py-14 md:py-16">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="lg:col-span-4">
+              <p className="text-[11px] tracking-[0.18em] text-brand-yellow/90 mb-3">
+                SAMARBEIDSPARTNERE
+              </p>
+              <h3 className="text-xl md:text-2xl font-light leading-snug text-white">
+                Vi har avtale med de største forsikringsselskapene i Norge.
+              </h3>
+            </div>
+            <div className="lg:col-span-8">
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-white/10">
+                {insurancePartners.map((name) => (
+                  <li
+                    key={name}
+                    className="border-b border-white/10 [&:not(:nth-child(2n))]:border-r sm:[&:not(:nth-child(3n))]:border-r md:[&:not(:nth-child(4n))]:border-r border-white/10 py-4 px-4 text-sm font-light text-white/85"
+                  >
+                    {name}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

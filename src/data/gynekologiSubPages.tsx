@@ -22,7 +22,60 @@ const standardPromises = [
 ];
 
 export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
-  /* ───────────────────────── ENDOMETRIOSE ───────────────────────── */
+  /* ───────────────────────── GYNEKOLOGISK UNDERSØKELSE ───────────────────────── */
+  undersokelse: {
+    seoTitle: "Gynekologisk undersøkelse | CMedical",
+    seoDescription:
+      "Trygg gynekologisk undersøkelse uten henvisning og uten ventetid. Du møter en spesialist som tar seg tid — og forklarer alt underveis.",
+    canonical: "/behandlinger/gynekologi/undersokelse",
+    parent,
+    title: "Gynekologisk undersøkelse",
+    eyebrow: "Gynekolog — CMedical",
+    heroTitle: <>Noe kjennes ikke helt <span className="italic">riktig</span></>,
+    heroDescription:
+      "Du trenger ikke vite hva det er — det er det vi er her for. En gynekologisk undersøkelse er det naturlige første steget, enten du har konkrete plager eller bare ønsker å sjekke at alt er som det skal.",
+    heroPoints: [
+      { title: "Ingen ventetid", desc: "Du finner time hos oss innen få dager — ikke etter måneder i offentlig kø." },
+      { title: "Du møter riktig spesialist", desc: "Gynekologene våre jobber med det de kan best. Vi sørger for at du møter rett person." },
+      { title: "Vi forstår", desc: "Du fortjener tid til samtalen, ikke et fem-minutters møte. Vi tar oss tid." },
+      { title: "Alt under samme tak", desc: "Trenger du videre utredning eller behandling, har du det her. Ingen omveier." },
+    ],
+    rating: "4,7 — Ingen ventetid · Ingen henvisning nødvendig",
+    booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
+    primaryCtaLabel: "Bestill undersøkelse",
+    flowEyebrow: "Konsultasjonen",
+    flowTitle: "Hva skjer når du er hos oss",
+    flow: [
+      { n: "Minutt 0–10", title: "Samtale og historikk", desc: "Vi starter med en grundig samtale om hva du opplever, syklushistorie og eventuelle spørsmål. Ingen spørsmål er for små eller for private." },
+      { n: "Minutt 10–25", title: "Den kliniske undersøkelsen", desc: "Vi gjennomfører en gynekologisk undersøkelse, eventuelt med ultralyd — med ditt tempo og din komfort i fokus." },
+      { n: "Minutt 25–40", title: "Funn og forklaring", desc: "Legen gjennomgår hva vi finner, forklarer med klare ord — og spør hvordan du opplever det." },
+      { n: "Minutt 40–55", title: "Plan for veien videre", desc: "Trenger du ikke mer nå, avslutter vi der. Trenger du oppfølging eller behandling, legger vi en konkret plan." },
+    ],
+    reasonsEyebrow: "Hvem passer det for",
+    reasonsTitle: "Du trenger ikke ha en diagnose for å bestille",
+    reasonsLead:
+      "En gynekologisk undersøkelse er for alle som har en kropp som trenger å bli sett. Kanskje kjenner du på noe vagt og udefinerbart, kanskje vil du bare forsikre deg om at alt er ok.",
+    reasonsLead2:
+      "Det viktigste er at du ikke venter for lenge med å ta kontakt. Vi er her nettopp for dette.",
+    reasons: [
+      { n: "01", title: "Smerter eller ubehag i underlivet", desc: "Underlivssmerter, smerter ved samleie eller endrede menssmerter — det finnes årsaker, og de kan behandles." },
+      { n: "02", title: "Uregelmessig eller kraftig blødning", desc: "Mensen kommer for sent eller for tidlig, kraftig eller for lite — det kan være lurt å sjekke hva som ligger bak." },
+      { n: "03", title: "Rutinesjekk og cellprøver", desc: "Cellprøver er en trygghet. Ingen forklaring trengs — det er kanskje den raskeste timen du tar i året." },
+      { n: "04", title: "Noe føles ikke riktig — men hva?", desc: "Du vet ikke helt hva det er, men du merker at noe ikke stemmer helt. Det er en god nok grunn for å ta kontakt." },
+      { n: "05", title: "Prevensjon og hormonell helse", desc: "Rådgivning om prevensjon, hormonell ubalanse eller hjelp til å finne det som passer deg." },
+    ],
+    promises: standardPromises,
+    related: [
+      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer for grundig vurdering.", href: "/behandlinger/gynekologi/endometriose" },
+      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { eyebrow: "Tilstand", title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
+    ],
+    ctaTitle: "Bestill gynekologisk undersøkelse",
+    ctaDescription:
+      "Ingen ventetid. Ingen fastlege nødvendig. Du bestiller direkte — og vi sørger for at du møter riktig spesialist.",
+  },
+
+
   endometriose: {
     seoTitle: "Endometriose | CMedical — utredning og behandling",
     seoDescription:
