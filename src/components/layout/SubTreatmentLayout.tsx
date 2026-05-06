@@ -367,64 +367,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </section>
       )}
 
-      {/* 7. BESTILL TIME — primær CTA */}
-      <section className="bg-brand-dark text-white py-20 md:py-24">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">Bestill time</p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
-                {c.ctaTitle}
-              </h2>
-              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
-                {c.ctaDescription}
-              </p>
-            </div>
-            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
-              <Button asChild variant="cta-dark" size="lg" className="px-8">
-                <Link to={buildBookingUrl(c.booking)}>Bestill {c.title.toLowerCase()}</Link>
-              </Button>
-              <a
-                href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
-              >
-                <Phone className="w-4 h-4" />
-                Eller ring oss på 22 00 00 00
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. USIKKER PÅ HVOR DU SKAL BEGYNNE — lys, sekundær */}
-      <section className="bg-brand-light text-brand-dark py-20 md:py-24">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
-                Usikker på hvor du skal begynne?
-              </h2>
-              <p className="text-base md:text-lg font-light text-brand-dark/70 leading-relaxed max-w-lg">
-                Ring oss, så hjelper vi deg å finne riktig første steg. Vi tar oss tid — og det koster ingenting.
-              </p>
-            </div>
-            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
-              <Button asChild variant="cta" size="lg" className="px-8">
-                <Link to="/kontakt">Book konsultasjon</Link>
-              </Button>
-              <a
-                href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-brand-dark/85 hover:text-brand-dark transition-colors px-2"
-              >
-                <Phone className="w-4 h-4" />
-                Eller ring oss på 22 00 00 00
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. SAMARBEIDSPARTNERE / FORSIKRING — før footer */}
+      {/* SAMARBEIDSPARTNERE / FORSIKRING — før footer */}
       <section className="bg-[#180404] text-white py-14 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
