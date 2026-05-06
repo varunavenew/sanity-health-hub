@@ -5,6 +5,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics } from "@/hooks/useSanity";
 import { clinics as staticClinics, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
+import { SplitHero } from "@/components/layout/SplitHero";
 
 import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
 import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
