@@ -39,7 +39,6 @@ import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import Fertility from "./pages/treatments/Fertility";
 import Gynecology from "./pages/treatments/Gynecology";
-import GynekologiskUndersokelse from "./pages/treatments/GynekologiskUndersokelse";
 import GynekologiSubPage from "./pages/treatments/GynekologiSubPage";
 import IconPreview from "./pages/IconPreview";
 
