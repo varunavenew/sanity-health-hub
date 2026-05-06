@@ -55,10 +55,27 @@ interface Props {
   content: SubTreatmentContent;
 }
 
+const insurancePartners = [
+  "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
+];
+
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   useEffect(() => {
     document.title = `${c.title} | CMedical`;
   }, [c.title]);
+
+  const sectionSpecialists = useMemo(() => {
+    if (c.specialistSlugs && c.specialistSlugs.length > 0) {
+      const ordered = c.specialistSlugs
+        .map((slug) => specialists.find((s) => s.slug === slug))
+        .filter((s): s is Specialist => Boolean(s));
+      if (ordered.length > 0) return ordered.slice(0, 5);
+    }
+    if (c.specialistCategory) {
+      return specialists.filter((s) => s.category === c.specialistCategory).slice(0, 5);
+    }
+    return [];
+  }, [c.specialistSlugs, c.specialistCategory]);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
