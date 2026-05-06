@@ -62,28 +62,15 @@ const Contact = ({ isChatOpen }: ContactProps) => {
           { name: "Kontakt", path: "/kontakt" },
         ]}
       />
-      {/* Hero Section */}
-      <header className="relative">
-        <div className="h-[25vh] md:h-[30vh] relative">
-          <img 
-            src={contactHero} 
-            alt="Kontakt oss" 
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
-          
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
-            <div className="container mx-auto">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">
-                {t("contact.title")}
-              </h1>
-              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">
-                {t("contact.subtitle")}
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SplitHero
+        eyebrow="Vi er her for å hjelpe"
+        title={t("contact.title")}
+        description={t("contact.subtitle")}
+        image={contactHero}
+        imageAlt="Kontakt CMedical"
+        primaryCta={{ label: "Bestill time", to: "/booking" }}
+        secondaryCta={{ label: "Ring oss", to: "tel:+4722000000" }}
+      />
 
       <ClinicGrid />
 
