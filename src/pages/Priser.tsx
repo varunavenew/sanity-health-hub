@@ -8,6 +8,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { usePricingPage, useFaqs } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { getImageUrl } from "@/lib/sanityClient";
+import { SplitHero } from "@/components/layout/SplitHero";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
@@ -540,28 +541,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
           { name: "Priser", path: "/priser" },
         ]}
       />
-      {/* Hero Section - Compact */}
-      <header className="relative">
-        <div className="h-[25vh] md:h-[30vh] relative">
-          <img 
-            src={heroImage} 
-            alt={pageTitle} 
-            className="w-full h-full object-cover object-[50%_30%]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
-          
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 md:px-16">
-            <div className="container mx-auto">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">
-                {pageTitle}
-              </h1>
-              <p className="text-white/70 mt-2 max-w-lg font-light text-sm md:text-base">
-                {pageSubtitle}
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SplitHero
+        eyebrow="Transparent og forutsigbar prising"
+        title={pageTitle}
+        description={pageSubtitle}
+        image={heroImage}
+        imageAlt={pageTitle}
+        primaryCta={{ label: "Bestill time", to: "/booking" }}
+        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+      />
 
       {/* Price List Section */}
       <section id="prisliste" className="py-10 md:py-14 bg-background">
