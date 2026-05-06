@@ -137,10 +137,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </div>
 
               {c.rating && (
-                <div className="flex items-center gap-3 text-sm font-light text-muted-foreground">
-                  <div className="flex">
+                <div className="inline-flex items-center gap-3 rounded-sm bg-card border border-border/60 px-4 py-3 text-sm font-light text-brand-dark shadow-sm">
+                  <div className="flex" aria-hidden="true">
                     {[0, 1, 2, 3, 4].map((i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-accent text-accent" />
+                      <Star key={i} className="w-3.5 h-3.5 fill-brand-dark text-brand-dark" />
                     ))}
                   </div>
                   <span>{c.rating}</span>
