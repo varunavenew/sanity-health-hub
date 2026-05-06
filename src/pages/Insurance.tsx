@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
 import { useInsurancePage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { SplitHero } from "@/components/layout/SplitHero";
 
 interface PageProps { isChatOpen: boolean }
 
