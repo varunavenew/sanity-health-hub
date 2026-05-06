@@ -1,10 +1,11 @@
-import { useEffect, ReactNode } from "react";
+import { useEffect, ReactNode, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { specialists, type Specialist } from "@/data/specialists";
 
 export interface SubTreatmentContent {
   // Meta
@@ -42,6 +43,11 @@ export interface SubTreatmentContent {
   // Final CTA
   ctaTitle: string;
   ctaDescription: string;
+  // Specialists section
+  specialistCategory?: Specialist["category"];
+  specialistSlugs?: string[]; // optional whitelist of who does this service
+  specialistCtaLabel?: string;
+  specialistCtaHref?: string;
 }
 
 interface Props {
