@@ -8,6 +8,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { usePricingPage, useFaqs } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { getImageUrl } from "@/lib/sanityClient";
+import { SplitHero } from "@/components/layout/SplitHero";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
