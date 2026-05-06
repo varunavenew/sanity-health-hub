@@ -185,10 +185,10 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </Link>
               </div>
 
-              <div className="flex items-center gap-3 text-sm font-light text-white/70">
-                <div className="flex">
+              <div className="inline-flex items-center gap-3 rounded-sm bg-white px-4 py-3 text-sm font-light text-brand-dark shadow-sm">
+                <div className="flex" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
                   ))}
                 </div>
                 <span>4,8 av 5 — Nordens ledende kvinnehelseklinikk</span>
