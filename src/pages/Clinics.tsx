@@ -74,23 +74,15 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
       />
 
       {/* Hero */}
-      <header className="bg-brand-dark">
-        <div className="container mx-auto px-6 md:px-16 py-12 md:py-16">
-          <div className="max-w-3xl">
-            <p className="text-sm text-white/60 font-light mb-3">Våre klinikker</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight mb-4">
-              Finn din nærmeste klinikk
-            </h1>
-            <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm text-white/60 font-light">
-              <span>{list.length} klinikker</span>
-              <span aria-hidden="true">·</span>
-              <span>Ingen henvisning nødvendig</span>
-              <span aria-hidden="true">·</span>
-              <span>Kort ventetid</span>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SplitHero
+        eyebrow={`${list.length} klinikker · Ingen henvisning · Kort ventetid`}
+        title="Finn din nærmeste klinikk"
+        description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
+        image={imgMajorstuen}
+        imageAlt="CMedical klinikk"
+        primaryCta={{ label: "Bestill time", to: "/booking" }}
+        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+      />
 
       {/* Clinic split-screen rows */}
       <section className="bg-background" aria-labelledby="clinics-heading">
