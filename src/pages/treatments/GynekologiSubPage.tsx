@@ -9,12 +9,20 @@ interface Props {
 
 const GynekologiSubPage = ({ isChatOpen }: Props) => {
   const { subId } = useParams<{ subId: string }>();
-  const content = subId ? gynekologiSubPages[subId] : undefined;
+  const base = subId ? gynekologiSubPages[subId] : undefined;
 
-  if (!content) {
-    // Falls back to legacy TreatmentPage for sub-routes we haven't ported yet
+  if (!base) {
     return <TreatmentPage categoryId="gynekologi" isChatOpen={isChatOpen} />;
   }
+
+  // Inject defaults so every gynekologi sub-page gets the standard
+  // "specialists who do this" section before the booking footer.
+  const content = {
+    specialistCategory: "gynekologi" as const,
+    specialistCtaLabel: "Se alle gynekologer",
+    specialistCtaHref: "/spesialister?kategori=gynekologi",
+    ...base,
+  };
 
   return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
 };
