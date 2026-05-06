@@ -156,6 +156,22 @@ async function wrapObjectFields(
     if (cur === undefined || cur === null) continue
     if (isI18nArray(cur)) continue
 
+    // Single i18n value object (not in array) — wrap into array
+    if (
+      cur &&
+      typeof cur === 'object' &&
+      !Array.isArray(cur) &&
+      typeof (cur as any)._type === 'string' &&
+      (cur as any)._type.startsWith('internationalizedArray') &&
+      'value' in (cur as any)
+    ) {
+      const inner = (cur as any).value
+      const lang = (cur as any).language || 'no'
+      out[key] = [{ _type: vt, language: lang, value: inner }]
+      changed = true
+      continue
+    }
+
     if (vt === 'internationalizedArrayBlockContentValue') {
       if (!isPortableTextArray(cur)) continue
       out[key] = await wrapValue(cur, vt)
