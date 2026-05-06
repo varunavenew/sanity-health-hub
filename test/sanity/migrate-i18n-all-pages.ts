@@ -459,7 +459,6 @@ async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
       }
     }
   }
-  }
 
   return patches
 }
