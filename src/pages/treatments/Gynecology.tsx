@@ -111,9 +111,9 @@ const journey = [
 ];
 
 const reviews = [
-  { text: "Trygg og god konsultasjon. Endelig en gynekolog som tok seg tid og forsto plagene mine.", author: "Pasient, Endometriose-utredning" },
-  { text: "Fryktet konsultasjonen, men ble møtt med varme og kompetanse. Anbefales på det varmeste.", author: "Pasient, Overgangsalder" },
-  { text: "Veldig fornøyd. Korte ventetider, dyktig spesialist og tydelige svar — slik kvinnehelse bør være.", author: "Pasient, Førstegangssjekk" },
+  { text: "Trygg og god konsultasjon. Endelig en gynekolog som tok seg tid og forsto plagene mine.", author: "Anne K.", date: "2 måneder siden" },
+  { text: "Fryktet konsultasjonen, men ble møtt med varme og kompetanse. Anbefales på det varmeste.", author: "Marit S.", date: "3 måneder siden" },
+  { text: "Veldig fornøyd. Korte ventetider, dyktig spesialist og tydelige svar — slik kvinnehelse bør være.", author: "Ingrid L.", date: "1 måned siden" },
 ];
 
 /* ──────────────────────────────────────────────────────────────
