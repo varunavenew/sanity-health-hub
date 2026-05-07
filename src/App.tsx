@@ -40,6 +40,7 @@ import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import Fertility from "./pages/treatments/Fertility";
 import Gynecology from "./pages/treatments/Gynecology";
 import GynekologiSubPage from "./pages/treatments/GynekologiSubPage";
+import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
 
 const queryClient = new QueryClient();
