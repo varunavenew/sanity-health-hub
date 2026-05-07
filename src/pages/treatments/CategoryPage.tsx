@@ -281,7 +281,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
         <Link to="/spesialister" className="flex-shrink-0 w-[280px] snap-start">
           <div className="aspect-[3/4] bg-brand-dark/10 border border-foreground/20 flex flex-col items-center justify-center hover:bg-brand-light transition-colors">
             <div className="w-16 h-16 rounded-full bg-accent/30 flex items-center justify-center mb-4">
-              <ArrowRight className="w-6 h-6 text-accent" aria-hidden="true" />
+              <ArrowRight className="w-6 h-6 text-brand-dark" aria-hidden="true" />
             </div>
             <p className="text-foreground font-normal mb-1">Se alle</p>
             <p className="text-foreground/60 text-sm font-light">{categorySpecialists.length} spesialister</p>
