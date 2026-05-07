@@ -184,13 +184,18 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </h2>
             </div>
 
-            <div className={`grid md:grid-cols-2 ${c.flow.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"} gap-px bg-white/10 rounded-sm overflow-hidden`}>
+            <div
+              className="grid grid-cols-2 gap-px bg-white/10 rounded-sm overflow-hidden"
+              style={{
+                gridTemplateColumns: `repeat(${c.flow.length}, minmax(0, 1fr))`,
+              }}
+            >
               {c.flow.map((step) => (
-                <div key={step.n} className="bg-brand-dark p-7 flex flex-col">
-                  <p className="text-[11px] tracking-wider text-accent mb-5 uppercase">
+                <div key={step.n} className="bg-brand-dark p-5 md:p-6 flex flex-col">
+                  <p className="text-[11px] tracking-wider text-accent mb-4 uppercase">
                     {step.n}
                   </p>
-                  <h3 className="text-lg font-normal mb-3 leading-snug">
+                  <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug">
                     {step.title}
                   </h3>
                   <p className="text-sm font-light text-white/70 leading-relaxed">
