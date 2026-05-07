@@ -10,6 +10,7 @@ import { specialists } from "@/data/specialists";
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import { AnimatedStat } from "@/components/AnimatedStat";
 
 
 interface PageProps {
