@@ -222,7 +222,7 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
             <p className="text-sm text-muted-foreground font-light mb-3">Våre {categoryTitle.toLowerCase()}-eksperter</p>
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               Møt våre {categoryTitle.toLowerCase()}-spesialister
             </h2>
             <p className="text-muted-foreground font-light">
@@ -231,10 +231,10 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-2">
-              <button onClick={() => scroll('left')} aria-label="Scroll spesialister til venstre" className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-brand-dark/10 transition-colors text-white">
+              <button onClick={() => scroll('left')} aria-label="Scroll spesialister til venstre" className="w-10 h-10 rounded-full border border-foreground/30 flex items-center justify-center hover:bg-brand-dark/10 transition-colors text-foreground">
                 <ChevronLeft className="w-5 h-5" aria-hidden="true" />
               </button>
-              <button onClick={() => scroll('right')} aria-label="Scroll spesialister til høyre" className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-brand-dark/10 transition-colors text-white">
+              <button onClick={() => scroll('right')} aria-label="Scroll spesialister til høyre" className="w-10 h-10 rounded-full border border-foreground/30 flex items-center justify-center hover:bg-brand-dark/10 transition-colors text-foreground">
                 <ChevronRight className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
@@ -279,11 +279,11 @@ const CategorySpecialists = ({ categoryId, categoryTitle }: { categoryId: string
         ))}
         
         <Link to="/spesialister" className="flex-shrink-0 w-[280px] snap-start">
-          <div className="aspect-[3/4] bg-brand-dark/10 border border-white/20 flex flex-col items-center justify-center hover:bg-white/15 transition-colors">
+          <div className="aspect-[3/4] bg-brand-dark/10 border border-foreground/20 flex flex-col items-center justify-center hover:bg-brand-light transition-colors">
             <div className="w-16 h-16 rounded-full bg-accent/30 flex items-center justify-center mb-4">
               <ArrowRight className="w-6 h-6 text-accent" aria-hidden="true" />
             </div>
-            <p className="text-white font-normal mb-1">Se alle</p>
+            <p className="text-foreground font-normal mb-1">Se alle</p>
             <p className="text-foreground/60 text-sm font-light">{categorySpecialists.length} spesialister</p>
           </div>
         </Link>
@@ -596,7 +596,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
             <div>
-              <h2 className="text-2xl md:text-3xl font-light text-white mb-2">Klar for å ta neste steg?</h2>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">Klar for å ta neste steg?</h2>
               <p className="text-foreground/60 font-light">
                 Bestill time enkelt online – ingen henvisning nødvendig.
               </p>

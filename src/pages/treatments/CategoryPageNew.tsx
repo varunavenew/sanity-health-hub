@@ -237,10 +237,10 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
                   className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
                 />
                 <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
-                  <h3 className="text-base md:text-lg font-light text-white mb-0.5">
+                  <h3 className="text-base md:text-lg font-light text-foreground mb-0.5">
                     {s.name}
                   </h3>
-                  <p className="text-[11px] md:text-xs text-white/80 font-light uppercase tracking-wider">
+                  <p className="text-[11px] md:text-xs text-foreground/80 font-light uppercase tracking-wider">
                     {s.title}
                   </p>
                 </div>
