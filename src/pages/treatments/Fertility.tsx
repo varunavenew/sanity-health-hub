@@ -130,7 +130,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Fertilitet — CMedical
               </p>
 
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-white leading-[1.05]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 Noen ganger trenger kroppen <span className="underline decoration-accent decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien
               </h2>
 
@@ -206,7 +206,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               {segments.map((s) => (
                 <div
                   key={s.id}
-                  className="bg-brand-dark p-7 flex flex-col"
+                  className="bg-background p-7 flex flex-col"
                 >
                   <h3 className="text-lg font-normal mb-4 leading-snug">
                     {s.title}
@@ -559,7 +559,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
                       <AnimatedStat value={row.v} />
                     </dd>
-                    <dt className="text-sm font-normal text-white mb-1">
+                    <dt className="text-sm font-normal text-foreground mb-1">
                       {row.k}
                     </dt>
                     <p className="text-xs font-light text-foreground/60">
@@ -620,7 +620,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               <p className="text-[11px] tracking-[0.18em] text-brand-yellow/90 mb-3">
                 SAMARBEIDSPARTNERE
               </p>
-              <h3 className="text-xl md:text-2xl font-light leading-snug text-white">
+              <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
                 Vi har avtale med de største forsikringsselskapene i Norge.
               </h3>
             </div>

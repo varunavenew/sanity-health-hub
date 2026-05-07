@@ -246,7 +246,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {consultationFlow.map((step) => (
-                <div key={step.n} className="bg-brand-dark p-7 flex flex-col">
+                <div key={step.n} className="bg-background p-7 flex flex-col">
                   <p className="text-[11px] tracking-wider text-brand-dark mb-5 uppercase">
                     {step.n}
                   </p>
