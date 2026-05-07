@@ -349,18 +349,18 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
 
-        {/* Stat-stripe — rolig, kant-i-kant, ingen flytende kort */}
-        <div className="border-t border-border/60">
+        {/* Stat-stripe — mørk, kant-i-kant */}
+        <div className="bg-brand-dark text-white">
           <div className="px-6 md:px-16 lg:px-20 py-10 md:py-12">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-8">
-              <p className="text-xs tracking-wide text-foreground/60">
+              <p className="text-xs tracking-wide text-white/60">
                 CMedical i tall
               </p>
-              <p className="text-xs font-light text-muted-foreground/80">
+              <p className="text-xs font-light text-white/50">
                 CMedical i tall
               </p>
             </div>
-            <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-border/60">
+            <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-white/15">
               {[
                 { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
                 { k: "Ventetid", v: "Ingen", sub: "Time samme uke" },
@@ -371,16 +371,16 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   key={row.k}
                   className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
                 >
-                  <dt className="text-xs font-light text-muted-foreground mb-3 tracking-wide">
+                  <dt className="text-xs font-light text-white/60 mb-3 tracking-wide">
                     {row.k}
                   </dt>
-                  <dd className="text-2xl md:text-3xl font-light text-foreground tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
+                  <dd className="text-2xl md:text-3xl font-light text-white tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
                     {row.v}
                     {row.star && (
-                      <Star className="w-4 h-4 fill-brand-dark text-brand-dark translate-y-[-3px]" />
+                      <Star className="w-4 h-4 fill-white text-white translate-y-[-3px]" />
                     )}
                   </dd>
-                  <p className="text-xs font-light text-muted-foreground/70">
+                  <p className="text-xs font-light text-white/50">
                     {row.sub}
                   </p>
                 </div>
