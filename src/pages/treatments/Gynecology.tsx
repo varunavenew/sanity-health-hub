@@ -356,6 +356,61 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
+          7. SPESIALISTER — kant-i-kant grid
+      ============================================================ */}
+      {gynSpecialists.length > 0 && (
+        <section className="bg-secondary/40">
+          <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Menneskene bak
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Gynekologene som følger deg.
+                </h2>
+              </div>
+              <Link
+                to="/spesialister?kategori=gynekologi"
+                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
+              >
+                Se alle gynekologer →
+              </Link>
+            </div>
+          </div>
+
+          <div className={`grid grid-cols-2 gap-0 ${gynSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
+            {gynSpecialists.map((sp) => (
+              <Link
+                key={sp.slug}
+                to={`/spesialister/${sp.slug}`}
+                aria-label={`Les mer om ${sp.name}`}
+                className="group relative block text-left focus:outline-none"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+                  <img
+                    src={sp.image}
+                    alt={sp.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
+                      {sp.name}
+                    </h3>
+                    <p className="text-sm font-light text-white/75">
+                      {sp.subtitle || sp.title}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ============================================================
           4b. DATASTRIMLER — resultater innen gynekologi
       ============================================================ */}
       <section className="bg-brand-dark text-white py-20 md:py-28 border-t border-white/10">
@@ -523,61 +578,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
-
-      {/* ============================================================
-          7. SPESIALISTER — kant-i-kant grid
-      ============================================================ */}
-      {gynSpecialists.length > 0 && (
-        <section className="bg-secondary/40">
-          <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <div>
-                <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Menneskene bak
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Gynekologene som følger deg.
-                </h2>
-              </div>
-              <Link
-                to="/spesialister?kategori=gynekologi"
-                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
-              >
-                Se alle gynekologer →
-              </Link>
-            </div>
-          </div>
-
-          <div className={`grid grid-cols-2 gap-0 ${gynSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
-            {gynSpecialists.map((sp) => (
-              <Link
-                key={sp.slug}
-                to={`/spesialister/${sp.slug}`}
-                aria-label={`Les mer om ${sp.name}`}
-                className="group relative block text-left focus:outline-none"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img
-                    src={sp.image}
-                    alt={sp.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                      {sp.name}
-                    </h3>
-                    <p className="text-sm font-light text-white/75">
-                      {sp.subtitle || sp.title}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* ============================================================
           8. SLUTT-CTA
