@@ -393,8 +393,9 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                     src={sp.image}
                     alt={sp.name}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.05]"
+                    className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-all duration-700 ease-out group-hover:scale-[1.05]"
                   />
+                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                     <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
