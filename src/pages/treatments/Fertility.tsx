@@ -514,6 +514,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* ============================================================
+          7. SPESIALISTER — overskrift + grid
       ============================================================ */}
       <section className="bg-secondary/40">
         <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
