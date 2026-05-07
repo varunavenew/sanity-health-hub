@@ -380,13 +380,16 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className={`grid grid-cols-2 gap-0 ${gynSpecialists.length === 5 ? "md:grid-cols-5" : "md:grid-cols-4"}`}>
+          <div
+            className="flex gap-0 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+          >
             {gynSpecialists.map((sp) => (
               <Link
                 key={sp.slug}
                 to={`/spesialister/${sp.slug}`}
                 aria-label={`Les mer om ${sp.name}`}
-                className="group relative block text-left focus:outline-none"
+                className="group relative block text-left focus:outline-none flex-shrink-0 w-1/2 md:w-1/4 snap-start"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
                   <img
@@ -409,6 +412,9 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               </Link>
             ))}
           </div>
+          {gynSpecialists.length > 4 && (
+            <p className="md:hidden text-center text-xs text-foreground/50 mt-3">Sveip for å se flere →</p>
+          )}
         </section>
       )}
 
