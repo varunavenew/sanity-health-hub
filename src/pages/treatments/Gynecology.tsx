@@ -148,17 +148,17 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           1. HERO — split screen 50/50, bilde kant-i-kant
       ============================================================ */}
-      <header className="bg-brand-dark pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
             <div className="max-w-xl w-full">
-              <p className="text-xs tracking-wide text-white/60 mb-8">
+              <p className="text-xs tracking-wide text-foreground/60 mb-8">
                 Gynekologi — CMedical
               </p>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-white leading-[1.05]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 Kvinnehelse <span className="italic">for livet</span>
               </h2>
-              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-white/70">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
                 Vi følger deg gjennom hele livet — fra de første spørsmålene
                 i tenårene, gjennom svangerskap og overgangsalder, og videre.
                 Gynekologene våre jobber med det de kan best, og vi tar oss
@@ -167,7 +167,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
 
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
                 <Button
-                  variant="cta-dark"
+                  variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
                   onClick={() =>
@@ -180,16 +180,16 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </Button>
                 <Link
                   to="/behandlinger/gynekologi/undersokelse"
-                  className="text-sm font-light text-white/85 hover:text-white border-b border-white/40 hover:border-white pb-0.5 transition-colors"
+                  className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
                 >
                   Gynekologisk undersøkelse
                 </Link>
               </div>
 
-              <div className="inline-flex items-center gap-3 text-sm font-light text-white/90">
+              <div className="inline-flex items-center gap-3 text-sm font-light text-brand-dark">
                 <div className="flex" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
                   ))}
                 </div>
                 <span>4,8 av 5 — Nordens ledende kvinnehelseklinikk</span>
