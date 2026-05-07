@@ -51,6 +51,12 @@ export const serviceIconKeyMap: Record<string, string> = {
   "Mannlig infertilitet": "mannlig-infertilitet-cl",
   "Nyrer": "nyrer-cl",
   "Prevensjon": "hormonforstyrrelser-cl",
+  "Testikler og pung": "testikler-cl",
+  "Prostata": "prostata-cl",
+  "Sterilisering": "sterilisering-cl",
+  "Refertilisering": "refertilisering-cl",
+  "Sædanalyse": "saedanalyse-cl",
+  "Åreknuter": "areknuter-cl",
   // Ortopedi
   "Fot og ankel": "fot-ankel-cl",
   "Hofte": "hofte-cl",
