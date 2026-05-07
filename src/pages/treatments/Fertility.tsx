@@ -137,7 +137,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </p>
 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
-                Noen ganger trenger kroppen <span className="underline decoration-accent decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien
+                Noen ganger trenger kroppen <span className="underline decoration-brand-dark decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien
               </h2>
 
               <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
