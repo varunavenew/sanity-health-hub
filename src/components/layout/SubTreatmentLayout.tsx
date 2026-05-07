@@ -220,10 +220,18 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 </p>
               )}
               {c.reasonsLead2 && (
-                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-md">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-md mb-8">
                   {c.reasonsLead2}
                 </p>
               )}
+              <Button
+                variant="cta"
+                size="lg"
+                className="px-8"
+                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+              >
+                {c.primaryCtaLabel ?? "Bestill time"}
+              </Button>
             </div>
 
             <div className="lg:col-span-7">
