@@ -189,7 +189,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 3: "md:grid-cols-3",
                 4: "md:grid-cols-4",
                 5: "md:grid-cols-5",
-                6: "md:grid-cols-6",
+                6: "md:grid-cols-3", // 3+3 wrap for 6 steps so text er lett å lese
               };
               const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
               return (
