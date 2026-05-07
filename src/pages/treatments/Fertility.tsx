@@ -435,9 +435,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 rounded-sm overflow-hidden">
               {services.map((s) => (
-                <div
+                <Link
                   key={s.title}
-                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
+                  to={s.href}
+                  className="group bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
                 >
                   <div>
                     <h3 className="text-base font-normal text-foreground mb-1.5">
@@ -447,8 +448,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                       {s.desc}
                     </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0" />
-                </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+                </Link>
               ))}
             </div>
           </div>
