@@ -40,6 +40,7 @@ import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import Fertility from "./pages/treatments/Fertility";
 import Gynecology from "./pages/treatments/Gynecology";
 import GynekologiSubPage from "./pages/treatments/GynekologiSubPage";
+import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
 
 const queryClient = new QueryClient();
@@ -95,7 +96,7 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader" element={<CategoryPageNew categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
-        <Route path="/behandlinger/fertilitet/:subId" element={<TreatmentPage categoryId="fertilitet" isChatOpen={false} />} />
+        <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/urologi/:subId" element={<TreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<TreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet/:subId" element={<TreatmentPage categoryId="graviditet" isChatOpen={false} />} />

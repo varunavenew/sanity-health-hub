@@ -77,15 +77,15 @@ const audiences = [
 ];
 
 const services = [
-  { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
-  { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/booking?kategori=fertilitet&tjeneste=ivf" },
-  { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/booking?kategori=fertilitet&tjeneste=iui" },
-  { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
-  { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/booking?kategori=fertilitet&tjeneste=nedfrysing" },
-  { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/booking?kategori=fertilitet&tjeneste=pgt" },
+  { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+  { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf" },
+  { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
+  { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
+  { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
+  { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/pgt" },
   { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
-  { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
-  { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/booking?kategori=fertilitet&tjeneste=samtale" },
+  { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
+  { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
 ];
 
 const insurance = [
