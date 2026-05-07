@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -449,7 +450,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                     className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
                   >
                     <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
-                      {row.v}
+                      <AnimatedStat value={row.v} />
                     </dd>
                     <dt className="text-sm font-normal text-white mb-1">
                       {row.k}

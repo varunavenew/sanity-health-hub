@@ -10,6 +10,7 @@ import { specialists } from "@/data/specialists";
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import { AnimatedStat } from "@/components/AnimatedStat";
 
 
 interface PageProps {
@@ -549,7 +550,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
                   >
                     <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
-                      {row.v}
+                      <AnimatedStat value={row.v} />
                     </dd>
                     <dt className="text-sm font-normal text-white mb-1">
                       {row.k}
