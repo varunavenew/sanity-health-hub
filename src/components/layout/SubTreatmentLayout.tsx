@@ -282,11 +282,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       </section>
 
       {/* 4b. MID-PAGE CONVERSION BAND */}
-      <section className="bg-brand-dark text-white py-14 md:py-16">
+      <section className="bg-accent text-brand-dark py-14 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-xl">
-              <p className="text-[11px] tracking-wider mb-3 uppercase text-white/60">Klar når du er</p>
+              <p className="text-[11px] tracking-wider mb-3 uppercase text-brand-dark/70">Klar når du er</p>
               <h2 className="text-2xl md:text-4xl font-light leading-tight">
                 Slipp å vente. Få {c.title.toLowerCase()} hos en spesialist denne uken.
               </h2>
@@ -302,7 +302,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </Button>
               <a
                 href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 22 00 00 00
