@@ -191,7 +191,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 5: "md:grid-cols-5",
                 6: "md:grid-cols-6",
               };
-              const cols = colMap[c.flow.length] ?? `md:grid-cols-${c.flow.length}`;
+              const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
               return (
                 <div className={`grid grid-cols-2 ${cols} gap-px bg-white/10 rounded-sm overflow-hidden`}>
                   {c.flow.map((step) => (
