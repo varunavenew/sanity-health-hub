@@ -421,12 +421,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           4b. DATASTRIMLER — resultater innen gynekologi
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28 border-t border-white/10">
+      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
               <div className="lg:col-span-5">
-                <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
                   Resultater
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -434,18 +434,18 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </h2>
               </div>
               <div className="lg:col-span-7 flex items-end">
-                <p className="text-base font-light text-white/70 leading-relaxed max-w-xl">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
                   resultatene våre innen gynekologi de siste årene.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-white/15 py-8 md:py-10">
-              <p className="text-[11px] tracking-[0.18em] text-accent mb-6 uppercase">
+            <div className="border-t border-brand-dark/15 py-8 md:py-10">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
                 Gynekologi
               </p>
-              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-white/15">
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
                 {[
                   { v: "9 600+", k: "Konsultasjoner", sub: "Per år" },
                   { v: "2 100", k: "Ultralydundersøkelser", sub: "I 2024" },
@@ -459,10 +459,10 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                     <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
                       <AnimatedStat value={row.v} />
                     </dd>
-                    <dt className="text-sm font-normal text-white mb-1">
+                    <dt className="text-sm font-normal text-foreground mb-1">
                       {row.k}
                     </dt>
-                    <p className="text-xs font-light text-white/60">
+                    <p className="text-xs font-light text-muted-foreground">
                       {row.sub}
                     </p>
                   </div>
@@ -470,7 +470,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               </dl>
             </div>
 
-            <p className="text-xs font-light text-white/40 mt-8">
+            <p className="text-xs font-light text-muted-foreground mt-8">
               Tall oppdatert per Q1 2026. Resultater varierer individuelt.
             </p>
           </div>
