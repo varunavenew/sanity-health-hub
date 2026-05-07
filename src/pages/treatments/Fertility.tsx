@@ -77,15 +77,15 @@ const audiences = [
 ];
 
 const services = [
-  { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse" },
-  { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov" },
-  { title: "IUI — inseminasjon", desc: "Med partner eller donor" },
-  { title: "Eggdonasjon", desc: "Norges nyeste eggbank" },
-  { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo" },
-  { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner" },
-  { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer" },
-  { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE" },
-  { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet" },
+  { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
+  { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/booking?kategori=fertilitet&tjeneste=ivf" },
+  { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/booking?kategori=fertilitet&tjeneste=iui" },
+  { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
+  { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/booking?kategori=fertilitet&tjeneste=nedfrysing" },
+  { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/booking?kategori=fertilitet&tjeneste=pgt" },
+  { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
+  { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
+  { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/booking?kategori=fertilitet&tjeneste=samtale" },
 ];
 
 const insurance = [
@@ -435,9 +435,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 rounded-sm overflow-hidden">
               {services.map((s) => (
-                <div
+                <Link
                   key={s.title}
-                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
+                  to={s.href}
+                  className="group bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
                 >
                   <div>
                     <h3 className="text-base font-normal text-foreground mb-1.5">
@@ -447,8 +448,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                       {s.desc}
                     </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0" />
-                </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+                </Link>
               ))}
             </div>
           </div>
