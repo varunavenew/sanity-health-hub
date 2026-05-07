@@ -121,12 +121,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           1. HERO — split screen 50/50, bilde kant-i-kant
       ============================================================ */}
-      <header className="bg-brand-dark pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
           {/* Left — copy + CTA */}
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
             <div className="max-w-xl w-full">
-              <p className="text-xs tracking-wide text-white/60 mb-8">
+              <p className="text-xs tracking-wide text-foreground/60 mb-8">
                 Fertilitet — CMedical
               </p>
 
@@ -134,7 +134,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Noen ganger trenger kroppen <span className="underline decoration-accent decoration-[2px] underline-offset-[6px]">litt hjelp</span> på veien
               </h2>
 
-              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-white/70">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
                 Å ville bli foreldre er noe av det sterkeste man kan kjenne på.
                 For mange går det av seg selv. For andre tar det litt lenger
                 tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og
@@ -143,7 +143,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
                 <Button
-                  variant="cta-dark"
+                  variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
                   onClick={() =>
@@ -156,16 +156,16 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Button>
                 <Link
                   to="/kontakt"
-                  className="text-sm font-light text-white/85 hover:text-white border-b border-white/40 hover:border-white pb-0.5 transition-colors"
+                  className="text-sm font-light text-foreground/85 hover:text-foreground border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
                 >
                   Gratis prat med sykepleier
                 </Link>
               </div>
 
-              <div className="inline-flex items-center gap-3 text-sm font-light text-white/90">
+              <div className="inline-flex items-center gap-3 text-sm font-light text-foreground">
                 <div className="flex" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
                   ))}
                 </div>
                 <span>4,7 av 5 — Norges eldste private fertilitetsklinikk</span>
@@ -189,11 +189,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           2. MØRK SEGMENT-SEKSJON — "Fortell oss hvor du er"
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-wide text-white/60 mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Hva kan vi hjelpe deg med?
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -202,7 +202,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-sm overflow-hidden">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {segments.map((s) => (
                 <div
                   key={s.id}
@@ -211,7 +211,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   <h3 className="text-lg font-normal mb-4 leading-snug">
                     {s.title}
                   </h3>
-                  <p className="text-sm font-light text-white/70 leading-relaxed mb-6 flex-1">
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     {s.desc}
                   </p>
                   <Link
@@ -391,19 +391,19 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           5. TESTIMONIAL — grønn smal banner
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-16 md:py-20 border-t border-white/10">
+      <section className="bg-brand-light text-foreground py-16 md:py-20 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               {[0, 1, 2, 3, 4].map((i) => (
-                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
               ))}
             </div>
             <blockquote className="text-xl md:text-2xl font-light leading-snug mb-6">
               «Vi følte oss trygge fra første møte. De tok seg virkelig tid til
               å bli kjent med oss og vårt utgangspunkt — og det betød alt.»
             </blockquote>
-            <p className="text-sm font-light text-white/70">
+            <p className="text-sm font-light text-muted-foreground">
               — Hilde, pasient gjennom IVF-forløp 2024
             </p>
           </div>
@@ -505,7 +505,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
                     {sp.name}
                   </h3>
-                  <p className="text-sm font-light text-white/75">
+                  <p className="text-sm font-light text-foreground/75">
                     {sp.subtitle || sp.title}
                   </p>
                 </div>
@@ -521,12 +521,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           6b. DATASTRIMLER — resultater innen fertilitet
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
               <div className="lg:col-span-5">
-                <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
                   Resultater
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -534,18 +534,18 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </h2>
               </div>
               <div className="lg:col-span-7 flex items-end">
-                <p className="text-base font-light text-white/70 leading-relaxed max-w-xl">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
                   resultatene våre innen fertilitetsbehandling de siste årene.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-white/15 py-8 md:py-10">
-              <p className="text-[11px] tracking-[0.18em] text-accent mb-6 uppercase">
+            <div className="border-t border-brand-dark/15 py-8 md:py-10">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
                 Fertilitet
               </p>
-              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-white/15">
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
                 {[
                   { v: "42%", k: "Suksessrate IVF", sub: "Kvinner under 35 år" },
                   { v: "3 800+", k: "Barn født", sub: "Siden oppstart i 1989" },
@@ -562,7 +562,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     <dt className="text-sm font-normal text-white mb-1">
                       {row.k}
                     </dt>
-                    <p className="text-xs font-light text-white/60">
+                    <p className="text-xs font-light text-foreground/60">
                       {row.sub}
                     </p>
                   </div>
@@ -570,7 +570,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </dl>
             </div>
 
-            <p className="text-xs font-light text-white/40 mt-8">
+            <p className="text-xs font-light text-muted-foreground mt-8">
               Tall oppdatert per Q1 2026. Resultater varierer individuelt.
             </p>
           </div>
@@ -613,7 +613,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           10. FORSIKRINGSAVTALER — egen mørkere stripe (matcher footer)
       ============================================================ */}
-      <section className="bg-[#180404] text-white py-14 md:py-16">
+      <section className="bg-brand-light text-foreground py-14 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div className="lg:col-span-4">
@@ -625,11 +625,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </h3>
             </div>
             <div className="lg:col-span-8">
-              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-white/10">
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-brand-dark/10">
                 {insurance.map((name) => (
                   <li
                     key={name}
-                    className="border-b border-white/10 [&:not(:nth-child(2n))]:border-r sm:[&:not(:nth-child(3n))]:border-r md:[&:not(:nth-child(4n))]:border-r border-white/10 py-4 px-4 text-sm font-light text-white/85"
+                    className="border-b border-brand-dark/10 [&:not(:nth-child(2n))]:border-r sm:[&:not(:nth-child(3n))]:border-r md:[&:not(:nth-child(4n))]:border-r border-brand-dark/10 py-4 px-4 text-sm font-light text-foreground/85"
                   >
                     {name}
                   </li>

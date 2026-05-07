@@ -95,7 +95,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
               <Button
                 variant="ghost"
                 size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-2xl"
+                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-foreground hover:border-brand-dark rounded-2xl"
                 onClick={() => navigate("/kontakt")}
               >
                 <Phone className="mr-2 w-4 h-4" />
@@ -278,14 +278,14 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
       </section>
 
       {/* ── 8. Closing booking band ── */}
-      <section className="bg-brand-dark py-16 md:py-24 text-white">
+      <section className="bg-brand-light py-16 md:py-24 text-foreground">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
               <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-5">
                 {content.closingTitle}
               </h2>
-              <p className="text-base text-white/70 font-light leading-relaxed">
+              <p className="text-base text-muted-foreground font-light leading-relaxed">
                 {content.closingBody}
               </p>
             </div>
@@ -296,7 +296,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
               </Button>
               <Link
                 to="/priser"
-                className="text-center text-sm font-light text-white/70 hover:text-white underline underline-offset-4 mt-2"
+                className="text-center text-sm font-light text-muted-foreground hover:text-foreground underline underline-offset-4 mt-2"
               >
                 Se prisliste
               </Link>
