@@ -75,37 +75,37 @@ const Urology = ({ isChatOpen }: PageProps) => {
                 </ul>
               </div>
               
-              <div className="bg-brand-dark rounded-2xl p-8 text-white">
+              <div className="bg-background border border-brand-dark/15 rounded-2xl p-8 text-foreground">
                 <div className="flex items-center gap-3 mb-4">
-                  <Shield className="w-6 h-6 text-accent" />
+                  <Shield className="w-6 h-6 text-brand-dark" />
                   <h3 className="text-2xl font-medium">100% konfidensielt</h3>
                 </div>
-                <p className="text-white/70 mb-6 leading-relaxed">
+                <p className="text-muted-foreground mb-6 leading-relaxed">
                   Alt vi diskuterer og behandler er strengt konfidensielt. Vi prioriterer din privatliv.
                 </p>
                 <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3 text-white/80">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
+                  <div className="flex items-center gap-3 text-foreground/80">
+                    <span className="w-2 h-2 rounded-full bg-brand-dark" />
                     Erfarne urologer
                   </div>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
+                  <div className="flex items-center gap-3 text-foreground/80">
+                    <span className="w-2 h-2 rounded-full bg-brand-dark" />
                     Moderne diagnostikk
                   </div>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
+                  <div className="flex items-center gap-3 text-foreground/80">
+                    <span className="w-2 h-2 rounded-full bg-brand-dark" />
                     Ingen henvisning nødvendig
                   </div>
                 </div>
                 <Button 
-                  variant="cta-dark"
+                  variant="cta"
                   className="w-full"
                   onClick={() => window.location.href = '/booking?kategori=urologi'}
                 >
                   Bestill diskret time
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
-                <Link to="/pricing" className="block text-center mt-4 text-sm text-white/60 hover:text-white/80 transition-colors">
+                <Link to="/pricing" className="block text-center mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Se prisliste →
                 </Link>
               </div>

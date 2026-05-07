@@ -172,11 +172,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       </header>
 
       {/* 2. FLOW */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
                 {c.flowEyebrow}
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -189,20 +189,20 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 3: "md:grid-cols-3",
                 4: "md:grid-cols-4",
                 5: "md:grid-cols-5",
-                6: "md:grid-cols-3", // 3+3 wrap for 6 steps so text er lett å lese
+                6: "md:grid-cols-3",
               };
               const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
               return (
-                <div className={`grid grid-cols-2 ${cols} gap-px bg-white/10 rounded-sm overflow-hidden`}>
+                <div className={`grid grid-cols-2 ${cols} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
                   {c.flow.map((step) => (
-                    <div key={step.n} className="bg-brand-dark p-5 md:p-6 flex flex-col">
-                      <p className="text-[11px] tracking-wider text-accent mb-4 uppercase">
+                    <div key={step.n} className="bg-background p-5 md:p-6 flex flex-col">
+                      <p className="text-[11px] tracking-wider text-brand-dark mb-4 uppercase">
                         {step.n}
                       </p>
-                      <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug">
+                      <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug text-foreground">
                         {step.title}
                       </h3>
-                      <p className="text-sm font-light text-white/70 leading-relaxed">
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed">
                         {step.desc}
                       </p>
                     </div>
@@ -293,11 +293,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       </section>
 
       {/* 4b. MID-PAGE CONVERSION BAND */}
-      <section className="bg-brand-dark text-white py-14 md:py-16">
+      <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
-              <p className="text-[11px] tracking-wider mb-3 uppercase text-accent">Klar når du er</p>
+              <p className="text-[11px] tracking-wider mb-3 uppercase text-brand-dark">Klar når du er</p>
               <h2 className="text-2xl md:text-3xl font-light leading-tight">
                 Få {c.title.toLowerCase()} hos en spesialist denne uken.
               </h2>
@@ -313,7 +313,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </Button>
               <a
                 href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white hover:text-white/70 transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 22 00 00 00
@@ -419,25 +419,25 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       )}
 
       {/* BESTILL TIME — primær CTA, lenker rett inn i bookingflyten */}
-      <section className="bg-brand-dark text-white py-20 md:py-24">
+      <section className="bg-background text-foreground py-20 md:py-24 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
-              <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">Bestill time</p>
+              <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">Bestill time</p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
                 {c.ctaTitle}
               </h2>
-              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
+              <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed max-w-lg">
                 {c.ctaDescription}
               </p>
             </div>
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
-              <Button asChild variant="cta-dark" size="lg" className="px-8">
+              <Button asChild variant="cta" size="lg" className="px-8">
                 <Link to={buildBookingUrl(c.booking)}>Bestill {c.title.toLowerCase()}</Link>
               </Button>
               <a
                 href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
+                className="inline-flex items-center gap-2 text-sm font-light text-foreground/85 hover:text-foreground transition-colors px-2"
               >
                 <Phone className="w-4 h-4" />
                 Eller ring oss på 22 00 00 00
@@ -448,23 +448,23 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       </section>
 
       {/* SAMARBEIDSPARTNERE / FORSIKRING — før footer */}
-      <section className="bg-[#180404] text-white py-14 md:py-16">
+      <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div className="lg:col-span-4">
-              <p className="text-[11px] tracking-[0.18em] text-brand-yellow/90 mb-3">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3">
                 SAMARBEIDSPARTNERE
               </p>
-              <h3 className="text-xl md:text-2xl font-light leading-snug text-white">
+              <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
                 Vi har avtale med de største forsikringsselskapene i Norge.
               </h3>
             </div>
             <div className="lg:col-span-8">
-              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-white/10">
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border-t border-brand-dark/10">
                 {insurancePartners.map((name) => (
                   <li
                     key={name}
-                    className="border-b border-white/10 [&:not(:nth-child(2n))]:border-r sm:[&:not(:nth-child(3n))]:border-r md:[&:not(:nth-child(4n))]:border-r border-white/10 py-4 px-4 text-sm font-light text-white/85"
+                    className="border-b border-brand-dark/10 [&:not(:nth-child(2n))]:border-r sm:[&:not(:nth-child(3n))]:border-r md:[&:not(:nth-child(4n))]:border-r border-brand-dark/10 py-4 px-4 text-sm font-light text-foreground/85"
                   >
                     {name}
                   </li>
