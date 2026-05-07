@@ -172,11 +172,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       </header>
 
       {/* 2. FLOW */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
                 {c.flowEyebrow}
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -189,20 +189,20 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 3: "md:grid-cols-3",
                 4: "md:grid-cols-4",
                 5: "md:grid-cols-5",
-                6: "md:grid-cols-3", // 3+3 wrap for 6 steps so text er lett å lese
+                6: "md:grid-cols-3",
               };
               const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
               return (
-                <div className={`grid grid-cols-2 ${cols} gap-px bg-white/10 rounded-sm overflow-hidden`}>
+                <div className={`grid grid-cols-2 ${cols} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
                   {c.flow.map((step) => (
-                    <div key={step.n} className="bg-brand-dark p-5 md:p-6 flex flex-col">
-                      <p className="text-[11px] tracking-wider text-accent mb-4 uppercase">
+                    <div key={step.n} className="bg-background p-5 md:p-6 flex flex-col">
+                      <p className="text-[11px] tracking-wider text-brand-dark mb-4 uppercase">
                         {step.n}
                       </p>
-                      <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug">
+                      <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug text-foreground">
                         {step.title}
                       </h3>
-                      <p className="text-sm font-light text-white/70 leading-relaxed">
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed">
                         {step.desc}
                       </p>
                     </div>
