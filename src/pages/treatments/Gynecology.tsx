@@ -218,8 +218,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 Hvor er du nå?
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                Kroppen endrer seg gjennom livet
-                <span className="block">— vi er her i alle fasene.</span>
+                Kroppen endrer seg gjennom livet — vi er her i alle fasene.
               </h2>
             </div>
 
