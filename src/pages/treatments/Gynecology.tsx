@@ -210,11 +210,11 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           2. MØRK SEGMENT-SEKSJON — Livsfaser
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-wide text-white/60 mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Hvor er du nå?
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -223,23 +223,23 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-sm overflow-hidden">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {lifePhases.map((p) => (
-                <div key={p.n} className="bg-brand-dark p-7 flex flex-col">
-                  <p className="text-xs font-light text-accent mb-5 tracking-wider">
+                <div key={p.n} className="bg-background p-7 flex flex-col">
+                  <p className="text-xs font-light text-brand-dark mb-5 tracking-wider">
                     {p.n}
                   </p>
-                  <h3 className="text-lg font-normal mb-4 leading-snug">
+                  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
                     {p.title}
                   </h3>
-                  <p className="text-sm font-light text-white/70 leading-relaxed mb-6 flex-1">
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     {p.desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 mb-5">
                     {p.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-light text-white/70 border border-white/15 px-2 py-1 rounded-full"
+                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
                       >
                         {tag}
                       </span>
@@ -247,7 +247,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                   </div>
                   <Link
                     to={p.href}
-                    className="inline-flex items-center text-sm font-light text-accent hover:gap-2.5 gap-2 transition-all"
+                    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
                   >
                     Les mer
                     <ArrowRight className="w-3.5 h-3.5" />
