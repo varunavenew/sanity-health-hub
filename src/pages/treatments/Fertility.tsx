@@ -216,7 +216,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   </p>
                   <Link
                     to={s.href}
-                    className="inline-flex items-center text-sm font-light text-accent hover:gap-2.5 gap-2 transition-all"
+                    className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
                   >
                     {s.cta}
                     <ArrowRight className="w-3.5 h-3.5" />
