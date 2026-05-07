@@ -86,8 +86,9 @@ export const SpecialistsSection = () => {
               <img
                 src={specialist.image}
                 alt={specialist.name}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
               />
+              <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
               <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
 
