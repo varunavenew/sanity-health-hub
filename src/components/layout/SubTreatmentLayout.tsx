@@ -184,21 +184,32 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </h2>
             </div>
 
-            <div className={`grid md:grid-cols-2 ${c.flow.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"} gap-px bg-white/10 rounded-sm overflow-hidden`}>
-              {c.flow.map((step) => (
-                <div key={step.n} className="bg-brand-dark p-7 flex flex-col">
-                  <p className="text-[11px] tracking-wider text-accent mb-5 uppercase">
-                    {step.n}
-                  </p>
-                  <h3 className="text-lg font-normal mb-3 leading-snug">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm font-light text-white/70 leading-relaxed">
-                    {step.desc}
-                  </p>
+            {(() => {
+              const colMap: Record<number, string> = {
+                3: "md:grid-cols-3",
+                4: "md:grid-cols-4",
+                5: "md:grid-cols-5",
+                6: "md:grid-cols-6",
+              };
+              const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
+              return (
+                <div className={`grid grid-cols-2 ${cols} gap-px bg-white/10 rounded-sm overflow-hidden`}>
+                  {c.flow.map((step) => (
+                    <div key={step.n} className="bg-brand-dark p-5 md:p-6 flex flex-col">
+                      <p className="text-[11px] tracking-wider text-accent mb-4 uppercase">
+                        {step.n}
+                      </p>
+                      <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-light text-white/70 leading-relaxed">
+                        {step.desc}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              );
+            })()}
           </div>
         </div>
       </section>
