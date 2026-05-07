@@ -313,12 +313,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           4. VET DU ALLEREDE HVA DU TRENGER? — full liste
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-background text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
               <div className="lg:col-span-6">
-                <p className="text-xs tracking-wide text-white/60 mb-4">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
                   Alle behandlinger
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -326,29 +326,29 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </h2>
               </div>
               <div className="lg:col-span-6 lg:pt-3">
-                <p className="text-base font-light text-white/70 leading-relaxed">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
                   Klikk og book direkte, eller les mer om den enkelte
                   gynekologiske utredningen eller behandlingen.
                 </p>
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 rounded-sm overflow-hidden">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {allServices.map((s) => (
                 <Link
                   key={s.title}
                   to={s.href}
-                  className="bg-brand-dark p-6 flex items-start justify-between gap-4 hover:bg-white/5 transition-colors group"
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
                 >
                   <div>
-                    <h3 className="text-base font-normal text-white mb-1.5">
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
                       {s.title}
                     </h3>
-                    <p className="text-sm font-light text-white/60 leading-snug">
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
                       {s.desc}
                     </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-white/40 mt-1 flex-shrink-0 group-hover:text-accent transition-colors" />
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
                 </Link>
               ))}
             </div>
