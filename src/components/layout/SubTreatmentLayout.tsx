@@ -293,7 +293,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             </div>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
               <Button
-                variant="cta-light"
+                variant="cta"
                 size="lg"
                 className="px-8"
                 onClick={() => (window.location.href = buildBookingUrl(c.booking))}
