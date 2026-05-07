@@ -220,10 +220,18 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 </p>
               )}
               {c.reasonsLead2 && (
-                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-md">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-md mb-8">
                   {c.reasonsLead2}
                 </p>
               )}
+              <Button
+                variant="cta"
+                size="lg"
+                className="px-8"
+                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+              >
+                {c.primaryCtaLabel ?? "Bestill time"}
+              </Button>
             </div>
 
             <div className="lg:col-span-7">
@@ -269,6 +277,37 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4b. MID-PAGE CONVERSION BAND */}
+      <section className="bg-accent text-brand-dark py-14 md:py-16">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-xl">
+              <p className="text-[11px] tracking-wider mb-3 uppercase text-brand-dark/70">Klar når du er</p>
+              <h2 className="text-2xl md:text-4xl font-light leading-tight">
+                Slipp å vente. Få {c.title.toLowerCase()} hos en spesialist denne uken.
+              </h2>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <Button
+                variant="cta-dark"
+                size="lg"
+                className="px-8"
+                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+              >
+                {c.primaryCtaLabel ?? "Bestill time"}
+              </Button>
+              <a
+                href="tel:+4722000000"
+                className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                22 00 00 00
+              </a>
+            </div>
           </div>
         </div>
       </section>
