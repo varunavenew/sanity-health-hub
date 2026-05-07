@@ -89,6 +89,12 @@ const services = [
   { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
 ];
 
+const reviews = [
+  { text: "Vi følte oss trygge fra første møte. De tok seg virkelig tid til å bli kjent med oss og vårt utgangspunkt — og det betød alt.", author: "Hilde", date: "IVF-forløp 2024" },
+  { text: "Profesjonelle, varme og tydelige hele veien. Endelig følte vi at noen lyttet og hadde en plan vi kunne forstå.", author: "Marte og Jonas", date: "1 måned siden" },
+  { text: "Korte ventetider, dyktige spesialister og et tilbud som faktisk er tilpasset oss. Anbefales på det sterkeste.", author: "Sara L.", date: "3 måneder siden" },
+];
+
 const insurance = [
   "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
 ];
