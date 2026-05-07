@@ -58,7 +58,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               <div>
-                <p className="text-sm text-accent font-medium mb-4">Våre tjenester</p>
+                <p className="text-sm text-brand-dark font-medium mb-4">Våre tjenester</p>
                 <h2 className="text-3xl md:text-4xl font-medium mb-6 text-foreground">
                   Hva vi behandler
                 </h2>
@@ -68,7 +68,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
                 <ul className="space-y-4">
                   {services.map((service, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="w-5 h-5 text-brand-dark flex-shrink-0 mt-0.5" />
                       <span className="text-foreground">{service}</span>
                     </li>
                   ))}
@@ -128,7 +128,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
               { step: "3", title: "Behandlingsplan", desc: "Individuell løsning og oppfølging" }
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="w-14 h-14 bg-accent text-accent-foreground rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-medium">
+                <div className="w-14 h-14 bg-brand-dark text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-medium">
                   {item.step}
                 </div>
                 <h3 className="text-lg font-medium mb-2">{item.title}</h3>
