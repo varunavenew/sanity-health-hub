@@ -107,13 +107,12 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
                 <span>Ingen henvisning</span>
               </p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
-                Det gjør vondt. La oss finne ut{" "}
-                <span className="underline decoration-brand-dark decoration-[2px] underline-offset-[6px]">hvorfor</span>
+                Ortopedi
               </h2>
               <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
-                Ortopedene våre er eksperter på skader og sykdommer i muskler, bein, ledd
-                og sener. Noen av landets fremste kirurger jobber hos oss — også med
-                kompliserte caser og second opinion.
+                Det gjør vondt. La oss finne ut hvorfor — og hva vi kan gjøre med det.
+                Våre ortopeder er eksperter på skader og sykdommer i muskler, bein, ledd
+                og sener. Noen av landets fremste kirurger jobber hos oss.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
                 <Button
