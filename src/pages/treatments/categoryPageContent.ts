@@ -45,6 +45,8 @@ export const serviceIconKeyMap: Record<string, string> = {
   "Eggfrys": "eggfrys-cl",
   "Hormonforstyrrelser": "hormonforstyrrelser-cl",
   "Hysteroskopi": "hysteroskopi-cl",
+  "IVF": "ivf-cl",
+  "Vårt team": "fertilitetsteamet-cl",
   // Urologi
   "Blære og urinveier": "blaere-cl",
   "Forhud": "forhud-cl",
