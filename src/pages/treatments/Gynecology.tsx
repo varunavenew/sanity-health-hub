@@ -148,17 +148,17 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           1. HERO — split screen 50/50, bilde kant-i-kant
       ============================================================ */}
-      <header className="bg-brand-dark pt-24 lg:pt-0">
+      <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
             <div className="max-w-xl w-full">
-              <p className="text-xs tracking-wide text-white/60 mb-8">
+              <p className="text-xs tracking-wide text-foreground/60 mb-8">
                 Gynekologi — CMedical
               </p>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-white leading-[1.05]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 Kvinnehelse <span className="italic">for livet</span>
               </h2>
-              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-white/70">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
                 Vi følger deg gjennom hele livet — fra de første spørsmålene
                 i tenårene, gjennom svangerskap og overgangsalder, og videre.
                 Gynekologene våre jobber med det de kan best, og vi tar oss
@@ -167,7 +167,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
 
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
                 <Button
-                  variant="cta-dark"
+                  variant="cta"
                   size="lg"
                   className="px-8 w-full sm:w-auto"
                   onClick={() =>
@@ -180,16 +180,16 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </Button>
                 <Link
                   to="/behandlinger/gynekologi/undersokelse"
-                  className="text-sm font-light text-white/85 hover:text-white border-b border-white/40 hover:border-white pb-0.5 transition-colors"
+                  className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
                 >
                   Gynekologisk undersøkelse
                 </Link>
               </div>
 
-              <div className="inline-flex items-center gap-3 text-sm font-light text-white/90">
+              <div className="inline-flex items-center gap-3 text-sm font-light text-brand-dark">
                 <div className="flex" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
                   ))}
                 </div>
                 <span>4,8 av 5 — Nordens ledende kvinnehelseklinikk</span>
@@ -210,11 +210,11 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           2. MØRK SEGMENT-SEKSJON — Livsfaser
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-wide text-white/60 mb-4">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
                 Hvor er du nå?
               </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -223,23 +223,23 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-sm overflow-hidden">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {lifePhases.map((p) => (
-                <div key={p.n} className="bg-brand-dark p-7 flex flex-col">
-                  <p className="text-xs font-light text-accent mb-5 tracking-wider">
+                <div key={p.n} className="bg-background p-7 flex flex-col">
+                  <p className="text-xs font-light text-brand-dark mb-5 tracking-wider">
                     {p.n}
                   </p>
-                  <h3 className="text-lg font-normal mb-4 leading-snug">
+                  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
                     {p.title}
                   </h3>
-                  <p className="text-sm font-light text-white/70 leading-relaxed mb-6 flex-1">
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     {p.desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 mb-5">
                     {p.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-light text-white/70 border border-white/15 px-2 py-1 rounded-full"
+                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
                       >
                         {tag}
                       </span>
@@ -247,7 +247,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                   </div>
                   <Link
                     to={p.href}
-                    className="inline-flex items-center text-sm font-light text-accent hover:gap-2.5 gap-2 transition-all"
+                    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
                   >
                     Les mer
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -313,12 +313,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           4. VET DU ALLEREDE HVA DU TRENGER? — full liste
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28">
+      <section className="bg-background text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
               <div className="lg:col-span-6">
-                <p className="text-xs tracking-wide text-white/60 mb-4">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
                   Alle behandlinger
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -326,29 +326,29 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </h2>
               </div>
               <div className="lg:col-span-6 lg:pt-3">
-                <p className="text-base font-light text-white/70 leading-relaxed">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
                   Klikk og book direkte, eller les mer om den enkelte
                   gynekologiske utredningen eller behandlingen.
                 </p>
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 rounded-sm overflow-hidden">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {allServices.map((s) => (
                 <Link
                   key={s.title}
                   to={s.href}
-                  className="bg-brand-dark p-6 flex items-start justify-between gap-4 hover:bg-white/5 transition-colors group"
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
                 >
                   <div>
-                    <h3 className="text-base font-normal text-white mb-1.5">
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
                       {s.title}
                     </h3>
-                    <p className="text-sm font-light text-white/60 leading-snug">
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
                       {s.desc}
                     </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-white/40 mt-1 flex-shrink-0 group-hover:text-accent transition-colors" />
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
                 </Link>
               ))}
             </div>
@@ -421,12 +421,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           4b. DATASTRIMLER — resultater innen gynekologi
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-28 border-t border-white/10">
+      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
               <div className="lg:col-span-5">
-                <p className="text-xs tracking-wide text-white/60 mb-4 uppercase">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
                   Resultater
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -434,18 +434,18 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 </h2>
               </div>
               <div className="lg:col-span-7 flex items-end">
-                <p className="text-base font-light text-white/70 leading-relaxed max-w-xl">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
                   resultatene våre innen gynekologi de siste årene.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-white/15 py-8 md:py-10">
-              <p className="text-[11px] tracking-[0.18em] text-accent mb-6 uppercase">
+            <div className="border-t border-brand-dark/15 py-8 md:py-10">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
                 Gynekologi
               </p>
-              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-white/15">
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
                 {[
                   { v: "9 600+", k: "Konsultasjoner", sub: "Per år" },
                   { v: "2 100", k: "Ultralydundersøkelser", sub: "I 2024" },
@@ -459,10 +459,10 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                     <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
                       <AnimatedStat value={row.v} />
                     </dd>
-                    <dt className="text-sm font-normal text-white mb-1">
+                    <dt className="text-sm font-normal text-foreground mb-1">
                       {row.k}
                     </dt>
-                    <p className="text-xs font-light text-white/60">
+                    <p className="text-xs font-light text-muted-foreground">
                       {row.sub}
                     </p>
                   </div>
@@ -470,7 +470,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               </dl>
             </div>
 
-            <p className="text-xs font-light text-white/40 mt-8">
+            <p className="text-xs font-light text-muted-foreground mt-8">
               Tall oppdatert per Q1 2026. Resultater varierer individuelt.
             </p>
           </div>
@@ -590,27 +590,27 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           8. SLUTT-CTA
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-24">
+      <section className="bg-brand-light text-foreground py-20 md:py-24 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
               <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
                 Klar til å ta neste steg?
               </h2>
-              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
+              <p className="text-base md:text-lg font-light text-muted-foreground leading-relaxed max-w-lg">
                 Ingen henvisning. Ingen ventetid. Bare en gynekolog som tar
                 seg tid til deg.
               </p>
             </div>
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
-              <Button asChild variant="cta-dark" size="lg" className="px-8">
+              <Button asChild variant="cta" size="lg" className="px-8">
                 <Link to={buildBookingUrl({ kategori: "gynekologi" })}>
                   Bestill gynekologisk konsultasjon
                 </Link>
               </Button>
               <a
                 href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
+                className="inline-flex items-center gap-2 text-sm font-light text-foreground/85 hover:text-foreground transition-colors px-2"
               >
                 <Phone className="w-4 h-4" />
                 Eller ring oss på 22 00 00 00
