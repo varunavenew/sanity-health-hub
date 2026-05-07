@@ -64,6 +64,8 @@ export const serviceIconKeyMap: Record<string, string> = {
   "Fødselsangst": "psykologi-cl",
   "For partnere": "tverrfaglig-team-cl",
   "Fostermedisin": "fosterdiagnostikk-cl",
+  "Fosterdiagnostikk": "fosterdiagnostikk-cl",
+  "Svangerskapsteam": "svangerskapsteam-cl",
   "Spontanabort": "spontanabort-cl",
   // Flere fagområder
   "Endokrinologi": "endokrinologi-cl",
