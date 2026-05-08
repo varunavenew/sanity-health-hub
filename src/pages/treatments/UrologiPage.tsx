@@ -10,6 +10,7 @@ import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import urologiHero from "@/assets/categories/urologi.jpg";
+import robotImg from "@/assets/hero/robotkirurgi-hero.jpg";
 
 interface Props {
   isChatOpen: boolean;
@@ -295,31 +296,46 @@ const UrologiPage = ({ isChatOpen }: Props) => {
         </div>
       </section>
 
-      {/* 5 ── ROBOT-STAT STRIPE ── kort, fokusert dark band */}
-      <section className="bg-brand-dark text-foreground py-16 md:py-20">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="grid md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-center">
-            <div className="max-w-2xl">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-foreground/60 font-light mb-5 inline-flex items-center gap-2">
+      {/* 5 ── ROBOT-STAT ── split-screen: image + dark text panel */}
+      <section className="bg-brand-dark text-white">
+        <div className="grid lg:grid-cols-2">
+          {/* Image side */}
+          <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[520px] overflow-hidden order-2 lg:order-1">
+            <img
+              src={robotImg}
+              alt="Robotassistert kirurgi ved CMedical"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/40 via-transparent to-transparent" />
+          </div>
+
+          {/* Text side */}
+          <div className="order-1 lg:order-2 px-6 md:px-16 py-16 md:py-24 flex items-center">
+            <div className="max-w-xl">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/60 font-light mb-5 inline-flex items-center gap-2">
                 <Bot className="w-3.5 h-3.5" strokeWidth={1.5} />
                 Norges ledende
               </p>
-              <h2 className="text-3xl md:text-4xl font-light leading-[1.15] mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] mb-5 text-white">
                 Robotassistert kirurgi — mer presis, mer skånsom.
               </h2>
-              <p className="text-sm md:text-base text-foreground/70 font-light leading-relaxed">
+              <p className="text-sm md:text-base text-white/75 font-light leading-relaxed mb-10">
                 Vi tilbyr robot­assistert kirurgi på prostata (kreft og godartet
                 forstørrelse), brokk, urinblære­utposninger og nyreinngrep. Det
                 betyr kortere operasjonstid og raskere restitusjon for deg.
               </p>
-            </div>
-            <div className="text-left md:text-right">
-              <div className="text-6xl md:text-7xl font-light leading-none text-brand-yellow mb-2">
-                400+
+
+              <div className="flex items-end gap-6 pt-8 border-t border-white/15">
+                <div>
+                  <div className="text-5xl md:text-6xl font-light leading-none text-brand-yellow mb-2">
+                    400+
+                  </div>
+                  <p className="text-xs uppercase tracking-[0.22em] text-white/60 font-light">
+                    robot­operasjoner i året
+                  </p>
+                </div>
               </div>
-              <p className="text-xs uppercase tracking-[0.22em] text-foreground/60 font-light">
-                robot­operasjoner i året
-              </p>
             </div>
           </div>
         </div>
