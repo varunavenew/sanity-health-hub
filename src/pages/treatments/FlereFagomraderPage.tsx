@@ -209,7 +209,7 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
                 <p className="text-sm text-muted-foreground font-light leading-relaxed mb-7">
                   {t.body}
                 </p>
-                <ul className="space-y-2 mt-auto pt-6 border-t border-border/60">
+                <ul className="space-y-2 pt-6 border-t border-border/60">
                   {t.services.map((s) => (
                     <li key={s.name}>
                       <Link
