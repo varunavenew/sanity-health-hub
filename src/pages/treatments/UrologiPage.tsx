@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Phone, Bot } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -10,7 +9,6 @@ import {
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
-import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import urologiHero from "@/assets/categories/urologi.jpg";
 
 interface Props {
