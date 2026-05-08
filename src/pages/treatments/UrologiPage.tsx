@@ -134,12 +134,6 @@ const faqs = [
 
 const UrologiPage = ({ isChatOpen }: Props) => {
   const navigate = useNavigate();
-  const { specialists } = useSpecialistsData();
-
-  const teamSpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "urologi").slice(0, 4),
-    [specialists]
-  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
