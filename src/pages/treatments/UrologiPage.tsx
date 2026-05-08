@@ -10,6 +10,7 @@ import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import urologiHero from "@/assets/categories/urologi.jpg";
+import robotImg from "@/assets/hero/robotkirurgi-hero.jpg";
 
 interface Props {
   isChatOpen: boolean;
