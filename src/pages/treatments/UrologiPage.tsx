@@ -389,7 +389,29 @@ const UrologiPage = ({ isChatOpen }: Props) => {
       </section>
 
       {/* 7 ── SPESIALISTENE ── filterable horizontal scroll */}
-      <SpecialistsScroller category="urologi" eyebrow="Menneskene bak" title="Urologene som følger deg." seeAllHref="/spesialister?kategori=urologi" seeAllLabel="Se alle urologer" />
+      <SpecialistsScroller
+        eyebrow="Menneskene bak"
+        title="Teamet som følger deg."
+        seeAllHref="/spesialister?kategori=urologi"
+        seeAllLabel="Se alle urologer"
+        filter={(s) => {
+          const haystack = [
+            s.category,
+            s.title,
+            s.subtitle,
+            ...(s.expertise || []),
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+          return (
+            s.category === "urologi" ||
+            haystack.includes("urolog") ||
+            haystack.includes("robot") ||
+            haystack.includes("sykepleier")
+          );
+        }}
+      />
 
       {/* 8 ── REVIEWS ── */}
       <CategoryReviews categoryId="urologi" categoryTitle="urologi" />

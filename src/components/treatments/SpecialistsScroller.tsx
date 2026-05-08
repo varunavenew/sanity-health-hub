@@ -4,9 +4,18 @@ import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 
+interface Specialist {
+  category: string;
+  title?: string;
+  subtitle?: string;
+  expertise?: string[];
+}
+
 interface Props {
   /** Category slug to filter on. Omit/'alle' to show everyone. */
   category?: string;
+  /** Custom predicate. Overrides `category` when provided. */
+  filter?: (s: Specialist) => boolean;
   eyebrow?: string;
   title?: string;
   /** Link target for "Se alle". */
@@ -20,6 +29,7 @@ interface Props {
  */
 export const SpecialistsScroller = ({
   category,
+  filter,
   eyebrow = "Menneskene bak",
   title = "Spesialistene som følger deg.",
   seeAllHref = "/spesialister",
@@ -28,13 +38,12 @@ export const SpecialistsScroller = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const { sorted: specialists } = useSpecialistsData();
 
-  const filtered = useMemo(
-    () =>
-      !category || category === "alle"
-        ? specialists
-        : specialists.filter((s) => s.category === category),
-    [specialists, category]
-  );
+  const filtered = useMemo(() => {
+    if (filter) return specialists.filter(filter);
+    if (!category || category === "alle") return specialists;
+    return specialists.filter((s) => s.category === category);
+  }, [specialists, category, filter]);
+
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
