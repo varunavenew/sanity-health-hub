@@ -327,7 +327,7 @@ const OrtopediPage = ({ isChatOpen }: Props) => {
               className="bg-brand-warm rounded-2xl p-8 md:p-10"
             >
               <h3 className="text-xl md:text-2xl font-light text-foreground mb-4 leading-snug">
-                Jeg har fått en diagnose, men er ikke fornøyd
+                Jeg har fått en diagnose,<br />men er ikke fornøyd
               </h3>
               <p className="text-sm md:text-[15px] text-muted-foreground font-light leading-relaxed mb-6">
                 Second opinion hos CMedical. Vi får ofte pasienter med
