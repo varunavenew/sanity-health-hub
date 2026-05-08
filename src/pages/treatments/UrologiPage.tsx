@@ -19,7 +19,7 @@ interface Props {
 const entryPoints = [
   {
     icon: MaleSignThinIcon,
-    label: "Mann med plager i underlivet",
+    label: "Jeg er mann med plager i underlivet",
     body:
       "Prostataproblemer, smerter i testikler, ereksjonsproblemer, vannlatingsplager — eller noe du bare vet er der, men ikke vet hva heter. Vi hjelper deg finne svar.",
     cta: "Se behandlinger for menn",
@@ -27,7 +27,7 @@ const entryPoints = [
   },
   {
     icon: FemaleSignThinIcon,
-    label: "Kvinne med urologiske plager",
+    label: "Jeg er kvinne med urologiske plager",
     body:
       "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
     cta: "Se behandlinger for kvinner",
@@ -35,18 +35,18 @@ const entryPoints = [
   },
   {
     icon: Stethoscope,
-    label: "Prostatasjekk",
+    label: "Jeg vil ha en prostatasjekk",
     body:
       "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet. Rask og grundig utredning uten ventetid.",
-    cta: "Bestill prostatasjekk",
+    cta: "Prostatasjekk",
     href: "/booking?kategori=urologi",
   },
   {
     icon: ShieldCheck,
-    label: "Sterilisering",
+    label: "Jeg vurderer sterilisering",
     body:
       "Sterilisering (vasektomi) er den sikreste prevensjonsmetoden og et enkelt inngrep. Vi gjennomfører konsultasjon og inngrep raskt, med kort restitusjon.",
-    cta: "Les om sterilisering",
+    cta: "Sterilisering",
     href: "#behandlinger",
   },
 ];
@@ -167,12 +167,11 @@ const UrologiPage = ({ isChatOpen }: Props) => {
               Ingen ventetid · Ingen henvisning
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
-              Plager i underlivet er vanligere enn du tror.
+              Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du kanskje frykter.
             </h1>
             <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
               CMedical er eneste private aktør i Norge som tilbyr robot­operasjoner.
-              Våre urologer er noen av Nordens fremste — og en erfaren urolog er
-              tilgjengelig hver dag.
+              Ingen ventetid, ingen henvisning nødvendig.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
@@ -211,10 +210,12 @@ const UrologiPage = ({ isChatOpen }: Props) => {
             Urologi
           </p>
           <p className="text-lg md:text-xl text-foreground/85 font-light leading-relaxed">
-            Urologi omhandler plager knyttet til mannens underliv og urinorganer
-            hos begge kjønn — penis, prostata, testikler, urinblære og nyrer. Hos
-            oss møter du flere av Nordens ledende spesialister, med spiss­kompetanse
-            på ulike undergrupper av sykdommer.
+            Urologi er en medisinsk spesialitet som omhandler plager knyttet til
+            mannens underliv og urinorganer hos begge kjønn — herunder penis,
+            prostata, testikler, urinblære og nyrer. I CMedical har vi flere av
+            Nordens ledende spesialister innen urologi. En erfaren urolog er
+            tilgjengelig hver dag, og vi har et bredt tverrfaglig team med
+            spiss­kompetanse på ulike undergrupper av sykdommer.
           </p>
         </div>
       </section>
@@ -340,7 +341,8 @@ const UrologiPage = ({ isChatOpen }: Props) => {
               <p className="text-sm md:text-base text-white/75 font-light leading-relaxed mb-10">
                 Vi tilbyr robot­assistert kirurgi på prostata (kreft og godartet
                 forstørrelse), brokk, urinblære­utposninger og nyreinngrep. Det
-                betyr kortere operasjonstid og raskere restitusjon for deg.
+                betyr mer presis kirurgi, kortere operasjonstid og raskere
+                restitusjon for deg.
               </p>
 
               <div className="flex items-end gap-6 pt-8 border-t border-white/15">
@@ -390,8 +392,8 @@ const UrologiPage = ({ isChatOpen }: Props) => {
 
       {/* 7 ── SPESIALISTENE ── filterable horizontal scroll */}
       <SpecialistsScroller
-        eyebrow="Menneskene bak"
-        title="Teamet som følger deg."
+        eyebrow="Møt teamet"
+        title="Spesialistene som følger deg"
         seeAllHref="/spesialister?kategori=urologi"
         seeAllLabel="Se alle urologer"
         filter={(s) => {
