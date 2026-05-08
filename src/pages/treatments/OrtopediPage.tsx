@@ -275,11 +275,11 @@ const OrtopediPage = ({ isChatOpen }: Props) => {
             {/* Second opinion as 8th tile */}
             <a
               href="#second-opinion"
-              className="bg-brand-dark text-foreground p-6 md:p-7 flex flex-col group"
+              className="bg-brand-dark text-white p-6 md:p-7 flex flex-col group"
             >
               <Sparkles className="w-5 h-5 text-brand-yellow mb-5" strokeWidth={1.5} />
-              <h3 className="text-base md:text-lg font-light mb-2">Second opinion</h3>
-              <p className="text-xs md:text-[13px] text-foreground/70 font-light leading-relaxed mb-5 flex-1">
+              <h3 className="text-base md:text-lg font-light mb-2 text-white">Second opinion</h3>
+              <p className="text-xs md:text-[13px] text-white/75 font-light leading-relaxed mb-5 flex-1">
                 Har du fått en diagnose du er usikker på? Vi ser på den med nye øyne.
               </p>
               <span className="inline-flex items-center gap-1.5 text-xs font-light text-brand-yellow group-hover:gap-2.5 transition-all">
