@@ -31,7 +31,15 @@ export const PageSEO = ({
   ogImage,
   publishedAt,
 }: PageSEOProps) => {
-  const fullCanonical = canonical.startsWith("http") ? canonical : `${BASE_URL}${canonical}`;
+  const { i18n } = useTranslation();
+  const lang = (i18n.language || "nb").startsWith("en") ? "en" : "nb";
+  const ogLocale = lang === "en" ? "en_US" : "nb_NO";
+  const htmlLang = lang === "en" ? "en" : "nb-NO";
+
+  const cleanPath = canonical.startsWith("http")
+    ? canonical.replace(BASE_URL, "")
+    : canonical;
+  const fullCanonical = `${BASE_URL}${cleanPath}`;
   const fullTitle = title.includes("CMedical") ? title : `${title} | CMedical`;
 
   const breadcrumbJsonLd = breadcrumbs.length > 0
@@ -51,9 +59,13 @@ export const PageSEO = ({
 
   return (
     <Helmet>
+      <html lang={htmlLang} />
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={fullCanonical} />
+      <link rel="alternate" hrefLang="nb-NO" href={fullCanonical} />
+      <link rel="alternate" hrefLang="en" href={fullCanonical} />
+      <link rel="alternate" hrefLang="x-default" href={fullCanonical} />
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
       {/* Open Graph */}
@@ -61,7 +73,8 @@ export const PageSEO = ({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={fullCanonical} />
       <meta property="og:type" content={type} />
-      <meta property="og:locale" content="nb_NO" />
+      <meta property="og:locale" content={ogLocale} />
+      <meta property="og:locale:alternate" content={lang === "en" ? "nb_NO" : "en_US"} />
       <meta property="og:site_name" content="CMedical" />
       {ogImage && <meta property="og:image" content={ogImage} />}
       {publishedAt && <meta property="article:published_time" content={publishedAt} />}
