@@ -36,6 +36,11 @@ import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
 import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
+import FertilitetDesignHub from "./pages/fertilitet-design/DesignHub";
+import FertilitetEditorial from "./pages/fertilitet-design/FertilitetEditorial";
+import FertilitetJourney from "./pages/fertilitet-design/FertilitetJourney";
+import SjekkEditorial from "./pages/fertilitet-design/SjekkEditorial";
+import SjekkJourney from "./pages/fertilitet-design/SjekkJourney";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import UrologiPage from "./pages/treatments/UrologiPage";
 import OrtopediPage from "./pages/treatments/OrtopediPage";
@@ -132,6 +137,12 @@ const AppContent = () => {
         <Route path="/gynekologi-design/atelier" element={<AtelierVariant isChatOpen={false} />} />
         <Route path="/gynekologi-design/index" element={<IndexVariant isChatOpen={false} />} />
         <Route path="/gynekologi-design/klassisk-plus" element={<ClassicPlusVariant isChatOpen={false} />} />
+        {/* Fertilitet design demos */}
+        <Route path="/fertilitet-design" element={<FertilitetDesignHub isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitet/editorial" element={<FertilitetEditorial isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitet/journey" element={<FertilitetJourney isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitetssjekk/editorial" element={<SjekkEditorial isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitetssjekk/journey" element={<SjekkJourney isChatOpen={false} />} />
         {/* Clinic pages */}
         <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
