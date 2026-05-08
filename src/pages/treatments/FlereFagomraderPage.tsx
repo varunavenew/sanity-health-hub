@@ -211,19 +211,20 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
                 <p className="text-sm text-muted-foreground font-light leading-relaxed mb-7">
                   {t.body}
                 </p>
-                <ul className="space-y-3 mt-auto pt-6 border-t border-border/60">
-                  {t.services.map((s) => {
-                    const Icon = getIcon(s.icon);
-                    return (
-                      <li
-                        key={s.name}
-                        className="flex items-center gap-3 text-sm font-light text-foreground/85"
+                <ul className="space-y-2 mt-auto pt-6 border-t border-border/60">
+                  {t.services.map((s) => (
+                    <li key={s.name}>
+                      <a
+                        href={`#${s.name.toLowerCase().replace(/\s+/g, "-").replace(/æ/g, "a").replace(/ø/g, "o").replace(/å/g, "a")}`}
+                        className="group flex items-center justify-between gap-3 py-1.5 text-sm font-light text-foreground/85 hover:text-foreground transition-colors"
                       >
-                        <Icon className="w-4 h-4 text-foreground/60 flex-shrink-0" strokeWidth={1.5} />
-                        <span>{s.name}</span>
-                      </li>
-                    );
-                  })}
+                        <span className="border-b border-transparent group-hover:border-foreground/40 pb-0.5 transition-colors">
+                          {s.name}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             ))}
