@@ -500,65 +500,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. SPESIALISTER — overskrift + grid
+          7. SPESIALISTER
       ============================================================ */}
-      <section className="bg-secondary/40">
-        <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                Menneskene bak
-              </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground whitespace-nowrap">
-                Spesialistene som følger deg.
-              </h2>
-            </div>
-            <Link
-              to="/spesialister?kategori=fertilitet"
-              className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
-            >
-              Se alle fertilitetsspesialister →
-            </Link>
-          </div>
-        </div>
-
-        {/* Horisontal scroll-rad — viser alle, scroll til høyre for flere */}
-        <div
-          className="flex gap-0 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
-        >
-          {fertilitySpecialists.map((sp) => (
-            <Link
-              key={sp.slug}
-              to={`/spesialister/${sp.slug}`}
-              aria-label={`Les mer om ${sp.name}`}
-              className="group relative block text-left focus:outline-none flex-shrink-0 w-1/2 md:w-1/4 snap-start"
-            >
-              <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                <img
-                  src={sp.image}
-                  alt={sp.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-all duration-700 ease-out group-hover:scale-[1.05]"
-                />
-                <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                  <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                    {sp.name}
-                  </h3>
-                  <p className="text-sm font-light text-foreground/75">
-                    {sp.subtitle || sp.title}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-        {fertilitySpecialists.length > 4 && (
-          <p className="md:hidden text-center text-xs text-foreground/50 mt-3">Sveip for å se flere →</p>
-        )}
-      </section>
+      <SpecialistsScroller
+        category="fertilitet"
+        title="Fertilitetsspesialistene som følger deg."
+        seeAllHref="/spesialister?kategori=fertilitet"
+        seeAllLabel="Se alle fertilitetsspesialister"
+      />
 
       {/* ============================================================
           6b. DATASTRIMLER — resultater innen fertilitet
