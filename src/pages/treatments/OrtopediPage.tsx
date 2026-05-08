@@ -12,7 +12,6 @@ import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { getIcon } from "@/lib/icons";
 import ortopediHero from "@/assets/categories/ortopedi.jpg";
-import ortopediReal from "@/assets/categories/ortopedi-real.jpg";
 
 interface Props {
   isChatOpen: boolean;
