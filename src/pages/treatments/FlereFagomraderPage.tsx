@@ -23,11 +23,11 @@ const themes = [
     body:
       "Spesialister på hud, kirurgi og karsystemet. For deg med synlige plager, operasjonsbehov eller tilstander som krever kirurgisk vurdering.",
     services: [
-      { name: "Hudlege", icon: "hudlege-cl" },
-      { name: "Plastikkirurgi", icon: "plastikkirurgi-cl" },
-      { name: "Gastrokirurgi", icon: "gastrokirurgi-cl" },
-      { name: "Karkirurgi", icon: "areknuter-cl" },
-      { name: "Åreknutebehandling", icon: "areknuter-cl" },
+      { name: "Hudlege", slug: "hudlege" },
+      { name: "Plastikkirurgi", slug: "plastikkirurgi" },
+      { name: "Gastrokirurgi", slug: "gastrokirurgi" },
+      { name: "Karkirurgi", slug: "areknuter" },
+      { name: "Åreknutebehandling", slug: "areknuter" },
     ],
   },
   {
@@ -35,11 +35,11 @@ const themes = [
     body:
       "Spesialister på indre medisin, hormoner, ledd og kropp. For deg med systemiske plager, langvarige smerter eller hormonforstyrrelser.",
     services: [
-      { name: "Ernæringsfysiolog", icon: "ernaringsfysiolog-cl" },
-      { name: "Endokrinologi", icon: "endokrinologi-cl" },
-      { name: "Revmatologi", icon: "revmatologi-cl" },
-      { name: "Osteopati", icon: "osteopati-cl" },
-      { name: "Robotkirurgi", icon: "robotkirurgi-gyn-cl" },
+      { name: "Ernæringsfysiolog", slug: "ernaringsfysiolog" },
+      { name: "Endokrinologi", slug: "endokrinologi" },
+      { name: "Revmatologi", slug: "revmatologi" },
+      { name: "Osteopati", slug: "osteopati" },
+      { name: "Robotkirurgi", slug: "robotkirurgi" },
     ],
   },
   {
@@ -47,8 +47,8 @@ const themes = [
     body:
       "Spesialister på mental helse og seksuell helse. For deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
     services: [
-      { name: "Psykologi", icon: "psykologi-cl" },
-      { name: "Sexologi", icon: "sexologi-cl" },
+      { name: "Psykologi", slug: "psykologi" },
+      { name: "Sexologi", slug: "sexologi" },
     ],
   },
 ];
