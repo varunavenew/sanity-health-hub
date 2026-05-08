@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone, ShieldCheck, Bot } from "lucide-react";
+import { ArrowRight, Phone, Bot } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,7 @@ import {
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { getIcon } from "@/lib/icons";
 import urologiHero from "@/assets/categories/urologi.jpg";
-import urologiReal from "@/assets/categories/urologi-real.jpg";
 
 interface Props {
   isChatOpen: boolean;
