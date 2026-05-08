@@ -19,7 +19,7 @@ interface Props {
 const entryPoints = [
   {
     icon: MaleSignThinIcon,
-    label: "Mann med plager i underlivet",
+    label: "Jeg er mann med plager i underlivet",
     body:
       "Prostataproblemer, smerter i testikler, ereksjonsproblemer, vannlatingsplager — eller noe du bare vet er der, men ikke vet hva heter. Vi hjelper deg finne svar.",
     cta: "Se behandlinger for menn",
@@ -27,7 +27,7 @@ const entryPoints = [
   },
   {
     icon: FemaleSignThinIcon,
-    label: "Kvinne med urologiske plager",
+    label: "Jeg er kvinne med urologiske plager",
     body:
       "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
     cta: "Se behandlinger for kvinner",
@@ -35,18 +35,18 @@ const entryPoints = [
   },
   {
     icon: Stethoscope,
-    label: "Prostatasjekk",
+    label: "Jeg vil ha en prostatasjekk",
     body:
       "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet. Rask og grundig utredning uten ventetid.",
-    cta: "Bestill prostatasjekk",
+    cta: "Prostatasjekk",
     href: "/booking?kategori=urologi",
   },
   {
     icon: ShieldCheck,
-    label: "Sterilisering",
+    label: "Jeg vurderer sterilisering",
     body:
       "Sterilisering (vasektomi) er den sikreste prevensjonsmetoden og et enkelt inngrep. Vi gjennomfører konsultasjon og inngrep raskt, med kort restitusjon.",
-    cta: "Les om sterilisering",
+    cta: "Sterilisering",
     href: "#behandlinger",
   },
 ];
