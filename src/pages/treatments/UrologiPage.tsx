@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Phone, Bot } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -9,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
-import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import urologiHero from "@/assets/categories/urologi.jpg";
 
 interface Props {
@@ -135,12 +134,6 @@ const faqs = [
 
 const UrologiPage = ({ isChatOpen }: Props) => {
   const navigate = useNavigate();
-  const { specialists } = useSpecialistsData();
-
-  const teamSpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "urologi").slice(0, 4),
-    [specialists]
-  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -161,17 +154,17 @@ const UrologiPage = ({ isChatOpen }: Props) => {
         }}
       />
 
-      {/* 1 ── HERO ── split, mørk venstre, bilde høyre */}
-      <header className="bg-brand-dark text-foreground">
+      {/* 1 ── HERO ── split, lys venstre, bilde høyre */}
+      <header className="bg-brand-light text-foreground">
         <div className="grid md:grid-cols-[1.1fr_1fr] min-h-[460px] md:min-h-[560px]">
           <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-foreground/60 font-light mb-6">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-6">
               Ingen ventetid · Ingen henvisning
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
               Plager i underlivet er vanligere enn du tror.
             </h1>
-            <p className="text-base md:text-[17px] text-foreground/75 font-light leading-relaxed max-w-lg mb-9">
+            <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
               CMedical er eneste private aktør i Norge som tilbyr robot­operasjoner.
               Våre urologer er noen av Nordens fremste — og en erfaren urolog er
               tilgjengelig hver dag.
@@ -362,45 +355,8 @@ const UrologiPage = ({ isChatOpen }: Props) => {
         </div>
       </section>
 
-      {/* 7 ── SPESIALISTENE ── full-bleed grid */}
-      {teamSpecialists.length > 0 && (
-        <section className="bg-brand-warm pt-16 md:pt-20">
-          <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-            <div className="mb-10 md:mb-14 max-w-2xl">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-                Møt teamet
-              </p>
-              <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-                Spesialistene som følger deg
-              </h2>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-            {teamSpecialists.map((s) => (
-              <Link
-                key={s.slug}
-                to={`/spesialister/${s.slug}`}
-                className="group block relative aspect-[3/4] overflow-hidden bg-muted"
-              >
-                <img
-                  src={s.image}
-                  alt={s.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
-                />
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
-                  <h3 className="text-base md:text-lg font-light text-foreground mb-0.5">
-                    {s.name}
-                  </h3>
-                  <p className="text-[11px] md:text-xs text-foreground/80 font-light uppercase tracking-wider">
-                    {s.title}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* 7 ── SPESIALISTENE ── filterable horizontal scroll */}
+      <SpecialistsScroller defaultCategory="urologi" />
 
       {/* 8 ── REVIEWS ── */}
       <CategoryReviews categoryId="urologi" categoryTitle="urologi" />
