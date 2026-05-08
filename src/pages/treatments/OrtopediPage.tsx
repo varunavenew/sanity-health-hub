@@ -306,7 +306,7 @@ const OrtopediPage = ({ isChatOpen }: Props) => {
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <div className="bg-brand-warm rounded-2xl p-8 md:p-10">
               <h3 className="text-xl md:text-2xl font-light text-foreground mb-4 leading-snug">
-                Jeg har vondt — men vet ikke hva det er
+                Jeg har vondt<br />— men vet ikke hva det er
               </h3>
               <p className="text-sm md:text-[15px] text-muted-foreground font-light leading-relaxed mb-6">
                 Start med en generell ortopedisk konsultasjon. Spesialisten
