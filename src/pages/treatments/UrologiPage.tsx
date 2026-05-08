@@ -341,7 +341,8 @@ const UrologiPage = ({ isChatOpen }: Props) => {
               <p className="text-sm md:text-base text-white/75 font-light leading-relaxed mb-10">
                 Vi tilbyr robot­assistert kirurgi på prostata (kreft og godartet
                 forstørrelse), brokk, urinblære­utposninger og nyreinngrep. Det
-                betyr kortere operasjonstid og raskere restitusjon for deg.
+                betyr mer presis kirurgi, kortere operasjonstid og raskere
+                restitusjon for deg.
               </p>
 
               <div className="flex items-end gap-6 pt-8 border-t border-white/15">
