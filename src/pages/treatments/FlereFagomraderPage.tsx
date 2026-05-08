@@ -250,7 +250,8 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
               return (
                 <div
                   key={s.name}
-                  className="border-t border-border/60 pt-6"
+                  id={s.name.toLowerCase().replace(/\s+/g, "-").replace(/æ/g, "a").replace(/ø/g, "o").replace(/å/g, "a")}
+                  className="border-t border-border/60 pt-6 scroll-mt-28"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <Icon className="w-4 h-4 text-foreground/60" strokeWidth={1.5} />
