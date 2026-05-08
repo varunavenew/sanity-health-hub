@@ -55,18 +55,18 @@ const themes = [
 
 // Long descriptive specialist list
 const specialistList = [
-  { name: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne, moleanalyse", icon: "hudlege-cl" },
-  { name: "Psykologi", desc: "Angst, depresjon, relasjonsproblemer, traumer", icon: "psykologi-cl" },
-  { name: "Sexologi", desc: "Seksuell helse, samliv, identitet, funksjonsplager", icon: "sexologi-cl" },
-  { name: "Ernæringsfysiolog", desc: "Kosthold, vekttap, matintoleranser, sykdomsernæring", icon: "ernaringsfysiolog-cl" },
-  { name: "Endokrinologi", desc: "Diabetes, skjoldbruskkjertelen, binyrer, hormoner", icon: "endokrinologi-cl" },
-  { name: "Osteopati", desc: "Muskel- og skjelettsystemet, kroniske smerter", icon: "osteopati-cl" },
-  { name: "Revmatologi", desc: "Leddgikt, artrose, bindevevssykdommer", icon: "revmatologi-cl" },
-  { name: "Plastikkirurgi", desc: "Rekonstruksjon, korreksjon, estetisk kirurgi", icon: "plastikkirurgi-cl" },
-  { name: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", icon: "gastrokirurgi-cl" },
-  { name: "Karkirurgi", desc: "Åreknuter, blodkar, sirkulasjonsplager", icon: "areknuter-cl" },
-  { name: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi med robot", icon: "robotkirurgi-gyn-cl" },
-  { name: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgisk behandling", icon: "areknuter-cl" },
+  { name: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne, moleanalyse", icon: "hudlege-cl", slug: "hudlege" },
+  { name: "Psykologi", desc: "Angst, depresjon, relasjonsproblemer, traumer", icon: "psykologi-cl", slug: "psykologi" },
+  { name: "Sexologi", desc: "Seksuell helse, samliv, identitet, funksjonsplager", icon: "sexologi-cl", slug: "sexologi" },
+  { name: "Ernæringsfysiolog", desc: "Kosthold, vekttap, matintoleranser, sykdomsernæring", icon: "ernaringsfysiolog-cl", slug: "ernaringsfysiolog" },
+  { name: "Endokrinologi", desc: "Diabetes, skjoldbruskkjertelen, binyrer, hormoner", icon: "endokrinologi-cl", slug: "endokrinologi" },
+  { name: "Osteopati", desc: "Muskel- og skjelettsystemet, kroniske smerter", icon: "osteopati-cl", slug: "osteopati" },
+  { name: "Revmatologi", desc: "Leddgikt, artrose, bindevevssykdommer", icon: "revmatologi-cl", slug: "revmatologi" },
+  { name: "Plastikkirurgi", desc: "Rekonstruksjon, korreksjon, estetisk kirurgi", icon: "plastikkirurgi-cl", slug: "plastikkirurgi" },
+  { name: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", icon: "gastrokirurgi-cl", slug: "gastrokirurgi" },
+  { name: "Karkirurgi", desc: "Åreknuter, blodkar, sirkulasjonsplager", icon: "areknuter-cl", slug: "areknuter" },
+  { name: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi med robot", icon: "robotkirurgi-gyn-cl", slug: "robotkirurgi" },
+  { name: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgisk behandling", icon: "areknuter-cl", slug: "areknuter" },
 ];
 
 const journey = [
