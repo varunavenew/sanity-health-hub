@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone, Bot } from "lucide-react";
+import { ArrowRight, Phone, Bot, User, UserRound, Stethoscope, ShieldCheck } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ interface Props {
 
 const entryPoints = [
   {
+    icon: User,
     label: "Mann med plager i underlivet",
     body:
       "Prostataproblemer, smerter i testikler, ereksjonsproblemer, vannlatingsplager — eller noe du bare vet er der, men ikke vet hva heter. Vi hjelper deg finne svar.",
@@ -25,6 +26,7 @@ const entryPoints = [
     href: "#behandlinger",
   },
   {
+    icon: UserRound,
     label: "Kvinne med urologiske plager",
     body:
       "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
@@ -32,6 +34,7 @@ const entryPoints = [
     href: "#behandlinger",
   },
   {
+    icon: Stethoscope,
     label: "Prostatasjekk",
     body:
       "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet. Rask og grundig utredning uten ventetid.",
@@ -39,6 +42,7 @@ const entryPoints = [
     href: "/booking?kategori=urologi",
   },
   {
+    icon: ShieldCheck,
     label: "Sterilisering",
     body:
       "Sterilisering (vasektomi) er den sikreste prevensjonsmetoden og et enkelt inngrep. Vi gjennomfører konsultasjon og inngrep raskt, med kort restitusjon.",
@@ -227,37 +231,50 @@ const UrologiPage = ({ isChatOpen }: Props) => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
-            {entryPoints.map((ep) => (
-              <div
-                key={ep.label}
-                className="bg-background p-8 md:p-10 flex flex-col"
-              >
-                <h3 className="text-xl md:text-2xl font-light text-foreground mb-4 leading-snug">
-                  {ep.label}
-                </h3>
-                <p className="text-sm md:text-[15px] text-muted-foreground font-light leading-relaxed mb-6 flex-1">
-                  {ep.body}
-                </p>
-                {ep.href.startsWith("/") ? (
-                  <Link
-                    to={ep.href}
-                    className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-3 transition-all w-fit border-b border-foreground/40 pb-1"
-                  >
-                    {ep.cta}
-                    <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-                  </Link>
-                ) : (
-                  <a
-                    href={ep.href}
-                    className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-3 transition-all w-fit border-b border-foreground/40 pb-1"
-                  >
-                    {ep.cta}
-                    <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-                  </a>
-                )}
-              </div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-4 md:gap-5">
+            {entryPoints.map((ep) => {
+              const Icon = ep.icon;
+              const isInternal = ep.href.startsWith("/");
+              const Wrapper: any = isInternal ? Link : "a";
+              const linkProps = isInternal ? { to: ep.href } : { href: ep.href };
+
+              return (
+                <Wrapper
+                  key={ep.label}
+                  {...linkProps}
+                  className="group relative block bg-brand-light rounded-2xl p-8 md:p-10 transition-all duration-500 hover:bg-brand-mid/30 hover:shadow-[0_20px_60px_-30px_rgba(66,51,42,0.45)] hover:-translate-y-1 overflow-hidden"
+                >
+                  {/* Subtle accent corner */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-brand-mid/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="flex items-start justify-between mb-6 relative">
+                    <div className="w-12 h-12 rounded-full bg-brand-dark/5 flex items-center justify-center transition-all duration-500 group-hover:bg-brand-dark group-hover:scale-110">
+                      <Icon
+                        className="w-5 h-5 text-brand-dark transition-colors duration-500 group-hover:text-brand-yellow"
+                        strokeWidth={1.5}
+                      />
+                    </div>
+                    <ArrowRight
+                      className="w-5 h-5 text-brand-dark/40 transition-all duration-500 group-hover:text-brand-dark group-hover:translate-x-1 mt-3"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+
+                  <h3 className="text-xl md:text-2xl font-light text-brand-dark mb-3 leading-snug relative">
+                    {ep.label}
+                  </h3>
+                  <p className="text-sm md:text-[15px] text-brand-dark/70 font-light leading-relaxed mb-6 relative">
+                    {ep.body}
+                  </p>
+
+                  <span className="inline-flex items-center gap-2 text-sm font-light text-brand-dark relative">
+                    <span className="border-b border-brand-dark/40 group-hover:border-brand-dark pb-0.5 transition-colors">
+                      {ep.cta}
+                    </span>
+                  </span>
+                </Wrapper>
+              );
+            })}
           </div>
         </div>
       </section>
