@@ -214,15 +214,15 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
                 <ul className="space-y-2 mt-auto pt-6 border-t border-border/60">
                   {t.services.map((s) => (
                     <li key={s.name}>
-                      <a
-                        href={`#${s.name.toLowerCase().replace(/\s+/g, "-").replace(/æ/g, "a").replace(/ø/g, "o").replace(/å/g, "a")}`}
+                      <Link
+                        to={`/behandlinger/flere-fagomrader/${s.slug}`}
                         className="group flex items-center justify-between gap-3 py-1.5 text-sm font-light text-foreground/85 hover:text-foreground transition-colors"
                       >
                         <span className="border-b border-transparent group-hover:border-foreground/40 pb-0.5 transition-colors">
                           {s.name}
                         </span>
                         <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
