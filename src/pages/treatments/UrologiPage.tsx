@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone, Bot, User, UserRound, Stethoscope, ShieldCheck } from "lucide-react";
+import { ArrowRight, Phone, Bot, Stethoscope, ShieldCheck } from "lucide-react";
+import { MaleSignThinIcon, FemaleSignThinIcon } from "@/lib/customIcons";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,6 @@ import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import urologiHero from "@/assets/categories/urologi.jpg";
 import robotImg from "@/assets/hero/robotkirurgi-hero.jpg";
-
 interface Props {
   isChatOpen: boolean;
 }
