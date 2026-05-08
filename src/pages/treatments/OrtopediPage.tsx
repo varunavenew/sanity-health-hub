@@ -380,6 +380,37 @@ const OrtopediPage = ({ isChatOpen }: Props) => {
         </div>
       </section>
 
+      {/* 5b ── SECOND OPINION BANNER ── */}
+      <section className="bg-background py-10 md:py-16">
+        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
+          <div className="bg-brand-dark rounded-2xl p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-3xl">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/60 font-light mb-3">
+                Second opinion
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-white leading-snug mb-3">
+                Har du vært andre steder uten å bli bra?
+              </h2>
+              <p className="text-sm md:text-[15px] text-white/75 font-light leading-relaxed">
+                Vi behandler jevnlig pasienter som kommer til oss med kompliserte
+                skader — enten fordi de ikke har fått hjelp, eller fordi de
+                trenger en ny vurdering. Hos oss jobber noen av landets fremste
+                ortopeder med nettopp dette.
+              </p>
+            </div>
+            <Button
+              variant="cta"
+              size="lg"
+              className="shrink-0"
+              onClick={() => navigate("/booking?kategori=ortopedi")}
+            >
+              Bestill second opinion
+              <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* 6 ── PASIENTREISEN ── */}
       <section className="bg-background py-16 md:py-24">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
