@@ -210,10 +210,12 @@ const UrologiPage = ({ isChatOpen }: Props) => {
             Urologi
           </p>
           <p className="text-lg md:text-xl text-foreground/85 font-light leading-relaxed">
-            Urologi omhandler plager knyttet til mannens underliv og urinorganer
-            hos begge kjønn — penis, prostata, testikler, urinblære og nyrer. Hos
-            oss møter du flere av Nordens ledende spesialister, med spiss­kompetanse
-            på ulike undergrupper av sykdommer.
+            Urologi er en medisinsk spesialitet som omhandler plager knyttet til
+            mannens underliv og urinorganer hos begge kjønn — herunder penis,
+            prostata, testikler, urinblære og nyrer. I CMedical har vi flere av
+            Nordens ledende spesialister innen urologi. En erfaren urolog er
+            tilgjengelig hver dag, og vi har et bredt tverrfaglig team med
+            spiss­kompetanse på ulike undergrupper av sykdommer.
           </p>
         </div>
       </section>
