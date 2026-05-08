@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { getIcon } from "@/lib/icons";
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
 
@@ -265,6 +266,14 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
           </div>
         </div>
       </section>
+
+      {/* 4b ── SPESIALISTENE ── */}
+      <SpecialistsScroller
+        category="annet"
+        title="Spesialistene som følger deg."
+        seeAllHref="/spesialister?kategori=annet"
+        seeAllLabel="Se alle spesialister"
+      />
 
       {/* 5 ── PASIENTREISEN ── */}
       <section className="bg-brand-warm py-16 md:py-24">
