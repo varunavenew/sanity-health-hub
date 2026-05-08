@@ -85,18 +85,18 @@ const AppContent = () => {
         <Route path="/gynekologi" element={<Gynecology isChatOpen={false} />} />
         <Route path="/fertility" element={<Fertility isChatOpen={false} />} />
         <Route path="/fertilitet" element={<Fertility isChatOpen={false} />} />
-        <Route path="/urology" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/urologi" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/ortopedi" element={<CategoryPageNew categoryId="ortopedi" isChatOpen={false} />} />
+        <Route path="/urology" element={<UrologiPage isChatOpen={false} />} />
+        <Route path="/urologi" element={<UrologiPage isChatOpen={false} />} />
+        <Route path="/ortopedi" element={<OrtopediPage isChatOpen={false} />} />
         <Route path="/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/flere-fagomrader" element={<CategoryPageNew categoryId="flere-fagomrader" isChatOpen={false} />} />
+        <Route path="/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Norwegian slugs */}
         <Route path="/behandlinger/gynekologi" element={<Gynecology isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet" element={<Fertility isChatOpen={false} />} />
-        <Route path="/behandlinger/urologi" element={<CategoryPageNew categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/behandlinger/ortopedi" element={<CategoryPageNew categoryId="ortopedi" isChatOpen={false} />} />
+        <Route path="/behandlinger/urologi" element={<UrologiPage isChatOpen={false} />} />
+        <Route path="/behandlinger/ortopedi" element={<OrtopediPage isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader" element={<CategoryPageNew categoryId="flere-fagomrader" isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
