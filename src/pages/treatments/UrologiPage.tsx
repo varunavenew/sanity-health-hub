@@ -18,7 +18,7 @@ interface Props {
 
 const entryPoints = [
   {
-    icon: User,
+    icon: MaleSignThinIcon,
     label: "Mann med plager i underlivet",
     body:
       "Prostataproblemer, smerter i testikler, ereksjonsproblemer, vannlatingsplager — eller noe du bare vet er der, men ikke vet hva heter. Vi hjelper deg finne svar.",
@@ -26,7 +26,7 @@ const entryPoints = [
     href: "#behandlinger",
   },
   {
-    icon: UserRound,
+    icon: FemaleSignThinIcon,
     label: "Kvinne med urologiske plager",
     body:
       "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
