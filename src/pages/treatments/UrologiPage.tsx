@@ -392,8 +392,8 @@ const UrologiPage = ({ isChatOpen }: Props) => {
 
       {/* 7 ── SPESIALISTENE ── filterable horizontal scroll */}
       <SpecialistsScroller
-        eyebrow="Menneskene bak"
-        title="Teamet som følger deg."
+        eyebrow="Møt teamet"
+        title="Spesialistene som følger deg"
         seeAllHref="/spesialister?kategori=urologi"
         seeAllLabel="Se alle urologer"
         filter={(s) => {
