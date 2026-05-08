@@ -161,17 +161,17 @@ const UrologiPage = ({ isChatOpen }: Props) => {
         }}
       />
 
-      {/* 1 ── HERO ── split, mørk venstre, bilde høyre */}
-      <header className="bg-brand-dark text-foreground">
+      {/* 1 ── HERO ── split, lys venstre, bilde høyre */}
+      <header className="bg-brand-light text-foreground">
         <div className="grid md:grid-cols-[1.1fr_1fr] min-h-[460px] md:min-h-[560px]">
           <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-foreground/60 font-light mb-6">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-6">
               Ingen ventetid · Ingen henvisning
             </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
               Plager i underlivet er vanligere enn du tror.
             </h1>
-            <p className="text-base md:text-[17px] text-foreground/75 font-light leading-relaxed max-w-lg mb-9">
+            <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
               CMedical er eneste private aktør i Norge som tilbyr robot­operasjoner.
               Våre urologer er noen av Nordens fremste — og en erfaren urolog er
               tilgjengelig hver dag.
