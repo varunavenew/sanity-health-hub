@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import urologiHero from "@/assets/categories/urologi.jpg";
 
