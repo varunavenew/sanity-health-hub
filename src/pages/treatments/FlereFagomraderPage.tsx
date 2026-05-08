@@ -248,21 +248,24 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
             {specialistList.map((s) => {
               const Icon = getIcon(s.icon);
               return (
-                <div
+                <Link
                   key={s.name}
-                  id={s.name.toLowerCase().replace(/\s+/g, "-").replace(/æ/g, "a").replace(/ø/g, "o").replace(/å/g, "a")}
-                  className="border-t border-border/60 pt-6 scroll-mt-28"
+                  to={`/behandlinger/flere-fagomrader/${s.slug}`}
+                  className="group block border-t border-border/60 pt-6"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <Icon className="w-4 h-4 text-foreground/60" strokeWidth={1.5} />
-                    <h3 className="text-base font-light text-foreground">
-                      {s.name}
-                    </h3>
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-4 h-4 text-foreground/60" strokeWidth={1.5} />
+                      <h3 className="text-base font-light text-foreground">
+                        {s.name}
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
                   </div>
                   <p className="text-sm text-muted-foreground font-light leading-relaxed">
                     {s.desc}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </div>
