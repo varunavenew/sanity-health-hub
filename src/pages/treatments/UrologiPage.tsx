@@ -362,45 +362,8 @@ const UrologiPage = ({ isChatOpen }: Props) => {
         </div>
       </section>
 
-      {/* 7 ── SPESIALISTENE ── full-bleed grid */}
-      {teamSpecialists.length > 0 && (
-        <section className="bg-brand-warm pt-16 md:pt-20">
-          <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-            <div className="mb-10 md:mb-14 max-w-2xl">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-                Møt teamet
-              </p>
-              <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-                Spesialistene som følger deg
-              </h2>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-            {teamSpecialists.map((s) => (
-              <Link
-                key={s.slug}
-                to={`/spesialister/${s.slug}`}
-                className="group block relative aspect-[3/4] overflow-hidden bg-muted"
-              >
-                <img
-                  src={s.image}
-                  alt={s.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
-                />
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
-                  <h3 className="text-base md:text-lg font-light text-foreground mb-0.5">
-                    {s.name}
-                  </h3>
-                  <p className="text-[11px] md:text-xs text-foreground/80 font-light uppercase tracking-wider">
-                    {s.title}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* 7 ── SPESIALISTENE ── filterable horizontal scroll */}
+      <SpecialistsScroller defaultCategory="urologi" />
 
       {/* 8 ── REVIEWS ── */}
       <CategoryReviews categoryId="urologi" categoryTitle="urologi" />
