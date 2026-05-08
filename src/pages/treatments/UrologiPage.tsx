@@ -167,12 +167,11 @@ const UrologiPage = ({ isChatOpen }: Props) => {
               Ingen ventetid · Ingen henvisning
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
-              Plager i underlivet er vanligere enn du tror.
+              Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du kanskje frykter.
             </h1>
             <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
               CMedical er eneste private aktør i Norge som tilbyr robot­operasjoner.
-              Våre urologer er noen av Nordens fremste — og en erfaren urolog er
-              tilgjengelig hver dag.
+              Ingen ventetid, ingen henvisning nødvendig.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
