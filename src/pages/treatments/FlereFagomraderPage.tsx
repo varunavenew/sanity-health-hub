@@ -125,17 +125,17 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
         }}
       />
 
-      {/* 1 ── HERO ── editorial: typografi-tung, bilde under */}
-      <header className="bg-background pt-16 md:pt-24 pb-10 md:pb-14">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-8">
-            Kort ventetid · Ingen henvisning
-          </p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground leading-[1.02] tracking-tight max-w-4xl mb-10">
-            Nordens fremste spesialister — i tverrfaglige team.
-          </h1>
-          <div className="grid md:grid-cols-[1fr_auto] gap-8 md:gap-16 items-end max-w-4xl">
-            <p className="text-base md:text-[17px] text-foreground/75 font-light leading-relaxed max-w-xl">
+      {/* 1 ── HERO ── split, lys venstre, bilde høyre */}
+      <header className="bg-brand-light text-foreground">
+        <div className="grid md:grid-cols-[1.1fr_1fr] min-h-[460px] md:min-h-[560px]">
+          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-6">
+              Kort ventetid · Ingen henvisning
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
+              Nordens fremste spesialister — i tverrfaglige team.
+            </h1>
+            <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
               Vi har samlet noen av Nordens fremste spesialister innen hud,
               psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber
               i tverrfaglige team — og utelukkende med det de kan aller best.
@@ -152,7 +152,7 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
               <Button
                 variant="ghost"
                 size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-foreground hover:border-brand-dark rounded-2xl"
+                className="border border-foreground/30 text-foreground hover:bg-foreground/10 rounded-2xl"
                 onClick={() => navigate("/kontakt")}
               >
                 <Phone className="mr-2 w-4 h-4" />
@@ -160,13 +160,11 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
               </Button>
             </div>
           </div>
-        </div>
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl mt-14 md:mt-20">
-          <div className="aspect-[21/9] overflow-hidden rounded-2xl">
+          <div className="relative order-1 md:order-2 min-h-[280px] md:min-h-0">
             <img
               src={flereHero}
               alt="CMedical – flere fagområder"
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
         </div>
