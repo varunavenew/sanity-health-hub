@@ -23,11 +23,11 @@ const themes = [
     body:
       "Spesialister på hud, kirurgi og karsystemet. For deg med synlige plager, operasjonsbehov eller tilstander som krever kirurgisk vurdering.",
     services: [
-      { name: "Hudlege", icon: "hudlege-cl" },
-      { name: "Plastikkirurgi", icon: "plastikkirurgi-cl" },
-      { name: "Gastrokirurgi", icon: "gastrokirurgi-cl" },
-      { name: "Karkirurgi", icon: "areknuter-cl" },
-      { name: "Åreknutebehandling", icon: "areknuter-cl" },
+      { name: "Hudlege", slug: "hudlege" },
+      { name: "Plastikkirurgi", slug: "plastikkirurgi" },
+      { name: "Gastrokirurgi", slug: "gastrokirurgi" },
+      { name: "Karkirurgi", slug: "areknuter" },
+      { name: "Åreknutebehandling", slug: "areknuter" },
     ],
   },
   {
@@ -35,11 +35,11 @@ const themes = [
     body:
       "Spesialister på indre medisin, hormoner, ledd og kropp. For deg med systemiske plager, langvarige smerter eller hormonforstyrrelser.",
     services: [
-      { name: "Ernæringsfysiolog", icon: "ernaringsfysiolog-cl" },
-      { name: "Endokrinologi", icon: "endokrinologi-cl" },
-      { name: "Revmatologi", icon: "revmatologi-cl" },
-      { name: "Osteopati", icon: "osteopati-cl" },
-      { name: "Robotkirurgi", icon: "robotkirurgi-gyn-cl" },
+      { name: "Ernæringsfysiolog", slug: "ernaringsfysiolog" },
+      { name: "Endokrinologi", slug: "endokrinologi" },
+      { name: "Revmatologi", slug: "revmatologi" },
+      { name: "Osteopati", slug: "osteopati" },
+      { name: "Robotkirurgi", slug: "robotkirurgi" },
     ],
   },
   {
@@ -47,26 +47,26 @@ const themes = [
     body:
       "Spesialister på mental helse og seksuell helse. For deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
     services: [
-      { name: "Psykologi", icon: "psykologi-cl" },
-      { name: "Sexologi", icon: "sexologi-cl" },
+      { name: "Psykologi", slug: "psykologi" },
+      { name: "Sexologi", slug: "sexologi" },
     ],
   },
 ];
 
 // Long descriptive specialist list
 const specialistList = [
-  { name: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne, moleanalyse", icon: "hudlege-cl" },
-  { name: "Psykologi", desc: "Angst, depresjon, relasjonsproblemer, traumer", icon: "psykologi-cl" },
-  { name: "Sexologi", desc: "Seksuell helse, samliv, identitet, funksjonsplager", icon: "sexologi-cl" },
-  { name: "Ernæringsfysiolog", desc: "Kosthold, vekttap, matintoleranser, sykdomsernæring", icon: "ernaringsfysiolog-cl" },
-  { name: "Endokrinologi", desc: "Diabetes, skjoldbruskkjertelen, binyrer, hormoner", icon: "endokrinologi-cl" },
-  { name: "Osteopati", desc: "Muskel- og skjelettsystemet, kroniske smerter", icon: "osteopati-cl" },
-  { name: "Revmatologi", desc: "Leddgikt, artrose, bindevevssykdommer", icon: "revmatologi-cl" },
-  { name: "Plastikkirurgi", desc: "Rekonstruksjon, korreksjon, estetisk kirurgi", icon: "plastikkirurgi-cl" },
-  { name: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", icon: "gastrokirurgi-cl" },
-  { name: "Karkirurgi", desc: "Åreknuter, blodkar, sirkulasjonsplager", icon: "areknuter-cl" },
-  { name: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi med robot", icon: "robotkirurgi-gyn-cl" },
-  { name: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgisk behandling", icon: "areknuter-cl" },
+  { name: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne, moleanalyse", icon: "hudlege-cl", slug: "hudlege" },
+  { name: "Psykologi", desc: "Angst, depresjon, relasjonsproblemer, traumer", icon: "psykologi-cl", slug: "psykologi" },
+  { name: "Sexologi", desc: "Seksuell helse, samliv, identitet, funksjonsplager", icon: "sexologi-cl", slug: "sexologi" },
+  { name: "Ernæringsfysiolog", desc: "Kosthold, vekttap, matintoleranser, sykdomsernæring", icon: "ernaringsfysiolog-cl", slug: "ernaringsfysiolog" },
+  { name: "Endokrinologi", desc: "Diabetes, skjoldbruskkjertelen, binyrer, hormoner", icon: "endokrinologi-cl", slug: "endokrinologi" },
+  { name: "Osteopati", desc: "Muskel- og skjelettsystemet, kroniske smerter", icon: "osteopati-cl", slug: "osteopati" },
+  { name: "Revmatologi", desc: "Leddgikt, artrose, bindevevssykdommer", icon: "revmatologi-cl", slug: "revmatologi" },
+  { name: "Plastikkirurgi", desc: "Rekonstruksjon, korreksjon, estetisk kirurgi", icon: "plastikkirurgi-cl", slug: "plastikkirurgi" },
+  { name: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", icon: "gastrokirurgi-cl", slug: "gastrokirurgi" },
+  { name: "Karkirurgi", desc: "Åreknuter, blodkar, sirkulasjonsplager", icon: "areknuter-cl", slug: "areknuter" },
+  { name: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi med robot", icon: "robotkirurgi-gyn-cl", slug: "robotkirurgi" },
+  { name: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgisk behandling", icon: "areknuter-cl", slug: "areknuter" },
 ];
 
 const journey = [
@@ -214,15 +214,15 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
                 <ul className="space-y-2 mt-auto pt-6 border-t border-border/60">
                   {t.services.map((s) => (
                     <li key={s.name}>
-                      <a
-                        href={`#${s.name.toLowerCase().replace(/\s+/g, "-").replace(/æ/g, "a").replace(/ø/g, "o").replace(/å/g, "a")}`}
+                      <Link
+                        to={`/behandlinger/flere-fagomrader/${s.slug}`}
                         className="group flex items-center justify-between gap-3 py-1.5 text-sm font-light text-foreground/85 hover:text-foreground transition-colors"
                       >
                         <span className="border-b border-transparent group-hover:border-foreground/40 pb-0.5 transition-colors">
                           {s.name}
                         </span>
                         <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -248,21 +248,24 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
             {specialistList.map((s) => {
               const Icon = getIcon(s.icon);
               return (
-                <div
+                <Link
                   key={s.name}
-                  id={s.name.toLowerCase().replace(/\s+/g, "-").replace(/æ/g, "a").replace(/ø/g, "o").replace(/å/g, "a")}
-                  className="border-t border-border/60 pt-6 scroll-mt-28"
+                  to={`/behandlinger/flere-fagomrader/${s.slug}`}
+                  className="group block border-t border-border/60 pt-6"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <Icon className="w-4 h-4 text-foreground/60" strokeWidth={1.5} />
-                    <h3 className="text-base font-light text-foreground">
-                      {s.name}
-                    </h3>
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-4 h-4 text-foreground/60" strokeWidth={1.5} />
+                      <h3 className="text-base font-light text-foreground">
+                        {s.name}
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
                   </div>
                   <p className="text-sm text-muted-foreground font-light leading-relaxed">
                     {s.desc}
                   </p>
-                </div>
+                </Link>
               );
             })}
           </div>
