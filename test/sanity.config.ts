@@ -4,6 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {Iframe} from 'sanity-plugin-iframe-pane'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
 import {schemaTypes} from './schemaTypes'
+import TranslateToEnglishAction from './sanity/actions/translateToEnglish'
 
 // Languages enabled for field-level localization across the project.
 // Add SE here later if/when Swedish content is added.
@@ -195,5 +196,18 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+  },
+
+  document: {
+    actions: (prev, context) => {
+      const i18nTypes = new Set([
+        'article', 'aboutPage', 'treatment', 'treatmentCategory',
+        'homepage', 'contactPage', 'clinicPage', 'servicesPage',
+        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage',
+        'specialist',
+      ])
+      if (!i18nTypes.has(context.schemaType)) return prev
+      return [...prev, TranslateToEnglishAction]
+    },
   },
 })
