@@ -138,19 +138,13 @@ const TranslateToEnglishAction: DocumentActionComponent = (props: DocumentAction
 
     // Build flat string list to translate
     const flat: string[] = []
-    const meta: {jobIdx: number; refs?: {b: number; c: number}[]}[] = []
-    jobs.forEach((job, jobIdx) => {
+    jobs.forEach((job) => {
       if (job.ptBlocks) {
         const {strings, refs} = extractStringsFromBlocks(job.noValue)
-        strings.forEach((s) => {
-          flat.push(s)
-          meta.push({jobIdx, refs: [refs[meta.filter((m) => m.jobIdx === jobIdx).length]]})
-        })
-        // Track refs at job level for rebuild
         ;(job as any)._refs = refs
+        strings.forEach((s) => flat.push(s))
       } else if (typeof job.noValue === 'string') {
         flat.push(job.noValue)
-        meta.push({jobIdx})
       }
     })
 
