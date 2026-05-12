@@ -8,6 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { ServicesListSection } from "@/components/layout/ServicesListSection";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
@@ -455,51 +456,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          6. HVA VI TILBYR — tjeneste-grid
+          6. HVA VI TILBYR — tjeneste-grid (unified)
       ============================================================ */}
-      <section className="bg-background py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-              <div className="lg:col-span-5">
-                <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Tjenester
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Hva vi tilbyr.
-                </h2>
-              </div>
-              <div className="lg:col-span-7">
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Fra første samtale til oppfølging — hele fertilitetstilbudet
-                  vårt finner du her. Trenger du hjelp til å velge, kan du
-                  alltid ringe oss for en uforpliktende prat.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 rounded-sm overflow-hidden">
-              {services.map((s) => (
-                <Link
-                  key={s.title}
-                  to={s.href}
-                  className="group bg-background p-6 flex items-start justify-between gap-4 hover:bg-secondary/40 transition-colors"
-                >
-                  <div>
-                    <h3 className="text-base font-normal text-foreground mb-1.5">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm font-light text-muted-foreground leading-snug">
-                      {s.desc}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ServicesListSection
+        eyebrow="Tjenester"
+        title="Hva vi tilbyr."
+        description="Fra første samtale til oppfølging — hele fertilitetstilbudet vårt finner du her. Trenger du hjelp til å velge, kan du alltid ringe oss for en uforpliktende prat."
+        items={services}
+      />
 
       {/* ============================================================
           7. SPESIALISTER

@@ -11,6 +11,7 @@ import { useTreatmentCategories, useFaqs, useServicesPage } from "@/hooks/useSan
 import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
+import { ServicesListSection } from "@/components/layout/ServicesListSection";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
@@ -204,35 +205,14 @@ const Services = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Flere tjenester — 2-column grid with icons */}
+      {/* Flere tjenester — unified list section */}
       {additionalServices.length > 0 && (
-        <section className="bg-background pb-16 md:pb-24">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-5xl mx-auto">
-              <p className="text-sm text-muted-foreground font-light mb-6">Flere tjenester</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0">
-                {additionalServices.map((item, idx) => {
-                  const IconComponent = getServiceIcon(item.label);
-                  return (
-                    <motion.button
-                      key={item.label}
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: idx * 0.02 }}
-                      onClick={() => navigate(item.path)}
-                      className="w-full flex items-center gap-4 py-4 md:py-5 group text-left border-b border-border/40"
-                    >
-                      <IconComponent className="w-5 h-5 text-muted-foreground/60 flex-shrink-0" strokeWidth={1.5} />
-                      <span className="text-base font-light text-foreground group-hover:text-foreground/80 transition-colors flex-1">{item.label}</span>
-                      <ChevronRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-foreground/60 transition-all group-hover:translate-x-0.5 flex-shrink-0" />
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
+        <ServicesListSection
+          eyebrow="Flere tjenester"
+          title="Vet du allerede hva du trenger?"
+          description="Klikk og book direkte, eller les mer om den enkelte tjenesten."
+          items={additionalServices.map((s) => ({ title: s.label, href: s.path }))}
+        />
       )}
 
       {/* Unified FAQ — same as home */}
