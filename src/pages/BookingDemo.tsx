@@ -2,9 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
-import { format, addDays, addWeeks, endOfWeek, startOfWeek } from "date-fns";
+import { format, addDays, addWeeks, eachDayOfInterval, endOfWeek, isSameDay, startOfWeek } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -222,6 +221,24 @@ const BookingDemo = () => {
   }, []);
   const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
   const bookingWindowEnd = useMemo(() => endOfWeek(addWeeks(today, 4), { weekStartsOn: 1 }), [today]);
+  const visibleBookingDays = useMemo(
+    () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
+    [bookingWindowStart, bookingWindowEnd]
+  );
+  const bookingCalendarLabel = useMemo(() => {
+    const startLabel = format(bookingWindowStart, "MMM", { locale: nb });
+    const endLabel = format(bookingWindowEnd, "MMM yyyy", { locale: nb });
+
+    if (bookingWindowStart.getFullYear() !== bookingWindowEnd.getFullYear()) {
+      return `${format(bookingWindowStart, "MMM yyyy", { locale: nb })} – ${endLabel}`;
+    }
+
+    if (bookingWindowStart.getMonth() !== bookingWindowEnd.getMonth()) {
+      return `${startLabel} – ${endLabel}`;
+    }
+
+    return format(bookingWindowStart, "MMMM yyyy", { locale: nb });
+  }, [bookingWindowStart, bookingWindowEnd]);
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
