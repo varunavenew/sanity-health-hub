@@ -34,11 +34,73 @@ export const fertilitetImages = {
 export const fertilitetContent = {
   title: "Fertilitet",
   subtitle: "Norges eldste private fertilitetsklinikk",
+  // Eksakt H1 fra /fertilitet
+  heroHeadline: "Noen ganger trenger kroppen litt hjelp på veien",
   heroLead:
     "Å ville bli foreldre er noe av det sterkeste man kan kjenne på. For mange går det av seg selv. For andre tar det litt lenger tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og det finnes svar.",
   intro:
-    "CMedical kombinerer Livios fertilitetsmedisin og CMedicals gynekologi under samme tak. Klinikk og laboratorium på samme adresse, samme team gjennom hele forløpet — og fri tilgang uten henvisning.",
+    "Livio og CMedical Sandvika har slått seg sammen. Det betyr mer erfaring, samme team — og et tilbud som dekker hele veien. Klinikk og laboratorium under samme tak, samme team gjennom hele forløpet — og fri tilgang uten henvisning.",
+  ratingLine: "4,7 av 5 — Norges eldste private fertilitetsklinikk",
 };
+
+// Fra /fertilitet — målgruppe-seksjonen "Alle er velkomne"
+export const fertilitetAudiences = [
+  {
+    title: "Heterofile par",
+    desc: "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
+    href: "/booking?kategori=fertilitet",
+  },
+  {
+    title: "De ventende",
+    desc: "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
+    href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
+  },
+  {
+    title: "Singel",
+    desc: "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
+    href: "/booking?kategori=fertilitet",
+  },
+];
+
+// Fra /fertilitet — "Hvorfor CMedical"
+export const fertilitetWhySteps = [
+  {
+    n: "01",
+    title: "Et trygt sted å starte",
+    desc: "Klinikk og laboratorium under samme tak. Ingen lange transporter, ingen mellommenn — bare oss og dere.",
+  },
+  {
+    n: "02",
+    title: "Ledende kompetanse",
+    desc: "Spesialister med erfaring fra Rikshospitalet, Livio og internasjonale fertilitetssentre.",
+  },
+  {
+    n: "03",
+    title: "Tett oppfølging",
+    desc: "Vi følger dere før, under og etter — også gjennom de vanskelige beskjedene.",
+  },
+];
+
+// Fra /fertilitet — "CMedical i tall"
+export const fertilitetClinicStats = [
+  { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
+  { k: "Ventetid", v: "Ingen", sub: "Time samme uke" },
+  { k: "Henvisning", v: "Nei", sub: "Book direkte" },
+  { k: "Vurdering", v: "4,7", sub: "1 200+ pasienter" },
+];
+
+// Fra /fertilitet — "Resultater" / datastrimler
+export const fertilitetResultStats = [
+  { v: "42%", k: "Suksessrate IVF", sub: "Kvinner under 35 år" },
+  { v: "3 800+", k: "Barn født", sub: "Siden oppstart i 1989" },
+  { v: "11 200", k: "Egg uthentet", sub: "Siste 5 år" },
+  { v: "1 450", k: "IVF-sykluser", sub: "Gjennomført i 2024" },
+];
+
+// Fra /fertilitet — forsikringspartnere
+export const fertilitetInsurance = [
+  "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
+];
 
 export const fertilitetSegments = [
   {
@@ -127,10 +189,18 @@ export const fertilitetFaqs = [
 export const sjekkContent = {
   title: "Fertilitetssjekk",
   subtitle: "Forstå fruktbarheten din",
+  // Eksakt heroTitle fra fertilitetSubPages.fertilitetssjekk
+  heroHeadline: "Forstå fruktbarheten din",
   heroLead:
     "En fertilitetssjekk gir deg et klart bilde av hvor du står. Ikke fordi noe nødvendigvis er galt — men fordi du fortjener gode svar. Vi tar blodprøver, ultralyd og en grundig samtale med spesialist.",
   intro:
     "Mange tror en fertilitetssjekk er noe man gjør først når man har prøvd lenge og noe er galt. Slik er det ikke. En sjekk er rett og slett en kartlegging av fruktbarheten din — slik at du vet hva du har å forholde deg til.",
+  intro2:
+    "Vi ser på eggstokkreserven din (AMH), teller egganlegg via ultralyd (AFC) og tar en rekke hormoner. Etter konsultasjonen sitter du igjen med konkret informasjon — og en spesialist som forklarer hva det betyr for deg.",
+  ratingLine: "4,8 — Norges eldste private fertilitetsklinikk",
+  ctaTitle: "Klar til å finne ut hvor du står?",
+  ctaDescription:
+    "Bestill fertilitetssjekk direkte — ingen ventetid, ingen henvisning. Eller ta en gratis og uforpliktende prat med sykepleier om du er usikker på hva du trenger.",
 };
 
 export const sjekkFlow = [

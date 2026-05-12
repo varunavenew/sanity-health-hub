@@ -13,16 +13,19 @@ import {
   fertilitetSegments,
   fertilitetServices,
   fertilitetFaqs,
+  fertilitetAudiences,
+  fertilitetResultStats,
 } from "./fertilitetContent";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 
 interface PageProps { isChatOpen: boolean }
 
+// Tall fra "Resultater" på /fertilitet
 const stats = [
-  { value: "1989", label: "Etablert år" },
-  { value: "3 800+", label: "Barn født etter behandling" },
+  { value: "42%", label: "Suksessrate IVF — kvinner under 35" },
+  { value: "3 800+", label: "Barn født siden 1989" },
   { value: "4,7", label: "Snitt på Legelisten" },
-  { value: "0", label: "Krav om henvisning" },
+  { value: "Nei", label: "Henvisning ikke nødvendig" },
 ];
 
 const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
@@ -60,8 +63,8 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
                 <span>{fertilitetContent.subtitle}</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-light text-foreground leading-[0.98] tracking-tight mb-10">
-                Fertilitet — <br />
-                <span className="text-foreground/40">presisjon og nærhet.</span>
+                Noen ganger trenger kroppen <br />
+                <span className="text-foreground/40">litt hjelp på veien.</span>
               </h1>
               <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed max-w-xl">
                 {fertilitetContent.heroLead}

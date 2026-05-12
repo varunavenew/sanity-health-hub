@@ -76,7 +76,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
               {sjekkContent.title} · {sjekkContent.subtitle}
             </p>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] tracking-tight max-w-4xl mb-8">
-              Du fortjener <em className="italic font-light">gode svar</em>.
+              Forstå <em className="italic font-light">fruktbarheten</em> din.
             </h1>
             <Button
               className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl font-light px-6 h-11"
