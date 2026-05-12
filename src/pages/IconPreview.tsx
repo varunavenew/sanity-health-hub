@@ -501,6 +501,67 @@ const ClaudeCard = ({ label, description, iconKey }: { label: string; descriptio
 const IconPreview = () => {
   const totalProposed = GROUPS.reduce((n, g) => n + g.pairs.length, 0);
 
+  // Tre unisex fertilitets-alternativer — nøytrale (uten kjønnsreferanse)
+  const FERTILITY_ALTS: {
+    key: string;
+    label: string;
+    description: string;
+    render: (stroke: string, size: number) => JSX.Element;
+  }[] = [
+    {
+      key: "forbindelse",
+      label: "Alternativ 1 — Forbindelse",
+      description:
+        "To likeverdige buer som omslutter en liten prikk. Symboliserer at fertilitet er et felles prosjekt — uansett konstellasjon.",
+      render: (stroke, size) => (
+        <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+          <g stroke={stroke} strokeWidth={1.5} strokeLinecap="round" fill="none">
+            <path d="M32 36 Q22 50 32 64" />
+            <path d="M68 36 Q78 50 68 64" />
+            <circle cx="50" cy="50" r="3.2" fill={stroke} />
+          </g>
+        </svg>
+      ),
+    },
+    {
+      key: "vekst",
+      label: "Alternativ 2 — Vekst",
+      description:
+        "En spire som vokser opp fra en linje. Fokus på «det nye som starter» — universelt for alle veier til foreldreskap.",
+      render: (stroke, size) => (
+        <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+          <g stroke={stroke} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" fill="none">
+            <line x1="34" y1="70" x2="66" y2="70" />
+            <path d="M50 70 Q50 56 50 44" />
+            <path d="M50 56 Q44 50 38 48 Q42 56 50 58" />
+            <path d="M50 50 Q56 46 60 42 Q56 50 50 52" />
+          </g>
+        </svg>
+      ),
+    },
+    {
+      key: "reise",
+      label: "Alternativ 3 — Reise",
+      description:
+        "En myk, buet linje med et målpunkt. Fertilitet er sjelden en rett vei — symboliserer prosess og mål.",
+      render: (stroke, size) => (
+        <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+          <g stroke={stroke} strokeWidth={1.5} strokeLinecap="round" fill="none">
+            <path d="M28 64 Q40 44 50 50 Q60 56 68 38" />
+            <circle cx="68" cy="38" r="4.5" fill={stroke} />
+          </g>
+        </svg>
+      ),
+    },
+  ];
+
+  const FERTILITY_BGS = [
+    { bg: "#F2ECE6", stroke: "#42332A", name: "Cream" },
+    { bg: "#CCBAAD", stroke: "#42332A", name: "Sand" },
+    { bg: "#42332A", stroke: "#F2ECE6", name: "Brown" },
+    { bg: "#F4FF78", stroke: "#42332A", name: "Yellow" },
+  ];
+
   return (
     <main className="min-h-screen bg-background text-foreground p-6 md:p-12 font-light">
       <div className="max-w-6xl mx-auto space-y-12">
