@@ -50,8 +50,8 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
                 <span>{sjekkContent.title} · CMedical</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-light text-foreground leading-[0.98] tracking-tight mb-10">
-                Vit hvor du <br />
-                <span className="text-foreground/40">står.</span>
+                Forstå <br />
+                <span className="text-foreground/40">fruktbarheten din.</span>
               </h1>
               <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed max-w-xl">
                 {sjekkContent.heroLead}

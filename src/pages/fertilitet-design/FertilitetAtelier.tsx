@@ -13,6 +13,8 @@ import {
   fertilitetSegments,
   fertilitetServices,
   fertilitetFaqs,
+  fertilitetAudiences,
+  fertilitetResultStats,
 } from "./fertilitetContent";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 
@@ -60,8 +62,8 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
                 <span>{fertilitetContent.subtitle}</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-light text-foreground leading-[0.98] tracking-tight mb-10">
-                Fertilitet — <br />
-                <span className="text-foreground/40">presisjon og nærhet.</span>
+                Noen ganger trenger kroppen <br />
+                <span className="text-foreground/40">litt hjelp på veien.</span>
               </h1>
               <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed max-w-xl">
                 {fertilitetContent.heroLead}
