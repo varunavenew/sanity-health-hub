@@ -501,7 +501,7 @@ const ClaudeCard = ({ label, description, iconKey }: { label: string; descriptio
 const IconPreview = () => {
   const totalProposed = GROUPS.reduce((n, g) => n + g.pairs.length, 0);
 
-  // Tre unisex fertilitets-alternativer — nøytrale (uten kjønnsreferanse)
+  // Tre fertilitets-konsepter — nøytrale (uten kjønnsreferanse)
   const FERTILITY_ALTS: {
     key: string;
     label: string;
@@ -582,7 +582,7 @@ const IconPreview = () => {
         </header>
 
         {/* ============================================================
-            Fertilitet — 3 unisex alternativer (kjønnsnøytrale)
+            Fertilitet — 3 konsepter (kjønnsnøytrale)
             ============================================================ */}
         <section className="space-y-6 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
           <div className="space-y-2 max-w-3xl">

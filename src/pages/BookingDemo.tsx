@@ -4,7 +4,7 @@ import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
-import { format, addDays, addWeeks, endOfWeek } from "date-fns";
+import { format, addDays, addWeeks, endOfWeek, startOfWeek } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -215,6 +215,13 @@ const BookingDemo = () => {
   const { data: sanityClinics } = useClinics();
   const clinics: Clinic[] = (sanityClinics?.length ? sanityClinics : staticClinics) as Clinic[];
   const getClinicsForService = (serviceId: string) => clinics.filter(c => c.services?.includes(serviceId));
+  const today = useMemo(() => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }, []);
+  const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
+  const bookingWindowEnd = useMemo(() => endOfWeek(addWeeks(today, 4), { weekStartsOn: 1 }), [today]);
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -927,13 +934,12 @@ const BookingDemo = () => {
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                   disabled={(date) => {
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    return date < today || date.getDay() === 0 || date.getDay() === 6;
+                    return date < today || date > bookingWindowEnd || date.getDay() === 0 || date.getDay() === 6;
                   }}
-                  fromDate={new Date()}
-                  toDate={endOfWeek(addWeeks(new Date(), 4), { weekStartsOn: 1 })}
+                  fromDate={bookingWindowStart}
+                  toDate={bookingWindowEnd}
                   defaultMonth={new Date()}
+                  numberOfMonths={2}
                   className="!w-full"
                   locale={nb}
                 />
