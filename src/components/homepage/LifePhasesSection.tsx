@@ -1,9 +1,8 @@
-import { ArrowRight, Plus, Minus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useFaqs } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { FaqSection } from "@/components/layout/FaqSection";
 
 const staticFaqs = [
   {
