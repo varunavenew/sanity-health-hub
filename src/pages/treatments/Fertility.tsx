@@ -30,6 +30,7 @@ const segments = [
     title: "Jeg vil forstå fruktbarheten min",
     desc:
       "Vi gjør en grundig fertilitetssjekk — hormoner, eggstokkreserve og ultralyd — så du får tydelige svar i stedet for usikkerhet.",
+    tags: ["Fertilitetssjekk", "Hormoner", "AMH"],
     cta: "Les mer",
     href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
   },
@@ -38,6 +39,7 @@ const segments = [
     title: "Jeg vil bli gravid",
     desc:
       "Har du prøvd i 6–12 måneder uten å lykkes? Vi finner årsaken og legger en plan — fra inseminasjon til IVF.",
+    tags: ["IVF", "Inseminasjon", "Utredning"],
     cta: "Bestill utredning",
     href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
   },
@@ -46,6 +48,7 @@ const segments = [
     title: "Jeg vil bevare mulighetene mine",
     desc:
       "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
+    tags: ["Nedfrysing av egg", "Eggdonasjon"],
     cta: "Snakk med oss",
     href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon",
   },
@@ -54,6 +57,7 @@ const segments = [
     title: "Jeg er mann og vil sjekke fruktbarheten",
     desc:
       "Halvparten av forklaringen ligger ofte hos mannen. En enkel sædanalyse gir deg svar — diskret og raskt.",
+    tags: ["Sædanalyse", "Mannlig fertilitet"],
     cta: "Bestill analyse",
     href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
   },
