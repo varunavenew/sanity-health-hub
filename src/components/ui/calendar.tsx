@@ -32,8 +32,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         day: cn(buttonVariants({ variant: "ghost" }), "h-11 w-11 p-0 font-medium aria-selected:opacity-100 hover:bg-accent/50 transition-colors rounded-lg"),
         day_range_end: "day-range-end",
         day_selected:
-          "bg-brand-dark text-white hover:bg-brand-dark hover:text-white focus:bg-brand-dark focus:text-white shadow-md rounded-lg font-semibold",
-        day_today: "border-2 border-primary text-foreground font-semibold",
+          "bg-brand-dark text-white hover:bg-brand-dark hover:text-white focus:bg-brand-dark focus:text-white shadow-md rounded-lg font-semibold ring-2 ring-brand-dark ring-offset-2",
+        day_today:
+          "bg-brand-yellow text-brand-dark font-semibold rounded-lg hover:bg-brand-yellow hover:text-brand-dark",
         day_outside:
           "day-outside text-muted-foreground opacity-40 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-30 cursor-not-allowed",
