@@ -225,20 +225,23 @@ const BookingDemo = () => {
     () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
     [bookingWindowStart, bookingWindowEnd]
   );
-  const bookingCalendarLabel = useMemo(() => {
-    const startLabel = format(bookingWindowStart, "MMM", { locale: nb });
-    const endLabel = format(bookingWindowEnd, "MMM yyyy", { locale: nb });
-
-    if (bookingWindowStart.getFullYear() !== bookingWindowEnd.getFullYear()) {
-      return `${format(bookingWindowStart, "MMM yyyy", { locale: nb })} – ${endLabel}`;
-    }
-
-    if (bookingWindowStart.getMonth() !== bookingWindowEnd.getMonth()) {
-      return `${startLabel} – ${endLabel}`;
-    }
-
-    return format(bookingWindowStart, "MMMM yyyy", { locale: nb });
-  }, [bookingWindowStart, bookingWindowEnd]);
+  const bookingMonthGroups = useMemo(() => {
+    const groups: { key: string; label: string; days: Date[] }[] = [];
+    visibleBookingDays.forEach((date) => {
+      const key = `${date.getFullYear()}-${date.getMonth()}`;
+      let group = groups.find((g) => g.key === key);
+      if (!group) {
+        group = {
+          key,
+          label: format(date, "LLLL yyyy", { locale: nb }),
+          days: [],
+        };
+        groups.push(group);
+      }
+      group.days.push(date);
+    });
+    return groups;
+  }, [visibleBookingDays]);
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
