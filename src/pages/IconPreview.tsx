@@ -582,8 +582,58 @@ const IconPreview = () => {
         </header>
 
         {/* ============================================================
-            Claude.ai editorial proposal — Scandinavian set
+            Fertilitet — 3 unisex alternativer (kjønnsnøytrale)
             ============================================================ */}
+        <section className="space-y-6 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
+          <div className="space-y-2 max-w-3xl">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+              Fertilitet — alternativer
+            </div>
+            <h2 className="text-xl">Tre unisex-konsepter for fertilitets-ikonet</h2>
+            <p className="text-sm text-foreground/65 leading-relaxed">
+              Tre helt kjønnsnøytrale alternativer som kan erstatte dagens{" "}
+              <code className="text-[11px]">fertilitet-cl</code>. Vist på alle fire
+              brand-bakgrunner i 24 / 32 / 48 px.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {FERTILITY_ALTS.map((alt) => (
+              <div key={alt.key} className="rounded-md border border-foreground/10 bg-background overflow-hidden">
+                <div className="grid grid-cols-4">
+                  {FERTILITY_BGS.map((b) => (
+                    <div
+                      key={b.name}
+                      className="aspect-square flex items-center justify-center border-l first:border-l-0 border-foreground/5"
+                      style={{ background: b.bg }}
+                    >
+                      {alt.render(b.stroke, 32)}
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 border-t border-foreground/5">
+                  {[24, 32, 48].map((sz) => (
+                    <div
+                      key={sz}
+                      className="aspect-square flex flex-col items-center justify-center gap-1 border-l first:border-l-0 border-foreground/5"
+                      style={{ background: "#F2ECE6", color: "#42332A" }}
+                    >
+                      {alt.render("#42332A", sz)}
+                      <code className="text-[9px] text-foreground/40">{sz}px</code>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-3 space-y-1">
+                  <div className="text-[13px]">{alt.label}</div>
+                  <div className="text-[11px] text-foreground/55 leading-snug">{alt.description}</div>
+                  <code className="text-[10px] text-foreground/40">fertilitet-cl · {alt.key}</code>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
         <section className="space-y-5 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
           <div className="space-y-2 max-w-3xl">
             <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
