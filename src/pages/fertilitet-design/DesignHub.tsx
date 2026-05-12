@@ -47,6 +47,26 @@ const variants = [
     image: fertilitetImages.lab,
     tone: "Trygghet gjennom forutsigbarhet.",
   },
+  {
+    slug: "fertilitet/atelier",
+    eyebrow: "Forslag 04 · Fertilitet",
+    title: "Atelier",
+    subtitle: "Klinisk presisjon, spesialistene i forgrunn",
+    description:
+      "Data, tall og team i fokus. Asymmetrisk hero med faktapanel, spesialistene først, og en strukturert tjenestekatalog som et oppslagsverk.",
+    image: fertilitetImages.result,
+    tone: "Tillit gjennom presisjon og åpenhet.",
+  },
+  {
+    slug: "fertilitetssjekk/atelier",
+    eyebrow: "Forslag 04 · Fertilitetssjekk",
+    title: "Atelier",
+    subtitle: "Klinisk, konkret, faktabasert",
+    description:
+      "Hero med faktablokk (varighet, innhold, henvisning), målepunktene som tabell, og hvem-er-sjekken-for som ren sjekkliste. Ingen pynt — kun klarhet.",
+    image: fertilitetImages.lab,
+    tone: "Trygghet gjennom konkrete fakta.",
+  },
 ];
 
 const DesignHub = ({ isChatOpen }: PageProps) => {
