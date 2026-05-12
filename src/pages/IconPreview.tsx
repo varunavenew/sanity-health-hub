@@ -501,6 +501,67 @@ const ClaudeCard = ({ label, description, iconKey }: { label: string; descriptio
 const IconPreview = () => {
   const totalProposed = GROUPS.reduce((n, g) => n + g.pairs.length, 0);
 
+  // Tre unisex fertilitets-alternativer — nøytrale (uten kjønnsreferanse)
+  const FERTILITY_ALTS: {
+    key: string;
+    label: string;
+    description: string;
+    render: (stroke: string, size: number) => JSX.Element;
+  }[] = [
+    {
+      key: "forbindelse",
+      label: "Alternativ 1 — Forbindelse",
+      description:
+        "To likeverdige buer som omslutter en liten prikk. Symboliserer at fertilitet er et felles prosjekt — uansett konstellasjon.",
+      render: (stroke, size) => (
+        <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+          <g stroke={stroke} strokeWidth={1.5} strokeLinecap="round" fill="none">
+            <path d="M32 36 Q22 50 32 64" />
+            <path d="M68 36 Q78 50 68 64" />
+            <circle cx="50" cy="50" r="3.2" fill={stroke} />
+          </g>
+        </svg>
+      ),
+    },
+    {
+      key: "vekst",
+      label: "Alternativ 2 — Vekst",
+      description:
+        "En spire som vokser opp fra en linje. Fokus på «det nye som starter» — universelt for alle veier til foreldreskap.",
+      render: (stroke, size) => (
+        <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+          <g stroke={stroke} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" fill="none">
+            <line x1="34" y1="70" x2="66" y2="70" />
+            <path d="M50 70 Q50 56 50 44" />
+            <path d="M50 56 Q44 50 38 48 Q42 56 50 58" />
+            <path d="M50 50 Q56 46 60 42 Q56 50 50 52" />
+          </g>
+        </svg>
+      ),
+    },
+    {
+      key: "reise",
+      label: "Alternativ 3 — Reise",
+      description:
+        "En myk, buet linje med et målpunkt. Fertilitet er sjelden en rett vei — symboliserer prosess og mål.",
+      render: (stroke, size) => (
+        <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+          <g stroke={stroke} strokeWidth={1.5} strokeLinecap="round" fill="none">
+            <path d="M28 64 Q40 44 50 50 Q60 56 68 38" />
+            <circle cx="68" cy="38" r="4.5" fill={stroke} />
+          </g>
+        </svg>
+      ),
+    },
+  ];
+
+  const FERTILITY_BGS = [
+    { bg: "#F2ECE6", stroke: "#42332A", name: "Cream" },
+    { bg: "#CCBAAD", stroke: "#42332A", name: "Sand" },
+    { bg: "#42332A", stroke: "#F2ECE6", name: "Brown" },
+    { bg: "#F4FF78", stroke: "#42332A", name: "Yellow" },
+  ];
+
   return (
     <main className="min-h-screen bg-background text-foreground p-6 md:p-12 font-light">
       <div className="max-w-6xl mx-auto space-y-12">
@@ -521,8 +582,58 @@ const IconPreview = () => {
         </header>
 
         {/* ============================================================
-            Claude.ai editorial proposal — Scandinavian set
+            Fertilitet — 3 unisex alternativer (kjønnsnøytrale)
             ============================================================ */}
+        <section className="space-y-6 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
+          <div className="space-y-2 max-w-3xl">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+              Fertilitet — alternativer
+            </div>
+            <h2 className="text-xl">Tre unisex-konsepter for fertilitets-ikonet</h2>
+            <p className="text-sm text-foreground/65 leading-relaxed">
+              Tre helt kjønnsnøytrale alternativer som kan erstatte dagens{" "}
+              <code className="text-[11px]">fertilitet-cl</code>. Vist på alle fire
+              brand-bakgrunner i 24 / 32 / 48 px.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {FERTILITY_ALTS.map((alt) => (
+              <div key={alt.key} className="rounded-md border border-foreground/10 bg-background overflow-hidden">
+                <div className="grid grid-cols-4">
+                  {FERTILITY_BGS.map((b) => (
+                    <div
+                      key={b.name}
+                      className="aspect-square flex items-center justify-center border-l first:border-l-0 border-foreground/5"
+                      style={{ background: b.bg }}
+                    >
+                      {alt.render(b.stroke, 32)}
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 border-t border-foreground/5">
+                  {[24, 32, 48].map((sz) => (
+                    <div
+                      key={sz}
+                      className="aspect-square flex flex-col items-center justify-center gap-1 border-l first:border-l-0 border-foreground/5"
+                      style={{ background: "#F2ECE6", color: "#42332A" }}
+                    >
+                      {alt.render("#42332A", sz)}
+                      <code className="text-[9px] text-foreground/40">{sz}px</code>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-3 space-y-1">
+                  <div className="text-[13px]">{alt.label}</div>
+                  <div className="text-[11px] text-foreground/55 leading-snug">{alt.description}</div>
+                  <code className="text-[10px] text-foreground/40">fertilitet-cl · {alt.key}</code>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
         <section className="space-y-5 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
           <div className="space-y-2 max-w-3xl">
             <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
