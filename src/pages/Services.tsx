@@ -10,6 +10,7 @@ import { searchSuggestions, type SearchItem } from "@/data/searchData";
 import { useTreatmentCategories, useFaqs, useServicesPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { FaqSection } from "@/components/layout/FaqSection";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
@@ -234,28 +235,8 @@ const Services = ({ isChatOpen }: PageProps) => {
         </section>
       )}
 
-      {/* FAQ */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-sm text-muted-foreground mb-3 font-light">Spørsmål & svar</p>
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Ofte stilte spørsmål</h2>
-            <div className="space-y-0 border-t border-border">
-              {faqs.map((faq) => (
-                <div key={faq.id} className="border-b border-border">
-                  <button onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)} className="w-full flex items-center justify-between py-5 text-left hover:text-brand-dark transition-colors">
-                    <span className="text-base md:text-lg font-normal text-foreground">{faq.question}</span>
-                    {openFaq === faq.id ? <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" /> : <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />}
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-out ${openFaq === faq.id ? "max-h-40 pb-5" : "max-h-0"}`}>
-                    <p className="text-muted-foreground text-sm md:text-base font-light leading-relaxed pr-8">{faq.answer}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Unified FAQ — same as home */}
+      <FaqSection faqs={faqs} />
 
       {/* Unified pre-footer CTA */}
       <BookingCTA />

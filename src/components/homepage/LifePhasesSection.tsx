@@ -1,9 +1,8 @@
-import { ArrowRight, Plus, Minus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useFaqs } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { FaqSection } from "@/components/layout/FaqSection";
 
 const staticFaqs = [
   {
@@ -41,78 +40,19 @@ const staticFaqs = [
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { data: sanityFaqs } = useFaqs("generelt");
 
   const faqs = sanityFaqs && sanityFaqs.length > 0
     ? sanityFaqs.map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
     : staticFaqs;
 
-  const toggleFaq = (id: string) => {
-    setOpenFaq(openFaq === id ? null : id);
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
   return (
-    <section id="life-phases" className="py-6 md:py-10 bg-background">
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
-      </Helmet>
-      <div className="container mx-auto px-4 md:px-8">
-        {/* FAQ Section */}
-        <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">
-            {t("faq.title")}
-          </h2>
-          
-          <div className="space-y-0 border-t border-border">
-            {faqs.map((faq) => (
-              <div
-                key={faq.id}
-                className="border-b border-border"
-              >
-                <button
-                  onClick={() => toggleFaq(faq.id)}
-                  className="w-full flex items-center justify-between py-5 text-left hover:text-brand-dark transition-colors"
-                >
-                  <span className="text-base md:text-lg font-normal text-foreground">
-                    {faq.question}
-                  </span>
-                  {openFaq === faq.id ? (
-                    <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                  ) : (
-                    <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                  )}
-                </button>
-                
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-out ${
-                    openFaq === faq.id ? "max-h-40 pb-5" : "max-h-0"
-                  }`}
-                >
-                  <p className="text-muted-foreground text-sm md:text-base font-light leading-relaxed pr-8">
-                    {faq.answer}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <section id="life-phases" className="bg-background">
+      <FaqSection faqs={faqs} title={t("faq.title")} />
 
-        {/* Simple CTA below */}
-        <div className="mt-12 md:mt-16 text-center">
+      {/* Simple CTA below */}
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="mt-2 md:mt-4 mb-12 md:mb-16 text-center">
           <button
             onClick={() => navigate('/booking')}
             className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground rounded-2xl font-normal hover:bg-secondary transition-colors"
