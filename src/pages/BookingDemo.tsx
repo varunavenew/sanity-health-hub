@@ -946,20 +946,47 @@ const BookingDemo = () => {
                   <Calendar className="w-5 h-5 text-foreground" />
                   <span className="font-normal">Velg dato</span>
                 </div>
-                <CalendarComponent
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  disabled={(date) => {
-                    return date < today || date > bookingWindowEnd || date.getDay() === 0 || date.getDay() === 6;
-                  }}
-                  fromDate={bookingWindowStart}
-                  toDate={bookingWindowEnd}
-                  defaultMonth={new Date()}
-                  numberOfMonths={2}
-                  className="!w-full"
-                  locale={nb}
-                />
+                <div className="pt-12">
+                  <div className="mb-8 text-center text-lg font-semibold text-foreground capitalize">
+                    {bookingCalendarLabel}
+                  </div>
+                  <div className="grid grid-cols-7 gap-y-5">
+                    {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((day) => (
+                      <div key={day} className="flex h-10 items-center justify-center text-sm font-medium text-muted-foreground">
+                        {day}
+                      </div>
+                    ))}
+                    {visibleBookingDays.map((date) => {
+                      const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                      const isToday = isSameDay(date, today);
+                      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                      const isPast = date < today;
+                      const isDisabled = isPast || isWeekend;
+
+                      return (
+                        <div key={date.toISOString()} className="flex h-16 items-center justify-center">
+                          <button
+                            type="button"
+                            onClick={() => !isDisabled && setSelectedDate(date)}
+                            disabled={isDisabled}
+                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                            aria-pressed={isSelected}
+                            className={cn(
+                              "flex h-12 w-12 items-center justify-center rounded-lg text-base font-semibold transition-all",
+                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                              isDisabled && "cursor-not-allowed text-muted-foreground/45",
+                              !isDisabled && !isSelected && !isToday && "text-foreground hover:bg-muted",
+                              isToday && !isSelected && "bg-brand-yellow text-brand-dark hover:bg-brand-yellow",
+                              isSelected && "bg-brand-dark text-white shadow-md ring-2 ring-brand-dark ring-offset-2 hover:bg-brand-dark"
+                            )}
+                          >
+                            {format(date, "d", { locale: nb })}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               {/* Time Slots */}
