@@ -219,8 +219,13 @@ const BookingDemo = () => {
     date.setHours(0, 0, 0, 0);
     return date;
   }, []);
+  const [extraWeeks, setExtraWeeks] = useState(0);
+  const baseWeeksAhead = 3; // inneværende uke + 3 neste = 4 uker
   const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
-  const bookingWindowEnd = useMemo(() => endOfWeek(addWeeks(today, 4), { weekStartsOn: 1 }), [today]);
+  const bookingWindowEnd = useMemo(
+    () => endOfWeek(addWeeks(today, baseWeeksAhead + extraWeeks), { weekStartsOn: 1 }),
+    [today, extraWeeks]
+  );
   const visibleBookingDays = useMemo(
     () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
     [bookingWindowStart, bookingWindowEnd]
@@ -1001,9 +1006,34 @@ const BookingDemo = () => {
                                 </button>
                               </div>
                             );
-                          })}
-                        </div>
-                      </div>
+                  })}
+                </div>
+
+                <div className="mt-8 flex items-center justify-between gap-3 border-t border-border/40 pt-5">
+                  <p className="text-xs font-light text-muted-foreground">
+                    Viser {baseWeeksAhead + 1 + extraWeeks} uker fremover
+                  </p>
+                  <div className="flex items-center gap-2">
+                    {extraWeeks > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setExtraWeeks(0)}
+                        className="text-xs font-light text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+                      >
+                        Tilbake til denne uken
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setExtraWeeks((w) => w + 4)}
+                      className="inline-flex items-center gap-1.5 text-sm font-light text-foreground hover:gap-2 transition-all underline underline-offset-4"
+                    >
+                      Vis 4 uker til
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
                     );
                   })}
                 </div>
