@@ -52,6 +52,7 @@ import Gynecology from "./pages/treatments/Gynecology";
 import GynekologiSubPage from "./pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
+import DemoOversikt from "./pages/DemoOversikt";
 
 const queryClient = new QueryClient();
 
