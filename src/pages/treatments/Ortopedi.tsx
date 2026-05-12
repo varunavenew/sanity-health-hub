@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
+import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 
