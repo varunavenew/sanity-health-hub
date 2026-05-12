@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 
@@ -570,37 +571,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          9. MØRK SLUTT-CTA — "Usikker på hvor du skal begynne?"
+          9. UNIFIED PRE-FOOTER CTA — samme som hjem
       ============================================================ */}
-      <section className="bg-brand-dark text-white py-20 md:py-24">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
-                Usikker på hvor du skal begynne?
-              </h2>
-              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
-                Ring oss, så hjelper vi deg å finne riktig første steg. Vi tar
-                oss tid — og det koster ingenting.
-              </p>
-            </div>
-            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
-              <Button asChild variant="cta-dark" size="lg" className="px-8">
-                <Link to={buildBookingUrl({ kategori: "fertilitet" })}>
-                  Book konsultasjon
-                </Link>
-              </Button>
-              <a
-                href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
-              >
-                <Phone className="w-4 h-4" />
-                Eller ring oss på 22 00 00 00
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BookingCTA />
 
       {/* ============================================================
           10. FORSIKRINGSAVTALER — egen mørkere stripe (matcher footer)
