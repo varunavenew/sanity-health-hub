@@ -932,6 +932,7 @@ const BookingDemo = () => {
                     return date < today || date.getDay() === 0 || date.getDay() === 6;
                   }}
                   fromDate={new Date()}
+                  toDate={endOfWeek(addWeeks(new Date(), 4), { weekStartsOn: 1 })}
                   defaultMonth={new Date()}
                   className="!w-full"
                   locale={nb}
