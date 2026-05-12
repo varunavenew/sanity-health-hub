@@ -9,6 +9,7 @@ import {
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { AnimatedStat } from "@/components/AnimatedStat";
+import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import urologyHero from "@/assets/categories/urologi-real.jpg";
 
