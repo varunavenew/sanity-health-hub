@@ -219,34 +219,24 @@ const BookingDemo = () => {
     date.setHours(0, 0, 0, 0);
     return date;
   }, []);
-  const [extraWeeks, setExtraWeeks] = useState(0);
-  const baseWeeksAhead = 3; // inneværende uke + 3 neste = 4 uker
-  const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
-  const bookingWindowEnd = useMemo(
-    () => endOfWeek(addWeeks(today, baseWeeksAhead + extraWeeks), { weekStartsOn: 1 }),
-    [today, extraWeeks]
-  );
-  const visibleBookingDays = useMemo(
-    () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
-    [bookingWindowStart, bookingWindowEnd]
-  );
-  const bookingMonthGroups = useMemo(() => {
-    const groups: { key: string; label: string; days: Date[] }[] = [];
-    visibleBookingDays.forEach((date) => {
-      const key = `${date.getFullYear()}-${date.getMonth()}`;
-      let group = groups.find((g) => g.key === key);
-      if (!group) {
-        group = {
-          key,
-          label: format(date, "LLLL yyyy", { locale: nb }),
-          days: [],
-        };
-        groups.push(group);
-      }
-      group.days.push(date);
-    });
-    return groups;
-  }, [visibleBookingDays]);
+  const [viewMonth, setViewMonth] = useState<Date>(() => {
+    const d = new Date();
+    d.setDate(1);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+  const currentMonthStart = useMemo(() => {
+    const d = new Date();
+    d.setDate(1);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
+  const monthDays = useMemo(() => {
+    const start = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
+    const end = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0);
+    return eachDayOfInterval({ start, end });
+  }, [viewMonth]);
+  const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
