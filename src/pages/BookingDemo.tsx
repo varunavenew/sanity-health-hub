@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
+import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
 import { format, addDays, addWeeks, eachDayOfInterval, endOfWeek, isSameDay, startOfWeek } from "date-fns";
