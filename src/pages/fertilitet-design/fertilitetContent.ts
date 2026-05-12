@@ -189,10 +189,18 @@ export const fertilitetFaqs = [
 export const sjekkContent = {
   title: "Fertilitetssjekk",
   subtitle: "Forstå fruktbarheten din",
+  // Eksakt heroTitle fra fertilitetSubPages.fertilitetssjekk
+  heroHeadline: "Forstå fruktbarheten din",
   heroLead:
     "En fertilitetssjekk gir deg et klart bilde av hvor du står. Ikke fordi noe nødvendigvis er galt — men fordi du fortjener gode svar. Vi tar blodprøver, ultralyd og en grundig samtale med spesialist.",
   intro:
     "Mange tror en fertilitetssjekk er noe man gjør først når man har prøvd lenge og noe er galt. Slik er det ikke. En sjekk er rett og slett en kartlegging av fruktbarheten din — slik at du vet hva du har å forholde deg til.",
+  intro2:
+    "Vi ser på eggstokkreserven din (AMH), teller egganlegg via ultralyd (AFC) og tar en rekke hormoner. Etter konsultasjonen sitter du igjen med konkret informasjon — og en spesialist som forklarer hva det betyr for deg.",
+  ratingLine: "4,8 — Norges eldste private fertilitetsklinikk",
+  ctaTitle: "Klar til å finne ut hvor du står?",
+  ctaDescription:
+    "Bestill fertilitetssjekk direkte — ingen ventetid, ingen henvisning. Eller ta en gratis og uforpliktende prat med sykepleier om du er usikker på hva du trenger.",
 };
 
 export const sjekkFlow = [
