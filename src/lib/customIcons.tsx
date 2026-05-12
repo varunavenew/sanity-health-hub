@@ -75,9 +75,9 @@ export const GynecologyIcon = make("GynecologyIcon", () => (
 
 export const FertilityIcon = make("FertilityIcon", () => (
   <>
-    <path d="M12 3c-4 4 -7 7 -7 11a7 7 0 0 0 14 0c0 -4 -3 -7 -7 -11z" />
-    <circle cx="10.5" cy="13" r="1.3" />
-    <circle cx="13.5" cy="14.5" r="1.3" />
+    {/* Variant 3 — Reise: myk buet linje med målpunkt */}
+    <path d="M5.5 16 Q9 9.5 12 12 Q15 14.5 17 8.5" />
+    <circle cx="17" cy="8.5" r="1.3" fill="currentColor" stroke="none" />
   </>
 ));
 
@@ -1569,10 +1569,9 @@ export const ClGynekologiIcon = make("ClGynekologiIcon", () => (
 ));
 export const ClFertilitetIcon = make("ClFertilitetIcon", () => (
   <>
-    <circle cx="12" cy="13" r="5.5"/>
-    <path d="M12 7.5V5"/>
-    <path d="M12 7c1 0 2-.5 2.5-1.5"/>
-    <path d="M12 7c-1 0-2-.5-2.5-1.5"/>
+    {/* Variant 3 — Reise: myk buet linje med målpunkt */}
+    <path d="M5.5 16 Q9 9.5 12 12 Q15 14.5 17 8.5"/>
+    <circle cx="17" cy="8.5" r="1.3" fill="currentColor" stroke="none"/>
   </>
 ));
 export const ClUrologiIcon = make("ClUrologiIcon", () => (
