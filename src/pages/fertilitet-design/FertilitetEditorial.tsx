@@ -191,6 +191,10 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Services grouped */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 max-w-2xl">
