@@ -219,8 +219,13 @@ const BookingDemo = () => {
     date.setHours(0, 0, 0, 0);
     return date;
   }, []);
+  const [extraWeeks, setExtraWeeks] = useState(0);
+  const baseWeeksAhead = 3; // inneværende uke + 3 neste = 4 uker
   const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
-  const bookingWindowEnd = useMemo(() => endOfWeek(addWeeks(today, 4), { weekStartsOn: 1 }), [today]);
+  const bookingWindowEnd = useMemo(
+    () => endOfWeek(addWeeks(today, baseWeeksAhead + extraWeeks), { weekStartsOn: 1 }),
+    [today, extraWeeks]
+  );
   const visibleBookingDays = useMemo(
     () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
     [bookingWindowStart, bookingWindowEnd]
