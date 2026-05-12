@@ -9,6 +9,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
+import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
@@ -198,7 +199,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </header>
 
 
-
       {/* ============================================================
           2. MØRK SEGMENT-SEKSJON — "Fortell oss hvor du er"
       ============================================================ */}
@@ -367,51 +367,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             />
           </div>
         </div>
-
-        {/* Stat-stripe — mørk, kant-i-kant */}
-        <div className="bg-brand-dark text-white">
-          <div className="px-6 md:px-16 lg:px-20 py-10 md:py-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-8">
-              <p className="text-xs tracking-wide text-white/60">
-                CMedical i tall
-              </p>
-              <p className="text-xs font-light text-white/50">
-                CMedical i tall
-              </p>
-            </div>
-            <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-white/15">
-              {[
-                { k: "Klinikker", v: "Norges eldste", sub: "Etablert 1989" },
-                { k: "Ventetid", v: "Ingen", sub: "Time samme uke" },
-                { k: "Henvisning", v: "Nei", sub: "Book direkte" },
-                { k: "Vurdering", v: "4,7", sub: "1 200+ pasienter", star: true },
-              ].map((row, i) => (
-                <div
-                  key={row.k}
-                  className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
-                >
-                  <dt className="text-xs font-light text-white/60 mb-3 tracking-wide">
-                    {row.k}
-                  </dt>
-                  <dd className="text-2xl md:text-3xl font-light text-white tracking-tight leading-none mb-2 flex items-baseline gap-1.5">
-                    {row.v}
-                    {row.star && (
-                      <Star className="w-4 h-4 fill-white text-white translate-y-[-3px]" />
-                    )}
-                  </dd>
-                  <p className="text-xs font-light text-white/50">
-                    {row.sub}
-                  </p>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
       </section>
-
-
-
-
 
       {/* ============================================================
           5. TESTIMONIAL — grønn smal banner
@@ -470,6 +426,20 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* 5b. SYMPTOMSJEKK */}
+      <SymptomServiceSection
+        title="Hva kjenner du på?"
+        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
+        items={[
+          { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning" },
+          { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
+          { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
+          { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
+          { symptom: "Mannen min vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
+          { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Samtale og utredning", href: "/booking?kategori=fertilitet" },
+        ]}
+      />
 
       {/* ============================================================
           6. HVA VI TILBYR — tjeneste-grid (unified)

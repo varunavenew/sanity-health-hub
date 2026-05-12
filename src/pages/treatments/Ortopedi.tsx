@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
+import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 
@@ -250,6 +251,18 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* RESULTATER — animerte tall */}
+      <AnimatedStatsSection
+        categoryLabel="Ortopedi"
+        description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen ortopedi de siste årene."
+        stats={[
+          { v: "6 800+", k: "Konsultasjoner", sub: "Per år" },
+          { v: "2 400", k: "Operasjoner", sub: "I 2024" },
+          { v: "96%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+          { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+        ]}
+      />
 
       {/* JOURNEY */}
       <section className="bg-secondary/40 py-20 md:py-28">

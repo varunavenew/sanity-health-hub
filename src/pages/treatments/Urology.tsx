@@ -9,6 +9,7 @@ import {
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { AnimatedStat } from "@/components/AnimatedStat";
+import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import urologyHero from "@/assets/categories/urologi-real.jpg";
 
@@ -291,6 +292,18 @@ const Urology = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* 4b. RESULTATER — animerte tall */}
+      <AnimatedStatsSection
+        categoryLabel="Urologi"
+        description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen urologi de siste årene."
+        stats={[
+          { v: "400+", k: "Robotoperasjoner", sub: "Per år" },
+          { v: "5 200", k: "Konsultasjoner", sub: "I 2024" },
+          { v: "97%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+          { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+        ]}
+      />
 
       {/* 5. JOURNEY */}
       <section className="bg-secondary/40 py-20 md:py-28">
