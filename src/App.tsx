@@ -43,6 +43,12 @@ import SjekkEditorial from "./pages/fertilitet-design/SjekkEditorial";
 import SjekkJourney from "./pages/fertilitet-design/SjekkJourney";
 import FertilitetAtelier from "./pages/fertilitet-design/FertilitetAtelier";
 import SjekkAtelier from "./pages/fertilitet-design/SjekkAtelier";
+import FertilitetDialog from "./pages/fertilitet-design/FertilitetDialog";
+import FertilitetMagasin from "./pages/fertilitet-design/FertilitetMagasin";
+import FertilitetKlinikk from "./pages/fertilitet-design/FertilitetKlinikk";
+import SjekkDialog from "./pages/fertilitet-design/SjekkDialog";
+import SjekkMagasin from "./pages/fertilitet-design/SjekkMagasin";
+import SjekkKlinikk from "./pages/fertilitet-design/SjekkKlinikk";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import UrologiPage from "./pages/treatments/UrologiPage";
 import OrtopediPage from "./pages/treatments/OrtopediPage";
@@ -150,6 +156,12 @@ const AppContent = () => {
         <Route path="/fertilitet-design/fertilitetssjekk/journey" element={<SjekkJourney isChatOpen={false} />} />
         <Route path="/fertilitet-design/fertilitet/atelier" element={<FertilitetAtelier isChatOpen={false} />} />
         <Route path="/fertilitet-design/fertilitetssjekk/atelier" element={<SjekkAtelier isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitet/dialog" element={<FertilitetDialog isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitet/magasin" element={<FertilitetMagasin isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitet/klinikk" element={<FertilitetKlinikk isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitetssjekk/dialog" element={<SjekkDialog isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitetssjekk/magasin" element={<SjekkMagasin isChatOpen={false} />} />
+        <Route path="/fertilitet-design/fertilitetssjekk/klinikk" element={<SjekkKlinikk isChatOpen={false} />} />
         {/* Clinic pages */}
         <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />

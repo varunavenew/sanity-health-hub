@@ -67,6 +67,66 @@ const variants = [
     image: fertilitetImages.lab,
     tone: "Trygghet gjennom konkrete fakta.",
   },
+  {
+    slug: "fertilitet/dialog",
+    eyebrow: "Forslag 05 · Fertilitet",
+    title: "Dialog",
+    subtitle: "Split-hero med pasientens stemme",
+    description:
+      "Bilde til venstre, en roterende stemme fra pasienten til høyre — som hjemmesiden. Resten av siden er bygget rundt 'hvem du er' og 'hva du trenger', med spesialistkort i samme stil som forsiden.",
+    image: fertilitetImages.hero,
+    tone: "Som å starte en samtale, ikke en søknad.",
+  },
+  {
+    slug: "fertilitet/magasin",
+    eyebrow: "Forslag 06 · Fertilitet",
+    title: "Magasin",
+    subtitle: "Split-hero som magasinforside",
+    description:
+      "Stor bildeside til venstre, et innholdsregister + lederen til høyre. Resten av siden er kapittelinndelt — fra 'hvem' til 'reisen' til 'spesialistene' — som et helsemagasin.",
+    image: fertilitetImages.alt,
+    tone: "Premium, kuratert, lest fremfor scrollet.",
+  },
+  {
+    slug: "fertilitet/klinikk",
+    eyebrow: "Forslag 07 · Fertilitet",
+    title: "Klinikk",
+    subtitle: "Split-hero med faktapanel",
+    description:
+      "Bilde til venstre, mørk faktablokk til høyre med klinikkstatistikk (etablert 1989, suksessrate, vurdering). Spesialister først, deretter resultater og en strukturert behandlingskatalog.",
+    image: fertilitetImages.result,
+    tone: "Tillit gjennom åpne tall og presisjon.",
+  },
+  {
+    slug: "fertilitetssjekk/dialog",
+    eyebrow: "Forslag 05 · Fertilitetssjekk",
+    title: "Dialog",
+    subtitle: "Split-hero med pasientens spørsmål",
+    description:
+      "Bilde til venstre, en roterende strøm av 'det folk lurer på' til høyre. Sjekken vises som en samtale — seks korte steg, fem grunner, og hva som kan komme etter.",
+    image: fertilitetImages.lab,
+    tone: "Vi tar bort skammen rundt det å lure.",
+  },
+  {
+    slug: "fertilitetssjekk/magasin",
+    eyebrow: "Forslag 06 · Fertilitetssjekk",
+    title: "Magasin",
+    subtitle: "Split-hero som magasinforside",
+    description:
+      "Stor bildeside til venstre, innholdsregister og 'lederen' til høyre. Resten av siden gjennomgår sjekken kapittel for kapittel — rolig, opplyst og lesbar.",
+    image: fertilitetImages.lab,
+    tone: "En sjekk fortalt som et kapittel, ikke en sjekkliste.",
+  },
+  {
+    slug: "fertilitetssjekk/klinikk",
+    eyebrow: "Forslag 07 · Fertilitetssjekk",
+    title: "Klinikk",
+    subtitle: "Split-hero med faktapanel",
+    description:
+      "Bilde til venstre, mørk faktablokk til høyre med varighet, henvisning og innhold. Spesialister først, målepunktene som tabell, og hvem-er-sjekken-for som ren sjekkliste.",
+    image: fertilitetImages.lab,
+    tone: "Klar, ryddig og konkret — du vet hva du får.",
+  },
 ];
 
 const DesignHub = ({ isChatOpen }: PageProps) => {
