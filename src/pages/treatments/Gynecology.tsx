@@ -12,6 +12,10 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 
 import gynekologiHeroImg from "@/assets/categories/gynekologi-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
+import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
+import expertOvergangsalder from "@/assets/hero/hero-lifestyle-1.jpg";
+import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
