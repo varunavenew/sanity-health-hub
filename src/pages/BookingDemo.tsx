@@ -949,46 +949,63 @@ const BookingDemo = () => {
                   <Calendar className="w-5 h-5 text-foreground" />
                   <span className="font-normal">Velg dato</span>
                 </div>
-                <div className="pt-12">
-                  <div className="mb-8 text-center text-lg font-semibold text-foreground capitalize">
-                    {bookingCalendarLabel}
-                  </div>
-                  <div className="grid grid-cols-7 gap-y-5">
-                    {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((day) => (
-                      <div key={day} className="flex h-10 items-center justify-center text-sm font-medium text-muted-foreground">
-                        {day}
-                      </div>
-                    ))}
-                    {visibleBookingDays.map((date) => {
-                      const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
-                      const isToday = isSameDay(date, today);
-                      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                      const isPast = date < today;
-                      const isDisabled = isPast || isWeekend;
-
-                      return (
-                        <div key={date.toISOString()} className="flex h-16 items-center justify-center">
-                          <button
-                            type="button"
-                            onClick={() => !isDisabled && setSelectedDate(date)}
-                            disabled={isDisabled}
-                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
-                            aria-pressed={isSelected}
-                            className={cn(
-                              "flex h-12 w-12 items-center justify-center rounded-lg text-base font-semibold transition-all",
-                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                              isDisabled && "cursor-not-allowed text-muted-foreground/45",
-                              !isDisabled && !isSelected && !isToday && "text-foreground hover:bg-muted",
-                              isToday && !isSelected && "bg-brand-yellow text-brand-dark hover:bg-brand-yellow",
-                              isSelected && "bg-brand-dark text-white shadow-md ring-2 ring-brand-dark ring-offset-2 hover:bg-brand-dark"
-                            )}
-                          >
-                            {format(date, "d", { locale: nb })}
-                          </button>
+                <div className="pt-8 space-y-10">
+                  {bookingMonthGroups.map((group) => {
+                    // Calculate offset for first day (Monday = 0)
+                    const firstDay = group.days[0];
+                    const weekdayIndex = (firstDay.getDay() + 6) % 7; // Mon=0..Sun=6
+                    return (
+                      <div key={group.key}>
+                        <div className="mb-5 flex items-baseline gap-3 border-b border-border/40 pb-2">
+                          <h3 className="text-xl font-semibold text-foreground capitalize">
+                            {group.label}
+                          </h3>
+                          <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                            {group.days.length} dager
+                          </span>
                         </div>
-                      );
-                    })}
-                  </div>
+                        <div className="grid grid-cols-7 gap-y-3">
+                          {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((day) => (
+                            <div key={day} className="flex h-8 items-center justify-center text-xs font-medium text-muted-foreground">
+                              {day}
+                            </div>
+                          ))}
+                          {Array.from({ length: weekdayIndex }).map((_, i) => (
+                            <div key={`pad-${group.key}-${i}`} className="h-14" />
+                          ))}
+                          {group.days.map((date) => {
+                            const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                            const isToday = isSameDay(date, today);
+                            const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                            const isPast = date < today;
+                            const isDisabled = isPast || isWeekend;
+
+                            return (
+                              <div key={date.toISOString()} className="flex h-14 items-center justify-center">
+                                <button
+                                  type="button"
+                                  onClick={() => !isDisabled && setSelectedDate(date)}
+                                  disabled={isDisabled}
+                                  aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                                  aria-pressed={isSelected}
+                                  className={cn(
+                                    "flex h-11 w-11 items-center justify-center rounded-lg text-base font-semibold transition-all",
+                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                                    isDisabled && "cursor-not-allowed text-muted-foreground/40",
+                                    !isDisabled && !isSelected && !isToday && "text-foreground hover:bg-muted",
+                                    isToday && !isSelected && "bg-brand-yellow text-brand-dark hover:bg-brand-yellow",
+                                    isSelected && "bg-brand-dark text-white shadow-md ring-2 ring-brand-dark ring-offset-2 hover:bg-brand-dark"
+                                  )}
+                                >
+                                  {format(date, "d", { locale: nb })}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
