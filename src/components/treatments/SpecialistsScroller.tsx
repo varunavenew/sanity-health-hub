@@ -18,22 +18,26 @@ interface Props {
   filter?: (s: Specialist) => boolean;
   eyebrow?: string;
   title?: string;
+  description?: string;
   /** Link target for "Se alle". */
   seeAllHref?: string;
   seeAllLabel?: string;
 }
 
 /**
- * Unified specialists scroller used on every fagområde-page.
- * Mirrors the homepage SpecialistsSection layout, but pre-filtered.
+ * Unified specialists scroller. Matches the home SpecialistsSection layout
+ * exactly (clinic tag top-left, name + role overlaid on image, expertise
+ * line under each card, identical header + arrow controls + see-all button)
+ * so every page renders specialists in the same way.
  */
 export const SpecialistsScroller = ({
   category,
   filter,
-  eyebrow = "Menneskene bak",
-  title = "Spesialistene som følger deg.",
+  eyebrow = "Våre eksperter",
+  title = "Møt våre spesialister",
+  description = "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
   seeAllHref = "/spesialister",
-  seeAllLabel = "Se alle spesialister",
+  seeAllLabel,
 }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { sorted: specialists } = useSpecialistsData();
@@ -43,7 +47,6 @@ export const SpecialistsScroller = ({
     if (!category || category === "alle") return specialists;
     return specialists.filter((s) => s.category === category);
   }, [specialists, category, filter]);
-
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -55,38 +58,42 @@ export const SpecialistsScroller = ({
 
   if (filtered.length === 0) return null;
 
+  const computedSeeAllLabel = seeAllLabel ?? `Se alle ${filtered.length} spesialister`;
+
   return (
-    <section className="pt-20 md:pt-28 pb-10 md:pb-14 bg-brand-warm overflow-hidden">
+    <section className="pt-24 md:pt-32 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12">
+        {/* Header — identical to home */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
-            <p className="text-xs tracking-wide text-foreground/60 mb-3 uppercase">
-              {eyebrow}
-            </p>
-            <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+            <p className="text-sm text-muted-foreground font-light mb-3">{eyebrow}</p>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               {title}
             </h2>
+            {description && (
+              <p className="text-muted-foreground font-light">{description}</p>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-2">
               <button
                 onClick={() => scroll("left")}
                 aria-label="Scroll venstre"
-                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-background transition-colors text-foreground"
+                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => scroll("right")}
                 aria-label="Scroll høyre"
-                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-background transition-colors text-foreground"
+                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
             <Button variant="cta-outline" asChild>
               <Link to={seeAllHref}>
-                {seeAllLabel}
+                {computedSeeAllLabel}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -94,6 +101,7 @@ export const SpecialistsScroller = ({
         </div>
       </div>
 
+      {/* Horizontal scroll — identical card structure to home */}
       <div
         ref={scrollRef}
         className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
@@ -105,12 +113,13 @@ export const SpecialistsScroller = ({
       >
         {filtered.map((sp) => (
           <Link
-            key={sp.slug}
             to={`/spesialister/${sp.slug}`}
+            key={sp.slug}
             aria-label={`Les mer om ${sp.name}`}
             className="group flex-shrink-0 w-[280px] snap-start"
           >
-            <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+            {/* Image with clinic tag + name overlay */}
+            <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
               <img
                 src={sp.image}
                 alt={sp.name}
@@ -118,33 +127,55 @@ export const SpecialistsScroller = ({
                 className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"
               />
               <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
 
+              {/* Clinic tag — top left */}
               {sp.clinics && sp.clinics.length > 0 && (
-                <div className="absolute top-3 left-3 flex items-center gap-1 text-white/80 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                <div className="absolute top-3 left-3 flex items-center gap-1 text-white/70 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
                   <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
                   {sp.clinics.join(" · ")}
                 </div>
               )}
 
-              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                  {sp.name}
-                </h3>
-                <p className="text-sm font-light text-white/75">
-                  {sp.subtitle || sp.title}
+              {/* Name + role — bottom overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="font-normal text-white mb-0.5">{sp.name}</h3>
+                <p className="text-sm text-white/70 font-light">
+                  {sp.title}
+                  {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
                 </p>
               </div>
             </div>
+
+            {/* Expertise — under image (same as home) */}
+            {sp.expertise && sp.expertise.length > 0 && (
+              <p className="text-sm text-muted-foreground font-normal pl-1 pr-6">
+                {sp.expertise.join(", ")}
+              </p>
+            )}
           </Link>
         ))}
+
+        {/* "See all" card at end — same as home */}
+        <div className="flex-shrink-0 w-[280px] snap-start">
+          <Link to={seeAllHref} className="block">
+            <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
+              <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
+                <ArrowRight className="w-6 h-6 text-foreground" />
+              </div>
+              <p className="text-foreground font-normal mb-1">Se alle</p>
+              <p className="text-muted-foreground text-sm font-light">
+                {filtered.length} spesialister
+              </p>
+            </div>
+          </Link>
+        </div>
       </div>
 
-      {filtered.length > 4 && (
-        <p className="md:hidden text-center text-xs text-foreground/50 mt-3">
-          Sveip for å se flere →
-        </p>
-      )}
+      <div className="md:hidden flex justify-center mt-4 gap-1">
+        <span className="text-xs text-muted-foreground">Sveip for å se flere</span>
+      </div>
     </section>
   );
 };
