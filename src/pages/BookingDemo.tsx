@@ -2,9 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
-import { format, addDays, addWeeks, endOfWeek, startOfWeek } from "date-fns";
+import { format, addDays, addWeeks, eachDayOfInterval, endOfWeek, isSameDay, startOfWeek } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -222,6 +221,24 @@ const BookingDemo = () => {
   }, []);
   const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
   const bookingWindowEnd = useMemo(() => endOfWeek(addWeeks(today, 4), { weekStartsOn: 1 }), [today]);
+  const visibleBookingDays = useMemo(
+    () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
+    [bookingWindowStart, bookingWindowEnd]
+  );
+  const bookingCalendarLabel = useMemo(() => {
+    const startLabel = format(bookingWindowStart, "MMM", { locale: nb });
+    const endLabel = format(bookingWindowEnd, "MMM yyyy", { locale: nb });
+
+    if (bookingWindowStart.getFullYear() !== bookingWindowEnd.getFullYear()) {
+      return `${format(bookingWindowStart, "MMM yyyy", { locale: nb })} – ${endLabel}`;
+    }
+
+    if (bookingWindowStart.getMonth() !== bookingWindowEnd.getMonth()) {
+      return `${startLabel} – ${endLabel}`;
+    }
+
+    return format(bookingWindowStart, "MMMM yyyy", { locale: nb });
+  }, [bookingWindowStart, bookingWindowEnd]);
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -929,20 +946,47 @@ const BookingDemo = () => {
                   <Calendar className="w-5 h-5 text-foreground" />
                   <span className="font-normal">Velg dato</span>
                 </div>
-                <CalendarComponent
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  disabled={(date) => {
-                    return date < today || date > bookingWindowEnd || date.getDay() === 0 || date.getDay() === 6;
-                  }}
-                  fromDate={bookingWindowStart}
-                  toDate={bookingWindowEnd}
-                  defaultMonth={new Date()}
-                  numberOfMonths={2}
-                  className="!w-full"
-                  locale={nb}
-                />
+                <div className="pt-12">
+                  <div className="mb-8 text-center text-lg font-semibold text-foreground capitalize">
+                    {bookingCalendarLabel}
+                  </div>
+                  <div className="grid grid-cols-7 gap-y-5">
+                    {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((day) => (
+                      <div key={day} className="flex h-10 items-center justify-center text-sm font-medium text-muted-foreground">
+                        {day}
+                      </div>
+                    ))}
+                    {visibleBookingDays.map((date) => {
+                      const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                      const isToday = isSameDay(date, today);
+                      const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                      const isPast = date < today;
+                      const isDisabled = isPast || isWeekend;
+
+                      return (
+                        <div key={date.toISOString()} className="flex h-16 items-center justify-center">
+                          <button
+                            type="button"
+                            onClick={() => !isDisabled && setSelectedDate(date)}
+                            disabled={isDisabled}
+                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                            aria-pressed={isSelected}
+                            className={cn(
+                              "flex h-12 w-12 items-center justify-center rounded-lg text-base font-semibold transition-all",
+                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                              isDisabled && "cursor-not-allowed text-muted-foreground/45",
+                              !isDisabled && !isSelected && !isToday && "text-foreground hover:bg-muted",
+                              isToday && !isSelected && "bg-brand-yellow text-brand-dark hover:bg-brand-yellow",
+                              isSelected && "bg-brand-dark text-white shadow-md ring-2 ring-brand-dark ring-offset-2 hover:bg-brand-dark"
+                            )}
+                          >
+                            {format(date, "d", { locale: nb })}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               {/* Time Slots */}
