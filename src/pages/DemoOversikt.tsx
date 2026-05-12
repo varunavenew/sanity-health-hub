@@ -24,6 +24,9 @@ const groups = [
       { to: "/fertilitet-design/fertilitet/editorial", name: "Fertilitet — Editorial" },
       { to: "/fertilitet-design/fertilitet/journey", name: "Fertilitet — Reisen" },
       { to: "/fertilitet-design/fertilitet/atelier", name: "Fertilitet — Atelier" },
+      { to: "/fertilitet-design/fertilitet/dialog", name: "Fertilitet — Dialog" },
+      { to: "/fertilitet-design/fertilitet/magasin", name: "Fertilitet — Magasin" },
+      { to: "/fertilitet-design/fertilitet/klinikk", name: "Fertilitet — Klinikk" },
     ],
   },
   {
@@ -33,6 +36,9 @@ const groups = [
       { to: "/fertilitet-design/fertilitetssjekk/editorial", name: "Fertilitetssjekk — Editorial" },
       { to: "/fertilitet-design/fertilitetssjekk/journey", name: "Fertilitetssjekk — Reisen" },
       { to: "/fertilitet-design/fertilitetssjekk/atelier", name: "Fertilitetssjekk — Atelier" },
+      { to: "/fertilitet-design/fertilitetssjekk/dialog", name: "Fertilitetssjekk — Dialog" },
+      { to: "/fertilitet-design/fertilitetssjekk/magasin", name: "Fertilitetssjekk — Magasin" },
+      { to: "/fertilitet-design/fertilitetssjekk/klinikk", name: "Fertilitetssjekk — Klinikk" },
     ],
   },
 ];
