@@ -11,6 +11,7 @@ import { useTreatmentCategories, useFaqs, useServicesPage } from "@/hooks/useSan
 import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
+import { ServicesListSection } from "@/components/layout/ServicesListSection";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
