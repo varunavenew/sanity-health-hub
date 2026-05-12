@@ -589,7 +589,7 @@ const IconPreview = () => {
             <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
               Fertilitet — alternativer
             </div>
-            <h2 className="text-xl">Tre unisex-konsepter for fertilitets-ikonet</h2>
+            <h2 className="text-xl">Tre konsepter for fertilitets-ikonet</h2>
             <p className="text-sm text-foreground/65 leading-relaxed">
               Tre helt kjønnsnøytrale alternativer som kan erstatte dagens{" "}
               <code className="text-[11px]">fertilitet-cl</code>. Vist på alle fire
