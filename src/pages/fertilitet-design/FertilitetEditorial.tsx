@@ -162,7 +162,35 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* Services grouped */}
+      {/* Alle er velkomne — fra /fertilitet */}
+      <section className="bg-background pb-20 md:pb-28">
+        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
+          <div className="mb-12 max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+              For deg som
+            </p>
+            <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
+              Alle er velkomne — uansett utgangspunkt.
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            {fertilitetAudiences.map((a) => (
+              <Link
+                key={a.title}
+                to={a.href}
+                className="group block bg-card border border-border/60 rounded-2xl p-7 md:p-8 hover:border-foreground/40 transition-all"
+              >
+                <h3 className="text-xl font-light text-foreground mb-3">{a.title}</h3>
+                <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
+                  {a.desc}
+                </p>
+                <span className="inline-flex items-center gap-2 text-sm font-light text-foreground group-hover:gap-2.5 transition-all">
+                  Les mer
+                  <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
+                </span>
+              </Link>
+            ))}
+          </div>
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 max-w-2xl">
