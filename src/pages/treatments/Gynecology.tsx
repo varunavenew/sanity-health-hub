@@ -293,21 +293,31 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 <Link
                   key={a.title}
                   to={a.href}
-                  className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
                 >
-                  <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
-                    {a.eyebrow}
-                  </p>
-                  <h3 className="text-xl font-light text-foreground mb-3">
-                    {a.title}
-                  </h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-                    {a.desc}
-                  </p>
-                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="p-7 flex flex-col flex-1">
+                    <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                      {a.eyebrow}
+                    </p>
+                    <h3 className="text-xl font-light text-foreground mb-3">
+                      {a.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                      {a.desc}
+                    </p>
+                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                      Les mer
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>
