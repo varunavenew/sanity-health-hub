@@ -9,6 +9,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
+import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
