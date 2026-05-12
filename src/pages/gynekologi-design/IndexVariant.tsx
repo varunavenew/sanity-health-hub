@@ -238,20 +238,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
             {gynSpecialists.map((s) => (
-              <Link key={s.slug} to={`/spesialister/${s.slug}`} className="group block">
-                <div className="aspect-[4/5] overflow-hidden bg-muted rounded-2xl mb-4">
-                  <img
-                    src={s.image}
-                    alt={s.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
-                  />
-                </div>
-                <h3 className="text-base font-light text-foreground mb-1">{s.name}</h3>
-                <p className="text-xs text-muted-foreground font-light">
-                  {s.title}
-                </p>
-              </Link>
+              <DemoSpecialistCard key={s.slug} specialist={s} />
             ))}
           </div>
         </div>
