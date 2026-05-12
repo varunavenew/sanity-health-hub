@@ -20,11 +20,12 @@ import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 
 interface PageProps { isChatOpen: boolean }
 
+// Tall fra "Resultater" på /fertilitet
 const stats = [
-  { value: "1989", label: "Etablert år" },
-  { value: "3 800+", label: "Barn født etter behandling" },
+  { value: "42%", label: "Suksessrate IVF — kvinner under 35" },
+  { value: "3 800+", label: "Barn født siden 1989" },
   { value: "4,7", label: "Snitt på Legelisten" },
-  { value: "0", label: "Krav om henvisning" },
+  { value: "Nei", label: "Henvisning ikke nødvendig" },
 ];
 
 const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
