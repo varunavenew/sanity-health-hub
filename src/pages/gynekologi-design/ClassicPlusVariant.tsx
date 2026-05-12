@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft, Plus, Minus } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { specialists } from "@/data/specialists";
+import { DemoSpecialistCard } from "./DemoSpecialistCard";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import gynekologiReal from "@/assets/categories/gynekologi-real.jpg";
 import {
