@@ -9,6 +9,7 @@ import { serviceCategories as staticServiceCategories } from "@/data/serviceCate
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
 import { useTreatmentCategories, useFaqs, useServicesPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
