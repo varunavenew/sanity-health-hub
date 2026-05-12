@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
+import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
 import { format, addDays, addWeeks, eachDayOfInterval, endOfWeek, isSameDay, startOfWeek } from "date-fns";
@@ -219,34 +219,24 @@ const BookingDemo = () => {
     date.setHours(0, 0, 0, 0);
     return date;
   }, []);
-  const [extraWeeks, setExtraWeeks] = useState(0);
-  const baseWeeksAhead = 3; // inneværende uke + 3 neste = 4 uker
-  const bookingWindowStart = useMemo(() => startOfWeek(today, { weekStartsOn: 1 }), [today]);
-  const bookingWindowEnd = useMemo(
-    () => endOfWeek(addWeeks(today, baseWeeksAhead + extraWeeks), { weekStartsOn: 1 }),
-    [today, extraWeeks]
-  );
-  const visibleBookingDays = useMemo(
-    () => eachDayOfInterval({ start: bookingWindowStart, end: bookingWindowEnd }),
-    [bookingWindowStart, bookingWindowEnd]
-  );
-  const bookingMonthGroups = useMemo(() => {
-    const groups: { key: string; label: string; days: Date[] }[] = [];
-    visibleBookingDays.forEach((date) => {
-      const key = `${date.getFullYear()}-${date.getMonth()}`;
-      let group = groups.find((g) => g.key === key);
-      if (!group) {
-        group = {
-          key,
-          label: format(date, "LLLL yyyy", { locale: nb }),
-          days: [],
-        };
-        groups.push(group);
-      }
-      group.days.push(date);
-    });
-    return groups;
-  }, [visibleBookingDays]);
+  const [viewMonth, setViewMonth] = useState<Date>(() => {
+    const d = new Date();
+    d.setDate(1);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+  const currentMonthStart = useMemo(() => {
+    const d = new Date();
+    d.setDate(1);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
+  const monthDays = useMemo(() => {
+    const start = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
+    const end = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0);
+    return eachDayOfInterval({ start, end });
+  }, [viewMonth]);
+  const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -948,92 +938,83 @@ const BookingDemo = () => {
                 )}
               </h2>
               
-              {/* Calendar */}
-              <div className="bg-white rounded-lg p-4">
-              <div className="flex items-center gap-2 mb-4">
-                  <Calendar className="w-5 h-5 text-foreground" />
-                  <span className="font-normal">Velg dato</span>
-                </div>
-                <div className="pt-8 space-y-10">
-                  {bookingMonthGroups.map((group) => {
-                    // Calculate offset for first day (Monday = 0)
-                    const firstDay = group.days[0];
-                    const weekdayIndex = (firstDay.getDay() + 6) % 7; // Mon=0..Sun=6
-                    return (
-                      <div key={group.key}>
-                        <div className="mb-5 flex items-baseline gap-3 border-b border-border/40 pb-2">
-                          <h3 className="text-xl font-semibold text-foreground capitalize">
-                            {group.label}
-                          </h3>
-                          <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                            {group.days.length} dager
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-7 gap-y-3">
-                          {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((day) => (
-                            <div key={day} className="flex h-8 items-center justify-center text-xs font-medium text-muted-foreground">
-                              {day}
-                            </div>
-                          ))}
-                          {Array.from({ length: weekdayIndex }).map((_, i) => (
-                            <div key={`pad-${group.key}-${i}`} className="h-14" />
-                          ))}
-                          {group.days.map((date) => {
-                            const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
-                            const isToday = isSameDay(date, today);
-                            const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                            const isPast = date < today;
-                            const isDisabled = isPast || isWeekend;
-
-                            return (
-                              <div key={date.toISOString()} className="flex h-14 items-center justify-center">
-                                <button
-                                  type="button"
-                                  onClick={() => !isDisabled && setSelectedDate(date)}
-                                  disabled={isDisabled}
-                                  aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
-                                  aria-pressed={isSelected}
-                                  className={cn(
-                                    "flex h-11 w-11 items-center justify-center rounded-lg text-base font-semibold transition-all",
-                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                                    isDisabled && "cursor-not-allowed text-muted-foreground/40",
-                                    !isDisabled && !isSelected && !isToday && "text-foreground hover:bg-muted",
-                                    isToday && !isSelected && "bg-brand-yellow text-brand-dark hover:bg-brand-yellow",
-                                    isSelected && "bg-brand-dark text-white shadow-md ring-2 ring-brand-dark ring-offset-2 hover:bg-brand-dark"
-                                  )}
-                                >
-                                  {format(date, "d", { locale: nb })}
-                                </button>
-                              </div>
-                            );
-                  })}
-                </div>
-
-                <div className="mt-8 flex items-center justify-between gap-3 border-t border-border/40 pt-5">
-                  <p className="text-xs font-light text-muted-foreground">
-                    Viser {baseWeeksAhead + 1 + extraWeeks} uker fremover
-                  </p>
+              {/* Calendar — Aleris-style single month view */}
+              <div className="bg-white rounded-lg p-6">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-2xl font-light text-foreground capitalize">
+                    {format(viewMonth, "LLLL", { locale: nb })}
+                  </h3>
                   <div className="flex items-center gap-2">
-                    {extraWeeks > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setExtraWeeks(0)}
-                        className="text-xs font-light text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
-                      >
-                        Tilbake til denne uken
-                      </button>
-                    )}
                     <button
                       type="button"
-                      onClick={() => setExtraWeeks((w) => w + 4)}
-                      className="inline-flex items-center gap-1.5 text-sm font-light text-foreground hover:gap-2 transition-all underline underline-offset-4"
+                      onClick={() => {
+                        if (!canGoPrev) return;
+                        setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1));
+                      }}
+                      disabled={!canGoPrev}
+                      aria-label="Forrige måned"
+                      className={cn(
+                        "flex h-11 w-11 items-center justify-center rounded-md border transition-colors",
+                        canGoPrev
+                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white"
+                          : "border-border/40 text-muted-foreground/40 cursor-not-allowed"
+                      )}
                     >
-                      Vis 4 uker til
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1))}
+                      aria-label="Neste måned"
+                      className="flex h-11 w-11 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors"
+                    >
+                      <ChevronRight className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
-              </div>
+
+                <div className="grid grid-cols-7 gap-y-2">
+                  {["Ma", "Ti", "On", "To", "Fr", "Lø", "Sø"].map((day) => (
+                    <div key={day} className="flex h-10 items-center justify-center text-sm font-light text-muted-foreground">
+                      {day}
+                    </div>
+                  ))}
+                  {Array.from({ length: (monthDays[0].getDay() + 6) % 7 }).map((_, i) => (
+                    <div key={`pad-${i}`} className="h-12" />
+                  ))}
+                  {monthDays.map((date) => {
+                    const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                    const isPast = date < today;
+                    const isDisabled = isPast || isWeekend;
+
+                    return (
+                      <div key={date.toISOString()} className="flex h-12 items-center justify-center">
+                        <button
+                          type="button"
+                          onClick={() => !isDisabled && setSelectedDate(date)}
+                          disabled={isDisabled}
+                          aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                          aria-pressed={isSelected}
+                          className={cn(
+                            "relative flex h-10 w-10 items-center justify-center rounded-full text-sm font-light transition-all",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                            isDisabled && "cursor-not-allowed text-muted-foreground/40 bg-muted/40",
+                            !isDisabled && !isSelected && "border border-brand-dark text-brand-dark bg-brand-light/40 hover:bg-brand-light",
+                            isSelected && "bg-brand-dark text-white hover:bg-brand-dark"
+                          )}
+                        >
+                          {isDisabled && (
+                            <span
+                              aria-hidden="true"
+                              className="absolute inset-0 flex items-center justify-center"
+                            >
+                              <span className="block h-px w-[140%] rotate-[-20deg] bg-muted-foreground/40" />
+                            </span>
+                          )}
+                          <span className="relative">{format(date, "d", { locale: nb })}</span>
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
