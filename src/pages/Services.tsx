@@ -256,23 +256,8 @@ const Services = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 md:py-24 bg-brand-dark">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">Ta vare på livet og underlivet</h2>
-            <p className="text-base md:text-lg font-light text-white/70 mb-10 max-w-xl">Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging</p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="cta-dark" size="lg" onClick={() => navigate("/booking")}>
-                Bestill time <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button variant="cta-outline" size="lg" className="text-white border-white/30 hover:bg-white hover:text-brand-dark" asChild>
-                <Link to="/kontakt">Kontakt oss</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Unified pre-footer CTA */}
+      <BookingCTA />
     </PageLayout>
   );
 };
