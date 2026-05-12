@@ -52,6 +52,7 @@ import Gynecology from "./pages/treatments/Gynecology";
 import GynekologiSubPage from "./pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
+import DemoOversikt from "./pages/DemoOversikt";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,8 @@ const AppContent = () => {
     <>
       <Routes>
         <Route path="/" element={<Index isChatOpen={false} />} />
+        <Route path="/demoer" element={<DemoOversikt isChatOpen={false} />} />
+        <Route path="/design-demoer" element={<DemoOversikt isChatOpen={false} />} />
         <Route path="/icon-preview" element={<IconPreview />} />
         <Route path="/product/:id" element={<ProductDetail isChatOpen={false} />} />
         <Route path="/produkt/:id" element={<ProductDetail isChatOpen={false} />} />
