@@ -9,6 +9,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 
 import gynekologiHeroImg from "@/assets/categories/gynekologi-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
@@ -324,6 +325,20 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* 3b. SYMPTOMSJEKK — fra symptom til tjeneste */}
+      <SymptomServiceSection
+        title="Hva kjenner du på?"
+        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
+        items={[
+          { symptom: "Vondt under samleie", service: "Gynekologisk undersøkelse", href: "/booking?kategori=gynekologi&tjeneste=undersokelse" },
+          { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/booking?kategori=gynekologi&tjeneste=endometriose" },
+          { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/booking?kategori=gynekologi&tjeneste=urinlekkasje" },
+          { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/booking?kategori=gynekologi&tjeneste=overgangsalder" },
+          { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PCOS-utredning", href: "/booking?kategori=gynekologi&tjeneste=pcos" },
+          { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/booking?kategori=gynekologi&tjeneste=vulvalidelser" },
+        ]}
+      />
 
       {/* ============================================================
           4. VET DU ALLEREDE HVA DU TRENGER? — full liste
