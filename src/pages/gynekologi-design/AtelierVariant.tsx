@@ -7,6 +7,7 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { specialists } from "@/data/specialists";
+import { DemoSpecialistCard } from "./DemoSpecialistCard";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import {
   gynekologiContent, gynekologiServices, gynekologiServiceGroups, gynekologiFaqs,
@@ -189,18 +190,7 @@ const AtelierVariant = ({ isChatOpen }: PageProps) => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
             {gynSpecialists.map((s) => (
-              <Link key={s.slug} to={`/spesialister/${s.slug}`} className="group block">
-                <div className="aspect-[3/4] overflow-hidden bg-muted rounded-2xl mb-3">
-                  <img
-                    src={s.image}
-                    alt={s.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700"
-                  />
-                </div>
-                <p className="text-sm font-light text-foreground leading-tight">{s.name}</p>
-                <p className="text-xs text-muted-foreground font-light mt-0.5">{s.title}</p>
-              </Link>
+              <DemoSpecialistCard key={s.slug} specialist={s} />
             ))}
           </div>
         </div>
