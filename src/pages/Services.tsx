@@ -10,6 +10,7 @@ import { searchSuggestions, type SearchItem } from "@/data/searchData";
 import { useTreatmentCategories, useFaqs, useServicesPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { FaqSection } from "@/components/layout/FaqSection";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
