@@ -4,7 +4,7 @@ import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronRight
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
-import { format, addDays } from "date-fns";
+import { format, addDays, addWeeks, endOfWeek } from "date-fns";
 import { nb } from "date-fns/locale";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
