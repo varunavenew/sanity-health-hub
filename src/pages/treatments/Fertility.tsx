@@ -227,6 +227,18 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     {s.desc}
                   </p>
+                  {s.tags && s.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {s.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <Link
                     to={s.href}
                     className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
