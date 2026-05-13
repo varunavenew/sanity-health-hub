@@ -594,6 +594,9 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* ============================================================
+          9. SPESIALISTER — menneskene bak
       ============================================================ */}
       <SpecialistsScroller
         category="gynekologi"
