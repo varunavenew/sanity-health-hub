@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      change_requests: {
+        Row: {
+          attachments: Json
+          created_at: string
+          created_by: string
+          id: string
+          message: string
+          page_name: string
+          page_path: string
+          resolved_by: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attachments?: Json
+          created_at?: string
+          created_by?: string
+          id?: string
+          message?: string
+          page_name?: string
+          page_path: string
+          resolved_by?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attachments?: Json
+          created_at?: string
+          created_by?: string
+          id?: string
+          message?: string
+          page_name?: string
+          page_path?: string
+          resolved_by?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       page_approvals: {
         Row: {
           category: string
