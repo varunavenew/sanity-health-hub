@@ -130,10 +130,6 @@ const reviews = [
   { text: "Korte ventetider, dyktige spesialister og et tilbud som faktisk er tilpasset oss. Anbefales på det sterkeste.", author: "Sara L.", date: "3 måneder siden" },
 ];
 
-const insurance = [
-  "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
-];
-
 /* ──────────────────────────────────────────────────────────────
    PAGE
    ────────────────────────────────────────────────────────────── */
