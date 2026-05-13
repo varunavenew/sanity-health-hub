@@ -1,168 +1,148 @@
-import { useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone, Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { AnimatedStat } from "@/components/AnimatedStat";
+import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
-import { CategoryReviews } from "@/components/treatments/CategoryReviews";
-import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
-import { getIcon } from "@/lib/icons";
-import ortopediHero from "@/assets/categories/ortopedi.jpg";
 
-interface Props {
+import { buildBookingUrl } from "@/lib/bookingLinks";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+
+import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
+import expertSkulder from "@/assets/hero/hero-treatment.jpg";
+import expertKne from "@/assets/hero/hero-technology.jpg";
+import expertHand from "@/assets/hero/cmedical-hands.jpg";
+import expertSecondOpinion from "@/assets/hero/cmedical-hero-3.jpg";
+
+interface PageProps {
   isChatOpen: boolean;
 }
 
-const bodyParts = [
+/* ──────────────────────────────────────────────────────────────
+   DATA
+   ────────────────────────────────────────────────────────────── */
+
+const lifePhases = [
   {
-    label: "Skulder",
-    body: "Inneklemming, kalkavleiringer, seneskader, ustabil skulder",
-    icon: "skulder-cl",
+    n: "01",
+    title: "Akutt skade eller smerte",
+    desc:
+      "Vridd kne, vondt etter et fall, plutselige ryggsmerter — vi ser deg raskt og legger en plan med en gang.",
+    tags: ["Akutt", "Diagnose", "MR"],
+    href: "/booking?kategori=ortopedi",
   },
   {
-    label: "Kne",
-    body: "Korsbånd, menisk, slitasjegikt, bruskskader",
-    icon: "kne-cl",
+    n: "02",
+    title: "Slitasje og kroniske plager",
+    desc:
+      "Kne- og hofteslitasje, frossen skulder, langvarige smerter — utredning og behandling i ditt tempo.",
+    tags: ["Artrose", "Smerte", "Bevegelse"],
+    href: "/booking?kategori=ortopedi",
   },
   {
-    label: "Hofte",
-    body: "Hofteslitasje, labrumskade, fotballbrokk",
-    icon: "hofte-cl",
+    n: "03",
+    title: "Trenger second opinion",
+    desc:
+      "Har du fått en diagnose du er usikker på? Vi får ofte pasienter med kompliserte caser — og ser dem med nye øyne.",
+    tags: ["Second opinion", "Vurdering"],
+    href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
   },
   {
-    label: "Hånd og albue",
-    body: "Karpaltunnel, tennisalbue, Dupuytren, springfinger",
-    icon: "hand-albue-cl",
-  },
-  {
-    label: "Fot og ankel",
-    body: "Hælspore, fotslitasje, ankelbåndskader",
-    icon: "fot-ankel-cl",
-  },
-  {
-    label: "Rygg og nakke",
-    body: "Skiveprolaps, spinalstenose, nakkeplager",
-    icon: "ortopedi-cl",
-  },
-  {
-    label: "Injeksjoner",
-    body: "Kortison, hyaluronsyre, blodspinningsteknikk (PRP)",
-    icon: "ortopedi-cl",
+    n: "04",
+    title: "Klar for kirurgi eller injeksjon",
+    desc:
+      "Artroskopi, kortisoninjeksjon, PRP eller hyaluronsyre — vi tilbyr hele bredden av ortopediske behandlinger.",
+    tags: ["Kirurgi", "PRP", "Injeksjon"],
+    href: "/booking?kategori=ortopedi",
   },
 ];
 
-const treatmentGroups = [
+const expertAreas = [
   {
-    label: "Skulder",
-    items: [
-      "Inneklemming (impingement)",
-      "Kalkavleiringer",
-      "Rotatormansjettskader",
-      "Ustabil skulder",
-      "Frossen skulder",
-    ],
+    eyebrow: "Spesialfelt",
+    title: "Skulder",
+    desc:
+      "Inneklemming, kalkavleiringer, rotatormansjettskader, frossen og ustabil skulder — utredet og behandlet av spesialister.",
+    href: "/behandlinger/ortopedi/skulder",
+    image: expertSkulder,
   },
   {
-    label: "Kne og hofte",
-    items: [
-      "Korsbåndruptur",
-      "Meniskskader",
-      "Kneslitasje",
-      "Hofteslitasje",
-      "Labrumskade",
-    ],
+    eyebrow: "Spesialfelt",
+    title: "Kne og hofte",
+    desc:
+      "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og avansert artroskopi.",
+    href: "/behandlinger/ortopedi/kne",
+    image: expertKne,
   },
   {
-    label: "Hånd, albue og fot",
-    items: [
-      "Karpaltunnelsyndrom",
-      "Tennisalbue og golfalbue",
-      "Dupuytrens kontraktur",
-      "Hælspore og hælsmerter",
-      "Ankelbåndskader",
-    ],
+    eyebrow: "Spesialfelt",
+    title: "Hånd, albue og fot",
+    desc:
+      "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
+    href: "/behandlinger/ortopedi/hand",
+    image: expertHand,
   },
   {
-    label: "Behandlingsformer",
-    items: [
-      "Ortopedisk kirurgi",
-      "Artroskopi",
-      "Kortisoninjeksjoner",
-      "Blodspinningsteknikk (PRP)",
-      "Hyaluronsyre",
-    ],
+    eyebrow: "Second opinion",
+    title: "Andre vurdering",
+    desc:
+      "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
+    href: "/behandlinger/ortopedi/second-opinion",
+    image: expertSecondOpinion,
   },
+];
+
+const allServices = [
+  { title: "Inneklemming (impingement)", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
+  { title: "Kalkavleiringer", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
+  { title: "Rotatormansjettskader", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
+  { title: "Frossen skulder", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
+  { title: "Korsbåndruptur", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
+  { title: "Meniskskader", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
+  { title: "Kneslitasje", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
+  { title: "Hofteslitasje", desc: "Hofte", href: "/behandlinger/ortopedi/hofte" },
+  { title: "Labrumskade i hofte", desc: "Hofte", href: "/behandlinger/ortopedi/hofte" },
+  { title: "Karpaltunnelsyndrom", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
+  { title: "Tennisalbue og golfalbue", desc: "Albue", href: "/behandlinger/ortopedi/albue" },
+  { title: "Dupuytrens kontraktur", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
+  { title: "Hælspore og hælsmerter", desc: "Fot", href: "/behandlinger/ortopedi/fot" },
+  { title: "Ankelbåndskader", desc: "Ankel", href: "/behandlinger/ortopedi/fot" },
+  { title: "Skiveprolaps", desc: "Rygg", href: "/behandlinger/ortopedi/rygg" },
+  { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
+  { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
+  { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
 ];
 
 const journey = [
-  {
-    label: "Steg 01",
-    title: "Bestill når det passer deg",
-    body:
-      "Online booking døgnet rundt. Ingen fastlege, ingen ventetid. Velg kroppsdel og klinikk — vi matcher deg med riktig spesialist.",
-  },
-  {
-    label: "Steg 02",
-    title: "Samtalen som rekker",
-    body:
-      "Du møter en ortoped som jobber med nettopp ditt område. Vi tar historikk, ser på bilder og gjør en grundig klinisk undersøkelse.",
-  },
-  {
-    label: "Steg 03",
-    title: "Diagnose og plan",
-    body:
-      "Du forlater konsultasjonen med en klar diagnose og en konkret plan — hva som er galt, hva vi anbefaler, og hva som skjer videre.",
-  },
-  {
-    label: "Steg 04",
-    title: "Tverrfaglig oppfølging",
-    body:
-      "Ved behov samarbeider ortopeden med fysioterapeut, manuellterapeut, osteopat og ernæringsfysiolog — alt under samme tak.",
-  },
+  { n: "01", title: "Bestill når det passer deg", desc: "Online booking døgnet rundt. Ingen henvisning, ingen ventetid — vi matcher deg med riktig spesialist." },
+  { n: "02", title: "Samtalen som rekker", desc: "Du møter en ortoped som jobber med ditt område. Vi tar historikk, ser på bilder og gjør en grundig undersøkelse." },
+  { n: "03", title: "Diagnose og plan", desc: "Du forlater konsultasjonen med en klar diagnose og en konkret plan — på et språk du forstår." },
+  { n: "04", title: "Tverrfaglig oppfølging", desc: "Ved behov samarbeider ortopeden med fysioterapeut, manuellterapeut, osteopat og ernæringsfysiolog." },
 ];
 
-const faqs = [
-  {
-    q: "Henvisning",
-    a: "Du trenger ingen henvisning. Du bestiller direkte hos oss — men husk å ta med bilder fra røntgen, CT eller MR om du har det.",
-  },
-  {
-    q: "Ventetid",
-    a: "Vi har ingen ventetid. Du kan vanligvis få time innen få dager.",
-  },
-  {
-    q: "Sykemelding",
-    a: "Ortopedene våre kan skrive ut sykmelding ved behov. Ta dette opp i konsultasjonen.",
-  },
-  {
-    q: "Utredning",
-    a: "En vanlig ortopedisk konsultasjon varer ca. 30 minutter. Vi kan ofte bestille MR eller røntgen samme dag.",
-  },
-  {
-    q: "Forsikring",
-    a: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If, Vertikal Helse, Storebrand og Tryg.",
-  },
+const reviews = [
+  { text: "Endelig fikk jeg en klar diagnose og en plan. Ortopeden tok seg tid og forklarte alt grundig.", author: "Knut R.", date: "2 måneder siden" },
+  { text: "Operert på kneet og tilbake i trening på 8 uker. Profesjonelt fra start til slutt.", author: "Mari T.", date: "3 måneder siden" },
+  { text: "Second opinion som forandret alt. Anbefales på det varmeste.", author: "Lars B.", date: "1 måned siden" },
 ];
 
-const OrtopediPage = ({ isChatOpen }: Props) => {
-  const navigate = useNavigate();
-  const { specialists } = useSpecialistsData();
+/* ──────────────────────────────────────────────────────────────
+   PAGE
+   ────────────────────────────────────────────────────────────── */
 
-  const teamSpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "ortopedi").slice(0, 4),
-    [specialists]
-  );
+const OrtopediPage = ({ isChatOpen }: PageProps) => {
+  useEffect(() => {
+    document.title = "Ortopedi | CMedical — Når det gjør vondt";
+  }, []);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Ortopedi – Skulder, kne, hofte, hånd og fot | CMedical"
-        description="Noen av landets fremste ortopeder. Ingen ventetid, ingen henvisning. Diagnose og plan på første konsultasjon — også second opinion."
+        title="Ortopedi | CMedical — Når det gjør vondt"
+        description="Spesialistortopedi hos CMedical. Skulder, kne, hofte, hånd og fot — diagnose og plan på første konsultasjon. Ingen henvisning, ingen ventetid."
         canonical="/ortopedi"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -176,271 +156,344 @@ const OrtopediPage = ({ isChatOpen }: Props) => {
           provider: { "@type": "MedicalClinic", name: "CMedical" },
         }}
       />
+      <h1 className="sr-only">Ortopedi hos CMedical — når det gjør vondt</h1>
 
-      {/* 1 ── HERO ── light split, image-left */}
-      <header className="bg-brand-warm">
-        <div className="grid md:grid-cols-2 min-h-[440px] md:min-h-[560px]">
-          <div className="relative min-h-[280px] md:min-h-0">
+      {/* 1. HERO */}
+      <header className="bg-brand-light pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+            <div className="max-w-xl w-full">
+              <p className="text-xs tracking-wide text-foreground/60 mb-8">
+                Ortopedi — CMedical
+              </p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
+              </h2>
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+                Våre ortopeder er eksperter på skader og sykdommer i muskler,
+                bein, ledd og sener. Noen av landets fremste kirurger jobber
+                hos oss — også med second opinion.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="px-8 w-full sm:w-auto"
+                  onClick={() =>
+                    (window.location.href = buildBookingUrl({
+                      kategori: "ortopedi",
+                    }))
+                  }
+                >
+                  Bestill ortopedtime
+                </Button>
+              </div>
+
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Ingen henvisning
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Korte ventetider
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Erfarne spesialister
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="relative min-h-[420px] lg:min-h-full">
             <img
               src={ortopediHero}
               alt="Ortopedi hos CMedical"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-6">
-              Ingen ventetid · Ingen henvisning
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground leading-[1.05] mb-7 max-w-xl">
-              Det gjør vondt. La oss finne ut hvorfor.
-            </h1>
-            <p className="text-base md:text-[17px] text-foreground/75 font-light leading-relaxed max-w-lg mb-9">
-              Våre ortopeder er eksperter på skader og sykdommer i muskler, bein,
-              ledd og sener. Noen av landets fremste kirurger jobber hos oss —
-              også med second opinion.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=ortopedi")}
-              >
-                Bestill time
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-foreground hover:border-brand-dark rounded-2xl"
-                onClick={() => navigate("/kontakt")}
-              >
-                <Phone className="mr-2 w-4 h-4" />
-                Kontakt oss
-              </Button>
-            </div>
-          </div>
         </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
-      {/* 2 ── INTRO ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-5">
-            Ortopedi
-          </p>
-          <p className="text-lg md:text-xl text-foreground/85 font-light leading-relaxed">
-            Ortopedi tar seg av problemer med muskler, bein, ledd og sener. Hos
-            oss jobber noen av landets fremste kirurger med avanserte caser —
-            inkludert second opinion for pasienter som ikke har fått hjelp andre
-            steder.
-          </p>
-        </div>
-      </section>
-
-      {/* 3 ── VELG KROPPSDEL ── 7-tile picker */}
-      <section className="bg-brand-warm py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Finn din inngang
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Velg kroppsdel — vi finner riktig spesialist
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
-            {bodyParts.map((bp) => {
-              const Icon = getIcon(bp.icon);
-              return (
-                <a
-                  key={bp.label}
-                  href="#behandlinger"
-                  className="bg-background p-6 md:p-7 flex flex-col group hover:bg-card transition-colors"
-                >
-                  <Icon className="w-5 h-5 text-foreground/70 mb-5" strokeWidth={1.5} />
-                  <h3 className="text-base md:text-lg font-light text-foreground mb-2">
-                    {bp.label}
-                  </h3>
-                  <p className="text-xs md:text-[13px] text-muted-foreground font-light leading-relaxed mb-5 flex-1">
-                    {bp.body}
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-light text-foreground/80 group-hover:gap-2.5 transition-all">
-                    Se behandlinger
-                    <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
-                  </span>
-                </a>
-              );
-            })}
-            {/* Second opinion as 8th tile */}
-            <a
-              href="#second-opinion"
-              className="bg-brand-dark text-white p-6 md:p-7 flex flex-col group"
-            >
-              <Sparkles className="w-5 h-5 text-brand-yellow mb-5" strokeWidth={1.5} />
-              <h3 className="text-base md:text-lg font-light mb-2 text-white">Second opinion</h3>
-              <p className="text-xs md:text-[13px] text-white/75 font-light leading-relaxed mb-5 flex-1">
-                Har du fått en diagnose du er usikker på? Vi ser på den med nye øyne.
+      {/* 2. SEGMENT */}
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-2xl mb-14">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Hvor er du nå?
               </p>
-              <span className="inline-flex items-center gap-1.5 text-xs font-light text-brand-yellow group-hover:gap-2.5 transition-all">
-                Les mer
-                <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* 4 ── TWO ENTRY DIALOGUE BOXES ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Vet du ikke hva det heter?
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Du trenger ikke en diagnose for å bestille
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            <div className="bg-brand-warm rounded-2xl p-8 md:p-10">
-              <h3 className="text-xl md:text-2xl font-light text-foreground mb-4 leading-snug">
-                Jeg har vondt<br />— men vet ikke hva det er
-              </h3>
-              <p className="text-sm md:text-[15px] text-muted-foreground font-light leading-relaxed mb-6">
-                Start med en generell ortopedisk konsultasjon. Spesialisten
-                undersøker deg, stiller diagnose og legger en plan — på et språk
-                du forstår.
-              </p>
-              <Button
-                variant="ghost"
-                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-foreground hover:border-brand-dark rounded-2xl"
-                onClick={() => navigate("/booking?kategori=ortopedi")}
-              >
-                Ortopedisk konsultasjon
-                <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
-              </Button>
-            </div>
-            <div
-              id="second-opinion"
-              className="bg-brand-warm rounded-2xl p-8 md:p-10"
-            >
-              <h3 className="text-xl md:text-2xl font-light text-foreground mb-4 leading-snug">
-                Jeg har fått en diagnose,<br />men er ikke fornøyd
-              </h3>
-              <p className="text-sm md:text-[15px] text-muted-foreground font-light leading-relaxed mb-6">
-                Second opinion hos CMedical. Vi får ofte pasienter med
-                kompliserte skader og caser der andre ikke har funnet løsningen.
-                Vi ser på det med nye øyne.
-              </p>
-              <Button
-                variant="cta"
-                onClick={() => navigate("/booking?kategori=ortopedi")}
-              >
-                Bestill second opinion
-                <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5 ── HVA VI BEHANDLER ── */}
-      <section id="behandlinger" className="bg-brand-warm py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Alt under samme tak
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Hva vi behandler
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-            {treatmentGroups.map((g) => (
-              <div key={g.label}>
-                <h3 className="text-base font-light text-foreground mb-5 pb-3 border-b border-border/60">
-                  {g.label}
-                </h3>
-                <ul className="space-y-3">
-                  {g.items.map((t) => (
-                    <li
-                      key={t}
-                      className="text-sm font-light text-muted-foreground leading-relaxed"
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5b ── SECOND OPINION BANNER ── */}
-      <section className="bg-background py-10 md:py-16">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="bg-brand-dark rounded-2xl p-8 md:p-12">
-            <div className="max-w-3xl">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-white/60 font-light mb-3">
-                Second opinion
-              </p>
-              <h2 className="text-2xl md:text-3xl font-light text-white leading-snug mb-3">
-                Har du vært andre steder uten å bli bra?
+              <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                Vi møter deg uansett hvorfor du tar kontakt.
               </h2>
-              <p className="text-sm md:text-[15px] text-white/75 font-light leading-relaxed mb-8">
-                Vi behandler jevnlig pasienter som kommer til oss med kompliserte
-                skader — enten fordi de ikke har fått hjelp, eller fordi de
-                trenger en ny vurdering. Hos oss jobber noen av landets fremste
-                ortopeder med nettopp dette.
-              </p>
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=ortopedi")}
-              >
-                Bestill second opinion
-                <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
-              </Button>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {lifePhases.map((p) => (
+                <div key={p.n} className="bg-background p-7 flex flex-col">
+                  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                    {p.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {p.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    to={p.href}
+                    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
+                  >
+                    Les mer
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6 ── PASIENTREISEN ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Slik går det for seg
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Pasientreisen, fortalt enkelt
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
-            {journey.map((step) => (
-              <div key={step.label} className="bg-brand-warm p-7 md:p-9 flex flex-col">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-                  {step.label}
+      {/* 3. EKSPERTER */}
+      <section className="bg-secondary/40 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Spesialistområder
                 </p>
-                <h3 className="text-lg md:text-xl font-light text-foreground leading-snug mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                  {step.body}
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Eksperter som jobber med det de kan aller best.
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Hos oss møter du ortopeder som har spesialisert seg dypt
+                  innenfor sitt fagfelt — fra skulder og kne til hånd og fot.
                 </p>
               </div>
-            ))}
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {expertAreas.map((a) => (
+                <Link
+                  key={a.title}
+                  to={a.href}
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                >
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="p-7 flex flex-col flex-1">
+                    <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                      {a.eyebrow}
+                    </p>
+                    <h3 className="text-xl font-light text-foreground mb-3">
+                      {a.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                      {a.desc}
+                    </p>
+                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                      Les mer
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 7 ── SPESIALISTENE ── */}
+      {/* 3b. SYMPTOMSJEKK */}
+      <SymptomServiceSection
+        title="Hva kjenner du på?"
+        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
+        items={[
+          { symptom: "Smerter i skulderen ved løft", service: "Skulderutredning", href: "/booking?kategori=ortopedi&tjeneste=skulder" },
+          { symptom: "Vondt eller ustabilt kne", service: "Kneutredning", href: "/booking?kategori=ortopedi&tjeneste=kne" },
+          { symptom: "Hofteslitasje eller liesmerter", service: "Hofteutredning", href: "/booking?kategori=ortopedi&tjeneste=hofte" },
+          { symptom: "Nummenhet eller stikninger i hånden", service: "Karpaltunnel-utredning", href: "/booking?kategori=ortopedi&tjeneste=hand" },
+          { symptom: "Vondt i albuen ved gripe-bevegelser", service: "Tennisalbue-utredning", href: "/booking?kategori=ortopedi&tjeneste=albue" },
+          { symptom: "Diagnose du er usikker på", service: "Second opinion", href: "/booking?kategori=ortopedi&tjeneste=second-opinion" },
+        ]}
+      />
+
+      {/* 4b. STATS */}
+      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-5">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
+                  Resultater
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Tall som forteller en historie.
+                </h2>
+              </div>
+              <div className="lg:col-span-7 flex items-end">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
+                  Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
+                  resultatene våre innen ortopedi de siste årene.
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-brand-dark/5 py-8 md:py-10">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
+                Ortopedi
+              </p>
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
+                {[
+                  { v: "12 400+", k: "Konsultasjoner", sub: "Per år" },
+                  { v: "1 800", k: "Inngrep og artroskopier", sub: "I 2024" },
+                  { v: "96%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+                  { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+                ].map((row, i) => (
+                  <div
+                    key={row.k}
+                    className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
+                  >
+                    <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
+                      <AnimatedStat value={row.v} />
+                    </dd>
+                    <dt className="text-sm font-normal text-foreground mb-1">
+                      {row.k}
+                    </dt>
+                    <p className="text-xs font-light text-muted-foreground">
+                      {row.sub}
+                    </p>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <p className="text-xs font-light text-muted-foreground mt-8">
+              Tall oppdatert per Q1 2026. Resultater varierer individuelt.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ALLE BEHANDLINGER */}
+      <section className="bg-background text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Alle behandlinger
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Vet du allerede hva du trenger?
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Klikk og book direkte, eller les mer om den enkelte
+                  ortopediske utredningen eller behandlingen.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {allServices.map((s) => (
+                <Link
+                  key={s.title}
+                  to={s.href}
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
+                >
+                  <div>
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. REVIEWS */}
+      <section className="bg-brand-warm py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-xl mb-10">
+              <p className="text-sm text-brand-dark/60 font-light mb-3">
+                Hva pasientene sier
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+                Tilbakemeldinger fra ekte pasienter
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {reviews.map((r, i) => (
+                <div
+                  key={i}
+                  className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
+                >
+                  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
+                  <div className="flex mb-4">
+                    {[0, 1, 2, 3, 4].map((s) => (
+                      <Star
+                        key={s}
+                        className="w-4 h-4 fill-[#FFC107] text-[#FFC107]"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-brand-dark font-light leading-relaxed mb-6 text-base">
+                    "{r.text}"
+                  </p>
+                  <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                    <div>
+                      <p className="text-brand-dark font-normal text-sm">
+                        {r.author}
+                      </p>
+                      <p className="text-xs text-brand-dark/60 font-light">
+                        {r.date}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                      <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none">
+                        <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107"/>
+                        <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00"/>
+                        <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50"/>
+                        <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2"/>
+                      </svg>
+                      <span>Google</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. SPESIALISTER */}
       <SpecialistsScroller
         category="ortopedi"
         title="Ortopedene som følger deg."
@@ -448,64 +501,77 @@ const OrtopediPage = ({ isChatOpen }: Props) => {
         seeAllLabel="Se alle ortopeder"
       />
 
-      {/* 8 ── REVIEWS ── */}
-      <CategoryReviews categoryId="ortopedi" categoryTitle="ortopedi" />
+      {/* 7. PASIENTREISEN */}
+      <section className="bg-background">
+        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-5">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Pasientreisen
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
+                Fra første kontakt til riktig behandling.
+              </h2>
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-10 max-w-md">
+                Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
+                oss, fra du booker time til du er ferdig behandlet.
+              </p>
+              <Button asChild variant="cta" size="lg" className="px-8">
+                <Link to={buildBookingUrl({ kategori: "ortopedi" })}>
+                  Bestill time
+                </Link>
+              </Button>
+            </div>
 
-      {/* 9 ── FAQ ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-            Vanlige spørsmål
-          </p>
-          <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
-            Det folk spør om
-          </h2>
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`o-${i}`}>
-                <AccordionTrigger className="text-left font-light text-base">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-light leading-relaxed">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+            <div className="lg:col-span-7">
+              <div className="divide-y divide-border/60 border-t border-border/60">
+                {journey.map((step) => (
+                  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                      {step.n}
+                    </div>
+                    <div className="col-span-10 md:col-span-11">
+                      <h3 className="text-base font-normal text-foreground mb-1.5">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 10 ── CLOSING CTA ── */}
-      <section className="bg-brand-light py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-5">
-                Klar når du er det
-              </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-5 text-foreground">
-                Bestill ortopedtime — bilder kommer godt med.
+      {/* 8. SLUTT-CTA */}
+      <section className="bg-brand-dark text-white py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
+                Klar til å ta neste steg?
               </h2>
-              <p className="text-base text-muted-foreground font-light leading-relaxed">
-                Vi sender bekreftelse og forberedelser direkte til deg. Husk å ta
-                med bilder fra røntgen, CT eller MR om du har det.
+              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
+                Ingen henvisning. Ingen ventetid. Bare en ortoped som tar
+                seg tid til deg.
               </p>
             </div>
-            <div className="flex flex-col gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=ortopedi")}
-              >
-                Bestill ortopedtime
-                <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
+              <Button asChild variant="cta-dark" size="lg" className="px-8">
+                <Link to={buildBookingUrl({ kategori: "ortopedi" })}>
+                  Bestill ortopedtime
+                </Link>
               </Button>
-              <Link
-                to="/priser"
-                className="text-center text-sm font-light text-muted-foreground hover:text-foreground underline underline-offset-4 mt-2"
+              <a
+                href="tel:+4722000000"
+                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
               >
-                Se prisliste
-              </Link>
+                <Phone className="w-4 h-4" />
+                Eller ring oss på 22 00 00 00
+              </a>
             </div>
           </div>
         </div>

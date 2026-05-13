@@ -1,116 +1,141 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone } from "lucide-react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { AnimatedStat } from "@/components/AnimatedStat";
+import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
-import { CategoryReviews } from "@/components/treatments/CategoryReviews";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
-import { getIcon } from "@/lib/icons";
-import flereHero from "@/assets/categories/flere-fagomrader.jpg";
 
-interface Props {
+import { buildBookingUrl } from "@/lib/bookingLinks";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+
+import flereHero from "@/assets/categories/flere-fagomrader.jpg";
+import expertKropp from "@/assets/hero/cmedical-skin-texture.jpg";
+import expertHelse from "@/assets/hero/tverrfaglig-team.jpg";
+import expertSinn from "@/assets/hero/hero-lifestyle-1.jpg";
+import expertTverr from "@/assets/hero/cmedical-hero-1.jpg";
+
+interface PageProps {
   isChatOpen: boolean;
 }
 
-// 3 thematic groups from the PDF
-const themes = [
+/* ──────────────────────────────────────────────────────────────
+   DATA
+   ────────────────────────────────────────────────────────────── */
+
+const lifePhases = [
   {
-    label: "Kropp og vev",
-    body:
-      "Spesialister på hud, kirurgi og karsystemet. For deg med synlige plager, operasjonsbehov eller tilstander som krever kirurgisk vurdering.",
-    services: [
-      { name: "Hudlege", slug: "hudlege" },
-      { name: "Plastikkirurgi", slug: "plastikkirurgi" },
-      { name: "Gastrokirurgi", slug: "gastrokirurgi" },
-      { name: "Karkirurgi", slug: "areknuter" },
-      { name: "Åreknutebehandling", slug: "areknuter" },
-    ],
+    n: "01",
+    title: "Hud, kropp og vev",
+    desc:
+      "Hudlege, plastikkirurgi, gastrokirurgi, karkirurgi og åreknutebehandling — for synlige plager og operasjonsbehov.",
+    tags: ["Hud", "Kirurgi", "Kar"],
+    href: "/booking?kategori=flere-fagomrader",
   },
   {
-    label: "Helse og balanse",
-    body:
-      "Spesialister på indre medisin, hormoner, ledd og kropp. For deg med systemiske plager, langvarige smerter eller hormonforstyrrelser.",
-    services: [
-      { name: "Ernæringsfysiolog", slug: "ernaringsfysiolog" },
-      { name: "Endokrinologi", slug: "endokrinologi" },
-      { name: "Revmatologi", slug: "revmatologi" },
-      { name: "Osteopati", slug: "osteopati" },
-      { name: "Robotkirurgi", slug: "robotkirurgi" },
-    ],
+    n: "02",
+    title: "Helse og balanse",
+    desc:
+      "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager, langvarige smerter eller hormonforstyrrelser.",
+    tags: ["Hormoner", "Ledd", "Ernæring"],
+    href: "/booking?kategori=flere-fagomrader",
   },
   {
-    label: "Sinn og seksualitet",
-    body:
-      "Spesialister på mental helse og seksuell helse. For deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
-    services: [
-      { name: "Psykologi", slug: "psykologi" },
-      { name: "Sexologi", slug: "sexologi" },
-    ],
+    n: "03",
+    title: "Sinn og seksualitet",
+    desc:
+      "Psykolog og sexolog — for deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
+    tags: ["Psykolog", "Sexolog"],
+    href: "/booking?kategori=flere-fagomrader",
+  },
+  {
+    n: "04",
+    title: "Tverrfaglige forløp",
+    desc:
+      "Når det er sammensatt — vi setter sammen team av spesialister og koordinerer hele forløpet for deg.",
+    tags: ["Team", "Koordinering"],
+    href: "/booking?kategori=flere-fagomrader",
   },
 ];
 
-// Long descriptive specialist list
-const specialistList = [
-  { name: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne, moleanalyse", icon: "hudlege-cl", slug: "hudlege" },
-  { name: "Psykologi", desc: "Angst, depresjon, relasjonsproblemer, traumer", icon: "psykologi-cl", slug: "psykologi" },
-  { name: "Sexologi", desc: "Seksuell helse, samliv, identitet, funksjonsplager", icon: "sexologi-cl", slug: "sexologi" },
-  { name: "Ernæringsfysiolog", desc: "Kosthold, vekttap, matintoleranser, sykdomsernæring", icon: "ernaringsfysiolog-cl", slug: "ernaringsfysiolog" },
-  { name: "Endokrinologi", desc: "Diabetes, skjoldbruskkjertelen, binyrer, hormoner", icon: "endokrinologi-cl", slug: "endokrinologi" },
-  { name: "Osteopati", desc: "Muskel- og skjelettsystemet, kroniske smerter", icon: "osteopati-cl", slug: "osteopati" },
-  { name: "Revmatologi", desc: "Leddgikt, artrose, bindevevssykdommer", icon: "revmatologi-cl", slug: "revmatologi" },
-  { name: "Plastikkirurgi", desc: "Rekonstruksjon, korreksjon, estetisk kirurgi", icon: "plastikkirurgi-cl", slug: "plastikkirurgi" },
-  { name: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", icon: "gastrokirurgi-cl", slug: "gastrokirurgi" },
-  { name: "Karkirurgi", desc: "Åreknuter, blodkar, sirkulasjonsplager", icon: "areknuter-cl", slug: "areknuter" },
-  { name: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi med robot", icon: "robotkirurgi-gyn-cl", slug: "robotkirurgi" },
-  { name: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgisk behandling", icon: "areknuter-cl", slug: "areknuter" },
+const expertAreas = [
+  {
+    eyebrow: "Spesialfelt",
+    title: "Hud og kirurgi",
+    desc:
+      "Hudlege, plastikkirurgi, gastrokirurgi og karkirurgi — fra moleanalyse til avansert kirurgi.",
+    href: "/behandlinger/flere-fagomrader/hudlege",
+    image: expertKropp,
+  },
+  {
+    eyebrow: "Spesialfelt",
+    title: "Indremedisin og kropp",
+    desc:
+      "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager og langvarige smerter.",
+    href: "/behandlinger/flere-fagomrader/endokrinologi",
+    image: expertHelse,
+  },
+  {
+    eyebrow: "Spesialfelt",
+    title: "Psykologi og sexologi",
+    desc:
+      "Trygge samtaler om angst, depresjon, samliv, seksualitet og identitet — i et tempo som passer deg.",
+    href: "/behandlinger/flere-fagomrader/psykologi",
+    image: expertSinn,
+  },
+  {
+    eyebrow: "Tverrfaglig",
+    title: "Sammen om hele deg",
+    desc:
+      "Vi samarbeider på tvers av fagfelt — psykolog med urolog, sexolog med gynekolog, ernæringsfysiolog med endokrinolog.",
+    href: "/behandlinger/flere-fagomrader",
+    image: expertTverr,
+  },
+];
+
+const allServices = [
+  { title: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne", href: "/behandlinger/flere-fagomrader/hudlege" },
+  { title: "Plastikkirurgi", desc: "Rekonstruksjon og estetisk", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
+  { title: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
+  { title: "Karkirurgi", desc: "Åreknuter og blodkar", href: "/behandlinger/flere-fagomrader/areknuter" },
+  { title: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgi", href: "/behandlinger/flere-fagomrader/areknuter" },
+  { title: "Endokrinologi", desc: "Diabetes, skjoldbrusk, hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
+  { title: "Revmatologi", desc: "Leddgikt, artrose, bindevev", href: "/behandlinger/flere-fagomrader/revmatologi" },
+  { title: "Ernæringsfysiolog", desc: "Kosthold, vekttap, intoleranser", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+  { title: "Osteopati", desc: "Muskel, skjelett, kroniske smerter", href: "/behandlinger/flere-fagomrader/osteopati" },
+  { title: "Psykologi", desc: "Angst, depresjon, traumer", href: "/behandlinger/flere-fagomrader/psykologi" },
+  { title: "Sexologi", desc: "Seksuell helse, samliv, identitet", href: "/behandlinger/flere-fagomrader/sexologi" },
+  { title: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi", href: "/behandlinger/flere-fagomrader/robotkirurgi" },
 ];
 
 const journey = [
-  {
-    label: "Steg 01",
-    title: "Bestill når det passer deg",
-    body:
-      "Online booking døgnet rundt. Ingen fastlege, ingen ventetid. Usikker på hvem du trenger? Ring oss — vi hjelper deg finne riktig spesialist.",
-  },
-  {
-    label: "Steg 02",
-    title: "Samtalen som rekker",
-    body:
-      "Du møter en spesialist som utelukkende jobber med det du trenger. Vi tar oss tid — og forklarer på et språk du forstår.",
-  },
-  {
-    label: "Steg 03",
-    title: "Utredning og plan",
-    body:
-      "En konkret plan — på et språk du forstår. Trenger du videre oppfølging eller samarbeid med andre spesialister, koordinerer vi det.",
-  },
-  {
-    label: "Steg 04",
-    title: "Tverrfaglig oppfølging",
-    body:
-      "Spesialistene jobber i team. En sexolog samarbeider med gynekologen, en psykolog med urologen. Du slipper å starte på nytt et annet sted.",
-  },
+  { n: "01", title: "Bestill når det passer deg", desc: "Online booking døgnet rundt. Usikker på hvem du trenger? Ring oss — vi hjelper deg finne riktig spesialist." },
+  { n: "02", title: "Samtalen som rekker", desc: "Du møter en spesialist som utelukkende jobber med det du trenger. Vi tar oss tid og forklarer på et språk du forstår." },
+  { n: "03", title: "Utredning og plan", desc: "En konkret plan på et språk du forstår. Trenger du videre oppfølging eller samarbeid med andre spesialister, koordinerer vi det." },
+  { n: "04", title: "Tverrfaglig oppfølging", desc: "Spesialistene jobber i team. En sexolog samarbeider med gynekologen, en psykolog med urologen — du slipper å starte på nytt." },
 ];
 
-const faqs = [
-  { q: "Henvisning", a: "Du trenger ingen henvisning fra fastlege for å bestille time hos oss. Du bestiller direkte." },
-  { q: "Ventetid", a: "Vi har kort ventetid. Du kan vanligvis få time innen få dager etter at du tar kontakt." },
-  { q: "Sykemelding", a: "Spesialistene våre kan skrive ut sykmelding ved behov. Ta dette opp i konsultasjonen." },
-  { q: "Utredning", a: "En vanlig konsultasjon hos oss varer ca. 30 minutter. Videre utredning avtales med spesialisten." },
-  { q: "Forsikring", a: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If, Vertikal Helse, Storebrand og Tryg. Ta kontakt for å sjekke hva din forsikring dekker." },
+const reviews = [
+  { text: "Endelig en psykolog som virkelig lyttet. Jeg følte meg sett fra første time.", author: "Hanne L.", date: "1 måned siden" },
+  { text: "Kombinasjonen av ernæringsfysiolog og endokrinolog forandret hverdagen min.", author: "Eva M.", date: "3 måneder siden" },
+  { text: "Hudlegen var grundig og forklarte alt. Trygg behandling i hyggelige omgivelser.", author: "Sondre K.", date: "2 måneder siden" },
 ];
 
-const FlereFagomraderPage = ({ isChatOpen }: Props) => {
-  const navigate = useNavigate();
+/* ──────────────────────────────────────────────────────────────
+   PAGE
+   ────────────────────────────────────────────────────────────── */
+
+const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
+  useEffect(() => {
+    document.title = "Flere fagområder | CMedical — Tverrfaglige spesialister";
+  }, []);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Flere fagområder – Tverrfaglige spesialister | CMedical"
+        title="Flere fagområder | CMedical — Tverrfaglige spesialister"
         description="Hud, psykologi, sexologi, ernæring, kirurgi og mer — Nordens fremste spesialister, ofte i tverrfaglige team. Kort ventetid, ingen henvisning."
         canonical="/flere-fagomrader"
         breadcrumbs={[
@@ -124,153 +149,347 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
           name: "CMedical – Flere fagområder",
         }}
       />
+      <h1 className="sr-only">
+        Flere fagområder hos CMedical — tverrfaglige spesialister
+      </h1>
 
-      {/* 1 ── HERO ── split, lys venstre, bilde høyre */}
-      <header className="bg-brand-light text-foreground">
-        <div className="grid md:grid-cols-[1.1fr_1fr] min-h-[460px] md:min-h-[560px]">
-          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-6">
-              Kort ventetid · Ingen henvisning
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
-              Nordens fremste spesialister — i tverrfaglige team.
-            </h1>
-            <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
-              Vi har samlet noen av Nordens fremste spesialister innen hud,
-              psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber
-              i tverrfaglige team — og utelukkende med det de kan aller best.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=flere-fagomrader")}
-              >
-                Bestill time
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-foreground/10 rounded-2xl"
-                onClick={() => navigate("/kontakt")}
-              >
-                <Phone className="mr-2 w-4 h-4" />
-                Kontakt oss
-              </Button>
+      {/* 1. HERO */}
+      <header className="bg-brand-light pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+            <div className="max-w-xl w-full">
+              <p className="text-xs tracking-wide text-foreground/60 mb-8">
+                Flere fagområder — CMedical
+              </p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                Spesialister <span className="block italic">i team</span>
+              </h2>
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+                Vi har samlet noen av Nordens fremste spesialister innen hud,
+                psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber
+                i tverrfaglige team — og utelukkende med det de kan aller best.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="px-8 w-full sm:w-auto"
+                  onClick={() =>
+                    (window.location.href = buildBookingUrl({
+                      kategori: "flere-fagomrader",
+                    }))
+                  }
+                >
+                  Bestill time
+                </Button>
+              </div>
+
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Ingen henvisning
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Korte ventetider
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Tverrfaglige team
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="relative order-1 md:order-2 min-h-[280px] md:min-h-0">
+
+          <div className="relative min-h-[420px] lg:min-h-full">
             <img
               src={flereHero}
-              alt="CMedical – flere fagområder"
+              alt="Flere fagområder hos CMedical"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
         </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
-      {/* 2 ── INTRO PARAGRAPH ── */}
-      <section className="bg-background py-16 md:py-20">
-        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-5">
-            Øvrige fagområder
-          </p>
-          <p className="text-lg md:text-xl text-foreground/85 font-light leading-relaxed">
-            Vi har samlet noen av Nordens fremste spesialister innen
-            gastrokirurgi, revmatologi, dermatologi, ernæringsfysiologi,
-            karkirurgi, osteopati, psykologi og sexologi. Spesialistene jobber
-            ofte i tverrfaglige team for å gi deg den beste behandlingen.
-          </p>
-        </div>
-      </section>
+      {/* 2. SEGMENT */}
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-2xl mb-14">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Hvor er du nå?
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                Vi dekker mer enn du tror — og vi gjør det sammen.
+              </h2>
+            </div>
 
-      {/* 3 ── 3 THEMATIC TRACKS ── */}
-      <section className="bg-brand-warm py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Fagområder
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Finn fagfeltet som passer deg
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {themes.map((t) => (
-              <div
-                key={t.label}
-                className="bg-background rounded-2xl p-7 md:p-8 flex flex-col"
-              >
-                <h3 className="text-xl md:text-2xl font-light text-foreground mb-4 leading-snug">
-                  {t.label}
-                </h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed mb-7 min-h-[6.5rem]">
-                  {t.body}
-                </p>
-                <ul className="space-y-2 pt-6 border-t border-border/60">
-                  {t.services.map((s) => (
-                    <li key={s.name}>
-                      <Link
-                        to={`/behandlinger/flere-fagomrader/${s.slug}`}
-                        className="group flex items-center justify-between gap-3 py-1.5 text-sm font-light text-foreground/85 hover:text-foreground transition-colors"
-                      >
-                        <span className="border-b border-transparent group-hover:border-foreground/40 pb-0.5 transition-colors">
-                          {s.name}
-                        </span>
-                        <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4 ── ALLE SPESIALISTER (descriptive list) ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Alle spesialister
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Ledende spesialister — direkte til deg
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 md:gap-x-14 gap-y-8">
-            {specialistList.map((s) => {
-              const Icon = getIcon(s.icon);
-              return (
-                <Link
-                  key={s.name}
-                  to={`/behandlinger/flere-fagomrader/${s.slug}`}
-                  className="group block border-t border-border/60 pt-6"
-                >
-                  <div className="flex items-center justify-between gap-3 mb-2">
-                    <div className="flex items-center gap-3">
-                      <Icon className="w-4 h-4 text-foreground/60" strokeWidth={1.5} />
-                      <h3 className="text-base font-light text-foreground">
-                        {s.name}
-                      </h3>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
-                  </div>
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                    {s.desc}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {lifePhases.map((p) => (
+                <div key={p.n} className="bg-background p-7 flex flex-col">
+                  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                    {p.desc}
                   </p>
-                </Link>
-              );
-            })}
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {p.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    to={p.href}
+                    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
+                  >
+                    Les mer
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4b ── SPESIALISTENE ── */}
+      {/* 3. EKSPERTER */}
+      <section className="bg-secondary/40 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Spesialistområder
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Eksperter som jobber med det de kan aller best.
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Hos oss møter du spesialister som har spesialisert seg dypt
+                  innenfor sitt fagfelt — og som samarbeider på tvers når det
+                  trengs.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {expertAreas.map((a) => (
+                <Link
+                  key={a.title}
+                  to={a.href}
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                >
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="p-7 flex flex-col flex-1">
+                    <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                      {a.eyebrow}
+                    </p>
+                    <h3 className="text-xl font-light text-foreground mb-3">
+                      {a.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                      {a.desc}
+                    </p>
+                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                      Les mer
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3b. SYMPTOMSJEKK */}
+      <SymptomServiceSection
+        title="Hva trenger du hjelp med?"
+        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
+        items={[
+          { symptom: "Hudplager, føflekker eller akne", service: "Hudlege", href: "/booking?kategori=flere-fagomrader&tjeneste=hudlege" },
+          { symptom: "Lavt stoffskifte, diabetes eller hormoner", service: "Endokrinolog", href: "/booking?kategori=flere-fagomrader&tjeneste=endokrinologi" },
+          { symptom: "Leddsmerter, stivhet eller hevelse", service: "Revmatolog", href: "/booking?kategori=flere-fagomrader&tjeneste=revmatologi" },
+          { symptom: "Angst, nedstemthet eller relasjonsproblemer", service: "Psykolog", href: "/booking?kategori=flere-fagomrader&tjeneste=psykologi" },
+          { symptom: "Utfordringer i samliv eller seksualitet", service: "Sexolog", href: "/booking?kategori=flere-fagomrader&tjeneste=sexologi" },
+          { symptom: "Vekt, kosthold eller matintoleranser", service: "Ernæringsfysiolog", href: "/booking?kategori=flere-fagomrader&tjeneste=ernaringsfysiolog" },
+        ]}
+      />
+
+      {/* 4b. STATS */}
+      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-5">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
+                  Resultater
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Tall som forteller en historie.
+                </h2>
+              </div>
+              <div className="lg:col-span-7 flex items-end">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
+                  Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
+                  resultatene fra spesialistene våre på tvers av fagfelt.
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-brand-dark/5 py-8 md:py-10">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
+                Flere fagområder
+              </p>
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
+                {[
+                  { v: "30+", k: "Spesialistområder", sub: "Under samme tak" },
+                  { v: "18 500", k: "Konsultasjoner", sub: "I 2024" },
+                  { v: "97%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+                  { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+                ].map((row, i) => (
+                  <div
+                    key={row.k}
+                    className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
+                  >
+                    <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
+                      <AnimatedStat value={row.v} />
+                    </dd>
+                    <dt className="text-sm font-normal text-foreground mb-1">
+                      {row.k}
+                    </dt>
+                    <p className="text-xs font-light text-muted-foreground">
+                      {row.sub}
+                    </p>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <p className="text-xs font-light text-muted-foreground mt-8">
+              Tall oppdatert per Q1 2026. Resultater varierer individuelt.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ALLE BEHANDLINGER */}
+      <section className="bg-background text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Alle fagområder
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Vet du allerede hva du trenger?
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Klikk og book direkte, eller les mer om den enkelte
+                  spesialiteten.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {allServices.map((s) => (
+                <Link
+                  key={s.title}
+                  to={s.href}
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
+                >
+                  <div>
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. REVIEWS */}
+      <section className="bg-brand-warm py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-xl mb-10">
+              <p className="text-sm text-brand-dark/60 font-light mb-3">
+                Hva pasientene sier
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+                Tilbakemeldinger fra ekte pasienter
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {reviews.map((r, i) => (
+                <div
+                  key={i}
+                  className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
+                >
+                  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
+                  <div className="flex mb-4">
+                    {[0, 1, 2, 3, 4].map((s) => (
+                      <Star
+                        key={s}
+                        className="w-4 h-4 fill-[#FFC107] text-[#FFC107]"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-brand-dark font-light leading-relaxed mb-6 text-base">
+                    "{r.text}"
+                  </p>
+                  <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                    <div>
+                      <p className="text-brand-dark font-normal text-sm">
+                        {r.author}
+                      </p>
+                      <p className="text-xs text-brand-dark/60 font-light">
+                        {r.date}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                      <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none">
+                        <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107"/>
+                        <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00"/>
+                        <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50"/>
+                        <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2"/>
+                      </svg>
+                      <span>Google</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. SPESIALISTER */}
       <SpecialistsScroller
         category="annet"
         title="Spesialistene som følger deg."
@@ -278,93 +497,77 @@ const FlereFagomraderPage = ({ isChatOpen }: Props) => {
         seeAllLabel="Se alle spesialister"
       />
 
-      {/* 5 ── PASIENTREISEN ── */}
-      <section className="bg-brand-warm py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Slik går det for seg
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Pasientreisen, fortalt enkelt
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
-            {journey.map((step) => (
-              <div key={step.label} className="bg-background p-7 md:p-9 flex flex-col">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-                  {step.label}
-                </p>
-                <h3 className="text-lg md:text-xl font-light text-foreground leading-snug mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                  {step.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6 ── REVIEWS ── */}
-      <CategoryReviews categoryId="flere-fagomrader" categoryTitle="våre spesialister" />
-
-      {/* 7 ── FAQ ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-            Vanlige spørsmål
-          </p>
-          <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
-            Det folk spør om
-          </h2>
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`f-${i}`}>
-                <AccordionTrigger className="text-left font-light text-base">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-light leading-relaxed">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
-      {/* 8 ── CLOSING CTA ── */}
-      <section className="bg-brand-light py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-5">
-                Klar når du er det
+      {/* 7. PASIENTREISEN */}
+      <section className="bg-background">
+        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-5">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Pasientreisen
               </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-5 text-foreground">
-                Usikker på hvem du trenger? Ta en gratis prat først.
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
+                Fra første kontakt til riktig behandling.
               </h2>
-              <p className="text-base text-muted-foreground font-light leading-relaxed">
-                Vi sender bekreftelse og forberedelser direkte til deg. Du kan
-                også ta en gratis og uforpliktende prat med oss først.
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-10 max-w-md">
+                Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
+                oss, fra du booker time til du er ferdig behandlet.
+              </p>
+              <Button asChild variant="cta" size="lg" className="px-8">
+                <Link to={buildBookingUrl({ kategori: "flere-fagomrader" })}>
+                  Bestill time
+                </Link>
+              </Button>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="divide-y divide-border/60 border-t border-border/60">
+                {journey.map((step) => (
+                  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                      {step.n}
+                    </div>
+                    <div className="col-span-10 md:col-span-11">
+                      <h3 className="text-base font-normal text-foreground mb-1.5">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. SLUTT-CTA */}
+      <section className="bg-brand-dark text-white py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
+                Klar til å ta neste steg?
+              </h2>
+              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
+                Ingen henvisning. Ingen ventetid. Bare spesialister som tar
+                seg tid til deg.
               </p>
             </div>
-            <div className="flex flex-col gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=flere-fagomrader")}
-              >
-                Bestill time
-                <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
+              <Button asChild variant="cta-dark" size="lg" className="px-8">
+                <Link to={buildBookingUrl({ kategori: "flere-fagomrader" })}>
+                  Bestill time
+                </Link>
               </Button>
-              <Link
-                to="/priser"
-                className="text-center text-sm font-light text-muted-foreground hover:text-foreground underline underline-offset-4 mt-2"
+              <a
+                href="tel:+4722000000"
+                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
               >
-                Se prisliste
-              </Link>
+                <Phone className="w-4 h-4" />
+                Eller ring oss på 22 00 00 00
+              </a>
             </div>
           </div>
         </div>
