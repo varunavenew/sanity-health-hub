@@ -222,6 +222,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             />
           </div>
         </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
 
