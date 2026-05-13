@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { clinics as staticClinics, getClinicsForService as staticGetClinicsForService, Clinic } from "@/data/clinicServices";
 import { useClinics } from "@/hooks/useSanity";
 import { categoryPageToBookingId, slugifyNo } from "@/lib/bookingLinks";
+import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 
 // Booking services data based on CMedical's actual structure
 const bookingServices = [
@@ -812,11 +813,10 @@ const BookingDemo = () => {
               </h2>
               
               {availableClinics.length === 0 ? (
-                <div className="p-6 bg-white rounded-lg text-center">
-                  <p className="text-muted-foreground">
-                    Ingen klinikker tilbyr denne tjenesten for øyeblikket.
-                  </p>
-                </div>
+                <FriendlyEmpty
+                  title="Ingen klinikker tilgjengelig akkurat nå"
+                  message="Denne tjenesten er ikke bookbar online for øyeblikket. Vi hjelper deg gjerne med å finne riktig time."
+                />
               ) : (
                 <div className="space-y-3">
                   {availableClinics.map((clinic) => (
@@ -1067,10 +1067,10 @@ const BookingDemo = () => {
                       </div>
                     )
                   ) : (
-                    <div className="text-center py-8">
-                      <Calendar className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-muted-foreground">Ingen ledige timer denne dagen</p>
-                    </div>
+                    <FriendlyEmpty
+                      title="Ingen ledige timer denne dagen"
+                      message="Prøv en annen dag i kalenderen, eller gi oss en ringedirekte – vi finner ofte en åpning som ikke ligger ute online."
+                    />
                   )}
                 </div>
               )}
