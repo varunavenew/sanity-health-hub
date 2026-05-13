@@ -239,18 +239,20 @@ const BookingDemo = () => {
   }, [viewMonth]);
   const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
 
-  // Horizontal week strip state
-  const [weekStart, setWeekStart] = useState<Date>(() => {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    return d;
-  });
-  const [weekDirection, setWeekDirection] = useState<1 | -1>(1);
-  const weekDays = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
-    [weekStart]
+  // 4-ukers strip — inneværende uke + 3 neste
+  const WEEKS_VISIBLE = 4;
+  const [rangeStart, setRangeStart] = useState<Date>(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 })
   );
-  const canGoPrevWeek = weekStart.getTime() > today.getTime();
+  const [rangeDirection, setRangeDirection] = useState<1 | -1>(1);
+  const weeks = useMemo(
+    () =>
+      Array.from({ length: WEEKS_VISIBLE }, (_, w) =>
+        Array.from({ length: 7 }, (_, d) => addDays(rangeStart, w * 7 + d))
+      ),
+    [rangeStart]
+  );
+  const canGoPrevRange = rangeStart.getTime() > startOfWeek(today, { weekStartsOn: 1 }).getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -951,30 +953,30 @@ const BookingDemo = () => {
                 )}
               </h2>
               
-              {/* Horisontal dato-strip — kompakt og nytenkende */}
+              {/* 4-ukers dato-strip — kompakt og oversiktlig */}
               <div className="bg-white rounded-lg p-6">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-muted-foreground font-light mb-1">
-                      Neste tilgjengelige
+                      Velg en dag
                     </p>
                     <h3 className="text-xl font-light text-foreground capitalize">
-                      {format(weekDays[0], "d. MMMM", { locale: nb })} – {format(weekDays[6], "d. MMMM", { locale: nb })}
+                      {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][6], "d. MMM yyyy", { locale: nb })}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => {
-                        if (!canGoPrevWeek) return;
-                        setWeekDirection(-1);
-                        setWeekStart(addDays(weekStart, -7));
+                        if (!canGoPrevRange) return;
+                        setRangeDirection(-1);
+                        setRangeStart(addDays(rangeStart, -7 * WEEKS_VISIBLE));
                       }}
-                      disabled={!canGoPrevWeek}
-                      aria-label="Forrige uke"
+                      disabled={!canGoPrevRange}
+                      aria-label="Forrige periode"
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
-                        canGoPrevWeek
+                        canGoPrevRange
                           ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white"
                           : "border-border/40 text-muted-foreground/40 cursor-not-allowed"
                       )}
@@ -984,10 +986,10 @@ const BookingDemo = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        setWeekDirection(1);
-                        setWeekStart(addDays(weekStart, 7));
+                        setRangeDirection(1);
+                        setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
-                      aria-label="Neste uke"
+                      aria-label="Neste periode"
                       className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
@@ -995,61 +997,92 @@ const BookingDemo = () => {
                   </div>
                 </div>
 
+                {/* Header med ukedager */}
+                <div className="grid grid-cols-[auto_1fr] gap-x-4 mb-2">
+                  <div className="w-16" />
+                  <div className="grid grid-cols-7 gap-2 sm:gap-3">
+                    {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((d) => (
+                      <span
+                        key={d}
+                        className="text-xs font-light text-muted-foreground text-left"
+                      >
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="overflow-hidden">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
-                      key={weekStart.toISOString()}
-                      initial={{ opacity: 0, x: weekDirection * 24 }}
+                      key={rangeStart.toISOString()}
+                      initial={{ opacity: 0, x: rangeDirection * 24 }}
                       animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: weekDirection * -24 }}
+                      exit={{ opacity: 0, x: rangeDirection * -24 }}
                       transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="grid grid-cols-7 gap-2 sm:gap-3"
+                      className="space-y-3"
                     >
-                      {weekDays.map((date) => {
-                        const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
-                        const isPast = date < today;
-                        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                        const isDisabled = isPast || isWeekend;
-                        const isToday = isSameDay(date, today);
+                      {weeks.map((week, wi) => {
+                        const weekLabel =
+                          wi === 0 && isSameDay(rangeStart, startOfWeek(today, { weekStartsOn: 1 }))
+                            ? "Denne uken"
+                            : `Uke ${format(week[0], "w", { locale: nb })}`;
 
                         return (
-                          <button
-                            key={date.toISOString()}
-                            type="button"
-                            onClick={() => !isDisabled && setSelectedDate(date)}
-                            disabled={isDisabled}
-                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
-                            aria-pressed={isSelected}
-                            className={cn(
-                              "group flex flex-col items-start text-left py-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
-                              isDisabled && "opacity-30 cursor-not-allowed"
-                            )}
+                          <div
+                            key={week[0].toISOString()}
+                            className="grid grid-cols-[auto_1fr] gap-x-4 items-start"
                           >
-                            <span className="text-xs font-light text-muted-foreground mb-2 capitalize">
-                              {format(date, "EEEEEE", { locale: nb })}
+                            <span className="w-16 pt-2 text-xs font-light text-muted-foreground">
+                              {weekLabel}
                             </span>
-                            <div
-                              className={cn(
-                                "w-full h-px mb-2 transition-colors",
-                                isSelected ? "bg-brand-dark" : "bg-border/60",
-                                !isDisabled && !isSelected && "group-hover:bg-brand-dark"
-                              )}
-                            />
-                            <span
-                              className={cn(
-                                "text-lg font-light leading-none",
-                                isSelected && "text-brand-dark font-normal",
-                                isToday && !isSelected && "text-brand-dark"
-                              )}
-                            >
-                              {format(date, "d", { locale: nb })}
-                            </span>
-                            {isToday && (
-                              <span className="text-[10px] text-muted-foreground mt-1 font-light">
-                                i dag
-                              </span>
-                            )}
-                          </button>
+                            <div className="grid grid-cols-7 gap-2 sm:gap-3">
+                              {week.map((date) => {
+                                const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                                const isPast = date < today;
+                                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                                const isDisabled = isPast || isWeekend;
+                                const isToday = isSameDay(date, today);
+
+                                return (
+                                  <button
+                                    key={date.toISOString()}
+                                    type="button"
+                                    onClick={() => !isDisabled && setSelectedDate(date)}
+                                    disabled={isDisabled}
+                                    aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                                    aria-pressed={isSelected}
+                                    className={cn(
+                                      "group flex flex-col items-start text-left py-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
+                                      isDisabled && "opacity-25 cursor-not-allowed"
+                                    )}
+                                  >
+                                    <div
+                                      className={cn(
+                                        "w-full h-px mb-2 transition-colors",
+                                        isSelected ? "bg-brand-dark" : "bg-border/50",
+                                        !isDisabled && !isSelected && "group-hover:bg-brand-dark"
+                                      )}
+                                    />
+                                    <span
+                                      className={cn(
+                                        "text-lg font-light leading-none",
+                                        isSelected && "text-brand-dark font-normal",
+                                        isToday && !isSelected && "text-brand-dark"
+                                      )}
+                                    >
+                                      {format(date, "d", { locale: nb })}
+                                    </span>
+                                    {isToday && (
+                                      <span className="text-[10px] text-muted-foreground mt-1 font-light">
+                                        i dag
+                                      </span>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
                         );
                       })}
                     </motion.div>
