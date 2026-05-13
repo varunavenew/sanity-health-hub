@@ -1,4 +1,5 @@
 import { useEffect, ReactNode, useMemo } from "react";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";

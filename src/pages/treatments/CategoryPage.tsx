@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
