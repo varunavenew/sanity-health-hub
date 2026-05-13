@@ -290,7 +290,75 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          3. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
+          3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
+      ============================================================ */}
+      <section className="bg-background">
+        <div className="grid lg:grid-cols-12">
+          <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+            <div className="max-w-xl">
+              <p className="text-xs tracking-wide text-foreground/60 mb-5">
+                Hvorfor CMedical
+              </p>
+              <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+                Det beste fra to klinikker — samlet på ett sted.
+              </h2>
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
+                Livio og CMedical Sandvika har slått seg sammen. Det betyr mer
+                erfaring, samme team — og et tilbud som dekker hele veien.
+              </p>
+
+              <div className="divide-y divide-border/60 border-t border-border/60">
+                {[
+                  {
+                    n: "01",
+                    title: "En trygg base for kvinnehelse",
+                    desc:
+                      "Konsultasjon, ultralyd og inngrep under samme tak. Du slipper å bli sendt videre — vi tar deg gjennom hele forløpet.",
+                  },
+                  {
+                    n: "02",
+                    title: "Ledende kompetanse",
+                    desc:
+                      "Gynekologer med spesialisering fra Rikshospitalet, Livio og ledende kvinnehelsemiljøer i Norden.",
+                  },
+                  {
+                    n: "03",
+                    title: "Tett oppfølging",
+                    desc:
+                      "Du får ett team som følger deg over tid — fra første samtale til kontroll etter behandling.",
+                  },
+                ].map((step) => (
+                  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                      {step.n}
+                    </div>
+                    <div className="col-span-10 md:col-span-11">
+                      <h3 className="text-base font-normal text-foreground mb-1.5">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+            <img
+              src={heroClinicLounge}
+              alt="CMedical kvinnehelseklinikk i Sandvika"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
       ============================================================ */}
       <section className="bg-secondary/40 py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
@@ -350,7 +418,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* 3b. SYMPTOMSJEKK — fra symptom til tjeneste */}
+      {/* 5. SYMPTOMSJEKK — fra symptom til tjeneste */}
       <SymptomServiceSection
         title="Hva kjenner du på?"
         description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
@@ -365,7 +433,53 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       />
 
       {/* ============================================================
-          4b. DATASTRIMLER — resultater innen gynekologi
+          6. VET DU ALLEREDE HVA DU TRENGER? — full liste (handlingsvalg)
+      ============================================================ */}
+      <section className="bg-background text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Alle behandlinger
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Vet du allerede hva du trenger?
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Klikk og book direkte, eller les mer om den enkelte
+                  gynekologiske utredningen eller behandlingen.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {allServices.map((s) => (
+                <Link
+                  key={s.title}
+                  to={s.href}
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
+                >
+                  <div>
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          7. RESULTATER — bevis etter at tilbudet er presentert
       ============================================================ */}
       <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
@@ -424,53 +538,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          4. VET DU ALLEREDE HVA DU TRENGER? — full liste
-      ============================================================ */}
-      <section className="bg-background text-foreground py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-              <div className="lg:col-span-6">
-                <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Alle behandlinger
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                  Vet du allerede hva du trenger?
-                </h2>
-              </div>
-              <div className="lg:col-span-6 lg:pt-3">
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Klikk og book direkte, eller les mer om den enkelte
-                  gynekologiske utredningen eller behandlingen.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
-              {allServices.map((s) => (
-                <Link
-                  key={s.title}
-                  to={s.href}
-                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
-                >
-                  <div>
-                    <h3 className="text-base font-normal text-foreground mb-1.5">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm font-light text-muted-foreground leading-snug">
-                      {s.desc}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
-          5. PASIENTSITATER — tre Google-kort (samme stil som hjemside)
+          8. PASIENTSITATER — sosial bevis
       ============================================================ */}
       <section className="bg-brand-warm py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
@@ -528,7 +596,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. SPESIALISTER
+          9. SPESIALISTER — menneskene bak
       ============================================================ */}
       <SpecialistsScroller
         category="gynekologi"

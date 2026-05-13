@@ -219,7 +219,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
 
       {/* ============================================================
-          2. MØRK SEGMENT-SEKSJON — "Fortell oss hvor du er"
+          2. SEGMENT — "Fortell oss hvor du er" (identifiser deg)
       ============================================================ */}
       <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
@@ -262,57 +262,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          3. ALLE ER VELKOMNE — tre målgrupper
-      ============================================================ */}
-      <section className="bg-secondary/40 py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="max-w-2xl mb-14">
-              <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                For deg som
-              </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                Alle er velkomne
-                <br />
-                <span className="text-foreground/70">— uansett utgangspunkt.</span>
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {audiences.map((a) => (
-                <div
-                  key={a.title}
-                  className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
-                >
-                  <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
-                    <a.Icon className="w-10 h-10" aria-hidden="true" />
-                  </div>
-                  <h3 className="text-lg font-normal text-foreground mb-3">
-                    {a.title}
-                  </h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-                    {a.desc}
-                  </p>
-                  <Link
-                    to={a.href}
-                    className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
-                  >
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
-          4. HVORFOR CMEDICAL — rolig split: tekst + punkter venstre, bilde høyre
+          3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
       ============================================================ */}
       <section className="bg-background">
         <div className="grid lg:grid-cols-12">
-          {/* Left — copy + numbered steps */}
           <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
             <div className="max-w-xl">
               <p className="text-xs tracking-wide text-foreground/60 mb-5">
@@ -365,7 +318,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          {/* Right — image */}
           <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
             <img
               src={heroClinicLounge}
@@ -377,7 +329,53 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* 5b. SYMPTOMSJEKK */}
+      {/* ============================================================
+          4. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
+      ============================================================ */}
+      <section className="bg-secondary/40 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-2xl mb-14">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                For deg som
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                Alle er velkomne
+                <br />
+                <span className="text-foreground/70">— uansett utgangspunkt.</span>
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {audiences.map((a) => (
+                <div
+                  key={a.title}
+                  className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
+                >
+                  <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
+                    <a.Icon className="w-10 h-10" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-normal text-foreground mb-3">
+                    {a.title}
+                  </h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                    {a.desc}
+                  </p>
+                  <Link
+                    to={a.href}
+                    className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
+                  >
+                    Les mer
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. SYMPTOMSJEKK — selvdiagnose, peker mot tjenester */}
       <SymptomServiceSection
         title="Hva kjenner du på?"
         description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
@@ -386,13 +384,23 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
           { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
           { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
-          { symptom: "Mannen min vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
+          { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
           { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Samtale og utredning", href: "/booking?kategori=fertilitet" },
         ]}
       />
 
       {/* ============================================================
-          6b. DATASTRIMLER — resultater innen fertilitet
+          6. HVA VI TILBYR — tjeneste-grid (handlingsvalg)
+      ============================================================ */}
+      <ServicesListSection
+        eyebrow="Tjenester"
+        title="Hva vi tilbyr."
+        description="Fra første samtale til oppfølging — hele fertilitetstilbudet vårt finner du her. Trenger du hjelp til å velge, kan du alltid ringe oss for en uforpliktende prat."
+        items={services}
+      />
+
+      {/* ============================================================
+          7. RESULTATER — bevis etter at tilbudet er presentert
       ============================================================ */}
       <section className="bg-brand-light text-foreground py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
@@ -451,17 +459,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          6. HVA VI TILBYR — tjeneste-grid (unified)
-      ============================================================ */}
-      <ServicesListSection
-        eyebrow="Tjenester"
-        title="Hva vi tilbyr."
-        description="Fra første samtale til oppfølging — hele fertilitetstilbudet vårt finner du her. Trenger du hjelp til å velge, kan du alltid ringe oss for en uforpliktende prat."
-        items={services}
-      />
-
-      {/* ============================================================
-          5. TESTIMONIAL — grønn smal banner
+          8. TILBAKEMELDINGER — sosial bevis rett før spesialistene
       ============================================================ */}
       <section className="bg-brand-warm py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
@@ -519,7 +517,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. SPESIALISTER
+          9. SPESIALISTER — menneskene bak
       ============================================================ */}
       <SpecialistsScroller
         category="fertilitet"
@@ -529,7 +527,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       />
 
       {/* ============================================================
-          9. UNIFIED PRE-FOOTER CTA — samme som hjem
+          10. UNIFIED PRE-FOOTER CTA
       ============================================================ */}
       <BookingCTA />
 
