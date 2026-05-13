@@ -59,6 +59,7 @@ import GynekologiSubPage from "./pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
 import DemoOversikt from "./pages/DemoOversikt";
+import Godkjenning from "./pages/Godkjenning";
 
 const queryClient = new QueryClient();
 
@@ -165,6 +166,8 @@ const AppContent = () => {
         {/* Clinic pages */}
         <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
+        {/* Internal approval tracker */}
+        <Route path="/godkjenning" element={<Godkjenning />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
