@@ -813,11 +813,10 @@ const BookingDemo = () => {
               </h2>
               
               {availableClinics.length === 0 ? (
-                <div className="p-6 bg-white rounded-lg text-center">
-                  <p className="text-muted-foreground">
-                    Ingen klinikker tilbyr denne tjenesten for øyeblikket.
-                  </p>
-                </div>
+                <FriendlyEmpty
+                  title="Ingen klinikker tilgjengelig akkurat nå"
+                  message="Denne tjenesten er ikke bookbar online for øyeblikket. Vi hjelper deg gjerne med å finne riktig time."
+                />
               ) : (
                 <div className="space-y-3">
                   {availableClinics.map((clinic) => (
