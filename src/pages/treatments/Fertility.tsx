@@ -369,6 +369,30 @@ const Fertility = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {/* 5b. SYMPTOMSJEKK */}
+      <SymptomServiceSection
+        title="Hva kjenner du på?"
+        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
+        items={[
+          { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning" },
+          { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
+          { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
+          { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
+          { symptom: "Mannen min vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
+          { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Samtale og utredning", href: "/booking?kategori=fertilitet" },
+        ]}
+      />
+
+      {/* ============================================================
+          6. HVA VI TILBYR — tjeneste-grid (unified)
+      ============================================================ */}
+      <ServicesListSection
+        eyebrow="Tjenester"
+        title="Hva vi tilbyr."
+        description="Fra første samtale til oppfølging — hele fertilitetstilbudet vårt finner du her. Trenger du hjelp til å velge, kan du alltid ringe oss for en uforpliktende prat."
+        items={services}
+      />
+
       {/* ============================================================
           5. TESTIMONIAL — grønn smal banner
       ============================================================ */}
@@ -426,30 +450,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
-
-      {/* 5b. SYMPTOMSJEKK */}
-      <SymptomServiceSection
-        title="Hva kjenner du på?"
-        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
-        items={[
-          { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning" },
-          { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
-          { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
-          { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
-          { symptom: "Mannen min vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
-          { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Samtale og utredning", href: "/booking?kategori=fertilitet" },
-        ]}
-      />
-
-      {/* ============================================================
-          6. HVA VI TILBYR — tjeneste-grid (unified)
-      ============================================================ */}
-      <ServicesListSection
-        eyebrow="Tjenester"
-        title="Hva vi tilbyr."
-        description="Fra første samtale til oppfølging — hele fertilitetstilbudet vårt finner du her. Trenger du hjelp til å velge, kan du alltid ringe oss for en uforpliktende prat."
-        items={services}
-      />
 
       {/* ============================================================
           7. SPESIALISTER
