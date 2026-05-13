@@ -99,7 +99,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
       />
       {/* Split hero — video on top (mobile), right (desktop) */}
       <header className="bg-brand-warm">
-        <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
+        <div className="grid md:grid-cols-2 items-stretch">
           {/* Left: text */}
           <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
             <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">
@@ -124,12 +124,12 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
           </div>
 
           {/* Right (mobile: top): video */}
-          <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
+          <div className="order-1 md:order-2">
             <VideoPlayer
               thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
               videoUrl="/videos/kvinnehelse-konsept.mp4"
               title="Kvinnehelse gjennom hele livet"
-              className="absolute inset-0 w-full h-full !rounded-none [&>*]:!rounded-none [&_video]:!rounded-none [&_img]:!rounded-none [&_video]:object-cover [&_img]:object-cover [&_video]:w-full [&_video]:h-full [&_img]:w-full [&_img]:h-full"
+              className="!rounded-none w-full h-full"
             />
           </div>
         </div>
