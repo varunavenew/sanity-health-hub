@@ -602,13 +602,25 @@ const BookingDemo = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-2xl">
-        {/* Step Indicator - Clickable */}
-        <div className="flex items-center justify-center mb-8">
-          {[1, 2, 3, 4, 5].map((step) => {
-            const canNavigate = currentStep > step;
-            return (
-              <div key={step} className="flex items-center">
+        {/* Step Indicator — minimal CMedical stil */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-2 px-1">
+            <span className="text-[11px] font-light text-brand-dark/60 lowercase tracking-wide">
+              steg {currentStep} av 5
+            </span>
+            <span className="text-[11px] font-light text-brand-dark lowercase tracking-wide">
+              {[null, "tjeneste", "klinikk", "behandler", "tid", "bekreft"][currentStep]}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            {[1, 2, 3, 4, 5].map((step) => {
+              const canNavigate = currentStep > step;
+              const isActive = currentStep === step;
+              const isDone = currentStep > step;
+              const labels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"];
+              return (
                 <button
+                  key={step}
                   onClick={() => {
                     if (canNavigate) {
                       if (step === 1) resetStep('category');
@@ -617,35 +629,19 @@ const BookingDemo = () => {
                       else if (step === 4) resetStep('time');
                     }
                   }}
-                  disabled={!canNavigate && currentStep !== step}
+                  disabled={!canNavigate && !isActive}
+                  aria-label={`Steg ${step}: ${labels[step - 1]}`}
+                  aria-current={isActive ? "step" : undefined}
                   className={cn(
-                    "w-8 h-8 rounded-sm flex items-center justify-center text-xs font-medium transition-all duration-300 border-2",
-                    currentStep === step 
-                      ? "bg-foreground text-background border-foreground" 
-                      : currentStep > step
-                        ? "bg-foreground/20 text-foreground border-foreground/20 hover:bg-foreground/30 cursor-pointer"
-                        : "bg-muted/50 text-muted-foreground/50 border-muted/50 cursor-not-allowed"
+                    "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
+                    isActive && "bg-brand-dark",
+                    isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
+                    !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed"
                   )}
-                >
-                  {currentStep > step ? (
-                    <Check className="w-4 h-4" />
-                  ) : (
-                    step
-                  )}
-                </button>
-                {step < 5 && (
-                  <div 
-                    className={cn(
-                      "w-8 h-[2px] transition-colors duration-300",
-                      currentStep > step 
-                        ? "bg-foreground/30" 
-                        : "bg-muted/40"
-                    )}
-                  />
-                )}
-              </div>
-            );
-          })}
+                />
+              );
+            })}
+          </div>
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
