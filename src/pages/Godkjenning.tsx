@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
 import { toast } from "@/hooks/use-toast";
+import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
+import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
 
 type Status = "godkjent" | "avventer" | "endringer";
 
@@ -26,10 +28,13 @@ const STORAGE_REVIEWER = "cm_approval_reviewer";
 
 const Godkjenning = () => {
   const [rows, setRows] = useState<Record<string, ApprovalRow>>({});
+  const [requests, setRequests] = useState<ChangeRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewer, setReviewer] = useState("");
   const [filter, setFilter] = useState<"alle" | Status>("alle");
   const [search, setSearch] = useState("");
+  const [tab, setTab] = useState<"sider" | "innboks">("sider");
+  const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
 
   useEffect(() => {
     document.title = "Godkjenning av sider · CMedical";
@@ -41,24 +46,38 @@ const Godkjenning = () => {
 
   useEffect(() => {
     const load = async () => {
-      const { data, error } = await supabase.from("page_approvals").select("*");
-      if (error) {
-        toast({ title: "Kunne ikke laste data", description: error.message, variant: "destructive" });
-      } else if (data) {
+      const [{ data: appData, error: appErr }, { data: reqData, error: reqErr }] = await Promise.all([
+        supabase.from("page_approvals").select("*"),
+        supabase.from("change_requests").select("*").order("created_at", { ascending: false }),
+      ]);
+      if (appErr) toast({ title: "Kunne ikke laste sider", description: appErr.message, variant: "destructive" });
+      if (reqErr) toast({ title: "Kunne ikke laste forespørsler", description: reqErr.message, variant: "destructive" });
+
+      if (appData) {
         const map: Record<string, ApprovalRow> = {};
-        data.forEach((r: any) => { map[r.path] = r; });
+        appData.forEach((r: any) => { map[r.path] = r; });
         setRows(map);
       }
+      if (reqData) setRequests(reqData as any);
       setLoading(false);
     };
     load();
 
     const channel = supabase
-      .channel("page_approvals_changes")
+      .channel("godkjenning_changes")
       .on("postgres_changes", { event: "*", schema: "public", table: "page_approvals" }, (payload: any) => {
-        if (payload.new?.path) {
-          setRows((prev) => ({ ...prev, [payload.new.path]: payload.new }));
-        }
+        if (payload.new?.path) setRows((prev) => ({ ...prev, [payload.new.path]: payload.new }));
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "change_requests" }, (payload: any) => {
+        setRequests((prev) => {
+          if (payload.eventType === "DELETE") return prev.filter((r) => r.id !== payload.old.id);
+          const next = payload.new as ChangeRequest;
+          const idx = prev.findIndex((r) => r.id === next.id);
+          if (idx === -1) return [next, ...prev];
+          const copy = [...prev];
+          copy[idx] = next;
+          return copy;
+        });
       })
       .subscribe();
 
@@ -88,10 +107,26 @@ const Godkjenning = () => {
       comment: next.comment,
       updated_by: next.updated_by,
     });
-    if (error) {
-      toast({ title: "Kunne ikke lagre", description: error.message, variant: "destructive" });
-    }
+    if (error) toast({ title: "Kunne ikke lagre", description: error.message, variant: "destructive" });
   };
+
+  const openRequestDialog = (page: SitePage) => {
+    // Also flip status to "endringer" so it shows up in overview
+    if (rows[page.path]?.status !== "endringer") {
+      updateRow(page, { status: "endringer" });
+    }
+    setDialogPage(page);
+  };
+
+  const requestCountByPath = useMemo(() => {
+    const m: Record<string, { open: number; total: number }> = {};
+    requests.forEach((r) => {
+      if (!m[r.page_path]) m[r.page_path] = { open: 0, total: 0 };
+      m[r.page_path].total++;
+      if (r.status !== "ferdig") m[r.page_path].open++;
+    });
+    return m;
+  }, [requests]);
 
   const grouped = useMemo(() => {
     const filtered = sitePages.filter((p) => {
@@ -118,17 +153,21 @@ const Godkjenning = () => {
     return c;
   }, [rows]);
 
+  const openRequestsCount = useMemo(() => requests.filter((r) => r.status !== "ferdig").length, [requests]);
+
   const exportCsv = () => {
-    const header = ["Kategori", "Side", "URL", "Status", "Kommentar", "Sist oppdatert", "Av"];
+    const header = ["Kategori", "Side", "URL", "Status", "Kommentar", "Åpne endringer", "Sist oppdatert", "Av"];
     const lines = sitePages.map((p) => {
       const r = rows[p.path];
       const status = (r?.status ?? "avventer") as Status;
+      const reqs = requestCountByPath[p.path];
       const cells = [
         p.category,
         p.name,
         p.path,
         STATUS_META[status].label,
         (r?.comment ?? "").replace(/\s+/g, " "),
+        reqs ? `${reqs.open}/${reqs.total}` : "0/0",
         r?.updated_at ?? "",
         r?.updated_by ?? "",
       ];
@@ -151,18 +190,60 @@ const Godkjenning = () => {
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Internt verktøy</p>
           <h1 className="text-3xl md:text-4xl font-light text-foreground">Godkjenning av sider</h1>
           <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-2xl font-light">
-            Gå gjennom hver side, sett status og legg igjen kommentar. Endringer lagres automatisk og deles med teamet i sanntid.
+            Gå gjennom hver side, sett status og send konkrete endringsforespørsler med vedlegg. Alt synkroniseres i sanntid.
           </p>
 
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3">
             <StatCard label="Totalt" value={counts.total} />
             <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
             <StatCard label="Avventer" value={counts.avventer} accent="amber" />
-            <StatCard label="Endringer ønskes" value={counts.endringer} accent="rose" />
+            <StatCard label="Endringer" value={counts.endringer} accent="rose" />
+            <StatCard label="Åpne forespørsler" value={openRequestsCount} accent="rose" />
           </div>
 
-          <div className="mt-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-            <div className="flex flex-col md:flex-row gap-3 md:items-center flex-1">
+          <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
+            <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background">
+              <button
+                onClick={() => setTab("sider")}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
+                  tab === "sider" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <ListChecks className="w-4 h-4" /> Sider
+              </button>
+              <button
+                onClick={() => setTab("innboks")}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
+                  tab === "innboks" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Inbox className="w-4 h-4" /> Endringer
+                {openRequestsCount > 0 && (
+                  <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${tab === "innboks" ? "bg-background text-foreground" : "bg-rose-100 text-rose-900"}`}>
+                    {openRequestsCount}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <input
+                value={reviewer}
+                onChange={(e) => persistReviewer(e.target.value)}
+                placeholder="Ditt navn"
+                className="border border-border bg-background px-3 py-2 text-sm rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-primary/40"
+              />
+              <button
+                onClick={exportCsv}
+                className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
+              >
+                <Download className="w-4 h-4" /> CSV
+              </button>
+            </div>
+          </div>
+
+          {tab === "sider" && (
+            <div className="mt-4 flex flex-col md:flex-row gap-3 md:items-center">
               <div className="relative md:max-w-xs flex-1">
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <input
@@ -186,27 +267,15 @@ const Godkjenning = () => {
                 ))}
               </div>
             </div>
-            <div className="flex gap-2 items-center">
-              <input
-                value={reviewer}
-                onChange={(e) => persistReviewer(e.target.value)}
-                placeholder="Ditt navn"
-                className="border border-border bg-background px-3 py-2 text-sm rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-primary/40"
-              />
-              <button
-                onClick={exportCsv}
-                className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
-              >
-                <Download className="w-4 h-4" /> Eksporter CSV
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </header>
 
       <main className="container mx-auto px-6 md:px-12 py-10 max-w-6xl">
         {loading ? (
           <p className="text-sm text-muted-foreground">Laster…</p>
+        ) : tab === "innboks" ? (
+          <ChangeRequestInbox requests={requests} reviewer={reviewer} />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
@@ -220,6 +289,7 @@ const Godkjenning = () => {
                   {pages.map((page) => {
                     const r = rows[page.path];
                     const status = (r?.status ?? "avventer") as Status;
+                    const reqs = requestCountByPath[page.path];
                     return (
                       <li key={page.path} className="py-5">
                         <div className="grid md:grid-cols-[1fr_auto] gap-4 md:gap-6 md:items-start">
@@ -238,6 +308,14 @@ const Godkjenning = () => {
                                 <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[status].dot}`} />
                                 {STATUS_META[status].label}
                               </span>
+                              {reqs && reqs.open > 0 && (
+                                <button
+                                  onClick={() => { setTab("innboks"); }}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
+                                >
+                                  {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
+                                </button>
+                              )}
                             </div>
                             <p className="text-xs text-muted-foreground mt-1 font-mono truncate">{page.path}</p>
                             {r?.updated_at && (
@@ -250,20 +328,30 @@ const Godkjenning = () => {
                           </div>
 
                           <div className="flex flex-wrap gap-1.5 md:justify-end">
-                            {(["godkjent", "avventer", "endringer"] as Status[]).map((s) => (
-                              <button
-                                key={s}
-                                onClick={() => updateRow(page, { status: s })}
-                                className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                  status === s
-                                    ? `${STATUS_META[s].bg} border-transparent`
-                                    : "border-border text-muted-foreground hover:text-foreground bg-background"
-                                }`}
-                              >
-                                {s === "godkjent" && <Check className="inline w-3 h-3 mr-1" />}
-                                {STATUS_META[s].label}
-                              </button>
-                            ))}
+                            <button
+                              onClick={() => updateRow(page, { status: "godkjent" })}
+                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                                status === "godkjent" ? `${STATUS_META.godkjent.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                              }`}
+                            >
+                              <Check className="inline w-3 h-3 mr-1" />Godkjent
+                            </button>
+                            <button
+                              onClick={() => updateRow(page, { status: "avventer" })}
+                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                                status === "avventer" ? `${STATUS_META.avventer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                              }`}
+                            >
+                              Avventer
+                            </button>
+                            <button
+                              onClick={() => openRequestDialog(page)}
+                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                                status === "endringer" ? `${STATUS_META.endringer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                              }`}
+                            >
+                              <MessageSquare className="inline w-3 h-3 mr-1" />Endringer ønskes
+                            </button>
                           </div>
                         </div>
 
@@ -275,7 +363,7 @@ const Godkjenning = () => {
                               const val = e.target.value;
                               if (val !== (r?.comment ?? "")) updateRow(page, { comment: val });
                             }}
-                            placeholder="Tilbakemelding eller ønskede endringer…"
+                            placeholder="Generell notis om siden (bruk «Endringer ønskes» for konkrete oppgaver med vedlegg)…"
                             rows={2}
                             className="flex-1 border border-border bg-background px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y"
                           />
@@ -289,6 +377,16 @@ const Godkjenning = () => {
           </div>
         )}
       </main>
+
+      {dialogPage && (
+        <ChangeRequestDialog
+          open={!!dialogPage}
+          onClose={() => setDialogPage(null)}
+          pagePath={dialogPage.path}
+          pageName={dialogPage.name}
+          reviewer={reviewer}
+        />
+      )}
     </div>
   );
 };
