@@ -11,6 +11,7 @@ import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import gynekologiHeroImg from "@/assets/categories/gynekologi-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
@@ -218,6 +219,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                 >
                   Bestill gynekologisk undersøkelse
                 </Button>
+                <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
 
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">

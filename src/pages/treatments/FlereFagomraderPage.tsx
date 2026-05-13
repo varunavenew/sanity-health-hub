@@ -183,6 +183,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
                 >
                   Bestill time
                 </Button>
+                <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
 
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
@@ -561,13 +562,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
                   Bestill time
                 </Link>
               </Button>
-              <a
-                href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
-              >
-                <Phone className="w-4 h-4" />
-                Eller ring oss på 22 00 00 00
-              </a>
+              <CallUsClinicPicker variant="dark" label="Ring oss" />
             </div>
           </div>
         </div>
