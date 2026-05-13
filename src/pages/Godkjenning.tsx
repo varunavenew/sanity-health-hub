@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
@@ -9,6 +9,10 @@ import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialo
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
 
 type Status = "godkjent" | "avventer" | "endringer";
+
+const BOOKING_PATH = "__booking__";
+const GENERAL_PATH = "__generelt__";
+const PSEUDO_PATHS = [BOOKING_PATH, GENERAL_PATH];
 
 interface ApprovalRow {
   path: string;
@@ -33,7 +37,7 @@ const Godkjenning = () => {
   const [reviewer, setReviewer] = useState("");
   const [filter, setFilter] = useState<"alle" | Status>("alle");
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"sider" | "innboks">("sider");
+  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
 
   useEffect(() => {
@@ -153,7 +157,12 @@ const Godkjenning = () => {
     return c;
   }, [rows]);
 
-  const openRequestsCount = useMemo(() => requests.filter((r) => r.status !== "ferdig").length, [requests]);
+  const pageRequests = useMemo(() => requests.filter((r) => !PSEUDO_PATHS.includes(r.page_path)), [requests]);
+  const bookingRequests = useMemo(() => requests.filter((r) => r.page_path === BOOKING_PATH), [requests]);
+  const generalRequests = useMemo(() => requests.filter((r) => r.page_path === GENERAL_PATH), [requests]);
+  const openRequestsCount = useMemo(() => pageRequests.filter((r) => r.status !== "ferdig").length, [pageRequests]);
+  const openBookingCount = useMemo(() => bookingRequests.filter((r) => r.status !== "ferdig").length, [bookingRequests]);
+  const openGeneralCount = useMemo(() => generalRequests.filter((r) => r.status !== "ferdig").length, [generalRequests]);
 
   const exportCsv = () => {
     const header = ["Kategori", "Side", "URL", "Status", "Kommentar", "Åpne endringer", "Sist oppdatert", "Av"];
@@ -202,28 +211,11 @@ const Godkjenning = () => {
           </div>
 
           <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
-            <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background">
-              <button
-                onClick={() => setTab("sider")}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
-                  tab === "sider" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ListChecks className="w-4 h-4" /> Sider
-              </button>
-              <button
-                onClick={() => setTab("innboks")}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
-                  tab === "innboks" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Inbox className="w-4 h-4" /> Endringer
-                {openRequestsCount > 0 && (
-                  <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${tab === "innboks" ? "bg-background text-foreground" : "bg-rose-100 text-rose-900"}`}>
-                    {openRequestsCount}
-                  </span>
-                )}
-              </button>
+            <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background flex-wrap">
+              <TabBtn active={tab === "sider"} onClick={() => setTab("sider")} icon={<ListChecks className="w-4 h-4" />} label="Sider" />
+              <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
+              <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
+              <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
             </div>
 
             <div className="flex gap-2 items-center">
@@ -275,7 +267,23 @@ const Godkjenning = () => {
         {loading ? (
           <p className="text-sm text-muted-foreground">Laster…</p>
         ) : tab === "innboks" ? (
-          <ChangeRequestInbox requests={requests} reviewer={reviewer} />
+          <ChangeRequestInbox requests={pageRequests} reviewer={reviewer} />
+        ) : tab === "booking" ? (
+          <FeedbackPanel
+            title="Booking"
+            description="Tilbakemeldinger som gjelder bookingflyt, kalender, bekreftelser og betaling."
+            requests={bookingRequests}
+            reviewer={reviewer}
+            onNew={() => setDialogPage({ path: BOOKING_PATH, name: "Booking", category: "Generelt" } as SitePage)}
+          />
+        ) : tab === "generelt" ? (
+          <FeedbackPanel
+            title="Generelle tilbakemeldinger"
+            description="Overordnede tilbakemeldinger som ikke hører til en spesifikk side."
+            requests={generalRequests}
+            reviewer={reviewer}
+            onNew={() => setDialogPage({ path: GENERAL_PATH, name: "Generelt", category: "Generelt" } as SitePage)}
+          />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
@@ -404,6 +412,58 @@ const StatCard = ({ label, value, accent }: { label: string; value: number; acce
     </div>
   );
 };
+
+const TabBtn = ({ active, onClick, icon, label, badge }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; badge?: number }) => (
+  <button
+    onClick={onClick}
+    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
+      active ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+    }`}
+  >
+    {icon} {label}
+    {badge && badge > 0 ? (
+      <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${active ? "bg-background text-foreground" : "bg-rose-100 text-rose-900"}`}>
+        {badge}
+      </span>
+    ) : null}
+  </button>
+);
+
+const FeedbackPanel = ({
+  title,
+  description,
+  requests,
+  reviewer,
+  onNew,
+}: {
+  title: string;
+  description: string;
+  requests: ChangeRequest[];
+  reviewer: string;
+  onNew: () => void;
+}) => (
+  <div>
+    <div className="flex items-start justify-between gap-4 flex-wrap mb-6 pb-4 border-b border-border">
+      <div>
+        <h2 className="text-xl font-light text-foreground">{title}</h2>
+        <p className="text-sm text-muted-foreground mt-1 max-w-xl font-light">{description}</p>
+      </div>
+      <button
+        onClick={onNew}
+        className="inline-flex items-center gap-2 bg-foreground text-background px-4 py-2 text-sm rounded-md hover:opacity-90 transition-opacity"
+      >
+        <Plus className="w-4 h-4" /> Ny tilbakemelding
+      </button>
+    </div>
+    {requests.length === 0 ? (
+      <div className="border border-dashed border-border rounded-lg p-8 text-center">
+        <p className="text-sm text-muted-foreground">Ingen tilbakemeldinger ennå. Klikk «Ny tilbakemelding» for å registrere første.</p>
+      </div>
+    ) : (
+      <ChangeRequestInbox requests={requests} reviewer={reviewer} />
+    )}
+  </div>
+);
 
 const GodkjenningPage = () => (
   <AccessGate>
