@@ -194,12 +194,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 >
                   Bestill konsultasjon
                 </Button>
-                <Link
-                  to="/kontakt"
-                  className="text-sm font-light text-foreground/85 hover:text-foreground border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
-                >
-                  Gratis prat med sykepleier
-                </Link>
+                <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
 
               <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
