@@ -446,16 +446,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. SPESIALISTER
-      ============================================================ */}
-      <SpecialistsScroller
-        category="gynekologi"
-        title="Gynekologene som følger deg."
-        seeAllHref="/spesialister?kategori=gynekologi"
-        seeAllLabel="Se alle gynekologer"
-      />
-
-      {/* ============================================================
           4b. DATASTRIMLER — resultater innen gynekologi
       ============================================================ */}
       <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/10">
@@ -513,6 +503,16 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* ============================================================
+          7. SPESIALISTER
+      ============================================================ */}
+      <SpecialistsScroller
+        category="gynekologi"
+        title="Gynekologene som følger deg."
+        seeAllHref="/spesialister?kategori=gynekologi"
+        seeAllLabel="Se alle gynekologer"
+      />
 
       {/* ============================================================
           6. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING — split

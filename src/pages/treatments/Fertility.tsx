@@ -452,16 +452,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          7. SPESIALISTER
-      ============================================================ */}
-      <SpecialistsScroller
-        category="fertilitet"
-        title="Fertilitetsspesialistene som følger deg."
-        seeAllHref="/spesialister?kategori=fertilitet"
-        seeAllLabel="Se alle fertilitetsspesialister"
-      />
-
-      {/* ============================================================
           6b. DATASTRIMLER — resultater innen fertilitet
       ============================================================ */}
       <section className="bg-brand-light text-foreground py-20 md:py-28">
@@ -519,6 +509,16 @@ const Fertility = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
+      {/* ============================================================
+          7. SPESIALISTER
+      ============================================================ */}
+      <SpecialistsScroller
+        category="fertilitet"
+        title="Fertilitetsspesialistene som følger deg."
+        seeAllHref="/spesialister?kategori=fertilitet"
+        seeAllLabel="Se alle fertilitetsspesialister"
+      />
 
       {/* ============================================================
           9. UNIFIED PRE-FOOTER CTA — samme som hjem
