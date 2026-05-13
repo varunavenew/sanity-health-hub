@@ -183,27 +183,28 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                   onClick={() =>
                     (window.location.href = buildBookingUrl({
                       kategori: "gynekologi",
+                      tjeneste: "generell-undersokelse",
                     }))
                   }
                 >
-                  Bestill time
+                  Bestill gynekologisk undersøkelse
                 </Button>
-                <Link
-                  to="/behandlinger/gynekologi/undersokelse"
-                  className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
-                >
-                  Gynekologisk undersøkelse
-                </Link>
               </div>
 
-              <div className="inline-flex items-center gap-3 text-sm font-light text-brand-dark">
-                <div className="flex" aria-hidden="true">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
-                  ))}
-                </div>
-                <span>4,8 av 5 — Nordens ledende kvinnehelseklinikk</span>
-              </div>
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Ingen henvisning
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Korte ventetider
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Erfarne spesialister
+                </li>
+              </ul>
             </div>
           </div>
 
