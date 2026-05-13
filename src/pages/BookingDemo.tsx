@@ -1067,10 +1067,10 @@ const BookingDemo = () => {
                       </div>
                     )
                   ) : (
-                    <div className="text-center py-8">
-                      <Calendar className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-muted-foreground">Ingen ledige timer denne dagen</p>
-                    </div>
+                    <FriendlyEmpty
+                      title="Ingen ledige timer denne dagen"
+                      message="Prøv en annen dag i kalenderen, eller gi oss en ringedirekte – vi finner ofte en åpning som ikke ligger ute online."
+                    />
                   )}
                 </div>
               )}
