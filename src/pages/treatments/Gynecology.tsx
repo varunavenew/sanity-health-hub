@@ -29,34 +29,62 @@ interface PageProps {
 const lifePhases = [
   {
     n: "01",
-    title: "Ung og frisk forplantingsdyktig alder",
+    title: "Menstruasjonssyklus, hormonell helse og prevensjon",
     desc:
-      "Vi hjelper deg med prevensjon, syklusforstyrrelser, smerter og generelle gynekologiske spørsmål.",
-    tags: ["Prevensjon", "PCOS", "Cellprøver"],
+      "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
+    tags: [
+      "Prevensjonsveiledning",
+      "PCOS & POI",
+      "Hormonforstyrrelser",
+      "PMS / PMDD",
+      "Uregelmessige eller kraftige blødninger",
+      "Muskelknuter og polypper",
+    ],
     href: "/booking?kategori=gynekologi",
   },
   {
     n: "02",
-    title: "Plager og utredning",
+    title: "Smerter eller ubehag i underlivet og livmoren",
     desc:
-      "Vondt under samleie, kraftige blødninger, vedvarende underlivsplager — vi tar oss tid til å forstå hva som skjer.",
-    tags: ["Endometriose", "Cyster", "Cellforandringer"],
+      "Vondt under samleie, vedvarende underlivsplager eller funn som bør undersøkes — vi tar oss tid til å forstå hva som skjer.",
+    tags: [
+      "Vulvodyni",
+      "Vaginisme",
+      "Hudproblemer i vulva",
+      "Test for klamydia / gonoré",
+      "Celleforandringer og cyster",
+      "Konisering",
+      "Endometriose",
+    ],
     href: "/booking?kategori=gynekologi",
   },
   {
     n: "03",
-    title: "Graviditet og livet etter",
+    title: "Graviditet, fødsel og tiden etter",
     desc:
-      "Svangerskapskontroll, etterkontroll, fødselsskader og bekkenbunn — vi følger deg gjennom hele forløpet.",
-    tags: ["Etterkontroll", "Fødselsskader", "Bekkenbunn"],
+      "Svangerskapskontroll, ultralyd, etterkontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
+    tags: [
+      "Tidlig ultralyd",
+      "NIPT",
+      "Graviditetsoppfølging",
+      "6-ukerskontroll etter fødsel",
+      "Spontanabort",
+      "Abort",
+      "Fremfall og fødselsskader",
+    ],
     href: "/booking?kategori=gynekologi",
   },
   {
     n: "04",
-    title: "Overgangsalder og videre",
+    title: "Overgangsalder — på dine premisser",
     desc:
-      "Overgangsalder kan være krevende. Vi hjelper deg å forstå kroppen og finner riktig behandling for deg.",
-    tags: ["Hormonbehandling", "Vulvalidelser"],
+      "Perimenopause og menopause kan være krevende. Vi hjelper deg å forstå kroppen og finner riktig behandling for deg.",
+    tags: [
+      "Overgangsalder / klimakteriet",
+      "Hormonbehandling",
+      "Urininkontinens",
+      "Tørrhet i underlivet",
+    ],
     href: "/booking?kategori=gynekologi",
   },
 ];
