@@ -1060,21 +1060,20 @@ const BookingDemo = () => {
                                     <div
                                       className={cn(
                                         "w-full h-px mb-2 transition-colors",
-                                        isSelected ? "bg-brand-dark" : "bg-border/50",
+                                        isSelected ? "bg-brand-dark" : "bg-brand-dark/20",
                                         !isDisabled && !isSelected && "group-hover:bg-brand-dark"
                                       )}
                                     />
                                     <span
                                       className={cn(
-                                        "text-lg font-light leading-none",
-                                        isSelected && "text-brand-dark font-normal",
-                                        isToday && !isSelected && "text-brand-dark"
+                                        "text-lg font-light leading-none text-brand-dark",
+                                        isSelected && "font-normal"
                                       )}
                                     >
                                       {format(date, "d", { locale: nb })}
                                     </span>
                                     {isToday && (
-                                      <span className="text-[10px] text-muted-foreground mt-1 font-light">
+                                      <span className="text-[10px] text-brand-dark/60 mt-1 font-light lowercase">
                                         i dag
                                       </span>
                                     )}
