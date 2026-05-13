@@ -44,7 +44,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
         title="Siden finnes ikke | CMedical"
         description="Lenken er utdatert eller siden er flyttet. Finn frem til gynekologi, fertilitet, spesialister og booking hos CMedical."
         canonical="/404"
-        noindex
+        noIndex
       />
 
       {/* HERO — rolig, varmt, på merkevaren */}
