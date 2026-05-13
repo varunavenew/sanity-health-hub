@@ -987,6 +987,7 @@ const BookingDemo = () => {
                     const isWeekend = date.getDay() === 0 || date.getDay() === 6;
                     const isPast = date < today;
                     const isDisabled = isPast || isWeekend;
+                    const isToday = isSameDay(date, today);
 
                     return (
                       <div key={date.toISOString()} className="flex h-12 items-center justify-center">
@@ -1000,7 +1001,8 @@ const BookingDemo = () => {
                             "relative flex h-10 w-10 items-center justify-center rounded-full text-sm font-light transition-all",
                             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                             isDisabled && "cursor-not-allowed text-muted-foreground/40 bg-muted/40",
-                            !isDisabled && !isSelected && "border border-brand-dark text-brand-dark bg-brand-light/40 hover:bg-brand-light",
+                            !isDisabled && !isSelected && !isToday && "border border-brand-dark text-brand-dark bg-brand-light/40 hover:bg-brand-light",
+                            isToday && !isSelected && "bg-brand-yellow text-brand-dark font-medium",
                             isSelected && "bg-brand-dark text-white hover:bg-brand-dark"
                           )}
                         >
