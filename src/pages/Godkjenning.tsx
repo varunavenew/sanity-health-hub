@@ -211,28 +211,11 @@ const Godkjenning = () => {
           </div>
 
           <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
-            <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background">
-              <button
-                onClick={() => setTab("sider")}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
-                  tab === "sider" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ListChecks className="w-4 h-4" /> Sider
-              </button>
-              <button
-                onClick={() => setTab("innboks")}
-                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
-                  tab === "innboks" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Inbox className="w-4 h-4" /> Endringer
-                {openRequestsCount > 0 && (
-                  <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${tab === "innboks" ? "bg-background text-foreground" : "bg-rose-100 text-rose-900"}`}>
-                    {openRequestsCount}
-                  </span>
-                )}
-              </button>
+            <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background flex-wrap">
+              <TabBtn active={tab === "sider"} onClick={() => setTab("sider")} icon={<ListChecks className="w-4 h-4" />} label="Sider" />
+              <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
+              <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
+              <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
             </div>
 
             <div className="flex gap-2 items-center">
