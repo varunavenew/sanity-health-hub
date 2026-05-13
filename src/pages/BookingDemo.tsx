@@ -953,15 +953,15 @@ const BookingDemo = () => {
                 )}
               </h2>
               
-              {/* 4-ukers dato-strip — kompakt og oversiktlig */}
-              <div className="bg-white rounded-lg p-6">
+              {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
+              <div className="bg-brand-light rounded-lg p-6 border border-brand-dark/10">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
-                    <p className="text-xs text-muted-foreground font-light mb-1">
-                      Velg en dag
+                    <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
+                      velg en dag
                     </p>
-                    <h3 className="text-xl font-light text-foreground capitalize">
-                      {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][6], "d. MMM yyyy", { locale: nb })}
+                    <h3 className="text-xl font-light text-brand-dark capitalize">
+                      {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][4], "d. MMM yyyy", { locale: nb })}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
@@ -977,8 +977,8 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white"
-                          : "border-border/40 text-muted-foreground/40 cursor-not-allowed"
+                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-light"
+                          : "border-brand-dark/20 text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -990,21 +990,21 @@ const BookingDemo = () => {
                         setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
                       aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                {/* Header med ukedager */}
+                {/* Header med ukedager (man–fre) */}
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 mb-2">
                   <div className="w-16" />
-                  <div className="grid grid-cols-7 gap-2 sm:gap-3">
-                    {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((d) => (
+                  <div className="grid grid-cols-5 gap-2 sm:gap-3">
+                    {["ma", "ti", "on", "to", "fr"].map((d) => (
                       <span
                         key={d}
-                        className="text-xs font-light text-muted-foreground text-left"
+                        className="text-xs font-light text-brand-dark/60 text-left lowercase"
                       >
                         {d}
                       </span>
@@ -1025,23 +1025,23 @@ const BookingDemo = () => {
                       {weeks.map((week, wi) => {
                         const weekLabel =
                           wi === 0 && isSameDay(rangeStart, startOfWeek(today, { weekStartsOn: 1 }))
-                            ? "Denne uken"
-                            : `Uke ${format(week[0], "w", { locale: nb })}`;
+                            ? "denne uken"
+                            : `uke ${format(week[0], "w", { locale: nb })}`;
+                        const weekdays = week.slice(0, 5);
 
                         return (
                           <div
                             key={week[0].toISOString()}
                             className="grid grid-cols-[auto_1fr] gap-x-4 items-start"
                           >
-                            <span className="w-16 pt-2 text-xs font-light text-muted-foreground">
+                            <span className="w-16 pt-2 text-xs font-light text-brand-dark/60 lowercase">
                               {weekLabel}
                             </span>
-                            <div className="grid grid-cols-7 gap-2 sm:gap-3">
-                              {week.map((date) => {
+                            <div className="grid grid-cols-5 gap-2 sm:gap-3">
+                              {weekdays.map((date) => {
                                 const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
                                 const isPast = date < today;
-                                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                                const isDisabled = isPast || isWeekend;
+                                const isDisabled = isPast;
                                 const isToday = isSameDay(date, today);
 
                                 return (
@@ -1060,21 +1060,20 @@ const BookingDemo = () => {
                                     <div
                                       className={cn(
                                         "w-full h-px mb-2 transition-colors",
-                                        isSelected ? "bg-brand-dark" : "bg-border/50",
+                                        isSelected ? "bg-brand-dark" : "bg-brand-dark/20",
                                         !isDisabled && !isSelected && "group-hover:bg-brand-dark"
                                       )}
                                     />
                                     <span
                                       className={cn(
-                                        "text-lg font-light leading-none",
-                                        isSelected && "text-brand-dark font-normal",
-                                        isToday && !isSelected && "text-brand-dark"
+                                        "text-lg font-light leading-none text-brand-dark",
+                                        isSelected && "font-normal"
                                       )}
                                     >
                                       {format(date, "d", { locale: nb })}
                                     </span>
                                     {isToday && (
-                                      <span className="text-[10px] text-muted-foreground mt-1 font-light">
+                                      <span className="text-[10px] text-brand-dark/60 mt-1 font-light lowercase">
                                         i dag
                                       </span>
                                     )}
@@ -1090,50 +1089,57 @@ const BookingDemo = () => {
                 </div>
               </div>
 
-              {/* Time Slots */}
+              {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-white rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Clock className="w-5 h-5 text-foreground" />
-                    <span className="font-normal capitalize">
-                      {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
-                    </span>
+                <div className="bg-brand-light rounded-lg p-6 border border-brand-dark/10">
+                  <div className="mb-5 flex items-end justify-between">
+                    <div>
+                      <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
+                        velg en tid
+                      </p>
+                      <h3 className="text-xl font-light text-brand-dark capitalize">
+                        {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
+                      </h3>
+                    </div>
+                    {bookingData.service?.duration && (
+                      <span className="text-xs text-brand-dark/60 font-light lowercase">
+                        varighet {bookingData.service.duration}
+                      </span>
+                    )}
                   </div>
-                  
+
                   {availableSlots.length > 0 ? (
                     bookingData.specialist ? (
-                      /* If specialist is pre-selected, show simple time list */
-                      <div className="space-y-2">
+                      /* Spesialist valgt — kun tider */
+                      <div className="grid grid-cols-3 gap-2 sm:gap-3">
                         {availableSlots.map((slot, index) => (
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="w-full flex items-center justify-between p-4 border border-border/30 rounded-lg hover:bg-muted/30 hover:border-foreground/30 transition-all text-left"
+                            className="py-3 px-4 border border-brand-dark/30 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-light hover:border-brand-dark transition-all"
                           >
-                            <span className="font-normal text-foreground">{slot.time}</span>
-                            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                            {slot.time}
                           </button>
                         ))}
                       </div>
                     ) : (
-                      /* If no specialist selected, show time + specialist in rows */
+                      /* Ingen spesialist — tid + behandler i rad */
                       <div className="space-y-2">
                         {availableSlots.map((slot, index) => (
-                          <div key={index} className="relative">
-                            <button
-                              onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                              className="w-full flex items-center gap-4 p-4 border border-border/30 rounded-lg hover:bg-muted/30 hover:border-foreground/30 transition-all text-left"
-                            >
-                              <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
-                                <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <span className="text-sm font-normal text-foreground block">{slot.specialist.name}</span>
-                                <span className="text-xs text-muted-foreground">{slot.specialist.title}</span>
-                              </div>
-                              <span className="font-normal text-foreground text-lg">{slot.time}</span>
-                            </button>
-                          </div>
+                          <button
+                            key={index}
+                            onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
+                            className="w-full flex items-center gap-4 p-3 border border-brand-dark/30 rounded-md hover:bg-brand-dark/5 hover:border-brand-dark transition-all text-left"
+                          >
+                            <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
+                              <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-sm font-light text-brand-dark block">{slot.specialist.name}</span>
+                              <span className="text-xs text-brand-dark/60 font-light">{slot.specialist.title}</span>
+                            </div>
+                            <span className="font-light text-brand-dark text-lg">{slot.time}</span>
+                          </button>
                         ))}
                       </div>
                     )
