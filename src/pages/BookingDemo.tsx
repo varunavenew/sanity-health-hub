@@ -1089,50 +1089,57 @@ const BookingDemo = () => {
                 </div>
               </div>
 
-              {/* Time Slots */}
+              {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-white rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Clock className="w-5 h-5 text-foreground" />
-                    <span className="font-normal capitalize">
-                      {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
-                    </span>
+                <div className="bg-brand-light rounded-lg p-6 border border-brand-dark/10">
+                  <div className="mb-5 flex items-end justify-between">
+                    <div>
+                      <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
+                        velg en tid
+                      </p>
+                      <h3 className="text-xl font-light text-brand-dark capitalize">
+                        {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
+                      </h3>
+                    </div>
+                    {bookingData.service?.duration && (
+                      <span className="text-xs text-brand-dark/60 font-light lowercase">
+                        varighet {bookingData.service.duration}
+                      </span>
+                    )}
                   </div>
-                  
+
                   {availableSlots.length > 0 ? (
                     bookingData.specialist ? (
-                      /* If specialist is pre-selected, show simple time list */
-                      <div className="space-y-2">
+                      /* Spesialist valgt — kun tider */
+                      <div className="grid grid-cols-3 gap-2 sm:gap-3">
                         {availableSlots.map((slot, index) => (
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="w-full flex items-center justify-between p-4 border border-border/30 rounded-lg hover:bg-muted/30 hover:border-foreground/30 transition-all text-left"
+                            className="py-3 px-4 border border-brand-dark/30 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-light hover:border-brand-dark transition-all"
                           >
-                            <span className="font-normal text-foreground">{slot.time}</span>
-                            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                            {slot.time}
                           </button>
                         ))}
                       </div>
                     ) : (
-                      /* If no specialist selected, show time + specialist in rows */
+                      /* Ingen spesialist — tid + behandler i rad */
                       <div className="space-y-2">
                         {availableSlots.map((slot, index) => (
-                          <div key={index} className="relative">
-                            <button
-                              onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                              className="w-full flex items-center gap-4 p-4 border border-border/30 rounded-lg hover:bg-muted/30 hover:border-foreground/30 transition-all text-left"
-                            >
-                              <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
-                                <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <span className="text-sm font-normal text-foreground block">{slot.specialist.name}</span>
-                                <span className="text-xs text-muted-foreground">{slot.specialist.title}</span>
-                              </div>
-                              <span className="font-normal text-foreground text-lg">{slot.time}</span>
-                            </button>
-                          </div>
+                          <button
+                            key={index}
+                            onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
+                            className="w-full flex items-center gap-4 p-3 border border-brand-dark/30 rounded-md hover:bg-brand-dark/5 hover:border-brand-dark transition-all text-left"
+                          >
+                            <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
+                              <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-sm font-light text-brand-dark block">{slot.specialist.name}</span>
+                              <span className="text-xs text-brand-dark/60 font-light">{slot.specialist.title}</span>
+                            </div>
+                            <span className="font-light text-brand-dark text-lg">{slot.time}</span>
+                          </button>
                         ))}
                       </div>
                     )
