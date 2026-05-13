@@ -216,7 +216,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
             />
           </div>
         </div>
-        <div className="h-px w-full bg-foreground/15" aria-hidden="true" />
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
       {/* ============================================================
@@ -345,7 +345,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
           4b. DATASTRIMLER — resultater innen gynekologi
       ============================================================ */}
-      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/10">
+      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
@@ -365,7 +365,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
 
-            <div className="border-t border-brand-dark/15 py-8 md:py-10">
+            <div className="border-t border-brand-dark/5 py-8 md:py-10">
               <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
                 Gynekologi
               </p>
