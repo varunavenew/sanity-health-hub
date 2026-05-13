@@ -51,22 +51,17 @@ export function SymptomServiceSection({
             )}
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {items.map((item) => (
               <Link
                 key={item.symptom}
                 to={item.href}
-                className="bg-background p-6 md:p-7 flex flex-col justify-between gap-5 hover:bg-brand-light transition-colors group min-h-[180px]"
+                className="bg-background border border-foreground/10 rounded-sm p-6 md:p-7 flex flex-col justify-between gap-5 hover:border-foreground/30 hover:bg-brand-light transition-colors group min-h-[180px]"
               >
-                <div>
-                  <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3 uppercase">
-                    Opplever du
-                  </p>
-                  <h3 className="text-lg md:text-xl font-light leading-snug text-foreground">
-                    {item.symptom}
-                  </h3>
-                </div>
-                <div className="flex items-end justify-between gap-3 pt-3 border-t border-foreground/10">
+                <h3 className="text-lg md:text-xl font-light leading-snug text-foreground">
+                  {item.symptom}
+                </h3>
+                <div className="flex items-end justify-between gap-3 pt-4 border-t border-foreground/10">
                   <div>
                     <p className="text-[11px] tracking-wide text-foreground/50 mb-1">
                       Vi anbefaler
