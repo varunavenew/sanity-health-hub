@@ -31,7 +31,7 @@ const segments = [
     title: "Jeg vil forstå fruktbarheten min",
     desc:
       "Vi gjør en grundig fertilitetssjekk — hormoner, eggstokkreserve og ultralyd — så du får tydelige svar i stedet for usikkerhet.",
-    tags: ["Fertilitetssjekk", "Hormoner", "AMH"],
+    tags: ["Fertilitetssjekk", "Hormoner", "AMH", "Ultralyd", "Hysteroskopi", "Rådgivning online"],
     cta: "Les mer",
     href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
   },
@@ -40,7 +40,7 @@ const segments = [
     title: "Jeg vil bli gravid",
     desc:
       "Har du prøvd i 6–12 måneder uten å lykkes? Vi finner årsaken og legger en plan — fra inseminasjon til IVF.",
-    tags: ["IVF", "Inseminasjon", "Utredning"],
+    tags: ["IVF", "Inseminasjon", "Utredning", "Assistert befruktning", "Donor-IVF", "Eggløsningsstimulering", "Second opinion"],
     cta: "Bestill utredning",
     href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
   },
@@ -49,7 +49,7 @@ const segments = [
     title: "Jeg vil bevare mulighetene mine",
     desc:
       "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
-    tags: ["Nedfrysing av egg", "Eggdonasjon"],
+    tags: ["Nedfrysing av egg", "Eggdonasjon", "Spermiefrys", "Eggløsningsstimulering"],
     cta: "Snakk med oss",
     href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon",
   },
@@ -58,7 +58,7 @@ const segments = [
     title: "Jeg er mann og vil sjekke fruktbarheten",
     desc:
       "Halvparten av forklaringen ligger ofte hos mannen. En enkel sædanalyse gir deg svar — diskret og raskt.",
-    tags: ["Sædanalyse", "Mannlig fertilitet"],
+    tags: ["Sædanalyse", "Mannlig fertilitet", "Rådgivning online"],
     cta: "Bestill analyse",
     href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
   },
@@ -253,16 +253,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                     {s.desc}
                   </p>
                   {s.tags && s.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mb-5">
-                      {s.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="text-[12px] font-light text-foreground/55 leading-relaxed mb-5">
+                      {s.tags.join(" · ")}
+                    </p>
                   )}
                   <Link
                     to={s.href}
