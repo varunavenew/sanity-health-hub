@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
@@ -591,29 +592,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* ── 8. Final CTA ── */}
-      <section className="py-14 md:py-20 bg-brand-light">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">Klar for å ta neste steg?</h2>
-              <p className="text-foreground/60 font-light">
-                Bestill time enkelt online – ingen henvisning nødvendig.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
-                Bestill time for {category.title.toLowerCase()}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button variant="cta-outline-dark" size="lg" onClick={() => navigate('/kontakt')}>
-                <Phone className="mr-2 w-4 h-4" />
-                Ring oss
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── 8. Final CTA — unified pre-footer ── */}
+      <BookingCTA />
 
       <LeadPopup />
     </PageLayout>
