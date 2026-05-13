@@ -973,52 +973,49 @@ const BookingDemo = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-y-2">
-                  {["Ma", "Ti", "On", "To", "Fr", "Lø", "Sø"].map((day) => (
+                <div className="grid grid-cols-5 gap-y-2">
+                  {["Ma", "Ti", "On", "To", "Fr"].map((day) => (
                     <div key={day} className="flex h-10 items-center justify-center text-sm font-light text-muted-foreground">
                       {day}
                     </div>
                   ))}
-                  {Array.from({ length: (monthDays[0].getDay() + 6) % 7 }).map((_, i) => (
-                    <div key={`pad-${i}`} className="h-12" />
-                  ))}
-                  {monthDays.map((date) => {
-                    const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
-                    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                    const isPast = date < today;
-                    const isDisabled = isPast || isWeekend;
-                    const isToday = isSameDay(date, today);
+                  {(() => {
+                    const firstVisible = monthDays.find((d) => d.getDay() >= 1 && d.getDay() <= 5);
+                    const pad = firstVisible ? Math.max(0, firstVisible.getDay() - 1) : 0;
+                    return Array.from({ length: pad }).map((_, i) => (
+                      <div key={`pad-${i}`} className="h-12" />
+                    ));
+                  })()}
+                  {monthDays
+                    .filter((date) => date.getDay() !== 0 && date.getDay() !== 6)
+                    .map((date) => {
+                      const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                      const isPast = date < today;
+                      const isDisabled = isPast;
+                      const isToday = isSameDay(date, today);
 
-                    return (
-                      <div key={date.toISOString()} className="flex h-12 items-center justify-center">
-                        <button
-                          type="button"
-                          onClick={() => !isDisabled && setSelectedDate(date)}
-                          disabled={isDisabled}
-                          aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
-                          aria-pressed={isSelected}
-                          className={cn(
-                            "relative flex h-10 w-10 items-center justify-center rounded-full text-sm font-light transition-all",
-                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                            isDisabled && "cursor-not-allowed text-muted-foreground/40 bg-muted/40",
-                            !isDisabled && !isSelected && !isToday && "border border-brand-dark text-brand-dark bg-brand-light/40 hover:bg-brand-light",
-                            isToday && !isSelected && "bg-brand-yellow text-brand-dark font-medium",
-                            isSelected && "bg-brand-dark text-white hover:bg-brand-dark"
-                          )}
-                        >
-                          {isDisabled && (
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0 flex items-center justify-center"
-                            >
-                              <span className="block h-px w-[140%] rotate-[-20deg] bg-muted-foreground/40" />
-                            </span>
-                          )}
-                          <span className="relative">{format(date, "d", { locale: nb })}</span>
-                        </button>
-                      </div>
-                    );
-                  })}
+                      return (
+                        <div key={date.toISOString()} className="flex h-12 items-center justify-center">
+                          <button
+                            type="button"
+                            onClick={() => !isDisabled && setSelectedDate(date)}
+                            disabled={isDisabled}
+                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                            aria-pressed={isSelected}
+                            className={cn(
+                              "relative flex h-10 w-10 items-center justify-center rounded-full text-sm font-light transition-all",
+                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                              isDisabled && "text-muted-foreground/25 bg-muted/20",
+                              !isDisabled && !isSelected && !isToday && "border border-brand-dark text-brand-dark bg-brand-light/40 hover:bg-brand-light",
+                              isToday && !isSelected && "bg-brand-yellow text-brand-dark font-medium",
+                              isSelected && "bg-brand-dark text-white hover:bg-brand-dark"
+                            )}
+                          >
+                            <span>{format(date, "d", { locale: nb })}</span>
+                          </button>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
 
