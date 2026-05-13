@@ -1,23 +1,29 @@
 import { useState, useRef } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useServiceCategories } from '@/hooks/useServiceCategories';
 import { useTranslation } from 'react-i18next';
 
 export const ServicesDropdown = () => {
   const { categories: serviceCategories } = useServiceCategories();
   const { t } = useTranslation();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
 
+  // Find the category that matches the current route (longest matching path wins)
+  const currentCategory = serviceCategories
+    .filter((c) => c.path && (location.pathname === c.path || location.pathname.startsWith(c.path + '/')))
+    .sort((a, b) => b.path.length - a.path.length)[0];
+
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (!activeCategory && serviceCategories.length > 0) {
-      setActiveCategory(serviceCategories[0].id);
+      setActiveCategory(currentCategory?.id ?? serviceCategories[0].id);
     }
     setIsOpen(true);
   };
