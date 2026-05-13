@@ -10,6 +10,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+import { TagList } from "@/components/treatments/TagList";
 
 import gynekologiHeroImg from "@/assets/categories/gynekologi-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
