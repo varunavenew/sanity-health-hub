@@ -10,6 +10,7 @@ import { LeadPopup } from "@/components/LeadPopup";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 import expertSkulder from "@/assets/hero/hero-treatment.jpg";
@@ -188,6 +189,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
                 >
                   Bestill ortopedtime
                 </Button>
+                <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
 
               <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
@@ -565,13 +567,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
                   Bestill ortopedtime
                 </Link>
               </Button>
-              <a
-                href="tel:+4722000000"
-                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
-              >
-                <Phone className="w-4 h-4" />
-                Eller ring oss på 22 00 00 00
-              </a>
+              <CallUsClinicPicker variant="dark" label="Ring oss" />
             </div>
           </div>
         </div>
