@@ -271,16 +271,11 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                     {p.desc}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {p.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {p.tags && p.tags.length > 0 && (
+                    <p className="text-[12px] font-light text-foreground/55 leading-relaxed mb-5">
+                      {p.tags.join(" · ")}
+                    </p>
+                  )}
                   <Link
                     to={p.href}
                     className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
