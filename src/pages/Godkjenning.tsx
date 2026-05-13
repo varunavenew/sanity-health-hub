@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
@@ -9,6 +9,10 @@ import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialo
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
 
 type Status = "godkjent" | "avventer" | "endringer";
+
+const BOOKING_PATH = "__booking__";
+const GENERAL_PATH = "__generelt__";
+const PSEUDO_PATHS = [BOOKING_PATH, GENERAL_PATH];
 
 interface ApprovalRow {
   path: string;
