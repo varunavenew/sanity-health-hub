@@ -413,58 +413,6 @@ const StatCard = ({ label, value, accent }: { label: string; value: number; acce
   );
 };
 
-const TabBtn = ({ active, onClick, icon, label, badge }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; badge?: number }) => (
-  <button
-    onClick={onClick}
-    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
-      active ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-    }`}
-  >
-    {icon} {label}
-    {badge && badge > 0 ? (
-      <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${active ? "bg-background text-foreground" : "bg-rose-100 text-rose-900"}`}>
-        {badge}
-      </span>
-    ) : null}
-  </button>
-);
-
-const FeedbackPanel = ({
-  title,
-  description,
-  requests,
-  reviewer,
-  onNew,
-}: {
-  title: string;
-  description: string;
-  requests: ChangeRequest[];
-  reviewer: string;
-  onNew: () => void;
-}) => (
-  <div>
-    <div className="flex items-start justify-between gap-4 flex-wrap mb-6 pb-4 border-b border-border">
-      <div>
-        <h2 className="text-xl font-light text-foreground">{title}</h2>
-        <p className="text-sm text-muted-foreground mt-1 max-w-xl font-light">{description}</p>
-      </div>
-      <button
-        onClick={onNew}
-        className="inline-flex items-center gap-2 bg-foreground text-background px-4 py-2 text-sm rounded-md hover:opacity-90 transition-opacity"
-      >
-        <Plus className="w-4 h-4" /> Ny tilbakemelding
-      </button>
-    </div>
-    {requests.length === 0 ? (
-      <div className="border border-dashed border-border rounded-lg p-8 text-center">
-        <p className="text-sm text-muted-foreground">Ingen tilbakemeldinger ennå. Klikk «Ny tilbakemelding» for å registrere første.</p>
-      </div>
-    ) : (
-      <ChangeRequestInbox requests={requests} reviewer={reviewer} />
-    )}
-  </div>
-);
-
 const GodkjenningPage = () => (
   <AccessGate>
     <Godkjenning />
