@@ -63,9 +63,6 @@ export function SymptomServiceSection({
                 </h3>
                 <div className="flex items-end justify-between gap-3 pt-4 border-t border-foreground/10">
                   <div>
-                    <p className="text-[11px] tracking-wide text-foreground/50 mb-1">
-                      Vi anbefaler
-                    </p>
                     <p className="text-sm font-normal text-foreground">
                       {item.service}
                     </p>
