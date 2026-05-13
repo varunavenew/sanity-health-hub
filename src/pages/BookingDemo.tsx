@@ -239,18 +239,20 @@ const BookingDemo = () => {
   }, [viewMonth]);
   const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
 
-  // Horizontal week strip state
-  const [weekStart, setWeekStart] = useState<Date>(() => {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    return d;
-  });
-  const [weekDirection, setWeekDirection] = useState<1 | -1>(1);
-  const weekDays = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
-    [weekStart]
+  // 4-ukers strip — inneværende uke + 3 neste
+  const WEEKS_VISIBLE = 4;
+  const [rangeStart, setRangeStart] = useState<Date>(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 })
   );
-  const canGoPrevWeek = weekStart.getTime() > today.getTime();
+  const [rangeDirection, setRangeDirection] = useState<1 | -1>(1);
+  const weeks = useMemo(
+    () =>
+      Array.from({ length: WEEKS_VISIBLE }, (_, w) =>
+        Array.from({ length: 7 }, (_, d) => addDays(rangeStart, w * 7 + d))
+      ),
+    [rangeStart]
+  );
+  const canGoPrevRange = rangeStart.getTime() > startOfWeek(today, { weekStartsOn: 1 }).getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
