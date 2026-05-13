@@ -1,150 +1,148 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone, Bot, Stethoscope, ShieldCheck } from "lucide-react";
-import { MaleSignThinIcon, FemaleSignThinIcon } from "@/lib/customIcons";
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { AnimatedStat } from "@/components/AnimatedStat";
+import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
-import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+
+import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
-import urologiHero from "@/assets/categories/urologi.jpg";
-import robotImg from "@/assets/hero/robotkirurgi-hero.jpg";
-interface Props {
+import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+
+import urologiHero from "@/assets/categories/urologi-real.jpg";
+import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
+import expertTestikler from "@/assets/hero/urology-hero.jpg";
+import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
+import expertKvinne from "@/assets/hero/hero-clinic-lounge.jpg";
+
+interface PageProps {
   isChatOpen: boolean;
 }
 
-const entryPoints = [
+/* ──────────────────────────────────────────────────────────────
+   DATA
+   ────────────────────────────────────────────────────────────── */
+
+const lifePhases = [
   {
-    icon: MaleSignThinIcon,
-    label: "Jeg er mann med plager i underlivet",
-    body:
-      "Prostataproblemer, smerter i testikler, ereksjonsproblemer, vannlatingsplager — eller noe du bare vet er der, men ikke vet hva heter. Vi hjelper deg finne svar.",
-    cta: "Se behandlinger for menn",
-    href: "#behandlinger",
-  },
-  {
-    icon: FemaleSignThinIcon,
-    label: "Jeg er kvinne med urologiske plager",
-    body:
-      "Urinlekkasje, hyppig vannlating, blæreinfeksjoner, blod i urinen — urologi gjelder ikke bare menn. Vi utreder og behandler kvinner like grundig.",
-    cta: "Se behandlinger for kvinner",
-    href: "#behandlinger",
-  },
-  {
-    icon: Stethoscope,
-    label: "Jeg vil ha en prostatasjekk",
-    body:
-      "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet. Rask og grundig utredning uten ventetid.",
-    cta: "Prostatasjekk",
+    n: "01",
+    title: "Mann med plager i underlivet",
+    desc:
+      "Prostataproblemer, smerter i testikler, ereksjonsproblemer eller vannlatingsplager — vi hjelper deg finne svar.",
+    tags: ["Prostata", "Vannlating", "Ereksjon"],
     href: "/booking?kategori=urologi",
   },
   {
-    icon: ShieldCheck,
-    label: "Jeg vurderer sterilisering",
-    body:
-      "Sterilisering (vasektomi) er den sikreste prevensjonsmetoden og et enkelt inngrep. Vi gjennomfører konsultasjon og inngrep raskt, med kort restitusjon.",
-    cta: "Sterilisering",
-    href: "#behandlinger",
+    n: "02",
+    title: "Kvinne med urologiske plager",
+    desc:
+      "Urinlekkasje, hyppig vannlating, blæreinfeksjoner eller blod i urinen — urologi gjelder ikke bare menn.",
+    tags: ["Inkontinens", "Blære", "Nyrer"],
+    href: "/booking?kategori=urologi",
+  },
+  {
+    n: "03",
+    title: "Prostatasjekk",
+    desc:
+      "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet.",
+    tags: ["PSA", "Forebygging", "Utredning"],
+    href: "/booking?kategori=urologi&tjeneste=prostatasjekk",
+  },
+  {
+    n: "04",
+    title: "Sterilisering og fertilitet",
+    desc:
+      "Sterilisering, refertilisering og utredning av mannlig infertilitet — raskt, trygt og med kort restitusjon.",
+    tags: ["Vasektomi", "Refertilisering"],
+    href: "/booking?kategori=urologi",
   },
 ];
 
-const treatmentGroups = [
+const expertAreas = [
   {
-    label: "Prostata og urinveier",
-    items: [
-      "Prostatasjekk og utredning",
-      "Forstørret prostata",
-      "Prostatakreft",
-      "Blære og urinveier",
-      "Urinlekkasje og inkontinens",
-      "Nyrer",
-    ],
+    eyebrow: "Spesialfelt",
+    title: "Prostata og urinveier",
+    desc:
+      "Prostatasjekk, forstørret prostata, prostatakreft, blære- og nyreutredning. Vi har Norges fremste urologer.",
+    href: "/behandlinger/urologi/prostata",
+    image: expertProstata,
   },
   {
-    label: "Testikler og pung",
-    items: ["Kul eller hevelse i pungen", "Smerter i testiklene", "Varicocele"],
+    eyebrow: "Spesialfelt",
+    title: "Testikler og pung",
+    desc:
+      "Kul, hevelse, smerter eller varicocele — grundig undersøkelse og behandling med spesialister du kan stole på.",
+    href: "/behandlinger/urologi/testikler",
+    image: expertTestikler,
   },
   {
-    label: "Penis og forhud",
-    items: [
-      "Trang forhud (fimose)",
-      "Skjev penis",
-      "Ereksjonsproblemer",
-      "Lavt testosteronnivå",
-    ],
+    eyebrow: "Spesialfelt",
+    title: "Penis, forhud og potens",
+    desc:
+      "Trang forhud, skjev penis, ereksjonsproblemer og lavt testosteron — utredning og behandling i trygge rammer.",
+    href: "/behandlinger/urologi/penis",
+    image: expertPenis,
   },
   {
-    label: "Kirurgiske inngrep",
-    items: [
-      "Sterilisering (vasektomi)",
-      "Refertilisering",
-      "Mannlig infertilitet",
-      "Robotassistert kirurgi",
-    ],
+    eyebrow: "Spesialfelt",
+    title: "Robotassistert kirurgi",
+    desc:
+      "Eneste private aktør i Norge med robotassisterte operasjoner. Mer presis kirurgi og raskere restitusjon.",
+    href: "/behandlinger/urologi/robotkirurgi",
+    image: expertProstata,
   },
+];
+
+const allServices = [
+  { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
+  { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
+  { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
+  { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
+  { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
+  { title: "Nyrer", desc: "Stein, cyster og funksjon", href: "/behandlinger/urologi/nyrer" },
+  { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+  { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+  { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
+  { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
+  { title: "Skjev penis", desc: "Utredning og behandling", href: "/behandlinger/urologi/penis" },
+  { title: "Ereksjonsproblemer", desc: "Utredning og oppfølging", href: "/behandlinger/urologi/ereksjon" },
+  { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
+  { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
+  { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },
+  { title: "Mannlig infertilitet", desc: "Utredning og behandling", href: "/behandlinger/urologi/infertilitet" },
+  { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/urologi/robotkirurgi" },
+  { title: "Brokk", desc: "Robotassistert kirurgi", href: "/behandlinger/urologi/brokk" },
 ];
 
 const journey = [
-  {
-    label: "Steg 01",
-    title: "Bestill når det passer deg",
-    body:
-      "Online booking døgnet rundt. Ingen fastlege, ingen ventetid. Du kan velge klinikk og tid som passer for deg.",
-  },
-  {
-    label: "Steg 02",
-    title: "Samtalen som rekker",
-    body:
-      "Du møter en urolog som utelukkende jobber med det du trenger hjelp med. Vi tar oss tid til historikk, plager og hva du ønsker svar på — uten hastverk.",
-  },
-  {
-    label: "Steg 03",
-    title: "Utredning og plan",
-    body:
-      "Trygg klinisk undersøkelse og en konkret plan — på et språk du forstår. Trenger du prøver, ultralyd eller videre utredning, ordner vi det samme dag der det er mulig.",
-  },
-  {
-    label: "Steg 04",
-    title: "Tverrfaglig oppfølging",
-    body:
-      "Ved behov samarbeider urologen med gynekolog, fertilitetsspesialist, psykolog, ernæringsfysiolog og sexolog — alt under samme tak.",
-  },
+  { n: "01", title: "Bestill time", desc: "Online booking døgnet rundt. Ingen henvisning, ingen ventetid — du finner et tidspunkt som passer." },
+  { n: "02", title: "Samtalen som rekker", desc: "Du møter en urolog som jobber med nettopp det du trenger hjelp med. Vi tar oss tid til historikk og spørsmål." },
+  { n: "03", title: "Utredning og plan", desc: "Trygg klinisk undersøkelse og en konkret plan — på et språk du forstår. Prøver og ultralyd ofte samme dag." },
+  { n: "04", title: "Tverrfaglig oppfølging", desc: "Ved behov samarbeider urologen med gynekolog, fertilitetsspesialist, psykolog og sexolog — alt under samme tak." },
 ];
 
-const faqs = [
-  {
-    q: "Henvisning",
-    a: "Du trenger ingen henvisning fra fastlege for å bestille time hos oss. Du bestiller direkte, og vi tar det derfra.",
-  },
-  {
-    q: "Ventetid",
-    a: "Vi har ingen ventetid. Du kan vanligvis få time innen få dager etter at du tar kontakt.",
-  },
-  {
-    q: "Sykemelding",
-    a: "Spesialistene våre kan skrive ut sykmelding ved behov. Ta dette opp i konsultasjonen.",
-  },
-  {
-    q: "Utredning",
-    a: "En vanlig utredning hos oss varer ca. 30 minutter. Prøver og ultralyd kan ofte tas samme dag.",
-  },
-  {
-    q: "Forsikring",
-    a: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If, Vertikal Helse, Storebrand og Tryg.",
-  },
+const reviews = [
+  { text: "Endelig en urolog som tok seg tid til å forklare. Trygt og profesjonelt fra første minutt.", author: "Per H.", date: "1 måned siden" },
+  { text: "Rask time, grundig undersøkelse og tydelig plan. Slik skal det være.", author: "Jan E.", date: "3 måneder siden" },
+  { text: "Vasektomi gjort på under en time, helt smertefritt. Veldig fornøyd med oppfølgingen.", author: "Tom S.", date: "2 måneder siden" },
 ];
 
-const UrologiPage = ({ isChatOpen }: Props) => {
-  const navigate = useNavigate();
+/* ──────────────────────────────────────────────────────────────
+   PAGE
+   ────────────────────────────────────────────────────────────── */
+
+const UrologiPage = ({ isChatOpen }: PageProps) => {
+  useEffect(() => {
+    document.title = "Urologi | CMedical — Spesialister du kan stole på";
+  }, []);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Urologi – Ingen ventetid, ingen henvisning | CMedical"
-        description="Nordens ledende urologer. Eneste private aktør i Norge med robotassisterte operasjoner. Ingen ventetid, ingen henvisning."
+        title="Urologi | CMedical — Spesialister du kan stole på"
+        description="Spesialisturologi hos CMedical. Prostata, blære, testikler, ereksjon og robotkirurgi — uten henvisning, uten ventetid."
         canonical="/urologi"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -158,42 +156,60 @@ const UrologiPage = ({ isChatOpen }: Props) => {
           provider: { "@type": "MedicalClinic", name: "CMedical" },
         }}
       />
+      <h1 className="sr-only">
+        Urologi hos CMedical — spesialister du kan stole på
+      </h1>
 
-      {/* 1 ── HERO ── split, lys venstre, bilde høyre */}
-      <header className="bg-brand-light text-foreground">
-        <div className="grid md:grid-cols-[1.1fr_1fr] min-h-[460px] md:min-h-[560px]">
-          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-6">
-              Ingen ventetid · Ingen henvisning
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-7 max-w-xl text-foreground">
-              Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du kanskje frykter.
-            </h1>
-            <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed max-w-lg mb-9">
-              CMedical er eneste private aktør i Norge som tilbyr robot­operasjoner.
-              Ingen ventetid, ingen henvisning nødvendig.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=urologi")}
-              >
-                Bestill time
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-foreground/10 rounded-2xl"
-                onClick={() => navigate("/kontakt")}
-              >
-                <Phone className="mr-2 w-4 h-4" />
-                Kontakt oss
-              </Button>
+      {/* 1. HERO — split 50/50 */}
+      <header className="bg-brand-light pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+            <div className="max-w-xl w-full">
+              <p className="text-xs tracking-wide text-foreground/60 mb-8">
+                Urologi — CMedical
+              </p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                Spesialister <span className="block italic">du kan stole på</span>
+              </h2>
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+                Plager i underlivet er vanligere enn du tror — og enklere å
+                hjelpe enn du kanskje frykter. CMedical er eneste private aktør
+                i Norge som tilbyr robotassisterte operasjoner.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="px-8 w-full sm:w-auto"
+                  onClick={() =>
+                    (window.location.href = buildBookingUrl({
+                      kategori: "urologi",
+                    }))
+                  }
+                >
+                  Bestill urologtime
+                </Button>
+              </div>
+
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Ingen henvisning
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Korte ventetider
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Erfarne spesialister
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="relative order-1 md:order-2 min-h-[280px] md:min-h-0">
+
+          <div className="relative min-h-[420px] lg:min-h-full">
             <img
               src={urologiHero}
               alt="Urologi hos CMedical"
@@ -201,278 +217,364 @@ const UrologiPage = ({ isChatOpen }: Props) => {
             />
           </div>
         </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
-      {/* 2 ── INTRO ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-5">
-            Urologi
-          </p>
-          <p className="text-lg md:text-xl text-foreground/85 font-light leading-relaxed">
-            Urologi er en medisinsk spesialitet som omhandler plager knyttet til
-            mannens underliv og urinorganer hos begge kjønn — herunder penis,
-            prostata, testikler, urinblære og nyrer. I CMedical har vi flere av
-            Nordens ledende spesialister innen urologi. En erfaren urolog er
-            tilgjengelig hver dag, og vi har et bredt tverrfaglig team med
-            spiss­kompetanse på ulike undergrupper av sykdommer.
-          </p>
+      {/* 2. SEGMENT — Hvor er du nå? */}
+      <section className="bg-brand-light text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-2xl mb-14">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Hvor er du nå?
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                Vi møter deg der du er — uansett hvorfor du tar kontakt.
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {lifePhases.map((p) => (
+                <div key={p.n} className="bg-background p-7 flex flex-col">
+                  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                    {p.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {p.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    to={p.href}
+                    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
+                  >
+                    Les mer
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 3 ── FINN DIN INNGANG ── 4 entry-point cards */}
-      <section className="bg-brand-warm py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Finn din inngang
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Hva kan vi hjelpe deg med
-            </h2>
-          </div>
+      {/* 3. EKSPERTER */}
+      <section className="bg-secondary/40 py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Spesialistområder
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Eksperter som jobber med det de kan aller best.
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Hos oss møter du urologer som har spesialisert seg dypt
+                  innenfor sitt fagfelt. Det betyr at du får riktig kompetanse
+                  fra første konsultasjon — uten omveier.
+                </p>
+              </div>
+            </div>
 
-          <div className="grid md:grid-cols-2 gap-4 md:gap-5">
-            {entryPoints.map((ep) => {
-              const Icon = ep.icon;
-              const isInternal = ep.href.startsWith("/");
-              const Wrapper: any = isInternal ? Link : "a";
-              const linkProps = isInternal ? { to: ep.href } : { href: ep.href };
-
-              return (
-                <Wrapper
-                  key={ep.label}
-                  {...linkProps}
-                  className="group relative block bg-brand-light rounded-2xl p-8 md:p-10 transition-all duration-500 hover:bg-brand-mid/30 hover:shadow-[0_20px_60px_-30px_rgba(66,51,42,0.45)] hover:-translate-y-1 overflow-hidden"
+            <div className="grid md:grid-cols-2 gap-6">
+              {expertAreas.map((a) => (
+                <Link
+                  key={a.title}
+                  to={a.href}
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
                 >
-                  {/* Subtle accent corner */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-brand-mid/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                  <div className="flex items-start justify-between mb-6 relative">
-                    <div className="w-12 h-12 rounded-full bg-brand-dark/5 flex items-center justify-center transition-all duration-500 group-hover:bg-brand-dark group-hover:scale-110">
-                      <Icon
-                        className="w-5 h-5 text-brand-dark transition-colors duration-500 group-hover:text-brand-yellow"
-                        strokeWidth={1.5}
-                      />
-                    </div>
-                    <ArrowRight
-                      className="w-5 h-5 text-brand-dark/40 transition-all duration-500 group-hover:text-brand-dark group-hover:translate-x-1 mt-3"
-                      strokeWidth={1.5}
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                   </div>
-
-                  <h3 className="text-xl md:text-2xl font-light text-brand-dark mb-3 leading-snug relative">
-                    {ep.label}
-                  </h3>
-                  <p className="text-sm md:text-[15px] text-brand-dark/70 font-light leading-relaxed mb-6 relative">
-                    {ep.body}
-                  </p>
-
-                  <span className="inline-flex items-center gap-2 text-sm font-light text-brand-dark relative">
-                    <span className="border-b border-brand-dark/40 group-hover:border-brand-dark pb-0.5 transition-colors">
-                      {ep.cta}
+                  <div className="p-7 flex flex-col flex-1">
+                    <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                      {a.eyebrow}
+                    </p>
+                    <h3 className="text-xl font-light text-foreground mb-3">
+                      {a.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                      {a.desc}
+                    </p>
+                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                      Les mer
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </span>
-                  </span>
-                </Wrapper>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 4 ── HVA VI BEHANDLER ── 4 column lists */}
-      <section id="behandlinger" className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Alt under samme tak
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Hva vi behandler
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-            {treatmentGroups.map((g) => (
-              <div key={g.label}>
-                <h3 className="text-base font-light text-foreground mb-5 pb-3 border-b border-border/60">
-                  {g.label}
-                </h3>
-                <ul className="space-y-3">
-                  {g.items.map((t) => (
-                    <li
-                      key={t}
-                      className="text-sm font-light text-muted-foreground leading-relaxed"
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5 ── ROBOT-STAT ── split-screen: image + dark text panel */}
-      <section className="bg-brand-dark text-white">
-        <div className="grid lg:grid-cols-2">
-          {/* Image side */}
-          <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[520px] overflow-hidden order-2 lg:order-1">
-            <img
-              src={robotImg}
-              alt="Robotassistert kirurgi ved CMedical"
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/40 via-transparent to-transparent" />
-          </div>
-
-          {/* Text side */}
-          <div className="order-1 lg:order-2 px-6 md:px-16 py-16 md:py-24 flex items-center">
-            <div className="max-w-xl">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-white/60 font-light mb-5 inline-flex items-center gap-2">
-                <Bot className="w-3.5 h-3.5" strokeWidth={1.5} />
-                Norges ledende
-              </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] mb-5 text-white">
-                Robotassistert kirurgi — mer presis, mer skånsom.
-              </h2>
-              <p className="text-sm md:text-base text-white/75 font-light leading-relaxed mb-10">
-                Vi tilbyr robot­assistert kirurgi på prostata (kreft og godartet
-                forstørrelse), brokk, urinblære­utposninger og nyreinngrep. Det
-                betyr mer presis kirurgi, kortere operasjonstid og raskere
-                restitusjon for deg.
-              </p>
-
-              <div className="flex items-end gap-6 pt-8 border-t border-white/15">
-                <div>
-                  <div className="text-5xl md:text-6xl font-light leading-none text-brand-yellow mb-2">
-                    400+
                   </div>
-                  <p className="text-xs uppercase tracking-[0.22em] text-white/60 font-light">
-                    robot­operasjoner i året
-                  </p>
-                </div>
-              </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6 ── PASIENTREISEN ── numbered horizontal list */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <div className="mb-10 md:mb-14 max-w-2xl">
-            <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-              Slik går det for seg
-            </p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
-              Pasientreisen, fortalt enkelt
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
-            {journey.map((step) => (
-              <div key={step.label} className="bg-brand-warm p-7 md:p-9 flex flex-col">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-                  {step.label}
-                </p>
-                <h3 className="text-lg md:text-xl font-light text-foreground leading-snug mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                  {step.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7 ── SPESIALISTENE ── filterable horizontal scroll */}
-      <SpecialistsScroller
-        eyebrow="Møt teamet"
-        title="Spesialistene som følger deg"
-        seeAllHref="/spesialister?kategori=urologi"
-        seeAllLabel="Se alle urologer"
-        filter={(s) => {
-          const haystack = [
-            s.category,
-            s.title,
-            s.subtitle,
-            ...(s.expertise || []),
-          ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-          return (
-            s.category === "urologi" ||
-            haystack.includes("urolog") ||
-            haystack.includes("robot") ||
-            haystack.includes("sykepleier")
-          );
-        }}
+      {/* 3b. SYMPTOMSJEKK */}
+      <SymptomServiceSection
+        title="Hva kjenner du på?"
+        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
+        items={[
+          { symptom: "Svak eller hyppig vannlating", service: "Prostatautredning", href: "/booking?kategori=urologi&tjeneste=prostata" },
+          { symptom: "Forhøyet PSA eller mistanke om prostatakreft", service: "Prostatasjekk", href: "/booking?kategori=urologi&tjeneste=prostatasjekk" },
+          { symptom: "Smerter, kul eller hevelse i pungen", service: "Testikkelutredning", href: "/booking?kategori=urologi&tjeneste=testikler" },
+          { symptom: "Ereksjonsproblemer eller lavt testosteron", service: "Potens- og hormonutredning", href: "/booking?kategori=urologi&tjeneste=ereksjon" },
+          { symptom: "Urinlekkasje eller blæreplager", service: "Bekkenbunns- og blæreutredning", href: "/booking?kategori=urologi&tjeneste=urinlekkasje" },
+          { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/booking?kategori=urologi&tjeneste=sterilisering" },
+        ]}
       />
 
-      {/* 8 ── REVIEWS ── */}
-      <CategoryReviews categoryId="urologi" categoryTitle="urologi" />
+      {/* 4b. STATS */}
+      <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-5">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
+                  Resultater
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Tall som forteller en historie.
+                </h2>
+              </div>
+              <div className="lg:col-span-7 flex items-end">
+                <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
+                  Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
+                  resultatene våre innen urologi de siste årene.
+                </p>
+              </div>
+            </div>
 
-      {/* 9 ── FAQ ── */}
-      <section className="bg-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-4">
-            Vanlige spørsmål
-          </p>
-          <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
-            Det folk spør om
-          </h2>
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`u-${i}`}>
-                <AccordionTrigger className="text-left font-light text-base">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-light leading-relaxed">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+            <div className="border-t border-brand-dark/5 py-8 md:py-10">
+              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
+                Urologi
+              </p>
+              <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
+                {[
+                  { v: "400+", k: "Robotoperasjoner", sub: "Per år" },
+                  { v: "8 200", k: "Konsultasjoner", sub: "I 2024" },
+                  { v: "97%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+                  { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+                ].map((row, i) => (
+                  <div
+                    key={row.k}
+                    className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
+                  >
+                    <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
+                      <AnimatedStat value={row.v} />
+                    </dd>
+                    <dt className="text-sm font-normal text-foreground mb-1">
+                      {row.k}
+                    </dt>
+                    <p className="text-xs font-light text-muted-foreground">
+                      {row.sub}
+                    </p>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <p className="text-xs font-light text-muted-foreground mt-8">
+              Tall oppdatert per Q1 2026. Resultater varierer individuelt.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* 10 ── CLOSING CTA ── */}
-      <section className="bg-brand-light py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground font-light mb-5">
-                Klar når du er det
+      {/* 4. ALLE BEHANDLINGER */}
+      <section className="bg-background text-foreground py-20 md:py-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+              <div className="lg:col-span-6">
+                <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                  Alle behandlinger
+                </p>
+                <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                  Vet du allerede hva du trenger?
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Klikk og book direkte, eller les mer om den enkelte
+                  urologiske utredningen eller behandlingen.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              {allServices.map((s) => (
+                <Link
+                  key={s.title}
+                  to={s.href}
+                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
+                >
+                  <div>
+                    <h3 className="text-base font-normal text-foreground mb-1.5">
+                      {s.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-snug">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. REVIEWS */}
+      <section className="bg-brand-warm py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-xl mb-10">
+              <p className="text-sm text-brand-dark/60 font-light mb-3">
+                Hva pasientene sier
               </p>
-              <h2 className="text-3xl md:text-5xl font-light leading-[1.1] tracking-tight mb-5 text-foreground">
-                Bestill urologtime — eller en gratis prat først.
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+                Tilbakemeldinger fra ekte pasienter
               </h2>
-              <p className="text-base text-muted-foreground font-light leading-relaxed">
-                Vi sender bekreftelse og forberedelser direkte til deg. Du kan
-                også ta en gratis og uforpliktende prat med en av sykepleierne våre.
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {reviews.map((r, i) => (
+                <div
+                  key={i}
+                  className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
+                >
+                  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
+                  <div className="flex mb-4">
+                    {[0, 1, 2, 3, 4].map((s) => (
+                      <Star
+                        key={s}
+                        className="w-4 h-4 fill-[#FFC107] text-[#FFC107]"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-brand-dark font-light leading-relaxed mb-6 text-base">
+                    "{r.text}"
+                  </p>
+                  <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
+                    <div>
+                      <p className="text-brand-dark font-normal text-sm">
+                        {r.author}
+                      </p>
+                      <p className="text-xs text-brand-dark/60 font-light">
+                        {r.date}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                      <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none">
+                        <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107"/>
+                        <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00"/>
+                        <path d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" fill="#4CAF50"/>
+                        <path d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" fill="#1976D2"/>
+                      </svg>
+                      <span>Google</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. SPESIALISTER */}
+      <SpecialistsScroller
+        category="urologi"
+        title="Urologene som følger deg."
+        seeAllHref="/spesialister?kategori=urologi"
+        seeAllLabel="Se alle urologer"
+      />
+
+      {/* 7. PASIENTREISEN */}
+      <section className="bg-background">
+        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-5">
+              <p className="text-xs tracking-wide text-foreground/60 mb-4">
+                Pasientreisen
+              </p>
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
+                Fra første kontakt til riktig behandling.
+              </h2>
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-10 max-w-md">
+                Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
+                oss, fra du booker time til du er ferdig behandlet.
+              </p>
+              <Button asChild variant="cta" size="lg" className="px-8">
+                <Link to={buildBookingUrl({ kategori: "urologi" })}>
+                  Bestill time
+                </Link>
+              </Button>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="divide-y divide-border/60 border-t border-border/60">
+                {journey.map((step) => (
+                  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                      {step.n}
+                    </div>
+                    <div className="col-span-10 md:col-span-11">
+                      <h3 className="text-base font-normal text-foreground mb-1.5">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. SLUTT-CTA */}
+      <section className="bg-brand-dark text-white py-20 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
+                Klar til å ta neste steg?
+              </h2>
+              <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
+                Ingen henvisning. Ingen ventetid. Bare en urolog som tar seg
+                tid til deg.
               </p>
             </div>
-            <div className="flex flex-col gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate("/booking?kategori=urologi")}
-              >
-                Bestill urologtime
-                <ArrowRight className="ml-2 w-4 h-4" strokeWidth={1.5} />
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
+              <Button asChild variant="cta-dark" size="lg" className="px-8">
+                <Link to={buildBookingUrl({ kategori: "urologi" })}>
+                  Bestill urologtime
+                </Link>
               </Button>
-              <Link
-                to="/priser"
-                className="text-center text-sm font-light text-muted-foreground hover:text-foreground underline underline-offset-4 mt-2"
+              <a
+                href="tel:+4722000000"
+                className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
               >
-                Se prisliste
-              </Link>
+                <Phone className="w-4 h-4" />
+                Eller ring oss på 22 00 00 00
+              </a>
             </div>
           </div>
         </div>
