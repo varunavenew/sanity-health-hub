@@ -97,34 +97,45 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
           { name: "Kvinnehelse", path: "/kvinnehelse" },
         ]}
       />
-      {/* Hero */}
-      <section className="relative h-[30vh] min-h-[220px] overflow-hidden">
-        <img src={heroImage} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 30%" }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
-          <div className="container mx-auto">
-            <h1 className="text-3xl md:text-5xl font-light text-white">{title}</h1>
-          </div>
-        </div>
-      </section>
-
-      {/* Concept video */}
-      <section className="pt-10 md:pt-14 pb-6 md:pb-8 bg-background">
-        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
-          <div className="mb-8 max-w-2xl">
-            <p className="text-sm text-muted-foreground font-light mb-2">Konseptfilm</p>
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">Kvinnehelse gjennom hele livet</h2>
-            <p className="text-base text-muted-foreground font-light leading-relaxed">
+      {/* Split hero — video on top (mobile), right (desktop) */}
+      <header className="bg-brand-warm">
+        <div className="grid md:grid-cols-2 items-stretch">
+          {/* Left: text */}
+          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+            <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">
+              Konseptfilm
+            </p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+              {title}
+            </h1>
+            <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
               En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg.
             </p>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                variant="cta"
+                size="lg"
+                onClick={() => navigate(ctaLink)}
+              >
+                {ctaText}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
           </div>
-          <VideoPlayer
-            thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
-            videoUrl="/videos/kvinnehelse-konsept.mp4"
-            title="Kvinnehelse gjennom hele livet"
-          />
+
+          {/* Right (mobile: top): video */}
+          <div className="order-1 md:order-2">
+            <VideoPlayer
+              thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
+              videoUrl="/videos/kvinnehelse-konsept.mp4"
+              title="Kvinnehelse gjennom hele livet"
+              className="!rounded-none w-full h-full"
+            />
+          </div>
         </div>
-      </section>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+      </header>
+
 
       {/* Content */}
       <section className="pt-6 md:pt-8 pb-16 md:pb-24 bg-background">
