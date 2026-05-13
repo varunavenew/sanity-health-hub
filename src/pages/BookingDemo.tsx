@@ -238,6 +238,19 @@ const BookingDemo = () => {
     return eachDayOfInterval({ start, end });
   }, [viewMonth]);
   const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
+
+  // Horizontal week strip state
+  const [weekStart, setWeekStart] = useState<Date>(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+  const [weekDirection, setWeekDirection] = useState<1 | -1>(1);
+  const weekDays = useMemo(
+    () => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
+    [weekStart]
+  );
+  const canGoPrevWeek = weekStart.getTime() > today.getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
