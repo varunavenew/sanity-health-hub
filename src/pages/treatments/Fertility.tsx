@@ -11,6 +11,7 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
@@ -194,12 +195,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 >
                   Bestill konsultasjon
                 </Button>
-                <Link
-                  to="/kontakt"
-                  className="text-sm font-light text-foreground/85 hover:text-foreground border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
-                >
-                  Gratis prat med sykepleier
-                </Link>
+                <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
 
               <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
