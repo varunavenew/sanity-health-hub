@@ -251,7 +251,7 @@ const Godkjenning = () => {
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Internt verktøy</p>
           <h1 className="text-3xl md:text-4xl font-light text-foreground">Godkjenning av sider</h1>
           <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-2xl font-light">
-            Gå gjennom hver side, sett status og send konkrete endringsforespørsler med vedlegg. Alt synkroniseres i sanntid.
+            Gå gjennom hver side, sett status og send konkrete endringsforespørsler med vedlegg.
           </p>
 
           <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3">
