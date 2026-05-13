@@ -10,6 +10,7 @@ import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+import { TagList } from "@/components/treatments/TagList";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
