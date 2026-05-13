@@ -94,13 +94,13 @@ const expertAreas = [
     eyebrow: "Spesialfelt",
     title: "Endometriose",
     desc:
-      "Vedvarende menssmerter er ikke normalt. Våre endometriosespesialister utreder og behandler — også de kompliserte tilfellene.",
+      "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
     href: "/behandlinger/gynekologi/endometriose",
     image: expertEndometriose,
   },
   {
     eyebrow: "Spesialfelt",
-    title: "Fødselsskader og bekkenbunnsplager",
+    title: "Fødselsskader og bekkenbunnshelse",
     desc:
       "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
     href: "/behandlinger/gynekologi/urinlekkasje",
@@ -116,7 +116,7 @@ const expertAreas = [
   },
   {
     eyebrow: "Spesialfelt",
-    title: "Vulvalidelser",
+    title: "Vulvasmerter",
     desc:
       "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
     href: "/behandlinger/gynekologi/vulvalidelser",
