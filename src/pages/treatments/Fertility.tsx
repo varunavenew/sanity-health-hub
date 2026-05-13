@@ -201,14 +201,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Link>
               </div>
 
-              <div className="inline-flex items-center gap-3 text-sm font-light text-foreground">
-                <div className="flex" aria-hidden="true">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="w-4 h-4 fill-brand-dark text-brand-dark" />
-                  ))}
-                </div>
-                <span>4,7 av 5 — Norges eldste private fertilitetsklinikk</span>
-              </div>
+              <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                {["Ingen henvisning", "Korte ventetider", "Erfarne spesialister"].map((u) => (
+                  <li key={u} className="inline-flex items-center gap-2">
+                    <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
+                    <span>{u}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
