@@ -267,7 +267,23 @@ const Godkjenning = () => {
         {loading ? (
           <p className="text-sm text-muted-foreground">Laster…</p>
         ) : tab === "innboks" ? (
-          <ChangeRequestInbox requests={requests} reviewer={reviewer} />
+          <ChangeRequestInbox requests={pageRequests} reviewer={reviewer} />
+        ) : tab === "booking" ? (
+          <FeedbackPanel
+            title="Booking"
+            description="Tilbakemeldinger som gjelder bookingflyt, kalender, bekreftelser og betaling."
+            requests={bookingRequests}
+            reviewer={reviewer}
+            onNew={() => setDialogPage({ path: BOOKING_PATH, name: "Booking", category: "Generelt" } as SitePage)}
+          />
+        ) : tab === "generelt" ? (
+          <FeedbackPanel
+            title="Generelle tilbakemeldinger"
+            description="Overordnede tilbakemeldinger som ikke hører til en spesifikk side."
+            requests={generalRequests}
+            reviewer={reviewer}
+            onNew={() => setDialogPage({ path: GENERAL_PATH, name: "Generelt", category: "Generelt" } as SitePage)}
+          />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
