@@ -157,7 +157,12 @@ const Godkjenning = () => {
     return c;
   }, [rows]);
 
-  const openRequestsCount = useMemo(() => requests.filter((r) => r.status !== "ferdig").length, [requests]);
+  const pageRequests = useMemo(() => requests.filter((r) => !PSEUDO_PATHS.includes(r.page_path)), [requests]);
+  const bookingRequests = useMemo(() => requests.filter((r) => r.page_path === BOOKING_PATH), [requests]);
+  const generalRequests = useMemo(() => requests.filter((r) => r.page_path === GENERAL_PATH), [requests]);
+  const openRequestsCount = useMemo(() => pageRequests.filter((r) => r.status !== "ferdig").length, [pageRequests]);
+  const openBookingCount = useMemo(() => bookingRequests.filter((r) => r.status !== "ferdig").length, [bookingRequests]);
+  const openGeneralCount = useMemo(() => generalRequests.filter((r) => r.status !== "ferdig").length, [generalRequests]);
 
   const exportCsv = () => {
     const header = ["Kategori", "Side", "URL", "Status", "Kommentar", "Åpne endringer", "Sist oppdatert", "Av"];
