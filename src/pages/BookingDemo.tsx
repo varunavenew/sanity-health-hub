@@ -953,15 +953,15 @@ const BookingDemo = () => {
                 )}
               </h2>
               
-              {/* 4-ukers dato-strip — kompakt og oversiktlig */}
-              <div className="bg-white rounded-lg p-6">
+              {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
+              <div className="bg-brand-light rounded-lg p-6 border border-brand-dark/10">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
-                    <p className="text-xs text-muted-foreground font-light mb-1">
-                      Velg en dag
+                    <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
+                      velg en dag
                     </p>
-                    <h3 className="text-xl font-light text-foreground capitalize">
-                      {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][6], "d. MMM yyyy", { locale: nb })}
+                    <h3 className="text-xl font-light text-brand-dark capitalize">
+                      {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][4], "d. MMM yyyy", { locale: nb })}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
@@ -977,8 +977,8 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white"
-                          : "border-border/40 text-muted-foreground/40 cursor-not-allowed"
+                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-light"
+                          : "border-brand-dark/20 text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -990,21 +990,21 @@ const BookingDemo = () => {
                         setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
                       aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                {/* Header med ukedager */}
+                {/* Header med ukedager (man–fre) */}
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 mb-2">
                   <div className="w-16" />
-                  <div className="grid grid-cols-7 gap-2 sm:gap-3">
-                    {["ma", "ti", "on", "to", "fr", "lø", "sø"].map((d) => (
+                  <div className="grid grid-cols-5 gap-2 sm:gap-3">
+                    {["ma", "ti", "on", "to", "fr"].map((d) => (
                       <span
                         key={d}
-                        className="text-xs font-light text-muted-foreground text-left"
+                        className="text-xs font-light text-brand-dark/60 text-left lowercase"
                       >
                         {d}
                       </span>
@@ -1025,23 +1025,23 @@ const BookingDemo = () => {
                       {weeks.map((week, wi) => {
                         const weekLabel =
                           wi === 0 && isSameDay(rangeStart, startOfWeek(today, { weekStartsOn: 1 }))
-                            ? "Denne uken"
-                            : `Uke ${format(week[0], "w", { locale: nb })}`;
+                            ? "denne uken"
+                            : `uke ${format(week[0], "w", { locale: nb })}`;
+                        const weekdays = week.slice(0, 5);
 
                         return (
                           <div
                             key={week[0].toISOString()}
                             className="grid grid-cols-[auto_1fr] gap-x-4 items-start"
                           >
-                            <span className="w-16 pt-2 text-xs font-light text-muted-foreground">
+                            <span className="w-16 pt-2 text-xs font-light text-brand-dark/60 lowercase">
                               {weekLabel}
                             </span>
-                            <div className="grid grid-cols-7 gap-2 sm:gap-3">
-                              {week.map((date) => {
+                            <div className="grid grid-cols-5 gap-2 sm:gap-3">
+                              {weekdays.map((date) => {
                                 const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
                                 const isPast = date < today;
-                                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                                const isDisabled = isPast || isWeekend;
+                                const isDisabled = isPast;
                                 const isToday = isSameDay(date, today);
 
                                 return (
