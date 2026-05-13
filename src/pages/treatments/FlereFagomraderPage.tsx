@@ -10,6 +10,7 @@ import { LeadPopup } from "@/components/LeadPopup";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
 import expertKropp from "@/assets/hero/cmedical-skin-texture.jpg";
