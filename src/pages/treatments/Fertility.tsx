@@ -64,21 +64,46 @@ const segments = [
   },
 ];
 
+const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
+    <circle cx="32" cy="40" r="13" />
+    <circle cx="48" cy="40" r="13" />
+  </svg>
+);
+
+const SegmentHorizonIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <line x1="12" y1="48" x2="68" y2="48" />
+    <path d="M20 48 A20 20 0 0 1 60 48" />
+    <line x1="40" y1="30" x2="40" y2="24" />
+  </svg>
+);
+
+const SegmentArchIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
+    <circle cx="40" cy="48" r="10" />
+    <path d="M18 40 Q40 14 62 40" />
+  </svg>
+);
+
 const audiences = [
   {
     title: "Heterofile par",
+    Icon: SegmentCoupleIcon,
     desc:
       "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
     href: "/booking?kategori=fertilitet",
   },
   {
     title: "De ventende",
+    Icon: SegmentHorizonIcon,
     desc:
       "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
     href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
   },
   {
     title: "Singel",
+    Icon: SegmentArchIcon,
     desc:
       "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
     href: "/booking?kategori=fertilitet",
@@ -276,8 +301,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                   key={a.title}
                   className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
                 >
-                  <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center mb-5">
-                    <Check className="w-4 h-4 text-foreground/70" />
+                  <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
+                    <a.Icon className="w-10 h-10" aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-normal text-foreground mb-3">
                     {a.title}
