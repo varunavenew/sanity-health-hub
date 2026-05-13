@@ -216,6 +216,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
             />
           </div>
         </div>
+        <div className="h-px w-full bg-foreground/15" aria-hidden="true" />
       </header>
 
       {/* ============================================================
