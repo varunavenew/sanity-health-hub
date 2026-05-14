@@ -4,7 +4,7 @@ import {useToast} from '@sanity/ui'
 
 // Edge function endpoint. Override with VITE_TRANSLATE_ENDPOINT in .env.local for dev.
 const DEFAULT_ENDPOINT =
-  'https://vbyoklneqswaevypvbji.supabase.co/functions/v1/translate-content'
+  'https://mwydkursahtfelwsdxel.supabase.co/functions/v1/translate-content'
 
 const ENDPOINT =
   (typeof import.meta !== 'undefined' &&
