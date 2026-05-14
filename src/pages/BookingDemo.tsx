@@ -585,9 +585,9 @@ const BookingDemo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f4f0]">
+    <div className="min-h-screen bg-brand-warm">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-foreground">
+      <header className="sticky top-0 z-50 bg-brand-dark">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <button 
             onClick={handleClose} 
