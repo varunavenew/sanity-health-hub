@@ -973,7 +973,7 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-light"
+                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-warm"
                           : "border-brand-dark/20 text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
@@ -986,7 +986,7 @@ const BookingDemo = () => {
                         setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
                       aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
