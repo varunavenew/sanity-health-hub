@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTopRatedProducts } from "@/hooks/useSanity";
 import { allProducts } from "@/data/mockData";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 
 export const TopRatedProducts = () => {
   const { data: sanityProducts } = useTopRatedProducts();

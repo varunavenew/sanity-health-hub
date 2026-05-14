@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Phone, Clock, Shield, ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { clinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
 

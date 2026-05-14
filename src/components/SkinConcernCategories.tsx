@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import drySkin from "@/assets/skin-concerns/dry-skin.jpg";
@@ -57,7 +58,7 @@ export const SkinConcernCategories = ({ onCategorySelect }: SkinConcernCategorie
               onClick={() => onCategorySelect(concern.id)}
             >
               <div className="relative h-64 overflow-hidden">
-                <img
+                <AssetImg
                   src={concern.image}
                   alt={concern.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"

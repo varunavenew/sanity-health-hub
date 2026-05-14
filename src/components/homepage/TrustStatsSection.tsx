@@ -1,6 +1,6 @@
 import { Star, Clock, FileCheck, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 
 const stats = [
   {

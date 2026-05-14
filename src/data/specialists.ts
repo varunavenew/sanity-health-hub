@@ -63,12 +63,14 @@ import tomHenrySundoen from '@/assets/specialists/tom-henry-sundoen.jpg';
 import tonjeWestlie from '@/assets/specialists/tonje-westlie.jpg';
 import trondJorgensen from '@/assets/specialists/trond-jorgensen.jpg';
 
+import type { ImageRef } from "@/lib/media";
+
 export interface Specialist {
   name: string;
   title: string;
   subtitle?: string;
   expertise: string[];
-  image: string;
+  image: ImageRef;
   category: 'gynekologi' | 'fertilitet' | 'urologi' | 'ortopedi' | 'annet';
   slug: string;
   bio?: string;

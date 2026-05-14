@@ -9,6 +9,7 @@ import heroFamily from "@/assets/hero/hero-family.jpg";
 import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
+import type { ImageRef } from "@/lib/media";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
@@ -26,7 +27,7 @@ export interface TreatmentData {
   title: string;
   subtitle: string;
   parentCategory: string;
-  heroImage: string;
+  heroImage: ImageRef;
   description: string;
   sections?: ContentSection[];
   benefits?: string[];

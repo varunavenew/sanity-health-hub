@@ -1,0 +1,30 @@
+import type { Metadata } from "next";
+import Contact from "@/site-pages/Contact";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbListJsonLd } from "@/lib/seo/jsonld-builders";
+import { buildContactMetadata } from "@/lib/seo/route-metadata";
+
+type Props = { params: Promise<{ locale: string }> };
+
+/** Keep in sync with `SANITY_DATA_REVALIDATE_SEC.singletonPage` (Next requires a literal). */
+export const revalidate = 600;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return buildContactMetadata(locale);
+}
+
+export default async function KontaktPage({ params }: Props) {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  const ld = breadcrumbListJsonLd([
+    { name: isEn ? "Home" : "Hjem", path: isEn ? "/en" : "/nb" },
+    { name: isEn ? "Contact" : "Kontakt", path: isEn ? "/en/contact" : "/nb/kontakt" },
+  ]);
+  return (
+    <>
+      <JsonLd data={ld} />
+      <Contact isChatOpen={false} />
+    </>
+  );
+}

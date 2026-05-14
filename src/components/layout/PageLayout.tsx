@@ -1,5 +1,6 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "@/lib/router";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
@@ -144,7 +145,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         <nav className={`transition-colors duration-300 ${isAtTop ? 'bg-gradient-to-b from-black/70 via-black/35 to-transparent' : 'bg-brand-dark/95 backdrop-blur-md'}`} aria-label="Hovednavigasjon">
           <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between relative">
             <Link to="/" className="flex items-center">
-              <img 
+              <AssetImg 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
                 className="h-14 md:h-20" 

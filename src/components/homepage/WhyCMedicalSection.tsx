@@ -1,7 +1,8 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useMemo, useState, useCallback } from "react";
 import { Users, Heart, Microscope, Shield, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import familyHero from "@/assets/hero/family-hero.webp";
 import { usePinnedSplitScroll } from "@/hooks/usePinnedSplitScroll";
 
@@ -64,7 +65,7 @@ export const WhyCMedicalSection = () => {
         {/* Left - Sticky Image (desktop) */}
         <div className="hidden lg:block lg:w-1/2">
           <div className="sticky top-0 h-screen overflow-hidden">
-            <img
+            <AssetImg
               src={familyHero}
               alt="CMedical - Familie"
               className="w-full h-full object-cover object-[50%_30%]"
@@ -76,7 +77,7 @@ export const WhyCMedicalSection = () => {
 
         {/* Mobile image */}
         <div className="lg:hidden h-[50vh] relative">
-          <img
+          <AssetImg
             src={familyHero}
             alt="CMedical - Familie"
             className="w-full h-full object-cover object-[50%_30%]"

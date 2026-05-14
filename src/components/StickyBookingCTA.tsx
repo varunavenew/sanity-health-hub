@@ -1,5 +1,5 @@
 import { Calendar } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { useEffect, useState } from "react";
 
 export const StickyBookingCTA = () => {

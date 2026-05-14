@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Phone, ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { clinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";

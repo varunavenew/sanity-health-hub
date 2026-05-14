@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect } from "react";
 import heroImage from "@/assets/hero/family-hero.webp";
 import skinTextureImage from "@/assets/hero/skin-texture-hero.webp";
@@ -143,7 +144,7 @@ export const HeroSectionSplit = () => {
     <header className="h-[calc(100vh-80px-40px)] flex flex-col lg:flex-row relative">
       {/* Left - Image */}
       <div className="lg:w-1/2 h-[45vh] lg:h-full relative">
-        <img 
+        <AssetImg 
           src={heroImage} 
           alt="Familie - CMedical spesialisert helsetjeneste" 
           className="w-full h-full object-cover"
@@ -163,7 +164,7 @@ export const HeroSectionSplit = () => {
       {/* Right - Word cloud with skin texture background */}
       <div className="lg:w-1/2 relative lg:h-full overflow-hidden hidden lg:block">
         {/* Skin texture background image */}
-        <img 
+        <AssetImg 
           src={skinTextureImage}
           alt=""
           className="absolute inset-0 w-full h-full object-cover"

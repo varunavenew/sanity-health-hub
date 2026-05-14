@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { useFaqs } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { FaqSection } from "@/components/layout/FaqSection";

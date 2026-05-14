@@ -2,16 +2,39 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+function viteEnv(name: string): string | undefined {
+  try {
+    return (import.meta as unknown as { env?: Record<string, string> }).env?.[name];
+  } catch {
+    return undefined;
+  }
+}
+
+const SUPABASE_URL =
+  (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_SUPABASE_URL) ||
+  (typeof process !== "undefined" && (process.env as Record<string, string | undefined>)?.VITE_SUPABASE_URL) ||
+  viteEnv("VITE_SUPABASE_URL") ||
+  "https://placeholder.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY =
+  (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) ||
+  (typeof process !== "undefined" && (process.env as Record<string, string | undefined>)?.VITE_SUPABASE_PUBLISHABLE_KEY) ||
+  viteEnv("VITE_SUPABASE_PUBLISHABLE_KEY") ||
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE5ODUxNjY0MDAsImV4cCI6MTk4NTE2NjQwMH0.placeholder";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: localStorage,
-    persistSession: true,
-    autoRefreshToken: true,
-  }
+    ...(typeof window !== "undefined"
+      ? {
+          storage: localStorage,
+          persistSession: true,
+          autoRefreshToken: true,
+        }
+      : {
+          persistSession: false,
+          autoRefreshToken: false,
+        }),
+  },
 });

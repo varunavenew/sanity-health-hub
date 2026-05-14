@@ -1,9 +1,11 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import type { ImageRef } from "@/lib/media";
 
 // Static fallback images
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
@@ -12,7 +14,7 @@ import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 
 interface HeroSlide {
   id: string;
-  image: string;
+  image: ImageRef;
   alt: string;
   label: string;
   subtitle: string;
@@ -141,7 +143,7 @@ export const HeroBanner = () => {
           className="absolute inset-0 cursor-pointer group"
           onClick={() => { if (!dragging.current) navigate(slide.ctaPath); }}
         >
-          <img
+          <AssetImg
             src={slide.image}
             alt={slide.alt}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"

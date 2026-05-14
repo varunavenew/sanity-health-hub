@@ -1,5 +1,6 @@
+import { AssetImg } from "@/components/AssetImg";
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
@@ -126,7 +127,7 @@ export const Footer = () => {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-4">
-            <img src={logoNegative} alt="CMedical" className="h-10" />
+            <AssetImg src={logoNegative} alt="CMedical" className="h-10" />
             <p className="text-xs text-white/30">© {new Date().getFullYear()} CMedical. {t("footer.rights")}</p>
           </div>
           

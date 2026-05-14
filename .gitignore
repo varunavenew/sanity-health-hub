@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Next.js build output (never commit — exceeds GitHub file limits)
+.next/
+out/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

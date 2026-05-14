@@ -1,5 +1,5 @@
 import { MapPin, Phone, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { useClinics } from "@/hooks/useSanity";
 import { clinics as staticClinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";

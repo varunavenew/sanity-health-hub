@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";

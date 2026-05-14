@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -74,7 +75,7 @@ export const BeforeAfterSection = () => {
             <div className="grid md:grid-cols-2 gap-0">
               {/* Before/After Images */}
               <div className="relative aspect-square bg-muted overflow-hidden group">
-                <img
+                <AssetImg
                   src={showAfter ? currentTransformation.after : currentTransformation.before}
                   alt={showAfter ? "After" : "Before"}
                   className="w-full h-full object-cover transition-all duration-500"

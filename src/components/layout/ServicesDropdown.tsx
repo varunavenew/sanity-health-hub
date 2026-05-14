@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from "@/lib/router";
 import { useServiceCategories } from '@/hooks/useServiceCategories';
 import { useTranslation } from 'react-i18next';
 

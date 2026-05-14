@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { AssetImg } from "@/components/AssetImg";
+import { Link, useNavigate } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
@@ -52,7 +53,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
             >
               <Link to={`/spesialister/${s.slug}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img
+                  <AssetImg
                     src={s.image}
                     alt={s.name}
                     className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-out"
