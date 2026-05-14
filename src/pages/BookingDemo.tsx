@@ -605,11 +605,11 @@ const BookingDemo = () => {
         {/* Step Indicator — minimal CMedical stil */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2 px-1">
-            <span className="text-[11px] font-light text-brand-dark/60 lowercase tracking-wide">
-              steg {currentStep} av 5
+            <span className="text-[11px] font-light text-brand-dark/60 tracking-wide">
+              Steg {currentStep} av 5
             </span>
-            <span className="text-[11px] font-light text-brand-dark lowercase tracking-wide">
-              {[null, "tjeneste", "klinikk", "behandler", "tid", "bekreft"][currentStep]}
+            <span className="text-[11px] font-normal text-brand-dark tracking-wide capitalize">
+              {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
