@@ -1049,27 +1049,26 @@ const BookingDemo = () => {
                                     aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
                                     aria-pressed={isSelected}
                                     className={cn(
-                                      "group flex flex-col items-start text-left py-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
-                                      isDisabled && "opacity-25 cursor-not-allowed"
+                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                                      isSelected
+                                        ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
+                                        : "bg-white border-brand-dark/15 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5",
+                                      isDisabled && "opacity-30 cursor-not-allowed hover:bg-white hover:border-brand-dark/15"
                                     )}
                                   >
-                                    <div
-                                      className={cn(
-                                        "w-full h-px mb-2 transition-colors",
-                                        isSelected ? "bg-brand-dark" : "bg-brand-dark/20",
-                                        !isDisabled && !isSelected && "group-hover:bg-brand-dark"
-                                      )}
-                                    />
                                     <span
                                       className={cn(
-                                        "text-lg font-light leading-none text-brand-dark",
-                                        isSelected && "font-normal"
+                                        "text-lg leading-none",
+                                        isSelected ? "font-medium" : "font-light"
                                       )}
                                     >
                                       {format(date, "d", { locale: nb })}
                                     </span>
                                     {isToday && (
-                                      <span className="text-[10px] text-brand-dark/60 mt-1 font-light lowercase">
+                                      <span className={cn(
+                                        "text-[10px] mt-1 font-light lowercase",
+                                        isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                                      )}>
                                         i dag
                                       </span>
                                     )}
