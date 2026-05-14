@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { Card } from "@/components/ui/card";
 import { Camera, MessageCircle, Sparkles } from "lucide-react";
 import idaProfile from "@/assets/ida-profile.jpg";
@@ -27,7 +28,7 @@ export const IdaGuide = () => {
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <img
+              <AssetImg
                 src={idaProfile}
                 alt="Ida - Din hudpleieekspert"
                 className="w-24 h-24 rounded-full object-cover border-4 border-primary/20"

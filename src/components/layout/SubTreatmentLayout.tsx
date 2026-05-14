@@ -1,6 +1,7 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useEffect, ReactNode, useMemo } from "react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -396,7 +397,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 className="group relative block text-left focus:outline-none"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img
+                  <AssetImg
                     src={sp.image}
                     alt={sp.name}
                     loading="lazy"

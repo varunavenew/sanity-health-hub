@@ -1,0 +1,478 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "@/lib/router";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { sitePages, type SitePage } from "@/data/sitePages";
+import { AccessGate } from "@/components/AccessGate";
+import { toast } from "@/hooks/use-toast";
+import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
+import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
+
+type Status = "godkjent" | "avventer" | "endringer";
+
+const BOOKING_PATH = "__booking__";
+const GENERAL_PATH = "__generelt__";
+const PSEUDO_PATHS = [BOOKING_PATH, GENERAL_PATH];
+
+interface ApprovalRow {
+  path: string;
+  status: Status;
+  comment: string;
+  updated_at: string;
+  updated_by: string;
+}
+
+const STATUS_META: Record<Status, { label: string; bg: string; dot: string }> = {
+  godkjent: { label: "Godkjent", bg: "bg-emerald-50 text-emerald-900 border-emerald-200", dot: "bg-emerald-500" },
+  avventer: { label: "Avventer", bg: "bg-amber-50 text-amber-900 border-amber-200", dot: "bg-amber-500" },
+  endringer: { label: "Endringer ønskes", bg: "bg-rose-50 text-rose-900 border-rose-200", dot: "bg-rose-500" },
+};
+
+const STORAGE_REVIEWER = "cm_approval_reviewer";
+
+const TabBtn = ({ active, onClick, icon, label, badge }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; badge?: number }) => (
+  <button
+    onClick={onClick}
+    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors ${
+      active ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+    }`}
+  >
+    {icon} {label}
+    {badge && badge > 0 ? (
+      <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${active ? "bg-background text-foreground" : "bg-rose-100 text-rose-900"}`}>
+        {badge}
+      </span>
+    ) : null}
+  </button>
+);
+
+const FeedbackPanel = ({
+  title,
+  description,
+  requests,
+  reviewer,
+  onNew,
+}: {
+  title: string;
+  description: string;
+  requests: ChangeRequest[];
+  reviewer: string;
+  onNew: () => void;
+}) => (
+  <div>
+    <div className="flex items-start justify-between gap-4 flex-wrap mb-6 pb-4 border-b border-border">
+      <div>
+        <h2 className="text-xl font-light text-foreground">{title}</h2>
+        <p className="text-sm text-muted-foreground mt-1 max-w-xl font-light">{description}</p>
+      </div>
+      <button
+        onClick={onNew}
+        className="inline-flex items-center gap-2 bg-foreground text-background px-4 py-2 text-sm rounded-md hover:opacity-90 transition-opacity"
+      >
+        <Plus className="w-4 h-4" /> Ny tilbakemelding
+      </button>
+    </div>
+    {requests.length === 0 ? (
+      <div className="border border-dashed border-border rounded-lg p-8 text-center">
+        <p className="text-sm text-muted-foreground">Ingen tilbakemeldinger ennå. Klikk «Ny tilbakemelding» for å registrere første.</p>
+      </div>
+    ) : (
+      <ChangeRequestInbox requests={requests} reviewer={reviewer} />
+    )}
+  </div>
+);
+
+const Godkjenning = () => {
+  const [rows, setRows] = useState<Record<string, ApprovalRow>>({});
+  const [requests, setRequests] = useState<ChangeRequest[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [reviewer, setReviewer] = useState("");
+  const [filter, setFilter] = useState<"alle" | Status>("alle");
+  const [search, setSearch] = useState("");
+  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt">("sider");
+  const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
+
+  useEffect(() => {
+    document.title = "Godkjenning av sider · CMedical";
+    try {
+      const saved = localStorage.getItem(STORAGE_REVIEWER);
+      if (saved) setReviewer(saved);
+    } catch {
+      /* localStorage unavailable */
+    }
+  }, []);
+
+  useEffect(() => {
+    const load = async () => {
+      const [{ data: appData, error: appErr }, { data: reqData, error: reqErr }] = await Promise.all([
+        supabase.from("page_approvals").select("*"),
+        supabase.from("change_requests").select("*").order("created_at", { ascending: false }),
+      ]);
+      if (appErr) toast({ title: "Kunne ikke laste sider", description: appErr.message, variant: "destructive" });
+      if (reqErr) toast({ title: "Kunne ikke laste forespørsler", description: reqErr.message, variant: "destructive" });
+
+      if (appData) {
+        const map: Record<string, ApprovalRow> = {};
+        appData.forEach((r: any) => { map[r.path] = r; });
+        setRows(map);
+      }
+      if (reqData) setRequests(reqData as any);
+      setLoading(false);
+    };
+    load();
+
+    const channel = supabase
+      .channel("godkjenning_changes")
+      .on("postgres_changes", { event: "*", schema: "public", table: "page_approvals" }, (payload: any) => {
+        if (payload.new?.path) setRows((prev) => ({ ...prev, [payload.new.path]: payload.new }));
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "change_requests" }, (payload: any) => {
+        setRequests((prev) => {
+          if (payload.eventType === "DELETE") return prev.filter((r) => r.id !== payload.old.id);
+          const next = payload.new as ChangeRequest;
+          const idx = prev.findIndex((r) => r.id === next.id);
+          if (idx === -1) return [next, ...prev];
+          const copy = [...prev];
+          copy[idx] = next;
+          return copy;
+        });
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
+  const persistReviewer = (name: string) => {
+    setReviewer(name);
+    try { localStorage.setItem(STORAGE_REVIEWER, name); } catch {
+      /* localStorage unavailable */
+    }
+  };
+
+  const updateRow = async (page: SitePage, patch: Partial<Pick<ApprovalRow, "status" | "comment">>) => {
+    const existing = rows[page.path];
+    const next: ApprovalRow = {
+      path: page.path,
+      status: (patch.status ?? existing?.status ?? "avventer") as Status,
+      comment: patch.comment ?? existing?.comment ?? "",
+      updated_at: new Date().toISOString(),
+      updated_by: reviewer || existing?.updated_by || "",
+    };
+    setRows((prev) => ({ ...prev, [page.path]: next }));
+    const { error } = await supabase.from("page_approvals").upsert({
+      path: page.path,
+      name: page.name,
+      category: page.category,
+      status: next.status,
+      comment: next.comment,
+      updated_by: next.updated_by,
+    });
+    if (error) toast({ title: "Kunne ikke lagre", description: error.message, variant: "destructive" });
+  };
+
+  const openRequestDialog = (page: SitePage) => {
+    // Also flip status to "endringer" so it shows up in overview
+    if (rows[page.path]?.status !== "endringer") {
+      updateRow(page, { status: "endringer" });
+    }
+    setDialogPage(page);
+  };
+
+  const requestCountByPath = useMemo(() => {
+    const m: Record<string, { open: number; total: number }> = {};
+    requests.forEach((r) => {
+      if (!m[r.page_path]) m[r.page_path] = { open: 0, total: 0 };
+      m[r.page_path].total++;
+      if (r.status !== "ferdig") m[r.page_path].open++;
+    });
+    return m;
+  }, [requests]);
+
+  const grouped = useMemo(() => {
+    const filtered = sitePages.filter((p) => {
+      const r = rows[p.path];
+      const status = (r?.status ?? "avventer") as Status;
+      if (filter !== "alle" && status !== filter) return false;
+      if (search && !`${p.name} ${p.path}`.toLowerCase().includes(search.toLowerCase())) return false;
+      return true;
+    });
+    const map = new Map<string, SitePage[]>();
+    filtered.forEach((p) => {
+      if (!map.has(p.category)) map.set(p.category, []);
+      map.get(p.category)!.push(p);
+    });
+    return Array.from(map.entries());
+  }, [rows, filter, search]);
+
+  const counts = useMemo(() => {
+    const c = { total: sitePages.length, godkjent: 0, avventer: 0, endringer: 0 };
+    sitePages.forEach((p) => {
+      const s = (rows[p.path]?.status ?? "avventer") as Status;
+      c[s]++;
+    });
+    return c;
+  }, [rows]);
+
+  const pageRequests = useMemo(() => requests.filter((r) => !PSEUDO_PATHS.includes(r.page_path)), [requests]);
+  const bookingRequests = useMemo(() => requests.filter((r) => r.page_path === BOOKING_PATH), [requests]);
+  const generalRequests = useMemo(() => requests.filter((r) => r.page_path === GENERAL_PATH), [requests]);
+  const openRequestsCount = useMemo(() => pageRequests.filter((r) => r.status !== "ferdig").length, [pageRequests]);
+  const openBookingCount = useMemo(() => bookingRequests.filter((r) => r.status !== "ferdig").length, [bookingRequests]);
+  const openGeneralCount = useMemo(() => generalRequests.filter((r) => r.status !== "ferdig").length, [generalRequests]);
+
+  const exportCsv = () => {
+    const header = ["Kategori", "Side", "URL", "Status", "Kommentar", "Åpne endringer", "Sist oppdatert", "Av"];
+    const lines = sitePages.map((p) => {
+      const r = rows[p.path];
+      const status = (r?.status ?? "avventer") as Status;
+      const reqs = requestCountByPath[p.path];
+      const cells = [
+        p.category,
+        p.name,
+        p.path,
+        STATUS_META[status].label,
+        (r?.comment ?? "").replace(/\s+/g, " "),
+        reqs ? `${reqs.open}/${reqs.total}` : "0/0",
+        r?.updated_at ?? "",
+        r?.updated_by ?? "",
+      ];
+      return cells.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",");
+    });
+    const csv = [header.join(","), ...lines].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `godkjenning-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-card">
+        <div className="container mx-auto px-6 md:px-12 py-8 max-w-6xl">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Internt verktøy</p>
+          <h1 className="text-3xl md:text-4xl font-light text-foreground">Godkjenning av sider</h1>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-2xl font-light">
+            Gå gjennom hver side, sett status og send konkrete endringsforespørsler med vedlegg.
+          </p>
+
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3">
+            <StatCard label="Totalt" value={counts.total} />
+            <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
+            <StatCard label="Avventer" value={counts.avventer} accent="amber" />
+            <StatCard label="Endringer" value={counts.endringer} accent="rose" />
+            <StatCard label="Åpne forespørsler" value={openRequestsCount} accent="rose" />
+          </div>
+
+          <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
+            <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background flex-wrap">
+              <TabBtn active={tab === "sider"} onClick={() => setTab("sider")} icon={<ListChecks className="w-4 h-4" />} label="Sider" />
+              <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
+              <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
+              <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <input
+                value={reviewer}
+                onChange={(e) => persistReviewer(e.target.value)}
+                placeholder="Ditt navn"
+                className="border border-border bg-background px-3 py-2 text-sm rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-primary/40"
+              />
+              <button
+                onClick={exportCsv}
+                className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
+              >
+                <Download className="w-4 h-4" /> CSV
+              </button>
+            </div>
+          </div>
+
+          {tab === "sider" && (
+            <div className="mt-4 flex flex-col md:flex-row gap-3 md:items-center">
+              <div className="relative md:max-w-xs flex-1">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Søk side eller URL"
+                  className="w-full border border-border bg-background pl-9 pr-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40"
+                />
+              </div>
+              <div className="flex gap-1 text-xs">
+                {(["alle", "avventer", "endringer", "godkjent"] as const).map((f) => (
+                  <button
+                    key={f}
+                    onClick={() => setFilter(f)}
+                    className={`px-3 py-2 rounded-md border transition-colors ${
+                      filter === f ? "bg-foreground text-background border-foreground" : "bg-background text-muted-foreground border-border hover:text-foreground"
+                    }`}
+                  >
+                    {f === "alle" ? "Alle" : STATUS_META[f].label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </header>
+
+      <main className="container mx-auto px-6 md:px-12 py-10 max-w-6xl">
+        {loading ? (
+          <p className="text-sm text-muted-foreground">Laster…</p>
+        ) : tab === "innboks" ? (
+          <ChangeRequestInbox requests={pageRequests} reviewer={reviewer} />
+        ) : tab === "booking" ? (
+          <FeedbackPanel
+            title="Booking"
+            description="Tilbakemeldinger som gjelder bookingflyt, kalender, bekreftelser og betaling."
+            requests={bookingRequests}
+            reviewer={reviewer}
+            onNew={() => setDialogPage({ path: BOOKING_PATH, name: "Booking", category: "Generelt" } as SitePage)}
+          />
+        ) : tab === "generelt" ? (
+          <FeedbackPanel
+            title="Generelle tilbakemeldinger"
+            description="Overordnede tilbakemeldinger som ikke hører til en spesifikk side."
+            requests={generalRequests}
+            reviewer={reviewer}
+            onNew={() => setDialogPage({ path: GENERAL_PATH, name: "Generelt", category: "Generelt" } as SitePage)}
+          />
+        ) : grouped.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
+        ) : (
+          <div className="space-y-12">
+            {grouped.map(([category, pages]) => (
+              <section key={category}>
+                <h2 className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-4 pb-2 border-b border-border">
+                  {category} <span className="ml-1 text-foreground/60">({pages.length})</span>
+                </h2>
+                <ul className="divide-y divide-border">
+                  {pages.map((page) => {
+                    const r = rows[page.path];
+                    const status = (r?.status ?? "avventer") as Status;
+                    const reqs = requestCountByPath[page.path];
+                    return (
+                      <li key={page.path} className="py-5">
+                        <div className="grid md:grid-cols-[1fr_auto] gap-4 md:gap-6 md:items-start">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <Link
+                                to={page.path}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group inline-flex items-center gap-1.5 text-base font-light text-foreground hover:underline underline-offset-4"
+                              >
+                                {page.name}
+                                <ArrowUpRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground" strokeWidth={1.5} />
+                              </Link>
+                              <span className={`inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${STATUS_META[status].bg}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[status].dot}`} />
+                                {STATUS_META[status].label}
+                              </span>
+                              {reqs && reqs.open > 0 && (
+                                <button
+                                  onClick={() => { setTab("innboks"); }}
+                                  className="text-[11px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
+                                >
+                                  {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
+                                </button>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1 font-mono truncate">{page.path}</p>
+                            {r?.updated_at && (
+                              <p className="text-[11px] text-muted-foreground mt-1 inline-flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {new Date(r.updated_at).toLocaleString("nb-NO", { dateStyle: "short", timeStyle: "short" })}
+                                {r.updated_by ? ` · ${r.updated_by}` : ""}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex flex-wrap gap-1.5 md:justify-end">
+                            <button
+                              onClick={() => updateRow(page, { status: "godkjent" })}
+                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                                status === "godkjent" ? `${STATUS_META.godkjent.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                              }`}
+                            >
+                              <Check className="inline w-3 h-3 mr-1" />Godkjent
+                            </button>
+                            <button
+                              onClick={() => updateRow(page, { status: "avventer" })}
+                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                                status === "avventer" ? `${STATUS_META.avventer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                              }`}
+                            >
+                              Avventer
+                            </button>
+                            <button
+                              onClick={() => openRequestDialog(page)}
+                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                                status === "endringer" ? `${STATUS_META.endringer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                              }`}
+                            >
+                              <MessageSquare className="inline w-3 h-3 mr-1" />Endringer ønskes
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 flex gap-2 items-start">
+                          <MessageSquare className="w-4 h-4 mt-2.5 text-muted-foreground flex-shrink-0" />
+                          <textarea
+                            defaultValue={r?.comment ?? ""}
+                            onBlur={(e) => {
+                              const val = e.target.value;
+                              if (val !== (r?.comment ?? "")) updateRow(page, { comment: val });
+                            }}
+                            placeholder="Generell notis om siden (bruk «Endringer ønskes» for konkrete oppgaver med vedlegg)…"
+                            rows={2}
+                            className="flex-1 border border-border bg-background px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y"
+                          />
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+        )}
+      </main>
+
+      {dialogPage && (
+        <ChangeRequestDialog
+          open={!!dialogPage}
+          onClose={() => setDialogPage(null)}
+          pagePath={dialogPage.path}
+          pageName={dialogPage.name}
+          reviewer={reviewer}
+        />
+      )}
+    </div>
+  );
+};
+
+const StatCard = ({ label, value, accent }: { label: string; value: number; accent?: "emerald" | "amber" | "rose" }) => {
+  const accents: Record<string, string> = {
+    emerald: "text-emerald-700",
+    amber: "text-amber-700",
+    rose: "text-rose-700",
+  };
+  return (
+    <div className="border border-border bg-background rounded-lg px-4 py-3">
+      <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className={`text-2xl font-light mt-1 ${accent ? accents[accent] : "text-foreground"}`}>{value}</p>
+    </div>
+  );
+};
+
+const GodkjenningPage = () => (
+  <AccessGate>
+    <Godkjenning />
+  </AccessGate>
+);
+
+export default GodkjenningPage;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Star, Quote, ArrowRight, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
 import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
@@ -74,9 +74,15 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data: sanityReviews } = useGoogleReviews();
+  const {
+    data: sanityReviews,
+    isError: reviewsError,
+    error: reviewsErrorDetail,
+    isFetched: reviewsFetched,
+  } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
-  const googleReviewsList = sanityReviews && sanityReviews.length > 0
+  const usingSanityReviews = Boolean(sanityReviews && sanityReviews.length > 0);
+  const googleReviewsList = usingSanityReviews
     ? sanityReviews.map((r, i) => ({ id: i, name: r.name, rating: r.rating, text: r.text, date: r.date, source: 'google' as const }))
     : staticReviews;
   const averageRating = settings?.googleAverageRating ?? googleRatingData.averageRating;
@@ -90,6 +96,17 @@ export const GoogleReviewsSection = () => {
 
   return (
     <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">
+        <div className="container mx-auto px-6 md:px-16 pb-2 text-xs text-muted-foreground font-mono">
+          [Sanity reviews]{" "}
+          {reviewsError
+            ? `fetch error: ${reviewsErrorDetail instanceof Error ? reviewsErrorDetail.message : String(reviewsErrorDetail)}`
+            : reviewsFetched
+              ? usingSanityReviews
+                ? `CMS (${sanityReviews!.length} docs)`
+                : "0 docs — using static fallback (add googleReview in Studio or check /api/sanity/health)"
+              : "loading…"}
+        </div>
+      
       <div className="container mx-auto px-6 md:px-16 relative">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">

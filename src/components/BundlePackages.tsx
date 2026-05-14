@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { Package, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -105,7 +106,7 @@ export const BundlePackages = () => {
             >
               {/* Bundle Image */}
               <div className="relative h-64 overflow-hidden">
-                <img
+                <AssetImg
                   src={bundle.image}
                   alt={bundle.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

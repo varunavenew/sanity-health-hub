@@ -1,5 +1,6 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useRef, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
@@ -120,7 +121,7 @@ export const SpecialistsScroller = ({
           >
             {/* Image with clinic tag + name overlay */}
             <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
-              <img
+              <AssetImg
                 src={sp.image}
                 alt={sp.name}
                 loading="lazy"

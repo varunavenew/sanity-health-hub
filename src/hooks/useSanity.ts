@@ -1,18 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { sanityClient } from "@/lib/sanityClient";
-
-/**
- * Map the i18next UI language code to the Sanity language key used by
- * `sanity-plugin-internationalized-array`. UI uses `nb` (Bokmål) but the
- * Studio plugin is configured with `no` for simplicity.
- */
-const useSanityLang = (): "no" | "en" => {
-  const { i18n } = useTranslation();
-  const lang = i18n.language || "nb";
-  if (lang.startsWith("en")) return "en";
-  return "no";
-};
+import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import {
   HOMEPAGE_QUERY,
   SPECIALISTS_QUERY,
@@ -48,57 +37,24 @@ import {
   SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
 
+/**
+ * Map the i18next UI language code to the Sanity language key used by
+ * `sanity-plugin-internationalized-array`. UI uses `nb` (Bokmål) but the
+ * Studio plugin is configured with `no` for simplicity.
+ */
+const useSanityLang = (): "no" | "en" => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language || "nb";
+  if (lang.startsWith("en")) return "en";
+  return "no";
+};
+
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
 const mapSanityCategorySlug = (slug: string): string => {
   const mapping: Record<string, string> = {
     "flere-fagomrader": "annet",
   };
   return mapping[slug] || slug;
-};
-
-/**
- * Detect a sanity-plugin-internationalized-array entry, e.g.
- *   { _type: "internationalizedArrayStringValue", _key, language, value }
- * v4 used `_key` for language, v5 uses `language`. Support both.
- */
-const isI18nEntry = (v: any): boolean =>
-  v && typeof v === "object" && typeof v._type === "string" &&
-  v._type.startsWith("internationalizedArray") && "value" in v;
-
-const isI18nEntryArray = (arr: any): boolean =>
-  Array.isArray(arr) && arr.length > 0 && arr.every(isI18nEntry);
-
-const pickI18nValue = (arr: any[], lang: "no" | "en"): any => {
-  const match = arr.find((e) => (e.language || e._key) === lang);
-  if (match) return match.value;
-  const fallback = arr.find((e) => (e.language || e._key) === "no") || arr[0];
-  return fallback?.value;
-};
-
-/**
- * Recursively walk a Sanity result and replace any internationalizedArray
- * value arrays with the plain value for the current language. This makes
- * it safe for the rest of the app to render `data.title` etc. as React
- * children without needing per-query coalesce.
- */
-const normalizeI18n = (input: any, lang: "no" | "en"): any => {
-  if (input == null) return input;
-  if (Array.isArray(input)) {
-    if (isI18nEntryArray(input)) {
-      return normalizeI18n(pickI18nValue(input, lang), lang);
-    }
-    return input.map((item) => normalizeI18n(item, lang));
-  }
-  if (typeof input === "object") {
-    // Don't recurse into Portable Text blocks — they have their own _type
-    // like "block"/"span" and must be passed through untouched to renderers.
-    const out: any = {};
-    for (const k of Object.keys(input)) {
-      out[k] = normalizeI18n(input[k], lang);
-    }
-    return out;
-  }
-  return input;
 };
 
 // Generic fetcher — auto-normalizes internationalizedArray fields.
@@ -110,8 +66,15 @@ const fetchSanity = async <T>(
 ): Promise<T> => {
   const resolved: "no" | "en" =
     lang || (params?.lang === "en" ? "en" : "no");
-  const data = await sanityClient.fetch(query, params);
-  return normalizeI18n(data, resolved) as T;
+  try {
+    const data = await sanityClient.fetch<T>(query, params);
+    return normalizeI18n(data, resolved) as T;
+  } catch (err) {
+      const preview = query.replace(/\s+/g, " ").slice(0, 80);
+      console.error("[Sanity] GROQ fetch failed:", preview, err);
+    
+    throw err;
+  }
 };
 
 // ─── Homepage ────────────────────────────────────────────────────────
@@ -231,6 +194,16 @@ export interface SanityReview {
   date: string;
 }
 
+function formatSanityReviewDate(value: unknown): string {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return new Date(value).toLocaleDateString("nb-NO");
+  }
+  if (value instanceof Date) return value.toLocaleDateString("nb-NO");
+  return String(value);
+}
+
 export const useGoogleReviews = () => {
   const lang = useSanityLang();
   return useQuery({
@@ -240,6 +213,7 @@ export const useGoogleReviews = () => {
       return (data || []).map((r) => ({
         ...r,
         name: r.author || "",
+        date: formatSanityReviewDate(r.date),
       })) as SanityReview[];
     },
     staleTime: 5 * 60 * 1000,

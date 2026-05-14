@@ -1,5 +1,6 @@
+import { AssetImg } from "@/components/AssetImg";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
@@ -83,7 +84,7 @@ export const SpecialistsSection = () => {
           >
             {/* Image */}
             <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
-              <img
+              <AssetImg
                 src={specialist.image}
                 alt={specialist.name}
                 className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.05]"

@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { motion } from "framer-motion";
 import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -94,7 +95,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
               transition={{ duration: 0.6, delay: 0.15 }}
               className="flex justify-center md:justify-start order-1 md:order-1 relative z-10"
             >
-              <img
+              <AssetImg
                 src={specialist.image}
                 alt={specialist.name}
                 className="w-[200px] md:w-[260px] lg:w-[300px] aspect-[3/4] object-cover object-top rounded-2xl saturate-[0.75] brightness-[0.95] shadow-2xl"

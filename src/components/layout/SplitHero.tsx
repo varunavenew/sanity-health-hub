@@ -1,12 +1,14 @@
 import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
+import { AssetImg } from "@/components/AssetImg";
+import type { ImageRef } from "@/lib/media";
 
 interface SplitHeroProps {
   eyebrow?: string;
   title: string;
   description?: string;
-  image: string;
+  image: ImageRef;
   imageAlt?: string;
   primaryCta?: { label: string; to: string };
   secondaryCta?: { label: string; to: string };
@@ -63,7 +65,7 @@ export const SplitHero = ({
         </div>
         {/* Right: image */}
         <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
-          <img
+          <AssetImg
             src={image}
             alt={imageAlt || title}
             className="absolute inset-0 w-full h-full object-cover"

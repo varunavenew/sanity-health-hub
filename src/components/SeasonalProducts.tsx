@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSeasonalProducts } from "@/hooks/useSanity";
 import { allProducts } from "@/data/mockData";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 
 export const SeasonalProducts = () => {
   const { data: sanityProducts } = useSeasonalProducts();

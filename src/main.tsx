@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import "./i18n/config";
-import App from "./App.tsx";
+import App from "./App";
 import { AccessGate } from "./components/AccessGate";
 import "./index.css";
 

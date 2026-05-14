@@ -1,6 +1,7 @@
+import { AssetImg } from "@/components/AssetImg";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 import heroImage from "@/assets/hero/family-hero.webp";
 
 export const HeroSection = () => {
@@ -14,7 +15,7 @@ export const HeroSection = () => {
     <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-20 bg-brand-dark">
       {/* Background Image with warm color grading */}
       <div className="absolute inset-0">
-        <img
+        <AssetImg
           src={heroImage}
           alt="Familie - CMedical spesialisert helsetjeneste"
           className="w-full h-full object-cover scale-105"

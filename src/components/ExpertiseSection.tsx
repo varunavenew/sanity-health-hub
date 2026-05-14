@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { Card } from "@/components/ui/card";
 import { GraduationCap, Microscope, Users, Building2 } from "lucide-react";
 import cmedicalFamily from "@/assets/hero/cmedical-family.jpg";
@@ -33,7 +34,7 @@ export const ExpertiseSection = () => {
           {/* Left - Image */}
           <div className="relative h-[600px] rounded-lg overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent z-10" />
-            <img 
+            <AssetImg 
               src={cmedicalFamily} 
               alt="CMedical familie"
               className="w-full h-full object-cover"

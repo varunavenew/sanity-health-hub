@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -60,7 +61,7 @@ export const HeroSlider = () => {
           }`}
         >
           <div className="relative h-full">
-            <img
+            <AssetImg
               src={slide.image}
               alt={slide.title}
               className="w-full h-full object-cover"

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, type ReactNode } from "react";
 
 const ACCESS_CODE = "cmedical2026";
@@ -18,7 +20,9 @@ export const AccessGate = ({ children }: AccessGateProps) => {
       if (sessionStorage.getItem(STORAGE_KEY) === "1" || localStorage.getItem(STORAGE_KEY) === "1") {
         setUnlocked(true);
       }
-    } catch {}
+    } catch {
+      /* session/local storage may be unavailable */
+    }
     setChecked(true);
   }, []);
 
@@ -28,7 +32,9 @@ export const AccessGate = ({ children }: AccessGateProps) => {
       try {
         sessionStorage.setItem(STORAGE_KEY, "1");
         localStorage.setItem(STORAGE_KEY, "1");
-      } catch {}
+      } catch {
+      /* session/local storage may be unavailable */
+    }
       setUnlocked(true);
     } else {
       setError(true);

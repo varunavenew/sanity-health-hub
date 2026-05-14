@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePathname, useRouter } from "next/navigation";
+import { stripLocaleFromPathname, withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 
 const languages = [
   { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
@@ -11,13 +13,23 @@ export const LanguageSelector = () => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { i18n, t } = useTranslation();
+  const pathname = usePathname() || "/";
+  const router = useRouter();
 
   const currentLang = i18n.language;
   const current = languages.find((l) => l.code === currentLang) || languages[0];
 
   const handleSelect = (code: string) => {
-    i18n.changeLanguage(code);
-    localStorage.setItem("i18n-lang", code);
+    const target: AppLocale = code.startsWith("en") ? "en" : "nb";
+    void i18n.changeLanguage(target === "en" ? "en" : "nb");
+    try {
+      localStorage.setItem("i18n-lang", target === "en" ? "en" : "nb");
+    } catch {
+      /* ignore */
+    }
+    const stripped = stripLocaleFromPathname(pathname);
+    const nextPath = withLocalePath(target, stripped === "/" ? "/" : stripped);
+    router.push(nextPath);
     setIsOpen(false);
   };
 

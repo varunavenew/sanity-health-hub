@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { Plus, Minus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useFaqs } from "@/hooks/useSanity";

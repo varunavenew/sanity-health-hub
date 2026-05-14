@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router";
 
 interface PromoBlock {
   title: string;

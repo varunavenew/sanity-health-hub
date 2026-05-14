@@ -1,5 +1,5 @@
 import { ArrowRight, Wallet, Building2, Phone, type LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { getIcon } from "@/lib/icons";
 
 interface Service {

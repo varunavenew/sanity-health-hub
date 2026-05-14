@@ -1,3 +1,4 @@
+import { AssetImg } from "@/components/AssetImg";
 import { Play, Heart, Microscope, Building2 } from "lucide-react";
 import heroImage1 from "@/assets/hero/cmedical-hero-1.jpg";
 import heroImage2 from "@/assets/hero/cmedical-hero-2.jpg";
@@ -55,7 +56,7 @@ export const VisualStorytelling = () => {
               className="group relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden cursor-pointer"
             >
               {/* Background image */}
-              <img
+              <AssetImg
                 src={story.image}
                 alt={story.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
