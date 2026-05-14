@@ -645,7 +645,7 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-white rounded-lg p-4 mb-6 text-sm">
+          <div className="bg-brand-beige rounded-lg p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
@@ -717,7 +717,7 @@ const BookingDemo = () => {
                     <button
                       onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
                       className={cn(
-                        "w-full flex items-center justify-between p-4 bg-white rounded-lg transition-all",
+                        "w-full flex items-center justify-between p-4 bg-brand-beige rounded-lg transition-all",
                         expandedCategory === category.id && "rounded-b-none"
                       )}
                     >
@@ -765,7 +765,7 @@ const BookingDemo = () => {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden bg-white border-t border-border/10"
+                          className="overflow-hidden bg-brand-beige border-t border-border/10"
                         >
                           <div className="p-3 space-y-2">
                             {category.services.map((service, index) => (
@@ -834,7 +834,7 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-4 bg-white rounded-lg hover:bg-muted/30 transition-colors text-left group"
+                      className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group"
                     >
                       <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
                         {clinic.bookingSystem === 'external' ? (
@@ -884,7 +884,7 @@ const BookingDemo = () => {
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-4 bg-white rounded-lg hover:bg-muted/30 transition-colors text-left group border-2 border-transparent hover:border-foreground/10"
+                  className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group border-2 border-transparent hover:border-foreground/10"
                 >
                   <div className="w-12 h-12 rounded-sm bg-muted/50 flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-foreground" />
@@ -901,7 +901,7 @@ const BookingDemo = () => {
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-4 bg-white rounded-lg hover:bg-muted/30 hover:shadow-md transition-all text-center group"
+                      className="w-full flex flex-col items-center p-4 bg-brand-beige rounded-lg hover:bg-muted/30 hover:shadow-md transition-all text-center group"
                     >
                       <div className="w-14 h-14 rounded-sm overflow-hidden mb-2.5">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
@@ -1170,7 +1170,7 @@ const BookingDemo = () => {
               </h2>
 
               {/* Summary Card */}
-              <div className="bg-white rounded-lg p-5">
+              <div className="bg-brand-beige rounded-lg p-5">
                 <h3 className="font-normal text-lg mb-4">Din bestilling</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
@@ -1214,7 +1214,7 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-white rounded-lg p-5">
+              <div className="bg-brand-beige rounded-lg p-5">
                 <h3 className="font-normal text-lg mb-4">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
