@@ -585,9 +585,9 @@ const BookingDemo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f4f0]">
+    <div className="min-h-screen bg-brand-warm">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-foreground">
+      <header className="sticky top-0 z-50 bg-brand-dark">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <button 
             onClick={handleClose} 
@@ -605,11 +605,11 @@ const BookingDemo = () => {
         {/* Step Indicator — minimal CMedical stil */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2 px-1">
-            <span className="text-[11px] font-light text-brand-dark/60 lowercase tracking-wide">
-              steg {currentStep} av 5
+            <span className="text-[11px] font-light text-brand-dark/60 tracking-wide">
+              Steg {currentStep} av 5
             </span>
-            <span className="text-[11px] font-light text-brand-dark lowercase tracking-wide">
-              {[null, "tjeneste", "klinikk", "behandler", "tid", "bekreft"][currentStep]}
+            <span className="text-[11px] font-normal text-brand-dark tracking-wide capitalize">
+              {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
@@ -645,7 +645,7 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-white rounded-lg p-4 mb-6 text-sm">
+          <div className="bg-brand-beige rounded-lg p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
@@ -717,7 +717,7 @@ const BookingDemo = () => {
                     <button
                       onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
                       className={cn(
-                        "w-full flex items-center justify-between p-4 bg-white rounded-lg transition-all",
+                        "w-full flex items-center justify-between p-4 bg-brand-beige rounded-lg transition-all",
                         expandedCategory === category.id && "rounded-b-none"
                       )}
                     >
@@ -765,7 +765,7 @@ const BookingDemo = () => {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden bg-white border-t border-border/10"
+                          className="overflow-hidden bg-brand-beige border-t border-border/10"
                         >
                           <div className="p-3 space-y-2">
                             {category.services.map((service, index) => (
@@ -834,7 +834,7 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-4 bg-white rounded-lg hover:bg-muted/30 transition-colors text-left group"
+                      className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group"
                     >
                       <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
                         {clinic.bookingSystem === 'external' ? (
@@ -884,7 +884,7 @@ const BookingDemo = () => {
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-4 bg-white rounded-lg hover:bg-muted/30 transition-colors text-left group border-2 border-transparent hover:border-foreground/10"
+                  className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group border-2 border-transparent hover:border-foreground/10"
                 >
                   <div className="w-12 h-12 rounded-sm bg-muted/50 flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-foreground" />
@@ -896,12 +896,12 @@ const BookingDemo = () => {
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
               </button>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {filteredSpecialists.map((spec) => (
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-4 bg-white rounded-lg hover:bg-muted/30 hover:shadow-md transition-all text-center group"
+                      className="w-full flex flex-col items-center p-4 bg-brand-beige rounded-lg hover:bg-muted/30 hover:shadow-md transition-all text-center group"
                     >
                       <div className="w-14 h-14 rounded-sm overflow-hidden mb-2.5">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
@@ -950,7 +950,7 @@ const BookingDemo = () => {
               </h2>
               
               {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
-              <div className="bg-brand-light rounded-lg p-6 border border-brand-dark/10">
+              <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/10">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
@@ -973,7 +973,7 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-light"
+                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-warm"
                           : "border-brand-dark/20 text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
@@ -986,7 +986,7 @@ const BookingDemo = () => {
                         setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
                       aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -1049,27 +1049,26 @@ const BookingDemo = () => {
                                     aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
                                     aria-pressed={isSelected}
                                     className={cn(
-                                      "group flex flex-col items-start text-left py-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm",
-                                      isDisabled && "opacity-25 cursor-not-allowed"
+                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                                      isSelected
+                                        ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
+                                        : "bg-white border-brand-dark/15 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5",
+                                      isDisabled && "opacity-30 cursor-not-allowed hover:bg-white hover:border-brand-dark/15"
                                     )}
                                   >
-                                    <div
-                                      className={cn(
-                                        "w-full h-px mb-2 transition-colors",
-                                        isSelected ? "bg-brand-dark" : "bg-brand-dark/20",
-                                        !isDisabled && !isSelected && "group-hover:bg-brand-dark"
-                                      )}
-                                    />
                                     <span
                                       className={cn(
-                                        "text-lg font-light leading-none text-brand-dark",
-                                        isSelected && "font-normal"
+                                        "text-lg leading-none",
+                                        isSelected ? "font-medium" : "font-light"
                                       )}
                                     >
                                       {format(date, "d", { locale: nb })}
                                     </span>
                                     {isToday && (
-                                      <span className="text-[10px] text-brand-dark/60 mt-1 font-light lowercase">
+                                      <span className={cn(
+                                        "text-[10px] mt-1 font-light lowercase",
+                                        isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                                      )}>
                                         i dag
                                       </span>
                                     )}
@@ -1087,7 +1086,7 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-brand-light rounded-lg p-6 border border-brand-dark/10">
+                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/10">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
                       <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
@@ -1112,7 +1111,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="py-3 px-4 border border-brand-dark/30 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-light hover:border-brand-dark transition-all"
+                            className="py-3 px-4 bg-white border border-brand-dark/20 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
                           >
                             {slot.time}
                           </button>
@@ -1125,7 +1124,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                            className="w-full flex items-center gap-4 p-3 border border-brand-dark/30 rounded-md hover:bg-brand-dark/5 hover:border-brand-dark transition-all text-left"
+                            className="w-full flex items-center gap-4 p-3 bg-white border border-brand-dark/20 rounded-md hover:bg-brand-dark/5 hover:border-brand-dark transition-all text-left"
                           >
                             <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
                               <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
@@ -1171,7 +1170,7 @@ const BookingDemo = () => {
               </h2>
 
               {/* Summary Card */}
-              <div className="bg-white rounded-lg p-5">
+              <div className="bg-brand-beige rounded-lg p-5">
                 <h3 className="font-normal text-lg mb-4">Din bestilling</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
@@ -1215,7 +1214,7 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-white rounded-lg p-5">
+              <div className="bg-brand-beige rounded-lg p-5">
                 <h3 className="font-normal text-lg mb-4">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
