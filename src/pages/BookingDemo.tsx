@@ -1111,7 +1111,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="py-3 px-4 border border-brand-dark/30 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-light hover:border-brand-dark transition-all"
+                            className="py-3 px-4 bg-white border border-brand-dark/20 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
                           >
                             {slot.time}
                           </button>
