@@ -268,7 +268,7 @@ const BookingDemo = () => {
   );
   const canGoPrevRange = rangeStart.getTime() > startOfWeek(today, { weekStartsOn: 1 }).getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   // When user arrives with ?kategori=..., filter step 1 to that category only.
   // Cleared by "Vis alle tjenester" button so the user can change their mind.
