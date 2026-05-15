@@ -186,6 +186,20 @@ const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
   return slots;
 };
 
+// Find first bookable weekday (skips weekends + days with no slots).
+const getFirstAvailableDate = (fromDate: Date, specialistList: Specialist[]): Date => {
+  const start = new Date(fromDate);
+  start.setHours(0, 0, 0, 0);
+  for (let i = 0; i < 60; i++) {
+    const d = addDays(start, i);
+    const dow = d.getDay();
+    if (dow === 0 || dow === 6) continue;
+    if (specialistList.length === 0) return d;
+    if (generateTimeSlots(d, specialistList).length > 0) return d;
+  }
+  return addDays(start, 1);
+};
+
 interface BookingData {
   category?: string;
   categoryId?: string;
