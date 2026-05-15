@@ -713,7 +713,7 @@ const BookingDemo = () => {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <h2 className="text-2xl font-light text-foreground text-center mb-6">
+              <h2 className="text-2xl font-light text-brand-dark text-center mb-6">
                 {filterToCategoryId
                   ? `Velg tjeneste innen ${bookingServices.find(c => c.id === filterToCategoryId)?.label ?? ""}`
                   : "Velg tjeneste"}
