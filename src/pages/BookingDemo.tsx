@@ -678,7 +678,7 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
+          <div className="bg-white border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
@@ -750,8 +750,8 @@ const BookingDemo = () => {
                     <button
                       onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
                       className={cn(
-                        "w-full flex items-center justify-between p-5 bg-brand-beige/40 hover:bg-brand-beige/60 transition-all",
-                        expandedCategory === category.id && "bg-brand-beige/60"
+                        "w-full flex items-center justify-between p-5 bg-white hover:bg-brand-beige/50 transition-all",
+                        expandedCategory === category.id && "bg-brand-beige/50"
                       )}
                     >
                       <span className="font-normal text-brand-dark">{category.label}</span>
@@ -805,7 +805,7 @@ const BookingDemo = () => {
                               <button
                                 key={index}
                                 onClick={() => handleSelectService(category.id, category.label, service)}
-                                className="w-full flex items-center justify-between p-4 bg-brand-beige/30 border border-brand-dark/10 rounded-xl hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left group"
+                                className="w-full flex items-center justify-between p-4 bg-white border border-brand-dark/10 rounded-xl hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left group"
                               >
                                 <div className="flex-1 pr-4">
                                   <span className="text-brand-dark block font-normal">
@@ -867,7 +867,7 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
+                      className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                     >
                       <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
                         {clinic.bookingSystem === 'external' ? (
@@ -917,7 +917,7 @@ const BookingDemo = () => {
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
+                  className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
                   <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
@@ -934,7 +934,7 @@ const BookingDemo = () => {
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-center group"
+                      className="w-full flex flex-col items-center p-5 bg-white border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-center group"
                     >
                       <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
@@ -983,7 +983,7 @@ const BookingDemo = () => {
               </h2>
               
               {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
-              <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
+              <div className="bg-white rounded-2xl p-6 border border-brand-dark/10">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
@@ -1120,7 +1120,7 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
+                <div className="bg-white rounded-2xl p-6 border border-brand-dark/10">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
                       <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
@@ -1204,7 +1204,7 @@ const BookingDemo = () => {
               </h2>
 
               {/* Summary Card */}
-              <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
+              <div className="bg-white border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">Din bestilling</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                   <div>
@@ -1248,7 +1248,7 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
+              <div className="bg-white border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
