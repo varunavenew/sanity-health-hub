@@ -994,9 +994,11 @@ const BookingDemo = () => {
                       Valgt dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
-                      {bookableDates.length > 0
-                        ? format(bookableDates[0], "EEEE d. MMMM", { locale: nb })
-                        : "Ingen ledige dager"}
+                      {selectedDate
+                        ? format(selectedDate, "EEEE d. MMMM", { locale: nb })
+                        : bookableDates.length > 0
+                          ? format(bookableDates[0], "EEEE d. MMMM", { locale: nb })
+                          : "Ingen ledige dager"}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
