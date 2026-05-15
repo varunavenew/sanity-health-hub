@@ -1261,7 +1261,7 @@ const BookingDemo = () => {
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                         placeholder="Fornavn"
-                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                     <div>
@@ -1273,7 +1273,7 @@ const BookingDemo = () => {
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                         placeholder="Etternavn"
-                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                   </div>
@@ -1290,7 +1290,7 @@ const BookingDemo = () => {
                       placeholder="DDMMÅÅXXXXX"
                       maxLength={11}
                       inputMode="numeric"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       * Fødselsnummeret er påkrevd for sikker identifisering og journalføring i henhold til helsepersonelloven. Opplysningene behandles konfidensielt og deles ikke med tredjepart.
@@ -1307,7 +1307,7 @@ const BookingDemo = () => {
                       placeholder="+47 XXX XX XXX"
                       type="tel"
                       inputMode="tel"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Bekreftelse og påminnelse sendes på SMS til dette nummeret.
@@ -1323,7 +1323,7 @@ const BookingDemo = () => {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="din@epost.no"
                       type="email"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Valgfritt. Bekreftelse sendes også til e-post om oppgitt.
