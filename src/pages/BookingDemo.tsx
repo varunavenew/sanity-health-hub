@@ -618,7 +618,7 @@ const BookingDemo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-brand-warm">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-brand-dark">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -678,7 +678,7 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-white border border-brand-dark/10 rounded-lg p-4 mb-6 text-sm shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+          <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
@@ -745,22 +745,22 @@ const BookingDemo = () => {
                   const availableClinicsForCategory = getClinicsForService(category.id);
                   
                   return (
-                  <div key={category.id} className="rounded-lg overflow-hidden">
+                  <div key={category.id} className="rounded-2xl overflow-hidden border border-brand-dark/10">
                     {/* Category Header */}
                     <button
                       onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
                       className={cn(
-                        "w-full flex items-center justify-between p-4 bg-brand-beige rounded-lg transition-all",
-                        expandedCategory === category.id && "rounded-b-none"
+                        "w-full flex items-center justify-between p-5 bg-brand-beige/40 hover:bg-brand-beige/60 transition-all",
+                        expandedCategory === category.id && "bg-brand-beige/60"
                       )}
                     >
-                      <span className="font-normal text-foreground">{category.label}</span>
+                      <span className="font-normal text-brand-dark">{category.label}</span>
                       
                       {/* Clinic availability badges - inline */}
                       <div className="flex items-center gap-3 ml-auto mr-4">
                         <div className="flex items-center gap-1.5">
                           {availableClinicsForCategory.length === clinics.length ? (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
                               Alle klinikker
                             </span>
                           ) : availableClinicsForCategory.length > 0 ? (
@@ -773,7 +773,7 @@ const BookingDemo = () => {
                               return (
                                 <span
                                   key={clinic.id}
-                                  className="text-xs px-2 py-0.5 rounded-full bg-brand-beige text-foreground/70 font-light"
+                                  className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light"
                                 >
                                   {clinicName}
                                 </span>
@@ -798,14 +798,14 @@ const BookingDemo = () => {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden bg-brand-beige border-t border-border/10"
+                          className="overflow-hidden bg-white border-t border-brand-dark/10"
                         >
                           <div className="p-3 space-y-2">
                             {category.services.map((service, index) => (
                               <button
                                 key={index}
                                 onClick={() => handleSelectService(category.id, category.label, service)}
-                                className="w-full flex items-center justify-between p-4 bg-white border border-brand-dark/20 rounded-lg hover:border-brand-dark hover:shadow-sm transition-all text-left group"
+                                className="w-full flex items-center justify-between p-4 bg-brand-beige/30 border border-brand-dark/10 rounded-xl hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left group"
                               >
                                 <div className="flex-1 pr-4">
                                   <span className="text-brand-dark block font-normal">
@@ -867,7 +867,7 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
+                      className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                     >
                       <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
                         {clinic.bookingSystem === 'external' ? (
@@ -917,7 +917,7 @@ const BookingDemo = () => {
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
+                  className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
                   <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
@@ -934,7 +934,7 @@ const BookingDemo = () => {
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-center group"
+                      className="w-full flex flex-col items-center p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-center group"
                     >
                       <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
@@ -983,7 +983,7 @@ const BookingDemo = () => {
               </h2>
               
               {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
-              <div className="bg-white rounded-lg p-6 border border-brand-dark/10 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+              <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
@@ -1086,8 +1086,8 @@ const BookingDemo = () => {
                                       isSelected
                                         ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
                                         : isDisabled
-                                          ? "bg-transparent border-brand-dark/5 text-brand-dark/30 cursor-not-allowed"
-                                          : "bg-brand-beige border-brand-beige text-brand-dark hover:bg-white hover:border-brand-dark/30 hover:shadow-sm"
+                                          ? "bg-transparent border-transparent text-brand-dark/25 cursor-not-allowed"
+                                          : "bg-white border-brand-dark/10 text-brand-dark hover:border-brand-dark/40 hover:bg-brand-beige/50"
                                     )}
                                   >
                                     <span
@@ -1120,7 +1120,7 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-white rounded-lg p-6 border border-brand-dark/10 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+                <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
                       <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
@@ -1145,7 +1145,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="py-3 px-4 bg-brand-beige border border-brand-beige rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
+                            className="py-3 px-4 bg-white border border-brand-dark/10 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
                           >
                             {slot.time}
                           </button>
@@ -1158,7 +1158,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                            className="w-full flex items-center gap-4 p-3 bg-brand-beige border border-brand-beige rounded-md hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left"
+                            className="w-full flex items-center gap-4 p-3 bg-white border border-brand-dark/10 rounded-md hover:border-brand-dark/40 hover:shadow-sm transition-all text-left"
                           >
                             <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-brand-dark/10">
                               <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
@@ -1204,7 +1204,7 @@ const BookingDemo = () => {
               </h2>
 
               {/* Summary Card */}
-              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+              <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">Din bestilling</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                   <div>
@@ -1248,7 +1248,7 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+              <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
@@ -1261,7 +1261,7 @@ const BookingDemo = () => {
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                         placeholder="Fornavn"
-                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                     <div>
@@ -1273,7 +1273,7 @@ const BookingDemo = () => {
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                         placeholder="Etternavn"
-                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                   </div>
@@ -1290,7 +1290,7 @@ const BookingDemo = () => {
                       placeholder="DDMMÅÅXXXXX"
                       maxLength={11}
                       inputMode="numeric"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       * Fødselsnummeret er påkrevd for sikker identifisering og journalføring i henhold til helsepersonelloven. Opplysningene behandles konfidensielt og deles ikke med tredjepart.
@@ -1307,7 +1307,7 @@ const BookingDemo = () => {
                       placeholder="+47 XXX XX XXX"
                       type="tel"
                       inputMode="tel"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Bekreftelse og påminnelse sendes på SMS til dette nummeret.
@@ -1323,7 +1323,7 @@ const BookingDemo = () => {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="din@epost.no"
                       type="email"
-                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Valgfritt. Bekreftelse sendes også til e-post om oppgitt.
