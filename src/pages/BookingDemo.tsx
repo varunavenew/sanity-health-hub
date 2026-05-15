@@ -1086,8 +1086,8 @@ const BookingDemo = () => {
                                       isSelected
                                         ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
                                         : isDisabled
-                                          ? "bg-transparent border-brand-dark/5 text-brand-dark/30 cursor-not-allowed"
-                                          : "bg-brand-beige border-brand-beige text-brand-dark hover:bg-white hover:border-brand-dark/30 hover:shadow-sm"
+                                          ? "bg-transparent border-transparent text-brand-dark/25 cursor-not-allowed"
+                                          : "bg-white border-brand-dark/10 text-brand-dark hover:border-brand-dark/40 hover:bg-brand-beige/50"
                                     )}
                                   >
                                     <span
