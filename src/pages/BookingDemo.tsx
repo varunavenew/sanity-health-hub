@@ -1120,19 +1120,19 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/10">
+                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
-                      <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
-                        velg en tid
+                      <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                        Velg en tid
                       </p>
                       <h3 className="text-xl font-light text-brand-dark capitalize">
                         {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
                       </h3>
                     </div>
                     {bookingData.service?.duration && (
-                      <span className="text-xs text-brand-dark/60 font-light lowercase">
-                        varighet {bookingData.service.duration}
+                      <span className="text-xs text-brand-dark/70 font-medium">
+                        Varighet {bookingData.service.duration}
                       </span>
                     )}
                   </div>
