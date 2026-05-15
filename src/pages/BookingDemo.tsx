@@ -983,11 +983,11 @@ const BookingDemo = () => {
               </h2>
               
               {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
-              <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/10">
+              <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
-                    <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
-                      velg en dag
+                    <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                      Velg en dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
                       {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][4], "d. MMM yyyy", { locale: nb })}
@@ -1006,8 +1006,8 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-warm"
-                          : "border-brand-dark/20 text-brand-dark/30 cursor-not-allowed"
+                          ? "border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90"
+                          : "border-brand-dark/15 bg-brand-beige text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -1019,7 +1019,7 @@ const BookingDemo = () => {
                         setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
                       aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -1030,10 +1030,10 @@ const BookingDemo = () => {
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 mb-2">
                   <div className="w-16" />
                   <div className="grid grid-cols-5 gap-2 sm:gap-3">
-                    {["ma", "ti", "on", "to", "fr"].map((d) => (
+                    {["Ma", "Ti", "On", "To", "Fr"].map((d) => (
                       <span
                         key={d}
-                        className="text-xs font-light text-brand-dark/60 text-left lowercase"
+                        className="text-xs font-medium text-brand-dark/70 text-left"
                       >
                         {d}
                       </span>
@@ -1054,8 +1054,8 @@ const BookingDemo = () => {
                       {weeks.map((week, wi) => {
                         const weekLabel =
                           wi === 0 && isSameDay(rangeStart, startOfWeek(today, { weekStartsOn: 1 }))
-                            ? "denne uken"
-                            : `uke ${format(week[0], "w", { locale: nb })}`;
+                            ? "Denne uken"
+                            : `Uke ${format(week[0], "w", { locale: nb })}`;
                         const weekdays = week.slice(0, 5);
 
                         return (
@@ -1063,7 +1063,7 @@ const BookingDemo = () => {
                             key={week[0].toISOString()}
                             className="grid grid-cols-[auto_1fr] gap-x-4 items-start"
                           >
-                            <span className="w-16 pt-2 text-xs font-light text-brand-dark/60 lowercase">
+                            <span className="w-16 pt-3 text-xs font-medium text-brand-dark/70">
                               {weekLabel}
                             </span>
                             <div className="grid grid-cols-5 gap-2 sm:gap-3">
@@ -1082,11 +1082,12 @@ const BookingDemo = () => {
                                     aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
                                     aria-pressed={isSelected}
                                     className={cn(
-                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
                                       isSelected
-                                        ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
-                                        : "bg-white border-brand-dark/15 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5",
-                                      isDisabled && "opacity-30 cursor-not-allowed hover:bg-white hover:border-brand-dark/15"
+                                        ? "bg-brand-dark border-brand-dark text-brand-light shadow-sm"
+                                        : isDisabled
+                                          ? "bg-brand-beige border-brand-dark/10 text-brand-dark/40 cursor-not-allowed"
+                                          : "bg-white border-brand-dark/25 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5"
                                     )}
                                   >
                                     <span
@@ -1099,10 +1100,10 @@ const BookingDemo = () => {
                                     </span>
                                     {isToday && (
                                       <span className={cn(
-                                        "text-[10px] mt-1 font-light lowercase",
-                                        isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                                        "text-[10px] mt-1 font-medium",
+                                        isSelected ? "text-brand-light/90" : "text-brand-dark/80"
                                       )}>
-                                        i dag
+                                        I dag
                                       </span>
                                     )}
                                   </button>
