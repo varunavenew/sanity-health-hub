@@ -1248,7 +1248,7 @@ const BookingDemo = () => {
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+              <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
                 <h3 className="font-normal text-lg mb-4 text-brand-dark">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
