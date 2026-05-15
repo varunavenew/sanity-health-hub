@@ -379,24 +379,38 @@ const BookingDemo = () => {
 
   const filteredSpecialists = specialists.slice(0, 8);
 
+  // Bygg liste over neste ledige hverdager (skipper helger og dager uten tider)
+  const bookableDates = useMemo(() => {
+    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+    const out: Date[] = [];
+    if (pool.length === 0) return out;
+    for (let i = 0; i < 90 && out.length < 30; i++) {
+      const d = addDays(today, i);
+      const dow = d.getDay();
+      if (dow === 0 || dow === 6) continue;
+      if (generateTimeSlots(d, pool).length > 0) out.push(d);
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [today, bookingData.specialist, filteredSpecialists.length]);
+
+  const canGoPrevRange = dateOffset > 0;
+  const canGoNextRange = dateOffset + VISIBLE_DAYS < bookableDates.length;
+
   // Auto-pick first bookable date when entering step 4 (or specialist/service changes)
   useEffect(() => {
     if (!bookingData.specialistChosen) return;
+    if (bookableDates.length === 0) return;
     if (selectedDate) {
-      const dow = selectedDate.getDay();
-      const slots = generateTimeSlots(selectedDate, bookingData.specialist ? [bookingData.specialist] : filteredSpecialists);
-      if (dow !== 0 && dow !== 6 && slots.length > 0) return;
+      const stillValid = bookableDates.some((d) => isSameDay(d, selectedDate));
+      if (stillValid) return;
     }
-    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
-    if (pool.length === 0) return;
-    const next = getFirstAvailableDate(today, pool);
+    const next = bookableDates[0];
     setSelectedDate(next);
-    const weekStart = startOfWeek(next, { weekStartsOn: 1 });
-    if (weekStart.getTime() < rangeStart.getTime() || weekStart.getTime() >= addDays(rangeStart, WEEKS_VISIBLE * 7).getTime()) {
-      setRangeStart(weekStart);
-    }
+    const idx = 0;
+    setDateOffset(Math.max(0, Math.min(idx, bookableDates.length - VISIBLE_DAYS)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingData.specialistChosen, bookingData.specialist, bookingData.service]);
+  }, [bookingData.specialistChosen, bookingData.specialist, bookingData.service, bookableDates]);
 
   const availableSlots = selectedDate && filteredSpecialists.length > 0
     ? generateTimeSlots(selectedDate, filteredSpecialists)
