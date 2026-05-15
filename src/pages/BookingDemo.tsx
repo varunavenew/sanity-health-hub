@@ -822,7 +822,7 @@ const BookingDemo = () => {
                                   </div>
                                 </div>
                                 <div className="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center flex-shrink-0">
-                                  <ArrowRight className="w-4 h-4 text-brand-light" />
+                                  <ArrowRight className="w-4 h-4 text-brand-warm" />
                                 </div>
                               </button>
                             ))}
@@ -1006,7 +1006,7 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90"
+                          ? "border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90"
                           : "border-brand-dark/15 bg-brand-beige text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
@@ -1019,7 +1019,7 @@ const BookingDemo = () => {
                         setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
                       }}
                       aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-light hover:bg-brand-dark/90 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90 transition-colors"
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -1084,7 +1084,7 @@ const BookingDemo = () => {
                                     className={cn(
                                       "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
                                       isSelected
-                                        ? "bg-brand-dark border-brand-dark text-brand-light shadow-sm"
+                                        ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
                                         : isDisabled
                                           ? "bg-brand-beige border-brand-dark/10 text-brand-dark/40 cursor-not-allowed"
                                           : "bg-white border-brand-dark/25 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5"
@@ -1101,7 +1101,7 @@ const BookingDemo = () => {
                                     {isToday && (
                                       <span className={cn(
                                         "text-[10px] mt-1 font-medium",
-                                        isSelected ? "text-brand-light/90" : "text-brand-dark/80"
+                                        isSelected ? "text-brand-warm/90" : "text-brand-dark/80"
                                       )}>
                                         I dag
                                       </span>
