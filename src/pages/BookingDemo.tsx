@@ -678,24 +678,24 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-brand-beige rounded-lg p-4 mb-6 text-sm">
+          <div className="bg-white border border-brand-dark/10 rounded-lg p-4 mb-6 text-sm shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
-                  <span className="text-muted-foreground text-xs">Tjeneste: </span>
-                  <span className="font-normal">{bookingData.service.name}</span>
+                  <span className="text-brand-dark/60 text-xs">Tjeneste: </span>
+                  <span className="font-normal text-brand-dark">{bookingData.service.name}</span>
                 </div>
               )}
               {bookingData.clinic && (
                 <div>
-                  <span className="text-muted-foreground text-xs">Klinikk: </span>
-                  <span className="font-normal">{bookingData.clinic.label}</span>
+                  <span className="text-brand-dark/60 text-xs">Klinikk: </span>
+                  <span className="font-normal text-brand-dark">{bookingData.clinic.label}</span>
                 </div>
               )}
               {bookingData.specialist && (
                 <div>
-                  <span className="text-muted-foreground text-xs">Behandler: </span>
-                  <span className="font-normal">{bookingData.specialist.name}</span>
+                  <span className="text-brand-dark/60 text-xs">Behandler: </span>
+                  <span className="font-normal text-brand-dark">{bookingData.specialist.name}</span>
                 </div>
               )}
             </div>
