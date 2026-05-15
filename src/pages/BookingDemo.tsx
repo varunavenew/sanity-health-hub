@@ -1158,7 +1158,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                            className="w-full flex items-center gap-4 p-3 bg-brand-beige border border-brand-beige rounded-md hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left"
+                            className="w-full flex items-center gap-4 p-3 bg-white border border-brand-dark/10 rounded-md hover:border-brand-dark/40 hover:shadow-sm transition-all text-left"
                           >
                             <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-brand-dark/10">
                               <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
