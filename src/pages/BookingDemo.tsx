@@ -995,7 +995,7 @@ const BookingDemo = () => {
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
                       {bookableDates.length > 0
-                        ? `Førstkommende ledige dag: ${format(bookableDates[0], "EEEE d. MMMM", { locale: nb })}`
+                        ? format(bookableDates[0], "EEEE d. MMMM", { locale: nb })
                         : "Ingen ledige dager"}
                     </h3>
                   </div>
