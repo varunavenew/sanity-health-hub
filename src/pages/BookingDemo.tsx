@@ -641,7 +641,7 @@ const BookingDemo = () => {
             <span className="text-[11px] font-light text-brand-dark/60 tracking-wide">
               Steg {currentStep} av 5
             </span>
-            <span className="text-[11px] font-normal text-brand-dark tracking-wide capitalize">
+            <span className="text-[11px] font-normal text-brand-dark tracking-wide">
               {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
             </span>
           </div>
