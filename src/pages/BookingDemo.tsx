@@ -389,6 +389,25 @@ const BookingDemo = () => {
 
   const filteredSpecialists = specialists.slice(0, 8);
 
+  // Auto-pick first bookable date when entering step 4 (or specialist/service changes)
+  useEffect(() => {
+    if (!bookingData.specialistChosen) return;
+    if (selectedDate) {
+      const dow = selectedDate.getDay();
+      const slots = generateTimeSlots(selectedDate, bookingData.specialist ? [bookingData.specialist] : filteredSpecialists);
+      if (dow !== 0 && dow !== 6 && slots.length > 0) return;
+    }
+    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+    if (pool.length === 0) return;
+    const next = getFirstAvailableDate(today, pool);
+    setSelectedDate(next);
+    const weekStart = startOfWeek(next, { weekStartsOn: 1 });
+    if (weekStart.getTime() < rangeStart.getTime() || weekStart.getTime() >= addDays(rangeStart, WEEKS_VISIBLE * 7).getTime()) {
+      setRangeStart(weekStart);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingData.specialistChosen, bookingData.specialist, bookingData.service]);
+
   const availableSlots = selectedDate && filteredSpecialists.length > 0
     ? generateTimeSlots(selectedDate, filteredSpecialists)
     : [];
