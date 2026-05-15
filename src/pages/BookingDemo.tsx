@@ -1052,10 +1052,7 @@ const BookingDemo = () => {
                       className="space-y-3"
                     >
                       {weeks.map((week, wi) => {
-                        const weekLabel =
-                          wi === 0 && isSameDay(rangeStart, startOfWeek(today, { weekStartsOn: 1 }))
-                            ? "Denne uken"
-                            : `Uke ${format(week[0], "w", { locale: nb })}`;
+                        const weekLabel = `Uke ${format(week[0], "w", { locale: nb })}`;
                         const weekdays = week.slice(0, 5);
 
                         return (
