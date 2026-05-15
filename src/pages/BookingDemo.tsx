@@ -678,7 +678,7 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-white border border-brand-dark/10 rounded-lg p-4 mb-6 text-sm shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+          <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
