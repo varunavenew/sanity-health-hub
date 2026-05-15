@@ -973,10 +973,10 @@ const BookingDemo = () => {
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-4">
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Velg tid
                 {bookingData.specialist && (
-                  <span className="text-base text-muted-foreground font-light ml-2">
+                  <span className="text-base text-brand-dark/70 font-light ml-2">
                     – {bookingData.specialist.name}
                   </span>
                 )}
