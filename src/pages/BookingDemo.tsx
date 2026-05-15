@@ -1194,66 +1194,66 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('time')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-4">
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Bekreft
               </h2>
 
               {/* Summary Card */}
-              <div className="bg-brand-beige rounded-lg p-5">
-                <h3 className="font-normal text-lg mb-4">Din bestilling</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+                <h3 className="font-normal text-lg mb-4 text-brand-dark">Din bestilling</h3>
+                <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground text-xs">Tjeneste</span>
-                    <p className="font-normal mt-1">{bookingData.service?.name}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Tjeneste</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.name}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Pris</span>
-                    <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `fra ${bookingData.service?.price} kr`}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Pris</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.price === "0" ? "Gratis" : `Fra ${bookingData.service?.price} kr`}</p>
+                    <p className="text-xs text-brand-dark/50 mt-0.5 font-light">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Klinikk</span>
-                    <p className="font-normal mt-1">{bookingData.clinic?.label}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Klinikk</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.clinic?.label}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Varighet</span>
-                    <p className="font-normal mt-1">{bookingData.service?.duration}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Varighet</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.duration}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Dato</span>
-                    <p className="font-normal mt-1 capitalize">{bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Dato</span>
+                    <p className="font-normal mt-1 capitalize text-brand-dark">{bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Tid</span>
-                    <p className="font-normal mt-1">{bookingData.time}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Tid</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.time}</p>
                   </div>
                 </div>
                 {bookingData.specialist && (
-                  <div className="flex items-center gap-3 mt-5 pt-4 border-t border-border/20">
+                  <div className="flex items-center gap-3 mt-5 pt-4 border-t border-brand-dark/10">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={bookingData.specialist.image} alt={bookingData.specialist.name} />
                       <AvatarFallback>{bookingData.specialist.name.slice(0, 2)}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-normal">{bookingData.specialist.name}</p>
-                      <p className="text-sm text-muted-foreground">{bookingData.specialist.title}</p>
+                      <p className="font-normal text-brand-dark">{bookingData.specialist.name}</p>
+                      <p className="text-sm text-brand-dark/60 font-light">{bookingData.specialist.title}</p>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-brand-beige rounded-lg p-5">
-                <h3 className="font-normal text-lg mb-4">Dine opplysninger</h3>
+              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+                <h3 className="font-normal text-lg mb-4 text-brand-dark">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="firstName" className="text-sm text-muted-foreground">Fornavn *</label>
+                      <label htmlFor="firstName" className="text-sm text-brand-dark/70">Fornavn *</label>
                       <Input
                         id="firstName"
                         name="given-name"
@@ -1261,11 +1261,11 @@ const BookingDemo = () => {
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                         placeholder="Fornavn"
-                        className="mt-1.5 h-12 rounded-lg border-border/50"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="text-sm text-muted-foreground">Etternavn *</label>
+                      <label htmlFor="lastName" className="text-sm text-brand-dark/70">Etternavn *</label>
                       <Input
                         id="lastName"
                         name="family-name"
@@ -1273,12 +1273,12 @@ const BookingDemo = () => {
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                         placeholder="Etternavn"
-                        className="mt-1.5 h-12 rounded-lg border-border/50"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="birthNumber" className="text-sm text-muted-foreground">Fødselsnummer (11 siffer) *</label>
+                    <label htmlFor="birthNumber" className="text-sm text-brand-dark/70">Fødselsnummer (11 siffer) *</label>
                     <Input
                       id="birthNumber"
                       name="birthNumber"
@@ -1290,14 +1290,14 @@ const BookingDemo = () => {
                       placeholder="DDMMÅÅXXXXX"
                       maxLength={11}
                       inputMode="numeric"
-                      className="mt-1.5 h-12 rounded-lg border-border/50"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       * Fødselsnummeret er påkrevd for sikker identifisering og journalføring i henhold til helsepersonelloven. Opplysningene behandles konfidensielt og deles ikke med tredjepart.
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="phone" className="text-sm text-muted-foreground">Mobilnummer *</label>
+                    <label htmlFor="phone" className="text-sm text-brand-dark/70">Mobilnummer *</label>
                     <Input
                       id="phone"
                       name="tel"
@@ -1307,14 +1307,14 @@ const BookingDemo = () => {
                       placeholder="+47 XXX XX XXX"
                       type="tel"
                       inputMode="tel"
-                      className="mt-1.5 h-12 rounded-lg border-border/50"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Bekreftelse og påminnelse sendes på SMS til dette nummeret.
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="email" className="text-sm text-muted-foreground">E-postadresse</label>
+                    <label htmlFor="email" className="text-sm text-brand-dark/70">E-postadresse</label>
                     <Input
                       id="email"
                       name="email"
@@ -1323,15 +1323,15 @@ const BookingDemo = () => {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="din@epost.no"
                       type="email"
-                      className="mt-1.5 h-12 rounded-lg border-border/50"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Valgfritt. Bekreftelse sendes også til e-post om oppgitt.
                     </p>
                   </div>
-                  <div className="bg-muted/30 rounded-lg p-4 text-xs text-muted-foreground leading-relaxed space-y-2">
-                    <p><strong className="text-foreground/70">Avbestillingsregler:</strong> Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.</p>
-                    <p>«<a href="/vilkar" className="underline hover:text-foreground transition-colors">Vilkår</a>» – les vilkårene for bestilling og behandling hos CMedical.</p>
+                  <div className="bg-brand-beige rounded-lg p-4 text-xs text-brand-dark/70 leading-relaxed space-y-2 font-light">
+                    <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.</p>
+                    <p>«<a href="/vilkar" className="underline hover:text-brand-dark transition-colors">Vilkår</a>» – les vilkårene for bestilling og behandling hos CMedical.</p>
                   </div>
                   <div className="space-y-3 pt-2">
                     <div className="flex items-start gap-3">
@@ -1341,7 +1341,7 @@ const BookingDemo = () => {
                         onCheckedChange={(checked) => setFormData({ ...formData, acceptTerms: checked as boolean })}
                         className="mt-0.5"
                       />
-                      <label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      <label htmlFor="terms" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
                         Jeg godtar <a href="/vilkar" className="underline">vilkårene</a> for bestilling *
                       </label>
                     </div>
@@ -1352,7 +1352,7 @@ const BookingDemo = () => {
                         onCheckedChange={(checked) => setFormData({ ...formData, acceptDataProcessing: checked as boolean })}
                         className="mt-0.5"
                       />
-                      <label htmlFor="dataProcessing" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      <label htmlFor="dataProcessing" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
                         Jeg samtykker til at CMedical kan behandle innsendt informasjon i henhold til <a href="/personvern" className="underline">personvernerklæringen</a> *
                       </label>
                     </div>
@@ -1363,7 +1363,7 @@ const BookingDemo = () => {
                         onCheckedChange={(checked) => setFormData({ ...formData, acceptMarketing: checked as boolean })}
                         className="mt-0.5"
                       />
-                      <label htmlFor="acceptInfo" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      <label htmlFor="acceptInfo" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
                         Jeg ønsker å motta informasjon og nyheter fra CMedical
                       </label>
                     </div>
@@ -1377,8 +1377,8 @@ const BookingDemo = () => {
                 className={cn(
                   "w-full h-14 rounded-lg text-base font-normal transition-all",
                   formData.acceptTerms && formData.acceptDataProcessing && formData.firstName && formData.lastName && formData.phone && formData.birthNumber && formData.birthNumber.length === 11
-                    ? "bg-foreground text-background hover:bg-foreground/90"
-                    : "bg-muted text-muted-foreground cursor-not-allowed"
+                    ? "bg-brand-dark text-brand-warm hover:bg-brand-dark/90 shadow-sm"
+                    : "bg-brand-beige text-brand-dark/40 cursor-not-allowed"
                 )}
               >
                 Bekreft bestilling
