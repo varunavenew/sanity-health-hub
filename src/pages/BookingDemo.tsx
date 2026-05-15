@@ -745,16 +745,16 @@ const BookingDemo = () => {
                   const availableClinicsForCategory = getClinicsForService(category.id);
                   
                   return (
-                  <div key={category.id} className="rounded-lg overflow-hidden">
+                  <div key={category.id} className="rounded-2xl overflow-hidden border border-brand-dark/10">
                     {/* Category Header */}
                     <button
                       onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
                       className={cn(
-                        "w-full flex items-center justify-between p-4 bg-brand-beige rounded-lg transition-all",
-                        expandedCategory === category.id && "rounded-b-none"
+                        "w-full flex items-center justify-between p-5 bg-brand-beige/40 hover:bg-brand-beige/60 transition-all",
+                        expandedCategory === category.id && "bg-brand-beige/60"
                       )}
                     >
-                      <span className="font-normal text-foreground">{category.label}</span>
+                      <span className="font-normal text-brand-dark">{category.label}</span>
                       
                       {/* Clinic availability badges - inline */}
                       <div className="flex items-center gap-3 ml-auto mr-4">
