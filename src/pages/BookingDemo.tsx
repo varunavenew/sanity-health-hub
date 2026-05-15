@@ -678,24 +678,24 @@ const BookingDemo = () => {
         </div>
         {/* Persistent Summary Banner */}
         {bookingData.service && (
-          <div className="bg-brand-beige rounded-lg p-4 mb-6 text-sm">
+          <div className="bg-white border border-brand-dark/10 rounded-lg p-4 mb-6 text-sm shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
-                  <span className="text-muted-foreground text-xs">Tjeneste: </span>
-                  <span className="font-normal">{bookingData.service.name}</span>
+                  <span className="text-brand-dark/60 text-xs">Tjeneste: </span>
+                  <span className="font-normal text-brand-dark">{bookingData.service.name}</span>
                 </div>
               )}
               {bookingData.clinic && (
                 <div>
-                  <span className="text-muted-foreground text-xs">Klinikk: </span>
-                  <span className="font-normal">{bookingData.clinic.label}</span>
+                  <span className="text-brand-dark/60 text-xs">Klinikk: </span>
+                  <span className="font-normal text-brand-dark">{bookingData.clinic.label}</span>
                 </div>
               )}
               {bookingData.specialist && (
                 <div>
-                  <span className="text-muted-foreground text-xs">Behandler: </span>
-                  <span className="font-normal">{bookingData.specialist.name}</span>
+                  <span className="text-brand-dark/60 text-xs">Behandler: </span>
+                  <span className="font-normal text-brand-dark">{bookingData.specialist.name}</span>
                 </div>
               )}
             </div>
@@ -713,7 +713,7 @@ const BookingDemo = () => {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <h2 className="text-2xl font-light text-foreground text-center mb-6">
+              <h2 className="text-2xl font-light text-brand-dark text-center mb-6">
                 {filterToCategoryId
                   ? `Velg tjeneste innen ${bookingServices.find(c => c.id === filterToCategoryId)?.label ?? ""}`
                   : "Velg tjeneste"}
@@ -847,12 +847,12 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('category')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-4">
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Velg klinikk
               </h2>
               
@@ -867,23 +867,23 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group"
+                      className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
                     >
-                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
+                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
                         {clinic.bookingSystem === 'external' ? (
-                          <Phone className="w-5 h-5 text-foreground" />
+                          <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                         ) : (
-                          <MapPin className="w-5 h-5 text-foreground" />
+                          <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                         )}
                       </div>
                       <div className="flex-1">
-                        <p className="font-normal text-foreground">{clinic.label}</p>
-                        <p className="text-sm text-muted-foreground">{clinic.address}</p>
+                        <p className="font-normal text-brand-dark">{clinic.label}</p>
+                        <p className="text-sm text-brand-dark/60 font-light">{clinic.address}</p>
                         {clinic.bookingSystem === 'external' && (
-                          <p className="text-xs text-muted-foreground/70 mt-0.5 font-light">Ring for timebestilling</p>
+                          <p className="text-xs text-brand-dark/50 mt-0.5 font-light">Ring for timebestilling</p>
                         )}
                       </div>
-                      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                      <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
                     </button>
                   ))}
                 </div>
@@ -902,31 +902,31 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('clinic')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-2">
+              <h2 className="text-2xl font-light text-brand-dark mb-2">
                 Velg behandler
               </h2>
-              <p className="text-sm text-muted-foreground font-light mb-4">
+              <p className="text-sm text-brand-dark/60 font-light mb-4">
                 Velg en behandler, eller gå videre for å se alle ledige tider.
               </p>
 
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group border-2 border-transparent hover:border-foreground/10"
+                  className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
-                  <div className="w-12 h-12 rounded-sm bg-muted/50 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-foreground" />
+                  <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
+                    <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                   </div>
                 <div className="flex-1">
-                  <p className="font-normal text-foreground">Første ledige</p>
-                  <p className="text-sm text-muted-foreground">Vis alle ledige tider uavhengig av behandler</p>
+                  <p className="font-normal text-brand-dark">Første ledige</p>
+                  <p className="text-sm text-brand-dark/60 font-light">Vis alle ledige tider uavhengig av behandler</p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
               </button>
 
               <div className="grid grid-cols-2 gap-3">
@@ -934,23 +934,23 @@ const BookingDemo = () => {
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-4 bg-brand-beige rounded-lg hover:bg-muted/30 hover:shadow-md transition-all text-center group"
+                      className="w-full flex flex-col items-center p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-center group"
                     >
-                      <div className="w-14 h-14 rounded-sm overflow-hidden mb-2.5">
+                      <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
                       </div>
-                      <span className="text-sm font-normal text-foreground leading-tight">{spec.name}</span>
-                      <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{spec.title}</span>
+                      <span className="text-sm font-normal text-brand-dark leading-tight">{spec.name}</span>
+                      <span className="text-xs text-brand-dark/60 mt-1 line-clamp-1 font-light">{spec.title}</span>
                     </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedSpecialistInfo(spec);
                       }}
-                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center transition-colors"
+                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-brand-beige hover:bg-brand-dark hover:text-brand-warm flex items-center justify-center transition-colors"
                       aria-label={`Les mer om ${spec.name}`}
                     >
-                      <Info className="w-3.5 h-3.5 text-muted-foreground" />
+                      <Info className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 ))}
@@ -968,7 +968,7 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('specialist')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
@@ -976,17 +976,17 @@ const BookingDemo = () => {
               <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Velg tid
                 {bookingData.specialist && (
-                  <span className="text-base text-brand-dark/70 font-light ml-2">
+                  <span className="text-base text-brand-dark/60 font-light ml-2">
                     – {bookingData.specialist.name}
                   </span>
                 )}
               </h2>
               
               {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
-              <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
+              <div className="bg-white rounded-lg p-6 border border-brand-dark/10 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
-                    <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                    <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
                       Velg en dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
@@ -1086,8 +1086,8 @@ const BookingDemo = () => {
                                       isSelected
                                         ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
                                         : isDisabled
-                                          ? "bg-brand-beige border-brand-dark/10 text-brand-dark/40 cursor-not-allowed"
-                                          : "bg-white border-brand-dark/25 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5"
+                                          ? "bg-transparent border-brand-dark/5 text-brand-dark/30 cursor-not-allowed"
+                                          : "bg-brand-beige border-brand-beige text-brand-dark hover:bg-white hover:border-brand-dark/30 hover:shadow-sm"
                                     )}
                                   >
                                     <span
@@ -1120,10 +1120,10 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
+                <div className="bg-white rounded-lg p-6 border border-brand-dark/10 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
-                      <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                      <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
                         Velg en tid
                       </p>
                       <h3 className="text-xl font-light text-brand-dark capitalize">
@@ -1131,7 +1131,7 @@ const BookingDemo = () => {
                       </h3>
                     </div>
                     {bookingData.service?.duration && (
-                      <span className="text-xs text-brand-dark/70 font-medium">
+                      <span className="text-xs text-brand-dark/60 font-medium">
                         Varighet {bookingData.service.duration}
                       </span>
                     )}
@@ -1145,7 +1145,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="py-3 px-4 bg-white border border-brand-dark/20 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
+                            className="py-3 px-4 bg-brand-beige border border-brand-beige rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
                           >
                             {slot.time}
                           </button>
@@ -1158,16 +1158,16 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                            className="w-full flex items-center gap-4 p-3 bg-white border border-brand-dark/20 rounded-md hover:bg-brand-dark/5 hover:border-brand-dark transition-all text-left"
+                            className="w-full flex items-center gap-4 p-3 bg-brand-beige border border-brand-beige rounded-md hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left"
                           >
-                            <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-brand-dark/10">
                               <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <span className="text-sm font-light text-brand-dark block">{slot.specialist.name}</span>
+                              <span className="text-sm font-normal text-brand-dark block">{slot.specialist.name}</span>
                               <span className="text-xs text-brand-dark/60 font-light">{slot.specialist.title}</span>
                             </div>
-                            <span className="font-light text-brand-dark text-lg">{slot.time}</span>
+                            <span className="font-light text-brand-dark text-lg tabular-nums">{slot.time}</span>
                           </button>
                         ))}
                       </div>
@@ -1194,66 +1194,66 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('time')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-4">
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Bekreft
               </h2>
 
               {/* Summary Card */}
-              <div className="bg-brand-beige rounded-lg p-5">
-                <h3 className="font-normal text-lg mb-4">Din bestilling</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+                <h3 className="font-normal text-lg mb-4 text-brand-dark">Din bestilling</h3>
+                <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground text-xs">Tjeneste</span>
-                    <p className="font-normal mt-1">{bookingData.service?.name}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Tjeneste</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.name}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Pris</span>
-                    <p className="font-normal mt-1">{bookingData.service?.price === "0" ? "Gratis" : `fra ${bookingData.service?.price} kr`}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Pris</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.price === "0" ? "Gratis" : `Fra ${bookingData.service?.price} kr`}</p>
+                    <p className="text-xs text-brand-dark/50 mt-0.5 font-light">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Klinikk</span>
-                    <p className="font-normal mt-1">{bookingData.clinic?.label}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Klinikk</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.clinic?.label}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Varighet</span>
-                    <p className="font-normal mt-1">{bookingData.service?.duration}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Varighet</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.duration}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Dato</span>
-                    <p className="font-normal mt-1 capitalize">{bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Dato</span>
+                    <p className="font-normal mt-1 capitalize text-brand-dark">{bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground text-xs">Tid</span>
-                    <p className="font-normal mt-1">{bookingData.time}</p>
+                    <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Tid</span>
+                    <p className="font-normal mt-1 text-brand-dark">{bookingData.time}</p>
                   </div>
                 </div>
                 {bookingData.specialist && (
-                  <div className="flex items-center gap-3 mt-5 pt-4 border-t border-border/20">
+                  <div className="flex items-center gap-3 mt-5 pt-4 border-t border-brand-dark/10">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={bookingData.specialist.image} alt={bookingData.specialist.name} />
                       <AvatarFallback>{bookingData.specialist.name.slice(0, 2)}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-normal">{bookingData.specialist.name}</p>
-                      <p className="text-sm text-muted-foreground">{bookingData.specialist.title}</p>
+                      <p className="font-normal text-brand-dark">{bookingData.specialist.name}</p>
+                      <p className="text-sm text-brand-dark/60 font-light">{bookingData.specialist.title}</p>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Personal Info Form */}
-              <div className="bg-brand-beige rounded-lg p-5">
-                <h3 className="font-normal text-lg mb-4">Dine opplysninger</h3>
+              <div className="bg-white border border-brand-dark/10 rounded-lg p-6 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
+                <h3 className="font-normal text-lg mb-4 text-brand-dark">Dine opplysninger</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="firstName" className="text-sm text-muted-foreground">Fornavn *</label>
+                      <label htmlFor="firstName" className="text-sm text-brand-dark/70">Fornavn *</label>
                       <Input
                         id="firstName"
                         name="given-name"
@@ -1261,11 +1261,11 @@ const BookingDemo = () => {
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                         placeholder="Fornavn"
-                        className="mt-1.5 h-12 rounded-lg border-border/50"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="text-sm text-muted-foreground">Etternavn *</label>
+                      <label htmlFor="lastName" className="text-sm text-brand-dark/70">Etternavn *</label>
                       <Input
                         id="lastName"
                         name="family-name"
@@ -1273,12 +1273,12 @@ const BookingDemo = () => {
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                         placeholder="Etternavn"
-                        className="mt-1.5 h-12 rounded-lg border-border/50"
+                        className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="birthNumber" className="text-sm text-muted-foreground">Fødselsnummer (11 siffer) *</label>
+                    <label htmlFor="birthNumber" className="text-sm text-brand-dark/70">Fødselsnummer (11 siffer) *</label>
                     <Input
                       id="birthNumber"
                       name="birthNumber"
@@ -1290,14 +1290,14 @@ const BookingDemo = () => {
                       placeholder="DDMMÅÅXXXXX"
                       maxLength={11}
                       inputMode="numeric"
-                      className="mt-1.5 h-12 rounded-lg border-border/50"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       * Fødselsnummeret er påkrevd for sikker identifisering og journalføring i henhold til helsepersonelloven. Opplysningene behandles konfidensielt og deles ikke med tredjepart.
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="phone" className="text-sm text-muted-foreground">Mobilnummer *</label>
+                    <label htmlFor="phone" className="text-sm text-brand-dark/70">Mobilnummer *</label>
                     <Input
                       id="phone"
                       name="tel"
@@ -1307,14 +1307,14 @@ const BookingDemo = () => {
                       placeholder="+47 XXX XX XXX"
                       type="tel"
                       inputMode="tel"
-                      className="mt-1.5 h-12 rounded-lg border-border/50"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Bekreftelse og påminnelse sendes på SMS til dette nummeret.
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="email" className="text-sm text-muted-foreground">E-postadresse</label>
+                    <label htmlFor="email" className="text-sm text-brand-dark/70">E-postadresse</label>
                     <Input
                       id="email"
                       name="email"
@@ -1323,15 +1323,15 @@ const BookingDemo = () => {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="din@epost.no"
                       type="email"
-                      className="mt-1.5 h-12 rounded-lg border-border/50"
+                      className="mt-1.5 h-12 rounded-lg border-brand-dark/15 bg-brand-beige/40 focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/40"
                     />
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
                       Valgfritt. Bekreftelse sendes også til e-post om oppgitt.
                     </p>
                   </div>
-                  <div className="bg-muted/30 rounded-lg p-4 text-xs text-muted-foreground leading-relaxed space-y-2">
-                    <p><strong className="text-foreground/70">Avbestillingsregler:</strong> Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.</p>
-                    <p>«<a href="/vilkar" className="underline hover:text-foreground transition-colors">Vilkår</a>» – les vilkårene for bestilling og behandling hos CMedical.</p>
+                  <div className="bg-brand-beige rounded-lg p-4 text-xs text-brand-dark/70 leading-relaxed space-y-2 font-light">
+                    <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.</p>
+                    <p>«<a href="/vilkar" className="underline hover:text-brand-dark transition-colors">Vilkår</a>» – les vilkårene for bestilling og behandling hos CMedical.</p>
                   </div>
                   <div className="space-y-3 pt-2">
                     <div className="flex items-start gap-3">
@@ -1341,7 +1341,7 @@ const BookingDemo = () => {
                         onCheckedChange={(checked) => setFormData({ ...formData, acceptTerms: checked as boolean })}
                         className="mt-0.5"
                       />
-                      <label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      <label htmlFor="terms" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
                         Jeg godtar <a href="/vilkar" className="underline">vilkårene</a> for bestilling *
                       </label>
                     </div>
@@ -1352,7 +1352,7 @@ const BookingDemo = () => {
                         onCheckedChange={(checked) => setFormData({ ...formData, acceptDataProcessing: checked as boolean })}
                         className="mt-0.5"
                       />
-                      <label htmlFor="dataProcessing" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      <label htmlFor="dataProcessing" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
                         Jeg samtykker til at CMedical kan behandle innsendt informasjon i henhold til <a href="/personvern" className="underline">personvernerklæringen</a> *
                       </label>
                     </div>
@@ -1363,7 +1363,7 @@ const BookingDemo = () => {
                         onCheckedChange={(checked) => setFormData({ ...formData, acceptMarketing: checked as boolean })}
                         className="mt-0.5"
                       />
-                      <label htmlFor="acceptInfo" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      <label htmlFor="acceptInfo" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
                         Jeg ønsker å motta informasjon og nyheter fra CMedical
                       </label>
                     </div>
@@ -1377,8 +1377,8 @@ const BookingDemo = () => {
                 className={cn(
                   "w-full h-14 rounded-lg text-base font-normal transition-all",
                   formData.acceptTerms && formData.acceptDataProcessing && formData.firstName && formData.lastName && formData.phone && formData.birthNumber && formData.birthNumber.length === 11
-                    ? "bg-foreground text-background hover:bg-foreground/90"
-                    : "bg-muted text-muted-foreground cursor-not-allowed"
+                    ? "bg-brand-dark text-brand-warm hover:bg-brand-dark/90 shadow-sm"
+                    : "bg-brand-beige text-brand-dark/40 cursor-not-allowed"
                 )}
               >
                 Bekreft bestilling
