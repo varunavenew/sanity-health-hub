@@ -991,7 +991,7 @@ const BookingDemo = () => {
                 <div className="mb-5 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
-                      Velg en dag
+                      Valgt dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
                       {bookableDates.length > 0
