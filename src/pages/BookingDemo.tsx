@@ -798,7 +798,7 @@ const BookingDemo = () => {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden bg-brand-beige border-t border-border/10"
+                          className="overflow-hidden bg-white border-t border-brand-dark/10"
                         >
                           <div className="p-3 space-y-2">
                             {category.services.map((service, index) => (
