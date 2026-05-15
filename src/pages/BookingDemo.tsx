@@ -986,7 +986,7 @@ const BookingDemo = () => {
               <div className="bg-white rounded-lg p-6 border border-brand-dark/10 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
-                    <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                    <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
                       Velg en dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
