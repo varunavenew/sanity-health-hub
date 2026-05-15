@@ -253,20 +253,10 @@ const BookingDemo = () => {
   }, [viewMonth]);
   const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
 
-  // 4-ukers strip — inneværende uke + 3 neste
-  const WEEKS_VISIBLE = 4;
-  const [rangeStart, setRangeStart] = useState<Date>(() =>
-    startOfWeek(new Date(), { weekStartsOn: 1 })
-  );
-  const [rangeDirection, setRangeDirection] = useState<1 | -1>(1);
-  const weeks = useMemo(
-    () =>
-      Array.from({ length: WEEKS_VISIBLE }, (_, w) =>
-        Array.from({ length: 7 }, (_, d) => addDays(rangeStart, w * 7 + d))
-      ),
-    [rangeStart]
-  );
-  const canGoPrevRange = rangeStart.getTime() > startOfWeek(today, { weekStartsOn: 1 }).getTime();
+  // Horisontal dato-stripe — kun ledige hverdager
+  const VISIBLE_DAYS = 7;
+  const [dateOffset, setDateOffset] = useState(0);
+  const [dateDirection, setDateDirection] = useState<1 | -1>(1);
   const [bookingData, setBookingData] = useState<BookingData>({});
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
@@ -389,24 +379,38 @@ const BookingDemo = () => {
 
   const filteredSpecialists = specialists.slice(0, 8);
 
+  // Bygg liste over neste ledige hverdager (skipper helger og dager uten tider)
+  const bookableDates = useMemo(() => {
+    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+    const out: Date[] = [];
+    if (pool.length === 0) return out;
+    for (let i = 0; i < 90 && out.length < 30; i++) {
+      const d = addDays(today, i);
+      const dow = d.getDay();
+      if (dow === 0 || dow === 6) continue;
+      if (generateTimeSlots(d, pool).length > 0) out.push(d);
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [today, bookingData.specialist, filteredSpecialists.length]);
+
+  const canGoPrevRange = dateOffset > 0;
+  const canGoNextRange = dateOffset + VISIBLE_DAYS < bookableDates.length;
+
   // Auto-pick first bookable date when entering step 4 (or specialist/service changes)
   useEffect(() => {
     if (!bookingData.specialistChosen) return;
+    if (bookableDates.length === 0) return;
     if (selectedDate) {
-      const dow = selectedDate.getDay();
-      const slots = generateTimeSlots(selectedDate, bookingData.specialist ? [bookingData.specialist] : filteredSpecialists);
-      if (dow !== 0 && dow !== 6 && slots.length > 0) return;
+      const stillValid = bookableDates.some((d) => isSameDay(d, selectedDate));
+      if (stillValid) return;
     }
-    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
-    if (pool.length === 0) return;
-    const next = getFirstAvailableDate(today, pool);
+    const next = bookableDates[0];
     setSelectedDate(next);
-    const weekStart = startOfWeek(next, { weekStartsOn: 1 });
-    if (weekStart.getTime() < rangeStart.getTime() || weekStart.getTime() >= addDays(rangeStart, WEEKS_VISIBLE * 7).getTime()) {
-      setRangeStart(weekStart);
-    }
+    const idx = 0;
+    setDateOffset(Math.max(0, Math.min(idx, bookableDates.length - VISIBLE_DAYS)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingData.specialistChosen, bookingData.specialist, bookingData.service]);
+  }, [bookingData.specialistChosen, bookingData.specialist, bookingData.service, bookableDates]);
 
   const availableSlots = selectedDate && filteredSpecialists.length > 0
     ? generateTimeSlots(selectedDate, filteredSpecialists)
@@ -982,15 +986,17 @@ const BookingDemo = () => {
                 )}
               </h2>
               
-              {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
+              {/* Horisontal dato-stripe — kun ledige hverdager */}
               <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
-                <div className="mb-6 flex items-end justify-between">
+                <div className="mb-5 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
                       Velg en dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
-                      {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][4], "d. MMM yyyy", { locale: nb })}
+                      {bookableDates.length > 0
+                        ? `Førstkommende ledige dag: ${format(bookableDates[0], "EEEE d. MMMM", { locale: nb })}`
+                        : "Ingen ledige dager"}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
@@ -998,11 +1004,11 @@ const BookingDemo = () => {
                       type="button"
                       onClick={() => {
                         if (!canGoPrevRange) return;
-                        setRangeDirection(-1);
-                        setRangeStart(addDays(rangeStart, -7 * WEEKS_VISIBLE));
+                        setDateDirection(-1);
+                        setDateOffset(Math.max(0, dateOffset - VISIBLE_DAYS));
                       }}
                       disabled={!canGoPrevRange}
-                      aria-label="Forrige periode"
+                      aria-label="Forrige dager"
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
@@ -1015,105 +1021,84 @@ const BookingDemo = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        setRangeDirection(1);
-                        setRangeStart(addDays(rangeStart, 7 * WEEKS_VISIBLE));
+                        if (!canGoNextRange) return;
+                        setDateDirection(1);
+                        setDateOffset(Math.min(bookableDates.length - VISIBLE_DAYS, dateOffset + VISIBLE_DAYS));
                       }}
-                      aria-label="Neste periode"
-                      className="flex h-10 w-10 items-center justify-center rounded-md border border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90 transition-colors"
+                      disabled={!canGoNextRange}
+                      aria-label="Neste dager"
+                      className={cn(
+                        "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
+                        canGoNextRange
+                          ? "border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90"
+                          : "border-brand-dark/15 bg-brand-beige text-brand-dark/30 cursor-not-allowed"
+                      )}
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                {/* Header med ukedager (man–fre) */}
-                <div className="grid grid-cols-[auto_1fr] gap-x-4 mb-2">
-                  <div className="w-16" />
-                  <div className="grid grid-cols-5 gap-2 sm:gap-3">
-                    {["Ma", "Ti", "On", "To", "Fr"].map((d) => (
-                      <span
-                        key={d}
-                        className="text-xs font-medium text-brand-dark/70 text-left"
-                      >
-                        {d}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
                 <div className="overflow-hidden">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
-                      key={rangeStart.toISOString()}
-                      initial={{ opacity: 0, x: rangeDirection * 24 }}
+                      key={dateOffset}
+                      initial={{ opacity: 0, x: dateDirection * 24 }}
                       animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: rangeDirection * -24 }}
+                      exit={{ opacity: 0, x: dateDirection * -24 }}
                       transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="space-y-3"
+                      className="grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-3"
                     >
-                      {weeks.map((week, wi) => {
-                        const weekLabel = `Uke ${format(week[0], "w", { locale: nb })}`;
-                        const weekdays = week.slice(0, 5);
+                      {bookableDates.slice(dateOffset, dateOffset + VISIBLE_DAYS).map((date) => {
+                        const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
+                        const isToday = isSameDay(date, today);
+                        const slotsCount = generateTimeSlots(date, bookingData.specialist ? [bookingData.specialist] : filteredSpecialists).length;
 
                         return (
-                          <div
-                            key={week[0].toISOString()}
-                            className="grid grid-cols-[auto_1fr] gap-x-4 items-start"
+                          <button
+                            key={date.toISOString()}
+                            type="button"
+                            onClick={() => setSelectedDate(date)}
+                            aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
+                            aria-pressed={isSelected}
+                            className={cn(
+                              "group relative flex flex-col items-center justify-center gap-1 h-24 rounded-xl border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
+                              isSelected
+                                ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
+                                : "bg-white border-brand-dark/10 text-brand-dark hover:border-brand-dark/40 hover:bg-brand-beige/50"
+                            )}
                           >
-                            <span className="w-16 pt-3 text-xs font-medium text-brand-dark/70">
-                              {weekLabel}
+                            <span className={cn(
+                              "text-[11px] font-medium uppercase tracking-wide",
+                              isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                            )}>
+                              {format(date, "EEE", { locale: nb })}
                             </span>
-                            <div className="grid grid-cols-5 gap-2 sm:gap-3">
-                              {weekdays.map((date) => {
-                                const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
-                                const isPast = date < today;
-                                const isDisabled = isPast;
-                                const isToday = isSameDay(date, today);
-
-                                return (
-                                  <button
-                                    key={date.toISOString()}
-                                    type="button"
-                                    onClick={() => !isDisabled && setSelectedDate(date)}
-                                    disabled={isDisabled}
-                                    aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
-                                    aria-pressed={isSelected}
-                                    className={cn(
-                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
-                                      isSelected
-                                        ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
-                                        : isDisabled
-                                          ? "bg-transparent border-transparent text-brand-dark/25 cursor-not-allowed"
-                                          : "bg-white border-brand-dark/10 text-brand-dark hover:border-brand-dark/40 hover:bg-brand-beige/50"
-                                    )}
-                                  >
-                                    <span
-                                      className={cn(
-                                        "text-lg leading-none",
-                                        isSelected ? "font-medium" : "font-light"
-                                      )}
-                                    >
-                                      {format(date, "d", { locale: nb })}
-                                    </span>
-                                    {isToday && (
-                                      <span className={cn(
-                                        "text-[10px] mt-1 font-medium",
-                                        isSelected ? "text-brand-warm/90" : "text-brand-dark/80"
-                                      )}>
-                                        I dag
-                                      </span>
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
+                            <span className={cn(
+                              "text-2xl leading-none",
+                              isSelected ? "font-medium" : "font-light"
+                            )}>
+                              {format(date, "d", { locale: nb })}
+                            </span>
+                            <span className={cn(
+                              "text-[11px] font-light",
+                              isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                            )}>
+                              {isToday ? "I dag" : format(date, "MMM", { locale: nb })}
+                            </span>
+                            {!isSelected && slotsCount > 0 && (
+                              <span className="absolute top-1.5 right-2 text-[10px] font-medium text-brand-dark/50">
+                                {slotsCount}
+                              </span>
+                            )}
+                          </button>
                         );
                       })}
                     </motion.div>
                   </AnimatePresence>
                 </div>
               </div>
+
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
