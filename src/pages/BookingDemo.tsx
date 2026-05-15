@@ -384,7 +384,7 @@ const BookingDemo = () => {
     const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
     const out: Date[] = [];
     if (pool.length === 0) return out;
-    for (let i = 0; i < 90 && out.length < 30; i++) {
+    for (let i = 0; i < 365; i++) {
       const d = addDays(today, i);
       const dow = d.getDay();
       if (dow === 0 || dow === 6) continue;
