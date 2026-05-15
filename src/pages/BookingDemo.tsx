@@ -186,6 +186,20 @@ const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
   return slots;
 };
 
+// Find first bookable weekday (skips weekends + days with no slots).
+const getFirstAvailableDate = (fromDate: Date, specialistList: Specialist[]): Date => {
+  const start = new Date(fromDate);
+  start.setHours(0, 0, 0, 0);
+  for (let i = 0; i < 60; i++) {
+    const d = addDays(start, i);
+    const dow = d.getDay();
+    if (dow === 0 || dow === 6) continue;
+    if (specialistList.length === 0) return d;
+    if (generateTimeSlots(d, specialistList).length > 0) return d;
+  }
+  return addDays(start, 1);
+};
+
 interface BookingData {
   category?: string;
   categoryId?: string;
@@ -254,7 +268,7 @@ const BookingDemo = () => {
   );
   const canGoPrevRange = rangeStart.getTime() > startOfWeek(today, { weekStartsOn: 1 }).getTime();
   const [bookingData, setBookingData] = useState<BookingData>({});
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(addDays(new Date(), 1));
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   // When user arrives with ?kategori=..., filter step 1 to that category only.
   // Cleared by "Vis alle tjenester" button so the user can change their mind.
@@ -374,6 +388,25 @@ const BookingDemo = () => {
   }, [searchParams, specialists, clinics]);
 
   const filteredSpecialists = specialists.slice(0, 8);
+
+  // Auto-pick first bookable date when entering step 4 (or specialist/service changes)
+  useEffect(() => {
+    if (!bookingData.specialistChosen) return;
+    if (selectedDate) {
+      const dow = selectedDate.getDay();
+      const slots = generateTimeSlots(selectedDate, bookingData.specialist ? [bookingData.specialist] : filteredSpecialists);
+      if (dow !== 0 && dow !== 6 && slots.length > 0) return;
+    }
+    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+    if (pool.length === 0) return;
+    const next = getFirstAvailableDate(today, pool);
+    setSelectedDate(next);
+    const weekStart = startOfWeek(next, { weekStartsOn: 1 });
+    if (weekStart.getTime() < rangeStart.getTime() || weekStart.getTime() >= addDays(rangeStart, WEEKS_VISIBLE * 7).getTime()) {
+      setRangeStart(weekStart);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingData.specialistChosen, bookingData.specialist, bookingData.service]);
 
   const availableSlots = selectedDate && filteredSpecialists.length > 0
     ? generateTimeSlots(selectedDate, filteredSpecialists)
@@ -608,7 +641,7 @@ const BookingDemo = () => {
             <span className="text-[11px] font-light text-brand-dark/60 tracking-wide">
               Steg {currentStep} av 5
             </span>
-            <span className="text-[11px] font-normal text-brand-dark tracking-wide capitalize">
+            <span className="text-[11px] font-normal text-brand-dark tracking-wide">
               {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
             </span>
           </div>
@@ -772,24 +805,24 @@ const BookingDemo = () => {
                               <button
                                 key={index}
                                 onClick={() => handleSelectService(category.id, category.label, service)}
-                                className="w-full flex items-center justify-between p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors text-left group"
+                                className="w-full flex items-center justify-between p-4 bg-white border border-brand-dark/20 rounded-lg hover:border-brand-dark hover:shadow-sm transition-all text-left group"
                               >
                                 <div className="flex-1 pr-4">
-                                  <span className="text-foreground block font-normal">
+                                  <span className="text-brand-dark block font-normal">
                                     {service.name}
                                   </span>
                                   <div className="flex items-center gap-3 mt-1">
-                                    <span className="text-sm text-foreground/70">
-                                      {service.price !== "0" ? `fra kr ${service.price},-` : "Gratis"}
+                                    <span className="text-sm text-brand-dark/80">
+                                      {service.price !== "0" ? `Fra kr ${service.price},-` : "Gratis"}
                                     </span>
-                                    <span className="text-muted-foreground/40">·</span>
-                                    <span className="text-sm text-muted-foreground">
+                                    <span className="text-brand-dark/40">·</span>
+                                    <span className="text-sm text-brand-dark/70">
                                       {service.duration}
                                     </span>
                                   </div>
                                 </div>
-                                <div className="w-8 h-8 rounded-full bg-foreground flex items-center justify-center flex-shrink-0">
-                                  <ArrowRight className="w-4 h-4 text-background" />
+                                <div className="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center flex-shrink-0">
+                                  <ArrowRight className="w-4 h-4 text-brand-warm" />
                                 </div>
                               </button>
                             ))}
@@ -940,21 +973,21 @@ const BookingDemo = () => {
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-4">
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Velg tid
                 {bookingData.specialist && (
-                  <span className="text-base text-muted-foreground font-light ml-2">
+                  <span className="text-base text-brand-dark/70 font-light ml-2">
                     – {bookingData.specialist.name}
                   </span>
                 )}
               </h2>
               
               {/* 4-ukers dato-strip — kun hverdager (man–fre) */}
-              <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/10">
+              <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
                 <div className="mb-6 flex items-end justify-between">
                   <div>
-                    <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
-                      velg en dag
+                    <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                      Velg en dag
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
                       {format(weeks[0][0], "d. MMM", { locale: nb })} – {format(weeks[WEEKS_VISIBLE - 1][4], "d. MMM yyyy", { locale: nb })}
@@ -973,8 +1006,8 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-warm"
-                          : "border-brand-dark/20 text-brand-dark/30 cursor-not-allowed"
+                          ? "border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90"
+                          : "border-brand-dark/15 bg-brand-beige text-brand-dark/30 cursor-not-allowed"
                       )}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -997,10 +1030,10 @@ const BookingDemo = () => {
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 mb-2">
                   <div className="w-16" />
                   <div className="grid grid-cols-5 gap-2 sm:gap-3">
-                    {["ma", "ti", "on", "to", "fr"].map((d) => (
+                    {["Ma", "Ti", "On", "To", "Fr"].map((d) => (
                       <span
                         key={d}
-                        className="text-xs font-light text-brand-dark/60 text-left lowercase"
+                        className="text-xs font-medium text-brand-dark/70 text-left"
                       >
                         {d}
                       </span>
@@ -1021,8 +1054,8 @@ const BookingDemo = () => {
                       {weeks.map((week, wi) => {
                         const weekLabel =
                           wi === 0 && isSameDay(rangeStart, startOfWeek(today, { weekStartsOn: 1 }))
-                            ? "denne uken"
-                            : `uke ${format(week[0], "w", { locale: nb })}`;
+                            ? "Denne uken"
+                            : `Uke ${format(week[0], "w", { locale: nb })}`;
                         const weekdays = week.slice(0, 5);
 
                         return (
@@ -1030,7 +1063,7 @@ const BookingDemo = () => {
                             key={week[0].toISOString()}
                             className="grid grid-cols-[auto_1fr] gap-x-4 items-start"
                           >
-                            <span className="w-16 pt-2 text-xs font-light text-brand-dark/60 lowercase">
+                            <span className="w-16 pt-3 text-xs font-medium text-brand-dark/70">
                               {weekLabel}
                             </span>
                             <div className="grid grid-cols-5 gap-2 sm:gap-3">
@@ -1049,11 +1082,12 @@ const BookingDemo = () => {
                                     aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
                                     aria-pressed={isSelected}
                                     className={cn(
-                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                                      "group relative flex flex-col items-center justify-center h-14 rounded-md border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
                                       isSelected
                                         ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
-                                        : "bg-white border-brand-dark/15 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5",
-                                      isDisabled && "opacity-30 cursor-not-allowed hover:bg-white hover:border-brand-dark/15"
+                                        : isDisabled
+                                          ? "bg-brand-beige border-brand-dark/10 text-brand-dark/40 cursor-not-allowed"
+                                          : "bg-white border-brand-dark/25 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5"
                                     )}
                                   >
                                     <span
@@ -1066,10 +1100,10 @@ const BookingDemo = () => {
                                     </span>
                                     {isToday && (
                                       <span className={cn(
-                                        "text-[10px] mt-1 font-light lowercase",
-                                        isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                                        "text-[10px] mt-1 font-medium",
+                                        isSelected ? "text-brand-warm/90" : "text-brand-dark/80"
                                       )}>
-                                        i dag
+                                        I dag
                                       </span>
                                     )}
                                   </button>
@@ -1086,19 +1120,19 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/10">
+                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
-                      <p className="text-xs text-brand-dark/60 font-light mb-1 lowercase">
-                        velg en tid
+                      <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                        Velg en tid
                       </p>
                       <h3 className="text-xl font-light text-brand-dark capitalize">
                         {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
                       </h3>
                     </div>
                     {bookingData.service?.duration && (
-                      <span className="text-xs text-brand-dark/60 font-light lowercase">
-                        varighet {bookingData.service.duration}
+                      <span className="text-xs text-brand-dark/70 font-medium">
+                        Varighet {bookingData.service.duration}
                       </span>
                     )}
                   </div>
