@@ -805,24 +805,24 @@ const BookingDemo = () => {
                               <button
                                 key={index}
                                 onClick={() => handleSelectService(category.id, category.label, service)}
-                                className="w-full flex items-center justify-between p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors text-left group"
+                                className="w-full flex items-center justify-between p-4 bg-white border border-brand-dark/20 rounded-lg hover:border-brand-dark hover:shadow-sm transition-all text-left group"
                               >
                                 <div className="flex-1 pr-4">
-                                  <span className="text-foreground block font-normal">
+                                  <span className="text-brand-dark block font-normal">
                                     {service.name}
                                   </span>
                                   <div className="flex items-center gap-3 mt-1">
-                                    <span className="text-sm text-foreground/70">
-                                      {service.price !== "0" ? `fra kr ${service.price},-` : "Gratis"}
+                                    <span className="text-sm text-brand-dark/80">
+                                      {service.price !== "0" ? `Fra kr ${service.price},-` : "Gratis"}
                                     </span>
-                                    <span className="text-muted-foreground/40">·</span>
-                                    <span className="text-sm text-muted-foreground">
+                                    <span className="text-brand-dark/40">·</span>
+                                    <span className="text-sm text-brand-dark/70">
                                       {service.duration}
                                     </span>
                                   </div>
                                 </div>
-                                <div className="w-8 h-8 rounded-full bg-foreground flex items-center justify-center flex-shrink-0">
-                                  <ArrowRight className="w-4 h-4 text-background" />
+                                <div className="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center flex-shrink-0">
+                                  <ArrowRight className="w-4 h-4 text-brand-light" />
                                 </div>
                               </button>
                             ))}
