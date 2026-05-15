@@ -867,7 +867,7 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
+                      className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                     >
                       <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
                         {clinic.bookingSystem === 'external' ? (
@@ -917,7 +917,7 @@ const BookingDemo = () => {
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
+                  className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
                   <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
@@ -934,7 +934,7 @@ const BookingDemo = () => {
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-center group"
+                      className="w-full flex flex-col items-center p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-center group"
                     >
                       <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
