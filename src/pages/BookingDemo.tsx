@@ -1005,6 +1005,23 @@ const BookingDemo = () => {
                     <button
                       type="button"
                       onClick={() => {
+                        setDateDirection(-1);
+                        setDateOffset(0);
+                        if (bookableDates.length > 0) setSelectedDate(bookableDates[0]);
+                      }}
+                      disabled={dateOffset === 0 && (!selectedDate || (bookableDates[0] && isSameDay(selectedDate, bookableDates[0])))}
+                      aria-label="Tilbake til f\u00f8rste ledige dag"
+                      title="Tilbake til f\u00f8rste ledige dag"
+                      className={cn(
+                        "flex h-10 w-10 items-center justify-center rounded-md border transition-colors mr-1",
+                        "border-brand-dark/15 bg-white text-brand-dark hover:bg-brand-beige hover:border-brand-dark/40 disabled:text-brand-dark/30 disabled:cursor-not-allowed disabled:hover:bg-white"
+                      )}
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
                         if (!canGoPrevRange) return;
                         setDateDirection(-1);
                         setDateOffset(Math.max(0, dateOffset - VISIBLE_DAYS));
