@@ -1120,10 +1120,10 @@ const BookingDemo = () => {
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
               {selectedDate && (
-                <div className="bg-brand-beige rounded-lg p-6 border border-brand-dark/15">
+                <div className="bg-white rounded-lg p-6 border border-brand-dark/10 shadow-[0_1px_2px_rgba(66,51,42,0.04)]">
                   <div className="mb-5 flex items-end justify-between">
                     <div>
-                      <p className="text-xs text-brand-dark/70 font-medium mb-1">
+                      <p className="text-xs text-brand-dark/60 font-medium mb-1 tracking-wide uppercase">
                         Velg en tid
                       </p>
                       <h3 className="text-xl font-light text-brand-dark capitalize">
@@ -1131,7 +1131,7 @@ const BookingDemo = () => {
                       </h3>
                     </div>
                     {bookingData.service?.duration && (
-                      <span className="text-xs text-brand-dark/70 font-medium">
+                      <span className="text-xs text-brand-dark/60 font-medium">
                         Varighet {bookingData.service.duration}
                       </span>
                     )}
@@ -1145,7 +1145,7 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, bookingData.specialist!)}
-                            className="py-3 px-4 bg-white border border-brand-dark/20 rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
+                            className="py-3 px-4 bg-brand-beige border border-brand-beige rounded-md text-brand-dark font-light text-base hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-all"
                           >
                             {slot.time}
                           </button>
@@ -1158,16 +1158,16 @@ const BookingDemo = () => {
                           <button
                             key={index}
                             onClick={() => handleSelectTimeSlot(slot.time, slot.specialist)}
-                            className="w-full flex items-center gap-4 p-3 bg-white border border-brand-dark/20 rounded-md hover:bg-brand-dark/5 hover:border-brand-dark transition-all text-left"
+                            className="w-full flex items-center gap-4 p-3 bg-brand-beige border border-brand-beige rounded-md hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left"
                           >
-                            <div className="w-10 h-10 rounded-sm overflow-hidden flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-brand-dark/10">
                               <img src={slot.specialist.image} alt={slot.specialist.name} className="w-full h-full object-cover object-top" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <span className="text-sm font-light text-brand-dark block">{slot.specialist.name}</span>
+                              <span className="text-sm font-normal text-brand-dark block">{slot.specialist.name}</span>
                               <span className="text-xs text-brand-dark/60 font-light">{slot.specialist.title}</span>
                             </div>
-                            <span className="font-light text-brand-dark text-lg">{slot.time}</span>
+                            <span className="font-light text-brand-dark text-lg tabular-nums">{slot.time}</span>
                           </button>
                         ))}
                       </div>
