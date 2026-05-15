@@ -968,7 +968,7 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('specialist')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
@@ -976,7 +976,7 @@ const BookingDemo = () => {
               <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Velg tid
                 {bookingData.specialist && (
-                  <span className="text-base text-brand-dark/70 font-light ml-2">
+                  <span className="text-base text-brand-dark/60 font-light ml-2">
                     – {bookingData.specialist.name}
                   </span>
                 )}
