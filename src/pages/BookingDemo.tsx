@@ -618,7 +618,7 @@ const BookingDemo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-brand-warm">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-brand-dark">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
