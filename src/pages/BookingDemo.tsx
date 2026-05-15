@@ -805,7 +805,7 @@ const BookingDemo = () => {
                               <button
                                 key={index}
                                 onClick={() => handleSelectService(category.id, category.label, service)}
-                                className="w-full flex items-center justify-between p-4 bg-white border border-brand-dark/20 rounded-lg hover:border-brand-dark hover:shadow-sm transition-all text-left group"
+                                className="w-full flex items-center justify-between p-4 bg-brand-beige/30 border border-brand-dark/10 rounded-xl hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left group"
                               >
                                 <div className="flex-1 pr-4">
                                   <span className="text-brand-dark block font-normal">
