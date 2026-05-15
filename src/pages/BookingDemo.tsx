@@ -902,31 +902,31 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('clinic')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-2">
+              <h2 className="text-2xl font-light text-brand-dark mb-2">
                 Velg behandler
               </h2>
-              <p className="text-sm text-muted-foreground font-light mb-4">
+              <p className="text-sm text-brand-dark/60 font-light mb-4">
                 Velg en behandler, eller gå videre for å se alle ledige tider.
               </p>
 
               {/* Skip / Any specialist */}
                 <button
                   onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: undefined })}
-                  className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group border-2 border-transparent hover:border-foreground/10"
+                  className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
                 >
-                  <div className="w-12 h-12 rounded-sm bg-muted/50 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-foreground" />
+                  <div className="w-12 h-12 rounded-full bg-brand-beige flex items-center justify-center">
+                    <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                   </div>
                 <div className="flex-1">
-                  <p className="font-normal text-foreground">Første ledige</p>
-                  <p className="text-sm text-muted-foreground">Vis alle ledige tider uavhengig av behandler</p>
+                  <p className="font-normal text-brand-dark">Første ledige</p>
+                  <p className="text-sm text-brand-dark/60 font-light">Vis alle ledige tider uavhengig av behandler</p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
               </button>
 
               <div className="grid grid-cols-2 gap-3">
@@ -934,23 +934,23 @@ const BookingDemo = () => {
                   <div key={spec.name} className="relative">
                     <button
                       onClick={() => setBookingData({ ...bookingData, specialistChosen: true, specialist: spec })}
-                      className="w-full flex flex-col items-center p-4 bg-brand-beige rounded-lg hover:bg-muted/30 hover:shadow-md transition-all text-center group"
+                      className="w-full flex flex-col items-center p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-center group"
                     >
-                      <div className="w-14 h-14 rounded-sm overflow-hidden mb-2.5">
+                      <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                         <img src={spec.image} alt={spec.name} className="w-full h-full object-cover object-top" />
                       </div>
-                      <span className="text-sm font-normal text-foreground leading-tight">{spec.name}</span>
-                      <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{spec.title}</span>
+                      <span className="text-sm font-normal text-brand-dark leading-tight">{spec.name}</span>
+                      <span className="text-xs text-brand-dark/60 mt-1 line-clamp-1 font-light">{spec.title}</span>
                     </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedSpecialistInfo(spec);
                       }}
-                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-muted/50 hover:bg-muted flex items-center justify-center transition-colors"
+                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-brand-beige hover:bg-brand-dark hover:text-brand-warm flex items-center justify-center transition-colors"
                       aria-label={`Les mer om ${spec.name}`}
                     >
-                      <Info className="w-3.5 h-3.5 text-muted-foreground" />
+                      <Info className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 ))}
