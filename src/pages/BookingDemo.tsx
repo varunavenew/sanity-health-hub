@@ -847,12 +847,12 @@ const BookingDemo = () => {
             >
               <button 
                 onClick={() => resetStep('category')} 
-                className="flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/70 transition-colors mb-4"
+                className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span className="underline">Tilbake</span>
               </button>
-              <h2 className="text-2xl font-light text-foreground mb-4">
+              <h2 className="text-2xl font-light text-brand-dark mb-4">
                 Velg klinikk
               </h2>
               
@@ -867,23 +867,23 @@ const BookingDemo = () => {
                     <button
                       key={clinic.id}
                       onClick={() => handleSelectClinic(clinic)}
-                      className="w-full flex items-center gap-4 p-4 bg-brand-beige rounded-lg hover:bg-muted/30 transition-colors text-left group"
+                      className="w-full flex items-center gap-4 p-5 bg-white border border-brand-dark/10 rounded-lg hover:border-brand-dark/40 hover:shadow-[0_4px_16px_rgba(66,51,42,0.06)] transition-all text-left group"
                     >
-                      <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
+                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
                         {clinic.bookingSystem === 'external' ? (
-                          <Phone className="w-5 h-5 text-foreground" />
+                          <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                         ) : (
-                          <MapPin className="w-5 h-5 text-foreground" />
+                          <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                         )}
                       </div>
                       <div className="flex-1">
-                        <p className="font-normal text-foreground">{clinic.label}</p>
-                        <p className="text-sm text-muted-foreground">{clinic.address}</p>
+                        <p className="font-normal text-brand-dark">{clinic.label}</p>
+                        <p className="text-sm text-brand-dark/60 font-light">{clinic.address}</p>
                         {clinic.bookingSystem === 'external' && (
-                          <p className="text-xs text-muted-foreground/70 mt-0.5 font-light">Ring for timebestilling</p>
+                          <p className="text-xs text-brand-dark/50 mt-0.5 font-light">Ring for timebestilling</p>
                         )}
                       </div>
-                      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                      <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
                     </button>
                   ))}
                 </div>
