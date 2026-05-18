@@ -65,14 +65,8 @@ const TEMPLATES: Record<string, TemplateConfig> = {
   },
 };
 
-/** Tving ArticlePage til å bruke en spesifikk slug uavhengig av URL. */
+/** Render ArticlePage med en forhåndsvalgt slug, uavhengig av URL. */
 function ArticleWithSlug({ slug }: { slug: string }) {
-  // ArticlePage leser slug via useParams – vi monkey-patcher ved å
-  // rendere den i en route-uavhengig wrapper. Enklest: bytt window.history-state
-  // er for invasivt. Vi bruker en liten hack: render ArticlePage inne i en
-  // MemoryRouter som matcher /aktuelt/:slug.
-  // (Holder oss til react-router for å unngå avhengighet).
-  const { MemoryRouter, Routes, Route } = require("react-router-dom");
   return (
     <MemoryRouter initialEntries={[`/aktuelt/${slug}`]}>
       <Routes>
