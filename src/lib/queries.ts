@@ -240,11 +240,11 @@ export const JOB_LISTING_BY_SLUG_QUERY = `*[_type == "jobListing" && slug.curren
   body,
 }`;
 
-export const FAQS_QUERY = `*[_type == "faq"] | order(sortOrder asc) { question, answer, category }`;
+export const FAQS_QUERY = `*[_type == "faq"] | order(sortOrder asc) { question, question_en, answer, answer_en, category }`;
 
-export const FAQS_BY_CATEGORY_QUERY = `*[_type == "faq" && category == $category] | order(sortOrder asc) { question, answer, category }`;
+export const FAQS_BY_CATEGORY_QUERY = `*[_type == "faq" && category == $category] | order(sortOrder asc) { question, question_en, answer, answer_en, category }`;
 
-export const FAQS_BY_TREATMENT_CATEGORY_QUERY = `*[_type == "faq" && relatedTreatmentCategory->slug.current == $slug] | order(sortOrder asc) { question, answer }`;
+export const FAQS_BY_TREATMENT_CATEGORY_QUERY = `*[_type == "faq" && relatedTreatmentCategory->slug.current == $slug] | order(sortOrder asc) { question, question_en, answer, answer_en }`;
 
 export const THEME_PAGE_QUERY = `*[_type == "themePage" && slug.current == $slug][0]{
   title,
