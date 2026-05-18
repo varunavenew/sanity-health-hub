@@ -78,6 +78,20 @@ function ArticleWithSlug({ slug }: { slug: string }) {
   );
 }
 
+/** Render en underbehandling med en forhåndsvalgt subId. */
+function SubPageWithParams({ categoryPath, subId }: { categoryPath: string; subId: string }) {
+  return (
+    <MemoryRouter initialEntries={[`/behandlinger/${categoryPath}/${subId}`]}>
+      <Routes>
+        <Route
+          path="/behandlinger/:categoryId/:subId"
+          element={<GynekologiSubPage isChatOpen={false} />}
+        />
+      </Routes>
+    </MemoryRouter>
+  );
+}
+
 export default function MalDemo() {
   const { key = "" } = useParams();
   const mal = TEMPLATES[key];
