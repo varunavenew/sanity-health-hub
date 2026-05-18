@@ -485,6 +485,86 @@ const Godkjenning = () => {
   );
 };
 
+const MasterTemplatesPanel = () => {
+  const [studioUrl, setStudioUrl] = useState<string>(() => {
+    try {
+      return localStorage.getItem("cm_studio_url") || STUDIO_BASE_URL;
+    } catch {
+      return STUDIO_BASE_URL;
+    }
+  });
+
+  const saveStudioUrl = (val: string) => {
+    setStudioUrl(val);
+    try { localStorage.setItem("cm_studio_url", val); } catch {}
+  };
+
+  const base = studioUrl.replace(/\/$/, "");
+
+  return (
+    <div>
+      <div className="flex items-start justify-between gap-4 flex-wrap mb-6 pb-4 border-b border-border">
+        <div>
+          <h2 className="text-xl font-light text-foreground">Mastermaler i Sanity</h2>
+          <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+            Velg en mal for å opprette eller redigere innhold. Lenkene åpner riktig liste direkte i Sanity Studio.
+          </p>
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Studio-URL</label>
+          <input
+            value={studioUrl}
+            onChange={(e) => saveStudioUrl(e.target.value)}
+            placeholder="https://studio.dittdomene.no"
+            className="border border-border bg-background px-3 py-2 text-sm rounded-md w-72 focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
+        </div>
+      </div>
+
+      <ul className="grid md:grid-cols-2 gap-4">
+        {MASTER_TEMPLATES.map((t) => {
+          const href = `${base}/structure/${t.schemaType}`;
+          return (
+            <li key={t.schemaType} className="border border-border rounded-lg p-5 bg-background hover:border-foreground/40 transition-colors">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="text-base font-light text-foreground">{t.title}</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 font-mono">{t.schemaType}</p>
+                </div>
+                <LayoutTemplate className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" strokeWidth={1.5} />
+              </div>
+              <p className="text-sm text-muted-foreground mt-3 font-light leading-relaxed">{t.description}</p>
+              <div className="mt-4 flex gap-2 flex-wrap">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-foreground text-background text-xs px-3 py-1.5 rounded-md hover:opacity-90 transition-opacity"
+                >
+                  Åpne mal <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(href);
+                    toast({ title: "Lenke kopiert", description: href });
+                  }}
+                  className="inline-flex items-center gap-1.5 border border-border text-xs px-3 py-1.5 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Kopier lenke
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <p className="mt-6 text-xs text-muted-foreground">
+        Tips: trykk «Kopier lenke» for å sende direkte til en redaktør. De lander rett i riktig liste i Sanity Studio.
+      </p>
+    </div>
+  );
+};
+
 const StatCard = ({ label, value, accent }: { label: string; value: number; accent?: "emerald" | "amber" | "rose" }) => {
   const accents: Record<string, string> = {
     emerald: "text-emerald-700",
