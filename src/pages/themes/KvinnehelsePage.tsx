@@ -97,43 +97,37 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
           { name: "Kvinnehelse", path: "/kvinnehelse" },
         ]}
       />
-      {/* Split hero — video on top (mobile), right (desktop) */}
-      <header className="bg-brand-warm">
-        <div className="grid md:grid-cols-2 items-stretch">
-          {/* Left: text */}
-          <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+      {/* Hero — title on top, video full-width below (samme mønster som /om-oss) */}
+      <header className="bg-brand-warm pt-24 md:pt-28 pb-10 md:pb-14">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto">
             <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">
               Konseptfilm
             </p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
               {title}
             </h1>
-            <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
+            <p className="text-base text-foreground/70 font-light leading-relaxed max-w-xl mb-8">
               En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                variant="cta"
-                size="lg"
-                onClick={() => navigate(ctaLink)}
-              >
-                {ctaText}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </div>
+            <Button variant="cta" size="lg" onClick={() => navigate(ctaLink)}>
+              {ctaText}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
           </div>
+        </div>
 
-          {/* Right (mobile: top): video */}
-          <div className="order-1 md:order-2">
+        {/* Video under header */}
+        <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
+          <div className="max-w-5xl mx-auto">
             <VideoPlayer
               thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
               videoUrl="/videos/kvinnehelse-konsept.mp4"
               title="Kvinnehelse gjennom hele livet"
-              className="!rounded-none w-full h-full"
+              className="w-full aspect-video"
             />
           </div>
         </div>
-        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
 
