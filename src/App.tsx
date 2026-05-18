@@ -60,6 +60,7 @@ import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
 import DemoOversikt from "./pages/DemoOversikt";
 import Godkjenning from "./pages/Godkjenning";
+import MalDemo from "./pages/MalDemo";
 import { useUiTranslations } from "./hooks/useUiTranslations";
 
 const queryClient = new QueryClient();
@@ -170,6 +171,7 @@ const AppContent = () => {
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />
         {/* Internal approval tracker */}
         <Route path="/godkjenning" element={<Godkjenning />} />
+        <Route path="/maler/:key" element={<MalDemo />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
