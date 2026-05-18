@@ -233,17 +233,26 @@ const TEMPLATES: Record<
       heroSection(
         "Underbehandling – komplett mal",
         "Mastermal · Behandling",
-        "Eksempel på en enkeltbehandling med detaljert pasientforløp og fagstoff."
+        "Enkeltbehandling med detaljert pasientforløp, fagstoff, sitater og oppfølging."
       ),
       introSection(
         "Hva er denne behandlingen?",
         "Kort, klar beskrivelse av hva behandlingen innebærer, hvem den passer for, og hva pasienten kan forvente."
       ),
       benefitsSection,
+      { ...richTextSection, _key: "rich-1", heading: "Når er behandlingen aktuell" } as Section,
       processSection,
       journeySection,
+      { ...statsSection, _key: "stats-treat", background: "light" } as Section,
       accordionSection,
       quoteSection,
+      {
+        ...richTextSection,
+        _key: "rich-2",
+        heading: "Etter behandling",
+        body: "Hva du kan forvente i dagene etter inngrepet, eventuelle restriksjoner, og når du bør ta kontakt igjen.",
+      } as Section,
+      linkedServicesSection,
       faqSection,
       ctaSection,
     ],
