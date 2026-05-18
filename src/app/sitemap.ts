@@ -5,9 +5,6 @@ import { fetchSitemapSlugs } from "@/lib/sanity/sitemap-data";
 
 const MARKETING_SEGMENTS = [
   "",
-  "demoer",
-  "design-demoer",
-  "icon-preview",
   "about",
   "guide",
   "contact",

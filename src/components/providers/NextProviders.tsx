@@ -10,8 +10,16 @@ import { ScrollToTop } from "@/components/navigation/ScrollToTop";
 import { LocaleSync } from "@/components/i18n/LocaleSync";
 import "@/i18n/config";
 
+const accessGateEnabled = process.env.NEXT_PUBLIC_ENABLE_ACCESS_GATE === "true";
+
 export function NextProviders({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
+
+  const content = accessGateEnabled ? (
+    <AccessGate>{children}</AccessGate>
+  ) : (
+    children
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -20,7 +28,7 @@ export function NextProviders({ children }: { children: ReactNode }) {
         <ScrollToTop />
         <Toaster />
         <Sonner />
-        <AccessGate>{children}</AccessGate>
+        {content}
       </TooltipProvider>
     </QueryClientProvider>
   );

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteUrl } from "@/lib/env";
+import { resolveOgImageUrl } from "@/lib/seo/defaults";
 
 export type AppLocaleStr = "nb" | "en";
 
@@ -47,6 +48,8 @@ export function buildPageMetadata(opts: {
     ? { absolute: title }
     : title;
 
+  const ogImage = resolveOgImageUrl(opts.ogImage);
+
   return {
     title: titleField,
     description,
@@ -58,7 +61,18 @@ export function buildPageMetadata(opts: {
         "x-default": nbAbsolute,
       },
     },
-    robots: opts.noIndex ? { index: false, follow: false } : undefined,
+    robots: opts.noIndex
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+          },
+        },
     openGraph: {
       title: resolvedTitle,
       description,
@@ -67,14 +81,21 @@ export function buildPageMetadata(opts: {
       locale: ogLocale,
       alternateLocale: [ogLocaleAlt],
       siteName: "CMedical",
-      ...(opts.ogImage ? { images: [{ url: opts.ogImage }] } : {}),
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: "CMedical",
+        },
+      ],
       ...(opts.publishedTime ? { publishedTime: opts.publishedTime } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: resolvedTitle,
       description,
-      ...(opts.ogImage ? { images: [opts.ogImage] } : {}),
+      images: [ogImage],
     },
   };
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { siteUrl } from "@/lib/env";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo/defaults";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,18 +12,23 @@ export const metadata: Metadata = {
   },
   description:
     "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     siteName: "CMedical",
     type: "website",
     locale: "nb_NO",
     alternateLocale: ["en_US"],
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: "CMedical" }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [DEFAULT_OG_IMAGE],
   },
   icons: {
-    icon:
-      "https://storage.googleapis.com/gpt-engineer-file-uploads/qmg4FOZcsPVySaA19fmuxrFmWZJ3/uploads/1762763982098-cmedical.png",
+    icon: DEFAULT_OG_IMAGE,
   },
 };
 

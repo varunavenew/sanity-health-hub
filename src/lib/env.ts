@@ -25,3 +25,21 @@ export function siteUrl(): string {
   if (v) return v.replace(/\/$/, "");
   return "https://cmedical.no";
 }
+
+/** True when deployed to the public production site (not preview/staging). */
+export function isProductionDeploy(): boolean {
+  if (process.env.VERCEL_ENV === "production") return true;
+  const url = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  return url === "https://cmedical.no";
+}
+
+/**
+ * Password gate for demos. Off by default on production; set
+ * `NEXT_PUBLIC_ENABLE_ACCESS_GATE=true` to enable on staging.
+ */
+export function isAccessGateEnabled(): boolean {
+  if (process.env.NEXT_PUBLIC_ENABLE_ACCESS_GATE === "true") return true;
+  if (process.env.NEXT_PUBLIC_ENABLE_ACCESS_GATE === "false") return false;
+  return !isProductionDeploy();
+}
+

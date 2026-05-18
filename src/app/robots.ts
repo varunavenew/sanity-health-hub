@@ -1,14 +1,22 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/env";
+import { isProductionDeploy, siteUrl } from "@/lib/env";
+import { robotsDisallowPaths } from "@/lib/seo/robots-paths";
 
 export default function robots(): MetadataRoute.Robots {
   const host = siteUrl();
+
+  if (!isProductionDeploy()) {
+    return {
+      rules: [{ userAgent: "*", disallow: "/" }],
+    };
+  }
+
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/nb/godkjenning", "/en/godkjenning"],
+        disallow: robotsDisallowPaths(),
       },
     ],
     sitemap: `${host}/sitemap.xml`,
