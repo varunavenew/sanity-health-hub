@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import { ArticleIcon } from './icons'
+import { allowedSectionsForArticle } from './sections'
 
 export default defineType({
   name: 'article',

@@ -44,6 +44,15 @@ export default {
       description: 'F.eks. "Gynekologi" — vises som breadcrumb',
     },
     {
+      name: 'sections',
+      title: 'Sideoppbygging (mastermal)',
+      description:
+        'Bygg siden av seksjoner. Slå av/på, sorter med dra-og-slipp, eller legg til nye fra biblioteket.',
+      type: 'array',
+      of: allowedSectionsForTreatment.map((t) => ({ type: t })),
+      options: { sortable: true },
+    },
+    {
       name: 'heroImage',
       title: 'Hero-bilde',
       type: 'image',
