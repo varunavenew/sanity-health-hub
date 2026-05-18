@@ -60,6 +60,7 @@ import FertilitetSubPage from "./pages/treatments/FertilitetSubPage";
 import IconPreview from "./pages/IconPreview";
 import DemoOversikt from "./pages/DemoOversikt";
 import Godkjenning from "./pages/Godkjenning";
+import { useUiTranslations } from "./hooks/useUiTranslations";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const ScrollToTop = () => {
 };
 
 const AppContent = () => {
+  useUiTranslations();
   return (
     <>
       <Routes>
