@@ -1,6 +1,7 @@
 // Schema: Treatment (sub-treatment page)
 // Individual treatment pages under each category
 import { TreatmentIcon } from './icons'
+import { allowedSectionsForTreatment } from './sections'
 
 const pickNo = (v: any) =>
   Array.isArray(v)
