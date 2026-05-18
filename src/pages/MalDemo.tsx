@@ -204,13 +204,23 @@ const TEMPLATES: Record<
       ),
       introSection(
         "Et samlet tilbud rundt deg",
-        "Denne malen brukes for tematiske inngangsporter som kobler sammen flere fagområder."
+        "Tematiske inngangsporter som kobler sammen flere fagområder under ett narrativ. Brukes for store satsninger og kampanjesider."
       ),
-      richTextSection,
+      { ...richTextSection, _key: "rich-1", heading: "Bakgrunn for temaet" } as Section,
       linkedServicesSection,
+      serviceGroupsSection,
       statsSection,
-      quoteSection,
+      journeySection,
       benefitsSection,
+      quoteSection,
+      accordionSection,
+      {
+        ...richTextSection,
+        _key: "rich-2",
+        heading: "Hva betyr dette for deg som pasient",
+        body: "Konkret hva tilbudet inneholder, hvem det passer for, og hvordan du kommer i gang. Skrevet for å gi trygghet.",
+      } as Section,
+      servicesListSection,
       faqSection,
       ctaSection,
     ],
