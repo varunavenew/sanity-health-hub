@@ -204,13 +204,23 @@ const TEMPLATES: Record<
       ),
       introSection(
         "Et samlet tilbud rundt deg",
-        "Denne malen brukes for tematiske inngangsporter som kobler sammen flere fagområder."
+        "Tematiske inngangsporter som kobler sammen flere fagområder under ett narrativ. Brukes for store satsninger og kampanjesider."
       ),
-      richTextSection,
+      { ...richTextSection, _key: "rich-1", heading: "Bakgrunn for temaet" } as Section,
       linkedServicesSection,
+      serviceGroupsSection,
       statsSection,
-      quoteSection,
+      journeySection,
       benefitsSection,
+      quoteSection,
+      accordionSection,
+      {
+        ...richTextSection,
+        _key: "rich-2",
+        heading: "Hva betyr dette for deg som pasient",
+        body: "Konkret hva tilbudet inneholder, hvem det passer for, og hvordan du kommer i gang. Skrevet for å gi trygghet.",
+      } as Section,
+      servicesListSection,
       faqSection,
       ctaSection,
     ],
@@ -223,17 +233,26 @@ const TEMPLATES: Record<
       heroSection(
         "Underbehandling – komplett mal",
         "Mastermal · Behandling",
-        "Eksempel på en enkeltbehandling med detaljert pasientforløp og fagstoff."
+        "Enkeltbehandling med detaljert pasientforløp, fagstoff, sitater og oppfølging."
       ),
       introSection(
         "Hva er denne behandlingen?",
         "Kort, klar beskrivelse av hva behandlingen innebærer, hvem den passer for, og hva pasienten kan forvente."
       ),
       benefitsSection,
+      { ...richTextSection, _key: "rich-1", heading: "Når er behandlingen aktuell" } as Section,
       processSection,
       journeySection,
+      { ...statsSection, _key: "stats-treat", background: "light" } as Section,
       accordionSection,
       quoteSection,
+      {
+        ...richTextSection,
+        _key: "rich-2",
+        heading: "Etter behandling",
+        body: "Hva du kan forvente i dagene etter inngrepet, eventuelle restriksjoner, og når du bør ta kontakt igjen.",
+      } as Section,
+      linkedServicesSection,
       faqSection,
       ctaSection,
     ],
@@ -246,14 +265,17 @@ const TEMPLATES: Record<
       heroSection(
         "Nyhetsoppslag – komplett mal",
         "Mastermal · Aktuelt",
-        "Kort nyhetsoppslag med ingress, brødtekst, sitat og CTA."
+        "Nyhetsoppslag med ingress, brødtekst, fakta, sitat og lenker til relatert innhold."
       ),
       introSection(
         "Ingress",
         "En kort ingress som oppsummerer hovedpoenget i nyheten. Vises både på siden og i Aktuelt-feeden."
       ),
-      richTextSection,
+      { ...richTextSection, _key: "rich-1", heading: "Bakgrunn" } as Section,
       quoteSection,
+      benefitsSection,
+      { ...statsSection, _key: "stats-news", background: "light" } as Section,
+      linkedServicesSection,
       ctaSection,
     ],
   },
