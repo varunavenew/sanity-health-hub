@@ -32,11 +32,11 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     render: () => <Fertility isChatOpen={false} />,
   },
   themePage: {
-    title: "Mal: Temaside – Kvinnehelse",
+    title: "Mal: Temaside – Kvinnehelse (master)",
     description:
-      "Mastermal for tverrgående temaer (Kvinnehelse, Robotkirurgi, Tverrfaglige tilbud). Bruker kvinnehelse-siden som ferdig oppsett.",
+      "Mastermal for tverrgående temaer. Viser begge hero-varianter (med og uten video) og alle valgfrie seksjoner: tekstinnhold, tjenesteliste, spesialister og BookingCTA.",
     livePath: "/kvinnehelse",
-    render: () => <KvinnehelsePage isChatOpen={false} />,
+    render: () => <KvinnehelseMaster isChatOpen={false} />,
   },
   treatment: {
     title: "Mal: Underbehandling – Overgangsalder",
