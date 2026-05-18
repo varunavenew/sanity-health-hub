@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 import Fertility from "./treatments/Fertility";
-import KvinnehelsePage from "./themes/KvinnehelsePage";
+import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import GynekologiSubPage from "./treatments/GynekologiSubPage";
 import ArticlePage from "./ArticlePage";
 
