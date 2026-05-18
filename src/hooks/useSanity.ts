@@ -96,10 +96,34 @@ const normalizeI18n = (input: any, lang: "no" | "en"): any => {
     for (const k of Object.keys(input)) {
       out[k] = normalizeI18n(input[k], lang);
     }
+    // Hybrid: coalesce parallel `<key>_en` siblings when lang === "en".
+    // Written by test/sanity/translate-all-content.ts. Falls back to base
+    // value if the _en variant is missing/empty. Strips _en keys after.
+    if (lang === "en") {
+      for (const k of Object.keys(out)) {
+        if (k.endsWith("_en")) {
+          const base = k.slice(0, -3);
+          const v = out[k];
+          const hasValue =
+            v != null && (typeof v !== "string" || v.trim() !== "") &&
+            (!Array.isArray(v) || v.length > 0);
+          if (hasValue) out[base] = v;
+          delete out[k];
+        }
+      }
+    }
     return out;
   }
   return input;
 };
+
+/**
+ * Pick the English variant of a static field when the current UI language
+ * is English. Use in `src/data/*` modules that ship parallel `field` and
+ * `field_en` properties. Components stay language-agnostic.
+ */
+export const pickLocalized = <T,>(no: T, en: T | undefined, lang: "no" | "en"): T =>
+  lang === "en" && en != null && (typeof en !== "string" || en !== "") ? en : no;
 
 // Generic fetcher — auto-normalizes internationalizedArray fields.
 // `lang` may be passed explicitly (3rd arg), or via params.lang, otherwise "no".
