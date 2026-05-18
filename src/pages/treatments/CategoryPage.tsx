@@ -13,6 +13,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getServiceIcon } from "./categoryPageContent";
 
 // Static fallback images
