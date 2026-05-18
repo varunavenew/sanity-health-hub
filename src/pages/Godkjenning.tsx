@@ -299,6 +299,7 @@ const Godkjenning = () => {
               <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
               <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
               <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
+              <TabBtn active={tab === "maler"} onClick={() => setTab("maler")} icon={<LayoutTemplate className="w-4 h-4" />} label="Maler" />
             </div>
 
             <div className="flex gap-2 items-center">
