@@ -8,36 +8,54 @@ import { toast } from "@/hooks/use-toast";
 import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
 
-// Base URL til Sanity Studio. Oppdater når studio publiseres til en fast URL.
-const STUDIO_BASE_URL = "http://localhost:3333";
-
-const MASTER_TEMPLATES: { title: string; description: string; schemaType: string }[] = [
+// Mastermaler vises som live eksempelsider for kundegodkjenning.
+// Pseudo-path (__mal_*__) brukes for å lagre status/kommentarer per mal
+// i samme tabell som vanlige sider.
+const MASTER_TEMPLATES: {
+  key: string;
+  title: string;
+  description: string;
+  examplePath: string;
+  exampleLabel: string;
+}[] = [
   {
-    title: "Fagområder",
-    description: "Hovedkategorier som Kvinnehelse, Hud, Ortopedi. Bygges fritt med seksjoner (hero, tekst, kort, FAQ, m.m.).",
-    schemaType: "treatmentCategory",
+    key: "treatmentCategory",
+    title: "Fagområde",
+    description: "Hovedkategori som Gynekologi, Fertilitet, Urologi. Hero, intro, symptomer, behandlinger, spesialister, FAQ.",
+    examplePath: "/gynekologi",
+    exampleLabel: "Gynekologi",
   },
   {
-    title: "Temasider",
-    description: "Tverrgående temasider (f.eks. Robotkirurgi, Fastlegeveiledning) med fleksibel seksjonsoppbygging.",
-    schemaType: "themePage",
+    key: "themePage",
+    title: "Temaside",
+    description: "Tverrgående tema (Kvinnehelse, Robotkirurgi). Fleksibel seksjonsoppbygging.",
+    examplePath: "/kvinnehelse",
+    exampleLabel: "Kvinnehelse",
   },
   {
-    title: "Underbehandlinger",
-    description: "Enkeltbehandlinger under et fagområde (f.eks. Fertilitetssjekk under Fertilitet). Symptomer og kirurgi vises utenfor accordions.",
-    schemaType: "treatment",
+    key: "treatment",
+    title: "Underbehandling",
+    description: "Enkeltbehandling under et fagområde. Symptomer og kirurgi vises utenfor accordions.",
+    examplePath: "/behandlinger/fertilitet/fertilitetssjekk",
+    exampleLabel: "Fertilitetssjekk",
   },
   {
-    title: "Nyheter",
-    description: "Korte nyhetsoppslag som vises i Aktuelt-feeden. Sorteres etter publiseringsdato.",
-    schemaType: "newsItem",
+    key: "newsItem",
+    title: "Nyhet / Aktuelt-feed",
+    description: "Korte nyhetsoppslag listet i Aktuelt-feeden, sortert på publiseringsdato.",
+    examplePath: "/aktuelt",
+    exampleLabel: "Aktuelt",
   },
   {
-    title: "Fagartikler / Aktuelt",
-    description: "Lengre redaksjonelle artikler. Støtter pinning, kategorier og fullstendig SEO-felt.",
-    schemaType: "article",
+    key: "article",
+    title: "Fagartikkel",
+    description: "Lengre redaksjonell artikkel med pinning, kategorier og fullstendig SEO. Åpne en artikkel fra Aktuelt-listen.",
+    examplePath: "/aktuelt",
+    exampleLabel: "Aktuelt → velg artikkel",
   },
 ];
+
+const malPath = (key: string) => `__mal_${key}__`;
 
 type Status = "godkjent" | "avventer" | "endringer";
 
