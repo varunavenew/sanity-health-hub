@@ -1,3 +1,5 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";

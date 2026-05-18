@@ -67,7 +67,10 @@ const fetchSanity = async <T>(
   const resolved: "no" | "en" =
     lang || (params?.lang === "en" ? "en" : "no");
   try {
-    const data = await sanityClient.fetch<T>(query, params);
+    const data = await sanityClient.fetch<T>(query, {
+      ...params,
+      lang: resolved,
+    });
     return normalizeI18n(data, resolved) as T;
   } catch (err) {
       const preview = query.replace(/\s+/g, " ").slice(0, 80);

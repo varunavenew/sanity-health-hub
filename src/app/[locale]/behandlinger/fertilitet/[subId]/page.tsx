@@ -1,7 +1,9 @@
-'use client'
+import type { Metadata } from "next";
+import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
+import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
 
-import FertilitetSubPage from '@/site-pages/treatments/FertilitetSubPage'
+export const generateMetadata = createBehandlingerTreatmentMetadata("fertilitet");
 
 export default function Page() {
-  return <FertilitetSubPage isChatOpen={false} />
+  return <FertilitetSubPage isChatOpen={false} />;
 }

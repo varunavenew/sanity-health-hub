@@ -1,7 +1,9 @@
-'use client'
+import type { Metadata } from "next";
+import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
+import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
 
-import GynekologiSubPage from '@/site-pages/treatments/GynekologiSubPage'
+export const generateMetadata = createBehandlingerTreatmentMetadata("gynekologi");
 
 export default function Page() {
-  return <GynekologiSubPage isChatOpen={false} />
+  return <GynekologiSubPage isChatOpen={false} />;
 }

@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import { getImageUrl } from "@/lib/sanityClient";
-import {
-  appLocaleFromParam,
-  buildPageMetadata,
-  type AppLocaleStr,
-} from "@/lib/seo/metadata-builders";
+import { appLocaleFromParam, buildPageMetadata } from "@/lib/seo/metadata-builders";
 import {
   fetchAboutPageDocument,
   fetchContactPageDocument,
   fetchHomepageDocument,
 } from "@/lib/seo/fetch-sanity-seo";
+import { resolveMetaStrings } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 
 const HOME_DEFAULTS = {
@@ -49,50 +46,12 @@ const ABOUT_FALLBACK = {
   },
 } as const;
 
-/** Ensure meta title/description are plain strings for Next Metadata API. */
-function plainMetaString(value: unknown, fallback: string): string {
-  if (typeof value === "string") {
-    const t = value.trim();
-    return t || fallback;
-  }
-  return fallback;
-}
-
-/**
- * When the URL is English but Sanity only has Norwegian SEO (or i18n falls back
- * to `no`), meta strings often match the Norwegian defaults. Prefer English
- * fallbacks in that case so `/en` does not ship Norwegian titles in metadata.
- */
-function resolveSeoStringsForLocale(
-  lang: AppLocaleStr,
-  nbFallback: { title: string; description: string },
-  enFallback: { title: string; description: string },
-  seoTitle: unknown,
-  seoDescription: unknown,
-): { title: string; description: string } {
-  const defaults = lang === "en" ? enFallback : nbFallback;
-  let title = plainMetaString(seoTitle, defaults.title);
-  let description = plainMetaString(seoDescription, defaults.description);
-  if (lang === "en") {
-    if (title === nbFallback.title) title = enFallback.title;
-    if (description === nbFallback.description)
-      description = enFallback.description;
-  }
-  return { title, description };
-}
-
 export async function buildHomeMetadata(locale: string): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchHomepageDocument(sanityLang);
   const seo = data?.seo;
-  const { title, description } = resolveSeoStringsForLocale(
-    lang,
-    HOME_DEFAULTS.nb,
-    HOME_DEFAULTS.en,
-    seo?.metaTitle,
-    seo?.metaDescription,
-  );
+  const { title, description } = resolveMetaStrings(seo, lang, HOME_DEFAULTS);
   const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
 
   return buildPageMetadata({
@@ -111,13 +70,7 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchContactPageDocument(sanityLang);
   const seo = data?.seo;
-  const { title, description } = resolveSeoStringsForLocale(
-    lang,
-    CONTACT_FALLBACK.nb,
-    CONTACT_FALLBACK.en,
-    seo?.metaTitle,
-    seo?.metaDescription,
-  );
+  const { title, description } = resolveMetaStrings(seo, lang, CONTACT_FALLBACK);
 
   return buildPageMetadata({
     locale,
@@ -135,16 +88,10 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
 
 export async function buildAboutMetadata(locale: string): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
-  const sanityLang = lang === "en" ? "en" : "no";
+  const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchAboutPageDocument(sanityLang);
   const seo = data?.seo;
-  const { title, description } = resolveSeoStringsForLocale(
-    lang,
-    ABOUT_FALLBACK.nb,
-    ABOUT_FALLBACK.en,
-    seo?.metaTitle,
-    seo?.metaDescription,
-  );
+  const { title, description } = resolveMetaStrings(seo, lang, ABOUT_FALLBACK);
 
   return buildPageMetadata({
     locale,

@@ -1,3 +1,5 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation, Link } from "@/lib/router";

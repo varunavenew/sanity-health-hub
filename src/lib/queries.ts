@@ -1,4 +1,5 @@
 // Centralized Sanity GROQ queries
+import { localizedSeoObject } from "@/lib/sanity/seo-groq";
 
 export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   title, tagline,
@@ -9,7 +10,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   valueBadges[]{icon, label},
   statsBar[]{value, label},
   promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist"] | order(name asc){
@@ -49,7 +50,7 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   _id, title, "slug": slug.current, categoryId, description, icon, color,
   "heroImage": heroImage.asset->url,
   stats,
-  seo,
+  ${localizedSeoObject},
   "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
     _id, title, "slug": slug.current, description, subtitle,
     "heroImage": heroImage.asset->url
@@ -71,7 +72,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current =
     specialties
   },
   linkedServices[]{label, description, path},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
@@ -80,7 +81,7 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
   "heroImage": heroImage.asset->url,
   "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
   values,
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
@@ -89,7 +90,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   address{street, city, zip},
   openingHours[]{days, hours},
   ctaCards[]{icon, title, description, ctaText, ctaAction, ctaLink, variant},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
@@ -205,6 +206,7 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && slug.current == $s
   videoUrl,
   videoCaption,
   "videoThumbnail": videoThumbnail.asset->url,
+  ${localizedSeoObject}
 }`;
 
 export const JOB_LISTINGS_QUERY = `*[_type == "jobListing" && active == true] | order(publishedAt desc){
@@ -247,13 +249,13 @@ export const FAQS_BY_CATEGORY_QUERY = `*[_type == "faq" && category == $category
 export const FAQS_BY_TREATMENT_CATEGORY_QUERY = `*[_type == "faq" && relatedTreatmentCategory->slug.current == $slug] | order(sortOrder asc) { question, answer }`;
 
 export const THEME_PAGE_QUERY = `*[_type == "themePage" && slug.current == $slug][0]{
-  title,
+  "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   "heroImage": heroImage.asset->url,
   introTexts,
   sections[]{heading, paragraphs, bulletPoints},
   lifePhases[]{title, text},
   ctaText, ctaLink,
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{

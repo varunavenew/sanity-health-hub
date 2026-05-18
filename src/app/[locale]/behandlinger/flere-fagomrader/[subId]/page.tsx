@@ -1,7 +1,9 @@
-'use client'
+import type { Metadata } from "next";
+import TreatmentPage from "@/site-pages/treatments/TreatmentPage";
+import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
 
-import TreatmentPage from '@/site-pages/treatments/TreatmentPage'
+export const generateMetadata = createBehandlingerTreatmentMetadata("flere-fagomrader");
 
 export default function Page() {
-  return <TreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />
+  return <TreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />;
 }
