@@ -490,6 +490,12 @@ const REGISTRY: Record<string, (s: Section) => JSX.Element | null> = {
   sectionProcess: ProcessBlock,
   sectionAccordionContent: AccordionContentBlock,
   sectionLinkedServices: LinkedServicesBlock,
+  sectionImageGallery: ImageGalleryBlock,
+  sectionTrustBadges: TrustBadgesBlock,
+  sectionSpecialists: SpecialistsBlock,
+  sectionReviews: ReviewsBlock,
+  sectionPriceTeaser: PriceTeaserBlock,
+  sectionRelatedThemes: RelatedThemesBlock,
   // Sections without a renderer yet are silently skipped — frontend can extend.
 };
 
