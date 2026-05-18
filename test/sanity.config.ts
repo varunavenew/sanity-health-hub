@@ -48,7 +48,7 @@ function resolvePreviewUrl(schemaType: string, slug?: string) {
 // Default document node with preview pane for content types
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
-    'article', 'treatment', 'treatmentCategory', 'specialist',
+    'article', 'newsItem', 'treatment', 'treatmentCategory', 'specialist',
     'themePage', 'homepage', 'aboutPage', 'contactPage',
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
   ]
