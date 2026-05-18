@@ -1,6 +1,7 @@
 // Schema: Treatment Category
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
 import { CategoryIcon } from './icons'
+import { allowedSectionsForCategory } from './sections'
 
 const pickNo = (v: any) =>
   Array.isArray(v)
