@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo } from "react";
 import { useParams, Link } from "@/lib/router";
 import { ArrowLeft, Calendar } from "lucide-react";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useParams } from "@/lib/router";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";

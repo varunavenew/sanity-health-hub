@@ -1,7 +1,9 @@
-'use client'
+import type { Metadata } from "next";
+import OrtopediPage from "@/site-pages/treatments/OrtopediPage";
+import { createBehandlingerCategoryMetadata } from "@/lib/seo/behandlinger-metadata";
 
-import OrtopediPage from '@/site-pages/treatments/OrtopediPage'
+export const generateMetadata = createBehandlingerCategoryMetadata("ortopedi");
 
 export default function Page() {
-  return <OrtopediPage isChatOpen={false} />
+  return <OrtopediPage isChatOpen={false} />;
 }
