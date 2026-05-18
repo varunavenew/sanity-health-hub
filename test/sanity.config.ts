@@ -25,6 +25,7 @@ const PREVIEW_BASE_URL =
 function resolvePreviewUrl(schemaType: string, slug?: string) {
   const routes: Record<string, string> = {
     article: '/aktuelt/',
+    newsItem: '/aktuelt/',
     treatment: '/behandlinger/',
     treatmentCategory: '/tjenester/',
     specialist: '/spesialister/',
