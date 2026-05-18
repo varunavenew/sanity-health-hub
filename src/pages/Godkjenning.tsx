@@ -387,7 +387,17 @@ const Godkjenning = () => {
             onNew={() => setDialogPage({ path: GENERAL_PATH, name: "Generelt", category: "Generelt" } as SitePage)}
           />
         ) : tab === "maler" ? (
-          <MasterTemplatesPanel />
+          <MasterTemplatesPanel
+            rows={rows}
+            requestCountByPath={requestCountByPath}
+            onSetStatus={(key, label, status) =>
+              updateRow({ path: malPath(key), name: `Mal: ${label}`, category: "Maler" } as SitePage, { status })
+            }
+            onRequestChanges={(key, label) =>
+              openRequestDialog({ path: malPath(key), name: `Mal: ${label}`, category: "Maler" } as SitePage)
+            }
+            onJumpToInbox={() => setTab("innboks")}
+          />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
