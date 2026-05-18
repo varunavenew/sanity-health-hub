@@ -1,76 +1,76 @@
 // Centralized Sanity GROQ queries
 
 export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
-  title, tagline,
+  title, title_en, tagline, tagline_en,
   heroBanner{
-    slides[]{heading, subheading, ctaText, ctaLink, "image": image.asset->url}
+    slides[]{heading, heading_en, subheading, subheading_en, ctaText, ctaText_en, ctaLink, "image": image.asset->url}
   },
-  "serviceCategories": serviceCategories[]->{ _id, title, "slug": slug.current, description, icon, color, "heroImage": heroImage.asset->url },
-  valueBadges[]{icon, label},
-  statsBar[]{value, label},
-  promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
+  "serviceCategories": serviceCategories[]->{ _id, title, title_en, "slug": slug.current, description, description_en, icon, color, "heroImage": heroImage.asset->url },
+  valueBadges[]{icon, label, label_en},
+  statsBar[]{value, label, label_en},
+  promoBlocks[]{title, title_en, description, description_en, ctaText, ctaText_en, ctaLink, "image": image.asset->url},
   seo
 }`;
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist"] | order(name asc){
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  _id, name, role, role_en, subtitle, subtitle_en, specialties, specialties_en, shortBio, shortBio_en, education, languages, bookingEnabled,
   "clinics": clinics[]->title,
   "slug": slug.current,
   "image": photo.asset->url,
-  "categories": categories[]->{ _id, title, "slug": slug.current }
+  "categories": categories[]->{ _id, title, title_en, "slug": slug.current }
 }`;
 
 export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && slug.current == $slug][0]{
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  _id, name, role, role_en, subtitle, subtitle_en, specialties, specialties_en, shortBio, shortBio_en, education, languages, bookingEnabled,
   "clinics": clinics[]->title,
   "slug": slug.current,
   "image": photo.asset->url,
-  "categories": categories[]->{ _id, title, "slug": slug.current }
+  "categories": categories[]->{ _id, title, title_en, "slug": slug.current }
 }`;
 
 export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_createdAt desc){
-  _id, author, rating, text, date
+  _id, author, rating, text, text_en, date
 }`;
 
 export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][0]{
-  heading, subheading, googleAverageRating, legelistenAverageRating, ctaTitle, ctaSubtitle
+  heading, heading_en, subheading, subheading_en, googleAverageRating, legelistenAverageRating, ctaTitle, ctaTitle_en, ctaSubtitle, ctaSubtitle_en
 }`;
 
 export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"] | order(title asc){
-  _id, title, "slug": slug.current, categoryId, description, icon, color,
+  _id, title, title_en, "slug": slug.current, categoryId, description, description_en, icon, color,
   "heroImage": heroImage.asset->url,
   stats,
   "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
-    _id, title, "slug": slug.current, description, "heroImage": heroImage.asset->url
+    _id, title, title_en, "slug": slug.current, description, description_en, "heroImage": heroImage.asset->url
   }
 }`;
 
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (slug.current == $slug || categoryId == $slug)][0]{
-  _id, title, "slug": slug.current, categoryId, description, icon, color,
+  _id, title, title_en, "slug": slug.current, categoryId, description, description_en, icon, color,
   "heroImage": heroImage.asset->url,
   stats,
   seo,
   "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
-    _id, title, "slug": slug.current, description, subtitle,
+    _id, title, title_en, "slug": slug.current, description, description_en, subtitle, subtitle_en,
     "heroImage": heroImage.asset->url
   }
 }`;
 
 export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current == $treatmentSlug && (category->slug.current == $categorySlug || category->categoryId == $categorySlug)][0]{
-  _id, title, subtitle, description, benefits, benefitsTitle,
+  _id, title, title_en, subtitle, subtitle_en, description, description_en, benefits, benefits_en, benefitsTitle, benefitsTitle_en,
   "heroImage": heroImage.asset->url,
   "parentCategory": category->title,
   "parentSlug": category->slug.current,
-  parentCategoryLabel,
-  process[]{title, description},
-  faqs[]{question, answer},
-  sections[]{id, heading, content},
+  parentCategoryLabel, parentCategoryLabel_en,
+  process[]{title, title_en, description, description_en},
+  faqs[]{question, question_en, answer, answer_en},
+  sections[]{id, heading, heading_en, content, content_en},
   "relatedSpecialists": relatedSpecialists[]->{
-    _id, name, role, subtitle, "slug": slug.current,
+    _id, name, role, role_en, subtitle, subtitle_en, "slug": slug.current,
     "image": photo.asset->url,
-    specialties
+    specialties, specialties_en
   },
-  linkedServices[]{label, description, path},
+  linkedServices[]{label, label_en, description, description_en, path},
   seo
 }`;
 
