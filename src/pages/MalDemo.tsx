@@ -260,22 +260,49 @@ const TEMPLATES: Record<
   article: {
     title: "Mal: Fagartikkel",
     description:
-      "Mastermal for lengre redaksjonelle artikler med pinning, kategorier og SEO.",
+      "Mastermal for lengre redaksjonelle artikler med pinning, kategorier, fagstoff og SEO. Mer innholdsrik enn forsiden.",
     sections: [
       heroSection(
         "Fagartikkel – komplett mal",
         "Mastermal · Artikkel",
-        "Eksempel på en lengre fagartikkel med rik tekst, FAQ og relaterte tjenester."
+        "Lengre redaksjonell artikkel med ingress, fagstoff, sitater, prosess, fordeler, fakta, FAQ og relaterte tjenester."
       ),
       introSection(
         "Forfatterens ingress",
-        "En lengre ingress som setter scenen for artikkelen og gir leseren grunn til å lese videre."
+        "En lengre ingress som setter scenen for artikkelen, plasserer tema i kontekst, og gir leseren tydelig grunn til å lese videre. Forfatter, dato og kategori vises i toppen."
       ),
-      richTextSection,
-      accordionSection,
+      {
+        ...richTextSection,
+        _key: "rich-1",
+        heading: "Bakgrunn og kontekst",
+      } as Section,
       quoteSection,
+      benefitsSection,
+      {
+        ...richTextSection,
+        _key: "rich-2",
+        heading: "Hva forskningen sier",
+        body:
+          "Nyere studier viser at **tidlig utredning** gir bedre resultater. Vi går gjennom hovedfunnene og hva de betyr i praksis.\n\nDu kan også lese vår [pasientguide](/guide) for praktiske råd.",
+      } as Section,
+      processSection,
+      accordionSection,
+      { ...statsSection, _key: "stats-article", background: "light" } as Section,
+      {
+        ...richTextSection,
+        _key: "rich-3",
+        heading: "Praktiske råd",
+        body:
+          "Konkrete, handlingsrettede råd basert på fagstoffet i artikkelen. Skrevet i et språk som er lett å forstå, men faglig korrekt.",
+      } as Section,
       linkedServicesSection,
       faqSection,
+      {
+        ...quoteSection,
+        _key: "quote-2",
+        quote: "God informasjon er halve behandlingen. Når pasienten forstår, blir oppfølgingen tryggere.",
+        source: "Spesialist hos CMedical",
+      } as Section,
       ctaSection,
     ],
   },
