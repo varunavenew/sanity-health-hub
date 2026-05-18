@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 
 import Fertility from "./treatments/Fertility";
 import KvinnehelsePage from "./themes/KvinnehelsePage";
-import FertilitetSubPage from "./treatments/FertilitetSubPage";
+import GynekologiSubPage from "./treatments/GynekologiSubPage";
 import ArticlePage from "./ArticlePage";
 
 /**
@@ -39,11 +39,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     render: () => <KvinnehelsePage isChatOpen={false} />,
   },
   treatment: {
-    title: "Mal: Underbehandling – Fertilitetssjekk",
+    title: "Mal: Underbehandling – Overgangsalder",
     description:
-      "Mastermal for enkeltbehandlinger under et fagområde. Bruker fertilitetssjekk slik den ligger publisert.",
-    livePath: "/behandlinger/fertilitet/fertilitetssjekk",
-    render: () => <FertilitetSubPage isChatOpen={false} />,
+      "Mastermal for enkeltbehandlinger under et fagområde. Bruker overgangsalder-siden, som har alle seksjonene (hero, forløp, symptomer, løfter, relaterte, CTA) en underbehandling kan trenge.",
+    livePath: "/behandlinger/gynekologi/overgangsalder",
+    render: () => (
+      <SubPageWithParams categoryPath="gynekologi" subId="overgangsalder" />
+    ),
   },
   newsItem: {
     title: "Mal: Nyhet / Pasienthistorie",
@@ -71,6 +73,20 @@ function ArticleWithSlug({ slug }: { slug: string }) {
     <MemoryRouter initialEntries={[`/aktuelt/${slug}`]}>
       <Routes>
         <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
+      </Routes>
+    </MemoryRouter>
+  );
+}
+
+/** Render en underbehandling med en forhåndsvalgt subId. */
+function SubPageWithParams({ categoryPath, subId }: { categoryPath: string; subId: string }) {
+  return (
+    <MemoryRouter initialEntries={[`/behandlinger/${categoryPath}/${subId}`]}>
+      <Routes>
+        <Route
+          path="/behandlinger/:categoryId/:subId"
+          element={<GynekologiSubPage isChatOpen={false} />}
+        />
       </Routes>
     </MemoryRouter>
   );
