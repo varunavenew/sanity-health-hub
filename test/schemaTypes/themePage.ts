@@ -1,6 +1,9 @@
 // Schema: Theme Page (e.g. Kvinnehelse, Robotkirurgi, Tverrfaglige)
-// Reusable schema for thematic focus area pages
+// Master template — `sections[]` is the new flexible layout; legacy fields
+// (introTexts, sections-with-paragraphs, lifePhases, ctaText) remain for
+// backward compatibility until migrated.
 import { ThemeIcon } from './icons'
+import { allowedSectionsForTheme } from './sections'
 
 export default {
   name: 'themePage',
