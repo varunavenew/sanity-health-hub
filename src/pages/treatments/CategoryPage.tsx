@@ -13,6 +13,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getServiceIcon } from "./categoryPageContent";
 
 // Static fallback images
@@ -352,6 +353,26 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       navigate(service.path);
     }
   };
+
+  const sanitySections = (sanityCategory as any)?.sections;
+  if (Array.isArray(sanitySections) && sanitySections.length > 0) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <PageSEO
+          title={`${category.title} – Spesialistbehandling hos CMedical`}
+          description={(category.description || '').split('\n')[0].slice(0, 155)}
+          canonical={`/${categoryId}`}
+          breadcrumbs={[
+            { name: "Hjem", path: "/" },
+            { name: "Tjenester", path: "/tjenester" },
+            { name: category.title, path: `/${categoryId}` },
+          ]}
+        />
+        <SectionRenderer sections={sanitySections} />
+        <StickyBookingCTA />
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout isChatOpen={isChatOpen}>

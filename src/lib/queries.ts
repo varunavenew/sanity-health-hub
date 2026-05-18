@@ -59,6 +59,13 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   closingBody, closingBody_en,
   closingCta, closingCta_en,
   bookingPath,
+  sections[]{
+    ...,
+    _type, _key,
+    treatmentRefs[]->{ _id, title, "slug": slug.current, "categorySlug": category->slug.current },
+    manualRefs[]->{ _id, name, "slug": slug.current, role, "image": photo.asset->url },
+    themes[]->{ _id, title, "slug": slug.current }
+  },
   seo,
   "treatments": *[_type == "treatment" && references(^._id)] | order(title asc){
     _id, title, title_en, "slug": slug.current, description, description_en, subtitle, subtitle_en,
@@ -81,6 +88,12 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && slug.current =
     specialties, specialties_en
   },
   linkedServices[]{label, label_en, description, description_en, path},
+  sections[]{
+    ...,
+    _type, _key,
+    treatmentRefs[]->{ _id, title, "slug": slug.current, "categorySlug": category->slug.current },
+    manualRefs[]->{ _id, name, "slug": slug.current, role, "image": photo.asset->url }
+  },
   seo
 }`;
 

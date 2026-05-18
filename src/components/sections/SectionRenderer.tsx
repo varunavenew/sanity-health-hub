@@ -1,0 +1,360 @@
+import { lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { getImageUrl } from "@/lib/sanityClient";
+import { getIcon } from "@/lib/icons";
+
+/**
+ * Master template SectionRenderer
+ *
+ * Reads sections[] from a Sanity document (treatmentCategory, treatment, article)
+ * and renders each block in order. Sections with `enabled === false` are skipped.
+ *
+ * Field values are assumed to already be language-normalized (no/en resolved)
+ * by `normalizeI18n` in useSanity.ts — so a `heading` field is a plain string
+ * by the time it reaches a component here.
+ */
+
+type Section = { _type: string; _key?: string; enabled?: boolean; anchorId?: string; [k: string]: any };
+
+const formatInlineMarkdown = (text: string): string =>
+  String(text || "")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline">$1</a>')
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/_(.*?)_/g, "<em>$1</em>");
+
+/* ─────────────────────────  Section components  ───────────────────────── */
+
+const HeroBlock = (s: Section) => (
+  <section id={s.anchorId} className="relative bg-brand-light">
+    {s.image && (
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-30"
+        style={{ backgroundImage: `url(${getImageUrl(s.image)})` }}
+        aria-hidden
+      />
+    )}
+    <div className="container mx-auto px-6 md:px-16 py-16 md:py-24 relative">
+      {s.eyebrow && <p className="text-sm font-light text-muted-foreground mb-4">{s.eyebrow}</p>}
+      {s.heading && <h1 className="text-3xl md:text-5xl font-light text-foreground mb-4">{s.heading}</h1>}
+      {s.subheading && <p className="text-base md:text-lg text-muted-foreground max-w-2xl font-light whitespace-pre-line">{s.subheading}</p>}
+      {s.ctaLabel && s.ctaHref && (
+        <div className="mt-8">
+          <Button asChild><Link to={s.ctaHref}>{s.ctaLabel}</Link></Button>
+        </div>
+      )}
+    </div>
+  </section>
+);
+
+const IntroBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-20 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-6 text-foreground">{s.heading}</h2>}
+      {s.body && (
+        <div
+          className="text-muted-foreground font-light whitespace-pre-line leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(s.body) }}
+        />
+      )}
+    </div>
+  </section>
+);
+
+const StatsBlock = (s: Section) => {
+  const dark = s.background === "dark";
+  return (
+    <section
+      id={s.anchorId}
+      className={`py-12 md:py-16 ${dark ? "bg-brand-dark text-brand-light" : "bg-brand-light text-foreground"}`}
+    >
+      <div className="container mx-auto px-6 md:px-16">
+        {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-10">{s.heading}</h2>}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {(s.items || []).map((item: any, i: number) => (
+            <div key={item._key || i}>
+              <div className="text-3xl md:text-5xl font-light mb-2">{item.value}</div>
+              <div className={`text-sm font-light ${dark ? "text-brand-light/70" : "text-muted-foreground"}`}>
+                {item.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const FaqBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-6 text-foreground">{s.heading}</h2>}
+      {s.intro && <p className="text-muted-foreground font-light mb-8">{s.intro}</p>}
+      <div className="divide-y divide-border border-y border-border">
+        {(s.items || []).map((item: any, i: number) => (
+          <details key={item._key || i} className="group py-5">
+            <summary className="cursor-pointer flex items-center justify-between text-foreground font-normal text-[15px]">
+              {item.question}
+              <span className="ml-4 text-muted-foreground group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p className="mt-3 text-muted-foreground font-light text-sm leading-relaxed whitespace-pre-line">
+              {item.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const CtaBlock = (s: Section) => {
+  const dark = s.background !== "light";
+  return (
+    <section
+      id={s.anchorId}
+      className={`py-16 md:py-24 ${dark ? "bg-brand-dark text-brand-light" : "bg-brand-light text-foreground"}`}
+    >
+      <div className="container mx-auto px-6 md:px-16 max-w-2xl text-center">
+        {s.heading && <h2 className="text-2xl md:text-4xl font-light mb-4">{s.heading}</h2>}
+        {s.body && (
+          <p className={`font-light mb-8 ${dark ? "text-brand-light/80" : "text-muted-foreground"}`}>{s.body}</p>
+        )}
+        {s.ctaLabel && s.ctaHref && (
+          <Button asChild size="lg" variant={dark ? "secondary" : "default"}>
+            <Link to={s.ctaHref}>{s.ctaLabel}</Link>
+          </Button>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const ServicesListBlock = (s: Section) => {
+  const items =
+    (s.treatmentRefs?.length
+      ? s.treatmentRefs.map((t: any) => ({ label: t.title, path: `/behandlinger/${t.categorySlug || ""}/${t.slug}` }))
+      : s.manualItems) || [];
+  return (
+    <section id={s.anchorId} className="py-14 md:py-20 bg-brand-light">
+      <div className="container mx-auto px-6 md:px-16">
+        {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-3 text-foreground">{s.heading}</h2>}
+        {s.intro && <p className="text-muted-foreground font-light max-w-2xl mb-10">{s.intro}</p>}
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3">
+          {items.map((it: any, i: number) => (
+            <li key={i} className="border-b border-border py-3">
+              {it.path ? (
+                <Link to={it.path} className="flex items-center justify-between text-foreground hover:opacity-70 transition">
+                  <span className="font-light">{it.label}</span>
+                  <span aria-hidden>→</span>
+                </Link>
+              ) : (
+                <span className="font-light text-foreground">{it.label}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+};
+
+const ServiceGroupsBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-10 text-foreground">{s.heading}</h2>}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {(s.groups || []).map((g: any, i: number) => (
+          <div key={g._key || i} className="border border-border p-6 rounded-2xl bg-background">
+            <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{g.caption}</p>
+            <h3 className="text-lg font-normal text-foreground mb-4">{g.label}</h3>
+            <ul className="space-y-2">
+              {(g.items || []).map((name: string, j: number) => (
+                <li key={j} className="text-sm font-light text-muted-foreground">{name}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const JourneyBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-mid/10">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-10 text-foreground">{s.heading}</h2>}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {(s.steps || []).map((step: any, i: number) => {
+          const Icon = step.icon ? getIcon(step.icon) : null;
+          return (
+            <div key={step._key || i}>
+              {Icon && <Icon className="w-5 h-5 text-foreground mb-3" strokeWidth={1.5} />}
+              {step.label && <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{step.label}</p>}
+              {step.title && <h3 className="text-lg font-normal text-foreground mb-2">{step.title}</h3>}
+              {step.body && <p className="text-sm font-light text-muted-foreground leading-relaxed">{step.body}</p>}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
+
+const RichTextBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-6">{s.heading}</h2>}
+      {typeof s.body === "string" && (
+        <div
+          className="text-muted-foreground font-light whitespace-pre-line leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(s.body) }}
+        />
+      )}
+    </div>
+  </section>
+);
+
+const BenefitsBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <ul className="space-y-3">
+        {(s.items || []).map((it: string, i: number) => (
+          <li key={i} className="flex gap-3 text-foreground font-light">
+            <span aria-hidden className="text-muted-foreground">✓</span>
+            <span>{it}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+);
+
+const ProcessBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-10 text-foreground">{s.heading}</h2>}
+      <ol className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {(s.steps || []).map((st: any, i: number) => (
+          <li key={i}>
+            <div className="text-xs text-muted-foreground mb-2">Steg {String(i + 1).padStart(2, "0")}</div>
+            <h3 className="text-lg font-normal text-foreground mb-2">{st.title}</h3>
+            <p className="text-sm font-light text-muted-foreground leading-relaxed">{st.description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+);
+
+const AccordionContentBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <div className="divide-y divide-border border-y border-border">
+        {(s.items || []).map((item: any, i: number) => (
+          <details key={item._key || i} id={item.id} className="group py-5">
+            <summary className="cursor-pointer flex items-center justify-between text-foreground font-normal">
+              {item.heading}
+              <span className="ml-4 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <div
+              className="mt-3 text-muted-foreground font-light text-sm leading-relaxed whitespace-pre-line"
+              dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(item.content || "") }}
+            />
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const LinkedServicesBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {(s.items || []).map((it: any, i: number) => (
+          <Link
+            key={i}
+            to={it.path}
+            className="block border border-border rounded-2xl p-6 bg-background hover:border-foreground transition"
+          >
+            <h3 className="text-lg font-normal text-foreground mb-2">{it.label}</h3>
+            <p className="text-sm font-light text-muted-foreground leading-relaxed">{it.description}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const QuoteBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-16 md:py-24 bg-brand-mid/10">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl text-center">
+      <p className="text-2xl md:text-3xl font-light italic text-foreground leading-relaxed">"{s.quote}"</p>
+      {s.source && <p className="mt-6 text-sm text-muted-foreground font-light">— {s.source}</p>}
+    </div>
+  </section>
+);
+
+const VideoBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-4xl">
+      {s.url?.includes("youtube") || s.url?.includes("vimeo") ? (
+        <iframe src={s.url} className="w-full aspect-video rounded-2xl" allowFullScreen />
+      ) : (
+        <video src={s.url} controls poster={getImageUrl(s.thumbnail)} className="w-full rounded-2xl" />
+      )}
+      {s.caption && <p className="mt-4 text-sm text-muted-foreground font-light">{s.caption}</p>}
+    </div>
+  </section>
+);
+
+/* ─────────────────────────  Registry  ───────────────────────── */
+
+const REGISTRY: Record<string, (s: Section) => JSX.Element | null> = {
+  sectionHero: HeroBlock,
+  sectionIntro: IntroBlock,
+  sectionStats: StatsBlock,
+  sectionFaq: FaqBlock,
+  sectionCta: CtaBlock,
+  sectionRichText: RichTextBlock,
+  sectionVideo: VideoBlock,
+  sectionQuote: QuoteBlock,
+  sectionServicesList: ServicesListBlock,
+  sectionServiceGroups: ServiceGroupsBlock,
+  sectionJourney: JourneyBlock,
+  sectionBenefits: BenefitsBlock,
+  sectionProcess: ProcessBlock,
+  sectionAccordionContent: AccordionContentBlock,
+  sectionLinkedServices: LinkedServicesBlock,
+  // Sections without a renderer yet are silently skipped — frontend can extend.
+};
+
+interface Props {
+  sections?: Section[] | null;
+}
+
+export function SectionRenderer({ sections }: Props) {
+  if (!sections || !Array.isArray(sections) || sections.length === 0) return null;
+  return (
+    <>
+      {sections
+        .filter((s) => s && s.enabled !== false)
+        .map((s, i) => {
+          const Cmp = REGISTRY[s._type];
+          if (!Cmp) {
+            if (import.meta.env.DEV) {
+              // eslint-disable-next-line no-console
+              console.warn(`[SectionRenderer] No renderer for _type="${s._type}"`);
+            }
+            return null;
+          }
+          return <Cmp key={s._key || i} {...s} />;
+        })}
+    </>
+  );
+}
+
+export default SectionRenderer;
