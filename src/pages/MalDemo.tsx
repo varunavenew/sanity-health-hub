@@ -16,12 +16,19 @@ import articleFert from "@/assets/articles/fertilitet.png";
 import articleSexolog from "@/assets/articles/sexolog.jpg";
 import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
 
+import spec1 from "@/assets/specialists/ane-gerda-z-eriksson.webp";
+import spec2 from "@/assets/specialists/birgitte-mitlid-mork.jpg";
+import spec3 from "@/assets/specialists/jeanette-follestad.jpg";
+import spec4 from "@/assets/specialists/marian-bale.jpg";
+import spec5 from "@/assets/specialists/tea-berge.jpg";
+import spec6 from "@/assets/specialists/kjersti-margrete-finsrud.jpg";
+
 /**
  * MalDemo – komplette mastermal-sider for kundegodkjenning.
  *
  * Hver mal viser ALLE tilgjengelige seksjonstyper med realistisk innhold,
- * bilder og tekst, slik at kunden kan se det ferdige uttrykket før det
- * tilpasses per faktisk side i Sanity.
+ * bilder og tekst, slik at kunden kan klone malen og slå av/på de
+ * seksjonene de ikke trenger – uten å starte fra et tomt ark.
  */
 
 type Section = { _type: string; _key: string; enabled?: boolean; [k: string]: any };
@@ -58,6 +65,92 @@ const faqGyn: Section = {
     { _key: "f4", question: "Kan jeg få sykmelding?", answer: "Ja, vi skriver sykmelding når det er medisinsk begrunnet, etter nasjonale retningslinjer." },
   ],
 };
+
+/* ───────── Ekstra seksjonsbibliotek – brukes i alle maler ───────── */
+
+const trustBadges = (heading = "Trygt og kvalitetssikret"): Section => ({
+  _type: "sectionTrustBadges",
+  _key: "trust",
+  heading,
+  items: [
+    { label: "Godkjent av Helsetilsynet", icon: "shield" },
+    { label: "Dekkes av helseforsikring", icon: "fileCheck" },
+    { label: "4.9 på 2000+ vurderinger", icon: "star" },
+    { label: "Ofte time samme uke", icon: "clock" },
+  ],
+});
+
+const videoSection = (caption: string, thumbnail: any): Section => ({
+  _type: "sectionVideo",
+  _key: "video",
+  thumbnail,
+  caption,
+});
+
+const imageGallery = (heading: string, images: { image: any; caption: string }[]): Section => ({
+  _type: "sectionImageGallery",
+  _key: "gallery",
+  heading,
+  images,
+});
+
+const specialistsSection = (heading: string): Section => ({
+  _type: "sectionSpecialists",
+  _key: "specialists",
+  heading,
+  intro: "Erfarne spesialister med smalt fagfelt og bred klinisk erfaring.",
+  items: [
+    { name: "Ane Gerda Z. Eriksson", role: "Gynekolog", image: spec1 },
+    { name: "Birgitte Mitlid-Mork", role: "Gynekolog", image: spec2 },
+    { name: "Jeanette Follestad", role: "Fertilitetslege", image: spec3 },
+    { name: "Marian Bale", role: "Spesialsykepleier", image: spec4 },
+    { name: "Tea Berge", role: "Gynekolog", image: spec5 },
+    { name: "Kjersti M. Finsrud", role: "Sexolog", image: spec6 },
+  ],
+});
+
+const reviewsSection = (heading = "Hva pasientene sier"): Section => ({
+  _type: "sectionReviews",
+  _key: "reviews",
+  heading,
+  intro: "Utvalg fra Google-anmeldelser og Legelisten.",
+  items: [
+    { rating: 5, body: "Endelig en lege som lyttet og forklarte alt på en måte jeg forsto. Følte meg helt trygg.", author: "Maria, 34", source: "Google" },
+    { rating: 5, body: "Fikk time samme uke, og oppfølgingen etterpå var upåklagelig. Anbefales på det sterkeste.", author: "Anonym", source: "Legelisten" },
+    { rating: 5, body: "Profesjonelt fra første kontakt. Klinikken er moderne og personalet utrolig hyggelig.", author: "Sofie, 41", source: "Google" },
+  ],
+});
+
+const priceTeaser = (heading = "Hva koster det"): Section => ({
+  _type: "sectionPriceTeaser",
+  _key: "priceTeaser",
+  heading,
+  items: [
+    { label: "Konsultasjon hos spesialist", price: "fra 1 950,-" },
+    { label: "Utvidet undersøkelse", price: "fra 2 800,-" },
+    { label: "Inngrep / behandling", price: "fra 4 500,-" },
+    { label: "Oppfølgingstime", price: "fra 1 250,-" },
+  ],
+  ctaHref: "/priser",
+});
+
+const relatedThemes = (heading = "Utforsk relaterte tema"): Section => ({
+  _type: "sectionRelatedThemes",
+  _key: "relatedThemes",
+  heading,
+  items: [
+    { label: "Kvinnehelse", description: "Et samlet tilbud gjennom hele livet.", path: "/kvinnehelse", image: kvinnehelseHero },
+    { label: "Robotkirurgi", description: "Skånsom presisjonskirurgi.", path: "/robotkirurgi", image: robotkirurgiHero },
+    { label: "Tverrfaglig", description: "Flere spesialister – samme forløp.", path: "/tverrfaglige", image: tverrfagligTeam },
+  ],
+});
+
+const richIntro = (key: string, heading: string, body: string): Section => ({
+  _type: "sectionRichText",
+  _key: key,
+  heading,
+  body,
+});
 
 /* ───────── Mal-definisjoner med realistisk innhold ───────── */
 
