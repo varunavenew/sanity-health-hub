@@ -232,7 +232,7 @@ export default defineConfig({
   document: {
     actions: (prev, context) => {
       const i18nTypes = new Set([
-        'article', 'aboutPage', 'treatment', 'treatmentCategory',
+        'article', 'newsItem', 'aboutPage', 'treatment', 'treatmentCategory',
         'homepage', 'contactPage', 'clinicPage', 'servicesPage',
         'insurancePage', 'themePage', 'pricingPage', 'specialistsPage',
         'specialist',
