@@ -26,6 +26,7 @@ import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
 import testimonial from './testimonial'
+import uiTranslations from './uiTranslations'
 
 import { allSectionTypes } from './sections'
 
@@ -62,6 +63,7 @@ export const schemaTypes = [
   blockContent,
   seo,
   siteSettings,
+  uiTranslations,
 
   // Polymorphic section objects (used by sections[] arrays)
   ...allSectionTypes,

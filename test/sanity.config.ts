@@ -71,7 +71,7 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ])
 }
 
-const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial', 'googleReview', 'googleReviewSettings']
+const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial', 'googleReview', 'googleReviewSettings', 'uiTranslations']
 
 export default defineConfig({
   name: 'default',
@@ -201,10 +201,19 @@ export default defineConfig({
               ])
           )
 
+        const uiTranslationsItem = S.listItem()
+          .title('🌐 UI-tekster')
+          .child(
+            S.document()
+              .schemaType('uiTranslations')
+              .documentId('uiTranslations')
+          )
+
         return S.list()
           .title('Content')
           .items([
             masterTemplatesItem,
+            uiTranslationsItem,
             S.divider(),
             ...otherItems.slice(0, mid),
             specialistsItem,
