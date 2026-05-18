@@ -1,12 +1,43 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
 import { toast } from "@/hooks/use-toast";
 import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
+
+// Base URL til Sanity Studio. Oppdater når studio publiseres til en fast URL.
+const STUDIO_BASE_URL = "http://localhost:3333";
+
+const MASTER_TEMPLATES: { title: string; description: string; schemaType: string }[] = [
+  {
+    title: "Fagområder",
+    description: "Hovedkategorier som Kvinnehelse, Hud, Ortopedi. Bygges fritt med seksjoner (hero, tekst, kort, FAQ, m.m.).",
+    schemaType: "treatmentCategory",
+  },
+  {
+    title: "Temasider",
+    description: "Tverrgående temasider (f.eks. Robotkirurgi, Fastlegeveiledning) med fleksibel seksjonsoppbygging.",
+    schemaType: "themePage",
+  },
+  {
+    title: "Underbehandlinger",
+    description: "Enkeltbehandlinger under et fagområde (f.eks. Fertilitetssjekk under Fertilitet). Symptomer og kirurgi vises utenfor accordions.",
+    schemaType: "treatment",
+  },
+  {
+    title: "Nyheter",
+    description: "Korte nyhetsoppslag som vises i Aktuelt-feeden. Sorteres etter publiseringsdato.",
+    schemaType: "newsItem",
+  },
+  {
+    title: "Fagartikler / Aktuelt",
+    description: "Lengre redaksjonelle artikler. Støtter pinning, kategorier og fullstendig SEO-felt.",
+    schemaType: "article",
+  },
+];
 
 type Status = "godkjent" | "avventer" | "endringer";
 
