@@ -829,8 +829,8 @@ export const sectionArticleFeed = {
       title: 'Manuelle artikler / nyheter',
       type: 'array',
       of: [
-        { type: 'reference', to: [{ type: 'article' }] },
-        { type: 'reference', to: [{ type: 'newsItem' }] },
+        { type: 'reference', name: 'articleRef', to: [{ type: 'article' }] },
+        { type: 'reference', name: 'newsItemRef', to: [{ type: 'newsItem' }] },
       ],
     },
   ],

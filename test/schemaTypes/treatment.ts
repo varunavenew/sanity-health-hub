@@ -44,7 +44,7 @@ export default {
       description: 'F.eks. "Gynekologi" — vises som breadcrumb',
     },
     {
-      name: 'sections',
+      name: 'pageSections',
       title: 'Sideoppbygging (mastermal)',
       description:
         'Bygg siden av seksjoner. Slå av/på, sorter med dra-og-slipp, eller legg til nye fra biblioteket.',
