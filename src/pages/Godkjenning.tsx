@@ -8,9 +8,8 @@ import { toast } from "@/hooks/use-toast";
 import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
 
-// Mastermaler vises som live eksempelsider for kundegodkjenning.
-// Pseudo-path (__mal_*__) brukes for å lagre status/kommentarer per mal
-// i samme tabell som vanlige sider.
+// Mastermaler vises som komplette demo-sider med ALLE seksjonstyper samlet,
+// slik at kunden kan godkjenne hele malen før innholdet tilpasses per side.
 const MASTER_TEMPLATES: {
   key: string;
   title: string;
@@ -21,37 +20,37 @@ const MASTER_TEMPLATES: {
   {
     key: "treatmentCategory",
     title: "Fagområde",
-    description: "Hovedkategori som Gynekologi, Fertilitet, Urologi. Hero, intro, symptomer, behandlinger, spesialister, FAQ.",
-    examplePath: "/gynekologi",
-    exampleLabel: "Gynekologi",
+    description: "Hovedkategori (Gynekologi, Fertilitet, Urologi). Komplett mal med hero, intro, stats, tjenester, prosess, accordion, FAQ og CTA.",
+    examplePath: "/maler/treatmentCategory",
+    exampleLabel: "Åpne komplett mal",
   },
   {
     key: "themePage",
     title: "Temaside",
-    description: "Tverrgående tema (Kvinnehelse, Robotkirurgi). Fleksibel seksjonsoppbygging.",
-    examplePath: "/kvinnehelse",
-    exampleLabel: "Kvinnehelse",
+    description: "Tverrgående tema (Kvinnehelse, Robotkirurgi). Fleksibel seksjonsoppbygging med rik tekst, lenker, stats og CTA.",
+    examplePath: "/maler/themePage",
+    exampleLabel: "Åpne komplett mal",
   },
   {
     key: "treatment",
     title: "Underbehandling",
-    description: "Enkeltbehandling under et fagområde. Symptomer og kirurgi vises utenfor accordions.",
-    examplePath: "/behandlinger/fertilitet/fertilitetssjekk",
-    exampleLabel: "Fertilitetssjekk",
+    description: "Enkeltbehandling under et fagområde. Fordeler, prosess, pasientreise, accordion, FAQ og CTA.",
+    examplePath: "/maler/treatment",
+    exampleLabel: "Åpne komplett mal",
   },
   {
     key: "newsItem",
-    title: "Nyhet / Aktuelt-feed",
-    description: "Korte nyhetsoppslag listet i Aktuelt-feeden, sortert på publiseringsdato.",
-    examplePath: "/aktuelt",
-    exampleLabel: "Aktuelt",
+    title: "Nyhet / Aktuelt",
+    description: "Kort nyhetsoppslag med ingress, brødtekst, sitat og CTA. Vises også i Aktuelt-feeden.",
+    examplePath: "/maler/newsItem",
+    exampleLabel: "Åpne komplett mal",
   },
   {
     key: "article",
     title: "Fagartikkel",
-    description: "Lengre redaksjonell artikkel med pinning, kategorier og fullstendig SEO. Åpne en artikkel fra Aktuelt-listen.",
-    examplePath: "/aktuelt",
-    exampleLabel: "Aktuelt → velg artikkel",
+    description: "Lengre redaksjonell artikkel med rik tekst, accordion, relaterte tjenester og FAQ.",
+    examplePath: "/maler/article",
+    exampleLabel: "Åpne komplett mal",
   },
 ];
 
