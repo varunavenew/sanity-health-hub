@@ -95,6 +95,94 @@ export default {
         },
       ],
     },
+    // ─── Statisk innhold migrert fra src/pages/treatments/categoryPageContent.ts ───
+    {
+      name: 'subtitle',
+      title: 'Undertittel (eyebrow)',
+      type: 'string',
+      description: 'Kort tagline som "Ingen ventetid • Ingen henvisning"',
+    },
+    {
+      name: 'servicesHeading',
+      title: 'Overskrift for tjeneste-seksjon',
+      type: 'string',
+    },
+    {
+      name: 'servicesIntro',
+      title: 'Introtekst for tjeneste-seksjon',
+      type: 'text',
+      rows: 3,
+    },
+    {
+      name: 'serviceGroups',
+      title: 'Tjeneste-grupper (tematisk gruppering)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'label', title: 'Gruppe-etikett', type: 'string' },
+            { name: 'caption', title: 'Underlinje (valgfritt)', type: 'string' },
+            { name: 'serviceNames', title: 'Tjeneste-navn', type: 'array', of: [{ type: 'string' }] },
+          ],
+          preview: { select: { title: 'label' } },
+        },
+      ],
+    },
+    {
+      name: 'journey',
+      title: 'Pasient-reise (steg)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'icon', title: 'Lucide-ikon', type: 'string' },
+            { name: 'label', title: 'Steg-etikett (f.eks. "Steg 01")', type: 'string' },
+            { name: 'title', title: 'Tittel', type: 'string' },
+            { name: 'body', title: 'Beskrivelse', type: 'text', rows: 3 },
+          ],
+          preview: { select: { title: 'title', subtitle: 'label' } },
+        },
+      ],
+    },
+    {
+      name: 'staticFaqs',
+      title: 'FAQ (per kategori)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'question', title: 'Spørsmål', type: 'string' },
+            { name: 'answer', title: 'Svar', type: 'text', rows: 4 },
+          ],
+          preview: { select: { title: 'question' } },
+        },
+      ],
+    },
+    {
+      name: 'closingTitle',
+      title: 'Avsluttende CTA – tittel',
+      type: 'string',
+    },
+    {
+      name: 'closingBody',
+      title: 'Avsluttende CTA – tekst',
+      type: 'text',
+      rows: 3,
+    },
+    {
+      name: 'closingCta',
+      title: 'Avsluttende CTA – knappetekst',
+      type: 'string',
+    },
+    {
+      name: 'bookingPath',
+      title: 'Booking-lenke',
+      type: 'string',
+      description: 'F.eks. "/booking?kategori=gynekologi"',
+    },
     {
       name: 'sortOrder',
       title: 'Sorteringsrekkefølge',
