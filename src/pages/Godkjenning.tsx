@@ -368,6 +368,8 @@ const Godkjenning = () => {
             reviewer={reviewer}
             onNew={() => setDialogPage({ path: GENERAL_PATH, name: "Generelt", category: "Generelt" } as SitePage)}
           />
+        ) : tab === "maler" ? (
+          <MasterTemplatesPanel />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
