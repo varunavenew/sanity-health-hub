@@ -321,12 +321,153 @@ const QuoteBlock = (s: Section) => (
 const VideoBlock = (s: Section) => (
   <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
     <div className="container mx-auto px-6 md:px-16 max-w-4xl">
-      {s.url?.includes("youtube") || s.url?.includes("vimeo") ? (
+      {s.url && (s.url.includes("youtube") || s.url.includes("vimeo")) ? (
         <iframe src={s.url} className="w-full aspect-video rounded-2xl" allowFullScreen />
-      ) : (
+      ) : s.url ? (
         <video src={s.url} controls poster={getImageUrl(s.thumbnail)} className="w-full rounded-2xl" />
-      )}
+      ) : s.thumbnail ? (
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-brand-dark">
+          <img src={getImageUrl(s.thumbnail)} alt={s.caption || ""} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-brand-light/90 flex items-center justify-center">
+              <span className="ml-1 text-foreground">▶</span>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {s.caption && <p className="mt-4 text-sm text-muted-foreground font-light">{s.caption}</p>}
+    </div>
+  </section>
+);
+
+const ImageGalleryBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {(s.images || []).map((it: any, i: number) => (
+          <figure key={i} className="space-y-2">
+            <div className="aspect-[4/3] overflow-hidden rounded-xl bg-brand-mid/10">
+              <img src={getImageUrl(it.image)} alt={it.caption || ""} className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            {it.caption && <figcaption className="text-xs text-muted-foreground font-light">{it.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const TrustBadgesBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-12 md:py-16 bg-brand-light border-y border-border">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-xl md:text-2xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {(s.items || []).map((it: any, i: number) => {
+          const Icon = it.icon ? getIcon(it.icon) : null;
+          return (
+            <div key={i} className="flex items-center gap-3">
+              {Icon && <Icon className="w-5 h-5 text-foreground shrink-0" strokeWidth={1.5} />}
+              <span className="text-sm font-light text-foreground">{it.label}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
+
+const SpecialistsBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-3 text-foreground">{s.heading}</h2>}
+      {s.intro && <p className="text-muted-foreground font-light max-w-2xl mb-10">{s.intro}</p>}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {(s.items || []).map((sp: any, i: number) => (
+          <div key={i} className="space-y-3">
+            <div className="aspect-[3/4] overflow-hidden rounded-xl bg-brand-mid/10">
+              {sp.image ? (
+                <img src={getImageUrl(sp.image)} alt={sp.name} className="w-full h-full object-cover" loading="lazy" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">Portrett</div>
+              )}
+            </div>
+            <div>
+              <p className="text-foreground font-normal text-sm">{sp.name}</p>
+              <p className="text-xs text-muted-foreground font-light">{sp.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const ReviewsBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-mid/10">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-3 text-foreground">{s.heading}</h2>}
+      {s.intro && <p className="text-muted-foreground font-light max-w-2xl mb-10">{s.intro}</p>}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {(s.items || []).map((r: any, i: number) => (
+          <article key={i} className="bg-background border border-border rounded-2xl p-6">
+            <div className="text-foreground text-sm mb-3">{"★".repeat(r.rating || 5)}</div>
+            <p className="text-sm font-light text-foreground leading-relaxed mb-4">"{r.body}"</p>
+            <p className="text-xs text-muted-foreground font-light">— {r.author} · {r.source || "Google"}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const PriceTeaserBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <ul className="divide-y divide-border border-y border-border">
+        {(s.items || []).map((it: any, i: number) => (
+          <li key={i} className="flex items-baseline justify-between py-4">
+            <span className="font-light text-foreground">{it.label}</span>
+            <span className="text-sm text-muted-foreground font-light">{it.price}</span>
+          </li>
+        ))}
+      </ul>
+      {s.ctaHref && (
+        <div className="mt-8">
+          <Button asChild variant="outline">
+            <Link to={s.ctaHref}>Se full prisliste</Link>
+          </Button>
+        </div>
+      )}
+    </div>
+  </section>
+);
+
+const RelatedThemesBlock = (s: Section) => (
+  <section id={s.anchorId} className="py-14 md:py-20 bg-brand-light">
+    <div className="container mx-auto px-6 md:px-16">
+      {s.heading && <h2 className="text-2xl md:text-3xl font-light mb-8 text-foreground">{s.heading}</h2>}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {(s.items || []).map((it: any, i: number) => (
+          <Link
+            key={i}
+            to={it.path}
+            className="block group rounded-2xl overflow-hidden border border-border bg-background hover:border-foreground transition"
+          >
+            {it.image && (
+              <div className="aspect-[16/10] overflow-hidden">
+                <img src={getImageUrl(it.image)} alt={it.label} className="w-full h-full object-cover group-hover:scale-[1.02] transition" loading="lazy" />
+              </div>
+            )}
+            <div className="p-5">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Tema</p>
+              <h3 className="text-lg font-normal text-foreground">{it.label}</h3>
+              {it.description && <p className="text-sm font-light text-muted-foreground mt-2 leading-relaxed">{it.description}</p>}
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   </section>
 );
