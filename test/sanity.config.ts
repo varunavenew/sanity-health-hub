@@ -25,6 +25,7 @@ const PREVIEW_BASE_URL =
 function resolvePreviewUrl(schemaType: string, slug?: string) {
   const routes: Record<string, string> = {
     article: '/aktuelt/',
+    newsItem: '/aktuelt/',
     treatment: '/behandlinger/',
     treatmentCategory: '/tjenester/',
     specialist: '/spesialister/',
@@ -47,7 +48,7 @@ function resolvePreviewUrl(schemaType: string, slug?: string) {
 // Default document node with preview pane for content types
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
-    'article', 'treatment', 'treatmentCategory', 'specialist',
+    'article', 'newsItem', 'treatment', 'treatmentCategory', 'specialist',
     'themePage', 'homepage', 'aboutPage', 'contactPage',
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
   ]
@@ -83,21 +84,50 @@ export default defineConfig({
     structureTool({
       defaultDocumentNode,
       structure: (S, context) => {
+        // Mastermal-typer som har sections[] (fleksibel oppbygging).
+        // Gruppert øverst slik at redaktør lett ser hvilke maler som finnes.
+        const masterTemplateIds = ['treatmentCategory', 'themePage', 'treatment', 'newsItem', 'article']
+
         const otherItems = S.documentTypeListItems().filter(
-          (item) => !hiddenTypes.includes(item.getId() || '') && item.getId() !== 'article'
+          (item) =>
+            !hiddenTypes.includes(item.getId() || '') &&
+            item.getId() !== 'article' &&
+            !masterTemplateIds.includes(item.getId() || '')
         )
         const mid = Math.floor(otherItems.length / 2)
 
-        // Custom Article list with pinned-first default ordering
         const articleItem = S.listItem()
-          .title('Artikler / Aktuelt')
+          .title('Fagartikler / Aktuelt')
           .schemaType('article')
           .child(
             S.documentTypeList('article')
-              .title('Artikler / Aktuelt')
+              .title('Fagartikler / Aktuelt')
               .defaultOrdering([
                 { field: 'pinned', direction: 'desc' },
                 { field: 'publishedAt', direction: 'desc' },
+              ])
+          )
+
+        const newsItemItem = S.listItem()
+          .title('Nyheter')
+          .schemaType('newsItem')
+          .child(
+            S.documentTypeList('newsItem')
+              .title('Nyheter')
+              .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+          )
+
+        const masterTemplatesItem = S.listItem()
+          .title('📐 Mastermaler')
+          .child(
+            S.list()
+              .title('Mastermaler')
+              .items([
+                S.documentTypeListItem('treatmentCategory').title('Fagområder'),
+                S.documentTypeListItem('themePage').title('Temasider'),
+                S.documentTypeListItem('treatment').title('Underbehandlinger'),
+                newsItemItem,
+                articleItem,
               ])
           )
 
@@ -174,8 +204,9 @@ export default defineConfig({
         return S.list()
           .title('Content')
           .items([
+            masterTemplatesItem,
+            S.divider(),
             ...otherItems.slice(0, mid),
-            articleItem,
             specialistsItem,
             priserItem,
             googleReviewsItem,
@@ -201,7 +232,7 @@ export default defineConfig({
   document: {
     actions: (prev, context) => {
       const i18nTypes = new Set([
-        'article', 'aboutPage', 'treatment', 'treatmentCategory',
+        'article', 'newsItem', 'aboutPage', 'treatment', 'treatmentCategory',
         'homepage', 'contactPage', 'clinicPage', 'servicesPage',
         'insurancePage', 'themePage', 'pricingPage', 'specialistsPage',
         'specialist',

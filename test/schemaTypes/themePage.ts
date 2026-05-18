@@ -1,6 +1,9 @@
 // Schema: Theme Page (e.g. Kvinnehelse, Robotkirurgi, Tverrfaglige)
-// Reusable schema for thematic focus area pages
+// Master template — `sections[]` is the new flexible layout; legacy fields
+// (introTexts, sections-with-paragraphs, lifePhases, ctaText) remain for
+// backward compatibility until migrated.
 import { ThemeIcon } from './icons'
+import { allowedSectionsForTheme } from './sections'
 
 export default {
   name: 'themePage',
@@ -40,8 +43,18 @@ export default {
       of: [{ type: 'internationalizedArrayText' }],
     },
     {
+      name: 'pageSections',
+      title: 'Sideoppbygging (mastermal)',
+      description:
+        'Bygg siden av seksjoner. Slå av/på, sorter med dra-og-slipp, eller legg til nye fra biblioteket. Erstatter etter hvert "Introduksjonstekster", "Innholdsseksjoner" og "Livsfaser".',
+      type: 'array',
+      of: allowedSectionsForTheme.map((t) => ({ type: t })),
+      options: { sortable: true },
+    },
+    {
       name: 'sections',
-      title: 'Innholdsseksjoner',
+      title: 'Innholdsseksjoner (legacy)',
+      description: 'Beholdes for bakoverkompatibilitet — bruk "Sideoppbygging" for nytt innhold.',
       type: 'array',
       of: [
         {

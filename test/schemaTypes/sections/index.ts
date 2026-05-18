@@ -764,6 +764,106 @@ export const sectionJobApplication = {
   preview: previewWithToggle('heading', 'Stillingssøknad'),
 }
 
+/* ────────────── Tema-spesifikke seksjoner ────────────── */
+
+export const sectionCategoryLinks = {
+  name: 'sectionCategoryLinks',
+  title: 'Seksjon: Lenker til fagområder',
+  type: 'object',
+  fields: [
+    ...baseFields,
+    { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+    { name: 'intro', title: 'Intro', type: 'internationalizedArrayText' },
+    {
+      name: 'categoryRefs',
+      title: 'Fagområder',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'treatmentCategory' }] }],
+    },
+  ],
+  preview: previewWithToggle('heading', 'Lenker til fagområder'),
+}
+
+export const sectionTreatmentHighlights = {
+  name: 'sectionTreatmentHighlights',
+  title: 'Seksjon: Utvalgte behandlinger',
+  type: 'object',
+  fields: [
+    ...baseFields,
+    { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+    { name: 'intro', title: 'Intro', type: 'internationalizedArrayText' },
+    {
+      name: 'treatmentRefs',
+      title: 'Behandlinger',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
+    },
+  ],
+  preview: previewWithToggle('heading', 'Utvalgte behandlinger'),
+}
+
+export const sectionArticleFeed = {
+  name: 'sectionArticleFeed',
+  title: 'Seksjon: Artikkel-feed',
+  type: 'object',
+  fields: [
+    ...baseFields,
+    { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+    {
+      name: 'mode',
+      title: 'Modus',
+      type: 'string',
+      options: { list: ['auto', 'manual'] },
+      initialValue: 'auto',
+    },
+    {
+      name: 'category',
+      title: 'Filtrer på kategori (auto)',
+      type: 'string',
+      options: { list: ['fagartikkel', 'nyheter', 'alle'] },
+      initialValue: 'alle',
+    },
+    { name: 'maxCount', title: 'Maks antall', type: 'number', initialValue: 6 },
+    {
+      name: 'manualRefs',
+      title: 'Manuelle artikler / nyheter',
+      type: 'array',
+      of: [
+        { type: 'reference', to: [{ type: 'article' }] },
+        { type: 'reference', to: [{ type: 'newsItem' }] },
+      ],
+    },
+  ],
+  preview: previewWithToggle('heading', 'Artikkel-feed'),
+}
+
+export const sectionLifePhases = {
+  name: 'sectionLifePhases',
+  title: 'Seksjon: Livsfaser',
+  type: 'object',
+  fields: [
+    ...baseFields,
+    { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+    {
+      name: 'phases',
+      title: 'Faser',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+            { name: 'text', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'icon', title: 'Lucide-ikon', type: 'string' },
+          ],
+          preview: { select: { title: 'title.0.value' } },
+        },
+      ],
+    },
+  ],
+  preview: previewWithToggle('heading', 'Livsfaser'),
+}
+
 /* ────────────── Export bundles ────────────── */
 
 export const allSectionTypes = [
@@ -776,6 +876,7 @@ export const allSectionTypes = [
   sectionClinicLocations, sectionBookingCta, sectionRelatedTreatments,
   sectionArticleHero, sectionArticleBody, sectionAuthorBio, sectionRelatedArticles,
   sectionNewsletterCta, sectionTableOfContents, sectionDownload, sectionJobApplication,
+  sectionCategoryLinks, sectionTreatmentHighlights, sectionArticleFeed, sectionLifePhases,
 ]
 
 // Whitelist of allowed section _types per master template
@@ -785,6 +886,14 @@ export const allowedSectionsForCategory = [
   'sectionPriceTeaser', 'sectionRelatedThemes', 'sectionFaq', 'sectionCta',
   'sectionRichText', 'sectionVideo', 'sectionImageGallery', 'sectionQuote',
   'sectionTrustBadges',
+]
+
+export const allowedSectionsForTheme = [
+  'sectionHero', 'sectionIntro', 'sectionRichText', 'sectionLifePhases',
+  'sectionCategoryLinks', 'sectionTreatmentHighlights', 'sectionSpecialists',
+  'sectionArticleFeed', 'sectionStats', 'sectionReviews', 'sectionJourney',
+  'sectionImageGallery', 'sectionVideo', 'sectionQuote', 'sectionTrustBadges',
+  'sectionFaq', 'sectionCta',
 ]
 
 export const allowedSectionsForTreatment = [
@@ -802,4 +911,10 @@ export const allowedSectionsForArticle = [
   'sectionAuthorBio', 'sectionRelatedArticles', 'sectionRelatedTreatments',
   'sectionDownload', 'sectionJobApplication', 'sectionNewsletterCta',
   'sectionTrustBadges', 'sectionFaq', 'sectionCta',
+]
+
+export const allowedSectionsForNews = [
+  'sectionArticleHero', 'sectionRichText', 'sectionImageGallery', 'sectionVideo',
+  'sectionQuote', 'sectionAuthorBio', 'sectionRelatedArticles', 'sectionCta',
+  'sectionNewsletterCta',
 ]

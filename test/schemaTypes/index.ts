@@ -18,6 +18,7 @@ import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
 
 import article from './article'
+import newsItem from './newsItem'
 import jobListing from './jobListing'
 import privacyPolicyPage from './privacyPolicyPage'
 import faq from './faq'
@@ -49,6 +50,7 @@ export const schemaTypes = [
   googleReview,
   googleReviewSettings,
   article,
+  newsItem,
   jobListing,
   privacyPolicyPage,
   faq,
