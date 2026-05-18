@@ -50,6 +50,7 @@ export const schemaTypes = [
   googleReview,
   googleReviewSettings,
   article,
+  newsItem,
   jobListing,
   privacyPolicyPage,
   faq,
