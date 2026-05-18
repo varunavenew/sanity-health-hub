@@ -354,6 +354,26 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
     }
   };
 
+  const sanitySections = (sanityCategory as any)?.sections;
+  if (Array.isArray(sanitySections) && sanitySections.length > 0) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <PageSEO
+          title={`${category.title} – Spesialistbehandling hos CMedical`}
+          description={(category.description || '').split('\n')[0].slice(0, 155)}
+          canonical={`/${categoryId}`}
+          breadcrumbs={[
+            { name: "Hjem", path: "/" },
+            { name: "Tjenester", path: "/tjenester" },
+            { name: category.title, path: `/${categoryId}` },
+          ]}
+        />
+        <SectionRenderer sections={sanitySections} />
+        <StickyBookingCTA />
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
