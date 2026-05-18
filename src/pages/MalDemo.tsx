@@ -39,11 +39,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     render: () => <KvinnehelsePage isChatOpen={false} />,
   },
   treatment: {
-    title: "Mal: Underbehandling – Fertilitetssjekk",
+    title: "Mal: Underbehandling – Overgangsalder",
     description:
-      "Mastermal for enkeltbehandlinger under et fagområde. Bruker fertilitetssjekk slik den ligger publisert.",
-    livePath: "/behandlinger/fertilitet/fertilitetssjekk",
-    render: () => <FertilitetSubPage isChatOpen={false} />,
+      "Mastermal for enkeltbehandlinger under et fagområde. Bruker overgangsalder-siden, som har alle seksjonene (hero, forløp, symptomer, løfter, relaterte, CTA) en underbehandling kan trenge.",
+    livePath: "/behandlinger/gynekologi/overgangsalder",
+    render: () => (
+      <SubPageWithParams categoryPath="gynekologi" subId="overgangsalder" />
+    ),
   },
   newsItem: {
     title: "Mal: Nyhet / Pasienthistorie",
