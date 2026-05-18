@@ -265,14 +265,17 @@ const TEMPLATES: Record<
       heroSection(
         "Nyhetsoppslag – komplett mal",
         "Mastermal · Aktuelt",
-        "Kort nyhetsoppslag med ingress, brødtekst, sitat og CTA."
+        "Nyhetsoppslag med ingress, brødtekst, fakta, sitat og lenker til relatert innhold."
       ),
       introSection(
         "Ingress",
         "En kort ingress som oppsummerer hovedpoenget i nyheten. Vises både på siden og i Aktuelt-feeden."
       ),
-      richTextSection,
+      { ...richTextSection, _key: "rich-1", heading: "Bakgrunn" } as Section,
       quoteSection,
+      benefitsSection,
+      { ...statsSection, _key: "stats-news", background: "light" } as Section,
+      linkedServicesSection,
       ctaSection,
     ],
   },
