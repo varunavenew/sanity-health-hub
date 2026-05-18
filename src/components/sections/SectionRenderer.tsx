@@ -25,27 +25,47 @@ const formatInlineMarkdown = (text: string): string =>
 
 /* ─────────────────────────  Section components  ───────────────────────── */
 
-const HeroBlock = (s: Section) => (
-  <section id={s.anchorId} className="relative bg-brand-light">
-    {s.image && (
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-30"
-        style={{ backgroundImage: `url(${getImageUrl(s.image)})` }}
-        aria-hidden
-      />
-    )}
-    <div className="container mx-auto px-6 md:px-16 py-16 md:py-24 relative">
-      {s.eyebrow && <p className="text-sm font-light text-muted-foreground mb-4">{s.eyebrow}</p>}
-      {s.heading && <h1 className="text-3xl md:text-5xl font-light text-foreground mb-4">{s.heading}</h1>}
-      {s.subheading && <p className="text-base md:text-lg text-muted-foreground max-w-2xl font-light whitespace-pre-line">{s.subheading}</p>}
-      {s.ctaLabel && s.ctaHref && (
-        <div className="mt-8">
-          <Button asChild><Link to={s.ctaHref}>{s.ctaLabel}</Link></Button>
-        </div>
+const HeroBlock = (s: Section) => {
+  const hasImage = Boolean(s.image);
+  return (
+    <section id={s.anchorId} className={`relative ${hasImage ? "bg-brand-dark text-brand-light" : "bg-brand-light text-foreground"} overflow-hidden`}>
+      {hasImage && (
+        <>
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${getImageUrl(s.image)})` }}
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/85 via-brand-dark/60 to-brand-dark/20" aria-hidden />
+        </>
       )}
-    </div>
-  </section>
-);
+      <div className="container mx-auto px-6 md:px-16 py-24 md:py-36 relative max-w-3xl">
+        {s.eyebrow && (
+          <p className={`text-xs uppercase tracking-wider font-light mb-5 ${hasImage ? "text-brand-light/80" : "text-muted-foreground"}`}>
+            {s.eyebrow}
+          </p>
+        )}
+        {s.heading && (
+          <h1 className={`text-4xl md:text-6xl font-light mb-6 leading-[1.05] ${hasImage ? "text-brand-light" : "text-foreground"}`}>
+            {s.heading}
+          </h1>
+        )}
+        {s.subheading && (
+          <p className={`text-base md:text-lg max-w-2xl font-light leading-relaxed whitespace-pre-line ${hasImage ? "text-brand-light/85" : "text-muted-foreground"}`}>
+            {s.subheading}
+          </p>
+        )}
+        {s.ctaLabel && s.ctaHref && (
+          <div className="mt-10">
+            <Button asChild size="lg" variant={hasImage ? "secondary" : "default"}>
+              <Link to={s.ctaHref}>{s.ctaLabel}</Link>
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
 
 const IntroBlock = (s: Section) => (
   <section id={s.anchorId} className="py-12 md:py-20 bg-brand-light">
