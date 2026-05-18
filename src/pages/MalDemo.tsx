@@ -3,329 +3,581 @@ import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
+import gynekologiHero from "@/assets/categories/gynekologi.jpg";
+import gynekologiReal from "@/assets/categories/gynekologi-real.jpg";
+import fertilitetReal from "@/assets/categories/fertilitet-real.jpg";
+import flereReal from "@/assets/categories/flere-fagomrader.jpg";
+import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
+import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
+import gynekologiHero2 from "@/assets/hero/gynecology-hero.jpg";
+import clinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import articleGyn from "@/assets/articles/gynekologi.jpg";
+import articleFert from "@/assets/articles/fertilitet.png";
+import articleSexolog from "@/assets/articles/sexolog.jpg";
+import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
+
 /**
  * MalDemo – komplette mastermal-sider for kundegodkjenning.
  *
- * Hver mal viser ALLE tilgjengelige seksjonstyper samlet på én side,
- * slik at kunden kan godkjenne den fullkomne malen. Innholdet kan
- * tilpasses i ettertid per faktisk side i Sanity.
+ * Hver mal viser ALLE tilgjengelige seksjonstyper med realistisk innhold,
+ * bilder og tekst, slik at kunden kan se det ferdige uttrykket før det
+ * tilpasses per faktisk side i Sanity.
  */
 
 type Section = { _type: string; _key: string; enabled?: boolean; [k: string]: any };
 
-const heroSection = (heading: string, eyebrow: string, subheading: string): Section => ({
-  _type: "sectionHero",
-  _key: "hero",
-  eyebrow,
+/* ───────── Felles seksjoner med realistisk innhold ───────── */
+
+const ctaSection = (heading: string, body: string): Section => ({
+  _type: "sectionCta",
+  _key: "cta",
+  background: "dark",
   heading,
-  subheading,
+  body,
   ctaLabel: "Bestill time",
   ctaHref: "/booking",
 });
 
-const introSection = (heading: string, body: string): Section => ({
-  _type: "sectionIntro",
-  _key: "intro",
+const sharedStats = (heading: string, items: { value: string; label: string }[], background: "dark" | "light" = "dark"): Section => ({
+  _type: "sectionStats",
+  _key: `stats-${heading.slice(0, 6)}`,
+  background,
   heading,
-  body,
+  items: items.map((it, i) => ({ _key: `s${i}`, ...it })),
 });
 
-const statsSection: Section = {
-  _type: "sectionStats",
-  _key: "stats",
-  background: "dark",
-  heading: "Erfaring du kan stole på",
-  items: [
-    { _key: "s1", value: "25+", label: "Års erfaring" },
-    { _key: "s2", value: "40 000", label: "Konsultasjoner årlig" },
-    { _key: "s3", value: "98%", label: "Pasienttilfredshet" },
-    { _key: "s4", value: "5", label: "Klinikker" },
-  ],
-};
-
-const benefitsSection: Section = {
-  _type: "sectionBenefits",
-  _key: "benefits",
-  heading: "Hva du kan forvente",
-  items: [
-    "Kort ventetid – ofte time samme uke",
-    "Erfarne spesialister med tverrfaglig samarbeid",
-    "Moderne utstyr og trygge rammer",
-    "Tydelig oppfølging etter konsultasjon",
-  ],
-};
-
-const processSection: Section = {
-  _type: "sectionProcess",
-  _key: "process",
-  heading: "Slik foregår det",
-  steps: [
-    { title: "Bestill time", description: "Velg klinikk, dag og spesialist online eller på telefon." },
-    { title: "Konsultasjon", description: "Grundig samtale, undersøkelse og plan tilpasset deg." },
-    { title: "Oppfølging", description: "Klar dokumentasjon og videre plan – med tilgang til ditt team." },
-  ],
-};
-
-const journeySection: Section = {
-  _type: "sectionJourney",
-  _key: "journey",
-  heading: "Din vei gjennom oss",
-  steps: [
-    { _key: "j1", icon: "calendar", label: "Steg 01", title: "Booking", body: "Velg det som passer deg." },
-    { _key: "j2", icon: "stethoscope", label: "Steg 02", title: "Utredning", body: "Trygg og grundig kartlegging." },
-    { _key: "j3", icon: "heart", label: "Steg 03", title: "Behandling", body: "Skreddersydd plan og tiltak." },
-    { _key: "j4", icon: "users", label: "Steg 04", title: "Oppfølging", body: "Vi følger deg helt i mål." },
-  ],
-};
-
-const servicesListSection: Section = {
-  _type: "sectionServicesList",
-  _key: "services",
-  heading: "Behandlinger i denne kategorien",
-  intro: "Et utvalg av hva vi tilbyr. Klikk for å lese mer.",
-  manualItems: [
-    { label: "Konsultasjon og undersøkelse", path: "#" },
-    { label: "Utredning og diagnostikk", path: "#" },
-    { label: "Kirurgisk behandling", path: "#" },
-    { label: "Oppfølging og kontroll", path: "#" },
-  ],
-};
-
-const serviceGroupsSection: Section = {
-  _type: "sectionServiceGroups",
-  _key: "groups",
-  heading: "Tjenester gruppert etter tema",
-  groups: [
-    { _key: "g1", caption: "Utredning", label: "Diagnostikk", items: ["Førstegangs konsultasjon", "Bildediagnostikk", "Laboratorieprøver"] },
-    { _key: "g2", caption: "Behandling", label: "Inngrep", items: ["Dagkirurgi", "Robotassistert kirurgi", "Minimal-invasive inngrep"] },
-    { _key: "g3", caption: "Etter", label: "Oppfølging", items: ["Kontroll", "Rehabilitering", "Tverrfaglig team"] },
-  ],
-};
-
-const accordionSection: Section = {
-  _type: "sectionAccordionContent",
-  _key: "accordion",
-  heading: "Detaljert informasjon",
-  items: [
-    { _key: "a1", heading: "Hvordan forberede deg", content: "Møt opp 10 minutter før timen. Ta med legitimasjon og eventuell henvisning." },
-    { _key: "a2", heading: "Hva koster det", content: "Priser finner du på prislisten. Forsikring dekker ofte konsultasjon og inngrep." },
-    { _key: "a3", heading: "Etter behandling", content: "Du får skriftlig oppsummering og plan for videre oppfølging." },
-  ],
-};
-
-const linkedServicesSection: Section = {
-  _type: "sectionLinkedServices",
-  _key: "linked",
-  heading: "Relaterte behandlinger",
-  items: [
-    { label: "Gynekologisk undersøkelse", description: "Trygg, grundig undersøkelse hos erfaren spesialist.", path: "/behandlinger/gynekologi/undersokelse" },
-    { label: "Fertilitetssjekk", description: "Komplett kartlegging av din fruktbarhet.", path: "/behandlinger/fertilitet/fertilitetssjekk" },
-  ],
-};
-
-const quoteSection: Section = {
-  _type: "sectionQuote",
-  _key: "quote",
-  quote: "Jeg følte meg sett og ivaretatt fra første øyeblikk. Klare svar og en plan jeg forsto.",
-  source: "Pasient, 38 år",
-};
-
-const richTextSection: Section = {
-  _type: "sectionRichText",
-  _key: "rich",
-  heading: "Mer om temaet",
-  body:
-    "Vi tror på **trygghet, kompetanse og kontinuitet**. Det betyr at du møter samme team gjennom hele forløpet, og at vi tar oss tid til å forklare.\n\nLes mer i vår [pasientguide](/guide).",
-};
-
-const faqSection: Section = {
+const faqGyn: Section = {
   _type: "sectionFaq",
   _key: "faq",
   heading: "Ofte stilte spørsmål",
-  intro: "Svar på det pasienter oftest lurer på.",
+  intro: "Det pasientene oftest lurer på før første time.",
   items: [
-    { _key: "f1", question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte hos oss." },
-    { _key: "f2", question: "Dekker forsikringen?", answer: "De fleste helseforsikringer dekker konsultasjon og inngrep hos oss." },
-    { _key: "f3", question: "Hvor raskt får jeg time?", answer: "Som regel innen en uke – ofte raskere." },
+    { _key: "f1", question: "Trenger jeg henvisning fra fastlege?", answer: "Nei. Du bestiller time direkte hos oss – uten henvisning og uten ventetid." },
+    { _key: "f2", question: "Dekker helseforsikringen min behandlingen?", answer: "De fleste norske helseforsikringer dekker konsultasjon, utredning og inngrep hos oss. Vi sender faktura direkte til forsikringsselskapet." },
+    { _key: "f3", question: "Hvor raskt får jeg time?", answer: "Som regel innen en uke. Akutte tilfeller prioriteres og kan ofte få time samme dag." },
+    { _key: "f4", question: "Kan jeg få sykmelding?", answer: "Ja, vi skriver sykmelding når det er medisinsk begrunnet, etter nasjonale retningslinjer." },
   ],
 };
 
-const ctaSection: Section = {
-  _type: "sectionCta",
-  _key: "cta",
-  background: "dark",
-  heading: "Klar for å ta neste steg?",
-  body: "Bestill time online eller ring oss. Vi er her for deg.",
-  ctaLabel: "Bestill time nå",
-  ctaHref: "/booking",
-};
-
-/* ───────── Mal-definisjoner ───────── */
+/* ───────── Mal-definisjoner med realistisk innhold ───────── */
 
 const TEMPLATES: Record<
   string,
   { title: string; description: string; sections: Section[] }
 > = {
+  /* ════════════════ FAGOMRÅDE ════════════════ */
   treatmentCategory: {
-    title: "Mal: Fagområde",
+    title: "Mal: Fagområde – Gynekologi",
     description:
-      "Mastermal for hovedkategorier som Gynekologi, Fertilitet, Urologi. Alle seksjonstyper er vist samlet.",
+      "Mastermal for hovedkategorier som Gynekologi, Fertilitet og Urologi. Vist med ekte innhold fra gynekologi-fagområdet.",
     sections: [
-      heroSection(
-        "Fagområde – komplett mal",
-        "Mastermal · Fagområde",
-        "Eksempel på et fagområde med hero, intro, statistikk, tjenester, prosess, accordion, FAQ og CTA."
-      ),
-      introSection(
-        "Trygg spesialisthelsetjeneste",
-        "Vi tilbyr utredning, behandling og oppfølging innen [fagområde]. Hele forløpet skjer hos oss – med erfarne spesialister og tverrfaglige team."
-      ),
-      statsSection,
-      servicesListSection,
-      serviceGroupsSection,
-      benefitsSection,
-      processSection,
-      journeySection,
-      accordionSection,
-      quoteSection,
-      faqSection,
-      ctaSection,
+      {
+        _type: "sectionHero",
+        _key: "hero",
+        image: gynekologiHero,
+        eyebrow: "Ingen ventetid · Ingen henvisning",
+        heading: "Gynekologi",
+        subheading:
+          "Velkommen til CMedical Kvinnehelse. Vi tilbyr et spisset og bredt tilbud innen gynekologi, fertilitet og kirurgi – direkte tilgang til riktig ekspertise, uten omveier.",
+        ctaLabel: "Bestill time",
+        ctaHref: "/booking",
+      },
+      {
+        _type: "sectionIntro",
+        _key: "intro",
+        heading: "Trygg gynekologisk spesialisthjelp",
+        body:
+          "Hos oss møter du gynekologer som jobber med den kvinnesykdommen de kan **aller best**. Ved behov tilbyr vi tverrfaglig behandling med fertilitetsspesialister, sexolog, urolog, ernæringsfysiologer, osteopat, fysioterapeuter, uroterapeut og psykologer – alt under samme tak.",
+      },
+      sharedStats("Erfaring du kan stole på", [
+        { value: "50 000", label: "Konsultasjoner i året" },
+        { value: "25+", label: "Års erfaring" },
+        { value: "98%", label: "Pasienttilfredshet" },
+        { value: "4", label: "Klinikker" },
+      ]),
+      {
+        _type: "sectionServicesList",
+        _key: "services",
+        heading: "Alt under samme tak",
+        intro: "Våre spesialister jobber innenfor disse områdene innen gynekologi:",
+        manualItems: [
+          { label: "Gynekologisk undersøkelse", path: "/behandlinger/gynekologi/undersokelse" },
+          { label: "Urinlekkasje", path: "/behandlinger/gynekologi/urinlekkasje" },
+          { label: "Endometriose", path: "/behandlinger/gynekologi/endometriose" },
+          { label: "Overgangsalder", path: "/behandlinger/gynekologi/overgangsalder" },
+          { label: "Vaginale fremfall", path: "/behandlinger/gynekologi/vaginale-fremfall" },
+          { label: "Blødningsforstyrrelser", path: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+          { label: "PMS og PMDD", path: "/behandlinger/gynekologi/pms-pmdd" },
+          { label: "Robotassistert kirurgi", path: "/behandlinger/gynekologi/robotkirurgi" },
+        ],
+      },
+      {
+        _type: "sectionServiceGroups",
+        _key: "groups",
+        heading: "Tjenester gruppert etter livsfase",
+        groups: [
+          { _key: "g1", caption: "Rutine og forebygging", label: "Den vanlige timen", items: ["Gynekologisk undersøkelse", "Celleforandringer", "Vaginal tørrhet"] },
+          { _key: "g2", caption: "Utredning av plager", label: "Når noe ikke kjennes riktig", items: ["Endometriose", "Blødningsforstyrrelser", "PMS og PMDD", "Cyster på eggstokkene"] },
+          { _key: "g3", caption: "Livet skifter form", label: "Hormonelle faser", items: ["Overgangsalder", "Urinlekkasje", "Vaginale fremfall"] },
+          { _key: "g4", caption: "Kirurgi", label: "Når kirurgi er svaret", items: ["Gynekologisk kirurgi", "Robotassistert kirurgi", "Fjerne livmor", "Labiaplastikk"] },
+        ],
+      },
+      {
+        _type: "sectionBenefits",
+        _key: "benefits",
+        heading: "Hva du kan forvente hos oss",
+        items: [
+          "Kort ventetid – ofte time samme uke",
+          "Erfarne gynekologer med smalt spesialfelt",
+          "Tverrfaglig samarbeid når det er behov",
+          "Moderne utstyr og robotassistert kirurgi",
+          "Tydelig oppfølging etter konsultasjon",
+        ],
+      },
+      {
+        _type: "sectionProcess",
+        _key: "process",
+        heading: "Slik foregår en time hos oss",
+        steps: [
+          { title: "Bestill time online", description: "Velg klinikk, dag og spesialist. Du trenger ingen henvisning." },
+          { title: "Konsultasjon", description: "Grundig samtale og undersøkelse. Vi tar oss tid til å forklare." },
+          { title: "Plan og oppfølging", description: "Du får skriftlig oppsummering og klar plan – med tilgang til ditt team." },
+        ],
+      },
+      {
+        _type: "sectionJourney",
+        _key: "journey",
+        heading: "Din vei gjennom oss",
+        steps: [
+          { _key: "j1", icon: "calendar", label: "Steg 01", title: "Booking", body: "Velg tid som passer deg." },
+          { _key: "j2", icon: "stethoscope", label: "Steg 02", title: "Utredning", body: "Trygg og grundig kartlegging." },
+          { _key: "j3", icon: "heart", label: "Steg 03", title: "Behandling", body: "Skreddersydd plan og tiltak." },
+          { _key: "j4", icon: "users", label: "Steg 04", title: "Oppfølging", body: "Vi følger deg helt i mål." },
+        ],
+      },
+      {
+        _type: "sectionAccordionContent",
+        _key: "accordion",
+        heading: "Praktisk informasjon",
+        items: [
+          { _key: "a1", heading: "Henvisning", content: "Ingen henvisning nødvendig. Vi er en privat helseklinikk uten refusjonsavtale med det offentlige." },
+          { _key: "a2", heading: "Ventetid", content: "Fra ingen til veldig korte ventetider – som regel innen en uke." },
+          { _key: "a3", heading: "Sykmelding", content: "Vi skriver sykmelding ved behov, etter nasjonale retningslinjer." },
+          { _key: "a4", heading: "Utredning", content: "Vi anbefaler alle å starte med en konsultasjon. En vanlig utredning varer ca 30 minutter." },
+        ],
+      },
+      {
+        _type: "sectionQuote",
+        _key: "quote",
+        quote: "Jeg følte meg sett og ivaretatt fra første øyeblikk. Klare svar og en plan jeg forsto.",
+        source: "Pasient, 38 år",
+      },
+      faqGyn,
+      ctaSection("Klar for å ta neste steg?", "Bestill time online eller ring oss. Vi er her for deg."),
     ],
   },
+
+  /* ════════════════ TEMASIDE ════════════════ */
   themePage: {
-    title: "Mal: Temaside",
+    title: "Mal: Temaside – Kvinnehelse",
     description:
-      "Mastermal for tverrgående temaer som Kvinnehelse, Robotkirurgi. Fleksibel seksjonsoppbygging.",
+      "Mastermal for tverrgående temaer som Kvinnehelse og Robotkirurgi. Vist med ekte innhold fra Kvinnehelse-satsningen.",
     sections: [
-      heroSection(
-        "Temaside – komplett mal",
-        "Mastermal · Tema",
-        "Tverrgående tema som samler flere fagområder og behandlinger under én historie."
-      ),
-      introSection(
-        "Et samlet tilbud rundt deg",
-        "Tematiske inngangsporter som kobler sammen flere fagområder under ett narrativ. Brukes for store satsninger og kampanjesider."
-      ),
-      { ...richTextSection, _key: "rich-1", heading: "Bakgrunn for temaet" } as Section,
-      linkedServicesSection,
-      serviceGroupsSection,
-      statsSection,
-      journeySection,
-      benefitsSection,
-      quoteSection,
-      accordionSection,
       {
-        ...richTextSection,
-        _key: "rich-2",
-        heading: "Hva betyr dette for deg som pasient",
-        body: "Konkret hva tilbudet inneholder, hvem det passer for, og hvordan du kommer i gang. Skrevet for å gi trygghet.",
-      } as Section,
-      servicesListSection,
-      faqSection,
-      ctaSection,
-    ],
-  },
-  treatment: {
-    title: "Mal: Underbehandling",
-    description:
-      "Mastermal for enkeltbehandlinger under et fagområde. Symptomer og prosess utenfor accordions.",
-    sections: [
-      heroSection(
-        "Underbehandling – komplett mal",
-        "Mastermal · Behandling",
-        "Enkeltbehandling med detaljert pasientforløp, fagstoff, sitater og oppfølging."
-      ),
-      introSection(
-        "Hva er denne behandlingen?",
-        "Kort, klar beskrivelse av hva behandlingen innebærer, hvem den passer for, og hva pasienten kan forvente."
-      ),
-      benefitsSection,
-      { ...richTextSection, _key: "rich-1", heading: "Når er behandlingen aktuell" } as Section,
-      processSection,
-      journeySection,
-      { ...statsSection, _key: "stats-treat", background: "light" } as Section,
-      accordionSection,
-      quoteSection,
+        _type: "sectionHero",
+        _key: "hero",
+        image: kvinnehelseHero,
+        eyebrow: "Tema · Kvinnehelse",
+        heading: "Kvinnehelse i hele livet",
+        subheading:
+          "Vi gjør kvinnehelse til folkehelse – i hele Norden. Et samlet tilbud som følger deg fra ungdom, gjennom fertile år og overgangsalder, til livet etterpå.",
+        ctaLabel: "Utforsk tilbudet",
+        ctaHref: "/kvinnehelse",
+      },
       {
-        ...richTextSection,
-        _key: "rich-2",
-        heading: "Etter behandling",
-        body: "Hva du kan forvente i dagene etter inngrepet, eventuelle restriksjoner, og når du bør ta kontakt igjen.",
-      } as Section,
-      linkedServicesSection,
-      faqSection,
-      ctaSection,
-    ],
-  },
-  newsItem: {
-    title: "Mal: Nyhet / Aktuelt",
-    description:
-      "Mastermal for korte nyhetsoppslag. Kompakt struktur for løpende publisering.",
-    sections: [
-      heroSection(
-        "Nyhetsoppslag – komplett mal",
-        "Mastermal · Aktuelt",
-        "Nyhetsoppslag med ingress, brødtekst, fakta, sitat og lenker til relatert innhold."
-      ),
-      introSection(
-        "Ingress",
-        "En kort ingress som oppsummerer hovedpoenget i nyheten. Vises både på siden og i Aktuelt-feeden."
-      ),
-      { ...richTextSection, _key: "rich-1", heading: "Bakgrunn" } as Section,
-      quoteSection,
-      benefitsSection,
-      { ...statsSection, _key: "stats-news", background: "light" } as Section,
-      linkedServicesSection,
-      ctaSection,
-    ],
-  },
-  article: {
-    title: "Mal: Fagartikkel",
-    description:
-      "Mastermal for lengre redaksjonelle artikler med pinning, kategorier, fagstoff og SEO. Mer innholdsrik enn forsiden.",
-    sections: [
-      heroSection(
-        "Fagartikkel – komplett mal",
-        "Mastermal · Artikkel",
-        "Lengre redaksjonell artikkel med ingress, fagstoff, sitater, prosess, fordeler, fakta, FAQ og relaterte tjenester."
-      ),
-      introSection(
-        "Forfatterens ingress",
-        "En lengre ingress som setter scenen for artikkelen, plasserer tema i kontekst, og gir leseren tydelig grunn til å lese videre. Forfatter, dato og kategori vises i toppen."
-      ),
+        _type: "sectionIntro",
+        _key: "intro",
+        heading: "Ett tilbud – mange faser",
+        body:
+          "Kvinnehelse er mer enn gynekologi. Det er fertilitet, hormoner, bekkenbunn, sex og samliv, psykisk helse og forebygging. Hos oss kobler vi sammen spesialister på tvers, slik at du slipper å lete selv.",
+      },
       {
-        ...richTextSection,
+        _type: "sectionRichText",
         _key: "rich-1",
-        heading: "Bakgrunn og kontekst",
-      } as Section,
-      quoteSection,
-      benefitsSection,
+        heading: "Bakgrunn for satsningen",
+        body:
+          "Kvinner har historisk fått **mindre forskning, lengre ventetid og dårligere svar** på sine helseplager. Vi ønsker å snu det. Derfor har vi samlet ledende spesialister innen kvinnehelse på ett sted, og bygget forløp som tar utgangspunkt i hele livet – ikke bare én diagnose.",
+      },
       {
-        ...richTextSection,
+        _type: "sectionLinkedServices",
+        _key: "linked",
+        heading: "Inngangsporter til tilbudet",
+        items: [
+          { label: "Gynekologi", description: "Utredning, behandling og kirurgi hos erfarne gynekologer.", path: "/gynekologi" },
+          { label: "Fertilitet", description: "Fra fertilitetssjekk til IVF – komplett oppfølging.", path: "/behandlinger/fertilitet" },
+          { label: "Overgangsalder", description: "Hormonbehandling og tverrfaglig støtte.", path: "/behandlinger/gynekologi/overgangsalder" },
+          { label: "Bekkenbunn", description: "Urinlekkasje, fremfall og fødselsskader.", path: "/behandlinger/gynekologi/urinlekkasje" },
+        ],
+      },
+      {
+        _type: "sectionServiceGroups",
+        _key: "groups",
+        heading: "Temaet dekker mange fagområder",
+        groups: [
+          { _key: "g1", caption: "Den unge kvinnen", label: "Forebygging og rådgivning", items: ["Prevensjon", "Celleprøve", "Menstruasjonsplager"] },
+          { _key: "g2", caption: "Fertile år", label: "Fertilitet og graviditet", items: ["Fertilitetssjekk", "IVF", "Tidlig svangerskap"] },
+          { _key: "g3", caption: "Overgang", label: "Hormonelle endringer", items: ["Overgangsalder", "Hormonbehandling", "Søvn og humør"] },
+        ],
+      },
+      sharedStats("Tall som forplikter", [
+        { value: "50 000", label: "Konsultasjoner i året" },
+        { value: "15+", label: "Spesialiteter samlet" },
+        { value: "4", label: "Klinikker i Norge" },
+        { value: "98%", label: "Pasienttilfredshet" },
+      ]),
+      {
+        _type: "sectionJourney",
+        _key: "journey",
+        heading: "Din vei gjennom Kvinnehelse",
+        steps: [
+          { _key: "j1", icon: "heart", label: "Steg 01", title: "Kartlegging", body: "Vi starter med å forstå hele bildet." },
+          { _key: "j2", icon: "users", label: "Steg 02", title: "Tverrfaglig team", body: "Vi setter sammen riktig kompetanse." },
+          { _key: "j3", icon: "stethoscope", label: "Steg 03", title: "Behandling", body: "Skreddersydd plan i ditt tempo." },
+          { _key: "j4", icon: "calendar", label: "Steg 04", title: "Langsiktig oppfølging", body: "Vi følger deg gjennom livsfasene." },
+        ],
+      },
+      {
+        _type: "sectionBenefits",
+        _key: "benefits",
+        heading: "Hvorfor velge oss",
+        items: [
+          "Smal spesialisering – bred tilgang",
+          "Alt under samme tak",
+          "Korte ventetider",
+          "Tydelig pasientforløp",
+        ],
+      },
+      {
+        _type: "sectionQuote",
+        _key: "quote",
+        quote: "Jeg har endelig følt meg tatt på alvor. De så hele meg – ikke bare diagnosen.",
+        source: "Pasient, 45 år",
+      },
+      {
+        _type: "sectionAccordionContent",
+        _key: "accordion",
+        heading: "Praktisk informasjon",
+        items: [
+          { _key: "a1", heading: "Trenger jeg henvisning?", content: "Nei – du bestiller time direkte." },
+          { _key: "a2", heading: "Dekker forsikring?", content: "De fleste helseforsikringer dekker våre tjenester." },
+          { _key: "a3", heading: "Kan jeg bytte spesialist?", content: "Ja – vi finner riktig person for deg." },
+        ],
+      },
+      {
+        _type: "sectionRichText",
         _key: "rich-2",
-        heading: "Hva forskningen sier",
+        heading: "Hva betyr dette for deg",
         body:
-          "Nyere studier viser at **tidlig utredning** gir bedre resultater. Vi går gjennom hovedfunnene og hva de betyr i praksis.\n\nDu kan også lese vår [pasientguide](/guide) for praktiske råd.",
-      } as Section,
-      processSection,
-      accordionSection,
-      { ...statsSection, _key: "stats-article", background: "light" } as Section,
+          "Du får én inngang til hele kvinnehelse-tilbudet vårt. Du slipper å koordinere selv mellom fastlege, gynekolog og spesialister – vi tar regien sammen med deg.",
+      },
       {
-        ...richTextSection,
+        _type: "sectionServicesList",
+        _key: "services",
+        heading: "Utvalgte behandlinger",
+        manualItems: [
+          { label: "Gynekologisk undersøkelse", path: "/behandlinger/gynekologi/undersokelse" },
+          { label: "Fertilitetssjekk", path: "/behandlinger/fertilitet/fertilitetssjekk" },
+          { label: "Overgangsalder", path: "/behandlinger/gynekologi/overgangsalder" },
+          { label: "Urinlekkasje", path: "/behandlinger/gynekologi/urinlekkasje" },
+        ],
+      },
+      faqGyn,
+      ctaSection("Ta kontroll over din kvinnehelse", "Vi er klare når du er klar. Bestill time eller snakk med oss først."),
+    ],
+  },
+
+  /* ════════════════ UNDERBEHANDLING ════════════════ */
+  treatment: {
+    title: "Mal: Underbehandling – Fertilitetssjekk",
+    description:
+      "Mastermal for enkeltbehandlinger. Vist med ekte innhold fra fertilitetssjekk-behandlingen.",
+    sections: [
+      {
+        _type: "sectionHero",
+        _key: "hero",
+        image: fertilitetReal,
+        eyebrow: "Behandling · Fertilitet",
+        heading: "Fertilitetssjekk",
+        subheading:
+          "En komplett kartlegging av din fruktbarhet – uten henvisning. Du får svar, kontekst og en plan for veien videre, alt i én konsultasjon.",
+        ctaLabel: "Bestill fertilitetssjekk",
+        ctaHref: "/booking",
+      },
+      {
+        _type: "sectionIntro",
+        _key: "intro",
+        heading: "Hva er en fertilitetssjekk?",
+        body:
+          "En fertilitetssjekk er en grundig undersøkelse for å vurdere fruktbarhetspotensialet ditt. Vi måler hormonnivåer, ser på eggstokkene med ultralyd, og går gjennom helsehistorikken sammen med deg.",
+      },
+      {
+        _type: "sectionBenefits",
+        _key: "benefits",
+        heading: "Hva inngår i sjekken",
+        items: [
+          "Hormonprøver (AMH, FSH, østradiol)",
+          "Ultralyd av eggstokker og livmor",
+          "Gjennomgang av syklus og helsehistorikk",
+          "Skriftlig svar og personlig plan",
+          "Tilgang til fertilitetsspesialist for oppfølging",
+        ],
+      },
+      {
+        _type: "sectionRichText",
+        _key: "rich-1",
+        heading: "Når er fertilitetssjekk aktuelt",
+        body:
+          "Sjekken passer for deg som **vurderer barn nå eller senere**, for par som har prøvd uten å lykkes, eller om du bare vil vite hvor du står. Vi anbefaler ofte sjekk fra **30-årsalderen**, men det er aldri for tidlig eller for sent å få oversikt.",
+      },
+      {
+        _type: "sectionProcess",
+        _key: "process",
+        heading: "Slik foregår fertilitetssjekken",
+        steps: [
+          { title: "Forsamtale", description: "Vi går gjennom syklus, helse og ønsker. Tar ca 15 minutter." },
+          { title: "Undersøkelse og prøver", description: "Ultralyd og blodprøver – trygt og smertefritt." },
+          { title: "Svar og plan", description: "Du får tolket svar og en konkret plan – samme dag eller innen kort tid." },
+        ],
+      },
+      {
+        _type: "sectionJourney",
+        _key: "journey",
+        heading: "Forløpet steg for steg",
+        steps: [
+          { _key: "j1", icon: "calendar", label: "Steg 01", title: "Booking", body: "Velg tid – ingen henvisning." },
+          { _key: "j2", icon: "stethoscope", label: "Steg 02", title: "Sjekk", body: "Hormoner og ultralyd." },
+          { _key: "j3", icon: "heart", label: "Steg 03", title: "Svar", body: "Tydelig tolkning og plan." },
+          { _key: "j4", icon: "users", label: "Steg 04", title: "Oppfølging", body: "Veien videre, sammen med spesialist." },
+        ],
+      },
+      sharedStats("Trygghet i tall", [
+        { value: "30 min", label: "Varighet konsultasjon" },
+        { value: "1 uke", label: "Vanlig ventetid" },
+        { value: "100%", label: "Direkte tilgang spesialist" },
+        { value: "0", label: "Henvisning nødvendig" },
+      ], "light"),
+      {
+        _type: "sectionAccordionContent",
+        _key: "accordion",
+        heading: "Vanlige spørsmål om sjekken",
+        items: [
+          { _key: "a1", heading: "Hvor lang tid tar det?", content: "Selve konsultasjonen tar 30–45 minutter. Blodprøvesvar er klare i løpet av få dager." },
+          { _key: "a2", heading: "Hva koster det?", content: "Se prislisten vår. Mange helseforsikringer dekker fertilitetssjekk." },
+          { _key: "a3", heading: "Kan partner være med?", content: "Ja – vi anbefaler det, og kan også gjøre sædanalyse samtidig." },
+        ],
+      },
+      {
+        _type: "sectionQuote",
+        _key: "quote",
+        quote: "Vi fikk svar samme dag, og en plan vi forsto. Det ga ro – uansett hva veien videre ble.",
+        source: "Pasientpar, 34 og 36 år",
+      },
+      {
+        _type: "sectionRichText",
+        _key: "rich-2",
+        heading: "Etter sjekken",
+        body:
+          "Du får skriftlig svar med tolkning og anbefalinger. Trenger du videre utredning eller behandling – som IVF eller hormonbehandling – kan du følges opp av samme spesialist hos oss.",
+      },
+      {
+        _type: "sectionLinkedServices",
+        _key: "linked",
+        heading: "Relaterte behandlinger",
+        items: [
+          { label: "IVF-behandling", description: "Hele forløpet under samme tak.", path: "/behandlinger/fertilitet" },
+          { label: "Sædanalyse", description: "Komplett kartlegging av mannlig fertilitet.", path: "/behandlinger/fertilitet" },
+          { label: "Gynekologisk undersøkelse", description: "Helhetlig kvinnehelseundersøkelse.", path: "/behandlinger/gynekologi/undersokelse" },
+        ],
+      },
+      faqGyn,
+      ctaSection("Bestill din fertilitetssjekk", "Få oversikt – og en plan du forstår."),
+    ],
+  },
+
+  /* ════════════════ NYHETSOPPSLAG ════════════════ */
+  newsItem: {
+    title: "Mal: Nyhet – Ny robot på Majorstuen",
+    description: "Mastermal for korte nyhetsoppslag i Aktuelt-feeden.",
+    sections: [
+      {
+        _type: "sectionHero",
+        _key: "hero",
+        image: robotkirurgiHero,
+        eyebrow: "Aktuelt · 18. mai 2026",
+        heading: "Ny da Vinci-robot installert på Majorstuen",
+        subheading:
+          "Vi tar i bruk siste generasjons kirurgirobot for mer skånsom gynekologisk kirurgi – med raskere restitusjon for pasienten.",
+        ctaLabel: "Les mer om robotkirurgi",
+        ctaHref: "/behandlinger/gynekologi/robotkirurgi",
+      },
+      {
+        _type: "sectionIntro",
+        _key: "intro",
+        heading: "Et stort steg for kvinnehelse",
+        body:
+          "Den nye roboten gir kirurgen presisjon ned på millimeternivå og gjør komplekse inngrep mulig gjennom små åpninger. For pasientene betyr det mindre smerter, kortere sykehusopphold og raskere retur til hverdagen.",
+      },
+      {
+        _type: "sectionRichText",
+        _key: "rich-1",
+        heading: "Bakgrunn",
+        body:
+          "Robotassistert kirurgi er allerede standard ved store offentlige sykehus. Med vår nye installasjon er CMedical den **første private aktøren i Norge** som tilbyr da Vinci innen gynekologisk kirurgi i full skala.",
+      },
+      {
+        _type: "sectionQuote",
+        _key: "quote",
+        quote: "Dette er det største løftet for våre kirurgiske pasienter på mange år.",
+        source: "Sjefskirurg, CMedical Majorstuen",
+      },
+      {
+        _type: "sectionBenefits",
+        _key: "benefits",
+        heading: "Hva betyr det for pasientene",
+        items: [
+          "Mindre arr og blødninger",
+          "Raskere restitusjon – ofte hjem samme dag",
+          "Høyere presisjon ved komplekse inngrep",
+          "Mulighet for inngrep som tidligere krevde åpen kirurgi",
+        ],
+      },
+      sharedStats("Robotkirurgi i tall", [
+        { value: "3x", label: "Raskere restitusjon" },
+        { value: "<1 cm", label: "Snittstørrelse" },
+        { value: "98%", label: "Pasienttilfredshet" },
+        { value: "200+", label: "Inngrep første år" },
+      ], "light"),
+      {
+        _type: "sectionLinkedServices",
+        _key: "linked",
+        heading: "Les mer",
+        items: [
+          { label: "Robotassistert kirurgi", description: "Hva det er og hvem det passer for.", path: "/behandlinger/gynekologi/robotkirurgi" },
+          { label: "Gynekologisk kirurgi", description: "Vårt fulle kirurgiske tilbud.", path: "/behandlinger/gynekologi/kirurgi" },
+        ],
+      },
+      ctaSection("Ønsker du en vurdering?", "Bestill konsultasjon med en av våre kirurger."),
+    ],
+  },
+
+  /* ════════════════ FAGARTIKKEL ════════════════ */
+  article: {
+    title: "Mal: Fagartikkel – Overgangsalder",
+    description:
+      "Mastermal for lengre redaksjonelle artikler med ingress, fagstoff, sitater og SEO. Mer innholdsrik enn forsiden.",
+    sections: [
+      {
+        _type: "sectionHero",
+        _key: "hero",
+        image: articleGyn,
+        eyebrow: "Fagartikkel · Hormoner · 8 min lesetid",
+        heading: "Overgangsalder: alt du burde fått vite for 10 år siden",
+        subheading:
+          "Skrevet av spesialist i gynekologi. Oppdatert mai 2026.",
+        ctaLabel: "Bestill hormonkonsultasjon",
+        ctaHref: "/behandlinger/gynekologi/overgangsalder",
+      },
+      {
+        _type: "sectionIntro",
+        _key: "intro",
+        heading: "Forfatterens ingress",
+        body:
+          "Overgangsalder er ikke en sykdom – men for mange er symptomene så omfattende at hverdagen blir snudd på hodet. Denne artikkelen gir deg en grundig innføring i hva som skjer i kroppen, hvilke behandlinger som finnes, og hvordan du tar gode valg for de neste 30 årene.",
+      },
+      {
+        _type: "sectionRichText",
+        _key: "rich-1",
+        heading: "Hva skjer egentlig i kroppen",
+        body:
+          "Overgangsalder defineres som **12 måneder uten menstruasjon**, og inntreffer typisk mellom 45 og 55 år. Eggstokkene produserer mindre østrogen og progesteron, og det påvirker langt mer enn syklus: søvn, humør, hud, bein, hjerte og kognisjon.",
+      },
+      {
+        _type: "sectionQuote",
+        _key: "quote",
+        quote: "Overgangsalder rammer halvparten av befolkningen – likevel får mange diagnosen 'stress' før de får riktig hjelp.",
+        source: "Spesialist i gynekologi",
+      },
+      {
+        _type: "sectionBenefits",
+        _key: "benefits",
+        heading: "De vanligste symptomene",
+        items: [
+          "Hetetokter og nattesvette",
+          "Søvnvansker og tretthet",
+          "Humørsvingninger og angst",
+          "Vaginal tørrhet og smerter ved samleie",
+          "Konsentrasjonsvansker (\"brain fog\")",
+          "Leddsmerter og redusert muskelmasse",
+        ],
+      },
+      {
+        _type: "sectionRichText",
+        _key: "rich-2",
+        heading: "Hva forskningen sier om hormonbehandling",
+        body:
+          "Etter mange år med skepsis viser nyere studier at **moderne hormonbehandling (MHT)** er trygt og effektivt for de fleste, særlig når den startes innen 10 år etter siste menstruasjon. Vi går gjennom hovedfunnene og hva de betyr i praksis.\n\nLes også vår [pasientguide](/guide) for praktiske råd.",
+      },
+      {
+        _type: "sectionProcess",
+        _key: "process",
+        heading: "Slik utredes du hos oss",
+        steps: [
+          { title: "Forsamtale", description: "Vi går gjennom symptomer, helsehistorikk og forventninger." },
+          { title: "Blodprøver og undersøkelse", description: "Hormonstatus og generell helsesjekk." },
+          { title: "Behandlingsplan", description: "Skreddersydd plan – med eller uten hormoner – og oppfølging." },
+        ],
+      },
+      {
+        _type: "sectionAccordionContent",
+        _key: "accordion",
+        heading: "Vanlige spørsmål",
+        items: [
+          { _key: "a1", heading: "Er hormonbehandling farlig?", content: "For de fleste friske kvinner er moderne MHT trygt. Risikoen vurderes individuelt." },
+          { _key: "a2", heading: "Hvor lenge bør jeg bruke hormoner?", content: "Det varierer. Mange bruker MHT i 5–10 år, men det finnes ingen fast grense." },
+          { _key: "a3", heading: "Hva med naturlige alternativer?", content: "Livsstil, kosthold og søvn hjelper. Naturmidler har varierende dokumentasjon – vi går gjennom det sammen." },
+        ],
+      },
+      sharedStats("Overgangsalder i tall", [
+        { value: "51", label: "Snittalder for menopause" },
+        { value: "80%", label: "Får hetetokter" },
+        { value: "30 år", label: "Kvinner lever etter overgang" },
+        { value: "1 av 4", label: "Får alvorlige plager" },
+      ], "light"),
+      {
+        _type: "sectionRichText",
         _key: "rich-3",
-        heading: "Praktiske råd",
+        heading: "Praktiske råd for hverdagen",
         body:
-          "Konkrete, handlingsrettede råd basert på fagstoffet i artikkelen. Skrevet i et språk som er lett å forstå, men faglig korrekt.",
-      } as Section,
-      linkedServicesSection,
-      faqSection,
+          "Start med å **kartlegge symptomene** dine i 4 uker. Prioriter søvn, styrketrening 2–3 ganger i uka, og spis nok protein. Snakk med en spesialist før du eventuelt prøver kosttilskudd eller naturmidler.",
+      },
       {
-        ...quoteSection,
+        _type: "sectionLinkedServices",
+        _key: "linked",
+        heading: "Relaterte tjenester",
+        items: [
+          { label: "Overgangsalder-konsultasjon", description: "Hormonell utredning og behandling.", path: "/behandlinger/gynekologi/overgangsalder" },
+          { label: "Gynekologisk undersøkelse", description: "Helhetlig sjekk hos spesialist.", path: "/behandlinger/gynekologi/undersokelse" },
+          { label: "Vaginal tørrhet", description: "Behandling og lokal hormonterapi.", path: "/behandlinger/gynekologi/vaginal-torrhet" },
+        ],
+      },
+      faqGyn,
+      {
+        _type: "sectionQuote",
         _key: "quote-2",
         quote: "God informasjon er halve behandlingen. Når pasienten forstår, blir oppfølgingen tryggere.",
         source: "Spesialist hos CMedical",
-      } as Section,
-      ctaSection,
+      },
+      ctaSection("Trenger du å snakke med noen?", "Bestill en konsultasjon med en av våre gynekologer som spesialiserer seg på overgangsalder."),
     ],
   },
 };
@@ -358,7 +610,7 @@ export default function MalDemo() {
       {/* Intro */}
       <header className="container mx-auto px-6 md:px-16 pt-12 pb-4 max-w-3xl">
         <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-          Komplett mal med alle seksjoner
+          Komplett mal med ekte innhold og bilder
         </p>
         <h1 className="text-3xl md:text-4xl font-light text-foreground mb-3">{mal.title}</h1>
         <p className="text-muted-foreground font-light">{mal.description}</p>
