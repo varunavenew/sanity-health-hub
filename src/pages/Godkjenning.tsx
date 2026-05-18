@@ -513,82 +513,97 @@ const Godkjenning = () => {
   );
 };
 
-const MasterTemplatesPanel = () => {
-  const [studioUrl, setStudioUrl] = useState<string>(() => {
-    try {
-      return localStorage.getItem("cm_studio_url") || STUDIO_BASE_URL;
-    } catch {
-      return STUDIO_BASE_URL;
-    }
-  });
-
-  const saveStudioUrl = (val: string) => {
-    setStudioUrl(val);
-    try { localStorage.setItem("cm_studio_url", val); } catch {}
-  };
-
-  const base = studioUrl.replace(/\/$/, "");
-
+const MasterTemplatesPanel = ({
+  rows,
+  requestCountByPath,
+  onSetStatus,
+  onRequestChanges,
+  onJumpToInbox,
+}: {
+  rows: Record<string, ApprovalRow>;
+  requestCountByPath: Record<string, { open: number; total: number }>;
+  onSetStatus: (key: string, label: string, status: Status) => void;
+  onRequestChanges: (key: string, label: string) => void;
+  onJumpToInbox: () => void;
+}) => {
   return (
     <div>
-      <div className="flex items-start justify-between gap-4 flex-wrap mb-6 pb-4 border-b border-border">
-        <div>
-          <h2 className="text-xl font-light text-foreground">Mastermaler i Sanity</h2>
-          <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
-            Velg en mal for å opprette eller redigere innhold. Lenkene åpner riktig liste direkte i Sanity Studio.
-          </p>
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] uppercase tracking-wider text-muted-foreground">Studio-URL</label>
-          <input
-            value={studioUrl}
-            onChange={(e) => saveStudioUrl(e.target.value)}
-            placeholder="https://studio.dittdomene.no"
-            className="border border-border bg-background px-3 py-2 text-sm rounded-md w-72 focus:outline-none focus:ring-2 focus:ring-primary/40"
-          />
-        </div>
+      <div className="mb-6 pb-4 border-b border-border">
+        <h2 className="text-xl font-light text-foreground">Mastermaler</h2>
+        <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+          Hver mal er bygget og kan brukes om igjen til mange sider. Åpne eksempelet for å se hvordan malen ser ut i bruk,
+          og marker som godkjent eller be om endringer.
+        </p>
       </div>
 
       <ul className="grid md:grid-cols-2 gap-4">
         {MASTER_TEMPLATES.map((t) => {
-          const href = `${base}/structure/${t.schemaType}`;
+          const path = malPath(t.key);
+          const row = rows[path];
+          const status = (row?.status ?? "avventer") as Status;
+          const reqs = requestCountByPath[path];
           return (
-            <li key={t.schemaType} className="border border-border rounded-lg p-5 bg-background hover:border-foreground/40 transition-colors">
+            <li key={t.key} className="border border-border rounded-lg p-5 bg-background">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="text-base font-light text-foreground">{t.title}</h3>
-                  <p className="text-xs text-muted-foreground mt-0.5 font-mono">{t.schemaType}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">Eksempel: {t.exampleLabel}</p>
                 </div>
-                <LayoutTemplate className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" strokeWidth={1.5} />
+                <span className={`inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${STATUS_META[status].bg}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[status].dot}`} />
+                  {STATUS_META[status].label}
+                </span>
               </div>
+
               <p className="text-sm text-muted-foreground mt-3 font-light leading-relaxed">{t.description}</p>
+
+              {reqs && reqs.open > 0 && (
+                <button
+                  onClick={onJumpToInbox}
+                  className="mt-3 text-[11px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
+                >
+                  {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
+                </button>
+              )}
+
               <div className="mt-4 flex gap-2 flex-wrap">
-                <a
-                  href={href}
+                <Link
+                  to={t.examplePath}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 bg-foreground text-background text-xs px-3 py-1.5 rounded-md hover:opacity-90 transition-opacity"
                 >
-                  Åpne mal <ArrowUpRight className="w-3 h-3" />
-                </a>
+                  Se eksempel <ArrowUpRight className="w-3 h-3" />
+                </Link>
                 <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(href);
-                    toast({ title: "Lenke kopiert", description: href });
-                  }}
-                  className="inline-flex items-center gap-1.5 border border-border text-xs px-3 py-1.5 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => onSetStatus(t.key, t.title, "godkjent")}
+                  className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                    status === "godkjent" ? `${STATUS_META.godkjent.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                  }`}
                 >
-                  Kopier lenke
+                  <Check className="inline w-3 h-3 mr-1" />Godkjenn mal
+                </button>
+                <button
+                  onClick={() => onRequestChanges(t.key, t.title)}
+                  className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
+                    status === "endringer" ? `${STATUS_META.endringer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
+                  }`}
+                >
+                  <MessageSquare className="inline w-3 h-3 mr-1" />Be om endring
                 </button>
               </div>
+
+              {row?.updated_at && (
+                <p className="text-[11px] text-muted-foreground mt-3 inline-flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  {new Date(row.updated_at).toLocaleString("nb-NO", { dateStyle: "short", timeStyle: "short" })}
+                  {row.updated_by ? ` · ${row.updated_by}` : ""}
+                </p>
+              )}
             </li>
           );
         })}
       </ul>
-
-      <p className="mt-6 text-xs text-muted-foreground">
-        Tips: trykk «Kopier lenke» for å sende direkte til en redaktør. De lander rett i riktig liste i Sanity Studio.
-      </p>
     </div>
   );
 };
