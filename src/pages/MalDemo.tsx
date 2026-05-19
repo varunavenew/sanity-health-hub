@@ -6,7 +6,8 @@ import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
-import ArticlePage from "./ArticlePage";
+import NewsItemMaster from "./masters/NewsItemMaster";
+import ArticleMaster from "./masters/ArticleMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
