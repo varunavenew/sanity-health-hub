@@ -5,6 +5,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { VideoPlayer } from "@/components/ui/video-player";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
+import { SplitHero } from "@/components/layout/SplitHero";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
