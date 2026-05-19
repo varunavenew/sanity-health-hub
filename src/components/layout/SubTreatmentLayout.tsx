@@ -36,8 +36,24 @@ export interface SubTreatmentContent {
   reasonsLead?: string;
   reasonsLead2?: string;
   reasons: { n: string; title: string; desc: string }[];
-  // Section 4 — løfter
-  promises: { eyebrow: string; title: string; desc: string }[];
+  // Section 4 — løfter (cards with optional icon and "Les mer" link)
+  promises: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    Icon?: ComponentType<SVGProps<SVGSVGElement>>;
+    href?: string;
+    ctaLabel?: string;
+  }[];
+  // Section 4c — optional text+image content section ("Det beste fra to klinikker"-style)
+  textSection?: {
+    eyebrow: string;
+    title: string;
+    lead?: string;
+    points?: { n: string; title: string; desc: string }[];
+    image: string;
+    imageAlt?: string;
+  };
   // Section 5 — relaterte
   relatedEyebrow?: string;
   relatedTitle?: string;
@@ -50,6 +66,9 @@ export interface SubTreatmentContent {
   specialistSlugs?: string[]; // optional whitelist of who does this service
   specialistCtaLabel?: string;
   specialistCtaHref?: string;
+  specialistEyebrow?: string;
+  specialistTitle?: string;
+  specialistDescription?: string;
 }
 
 interface Props {
