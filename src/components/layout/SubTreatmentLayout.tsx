@@ -1,4 +1,4 @@
-import { useEffect, ReactNode, useMemo } from "react";
+import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { specialists, type Specialist } from "@/data/specialists";
+import { type Specialist } from "@/data/specialists";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 
 export interface SubTreatmentContent {
   // Meta
@@ -35,8 +36,24 @@ export interface SubTreatmentContent {
   reasonsLead?: string;
   reasonsLead2?: string;
   reasons: { n: string; title: string; desc: string }[];
-  // Section 4 — løfter
-  promises: { eyebrow: string; title: string; desc: string }[];
+  // Section 4 — løfter (cards with optional icon and "Les mer" link)
+  promises: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    Icon?: ComponentType<SVGProps<SVGSVGElement>>;
+    href?: string;
+    ctaLabel?: string;
+  }[];
+  // Section 4c — optional text+image content section ("Det beste fra to klinikker"-style)
+  textSection?: {
+    eyebrow: string;
+    title: string;
+    lead?: string;
+    points?: { n: string; title: string; desc: string }[];
+    image: string;
+    imageAlt?: string;
+  };
   // Section 5 — relaterte
   relatedEyebrow?: string;
   relatedTitle?: string;
@@ -49,6 +66,9 @@ export interface SubTreatmentContent {
   specialistSlugs?: string[]; // optional whitelist of who does this service
   specialistCtaLabel?: string;
   specialistCtaHref?: string;
+  specialistEyebrow?: string;
+  specialistTitle?: string;
+  specialistDescription?: string;
 }
 
 interface Props {
@@ -65,18 +85,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     document.title = `${c.title} | CMedical`;
   }, [c.title]);
 
-  const sectionSpecialists = useMemo(() => {
-    if (c.specialistSlugs && c.specialistSlugs.length > 0) {
-      const ordered = c.specialistSlugs
-        .map((slug) => specialists.find((s) => s.slug === slug))
-        .filter((s): s is Specialist => Boolean(s));
-      if (ordered.length > 0) return ordered.slice(0, 5);
-    }
-    if (c.specialistCategory) {
-      return specialists.filter((s) => s.category === c.specialistCategory).slice(0, 5);
-    }
-    return [];
-  }, [c.specialistSlugs, c.specialistCategory]);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -269,7 +277,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </div>
       </section>
 
-      {/* 4. PROMISES */}
+      {/* 4. PROMISES — icon-cards with optional "Les mer" link */}
       <section className="bg-brand-light py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
@@ -278,20 +286,85 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 key={p.title}
                 className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
               >
+                {p.Icon && (
+                  <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
+                    <p.Icon className="w-10 h-10" aria-hidden="true" />
+                  </div>
+                )}
                 <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
                   {p.eyebrow}
                 </p>
                 <h3 className="text-lg font-normal text-foreground mb-3">
                   {p.title}
                 </h3>
-                <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                <p className="text-sm font-light text-muted-foreground leading-relaxed flex-1">
                   {p.desc}
                 </p>
+                {p.href && (
+                  <Link
+                    to={p.href}
+                    className="mt-6 inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
+                  >
+                    {p.ctaLabel ?? "Les mer"}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
+      {c.textSection && (
+        <section className="bg-background">
+          <div className="grid lg:grid-cols-12">
+            <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+              <div className="max-w-xl">
+                <p className="text-xs tracking-wide text-foreground/60 mb-5">
+                  {c.textSection.eyebrow}
+                </p>
+                <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+                  {c.textSection.title}
+                </h2>
+                {c.textSection.lead && (
+                  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
+                    {c.textSection.lead}
+                  </p>
+                )}
+                {c.textSection.points && c.textSection.points.length > 0 && (
+                  <div className="divide-y divide-border/60 border-t border-border/60">
+                    {c.textSection.points.map((step) => (
+                      <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                        <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                          {step.n}
+                        </div>
+                        <div className="col-span-10 md:col-span-11">
+                          <h3 className="text-base font-normal text-foreground mb-1.5">
+                            {step.title}
+                          </h3>
+                          <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                            {step.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+              <img
+                src={c.textSection.image}
+                alt={c.textSection.imageAlt ?? ""}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
 
       {/* 4b. MID-PAGE CONVERSION BAND */}
       <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
@@ -366,57 +439,21 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </section>
       )}
 
-      {/* 6. SPESIALISTER — som utfører denne tjenesten */}
-      {sectionSpecialists.length > 0 && (
-        <section className="bg-brand-warm">
-          <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <div>
-                <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Menneskene bak
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Spesialistene som følger deg.
-                </h2>
-              </div>
-              <Link
-                to={c.specialistCtaHref ?? `/spesialister?kategori=${c.specialistCategory ?? ""}`}
-                className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
-              >
-                {c.specialistCtaLabel ?? "Se alle spesialister"} →
-              </Link>
-            </div>
-          </div>
-          <div className={`grid grid-cols-2 gap-0 ${sectionSpecialists.length === 5 ? "md:grid-cols-5" : `md:grid-cols-${sectionSpecialists.length}`}`}>
-            {sectionSpecialists.map((sp) => (
-              <Link
-                key={sp.slug}
-                to={`/spesialister/${sp.slug}`}
-                aria-label={`Les mer om ${sp.name}`}
-                className="group relative block text-left focus:outline-none"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
-                  <img
-                    src={sp.image}
-                    alt={sp.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover saturate-[0.7] brightness-[0.95] contrast-[1.05] transition-all duration-700 ease-out group-hover:scale-[1.05]"
-                  />
-                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                    <h3 className="text-base md:text-lg font-normal text-white mb-0.5">
-                      {sp.name}
-                    </h3>
-                    <p className="text-sm font-light text-white/75">
-                      {sp.subtitle || sp.title}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+      {/* 6. SPESIALISTER — samme presentasjon som på fertilitetssiden */}
+      {(c.specialistCategory || (c.specialistSlugs && c.specialistSlugs.length > 0)) && (
+        <SpecialistsScroller
+          category={c.specialistCategory}
+          filter={
+            c.specialistSlugs && c.specialistSlugs.length > 0
+              ? (s: any) => c.specialistSlugs!.includes(s.slug)
+              : undefined
+          }
+          eyebrow={c.specialistEyebrow ?? "Våre eksperter"}
+          title={c.specialistTitle ?? "Spesialistene som følger deg."}
+          description={c.specialistDescription ?? "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."}
+          seeAllHref={c.specialistCtaHref ?? `/spesialister?kategori=${c.specialistCategory ?? ""}`}
+          seeAllLabel={c.specialistCtaLabel}
+        />
       )}
 
       {/* BESTILL TIME — unified pre-footer CTA */}

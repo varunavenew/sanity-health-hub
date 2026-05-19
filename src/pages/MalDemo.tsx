@@ -7,6 +7,25 @@ import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticlePage from "./ArticlePage";
+import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+
+// Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
+const ShieldIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M40 14 L62 22 V40 C62 54 52 62 40 66 C28 62 18 54 18 40 V22 Z" />
+  </svg>
+);
+const StarIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M40 16 L46 32 L62 34 L50 46 L54 62 L40 54 L26 62 L30 46 L18 34 L34 32 Z" />
+  </svg>
+);
+const CircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
+    <circle cx="40" cy="40" r="22" />
+    <circle cx="40" cy="40" r="10" />
+  </svg>
+);
 
 /**
  * MalDemo – mastermaler basert på eksisterende, godkjente sider.
@@ -46,11 +65,37 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     livePath: "/behandlinger/gynekologi/overgangsalder",
     render: () => {
       const base = gynekologiSubPages["overgangsalder"];
+      const promiseIcons = [ShieldIcon, StarIcon, CircleIcon];
+      const promiseHrefs = [
+        "/behandlinger/gynekologi/undersokelse",
+        "/spesialister?kategori=gynekologi",
+        "/tverrfaglige-tilbud",
+      ];
+      const enrichedPromises = base.promises.map((p, i) => ({
+        ...p,
+        Icon: promiseIcons[i],
+        href: promiseHrefs[i],
+        ctaLabel: "Les mer",
+      }));
       const content = {
         specialistCategory: "gynekologi" as const,
         specialistCtaLabel: "Se alle gynekologer",
         specialistCtaHref: "/spesialister?kategori=gynekologi",
+        specialistTitle: "Spesialistene som følger deg.",
         ...base,
+        promises: enrichedPromises,
+        textSection: {
+          eyebrow: "Hvorfor CMedical",
+          title: "Et trygt sted å starte — uansett hvor du er i forløpet.",
+          lead: "Denne valgfrie tekstseksjonen kan brukes til å fortelle historien bak behandlingen, vår tilnærming, eller hva som gjør tilbudet vårt unikt. Kombiner gjerne med en nummerert liste — eller la teksten stå alene.",
+          points: [
+            { n: "01", title: "Tid til samtalen", desc: "Vi setter av tid til å forstå hele bildet — ikke bare symptomene." },
+            { n: "02", title: "Erfarne spesialister", desc: "Du møter leger som har dette som sitt fagfelt, ikke en generalist på utplassering." },
+            { n: "03", title: "Tett oppfølging", desc: "Vi følger deg over tid og justerer behandlingen etter behov." },
+          ],
+          image: heroClinicLounge,
+          imageAlt: "CMedical klinikk",
+        },
       };
       return <SubTreatmentLayout isChatOpen={false} content={content} />;
     },
