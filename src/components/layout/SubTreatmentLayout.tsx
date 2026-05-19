@@ -277,7 +277,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </div>
       </section>
 
-      {/* 4. PROMISES */}
+      {/* 4. PROMISES — icon-cards with optional "Les mer" link */}
       <section className="bg-brand-light py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
@@ -286,20 +286,85 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 key={p.title}
                 className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
               >
+                {p.Icon && (
+                  <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
+                    <p.Icon className="w-10 h-10" aria-hidden="true" />
+                  </div>
+                )}
                 <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
                   {p.eyebrow}
                 </p>
                 <h3 className="text-lg font-normal text-foreground mb-3">
                   {p.title}
                 </h3>
-                <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                <p className="text-sm font-light text-muted-foreground leading-relaxed flex-1">
                   {p.desc}
                 </p>
+                {p.href && (
+                  <Link
+                    to={p.href}
+                    className="mt-6 inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
+                  >
+                    {p.ctaLabel ?? "Les mer"}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
+      {c.textSection && (
+        <section className="bg-background">
+          <div className="grid lg:grid-cols-12">
+            <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+              <div className="max-w-xl">
+                <p className="text-xs tracking-wide text-foreground/60 mb-5">
+                  {c.textSection.eyebrow}
+                </p>
+                <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+                  {c.textSection.title}
+                </h2>
+                {c.textSection.lead && (
+                  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
+                    {c.textSection.lead}
+                  </p>
+                )}
+                {c.textSection.points && c.textSection.points.length > 0 && (
+                  <div className="divide-y divide-border/60 border-t border-border/60">
+                    {c.textSection.points.map((step) => (
+                      <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                        <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                          {step.n}
+                        </div>
+                        <div className="col-span-10 md:col-span-11">
+                          <h3 className="text-base font-normal text-foreground mb-1.5">
+                            {step.title}
+                          </h3>
+                          <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                            {step.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+              <img
+                src={c.textSection.image}
+                alt={c.textSection.imageAlt ?? ""}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
 
       {/* 4b. MID-PAGE CONVERSION BAND */}
       <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
