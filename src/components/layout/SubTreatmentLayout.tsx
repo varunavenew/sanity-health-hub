@@ -1,4 +1,4 @@
-import { useEffect, ReactNode, useMemo } from "react";
+import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { specialists, type Specialist } from "@/data/specialists";
+import { type Specialist } from "@/data/specialists";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 
 export interface SubTreatmentContent {
   // Meta
