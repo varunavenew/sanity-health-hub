@@ -12,6 +12,7 @@ import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
+  slug?: string;
 }
 
 const formatDate = (dateStr: string) => {
@@ -119,8 +120,9 @@ const renderBlock = (block: ContentBlock, index: number) => {
   }
 };
 
-const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
-  const { slug } = useParams<{ slug: string }>();
+const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
+  const { slug: routeSlug } = useParams<{ slug: string }>();
+  const slug = slugOverride ?? routeSlug;
   const { data: sanityArticle } = useArticle(slug || "");
   const { data: sanityArticles } = useArticles();
   const staticArticle = articles.find((a) => a.slug === slug);
