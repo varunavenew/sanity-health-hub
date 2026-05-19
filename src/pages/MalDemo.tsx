@@ -4,7 +4,8 @@ import { ArrowLeft } from "lucide-react";
 
 import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
-import GynekologiSubPage from "./treatments/GynekologiSubPage";
+import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
+import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticlePage from "./ArticlePage";
 
 /**
@@ -43,9 +44,16 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     description:
       "Mastermal for enkeltbehandlinger under et fagområde. Bruker overgangsalder-siden, som har alle seksjonene (hero, forløp, symptomer, løfter, relaterte, CTA) en underbehandling kan trenge.",
     livePath: "/behandlinger/gynekologi/overgangsalder",
-    render: () => (
-      <SubPageWithParams categoryPath="gynekologi" subId="overgangsalder" />
-    ),
+    render: () => {
+      const base = gynekologiSubPages["overgangsalder"];
+      const content = {
+        specialistCategory: "gynekologi" as const,
+        specialistCtaLabel: "Se alle gynekologer",
+        specialistCtaHref: "/spesialister?kategori=gynekologi",
+        ...base,
+      };
+      return <SubTreatmentLayout isChatOpen={false} content={content} />;
+    },
   },
   newsItem: {
     title: "Mal: Nyhet / Pasienthistorie",
@@ -78,19 +86,6 @@ function ArticleWithSlug({ slug }: { slug: string }) {
   );
 }
 
-/** Render en underbehandling med en forhåndsvalgt subId. */
-function SubPageWithParams({ categoryPath, subId }: { categoryPath: string; subId: string }) {
-  return (
-    <MemoryRouter initialEntries={[`/behandlinger/${categoryPath}/${subId}`]}>
-      <Routes>
-        <Route
-          path="/behandlinger/:categoryId/:subId"
-          element={<GynekologiSubPage isChatOpen={false} />}
-        />
-      </Routes>
-    </MemoryRouter>
-  );
-}
 
 export default function MalDemo() {
   const { key = "" } = useParams();
