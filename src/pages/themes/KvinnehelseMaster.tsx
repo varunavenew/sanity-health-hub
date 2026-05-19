@@ -95,11 +95,18 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
     <PageLayout isChatOpen={isChatOpen}>
       {/* ───────────── Hero – Variant A: med video ───────────── */}
       <MasterLabel>Hero – Variant A: med video (samme mønster som /om-oss)</MasterLabel>
-      <Hero withVideo title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
+      <HeroWithVideo title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
 
-      {/* ───────────── Hero – Variant B: uten video ───────────── */}
-      <MasterLabel>Hero – Variant B: uten video (bilde under tittel)</MasterLabel>
-      <Hero withVideo={false} title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
+      {/* ───────────── Hero – Variant B: uten video (split-screen) ───────────── */}
+      <MasterLabel>Hero – Variant B: uten video (split-screen, samme som behandlingssider)</MasterLabel>
+      <SplitHero
+        eyebrow="Tema"
+        title={title}
+        description="Helhetlig oppfølging fra ungdomstid til seniortilværelse – med erfarne spesialister og kort ventetid."
+        image={kvinnehelseHero}
+        imageAlt="Kvinnehelse hos CMedical"
+        primaryCta={{ label: ctaText, to: ctaLink }}
+      />
 
       {/* ───────────── Innholds-seksjon: intro + livsfaser ───────────── */}
       <MasterLabel>Innhold – intro, tekstblokker og livsfaser</MasterLabel>
