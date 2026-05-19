@@ -4,7 +4,8 @@ import { ArrowLeft } from "lucide-react";
 
 import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
-import GynekologiSubPage from "./treatments/GynekologiSubPage";
+import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
+import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticlePage from "./ArticlePage";
 
 /**
