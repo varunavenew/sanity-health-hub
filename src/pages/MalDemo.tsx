@@ -44,9 +44,16 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     description:
       "Mastermal for enkeltbehandlinger under et fagområde. Bruker overgangsalder-siden, som har alle seksjonene (hero, forløp, symptomer, løfter, relaterte, CTA) en underbehandling kan trenge.",
     livePath: "/behandlinger/gynekologi/overgangsalder",
-    render: () => (
-      <SubPageWithParams categoryPath="gynekologi" subId="overgangsalder" />
-    ),
+    render: () => {
+      const base = gynekologiSubPages["overgangsalder"];
+      const content = {
+        specialistCategory: "gynekologi" as const,
+        specialistCtaLabel: "Se alle gynekologer",
+        specialistCtaHref: "/spesialister?kategori=gynekologi",
+        ...base,
+      };
+      return <SubTreatmentLayout isChatOpen={false} content={content} />;
+    },
   },
   newsItem: {
     title: "Mal: Nyhet / Pasienthistorie",
