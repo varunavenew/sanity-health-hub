@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { VideoPlayer } from "@/components/ui/video-player";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SplitHero } from "@/components/layout/SplitHero";
-import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
+import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 /**
  * KvinnehelseMaster – Mastermal for temasider.
