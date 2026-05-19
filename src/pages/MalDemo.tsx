@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate, MemoryRouter, Routes, Route } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
@@ -61,7 +61,7 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Mastermal for nyheter og pasienthistorier i Aktuelt. Bruker en eksisterende publisert sak.",
     livePath: "/aktuelt/18-maneder-etter-hofteoperasjon-hos-cmedical",
     render: () => (
-      <ArticleWithSlug slug="18-maneder-etter-hofteoperasjon-hos-cmedical" />
+      <ArticlePage isChatOpen={false} slug="18-maneder-etter-hofteoperasjon-hos-cmedical" />
     ),
   },
   article: {
@@ -70,21 +70,10 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Mastermal for lengre redaksjonelle fagartikler. Bruker en eksisterende fagartikkel fra Aktuelt.",
     livePath: "/aktuelt/overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe",
     render: () => (
-      <ArticleWithSlug slug="overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe" />
+      <ArticlePage isChatOpen={false} slug="overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe" />
     ),
   },
 };
-
-/** Render ArticlePage med en forhåndsvalgt slug, uavhengig av URL. */
-function ArticleWithSlug({ slug }: { slug: string }) {
-  return (
-    <MemoryRouter initialEntries={[`/aktuelt/${slug}`]}>
-      <Routes>
-        <Route path="/aktuelt/:slug" element={<ArticlePage isChatOpen={false} />} />
-      </Routes>
-    </MemoryRouter>
-  );
-}
 
 
 export default function MalDemo() {
