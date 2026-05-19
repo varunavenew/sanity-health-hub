@@ -6,7 +6,8 @@ import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
-import ArticlePage from "./ArticlePage";
+import NewsItemMaster from "./masters/NewsItemMaster";
+import ArticleMaster from "./masters/ArticleMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -103,20 +104,16 @@ const TEMPLATES: Record<string, TemplateConfig> = {
   newsItem: {
     title: "Mal: Nyhet / Pasienthistorie",
     description:
-      "Mastermal for nyheter og pasienthistorier i Aktuelt. Bruker en eksisterende publisert sak.",
-    livePath: "/aktuelt/18-maneder-etter-hofteoperasjon-hos-cmedical",
-    render: () => (
-      <ArticlePage isChatOpen={false} slug="18-maneder-etter-hofteoperasjon-hos-cmedical" />
-    ),
+      "Mastermal for nyheter og pasienthistorier. Splitscreen-hero med tekst + bilde, kort journalistisk brødtekst, faktaboks, byline og relaterte nyheter. Brukes til klinikknytt, pasienthistorier, presse og kortere stykker.",
+    livePath: "/aktuelt",
+    render: () => <NewsItemMaster isChatOpen={false} />,
   },
   article: {
     title: "Mal: Fagartikkel",
     description:
-      "Mastermal for lengre redaksjonelle fagartikler. Bruker en eksisterende fagartikkel fra Aktuelt.",
-    livePath: "/aktuelt/overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe",
-    render: () => (
-      <ArticlePage isChatOpen={false} slug="overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe" />
-    ),
+      "Mastermal for lengre fagartikler. Sentrert redaksjonelt hero, fagforfatter + faglig validering, sticky innholdsfortegnelse, pull-quotes, spesialist-kommentar, fakta- og CTA-boks, kildeliste og ansvarsfraskrivelse.",
+    livePath: "/aktuelt",
+    render: () => <ArticleMaster isChatOpen={false} />,
   },
 };
 
