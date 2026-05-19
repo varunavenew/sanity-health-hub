@@ -5,6 +5,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { VideoPlayer } from "@/components/ui/video-player";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
+import { SplitHero } from "@/components/layout/SplitHero";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
@@ -50,20 +51,16 @@ const MasterLabel = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-const Hero = ({ withVideo, title, ctaLink, ctaText, navigate }: any) => (
+const HeroWithVideo = ({ title, ctaLink, ctaText, navigate }: any) => (
   <header className="bg-brand-warm pt-16 md:pt-20 pb-10 md:pb-14">
     <div className="container mx-auto px-6 md:px-16">
       <div className="max-w-3xl mx-auto">
-        <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">
-          {withVideo ? "Konseptfilm" : "Tema"}
-        </p>
+        <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">Konseptfilm</p>
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
           {title}
         </h1>
         <p className="text-base text-foreground/70 font-light leading-relaxed max-w-xl mb-8">
-          {withVideo
-            ? "En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg."
-            : "Helhetlig oppfølging fra ungdomstid til seniortilværelse – med erfarne spesialister og kort ventetid."}
+          En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg.
         </p>
         <Button variant="cta" size="lg" onClick={() => navigate(ctaLink)}>
           {ctaText}
@@ -71,31 +68,16 @@ const Hero = ({ withVideo, title, ctaLink, ctaText, navigate }: any) => (
         </Button>
       </div>
     </div>
-
-    {withVideo ? (
-      <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
-        <div className="max-w-5xl mx-auto">
-          <VideoPlayer
-            thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
-            videoUrl="/videos/kvinnehelse-konsept.mp4"
-            title="Kvinnehelse gjennom hele livet"
-            className="w-full aspect-video"
-          />
-        </div>
+    <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
+      <div className="max-w-5xl mx-auto">
+        <VideoPlayer
+          thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
+          videoUrl="/videos/kvinnehelse-konsept.mp4"
+          title="Kvinnehelse gjennom hele livet"
+          className="w-full aspect-video"
+        />
       </div>
-    ) : (
-      <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
-        <div className="max-w-5xl mx-auto">
-          <div className="w-full aspect-[21/9] overflow-hidden rounded-sm">
-            <img
-              src={kvinnehelseHero}
-              alt="Kvinnehelse hos CMedical"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </div>
-    )}
+    </div>
   </header>
 );
 
@@ -113,11 +95,18 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
     <PageLayout isChatOpen={isChatOpen}>
       {/* ───────────── Hero – Variant A: med video ───────────── */}
       <MasterLabel>Hero – Variant A: med video (samme mønster som /om-oss)</MasterLabel>
-      <Hero withVideo title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
+      <HeroWithVideo title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
 
-      {/* ───────────── Hero – Variant B: uten video ───────────── */}
-      <MasterLabel>Hero – Variant B: uten video (bilde under tittel)</MasterLabel>
-      <Hero withVideo={false} title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
+      {/* ───────────── Hero – Variant B: uten video (split-screen) ───────────── */}
+      <MasterLabel>Hero – Variant B: uten video (split-screen, samme som behandlingssider)</MasterLabel>
+      <SplitHero
+        eyebrow="Tema"
+        title={title}
+        description="Helhetlig oppfølging fra ungdomstid til seniortilværelse – med erfarne spesialister og kort ventetid."
+        image={kvinnehelseHero}
+        imageAlt="Kvinnehelse hos CMedical"
+        primaryCta={{ label: ctaText, to: ctaLink }}
+      />
 
       {/* ───────────── Innholds-seksjon: intro + livsfaser ───────────── */}
       <MasterLabel>Innhold – intro, tekstblokker og livsfaser</MasterLabel>
