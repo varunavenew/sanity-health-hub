@@ -238,7 +238,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                   placeholder="Søk etter behandling..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-12 h-11 rounded-full bg-white border-brand-dark/10 text-brand-dark placeholder:text-brand-dark/40"
+                  className="pl-12 h-11 rounded-full bg-white border-brand-dark/30 text-brand-dark placeholder:text-brand-dark/60"
                 />
               </div>
             </div>

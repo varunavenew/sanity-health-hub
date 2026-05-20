@@ -178,7 +178,7 @@ const Services = ({ isChatOpen }: PageProps) => {
                         <span className="text-sm font-light text-foreground">{item.label}</span>
                         <span className="ml-2 text-xs text-muted-foreground/60">{item.category}</span>
                       </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/40" />
+                      <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
                     </button>
                   ))}
                 </motion.div>
