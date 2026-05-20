@@ -1,14 +1,18 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+export type TagItem = string | { label: string; href?: string };
 
 interface TagListProps {
-  tags: string[];
+  tags: TagItem[];
   initialVisible?: number;
   className?: string;
 }
 
 /**
- * Shows a compact wrap of pill-shaped tags. If the list exceeds
- * `initialVisible`, a "+N" pill toggles the rest in/out.
+ * Shows a compact wrap of pill-shaped tags. Tags can be plain strings or
+ * `{ label, href }` objects — those with an href render as links.
+ * If the list exceeds `initialVisible`, a "+N" pill toggles the rest.
  */
 export const TagList = ({ tags, initialVisible = 3, className = "" }: TagListProps) => {
   const [expanded, setExpanded] = useState(false);
@@ -21,14 +25,33 @@ export const TagList = ({ tags, initialVisible = 3, className = "" }: TagListPro
 
   const pillClass =
     "text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full";
+  const linkPillClass = `${pillClass} hover:bg-foreground/5 hover:border-foreground/30 hover:text-foreground transition-colors`;
+
+  const normalize = (t: TagItem) =>
+    typeof t === "string" ? { label: t, href: undefined as string | undefined } : t;
 
   return (
     <div className={`flex flex-wrap gap-1.5 ${className}`}>
-      {visibleTags.map((tag) => (
-        <span key={tag} className={pillClass}>
-          {tag}
-        </span>
-      ))}
+      {visibleTags.map((t) => {
+        const { label, href } = normalize(t);
+        if (href) {
+          return (
+            <Link
+              key={label}
+              to={href}
+              onClick={(e) => e.stopPropagation()}
+              className={linkPillClass}
+            >
+              {label}
+            </Link>
+          );
+        }
+        return (
+          <span key={label} className={pillClass}>
+            {label}
+          </span>
+        );
+      })}
       {hasOverflow && (
         <button
           type="button"
