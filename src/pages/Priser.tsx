@@ -593,9 +593,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                   </div>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10`}>
                     {expandedCategory === category.id ? (
-                      <Minus className="w-4 h-4 text-foreground/50" aria-hidden="true" />
+                      <Minus className="w-4 h-4 text-foreground/80" aria-hidden="true" />
                     ) : (
-                      <Plus className="w-4 h-4 text-foreground/50" aria-hidden="true" />
+                      <Plus className="w-4 h-4 text-foreground/80" aria-hidden="true" />
                     )}
                   </div>
                 </button>
@@ -637,7 +637,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                   {sub.items.length} tjenester
                                 </span>
                                 <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${
-                                  expandedSubcategory === sub.label ? 'rotate-90 text-foreground/50' : ''
+                                  expandedSubcategory === sub.label ? 'rotate-90 text-foreground/80' : ''
                                 }`} aria-hidden="true" />
                               </div>
                             </button>
@@ -675,7 +675,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             <p className="font-normal text-foreground text-sm">
                                               {item.price === "0,-" ? "Gratis" : item.price}
                                             </p>
-                                            <ArrowRight className="w-3.5 h-3.5 text-foreground/20 group-hover/item:text-foreground/50 transition-colors" />
+                                            <ArrowRight className="w-3.5 h-3.5 text-foreground/20 group-hover/item:text-foreground/80 transition-colors" />
                                           </div>
                                         </button>
                                       ))}

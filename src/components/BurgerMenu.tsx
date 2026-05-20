@@ -84,7 +84,7 @@ const BurgerMenu = () => {
               className="hidden md:block absolute right-0 top-full mt-3 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden min-w-[280px]"
             >
               <div className="p-5">
-                <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 font-medium">
+                <h3 className="text-foreground/80 text-xs uppercase tracking-wider mb-3 font-medium">
                   {t("nav.menu")}
                 </h3>
                 <nav className="space-y-0.5">
@@ -101,7 +101,7 @@ const BurgerMenu = () => {
 
                 {/* Quick contact */}
                 <div className="mt-5 pt-5 border-t border-border">
-                  <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 font-medium">
+                  <h3 className="text-foreground/80 text-xs uppercase tracking-wider mb-3 font-medium">
                     {t("nav.quickContact")}
                   </h3>
                   <div className="space-y-2">
@@ -163,7 +163,7 @@ const BurgerMenu = () => {
 
               {/* Mobile Content */}
               <div className="p-6">
-                <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-4 font-medium">
+                <h3 className="text-foreground/80 text-xs uppercase tracking-wider mb-4 font-medium">
                   {t("nav.menu")}
                 </h3>
                 <nav className="space-y-1">
@@ -180,7 +180,7 @@ const BurgerMenu = () => {
 
                 {/* Quick contact */}
                 <div className="mt-8 pt-6 border-t border-border">
-                  <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-4 font-medium">
+                  <h3 className="text-foreground/80 text-xs uppercase tracking-wider mb-4 font-medium">
                     {t("nav.quickContact")}
                   </h3>
                   <div className="space-y-3">

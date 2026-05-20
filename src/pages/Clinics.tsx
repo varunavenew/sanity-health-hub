@@ -149,15 +149,15 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                     {/* Key info */}
                     <ul className="space-y-3 mb-7 border-t border-border/50 pt-6">
                       <li className="flex items-start gap-3 text-sm">
-                        <MapPin className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        <MapPin className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                         <span className="text-foreground font-light">{clinic.address}</span>
                       </li>
                       <li className="flex items-start gap-3 text-sm">
-                        <Clock className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        <Clock className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                         <span className="text-foreground font-light">{clinic.hours}</span>
                       </li>
                       <li className="flex items-start gap-3 text-sm">
-                        <Phone className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                        <Phone className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                         {clinic.phone ? (
                           <a
                             href={`tel:+47${String(clinic.phone).replace(/\s/g, "")}`}
@@ -174,25 +174,25 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                     {/* Practical chips */}
                     <div className="flex flex-wrap gap-2 mb-8">
                       {clinic.detail?.parking && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-xs text-muted-foreground font-light">
                           <Car className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           Parkering
                         </span>
                       )}
                       {clinic.detail?.publicTransport && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-xs text-muted-foreground font-light">
                           <Train className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           Kollektiv
                         </span>
                       )}
                       {clinic.detail?.accessibility && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-xs text-muted-foreground font-light">
                           <Accessibility className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           Universelt utformet
                         </span>
                       )}
                       {serviceCount > 0 && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-xs text-muted-foreground font-light">
                           <Stethoscope className="w-3 h-3" strokeWidth={1.5} aria-hidden="true" />
                           {serviceCount} tjenester
                         </span>

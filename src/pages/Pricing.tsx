@@ -210,7 +210,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                     </div>
                     <div>
                       <h3 className="text-lg font-medium">{tab.label}</h3>
-                      <p className={`text-sm ${isActive ? 'text-white/60' : 'text-brand-dark/50'}`}>
+                      <p className={`text-sm ${isActive ? 'text-white/60' : 'text-brand-dark/75'}`}>
                         {tab.prices.reduce((sum, cat) => sum + cat.items.length, 0)} tjenester
                       </p>
                     </div>
@@ -275,7 +275,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                                 {item.name}
                               </h3>
                               {item.description && !isExpanded && (
-                                <p className="text-sm text-brand-dark/50 mt-1">{item.description}</p>
+                                <p className="text-sm text-brand-dark/75 mt-1">{item.description}</p>
                               )}
                             </div>
                             <div className="flex items-center gap-3">

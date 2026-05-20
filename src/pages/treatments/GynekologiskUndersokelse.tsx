@@ -247,7 +247,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
               {consultationFlow.map((step) => (
                 <div key={step.n} className="bg-background p-7 flex flex-col">
-                  <p className="text-[11px] tracking-wider text-brand-dark mb-5 uppercase">
+                  <p className="text-xs tracking-wider text-brand-dark mb-5 uppercase">
                     {step.n}
                   </p>
                   <h3 className="text-lg font-normal mb-3 leading-snug">
@@ -322,7 +322,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                 key={p.title}
                 className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
               >
-                <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                <p className="text-xs tracking-wider text-foreground/80 mb-4 uppercase">
                   {p.eyebrow}
                 </p>
                 <h3 className="text-lg font-normal text-foreground mb-3">
@@ -359,7 +359,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                   to={a.href}
                   className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
                 >
-                  <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                  <p className="text-xs tracking-wider text-foreground/80 mb-4 uppercase">
                     {a.eyebrow}
                   </p>
                   <h3 className="text-lg font-normal text-foreground mb-3">
