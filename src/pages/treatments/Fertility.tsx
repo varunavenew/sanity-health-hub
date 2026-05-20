@@ -187,7 +187,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <header className="bg-brand-light pt-24 lg:pt-0">
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  {/* Left — copy + CTA */}
- <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+ <div className="flex items-center page-edge-text-left py-16 lg:py-24">
  <div className="max-w-xl w-full">
  <p className="text-xs text-foreground/60 mb-8">
  Fertilitet — CMedical
@@ -248,7 +248,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  2. SEGMENT — "Fortell oss hvor du er" (identifiser deg)
  ============================================================ */}
  <section className="bg-brand-light text-foreground py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
  <p className="text-xs text-foreground/60 mb-4">
@@ -292,7 +292,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <section className="bg-background">
  <div className="grid lg:grid-cols-12">
- <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+ <div className="lg:col-span-7 page-edge-text-left py-20 lg:py-28">
  <div className="max-w-xl">
  <p className="text-xs text-foreground/60 mb-5">
  Hvorfor CMedical
@@ -367,7 +367,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  4. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
  ============================================================ */}
  <section className="bg-secondary/40 py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
  <p className="text-xs text-foreground/60 mb-4">
@@ -437,7 +437,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
  <section className="bg-brand-light text-foreground py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-5">
@@ -496,7 +496,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  8. TILBAKEMELDINGER — sosial bevis rett før spesialistene
  ============================================================ */}
  <section className="bg-brand-warm py-20 md:py-24">
- <div className="container mx-auto px-6 md:px-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
  <p className="text-sm text-brand-dark/60 font-light mb-3">

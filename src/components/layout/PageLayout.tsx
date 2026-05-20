@@ -142,7 +142,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         
         {/* Navigation Bar */}
         <nav className={`transition-colors duration-300 ${isAtTop ? 'bg-gradient-to-b from-black/70 via-black/35 to-transparent' : 'bg-brand-dark/95 backdrop-blur-md'}`} aria-label="Hovednavigasjon">
-          <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between relative">
+          <div className="page-shell h-16 flex items-center justify-between relative">
             <Link to="/" className="flex items-center">
               <img 
                 src={cmWordmarkNegative} 
@@ -197,7 +197,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
         {/* Search Overlay - Inside nav for consistent styling */}
         {isSearchOpen && (
-          <div ref={searchContainerRef} className="container mx-auto px-4 md:px-8 pb-4">
+          <div ref={searchContainerRef} className="page-shell pb-4">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 animate-fade-in">
               <form onSubmit={handleSearch} role="search" className="flex items-center gap-3">
                 <label htmlFor="site-search" className="sr-only">{t("nav.searchLabel")}</label>
