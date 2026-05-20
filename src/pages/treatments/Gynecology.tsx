@@ -330,7 +330,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                   },
                 ].map((step) => (
                   <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
-                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 tracking-wider pt-1">
                       {step.n}
                     </div>
                     <div className="col-span-10 md:col-span-11">
@@ -639,7 +639,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               <div className="divide-y divide-border/60 border-t border-border/60">
                 {journey.map((step) => (
                   <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
-                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/40 tracking-wider pt-1">
+                    <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 tracking-wider pt-1">
                       {step.n}
                     </div>
                     <div className="col-span-10 md:col-span-11">
