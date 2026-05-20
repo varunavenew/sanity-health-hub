@@ -292,7 +292,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <section className="bg-background">
  <div className="grid lg:grid-cols-12">
- <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+ <div className="lg:col-span-7 page-edge-text-left py-20 lg:py-28">
  <div className="max-w-xl">
  <p className="text-xs text-foreground/60 mb-5">
  Hvorfor CMedical
