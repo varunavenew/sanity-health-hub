@@ -174,23 +174,24 @@
 }
 
 @layer components {
-  /* Sentrert "shell" — bruk på header og vanlige content-seksjoner.
-     Innholdet starter på samme x-akse som logoen. */
+  /* Felles "edge" — beregner avstand fra venstre/høyre viewport-kant til
+     content-edge. Bruker max() så den faller tilbake til --gutter på smale
+     skjermer og holder seg på shell-kant ((100vw - max-shell)/2 + gutter)
+     på brede skjermer. Logo, headere, content-seksjoner og split-tekst
+     kolonner bruker alle samme verdi → alt flukter på samme x-akse. */
   .page-shell {
-    width: 100%;
-    max-width: var(--max-shell);
-    margin-inline: auto;
-    padding-inline: var(--gutter);
+    padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
+    padding-right: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
   }
 
-  /* Split-screen tekstkolonne: bilde-kolonnen kan gå helt ut til skjermkant,
-     mens tekst-kolonnen flukter med logoen (page-shell content-edge) på brede skjermer. */
+  /* Split-screen tekstkolonne: bilde går kant-i-kant på motsatt side,
+     tekst starter på samme x som logoen. */
   .page-edge-text-left {
-    padding-inline: var(--gutter);
+    padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
+    padding-right: var(--gutter);
   }
   @media (min-width: 768px) {
     .page-edge-text-left {
-      padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
       padding-right: 3rem;
     }
   }
