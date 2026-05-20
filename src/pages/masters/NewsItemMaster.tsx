@@ -173,7 +173,262 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
         </div>
       </article>
 
-      {/* ───────────── RELATERTE NYHETER ───────────── */}
+      {/* ───────────── PULL QUOTE – stor fremhevet sitat ───────────── */}
+      <section className="bg-brand-light py-16 md:py-24 border-y border-border/60">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto text-center">
+            <Quote className="w-8 h-8 text-brand-dark/40 mx-auto mb-6" />
+            <p className="text-2xl md:text-3xl lg:text-4xl font-light leading-snug text-foreground italic">
+              «Jeg fikk en time hos en spesialist på CMedical innen ti dager — og følte
+              for første gang at noen virkelig lyttet.»
+            </p>
+            <p className="mt-6 text-sm font-light text-foreground/60">
+              — Kari Hansen, pasient
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── VIDEO / MEDIA-SLOT (valgfri) ───────────── */}
+      <section className="bg-background py-14 md:py-20">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-4xl mx-auto">
+            <p className="text-[11px] tracking-wider uppercase text-brand-dark mb-4">
+              Se historien
+            </p>
+            <div className="relative aspect-video rounded-sm overflow-hidden bg-secondary group cursor-pointer">
+              <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-brand-dark/30 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-brand-light/90 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Play className="w-6 h-6 text-brand-dark ml-1" />
+                </div>
+              </div>
+            </div>
+            <p className="text-xs font-light text-muted-foreground mt-3">
+              Video — 2:14 · CMedical Sandvika
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── BILDEGALLERI ───────────── */}
+      <section className="bg-secondary/20 py-14 md:py-20">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-5xl mx-auto">
+            <p className="text-[11px] tracking-wider uppercase text-brand-dark mb-4">
+              Bilder fra forløpet
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="aspect-square overflow-hidden rounded-sm bg-secondary">
+                  <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── FREMHEVET ENKELT-SPESIALIST ───────────── */}
+      <section className="bg-background py-16 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-8 md:gap-12 items-center">
+            <div className="md:col-span-2">
+              <div className="aspect-[3/4] overflow-hidden rounded-sm bg-secondary">
+                <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+              </div>
+            </div>
+            <div className="md:col-span-3">
+              <p className="text-[11px] tracking-wider uppercase text-brand-dark mb-3">
+                Spesialisten i denne saken
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+                Dr. Eivind Holm
+              </h2>
+              <p className="text-sm font-light text-foreground/70 mb-5">
+                Ortoped · Spesialist i hofte- og kneprotese
+              </p>
+              <p className="text-base font-light leading-relaxed text-foreground/80 mb-6">
+                Holm har utført over 1 200 hofteoperasjoner og leder ortopedisk team ved
+                CMedical Sandvika. Han er kjent for å sette av tid til den preoperative
+                samtalen — fordi forventningene avgjør hvordan forløpet oppleves.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/spesialister/eivind-holm"
+                  className="inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground pb-0.5 hover:gap-2.5 transition-all"
+                >
+                  Les mer om Eivind <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/booking?spesialist=eivind-holm"
+                  className="inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground transition-colors"
+                >
+                  Bestill time
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── SPESIALISTER (flere) – samme som fertilitet ───────────── */}
+      <SpecialistsScroller
+        category="ortopedi"
+        eyebrow="Teamet bak"
+        title="Spesialistene som følger deg"
+        description="Erfarne ortopeder og fysioterapeuter som jobber sammen om forløpet ditt."
+        seeAllHref="/spesialister?kategori=ortopedi"
+      />
+
+      {/* ───────────── FREMHEVET ENKELT-TJENESTE ───────────── */}
+      <section className="bg-brand-light py-16 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div>
+              <p className="text-[11px] tracking-wider uppercase text-brand-dark mb-3">
+                Tjenesten i denne saken
+              </p>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
+                Hofteprotese
+              </h2>
+              <p className="text-base font-light leading-relaxed text-foreground/80 mb-6">
+                Et komplett forløp med konsultasjon, operasjon i Sandvika og oppfølging hos
+                fysioterapeut. Ingen henvisning nødvendig — typisk 3–6 uker fra første time
+                til inngrep.
+              </p>
+              <ul className="space-y-2 mb-8 text-sm font-light text-foreground/80">
+                <li>· Pris fra 95 000 kr</li>
+                <li>· Dekkes av de fleste helseforsikringer</li>
+                <li>· Konsultasjon innen 10 dager</li>
+              </ul>
+              <Link
+                to="/behandlinger/ortopedi/hofteprotese"
+                className="inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground pb-0.5 hover:gap-2.5 transition-all"
+              >
+                Se hele tjenesten <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="aspect-[4/3] overflow-hidden rounded-sm bg-secondary order-first md:order-last">
+              <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── RELATERTE TJENESTER (grid) ───────────── */}
+      <section className="bg-background py-14 md:py-20">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+              Andre tjenester innen ortopedi
+            </h2>
+            <p className="text-muted-foreground font-light mb-10">
+              Vi tilbyr et komplett forløp for de fleste muskel- og skjelettplager.
+            </p>
+            <div className="grid md:grid-cols-3 gap-5">
+              {[
+                { Icon: Stethoscope, t: "Kneprotese", d: "Total- og halvprotese, robotassistert kirurgi.", l: "/behandlinger/ortopedi/kneprotese" },
+                { Icon: HeartPulse, t: "Skulder", d: "Skulderlås, slitasje og artroskopi.", l: "/behandlinger/ortopedi/skulder" },
+                { Icon: Sparkles, t: "Fysioterapi", d: "Tett pre- og postoperativ oppfølging.", l: "/behandlinger/fysioterapi" },
+              ].map((s) => (
+                <Link
+                  key={s.t}
+                  to={s.l}
+                  className="group block p-6 rounded-sm border border-border hover:border-brand-dark/40 hover:bg-secondary/30 transition-all"
+                >
+                  <s.Icon className="w-6 h-6 text-brand-dark mb-4" strokeWidth={1.5} />
+                  <h3 className="text-base font-normal text-foreground mb-1.5">{s.t}</h3>
+                  <p className="text-sm font-light text-foreground/70 mb-4">{s.d}</p>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-light text-foreground group-hover:gap-2 transition-all">
+                    Les mer <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── FAQ (kort, valgfri) ───────────── */}
+      <section className="bg-secondary/30 py-14 md:py-20 border-y border-border/60">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
+              Ofte stilte spørsmål
+            </h2>
+            <div className="space-y-2">
+              {[
+                { q: "Trenger jeg henvisning?", a: "Nei, du kan bestille time direkte hos oss uten henvisning fra fastlege." },
+                { q: "Dekker forsikringen min?", a: "De fleste private helseforsikringer dekker konsultasjon og inngrep. Sjekk med ditt forsikringsselskap." },
+                { q: "Hvor lang er ventetiden?", a: "Som regel får du time innen 10 virkedager." },
+              ].map((f, i) => (
+                <button
+                  key={i}
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full text-left bg-background border border-border rounded-sm p-5 hover:border-brand-dark/40 transition-colors"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-base font-normal text-foreground">{f.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-foreground/60 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
+                  </div>
+                  {openFaq === i && (
+                    <p className="text-sm font-light text-foreground/70 mt-3 leading-relaxed">{f.a}</p>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── TAGS + DEL ───────────── */}
+      <section className="bg-background py-10 md:py-14">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto flex flex-wrap items-center gap-3">
+            <Tag className="w-4 h-4 text-foreground/50" />
+            {["Hofteprotese", "Ortopedi", "Pasienthistorie", "Sandvika"].map((t) => (
+              <Link
+                key={t}
+                to={`/aktuelt?tag=${encodeURIComponent(t)}`}
+                className="text-xs font-light px-3 py-1 rounded-full border border-border text-foreground/70 hover:border-brand-dark hover:text-foreground transition-colors"
+              >
+                {t}
+              </Link>
+            ))}
+            <button className="ml-auto inline-flex items-center gap-1.5 text-xs font-light text-foreground/60 hover:text-foreground transition-colors">
+              <Share2 className="w-3.5 h-3.5" /> Del artikkelen
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── NYHETSBREV ───────────── */}
+      <section className="bg-brand-dark text-brand-light py-14 md:py-20">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto text-center">
+            <Mail className="w-6 h-6 mx-auto mb-4 text-brand-light/70" strokeWidth={1.5} />
+            <h2 className="text-2xl md:text-3xl font-light mb-3">
+              Få nyhetene først
+            </h2>
+            <p className="text-brand-light/70 font-light mb-6">
+              Pasienthistorier, fagstoff og nytt fra klinikkene — én gang i måneden.
+            </p>
+            <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="din@epost.no"
+                className="flex-1 bg-brand-light/10 border border-brand-light/20 rounded-sm px-4 py-2.5 text-sm font-light placeholder:text-brand-light/40 focus:outline-none focus:border-brand-light/60"
+              />
+              <button className="bg-brand-light text-brand-dark px-5 py-2.5 text-sm font-normal rounded-sm hover:bg-brand-light/90 transition-colors">
+                Meld meg på
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+
       <section className="bg-secondary/30 border-t border-border py-14 md:py-20">
         <div className="container mx-auto px-6 md:px-16">
           <h2 className="text-lg font-normal text-foreground mb-8">Flere nyheter</h2>
