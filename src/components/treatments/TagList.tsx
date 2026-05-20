@@ -20,7 +20,7 @@ export const TagList = ({ tags, initialVisible = 3, className = "" }: TagListPro
   const hiddenCount = tags.length - initialVisible;
 
   const pillClass =
-    "text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full";
+    "text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full";
 
   return (
     <div className={`flex flex-wrap gap-1.5 ${className}`}>

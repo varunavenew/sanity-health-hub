@@ -240,7 +240,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
                   <h3 className="text-base md:text-lg font-light text-foreground mb-0.5">
                     {s.name}
                   </h3>
-                  <p className="text-[11px] md:text-xs text-foreground/80 font-light uppercase tracking-wider">
+                  <p className="text-xs md:text-xs text-foreground/80 font-light uppercase tracking-wider">
                     {s.title}
                   </p>
                 </div>

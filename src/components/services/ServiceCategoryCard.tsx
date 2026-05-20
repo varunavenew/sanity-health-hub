@@ -150,7 +150,7 @@ const ServiceCategoryCard = ({
                     e.stopPropagation();
                     handleNavigate(path);
                   }}
-                  className="inline-flex items-center gap-2 text-sm font-light text-foreground/50 hover:text-foreground/80 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-light text-foreground/80 hover:text-foreground/80 transition-colors"
                 >
                   Les mer
                   <ArrowRight className="w-3 h-3" />

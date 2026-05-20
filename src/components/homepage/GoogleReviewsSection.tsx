@@ -25,7 +25,7 @@ const LegelistenIcon = () => (
 );
 
 const SourceBadge = ({ source }: { source: 'google' | 'legelisten' }) => (
-  <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+  <div className="flex items-center gap-1.5 text-xs text-brand-dark/75">
     {source === 'google' ? <GoogleIcon /> : <LegelistenIcon />}
     <span>{source === 'google' ? 'Google' : 'Legelisten'}</span>
   </div>

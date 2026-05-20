@@ -648,10 +648,10 @@ const BookingDemo = () => {
         {/* Step Indicator — minimal CMedical stil */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2 px-1">
-            <span className="text-[11px] font-light text-brand-dark/60 tracking-wide">
+            <span className="text-xs font-light text-brand-dark/60 tracking-wide">
               Steg {currentStep} av 5
             </span>
-            <span className="text-[11px] font-normal text-brand-dark tracking-wide">
+            <span className="text-xs font-normal text-brand-dark tracking-wide">
               {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
             </span>
           </div>
@@ -890,7 +890,7 @@ const BookingDemo = () => {
                         <p className="font-normal text-brand-dark">{clinic.label}</p>
                         <p className="text-sm text-brand-dark/60 font-light">{clinic.address}</p>
                         {clinic.bookingSystem === 'external' && (
-                          <p className="text-xs text-brand-dark/50 mt-0.5 font-light">Ring for timebestilling</p>
+                          <p className="text-xs text-brand-dark/75 mt-0.5 font-light">Ring for timebestilling</p>
                         )}
                       </div>
                       <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
@@ -1037,7 +1037,7 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border bg-white transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark/15 text-brand-dark/50 hover:text-brand-dark hover:border-brand-dark/30 hover:bg-brand-beige/40"
+                          ? "border-brand-dark/15 text-brand-dark/75 hover:text-brand-dark hover:border-brand-dark/30 hover:bg-brand-beige/40"
                           : "border-brand-dark/10 text-brand-dark/20 cursor-not-allowed"
                       )}
                     >
@@ -1055,7 +1055,7 @@ const BookingDemo = () => {
                       className={cn(
                         "flex h-10 w-10 items-center justify-center rounded-md border bg-white transition-colors",
                         canGoNextRange
-                          ? "border-brand-dark/15 text-brand-dark/50 hover:text-brand-dark hover:border-brand-dark/30 hover:bg-brand-beige/40"
+                          ? "border-brand-dark/15 text-brand-dark/75 hover:text-brand-dark hover:border-brand-dark/30 hover:bg-brand-beige/40"
                           : "border-brand-dark/10 text-brand-dark/20 cursor-not-allowed"
                       )}
                     >
@@ -1100,7 +1100,7 @@ const BookingDemo = () => {
                             )}
                           >
                             <span className={cn(
-                              "text-[11px] font-medium uppercase tracking-wide",
+                              "text-xs font-medium uppercase tracking-wide",
                               isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
                             )}>
                               {format(date, "EEE", { locale: nb })}
@@ -1112,7 +1112,7 @@ const BookingDemo = () => {
                               {format(date, "d", { locale: nb })}
                             </span>
                             <span className={cn(
-                              "text-[11px] font-light",
+                              "text-xs font-light",
                               isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
                             )}>
                               {isToday ? "I dag" : format(date, "MMM", { locale: nb })}
@@ -1223,7 +1223,7 @@ const BookingDemo = () => {
                   <div>
                     <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Pris</span>
                     <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.price === "0" ? "Gratis" : `Fra ${bookingData.service?.price} kr`}</p>
-                    <p className="text-xs text-brand-dark/50 mt-0.5 font-light">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
+                    <p className="text-xs text-brand-dark/75 mt-0.5 font-light">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
                   </div>
                   <div>
                     <span className="text-brand-dark/60 text-xs uppercase tracking-wide">Klinikk</span>

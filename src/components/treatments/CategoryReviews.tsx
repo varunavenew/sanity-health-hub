@@ -56,7 +56,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <p className="text-sm text-brand-dark/50 font-light mb-2">Pasienterfaringer</p>
+            <p className="text-sm text-brand-dark/75 font-light mb-2">Pasienterfaringer</p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
               Hva pasientene sier om {categoryTitle.toLowerCase()}
             </h2>
@@ -114,7 +114,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
                     </p>
                     <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                  <div className="flex items-center gap-1.5 text-xs text-brand-dark/75">
                     {review.source === "google" ? <GoogleIcon /> : <LegelistenIcon />}
                     <span>{review.source === "google" ? "Google" : "Legelisten"}</span>
                   </div>

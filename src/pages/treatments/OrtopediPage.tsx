@@ -247,7 +247,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
                     {p.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                        className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
                       >
                         {tag}
                       </span>
@@ -304,7 +304,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
                     />
                   </div>
                   <div className="p-7 flex flex-col flex-1">
-                    <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                    <p className="text-xs tracking-wider text-foreground/80 mb-4 uppercase">
                       {a.eyebrow}
                     </p>
                     <h3 className="text-xl font-light text-foreground mb-3">
@@ -361,7 +361,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
             </div>
 
             <div className="border-t border-brand-dark/5 py-8 md:py-10">
-              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
+              <p className="text-xs tracking-[0.18em] text-brand-dark mb-6 uppercase">
                 Ortopedi
               </p>
               <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
@@ -479,7 +479,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
                         {r.date}
                       </p>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
+                    <div className="flex items-center gap-1.5 text-xs text-brand-dark/75">
                       <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none">
                         <path d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" fill="#FFC107"/>
                         <path d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" fill="#FF3D00"/>

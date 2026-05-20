@@ -34,7 +34,7 @@ export const ClinicBookingBlock = ({
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-2 mb-2">
-            <Calendar className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+            <Calendar className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
             <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">
               Booking
             </p>
@@ -82,7 +82,7 @@ export const ClinicBookingBlock = ({
                     href={`tel:+47${phone.replace(/\s/g, "")}`}
                     className="flex items-center gap-3 text-sm text-foreground hover:text-brand-dark transition-colors group"
                   >
-                    <Phone className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+                    <Phone className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
                     <span className="font-light group-hover:underline">{phone}</span>
                   </a>
                 )}
@@ -91,7 +91,7 @@ export const ClinicBookingBlock = ({
                     href={`mailto:${email}`}
                     className="flex items-center gap-3 text-sm text-foreground hover:text-brand-dark transition-colors group"
                   >
-                    <Mail className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+                    <Mail className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
                     <span className="font-light group-hover:underline">{email}</span>
                   </a>
                 )}
@@ -113,7 +113,7 @@ export const ClinicBookingBlock = ({
           {method === "closed" && (
             <div className="border border-border/40 rounded-sm p-6 bg-muted/40">
               <div className="flex items-start gap-3">
-                <Lock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                <Lock className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
                 <div>
                   <p className="text-sm font-normal text-foreground mb-1">Stengt for booking</p>
                   <p className="text-sm text-muted-foreground font-light leading-[1.8]">

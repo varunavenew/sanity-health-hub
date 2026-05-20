@@ -205,7 +205,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 <div className={`grid grid-cols-2 ${cols} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
                   {c.flow.map((step) => (
                     <div key={step.n} className="bg-background p-5 md:p-6 flex flex-col">
-                      <p className="text-[11px] tracking-wider text-brand-dark mb-4 uppercase">
+                      <p className="text-xs tracking-wider text-brand-dark mb-4 uppercase">
                         {step.n}
                       </p>
                       <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug text-foreground">
@@ -291,7 +291,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                     <p.Icon className="w-10 h-10" aria-hidden="true" />
                   </div>
                 )}
-                <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                <p className="text-xs tracking-wider text-foreground/80 mb-4 uppercase">
                   {p.eyebrow}
                 </p>
                 <h3 className="text-lg font-normal text-foreground mb-3">
@@ -371,7 +371,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
-              <p className="text-[11px] tracking-wider mb-3 uppercase text-brand-dark">Klar når du er</p>
+              <p className="text-xs tracking-wider mb-3 uppercase text-brand-dark">Klar når du er</p>
               <h2 className="text-2xl md:text-3xl font-light leading-tight">
                 Få {c.title.toLowerCase()} hos en spesialist denne uken.
               </h2>
@@ -418,7 +418,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                     to={a.href}
                     className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
                   >
-                    <p className="text-[11px] tracking-wider text-foreground/50 mb-4 uppercase">
+                    <p className="text-xs tracking-wider text-foreground/80 mb-4 uppercase">
                       {a.eyebrow}
                     </p>
                     <h3 className="text-lg font-normal text-foreground mb-3">
@@ -464,7 +464,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div className="lg:col-span-4">
-              <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3">
+              <p className="text-xs tracking-[0.18em] text-brand-dark mb-3">
                 SAMARBEIDSPARTNERE
               </p>
               <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">

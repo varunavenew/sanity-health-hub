@@ -189,7 +189,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                  <MapPin className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Adresse</p>
                     <p className="text-sm text-muted-foreground font-light">{clinic.address}</p>
@@ -201,7 +201,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Phone className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                  <Phone className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Telefon</p>
                     <a href={`tel:+47${clinic.phone?.replace(/\s/g, '')}`} className="text-sm text-muted-foreground font-light hover:underline">
@@ -210,7 +210,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                  <Clock className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Åpningstider</p>
                     <p className="text-sm text-muted-foreground font-light">{clinic.hours}</p>
@@ -221,7 +221,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               <div className="space-y-4">
                 {detail.publicTransport && (
                   <div className="flex items-start gap-3">
-                    <Train className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <Train className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Kollektivtransport</p>
                       <p className="text-sm text-muted-foreground font-light">{detail.publicTransport}</p>
@@ -230,7 +230,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 )}
                 {detail.parking && (
                   <div className="flex items-start gap-3">
-                    <Car className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <Car className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Parkering</p>
                       <p className="text-sm text-muted-foreground font-light">{detail.parking}</p>
@@ -239,7 +239,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 )}
                 {detail.accessibility && (
                   <div className="flex items-start gap-3">
-                    <Accessibility className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <Accessibility className="w-4 h-4 text-brand-dark/75 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-normal text-foreground">Tilgjengelighet</p>
                       <p className="text-sm text-muted-foreground font-light">{detail.accessibility}</p>
@@ -258,7 +258,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center gap-2 mb-2">
-                <Stethoscope className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+                <Stethoscope className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
                 <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">Tilbud</p>
               </div>
               <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
@@ -367,7 +367,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center gap-2 mb-2">
-                <Users className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
+                <Users className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
                 <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">Spesialister</p>
               </div>
               <h2 className="text-lg font-normal text-foreground mb-6">Spesialister ved klinikken</h2>
