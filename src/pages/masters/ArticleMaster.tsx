@@ -119,7 +119,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           {/* Høyre – coverbilde, fyller hele halvdelen */}
           <div className="relative min-h-[360px] lg:min-h-full">
             <img
-              src={heroClinic}
+              src={heroKvinnehelse}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -375,7 +375,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-8 md:gap-12 items-center">
             <div className="md:col-span-2">
               <div className="aspect-[3/4] overflow-hidden rounded-sm bg-secondary">
-                <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+                <img src={idaProfile} alt="Ida Bjørntvedt" loading="lazy" className="w-full h-full object-cover" />
               </div>
             </div>
             <div className="md:col-span-3">
@@ -420,7 +420,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div className="aspect-[4/3] overflow-hidden rounded-sm bg-secondary">
-              <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+              <img src={categoryGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="text-[11px] tracking-wider uppercase text-brand-dark mb-3">
@@ -487,7 +487,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               Spesialisten svarer — overgangsalder
             </h2>
             <div className="relative aspect-video rounded-sm overflow-hidden bg-secondary group cursor-pointer">
-              <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+              <img src={heroGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-brand-dark/30 flex items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-brand-light/90 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Play className="w-6 h-6 text-brand-dark ml-1" />
