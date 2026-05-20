@@ -1064,7 +1064,7 @@ const BookingDemo = () => {
                   </div>
                 </div>
 
-                <div className="overflow-hidden">
+                <div className="overflow-hidden min-h-24">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
                       key={dateOffset}
