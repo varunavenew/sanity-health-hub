@@ -27,22 +27,39 @@ interface PageProps {
  DATA — segments, audiences, services
  ────────────────────────────────────────────────────────────── */
 
+const FERT = "/behandlinger/fertilitet";
+
 const segments = [
  {
  id: "forsta",
  title: "Jeg vil forstå fruktbarheten min",
  desc:
  "Vi gjør en grundig fertilitetssjekk — hormoner, eggstokkreserve og ultralyd — så du får tydelige svar i stedet for usikkerhet.",
- tags: ["Fertilitetssjekk", "Hormoner", "AMH", "Ultralyd", "Hysteroskopi", "Rådgivning online"],
+ tags: [
+ { label: "Fertilitetssjekk", href: `${FERT}/fertilitetssjekk` },
+ { label: "Hormoner", href: `${FERT}/fertilitetssjekk` },
+ { label: "AMH", href: `${FERT}/fertilitetssjekk` },
+ { label: "Ultralyd", href: `${FERT}/fertilitetssjekk` },
+ { label: "Hysteroskopi", href: `${FERT}/fertilitetssjekk` },
+ { label: "Rådgivning online", href: `${FERT}/psykisk-helsehjelp` },
+ ],
  cta: "Les mer",
- href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
+ href: `${FERT}/fertilitetssjekk`,
  },
  {
  id: "gravid",
  title: "Jeg vil bli gravid",
  desc:
  "Har du prøvd i 6–12 måneder uten å lykkes? Vi finner årsaken og legger en plan — fra inseminasjon til IVF.",
- tags: ["IVF", "Inseminasjon", "Utredning", "Assistert befruktning", "Donor-IVF", "Eggløsningsstimulering", "Second opinion"],
+ tags: [
+ { label: "IVF", href: `${FERT}/ivf` },
+ { label: "Inseminasjon", href: `${FERT}/iui` },
+ { label: "Utredning", href: `${FERT}/fertilitetssjekk` },
+ { label: "Assistert befruktning", href: `${FERT}/ivf` },
+ { label: "Donor-IVF", href: `${FERT}/eggdonasjon` },
+ { label: "Eggløsningsstimulering", href: `${FERT}/iui` },
+ { label: "Second opinion", href: `${FERT}/fertilitetssjekk` },
+ ],
  cta: "Bestill utredning",
  href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
  },
@@ -51,16 +68,25 @@ const segments = [
  title: "Jeg vil bevare mulighetene mine",
  desc:
  "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
- tags: ["Nedfrysing av egg", "Eggdonasjon", "Spermiefrys", "Eggløsningsstimulering"],
- cta: "Snakk med oss",
- href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon",
+ tags: [
+ { label: "Nedfrysing av egg", href: `${FERT}/nedfrysing` },
+ { label: "Eggdonasjon", href: `${FERT}/eggdonasjon` },
+ { label: "Spermiefrys", href: `${FERT}/nedfrysing` },
+ { label: "Eggløsningsstimulering", href: `${FERT}/iui` },
+ ],
+ cta: "Les mer",
+ href: `${FERT}/nedfrysing`,
  },
  {
  id: "mann",
  title: "Jeg er mann og vil sjekke fruktbarheten",
  desc:
  "Halvparten av forklaringen ligger ofte hos mannen. En enkel sædanalyse gir deg svar — diskret og raskt.",
- tags: ["Sædanalyse", "Mannlig fertilitet", "Rådgivning online"],
+ tags: [
+ { label: "Sædanalyse", href: `${FERT}/mannlig-fertilitet` },
+ { label: "Mannlig fertilitet", href: `${FERT}/mannlig-fertilitet` },
+ { label: "Rådgivning online", href: `${FERT}/psykisk-helsehjelp` },
+ ],
  cta: "Bestill analyse",
  href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
  },
