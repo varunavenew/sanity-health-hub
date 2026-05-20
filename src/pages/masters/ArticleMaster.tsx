@@ -8,7 +8,13 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { FaqSection } from "@/components/layout/FaqSection";
+import heroKvinnehelse from "@/assets/hero/kvinnehelse-hero.jpg";
 import heroClinic from "@/assets/hero/hero-clinic-lounge.jpg";
+import heroGyn from "@/assets/hero/gynecology-hero.jpg";
+import heroFertility from "@/assets/hero/fertility-hero.jpg";
+import categoryGyn from "@/assets/categories/gynekologi-real.jpg";
+import idaProfile from "@/assets/ida-profile.jpg";
+import articleGyn from "@/assets/articles/gynekologi.jpg";
 
 /**
  * ArticleMaster — mastermal for FAGARTIKLER.
