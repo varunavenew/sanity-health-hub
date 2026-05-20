@@ -147,7 +147,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               <img 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
-                className="h-14 md:h-20" 
+                /* Logoen har ~22.6% transparent venstre-padding i fila.
+                   Negativ margin = -0.418 * høyden kompenserer optisk
+                   så glyphen "C" flukter med innholdsmargen. */
+                className="h-14 md:h-20 -ml-[23px] md:-ml-[33px]" 
               />
             </Link>
             
