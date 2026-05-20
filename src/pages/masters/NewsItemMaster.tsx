@@ -317,7 +317,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               </Link>
             </div>
             <div className="aspect-[4/3] overflow-hidden rounded-sm bg-secondary order-first md:order-last">
-              <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+              <img src={categoryOrtopedi} alt="" loading="lazy" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
@@ -395,9 +395,9 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           <h2 className="text-lg font-normal text-foreground mb-8">Flere nyheter</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { t: "Ny gynekolog på plass i Sandvika", c: "Klinikknytt" },
-              { t: "Hva ventelistene gjør med oss", c: "Kommentar" },
-              { t: "Slik bygget vi det nye operasjonsrommet", c: "Bak kulissene" },
+              { t: "Ny gynekolog på plass i Sandvika", c: "Klinikknytt", img: heroGyn },
+              { t: "Hva ventelistene gjør med oss", c: "Kommentar", img: heroInsurance },
+              { t: "Slik bygget vi det nye operasjonsrommet", c: "Bak kulissene", img: galleryClinic },
             ].map((n) => (
               <Link
                 key={n.t}
@@ -406,7 +406,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               >
                 <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
                   <img
-                    src={heroClinic}
+                    src={n.img}
                     alt=""
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
