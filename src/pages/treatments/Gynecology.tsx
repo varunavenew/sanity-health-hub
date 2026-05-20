@@ -503,7 +503,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
 
  <div className="border-t border-brand-dark/5 py-8 md:py-10">
- <p className="text-xs tracking-[0.18em] text-brand-dark mb-6 uppercase">
+ <p className="text-xs text-brand-dark mb-6 uppercase">
  Gynekologi
  </p>
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">

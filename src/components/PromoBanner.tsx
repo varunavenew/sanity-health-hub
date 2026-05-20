@@ -41,7 +41,7 @@ export const PromoBanner = () => {
  <span className="text-brand-dark/70 text-sm mr-2 font-medium">
  {condition.icon}
  </span>
- <span className="text-brand-dark/90 text-sm font-light tracking-[0.05em]">
+ <span className="text-brand-dark/90 text-sm font-light">
  {condition.text}
  </span>
  </span>
@@ -50,7 +50,7 @@ export const PromoBanner = () => {
  {/* Tagline with visual separator */}
  <span className="inline-flex items-center mx-10">
  <span className="w-8 h-px bg-brand-dark/20 mr-4" />
- <span className="text-brand-dark text-sm font-medium tracking-[0.05em]">
+ <span className="text-brand-dark text-sm font-medium">
  I alle livets faser
  </span>
  <span className="w-8 h-px bg-brand-dark/20 ml-4" />

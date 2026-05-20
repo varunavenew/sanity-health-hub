@@ -131,7 +131,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
 
  {/* Content */}
  <div className="flex flex-col">
- <p className="text-xs text-muted-foreground font-light uppercase tracking-[0.15em] mb-3">
+ <p className="text-xs text-muted-foreground font-light uppercase mb-3">
  Klinikk
  </p>
  <h3 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-tight mb-5">

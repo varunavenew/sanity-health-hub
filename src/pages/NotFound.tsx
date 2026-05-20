@@ -52,7 +52,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
  <div className="grid lg:grid-cols-12 min-h-[70vh]">
  <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 flex items-center">
  <div className="max-w-xl">
- <p className="text-xs tracking-[0.18em] text-foreground/60 mb-6 uppercase">
+ <p className="text-xs text-foreground/60 mb-6 uppercase">
  {eyebrow}
  </p>
  <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-light leading-[1.05] text-foreground mb-6">

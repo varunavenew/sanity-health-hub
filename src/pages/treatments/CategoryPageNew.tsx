@@ -126,7 +126,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <section id="services" className="bg-brand-warm py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-6xl">
  <div className="mb-10 md:mb-14 max-w-2xl">
- <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">
+ <p className="text-xs uppercase text-muted-foreground font-light mb-4">
  {content.servicesHeading}
  </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-5">
@@ -176,7 +176,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <section className="bg-background py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-6xl">
  <div className="mb-10 md:mb-14 max-w-2xl">
- <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">
+ <p className="text-xs uppercase text-muted-foreground font-light mb-4">
  Slik går det fram
  </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -193,7 +193,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  className="bg-brand-warm p-7 md:p-9 flex flex-col"
  >
  <Icon className="w-6 h-6 text-foreground mb-7" strokeWidth={1.5} />
- <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-3">
+ <p className="text-xs uppercase text-muted-foreground font-light mb-3">
  {step.label}
  </p>
  <h3 className="text-lg md:text-xl font-light text-foreground leading-snug mb-3">
@@ -214,7 +214,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <section className="bg-brand-warm pt-8 md:pt-10 pb-0">
  <div className="container mx-auto px-6 md:px-16 max-w-6xl">
  <div className="mb-10 md:mb-14 max-w-2xl">
- <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">
+ <p className="text-xs uppercase text-muted-foreground font-light mb-4">
  Møt teamet
  </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -256,7 +256,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  {/* ── 7. FAQ ── */}
  <section className="bg-background py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
- <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4 text-center">
+ <p className="text-xs uppercase text-muted-foreground font-light mb-4 text-center">
  Vanlige spørsmål
  </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10 text-center">

@@ -272,7 +272,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
  {/* Robot highlight box — short focused dark stripe */}
  <div className="mt-14 bg-brand-dark text-white rounded-sm p-8 md:p-10 grid md:grid-cols-[1fr_auto] gap-8 items-center">
  <div>
- <p className="text-xs tracking-[0.18em] text-white/60 mb-3 uppercase">Norges ledende</p>
+ <p className="text-xs text-white/60 mb-3 uppercase">Norges ledende</p>
  <h3 className="text-xl md:text-2xl font-light leading-snug mb-3">
  Eneste private klinikk i Norge med robotoperasjoner
  </h3>
@@ -446,7 +446,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
  <div className="lg:col-span-4">
- <p className="text-xs tracking-[0.18em] text-brand-dark mb-3">SAMARBEIDSPARTNERE</p>
+ <p className="text-xs text-brand-dark mb-3">SAMARBEIDSPARTNERE</p>
  <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
  Vi har avtale med de største forsikringsselskapene i Norge.
  </h3>

@@ -208,7 +208,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
 
  {/* Second opinion dark stripe */}
  <div className="mt-14 bg-brand-dark text-white rounded-sm p-8 md:p-10">
- <p className="text-xs tracking-[0.18em] text-white/60 mb-3 uppercase">Second opinion</p>
+ <p className="text-xs text-white/60 mb-3 uppercase">Second opinion</p>
  <h3 className="text-xl md:text-2xl font-light leading-snug mb-3 max-w-2xl">
  Har du vært andre steder uten å bli bra?
  </h3>
@@ -393,7 +393,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
  <div className="lg:col-span-4">
- <p className="text-xs tracking-[0.18em] text-brand-dark mb-3">SAMARBEIDSPARTNERE</p>
+ <p className="text-xs text-brand-dark mb-3">SAMARBEIDSPARTNERE</p>
  <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
  Vi har avtale med de største forsikringsselskapene i Norge.
  </h3>

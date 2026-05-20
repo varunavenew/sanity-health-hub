@@ -52,7 +52,7 @@ const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
  <PageLayout isChatOpen={isChatOpen}>
  <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
  <div className="container mx-auto px-6 md:px-16 max-w-5xl">
- <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-light mb-6">
+ <p className="text-xs uppercase text-muted-foreground font-light mb-6">
  Designforslag · Oversikt
  </p>
  <h1 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-6">
@@ -72,7 +72,7 @@ const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
  <div key={g.title}>
  <div className="flex items-baseline justify-between border-b border-border/60 pb-4 mb-6">
  <h2 className="text-2xl md:text-3xl font-light text-foreground">{g.title}</h2>
- <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-light">
+ <span className="text-xs uppercase text-muted-foreground font-light">
  {g.eyebrow}
  </span>
  </div>
