@@ -198,8 +198,8 @@ const ArticlePage = ({ isChatOpen, slug: slugOverride }: ArticlePageProps) => {
             <span className="bg-white/10 text-white/80 text-xs px-3 py-1 rounded-full">
               {article.category}
             </span>
-            <span className="text-white/40 text-xs flex items-center gap-1.5">
-              <Calendar className="w-3 h-3" />
+            <span className="text-white/70 text-xs flex items-center gap-1.5">
+              <Calendar className="w-3 h-3" aria-hidden="true" />
               {formatDate(article.date)}
             </span>
           </div>
