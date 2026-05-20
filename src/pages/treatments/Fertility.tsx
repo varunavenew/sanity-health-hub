@@ -74,8 +74,8 @@ const segments = [
  { label: "Spermiefrys", href: `${FERT}/nedfrysing` },
  { label: "Eggløsningsstimulering", href: `${FERT}/iui` },
  ],
- cta: "Les mer",
- href: `${FERT}/nedfrysing`,
+ cta: "Snakk med oss",
+ href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon",
  },
  {
  id: "mann",
