@@ -1035,10 +1035,10 @@ const BookingDemo = () => {
                       disabled={!canGoPrevRange}
                       aria-label="Forrige dager"
                       className={cn(
-                        "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
+                        "flex h-10 w-10 items-center justify-center rounded-md border bg-white transition-colors",
                         canGoPrevRange
-                          ? "border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90"
-                          : "border-brand-dark/15 bg-brand-beige text-brand-dark/30 cursor-not-allowed"
+                          ? "border-brand-dark/15 text-brand-dark/50 hover:text-brand-dark hover:border-brand-dark/30 hover:bg-brand-beige/40"
+                          : "border-brand-dark/10 text-brand-dark/20 cursor-not-allowed"
                       )}
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -1048,15 +1048,15 @@ const BookingDemo = () => {
                       onClick={() => {
                         if (!canGoNextRange) return;
                         setDateDirection(1);
-                        setDateOffset(Math.min(bookableDates.length - VISIBLE_DAYS, dateOffset + VISIBLE_DAYS));
+                        setDateOffset(Math.min(weekdayDates.length - VISIBLE_DAYS, dateOffset + VISIBLE_DAYS));
                       }}
                       disabled={!canGoNextRange}
                       aria-label="Neste dager"
                       className={cn(
-                        "flex h-10 w-10 items-center justify-center rounded-md border transition-colors",
+                        "flex h-10 w-10 items-center justify-center rounded-md border bg-white transition-colors",
                         canGoNextRange
-                          ? "border-brand-dark bg-brand-dark text-brand-warm hover:bg-brand-dark/90"
-                          : "border-brand-dark/15 bg-brand-beige text-brand-dark/30 cursor-not-allowed"
+                          ? "border-brand-dark/15 text-brand-dark/50 hover:text-brand-dark hover:border-brand-dark/30 hover:bg-brand-beige/40"
+                          : "border-brand-dark/10 text-brand-dark/20 cursor-not-allowed"
                       )}
                     >
                       <ChevronRight className="w-4 h-4" />
@@ -1074,28 +1074,34 @@ const BookingDemo = () => {
                       transition={{ duration: 0.25, ease: "easeOut" }}
                       className="grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-3"
                     >
-                      {bookableDates.slice(dateOffset, dateOffset + VISIBLE_DAYS).map((date) => {
+                      {weekdayDates.slice(dateOffset, dateOffset + VISIBLE_DAYS).map((date) => {
                         const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
                         const isToday = isSameDay(date, today);
-                        const slotsCount = generateTimeSlots(date, bookingData.specialist ? [bookingData.specialist] : filteredSpecialists).length;
+                        const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+                        const hasSlots = generateTimeSlots(date, pool).length > 0;
+                        const isDisabled = !hasSlots;
 
                         return (
                           <button
                             key={date.toISOString()}
                             type="button"
-                            onClick={() => setSelectedDate(date)}
+                            onClick={() => { if (!isDisabled) setSelectedDate(date); }}
+                            disabled={isDisabled}
                             aria-label={format(date, "EEEE d. MMMM", { locale: nb })}
                             aria-pressed={isSelected}
+                            title={isDisabled ? "Ingen ledige timer denne dagen" : undefined}
                             className={cn(
                               "group relative flex flex-col items-center justify-center gap-1 h-24 rounded-xl border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
                               isSelected
                                 ? "bg-brand-dark border-brand-dark text-brand-warm shadow-sm"
-                                : "bg-white border-brand-dark/10 text-brand-dark hover:border-brand-dark/40 hover:bg-brand-beige/50"
+                                : isDisabled
+                                  ? "bg-brand-beige/20 border-brand-dark/5 text-brand-dark/30 cursor-not-allowed"
+                                  : "bg-white border-brand-dark/10 text-brand-dark hover:border-brand-dark/40 hover:bg-brand-beige/50"
                             )}
                           >
                             <span className={cn(
                               "text-[11px] font-medium uppercase tracking-wide",
-                              isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                              isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
                             )}>
                               {format(date, "EEE", { locale: nb })}
                             </span>
@@ -1107,15 +1113,10 @@ const BookingDemo = () => {
                             </span>
                             <span className={cn(
                               "text-[11px] font-light",
-                              isSelected ? "text-brand-warm/80" : "text-brand-dark/60"
+                              isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
                             )}>
                               {isToday ? "I dag" : format(date, "MMM", { locale: nb })}
                             </span>
-                            {!isSelected && slotsCount > 0 && (
-                              <span className="absolute top-1.5 right-2 text-[10px] font-medium text-brand-dark/50">
-                                {slotsCount}
-                              </span>
-                            )}
                           </button>
                         );
                       })}
@@ -1123,6 +1124,7 @@ const BookingDemo = () => {
                   </AnimatePresence>
                 </div>
               </div>
+
 
 
               {/* Time Slots — CMedical beige/brun stil, 3 per rad */}
