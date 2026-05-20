@@ -39,74 +39,88 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
       <h1 className="sr-only">Mastermal for fagartikkel</h1>
 
       {/* ───────────── HERO – sentrert, redaksjonelt ───────────── */}
-      <header className="bg-brand-light pt-28 md:pt-32 pb-14 md:pb-20">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl">
-            <Link
-              to="/aktuelt"
-              className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground text-sm font-light transition-colors mb-10"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Tilbake til Aktuelt
-            </Link>
+      <header className="bg-brand-light pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[560px] lg:min-h-[680px]">
+          {/* Venstre – meta, tittel, ingress, forfatter */}
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-14 lg:py-20">
+            <div className="max-w-xl w-full">
+              <Link
+                to="/aktuelt"
+                className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground text-sm font-light transition-colors mb-8"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Tilbake til Aktuelt
+              </Link>
 
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
-              <span className="inline-flex items-center gap-1.5">
-                <BookOpen className="w-3 h-3" />
-                Fagartikkel
-              </span>
-              <span>·</span>
-              <span>Kvinnehelse</span>
-              <span>·</span>
-              <span className="inline-flex items-center gap-1.5">
-                <Clock className="w-3 h-3" />
-                9 min lesetid
-              </span>
-              <span>·</span>
-              <span className="inline-flex items-center gap-1.5">
-                <Calendar className="w-3 h-3" />
-                Sist oppdatert 19. mai 2026
-              </span>
-            </div>
-
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-light leading-[1.05] text-foreground mb-8">
-              Overgangsalderen er en ny fase — ikke slutten på noe
-            </h2>
-
-            <p className="text-lg md:text-xl font-light leading-relaxed text-muted-foreground mb-10">
-              Hetetokter, søvnproblemer og hjernetåke kan oppleves som tap av kontroll. Men
-              dagens kunnskap om hormoner og kvinnehelse gjør at få trenger å «tåle seg
-              gjennom» perioden lenger.
-            </p>
-
-            {/* Forfatter + faglig validering */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-6 pt-6 border-t border-border/60">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-secondary flex items-center justify-center text-sm font-light text-foreground/70">
-                  IB
-                </div>
-                <div>
-                  <p className="text-sm font-normal text-foreground">Ida Bjørntvedt</p>
-                  <p className="text-xs font-light text-foreground/60">
-                    Spesialist i gynekologi
-                  </p>
-                </div>
-              </div>
-              <div className="hidden sm:block w-px h-10 bg-border" />
-              <div className="text-xs font-light text-foreground/60 leading-relaxed">
-                Faglig kvalitetssikret av
-                <br />
-                <span className="text-foreground/80">
-                  Dr. Hannah Russell, fertilitetslege
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
+                <span className="inline-flex items-center gap-1.5">
+                  <BookOpen className="w-3 h-3" />
+                  Fagartikkel
+                </span>
+                <span>·</span>
+                <span>Kvinnehelse</span>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock className="w-3 h-3" />
+                  9 min lesetid
+                </span>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar className="w-3 h-3" />
+                  Sist oppdatert 19. mai 2026
                 </span>
               </div>
-              <button className="sm:ml-auto inline-flex items-center gap-1.5 text-xs font-light text-foreground/60 hover:text-foreground transition-colors">
+
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.05] text-foreground mb-6">
+                Overgangsalderen er en ny fase — ikke slutten på noe
+              </h2>
+
+              <p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground mb-8">
+                Hetetokter, søvnproblemer og hjernetåke kan oppleves som tap av kontroll. Men
+                dagens kunnskap om hormoner og kvinnehelse gjør at få trenger å «tåle seg
+                gjennom» perioden lenger.
+              </p>
+
+              {/* Forfatter + faglig validering */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5 pt-6 border-t border-border/60">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full bg-secondary flex items-center justify-center text-sm font-light text-foreground/70">
+                    IB
+                  </div>
+                  <div>
+                    <p className="text-sm font-normal text-foreground">Ida Bjørntvedt</p>
+                    <p className="text-xs font-light text-foreground/60">
+                      Spesialist i gynekologi
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden sm:block w-px h-10 bg-border" />
+                <div className="text-xs font-light text-foreground/60 leading-relaxed">
+                  Faglig kvalitetssikret av
+                  <br />
+                  <span className="text-foreground/80">
+                    Dr. Hannah Russell, fertilitetslege
+                  </span>
+                </div>
+              </div>
+
+              <button className="mt-5 inline-flex items-center gap-1.5 text-xs font-light text-foreground/60 hover:text-foreground transition-colors">
                 <Share2 className="w-3.5 h-3.5" />
                 Del artikkelen
               </button>
             </div>
           </div>
+
+          {/* Høyre – coverbilde, fyller hele halvdelen */}
+          <div className="relative min-h-[360px] lg:min-h-full">
+            <img
+              src={heroClinic}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
         </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>
 
       {/* ───────────── BRØDTEKST + SIDEBAR (innholdsfortegnelse) ───────────── */}
