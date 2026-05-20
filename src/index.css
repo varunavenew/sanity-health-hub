@@ -138,6 +138,13 @@
 }
 
 @layer base {
+  :root {
+    /* Felles horisontal gutter — alt innhold flukter med logoen i headeren.
+       16px mobil → 40px på 1440px+. */
+    --gutter: clamp(1rem, 3vw, 2.5rem);
+    --max-shell: 1440px;
+  }
+
   html {
     /* Fluid base font-size: scales tekst proporsjonalt med bred skjerm.
        16px @ ≤1280px → ~19px @ 1920px+. All rem-basert tekst skalerer med. */
@@ -163,6 +170,29 @@
   h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
     letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Sentrert "shell" — bruk på header og vanlige content-seksjoner.
+     Innholdet starter på samme x-akse som logoen. */
+  .page-shell {
+    width: 100%;
+    max-width: var(--max-shell);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Split-screen tekstkolonne: bilde-kolonnen kan gå helt ut til skjermkant,
+     mens tekst-kolonnen flukter med logoen (page-shell content-edge) på brede skjermer. */
+  .page-edge-text-left {
+    padding-inline: var(--gutter);
+  }
+  @media (min-width: 768px) {
+    .page-edge-text-left {
+      padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
+      padding-right: 3rem;
+    }
   }
 }
 
