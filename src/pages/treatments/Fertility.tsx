@@ -340,7 +340,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  ))}
- </div>
+  </div>
+
+  <Link
+   to="/om-oss"
+   className="inline-flex items-center gap-2 mt-10 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
+  >
+   Les mer om klinikken
+   <ArrowRight className="w-3.5 h-3.5" />
+  </Link>
  </div>
  </div>
 
