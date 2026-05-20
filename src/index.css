@@ -77,7 +77,7 @@
     --brand-warm: 35 30% 95%;
     --brand-mid: 30 20% 80%;
     --brand-beige: 35 25% 92%;
-    --radius: 0.5rem;
+    --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
     --chat-background: 30 27% 93%;
     --chat-foreground: 0 71% 5%;

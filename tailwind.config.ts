@@ -69,11 +69,16 @@ export default {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
+        /* Én felles radius for hele profilen — matcher Urologi-pillen.
+           sm/md er litt mindre varianter; xl/2xl/3xl kollapser til samme
+           verdi så ALLE knapper, kort og bokser får identisk avrunding.
+           rounded-full beholdes for sirkler (avatarer, ikoner). */
         sm: "calc(var(--radius) - 4px)",
-        "2xl": "1rem",
-        "3xl": "1.5rem",
+        md: "calc(var(--radius) - 2px)",
+        lg: "var(--radius)",
+        xl: "var(--radius)",
+        "2xl": "var(--radius)",
+        "3xl": "var(--radius)",
       },
       keyframes: {
         "accordion-down": {
