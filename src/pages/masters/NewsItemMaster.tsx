@@ -8,7 +8,15 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { FaqSection } from "@/components/layout/FaqSection";
+import heroOrtopedi from "@/assets/hero/pdf1-clinic-interior.jpg";
 import heroClinic from "@/assets/hero/hero-clinic-lounge.jpg";
+import galleryTreatment1 from "@/assets/hero/pdf1-treatment1.jpg";
+import galleryTreatment2 from "@/assets/hero/pdf1-treatment2.jpg";
+import galleryClinic from "@/assets/hero/pdf1-clinic.jpg";
+import specialistKristian from "@/assets/specialists/kristian-marstrand-warholm.jpg";
+import categoryOrtopedi from "@/assets/categories/ortopedi-real.jpg";
+import heroGyn from "@/assets/hero/gynecology-hero.jpg";
+import heroInsurance from "@/assets/hero/insurance-hero.jpg";
 
 /**
  * NewsItemMaster — mastermal for NYHETER / pasienthistorier.
