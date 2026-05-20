@@ -20,8 +20,6 @@ import heroClinic from "@/assets/hero/hero-clinic-lounge.jpg";
  */
 
 const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-
   useEffect(() => {
     document.title = "Mastermal: Nyhet | CMedical";
   }, []);
