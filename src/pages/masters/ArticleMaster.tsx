@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, BookOpen, Calendar, Clock, Quote, Share2, ChevronRight,
-  ChevronDown, CheckCircle2, Mail, Tag, Play, Stethoscope, HeartPulse, Sparkles, History,
+  Tag, Play, Stethoscope, HeartPulse, Sparkles, History, CheckCircle2,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { FaqSection } from "@/components/layout/FaqSection";
 import heroClinic from "@/assets/hero/hero-clinic-lounge.jpg";
 
 /**
