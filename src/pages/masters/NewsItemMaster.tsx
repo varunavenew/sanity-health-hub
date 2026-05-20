@@ -345,7 +345,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                   className="group block p-6 rounded-sm border border-border hover:border-brand-dark/40 hover:bg-secondary/30 transition-all"
                 >
                   <s.Icon className="w-6 h-6 text-brand-dark mb-4" strokeWidth={1.5} />
-                  <h3 className="text-base font-normal text-foreground mb-1.5">{s.t}</h3>
+                  <h3 className="text-base font-medium text-foreground mb-1.5">{s.t}</h3>
                   <p className="text-sm font-light text-foreground/70 mb-4">{s.d}</p>
                   <span className="inline-flex items-center gap-1.5 text-xs font-light text-foreground group-hover:gap-2 transition-all">
                     Les mer <ArrowRight className="w-3.5 h-3.5" />
@@ -390,26 +390,23 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
 
 
-      <section className="bg-secondary/30 border-t border-border py-14 md:py-20">
+      {/* ───────────── RELATERTE NYHETER – samme kortdesign som /aktuelt ───────────── */}
+      <section className="bg-secondary/30 border-t border-border py-12 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
-          <h2 className="text-lg font-normal text-foreground mb-8">Flere nyheter</h2>
+          <h2 className="text-lg font-medium text-foreground mb-8">Relaterte artikler</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { t: "Ny gynekolog på plass i Sandvika", c: "Klinikknytt", img: heroGyn },
-              { t: "Hva ventelistene gjør med oss", c: "Kommentar", img: heroInsurance },
-              { t: "Slik bygget vi det nye operasjonsrommet", c: "Bak kulissene", img: galleryClinic },
+              { t: "Ny gynekolog på plass i Sandvika", e: "Vi styrker teamet på kvinnehelse i Sandvika.", c: "Klinikknytt", img: heroGyn },
+              { t: "Hva ventelistene gjør med oss", e: "Et innblikk i konsekvensene av lange ventetider.", c: "Kommentar", img: heroInsurance },
+              { t: "Slik bygget vi det nye operasjonsrommet", e: "Bak kulissene på utbyggingen i Sandvika.", c: "Bak kulissene", img: galleryClinic },
             ].map((n) => (
-              <Link
-                key={n.t}
-                to="#"
-                className="group block"
-              >
+              <Link key={n.t} to="#" className="group">
                 <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
                   <img
                     src={n.img}
-                    alt=""
+                    alt={n.t}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
                     <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
@@ -421,9 +418,12 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                   <Calendar className="w-3 h-3" />
                   12. mai 2026
                 </div>
-                <h3 className="text-sm font-normal text-foreground group-hover:text-foreground/70 transition-colors leading-snug">
+                <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors leading-snug mb-1">
                   {n.t}
                 </h3>
+                <p className="text-xs text-muted-foreground font-light line-clamp-2">
+                  {n.e}
+                </p>
               </Link>
             ))}
           </div>

@@ -464,7 +464,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               ].map((s) => (
                 <Link key={s.t} to={s.l} className="group block p-6 rounded-sm border border-border bg-background hover:border-brand-dark/40 transition-all">
                   <s.Icon className="w-6 h-6 text-brand-dark mb-4" strokeWidth={1.5} />
-                  <h3 className="text-base font-normal text-foreground mb-1.5">{s.t}</h3>
+                  <h3 className="text-base font-medium text-foreground mb-1.5">{s.t}</h3>
                   <p className="text-sm font-light text-foreground/70 mb-4">{s.d}</p>
                   <span className="inline-flex items-center gap-1.5 text-xs font-light text-foreground group-hover:gap-2 transition-all">
                     Les mer <ArrowRight className="w-3.5 h-3.5" />
@@ -553,42 +553,42 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
       </section>
 
 
-      {/* ───────────── RELATERTE FAGARTIKLER ───────────── */}
-      <section className="bg-secondary/30 border-t border-border py-14 md:py-20">
+      {/* ───────────── RELATERTE FAGARTIKLER – samme kortdesign som /aktuelt ───────────── */}
+      <section className="bg-secondary/30 border-t border-border py-12 md:py-16">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-lg font-normal text-foreground mb-8">Flere fagartikler</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { t: "Endometriose: hva forskningen sier i 2026", c: "Kvinnehelse", img: heroKvinnehelse },
-                { t: "Når bør du sjekke fruktbarheten?", c: "Fertilitet", img: heroFertility },
-                { t: "Hormonbehandling — hva er trygt?", c: "Kvinnehelse", img: articleGyn },
-              ].map((a) => (
-                <Link key={a.t} to="#" className="group block">
-                  <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
-                    <img
-                      src={a.img}
-                      alt=""
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
-                        <BookOpen className="w-3 h-3" />
-                        {a.c}
-                      </span>
-                    </div>
+          <h2 className="text-lg font-medium text-foreground mb-8">Relaterte artikler</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { t: "Endometriose: hva forskningen sier i 2026", e: "En oppdatert gjennomgang av diagnostikk og behandling.", c: "Kvinnehelse", img: heroKvinnehelse },
+              { t: "Når bør du sjekke fruktbarheten?", e: "Slik tenker spesialistene rundt timing og test.", c: "Fertilitet", img: heroFertility },
+              { t: "Hormonbehandling — hva er trygt?", e: "Myter og fakta om moderne MHT, forklart.", c: "Kvinnehelse", img: articleGyn },
+            ].map((a) => (
+              <Link key={a.t} to="#" className="group">
+                <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
+                  <img
+                    src={a.img}
+                    alt={a.t}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
+                      {a.c}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
-                    <Clock className="w-3 h-3" />
-                    7 min lesetid
-                  </div>
-                  <h3 className="text-sm font-normal text-foreground group-hover:text-foreground/70 transition-colors leading-snug">
-                    {a.t}
-                  </h3>
-                </Link>
-              ))}
-            </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
+                  <Clock className="w-3 h-3" />
+                  7 min lesetid
+                </div>
+                <h3 className="text-sm font-medium text-foreground group-hover:text-foreground/80 transition-colors leading-snug mb-1">
+                  {a.t}
+                </h3>
+                <p className="text-xs text-muted-foreground font-light line-clamp-2">
+                  {a.e}
+                </p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
