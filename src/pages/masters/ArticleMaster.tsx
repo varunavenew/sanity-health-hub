@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, BookOpen, Calendar, Clock, Quote, Share2, ChevronRight,
-  ChevronDown, CheckCircle2, Mail, Tag, Play, Stethoscope, HeartPulse, Sparkles, History,
+  Tag, Play, Stethoscope, HeartPulse, Sparkles, History, CheckCircle2,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { FaqSection } from "@/components/layout/FaqSection";
 import heroClinic from "@/assets/hero/hero-clinic-lounge.jpg";
 
 /**
@@ -28,8 +29,6 @@ const sections = [
 ];
 
 const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-
   useEffect(() => {
     document.title = "Mastermal: Fagartikkel | CMedical";
   }, []);
@@ -496,38 +495,16 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
         </div>
       </section>
 
-      {/* ───────────── FAQ ───────────── */}
-      <section className="bg-secondary/30 py-14 md:py-20 border-y border-border/60">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
-              Ofte stilte spørsmål
-            </h2>
-            <div className="space-y-2">
-              {[
-                { q: "Når begynner overgangsalderen?", a: "Perimenopausen starter ofte i 40-årene, men varierer mye fra person til person." },
-                { q: "Er hormonbehandling trygt?", a: "For de fleste er moderne MHT trygt, og fordelene veier opp for risikoene når behandlingen tilpasses individuelt." },
-                { q: "Trenger jeg henvisning?", a: "Nei, du kan bestille time direkte hos en av våre gynekologer." },
-                { q: "Hvor lang tid tar konsultasjonen?", a: "Vi setter av 45 minutter til første samtale, slik at vi får et helhetlig bilde." },
-              ].map((f, i) => (
-                <button
-                  key={i}
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full text-left bg-background border border-border rounded-sm p-5 hover:border-brand-dark/40 transition-colors"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-base font-normal text-foreground">{f.q}</span>
-                    <ChevronDown className={`w-4 h-4 text-foreground/60 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
-                  </div>
-                  {openFaq === i && (
-                    <p className="text-sm font-light text-foreground/70 mt-3 leading-relaxed">{f.a}</p>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ───────────── FAQ – samme komponent som hjemmesiden ───────────── */}
+      <FaqSection
+        background="bg-secondary/30"
+        faqs={[
+          { id: "1", question: "Når begynner overgangsalderen?", answer: "Perimenopausen starter ofte i 40-årene, men varierer mye fra person til person." },
+          { id: "2", question: "Er hormonbehandling trygt?", answer: "For de fleste er moderne MHT trygt, og fordelene veier opp for risikoene når behandlingen tilpasses individuelt." },
+          { id: "3", question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte hos en av gynekologene." },
+          { id: "4", question: "Hvor lang tid tar konsultasjonen?", answer: "Det settes av 45 minutter til første samtale, slik at hele bildet blir kartlagt." },
+        ]}
+      />
 
       {/* ───────────── REVISJONSHISTORIKK ───────────── */}
       <section className="bg-background py-12 md:py-16">
@@ -569,30 +546,6 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
         </div>
       </section>
 
-      {/* ───────────── NYHETSBREV ───────────── */}
-      <section className="bg-brand-dark text-brand-light py-14 md:py-20">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto text-center">
-            <Mail className="w-6 h-6 mx-auto mb-4 text-brand-light/70" strokeWidth={1.5} />
-            <h2 className="text-2xl md:text-3xl font-light mb-3">
-              Få fagstoffet rett i innboksen
-            </h2>
-            <p className="text-brand-light/70 font-light mb-6">
-              Nye fagartikler og webinarer — én gang i måneden, ingen spam.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="din@epost.no"
-                className="flex-1 bg-brand-light/10 border border-brand-light/20 rounded-sm px-4 py-2.5 text-sm font-light placeholder:text-brand-light/40 focus:outline-none focus:border-brand-light/60"
-              />
-              <button className="bg-brand-light text-brand-dark px-5 py-2.5 text-sm font-normal rounded-sm hover:bg-brand-light/90 transition-colors">
-                Meld meg på
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
 
       {/* ───────────── RELATERTE FAGARTIKLER ───────────── */}
       <section className="bg-secondary/30 border-t border-border py-14 md:py-20">
