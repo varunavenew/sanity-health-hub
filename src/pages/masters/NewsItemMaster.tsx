@@ -80,7 +80,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           {/* Right — coverbilde, fyller hele halvdelen */}
           <div className="relative min-h-[360px] lg:min-h-full">
             <img
-              src={heroClinic}
+              src={heroOrtopedi}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -204,7 +204,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               Se historien
             </p>
             <div className="relative aspect-video rounded-sm overflow-hidden bg-secondary group cursor-pointer">
-              <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+              <img src={galleryClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-brand-dark/30 flex items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-brand-light/90 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Play className="w-6 h-6 text-brand-dark ml-1" />
@@ -226,9 +226,9 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
               Bilder fra forløpet
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-              {[0, 1, 2, 3].map((i) => (
+              {[galleryClinic, galleryTreatment1, galleryTreatment2, heroOrtopedi].map((img, i) => (
                 <div key={i} className="aspect-square overflow-hidden rounded-sm bg-secondary">
-                  <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={img} alt="" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               ))}
             </div>
@@ -242,7 +242,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
           <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-8 md:gap-12 items-center">
             <div className="md:col-span-2">
               <div className="aspect-[3/4] overflow-hidden rounded-sm bg-secondary">
-                <img src={heroClinic} alt="" loading="lazy" className="w-full h-full object-cover" />
+                <img src={specialistKristian} alt="Kristian Marstrand Warholm" loading="lazy" className="w-full h-full object-cover" />
               </div>
             </div>
             <div className="md:col-span-3">
@@ -250,25 +250,25 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                 Spesialisten i denne saken
               </p>
               <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
-                Dr. Eivind Holm
+                Kristian Marstrand Warholm
               </h2>
               <p className="text-sm font-light text-foreground/70 mb-5">
-                Ortoped · Spesialist i hofte- og kneprotese
+                Ortoped · Spesialist på hofte og kikkhullsoperasjoner
               </p>
               <p className="text-base font-light leading-relaxed text-foreground/80 mb-6">
-                Holm har utført over 1 200 hofteoperasjoner og leder ortopedisk team ved
-                CMedical Sandvika. Han er kjent for å sette av tid til den preoperative
-                samtalen — fordi forventningene avgjør hvordan forløpet oppleves.
+                Warholm jobber til daglig som overlege ved OUS Ullevål og er en del av
+                ortopediteamet ved CMedical Majorstuen. Han har spesialisert seg på
+                kikkhullskirurgi i hoften og driver aktiv forskning på feltet.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  to="/spesialister/eivind-holm"
+                  to="/spesialister/kristian-marstrand-warholm"
                   className="inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground pb-0.5 hover:gap-2.5 transition-all"
                 >
-                  Les mer om Eivind <ArrowRight className="w-4 h-4" />
+                  Les hele profilen <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  to="/booking?spesialist=eivind-holm"
+                  to="/booking?spesialist=kristian-marstrand-warholm"
                   className="inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground transition-colors"
                 >
                   Bestill time
