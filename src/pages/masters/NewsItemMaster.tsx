@@ -345,7 +345,7 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                   className="group block p-6 rounded-sm border border-border hover:border-brand-dark/40 hover:bg-secondary/30 transition-all"
                 >
                   <s.Icon className="w-6 h-6 text-brand-dark mb-4" strokeWidth={1.5} />
-                  <h3 className="text-base font-normal text-foreground mb-1.5">{s.t}</h3>
+                  <h3 className="text-base font-medium text-foreground mb-1.5">{s.t}</h3>
                   <p className="text-sm font-light text-foreground/70 mb-4">{s.d}</p>
                   <span className="inline-flex items-center gap-1.5 text-xs font-light text-foreground group-hover:gap-2 transition-all">
                     Les mer <ArrowRight className="w-3.5 h-3.5" />
