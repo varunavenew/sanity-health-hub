@@ -560,14 +560,14 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
             <h2 className="text-lg font-normal text-foreground mb-8">Flere fagartikler</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { t: "Endometriose: hva forskningen sier i 2026", c: "Kvinnehelse" },
-                { t: "Når bør du sjekke fruktbarheten?", c: "Fertilitet" },
-                { t: "Hormonbehandling — hva er trygt?", c: "Kvinnehelse" },
+                { t: "Endometriose: hva forskningen sier i 2026", c: "Kvinnehelse", img: heroKvinnehelse },
+                { t: "Når bør du sjekke fruktbarheten?", c: "Fertilitet", img: heroFertility },
+                { t: "Hormonbehandling — hva er trygt?", c: "Kvinnehelse", img: articleGyn },
               ].map((a) => (
                 <Link key={a.t} to="#" className="group block">
                   <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
                     <img
-                      src={heroClinic}
+                      src={a.img}
                       alt=""
                       loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
