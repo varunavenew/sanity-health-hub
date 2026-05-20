@@ -379,23 +379,29 @@ const BookingDemo = () => {
 
   const filteredSpecialists = specialists.slice(0, 8);
 
-  // Bygg liste over neste ledige hverdager (skipper helger og dager uten tider)
-  const bookableDates = useMemo(() => {
-    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+  // Vis alle hverdager (også uten ledige tider) — dager uten slots blir disabled.
+  const weekdayDates = useMemo(() => {
     const out: Date[] = [];
-    if (pool.length === 0) return out;
     for (let i = 0; i < 365; i++) {
       const d = addDays(today, i);
       const dow = d.getDay();
       if (dow === 0 || dow === 6) continue;
-      if (generateTimeSlots(d, pool).length > 0) out.push(d);
+      out.push(d);
     }
     return out;
+  }, [today]);
+
+  // Hvilke av disse som faktisk har ledige tider for valgt spesialist (eller alle).
+  const bookableDates = useMemo(() => {
+    const pool = bookingData.specialist ? [bookingData.specialist] : filteredSpecialists;
+    if (pool.length === 0) return [] as Date[];
+    return weekdayDates.filter((d) => generateTimeSlots(d, pool).length > 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [today, bookingData.specialist, filteredSpecialists.length]);
+  }, [weekdayDates, bookingData.specialist, filteredSpecialists.length]);
 
   const canGoPrevRange = dateOffset > 0;
-  const canGoNextRange = dateOffset + VISIBLE_DAYS < bookableDates.length;
+  const canGoNextRange = dateOffset + VISIBLE_DAYS < weekdayDates.length;
+
 
   // Auto-pick first bookable date when entering step 4 (or specialist/service changes)
   useEffect(() => {
