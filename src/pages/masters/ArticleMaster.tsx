@@ -148,6 +148,26 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                 en helhetlig tilnærming kan plagene reduseres betydelig — for de fleste.
               </p>
 
+              {/* TL;DR – hovedpunkter (valgfri) */}
+              <aside className="bg-brand-light rounded-sm p-6 md:p-7 my-8 border border-border/60">
+                <p className="text-[11px] tracking-wider uppercase text-brand-dark mb-4">
+                  Kort oppsummert
+                </p>
+                <ul className="space-y-2.5 text-sm font-light text-foreground/85">
+                  {[
+                    "Overgangsalderen er en flerårig prosess i tre faser — ikke én hendelse.",
+                    "Symptomene er mer enn hetetokter: hjernetåke, leddsmerter og søvnvansker er vanlige.",
+                    "Moderne hormonbehandling (MHT) er trygg for de fleste og gir betydelig lindring.",
+                    "Du trenger ikke tåle deg gjennom det — behandling kan tilpasses individuelt.",
+                  ].map((p) => (
+                    <li key={p} className="flex gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-brand-dark mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+
               <p className="text-foreground/80 font-light leading-relaxed mb-6">
                 Denne artikkelen går gjennom hva som faktisk skjer i kroppen, hvilke
                 symptomer som er vanlige, og hvilke behandlingsalternativer som finnes i
