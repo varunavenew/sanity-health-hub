@@ -28,6 +28,8 @@ const sections = [
 ];
 
 const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
   useEffect(() => {
     document.title = "Mastermal: Fagartikkel | CMedical";
   }, []);
