@@ -138,6 +138,12 @@
 }
 
 @layer base {
+  html {
+    /* Fluid base font-size: scales tekst proporsjonalt med bred skjerm.
+       16px @ ≤1280px → ~19px @ 1920px+. All rem-basert tekst skalerer med. */
+    font-size: clamp(16px, 0.9rem + 0.18vw, 19px);
+  }
+
   * {
     @apply border-border;
   }
