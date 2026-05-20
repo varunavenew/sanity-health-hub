@@ -644,7 +644,7 @@ const BookingDemo = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-2xl">
+      <main className="container mx-auto px-4 pt-8 pb-32 md:pb-40 max-w-2xl">
         {/* Step Indicator — minimal CMedical stil */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2 px-1">
