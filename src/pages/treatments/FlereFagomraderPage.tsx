@@ -4,6 +4,7 @@ import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { LeadPopup } from "@/components/LeadPopup";
@@ -550,6 +551,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
 
  {/* UNIFIED PRE-FOOTER CTA — samme som hjem */}
  <BookingCTA />
+      <InsurancePartners />
 
  <LeadPopup />
  </PageLayout>
