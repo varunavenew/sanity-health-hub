@@ -211,7 +211,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill konsultasjon
+ Bestill time
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
