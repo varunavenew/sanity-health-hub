@@ -147,8 +147,8 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               <img 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
-                /* Logo er trimmet (1045x195) så "C" flukter med page-shell margen. */
-                className="h-14 md:h-20 w-auto" 
+                /* Beholder original logofil/størrelse, men kompenserer for transparent venstremarg. */
+                className="h-14 md:h-20 w-auto -ml-[23px] md:-ml-[33px]" 
               />
             </Link>
             
