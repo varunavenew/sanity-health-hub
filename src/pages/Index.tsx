@@ -4,7 +4,7 @@ import { HeroBanner } from "@/components/homepage/HeroBanner";
 import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
-import { TreatmentCategories } from "@/components/TreatmentCategories";
+import { ServicesStrip } from "@/components/homepage/ServicesStrip";
 
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
@@ -30,7 +30,7 @@ const Index = ({ isChatOpen }: IndexProps) => {
       </h1>
 
       <HeroBanner />
-      <TreatmentCategories onCategorySelect={(id) => { window.location.href = `/behandlinger/${id}`; }} />
+      <ServicesStrip />
       <HeroCompact />
       <GoogleReviewsSection />
       <ValueBadges />
