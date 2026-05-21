@@ -77,9 +77,6 @@ interface Props {
  content: SubTreatmentContent;
 }
 
-const insurancePartners = [
- "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
-];
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
