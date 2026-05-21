@@ -274,9 +274,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-6">
- <p className="text-xs text-foreground/60 mb-4">
- Spesialistområder
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Eksperter som jobber med det de kan aller best.
  </h2>
@@ -306,9 +303,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  />
  </div>
  <div className="p-7 flex flex-col flex-1">
- <p className="text-xs text-foreground/80 mb-4 uppercase">
- {a.eyebrow}
- </p>
  <h3 className="text-xl font-light text-foreground mb-3">
  {a.title}
  </h3>
