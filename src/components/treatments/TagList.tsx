@@ -25,7 +25,8 @@ export const TagList = ({ tags, initialVisible = 3, className = "" }: TagListPro
 
   const pillClass =
     "text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full";
-  const linkPillClass = `${pillClass} hover:bg-foreground/5 hover:border-foreground/30 hover:text-foreground transition-colors`;
+  const linkPillClass =
+    "text-xs font-normal text-foreground border border-foreground/30 px-2 py-1 rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors cursor-pointer";
 
   const normalize = (t: TagItem) =>
     typeof t === "string" ? { label: t, href: undefined as string | undefined } : t;
