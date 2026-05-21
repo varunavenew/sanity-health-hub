@@ -96,27 +96,8 @@ const segments = [
  },
 ];
 
-const SegmentCoupleIcon = (props: React.SVGProps<SVGSVGElement>) => (
- <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
- <circle cx="32" cy="40" r="13" />
- <circle cx="48" cy="40" r="13" />
- </svg>
-);
 
-const SegmentHorizonIcon = (props: React.SVGProps<SVGSVGElement>) => (
- <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
- <line x1="12" y1="48" x2="68" y2="48" />
- <path d="M20 48 A20 20 0 0 1 60 48" />
- <line x1="40" y1="30" x2="40" y2="24" />
- </svg>
-);
 
-const SegmentArchIcon = (props: React.SVGProps<SVGSVGElement>) => (
- <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" {...props}>
- <circle cx="40" cy="48" r="10" />
- <path d="M18 40 Q40 14 62 40" />
- </svg>
-);
 
 const audiences = [
  {
