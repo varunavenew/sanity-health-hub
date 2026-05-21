@@ -5,6 +5,7 @@ import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { ServicesStrip } from "@/components/homepage/ServicesStrip";
+import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
@@ -31,6 +32,16 @@ const Index = ({ isChatOpen }: IndexProps) => {
 
       <HeroBanner />
       <ServicesStrip />
+      <AnimatedStatsSection
+        categoryLabel="Gynekologi"
+        description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen gynekologi de siste årene."
+        stats={[
+          { v: "9 600+", k: "Konsultasjoner", sub: "Per år" },
+          { v: "2 100", k: "Ultralydundersøkelser", sub: "I 2024" },
+          { v: "98%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+          { v: "<7 dager", k: "Ventetid", sub: "Snitt til første time" },
+        ]}
+      />
       <HeroCompact />
       <GoogleReviewsSection />
       <ValueBadges />

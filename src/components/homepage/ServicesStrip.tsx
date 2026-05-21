@@ -16,10 +16,12 @@ const items = [
 
 export const ServicesStrip = () => {
   return (
-    <section className="bg-brand-light py-10 md:py-14">
-      <h2 className="text-center text-2xl md:text-3xl font-light text-brand-dark mb-8 md:mb-10">
-        Våre tjenester
-      </h2>
+    <section className="bg-brand-light pt-10 md:pt-14 pb-0">
+      <div className="container mx-auto px-6 md:px-16 mb-8 md:mb-10">
+        <h2 className="text-3xl md:text-4xl font-light text-brand-dark">
+          Våre tjenester
+        </h2>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-0">
         {items.map((item) => (
           <Link
