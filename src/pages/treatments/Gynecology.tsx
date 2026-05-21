@@ -4,6 +4,7 @@ import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 
@@ -665,6 +666,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  10. UNIFIED PRE-FOOTER CTA — samme som hjem
  ============================================================ */}
  <BookingCTA />
+      <InsurancePartners />
  </PageLayout>
  );
 };

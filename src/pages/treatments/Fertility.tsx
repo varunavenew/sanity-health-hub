@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 
@@ -562,6 +563,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  10. UNIFIED PRE-FOOTER CTA
  ============================================================ */}
  <BookingCTA />
+      <InsurancePartners />
 
 
  </PageLayout>
