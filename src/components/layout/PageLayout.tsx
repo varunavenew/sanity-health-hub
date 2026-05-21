@@ -11,7 +11,7 @@ import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
-import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
+import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -147,8 +147,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               <img 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
-                /* Beholder original logofil/størrelse, men kompenserer for transparent venstremarg. */
-                className="h-14 md:h-20 w-auto -ml-[23px] md:-ml-[33px]" 
+                className="h-14 md:h-20 w-auto" 
               />
             </Link>
             
