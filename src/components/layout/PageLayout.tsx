@@ -147,7 +147,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               <img 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
-                className="h-14 md:h-20 w-auto" 
+                className="h-auto w-[220px] md:w-[280px] max-w-[45vw]" 
               />
             </Link>
             
