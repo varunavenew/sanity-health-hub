@@ -1,8 +1,8 @@
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-import { ShieldCheck, Building2, Coins } from "lucide-react";
+import { ShieldCheck, FileX, Clock } from "lucide-react";
 
-const icons = [ShieldCheck, Building2, Coins];
+const icons = [ShieldCheck, FileX, Clock];
 
 export const ValueBadges = () => {
   const { data: homepage } = useHomepage();
@@ -10,13 +10,11 @@ export const ValueBadges = () => {
 
   const staticBadges = [
     t("valueBadges.tech"),
-    t("valueBadges.comfort"),
-    t("valueBadges.price"),
+    "Ingen henvisninger",
+    "Kort ventetid",
   ];
 
-  const badges = homepage?.valueBadges && homepage.valueBadges.length > 0
-    ? homepage.valueBadges
-    : staticBadges;
+  const badges = staticBadges;
 
   return (
     <section className="py-4 md:py-6 bg-background">
