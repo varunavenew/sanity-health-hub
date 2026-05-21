@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Phone, Clock, FileX } from "lucide-react";
+import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -174,38 +174,36 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  er som det skal.
  </p>
 
-              <div className="mb-8">
-                <p className="text-base font-light text-foreground">
-                  Gynekologisk undersøkelse
-                </p>
-                <p className="text-xs font-light text-muted-foreground mb-4">
-                  Pris fra 2&nbsp;200 kr
-                </p>
-                <Button
-                  variant="cta"
-                  size="lg"
-                  className="px-8 w-full sm:w-auto"
-                  onClick={() =>
-                    (window.location.href = buildBookingUrl({
-                      kategori: "gynekologi",
-                      tjeneste: "undersokelse",
-                    }))
-                  }
-                >
-                  Se ledige tider og book
-                </Button>
-              </div>
+ <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
+ <Button
+ variant="cta"
+ size="lg"
+ className="px-8 w-full sm:w-auto"
+ onClick={() =>
+ (window.location.href = buildBookingUrl({
+ kategori: "gynekologi",
+ tjeneste: "undersokelse",
+ }))
+ }
+ >
+ Bestill undersøkelse
+ </Button>
+ <Link
+ to="/priser"
+ className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
+ >
+ Se priser
+ </Link>
+ </div>
 
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-light text-muted-foreground">
-                <span className="inline-flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  Ingen ventetid
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  Ingen henvisning
-                </span>
-              </div>
+ <div className="flex items-center gap-3 text-sm font-light text-muted-foreground">
+ <div className="flex">
+ {[0, 1, 2, 3, 4].map((i) => (
+ <Star key={i} className="w-3.5 h-3.5 fill-brand-dark text-brand-dark" />
+ ))}
+ </div>
+ <span>4,7 — Ingen ventetid · Ingen henvisning nødvendig</span>
+ </div>
  </div>
 
  <div className="bg-secondary/50 p-8 md:p-10 rounded-sm">
