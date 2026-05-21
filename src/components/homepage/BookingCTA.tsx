@@ -34,7 +34,7 @@ export const BookingCTA = () => {
           <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
             {t("booking.title")}
           </h2>
-          <p className="text-white/80 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-white/95 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
             {t("booking.subtitle")}
           </p>
 
