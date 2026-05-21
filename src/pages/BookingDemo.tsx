@@ -550,7 +550,7 @@ const BookingDemo = () => {
  if (externalClinic) {
  return (
  <div className="min-h-screen bg-[#f5f4f0] flex flex-col">
- <header className="sticky top-0 z-50 bg-foreground">
+ <header className="sticky top-0 z-50 bg-foreground border-t border-brand-light/20">
  <div className="container mx-auto px-4 h-16 flex items-center justify-between">
  <button 
  onClick={() => setExternalClinic(null)} 
