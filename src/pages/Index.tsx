@@ -5,6 +5,7 @@ import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { ServicesStrip } from "@/components/homepage/ServicesStrip";
+import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
