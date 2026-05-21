@@ -870,13 +870,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('category')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-4">
  Velg klinikk
  </h2>
@@ -925,13 +918,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('clinic')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-2">
  Velg behandler
  </h2>
@@ -991,13 +977,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('specialist')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-4">
  Velg tid
  {bookingData.specialist && (
@@ -1216,13 +1195,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('time')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-4">
  Bekreft
  </h2>
