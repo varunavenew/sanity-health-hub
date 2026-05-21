@@ -647,14 +647,28 @@ const BookingDemo = () => {
  <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
  {/* Step Indicator — minimal CMedical stil */}
  <div className="mb-8">
- <div className="flex items-center justify-between mb-2 px-1">
- <span className="text-xs font-light text-brand-dark/60">
- Steg {currentStep} av 5
- </span>
- <span className="text-xs font-normal text-brand-dark">
- {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
- </span>
- </div>
+  <div className="flex items-center justify-between mb-2 px-1">
+  {currentStep > 1 ? (
+  <button
+  onClick={() => {
+  const target = (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
+  resetStep(target);
+  }}
+  className="flex items-center gap-1 text-xs font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
+  >
+  <ArrowLeft className="w-3 h-3" />
+  <span className="underline">Tilbake</span>
+  <span className="text-brand-dark/60 ml-2">· Steg {currentStep} av 5</span>
+  </button>
+  ) : (
+  <span className="text-xs font-light text-brand-dark/60">
+  Steg {currentStep} av 5
+  </span>
+  )}
+  <span className="text-xs font-normal text-brand-dark">
+  {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
+  </span>
+  </div>
  <div className="flex items-center gap-1.5">
  {[1, 2, 3, 4, 5].map((step) => {
  const canNavigate = currentStep > step;
