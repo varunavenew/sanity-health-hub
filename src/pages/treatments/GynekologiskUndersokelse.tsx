@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import clinicInterior from "@/assets/clinics/bekkestua.jpg";
 
 interface PageProps {
  isChatOpen: boolean;
