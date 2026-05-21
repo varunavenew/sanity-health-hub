@@ -10,6 +10,8 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import spotlightImg from "@/assets/hero/gynecology-hero.jpg";
+import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
@@ -596,7 +598,17 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
- <SpecialistsScroller
+ <FeatureSpotlight
+        eyebrow="Aktuelt"
+        title={`Det du bør vite før du booker en gynekologisk undersøkelse.`}
+        text="Hva skjer i konsultasjonen, hva tas, og hva får du svar på? En kort guide som forklarer steg for steg."
+        ctaLabel="Les guiden"
+        ctaHref="/aktuelt"
+        image={spotlightImg}
+        imageAlt=""
+      />
+
+      <SpecialistsScroller
  category="gynekologi"
  title="Gynekologene som følger deg."
  seeAllHref="/spesialister?kategori=gynekologi"

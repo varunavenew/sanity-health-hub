@@ -10,6 +10,8 @@ import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import spotlightImg from "@/assets/hero/cmedical-hands.jpg";
+import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
@@ -497,7 +499,17 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* 6. SPESIALISTER */}
- <SpecialistsScroller
+ <FeatureSpotlight
+        eyebrow="Aktuelt"
+        title={`Når er det riktig å snakke med en urolog?`}
+        text="Mange venter for lenge. Her er tegnene som er verdt en konsultasjon — og hva en utredning faktisk innebærer."
+        ctaLabel="Les mer"
+        ctaHref="/aktuelt"
+        image={spotlightImg}
+        imageAlt=""
+      />
+
+      <SpecialistsScroller
  category="urologi"
  title="Urologene som følger deg."
  seeAllHref="/spesialister?kategori=urologi"

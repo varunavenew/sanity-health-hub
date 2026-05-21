@@ -8,6 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
@@ -549,7 +550,17 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
- <SpecialistsScroller
+ <FeatureSpotlight
+        eyebrow="Pasienthistorie"
+        title={`«Endelig følte du at noen lyttet — og hadde en plan dere kunne forstå.»`}
+        text="Les hvordan ett par fant veien til foreldreskap etter flere år med usikkerhet — og hva som var annerledes hos CMedical."
+        ctaLabel="Les hele historien"
+        ctaHref="/aktuelt"
+        image={fertilityHeroImg}
+        imageAlt=""
+      />
+
+      <SpecialistsScroller
  category="fertilitet"
  title="Fertilitetsspesialistene som følger deg."
  seeAllHref="/spesialister?kategori=fertilitet"
