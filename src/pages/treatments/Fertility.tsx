@@ -380,31 +380,38 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <div className="grid md:grid-cols-3 gap-6">
- {audiences.map((a) => (
- <div
- key={a.title}
- className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
- >
- <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
- <a.Icon className="w-10 h-10" aria-hidden="true" />
- </div>
- <h3 className="text-lg font-normal text-foreground mb-3">
- {a.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
- {a.desc}
- </p>
- <Link
- to={a.href}
- className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
- >
- Les mer
- <ArrowRight className="w-3.5 h-3.5" />
- </Link>
- </div>
- ))}
- </div>
+  <div className="grid md:grid-cols-3 gap-6">
+   {audiences.map((a) => (
+    <div
+     key={a.title}
+     className="bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden"
+    >
+     <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary">
+      <img
+       src={a.image}
+       alt={a.title}
+       loading="lazy"
+       className="absolute inset-0 w-full h-full object-cover"
+      />
+     </div>
+     <div className="p-7 flex flex-col flex-1">
+      <h3 className="text-lg font-normal text-foreground mb-3">
+       {a.title}
+      </h3>
+      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+       {a.desc}
+      </p>
+      <Link
+       to={a.href}
+       className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
+      >
+       Les mer
+       <ArrowRight className="w-3.5 h-3.5" />
+      </Link>
+     </div>
+    </div>
+   ))}
+  </div>
  </div>
  </div>
  </section>
