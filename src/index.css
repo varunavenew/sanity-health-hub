@@ -139,10 +139,16 @@
 
 @layer base {
   :root {
-    /* Felles horisontal gutter — alt innhold flukter med logoen i headeren.
-       16px mobil → 40px på 1440px+. */
-    --gutter: clamp(1rem, 3vw, 2.5rem);
-    --max-shell: 1440px;
+    /* Felles horisontal gutter — matcher sidens innholdscontainere
+       (px-6 mobil, md:px-16 desktop), slik at logo og innhold flukter. */
+    --gutter: 1.5rem;
+    --max-shell: 1400px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --gutter: 4rem;
+    }
   }
 
   html {
@@ -180,8 +186,12 @@
      på brede skjermer. Logo, headere, content-seksjoner og split-tekst
      kolonner bruker alle samme verdi → alt flukter på samme x-akse. */
   .page-shell {
-    padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
-    padding-right: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
+    width: 100%;
+    max-width: var(--max-shell);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
   }
 
   /* Split-screen tekstkolonne: bilde går kant-i-kant på motsatt side,
