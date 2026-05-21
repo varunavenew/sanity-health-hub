@@ -174,27 +174,27 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  er som det skal.
  </p>
 
- <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
- <Button
- variant="cta"
- size="lg"
- className="px-8 w-full sm:w-auto"
- onClick={() =>
- (window.location.href = buildBookingUrl({
- kategori: "gynekologi",
- tjeneste: "undersokelse",
- }))
- }
- >
- Bestill undersøkelse
- </Button>
- <Link
- to="/priser"
- className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
- >
- Se priser
- </Link>
- </div>
+              <div className="mb-8 max-w-sm">
+                <p className="text-base font-normal text-foreground mb-1">
+                  Gynekologisk undersøkelse
+                </p>
+                <p className="text-sm font-light text-muted-foreground mb-4">
+                  Pris fra 2 200 kr
+                </p>
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="px-8 w-full sm:w-auto"
+                  onClick={() =>
+                    (window.location.href = buildBookingUrl({
+                      kategori: "gynekologi",
+                      tjeneste: "undersokelse",
+                    }))
+                  }
+                >
+                  Se ledige tider og book
+                </Button>
+              </div>
 
  <div className="flex items-center gap-3 text-sm font-light text-muted-foreground">
  <div className="flex">
@@ -395,16 +395,19 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  </p>
  </div>
  <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
- <Button asChild variant="cta-dark" size="lg" className="px-8">
- <Link
- to={buildBookingUrl({
- kategori: "gynekologi",
- tjeneste: "undersokelse",
- })}
- >
- Bestill time
- </Link>
- </Button>
+              <p className="text-sm font-light text-white/70 lg:text-right">
+                Gynekologisk undersøkelse — pris fra 2 200 kr
+              </p>
+              <Button asChild variant="cta-dark" size="lg" className="px-8">
+                <Link
+                  to={buildBookingUrl({
+                    kategori: "gynekologi",
+                    tjeneste: "undersokelse",
+                  })}
+                >
+                  Se ledige tider og book
+                </Link>
+              </Button>
  <a
  href="tel:+4722000000"
  className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
