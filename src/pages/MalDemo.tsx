@@ -141,11 +141,6 @@ export default function MalDemo() {
  Se live side ↗
  </Link>
  </Button>
- <Button asChild size="sm" variant="secondary">
- <Link to="/godkjenning" className="inline-flex items-center gap-2">
- <ArrowLeft className="w-4 h-4" /> Tilbake
- </Link>
- </Button>
  </div>
  </div>
  </div>
