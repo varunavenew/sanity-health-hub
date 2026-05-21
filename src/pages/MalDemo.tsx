@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+
 
 import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
