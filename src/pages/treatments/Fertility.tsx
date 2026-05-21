@@ -121,21 +121,21 @@ const SegmentArchIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const audiences = [
  {
  title: "Heterofile par",
- Icon: SegmentCoupleIcon,
+ image: audienceCoupleImg,
  desc:
  "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
  href: "/booking?kategori=fertilitet",
  },
  {
  title: "De ventende",
- Icon: SegmentHorizonIcon,
+ image: audienceWaitingImg,
  desc:
  "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
  href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
  },
  {
  title: "Singel",
- Icon: SegmentArchIcon,
+ image: audienceSingleImg,
  desc:
  "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
  href: "/booking?kategori=fertilitet",
