@@ -149,33 +149,35 @@ export const HeroBanner = () => {
             loading={current === 0 ? "eager" : "lazy"}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 pb-20 md:pb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="max-w-xl"
-            >
-              <span className="block text-xs text-white/80 mb-3 font-light">
-                {slide.subtitle}
-              </span>
-              <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
-                {slide.label}
-              </p>
-              <span
-                className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
-                onClick={(e) => { e.stopPropagation(); navigate(slide.ctaPath); }}
+          <div className="absolute bottom-0 left-0 right-0 pb-20 md:pb-24">
+            <div className="page-shell">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="max-w-xl"
               >
-                {slide.cta}
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
-              </span>
-            </motion.div>
+                <span className="block text-xs text-white/80 mb-3 font-light">
+                  {slide.subtitle}
+                </span>
+                <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
+                  {slide.label}
+                </p>
+                <span
+                  className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
+                  onClick={(e) => { e.stopPropagation(); navigate(slide.ctaPath); }}
+                >
+                  {slide.cta}
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
+                </span>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
       <div className="absolute bottom-0 inset-x-0 z-20">
-        <div className="container mx-auto px-6 md:px-16 pb-6 flex items-center justify-between">
+        <div className="page-shell pb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {heroSlides.map((_, i) => (
               <button
