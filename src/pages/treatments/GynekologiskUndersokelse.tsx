@@ -395,16 +395,19 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  </p>
  </div>
  <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end">
- <Button asChild variant="cta-dark" size="lg" className="px-8">
- <Link
- to={buildBookingUrl({
- kategori: "gynekologi",
- tjeneste: "undersokelse",
- })}
- >
- Bestill time
- </Link>
- </Button>
+              <p className="text-sm font-light text-white/70 lg:text-right">
+                Gynekologisk undersøkelse — pris fra 2 200 kr
+              </p>
+              <Button asChild variant="cta-dark" size="lg" className="px-8">
+                <Link
+                  to={buildBookingUrl({
+                    kategori: "gynekologi",
+                    tjeneste: "undersokelse",
+                  })}
+                >
+                  Se ledige tider og book
+                </Link>
+              </Button>
  <a
  href="tel:+4722000000"
  className="inline-flex items-center gap-2 text-sm font-light text-white/85 hover:text-white transition-colors px-2"
