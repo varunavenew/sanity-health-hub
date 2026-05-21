@@ -550,7 +550,7 @@ const BookingDemo = () => {
  if (externalClinic) {
  return (
  <div className="min-h-screen bg-[#f5f4f0] flex flex-col">
- <header className="sticky top-0 z-50 bg-foreground">
+ <header className="sticky top-0 z-50 bg-foreground border-t border-brand-light/20">
  <div className="container mx-auto px-4 h-16 flex items-center justify-between">
  <button 
  onClick={() => setExternalClinic(null)} 
@@ -630,19 +630,19 @@ const BookingDemo = () => {
  return (
  <div className="min-h-screen bg-white">
  {/* Header */}
- <header className="sticky top-0 z-50 bg-brand-dark">
- <div className="container mx-auto px-4 h-16 flex items-center justify-between">
- <button 
- onClick={handleClose} 
- className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors"
- aria-label="Lukk bestilling og gå til forsiden"
- >
- <X className="w-5 h-5 text-background" aria-hidden="true" />
- </button>
- <h1 className="text-sm text-background/90">Bestill time</h1>
- <div className="w-9" aria-hidden="true" />
- </div>
- </header>
+  <header className="sticky top-0 z-50 bg-brand-dark border-t border-brand-light/20">
+  <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+  <div className="w-9" aria-hidden="true" />
+  <h1 className="text-sm text-background/90">Bestill time</h1>
+  <button 
+  onClick={handleClose} 
+  className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
+  aria-label="Lukk bestilling og gå til forsiden"
+  >
+  <X className="w-5 h-5 text-background" aria-hidden="true" />
+  </button>
+  </div>
+  </header>
 
  <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
  {/* Step Indicator — minimal CMedical stil */}
