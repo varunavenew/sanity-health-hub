@@ -61,7 +61,7 @@ export const TrustStatsSection = () => {
  {stat.value}
  </p>
  <p className="text-white font-medium mb-1">{stat.label}</p>
- <p className="text-sm text-white/50 font-light">{stat.sublabel}</p>
+ <p className="text-sm text-white/85 font-light">{stat.sublabel}</p>
  </div>
  ))}
  </div>

@@ -34,7 +34,7 @@ export const BookingCTA = () => {
           <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
             {t("booking.title")}
           </h2>
-          <p className="text-white/80 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-white/95 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
             {t("booking.subtitle")}
           </p>
 
@@ -90,11 +90,11 @@ export const BookingCTA = () => {
 
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8">
-            <span className="flex items-center gap-2 text-sm text-white/80">
+            <span className="flex items-center gap-2 text-sm text-white">
               <Clock className="w-4 h-4" aria-hidden="true" />
               {t("booking.availableTime")}
             </span>
-            <span className="flex items-center gap-2 text-sm text-white/80">
+            <span className="flex items-center gap-2 text-sm text-white">
               <Shield className="w-4 h-4" aria-hidden="true" />
               {t("booking.noReferral")}
             </span>
