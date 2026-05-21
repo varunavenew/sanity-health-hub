@@ -629,63 +629,78 @@ const BookingDemo = () => {
 
  return (
  <div className="min-h-screen bg-white">
- {/* Header */}
- <header className="sticky top-0 z-50 bg-brand-dark">
- <div className="container mx-auto px-4 h-16 flex items-center justify-between">
- <button 
- onClick={handleClose} 
- className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors"
- aria-label="Lukk bestilling og gå til forsiden"
- >
- <X className="w-5 h-5 text-background" aria-hidden="true" />
- </button>
- <h1 className="text-sm text-background/90">Bestill time</h1>
- <div className="w-9" aria-hidden="true" />
- </div>
- </header>
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-brand-dark/10">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <h1 className="text-sm font-normal text-brand-dark">Bestill time</h1>
+          <button
+            onClick={handleClose}
+            className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-full transition-colors"
+            aria-label="Lukk bestilling og gå til forsiden"
+          >
+            <X className="w-5 h-5 text-brand-dark" aria-hidden="true" />
+          </button>
+        </div>
+      </header>
 
- <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
- {/* Step Indicator — minimal CMedical stil */}
- <div className="mb-8">
- <div className="flex items-center justify-between mb-2 px-1">
- <span className="text-xs font-light text-brand-dark/60">
- Steg {currentStep} av 5
- </span>
- <span className="text-xs font-normal text-brand-dark">
- {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
- </span>
- </div>
- <div className="flex items-center gap-1.5">
- {[1, 2, 3, 4, 5].map((step) => {
- const canNavigate = currentStep > step;
- const isActive = currentStep === step;
- const isDone = currentStep > step;
- const labels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"];
- return (
- <button
- key={step}
- onClick={() => {
- if (canNavigate) {
- if (step === 1) resetStep('category');
- else if (step === 2) resetStep('clinic');
- else if (step === 3) resetStep('specialist');
- else if (step === 4) resetStep('time');
- }
- }}
- disabled={!canNavigate && !isActive}
- aria-label={`Steg ${step}: ${labels[step - 1]}`}
- aria-current={isActive ? "step" : undefined}
- className={cn(
- "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
- isActive && "bg-brand-dark",
- isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
- !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed"
- )}
- />
- );
- })}
- </div>
- </div>
+      <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
+        {/* Back button — over steg-indikator */}
+        {currentStep > 1 && (
+          <button
+            onClick={() => {
+              if (currentStep === 2) resetStep('category');
+              else if (currentStep === 3) resetStep('clinic');
+              else if (currentStep === 4) resetStep('specialist');
+              else if (currentStep === 5) resetStep('time');
+            }}
+            className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="underline">Tilbake</span>
+          </button>
+        )}
+
+        {/* Step Indicator — minimal CMedical stil */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-2 px-1">
+            <span className="text-xs font-light text-brand-dark/60">
+              Steg {currentStep} av 5
+            </span>
+            <span className="text-xs font-normal text-brand-dark">
+              {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            {[1, 2, 3, 4, 5].map((step) => {
+              const canNavigate = currentStep > step;
+              const isActive = currentStep === step;
+              const isDone = currentStep > step;
+              const labels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"];
+              return (
+                <button
+                  key={step}
+                  onClick={() => {
+                    if (canNavigate) {
+                      if (step === 1) resetStep('category');
+                      else if (step === 2) resetStep('clinic');
+                      else if (step === 3) resetStep('specialist');
+                      else if (step === 4) resetStep('time');
+                    }
+                  }}
+                  disabled={!canNavigate && !isActive}
+                  aria-label={`Steg ${step}: ${labels[step - 1]}`}
+                  aria-current={isActive ? "step" : undefined}
+                  className={cn(
+                    "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
+                    isActive && "bg-brand-dark",
+                    isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
+                    !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed"
+                  )}
+                />
+              );
+            })}
+          </div>
+        </div>
  {/* Persistent Summary Banner */}
  {bookingData.service && (
  <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
@@ -855,13 +870,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('category')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-4">
  Velg klinikk
  </h2>
@@ -910,13 +918,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('clinic')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-2">
  Velg behandler
  </h2>
@@ -976,13 +977,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('specialist')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-4">
  Velg tid
  {bookingData.specialist && (
@@ -1201,13 +1195,6 @@ const BookingDemo = () => {
  transition={{ duration: 0.3 }}
  className="space-y-4"
  >
- <button 
- onClick={() => resetStep('time')} 
- className="flex items-center gap-1.5 text-sm text-brand-dark hover:text-brand-dark/70 transition-colors mb-4"
- >
- <ArrowLeft className="w-4 h-4" />
- <span className="underline">Tilbake</span>
- </button>
  <h2 className="text-2xl font-light text-brand-dark mb-4">
  Bekreft
  </h2>
