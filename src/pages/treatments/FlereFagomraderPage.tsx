@@ -10,6 +10,8 @@ import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
+import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
@@ -490,7 +492,17 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* 6. SPESIALISTER */}
- <SpecialistsScroller
+ <FeatureSpotlight
+        eyebrow="Tverrfaglig"
+        title={`Når flere spesialister samarbeider om det samme forløpet.`}
+        text="Slik jobber teamene våre på tvers — kortere vei mellom utredning, behandling og oppfølging."
+        ctaLabel="Les mer"
+        ctaHref="/aktuelt"
+        image={spotlightImg}
+        imageAlt=""
+      />
+
+      <SpecialistsScroller
  category="annet"
  title="Spesialistene som følger deg."
  seeAllHref="/spesialister?kategori=annet"

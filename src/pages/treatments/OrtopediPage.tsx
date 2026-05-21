@@ -10,6 +10,8 @@ import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import spotlightImg from "@/assets/hero/hero-treatment.jpg";
+import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
@@ -494,7 +496,17 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* 6. SPESIALISTER */}
- <SpecialistsScroller
+ <FeatureSpotlight
+        eyebrow="Pasienthistorie"
+        title={`«Tilbake i full aktivitet — raskere enn forventet.»`}
+        text="Les hvordan en pasient kom seg tilbake etter et inngrep, og hva tett oppfølging betydde i opptreningen."
+        ctaLabel="Les historien"
+        ctaHref="/aktuelt"
+        image={spotlightImg}
+        imageAlt=""
+      />
+
+      <SpecialistsScroller
  category="ortopedi"
  title="Ortopedene som følger deg."
  seeAllHref="/spesialister?kategori=ortopedi"
