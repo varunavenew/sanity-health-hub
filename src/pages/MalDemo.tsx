@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+
 
 import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
@@ -139,11 +139,6 @@ export default function MalDemo() {
  <Button asChild size="sm" variant="ghost" className="text-brand-light hover:bg-brand-light/10 hidden sm:inline-flex">
  <Link to={mal.livePath} target="_blank" rel="noreferrer">
  Se live side ↗
- </Link>
- </Button>
- <Button asChild size="sm" variant="secondary">
- <Link to="/godkjenning" className="inline-flex items-center gap-2">
- <ArrowLeft className="w-4 h-4" /> Tilbake
  </Link>
  </Button>
  </div>

@@ -193,9 +193,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <p className="text-xs text-foreground/60 mb-8">
- Gynekologi — CMedical
- </p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Kvinnehelse <span className="block italic">for livet</span>
  </h2>

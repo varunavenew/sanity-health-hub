@@ -189,10 +189,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* Left — copy + CTA */}
  <div className="flex items-center page-edge-text-left py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <p className="text-xs text-foreground/60 mb-8">
- Fertilitet — CMedical
- </p>
-
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
  </h2>
@@ -215,7 +211,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill konsultasjon
+ Bestill time
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
