@@ -80,7 +80,7 @@ export const TrustCredibility = () => {
  <point.icon className="w-8 h-8 text-accent mb-4" />
  <p className="text-3xl md:text-4xl font-light mb-1">{point.value}</p>
  <p className="text-base font-normal mb-1">{point.label}</p>
- <p className="text-sm text-white/60 font-light">{point.description}</p>
+ <p className="text-sm text-white/85 font-light">{point.description}</p>
  </div>
  ))}
  </div>
@@ -90,13 +90,13 @@ export const TrustCredibility = () => {
  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-10">
  <div>
  <h3 className="text-2xl md:text-3xl font-light mb-2">Møt våre spesialister</h3>
- <p className="text-white/70 font-light">
+ <p className="text-white/90 font-light">
  Over 50 erfarne leger og helsepersonell står klare for deg
  </p>
  </div>
  <div className="flex items-center gap-2">
  <Award className="w-5 h-5 text-accent" />
- <span className="text-sm text-white/80">Alle godkjent av Helsetilsynet</span>
+ <span className="text-sm text-white/95">Alle godkjent av Helsetilsynet</span>
  </div>
  </div>
 
@@ -114,7 +114,7 @@ export const TrustCredibility = () => {
  </AvatarFallback>
  </Avatar>
  <p className="font-normal mb-1">{specialist.name}</p>
- <p className="text-sm text-white/60 font-light">{specialist.title}</p>
+ <p className="text-sm text-white/85 font-light">{specialist.title}</p>
  </div>
  ))}
  </div>
