@@ -9,6 +9,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 export interface SubTreatmentContent {
  // Meta
@@ -469,13 +470,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  >
  {c.primaryCtaLabel ?? "Bestill time"}
  </Button>
- <a
- href="tel:+4722000000"
- className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
- >
- <Phone className="w-4 h-4" />
- 22 00 00 00
- </a>
+ <CallUsClinicPicker variant="light" label="Ring oss" />
+
  </div>
  </div>
  </div>
