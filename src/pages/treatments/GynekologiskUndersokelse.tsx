@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone } from "lucide-react";
+import { ArrowRight, Check, Star, Phone, Clock, FileX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -192,18 +192,20 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
                     }))
                   }
                 >
-                  Se ledige tider og book
+                  Se ledige time
                 </Button>
               </div>
 
- <div className="flex items-center gap-3 text-sm font-light text-muted-foreground">
- <div className="flex">
- {[0, 1, 2, 3, 4].map((i) => (
- <Star key={i} className="w-3.5 h-3.5 fill-brand-dark text-brand-dark" />
- ))}
- </div>
- <span>4,7 — Ingen ventetid · Ingen henvisning nødvendig</span>
- </div>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground">
+                <span className="inline-flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+                  Ingen ventetid
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+                  Ingen henvisning
+                </span>
+              </div>
  </div>
 
  <div className="bg-secondary/50 p-8 md:p-10 rounded-sm">
