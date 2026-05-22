@@ -9,6 +9,7 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 export interface SubTreatmentContent {
  // Meta
