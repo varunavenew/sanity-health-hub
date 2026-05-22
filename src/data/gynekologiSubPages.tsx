@@ -1,5 +1,9 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
+import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
+import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
+import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
+import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
