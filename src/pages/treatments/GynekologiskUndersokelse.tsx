@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import clinicInterior from "@/assets/clinics/bekkestua.jpg";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -233,45 +232,36 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. KONSULTASJONEN — mørkt, fire trinn
  ============================================================ */}
-        <section className="bg-brand-light text-foreground py-20 md:py-28">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-              <div className="lg:col-span-4">
-                <p className="text-xs text-foreground/60 mb-4 uppercase">
-                  Konsultasjonen
-                </p>
-                <h2 className="text-3xl md:text-5xl font-light leading-tight mb-8">
-                  Hva skjer når du er hos oss
-                </h2>
-                <div className="divide-y divide-border/60 border-y border-border/60">
-                  {consultationFlow.map((step, i) => (
-                    <div key={step.n} className="grid grid-cols-12 gap-3 py-5">
-                      <div className="col-span-2 text-xs font-light text-foreground/60 pt-1">
-                        {String(i + 1).padStart(2, "0")}
-                      </div>
-                      <div className="col-span-10">
-                        <h3 className="text-base font-normal text-foreground">
-                          {step.title}
-                        </h3>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+ <section className="bg-brand-light text-foreground py-20 md:py-28">
+ <div className="container mx-auto px-6 md:px-16">
+ <div className="max-w-6xl mx-auto">
+ <div className="max-w-2xl mb-14">
+ <p className="text-xs text-foreground/60 mb-4 uppercase">
+ Konsultasjonen
+ </p>
+ <h2 className="text-3xl md:text-5xl font-light leading-tight">
+ Hva skjer når du er hos oss
+ </h2>
+ </div>
 
-              <div className="lg:col-span-8">
-                <div className="overflow-hidden rounded-sm">
-                  <img
-                    src={clinicInterior}
-                    alt="Behagelige lokaler hos CMedical"
-                    loading="lazy"
-                    className="w-full h-[420px] md:h-[560px] object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+ <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+ {consultationFlow.map((step) => (
+ <div key={step.n} className="bg-background p-7 flex flex-col">
+ <p className="text-xs text-brand-dark mb-5 uppercase">
+ {step.n}
+ </p>
+ <h3 className="text-lg font-normal mb-3 leading-snug">
+ {step.title}
+ </h3>
+ <p className="text-sm font-light text-muted-foreground leading-relaxed">
+ {step.desc}
+ </p>
+ </div>
+ ))}
+ </div>
+ </div>
+ </div>
+ </section>
 
  {/* ============================================================
  3. HVEM PASSER DET FOR — split
