@@ -80,6 +80,42 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "05", title: "Prevensjon og hormonell helse", desc: "Rådgivning om prevensjon, hormonell ubalanse eller hjelp til å finne det som passer deg." },
     ],
     promises: standardPromises,
+    expertAreas: {
+      eyebrow: "Spesialistområder",
+      title: "Eksperter som jobber med det de kan aller best.",
+      description:
+        "Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier.",
+      items: [
+        {
+          eyebrow: "Spesialfelt",
+          title: "Endometriose",
+          desc: "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
+          href: "/behandlinger/gynekologi/endometriose",
+          image: expertEndometriose,
+        },
+        {
+          eyebrow: "Spesialfelt",
+          title: "Fødselsskader og bekkenbunnshelse",
+          desc: "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
+          href: "/behandlinger/gynekologi/urinlekkasje",
+          image: expertBekkenbunn,
+        },
+        {
+          eyebrow: "Spesialfelt",
+          title: "Overgangsalder",
+          desc: "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
+          href: "/behandlinger/gynekologi/overgangsalder",
+          image: expertOvergangsalder,
+        },
+        {
+          eyebrow: "Spesialfelt",
+          title: "Vulvasmerter",
+          desc: "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
+          href: "/behandlinger/gynekologi/vulvalidelser",
+          image: expertVulva,
+        },
+      ],
+    },
     related: [
       { eyebrow: "Spesialfelt", title: "Endometriose", desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer for grundig vurdering.", href: "/behandlinger/gynekologi/endometriose" },
       { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
