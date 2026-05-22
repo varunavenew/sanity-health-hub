@@ -41,8 +41,14 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Alt under samme tak", desc: "Trenger du videre utredning eller behandling, har du det her. Ingen omveier." },
     ],
     rating: "4,7 — Ingen ventetid · Ingen henvisning nødvendig",
+    heroPrice: "Pris fra 2 200 kr",
+    hideSeePriser: true,
+    heroBadges: [
+      { label: "Ingen ventetid", icon: "clock" },
+      { label: "Ingen henvisning", icon: "fileX" },
+    ],
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
-    primaryCtaLabel: "Bestill undersøkelse",
+    primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
     flowTitle: "Hva skjer når du er hos oss",
     flow: [
