@@ -52,7 +52,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
     flowTitle: "Hva skjer når du er hos oss",
-    flowImage: "/src/assets/clinics/majorstuen.jpg",
+    flowImage: imgMajorstuen,
     flowImageAlt: "Interiør fra CMedical-klinikken",
     flowLinkLabel: "Les mer om klinikken",
     flowLinkHref: "/klinikker/majorstuen",
