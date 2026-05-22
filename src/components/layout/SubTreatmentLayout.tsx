@@ -1,7 +1,7 @@
 import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone } from "lucide-react";
+import { ArrowRight, Check, Star, Phone, Clock, FileX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -24,6 +24,9 @@ export interface SubTreatmentContent {
  heroDescription: string;
  heroPoints: { title: string; desc: string }[];
  rating?: string;
+ heroPrice?: string; // e.g. "Pris fra 2 200 kr" — shown above CTA
+ hideSeePriser?: boolean; // hides the secondary "Se priser" link
+ heroBadges?: { label: string; icon?: "clock" | "fileX" | "check" }[]; // replaces rating badge when provided
  // Booking
  booking: { kategori: string; tjeneste?: string };
  primaryCtaLabel?: string;
@@ -126,6 +129,17 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {c.heroDescription}
  </p>
 
+ {c.heroPrice && (
+ <div className="mb-4">
+ <p className="text-base font-normal text-foreground mb-1">
+ {c.title}
+ </p>
+ <p className="text-sm font-light text-muted-foreground">
+ {c.heroPrice}
+ </p>
+ </div>
+ )}
+
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
  <Button
  variant="cta"
@@ -135,15 +149,29 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  >
  {c.primaryCtaLabel ?? "Bestill time"}
  </Button>
+ {!c.hideSeePriser && (
  <Link
  to="/priser"
  className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
  >
  Se priser
  </Link>
+ )}
  </div>
 
- {c.rating && (
+ {c.heroBadges && c.heroBadges.length > 0 ? (
+ <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground">
+ {c.heroBadges.map((b) => {
+ const Icon = b.icon === "fileX" ? FileX : b.icon === "check" ? Check : Clock;
+ return (
+ <span key={b.label} className="inline-flex items-center gap-2">
+ <Icon className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+ {b.label}
+ </span>
+ );
+ })}
+ </div>
+ ) : c.rating ? (
  <div className="inline-flex items-center gap-3 rounded-2xl bg-card border border-border/60 px-4 py-3 text-sm font-light text-brand-dark shadow-sm">
  <div className="flex" aria-hidden="true">
  {[0, 1, 2, 3, 4].map((i) => (
@@ -152,8 +180,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  <span>{c.rating}</span>
  </div>
- )}
+ ) : null}
  </div>
+
 
  <div className="bg-secondary/50 p-8 md:p-10 rounded-sm">
  <ul className="space-y-6">
