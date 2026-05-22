@@ -1,4 +1,5 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
+import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
