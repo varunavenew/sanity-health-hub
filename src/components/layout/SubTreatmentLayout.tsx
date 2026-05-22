@@ -34,6 +34,10 @@ export interface SubTreatmentContent {
  flowEyebrow: string;
  flowTitle: string;
  flow: { n: string; title: string; desc: string }[];
+ flowImage?: string; // when set, renders split layout with image on the right
+ flowImageAlt?: string;
+ flowLinkLabel?: string;
+ flowLinkHref?: string;
  // Section 3 — hvem / symptomer
  reasonsEyebrow: string;
  reasonsTitle: string;
