@@ -63,6 +63,13 @@ export interface SubTreatmentContent {
  image: string;
  imageAlt?: string;
  };
+ // Section 4d — optional expert areas (image cards grid)
+ expertAreas?: {
+ eyebrow?: string;
+ title: string;
+ description?: string;
+ items: { eyebrow?: string; title: string; desc: string; href: string; image: string }[];
+ };
  // Section 5 — relaterte
  relatedEyebrow?: string;
  relatedTitle?: string;
