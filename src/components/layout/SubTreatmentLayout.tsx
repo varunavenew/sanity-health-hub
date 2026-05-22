@@ -212,10 +212,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </header>
 
  {/* 2. FLOW */}
- <section className="bg-brand-light text-foreground py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- {/* 2. FLOW */}
  {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
  <div className="grid lg:grid-cols-12">
