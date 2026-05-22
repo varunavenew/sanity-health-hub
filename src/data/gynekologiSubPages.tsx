@@ -1,4 +1,5 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
+import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
@@ -51,6 +52,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
     flowTitle: "Hva skjer når du er hos oss",
+    flowImage: imgMajorstuen,
+    flowImageAlt: "Interiør fra CMedical-klinikken",
+    flowLinkLabel: "Les mer om klinikken",
+    flowLinkHref: "/klinikker/majorstuen",
     flow: [
       { n: "Minutt 0–10", title: "Samtale og historikk", desc: "Vi starter med en grundig samtale om hva du opplever, syklushistorie og eventuelle spørsmål. Ingen spørsmål er for små eller for private." },
       { n: "Minutt 10–25", title: "Den kliniske undersøkelsen", desc: "Vi gjennomfører en gynekologisk undersøkelse, eventuelt med ultralyd — med ditt tempo og din komfort i fokus." },

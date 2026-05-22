@@ -34,6 +34,10 @@ export interface SubTreatmentContent {
  flowEyebrow: string;
  flowTitle: string;
  flow: { n: string; title: string; desc: string }[];
+ flowImage?: string; // when set, renders split layout with image on the right
+ flowImageAlt?: string;
+ flowLinkLabel?: string;
+ flowLinkHref?: string;
  // Section 3 — hvem / symptomer
  reasonsEyebrow: string;
  reasonsTitle: string;
@@ -208,6 +212,58 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </header>
 
  {/* 2. FLOW */}
+ {c.flowImage ? (
+ <section className="bg-brand-light text-foreground">
+ <div className="grid lg:grid-cols-12">
+ <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+ <div className="max-w-xl">
+ <p className="text-xs text-foreground/60 mb-4 uppercase">
+ {c.flowEyebrow}
+ </p>
+ <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
+ {c.flowTitle}
+ </h2>
+
+ <div className="divide-y divide-border/60 border-t border-border/60">
+ {c.flow.map((step, idx) => (
+ <div key={step.n} className="grid grid-cols-12 gap-4 py-7">
+ <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
+ {String(idx + 1).padStart(2, "0")}
+ </div>
+ <div className="col-span-10 md:col-span-11">
+ <h3 className="text-base font-normal text-foreground mb-1.5">
+ {step.title}
+ </h3>
+ <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+ {step.desc}
+ </p>
+ </div>
+ </div>
+ ))}
+ </div>
+
+ {c.flowLinkHref && (
+ <Link
+ to={c.flowLinkHref}
+ className="mt-8 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
+ >
+ {c.flowLinkLabel ?? "Les mer"}
+ <ArrowRight className="w-3.5 h-3.5" />
+ </Link>
+ )}
+ </div>
+ </div>
+ <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+ <img
+ src={c.flowImage}
+ alt={c.flowImageAlt ?? ""}
+ loading="lazy"
+ className="absolute inset-0 w-full h-full object-cover"
+ />
+ </div>
+ </div>
+ </section>
+ ) : (
  <section className="bg-brand-light text-foreground py-20 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
@@ -249,6 +305,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </div>
  </section>
+ )}
 
  {/* 3. REASONS / SYMPTOMS */}
  <section className="bg-background py-20 md:py-28">
