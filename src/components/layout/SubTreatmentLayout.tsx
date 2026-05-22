@@ -129,7 +129,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {c.heroDescription}
  </p>
 
- <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
  {c.heroPrice && (
  <div className="mb-4">
  <p className="text-base font-normal text-foreground mb-1">
@@ -183,6 +182,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  ) : null}
  </div>
+
 
  <div className="bg-secondary/50 p-8 md:p-10 rounded-sm">
  <ul className="space-y-6">
