@@ -369,6 +369,67 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </section>
 
+ {/* 3b. EXPERT AREAS — image cards (optional) */}
+ {c.expertAreas && c.expertAreas.items.length > 0 && (
+ <section className="bg-secondary/40 py-20 md:py-28">
+ <div className="container mx-auto px-6 md:px-16">
+ <div className="max-w-6xl mx-auto">
+ <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+ <div className="lg:col-span-6">
+ {c.expertAreas.eyebrow && (
+ <p className="text-xs text-foreground/60 mb-4 uppercase">{c.expertAreas.eyebrow}</p>
+ )}
+ <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+ {c.expertAreas.title}
+ </h2>
+ </div>
+ {c.expertAreas.description && (
+ <div className="lg:col-span-6 lg:pt-3">
+ <p className="text-base font-light text-muted-foreground leading-relaxed">
+ {c.expertAreas.description}
+ </p>
+ </div>
+ )}
+ </div>
+
+ <div className="grid md:grid-cols-2 gap-6">
+ {c.expertAreas.items.map((a) => (
+ <Link
+ key={a.title}
+ to={a.href}
+ className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+ >
+ <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+ <img
+ src={a.image}
+ alt={a.title}
+ loading="lazy"
+ className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+ />
+ </div>
+ <div className="p-7 flex flex-col flex-1">
+ {a.eyebrow && (
+ <p className="text-xs text-foreground/80 mb-3 uppercase">{a.eyebrow}</p>
+ )}
+ <h3 className="text-xl font-light text-foreground mb-3">
+ {a.title}
+ </h3>
+ <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+ {a.desc}
+ </p>
+ <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+ Les mer
+ <ArrowRight className="w-3.5 h-3.5" />
+ </span>
+ </div>
+ </Link>
+ ))}
+ </div>
+ </div>
+ </div>
+ </section>
+ )}
+
  {/* 4. PROMISES — icon-cards with optional "Les mer" link */}
  <section className="bg-brand-light py-20 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
