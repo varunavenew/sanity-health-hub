@@ -130,6 +130,18 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </p>
 
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
+ {c.heroPrice && (
+ <div className="mb-4">
+ <p className="text-base font-normal text-foreground mb-1">
+ {c.title}
+ </p>
+ <p className="text-sm font-light text-muted-foreground">
+ {c.heroPrice}
+ </p>
+ </div>
+ )}
+
+ <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
  <Button
  variant="cta"
  size="lg"
@@ -138,15 +150,29 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  >
  {c.primaryCtaLabel ?? "Bestill time"}
  </Button>
+ {!c.hideSeePriser && (
  <Link
  to="/priser"
  className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
  >
  Se priser
  </Link>
+ )}
  </div>
 
- {c.rating && (
+ {c.heroBadges && c.heroBadges.length > 0 ? (
+ <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground">
+ {c.heroBadges.map((b) => {
+ const Icon = b.icon === "fileX" ? FileX : b.icon === "check" ? Check : Clock;
+ return (
+ <span key={b.label} className="inline-flex items-center gap-2">
+ <Icon className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+ {b.label}
+ </span>
+ );
+ })}
+ </div>
+ ) : c.rating ? (
  <div className="inline-flex items-center gap-3 rounded-2xl bg-card border border-border/60 px-4 py-3 text-sm font-light text-brand-dark shadow-sm">
  <div className="flex" aria-hidden="true">
  {[0, 1, 2, 3, 4].map((i) => (
@@ -155,7 +181,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  <span>{c.rating}</span>
  </div>
- )}
+ ) : null}
  </div>
 
  <div className="bg-secondary/50 p-8 md:p-10 rounded-sm">
