@@ -55,7 +55,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
-    flowTitle: "Hva skjer når du er hos oss",
+    flowTitle: "Slik foregår timen",
     flowImage: imgMajorstuen,
     flowImageAlt: "Interiør fra CMedical-klinikken",
     flowLinkLabel: "Les mer om klinikken",
@@ -67,7 +67,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Minutt 40–55", title: "Plan for veien videre", desc: "Trenger du ikke mer nå, avslutter vi der. Trenger du oppfølging eller behandling, legger vi en konkret plan." },
     ],
     reasonsEyebrow: "Hvem passer det for",
-    reasonsTitle: "Du trenger ikke ha en diagnose for å bestille",
+    reasonsTitle: "Du trenger ikke ha en diagnose for å\u00A0bestille",
     reasonsLead:
       "En gynekologisk undersøkelse er for alle som har en kropp som trenger å bli sett. Kanskje kjenner du på noe vagt og udefinerbart, kanskje vil du bare forsikre deg om at alt er ok.",
     reasonsLead2:
@@ -82,7 +82,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     expertAreas: {
       eyebrow: "Spesialistområder",
-      title: "Eksperter som jobber med det de kan aller best.",
+      title: "Eksperter som jobber med det de kan aller\u00A0best.",
       description:
         "Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier.",
       items: [
@@ -121,7 +121,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { eyebrow: "Tilstand", title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
     ],
-    ctaTitle: "Bestill gynekologisk undersøkelse",
+    ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
       "Ingen ventetid. Ingen fastlege nødvendig. Du bestiller direkte — og vi sørger for at du møter riktig spesialist.",
   },
