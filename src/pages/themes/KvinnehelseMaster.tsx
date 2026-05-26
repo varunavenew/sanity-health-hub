@@ -11,6 +11,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { RichContentSection, type RichBlock } from "@/components/themes/RichContentSection";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ExpertAreasSection, type ExpertArea } from "@/components/themes/ExpertAreasSection";
+import { ProcessStepsSection } from "@/components/themes/ProcessStepsSection";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
