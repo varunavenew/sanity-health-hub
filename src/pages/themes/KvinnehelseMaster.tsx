@@ -224,6 +224,15 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
     ] as RichBlock[]}
   />
 
+  {/* ───────────── Spesialistområder – kortgrid med bilde + tittel + tekst ───────────── */}
+  <MasterLabel>Spesialistområder – kortgrid (samme som "Eksperter som jobber..." på gynekologisiden)</MasterLabel>
+  <ExpertAreasSection
+    eyebrow="Spesialistområder"
+    title="Eksperter som jobber med det de kan aller best."
+    description="Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier."
+    items={expertAreas}
+  />
+
   {/* ───────────── Tjenester (liste) ───────────── */}
  <MasterLabel>Tjenester – liste med relaterte behandlinger</MasterLabel>
  <ServicesListSection
