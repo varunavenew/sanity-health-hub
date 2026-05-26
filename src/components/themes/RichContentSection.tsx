@@ -39,21 +39,8 @@ const renderBlock = (block: RichBlock, i: number) => {
         </p>
       );
     case "image":
-      return (
-        <figure key={i} className="my-8">
-          <img
-            src={block.src}
-            alt={block.alt}
-            loading="lazy"
-            className="w-full rounded-sm"
-          />
-          {block.caption && (
-            <figcaption className="text-xs text-foreground/55 font-light mt-3">
-              {block.caption}
-            </figcaption>
-          )}
-        </figure>
-      );
+      // Image is hoisted to the split-screen side — not rendered inline.
+      return null;
     case "video":
       return (
         <figure key={i} className="my-8">
@@ -80,71 +67,82 @@ const renderBlock = (block: RichBlock, i: number) => {
         </p>
       );
     case "stat":
-      // Rendered separately as a full-bleed splitscreen — see component below.
-      return null;
+      return (
+        <div key={i} className="my-10 grid grid-cols-[auto,1fr] gap-6 md:gap-10 items-start">
+          <div>
+            <p className="text-5xl md:text-6xl font-light text-foreground leading-none">
+              {block.value}
+            </p>
+            {block.label && (
+              <p className="text-sm text-foreground/70 font-light mt-3">
+                {block.label}
+              </p>
+            )}
+          </div>
+          <p className="text-base text-foreground/80 font-light leading-relaxed pt-2">
+            {block.body}
+          </p>
+        </div>
+      );
   }
 };
-
-const StatSplit = ({ block }: { block: StatBlock }) => (
-  <div className="grid lg:grid-cols-2 my-12 md:my-16">
-    <div className="bg-brand-warm flex items-center justify-center px-8 py-16 md:py-24 lg:py-32">
-      <div className="text-center">
-        <p className="text-6xl md:text-7xl lg:text-8xl font-light text-foreground leading-none">
-          {block.value}
-        </p>
-        <p className="text-sm text-foreground/70 font-light mt-5">
-          {block.label}
-        </p>
-      </div>
-    </div>
-    <div className="bg-brand-light flex items-center px-8 md:px-12 lg:px-16 py-12 md:py-16">
-      <p className="text-base md:text-lg text-foreground font-light leading-relaxed max-w-md">
-        {block.body}
-      </p>
-    </div>
-  </div>
-);
 
 export const RichContentSection = ({
   eyebrow,
   title,
   blocks,
-}: RichContentSectionProps) => (
-  <section className="py-14 md:py-20 bg-background">
-    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-      {eyebrow && (
-        <p className="text-xs text-foreground/60 font-light mb-3">{eyebrow}</p>
-      )}
-      {title && (
-        <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
-          {title}
-        </h2>
+  imagePosition = "right",
+}: RichContentSectionProps & { imagePosition?: "left" | "right" }) => {
+  const imageBlock = blocks.find((b): b is ImageBlock => b.type === "image");
+  const otherBlocks = blocks.filter((b) => b.type !== "image");
+
+  const imageEl = imageBlock && (
+    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[640px] overflow-hidden">
+      <img
+        src={imageBlock.src}
+        alt={imageBlock.alt}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {imageBlock.caption && (
+        <figcaption className="absolute bottom-4 left-4 right-4 text-xs text-white/90 font-light bg-black/40 backdrop-blur-sm px-3 py-2 rounded-sm">
+          {imageBlock.caption}
+        </figcaption>
       )}
     </div>
-    {/* Group consecutive non-stat blocks inside the narrow column,
-        and let stat blocks break out as full-bleed splitscreen. */}
-    {(() => {
-      const out: JSX.Element[] = [];
-      let buffer: { block: RichBlock; i: number }[] = [];
-      const flushBuffer = () => {
-        if (buffer.length === 0) return;
-        out.push(
-          <div key={`group-${out.length}`} className="container mx-auto px-6 md:px-16 max-w-3xl">
-            {buffer.map(({ block, i }) => renderBlock(block, i))}
-          </div>
-        );
-        buffer = [];
-      };
-      blocks.forEach((block, i) => {
-        if (block.type === "stat") {
-          flushBuffer();
-          out.push(<StatSplit key={`stat-${i}`} block={block} />);
-        } else {
-          buffer.push({ block, i });
-        }
-      });
-      flushBuffer();
-      return out;
-    })()}
-  </section>
-);
+  );
+
+  const contentEl = (
+    <div className={`flex items-center px-6 md:px-12 lg:px-16 py-16 md:py-24 ${!imageBlock ? "lg:col-span-2" : ""}`}>
+      <div className="max-w-xl">
+        {eyebrow && (
+          <p className="text-xs text-foreground/60 font-light mb-3">{eyebrow}</p>
+        )}
+        {title && (
+          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
+            {title}
+          </h2>
+        )}
+        {otherBlocks.map((block, i) => renderBlock(block, i))}
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="bg-background">
+      <div className="grid lg:grid-cols-2">
+        {imagePosition === "left" ? (
+          <>
+            {imageEl}
+            {contentEl}
+          </>
+        ) : (
+          <>
+            {contentEl}
+            {imageEl}
+          </>
+        )}
+      </div>
+    </section>
+  );
+};
