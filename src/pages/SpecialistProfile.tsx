@@ -7,7 +7,25 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
-import { SpecialistFAQ } from "@/components/specialist/SpecialistFAQ";
+import { FaqSection } from "@/components/layout/FaqSection";
+import { useFaqs } from "@/hooks/useSanity";
+
+const staticFaqs = [
+  { id: "henvisning", question: "Henvisning", answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen." },
+  { id: "ventetid", question: "Ventetid", answer: "Vi tilbyr korte ventetider. De fleste får time innen 1-3 dager, avhengig av behandlingstype og tilgjengelighet." },
+  { id: "sykemelding", question: "Sykemelding", answer: "Våre spesialister kan skrive sykemelding hvis det er medisinsk grunnlag for det. Dette vurderes individuelt i forbindelse med konsultasjonen." },
+  { id: "utredning", question: "Utredning", answer: "Vi tilbyr grundig utredning innen alle våre tjenester. Utredningen tilpasses din situasjon og kan inkludere samtale, undersøkelse, blodprøver og bildediagnostikk." },
+  { id: "selskapet", question: "Selskapet", answer: "CMedical er Nordens ledende klinikk for livet og underlivet, med særlig vekt på kvinnehelse. Vi er også opptatt av menns helse og fertilitet som angår alle som er involvert i å skape liv. Siden 2002 har over 150 000 pasienter fått behandling hos oss." },
+  { id: "forsikring", question: "Forsikring", answer: "Vi har avtale med de fleste forsikringsselskaper, inkludert EuroAccident, Falck, Fremtind, Gjensidige, Storebrand, Tryg og Vertikal Helse. Kontakt ditt forsikringsselskap for å sjekke hva din forsikring dekker, og be om å få time hos CMedical." },
+];
+
+const SpecialistFAQBlock = () => {
+  const { data: sanityFaqs } = useFaqs("generelt");
+  const faqs = sanityFaqs && sanityFaqs.length > 0
+    ? sanityFaqs.map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
+    : staticFaqs;
+  return <FaqSection faqs={faqs} />;
+};
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { motion } from "framer-motion";
@@ -121,7 +139,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       <RelatedSpecialists specialists={relatedSpecialists} />
 
       {/* 5. FAQ — trust & practical info */}
-      <SpecialistFAQ />
+      <SpecialistFAQBlock />
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
