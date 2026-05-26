@@ -55,7 +55,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
-    flowTitle: "Hva skjer når du er hos oss",
+    flowTitle: "Slik foregår timen",
     flowImage: imgMajorstuen,
     flowImageAlt: "Interiør fra CMedical-klinikken",
     flowLinkLabel: "Les mer om klinikken",
