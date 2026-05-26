@@ -121,7 +121,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { eyebrow: "Tilstand", title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
     ],
-    ctaTitle: "Bestill gynekologisk undersøkelse",
+    ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
       "Ingen ventetid. Ingen fastlege nødvendig. Du bestiller direkte — og vi sørger for at du møter riktig spesialist.",
   },
