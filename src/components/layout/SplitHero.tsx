@@ -22,8 +22,8 @@ export const SplitHero = ({
  description,
  image,
  imageAlt,
- primaryCta = { label: "Bestill time", to: "/booking" },
- secondaryCta = { label: "Kontakt oss", to: "/kontakt" },
+ primaryCta,
+ secondaryCta,
 }: SplitHeroProps) => {
  const navigate = useNavigate();
 
@@ -46,10 +46,13 @@ export const SplitHero = ({
  </p>
  )}
  <div className="flex flex-wrap gap-3">
+ {primaryCta && (
  <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
  {primaryCta.label}
  <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
+ )}
+ {secondaryCta && (
  <Button
  variant="ghost"
  size="lg"
@@ -59,6 +62,7 @@ export const SplitHero = ({
  <Phone className="mr-2 w-4 h-4" />
  {secondaryCta.label}
  </Button>
+ )}
  </div>
  </div>
  {/* Right: image */}

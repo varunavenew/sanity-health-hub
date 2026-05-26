@@ -60,7 +60,6 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         description={subtitle}
         image={heroImage}
         imageAlt="Forsikring hos CMedical"
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
         secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
       />
 
