@@ -80,30 +80,30 @@ const renderBlock = (block: RichBlock, i: number) => {
         </p>
       );
     case "stat":
-      return (
-        <div
-          key={i}
-          className="my-10 grid md:grid-cols-2 gap-6 md:gap-8 p-6 md:p-10 bg-brand-warm rounded-sm"
-        >
-          <div className="flex flex-col">
-            <p className="text-xs text-foreground/55 font-light mb-3">Tall</p>
-            <p className="text-5xl md:text-6xl font-light text-foreground leading-none">
-              {block.value}
-            </p>
-            <p className="text-sm text-foreground/70 font-light mt-3">
-              {block.label}
-            </p>
-          </div>
-          <div className="flex flex-col">
-            <p className="text-xs text-foreground/55 font-light mb-3">Tekst</p>
-            <p className="text-base text-foreground font-light leading-relaxed">
-              {block.body}
-            </p>
-          </div>
-        </div>
-      );
+      // Rendered separately as a full-bleed splitscreen — see component below.
+      return null;
   }
 };
+
+const StatSplit = ({ block }: { block: StatBlock }) => (
+  <div className="grid lg:grid-cols-2 my-12 md:my-16">
+    <div className="bg-brand-warm flex items-center justify-center px-8 py-16 md:py-24 lg:py-32">
+      <div className="text-center">
+        <p className="text-6xl md:text-7xl lg:text-8xl font-light text-foreground leading-none">
+          {block.value}
+        </p>
+        <p className="text-sm text-foreground/70 font-light mt-5">
+          {block.label}
+        </p>
+      </div>
+    </div>
+    <div className="bg-brand-light flex items-center px-8 md:px-12 lg:px-16 py-12 md:py-16">
+      <p className="text-base md:text-lg text-foreground font-light leading-relaxed max-w-md">
+        {block.body}
+      </p>
+    </div>
+  </div>
+);
 
 export const RichContentSection = ({
   eyebrow,
@@ -120,7 +120,31 @@ export const RichContentSection = ({
           {title}
         </h2>
       )}
-      {blocks.map(renderBlock)}
     </div>
+    {/* Group consecutive non-stat blocks inside the narrow column,
+        and let stat blocks break out as full-bleed splitscreen. */}
+    {(() => {
+      const out: JSX.Element[] = [];
+      let buffer: { block: RichBlock; i: number }[] = [];
+      const flushBuffer = () => {
+        if (buffer.length === 0) return;
+        out.push(
+          <div key={`group-${out.length}`} className="container mx-auto px-6 md:px-16 max-w-3xl">
+            {buffer.map(({ block, i }) => renderBlock(block, i))}
+          </div>
+        );
+        buffer = [];
+      };
+      blocks.forEach((block, i) => {
+        if (block.type === "stat") {
+          flushBuffer();
+          out.push(<StatSplit key={`stat-${i}`} block={block} />);
+        } else {
+          buffer.push({ block, i });
+        }
+      });
+      flushBuffer();
+      return out;
+    })()}
   </section>
 );
