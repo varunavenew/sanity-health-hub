@@ -117,11 +117,11 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
         </div>
       </section>
 
-      {/* 4. FAQ — trust & practical info */}
-      <SpecialistFAQ />
-
-      {/* Related */}
+      {/* 4. Relaterte spesialister */}
       <RelatedSpecialists specialists={relatedSpecialists} />
+
+      {/* 5. FAQ — trust & practical info */}
+      <SpecialistFAQ />
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
