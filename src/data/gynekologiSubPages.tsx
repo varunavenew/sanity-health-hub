@@ -67,7 +67,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Minutt 40–55", title: "Plan for veien videre", desc: "Trenger du ikke mer nå, avslutter vi der. Trenger du oppfølging eller behandling, legger vi en konkret plan." },
     ],
     reasonsEyebrow: "Hvem passer det for",
-    reasonsTitle: "Du trenger ikke ha en diagnose for å bestille",
+    reasonsTitle: "Du trenger ikke ha en diagnose for å\u00A0bestille",
     reasonsLead:
       "En gynekologisk undersøkelse er for alle som har en kropp som trenger å bli sett. Kanskje kjenner du på noe vagt og udefinerbart, kanskje vil du bare forsikre deg om at alt er ok.",
     reasonsLead2:
