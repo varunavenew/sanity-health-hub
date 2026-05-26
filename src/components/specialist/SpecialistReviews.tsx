@@ -36,7 +36,12 @@ function getRelevantReviews(specialist: Specialist): GoogleReview[] {
 
   const combined = [...nameMatched];
   for (const r of catMatched) {
-    if (!combined.includes(r) && combined.length < 6) combined.push(r);
+    if (!combined.includes(r) && combined.length < 3) combined.push(r);
+  }
+  // Pad with top general reviews to always reach 3
+  for (const r of googleReviews) {
+    if (combined.length >= 3) break;
+    if (!combined.includes(r)) combined.push(r);
   }
   return combined;
 }
