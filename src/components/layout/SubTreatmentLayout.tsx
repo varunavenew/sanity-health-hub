@@ -224,25 +224,25 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <section className="bg-brand-light text-foreground">
  <div className="grid lg:grid-cols-2 items-stretch">
  <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
- <div className="max-w-md">
- <p className="text-xs text-foreground/60 mb-3 uppercase">
+  <div className="max-w-lg">
+ <p className="text-xs text-foreground/60 mb-4 uppercase">
  {c.flowEyebrow}
  </p>
- <h2 className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.15] text-foreground mb-10">
+ <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
  {c.flowTitle}
  </h2>
 
- <ol className="space-y-6">
+ <ol className="space-y-7">
  {c.flow.map((step, idx) => (
  <li key={step.n} className="flex gap-4">
- <span className="text-[10px] font-light text-foreground/50 pt-1 tabular-nums shrink-0 w-5">
+ <span className="text-xs font-light text-foreground/60 pt-1 tabular-nums shrink-0 w-6">
  {String(idx + 1).padStart(2, "0")}
  </span>
  <div>
- <h3 className="text-sm font-normal text-foreground mb-1 leading-snug">
+ <h3 className="text-base font-normal text-foreground mb-1.5 leading-snug">
  {step.title}
  </h3>
- <p className="text-xs font-light text-muted-foreground leading-relaxed">
+ <p className="text-sm font-light text-muted-foreground leading-relaxed">
  {step.desc}
  </p>
  </div>
