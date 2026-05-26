@@ -285,6 +285,18 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  seeAllHref="/spesialister"
  />
 
+  {/* ───────────── FAQ – ofte stilte spørsmål ───────────── */}
+  <MasterLabel>FAQ – ofte stilte spørsmål (samme komponent som på behandlingssider)</MasterLabel>
+  <FaqSection
+    title="Ofte stilte spørsmål"
+    faqs={[
+      { id: "1", question: "Trenger jeg henvisning fra fastlege?", answer: "Nei, du kan bestille time direkte hos oss uten henvisning. Du betaler selv, eller via forsikring." },
+      { id: "2", question: "Hvor lang er ventetiden?", answer: "Som regel får du time innen 1–3 dager. Du ser tilgjengelige tider direkte i bookingen." },
+      { id: "3", question: "Dekker forsikringen min konsultasjon hos dere?", answer: "Vi har avtale med de fleste store helseforsikringsselskapene i Norge. Sjekk med ditt selskap, eller kontakt oss så hjelper vi deg." },
+      { id: "4", question: "Hva koster en konsultasjon?", answer: "Prisene varierer etter tjeneste og spesialist. Du finner oppdaterte priser på prissiden vår." },
+    ]}
+  />
+
  {/* ───────────── BookingCTA før footer ───────────── */}
  <MasterLabel>BookingCTA – står alltid like over footer</MasterLabel>
  <BookingCTA />
