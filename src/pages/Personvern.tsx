@@ -12,43 +12,43 @@ interface PersonvernProps {
 const portableTextComponents = {
   block: {
     h2: ({ children }: any) => (
-      <h2 className="text-2xl md:text-3xl font-light text-foreground mt-12 mb-4 mt-8 mb-3">{children}</h2>
+      <h2 className="text-2xl md:text-3xl font-light text-foreground mt-12 mb-4">{children}</h2>
     ),
     h3: ({ children }: any) => (
-      <h3 className="text-lg md:text-xl font-normal text-foreground mt-6 mb-2 mb-2">{children}</h3>
+      <h3 className="text-lg md:text-xl font-normal text-foreground mt-6 mb-2">{children}</h3>
     ),
     h4: ({ children }: any) => (
-      <h4 className="text-base font-medium text-foreground mt-3 mb-2">{children}</h4>
+      <h4 className="text-base font-normal text-foreground mt-4 mb-2">{children}</h4>
     ),
     normal: ({ children }: any) => (
-      <p className="text-foreground/80 leading-relaxed mb-3">{children}</p>
+      <p className="text-foreground/70 font-light leading-relaxed mb-4">{children}</p>
     ),
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 border-primary/30 pl-4 italic text-foreground/70 my-4">{children}</blockquote>
+      <blockquote className="border-l-2 border-foreground/20 pl-4 italic text-foreground/60 font-light my-6">{children}</blockquote>
     ),
   },
   list: {
     bullet: ({ children }: any) => (
-      <ul className="list-disc pl-6 space-y-1 text-foreground/80">{children}</ul>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/70 font-light mb-4">{children}</ul>
     ),
     number: ({ children }: any) => (
-      <ol className="list-decimal pl-6 space-y-1 text-foreground/80">{children}</ol>
+      <ol className="list-decimal pl-6 space-y-2 text-foreground/70 font-light mb-4">{children}</ol>
     ),
   },
   marks: {
-    strong: ({ children }: any) => <strong className="font-semibold text-foreground">{children}</strong>,
+    strong: ({ children }: any) => <strong className="font-normal text-foreground">{children}</strong>,
     em: ({ children }: any) => <em>{children}</em>,
     link: ({ value, children }: any) => (
-      <a href={value?.href} target={value?.blank ? "_blank" : undefined} rel={value?.blank ? "noopener noreferrer" : undefined} className="text-primary hover:underline">{children}</a>
+      <a href={value?.href} target={value?.blank ? "_blank" : undefined} rel={value?.blank ? "noopener noreferrer" : undefined} className="text-brand-dark underline underline-offset-4 hover:opacity-70 transition-opacity">{children}</a>
     ),
   },
   types: {
     image: ({ value }: any) => {
       const imageUrl = value?.asset?._ref ? urlFor(value.asset._ref) : "";
       return imageUrl ? (
-        <figure className="my-6">
-          <img src={imageUrl} alt={value?.alt || ""} className="rounded-lg w-full" />
-          {value?.caption && <figcaption className="text-sm text-muted-foreground mt-2">{value.caption}</figcaption>}
+        <figure className="my-8">
+          <img src={imageUrl} alt={value?.alt || ""} className="rounded-sm w-full" />
+          {value?.caption && <figcaption className="text-sm text-muted-foreground font-light mt-2">{value.caption}</figcaption>}
         </figure>
       ) : null;
     },
@@ -188,7 +188,7 @@ const staticContent = (
     <section>
       <h2 className="text-2xl md:text-3xl font-light text-foreground mt-12 mb-4">Kontakt oss om personvern</h2>
       <p>Har du spørsmål om vår behandling av personopplysninger, kan du kontakte klinikkleder ved den klinikken du har hatt kontakt med. Du har rett på svar uten ugrunnet opphold og senest innen én måned dersom henvendelsen gjelder dine rettigheter etter personopplysningsloven.</p>
-      <p>CMedicals personvernombud, Gisle Kjøsen, kan nås på: <a href="mailto:personvernombud@cmedical.no" className="text-primary hover:underline">personvernombud@cmedical.no</a></p>
+      <p>CMedicals personvernombud, Gisle Kjøsen, kan nås på: <a href="mailto:personvernombud@cmedical.no" className="text-brand-dark underline underline-offset-4 hover:opacity-70 transition-opacity">personvernombud@cmedical.no</a></p>
     </section>
     <section>
       <h2 className="text-2xl md:text-3xl font-light text-foreground mt-12 mb-4">Klage</h2>
@@ -231,19 +231,29 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
           { name: "Personvern", path: "/personvern" },
         ]}
       />
-      <div className="container mx-auto px-6 md:px-16 py-20 max-w-3xl">
-        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-foreground">{title}</h1>
-
-        <div className="prose prose-lg max-w-none text-foreground/80 space-y-6">
-          {loading ? (
-            <p className="text-muted-foreground">Laster innhold...</p>
-          ) : hasSanityBody ? (
-            <PortableText value={sanityData.body} components={portableTextComponents} />
-          ) : (
-            staticContent
-          )}
+      <header className="bg-brand-warm">
+        <div className="container mx-auto px-6 md:px-16 py-16 md:py-24">
+          <p className="text-xs text-foreground/60 font-light mb-4">Juridisk informasjon</p>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] max-w-3xl">
+            {title}
+          </h1>
         </div>
-      </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+      </header>
+
+      <section className="py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+          <div className="space-y-2 text-foreground/70 font-light leading-relaxed [&_p]:text-foreground/70 [&_p]:font-light [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul]:mb-4 [&_strong]:font-normal [&_strong]:text-foreground">
+            {loading ? (
+              <p className="text-muted-foreground font-light">Laster innhold…</p>
+            ) : hasSanityBody ? (
+              <PortableText value={sanityData.body} components={portableTextComponents} />
+            ) : (
+              staticContent
+            )}
+          </div>
+        </div>
+      </section>
     </PageLayout>
   );
 };
