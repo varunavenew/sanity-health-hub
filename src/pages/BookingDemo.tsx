@@ -852,7 +852,7 @@ const BookingDemo = () => {
  </div>
  <div className={cn(
  "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
- service.price === "0" ? "bg-[#5C7148]" : "bg-brand-dark"
+ service.price === "0" ? "bg-[#3A9E73]" : "bg-brand-dark"
  )}>
  <ArrowRight className="w-4 h-4 text-brand-warm" />
  </div>
