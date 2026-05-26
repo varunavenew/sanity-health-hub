@@ -60,13 +60,13 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
               <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Hjem
               </Link>
-              <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/om-oss" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Om Oss
               </Link>
               <Link to="/guide" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Hudpleie Guide
               </Link>
-              <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link to="/kontakt" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Kontakt
               </Link>
             </div>
@@ -74,19 +74,22 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
           
           <div className="flex items-center gap-2">
             <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-md border bg-muted/30 max-w-xs">
-              <Search className="w-3.5 h-3.5 text-muted-foreground" />
+              <Search className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
+              <label htmlFor="product-search" className="sr-only">Søk</label>
               <Input 
+                id="product-search"
                 placeholder="Søk..." 
+                aria-label="Søk"
                 className="border-0 bg-transparent p-0 h-5 text-sm focus-visible:ring-0"
               />
             </div>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Favoritter">
               <Heart className="w-4 h-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Handlekurv">
               <ShoppingBag className="w-4 h-4" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Min konto">
               <User className="w-4 h-4" />
             </Button>
           </div>
