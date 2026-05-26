@@ -55,7 +55,7 @@ const AtelierVariant = ({ isChatOpen = false }: Props) => {
         <div className="container mx-auto px-6 md:px-16 max-w-3xl py-16">
           {[
             { label: "Ekspertise", value: specialist.expertise?.join(", ") },
-            { label: "Utdanning", value: specialist.education?.join(" · ") },
+            { label: "Utdanning", value: specialist.education },
             { label: "Språk", value: specialist.languages?.join(", ") },
             { label: "Klinikker", value: specialist.clinics?.join(", ") },
           ].filter((r) => r.value).map((r) => (

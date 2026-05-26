@@ -78,10 +78,8 @@ const KliniskVariant = ({ isChatOpen = false }: Props) => {
                 {specialist.expertise?.length ? (
                   <Fact icon={Stethoscope} label="Ekspertise" value={specialist.expertise.join(", ")} />
                 ) : null}
-                {specialist.education?.length ? (
-                  <Fact icon={GraduationCap} label="Utdanning" value={
-                    <ul className="space-y-1">{specialist.education.map((e) => <li key={e}>{e}</li>)}</ul>
-                  } />
+                {specialist.education ? (
+                  <Fact icon={GraduationCap} label="Utdanning" value={specialist.education} />
                 ) : null}
                 {specialist.languages?.length ? (
                   <Fact icon={Languages} label="Språk" value={specialist.languages.join(", ")} />

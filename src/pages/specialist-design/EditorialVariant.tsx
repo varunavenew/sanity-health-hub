@@ -70,12 +70,10 @@ const EditorialVariant = ({ isChatOpen = false }: Props) => {
                   </ul>
                 </div>
               ) : null}
-              {specialist.education?.length ? (
+              {specialist.education ? (
                 <div>
                   <p className="text-xs text-brand-dark/50 mb-3">Utdanning</p>
-                  <ul className="space-y-2">
-                    {specialist.education.map((e) => <li key={e}>{e}</li>)}
-                  </ul>
+                  <p>{specialist.education}</p>
                 </div>
               ) : null}
               {specialist.languages?.length ? (
