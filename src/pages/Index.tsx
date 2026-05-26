@@ -8,6 +8,7 @@ import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { ResultsStatsSection } from "@/components/shared/ResultsStatsSection";
 import { HomepageSEO } from "@/components/seo/HomepageSEO";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
@@ -35,6 +36,19 @@ const Index = ({ isChatOpen }: IndexProps) => {
       <PromoBlocks />
       <LifePhasesSection />
       <SpecialistsSection />
+      <ResultsStatsSection
+        eyebrow="Resultater"
+        title="Tall som forteller en historie."
+        description="Du fortjener åpenhet. Her er noen av tallene som beskriver hverdagen vår — på tvers av spesialiteter, klinikker og pasientmøter."
+        category="CMedical totalt"
+        stats={[
+          { v: "45 000+", k: "Konsultasjoner", sub: "Per år" },
+          { v: "40+", k: "Spesialister", sub: "På tvers av fagfelt" },
+          { v: "98%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
+          { v: "< 3 dager", k: "Ventetid", sub: "Snitt til første time" },
+        ]}
+        footnote="Tall oppdatert per Q1 2026. Resultater varierer individuelt."
+      />
       <BookingCTA />
     </PageLayout>
   );
