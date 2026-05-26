@@ -75,11 +75,14 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-4 mb-10">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <label htmlFor="karriere-search" className="sr-only">Søk etter stilling eller sted</label>
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
             <Input
+              id="karriere-search"
               placeholder="Søk etter stilling, sted..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Søk etter stilling eller sted"
               className="pl-10"
             />
           </div>

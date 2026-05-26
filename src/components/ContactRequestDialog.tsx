@@ -129,9 +129,9 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label className="text-sm font-light">Klinikk</Label>
+              <Label htmlFor="cr-clinic" className="text-sm font-light">Klinikk</Label>
               <Select value={form.clinic} onValueChange={(v) => setForm({ ...form, clinic: v })}>
-                <SelectTrigger><SelectValue placeholder="Velg klinikk" /></SelectTrigger>
+                <SelectTrigger id="cr-clinic"><SelectValue placeholder="Velg klinikk" /></SelectTrigger>
                 <SelectContent>
                   {staticClinics.map((c) => (
                     <SelectItem key={c.id} value={c.id}>CMedical {c.label}</SelectItem>
@@ -140,9 +140,9 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-sm font-light">Fagområde</Label>
+              <Label htmlFor="cr-category" className="text-sm font-light">Fagområde</Label>
               <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
-                <SelectTrigger><SelectValue placeholder="Velg fagområde" /></SelectTrigger>
+                <SelectTrigger id="cr-category"><SelectValue placeholder="Velg fagområde" /></SelectTrigger>
                 <SelectContent>
                   {serviceCategories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>
@@ -184,12 +184,12 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-sm font-light">Tidspunkt</Label>
+                <Label htmlFor="cr-time" className="text-sm font-light">Tidspunkt</Label>
                 <Select
                   value={form.timeOfDay}
                   onValueChange={(v) => setForm({ ...form, timeOfDay: v as typeof form.timeOfDay })}
                 >
-                  <SelectTrigger><SelectValue placeholder="Velg tidspunkt" /></SelectTrigger>
+                  <SelectTrigger id="cr-time"><SelectValue placeholder="Velg tidspunkt" /></SelectTrigger>
                   <SelectContent>
                     {TIME_OPTIONS.map((t) => (
                       <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>

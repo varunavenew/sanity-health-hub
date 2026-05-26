@@ -120,8 +120,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="bg-brand-warm pt-24 pb-16">
  <div className="container mx-auto px-6 md:px-16 text-center">
  <h1 className="text-2xl font-light text-brand-dark mb-4">Klinikken ble ikke funnet</h1>
- <Button asChild variant="outline" className="rounded-sm">
- <Link to="/om-oss">Tilbake til Om oss</Link>
+ <Button asChild variant="outline">
+ <Link to="/klinikker">Tilbake til klinikker</Link>
  </Button>
  </div>
  </div>
