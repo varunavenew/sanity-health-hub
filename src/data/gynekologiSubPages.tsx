@@ -82,7 +82,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     expertAreas: {
       eyebrow: "Spesialistområder",
-      title: "Eksperter som jobber med det de kan aller best.",
+      title: "Eksperter som jobber med det de kan aller\u00A0best.",
       description:
         "Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier.",
       items: [
