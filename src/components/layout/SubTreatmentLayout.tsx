@@ -220,29 +220,29 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </header>
 
  {/* 2. FLOW */}
- {c.flowImage ? (
+  {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
- <div className="grid lg:grid-cols-12">
- <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
- <div className="max-w-xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
+ <div className="grid lg:grid-cols-2 items-stretch">
+ <div className="px-6 md:px-12 lg:px-16 py-12 lg:py-16 flex flex-col justify-center">
+ <div className="max-w-lg">
+ <p className="text-xs text-foreground/60 mb-3 uppercase">
  {c.flowEyebrow}
  </p>
- <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
+ <h2 className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.15] text-foreground mb-8">
  {c.flowTitle}
  </h2>
 
- <div className="divide-y divide-border/60 border-t border-border/60">
+ <div className="grid sm:grid-cols-2 gap-x-6 gap-y-5">
  {c.flow.map((step, idx) => (
- <div key={step.n} className="grid grid-cols-12 gap-4 py-7">
- <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
+ <div key={step.n} className="flex gap-3">
+ <span className="text-[10px] font-light text-foreground/50 pt-1 tabular-nums">
  {String(idx + 1).padStart(2, "0")}
- </div>
- <div className="col-span-10 md:col-span-11">
- <h3 className="text-base font-normal text-foreground mb-1.5">
+ </span>
+ <div>
+ <h3 className="text-sm font-normal text-foreground mb-1">
  {step.title}
  </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+ <p className="text-xs font-light text-muted-foreground leading-relaxed">
  {step.desc}
  </p>
  </div>
@@ -253,7 +253,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {c.flowLinkHref && (
  <Link
  to={c.flowLinkHref}
- className="mt-8 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
+ className="mt-7 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
  >
  {c.flowLinkLabel ?? "Les mer"}
  <ArrowRight className="w-3.5 h-3.5" />
@@ -261,7 +261,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
  </div>
  </div>
- <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+ <div className="relative bg-secondary/40 min-h-[320px] lg:min-h-[480px] overflow-hidden">
  <img
  src={c.flowImage}
  alt={c.flowImageAlt ?? ""}
