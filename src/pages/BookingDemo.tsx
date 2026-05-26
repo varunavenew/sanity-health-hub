@@ -630,17 +630,17 @@ const BookingDemo = () => {
  return (
  <div className="min-h-screen bg-white">
  {/* Header */}
-  <header className="sticky top-0 z-50 bg-brand-dark border-t border-brand-light/20">
-  <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-  <div className="w-9" aria-hidden="true" />
-  <h1 className="text-sm text-background/90">Bestill time</h1>
-  <button 
-  onClick={handleClose} 
-  className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
-  aria-label="Lukk bestilling og gå til forsiden"
-  >
-  <X className="w-5 h-5 text-background" aria-hidden="true" />
-  </button>
+   <header className="sticky top-0 z-50 bg-white border-b border-brand-dark/10">
+   <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+   <div className="w-9" aria-hidden="true" />
+   <h1 className="text-sm text-brand-dark">Bestill time</h1>
+   <button 
+   onClick={handleClose} 
+   className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-full transition-colors"
+   aria-label="Lukk bestilling og gå til forsiden"
+   >
+   <X className="w-5 h-5 text-brand-dark" aria-hidden="true" />
+   </button>
   </div>
   </header>
 
