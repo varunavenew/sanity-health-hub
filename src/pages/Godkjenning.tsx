@@ -692,6 +692,47 @@ const StatCard = ({ label, value, accent }: { label: string; value: number; acce
   );
 };
 
+const DemoPanel = () => (
+  <div>
+    <div className="mb-6 pb-4 border-b border-border">
+      <h2 className="text-xl font-light text-foreground">Demo</h2>
+      <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+        Alle designforslag samlet på ett sted. Klikk en variant for å se den i full visning i en ny fane.
+      </p>
+    </div>
+
+    <div className="space-y-12">
+      {DEMO_GROUPS.map((g) => (
+        <section key={g.title}>
+          <div className="flex items-baseline justify-between border-b border-border/60 pb-3 mb-4">
+            <h3 className="text-base font-light text-foreground">{g.title}</h3>
+            <span className="text-[11px] uppercase text-muted-foreground font-light">{g.eyebrow}</span>
+          </div>
+          <ul className="divide-y divide-border/60">
+            {g.items.map((it) => (
+              <li key={it.to}>
+                <Link
+                  to={it.to}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between py-4 hover:px-2 transition-all duration-300"
+                >
+                  <span className="text-sm md:text-base font-light text-foreground">{it.name}</span>
+                  <ArrowUpRight
+                    className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
+                    strokeWidth={1.5}
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+);
+
+
 const GodkjenningPage = () => (
   <AccessGate>
     <Godkjenning />
