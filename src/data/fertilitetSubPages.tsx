@@ -6,7 +6,7 @@ const baseBooking = { kategori: "fertilitet" as const };
 const standardPromises = [
   {
     eyebrow: "Trygghet",
-    title: "Du bestemmer hva du er komfortabel med",
+    title: "Du bestemmer hva du er komfortabel med",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stille spørsmål underveis og ta med deg noen om du ønsker det.",
   },
   {

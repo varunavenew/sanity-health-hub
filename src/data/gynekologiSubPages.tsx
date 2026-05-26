@@ -11,7 +11,7 @@ const baseBooking = { kategori: "gynekologi" as const };
 const standardPromises = [
   {
     eyebrow: "Trygghet",
-    title: "Du bestemmer hva du er komfortabel med",
+    title: "Du bestemmer hva du er komfortabel med",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {
