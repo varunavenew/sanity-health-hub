@@ -45,9 +45,9 @@ const groups = [
  title: "Spesialistprofil",
  eyebrow: "Profilside",
  items: [
- { to: "/spesialist-design/editorial", name: "Spesialist — Editorial" },
- { to: "/spesialist-design/klinisk", name: "Spesialist — Klinisk" },
- { to: "/spesialist-design/atelier", name: "Spesialist — Atelier" },
+ { to: "/spesialist-design/editorial", name: "Spesialist — Forslag 1" },
+ { to: "/spesialist-design/klinisk", name: "Spesialist — Forslag 2" },
+ { to: "/spesialist-design/atelier", name: "Spesialist — Forslag 3" },
  ],
  },
 ];

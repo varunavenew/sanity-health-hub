@@ -8,18 +8,18 @@ interface Props { isChatOpen?: boolean }
 const variants = [
   {
     to: "/spesialist-design/editorial",
-    name: "Editorial",
-    description: "Magasinaktig layout med stor portrettside, pull-quote og redaksjonell to-spaltet brødtekst.",
+    name: "Forslag 1",
+    description: "Portrettmonolitt: stort fullhøyt portrett med navnet stablet over sokkelen, sidekolonne med info og hengende margmetadata langs brødteksten.",
   },
   {
     to: "/spesialist-design/klinisk",
-    name: "Klinisk",
-    description: "Kompakt datadrevet hero med strukturert faktaboks ved siden av bio — tydelig hierarki og rolig farger.",
+    name: "Forslag 2",
+    description: "Varm hero med portrett og rolige chips, bento-grid med strukturert fakta, lang brødtekst med marginalia og fokusert mørk CTA.",
   },
   {
     to: "/spesialist-design/atelier",
-    name: "Atelier",
-    description: "Asymmetrisk minimal layout med generøs luft, smal sentrert brødtekst og diskré inline-CTA.",
+    name: "Forslag 3",
+    description: "Vertikal scroll-rytme med smal kolonne, dramatisk typografi, portrettet som fullbredt band og sparsom metadata.",
   },
 ];
 
