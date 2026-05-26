@@ -831,9 +831,9 @@ const BookingDemo = () => {
  onClick={() => handleSelectService(category.id, category.label, service)}
  className={cn(
  "w-full flex items-center justify-between p-4 border rounded-xl hover:shadow-sm transition-all text-left group",
- service.price === "0"
- ? "bg-[#E4EDD8] border-[#A8BF8E]/40 hover:bg-[#DCE7CC] hover:border-[#A8BF8E]/70"
- : "bg-brand-beige/30 border-brand-dark/10 hover:bg-white hover:border-brand-dark/30"
+                  service.price === "0"
+                    ? "bg-[#DDF5E8] border-[#7ECDA6]/40 hover:bg-[#D0F0DE] hover:border-[#7ECDA6]/70"
+                    : "bg-brand-beige/30 border-brand-dark/10 hover:bg-white hover:border-brand-dark/30"
  )}
  >
  <div className="flex-1 pr-4">
