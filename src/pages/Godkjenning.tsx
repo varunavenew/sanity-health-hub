@@ -52,6 +52,27 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/article",
     exampleLabel: "Åpne komplett mal",
   },
+  {
+    key: "specialistEditorial",
+    title: "Spesialistprofil — Editorial",
+    description: "Designforslag 1: Magasinaktig layout med stort portrett, pull-quote og redaksjonell to-spaltet brødtekst. Bruker ekte spesialistinnhold.",
+    examplePath: "/spesialist-design/editorial",
+    exampleLabel: "Se designforslag",
+  },
+  {
+    key: "specialistKlinisk",
+    title: "Spesialistprofil — Klinisk",
+    description: "Designforslag 2: Kompakt datadrevet hero med strukturert faktaboks ved siden av bio. Tydelig hierarki, rolige farger.",
+    examplePath: "/spesialist-design/klinisk",
+    exampleLabel: "Se designforslag",
+  },
+  {
+    key: "specialistAtelier",
+    title: "Spesialistprofil — Atelier",
+    description: "Designforslag 3: Asymmetrisk minimal layout med generøs luft, smal sentrert brødtekst og diskré inline-CTA.",
+    examplePath: "/spesialist-design/atelier",
+    exampleLabel: "Se designforslag",
+  },
 ];
 
 const malPath = (key: string) => `__mal_${key}__`;

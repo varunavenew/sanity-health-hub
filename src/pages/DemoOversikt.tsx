@@ -41,6 +41,15 @@ const groups = [
  { to: "/fertilitet-design/fertilitetssjekk/klinikk", name: "Fertilitetssjekk — Klinikk" },
  ],
  },
+ {
+ title: "Spesialistprofil",
+ eyebrow: "Profilside",
+ items: [
+ { to: "/spesialist-design/editorial", name: "Spesialist — Editorial" },
+ { to: "/spesialist-design/klinisk", name: "Spesialist — Klinisk" },
+ { to: "/spesialist-design/atelier", name: "Spesialist — Atelier" },
+ ],
+ },
 ];
 
 const DemoOversikt = ({ isChatOpen = false }: PageProps) => {

@@ -61,6 +61,10 @@ import IconPreview from "./pages/IconPreview";
 import DemoOversikt from "./pages/DemoOversikt";
 import Godkjenning from "./pages/Godkjenning";
 import MalDemo from "./pages/MalDemo";
+import SpecialistDesignHub from "./pages/specialist-design/DesignHub";
+import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
+import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
+import SpecialistAtelier from "./pages/specialist-design/AtelierVariant";
 import { useUiTranslations } from "./hooks/useUiTranslations";
 
 const queryClient = new QueryClient();
@@ -173,6 +177,11 @@ const AppContent = () => {
         {/* Internal approval tracker */}
         <Route path="/godkjenning" element={<Godkjenning />} />
         <Route path="/maler/:key" element={<MalDemo />} />
+        {/* Specialist profile design demos */}
+        <Route path="/spesialist-design" element={<SpecialistDesignHub isChatOpen={false} />} />
+        <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
+        <Route path="/spesialist-design/klinisk" element={<SpecialistKlinisk isChatOpen={false} />} />
+        <Route path="/spesialist-design/atelier" element={<SpecialistAtelier isChatOpen={false} />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
