@@ -223,37 +223,37 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
  <div className="grid lg:grid-cols-2 items-stretch">
- <div className="px-6 md:px-12 lg:px-16 py-12 lg:py-16 flex flex-col justify-center">
- <div className="max-w-lg">
+ <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+ <div className="max-w-md">
  <p className="text-xs text-foreground/60 mb-3 uppercase">
  {c.flowEyebrow}
  </p>
- <h2 className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.15] text-foreground mb-8">
+ <h2 className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.15] text-foreground mb-10">
  {c.flowTitle}
  </h2>
 
- <div className="grid sm:grid-cols-2 gap-x-6 gap-y-5">
+ <ol className="space-y-6">
  {c.flow.map((step, idx) => (
- <div key={step.n} className="flex gap-3">
- <span className="text-[10px] font-light text-foreground/50 pt-1 tabular-nums">
+ <li key={step.n} className="flex gap-4">
+ <span className="text-[10px] font-light text-foreground/50 pt-1 tabular-nums shrink-0 w-5">
  {String(idx + 1).padStart(2, "0")}
  </span>
  <div>
- <h3 className="text-sm font-normal text-foreground mb-1">
+ <h3 className="text-sm font-normal text-foreground mb-1 leading-snug">
  {step.title}
  </h3>
  <p className="text-xs font-light text-muted-foreground leading-relaxed">
  {step.desc}
  </p>
  </div>
- </div>
+ </li>
  ))}
- </div>
+ </ol>
 
  {c.flowLinkHref && (
  <Link
  to={c.flowLinkHref}
- className="mt-7 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
+ className="mt-10 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
  >
  {c.flowLinkLabel ?? "Les mer"}
  <ArrowRight className="w-3.5 h-3.5" />
@@ -261,7 +261,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
  </div>
  </div>
- <div className="relative bg-secondary/40 min-h-[320px] lg:min-h-[480px] overflow-hidden">
+ <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[560px] overflow-hidden">
  <img
  src={c.flowImage}
  alt={c.flowImageAlt ?? ""}
