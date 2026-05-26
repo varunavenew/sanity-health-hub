@@ -78,8 +78,12 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       {/* 1. Hero — warm intro with portrait */}
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
 
-      {/* 2. Story — editorial bio with facts strip */}
+      {/* 2. Story — editorial bio with optional media */}
       <SpecialistBio specialist={specialist} />
+
+      {/* 3. Reviews (optional, hides if none) */}
+      <SpecialistReviews specialist={specialist} />
+
 
       {/* 3. Booking — the conversion point */}
       <section ref={bookingRef} className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
