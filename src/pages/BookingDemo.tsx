@@ -829,7 +829,12 @@ const BookingDemo = () => {
  <button
  key={index}
  onClick={() => handleSelectService(category.id, category.label, service)}
- className="w-full flex items-center justify-between p-4 bg-brand-beige/30 border border-brand-dark/10 rounded-xl hover:bg-white hover:border-brand-dark/30 hover:shadow-sm transition-all text-left group"
+ className={cn(
+ "w-full flex items-center justify-between p-4 border rounded-xl hover:shadow-sm transition-all text-left group",
+ service.price === "0"
+ ? "bg-[#E4EDD8] border-[#A8BF8E]/40 hover:bg-[#DCE7CC] hover:border-[#A8BF8E]/70"
+ : "bg-brand-beige/30 border-brand-dark/10 hover:bg-white hover:border-brand-dark/30"
+ )}
  >
  <div className="flex-1 pr-4">
  <span className="text-brand-dark block font-normal">
@@ -845,7 +850,10 @@ const BookingDemo = () => {
  </span>
  </div>
  </div>
- <div className="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center flex-shrink-0">
+ <div className={cn(
+ "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
+ service.price === "0" ? "bg-[#5C7148]" : "bg-brand-dark"
+ )}>
  <ArrowRight className="w-4 h-4 text-brand-warm" />
  </div>
  </button>
