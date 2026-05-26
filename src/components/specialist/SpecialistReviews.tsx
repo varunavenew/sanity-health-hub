@@ -57,8 +57,8 @@ export const SpecialistReviews = ({ specialist }: SpecialistReviewsProps) => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {reviews.slice(0, 6).map((review) => {
+        <div className="grid md:grid-cols-3 gap-5">
+          {reviews.slice(0, 3).map((review) => {
             const isAnonymous = review.name === "Anonym";
             const text =
               review.text.length > 180
