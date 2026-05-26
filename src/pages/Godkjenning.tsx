@@ -205,7 +205,7 @@ const Godkjenning = () => {
   const [reviewer, setReviewer] = useState("");
   const [filter, setFilter] = useState<"alle" | Status>("alle");
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler">("sider");
+  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler" | "demo">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
 
   useEffect(() => {
