@@ -466,6 +466,8 @@ const Godkjenning = () => {
             }
             onJumpToInbox={() => setTab("innboks")}
           />
+        ) : tab === "demo" ? (
+          <DemoPanel />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
