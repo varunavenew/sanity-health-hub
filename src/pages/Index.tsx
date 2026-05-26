@@ -8,6 +8,7 @@ import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { ResultsStatsSection } from "@/components/shared/ResultsStatsSection";
 import { HomepageSEO } from "@/components/seo/HomepageSEO";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
