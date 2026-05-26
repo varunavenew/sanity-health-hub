@@ -96,37 +96,52 @@ export const RichContentSection = ({
   const imageBlock = blocks.find((b): b is ImageBlock => b.type === "image");
   const otherBlocks = blocks.filter((b) => b.type !== "image");
 
+  const imageEl = imageBlock && (
+    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[640px] overflow-hidden">
+      <img
+        src={imageBlock.src}
+        alt={imageBlock.alt}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {imageBlock.caption && (
+        <figcaption className="absolute bottom-4 left-4 right-4 text-xs text-white/90 font-light bg-black/40 backdrop-blur-sm px-3 py-2 rounded-sm">
+          {imageBlock.caption}
+        </figcaption>
+      )}
+    </div>
+  );
+
+  const contentEl = (
+    <div className={`flex items-center px-6 md:px-12 lg:px-16 py-16 md:py-24 ${!imageBlock ? "lg:col-span-2" : ""}`}>
+      <div className="max-w-xl">
+        {eyebrow && (
+          <p className="text-xs text-foreground/60 font-light mb-3">{eyebrow}</p>
+        )}
+        {title && (
+          <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
+            {title}
+          </h2>
+        )}
+        {otherBlocks.map((block, i) => renderBlock(block, i))}
+      </div>
+    </div>
+  );
+
   return (
     <section className="bg-background">
-      <div className={`grid lg:grid-cols-2 ${imagePosition === "left" ? "" : "lg:[&>*:first-child]:order-2"}`}>
-        {imageBlock && (
-          <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[640px] overflow-hidden">
-            <img
-              src={imageBlock.src}
-              alt={imageBlock.alt}
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {imageBlock.caption && (
-              <figcaption className="absolute bottom-4 left-4 right-4 text-xs text-white/90 font-light bg-black/40 backdrop-blur-sm px-3 py-2 rounded-sm">
-                {imageBlock.caption}
-              </figcaption>
-            )}
-          </div>
+      <div className="grid lg:grid-cols-2">
+        {imagePosition === "left" ? (
+          <>
+            {imageEl}
+            {contentEl}
+          </>
+        ) : (
+          <>
+            {contentEl}
+            {imageEl}
+          </>
         )}
-        <div className={`flex items-center px-6 md:px-12 lg:px-16 py-16 md:py-24 ${!imageBlock ? "lg:col-span-2" : ""}`}>
-          <div className="max-w-xl">
-            {eyebrow && (
-              <p className="text-xs text-foreground/60 font-light mb-3">{eyebrow}</p>
-            )}
-            {title && (
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
-                {title}
-              </h2>
-            )}
-            {otherBlocks.map((block, i) => renderBlock(block, i))}
-          </div>
-        </div>
       </div>
     </section>
   );
