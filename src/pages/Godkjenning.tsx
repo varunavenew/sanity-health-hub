@@ -75,6 +75,53 @@ const MASTER_TEMPLATES: {
   },
 ];
 
+const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
+  {
+    title: "Gynekologi",
+    eyebrow: "Fagområde",
+    items: [
+      { to: "/gynekologi-design/editorial", name: "Gynekologi — Editorial" },
+      { to: "/gynekologi-design/journey", name: "Gynekologi — Reisen" },
+      { to: "/gynekologi-design/atelier", name: "Gynekologi — Atelier" },
+      { to: "/gynekologi-design/index", name: "Gynekologi — Index" },
+      { to: "/gynekologi-design/klassisk-plus", name: "Gynekologi — Klassisk+" },
+    ],
+  },
+  {
+    title: "Fertilitet",
+    eyebrow: "Fagområde",
+    items: [
+      { to: "/fertilitet-design/fertilitet/editorial", name: "Fertilitet — Editorial" },
+      { to: "/fertilitet-design/fertilitet/journey", name: "Fertilitet — Reisen" },
+      { to: "/fertilitet-design/fertilitet/atelier", name: "Fertilitet — Atelier" },
+      { to: "/fertilitet-design/fertilitet/dialog", name: "Fertilitet — Dialog" },
+      { to: "/fertilitet-design/fertilitet/magasin", name: "Fertilitet — Magasin" },
+      { to: "/fertilitet-design/fertilitet/klinikk", name: "Fertilitet — Klinikk" },
+    ],
+  },
+  {
+    title: "Fertilitetssjekk",
+    eyebrow: "Underområde",
+    items: [
+      { to: "/fertilitet-design/fertilitetssjekk/editorial", name: "Fertilitetssjekk — Editorial" },
+      { to: "/fertilitet-design/fertilitetssjekk/journey", name: "Fertilitetssjekk — Reisen" },
+      { to: "/fertilitet-design/fertilitetssjekk/atelier", name: "Fertilitetssjekk — Atelier" },
+      { to: "/fertilitet-design/fertilitetssjekk/dialog", name: "Fertilitetssjekk — Dialog" },
+      { to: "/fertilitet-design/fertilitetssjekk/magasin", name: "Fertilitetssjekk — Magasin" },
+      { to: "/fertilitet-design/fertilitetssjekk/klinikk", name: "Fertilitetssjekk — Klinikk" },
+    ],
+  },
+  {
+    title: "Spesialistprofil",
+    eyebrow: "Profilside",
+    items: [
+      { to: "/spesialist-design/editorial", name: "Spesialist — Editorial" },
+      { to: "/spesialist-design/klinisk", name: "Spesialist — Klinisk" },
+      { to: "/spesialist-design/atelier", name: "Spesialist — Atelier" },
+    ],
+  },
+];
+
 const malPath = (key: string) => `__mal_${key}__`;
 
 type Status = "godkjent" | "avventer" | "endringer";
