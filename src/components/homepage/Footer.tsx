@@ -109,15 +109,21 @@ export const Footer = () => {
                 {address}
               </div>
               <div className="flex gap-2.5 pt-3">
-                <a href={social.instagram || "#"} aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Instagram className="w-4 h-4 text-white/60" aria-hidden="true" />
-                </a>
-                <a href={social.facebook || "#"} aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Facebook className="w-4 h-4 text-white/60" aria-hidden="true" />
-                </a>
-                <a href={social.linkedin || "#"} aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Linkedin className="w-4 h-4 text-white/60" aria-hidden="true" />
-                </a>
+                {social.instagram && (
+                  <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <Instagram className="w-4 h-4 text-white/60" aria-hidden="true" />
+                  </a>
+                )}
+                {social.facebook && (
+                  <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <Facebook className="w-4 h-4 text-white/60" aria-hidden="true" />
+                  </a>
+                )}
+                {social.linkedin && (
+                  <a href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <Linkedin className="w-4 h-4 text-white/60" aria-hidden="true" />
+                  </a>
+                )}
               </div>
             </div>
           </div>

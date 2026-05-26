@@ -32,12 +32,15 @@ export const NewsletterSection = () => {
           </p>
           
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <label htmlFor="newsletter-email" className="sr-only">E-postadresse</label>
             <Input
+              id="newsletter-email"
               type="email"
               placeholder="Din e-postadresse"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-label="E-postadresse"
               className="flex-1"
             />
             <Button type="submit" className="sm:w-auto">

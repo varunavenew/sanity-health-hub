@@ -274,7 +274,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         </nav>
       </header>
 
-      <div className="flex min-h-screen w-full bg-background">
+      <div className="flex min-h-dvh w-full bg-background">
         <div
           className="flex-1 transition-all duration-300 overflow-x-hidden"
           style={{ 

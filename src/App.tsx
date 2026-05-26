@@ -132,6 +132,7 @@ const AppContent = () => {
         <Route path="/fastlegeveiledning-overgangsalder" element={<FastlegeveiledningOvergangsalder isChatOpen={false} />} />
         {/* Personvern */}
         <Route path="/personvern" element={<Personvern isChatOpen={false} />} />
+        <Route path="/vilkar" element={<Personvern isChatOpen={false} />} />
         {/* Karriere */}
         <Route path="/karriere" element={<Karriere isChatOpen={false} />} />
         <Route path="/karriere/:slug" element={<KarriereDetail isChatOpen={false} />} />

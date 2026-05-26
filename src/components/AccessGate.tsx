@@ -51,7 +51,9 @@ export const AccessGate = ({ children }: AccessGateProps) => {
           </p>
         </div>
         <div className="space-y-2">
+          <label htmlFor="access-code" className="sr-only">Tilgangskode</label>
           <input
+            id="access-code"
             type="password"
             autoFocus
             value={code}
@@ -60,6 +62,7 @@ export const AccessGate = ({ children }: AccessGateProps) => {
               setError(false);
             }}
             placeholder="Tilgangskode"
+            aria-label="Tilgangskode"
             className="w-full border border-border bg-background px-4 py-3 text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {error && (
