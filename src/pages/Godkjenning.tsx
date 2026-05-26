@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
@@ -72,6 +72,53 @@ const MASTER_TEMPLATES: {
     description: "Designforslag 3: Asymmetrisk minimal layout med generøs luft, smal sentrert brødtekst og diskré inline-CTA.",
     examplePath: "/spesialist-design/atelier",
     exampleLabel: "Se designforslag",
+  },
+];
+
+const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
+  {
+    title: "Gynekologi",
+    eyebrow: "Fagområde",
+    items: [
+      { to: "/gynekologi-design/editorial", name: "Gynekologi — Editorial" },
+      { to: "/gynekologi-design/journey", name: "Gynekologi — Reisen" },
+      { to: "/gynekologi-design/atelier", name: "Gynekologi — Atelier" },
+      { to: "/gynekologi-design/index", name: "Gynekologi — Index" },
+      { to: "/gynekologi-design/klassisk-plus", name: "Gynekologi — Klassisk+" },
+    ],
+  },
+  {
+    title: "Fertilitet",
+    eyebrow: "Fagområde",
+    items: [
+      { to: "/fertilitet-design/fertilitet/editorial", name: "Fertilitet — Editorial" },
+      { to: "/fertilitet-design/fertilitet/journey", name: "Fertilitet — Reisen" },
+      { to: "/fertilitet-design/fertilitet/atelier", name: "Fertilitet — Atelier" },
+      { to: "/fertilitet-design/fertilitet/dialog", name: "Fertilitet — Dialog" },
+      { to: "/fertilitet-design/fertilitet/magasin", name: "Fertilitet — Magasin" },
+      { to: "/fertilitet-design/fertilitet/klinikk", name: "Fertilitet — Klinikk" },
+    ],
+  },
+  {
+    title: "Fertilitetssjekk",
+    eyebrow: "Underområde",
+    items: [
+      { to: "/fertilitet-design/fertilitetssjekk/editorial", name: "Fertilitetssjekk — Editorial" },
+      { to: "/fertilitet-design/fertilitetssjekk/journey", name: "Fertilitetssjekk — Reisen" },
+      { to: "/fertilitet-design/fertilitetssjekk/atelier", name: "Fertilitetssjekk — Atelier" },
+      { to: "/fertilitet-design/fertilitetssjekk/dialog", name: "Fertilitetssjekk — Dialog" },
+      { to: "/fertilitet-design/fertilitetssjekk/magasin", name: "Fertilitetssjekk — Magasin" },
+      { to: "/fertilitet-design/fertilitetssjekk/klinikk", name: "Fertilitetssjekk — Klinikk" },
+    ],
+  },
+  {
+    title: "Spesialistprofil",
+    eyebrow: "Profilside",
+    items: [
+      { to: "/spesialist-design/editorial", name: "Spesialist — Editorial" },
+      { to: "/spesialist-design/klinisk", name: "Spesialist — Klinisk" },
+      { to: "/spesialist-design/atelier", name: "Spesialist — Atelier" },
+    ],
   },
 ];
 
@@ -158,7 +205,7 @@ const Godkjenning = () => {
   const [reviewer, setReviewer] = useState("");
   const [filter, setFilter] = useState<"alle" | Status>("alle");
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler">("sider");
+  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler" | "demo">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
 
   useEffect(() => {
@@ -338,6 +385,7 @@ const Godkjenning = () => {
               <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
               <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
               <TabBtn active={tab === "maler"} onClick={() => setTab("maler")} icon={<LayoutTemplate className="w-4 h-4" />} label="Maler" />
+              <TabBtn active={tab === "demo"} onClick={() => setTab("demo")} icon={<Eye className="w-4 h-4" />} label="Demo" />
             </div>
 
             <div className="flex gap-2 items-center">
@@ -418,6 +466,8 @@ const Godkjenning = () => {
             }
             onJumpToInbox={() => setTab("innboks")}
           />
+        ) : tab === "demo" ? (
+          <DemoPanel />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
@@ -641,6 +691,47 @@ const StatCard = ({ label, value, accent }: { label: string; value: number; acce
     </div>
   );
 };
+
+const DemoPanel = () => (
+  <div>
+    <div className="mb-6 pb-4 border-b border-border">
+      <h2 className="text-xl font-light text-foreground">Demo</h2>
+      <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+        Alle designforslag samlet på ett sted. Klikk en variant for å se den i full visning i en ny fane.
+      </p>
+    </div>
+
+    <div className="space-y-12">
+      {DEMO_GROUPS.map((g) => (
+        <section key={g.title}>
+          <div className="flex items-baseline justify-between border-b border-border/60 pb-3 mb-4">
+            <h3 className="text-base font-light text-foreground">{g.title}</h3>
+            <span className="text-[11px] uppercase text-muted-foreground font-light">{g.eyebrow}</span>
+          </div>
+          <ul className="divide-y divide-border/60">
+            {g.items.map((it) => (
+              <li key={it.to}>
+                <Link
+                  to={it.to}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between py-4 hover:px-2 transition-all duration-300"
+                >
+                  <span className="text-sm md:text-base font-light text-foreground">{it.name}</span>
+                  <ArrowUpRight
+                    className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
+                    strokeWidth={1.5}
+                  />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+);
+
 
 const GodkjenningPage = () => (
   <AccessGate>
