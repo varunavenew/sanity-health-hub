@@ -52,27 +52,6 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/article",
     exampleLabel: "Åpne komplett mal",
   },
-  {
-    key: "specialistForslag1",
-    title: "Spesialistprofil — Forslag 1",
-    description: "Portrettmonolitt: stort fullhøyt portrett med navnet stablet over sokkelen, sidekolonne med informasjon og hengende margmetadata langs brødteksten.",
-    examplePath: "/spesialist-design/editorial",
-    exampleLabel: "Se designforslag",
-  },
-  {
-    key: "specialistForslag2",
-    title: "Spesialistprofil — Forslag 2",
-    description: "Varm hero med portrett og rolige chips, bento-grid med strukturert fakta, lang brødtekst med marginalia og fokusert mørk CTA.",
-    examplePath: "/spesialist-design/klinisk",
-    exampleLabel: "Se designforslag",
-  },
-  {
-    key: "specialistForslag3",
-    title: "Spesialistprofil — Forslag 3",
-    description: "Vertikal scroll-rytme: smal sentrert kolonne, dramatisk typografi, portrettet som fullbredt band midt på siden og sparsom metadata.",
-    examplePath: "/spesialist-design/atelier",
-    exampleLabel: "Se designforslag",
-  },
 ];
 
 const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
