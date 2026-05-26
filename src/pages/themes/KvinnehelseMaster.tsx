@@ -235,6 +235,18 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
     items={expertAreas}
   />
 
+  {/* ───────────── Prosess – nummererte trinn (samme mønster som /forsikring) ───────────── */}
+  <MasterLabel>Prosess – nummererte trinn (samme som "Slik bruker du forsikringen")</MasterLabel>
+  <ProcessStepsSection
+    title="Slik kommer du i gang"
+    steps={[
+      { num: "1", title: "Bestill time", desc: "Velg tjeneste og spesialist online" },
+      { num: "2", title: "Forberedelse", desc: "Du får informasjon før timen" },
+      { num: "3", title: "Konsultasjon", desc: "Trygg samtale med spesialist" },
+      { num: "4", title: "Oppfølging", desc: "Plan og videre behandling" },
+    ]}
+  />
+
   {/* ───────────── Tjenester (liste) ───────────── */}
  <MasterLabel>Tjenester – liste med relaterte behandlinger</MasterLabel>
  <ServicesListSection
