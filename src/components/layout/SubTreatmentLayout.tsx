@@ -526,7 +526,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="max-w-3xl">
  <p className="text-xs mb-3 uppercase text-brand-dark">Klar når du er</p>
  <h2 className="text-2xl md:text-3xl font-light leading-tight">
- Få {c.title.toLowerCase()} hos en spesialist denne uken.
+ Få {c.title.toLowerCase()} hos en spesialist denne{"\u00A0"}uken.
  </h2>
  </div>
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
