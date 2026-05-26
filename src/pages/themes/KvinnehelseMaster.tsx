@@ -11,6 +11,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { RichContentSection, type RichBlock } from "@/components/themes/RichContentSection";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ExpertAreasSection, type ExpertArea } from "@/components/themes/ExpertAreasSection";
+import { ProcessStepsSection } from "@/components/themes/ProcessStepsSection";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
@@ -232,6 +233,18 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
     title="Eksperter som jobber med det de kan aller best."
     description="Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier."
     items={expertAreas}
+  />
+
+  {/* ───────────── Prosess – nummererte trinn (samme mønster som /forsikring) ───────────── */}
+  <MasterLabel>Prosess – nummererte trinn (samme som "Slik bruker du forsikringen")</MasterLabel>
+  <ProcessStepsSection
+    title="Slik kommer du i gang"
+    steps={[
+      { num: "1", title: "Bestill time", desc: "Velg tjeneste og spesialist online" },
+      { num: "2", title: "Forberedelse", desc: "Du får informasjon før timen" },
+      { num: "3", title: "Konsultasjon", desc: "Trygg samtale med spesialist" },
+      { num: "4", title: "Oppfølging", desc: "Plan og videre behandling" },
+    ]}
   />
 
   {/* ───────────── Tjenester (liste) ───────────── */}
