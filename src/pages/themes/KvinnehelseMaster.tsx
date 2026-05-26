@@ -9,8 +9,44 @@ import { SplitHero } from "@/components/layout/SplitHero";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { RichContentSection, type RichBlock } from "@/components/themes/RichContentSection";
+import { ExpertAreasSection, type ExpertArea } from "@/components/themes/ExpertAreasSection";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
+import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
+import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
+import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
+
+const expertAreas: ExpertArea[] = [
+  {
+    eyebrow: "Spesialfelt",
+    title: "Endometriose",
+    desc: "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
+    href: "/behandlinger/gynekologi/endometriose",
+    image: expertEndometriose,
+  },
+  {
+    eyebrow: "Spesialfelt",
+    title: "Fødselsskader og bekkenbunnshelse",
+    desc: "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
+    href: "/behandlinger/gynekologi/urinlekkasje",
+    image: expertBekkenbunn,
+  },
+  {
+    eyebrow: "Spesialfelt",
+    title: "Overgangsalder",
+    desc: "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
+    href: "/behandlinger/gynekologi/overgangsalder",
+    image: expertOvergangsalder,
+  },
+  {
+    eyebrow: "Spesialfelt",
+    title: "Vulvasmerter",
+    desc: "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
+    href: "/behandlinger/gynekologi/vulvalidelser",
+    image: expertVulva,
+  },
+];
 
 /**
  * KvinnehelseMaster – Mastermal for temasider.
@@ -186,6 +222,15 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
         label: "Les mer om gynekologisk utredning",
       },
     ] as RichBlock[]}
+  />
+
+  {/* ───────────── Spesialistområder – kortgrid med bilde + tittel + tekst ───────────── */}
+  <MasterLabel>Spesialistområder – kortgrid (samme som "Eksperter som jobber..." på gynekologisiden)</MasterLabel>
+  <ExpertAreasSection
+    eyebrow="Spesialistområder"
+    title="Eksperter som jobber med det de kan aller best."
+    description="Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier."
+    items={expertAreas}
   />
 
   {/* ───────────── Tjenester (liste) ───────────── */}
