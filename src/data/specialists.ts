@@ -63,6 +63,13 @@ import tomHenrySundoen from '@/assets/specialists/tom-henry-sundoen.jpg';
 import tonjeWestlie from '@/assets/specialists/tonje-westlie.jpg';
 import trondJorgensen from '@/assets/specialists/trond-jorgensen.jpg';
 
+export type BioBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'image'; src: string; alt?: string; caption?: string }
+  | { type: 'video'; src: string; poster?: string; caption?: string }
+  | { type: 'embed'; url: string; caption?: string }
+  | { type: 'link'; href: string; label: string; description?: string };
+
 export interface Specialist {
   name: string;
   title: string;
@@ -72,6 +79,8 @@ export interface Specialist {
   category: 'gynekologi' | 'fertilitet' | 'urologi' | 'ortopedi' | 'annet';
   slug: string;
   bio?: string;
+  /** Optional rich bio with images/video/links. Falls back to bio string. */
+  richBio?: BioBlock[];
   education?: string;
   experience?: string;
   languages?: string[];
