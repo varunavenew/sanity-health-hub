@@ -431,7 +431,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
 
  {/* 4. PROMISES — icon-cards with optional "Les mer" link */}
- <section className="bg-secondary/40 py-20 md:py-24">
+ <section className="bg-secondary/40 pt-0 pb-20 md:pb-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
  {c.promises.map((p) => (
