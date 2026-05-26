@@ -8,6 +8,7 @@ import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { RichContentSection, type RichBlock } from "@/components/themes/RichContentSection";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
@@ -153,7 +154,41 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  </div>
  </section>
 
- {/* ───────────── Tjenester (liste) ───────────── */}
+  {/* ───────────── Fri innholdsblokk – plasserbar hvor som helst ───────────── */}
+  <MasterLabel>Innholdsblokk – fri komposisjon (tekst, bilde, video, lenke, stat) — kan plasseres hvor som helst</MasterLabel>
+  <RichContentSection
+    eyebrow="Innholdsblokk"
+    title="Visste du dette om endometriose?"
+    blocks={[
+      {
+        type: "paragraph",
+        text: "Endometriose er en av de mest underdiagnostiserte tilstandene innen kvinnehelse. Symptomer bagatelliseres ofte, og veien til riktig diagnose kan være lang.",
+      },
+      {
+        type: "stat",
+        value: "10%",
+        label: "har endometriose",
+        body: "Visste du at 8–10 % av alle kvinner har endometriose, og at det i snitt tar 7 år å få en diagnose?",
+      },
+      {
+        type: "paragraph",
+        text: "Hos CMedical jobber gynekologer, fertilitetsspesialister og kirurger tett sammen for å forkorte den veien — fra første konsultasjon til behandlingsplan.",
+      },
+      {
+        type: "image",
+        src: heroClinicLounge,
+        alt: "Klinikkmiljø hos CMedical",
+        caption: "Trygge omgivelser og erfarne spesialister gjør utredning enklere.",
+      },
+      {
+        type: "link",
+        href: "/behandlinger/gynekologi",
+        label: "Les mer om gynekologisk utredning",
+      },
+    ] as RichBlock[]}
+  />
+
+  {/* ───────────── Tjenester (liste) ───────────── */}
  <MasterLabel>Tjenester – liste med relaterte behandlinger</MasterLabel>
  <ServicesListSection
  eyebrow="Tjenester"
