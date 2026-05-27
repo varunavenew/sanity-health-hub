@@ -1,9 +1,12 @@
 import { PageLayout } from "@/components/layout/PageLayout";
-import { useEffect, useState } from "react";
-import { sanityClient } from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { usePrivacyPolicyPage } from "@/hooks/useSanity";
+import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
+import { useTranslation } from "react-i18next";
+import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { useParams } from "@/lib/router";
 
 interface PersonvernProps {
   isChatOpen?: boolean;
@@ -43,6 +46,7 @@ const portableTextComponents = {
     ),
   },
   types: {
+    ...youtubeEmbedPortableTextType,
     image: ({ value }: any) => {
       const imageUrl = value?.asset?._ref ? urlFor(value.asset._ref) : "";
       return imageUrl ? (
@@ -203,32 +207,32 @@ const staticContent = (
 );
 
 const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
-  const [sanityData, setSanityData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale: AppLocale = params?.locale === "en" ? "en" : "nb";
+  const localePath = (path: string) => withLocalePath(locale, path);
+  const isEn = i18n.language?.startsWith("en");
+  const { data: sanityData, isLoading: loading } = usePrivacyPolicyPage();
 
-  useEffect(() => {
-    sanityClient
-      .fetch(`*[_type == "privacyPolicyPage"][0]{ title, body, cookiebotKey }`)
-      .then((data) => {
-        setSanityData(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const title = sanityData?.title || "Personvernerklæring";
+  const defaultTitle = isEn ? "Privacy Policy" : "Personvernerklæring";
+  const title = sanityData?.title || defaultTitle;
   const hasSanityBody = sanityData?.body && sanityData.body.length > 0;
+  const showStaticFallback = !hasSanityBody && !isEn;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Personvernerklæring"
-        description="Les CMedicals personvernerklæring. Informasjon om hvordan vi behandler dine personopplysninger i samsvar med GDPR og norsk personvernlovgivning."
-        canonical="/personvern"
+        title={title}
+        description={
+          isEn
+            ? "Read CMedical's privacy policy. Information about how we process your personal data in accordance with GDPR and applicable privacy legislation."
+            : "Les CMedicals personvernerklæring. Informasjon om hvordan vi behandler dine personopplysninger i samsvar med GDPR og norsk personvernlovgivning."
+        }
+        canonical={localePath("/personvern")}
         noIndex={false}
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Personvern", path: "/personvern" },
+          { name: isEn ? "Home" : "Hjem", path: localePath("/") },
+          { name: t("footer.privacy"), path: localePath("/personvern") },
         ]}
       />
       <div className="container mx-auto px-6 md:px-16 py-20 max-w-3xl">
@@ -236,11 +240,17 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
 
         <div className="prose prose-lg max-w-none text-foreground/80 space-y-6">
           {loading ? (
-            <p className="text-muted-foreground">Laster innhold...</p>
+            <p className="text-muted-foreground">{isEn ? "Loading…" : "Laster innhold…"}</p>
           ) : hasSanityBody ? (
             <PortableText value={sanityData.body} components={portableTextComponents} />
-          ) : (
+          ) : showStaticFallback ? (
             staticContent
+          ) : (
+            <p className="text-muted-foreground">
+              {isEn
+                ? "Privacy policy content is not available in English yet."
+                : "Innholdet er ikke tilgjengelig."}
+            </p>
           )}
         </div>
       </div>

@@ -4,6 +4,9 @@ import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscop
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics } from "@/hooks/useSanity";
+import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { useTranslation } from "react-i18next";
+import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 import { clinics as staticClinics, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
@@ -26,6 +29,8 @@ interface ClinicsProps {
 }
 
 const Clinics = ({ isChatOpen }: ClinicsProps) => {
+  const { i18n } = useTranslation();
+  const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
   const { data: sanityClinics } = useClinics();
   // Prefer static (richer detail) – merge in only Sanity fields that have a value,
   // so a null/undefined value from Sanity never blanks out a working static field.
@@ -42,12 +47,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
       detail: { ...s.detail, ...(fromSanity.detail || {}) },
     };
   });
-  // Respect Sanity sortOrder when available; fallback to original static order.
-  const list: any[] = [...merged].sort((a, b) => {
-    const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
-    const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
-    return ao - bo;
-  });
+  const list: any[] = sortBySlug(merged, (c) => c.slug || c.label, contentLang);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>

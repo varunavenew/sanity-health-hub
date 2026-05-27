@@ -32,7 +32,12 @@ export default {
             title: 'Lenke',
             type: 'object',
             fields: [
-              { name: 'href', title: 'URL', type: 'url' },
+              {
+                name: 'href',
+                title: 'URL',
+                type: 'string',
+                description: 'Full URL (https://…). Tom lenke gir ikke valideringsfeil.',
+              },
               {
                 name: 'blank',
                 title: 'Åpne i ny fane',
@@ -52,5 +57,6 @@ export default {
         { name: 'caption', title: 'Bildetekst', type: 'string' },
       ],
     },
+    { type: 'youtubeEmbed' },
   ],
 }

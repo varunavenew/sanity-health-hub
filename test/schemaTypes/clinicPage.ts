@@ -1,10 +1,6 @@
 // Schema: Clinic Page
 import { ClinicIcon } from './icons'
-
-const pickNo = (v: any) =>
-  Array.isArray(v)
-    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-    : (v || '')
+import { i18nSlugFieldFromTitle, pickNo } from './i18n'
 
 export default {
   name: 'clinicPage',
@@ -28,16 +24,7 @@ export default {
       validation: (Rule: any) => Rule.required(),
       group: 'overview',
     },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: (doc: any) => pickNo(doc?.title),
-      },
-      validation: (Rule: any) => Rule.required(),
-      group: 'overview',
-    },
+    { ...i18nSlugFieldFromTitle('title', { title: 'Slug', group: 'overview' }) },
     {
       name: 'primaryImage',
       title: 'Hovedbilde',
@@ -221,13 +208,14 @@ export default {
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
-        { field: 'title', direction: 'asc' },
+        // title is internationalizedArray — sort by slug (derived from Navn)
+        { field: 'sortOrder', direction: 'asc' },
       ],
     },
     {
       title: 'Navn (A–Å)',
       name: 'titleAsc',
-      by: [{ field: 'title', direction: 'asc' }],
+      by: [{ field: 'sortOrder', direction: 'asc' }],
     },
   ],
   preview: {

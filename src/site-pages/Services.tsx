@@ -12,6 +12,9 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
+import { sortByLabel, sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { useTranslation } from "react-i18next";
+import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
@@ -41,6 +44,8 @@ const staticFeatured = [
 
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
   const { data: sanityCategories } = useTreatmentCategories();
   const { data: sanityFaqs } = useFaqs("tjenester");
   const { data: servicesPage } = useServicesPage();
@@ -52,7 +57,7 @@ const Services = ({ isChatOpen }: PageProps) => {
   const serviceCategories = sanityCategories?.length
     ? (() => {
         const seen = new Set<string>();
-        return sanityCategories
+        const mapped = sanityCategories
           .filter((c: any) => {
             const key = c.categoryId || c.slug;
             if (seen.has(key)) return false;
@@ -63,19 +68,24 @@ const Services = ({ isChatOpen }: PageProps) => {
             id: c.categoryId || c.slug,
             label: c.title,
             path: `/${c.categoryId || c.slug}`,
-            subcategories: (c.treatments || []).map((t: any) => ({
+            subcategories: sortBySlug(
+              c.treatments || [],
+              (t: any) => t.slug || t.title,
+              contentLang,
+            ).map((t: any) => ({
               label: t.title,
               path: `/behandlinger/${c.categoryId || c.slug}/${t.slug}`,
             })),
           }));
+        return sortBySlug(mapped, (c) => c.id || c.label, contentLang);
       })()
-    : staticServiceCategories;
+    : sortByLabel(staticServiceCategories, (c) => c.label);
 
   // Featured service cards from Sanity
   const featuredServices = sanityCategories?.length
     ? (() => {
         const seen = new Set<string>();
-        return sanityCategories
+        const mapped = sanityCategories
           .filter((c: any) => {
             const key = c.categoryId || c.slug;
             if (seen.has(key)) return false;
@@ -84,9 +94,10 @@ const Services = ({ isChatOpen }: PageProps) => {
           })
           .map((c: any) => ({
             label: c.title,
-            image: c.heroImage || staticFeatured.find(s => s.label === c.title)?.image || "",
+            image: c.heroImage || staticFeatured.find((s) => s.label === c.title)?.image || "",
             path: `/${c.categoryId || c.slug}`,
           }));
+        return sortByLabel(mapped, (c) => c.label);
       })()
     : staticFeatured;
 

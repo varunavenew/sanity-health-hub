@@ -5,16 +5,17 @@
  *   SANITY_TOKEN  – API token with write access (from sanity.io/manage)
  *
  * Optional overrides:
- *   SANITY_PROJECT_ID  – defaults to "sh2sj585"
- *   SANITY_DATASET     – defaults to "development"
+ *   SANITY_PROJECT_ID  – defaults to "9jhqpk3a"
+ *   SANITY_DATASET     – defaults to "production"
+ *
+ * Loads `test/.env.local` automatically when present.
  */
+import { config as loadEnv } from "dotenv";
+import path from "path";
 import { createClient } from "@sanity/client";
 
-// if (!process.env.SANITY_TOKEN) {
-//   console.error("❌ Missing environment variable: SANITY_TOKEN");
-//   console.error("   Set it in your deployment environment or .env file.");
-//   process.exit(1);
-// }
+// When run via `npm run …` in test/, cwd is test/
+loadEnv({ path: path.join(process.cwd(), ".env.local") });
 
 export const PROJECT_ID = process.env.SANITY_PROJECT_ID || "9jhqpk3a";
 export const DATASET = process.env.SANITY_DATASET || "production";

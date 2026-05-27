@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { sanityClient } from "@/lib/sanityClient";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { sortByLabel, sortBySlug, textForSort } from "@/lib/sortAlphabetical";
 import {
   HOMEPAGE_QUERY,
   SPECIALISTS_QUERY,
@@ -12,6 +13,7 @@ import {
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
   TREATMENT_BY_SLUG_QUERY,
   ABOUT_PAGE_QUERY,
+  PRIVACY_POLICY_PAGE_QUERY,
   CONTACT_PAGE_QUERY,
   PRICING_PAGE_QUERY,
   INSURANCE_PAGE_QUERY,
@@ -104,12 +106,16 @@ export const useHomepage = () => {
           image: s.image || "",
           objectPosition: "center 30%",
         })),
-        categoryCards: (data.serviceCategories || []).map((c: any) => ({
-          id: c.slug,
-          title: c.title,
-          path: `/${c.slug}`,
-          image: c.heroImage || "",
-        })),
+        categoryCards: sortBySlug(
+          (data.serviceCategories || []).map((c: any) => ({
+            id: c.slug,
+            title: c.title,
+            path: `/${c.slug}`,
+            image: c.heroImage || "",
+          })),
+          (c: { slug?: string; id?: string }) => c.slug || c.id,
+          lang,
+        ),
         valueBadges: (data.valueBadges || []).map((v: any) =>
           typeof v === "string" ? v : v.label
         ),
@@ -241,11 +247,20 @@ export const useGoogleReviewSettings = () => {
 };
 
 // ─── Treatment Categories ────────────────────────────────────────────
+const sortCategoryTreatments = (categories: any[], lang: "no" | "en") =>
+  sortBySlug(categories, (c) => c.slug || c.title, lang).map((cat) => ({
+    ...cat,
+    treatments: sortBySlug(cat.treatments || [], (t: any) => t.slug || t.title, lang),
+  }));
+
 export const useTreatmentCategories = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "treatmentCategories", lang],
-    queryFn: () => fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang),
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang);
+      return data?.length ? sortCategoryTreatments(data, lang) : data;
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -259,10 +274,12 @@ export const useTreatmentCategory = (slug: string) => {
       if (!data) return null;
       return {
         ...data,
-        services: (data.treatments || []).map((t: any) => ({
-          name: t.title,
-          path: `/behandlinger/${data.categoryId || data.slug}/${t.slug}`,
-        })),
+        services: sortBySlug(data.treatments || [], (t: any) => t.slug || t.title, lang).map(
+          (t: any) => ({
+            name: t.title,
+            path: `/behandlinger/${data.categoryId || data.slug}/${t.slug}`,
+          }),
+        ),
         faqs: [],
       };
     },
@@ -302,6 +319,31 @@ export const useAboutPage = () => {
           content: (block.children || []).map((c: any) => c.text).join(""),
         }));
       return { ...data, title, subtitle, body, sections };
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+// ─── Privacy Policy Page ─────────────────────────────────────────────
+export const usePrivacyPolicyPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "privacyPolicyPage", lang],
+    queryFn: async () => {
+      const data = await fetchSanity<{
+        title?: string;
+        body?: unknown[];
+        cookiebotKey?: string;
+      }>(PRIVACY_POLICY_PAGE_QUERY, { lang }, lang);
+      if (!data) return null;
+      const title = typeof data.title === "string" ? data.title : "";
+      const body =
+        Array.isArray(data.body) && data.body[0]?._type === "block"
+          ? data.body
+          : Array.isArray(data.body)
+            ? data.body
+            : [];
+      return { ...data, title, body };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -363,7 +405,14 @@ export const useServicesPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "servicesPage", lang],
-    queryFn: () => fetchSanity<any>(SERVICES_PAGE_QUERY, undefined, lang),
+    queryFn: async () => {
+      const data = await fetchSanity<any>(SERVICES_PAGE_QUERY, undefined, lang);
+      if (!data?.categories?.length) return data;
+      return {
+        ...data,
+        categories: sortBySlug(data.categories, (c: any) => c.slug || c.title, lang),
+      };
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -373,7 +422,10 @@ export const useClinics = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "clinics", lang],
-    queryFn: () => fetchSanity<any[]>(CLINICS_QUERY, undefined, lang),
+    queryFn: async () => {
+      const data = await fetchSanity<any[]>(CLINICS_QUERY, undefined, lang);
+      return sortBySlug(data || [], (c) => c.slug || c.label, lang);
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -548,15 +600,6 @@ export const useThemePage = (slug: string) => {
 };
 
 // ─── Service Categories (for dropdown menu) ─────────────────────────
-const CATEGORY_ORDER = [
-  "gynekologi",
-  "graviditet",
-  "fertilitet",
-  "urologi",
-  "ortopedi",
-  "flere",
-];
-
 export const useServiceCategoriesFromSanity = () => {
   const lang = useSanityLang();
   return useQuery({
@@ -573,27 +616,23 @@ export const useServiceCategoriesFromSanity = () => {
         return true;
       });
 
-      const sorted = [...unique].sort((a, b) => {
-        const idA = a.categoryId || a.slug;
-        const idB = b.categoryId || b.slug;
-        const orderA = CATEGORY_ORDER.indexOf(idA);
-        const orderB = CATEGORY_ORDER.indexOf(idB);
-        return (orderA === -1 ? 999 : orderA) - (orderB === -1 ? 999 : orderB);
-      });
-
-      return sorted.map((cat) => ({
+      return sortBySlug(unique, (cat) => cat.slug || cat.title, lang).map((cat) => ({
         id: cat.categoryId || cat.slug,
-        label: cat.title,
+        label: textForSort(cat.title) || cat.categoryId || cat.slug,
         path: `/${cat.categoryId || cat.slug}`,
-        subcategories: (cat.treatments || []).map((t: any) => ({
-          label: t.title,
-          path: `/behandlinger/${cat.categoryId || cat.slug}/${t.slug}`,
-          items: (t.subItems || []).map((item: any) => ({
-            label: item.label,
-            anchor: item.anchor || undefined,
-            path: item.path || undefined,
-          })),
-        })),
+        subcategories: sortBySlug(cat.treatments || [], (t: any) => t.slug || t.title, lang).map(
+          (t: any) => ({
+            label: textForSort(t.title) || t.slug,
+            path: `/behandlinger/${cat.categoryId || cat.slug}/${t.slug}`,
+            items: sortByLabel(t.subItems || [], (item: any) => item.label).map(
+              (item: any) => ({
+                label: item.label,
+                anchor: item.anchor || undefined,
+                path: item.path || undefined,
+              }),
+            ),
+          }),
+        ),
       }));
     },
     staleTime: 5 * 60 * 1000,

@@ -1,4 +1,5 @@
 import { PrivacyIcon } from './icons'
+import { i18nSlugFieldFromTitle, pickNo } from './i18n'
 
 export default {
   name: 'privacyPolicyPage',
@@ -9,20 +10,14 @@ export default {
     {
       name: 'title',
       title: 'Tittel',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: { source: 'title', maxLength: 96 },
-      validation: (Rule: any) => Rule.required(),
-    },
+    i18nSlugFieldFromTitle('title', { title: 'Slug' }),
     {
       name: 'body',
       title: 'Innhold',
-      type: 'blockContent',
+      type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'cookiebotKey',
@@ -32,5 +27,9 @@ export default {
   ],
   preview: {
     select: { title: 'title' },
+    prepare({ title }: { title?: unknown }) {
+      const titleStr = pickNo(title) || 'Privacy Policy'
+      return { title: titleStr }
+    },
   },
 }

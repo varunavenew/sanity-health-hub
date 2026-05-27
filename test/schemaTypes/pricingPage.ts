@@ -2,6 +2,11 @@
 // Aligned with migration data: title, introText, priceCategories[], insuranceNote, seo
 import { PricingIcon } from './icons'
 
+const pickNo = (v: any) =>
+  Array.isArray(v)
+    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+    : (v || '')
+
 export default {
   name: 'pricingPage',
   title: 'Priser',
@@ -53,10 +58,26 @@ export default {
                     { name: 'priceLabel', title: 'Prisvisning', type: 'internationalizedArrayString', description: 'F.eks. "fra 2500,-" eller "1500,- per time"' },
                     { name: 'note', title: 'Merknad', type: 'internationalizedArrayString' },
                   ],
+                  preview: {
+                    select: { title: 'name', subtitle: 'price', priceLabel: 'priceLabel' },
+                    prepare({ title, subtitle, priceLabel }: any) {
+                      const label = pickNo(priceLabel)
+                      return {
+                        title: pickNo(title) || 'Uten navn',
+                        subtitle: label || (subtitle != null ? `${subtitle} kr` : ''),
+                      }
+                    },
+                  },
                 },
               ],
             },
           ],
+          preview: {
+            select: { title: 'categoryName' },
+            prepare({ title }: any) {
+              return { title: pickNo(title) || 'Uten navn' }
+            },
+          },
         },
       ],
     },
@@ -81,10 +102,7 @@ export default {
   preview: {
     select: { title: 'title' },
     prepare({ title }: any) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Priser')
-        : (title || 'Priser')
-      return { title: titleStr }
+      return { title: pickNo(title) || 'Priser' }
     },
   },
 }

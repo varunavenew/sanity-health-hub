@@ -2,6 +2,21 @@
 // Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
 import { InsuranceIcon } from './icons'
 
+const pickNo = (v: any) =>
+  Array.isArray(v)
+    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+    : (v || '')
+
+const i18nItemPreview = {
+  select: { title: 'title', subtitle: 'description' },
+  prepare({ title, subtitle }: any) {
+    return {
+      title: pickNo(title) || 'Uten navn',
+      subtitle: pickNo(subtitle) || undefined,
+    }
+  },
+}
+
 export default {
   name: 'insurancePage',
   title: 'Forsikring',
@@ -43,6 +58,7 @@ export default {
             { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
             { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
+          preview: i18nItemPreview,
         },
       ],
     },
@@ -57,6 +73,7 @@ export default {
             { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
             { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
+          preview: i18nItemPreview,
         },
       ],
     },
@@ -69,10 +86,7 @@ export default {
   preview: {
     select: { title: 'title', media: 'heroImage' },
     prepare({ title, media }: any) {
-      const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Forsikring')
-        : (title || 'Forsikring')
-      return { title: titleStr, media }
+      return { title: pickNo(title) || 'Forsikring', media }
     },
   },
 }

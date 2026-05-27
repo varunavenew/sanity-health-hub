@@ -51,12 +51,11 @@ export default {
     {
       name: 'sortOrder',
       title: 'Sorteringsrekkefølge',
-      type: 'number',
-    },
+      type: 'number'    },
   ],
   orderings: [
     {
-      title: 'Manuell rekkefølge',
+      title: 'Publisert rekkefølge (manuell → A–Å)',
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },

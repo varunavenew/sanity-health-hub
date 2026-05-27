@@ -1,10 +1,6 @@
 // Schema: Specialist (Spesialist)
 import { SpecialistIcon } from './icons'
-
-const pickNo = (v: any) =>
-  Array.isArray(v)
-    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-    : (v || '')
+import { i18nSlugFieldFromString, pickNo } from './i18n'
 
 export default {
   name: 'specialist',
@@ -19,13 +15,7 @@ export default {
       validation: (Rule: any) => Rule.required(),
       description: 'Personnavn (oversettes ikke)',
     },
-    {
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      options: { source: 'name', maxLength: 96 },
-      validation: (Rule: any) => Rule.required(),
-    },
+    i18nSlugFieldFromString('name'),
     {
       name: 'photo',
       title: 'Profilbilde',
@@ -60,6 +50,34 @@ export default {
           to: [{ type: 'treatmentCategory' }],
         },
       ],
+    },
+    {
+      name: 'treatments',
+      title: 'Behandlinger',
+      type: 'array',
+      description:
+        'Valgfritt: velg spesifikke behandlinger. Tom liste = alle behandlinger i tilknyttede kategorier (på nettsiden når det vises).',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'treatment' }],
+        },
+      ],
+      options: {
+        layout: 'grid',
+        filter: ({ document }: { document?: { categories?: { _ref?: string }[] } }) => {
+          const categoryIds = (document?.categories || [])
+            .map((c) => c._ref)
+            .filter(Boolean) as string[]
+          if (!categoryIds.length) {
+            return { filter: '_type == "treatment"' }
+          }
+          return {
+            filter: '_type == "treatment" && category._ref in $categoryIds',
+            params: { categoryIds },
+          }
+        },
+      },
     },
     {
       name: 'clinics',
@@ -128,11 +146,24 @@ export default {
     },
   ],
   preview: {
-    select: { title: 'name', subtitle: 'role', media: 'photo', booking: 'bookingEnabled' },
-    prepare({ title, subtitle, media, booking }: any) {
+    select: {
+      title: 'name',
+      role: 'role',
+      media: 'photo',
+      booking: 'bookingEnabled',
+      t0: 'treatments.0->title',
+      t1: 'treatments.1->title',
+      t2: 'treatments.2->title',
+    },
+    prepare({ title, role, media, booking, t0, t1, t2 }: any) {
+      const treatmentNames = [t0, t1, t2].map(pickNo).filter(Boolean)
+      const roleLabel = pickNo(role) || 'Ingen rolle'
+      const treatmentLine = treatmentNames.length
+        ? ` · Behandlinger: ${treatmentNames.join(', ')}${treatmentNames.length === 3 ? '…' : ''}`
+        : ''
       return {
         title: `${booking === false ? '🚫 ' : ''}${title || ''}`,
-        subtitle: pickNo(subtitle) || 'Ingen rolle',
+        subtitle: `${roleLabel}${treatmentLine}`,
         media,
       }
     },

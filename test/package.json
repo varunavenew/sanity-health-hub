@@ -9,17 +9,31 @@
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy"
+    "deploy-graphql": "sanity graphql deploy",
+    "backfill:en": "tsx sanity/backfill-english-i18n.ts",
+    "backfill:en:dry": "DRY_RUN=1 tsx sanity/backfill-english-i18n.ts",
+    "backfill:en:all": "bash sanity/run-english-backfill-batches.sh",
+    "backfill:en:apply-cache": "tsx sanity/apply-english-from-cache.ts",
+    "migrate:slugs:dry": "DRY_RUN=1 tsx sanity/migrate-i18n-slugs.ts",
+    "migrate:slugs": "tsx sanity/migrate-i18n-slugs.ts",
+    "migrate:slugs:en:dry": "DRY_RUN=1 tsx sanity/migrate-english-slugs.ts",
+    "migrate:slugs:en": "tsx sanity/migrate-english-slugs.ts",
+    "fix:articles:dry": "DRY_RUN=1 tsx sanity/fix-article-validation.ts",
+    "fix:articles": "tsx sanity/fix-article-validation.ts",
+    "fix:slug-keys:dry": "DRY_RUN=1 tsx sanity/fix-slug-keys.ts",
+    "fix:slug-keys": "tsx sanity/fix-slug-keys.ts",
+    "migrate:slugs:fix": "tsx sanity/migrate-i18n-slugs.ts"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
     "@sanity/language-filter": "^5.0.1",
-    "@sanity/vision": "^5.25.1",
+    "@sanity/vision": "^5.27.0",
+    "dotenv": "^17.4.2",
     "react": "^19.2.2",
     "react-dom": "^19.2.2",
-    "sanity": "^5.25.1",
+    "sanity": "^5.27.0",
     "sanity-plugin-iframe-pane": "^5.0.11",
     "sanity-plugin-internationalized-array": "^5.1.1",
     "styled-components": "^6.1.18"
@@ -27,11 +41,13 @@
   "devDependencies": {
     "@sanity/eslint-config-studio": "^6.0.0",
     "@types/react": "^19.2",
+    "@vitalets/google-translate-api": "^9.2.1",
     "autoprefixer": "^10.4.27",
     "eslint": "^9.28",
     "postcss": "^8.5.6",
     "prettier": "^3.5",
     "tailwindcss": "^4.2.1",
+    "tsx": "^4.19.4",
     "typescript": "^5.8"
   },
   "prettier": {

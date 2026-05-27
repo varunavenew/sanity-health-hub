@@ -18,6 +18,7 @@ export const SANITY_CACHE_TAGS = {
   homepage: "sanity:homepage",
   contactPage: "sanity:contactPage",
   aboutPage: "sanity:aboutPage",
+  privacyPolicyPage: "sanity:privacyPolicyPage",
   type: (documentType: string) => `sanity:type:${documentType}`,
   article: (slug: string) => `sanity:article:${slug}`,
   treatment: (categorySlug: string, treatmentSlug: string) =>
@@ -27,10 +28,13 @@ export const SANITY_CACHE_TAGS = {
 
 export type SanityDocRef = {
   _type?: string;
-  slug?: { current?: string } | string;
+  slug?:
+    | { current?: string }
+    | string
+    | Array<{ language?: string; _key?: string; value?: { current?: string } }>;
   /** Optional webhook projection fields for nested routes */
-  parentSlug?: string;
-  categorySlug?: string;
+  parentSlug?: string | Array<{ value?: { current?: string } }>;
+  categorySlug?: string | Array<{ value?: { current?: string } }>;
 };
 
 export type SanityInvalidationPlan = {
@@ -38,13 +42,22 @@ export type SanityInvalidationPlan = {
   paths: string[];
 };
 
-function slugCurrent(slug: SanityDocRef["slug"]): string | undefined {
-  if (!slug) return undefined;
-  if (typeof slug === "string") return slug;
+function slugValues(slug: SanityDocRef["slug"]): string[] {
+  if (!slug) return [];
+  if (typeof slug === "string") return [slug];
   if (typeof slug === "object" && "current" in slug && typeof slug.current === "string") {
-    return slug.current;
+    return [slug.current];
   }
-  return undefined;
+  if (Array.isArray(slug)) {
+    return [
+      ...new Set(
+        slug
+          .map((e) => e?.value?.current)
+          .filter((s): s is string => typeof s === "string" && s.length > 0),
+      ),
+    ];
+  }
+  return [];
 }
 
 /**
@@ -76,9 +89,13 @@ export function invalidationPlanFromSanityDoc(doc: SanityDocRef): SanityInvalida
       paths.add("/nb/om-oss");
       paths.add("/en/about");
       break;
+    case "privacyPolicyPage":
+      tags.add(SANITY_CACHE_TAGS.privacyPolicyPage);
+      paths.add("/nb/personvern");
+      paths.add("/en/personvern");
+      break;
     case "article": {
-      const slug = slugCurrent(doc.slug);
-      if (slug) {
+      for (const slug of slugValues(doc.slug)) {
         tags.add(SANITY_CACHE_TAGS.article(slug));
         paths.add(`/nb/aktuelt/${slug}`);
         paths.add(`/en/aktuelt/${slug}`);
@@ -88,8 +105,7 @@ export function invalidationPlanFromSanityDoc(doc: SanityDocRef): SanityInvalida
       break;
     }
     case "treatmentCategory": {
-      const slug = slugCurrent(doc.slug);
-      if (slug) {
+      for (const slug of slugValues(doc.slug)) {
         tags.add(SANITY_CACHE_TAGS.treatmentCategory(slug));
         paths.add(`/nb/behandlinger/${slug}`);
         paths.add(`/en/behandlinger/${slug}`);
@@ -98,13 +114,15 @@ export function invalidationPlanFromSanityDoc(doc: SanityDocRef): SanityInvalida
       break;
     }
     case "treatment": {
-      const treatmentSlug = slugCurrent(doc.slug);
-      const categorySlug = doc.parentSlug ?? doc.categorySlug;
+      const treatmentSlugs = slugValues(doc.slug);
+      const categorySlugs = slugValues(doc.parentSlug ?? doc.categorySlug);
       tags.add(SANITY_CACHE_TAGS.type("treatment"));
-      if (categorySlug && treatmentSlug) {
-        tags.add(SANITY_CACHE_TAGS.treatment(categorySlug, treatmentSlug));
-        paths.add(`/nb/behandlinger/${categorySlug}/${treatmentSlug}`);
-        paths.add(`/en/behandlinger/${categorySlug}/${treatmentSlug}`);
+      for (const categorySlug of categorySlugs.length ? categorySlugs : [doc.categorySlug].filter(Boolean) as string[]) {
+        for (const treatmentSlug of treatmentSlugs) {
+          tags.add(SANITY_CACHE_TAGS.treatment(categorySlug, treatmentSlug));
+          paths.add(`/nb/behandlinger/${categorySlug}/${treatmentSlug}`);
+          paths.add(`/en/behandlinger/${categorySlug}/${treatmentSlug}`);
+        }
       }
       break;
     }

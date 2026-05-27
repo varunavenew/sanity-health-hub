@@ -13,6 +13,7 @@ import servicesPage from './servicesPage'
 import googleReview from './googleReview'
 import googleReviewSettings from './googleReviewSettings'
 import blockContent from './blockContent'
+import youtubeEmbed from './youtubeEmbed'
 import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
@@ -55,6 +56,7 @@ export const schemaTypes = [
   
 
   // Shared types
+  youtubeEmbed,
   blockContent,
   seo,
   siteSettings,

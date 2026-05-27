@@ -97,7 +97,7 @@ export const GoogleReviewsSection = () => {
   return (
     <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">
         <div className="container mx-auto px-6 md:px-16 pb-2 text-xs text-muted-foreground font-mono">
-          [Sanity reviews]{" "}
+          {/* [Sanity reviews]{" "} */}
           {reviewsError
             ? `fetch error: ${reviewsErrorDetail instanceof Error ? reviewsErrorDetail.message : String(reviewsErrorDetail)}`
             : reviewsFetched

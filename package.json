@@ -11,7 +11,11 @@
     "routes:gen": "node scripts/generate-app-routes.mjs",
     "dev:vite": "vite",
     "build:vite": "vite build",
-    "preview:vite": "vite preview"
+    "preview:vite": "vite preview",
+    "backfill:en": "npm run backfill:en --prefix test",
+    "backfill:en:dry": "npm run backfill:en:dry --prefix test",
+    "backfill:en:all": "npm run backfill:en:all --prefix test",
+    "backfill:en:apply-cache": "npm run backfill:en:apply-cache --prefix test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

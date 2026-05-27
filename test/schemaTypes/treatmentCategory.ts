@@ -1,11 +1,7 @@
 // Schema: Treatment Category
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
 import { CategoryIcon } from './icons'
-
-const pickNo = (v: any) =>
-  Array.isArray(v)
-    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-    : (v || '')
+import { i18nSlugFieldFromTitle, pickNo } from './i18n'
 
 export default {
   name: 'treatmentCategory',
@@ -19,16 +15,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
-    {
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      options: {
-        source: (doc: any) => pickNo(doc?.title),
-        maxLength: 96,
-      },
-      validation: (Rule: any) => Rule.required(),
-    },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'categoryId',
       title: 'Kategori-ID',
@@ -113,13 +100,14 @@ export default {
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
-        { field: 'title', direction: 'asc' },
+        // title is internationalizedArray — sort by slug (derived from Kategorinavn)
+        { field: 'categoryId', direction: 'asc' },
       ],
     },
     {
       title: 'Tittel (A–Å)',
       name: 'titleAsc',
-      by: [{ field: 'title', direction: 'asc' }],
+      by: [{ field: 'categoryId', direction: 'asc' }],
     },
   ],
   preview: {

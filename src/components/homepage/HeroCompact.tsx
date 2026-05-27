@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 
 // Static fallback images
 import urologiImg from "@/assets/categories/urologi-real.jpg";
@@ -12,22 +14,24 @@ import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
 import flereImg from "@/assets/categories/flere-fagomrader.jpg";
 
 const staticCategories = [
-  { id: 'urologi', title: 'Urologi', image: urologiImg, path: '/urologi' },
-  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetImg, path: '/fertilitet' },
-  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiImg, path: '/gynekologi' },
-  { id: 'ortopedi', title: 'Ortopedi', image: ortopediImg, path: '/ortopedi' },
-  { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader' },
+  { id: "urologi", title: "Urologi", image: urologiImg, path: "/urologi" },
+  { id: "fertilitet", title: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
+  { id: "gynekologi", title: "Gynekologi", image: gynekologiImg, path: "/gynekologi" },
+  { id: "ortopedi", title: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
+  { id: "flere", title: "Flere fagområder", image: flereImg, path: "/flere-fagomrader" },
 ];
 
 export const HeroCompact = () => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
 
-  const serviceCategories =
-    homepage?.categoryCards && homepage.categoryCards.length > 0
-      ? homepage.categoryCards
-      : staticCategories;
+  const serviceCategories = sortBySlug(
+    homepage?.categoryCards?.length ? homepage.categoryCards : staticCategories,
+    (c) => c.id || c.title,
+    contentLang,
+  );
 
   return (
     <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">

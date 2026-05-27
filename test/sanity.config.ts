@@ -1,10 +1,11 @@
 import {defineConfig} from 'sanity'
 import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
-import {Iframe} from 'sanity-plugin-iframe-pane'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
 import {schemaTypes} from './schemaTypes'
 import TranslateToEnglishAction from './sanity/actions/translateToEnglish'
+import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
+import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 
 // Languages enabled for field-level localization across the project.
 // Add SE here later if/when Swedish content is added.
@@ -14,54 +15,31 @@ export const SUPPORTED_LANGUAGES = [
 ] as const
 import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
 
-// Base URL for the frontend preview
-// Uses localhost:5173 during local dev, production URL otherwise
-const PREVIEW_BASE_URL =
-  typeof window !== 'undefined' && window.location.hostname === 'localhost'
-    ? 'http://localhost:8080'
-    : 'https://sanity-care-craft.lovable.app'
-
-// Map schema types to their frontend URL paths
-function resolvePreviewUrl(schemaType: string, slug?: string) {
-  const routes: Record<string, string> = {
-    article: '/aktuelt/',
-    treatment: '/behandlinger/',
-    treatmentCategory: '/tjenester/',
-    specialist: '/spesialister/',
-    themePage: '/tema/',
-    homepage: '/',
-    aboutPage: '/om-oss',
-    contactPage: '/kontakt',
-    pricingPage: '/priser',
-    insurancePage: '/forsikring',
-    servicesPage: '/tjenester',
-    clinicPage: '/klinikker/',
-    jobListing: '/karriere/',
-  }
-  const base = routes[schemaType]
-  if (!base) return PREVIEW_BASE_URL
-  if (slug) return `${PREVIEW_BASE_URL}${base}${slug}`
-  return `${PREVIEW_BASE_URL}${base}`
-}
-
-// Default document node with preview pane for content types
+// Default document node with locale-specific preview panes (nb + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
     'article', 'treatment', 'treatmentCategory', 'specialist',
     'themePage', 'homepage', 'aboutPage', 'contactPage',
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
+    'privacyPolicyPage',
   ]
 
   if (previewableTypes.includes(schemaType)) {
+    const PreviewNb = createLocalePreviewPane({locale: 'nb', schemaType})
+    const PreviewEn = createLocalePreviewPane({locale: 'en', schemaType})
+
     return S.document().views([
       S.view.form().title('About'),
-      S.view.component(Iframe).options({
-        url: (doc: any) => {
-          const slug = doc?.slug?.current
-          return resolvePreviewUrl(schemaType, slug)
-        },
-        reload: {button: true},
-      }).title('View'),
+      S.view
+        .component(PreviewNb)
+        .id('preview-nb')
+        .title('View')
+        .icon(NorwegianFlagIcon),
+      S.view
+        .component(PreviewEn)
+        .id('preview-en')
+        .title('View')
+        .icon(EnglishFlagIcon),
     ])
   }
 
@@ -84,7 +62,12 @@ export default defineConfig({
       defaultDocumentNode,
       structure: (S, context) => {
         const otherItems = S.documentTypeListItems().filter(
-          (item) => !hiddenTypes.includes(item.getId() || '') && item.getId() !== 'article'
+          (item) =>
+            !hiddenTypes.includes(item.getId() || '') &&
+            item.getId() !== 'article' &&
+            item.getId() !== 'clinicPage' &&
+            item.getId() !== 'treatmentCategory' &&
+            item.getId() !== 'treatment',
         )
         const mid = Math.floor(otherItems.length / 2)
 
@@ -99,6 +82,33 @@ export default defineConfig({
                 { field: 'pinned', direction: 'desc' },
                 { field: 'publishedAt', direction: 'desc' },
               ])
+          )
+
+        const clinicItem = S.listItem()
+          .title('Klinikk')
+          .schemaType('clinicPage')
+          .child(
+            S.documentTypeList('clinicPage')
+              .title('Klinikk')
+              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
+          )
+
+        const treatmentCategoryItem = S.listItem()
+          .title('Behandlingskategori')
+          .schemaType('treatmentCategory')
+          .child(
+            S.documentTypeList('treatmentCategory')
+              .title('Behandlingskategori')
+              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
+          )
+
+        const treatmentItem = S.listItem()
+          .title('Behandling')
+          .schemaType('treatment')
+          .child(
+            S.documentTypeList('treatment')
+              .title('Behandling')
+              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
           )
 
         const specialistsItem = S.listItem()
@@ -176,6 +186,9 @@ export default defineConfig({
           .items([
             ...otherItems.slice(0, mid),
             articleItem,
+            clinicItem,
+            treatmentCategoryItem,
+            treatmentItem,
             specialistsItem,
             priserItem,
             googleReviewsItem,
@@ -189,8 +202,8 @@ export default defineConfig({
       defaultLanguages: ['no'],
       // The base types we want a localized variant of.
       // Studio will register: internationalizedArrayString, internationalizedArrayText,
-      // internationalizedArrayBlockContent (Portable Text)
-      fieldTypes: ['string', 'text', 'blockContent'],
+      // internationalizedArrayBlockContent, internationalizedArraySlug
+      fieldTypes: ['string', 'text', 'blockContent', 'slug'],
     }),
   ],
 

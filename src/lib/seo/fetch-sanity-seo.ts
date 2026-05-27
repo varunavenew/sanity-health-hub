@@ -2,6 +2,7 @@ import {
   ABOUT_PAGE_QUERY,
   ARTICLE_BY_SLUG_QUERY,
   CONTACT_PAGE_QUERY,
+  PRIVACY_POLICY_PAGE_QUERY,
   HOMEPAGE_QUERY,
   THEME_PAGE_QUERY,
   TREATMENT_BY_SLUG_QUERY,
@@ -49,6 +50,24 @@ export async function fetchAboutPageDocument(
     params: { lang },
     key: ["sanity", "aboutPage", lang, ABOUT_PAGE_QUERY],
     tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.aboutPage, SANITY_CACHE_TAGS.type("aboutPage")],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+}
+
+export async function fetchPrivacyPolicyPageDocument(lang: "no" | "en"): Promise<{
+  title?: string;
+  body?: unknown[];
+  cookiebotKey?: string;
+} | null> {
+  return sanityFetchCached({
+    query: PRIVACY_POLICY_PAGE_QUERY,
+    params: { lang },
+    key: ["sanity", "privacyPolicyPage", lang, PRIVACY_POLICY_PAGE_QUERY],
+    tags: [
+      SANITY_CACHE_TAGS.all,
+      SANITY_CACHE_TAGS.privacyPolicyPage,
+      SANITY_CACHE_TAGS.type("privacyPolicyPage"),
+    ],
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });
 }

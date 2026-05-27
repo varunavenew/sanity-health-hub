@@ -1,6 +1,7 @@
 // Schema: Job Listing
 // Stillingsannonser for karrieresiden
 import { JobIcon } from './icons'
+import { i18nSlugFieldFromString } from './i18n'
 
 export default {
   name: 'jobListing',
@@ -14,13 +15,7 @@ export default {
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
-    {
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      options: { source: 'title', maxLength: 96 },
-      validation: (Rule: any) => Rule.required(),
-    },
+    i18nSlugFieldFromString('title'),
     {
       name: 'department',
       title: 'Avdeling / Tjenesteområde',

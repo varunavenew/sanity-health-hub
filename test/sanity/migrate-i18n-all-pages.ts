@@ -5,7 +5,7 @@
  *
  * Covers schemas: homepage, servicesPage, pricingPage, insurancePage,
  * contactPage, themePage, clinicPage, specialist, specialistsPage,
- * treatment, treatmentCategory.
+ * treatment, treatmentCategory, privacyPolicyPage.
  *
  * Idempotent — already-migrated fields are skipped.
  *
@@ -234,6 +234,8 @@ const SCHEMAS: Array<{
   type: string
   topFields: FieldMap
   nested?: Record<string, FieldMap>
+  /** Top-level arrays where each item is an internationalizedArrayString */
+  arrayOfI18nStringFields?: string[]
 }> = [
   {
     type: 'homepage',
@@ -370,16 +372,47 @@ const SCHEMAS: Array<{
     type: 'treatment',
     topFields: {
       title: 'internationalizedArrayStringValue',
-      shortDescription: 'internationalizedArrayTextValue',
-      description: 'internationalizedArrayBlockContentValue',
+      parentCategoryLabel: 'internationalizedArrayStringValue',
+      description: 'internationalizedArrayTextValue',
+      benefitsTitle: 'internationalizedArrayStringValue',
+      subtitle: 'internationalizedArrayStringValue',
+    },
+    arrayOfI18nStringFields: ['benefits'],
+    nested: {
+      process: {
+        title: 'internationalizedArrayStringValue',
+        description: 'internationalizedArrayTextValue',
+      },
+      faqs: {
+        question: 'internationalizedArrayStringValue',
+        answer: 'internationalizedArrayTextValue',
+      },
+      sections: {
+        heading: 'internationalizedArrayStringValue',
+        content: 'internationalizedArrayTextValue',
+      },
+      linkedServices: {
+        label: 'internationalizedArrayStringValue',
+        description: 'internationalizedArrayTextValue',
+      },
+      subItems: {
+        label: 'internationalizedArrayStringValue',
+      },
     },
   },
   {
     type: 'treatmentCategory',
     topFields: {
       title: 'internationalizedArrayStringValue',
-      shortDescription: 'internationalizedArrayTextValue',
-      description: 'internationalizedArrayBlockContentValue',
+      description: 'internationalizedArrayTextValue',
+      longDescription: 'internationalizedArrayBlockContentValue',
+    },
+  },
+  {
+    type: 'privacyPolicyPage',
+    topFields: {
+      title: 'internationalizedArrayStringValue',
+      body: 'internationalizedArrayBlockContentValue',
     },
   },
 ]
@@ -400,6 +433,37 @@ function setByPath(obj: any, path: string, value: any) {
   cur[last] = value
 }
 
+async function wrapArrayOfI18nStrings(
+  arr: unknown[],
+  valueType: ValueType = 'internationalizedArrayStringValue'
+): Promise<{ changed: boolean; value: any[] }> {
+  const out: any[] = []
+  let changed = false
+  for (const item of arr) {
+    if (typeof item === 'string' && item.trim()) {
+      out.push(await wrapValue(item, valueType))
+      changed = true
+    } else if (isI18nArray(item)) {
+      out.push(item)
+    } else if (
+      item &&
+      typeof item === 'object' &&
+      !Array.isArray(item) &&
+      typeof (item as any)._type === 'string' &&
+      (item as any)._type.startsWith('internationalizedArray') &&
+      'value' in (item as any)
+    ) {
+      const inner = (item as any).value
+      const lang = (item as any).language || 'no'
+      out.push([{ _type: valueType, language: lang, value: inner }])
+      changed = true
+    } else {
+      out.push(item)
+    }
+  }
+  return { changed, value: out }
+}
+
 async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
   const patches: Record<string, any> = {}
 
@@ -410,6 +474,15 @@ async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
       if (JSON.stringify(top.value[k]) !== JSON.stringify(doc[k])) {
         patches[k] = top.value[k]
       }
+    }
+  }
+
+  if (schema.arrayOfI18nStringFields) {
+    for (const key of schema.arrayOfI18nStringFields) {
+      const cur = doc[key]
+      if (!Array.isArray(cur)) continue
+      const r = await wrapArrayOfI18nStrings(cur)
+      if (r.changed) patches[key] = r.value
     }
   }
 
@@ -498,13 +571,20 @@ async function migrateDoc(doc: any, schema: (typeof SCHEMAS)[number]) {
 
 // ─── Main ────────────────────────────────────────────────────────────
 
+const ONLY = process.env.ONLY?.split(',').map((s) => s.trim()).filter(Boolean)
+
 async function run() {
+  const schemas = ONLY?.length
+    ? SCHEMAS.filter((s) => ONLY.includes(s.type))
+  : SCHEMAS
+
   console.log(`▶ Sanity i18n migration — all public-facing schemas`)
   console.log(`  Translate EN: ${TRANSLATE ? '✓ via Lovable AI' : '✗ (EN left empty)'}`)
   console.log(`  Dry run:      ${DRY_RUN ? '✓' : '✗'}`)
+  if (ONLY?.length) console.log(`  Only types:   ${ONLY.join(', ')}`)
   console.log()
 
-  for (const schema of SCHEMAS) {
+  for (const schema of schemas) {
     const docs = await sanityClient.fetch<any[]>(`*[_type == "${schema.type}"]`)
     console.log(`\n📄 ${schema.type} — ${docs.length} doc(s)`)
     for (const doc of docs) {

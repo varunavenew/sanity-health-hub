@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import { ProductIcon } from './icons'
+import { i18nSlugFieldFromString } from './i18n'
 
 export default defineType({
   name: 'product',
@@ -13,13 +14,7 @@ export default defineType({
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      options: {source: 'name', maxLength: 96},
-      validation: (Rule) => Rule.required(),
-    }),
+    defineField(i18nSlugFieldFromString('name') as Parameters<typeof defineField>[0]),
     defineField({
       name: 'category',
       title: 'Kategori',
@@ -99,12 +94,12 @@ export default defineType({
     defineField({
       name: 'sortOrder',
       title: 'Sorteringsrekkefølge',
-      type: 'number',
+      type: 'number'
     }),
   ],
   orderings: [
     {
-      title: 'Manuell rekkefølge',
+      title: 'Publisert rekkefølge (manuell → A–Å)',
       name: 'sortOrderAsc',
       by: [
         {field: 'sortOrder', direction: 'asc'},

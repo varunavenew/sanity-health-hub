@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import { ArticleIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 
 export default defineType({
   name: 'article',
@@ -13,19 +14,7 @@ export default defineType({
       type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      // Source from the Norwegian title entry
-      options: {
-        source: (doc: any) => {
-          const title = (doc?.title || []).find((t: any) => (t.language || t._key) === 'no')?.value
-          return title || ''
-        },
-      },
-      validation: (Rule) => Rule.required(),
-    }),
+    defineField(i18nSlugFieldFromTitle('title') as Parameters<typeof defineField>[0]),
     defineField({
       name: 'primaryImage',
       title: 'Hovedbilde',
@@ -55,7 +44,18 @@ export default defineType({
       description: 'Lim inn en YouTube/Vimeo embed-URL (f.eks. https://www.youtube.com/embed/XXXX) eller en direktelenke til en .mp4-fil. Vises over artikkelinnholdet.',
       type: 'url',
       validation: (Rule) =>
-        Rule.uri({allowRelative: false, scheme: ['http', 'https']}),
+        Rule.custom((value) => {
+          if (!value || (typeof value === 'string' && !value.trim())) return true
+          try {
+            const u = new URL(value)
+            if (!['http:', 'https:'].includes(u.protocol)) {
+              return 'URL må starte med http:// eller https://'
+            }
+            return true
+          } catch {
+            return 'Ugyldig video-URL'
+          }
+        }),
     }),
     defineField({
       name: 'videoThumbnail',
@@ -101,8 +101,10 @@ export default defineType({
       name: 'publishedAt',
       title: 'Publiseringsdato',
       type: 'datetime',
+      description: 'Påkrevd for publisering. Settes automatisk på nye artikler.',
       initialValue: () => new Date().toISOString(),
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required().error('Publiseringsdato mangler — velg dato før du publiserer'),
     }),
     defineField({
       name: 'seo',
@@ -112,17 +114,17 @@ export default defineType({
   ],
   orderings: [
     {
+      title: 'Publiseringsdato (nyeste først)',
+      name: 'publishedAtDesc',
+      by: [{field: 'publishedAt', direction: 'desc'}],
+    },
+    {
       title: 'Festet + nyeste først',
       name: 'pinnedThenDate',
       by: [
         {field: 'pinned', direction: 'desc'},
         {field: 'publishedAt', direction: 'desc'},
       ],
-    },
-    {
-      title: 'Publiseringsdato (nyeste først)',
-      name: 'publishedAtDesc',
-      by: [{field: 'publishedAt', direction: 'desc'}],
     },
     {
       title: 'Publiseringsdato (eldste først)',

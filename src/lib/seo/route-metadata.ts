@@ -5,6 +5,7 @@ import {
   fetchAboutPageDocument,
   fetchContactPageDocument,
   fetchHomepageDocument,
+  fetchPrivacyPolicyPageDocument,
 } from "@/lib/seo/fetch-sanity-seo";
 import { resolveMetaStrings } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
@@ -82,6 +83,35 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
       return u || undefined;
     })(),
     noIndex: !!seo?.noIndex,
+    type: "website",
+  });
+}
+
+const PRIVACY_FALLBACK = {
+  nb: {
+    title: "Personvernerklæring",
+    description:
+      "Les CMedicals personvernerklæring. Informasjon om hvordan vi behandler dine personopplysninger i samsvar med GDPR og norsk personvernlovgivning.",
+  },
+  en: {
+    title: "Privacy Policy",
+    description:
+      "Read CMedical's privacy policy. Information about how we process your personal data in accordance with GDPR and applicable privacy legislation.",
+  },
+} as const;
+
+export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchPrivacyPolicyPageDocument(sanityLang);
+  const title = data?.title?.trim() || PRIVACY_FALLBACK[lang].title;
+  const description = PRIVACY_FALLBACK[lang].description;
+
+  return buildPageMetadata({
+    locale,
+    paths: { nbPath: "/nb/personvern", enPath: "/en/personvern" },
+    title,
+    description,
     type: "website",
   });
 }

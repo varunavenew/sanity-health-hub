@@ -15,18 +15,30 @@ const isI18nEntry = (v: unknown): boolean =>
 const isI18nEntryArray = (arr: unknown[]): boolean =>
   arr.length > 0 && arr.every(isI18nEntry);
 
+function unwrapSlugValue(value: unknown): unknown {
+  if (
+    value &&
+    typeof value === "object" &&
+    "current" in value &&
+    typeof (value as { current?: unknown }).current === "string"
+  ) {
+    return (value as { current: string }).current;
+  }
+  return value;
+}
+
 const pickI18nValue = (arr: unknown[], lang: "no" | "en"): unknown => {
   const match = arr.find((e) => {
     const o = e as { language?: string; _key?: string };
     return (o.language || o._key) === lang;
   });
-  if (match) return (match as { value: unknown }).value;
+  if (match) return unwrapSlugValue((match as { value: unknown }).value);
   const fallback =
     arr.find((e) => {
       const o = e as { language?: string; _key?: string };
       return (o.language || o._key) === "no";
     }) || arr[0];
-  return (fallback as { value?: unknown })?.value;
+  return unwrapSlugValue((fallback as { value?: unknown })?.value);
 };
 
 /**

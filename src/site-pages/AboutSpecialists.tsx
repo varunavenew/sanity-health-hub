@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsPage } from "@/hooks/useSanity";
 import { PortableText } from "@portabletext/react";
+import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 interface AboutSpecialistsProps {
   isChatOpen: boolean;
@@ -71,7 +72,10 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
           >
             {pageData?.body ? (
               <div className="prose prose-lg max-w-none text-foreground/80 font-light leading-[1.85]">
-                <PortableText value={pageData.body} />
+                <PortableText
+                  value={pageData.body}
+                  components={{ types: youtubeEmbedPortableTextType }}
+                />
               </div>
             ) : (
               <>

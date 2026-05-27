@@ -11,6 +11,7 @@ import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
 import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
+import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 interface ArticlePageProps {
   isChatOpen: boolean;
@@ -57,6 +58,7 @@ const portableTextComponents: PortableTextComponents = {
     ),
   },
   types: {
+    ...youtubeEmbedPortableTextType,
     image: ({ value }) => (
       <figure className="my-8">
         <img

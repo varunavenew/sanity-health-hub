@@ -1,10 +1,11 @@
 // Schema: Theme Page (e.g. Kvinnehelse, Robotkirurgi, Tverrfaglige)
 // Reusable schema for thematic focus area pages
 import { ThemeIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 
 export default {
   name: 'themePage',
-  title: 'Temasider',
+  title: 'Hjemmeside Karusell',
   type: 'document',
   icon: ThemeIcon,
   fields: [
@@ -14,19 +15,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
-    {
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      options: {
-        source: (doc: any) => {
-          const t = (doc?.title || []).find((e: any) => (e.language || e._key) === 'no')?.value
-          return t || ''
-        },
-        maxLength: 96,
-      },
-      validation: (Rule: any) => Rule.required(),
-    },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'heroImage',
       title: 'Hero-bilde',

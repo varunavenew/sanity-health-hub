@@ -1,11 +1,7 @@
 // Schema: Treatment (sub-treatment page)
 // Individual treatment pages under each category
 import { TreatmentIcon } from './icons'
-
-const pickNo = (v: any) =>
-  Array.isArray(v)
-    ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
-    : (v || '')
+import { i18nSlugFieldFromTitle, pickNo } from './i18n'
 
 export default {
   name: 'treatment',
@@ -19,16 +15,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
-    {
-      name: 'slug',
-      title: 'URL-slug',
-      type: 'slug',
-      options: {
-        source: (doc: any) => pickNo(doc?.title),
-        maxLength: 96,
-      },
-      validation: (Rule: any) => Rule.required(),
-    },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'category',
       title: 'Kategori',
@@ -200,13 +187,14 @@ export default {
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
-        { field: 'title', direction: 'asc' },
+        // title is internationalizedArray — sort by slug (derived from Behandlingsnavn)
+        { field: 'sortOrder', direction: 'asc' },
       ],
     },
     {
       title: 'Tittel (A–Å)',
       name: 'titleAsc',
-      by: [{ field: 'title', direction: 'asc' }],
+      by: [{ field: 'sortOrder', direction: 'asc' }],
     },
   ],
   preview: {

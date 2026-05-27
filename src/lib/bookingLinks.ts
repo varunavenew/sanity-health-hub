@@ -26,8 +26,50 @@ export const categoryPageToBookingId: Record<string, string> = {
   fertilitet: "fertilitet",
   ortopedi: "ortoped",
   graviditet: "fostermedisiner",
-  "flere-fagomrader": "flere",
 };
+
+/** Category pages with a dedicated booking API group (used in patient journey step 01). */
+export const categoryPageBookingConfig: Record<
+  string,
+  { clinicServiceId: string; showAllApiCategories?: boolean }
+> = {
+  gynekologi: { clinicServiceId: "gynekolog" },
+  urologi: { clinicServiceId: "urolog" },
+  fertilitet: { clinicServiceId: "fertilitet" },
+  ortopedi: { clinicServiceId: "ortoped" },
+  graviditet: { clinicServiceId: "fostermedisiner" },
+  "flere-fagomrader": { clinicServiceId: "", showAllApiCategories: true },
+};
+
+export type BookingCategoryMatch = {
+  id: string;
+  clinicServiceId?: string;
+  label: string;
+  services: {
+    name: string;
+    price: string;
+    duration?: string;
+    apiActivityId?: number;
+  }[];
+};
+
+/**
+ * Resolve a category-page id (gynekologi) to a booking API category.
+ */
+export function findBookingCategoryForPage(
+  categoryPageId: string,
+  categories: BookingCategoryMatch[],
+): BookingCategoryMatch | undefined {
+  const clinicId = categoryPageToBookingId[categoryPageId] ?? categoryPageId;
+  return categories.find(
+    (c) => c.clinicServiceId === clinicId || c.id === clinicId,
+  );
+}
+
+/** Map clinic service id from API to human-readable category page id in booking URLs. */
+export function bookingCategoryPageIdForClinicService(clinicServiceId: string): string {
+  return bookingIdToCategoryPage[clinicServiceId] ?? clinicServiceId;
+}
 
 /**
  * Reverse map: booking service category ID → category-page ID.

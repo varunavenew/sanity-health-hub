@@ -12,6 +12,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { JourneyStepServicesForPage } from "@/components/booking/JourneyStepServicesForPage";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
@@ -543,6 +544,9 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
                       <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
                         {step.desc}
                       </p>
+                      {step.n === "01" && (
+                        <JourneyStepServicesForPage categoryPageId="ortopedi" />
+                      )}
                     </div>
                   </div>
                 ))}

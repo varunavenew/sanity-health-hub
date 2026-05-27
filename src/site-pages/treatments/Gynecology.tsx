@@ -16,6 +16,7 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { JourneyStepServicesForPage } from "@/components/booking/JourneyStepServicesForPage";
 
 import gynekologiHeroImg from "@/assets/categories/gynekologi-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
@@ -217,7 +218,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                   onClick={() =>
                     (window.location.href = buildBookingUrl({
                       kategori: "gynekologi",
-                      tjeneste: "generell-undersokelse",
                     }))
                   }
                 >
@@ -652,6 +652,9 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
                       <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
                         {step.desc}
                       </p>
+                      {step.n === "01" && (
+                        <JourneyStepServicesForPage categoryPageId="gynekologi" />
+                      )}
                     </div>
                   </div>
                 ))}
