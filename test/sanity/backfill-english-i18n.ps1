@@ -2,7 +2,7 @@
 #
 # Usage (PowerShell, from the `test/` folder):
 #
-#   $env:SANITY_TOKEN = "sk..."   # optional if config.ts has token
+#   $env:SANITY_TOKEN = "sk..."   # required (see test/.env.local.example)
 #   .\sanity\backfill-english-i18n.ps1
 #
 # Optional:
