@@ -8,6 +8,54 @@ import {
   slugMatchesRefParam,
 } from "@/lib/sanity/slug-groq";
 
+const i18nPageSectionString = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
+
+const i18nPageSectionText = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
+
+const i18nString = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
+
+const i18nText = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
+
+const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
+
+/** Modular specialists / articles blocks — append inside page GROQ projections */
+export const PAGE_SECTIONS_GROQ = `
+  pageSections[]{
+    _type,
+    _key,
+    ${i18nPageSectionString("eyebrow")},
+    ${i18nPageSectionString("title")},
+    ${i18nPageSectionText("description")},
+    displayMode,
+    categorySlug,
+    articleCategory,
+    limit,
+    variant,
+    ${i18nPageSectionString("ctaLabel")},
+    ctaPath,
+    "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
+    "specialists": specialists[]->{
+      _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      "clinics": clinics[]->title,
+      ${localizedSlug},
+      "categories": categories[]->{ _id, title, ${localizedSlug} }
+    },
+    "articles": articles[]->{
+      _id,
+      "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+      ${localizedSlug},
+      "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+      "image": primaryImage.asset->url,
+      "date": publishedAt,
+      category
+    }
+  }
+`;
+
 export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   title, tagline,
   heroBanner{
@@ -17,6 +65,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   valueBadges[]{icon, label},
   statsBar[]{value, label},
   promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -61,7 +110,8 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
     _id, title, ${localizedSlug}, description, subtitle,
     "heroImage": heroImage.asset->url
-  }
+  },
+  ${PAGE_SECTIONS_GROQ}
 }`;
 
 export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesParam("treatmentSlug")} && (${slugMatchesRefParam("category", "categorySlug")} || category->categoryId == $categorySlug)][0]{
@@ -71,7 +121,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${localizedRefSlugField("category", "parentSlug")},
   parentCategoryLabel,
   process[]{title, description},
-  faqs[]{question, answer},
+  faqs[]{${localizedFaqRow}},
   sections[]{id, heading, content},
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
@@ -79,11 +129,9 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
     specialties
   },
   linkedServices[]{label, description, path},
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
-
-const i18nString = (field: string) =>
-  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
 
 const i18nBlockContent = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
@@ -100,6 +148,7 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
   "heroImage": heroImage.asset->url,
   "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
   values,
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -109,6 +158,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   address{street, city, zip},
   openingHours[]{days, hours},
   ctaCards[]{icon, title, description, ctaText, ctaAction, ctaLink, variant},
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -120,6 +170,7 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
     "categoryRef": category->{ _id, title, ${localizedSlug} },
     items[]{name, price, priceLabel, note}
   },
+  ${PAGE_SECTIONS_GROQ},
   seo
 }`;
 
@@ -129,12 +180,14 @@ export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
   partners,
   steps[]{title, description},
   benefits[]{title, description},
+  ${PAGE_SECTIONS_GROQ},
   seo
 }`;
 
 export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   title, introText,
   "categories": categories[]->{ _id, title, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
+  ${PAGE_SECTIONS_GROQ},
   seo
 }`;
 
@@ -147,7 +200,7 @@ export const CLINICS_QUERY = `*[_type == "clinicPage"] | order(${orderSlugAsc}){
   "primaryImage": primaryImage.asset->url,
   booking,
   detail,
-  faqs[]{question, answer},
+  faqs[]{${localizedFaqRow}},
   seo
 }`;
 
@@ -259,11 +312,11 @@ export const JOB_LISTING_BY_SLUG_QUERY = `*[_type == "jobListing" && ${slugMatch
   body,
 }`;
 
-export const FAQS_QUERY = `*[_type == "faq"] | order(sortOrder asc) { question, answer, category }`;
+export const FAQS_QUERY = `*[_type == "faq"] | order(sortOrder asc) { ${localizedFaqRow}, category }`;
 
-export const FAQS_BY_CATEGORY_QUERY = `*[_type == "faq" && category == $category] | order(sortOrder asc) { question, answer, category }`;
+export const FAQS_BY_CATEGORY_QUERY = `*[_type == "faq" && category == $category] | order(sortOrder asc) { ${localizedFaqRow}, category }`;
 
-export const FAQS_BY_TREATMENT_CATEGORY_QUERY = `*[_type == "faq" && ${slugMatchesRefParam("relatedTreatmentCategory", "slug")}] | order(sortOrder asc) { question, answer }`;
+export const FAQS_BY_TREATMENT_CATEGORY_QUERY = `*[_type == "faq" && ${slugMatchesRefParam("relatedTreatmentCategory", "slug")}] | order(sortOrder asc) { ${localizedFaqRow} }`;
 
 export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("slug")}][0]{
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -272,6 +325,7 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
   sections[]{heading, paragraphs, bulletPoints},
   lifePhases[]{title, text},
   ctaText, ctaLink,
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 

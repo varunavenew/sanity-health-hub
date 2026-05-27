@@ -2,6 +2,7 @@
 // Individual treatment pages under each category
 import { TreatmentIcon } from './icons'
 import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'treatment',
@@ -175,6 +176,7 @@ export default {
       type: 'number',
       description: 'Lavere tall vises først innenfor kategorien.',
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

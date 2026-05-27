@@ -56,6 +56,7 @@ const DOCUMENT_TYPES = [
   'specialistsPage',
   'specialist',
   'privacyPolicyPage',
+  'faq',
 ]
 
 interface I18nItem {

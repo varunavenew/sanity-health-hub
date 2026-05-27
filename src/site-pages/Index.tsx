@@ -10,6 +10,8 @@ import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { StatsBar } from "@/components/homepage/StatsBar";
 
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { useHomepage } from "@/hooks/useSanity";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { useTranslation } from "react-i18next";
@@ -20,6 +22,8 @@ interface IndexProps {
 
 const Index = ({ isChatOpen }: IndexProps) => {
   const { t } = useTranslation();
+  const { data: homepage } = useHomepage();
+  const pageSections = homepage?.pageSections;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -35,7 +39,11 @@ const Index = ({ isChatOpen }: IndexProps) => {
       <ValueBadges />
       <PromoBlocks />
       <LifePhasesSection />
-      <SpecialistsSection />
+      {pageSections?.length ? (
+        <PageSectionsRenderer sections={pageSections} />
+      ) : (
+        <SpecialistsSection />
+      )}
       <BookingCTA />
     </PageLayout>
   );

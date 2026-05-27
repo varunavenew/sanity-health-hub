@@ -1,6 +1,7 @@
 // Schema: Homepage
 // Sanity document type for the main landing page
 import { HomeIcon } from './icons'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'homepage',
@@ -157,6 +158,10 @@ export default {
           },
         },
       ],
+    },
+    {
+      ...pageSectionsField,
+      group: 'sections',
     },
     // SEO
     {

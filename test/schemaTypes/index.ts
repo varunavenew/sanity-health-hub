@@ -26,6 +26,10 @@ import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
 import testimonial from './testimonial'
+import {
+  pageSectionSpecialists,
+  pageSectionArticles,
+} from './pageSections'
 
 
 export const schemaTypes = [
@@ -56,6 +60,8 @@ export const schemaTypes = [
   
 
   // Shared types
+  pageSectionSpecialists,
+  pageSectionArticles,
   youtubeEmbed,
   blockContent,
   seo,

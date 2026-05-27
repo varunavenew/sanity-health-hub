@@ -1,6 +1,7 @@
 // Schema: Services Page (Tjenester)
 // Aligned with migration data: title, introText, categories (references), seo
 import { TreatmentIcon } from './icons'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'servicesPage',
@@ -36,6 +37,7 @@ export default {
         },
       ],
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

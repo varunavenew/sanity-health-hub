@@ -38,6 +38,7 @@ import {
   SPECIALISTS_PAGE_QUERY,
   SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
+import { normalizePageSections } from "@/lib/sanity/page-sections";
 
 /**
  * Map the i18next UI language code to the Sanity language key used by
@@ -113,7 +114,7 @@ export const useHomepage = () => {
             path: `/${c.slug}`,
             image: c.heroImage || "",
           })),
-          (c: { slug?: string; id?: string }) => c.slug || c.id,
+          (c: { id?: string; title?: string }) => c.id || c.title,
           lang,
         ),
         valueBadges: (data.valueBadges || []).map((v: any) =>
@@ -127,6 +128,7 @@ export const useHomepage = () => {
           path: p.ctaLink || "/",
           image: p.image || "",
         })),
+        pageSections: normalizePageSections(data.pageSections),
         seo: data.seo,
       };
     },
@@ -281,6 +283,7 @@ export const useTreatmentCategory = (slug: string) => {
           }),
         ),
         faqs: [],
+        pageSections: normalizePageSections(data.pageSections),
       };
     },
     enabled: !!slug,
@@ -293,8 +296,14 @@ export const useTreatment = (categorySlug: string, treatmentSlug: string) => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "treatment", categorySlug, treatmentSlug, lang],
-    queryFn: () =>
-      fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }, lang),
+    queryFn: async () => {
+      const data = await fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }, lang);
+      if (!data) return null;
+      return {
+        ...data,
+        pageSections: normalizePageSections(data.pageSections),
+      };
+    },
     enabled: !!categorySlug && !!treatmentSlug,
     staleTime: 5 * 60 * 1000,
   });
@@ -318,7 +327,7 @@ export const useAboutPage = () => {
           title: "",
           content: (block.children || []).map((c: any) => c.text).join(""),
         }));
-      return { ...data, title, subtitle, body, sections };
+      return { ...data, title, subtitle, body, sections, pageSections: normalizePageSections(data.pageSections) };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -337,8 +346,11 @@ export const usePrivacyPolicyPage = () => {
       }>(PRIVACY_POLICY_PAGE_QUERY, { lang }, lang);
       if (!data) return null;
       const title = typeof data.title === "string" ? data.title : "";
+      const firstBlock = Array.isArray(data.body)
+        ? (data.body[0] as { _type?: string } | undefined)
+        : undefined;
       const body =
-        Array.isArray(data.body) && data.body[0]?._type === "block"
+        firstBlock?._type === "block"
           ? data.body
           : Array.isArray(data.body)
             ? data.body
@@ -584,8 +596,8 @@ export const useThemePage = (slug: string) => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "themePage", slug, lang],
-    queryFn: () =>
-      fetchSanity<{
+    queryFn: async () => {
+      const data = await fetchSanity<{
         title: string;
         heroImage?: string;
         introTexts?: string[];
@@ -593,8 +605,15 @@ export const useThemePage = (slug: string) => {
         lifePhases?: { title: string; text: string }[];
         ctaText?: string;
         ctaLink?: string;
+        pageSections?: unknown;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(THEME_PAGE_QUERY, { slug }, lang),
+      }>(THEME_PAGE_QUERY, { slug }, lang);
+      if (!data) return null;
+      return {
+        ...data,
+        pageSections: normalizePageSections(data.pageSections),
+      };
+    },
     staleTime: 5 * 60 * 1000,
   });
 };

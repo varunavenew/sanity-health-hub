@@ -8,6 +8,7 @@ import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 import { useThemePage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { getImageUrl } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
 
@@ -164,6 +165,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      <PageSectionsRenderer sections={sanityData?.pageSections} />
     </PageLayout>
   );
 };

@@ -10,10 +10,12 @@ export type BookingCaregiver = {
   phonemobile?: string;
 };
 
-export function isBookingCaregiver(
-  value: { apiUserId?: number },
-): value is BookingCaregiver {
-  return typeof value.apiUserId === "number";
+export function isBookingCaregiver(value: unknown): value is BookingCaregiver {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as BookingCaregiver).apiUserId === "number"
+  );
 }
 
 interface ApiBookingUser {

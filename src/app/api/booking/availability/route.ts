@@ -152,7 +152,7 @@ export async function GET(request: Request) {
     const locationsMap = new Map<number, BookingAvailabilityLocation>();
 
     const slots: BookingAvailabilitySlot[] = rawSlots
-      .map((entry) => {
+      .map((entry): BookingAvailabilitySlot | null => {
         const startDateTime = entry.startdatetime?.trim();
         if (!startDateTime) return null;
 

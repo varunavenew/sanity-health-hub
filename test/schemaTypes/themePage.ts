@@ -2,6 +2,7 @@
 // Reusable schema for thematic focus area pages
 import { ThemeIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'themePage',
@@ -99,6 +100,7 @@ export default {
       type: 'string',
       initialValue: '/booking',
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

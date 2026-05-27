@@ -11,6 +11,7 @@ import { Specialist } from "@/data/specialists";
 import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 
 interface TreatmentPageProps {
   categoryId: string;
@@ -565,6 +566,8 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
           </section>
         );
       })()}
+
+      <PageSectionsRenderer sections={sanityTreatment?.pageSections} />
 
       {/* ── CTA Section ── */}
       <section className="py-12 md:py-20 bg-background">

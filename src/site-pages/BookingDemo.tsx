@@ -827,7 +827,9 @@ const BookingDemo = () => {
     selectedDate,
     apiFreeTimeSlots,
     hasApiActivity,
-    bookingData.clinic?.apiLocationId,
+    bookingData.clinic && "apiLocationId" in bookingData.clinic
+      ? bookingData.clinic.apiLocationId
+      : undefined,
     selectedCaregiverUserId,
   ]);
 
@@ -1083,7 +1085,9 @@ const BookingDemo = () => {
                 <span className="text-muted-foreground">Klinikk</span>
                 <span className="font-medium">CMedical – {bookingData.clinic?.label}</span>
               </div>
-              {"address" in (bookingData.clinic ?? {}) && bookingData.clinic?.address ? (
+              {bookingData.clinic &&
+              "address" in bookingData.clinic &&
+              bookingData.clinic.address ? (
                 <div className="flex justify-between py-2 border-b border-border/30">
                   <span className="text-muted-foreground">Adresse</span>
                   <span className="font-medium">{bookingData.clinic.address}</span>
@@ -1502,22 +1506,10 @@ const BookingDemo = () => {
                       className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
                     >
                       <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
-                        {"bookingSystem" in clinic && clinic.bookingSystem === "external" ? (
-                          <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
-                        ) : (
-                          <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
-                        )}
+                        <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-normal text-brand-dark">{clinic.label}</p>
-                        {"address" in clinic && clinic.address ? (
-                          <p className="text-sm text-brand-dark/60 font-light">{clinic.address}</p>
-                        ) : null}
-                        {"bookingSystem" in clinic && clinic.bookingSystem === "external" && (
-                          <p className="text-xs text-brand-dark/75 mt-0.5 font-light">
-                            Ring for timebestilling
-                          </p>
-                        )}
                       </div>
                       <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
                     </button>

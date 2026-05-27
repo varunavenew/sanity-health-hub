@@ -29,7 +29,7 @@ export const HeroCompact = () => {
 
   const serviceCategories = sortBySlug(
     homepage?.categoryCards?.length ? homepage.categoryCards : staticCategories,
-    (c) => c.id || c.title,
+    (c: { id?: string; title?: string }) => c.id || c.title,
     contentLang,
   );
 

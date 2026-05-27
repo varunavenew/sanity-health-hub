@@ -1,6 +1,7 @@
 // Schema: Contact Page (Kontakt)
 // Aligned with migration data: title, introText, phone, email, address, openingHours, seo
 import { ContactIcon } from './icons'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'contactPage',
@@ -118,6 +119,7 @@ export default {
         },
       ],
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

@@ -14,6 +14,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { getServiceIcon } from "./categoryPageContent";
 import type { ImageRef } from "@/lib/media";
 
@@ -595,6 +596,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
       </section>
 
       {/* ── 8. Final CTA — unified pre-footer ── */}
+      <PageSectionsRenderer sections={sanityCategory?.pageSections} />
       <BookingCTA />
 
       <LeadPopup />

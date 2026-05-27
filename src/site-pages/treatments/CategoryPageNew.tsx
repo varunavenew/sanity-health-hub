@@ -12,7 +12,9 @@ import {
 } from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { useTreatmentCategory } from "@/hooks/useSanity";
 import {
   categoryNewContent,
   getServiceIcon,
@@ -26,6 +28,7 @@ interface CategoryPageNewProps {
 const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
   const navigate = useNavigate();
   const { specialists } = useSpecialistsData();
+  const { data: sanityCategory } = useTreatmentCategory(categoryId);
   const content = categoryNewContent[categoryId];
 
   useEffect(() => {
@@ -308,6 +311,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
         </div>
       </section>
 
+      <PageSectionsRenderer sections={sanityCategory?.pageSections} />
       <LeadPopup />
     </PageLayout>
   );

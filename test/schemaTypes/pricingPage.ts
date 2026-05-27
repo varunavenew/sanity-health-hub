@@ -1,6 +1,7 @@
 // Schema: Pricing Page (Priser)
 // Aligned with migration data: title, introText, priceCategories[], insuranceNote, seo
 import { PricingIcon } from './icons'
+import { pageSectionsField } from './pageSections'
 
 const pickNo = (v: any) =>
   Array.isArray(v)
@@ -93,6 +94,7 @@ export default {
       title: 'Forsikringsinformasjon',
       type: 'internationalizedArrayText',
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

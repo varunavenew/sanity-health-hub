@@ -1,5 +1,8 @@
+"use client";
+
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PortableText } from "@portabletext/react";
+import type { PortableTextBlock } from "@portabletext/types";
 import { urlFor } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { usePrivacyPolicyPage } from "@/hooks/useSanity";
@@ -242,7 +245,10 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
           {loading ? (
             <p className="text-muted-foreground">{isEn ? "Loading…" : "Laster innhold…"}</p>
           ) : hasSanityBody ? (
-            <PortableText value={sanityData.body} components={portableTextComponents} />
+            <PortableText
+              value={sanityData.body as PortableTextBlock[]}
+              components={portableTextComponents}
+            />
           ) : showStaticFallback ? (
             staticContent
           ) : (

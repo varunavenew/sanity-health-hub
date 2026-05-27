@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
 import { useThemePage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 interface PageProps {
@@ -103,6 +104,7 @@ const TverrfagligePage = ({ isChatOpen }: PageProps) => {
           </Button>
         </div>
       </section>
+      <PageSectionsRenderer sections={page?.pageSections} />
     </PageLayout>
   );
 };

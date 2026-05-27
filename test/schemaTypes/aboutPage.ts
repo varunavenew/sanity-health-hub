@@ -1,6 +1,7 @@
 // Schema: About Page (Om oss)
 // Aligned with migration data: title, subtitle, body (blockContent), seo
 import { GenericIcon } from './icons'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'aboutPage',
@@ -59,6 +60,7 @@ export default {
         },
       ],
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

@@ -22,7 +22,11 @@
     "fix:articles": "tsx sanity/fix-article-validation.ts",
     "fix:slug-keys:dry": "DRY_RUN=1 tsx sanity/fix-slug-keys.ts",
     "fix:slug-keys": "tsx sanity/fix-slug-keys.ts",
-    "migrate:slugs:fix": "tsx sanity/migrate-i18n-slugs.ts"
+    "migrate:slugs:fix": "tsx sanity/migrate-i18n-slugs.ts",
+    "migrate:i18n:faqs:dry": "DRY_RUN=1 ONLY=faq tsx sanity/migrate-i18n-all-pages.ts",
+    "migrate:i18n:faqs": "ONLY=faq tsx sanity/migrate-i18n-all-pages.ts",
+    "backfill:en:faqs:dry": "DRY_RUN=1 ONLY=faq tsx sanity/backfill-english-i18n.ts",
+    "backfill:en:faqs": "ONLY=faq tsx sanity/backfill-english-i18n.ts"
   },
   "keywords": [
     "sanity"

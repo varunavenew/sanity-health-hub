@@ -8,6 +8,7 @@ import { useNavigate } from "@/lib/router";
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import { useThemePage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { VideoPlayer } from "@/components/ui/video-player";
 
 interface PageProps {
@@ -197,6 +198,8 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
           </Button>
         </div>
       </section>
+
+      <PageSectionsRenderer sections={page?.pageSections} />
     </PageLayout>
   );
 };

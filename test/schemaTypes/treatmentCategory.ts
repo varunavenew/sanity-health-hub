@@ -2,6 +2,7 @@
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
 import { CategoryIcon } from './icons'
 import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'treatmentCategory',
@@ -88,6 +89,7 @@ export default {
       type: 'number',
       description: 'Lavere tall vises først. La stå tom for alfabetisk.',
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

@@ -1,6 +1,7 @@
 // Schema: FAQ
 // Standalone FAQ documents, optionally linked to a category/page
 import { FAQIcon } from './icons'
+import { pickNo } from './i18n'
 
 export default {
   name: 'faq',
@@ -11,14 +12,13 @@ export default {
     {
       name: 'question',
       title: 'Spørsmål',
-      type: 'string',
+      type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'answer',
       title: 'Svar',
-      type: 'text',
-      rows: 4,
+      type: 'internationalizedArrayText',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -52,6 +52,12 @@ export default {
     select: {
       title: 'question',
       subtitle: 'category',
+    },
+    prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
+      return {
+        title: pickNo(title) || 'FAQ',
+        subtitle,
+      }
     },
   },
 }

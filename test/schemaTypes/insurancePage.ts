@@ -1,6 +1,7 @@
 // Schema: Insurance Page (Forsikring)
 // Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
 import { InsuranceIcon } from './icons'
+import { pageSectionsField } from './pageSections'
 
 const pickNo = (v: any) =>
   Array.isArray(v)
@@ -77,6 +78,7 @@ export default {
         },
       ],
     },
+    pageSectionsField,
     {
       name: 'seo',
       title: 'SEO',

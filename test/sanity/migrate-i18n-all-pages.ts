@@ -5,7 +5,7 @@
  *
  * Covers schemas: homepage, servicesPage, pricingPage, insurancePage,
  * contactPage, themePage, clinicPage, specialist, specialistsPage,
- * treatment, treatmentCategory, privacyPolicyPage.
+ * treatment, treatmentCategory, privacyPolicyPage, faq.
  *
  * Idempotent — already-migrated fields are skipped.
  *
@@ -413,6 +413,13 @@ const SCHEMAS: Array<{
     topFields: {
       title: 'internationalizedArrayStringValue',
       body: 'internationalizedArrayBlockContentValue',
+    },
+  },
+  {
+    type: 'faq',
+    topFields: {
+      question: 'internationalizedArrayStringValue',
+      answer: 'internationalizedArrayTextValue',
     },
   },
 ]
