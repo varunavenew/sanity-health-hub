@@ -17,14 +17,14 @@ export const LanguageSelector = () => {
   const pathname = usePathname() || "/";
   const router = useRouter();
 
-  const currentLang = i18n.language;
+  const routeLocale = pathname.split("/").filter(Boolean)[0] === "en" ? "en" : "nb";
+  const currentLang = routeLocale;
   const current = languages.find((l) => l.code === currentLang) || languages[0];
 
   const handleSelect = (code: string) => {
     const target: AppLocale = code.startsWith("en") ? "en" : "nb";
     const i18nCode = appLocaleToI18n(target);
     syncI18nLanguage(i18nCode);
-    void i18n.changeLanguage(i18nCode);
     try {
       localStorage.setItem("i18n-lang", target === "en" ? "en" : "nb");
     } catch {
