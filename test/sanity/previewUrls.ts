@@ -5,7 +5,7 @@ export type PreviewLocale = 'nb' | 'en'
 export const PREVIEW_BASE_URL =
   typeof window !== 'undefined' && window.location.hostname === 'localhost'
     ? 'http://localhost:3000'
-    : 'https://sanity-care-craft.lovable.app'
+    : 'https://cmedical-v2-sepia.vercel.app'
 
 /** Norwegian path → English path when URLs differ between locales. */
 const EN_PATH_OVERRIDES: Record<string, string> = {
