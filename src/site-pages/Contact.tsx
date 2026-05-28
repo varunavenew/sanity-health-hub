@@ -12,7 +12,6 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { CTASection } from "@/components/layout/CTASection";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
-import { clinics as staticClinics } from "@/data/clinicServices";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { useTranslation } from "react-i18next";
@@ -28,7 +27,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const { t } = useTranslation();
   const { data: sanityClinics } = useClinics();
   const { data: contactPage } = useContactPage();
-  const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
+  const clinics = sanityClinics || [];
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,53 +51,26 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <SplitHero
-        eyebrow="Vi er her for å hjelpe"
-        title={t("contact.title")}
-        description={t("contact.subtitle")}
-        image={contactHero}
+        eyebrow={contactPage?.title || t("contact.title")}
+        title={contactPage?.title || t("contact.title")}
+        description={contactPage?.introText || t("contact.subtitle")}
+        image={contactPage?.heroImage || contactHero}
         imageAlt="Kontakt CMedical"
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
-        secondaryCta={{ label: "Se klinikker", to: "/klinikker" }}
+        primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+        secondaryCta={{ label: t("nav.clinics"), to: "/klinikker" }}
       />
 
       <ClinicGrid />
 
-      {/* Help Cards Section - dynamic from Sanity with static fallback */}
+      {/* Help Cards Section - dynamic from Sanity */}
       {(() => {
         const iconMap: Record<string, LucideIcon> = {
           Calendar, Shield, Phone, Mail, MessageCircle,
         };
 
-        const fallbackCards = [
-          {
-            icon: "Calendar",
-            title: "Vil du at vi skal kontakte deg?",
-            description: "Fyll ut et kort skjema – velg klinikk, fagområde og når det passer best at vi ringer.",
-            ctaText: "Be om å bli kontaktet",
-            ctaAction: "openContactDialog",
-            variant: "solid",
-          },
-          {
-            icon: "Calendar",
-            title: t("contact.bookDirect"),
-            description: t("contact.bookDirectDesc"),
-            ctaText: t("booking.bookNow"),
-            ctaAction: "navigate",
-            ctaLink: "/booking",
-            variant: "solid",
-          },
-          {
-            icon: "Shield",
-            title: t("contact.hasInsurance"),
-            description: t("contact.hasInsuranceDesc"),
-            ctaText: t("contact.readAboutInsurance"),
-            ctaAction: "navigate",
-            ctaLink: "/forsikring",
-            variant: "outline",
-          },
-        ];
+        const cards = contactPage?.ctaCards || [];
 
-        const cards = contactPage?.ctaCards?.length ? contactPage.ctaCards : fallbackCards;
+        if (!cards.length) return null;
 
         return (
           <section className="py-16 md:py-24 bg-brand-dark">

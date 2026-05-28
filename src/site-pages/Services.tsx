@@ -5,54 +5,35 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
-import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import { searchSuggestions, type SearchItem } from "@/data/searchData";
 import { useTreatmentCategories, useFaqs, useServicesPage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
-import { sortByLabel, sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
 import { useTranslation } from "react-i18next";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
-
-// Static fallback images
-import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
-import urologiImg from "@/assets/categories/urologi-real.jpg";
-import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
-import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
 }
 
-const staticFaqs = [
-  { id: "henvisning", question: "Trenger jeg henvisning?", answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen." },
-  { id: "ventetid", question: "Hva er ventetiden?", answer: "Vi tilbyr korte ventetider. De fleste får time innen 1-3 dager, avhengig av behandlingstype og tilgjengelighet." },
-  { id: "sykemelding", question: "Kan jeg få sykemelding?", answer: "Våre spesialister kan skrive sykemelding hvis det er medisinsk grunnlag for det. Dette vurderes individuelt i forbindelse med konsultasjonen." },
-  { id: "utredning", question: "Hvordan foregår utredning?", answer: "Vi tilbyr grundig utredning innen alle våre tjenester. Utredningen tilpasses din situasjon og kan inkludere samtale, undersøkelse, blodprøver og bildediagnostikk." },
-];
-
-const staticFeatured = [
-  { label: "Gynekologi", image: gynekologiImg, path: "/gynekologi" },
-  { label: "Urologi", image: urologiImg, path: "/urologi" },
-  { label: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
-  { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
-];
-
 // Icons for "Flere tjenester" grid use the shared Claude.ai (-cl) set via getServiceIcon
 
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
   const { data: sanityCategories } = useTreatmentCategories();
   const { data: sanityFaqs } = useFaqs("tjenester");
   const { data: servicesPage } = useServicesPage();
 
-  const faqs = sanityFaqs && sanityFaqs.length > 0
-    ? sanityFaqs.map((f, i) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
-    : staticFaqs;
+  const faqs = (sanityFaqs || []).map((f, i) => ({
+    id: `faq-${i}`,
+    question: f.question,
+    answer: f.answer,
+  }));
 
   const serviceCategories = sanityCategories?.length
     ? (() => {
@@ -79,7 +60,7 @@ const Services = ({ isChatOpen }: PageProps) => {
           }));
         return sortBySlug(mapped, (c) => c.id || c.label, contentLang);
       })()
-    : sortByLabel(staticServiceCategories, (c) => c.label);
+    : [];
 
   // Featured service cards from Sanity
   const featuredServices = sanityCategories?.length
@@ -94,12 +75,12 @@ const Services = ({ isChatOpen }: PageProps) => {
           })
           .map((c: any) => ({
             label: c.title,
-            image: c.heroImage || staticFeatured.find((s) => s.label === c.title)?.image || "",
+            image: c.heroImage || "",
             path: `/${c.categoryId || c.slug}`,
           }));
-        return sortByLabel(mapped, (c) => c.label);
+        return mapped.sort((a, b) => a.label.localeCompare(b.label, contentLang));
       })()
-    : staticFeatured;
+    : [];
 
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -132,7 +113,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     else if (e.key === "Escape") setShowResults(false);
   }, [showResults, searchResults, selectedIdx, navigate]);
 
-  useEffect(() => { document.title = "Tjenester | CMedical"; }, []);
+  useEffect(() => { document.title = `${t("nav.services")} | CMedical`; }, [t, i18n.language]);
 
   // Build "Flere tjenester" list — everything NOT in the 4 featured cards
   const primaryIds = ["gynekologi", "urologi", "fertilitet", "ortopedi"];
@@ -151,7 +132,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       }
     }
   });
-  additionalServices.sort((a, b) => a.label.localeCompare(b.label, "nb"));
+  additionalServices.sort((a, b) => a.label.localeCompare(b.label, contentLang));
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -167,9 +148,13 @@ const Services = ({ isChatOpen }: PageProps) => {
       {/* Hero header */}
       <section className="bg-background pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16 text-center">
-          <p className="text-sm text-muted-foreground font-light mb-2">Fagområder</p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
-          <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
+          <p className="text-sm text-muted-foreground font-light mb-2">{t("services.featuredServices")}</p>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">
+            {servicesPage?.title || t("services.title")}
+          </h1>
+          <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">
+            {servicesPage?.introText || t("services.findTreatment")}
+          </p>
           <div className="flex items-center justify-center gap-3 mb-8">
             <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-border text-sm font-light text-foreground/70">Ingen henvisning</span>
             <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-border text-sm font-light text-foreground/70">Ingen ventetid</span>
@@ -178,7 +163,7 @@ const Services = ({ isChatOpen }: PageProps) => {
           <div ref={searchRef} className="relative max-w-lg mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-foreground/30" />
-              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder="Søk etter behandling eller fagområde..." className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/15 bg-card/80 text-[15px] font-light text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-foreground/30 transition-all" />
+              <input type="text" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} onKeyDown={onSearchKeyDown} onFocus={() => searchQuery.length > 0 && searchResults.length > 0 && setShowResults(true)} placeholder={t("services.searchPlaceholder")} className="w-full pl-12 pr-5 py-3.5 rounded-sm border border-foreground/15 bg-card/80 text-[15px] font-light text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-foreground/30 transition-all" />
             </div>
             <AnimatePresence>
               {showResults && (
@@ -200,8 +185,9 @@ const Services = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Fagområder — Featured services (full-bleed, no gaps) */}
+      {featuredServices.length > 0 && (
       <section className="bg-background pb-10 md:pb-14">
-        <p className="text-sm text-muted-foreground font-light mb-6 px-6 md:px-16">Utvalgte tjenester</p>
+        <p className="text-sm text-muted-foreground font-light mb-6 px-6 md:px-16">{t("services.featuredServices")}</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {featuredServices.map((item: any, idx: number) => (
             <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] overflow-hidden">
@@ -215,6 +201,7 @@ const Services = ({ isChatOpen }: PageProps) => {
           ))}
         </div>
       </section>
+      )}
 
       {/* Flere tjenester — unified list section */}
       {additionalServices.length > 0 && (
@@ -227,7 +214,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       )}
 
       {/* Unified FAQ — same as home */}
-      <FaqSection faqs={faqs} />
+      {faqs.length > 0 && <FaqSection faqs={faqs} />}
 
       {/* Unified pre-footer CTA */}
       <BookingCTA />

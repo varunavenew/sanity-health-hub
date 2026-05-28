@@ -163,11 +163,25 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
 }`;
 
 export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
-  title, introText, phone, email,
+  ${i18nString("title")},
+  ${i18nText("introText")},
+  phone,
+  email,
   "heroImage": heroImage.asset->url,
   address{street, city, zip},
-  openingHours[]{days, hours},
-  ctaCards[]{icon, title, description, ctaText, ctaAction, ctaLink, variant},
+  openingHours[]{
+    ${i18nString("days")},
+    ${i18nString("hours")}
+  },
+  ctaCards[]{
+    icon,
+    ${i18nString("title")},
+    ${i18nText("description")},
+    ${i18nString("ctaText")},
+    ctaAction,
+    ctaLink,
+    variant
+  },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
@@ -192,20 +206,36 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
 }`;
 
 export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
-  title, introText,
+  ${i18nString("title")},
+  ${i18nText("introText")},
   "heroImage": heroImage.asset->url,
   partners,
-  steps[]{title, description},
-  benefits[]{title, description},
+  steps[]{
+    ${i18nString("title")},
+    ${i18nText("description")}
+  },
+  benefits[]{
+    ${i18nString("title")},
+    ${i18nText("description")}
+  },
   ${PAGE_SECTIONS_GROQ},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
-  title, introText,
-  "categories": categories[]->{ _id, title, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
+  ${i18nString("title")},
+  ${i18nText("introText")},
+  "categories": categories[]->{
+    _id,
+    title,
+    ${localizedSlug},
+    description,
+    icon,
+    color,
+    "heroImage": heroImage.asset->url
+  },
   ${PAGE_SECTIONS_GROQ},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const CLINICS_QUERY = `*[_type == "clinicPage"] | order(${orderSlugAsc}){
