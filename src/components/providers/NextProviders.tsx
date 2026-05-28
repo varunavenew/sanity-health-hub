@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,7 +21,9 @@ export function NextProviders({
   children: ReactNode;
   locale: AppLocale;
 }) {
-  syncI18nLanguage(appLocaleToI18n(locale));
+  useEffect(() => {
+    syncI18nLanguage(appLocaleToI18n(locale));
+  }, [locale]);
 
   const [queryClient] = useState(() => new QueryClient());
 
