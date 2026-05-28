@@ -63,13 +63,24 @@ export const HeroBanner = () => {
     },
   ];
 
-  const heroSlides: HeroSlide[] =
+  const sanitySlides: HeroSlide[] =
     homepage?.heroSlides && homepage.heroSlides.length > 0
-      ? homepage.heroSlides.map((s: any) => ({
-          ...s,
-          alt: s.label || "",
-        }))
-      : staticSlides;
+      ? homepage.heroSlides.map((s: any, i: number) => {
+          const fallback = staticSlides[i] || staticSlides[0];
+          return {
+            id: s.id || fallback.id,
+            image: s.image || fallback.image,
+            alt: s.label || fallback.alt,
+            label: s.label || fallback.label,
+            subtitle: s.subtitle || fallback.subtitle,
+            cta: s.cta || fallback.cta,
+            ctaPath: s.ctaPath || fallback.ctaPath,
+            objectPosition: s.objectPosition || fallback.objectPosition,
+          };
+        })
+      : [];
+
+  const heroSlides: HeroSlide[] = sanitySlides.length > 0 ? sanitySlides : staticSlides;
 
   const goTo = useCallback((index: number) => {
     setDirection(index > current ? 1 : -1);

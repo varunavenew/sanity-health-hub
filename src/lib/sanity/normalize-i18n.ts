@@ -33,6 +33,7 @@ const pickI18nValue = (arr: unknown[], lang: "no" | "en"): unknown => {
     return (o.language || o._key) === lang;
   });
   if (match) return unwrapSlugValue((match as { value: unknown }).value);
+  if (lang === "en") return undefined;
   const fallback =
     arr.find((e) => {
       const o = e as { language?: string; _key?: string };

@@ -61,15 +61,28 @@ export const PAGE_SECTIONS_GROQ = `
 `;
 
 export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
-  title, tagline,
+  ${i18nStringLocale("title")},
+  ${i18nStringLocale("tagline")},
   heroBanner{
-    slides[]{heading, subheading, ctaText, ctaLink, "image": image.asset->url}
+    slides[]{
+      ${i18nStringLocale("heading")},
+      ${i18nStringLocale("subheading")},
+      ${i18nStringLocale("ctaText")},
+      ctaLink,
+      "image": image.asset->url
+    }
   },
   "serviceCategories": serviceCategories[]->{ _id, title, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
-  valueBadges[]{icon, label},
-  statsBar[]{value, label},
-  promoBlocksTitle,
-  promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
+  valueBadges[]{icon, ${i18nStringLocale("label")}},
+  statsBar[]{value, ${i18nStringLocale("label")}},
+  ${i18nStringLocale("promoBlocksTitle")},
+  promoBlocks[]{
+    ${i18nStringLocale("title")},
+    ${i18nText("description")},
+    ${i18nStringLocale("ctaText")},
+    ctaLink,
+    "image": image.asset->url
+  },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
