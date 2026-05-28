@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
+import { useTranslation } from "react-i18next";
 import { useHomepage } from "@/hooks/useSanity";
 
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
@@ -24,7 +25,11 @@ const staticBlocks = [
 
 export const PromoBlocks = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { data: homepage } = useHomepage();
+
+  const sectionTitle =
+    homepage?.promoBlocksTitle?.trim() || t("promoBlocks.title");
 
   const blocks =
     homepage?.promoBlocks && homepage.promoBlocks.length > 0
@@ -37,7 +42,7 @@ export const PromoBlocks = () => {
         {/* Section heading */}
         <div className="max-w-6xl mx-auto mb-6 md:mb-8">
           <h2 className="text-xl md:text-2xl font-light text-foreground">
-            Nyheter og artikler
+            {sectionTitle}
           </h2>
         </div>
 

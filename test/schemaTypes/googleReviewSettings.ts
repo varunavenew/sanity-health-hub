@@ -1,5 +1,6 @@
 // Schema: Google Review Settings (singleton)
 import { ReviewIcon } from './icons'
+import { pickNo } from './i18n'
 
 export default {
   name: 'googleReviewSettings',
@@ -10,14 +11,12 @@ export default {
     {
       name: 'heading',
       title: 'Overskrift',
-      type: 'string',
-      initialValue: 'Trygghet, omsorg og helsehjelp i livets ulike faser',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'subheading',
       title: 'Undertekst',
-      type: 'string',
-      initialValue: 'Våre pasienter forteller',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'googleAverageRating',
@@ -36,17 +35,18 @@ export default {
     {
       name: 'ctaTitle',
       title: 'CTA tittel',
-      type: 'string',
-      initialValue: 'Over 150 000 fornøyde pasienter siden 2002',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'ctaSubtitle',
       title: 'CTA undertekst',
-      type: 'string',
-      initialValue: 'Bli en del av vår historie',
+      type: 'internationalizedArrayString',
     },
   ],
   preview: {
-    prepare: () => ({ title: 'Google Review-innstillinger' }),
+    select: { title: 'heading' },
+    prepare({ title }: { title?: unknown }) {
+      return { title: pickNo(title) || 'Google Review-innstillinger' }
+    },
   },
 }

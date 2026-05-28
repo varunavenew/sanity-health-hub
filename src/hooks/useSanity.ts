@@ -94,6 +94,7 @@ export const useHomepage = () => {
 
       return {
         tagline: data.tagline,
+        promoBlocksTitle: typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
         statsBar: (data.statsBar || []).map((s: any) => ({
           value: s.value,
           label: s.label,
@@ -205,13 +206,34 @@ export interface SanityReview {
   date: string;
 }
 
-function formatSanityReviewDate(value: unknown): string {
+function formatSanityReviewDate(value: unknown, lang: "no" | "en"): string {
   if (value == null) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return new Date(value).toLocaleDateString("nb-NO");
+  const locale = lang === "en" ? "en-GB" : "nb-NO";
+  if (typeof value === "string") {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toLocaleDateString(locale, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+    return value;
   }
-  if (value instanceof Date) return value.toLocaleDateString("nb-NO");
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return new Date(value).toLocaleDateString(locale, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  }
+  if (value instanceof Date) {
+    return value.toLocaleDateString(locale, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  }
   return String(value);
 }
 
@@ -224,7 +246,8 @@ export const useGoogleReviews = () => {
       return (data || []).map((r) => ({
         ...r,
         name: r.author || "",
-        date: formatSanityReviewDate(r.date),
+        text: typeof r.text === "string" ? r.text : "",
+        date: formatSanityReviewDate(r.date, lang),
       })) as SanityReview[];
     },
     staleTime: 5 * 60 * 1000,

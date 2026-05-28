@@ -1,7 +1,7 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "@/lib/router";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { LanguageSelector } from "@/components/layout/LanguageSelector";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
 import { useSmartSearch } from "@/hooks/useSmartSearch";
 import { useSiteSettings } from "@/hooks/useSanity";
+import { resolveNavLabel } from "@/lib/navigation/resolve-nav-label";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
@@ -23,7 +24,7 @@ interface PageLayoutProps {
 }
 
 export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayoutProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -37,20 +38,39 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const navigate = useNavigate();
   const { data: siteSettings } = useSiteSettings();
 
-  // Navigation items from Sanity or static fallback (translated)
-  const navItems = siteSettings?.mainNavigation?.length
-    ? siteSettings.mainNavigation
-    : [
-        { _key: "tjenester", label: t("nav.services"), path: "/tjenester", isServicesDropdown: true },
-        { _key: "priser", label: t("nav.pricing"), path: "/priser" },
-        { _key: "forsikring", label: t("nav.insurance"), path: "/forsikring" },
-        { _key: "aktuelt", label: t("nav.news"), path: "/aktuelt" },
-        { _key: "om-oss", label: t("nav.about"), path: "/om-oss" },
-        { _key: "klinikker", label: t("nav.clinics"), path: "/klinikker" },
-        { _key: "kontakt", label: t("nav.contact"), path: "/kontakt" },
-      ];
+  const staticNavItems = useMemo(
+    () => [
+      { _key: "tjenester", navId: "services", path: "/tjenester", isServicesDropdown: true },
+      { _key: "priser", navId: "pricing", path: "/priser" },
+      { _key: "forsikring", navId: "insurance", path: "/forsikring" },
+      { _key: "aktuelt", navId: "news", path: "/aktuelt" },
+      { _key: "om-oss", navId: "about", path: "/om-oss" },
+      { _key: "klinikker", navId: "clinics", path: "/klinikker" },
+      { _key: "kontakt", navId: "contact", path: "/kontakt" },
+    ],
+    [],
+  );
 
-  const ctaButton = siteSettings?.ctaButton || { label: t("nav.bookAppointment"), path: "/booking" };
+  const navItems = useMemo(() => {
+    const raw = siteSettings?.mainNavigation?.length
+      ? siteSettings.mainNavigation
+      : staticNavItems;
+    return raw.map((item: { _key?: string; label?: string; path?: string; navId?: string; isServicesDropdown?: boolean }) => ({
+      ...item,
+      label: resolveNavLabel(item, t),
+    }));
+  }, [siteSettings?.mainNavigation, staticNavItems, t, i18n.language]);
+
+  const ctaButton = useMemo(() => {
+    const raw = siteSettings?.ctaButton || { path: "/booking", navId: "bookAppointment" };
+    return {
+      path: raw.path || "/booking",
+      label: resolveNavLabel(
+        { label: raw.label, path: raw.path, navId: raw.navId || "bookAppointment" },
+        t,
+      ),
+    };
+  }, [siteSettings?.ctaButton, t, i18n.language]);
 
   // Close search when clicking outside
   useEffect(() => {

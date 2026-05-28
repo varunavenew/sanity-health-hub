@@ -130,6 +130,13 @@ export default {
         },
       ],
     },
+    {
+      name: 'promoBlocksTitle',
+      title: 'Overskrift – promoseksjon',
+      description: 'Tittel over promoblokkene (f.eks. «Nyheter og artikler»)',
+      type: 'internationalizedArrayString',
+      group: 'sections',
+    },
     // Promo Blocks
     {
       name: 'promoBlocks',

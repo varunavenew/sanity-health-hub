@@ -1,34 +1,53 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
+import { resolveNavLabel } from '@/lib/navigation/resolve-nav-label';
 import { useTranslation } from 'react-i18next';
 
 const BurgerMenu = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { data: siteSettings } = useSiteSettings();
 
-  const staticMenuItems = [
-    { label: t('nav.services'), path: '/tjenester' },
-    { label: t('nav.pricing'), path: '/priser' },
-    { label: t('nav.clinics'), path: '/klinikker' },
-    { label: t('nav.about'), path: '/om-oss' },
-    { label: t('nav.insurance'), path: '/forsikring' },
-    { label: t('nav.news'), path: '/aktuelt' },
-    { label: t('nav.contact'), path: '/kontakt' },
-    { label: t('nav.specialists'), path: '/spesialister' },
-  ];
+  const staticMenuItems = useMemo(
+    () => [
+      { navId: 'services', path: '/tjenester' },
+      { navId: 'pricing', path: '/priser' },
+      { navId: 'clinics', path: '/klinikker' },
+      { navId: 'about', path: '/om-oss' },
+      { navId: 'insurance', path: '/forsikring' },
+      { navId: 'news', path: '/aktuelt' },
+      { navId: 'contact', path: '/kontakt' },
+      { navId: 'specialists', path: '/spesialister' },
+    ],
+    [],
+  );
 
-  const menuItems = siteSettings?.mainNavigation?.length
-    ? siteSettings.mainNavigation.map((item: any) => ({ label: item.label, path: item.path }))
-    : staticMenuItems;
+  const menuItems = useMemo(() => {
+    const raw = siteSettings?.mainNavigation?.length
+      ? siteSettings.mainNavigation
+      : staticMenuItems;
+    return raw.map((item: { label?: string; path?: string; navId?: string }) => ({
+      path: item.path,
+      label: resolveNavLabel(item, t),
+    }));
+  }, [siteSettings?.mainNavigation, staticMenuItems, t, i18n.language]);
 
-  const ctaButton = siteSettings?.ctaButton || { label: t('nav.bookAppointment'), path: '/booking' };
+  const ctaButton = useMemo(() => {
+    const raw = siteSettings?.ctaButton || { path: '/booking', navId: 'bookAppointment' };
+    return {
+      path: raw.path || '/booking',
+      label: resolveNavLabel(
+        { label: raw.label, path: raw.path, navId: raw.navId || 'bookAppointment' },
+        t,
+      ),
+    };
+  }, [siteSettings?.ctaButton, t, i18n.language]);
   const phone = siteSettings?.phone || '22 00 12 34';
   const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 

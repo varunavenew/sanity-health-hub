@@ -20,6 +20,10 @@ const i18nString = (field: string) =>
 const i18nText = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
 
+/** Active locale only — use with `?? t("key")` fallback when EN is not in CMS yet. */
+const i18nStringLocale = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
+
 const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
 
 /** Modular specialists / articles blocks — append inside page GROQ projections */
@@ -64,6 +68,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   "serviceCategories": serviceCategories[]->{ _id, title, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
   valueBadges[]{icon, label},
   statsBar[]{value, label},
+  promoBlocksTitle,
   promoBlocks[]{title, description, ctaText, ctaLink, "image": image.asset->url},
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
@@ -86,11 +91,16 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && ${slugMatche
 }`;
 
 export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_createdAt desc){
-  _id, author, rating, text, date
+  _id, author, rating, ${i18nText("text")}, date
 }`;
 
 export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][0]{
-  heading, subheading, googleAverageRating, legelistenAverageRating, ctaTitle, ctaSubtitle
+  ${i18nStringLocale("heading")},
+  ${i18nStringLocale("subheading")},
+  googleAverageRating,
+  legelistenAverageRating,
+  ${i18nStringLocale("ctaTitle")},
+  ${i18nStringLocale("ctaSubtitle")}
 }`;
 
 export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"] | order(${orderSlugAsc}){
@@ -163,15 +173,22 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
 }`;
 
 export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
-  title, introText, insuranceNote,
+  ${i18nString("title")},
+  ${i18nText("introText")},
+  ${i18nText("insuranceNote")},
   "heroImage": heroImage.asset->url,
   priceCategories[]{
-    categoryName,
+    ${i18nString("categoryName")},
     "categoryRef": category->{ _id, title, ${localizedSlug} },
-    items[]{name, price, priceLabel, note}
+    items[]{
+      ${i18nString("name")},
+      price,
+      ${i18nString("priceLabel")},
+      ${i18nString("note")}
+    }
   },
   ${PAGE_SECTIONS_GROQ},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
@@ -228,6 +245,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   mainNavigation[]{
     _key,
     label,
+    navId,
     path,
     isServicesDropdown
   },
@@ -235,6 +253,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   footerAboutLinks[]{
     _key,
     label,
+    navId,
     path
   },
   notFoundTitle,

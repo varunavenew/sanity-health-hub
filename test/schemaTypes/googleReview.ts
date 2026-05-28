@@ -1,5 +1,6 @@
 // Schema: Google Review
 import { ReviewIcon } from './icons'
+import { pickNo } from './i18n'
 
 export default {
   name: 'googleReview',
@@ -22,8 +23,8 @@ export default {
     {
       name: 'text',
       title: 'Anmeldelsestekst',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'date',
@@ -37,6 +38,13 @@ export default {
     },
   ],
   preview: {
-    select: { title: 'author', subtitle: 'rating' },
+    select: { title: 'author', subtitle: 'text' },
+    prepare({ title, subtitle }: { title?: string; subtitle?: unknown }) {
+      const excerpt = pickNo(subtitle)
+      return {
+        title: title || 'Anmeldelse',
+        subtitle: excerpt ? `${excerpt.slice(0, 60)}…` : '',
+      }
+    },
   },
 }

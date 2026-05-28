@@ -1,4 +1,4 @@
-import { locales } from "@/lib/i18n/routing";
+import { isAppLocale, locales, type AppLocale } from "@/lib/i18n/routing";
 import { NextProviders } from "@/components/providers/NextProviders";
 
 type Props = {
@@ -11,6 +11,7 @@ export async function generateStaticParams() {
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
-  await params;
-  return <NextProviders>{children}</NextProviders>;
+  const { locale: localeParam } = await params;
+  const locale: AppLocale = isAppLocale(localeParam) ? localeParam : "nb";
+  return <NextProviders locale={locale}>{children}</NextProviders>;
 }

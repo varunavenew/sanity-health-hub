@@ -5,7 +5,7 @@
  *
  * Covers schemas: homepage, servicesPage, pricingPage, insurancePage,
  * contactPage, themePage, clinicPage, specialist, specialistsPage,
- * treatment, treatmentCategory, privacyPolicyPage, faq.
+ * treatment, treatmentCategory, privacyPolicyPage, faq, siteSettings.
  *
  * Idempotent — already-migrated fields are skipped.
  *
@@ -239,7 +239,11 @@ const SCHEMAS: Array<{
 }> = [
   {
     type: 'homepage',
-    topFields: { title: 'internationalizedArrayStringValue', tagline: 'internationalizedArrayStringValue' },
+    topFields: {
+      title: 'internationalizedArrayStringValue',
+      tagline: 'internationalizedArrayStringValue',
+      promoBlocksTitle: 'internationalizedArrayStringValue',
+    },
     nested: {
       'heroBanner.slides': {
         heading: 'internationalizedArrayStringValue',
@@ -420,6 +424,35 @@ const SCHEMAS: Array<{
     topFields: {
       question: 'internationalizedArrayStringValue',
       answer: 'internationalizedArrayTextValue',
+    },
+  },
+  {
+    type: 'googleReview',
+    topFields: {
+      text: 'internationalizedArrayTextValue',
+    },
+  },
+  {
+    type: 'googleReviewSettings',
+    topFields: {
+      heading: 'internationalizedArrayStringValue',
+      subheading: 'internationalizedArrayStringValue',
+      ctaTitle: 'internationalizedArrayStringValue',
+      ctaSubtitle: 'internationalizedArrayStringValue',
+    },
+  },
+  {
+    type: 'siteSettings',
+    nested: {
+      mainNavigation: {
+        label: 'internationalizedArrayStringValue',
+      },
+      footerAboutLinks: {
+        label: 'internationalizedArrayStringValue',
+      },
+      ctaButton: {
+        label: 'internationalizedArrayStringValue',
+      },
     },
   },
 ]

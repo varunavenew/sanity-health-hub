@@ -57,6 +57,9 @@ const DOCUMENT_TYPES = [
   'specialist',
   'privacyPolicyPage',
   'faq',
+  'siteSettings',
+  'googleReview',
+  'googleReviewSettings',
 ]
 
 interface I18nItem {

@@ -6,12 +6,14 @@ import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { clinics as staticClinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
+import { resolveNavLabel } from "@/lib/navigation/resolve-nav-label";
 
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = {};
 
 export const Footer = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: settings } = useSiteSettings();
   const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
@@ -39,6 +41,23 @@ export const Footer = () => {
   const clinicLinks = clinics && clinics.length > 0
     ? clinics.map((c: any) => ({ label: c.label || c.title, slug: c.slug || c.id }))
     : staticClinics.map(c => ({ label: c.label, slug: c.slug }));
+
+  const footerAboutLinks = useMemo(() => {
+    const raw = settings?.footerAboutLinks?.length
+      ? settings.footerAboutLinks
+      : [
+          { _key: "om-oss", navId: "about", path: "/om-oss" },
+          { _key: "spesialister", navId: "specialists", path: "/spesialister" },
+          { _key: "priser", navId: "pricing", path: "/priser" },
+          { _key: "forsikring", navId: "insurance", path: "/forsikring" },
+          { _key: "aktuelt", navId: "news", path: "/aktuelt" },
+          { _key: "karriere", path: "/karriere" },
+        ];
+    return raw.map((link: { _key?: string; label?: string; path?: string; navId?: string }) => ({
+      ...link,
+      label: resolveNavLabel(link, t),
+    }));
+  }, [settings?.footerAboutLinks, t, i18n.language]);
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";
@@ -75,17 +94,7 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.aboutCMedical")}</h3>
             <nav className="space-y-2.5" aria-label={t("footer.aboutCMedical")}>
-              {(settings?.footerAboutLinks?.length
-                ? settings.footerAboutLinks
-                : [
-                    { _key: "om-oss", label: t("nav.about"), path: "/om-oss" },
-                    { _key: "spesialister", label: t("nav.specialists"), path: "/spesialister" },
-                    { _key: "priser", label: t("nav.pricing"), path: "/priser" },
-                    { _key: "forsikring", label: t("nav.insurance"), path: "/forsikring" },
-                    { _key: "aktuelt", label: t("nav.news"), path: "/aktuelt" },
-                    { _key: "karriere", label: "Karriere", path: "/karriere" },
-                  ]
-              ).map((link: any) => (
+              {footerAboutLinks.map((link) => (
                 <Link key={link._key || link.path} to={link.path} className="block text-sm text-white/60 hover:text-white transition-colors font-light">
                   {link.label}
                 </Link>

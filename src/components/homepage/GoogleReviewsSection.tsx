@@ -74,39 +74,32 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const {
-    data: sanityReviews,
-    isError: reviewsError,
-    error: reviewsErrorDetail,
-    isFetched: reviewsFetched,
-  } = useGoogleReviews();
+  const { data: sanityReviews } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
   const usingSanityReviews = Boolean(sanityReviews && sanityReviews.length > 0);
   const googleReviewsList = usingSanityReviews
-    ? sanityReviews.map((r, i) => ({ id: i, name: r.name, rating: r.rating, text: r.text, date: r.date, source: 'google' as const }))
+    ? sanityReviews!.map((r, i) => ({
+        id: i,
+        name: r.name,
+        rating: r.rating,
+        text: r.text,
+        date: r.date,
+        source: "google" as const,
+      }))
     : staticReviews;
   const averageRating = settings?.googleAverageRating ?? googleRatingData.averageRating;
   const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
-  const heading = settings?.heading ?? t("reviews.heading");
-  const subheading = settings?.subheading ?? t("reviews.subheading");
-  const ctaTitle = settings?.ctaTitle ?? t("reviews.ctaTitle");
-  const ctaSubtitle = settings?.ctaSubtitle ?? t("reviews.ctaSubtitle");
+  const heading = settings?.heading?.trim() || t("reviews.heading");
+  const subheading = settings?.subheading?.trim() || t("reviews.subheading");
+  const ctaTitle = settings?.ctaTitle?.trim() || t("reviews.ctaTitle");
+  const ctaSubtitle = settings?.ctaSubtitle?.trim() || t("reviews.ctaSubtitle");
+  const googleLabel = t("reviews.googleLabel");
+  const legelistenLabel = t("reviews.legelistenLabel");
 
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
 
   return (
     <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">
-        <div className="container mx-auto px-6 md:px-16 pb-2 text-xs text-muted-foreground font-mono">
-          {/* [Sanity reviews]{" "} */}
-          {reviewsError
-            ? `fetch error: ${reviewsErrorDetail instanceof Error ? reviewsErrorDetail.message : String(reviewsErrorDetail)}`
-            : reviewsFetched
-              ? usingSanityReviews
-                ? `CMS (${sanityReviews!.length} docs)`
-                : "0 docs — using static fallback (add googleReview in Studio or check /api/sanity/health)"
-              : "loading…"}
-        </div>
-      
       <div className="container mx-auto px-6 md:px-16 relative">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
@@ -127,7 +120,7 @@ export const GoogleReviewsSection = () => {
             <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
               <LegelistenIcon />
               <div>
-                <p className="text-xs text-brand-dark/60 font-light">Legelisten</p>
+                <p className="text-xs text-brand-dark/60 font-light">{legelistenLabel}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
                   <div className="flex"><PartialStars rating={legelistenRating} /></div>

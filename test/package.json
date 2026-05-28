@@ -26,7 +26,13 @@
     "migrate:i18n:faqs:dry": "DRY_RUN=1 ONLY=faq tsx sanity/migrate-i18n-all-pages.ts",
     "migrate:i18n:faqs": "ONLY=faq tsx sanity/migrate-i18n-all-pages.ts",
     "backfill:en:faqs:dry": "DRY_RUN=1 ONLY=faq tsx sanity/backfill-english-i18n.ts",
-    "backfill:en:faqs": "ONLY=faq tsx sanity/backfill-english-i18n.ts"
+    "backfill:en:faqs": "ONLY=faq tsx sanity/backfill-english-i18n.ts",
+    "migrate:i18n:nav:dry": "DRY_RUN=1 ONLY=siteSettings tsx sanity/migrate-i18n-all-pages.ts",
+    "migrate:i18n:nav": "ONLY=siteSettings tsx sanity/migrate-i18n-all-pages.ts",
+    "backfill:en:nav": "ONLY=siteSettings tsx sanity/backfill-english-i18n.ts",
+    "migrate:i18n:reviews:dry": "DRY_RUN=1 ONLY=googleReview,googleReviewSettings tsx sanity/migrate-i18n-all-pages.ts",
+    "migrate:i18n:reviews": "ONLY=googleReview,googleReviewSettings tsx sanity/migrate-i18n-all-pages.ts",
+    "backfill:en:reviews": "ONLY=googleReview,googleReviewSettings tsx sanity/backfill-english-i18n.ts"
   },
   "keywords": [
     "sanity"

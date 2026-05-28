@@ -10,6 +10,7 @@ import { usePricingPage, useFaqs } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { useTranslation } from "react-i18next";
 
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
@@ -447,55 +448,13 @@ const priceCategories: PriceCategory[] = [
     ]
   },
 ];
-const testimonials = [
-  {
-    id: 1,
-    name: "Maria S.",
-    rating: 5,
-    text: "Fantastisk opplevelse fra start til slutt. Spesialistene tok seg god tid og jeg følte meg trygg hele veien.",
-    treatment: "Gynekologi"
-  },
-  {
-    id: 2,
-    name: "Anders L.",
-    rating: 5,
-    text: "Profesjonell og diskret behandling. Veldig fornøyd med prisene og servicen.",
-    treatment: "Urologi"
-  },
-  {
-    id: 3,
-    name: "Sofie H.",
-    rating: 5,
-    text: "Utrolig takknemlig for den hjelpen vi fikk. Moderne utstyr og dyktige spesialister.",
-    treatment: "Fertilitet"
-  },
-];
-
-const staticFaqs = [
-  {
-    id: "henvisning",
-    question: "Trenger jeg henvisning?",
-    answer: "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen.",
-  },
-  {
-    id: "betaling",
-    question: "Hvilke betalingsmåter aksepterer dere?",
-    answer: "Vi aksepterer kort, Vipps og faktura. Ved forsikringsdekning sender vi faktura direkte til forsikringsselskapet.",
-  },
-  {
-    id: "forsikring",
-    question: "Dekker forsikringen min behandlingen?",
-    answer: "De fleste helseforsikringer dekker konsultasjoner og behandlinger hos oss. Ta kontakt med ditt forsikringsselskap for å bekrefte dekning før timen.",
-  },
-  {
-    id: "avbestilling",
-    question: "Hva er avbestillingsfristen?",
-    answer: "Avbestilling må skje senest 24 timer før avtalt time. Ved sen avbestilling eller ikke oppmøte faktureres full konsultasjonspris.",
-  },
-];
+const FAQ_FALLBACK_KEYS = ["referral", "payment", "insurance", "cancellation"] as const;
+const TESTIMONIAL_KEYS = ["one", "two", "three"] as const;
+const TESTIMONIAL_NAMES = ["Maria S.", "Anders L.", "Sofie H."] as const;
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
@@ -503,16 +462,38 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const specialists = sorted.slice(0, 8);
   const { data: sanityPricing } = usePricingPage();
   const { data: sanityFaqs } = useFaqs("priser");
-  const faqs = sanityFaqs && sanityFaqs.length > 0
-    ? sanityFaqs.map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
-    : staticFaqs;
+
+  const staticFaqs = FAQ_FALLBACK_KEYS.map((key) => ({
+    id: key,
+    question: t(`pricing.faqs.${key}.question`),
+    answer: t(`pricing.faqs.${key}.answer`),
+  }));
+
+  const faqs =
+    sanityFaqs && sanityFaqs.length > 0
+      ? sanityFaqs.map((f, i) => ({
+          id: `faq-${i}`,
+          question: f.question,
+          answer: f.answer,
+        }))
+      : staticFaqs;
+
+  const testimonials = TESTIMONIAL_KEYS.map((key, i) => ({
+    id: i + 1,
+    name: TESTIMONIAL_NAMES[i],
+    rating: 5,
+    text: t(`pricing.testimonials.${key}.text`),
+    treatment: t(`pricing.testimonials.${key}.treatment`),
+  }));
+
   const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
-  const pageTitle = sanityPricing?.title || "Prisliste";
-  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter tjeneste";
+  const pageTitle = sanityPricing?.title?.trim() || t("pricing.title");
+  const pageSubtitle = sanityPricing?.introText?.trim() || t("pricing.subtitle");
+  const sortLocale = i18n.language?.startsWith("en") ? "en" : "nb";
 
   useEffect(() => {
-    document.title = "Priser | CMedical";
-  }, []);
+    document.title = `${t("nav.pricing")} | CMedical`;
+  }, [t, i18n.language]);
 
   const toggleCategory = (id: string) => {
     setExpandedCategory(expandedCategory === id ? null : id);
@@ -534,22 +515,22 @@ const Priser = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={sanityPricing?.seo?.metaTitle || "Priser – Oversiktlig prisliste sortert etter tjeneste"}
-        description={sanityPricing?.seo?.metaDescription || "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising."}
+        title={sanityPricing?.seo?.metaTitle?.trim() || t("pricing.seoTitle")}
+        description={sanityPricing?.seo?.metaDescription?.trim() || t("pricing.seoDescription")}
         canonical="/priser"
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Priser", path: "/priser" },
+          { name: t("pricing.breadcrumbHome"), path: "/" },
+          { name: t("nav.pricing"), path: "/priser" },
         ]}
       />
       <SplitHero
-        eyebrow="Transparent og forutsigbar prising"
+        eyebrow={t("pricing.heroEyebrow")}
         title={pageTitle}
         description={pageSubtitle}
         image={heroImage}
         imageAlt={pageTitle}
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
-        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+        primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+        secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
       />
 
       {/* Price List Section */}
@@ -558,7 +539,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           {/* Pricing disclaimer */}
           <div className="max-w-5xl mx-auto mb-6">
             <p className="text-sm text-muted-foreground font-light">
-              Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.
+              {t("pricing.disclaimer")}
             </p>
           </div>
           {/* Categories - Direct content */}
@@ -566,7 +547,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
             {(() => {
               const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
               const first = priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id));
-              const rest = priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb'));
+              const rest = priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, sortLocale));
               return [...first, ...rest];
             })().map((category) => (
               <div 
@@ -582,14 +563,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
                   onClick={() => toggleCategory(category.id)}
                   className="w-full flex items-center justify-between p-5 md:p-6 cursor-pointer text-left"
                   aria-expanded={expandedCategory === category.id}
-                  aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
+                  aria-label={`${expandedCategory === category.id ? t("pricing.closeCategory") : t("pricing.openCategory")} ${category.label}`}
                 >
                   <div className="flex items-center gap-4">
                     <span className="text-xl md:text-2xl font-light text-foreground">
                       {category.label}
                     </span>
                     <span className="text-sm font-light text-muted-foreground">
-                      {expandedCategory === category.id ? 'Lukk prisliste' : 'Se priser'}
+                      {expandedCategory === category.id ? t("pricing.closePriceList") : t("pricing.seePrices")}
                     </span>
                   </div>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10`}>
@@ -701,7 +682,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               onClick={() => navigate('/booking')} 
               className="inline-flex items-center gap-2 px-8 py-4 bg-brand-dark text-white rounded-full font-normal hover:bg-brand-dark/90 transition-colors"
             >
-              Bestill time
+              {t("nav.bookAppointment")}
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -713,13 +694,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-10">
             <p className="text-sm text-white/60 mb-3 font-light">
-              Våre spesialister
+              {t("pricing.specialistsEyebrow")}
             </p>
             <h2 className="text-3xl md:text-4xl font-normal text-white">
-              Erfaring, spisskompetanse og moderne teknologi
+              {t("pricing.specialistsTitle")}
             </h2>
             <p className="text-white/70 mt-3 max-w-2xl font-light">
-              Samlet på ett sted for å gi deg den beste behandlingen.
+              {t("pricing.specialistsSubtitle")}
             </p>
           </div>
 
@@ -757,7 +738,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               asChild
             >
               <Link to="/om-oss">
-                Se alle spesialister
+                {t("pricing.seeAllSpecialists")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
@@ -783,7 +764,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
             <h2 className="text-3xl md:text-4xl font-normal text-brand-dark">
-              Hva pasientene sier
+              {t("pricing.testimonialsTitle")}
             </h2>
           </div>
 
@@ -816,7 +797,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-normal text-foreground mb-8">
-              Ofte stilte spørsmål om priser
+              {t("pricing.faqTitle")}
             </h3>
             
             <div className="space-y-0">
@@ -870,10 +851,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white mb-6">
-              Ta vare på livet og underlivet
+              {t("cta.title")}
             </h2>
             <p className="text-base md:text-[17px] font-light text-white/70 mb-10 max-w-xl mx-auto">
-              Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging
+              {t("cta.subtitle")}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -883,7 +864,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 className="px-8"
                 onClick={() => navigate('/booking')}
               >
-                Bestill time
+                {t("nav.bookAppointment")}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button 
@@ -892,7 +873,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 asChild
               >
                 <Link to="/kontakt">
-                  Kontakt oss
+                  {t("cta.contactUs")}
                 </Link>
               </Button>
             </div>

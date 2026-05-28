@@ -86,7 +86,9 @@
     "readMore": "Read more",
     "readLess": "Show less",
     "ctaTitle": "Over 150,000 satisfied patients since 2002",
-    "ctaSubtitle": "Become part of our story"
+    "ctaSubtitle": "Become part of our story",
+    "googleLabel": "Google Reviews",
+    "legelistenLabel": "Legelisten"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -174,9 +176,58 @@
   },
   "pricing": {
     "title": "Price list",
-    "subtitle": "Overview of our prices",
-    "seoTitle": "Pricing – Complete price list for all treatments",
-    "duration": "Duration"
+    "subtitle": "Clear prices organised by service",
+    "heroEyebrow": "Transparent, predictable pricing",
+    "seoTitle": "Pricing – Complete price list by service",
+    "seoDescription": "See all CMedical prices. A clear price list for gynecology, fertility, urology, orthopedics and more. Transparent and predictable pricing.",
+    "duration": "Duration",
+    "disclaimer": "All prices are indicative “from” prices. The final price may vary depending on time of day, weekends, additional services during treatment and other factors.",
+    "seePrices": "View prices",
+    "closePriceList": "Close price list",
+    "openCategory": "Open",
+    "closeCategory": "Close",
+    "specialistsEyebrow": "Our specialists",
+    "specialistsTitle": "Experience, expertise and modern technology",
+    "specialistsSubtitle": "All in one place to give you the best treatment.",
+    "seeAllSpecialists": "See all specialists",
+    "testimonialsTitle": "What patients say",
+    "faqTitle": "Frequently asked questions about pricing",
+    "breadcrumbHome": "Home",
+    "faqs": {
+      "referral": {
+        "question": "Do I need a referral?",
+        "answer": "You do not need a referral to book an appointment with us. You can book directly on our website or call us. If you have a referral from your GP, please bring it to your consultation."
+      },
+      "payment": {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept card, Vipps and invoice. If your treatment is covered by insurance, we can invoice your insurance company directly."
+      },
+      "insurance": {
+        "question": "Does my insurance cover the treatment?",
+        "answer": "Most health insurance plans cover consultations and treatments with us. Contact your insurer to confirm coverage before your appointment."
+      },
+      "cancellation": {
+        "question": "What is the cancellation policy?",
+        "answer": "Cancellations must be made at least 24 hours before your appointment. Late cancellations or no-shows are charged the full consultation fee."
+      }
+    },
+    "testimonials": {
+      "one": {
+        "text": "A fantastic experience from start to finish. The specialists took their time and I felt safe throughout.",
+        "treatment": "Gynecology"
+      },
+      "two": {
+        "text": "Professional and discreet care. Very happy with the prices and service.",
+        "treatment": "Urology"
+      },
+      "three": {
+        "text": "Incredibly grateful for the help we received. Modern equipment and skilled specialists.",
+        "treatment": "Fertility"
+      }
+    }
+  },
+  "promoBlocks": {
+    "title": "News and articles"
   },
   "news": {
     "title": "News",

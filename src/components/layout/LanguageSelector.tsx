@@ -3,6 +3,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { usePathname, useRouter } from "next/navigation";
 import { stripLocaleFromPathname, withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { appLocaleToI18n, syncI18nLanguage } from "@/lib/i18n/sync-language";
 
 const languages = [
   { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
@@ -21,7 +22,9 @@ export const LanguageSelector = () => {
 
   const handleSelect = (code: string) => {
     const target: AppLocale = code.startsWith("en") ? "en" : "nb";
-    void i18n.changeLanguage(target === "en" ? "en" : "nb");
+    const i18nCode = appLocaleToI18n(target);
+    syncI18nLanguage(i18nCode);
+    void i18n.changeLanguage(i18nCode);
     try {
       localStorage.setItem("i18n-lang", target === "en" ? "en" : "nb");
     } catch {

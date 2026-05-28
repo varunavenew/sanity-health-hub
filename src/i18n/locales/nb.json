@@ -86,7 +86,9 @@
     "readMore": "Les mer",
     "readLess": "Vis mindre",
     "ctaTitle": "Over 150 000 fornøyde pasienter siden 2002",
-    "ctaSubtitle": "Bli en del av vår historie"
+    "ctaSubtitle": "Bli en del av vår historie",
+    "googleLabel": "Google-anmeldelser",
+    "legelistenLabel": "Legelisten"
   },
   "faq": {
     "title": "Ofte stilte spørsmål",
@@ -174,9 +176,58 @@
   },
   "pricing": {
     "title": "Prisliste",
-    "subtitle": "Oversikt over våre priser",
-    "seoTitle": "Priser – Oversiktlig prisliste for alle behandlinger",
-    "duration": "Varighet"
+    "subtitle": "Oversiktlige priser sortert etter tjeneste",
+    "heroEyebrow": "Transparent og forutsigbar prising",
+    "seoTitle": "Priser – Oversiktlig prisliste sortert etter tjeneste",
+    "seoDescription": "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising.",
+    "duration": "Varighet",
+    "disclaimer": "Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.",
+    "seePrices": "Se priser",
+    "closePriceList": "Lukk prisliste",
+    "openCategory": "Åpne",
+    "closeCategory": "Lukk",
+    "specialistsEyebrow": "Våre spesialister",
+    "specialistsTitle": "Erfaring, spisskompetanse og moderne teknologi",
+    "specialistsSubtitle": "Samlet på ett sted for å gi deg den beste behandlingen.",
+    "seeAllSpecialists": "Se alle spesialister",
+    "testimonialsTitle": "Hva pasientene sier",
+    "faqTitle": "Ofte stilte spørsmål om priser",
+    "breadcrumbHome": "Hjem",
+    "faqs": {
+      "referral": {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Du trenger ikke henvisning for å bestille time hos oss. Du kan enkelt booke direkte via vår nettside eller ringe oss. Hvis du har henvisning fra fastlege, ta den gjerne med til konsultasjonen."
+      },
+      "payment": {
+        "question": "Hvilke betalingsmåter aksepterer dere?",
+        "answer": "Vi aksepterer kort, Vipps og faktura. Ved forsikringsdekning sender vi faktura direkte til forsikringsselskapet."
+      },
+      "insurance": {
+        "question": "Dekker forsikringen min behandlingen?",
+        "answer": "De fleste helseforsikringer dekker konsultasjoner og behandlinger hos oss. Ta kontakt med ditt forsikringsselskap for å bekrefte dekning før timen."
+      },
+      "cancellation": {
+        "question": "Hva er avbestillingsfristen?",
+        "answer": "Avbestilling må skje senest 24 timer før avtalt time. Ved sen avbestilling eller ikke oppmøte faktureres full konsultasjonspris."
+      }
+    },
+    "testimonials": {
+      "one": {
+        "text": "Fantastisk opplevelse fra start til slutt. Spesialistene tok seg god tid og jeg følte meg trygg hele veien.",
+        "treatment": "Gynekologi"
+      },
+      "two": {
+        "text": "Profesjonell og diskret behandling. Veldig fornøyd med prisene og servicen.",
+        "treatment": "Urologi"
+      },
+      "three": {
+        "text": "Utrolig takknemlig for den hjelpen vi fikk. Moderne utstyr og dyktige spesialister.",
+        "treatment": "Fertilitet"
+      }
+    }
+  },
+  "promoBlocks": {
+    "title": "Nyheter og artikler"
   },
   "news": {
     "title": "Aktuelt",

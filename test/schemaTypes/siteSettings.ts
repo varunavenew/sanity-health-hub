@@ -1,6 +1,7 @@
 // Schema: Site Settings
 // Global settings: navigation menu, contact info, social media, 404 page
 import { SettingsIcon } from './icons'
+import { pickNo } from './i18n'
 
 export default {
   name: 'siteSettings',
@@ -59,8 +60,27 @@ export default {
             {
               name: 'label',
               title: 'Tekst',
-              type: 'string',
+              type: 'internationalizedArrayString',
               validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'navId',
+              title: 'Meny-ID (fallback)',
+              type: 'string',
+              description:
+                'Valgfri. Brukes til automatisk oversettelse når engelsk tekst mangler (f.eks. services, pricing).',
+              options: {
+                list: [
+                  { title: 'Tjenester', value: 'services' },
+                  { title: 'Priser', value: 'pricing' },
+                  { title: 'Forsikring', value: 'insurance' },
+                  { title: 'Aktuelt', value: 'news' },
+                  { title: 'Om oss', value: 'about' },
+                  { title: 'Klinikker', value: 'clinics' },
+                  { title: 'Kontakt', value: 'contact' },
+                  { title: 'Spesialister', value: 'specialists' },
+                ],
+              },
             },
             {
               name: 'path',
@@ -79,6 +99,9 @@ export default {
           ],
           preview: {
             select: { title: 'label', subtitle: 'path' },
+            prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
+              return { title: pickNo(title) || 'Menyelement', subtitle }
+            },
           },
         },
       ],
@@ -93,8 +116,7 @@ export default {
         {
           name: 'label',
           title: 'Tekst',
-          type: 'string',
-          initialValue: 'Bestill time',
+          type: 'internationalizedArrayString',
         },
         {
           name: 'path',
@@ -121,8 +143,22 @@ export default {
             {
               name: 'label',
               title: 'Tekst',
-              type: 'string',
+              type: 'internationalizedArrayString',
               validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'navId',
+              title: 'Meny-ID (fallback)',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Om oss', value: 'about' },
+                  { title: 'Spesialister', value: 'specialists' },
+                  { title: 'Priser', value: 'pricing' },
+                  { title: 'Forsikring', value: 'insurance' },
+                  { title: 'Aktuelt', value: 'news' },
+                ],
+              },
             },
             {
               name: 'path',
@@ -134,6 +170,9 @@ export default {
           ],
           preview: {
             select: { title: 'label', subtitle: 'path' },
+            prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
+              return { title: pickNo(title) || 'Footer-lenke', subtitle }
+            },
           },
         },
       ],
