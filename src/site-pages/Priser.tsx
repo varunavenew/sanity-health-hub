@@ -451,6 +451,16 @@ const priceCategories: PriceCategory[] = [
 const FAQ_FALLBACK_KEYS = ["referral", "payment", "insurance", "cancellation"] as const;
 const TESTIMONIAL_KEYS = ["one", "two", "three"] as const;
 const TESTIMONIAL_NAMES = ["Maria S.", "Anders L.", "Sofie H."] as const;
+const slugifyNo = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/æ/g, "ae")
+    .replace(/ø/g, "o")
+    .replace(/å/g, "a")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
@@ -490,6 +500,31 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const pageTitle = sanityPricing?.title?.trim() || t("pricing.title");
   const pageSubtitle = sanityPricing?.introText?.trim() || t("pricing.subtitle");
   const sortLocale = i18n.language?.startsWith("en") ? "en" : "nb";
+  const cmsPriceCategories: PriceCategory[] = (sanityPricing?.priceCategories || []).map(
+    (category: any, index: number) => {
+      const label = category?.categoryName?.trim() || `Kategori ${index + 1}`;
+      const categorySlug =
+        category?.categoryRef?.slug || category?.categoryRef?.id || slugifyNo(label);
+      const items = (category?.items || []).map((item: any) => ({
+        name: item?.name || "",
+        price: item?.priceLabel || (item?.price != null ? `${item.price},-` : ""),
+        duration: item?.note || "",
+      }));
+      return {
+        id: categorySlug,
+        label,
+        path: `/${categorySlug}`,
+        subcategories: [
+          {
+            label,
+            path: `/${categorySlug}`,
+            items,
+          },
+        ],
+      };
+    },
+  );
+  const effectivePriceCategories = cmsPriceCategories.length > 0 ? cmsPriceCategories : [];
 
   useEffect(() => {
     document.title = `${t("nav.pricing")} | CMedical`;
@@ -546,8 +581,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
           <div className="max-w-5xl mx-auto space-y-4">
             {(() => {
               const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
-              const first = priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id));
-              const rest = priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, sortLocale));
+              const first = effectivePriceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id));
+              const rest = effectivePriceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, sortLocale));
               return [...first, ...rest];
             })().map((category) => (
               <div 
@@ -686,6 +721,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+          {effectivePriceCategories.length === 0 && (
+            <p className="text-center text-muted-foreground font-light py-8">
+              {t("pricing.subtitle")}
+            </p>
+          )}
         </div>
       </section>
 

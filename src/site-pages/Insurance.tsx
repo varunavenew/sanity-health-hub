@@ -7,37 +7,21 @@ import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
 import { useInsurancePage } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { useTranslation } from "react-i18next";
 
 interface PageProps { isChatOpen: boolean }
 
-const staticCompanies = [
-  { name: "ERGO" }, { name: "EuroAccident" }, { name: "Falck" }, { name: "Fremtind" },
-  { name: "Gjensidige" }, { name: "Tryg" }, { name: "IF - Vertikal Helse" },
-];
-
-const staticSteps = [
-  { num: "1", title: "Få henvisning", desc: "Fra allmennlege eller spesialist" },
-  { num: "2", title: "Send til forsikring", desc: "For godkjenning av dekning" },
-  { num: "3", title: "Velg CMedical", desc: "Be om behandling hos oss" },
-  { num: "4", title: "Bestill time", desc: "Vi fakturerer forsikringen direkte" },
-];
-
-const staticBenefits = [
-  { title: "Ingen utlegg", desc: "Du slipper å betale selv – vi sender faktura direkte til forsikringsselskapet." },
-  { title: "Enkelt å bruke", desc: "Har du egenandel på forsikringen betaler du det på behandlingsstedet." },
-  { title: "Alle forsikringer", desc: "Vi har avtale med alle store forsikringsselskaper i Norge." },
-];
-
 const Insurance = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { data: page } = useInsurancePage();
 
-  const title = page?.title || "Helseforsikring";
-  const subtitle = page?.subtitle || "Bruk forsikringen din til raskere behandling hos oss";
+  const title = page?.title || t("insurance.title");
+  const subtitle = page?.subtitle || t("insurance.subtitle");
   const heroImage = page?.heroImage || insuranceHero;
-  const companies = page?.companies?.length ? page.companies : staticCompanies;
-  const steps = page?.steps?.length ? page.steps : staticSteps;
-  const benefits = page?.benefits?.length ? page.benefits : staticBenefits;
+  const companies = page?.companies || [];
+  const steps = page?.steps || [];
+  const benefits = page?.benefits || [];
 
   useEffect(() => {
     document.title = "Forsikring | CMedical - Behandling med forsikring";
@@ -50,18 +34,18 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         description={page?.seo?.metaDescription || "CMedical har avtale med alle store forsikringsselskaper. Ingen utlegg – vi fakturerer forsikringen direkte. Kort ventetid og ledende spesialister."}
         canonical="/forsikring"
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Forsikring", path: "/forsikring" },
+          { name: t("pricing.breadcrumbHome"), path: "/" },
+          { name: t("nav.insurance"), path: "/forsikring" },
         ]}
       />
       <SplitHero
-        eyebrow="Bruk forsikringen din hos CMedical"
+        eyebrow={t("insurance.subtitle")}
         title={title}
         description={subtitle}
         image={heroImage}
         imageAlt="Forsikring hos CMedical"
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
-        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+        primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+        secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
       />
 
       <section className="py-16 md:py-24 bg-background">
@@ -70,9 +54,9 @@ const Insurance = ({ isChatOpen }: PageProps) => {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/30 rounded-full mb-6">
                 <Shield className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground font-light">Våre samarbeidspartnere</span>
+                <span className="text-sm text-muted-foreground font-light">{t("insurance.partners")}</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground">Vi har avtale med alle store forsikringsselskaper</h2>
+              <h2 className="text-2xl md:text-3xl font-light text-foreground">{t("insurance.agreementTitle")}</h2>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {companies.map((company: any) => (
@@ -80,16 +64,16 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-muted-foreground font-light">
-              Finner du ikke ditt selskap? <Link to="/kontakt" className="underline hover:no-underline">Kontakt oss</Link> – vi hjelper deg.
+              {t("insurance.notFound")} <Link to="/kontakt" className="underline hover:no-underline">{t("insurance.contactUsHelp")}</Link> {t("insurance.weHelp")}
             </p>
 
             <div className="mt-8 p-6 bg-muted/50 rounded-xl border border-border text-center">
-              <h3 className="font-normal text-foreground mb-2">Har du spørsmål om behandlingsforsikring?</h3>
+              <h3 className="font-normal text-foreground mb-2">{t("insurance.insuranceQuestion")}</h3>
               <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                Ta kontakt med en av våre klinikker, eller ditt forsikringsselskap.
+                {t("insurance.insuranceAnswer")}
               </p>
               <p className="text-sm text-muted-foreground font-light mt-2">
-                B2B-henvendelser: <a href="mailto:post@cmedical.no" className="underline hover:no-underline">post@cmedical.no</a>
+                {t("insurance.b2b")} <a href="mailto:post@cmedical.no" className="underline hover:no-underline">post@cmedical.no</a>
               </p>
             </div>
           </div>
@@ -99,7 +83,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-12 text-center">Slik bruker du forsikringen</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-12 text-center">{t("insurance.howTo")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
               {steps.map((step: any, index: number) => (
                 <div key={step.num || index} className="relative text-center">
@@ -116,6 +100,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
+      {benefits.length > 0 && (
       <section className="py-16 md:py-24 bg-brand-dark">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
@@ -133,6 +118,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      )}
 
       <section className="py-12 bg-muted/50">
         <div className="container mx-auto px-6 md:px-16">
@@ -140,16 +126,16 @@ const Insurance = ({ isChatOpen }: PageProps) => {
             <div className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} aria-hidden="true" />
               <div>
-                <p className="text-foreground font-normal">Trenger du hjelp?</p>
-                <p className="text-muted-foreground text-sm font-light">Vi veileder deg gjennom hele prosessen</p>
+                <p className="text-foreground font-normal">{t("insurance.needHelp")}</p>
+                <p className="text-muted-foreground text-sm font-light">{t("insurance.weGuide")}</p>
               </div>
             </div>
             <div className="flex gap-3">
               <Button variant="outline" className="border-foreground/20 hover:bg-muted" asChild>
-                <Link to="/kontakt">Kontakt oss</Link>
+                <Link to="/kontakt">{t("cta.contactUs")}</Link>
               </Button>
               <Button className="bg-brand-dark text-white hover:bg-brand-dark/90" onClick={() => navigate('/booking')}>
-                Bestill time<ArrowRight className="ml-2 w-4 h-4" />
+                {t("nav.bookAppointment")}<ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
           </div>
