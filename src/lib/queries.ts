@@ -72,7 +72,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       "image": image.asset->url
     }
   },
-  "serviceCategories": serviceCategories[]->{ _id, title, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
+  "serviceCategories": serviceCategories[]->{ _id, ${i18nString("title")}, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
   valueBadges[]{icon, ${i18nStringLocale("label")}},
   statsBar[]{value, ${i18nStringLocale("label")}},
   ${i18nStringLocale("promoBlocksTitle")},

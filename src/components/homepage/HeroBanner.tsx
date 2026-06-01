@@ -20,7 +20,7 @@ interface HeroSlide {
 
 export const HeroBanner = () => {
   const navigate = useNavigate();
-  const { data: homepage } = useHomepage();
+  const { data: homepage, isPending } = useHomepage();
   const { t } = useTranslation();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -82,7 +82,7 @@ export const HeroBanner = () => {
     }
   }, [next, prev]);
 
-  if (heroSlides.length === 0) return null;
+  if (isPending || heroSlides.length === 0) return null;
 
   const slide = heroSlides[current];
 

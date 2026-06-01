@@ -28,6 +28,8 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
   const { t } = useTranslation();
   const { data: homepage, isPending } = useHomepage();
   const pageSections = homepage?.pageSections;
+  /** Avoid painting tagline/services before Sanity (no server payload on client-only nav). */
+  const homepageReady = !isPending;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -35,15 +37,23 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
         {t("h1")}
       </h1>
 
-      <HeroBanner />
-      <TaglineBanner />
-      <StatsBar />
-      <HeroCompact />
+      {homepageReady && (
+        <>
+          <HeroBanner />
+          <TaglineBanner />
+          <StatsBar />
+          <HeroCompact />
+        </>
+      )}
       <GoogleReviewsSection />
-      <ValueBadges />
-      <PromoBlocks />
-      <LifePhasesSection />
-      {!isPending &&
+      {homepageReady && (
+        <>
+          <ValueBadges />
+          <PromoBlocks />
+          <LifePhasesSection />
+        </>
+      )}
+      {homepageReady &&
         (pageSections?.length ? (
           <PageSectionsRenderer sections={pageSections} />
         ) : (
