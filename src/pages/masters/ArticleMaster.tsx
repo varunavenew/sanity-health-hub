@@ -57,24 +57,14 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  Tilbake til Aktuelt
  </Link>
 
- <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
- <span className="inline-flex items-center gap-1.5">
- <BookOpen className="w-3 h-3" />
- Fagartikkel
- </span>
- <span>·</span>
- <span>Kvinnehelse</span>
- <span>·</span>
- <span className="inline-flex items-center gap-1.5">
- <Clock className="w-3 h-3" />
- 9 min lesetid
- </span>
- <span>·</span>
- <span className="inline-flex items-center gap-1.5">
- <Calendar className="w-3 h-3" />
- Sist oppdatert 19. mai 2026
- </span>
- </div>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
+                  <span>Kvinnehelse</span>
+                  <span>·</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3" />
+                    Sist oppdatert 19. mai 2026
+                  </span>
+                </div>
 
  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.05] text-foreground mb-6">
  Overgangsalderen er en ny fase — ikke slutten på noe
