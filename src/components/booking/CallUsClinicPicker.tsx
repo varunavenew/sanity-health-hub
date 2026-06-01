@@ -21,6 +21,7 @@ export const CallUsClinicPicker = ({
   variant = "light",
   size = "lg",
   label,
+  className,
 }: Props) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ export const CallUsClinicPicker = ({
         variant={variant === "dark" ? "cta-outline-dark" : "cta-outline"}
         size={size}
         onClick={() => setOpen((o) => !o)}
+        className={className}
       >
         <Phone className="mr-2 w-5 h-5" />
         {label ?? t("booking.callUs")}
