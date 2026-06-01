@@ -4,13 +4,13 @@ import { useNavigate } from "@/lib/router";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
-import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
+import { useSanityContentLang } from "@/lib/sanity/content-lang";
 
 export const HeroCompact = () => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
-  const { t, i18n } = useTranslation();
-  const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
+  const { t } = useTranslation();
+  const contentLang: SortLocale = useSanityContentLang();
 
   const serviceCategories = sortBySlug(
     (homepage?.categoryCards || []).filter((c: any) => c?.image && c?.title),

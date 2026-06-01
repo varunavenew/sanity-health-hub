@@ -1,11 +1,6 @@
 import { HOMEPAGE_QUERY } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sanityFetchCached } from "@/lib/sanity/sanity-fetch-cached";
-import {
-  SANITY_CACHE_TAGS,
-  SANITY_DATA_REVALIDATE_SEC,
-} from "@/lib/sanity/sanity-revalidate";
 import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityClient } from "@/lib/sanityClient";
@@ -98,11 +93,14 @@ export function mapHomepageDocument(
       serviceCategories
         .map((c) => {
           const row = c as Record<string, unknown>;
+          const categoryId = asPlainString(row.categoryId);
           const slug = asPlainString(row.slug);
+          const routeKey = categoryId || slug;
           return {
-            id: slug || "",
+            id: routeKey,
             title: asPlainString(row.title),
-            path: slug ? `/${slug}` : "",
+            // Routes use Norwegian categoryId paths (/fertilitet), not EN marketing slugs (/fertility).
+            path: routeKey ? `/${routeKey}` : "",
             image: asPlainString(row.heroImage),
           };
         })
@@ -137,27 +135,14 @@ async function fetchHomepageRaw(
   return sanityClient.fetch<Record<string, unknown> | null>(HOMEPAGE_QUERY, { lang });
 }
 
-/** Server-side homepage payload for RSC + React Query hydration. */
+/**
+ * Server-side homepage payload for RSC + React Query hydration.
+ * Always hits Sanity directly (no unstable_cache) so Vercel matches local `next dev`.
+ */
 export async function fetchHomepageData(
   lang: "no" | "en",
 ): Promise<HomepageData | null> {
-  let raw = await sanityFetchCached<Record<string, unknown> | null>({
-    query: HOMEPAGE_QUERY,
-    params: { lang },
-    key: ["sanity", "homepage", lang, HOMEPAGE_QUERY],
-    tags: [
-      SANITY_CACHE_TAGS.all,
-      SANITY_CACHE_TAGS.homepage,
-      SANITY_CACHE_TAGS.type("homepage"),
-    ],
-    revalidate: SANITY_DATA_REVALIDATE_SEC.homepage,
-  });
-
-  // Avoid serving a cached empty homepage when the first build had no Sanity env.
-  if (!raw) {
-    raw = await fetchHomepageRaw(lang);
-  }
-
+  const raw = await fetchHomepageRaw(lang);
   if (!raw) return null;
   return mapHomepageDocument(normalizeI18n(raw, lang) as Record<string, unknown>, lang);
 }
