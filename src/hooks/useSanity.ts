@@ -7,6 +7,8 @@ import {
   filterPublishedDocuments,
 } from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySlug, textForSort } from "@/lib/sortAlphabetical";
+import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
+import { useHomepageInitialData } from "@/components/homepage/HomepageDataProvider";
 import {
   HOMEPAGE_QUERY,
   SPECIALISTS_QUERY,
@@ -80,53 +82,21 @@ const fetchSanity = async <T>(
 // ─── Homepage ────────────────────────────────────────────────────────
 export const useHomepage = () => {
   const lang = useSanityLang();
+  const serverInitial = useHomepageInitialData();
+  const initialData =
+    serverInitial?.lang === lang ? serverInitial.data ?? undefined : undefined;
+
   return useQuery({
     queryKey: ["sanity", "homepage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(HOMEPAGE_QUERY, undefined, lang);
-      if (!data) return null;
-
-      return {
-        tagline: data.tagline,
-        promoBlocksTitle: typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
-        statsBar: (data.statsBar || []).map((s: any) => ({
-          value: s.value,
-          label: s.label,
-        })),
-        heroSlides: (data.heroBanner?.slides || []).map((s: any, i: number) => ({
-          id: `slide-${i}`,
-          label: s.heading || "",
-          subtitle: s.subheading || "",
-          cta: s.ctaText || "Les mer",
-          ctaPath: s.ctaLink || "/",
-          image: s.image || "",
-          objectPosition: "center 30%",
-        })),
-        categoryCards: sortBySlug(
-          (data.serviceCategories || []).map((c: any) => ({
-            id: c.slug,
-            title: c.title,
-            path: `/${c.slug}`,
-            image: c.heroImage || "",
-          })),
-          (c: { id?: string; title?: string }) => c.id || c.title,
-          lang,
-        ),
-        valueBadges: (data.valueBadges || []).map((v: any) =>
-          typeof v === "string" ? v : v.label
-        ),
-        promoBlocks: (data.promoBlocks || []).map((p: any, i: number) => ({
-          id: `promo-${i}`,
-          title: p.title,
-          description: p.description,
-          cta: p.ctaText || "Les mer",
-          path: p.ctaLink || "/",
-          image: p.image || "",
-        })),
-        pageSections: normalizePageSections(data.pageSections),
-        seo: data.seo,
-      };
+      const data = await fetchSanity<Record<string, unknown>>(
+        HOMEPAGE_QUERY,
+        undefined,
+        lang,
+      );
+      return mapHomepageDocument(data, lang);
     },
+    initialData,
     staleTime: 5 * 60 * 1000,
   });
 };

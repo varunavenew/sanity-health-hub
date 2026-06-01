@@ -14,15 +14,19 @@ import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRen
 import { useHomepage } from "@/hooks/useSanity";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { HomepageDataProvider } from "@/components/homepage/HomepageDataProvider";
+import type { HomepageData } from "@/lib/sanity/homepage-data";
 import { useTranslation } from "react-i18next";
 
 interface IndexProps {
   isChatOpen: boolean;
+  initialHomepage?: HomepageData | null;
+  sanityLang?: "no" | "en";
 }
 
-const Index = ({ isChatOpen }: IndexProps) => {
+const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
   const { t } = useTranslation();
-  const { data: homepage } = useHomepage();
+  const { data: homepage, isPending } = useHomepage();
   const pageSections = homepage?.pageSections;
 
   return (
@@ -39,14 +43,25 @@ const Index = ({ isChatOpen }: IndexProps) => {
       <ValueBadges />
       <PromoBlocks />
       <LifePhasesSection />
-      {pageSections?.length ? (
-        <PageSectionsRenderer sections={pageSections} />
-      ) : (
-        <SpecialistsSection />
-      )}
+      {!isPending &&
+        (pageSections?.length ? (
+          <PageSectionsRenderer sections={pageSections} />
+        ) : (
+          <SpecialistsSection />
+        ))}
       <BookingCTA />
     </PageLayout>
   );
 };
+
+const Index = ({
+  isChatOpen,
+  initialHomepage = null,
+  sanityLang = "no",
+}: IndexProps) => (
+  <HomepageDataProvider lang={sanityLang} data={initialHomepage}>
+    <IndexContent isChatOpen={isChatOpen} />
+  </HomepageDataProvider>
+);
 
 export default Index;
