@@ -99,6 +99,13 @@ const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: 
       { to: "/spesialist-design/atelier", name: "Spesialist — Forslag 3" },
     ],
   },
+  {
+    title: "Seksjoner",
+    eyebrow: "Gjenbrukbar seksjon",
+    items: [
+      { to: "/demoer/tips", name: "Tips / «Vill du veta mer?» — 3 varianter" },
+    ],
+  },
 ];
 
 const malPath = (key: string) => `__mal_${key}__`;
