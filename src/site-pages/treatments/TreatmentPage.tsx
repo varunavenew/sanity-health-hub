@@ -393,9 +393,18 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
                                       <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
                                         <Check className="w-3 h-3 text-accent-foreground" />
                                       </div>
-                                      <p className="text-foreground/80 font-light text-[15px] leading-relaxed">
-                                        {benefit}
-                                      </p>
+                                      <div className="flex-1">
+                                        {benefit.title ? (
+                                          <p className="font-medium text-foreground text-[15px] mb-0.5">
+                                            {benefit.title}
+                                          </p>
+                                        ) : null}
+                                        {benefit.description ? (
+                                          <p className="text-foreground/80 font-light text-[15px] leading-relaxed">
+                                            {benefit.description}
+                                          </p>
+                                        ) : null}
+                                      </div>
                                     </div>
                                   ))}
                                 </div>
