@@ -276,12 +276,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* Faktaboks */}
  <aside className="bg-brand-light rounded-sm p-6 md:p-8 my-10">
- <p className="text-[11px] uppercase text-brand-dark mb-3">
- Fakta
- </p>
- <h3 className="text-base font-normal text-foreground mb-3">
- Tre typer behandling
- </h3>
+  <h3 className="text-base font-medium text-foreground mb-3">
+    Tre typer behandling
+  </h3>
  <dl className="space-y-3 text-sm font-light text-foreground/80">
  <div>
  <dt className="font-normal text-foreground">Systemisk hormonbehandling</dt>
