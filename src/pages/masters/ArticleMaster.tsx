@@ -125,9 +125,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  {/* Sidebar — innholdsfortegnelse (sticky) */}
  <aside className="lg:col-span-3 order-2 lg:order-1">
  <div className="lg:sticky lg:top-28">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- I denne artikkelen
- </p>
+  <p className="text-sm font-normal text-foreground mb-4">
+    I denne artikkelen
+  </p>
  <nav>
  <ul className="space-y-2.5 border-l border-border">
  {sections.map((s) => (
@@ -159,9 +159,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* TL;DR – hovedpunkter (valgfri) */}
  <aside className="bg-brand-light rounded-sm p-6 md:p-7 my-8 border border-border/60">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Kort oppsummert
- </p>
+  <h3 className="text-sm font-medium text-foreground mb-4">
+    Kort oppsummert
+  </h3>
  <ul className="space-y-2.5 text-sm font-light text-foreground/85">
  {[
  "Overgangsalderen er en flerårig prosess i tre faser — ikke én hendelse.",
@@ -241,9 +241,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* Spesialist-kommentar (kommentarstil) */}
  <aside className="bg-secondary/40 rounded-sm p-6 md:p-8 my-10 border-l-2 border-brand-dark">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Kommentar fra spesialisten
- </p>
+  <h3 className="text-sm font-medium text-foreground mb-4">
+    Kommentar fra spesialisten
+  </h3>
  <div className="flex gap-4">
  <div className="w-12 h-12 rounded-full bg-background flex-shrink-0 flex items-center justify-center text-sm font-light text-foreground/70">
  HR
@@ -276,12 +276,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* Faktaboks */}
  <aside className="bg-brand-light rounded-sm p-6 md:p-8 my-10">
- <p className="text-[11px] uppercase text-brand-dark mb-3">
- Fakta
- </p>
- <h3 className="text-base font-normal text-foreground mb-3">
- Tre typer behandling
- </h3>
+  <h3 className="text-base font-medium text-foreground mb-3">
+    Tre typer behandling
+  </h3>
  <dl className="space-y-3 text-sm font-light text-foreground/80">
  <div>
  <dt className="font-normal text-foreground">Systemisk hormonbehandling</dt>
@@ -331,9 +328,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* Kildeliste */}
  <section className="mt-14 pt-8 border-t border-border/60">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Kilder og referanser
- </p>
+  <h3 className="text-sm font-medium text-foreground mb-4">
+    Kilder og referanser
+  </h3>
  <ol className="space-y-3 text-xs font-light text-foreground/70 leading-relaxed list-decimal pl-5">
  <li>
  NICE Guidelines (2024). <em>Menopause: diagnosis and management</em>.
@@ -369,12 +366,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  </div>
  </div>
  <div className="md:col-span-3">
- <p className="text-[11px] uppercase text-brand-dark mb-3">
- Fagforfatter
- </p>
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
- Ida Bjørntvedt
- </h2>
+  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+    Fagforfatter Ida Bjørntvedt
+  </h2>
  <p className="text-sm font-light text-foreground/70 mb-5">
  Spesialist i gynekologi · CMedical Sandvika
  </p>
@@ -413,12 +407,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <img src={categoryGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
  </div>
  <div>
- <p className="text-[11px] uppercase text-brand-dark mb-3">
- Tjenesten i denne artikkelen
- </p>
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
- Overgangsalder-konsultasjon
- </h2>
+  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
+    Overgangsalder-konsultasjon
+  </h2>
  <p className="text-base font-light leading-relaxed text-foreground/80 mb-6">
  En 45-minutters samtale med spesialist hvor vi kartlegger symptomer,
  gjennomgår alternativer og legger en plan tilpasset deg.
@@ -470,12 +461,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <section className="bg-background py-14 md:py-20">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-4xl mx-auto">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Webinar
- </p>
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">
- Spesialisten svarer — overgangsalder
- </h2>
+  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">
+    Webinar – Spesialisten svarer om overgangsalder
+  </h2>
  <div className="relative aspect-video rounded-2xl overflow-hidden bg-secondary group cursor-pointer">
  <img src={heroGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
  <div className="absolute inset-0 bg-brand-dark/30 flex items-center justify-center">
@@ -506,11 +494,11 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <section className="bg-background py-12 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
- <div className="flex items-center gap-2 mb-5">
- <History className="w-4 h-4 text-brand-dark" />
- <p className="text-[11px] uppercase text-brand-dark">
- Revisjonshistorikk
- </p>
+  <div className="flex items-center gap-2 mb-5">
+    <History className="w-4 h-4 text-brand-dark" />
+    <h3 className="text-sm font-medium text-foreground">
+      Revisjonshistorikk
+    </h3>
  </div>
  <ul className="space-y-2.5 text-sm font-light text-foreground/70">
  <li><span className="text-foreground">19. mai 2026</span> — Oppdatert med nye NICE-retningslinjer (2024).</li>
