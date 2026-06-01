@@ -9,11 +9,9 @@ import { fetchHomepageData } from "@/lib/sanity/homepage-data";
 
 type Props = { params: Promise<{ locale: string }> };
 
-/** Keep in sync with `SANITY_DATA_REVALIDATE_SEC.homepage` (Next requires a literal). */
-export const revalidate = 300;
-
 /** Always resolve homepage from Sanity at request time (uses env on Vercel). */
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -34,6 +32,7 @@ export default async function HomePage({ params }: Props) {
       <JsonLd data={[medicalClinicJsonLd(lang), homeBreadcrumbJsonLd(lang)]} />
       <HomepageHydration state={dehydrate(queryClient)}>
         <Index
+          key={sanityLang}
           isChatOpen={false}
           initialHomepage={initialHomepage}
           sanityLang={sanityLang}

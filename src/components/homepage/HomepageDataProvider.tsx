@@ -20,7 +20,7 @@ export function HomepageDataProvider({
   children: ReactNode;
 }) {
   return (
-    <HomepageDataContext.Provider value={{ lang, data }}>
+    <HomepageDataContext.Provider value={{ lang, data: data ?? null }}>
       {children}
     </HomepageDataContext.Provider>
   );

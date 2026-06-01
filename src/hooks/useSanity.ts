@@ -83,8 +83,8 @@ const fetchSanity = async <T>(
 export const useHomepage = () => {
   const lang = useSanityLang();
   const serverInitial = useHomepageInitialData();
-  const serverData =
-    serverInitial?.lang === lang ? serverInitial.data ?? undefined : undefined;
+  const serverLangMatches = serverInitial?.lang === lang;
+  const serverData = serverLangMatches ? serverInitial?.data ?? undefined : undefined;
 
   const query = useQuery({
     queryKey: ["sanity", "homepage", lang],
@@ -97,10 +97,12 @@ export const useHomepage = () => {
       return mapHomepageDocument(data, lang);
     },
     initialData: serverData,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    /** Refetch when switching /nb ↔ /en so we never keep the other locale in cache. */
+    refetchOnMount: "always",
   });
 
-  const data = query.data ?? serverData;
+  const data = serverLangMatches ? (query.data ?? serverData) : query.data;
 
   return {
     ...query,

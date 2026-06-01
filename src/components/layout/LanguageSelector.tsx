@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { stripLocaleFromPathname, withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { appLocaleToI18n, syncI18nLanguage } from "@/lib/i18n/sync-language";
+import { invalidateSanityLocaleQueries } from "@/lib/sanity/invalidate-locale-queries";
 
 const languages = [
   { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
@@ -16,6 +18,7 @@ export const LanguageSelector = () => {
   const { i18n, t } = useTranslation();
   const pathname = usePathname() || "/";
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const routeLocale = pathname.split("/").filter(Boolean)[0] === "en" ? "en" : "nb";
   const currentLang = routeLocale;
@@ -30,9 +33,12 @@ export const LanguageSelector = () => {
     } catch {
       /* ignore */
     }
+    void invalidateSanityLocaleQueries(queryClient);
     const stripped = stripLocaleFromPathname(pathname);
     const nextPath = withLocalePath(target, stripped === "/" ? "/" : stripped);
     router.push(nextPath);
+    // Production (Vercel): re-run the server page so homepage loads $lang from Sanity.
+    router.refresh();
     setIsOpen(false);
   };
 
