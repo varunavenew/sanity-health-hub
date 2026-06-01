@@ -100,8 +100,12 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       {/* 2. Story — editorial bio with optional media */}
       <SpecialistBio specialist={specialist} />
 
+      {/* 2b. Featured service — tjenesten i denne saken */}
+      <SpecialistFeaturedService specialist={specialist} />
+
       {/* 3. Reviews (optional, hides if none) */}
       <SpecialistReviews specialist={specialist} />
+
 
 
       {/* 3. Booking — the conversion point */}
