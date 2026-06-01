@@ -3,6 +3,7 @@ import Index from "@/site-pages/Index";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { homeBreadcrumbJsonLd, medicalClinicJsonLd } from "@/lib/seo/home-jsonld";
 import { buildHomeMetadata } from "@/lib/seo/route-metadata";
+import { fetchHomepageData } from "@/lib/sanity/homepage-data";
 
 type Props = { params: Promise<{ locale: string }> };
 

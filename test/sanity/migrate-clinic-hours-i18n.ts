@@ -45,27 +45,44 @@ function i18nHours(no: string, en: string): I18nItem[] {
   ]
 }
 
+function needsHoursFix(hours: unknown): boolean {
+  if (typeof hours === 'string' && hours.trim()) return true
+  if (!isI18nArray(hours)) return typeof hours === 'string'
+  return !hours.some((i) => i.language === 'en' && i.value?.trim())
+}
+
 async function run() {
+  // Include drafts — Studio edits drafts; published-only migration left drafts as plain strings.
   const docs = await sanityClient.fetch<
     { _id: string; hours?: unknown; slug?: { current?: string } }[]
-  >(`*[_type == "clinicPage" && !(_id in path("drafts.**"))]{ _id, hours, slug }`)
+  >(`*[_type == "clinicPage"]{ _id, hours, slug }`)
 
   let updated = 0
   for (const doc of docs) {
     const slug = doc.slug?.current || slugFromId(doc._id)
-    const no = pickNo(doc.hours)
+    if (!slug || slug.startsWith('f7def66e')) {
+      console.log(`  · ${doc._id} — skipped (no slug)`)
+      continue
+    }
+
+    const no =
+      pickNo(doc.hours) ||
+      (typeof doc.hours === 'string' ? doc.hours.trim() : '')
+
     if (!no) {
       console.log(`  · ${doc._id} — no hours, skipped`)
       continue
     }
-    const en = HOURS_EN[slug] || no.replace(/Man–Fre/g, 'Mon–Fri').replace(/Man-Fre/g, 'Mon–Fri')
-    if (isI18nArray(doc.hours)) {
-      const hasEn = doc.hours.some((i) => i.language === 'en' && i.value?.trim())
-      if (hasEn) {
-        console.log(`  · ${doc._id} — EN already set`)
-        continue
-      }
+
+    if (!needsHoursFix(doc.hours)) {
+      console.log(`  · ${doc._id} — already valid i18n`)
+      continue
     }
+
+    const en =
+      HOURS_EN[slug] ||
+      no.replace(/Man–Fre/g, 'Mon–Fri').replace(/Man-Fre/g, 'Mon–Fri')
+
     console.log(`  ✎ ${doc._id} (${slug})`)
     if (!DRY_RUN) {
       await sanityClient
@@ -75,7 +92,7 @@ async function run() {
     }
     updated++
   }
-  console.log(`\n✓ ${updated} clinic(s)${DRY_RUN ? ' (dry run)' : ''}`)
+  console.log(`\n✓ ${updated} clinic document(s)${DRY_RUN ? ' (dry run)' : ''}`)
 }
 
 run().catch((e) => {
