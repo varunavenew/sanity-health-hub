@@ -57,24 +57,14 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  Tilbake til Aktuelt
  </Link>
 
- <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
- <span className="inline-flex items-center gap-1.5">
- <BookOpen className="w-3 h-3" />
- Fagartikkel
- </span>
- <span>·</span>
- <span>Kvinnehelse</span>
- <span>·</span>
- <span className="inline-flex items-center gap-1.5">
- <Clock className="w-3 h-3" />
- 9 min lesetid
- </span>
- <span>·</span>
- <span className="inline-flex items-center gap-1.5">
- <Calendar className="w-3 h-3" />
- Sist oppdatert 19. mai 2026
- </span>
- </div>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 mb-6">
+                  <span>Kvinnehelse</span>
+                  <span>·</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3" />
+                    Sist oppdatert 19. mai 2026
+                  </span>
+                </div>
 
  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.05] text-foreground mb-6">
  Overgangsalderen er en ny fase — ikke slutten på noe
@@ -200,7 +190,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  src={heroClinic}
  alt=""
  loading="lazy"
- className="w-full rounded-sm"
+ className="w-full rounded-2xl"
  />
  <figcaption className="text-xs font-light text-muted-foreground mt-3 px-6 md:px-0">
  Foto: CMedical Sandvika
@@ -374,7 +364,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-8 md:gap-12 items-center">
  <div className="md:col-span-2">
- <div className="aspect-[3/4] overflow-hidden rounded-sm bg-secondary">
+ <div className="aspect-[3/4] overflow-hidden rounded-2xl bg-secondary">
  <img src={idaProfile} alt="Ida Bjørntvedt" loading="lazy" className="w-full h-full object-cover" />
  </div>
  </div>
@@ -419,7 +409,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <section className="bg-background py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
- <div className="aspect-[4/3] overflow-hidden rounded-sm bg-secondary">
+ <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-secondary">
  <img src={categoryGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
  </div>
  <div>
@@ -486,7 +476,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">
  Spesialisten svarer — overgangsalder
  </h2>
- <div className="relative aspect-video rounded-sm overflow-hidden bg-secondary group cursor-pointer">
+ <div className="relative aspect-video rounded-2xl overflow-hidden bg-secondary group cursor-pointer">
  <img src={heroGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
  <div className="absolute inset-0 bg-brand-dark/30 flex items-center justify-center">
  <div className="w-16 h-16 rounded-full bg-brand-light/90 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -564,7 +554,7 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  { t: "Hormonbehandling — hva er trygt?", e: "Myter og fakta om moderne MHT, forklart.", c: "Kvinnehelse", img: articleGyn },
  ].map((a) => (
  <Link key={a.t} to="#" className="group">
- <div className="relative aspect-[16/10] rounded-sm overflow-hidden mb-3 bg-secondary">
+ <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-3 bg-secondary">
  <img
  src={a.img}
  alt={a.t}
