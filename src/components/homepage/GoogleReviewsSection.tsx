@@ -93,7 +93,6 @@ export const GoogleReviewsSection = () => {
       <div className="container mx-auto px-6 md:px-16 relative">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-brand-dark/60 font-light mb-3">{subheading}</p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{heading}</h2>
           </div>
           <div className="flex items-center gap-4">
