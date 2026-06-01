@@ -189,39 +189,47 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  </div>
  </section>
 
-  {/* ───────────── Fri innholdsblokk – plasserbar hvor som helst ───────────── */}
-  <MasterLabel>Innholdsblokk – fri komposisjon (tekst, bilde, video, lenke, stat) — kan plasseres hvor som helst</MasterLabel>
-  <RichContentSection
-    eyebrow="Innholdsblokk"
-    title="Visste du dette om endometriose?"
-    blocks={[
-      {
-        type: "paragraph",
-        text: "Endometriose er en av de mest underdiagnostiserte tilstandene innen kvinnehelse. Symptomer bagatelliseres ofte, og veien til riktig diagnose kan være lang.",
-      },
-      {
-        type: "stat",
-        value: "10%",
-        label: "har endometriose",
-        body: "Visste du at 8–10 % av alle kvinner har endometriose, og at det i snitt tar 7 år å få en diagnose?",
-      },
-      {
-        type: "paragraph",
-        text: "Hos CMedical jobber gynekologer, fertilitetsspesialister og kirurger tett sammen for å forkorte den veien — fra første konsultasjon til behandlingsplan.",
-      },
-      {
-        type: "image",
-        src: heroClinicLounge,
-        alt: "Klinikkmiljø hos CMedical",
-        caption: "Trygge omgivelser og erfarne spesialister gjør utredning enklere.",
-      },
-      {
-        type: "link",
-        href: "/behandlinger/gynekologi",
-        label: "Les mer om gynekologisk utredning",
-      },
-    ] as RichBlock[]}
-  />
+  {/* ───────────── Tjeneste-teaser – samme mønster som "Tjenesten i denne saken" ───────────── */}
+  <MasterLabel>Tjeneste-teaser – kort med bilde, tekst og lenke (samme mønster som "Tjenesten i denne saken")</MasterLabel>
+  <section className="bg-brand-light py-16 md:py-24 border-t border-foreground/10">
+    <div className="container mx-auto px-6 md:px-16">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+        <div>
+          <p className="text-xs font-light text-foreground/55 mb-4">Tjenesten i denne saken</p>
+          <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
+            Gynekologisk utredning
+          </h2>
+          <p className="text-base font-light text-foreground/80 leading-relaxed max-w-md mb-7">
+            Grundig samtale og undersøkelse hos erfaren gynekolog. Ingen henvisning nødvendig — du får ofte time innen få dager.
+          </p>
+          <ul className="space-y-2 mb-8">
+            {[
+              "Pris fra 2 500 kr",
+              "Dekkes av de fleste helseforsikringer",
+              "Konsultasjon innen 1–3 dager",
+            ].map((b) => (
+              <li key={b} className="text-sm font-light text-foreground/75">· {b}</li>
+            ))}
+          </ul>
+          <a
+            href="/behandlinger/gynekologi"
+            className="inline-flex items-center gap-2 text-sm font-normal text-foreground border-b border-foreground pb-1 hover:gap-3 transition-all"
+          >
+            Se hele tjenesten
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </a>
+        </div>
+        <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
+          <img
+            src={heroClinicLounge}
+            alt="Gynekologisk utredning hos CMedical"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
 
   {/* ───────────── Spesialistområder – kortgrid med bilde + tittel + tekst ───────────── */}
   <MasterLabel>Spesialistområder – kortgrid (samme som "Eksperter som jobber..." på gynekologisiden)</MasterLabel>
