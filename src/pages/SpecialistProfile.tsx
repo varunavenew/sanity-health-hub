@@ -7,6 +7,7 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
+import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { useFaqs } from "@/hooks/useSanity";
 
