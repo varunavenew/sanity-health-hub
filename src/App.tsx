@@ -178,6 +178,7 @@ const AppContent = () => {
         {/* Internal approval tracker */}
         <Route path="/godkjenning" element={<Godkjenning />} />
         <Route path="/maler/:key" element={<MalDemo />} />
+        <Route path="/demoer/tips" element={<TipsDemo />} />
         {/* Specialist profile design demos */}
         <Route path="/spesialist-design" element={<SpecialistDesignHub isChatOpen={false} />} />
         <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
