@@ -92,33 +92,30 @@ const MasterLabel = ({ children }: { children: React.ReactNode }) => (
 );
 
 const HeroWithVideo = ({ title, ctaLink, ctaText, navigate }: any) => (
- <header className="bg-brand-warm pt-16 md:pt-20 pb-10 md:pb-14">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-3xl mx-auto">
- <p className="text-xs text-foreground/60 font-light mb-4">Konseptfilm</p>
- <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
- {title}
- </h1>
- <p className="text-base text-foreground/70 font-light leading-relaxed max-w-xl mb-8">
- En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg.
- </p>
- <Button variant="cta" size="lg" onClick={() => navigate(ctaLink)}>
- {ctaText}
- <ArrowRight className="ml-2 w-4 h-4" />
- </Button>
- </div>
- </div>
- <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
- <div className="max-w-5xl mx-auto">
- <VideoPlayer
- thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
- videoUrl="/videos/kvinnehelse-konsept.mp4"
- title="Kvinnehelse gjennom hele livet"
- className="w-full aspect-video"
- />
- </div>
- </div>
- </header>
+  <header className="bg-brand-warm pt-16 md:pt-20 pb-10 md:pb-14">
+    <div className="container mx-auto px-6 md:px-16">
+      <div className="max-w-5xl mx-auto mb-10 md:mb-14">
+        <VideoPlayer
+          thumbnailUrl="/videos/kvinnehelse-konsept-poster.jpg"
+          videoUrl="/videos/kvinnehelse-konsept.mp4"
+          title="Kvinnehelse gjennom hele livet"
+          className="w-full aspect-video"
+        />
+      </div>
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+          {title}
+        </h1>
+        <p className="text-base text-foreground/70 font-light leading-relaxed max-w-xl mb-8">
+          En kort film om hvordan vi følger kvinner gjennom alle livets faser – med faglig trygghet og personlig omsorg.
+        </p>
+        <Button variant="cta" size="lg" onClick={() => navigate(ctaLink)}>
+          {ctaText}
+          <ArrowRight className="ml-2 w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  </header>
 );
 
 const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
