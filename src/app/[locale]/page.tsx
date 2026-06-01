@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Index from "@/site-pages/Index";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { HomepageHydration } from "@/components/providers/HomepageHydration";
 import { homeBreadcrumbJsonLd, medicalClinicJsonLd } from "@/lib/seo/home-jsonld";
 import { buildHomeMetadata } from "@/lib/seo/route-metadata";
 import { fetchHomepageData } from "@/lib/sanity/homepage-data";
@@ -9,6 +11,9 @@ type Props = { params: Promise<{ locale: string }> };
 
 /** Keep in sync with `SANITY_DATA_REVALIDATE_SEC.homepage` (Next requires a literal). */
 export const revalidate = 300;
+
+/** Always resolve homepage from Sanity at request time (uses env on Vercel). */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -21,14 +26,19 @@ export default async function HomePage({ params }: Props) {
   const sanityLang = locale === "en" ? "en" : "no";
   const initialHomepage = await fetchHomepageData(sanityLang);
 
+  const queryClient = new QueryClient();
+  queryClient.setQueryData(["sanity", "homepage", sanityLang], initialHomepage);
+
   return (
     <>
       <JsonLd data={[medicalClinicJsonLd(lang), homeBreadcrumbJsonLd(lang)]} />
-      <Index
-        isChatOpen={false}
-        initialHomepage={initialHomepage}
-        sanityLang={sanityLang}
-      />
+      <HomepageHydration state={dehydrate(queryClient)}>
+        <Index
+          isChatOpen={false}
+          initialHomepage={initialHomepage}
+          sanityLang={sanityLang}
+        />
+      </HomepageHydration>
     </>
   );
 }

@@ -83,10 +83,10 @@ const fetchSanity = async <T>(
 export const useHomepage = () => {
   const lang = useSanityLang();
   const serverInitial = useHomepageInitialData();
-  const initialData =
+  const serverData =
     serverInitial?.lang === lang ? serverInitial.data ?? undefined : undefined;
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ["sanity", "homepage", lang],
     queryFn: async () => {
       const data = await fetchSanity<Record<string, unknown>>(
@@ -96,9 +96,18 @@ export const useHomepage = () => {
       );
       return mapHomepageDocument(data, lang);
     },
-    initialData,
+    initialData: serverData,
     staleTime: 5 * 60 * 1000,
   });
+
+  const data = query.data ?? serverData;
+
+  return {
+    ...query,
+    data,
+    /** False when we already have RSC/server payload, even if the client query is still idle. */
+    isPending: !data && query.isPending,
+  };
 };
 
 // ─── Specialists ─────────────────────────────────────────────────────
