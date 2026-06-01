@@ -125,9 +125,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  {/* Sidebar — innholdsfortegnelse (sticky) */}
  <aside className="lg:col-span-3 order-2 lg:order-1">
  <div className="lg:sticky lg:top-28">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- I denne artikkelen
- </p>
+  <p className="text-sm font-normal text-foreground mb-4">
+    I denne artikkelen
+  </p>
  <nav>
  <ul className="space-y-2.5 border-l border-border">
  {sections.map((s) => (
