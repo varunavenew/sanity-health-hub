@@ -461,12 +461,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <section className="bg-background py-14 md:py-20">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-4xl mx-auto">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Webinar
- </p>
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">
- Spesialisten svarer — overgangsalder
- </h2>
+  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-6">
+    Webinar – Spesialisten svarer om overgangsalder
+  </h2>
  <div className="relative aspect-video rounded-2xl overflow-hidden bg-secondary group cursor-pointer">
  <img src={heroGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
  <div className="absolute inset-0 bg-brand-dark/30 flex items-center justify-center">
