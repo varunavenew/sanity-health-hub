@@ -241,9 +241,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* Spesialist-kommentar (kommentarstil) */}
  <aside className="bg-secondary/40 rounded-sm p-6 md:p-8 my-10 border-l-2 border-brand-dark">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Kommentar fra spesialisten
- </p>
+  <h3 className="text-sm font-medium text-foreground mb-4">
+    Kommentar fra spesialisten
+  </h3>
  <div className="flex gap-4">
  <div className="w-12 h-12 rounded-full bg-background flex-shrink-0 flex items-center justify-center text-sm font-light text-foreground/70">
  HR
