@@ -117,7 +117,11 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                 Bestill time hos {firstName}
               </Button>
-              <CallUsClinicPicker variant="light" label="Ring oss" />
+              <CallUsClinicPicker
+                variant="light"
+                label="Ring oss"
+                className="hover:bg-foreground hover:text-background hover:border-foreground"
+              />
             </motion.div>
           </div>
         </div>
