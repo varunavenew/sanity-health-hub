@@ -18,10 +18,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   const lang = locale === "en" ? "en" : "nb";
+  const sanityLang = locale === "en" ? "en" : "no";
+  const initialHomepage = await fetchHomepageData(sanityLang);
+
   return (
     <>
       <JsonLd data={[medicalClinicJsonLd(lang), homeBreadcrumbJsonLd(lang)]} />
-      <Index isChatOpen={false} />
+      <Index
+        isChatOpen={false}
+        initialHomepage={initialHomepage}
+        sanityLang={sanityLang}
+      />
     </>
   );
 }
