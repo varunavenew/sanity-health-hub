@@ -21,9 +21,13 @@ export function NextProviders({
   children: ReactNode;
   locale: AppLocale;
 }) {
+  const i18nCode = appLocaleToI18n(locale);
+  // Sync before first paint so Sanity hooks and UI share the route locale.
+  syncI18nLanguage(i18nCode);
+
   useEffect(() => {
-    syncI18nLanguage(appLocaleToI18n(locale));
-  }, [locale]);
+    syncI18nLanguage(i18nCode);
+  }, [i18nCode]);
 
   const [queryClient] = useState(() => new QueryClient());
 

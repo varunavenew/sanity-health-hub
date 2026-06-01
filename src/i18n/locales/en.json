@@ -94,6 +94,28 @@
     "title": "Frequently asked questions",
     "subtitle": "Questions & answers"
   },
+  "common": {
+    "breadcrumbHome": "Home",
+    "loading": "Loading…"
+  },
+  "treatmentPage": {
+    "faqTitle": "Frequently asked questions",
+    "linkedServicesTitle": "Related services",
+    "processTitle": "Treatment process",
+    "benefitsTitle": "Why choose us",
+    "notFoundTitle": "Treatment not found",
+    "notFoundBody": "This treatment is not available or has been moved.",
+    "ctaTitle": "Ready to take the next step?",
+    "ctaSubtitle": "Book an appointment easily online. No referral required, and we have short waiting times.",
+    "ctaBookGynekologi": "Book an appointment with a gynecologist",
+    "ctaBookFertilitet": "Book an appointment with a fertility specialist",
+    "ctaBookUrologi": "Book an appointment with a urologist",
+    "ctaBookOrtopedi": "Book an appointment with an orthopedic specialist",
+    "ctaBookGraviditet": "Book an appointment with a fetal medicine specialist",
+    "ctaBookAnnet": "Book an appointment with a specialist",
+    "ctaContact": "Contact us",
+    "backTo": "Back to"
+  },
   "homeFaq": {
     "referral": {
       "question": "Referral",

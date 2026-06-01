@@ -19,6 +19,36 @@ export function pickForLang(value: unknown, lang: string): string {
   return (entry?.value as string) || ''
 }
 
+function truncate(text: string, max = 80): string {
+  const t = text.trim()
+  if (t.length <= max) return t
+  return `${t.slice(0, max - 1)}…`
+}
+
+/** Studio list preview for FAQ rows (`question` + optional `answer`). */
+export const i18nFaqItemPreview = {
+  select: { title: 'question', subtitle: 'answer' },
+  prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
+    const answer = pickNo(subtitle)
+    return {
+      title: pickNo(title) || 'FAQ',
+      subtitle: answer ? truncate(answer) : undefined,
+    }
+  },
+}
+
+/** Studio list preview for objects with i18n `title` (+ optional `description`). */
+export const i18nTitleItemPreview = {
+  select: { title: 'title', subtitle: 'description' },
+  prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
+    const desc = pickNo(subtitle)
+    return {
+      title: pickNo(title) || 'Uten tittel',
+      subtitle: desc ? truncate(desc) : undefined,
+    }
+  },
+}
+
 type SlugFieldOverrides = {
   title?: string
   group?: string

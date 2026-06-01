@@ -65,6 +65,14 @@ import trondJorgensen from '@/assets/specialists/trond-jorgensen.jpg';
 
 import type { ImageRef } from "@/lib/media";
 
+/** Linked treatmentCategory from Sanity (Tilknyttede kategorier). */
+export interface SpecialistSanityCategory {
+  categoryId: string;
+  slug: string;
+  title: string;
+  categoryNumericId?: number;
+}
+
 export interface Specialist {
   name: string;
   title: string;
@@ -78,6 +86,10 @@ export interface Specialist {
   experience?: string;
   languages?: string[];
   clinics?: string[];
+  /** Categories linked in Sanity Studio — drives inline booking section. */
+  sanityCategories?: SpecialistSanityCategory[];
+  /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */
+  bookingCategoryIds?: number[];
 }
 
 export const specialists: Specialist[] = [

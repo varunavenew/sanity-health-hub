@@ -30,10 +30,13 @@ export const orderSlugAsc = `coalesce(
 function slugMatchExpr(slugPath: string, paramName: string): string {
   return `(
     ${slugPath}.current == $${paramName}
+    || defined(${slugPath}[value.current == $${paramName}][0])
     || ${slugPath}[language == $lang][0].value.current == $${paramName}
     || ${slugPath}[_key == $lang][0].value.current == $${paramName}
     || ${slugPath}[language == "no"][0].value.current == $${paramName}
     || ${slugPath}[_key == "no"][0].value.current == $${paramName}
+    || ${slugPath}[language == "en"][0].value.current == $${paramName}
+    || ${slugPath}[_key == "en"][0].value.current == $${paramName}
     || ${slugPath}[0].value.current == $${paramName}
   )`;
 }

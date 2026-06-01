@@ -1,11 +1,7 @@
 import { useParams, Link } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useJobListing } from "@/hooks/useSanity";
-import {
-  staticJobListings,
-  departmentLabels,
-  employmentTypeLabels,
-} from "@/data/jobListings";
+import { departmentLabels, employmentTypeLabels } from "@/data/jobListings";
 import {
   MapPin,
   Clock,
@@ -28,11 +24,9 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
   const { slug } = useParams<{ slug: string }>();
   const { data: sanityJob, isLoading, isError } = useJobListing(slug || "");
 
-  // Fallback to static
-  const staticJob = staticJobListings.find((j) => j.slug === slug);
-  const job = (sanityJob && !isError) ? sanityJob : staticJob;
+  const job = sanityJob && !isError ? sanityJob : undefined;
 
-  if (isLoading && !staticJob) {
+  if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="pt-32 pb-20 container mx-auto px-6 md:px-16 max-w-3xl">

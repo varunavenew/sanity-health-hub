@@ -94,6 +94,28 @@
     "title": "Ofte stilte spørsmål",
     "subtitle": "Spørsmål & svar"
   },
+  "common": {
+    "breadcrumbHome": "Hjem",
+    "loading": "Laster…"
+  },
+  "treatmentPage": {
+    "faqTitle": "Ofte stilte spørsmål",
+    "linkedServicesTitle": "Koblede tjenester",
+    "processTitle": "Behandlingsprosess",
+    "benefitsTitle": "Hvorfor velge oss",
+    "notFoundTitle": "Behandlingen finnes ikke",
+    "notFoundBody": "Denne behandlingen er ikke tilgjengelig eller har blitt flyttet.",
+    "ctaTitle": "Klar for å ta neste steg?",
+    "ctaSubtitle": "Bestill time enkelt online. Ingen henvisning nødvendig, og vi har kort ventetid.",
+    "ctaBookGynekologi": "Bestill time hos en gynekolog",
+    "ctaBookFertilitet": "Bestill time hos en fertilitetsspesialist",
+    "ctaBookUrologi": "Bestill time hos en urolog",
+    "ctaBookOrtopedi": "Bestill time hos en ortoped",
+    "ctaBookGraviditet": "Bestill time hos en fostermedisiner",
+    "ctaBookAnnet": "Bestill time hos en spesialist",
+    "ctaContact": "Kontakt oss",
+    "backTo": "Tilbake til"
+  },
   "homeFaq": {
     "referral": {
       "question": "Henvisning",

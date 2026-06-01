@@ -1,7 +1,7 @@
 // Schema: Treatment (sub-treatment page)
 // Individual treatment pages under each category
 import { TreatmentIcon } from './icons'
-import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { i18nFaqItemPreview, i18nSlugFieldFromTitle, i18nTitleItemPreview, pickNo } from './i18n'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -61,10 +61,13 @@ export default {
       of: [
         {
           type: 'object',
+          name: 'treatmentProcessStep',
+          title: 'Prosessteg',
           fields: [
             { name: 'title', title: 'Steg-tittel', type: 'internationalizedArrayString' },
             { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
           ],
+          preview: i18nTitleItemPreview,
         },
       ],
     },
@@ -76,10 +79,13 @@ export default {
       of: [
         {
           type: 'object',
+          name: 'treatmentFaq',
+          title: 'FAQ',
           fields: [
             { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString' },
             { name: 'answer', title: 'Svar', type: 'internationalizedArrayText' },
           ],
+          preview: i18nFaqItemPreview,
         },
       ],
     },

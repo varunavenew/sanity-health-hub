@@ -8,8 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
-import { clinics as staticClinics } from "@/data/clinicServices";
-import { serviceCategories } from "@/data/serviceCategories";
+import { useClinics } from "@/hooks/useSanity";
+import { useServiceCategories } from "@/hooks/useServiceCategories";
 
 interface ContactRequestDialogProps {
   open: boolean;
@@ -34,6 +34,8 @@ const TIME_OPTIONS = [
 ];
 
 export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialogProps) => {
+  const { data: clinics = [] } = useClinics();
+  const { categories: serviceCategories } = useServiceCategories();
   const { toast } = useToast();
   const [isSending, setIsSending] = useState(false);
   const [form, setForm] = useState({
@@ -133,7 +135,7 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               <Select value={form.clinic} onValueChange={(v) => setForm({ ...form, clinic: v })}>
                 <SelectTrigger><SelectValue placeholder="Velg klinikk" /></SelectTrigger>
                 <SelectContent>
-                  {staticClinics.map((c) => (
+                  {clinics.map((c: { slug?: string; id?: string; label: string }) => (
                     <SelectItem key={c.id} value={c.id}>CMedical {c.label}</SelectItem>
                   ))}
                 </SelectContent>
@@ -144,7 +146,7 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
                 <SelectTrigger><SelectValue placeholder="Velg fagområde" /></SelectTrigger>
                 <SelectContent>
-                  {serviceCategories.map((cat) => (
+                  {serviceCategories.map((cat: { id: string; label: string }) => (
                     <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>
                   ))}
                   <SelectItem value="annet">Annet / vet ikke</SelectItem>

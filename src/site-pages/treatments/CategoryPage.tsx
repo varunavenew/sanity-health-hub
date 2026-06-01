@@ -35,6 +35,7 @@ interface SubService {
 
 interface CategoryData {
   id: string;
+  numericId?: number;
   title: string;
   subtitle: string;
   description: string;
@@ -324,6 +325,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
   const category: CategoryData | undefined = sanityCategory
     ? {
         id: sanityCategory.categoryId || sanityCategory.slug || categoryId,
+        numericId: typeof sanityCategory.categoryNumericId === "number" ? sanityCategory.categoryNumericId : undefined,
         title: sanityCategory.title,
         subtitle: "Kort ventetid • Ingen henvisning",
         description: sanityCategory.description || staticCategory?.description || "",
@@ -389,7 +391,17 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
               {category.description.split('\n')[0]?.slice(0, 160)}
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button variant="cta" size="lg" onClick={() => navigate(`/booking?kategori=${categoryId}`)}>
+              <Button
+                variant="cta"
+                size="lg"
+                onClick={() =>
+                  navigate(
+                    `/booking?kategori=${categoryId}${
+                      category.numericId != null ? `&kategoriId=${category.numericId}` : ""
+                    }`,
+                  )
+                }
+              >
                 Bestill time
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>

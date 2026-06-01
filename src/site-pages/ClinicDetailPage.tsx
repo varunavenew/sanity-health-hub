@@ -4,7 +4,6 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { getClinicBySlug } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
@@ -37,60 +36,9 @@ interface ClinicDetailPageProps {
   isChatOpen: boolean;
 }
 
-// Static FAQ fallback per clinic
-const clinicFaqs: Record<string, { question: string; answer: string }[]> = {
-  majorstuen: [
-    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Dersom du ønsker å bruke forsikring eller offentlig refusjon, kan det være krav om henvisning fra fastlege." },
-    { question: "Kan jeg bruke helseforsikring?", answer: "Ja, vi samarbeider med de fleste forsikringsselskap. Ta kontakt med ditt forsikringsselskap i forkant for å avklare dekning." },
-    { question: "Hvor lang tid tar en konsultasjon?", answer: "En standardkonsultasjon varer normalt 30–45 minutter, avhengig av type undersøkelse." },
-    { question: "Er det ventetid for time?", answer: "Vi tilstreber kort ventetid. De fleste får time innen 1–2 uker." },
-  ],
-  bekkestua: [
-    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med ditt forsikringsselskap dersom du ønsker forsikringsdekning." },
-    { question: "Hvilke tjenester tilbys på Bekkestua?", answer: "Vi tilbyr gynekologi og hudlege ved vår klinikk på Bekkestua." },
-    { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
-  ],
-  ski: [
-    { question: "Hvilke tjenester tilbys i Ski?", answer: "Vi tilbyr gynekologiske tjenester ved vår klinikk i Ski." },
-    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning." },
-  ],
-  moss: [
-    { question: "Hvordan bestiller jeg time i Moss?", answer: "Timebestilling gjøres via Colosseum Faust sitt bookingsystem." },
-    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med forsikringsselskapet dersom relevant." },
-    { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
-  ],
-  moelv: [
-    { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning." },
-    { question: "Hvilke tjenester tilbys i Moelv?", answer: "Vi tilbyr gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin." },
-    { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
-  ],
-};
-
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const { slug } = useParams<{ slug: string }>();
-  const { data: sanityClinic, isLoading } = useClinic(slug || "");
-  const staticClinic = slug ? getClinicBySlug(slug) : undefined;
-
-  // Merge: Sanity first, static fallback
-  const clinic = sanityClinic || (staticClinic ? {
-    id: staticClinic.id,
-    slug: staticClinic.slug,
-    label: staticClinic.label,
-    address: staticClinic.address,
-    phone: staticClinic.phone,
-    hours: staticClinic.hours,
-    description: staticClinic.detail.description,
-    detail: {
-      parking: staticClinic.detail.parking,
-      publicTransport: staticClinic.detail.publicTransport,
-      accessibility: staticClinic.detail.accessibility,
-    },
-    mapsUrl: staticClinic.mapsUrl,
-    faqs: clinicFaqs[staticClinic.slug] || [],
-    services: staticClinic.services,
-    booking: undefined,
-    seo: undefined,
-  } : undefined);
+  const { data: clinic, isLoading } = useClinic(slug || "");
 
   useEffect(() => {
     if (clinic) {
@@ -99,7 +47,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   }, [clinic]);
 
   // Only show skeleton if Sanity is still loading AND we have no static fallback
-  if (isLoading && !staticClinic) {
+  if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="bg-brand-warm pt-24 pb-16">

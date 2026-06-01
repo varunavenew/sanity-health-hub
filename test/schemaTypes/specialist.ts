@@ -1,6 +1,7 @@
 // Schema: Specialist (Spesialist)
 import { SpecialistIcon } from './icons'
 import { i18nSlugFieldFromString, pickNo } from './i18n'
+import { BOOKING_ACTIVITY_GROUP_IDS } from './bookingActivityGroups'
 
 export default {
   name: 'specialist',
@@ -50,6 +51,26 @@ export default {
           to: [{ type: 'treatmentCategory' }],
         },
       ],
+    },
+    {
+      name: 'bookingCategoryIds',
+      title: 'Booking kategori-IDer (Metodika)',
+      type: 'array',
+      of: [
+        {
+          type: 'number',
+          title: 'Kategori-ID',
+          validation: (Rule: any) =>
+            Rule.required()
+              .integer()
+              .custom((id: number) => {
+                if (BOOKING_ACTIVITY_GROUP_IDS.includes(id)) return true
+                return `Ugyldig ID. Tillatte: ${BOOKING_ACTIVITY_GROUP_IDS.join(', ')}`
+              }),
+        },
+      ],
+      description:
+        'Én eller flere numeriske wbactivitygroup-IDer (kun tall). Eksempel: 8=Gynekolog, 10=Fostermedisiner, 6=Urolog, 17=Ortoped, 1=Fertilitet.',
     },
     {
       name: 'treatments',
@@ -151,19 +172,24 @@ export default {
       role: 'role',
       media: 'photo',
       booking: 'bookingEnabled',
+      bookingCategoryIds: 'bookingCategoryIds',
       t0: 'treatments.0->title',
       t1: 'treatments.1->title',
       t2: 'treatments.2->title',
     },
-    prepare({ title, role, media, booking, t0, t1, t2 }: any) {
+    prepare({ title, role, media, booking, bookingCategoryIds, t0, t1, t2 }: any) {
       const treatmentNames = [t0, t1, t2].map(pickNo).filter(Boolean)
       const roleLabel = pickNo(role) || 'Ingen rolle'
+      const idPart =
+        Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
+          ? ` · Booking #${bookingCategoryIds.join(', #')}`
+          : ''
       const treatmentLine = treatmentNames.length
         ? ` · Behandlinger: ${treatmentNames.join(', ')}${treatmentNames.length === 3 ? '…' : ''}`
         : ''
       return {
         title: `${booking === false ? '🚫 ' : ''}${title || ''}`,
-        subtitle: `${roleLabel}${treatmentLine}`,
+        subtitle: `${roleLabel}${idPart}${treatmentLine}`,
         media,
       }
     },

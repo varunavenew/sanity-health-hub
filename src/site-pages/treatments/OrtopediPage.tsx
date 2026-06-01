@@ -88,7 +88,7 @@ const expertAreas = [
     title: "Hånd, albue og fot",
     desc:
       "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
-    href: "/behandlinger/ortopedi/hand",
+    href: "/behandlinger/ortopedi/hand-albue",
     image: expertHand,
   },
   {
@@ -96,7 +96,7 @@ const expertAreas = [
     title: "Andre vurdering",
     desc:
       "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
-    href: "/behandlinger/ortopedi/second-opinion",
+    href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
     image: expertSecondOpinion,
   },
 ];
@@ -111,15 +111,15 @@ const allServices = [
   { title: "Kneslitasje", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
   { title: "Hofteslitasje", desc: "Hofte", href: "/behandlinger/ortopedi/hofte" },
   { title: "Labrumskade i hofte", desc: "Hofte", href: "/behandlinger/ortopedi/hofte" },
-  { title: "Karpaltunnelsyndrom", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
-  { title: "Tennisalbue og golfalbue", desc: "Albue", href: "/behandlinger/ortopedi/albue" },
-  { title: "Dupuytrens kontraktur", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
-  { title: "Hælspore og hælsmerter", desc: "Fot", href: "/behandlinger/ortopedi/fot" },
-  { title: "Ankelbåndskader", desc: "Ankel", href: "/behandlinger/ortopedi/fot" },
-  { title: "Skiveprolaps", desc: "Rygg", href: "/behandlinger/ortopedi/rygg" },
-  { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
-  { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
-  { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
+  { title: "Karpaltunnelsyndrom", desc: "Hånd", href: "/behandlinger/ortopedi/hand-albue" },
+  { title: "Tennisalbue og golfalbue", desc: "Albue", href: "/behandlinger/ortopedi/hand-albue" },
+  { title: "Dupuytrens kontraktur", desc: "Hånd", href: "/behandlinger/ortopedi/hand-albue" },
+  { title: "Hælspore og hælsmerter", desc: "Fot", href: "/behandlinger/ortopedi/fot-ankel" },
+  { title: "Ankelbåndskader", desc: "Ankel", href: "/behandlinger/ortopedi/fot-ankel" },
+  { title: "Skiveprolaps", desc: "Rygg", href: "/booking?kategori=ortopedi" },
+  { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/kne" },
+  { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/booking?kategori=ortopedi" },
+  { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/booking?kategori=ortopedi" },
 ];
 
 const journey = [

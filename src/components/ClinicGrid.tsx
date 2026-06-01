@@ -1,12 +1,10 @@
 import { MapPin, Phone, Clock } from "lucide-react";
 import { Link } from "@/lib/router";
 import { useClinics } from "@/hooks/useSanity";
-import { clinics as staticClinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
 
 export const ClinicGrid = () => {
-  const { data: sanityClinics } = useClinics();
-  const clinics = sanityClinics?.length ? sanityClinics : staticClinics;
+  const { data: clinics = [], isLoading } = useClinics();
   const { t } = useTranslation();
 
   return (
@@ -18,6 +16,9 @@ export const ClinicGrid = () => {
           </h2>
 
           <div className="divide-y divide-border/60">
+            {!isLoading && clinics.length === 0 && (
+              <p className="text-sm text-muted-foreground font-light py-4" />
+            )}
             {clinics.map((clinic: any) => (
               <Link
                 to={`/klinikker/${clinic.slug || clinic.id}`}

@@ -4,31 +4,16 @@ import { useFaqs } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { FaqSection } from "@/components/layout/FaqSection";
 
-const fallbackFaqIds = [
-  "referral",
-  "waitTime",
-  "sickLeave",
-  "assessment",
-  "company",
-  "insurance",
-] as const;
-
 export const LifePhasesSection = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data: sanityFaqs } = useFaqs("generelt");
 
-  const translatedFallbackFaqs = fallbackFaqIds.map((id) => ({
-    id,
-    question: t(`homeFaq.${id}.question`),
-    answer: t(`homeFaq.${id}.answer`),
-  }));
+  const faqs = (sanityFaqs || [])
+    .filter((f: any) => typeof f.question === "string" && f.question.trim().length > 0)
+    .map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }));
 
-  const faqs = sanityFaqs && sanityFaqs.length > 0
-    ? sanityFaqs
-        .filter((f: any) => typeof f.question === "string" && f.question.trim().length > 0)
-        .map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
-    : translatedFallbackFaqs;
+  if (faqs.length === 0) return null;
 
   return (
     <section id="life-phases" className="bg-background">

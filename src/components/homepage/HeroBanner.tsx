@@ -7,11 +7,6 @@ import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import type { ImageRef } from "@/lib/media";
 
-// Static fallback images
-import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
-import fertilityHero from "@/assets/hero/fertility-hero.jpg";
-import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
-
 interface HeroSlide {
   id: string;
   image: ImageRef;
@@ -30,57 +25,18 @@ export const HeroBanner = () => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  const staticSlides: HeroSlide[] = [
-    {
-      id: "kvinnehelse",
-      image: kvinnehelseHero,
-      alt: t("hero.kvinnehelse.label"),
-      label: t("hero.kvinnehelse.label"),
-      subtitle: t("hero.kvinnehelse.subtitle"),
-      cta: t("hero.readMore"),
-      ctaPath: "/kvinnehelse",
-      objectPosition: "center 20%",
-    },
-    {
-      id: "fertilitet",
-      image: fertilityHero,
-      alt: t("hero.fertilitet.label"),
-      label: t("hero.fertilitet.label"),
-      subtitle: t("hero.fertilitet.subtitle"),
-      cta: t("hero.readMore"),
-      ctaPath: "/fertilitet",
-      objectPosition: "center 40%",
-    },
-    {
-      id: "robotkirurgi",
-      image: robotkirurgiHero,
-      alt: t("hero.robotkirurgi.label"),
-      label: t("hero.robotkirurgi.label"),
-      subtitle: t("hero.robotkirurgi.subtitle"),
-      cta: t("hero.readMore"),
-      ctaPath: "/robotassistert-kirurgi",
-      objectPosition: "center 40%",
-    },
-  ];
-
-  const sanitySlides: HeroSlide[] =
-    homepage?.heroSlides && homepage.heroSlides.length > 0
-      ? homepage.heroSlides.map((s: any, i: number) => {
-          const fallback = staticSlides[i] || staticSlides[0];
-          return {
-            id: s.id || fallback.id,
-            image: s.image || fallback.image,
-            alt: s.label || fallback.alt,
-            label: s.label || fallback.label,
-            subtitle: s.subtitle || fallback.subtitle,
-            cta: s.cta || fallback.cta,
-            ctaPath: s.ctaPath || fallback.ctaPath,
-            objectPosition: s.objectPosition || fallback.objectPosition,
-          };
-        })
-      : [];
-
-  const heroSlides: HeroSlide[] = sanitySlides.length > 0 ? sanitySlides : staticSlides;
+  const heroSlides: HeroSlide[] = (homepage?.heroSlides || [])
+    .filter((s: any) => s?.image && s?.label)
+    .map((s: any, i: number) => ({
+      id: s.id || `slide-${i}`,
+      image: s.image,
+      alt: s.label || "",
+      label: s.label,
+      subtitle: s.subtitle || "",
+      cta: s.cta || t("hero.readMore"),
+      ctaPath: s.ctaPath || "/",
+      objectPosition: s.objectPosition || "center center",
+    }));
 
   const goTo = useCallback((index: number) => {
     setDirection(index > current ? 1 : -1);
@@ -125,6 +81,8 @@ export const HeroBanner = () => {
       else prev();
     }
   }, [next, prev]);
+
+  if (heroSlides.length === 0) return null;
 
   const slide = heroSlides[current];
 

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Phone, ChevronDown } from "lucide-react";
 import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
-import { clinics } from "@/data/clinicServices";
+import { useClinics } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -23,6 +23,7 @@ export const CallUsClinicPicker = ({
 }: Props) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { data: clinics = [] } = useClinics();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,9 @@ export const CallUsClinicPicker = ({
     return () => document.removeEventListener("mousedown", handle);
   }, []);
 
-  const callable = clinics.map((c) => ({ label: c.label, phone: c.phone }));
+  const callable = (clinics as { label: string; phone?: string }[])
+    .filter((c) => c.phone)
+    .map((c) => ({ label: c.label, phone: c.phone! }));
 
   return (
     <div className="relative" ref={ref}>

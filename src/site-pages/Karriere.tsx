@@ -4,12 +4,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageHero } from "@/components/layout/PageHero";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useJobListings } from "@/hooks/useSanity";
-import {
-  staticJobListings,
-  departmentLabels,
-  employmentTypeLabels,
-  type JobListing,
-} from "@/data/jobListings";
+import { departmentLabels, employmentTypeLabels, type JobListing } from "@/data/jobListings";
 import { MapPin, Clock, Briefcase, ChevronRight, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -24,8 +19,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState<string>("alle");
 
-  const jobs: JobListing[] =
-    sanityJobs && sanityJobs.length > 0 ? sanityJobs : staticJobListings;
+  const jobs: JobListing[] = sanityJobs || [];
 
   // Unique departments for filter
   const departments = Array.from(new Set(jobs.map((j) => j.department)));

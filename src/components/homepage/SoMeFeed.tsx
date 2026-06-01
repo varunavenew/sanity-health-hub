@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Instagram, Linkedin, Facebook, Youtube, Twitter } from "lucide-react";
+import { AssetImg } from "@/components/AssetImg";
 import { useSiteSettings } from "@/hooks/useSanity";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import type { ImageRef } from "@/lib/media";
 
 // Local fallback images
 import socialPost1 from "@/assets/social/social-post-1.jpg";
@@ -38,10 +41,43 @@ const fallbackSocial = {
   linkedin: "https://www.linkedin.com/company/cmedical",
 };
 
+type SoMePost = {
+  id: string;
+  platform: "instagram";
+  image: ImageRef;
+  caption: string;
+  permalink: string;
+};
+
+const isUsableRemoteImage = (url: unknown): url is string =>
+  typeof url === "string" && /^https?:\/\//.test(url);
+
 const fetchInstagramPosts = async () => {
   const { data, error } = await supabase.functions.invoke("instagram-feed");
   if (error) throw error;
   return data?.posts || [];
+};
+
+const SoMePostImage = ({
+  post,
+  fallbackImage,
+  className,
+}: {
+  post: SoMePost;
+  fallbackImage: ImageRef;
+  className?: string;
+}) => {
+  const [src, setSrc] = useState<ImageRef>(post.image);
+
+  return (
+    <AssetImg
+      src={src}
+      alt=""
+      loading="lazy"
+      className={className}
+      onError={() => setSrc(fallbackImage)}
+    />
+  );
 };
 
 interface SoMeFeedProps {
@@ -60,15 +96,17 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
     retry: 1,
   });
 
-  const posts = livePosts && livePosts.length > 0
-    ? livePosts.map((p: any) => ({
-        id: p.id,
-        platform: "instagram" as const,
-        image: p.image,
-        caption: p.caption,
-        permalink: p.permalink,
-      }))
-    : fallbackPosts;
+  const instagramPosts: SoMePost[] = (livePosts || [])
+    .filter((p: { image?: unknown }) => isUsableRemoteImage(p.image))
+    .map((p: { id: string; image: string; caption?: string; permalink?: string }) => ({
+      id: p.id,
+      platform: "instagram" as const,
+      image: p.image,
+      caption: p.caption || "",
+      permalink: p.permalink || fallbackSocial.instagram,
+    }));
+
+  const posts: SoMePost[] = instagramPosts.length > 0 ? instagramPosts : fallbackPosts;
 
   const socialLinks = [
     social?.instagram && { platform: "Instagram", url: social.instagram, icon: Instagram },
@@ -83,7 +121,7 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
   if (compact) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {displayPosts.map((post) => (
+        {displayPosts.map((post, index) => (
           <a
             key={post.id}
             href={post.permalink}
@@ -91,7 +129,11 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
             rel="noopener noreferrer"
             className="group relative aspect-square rounded-sm overflow-hidden bg-secondary"
           >
-            <img src={post.image} alt="" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <SoMePostImage
+              post={post}
+              fallbackImage={fallbackPosts[index % fallbackPosts.length].image}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
             <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">
@@ -125,9 +167,13 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-6xl mx-auto">
-          {displayPosts.map((post) => (
+          {displayPosts.map((post, index) => (
             <a key={post.id} href={post.permalink} target="_blank" rel="noopener noreferrer" className="group relative aspect-square rounded-sm overflow-hidden bg-secondary">
-              <img src={post.image} alt="" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <SoMePostImage
+                post={post}
+                fallbackImage={fallbackPosts[index % fallbackPosts.length].image}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
               <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center">

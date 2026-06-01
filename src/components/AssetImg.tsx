@@ -7,5 +7,7 @@ export type AssetImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src
 
 /** `<img>` wrapper: accepts string URLs and static image imports (`StaticImageData`). */
 export function AssetImg({ src, alt = "", ...props }: AssetImgProps) {
-  return <img {...props} src={assetSrc(src)} alt={alt} />;
+  const resolved = assetSrc(src);
+  if (!resolved) return null;
+  return <img {...props} src={resolved} alt={alt} />;
 }

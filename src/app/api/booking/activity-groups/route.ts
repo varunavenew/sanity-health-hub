@@ -164,6 +164,22 @@ export async function GET() {
       .filter((item): item is BookingCategory => item !== null)
       .sort(compareCategories);
 
+    console.log("[booking/activity-groups] fetched categories from wbactivities", {
+      categoryCount: categories.length,
+      categories: categories.map((c) => ({
+        id: c.id,
+        clinicServiceId: c.clinicServiceId,
+        apiGroupId: c.apiGroupId,
+        label: c.label,
+        serviceCount: c.services.length,
+        services: c.services.map((s) => ({
+          name: s.name,
+          apiActivityId: s.apiActivityId,
+          price: s.price,
+        })),
+      })),
+    });
+
     return NextResponse.json({ ok: true, categories });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";

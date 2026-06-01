@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import { sanityClient } from "@/lib/sanityClient";
+import { useSanityContentLang } from "@/lib/sanity/content-lang";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import {
+  dedupeBySlug,
+  filterPublishedDocuments,
+} from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySlug, textForSort } from "@/lib/sortAlphabetical";
 import {
   HOMEPAGE_QUERY,
@@ -40,17 +44,7 @@ import {
 } from "@/lib/queries";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 
-/**
- * Map the i18next UI language code to the Sanity language key used by
- * `sanity-plugin-internationalized-array`. UI uses `nb` (Bokmål) but the
- * Studio plugin is configured with `no` for simplicity.
- */
-const useSanityLang = (): "no" | "en" => {
-  const { i18n } = useTranslation();
-  const lang = i18n.language || "nb";
-  if (lang.startsWith("en")) return "en";
-  return "no";
-};
+const useSanityLang = useSanityContentLang;
 
 // Map Sanity treatmentCategory slugs to the internal category keys used by filters
 const mapSanityCategorySlug = (slug: string): string => {
@@ -153,6 +147,37 @@ export interface SanitySpecialist {
   languages?: string[];
   clinics?: string[];
   bookingEnabled?: boolean;
+  bookingCategoryIds?: number[];
+  sanityCategories?: {
+    categoryId: string;
+    slug: string;
+    title: string;
+    categoryNumericId?: number;
+  }[];
+}
+
+function mapSanitySpecialistCategories(
+  categories: Array<{
+    categoryId?: string;
+    slug?: string;
+    title?: unknown;
+    categoryNumericId?: number;
+  }> | undefined,
+) {
+  if (!categories?.length) return [];
+  return categories.map((c) => ({
+    categoryId: c.categoryId || c.slug || "",
+    slug: c.slug || c.categoryId || "",
+    title: typeof c.title === "string" ? c.title : "",
+    categoryNumericId: c.categoryNumericId,
+  }));
+}
+
+function normalizeBookingCategoryIds(value: unknown): number[] {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.filter((id): id is number => typeof id === "number" && id > 0))].sort(
+    (a, b) => a - b,
+  );
 }
 
 export const useSpecialists = () => {
@@ -169,6 +194,8 @@ export const useSpecialists = () => {
         bio: s.shortBio || "",
         category: mapSanityCategorySlug(s.categories?.[0]?.slug || ""),
         clinics: s.clinics || [],
+        bookingCategoryIds: normalizeBookingCategoryIds(s.bookingCategoryIds),
+        sanityCategories: mapSanitySpecialistCategories(s.categories),
       })) as SanitySpecialist[];
     },
     staleTime: 5 * 60 * 1000,
@@ -188,8 +215,10 @@ export const useSpecialist = (slug: string) => {
         subtitle: data.subtitle || "",
         expertise: data.specialties || [],
         bio: data.shortBio || "",
-        category: data.categories?.[0]?.slug || "",
+        category: mapSanityCategorySlug(data.categories?.[0]?.slug || ""),
         clinics: data.clinics || [],
+        bookingCategoryIds: normalizeBookingCategoryIds(data.bookingCategoryIds),
+        sanityCategories: mapSanitySpecialistCategories(data.categories),
       } as SanitySpecialist;
     },
     enabled: !!slug,
@@ -453,13 +482,31 @@ export const useServicesPage = () => {
 };
 
 // ─── Clinics ─────────────────────────────────────────────────────────
+function normalizeClinicRow(c: Record<string, unknown>) {
+  const label =
+    typeof c.label === "string"
+      ? c.label
+      : typeof c.title === "string"
+        ? c.title
+        : "";
+  return {
+    ...c,
+    label: label.trim(),
+    slug: (c.slug as string) || (c.id as string) || "",
+    id: (c.id as string) || (c.slug as string) || "",
+  };
+}
+
 export const useClinics = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "clinics", lang],
     queryFn: async () => {
       const data = await fetchSanity<any[]>(CLINICS_QUERY, undefined, lang);
-      return sortBySlug(data || [], (c) => c.slug || c.label, lang);
+      const published = filterPublishedDocuments(data || [])
+        .map((c) => normalizeClinicRow(c))
+        .filter((c) => c.label && (c as { address?: string }).address);
+      return sortBySlug(dedupeBySlug(published), (c) => c.slug || c.label, lang);
     },
     staleTime: 5 * 60 * 1000,
   });
