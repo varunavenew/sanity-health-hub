@@ -1,9 +1,17 @@
-import type { Metadata } from "next";
 import TreatmentPage from "@/site-pages/treatments/TreatmentPage";
-import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
+import {
+  createBehandlingerTreatmentMetadataExport,
+  createBehandlingerTreatmentPage,
+} from "@/lib/behandlinger/create-treatment-page";
+import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-treatment-page";
 
-export const generateMetadata = createBehandlingerTreatmentMetadata("ortopedi");
-
-export default function Page() {
-  return <TreatmentPage categoryId="ortopedi" isChatOpen={false} />;
+function OrtopediTreatmentPage(props: BehandlingerTreatmentPageProps) {
+  return <TreatmentPage categoryId="ortopedi" {...props} />;
 }
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
+export const generateMetadata = createBehandlingerTreatmentMetadataExport("ortopedi");
+
+export default createBehandlingerTreatmentPage("ortopedi", OrtopediTreatmentPage);

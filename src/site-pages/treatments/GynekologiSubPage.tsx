@@ -4,17 +4,25 @@ import { useParams } from "@/lib/router";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import TreatmentPage from "./TreatmentPage";
+import type { BehandlingerTreatmentPageProps } from "@/lib/behandlinger/create-treatment-page";
 
-interface Props {
-  isChatOpen: boolean;
-}
-
-const GynekologiSubPage = ({ isChatOpen }: Props) => {
+const GynekologiSubPage = ({
+  isChatOpen,
+  initialTreatment,
+  sanityLang,
+}: BehandlingerTreatmentPageProps) => {
   const { subId } = useParams<{ subId: string }>();
   const base = subId ? gynekologiSubPages[subId] : undefined;
 
   if (!base) {
-    return <TreatmentPage categoryId="gynekologi" isChatOpen={isChatOpen} />;
+    return (
+      <TreatmentPage
+        categoryId="gynekologi"
+        isChatOpen={isChatOpen}
+        initialTreatment={initialTreatment}
+        sanityLang={sanityLang}
+      />
+    );
   }
 
   // Inject defaults so every gynekologi sub-page gets the standard

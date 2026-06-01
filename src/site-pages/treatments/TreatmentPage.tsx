@@ -16,11 +16,20 @@ import {
 import { bookingUrlForTreatment, resolveCategoryNumericId } from "@/lib/bookingLinks";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvider";
+import type { TreatmentData } from "@/lib/sanity/treatment-data";
 
 interface TreatmentPageProps {
   categoryId: string;
   isChatOpen: boolean;
+  initialTreatment?: TreatmentData | null;
+  sanityLang?: "no" | "en";
 }
+
+type TreatmentPageContentProps = {
+  categoryId: string;
+  isChatOpen: boolean;
+};
 
 const QUICK_INFO_ICONS = [FileText, Clock, Shield] as const;
 
@@ -86,7 +95,7 @@ const AccordionGroup = ({
   return <>{children(openIndex, toggle)}</>;
 };
 
-const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
+const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentProps) => {
   const params = useParams();
   const subId =
     typeof params.subId === "string"
@@ -518,6 +527,32 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </div>
       </section>
     </PageLayout>
+  );
+};
+
+const TreatmentPage = ({
+  categoryId,
+  isChatOpen,
+  initialTreatment = null,
+  sanityLang = "no",
+}: TreatmentPageProps) => {
+  const params = useParams();
+  const subId =
+    typeof params.subId === "string"
+      ? params.subId
+      : Array.isArray(params.subId)
+        ? params.subId[0] ?? ""
+        : "";
+
+  return (
+    <TreatmentDataProvider
+      lang={sanityLang}
+      categorySlug={categoryId}
+      treatmentSlug={subId}
+      data={initialTreatment}
+    >
+      <TreatmentPageContent categoryId={categoryId} isChatOpen={isChatOpen} />
+    </TreatmentDataProvider>
   );
 };
 

@@ -9,10 +9,15 @@ const nextConfig: NextConfig = {
    * same project/dataset as `test/sanity` when only `SANITY_PROJECT_ID` is set.
    */
   env: {
+    // Never bake "" at build time — Vercel previews without env vars would break client fetches.
     NEXT_PUBLIC_SANITY_PROJECT_ID:
-      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || "",
+      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
+      process.env.SANITY_PROJECT_ID ||
+      "9jhqpk3a",
     NEXT_PUBLIC_SANITY_DATASET:
-      process.env.NEXT_PUBLIC_SANITY_DATASET || process.env.SANITY_DATASET || "production",
+      process.env.NEXT_PUBLIC_SANITY_DATASET ||
+      process.env.SANITY_DATASET ||
+      "production",
   },
   images: {
     remotePatterns: [
