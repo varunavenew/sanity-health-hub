@@ -494,11 +494,11 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <section className="bg-background py-12 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
- <div className="flex items-center gap-2 mb-5">
- <History className="w-4 h-4 text-brand-dark" />
- <p className="text-[11px] uppercase text-brand-dark">
- Revisjonshistorikk
- </p>
+  <div className="flex items-center gap-2 mb-5">
+    <History className="w-4 h-4 text-brand-dark" />
+    <h3 className="text-sm font-medium text-foreground">
+      Revisjonshistorikk
+    </h3>
  </div>
  <ul className="space-y-2.5 text-sm font-light text-foreground/70">
  <li><span className="text-foreground">19. mai 2026</span> — Oppdatert med nye NICE-retningslinjer (2024).</li>
