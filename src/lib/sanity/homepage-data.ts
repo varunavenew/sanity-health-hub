@@ -8,6 +8,21 @@ import {
 } from "@/lib/sanity/sanity-revalidate";
 import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
+import { sanityClient } from "@/lib/sanityClient";
+
+function asPlainString(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (value == null) return "";
+  if (Array.isArray(value)) {
+    const first = value[0] as { value?: unknown } | undefined;
+    if (first && typeof first.value === "string") return first.value;
+  }
+  if (typeof value === "object" && "value" in (value as object)) {
+    const inner = (value as { value: unknown }).value;
+    if (typeof inner === "string") return inner;
+  }
+  return "";
+}
 
 export type HomepageHeroSlide = {
   id: string;
@@ -58,7 +73,7 @@ export function mapHomepageDocument(
   const statsBar = (data.statsBar as unknown[]) || [];
 
   return {
-    tagline: typeof data.tagline === "string" ? data.tagline : undefined,
+    tagline: asPlainString(data.tagline) || undefined,
     promoBlocksTitle:
       typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
     statsBar: statsBar.map((s) => {
@@ -70,11 +85,11 @@ export function mapHomepageDocument(
         const s = slide as Record<string, unknown>;
         return {
           id: `slide-${i}`,
-          label: (s.heading as string) || "",
-          subtitle: (s.subheading as string) || "",
-          cta: (s.ctaText as string) || "Les mer",
-          ctaPath: (s.ctaLink as string) || "/",
-          image: (s.image as string) || "",
+          label: asPlainString(s.heading),
+          subtitle: asPlainString(s.subheading),
+          cta: asPlainString(s.ctaText) || "Les mer",
+          ctaPath: asPlainString(s.ctaLink) || "/",
+          image: asPlainString(s.image),
           objectPosition: "center 30%",
         };
       })
@@ -83,12 +98,12 @@ export function mapHomepageDocument(
       serviceCategories
         .map((c) => {
           const row = c as Record<string, unknown>;
-          const slug = row.slug as string | undefined;
+          const slug = asPlainString(row.slug);
           return {
             id: slug || "",
-            title: (row.title as string) || "",
+            title: asPlainString(row.title),
             path: slug ? `/${slug}` : "",
-            image: (row.heroImage as string) || "",
+            image: asPlainString(row.heroImage),
           };
         })
         .filter((c) => c.image && c.title),
@@ -116,11 +131,17 @@ export function mapHomepageDocument(
   };
 }
 
+async function fetchHomepageRaw(
+  lang: "no" | "en",
+): Promise<Record<string, unknown> | null> {
+  return sanityClient.fetch<Record<string, unknown> | null>(HOMEPAGE_QUERY, { lang });
+}
+
 /** Server-side homepage payload for RSC + React Query hydration. */
 export async function fetchHomepageData(
   lang: "no" | "en",
 ): Promise<HomepageData | null> {
-  const raw = await sanityFetchCached<Record<string, unknown> | null>({
+  let raw = await sanityFetchCached<Record<string, unknown> | null>({
     query: HOMEPAGE_QUERY,
     params: { lang },
     key: ["sanity", "homepage", lang, HOMEPAGE_QUERY],
@@ -131,6 +152,12 @@ export async function fetchHomepageData(
     ],
     revalidate: SANITY_DATA_REVALIDATE_SEC.homepage,
   });
+
+  // Avoid serving a cached empty homepage when the first build had no Sanity env.
+  if (!raw) {
+    raw = await fetchHomepageRaw(lang);
+  }
+
   if (!raw) return null;
   return mapHomepageDocument(normalizeI18n(raw, lang) as Record<string, unknown>, lang);
 }

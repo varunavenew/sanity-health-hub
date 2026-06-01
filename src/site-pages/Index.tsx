@@ -26,10 +26,9 @@ interface IndexProps {
 
 const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
   const { t } = useTranslation();
-  const { data: homepage, isPending } = useHomepage();
+  const { data: homepage, isPending, isFetched } = useHomepage();
   const pageSections = homepage?.pageSections;
-  /** Avoid painting tagline/services before Sanity (no server payload on client-only nav). */
-  const homepageReady = !isPending;
+  const homepageReady = Boolean(homepage) || isFetched;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>

@@ -61,25 +61,25 @@ export const PAGE_SECTIONS_GROQ = `
 `;
 
 export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
-  ${i18nStringLocale("title")},
-  ${i18nStringLocale("tagline")},
+  ${i18nString("title")},
+  ${i18nString("tagline")},
   heroBanner{
     slides[]{
-      ${i18nStringLocale("heading")},
-      ${i18nStringLocale("subheading")},
-      ${i18nStringLocale("ctaText")},
+      ${i18nString("heading")},
+      ${i18nString("subheading")},
+      ${i18nString("ctaText")},
       ctaLink,
       "image": image.asset->url
     }
   },
   "serviceCategories": serviceCategories[]->{ _id, ${i18nString("title")}, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
-  valueBadges[]{icon, ${i18nStringLocale("label")}},
-  statsBar[]{value, ${i18nStringLocale("label")}},
-  ${i18nStringLocale("promoBlocksTitle")},
+  valueBadges[]{icon, ${i18nString("label")}},
+  statsBar[]{value, ${i18nString("label")}},
+  ${i18nString("promoBlocksTitle")},
   promoBlocks[]{
-    ${i18nStringLocale("title")},
+    ${i18nString("title")},
     ${i18nText("description")},
-    ${i18nStringLocale("ctaText")},
+    ${i18nString("ctaText")},
     ctaLink,
     "image": image.asset->url
   },
