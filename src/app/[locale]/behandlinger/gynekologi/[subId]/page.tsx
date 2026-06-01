@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
 import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
-import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
+import {
+  createBehandlingerTreatmentMetadataExport,
+  createBehandlingerTreatmentPage,
+} from "@/lib/behandlinger/create-treatment-page";
 
-export const generateMetadata = createBehandlingerTreatmentMetadata("gynekologi");
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <GynekologiSubPage isChatOpen={false} />;
-}
+export const generateMetadata = createBehandlingerTreatmentMetadataExport("gynekologi");
+
+export default createBehandlingerTreatmentPage("gynekologi", GynekologiSubPage);

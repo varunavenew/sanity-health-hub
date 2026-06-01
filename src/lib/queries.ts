@@ -164,6 +164,7 @@ const localizedParentCategory = `"parentCategory": coalesce(
 
 export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesParam("treatmentSlug")} && (${slugMatchesRefParam("category", "categorySlug")} || category->categoryId == $categorySlug)][0]{
   _id,
+  ${localizedSlug},
   ${i18nString('title')},
   ${i18nString('subtitle')},
   ${i18nText('description')},

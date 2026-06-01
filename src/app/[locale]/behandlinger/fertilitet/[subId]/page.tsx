@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
 import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
-import { createBehandlingerTreatmentMetadata } from "@/lib/seo/behandlinger-metadata";
+import {
+  createBehandlingerTreatmentMetadataExport,
+  createBehandlingerTreatmentPage,
+} from "@/lib/behandlinger/create-treatment-page";
 
-export const generateMetadata = createBehandlingerTreatmentMetadata("fertilitet");
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <FertilitetSubPage isChatOpen={false} />;
-}
+export const generateMetadata = createBehandlingerTreatmentMetadataExport("fertilitet");
+
+export default createBehandlingerTreatmentPage("fertilitet", FertilitetSubPage);

@@ -8,6 +8,8 @@ import {
 } from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySlug, textForSort } from "@/lib/sortAlphabetical";
 import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
+import { mapTreatmentDocument } from "@/lib/sanity/treatment-data";
+import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
 import { useHomepageInitialData } from "@/components/homepage/HomepageDataProvider";
 import {
   HOMEPAGE_QUERY,
@@ -327,19 +329,36 @@ export const useTreatmentCategory = (slug: string) => {
 // ─── Treatment (sub-treatment) ───────────────────────────────────────
 export const useTreatment = (categorySlug: string, treatmentSlug: string) => {
   const lang = useSanityLang();
-  return useQuery({
+  const serverInitial = useTreatmentInitialData();
+  const serverMatches =
+    serverInitial?.lang === lang &&
+    serverInitial?.categorySlug === categorySlug &&
+    serverInitial?.treatmentSlug === treatmentSlug;
+  const serverData = serverMatches ? serverInitial?.data ?? undefined : undefined;
+
+  const query = useQuery({
     queryKey: ["sanity", "treatment", categorySlug, treatmentSlug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(TREATMENT_BY_SLUG_QUERY, { categorySlug, treatmentSlug }, lang);
-      if (!data) return null;
-      return {
-        ...data,
-        pageSections: normalizePageSections(data.pageSections),
-      };
+      const data = await fetchSanity<Record<string, unknown>>(
+        TREATMENT_BY_SLUG_QUERY,
+        { categorySlug, treatmentSlug },
+        lang,
+      );
+      return mapTreatmentDocument(data);
     },
+    initialData: serverData,
     enabled: !!categorySlug && !!treatmentSlug,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: "always",
   });
+
+  const data = serverMatches ? (query.data ?? serverData) : query.data;
+
+  return {
+    ...query,
+    data,
+    isPending: !data && query.isPending,
+  };
 };
 
 // ─── About Page ──────────────────────────────────────────────────────
