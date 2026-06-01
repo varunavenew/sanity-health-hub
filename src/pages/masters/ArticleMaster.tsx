@@ -366,12 +366,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  </div>
  </div>
  <div className="md:col-span-3">
- <p className="text-[11px] uppercase text-brand-dark mb-3">
- Fagforfatter
- </p>
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
- Ida Bjørntvedt
- </h2>
+  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+    Fagforfatter Ida Bjørntvedt
+  </h2>
  <p className="text-sm font-light text-foreground/70 mb-5">
  Spesialist i gynekologi · CMedical Sandvika
  </p>
