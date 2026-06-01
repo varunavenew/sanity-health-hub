@@ -407,12 +407,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <img src={categoryGyn} alt="" loading="lazy" className="w-full h-full object-cover" />
  </div>
  <div>
- <p className="text-[11px] uppercase text-brand-dark mb-3">
- Tjenesten i denne artikkelen
- </p>
- <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
- Overgangsalder-konsultasjon
- </h2>
+  <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
+    Overgangsalder-konsultasjon
+  </h2>
  <p className="text-base font-light leading-relaxed text-foreground/80 mb-6">
  En 45-minutters samtale med spesialist hvor vi kartlegger symptomer,
  gjennomgår alternativer og legger en plan tilpasset deg.
