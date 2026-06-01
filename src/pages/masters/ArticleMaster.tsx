@@ -328,9 +328,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* Kildeliste */}
  <section className="mt-14 pt-8 border-t border-border/60">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Kilder og referanser
- </p>
+  <h3 className="text-sm font-medium text-foreground mb-4">
+    Kilder og referanser
+  </h3>
  <ol className="space-y-3 text-xs font-light text-foreground/70 leading-relaxed list-decimal pl-5">
  <li>
  NICE Guidelines (2024). <em>Menopause: diagnosis and management</em>.
