@@ -159,9 +159,9 @@ const ArticleMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
  {/* TL;DR – hovedpunkter (valgfri) */}
  <aside className="bg-brand-light rounded-sm p-6 md:p-7 my-8 border border-border/60">
- <p className="text-[11px] uppercase text-brand-dark mb-4">
- Kort oppsummert
- </p>
+  <h3 className="text-sm font-medium text-foreground mb-4">
+    Kort oppsummert
+  </h3>
  <ul className="space-y-2.5 text-sm font-light text-foreground/85">
  {[
  "Overgangsalderen er en flerårig prosess i tre faser — ikke én hendelse.",
