@@ -61,6 +61,7 @@ import IconPreview from "./pages/IconPreview";
 import DemoOversikt from "./pages/DemoOversikt";
 import Godkjenning from "./pages/Godkjenning";
 import MalDemo from "./pages/MalDemo";
+import TipsDemo from "./pages/demos/TipsDemo";
 import SpecialistDesignHub from "./pages/specialist-design/DesignHub";
 import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
 import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
