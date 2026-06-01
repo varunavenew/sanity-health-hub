@@ -410,6 +410,15 @@ const SCHEMAS: Array<{
       title: 'internationalizedArrayStringValue',
       description: 'internationalizedArrayTextValue',
       longDescription: 'internationalizedArrayBlockContentValue',
+      faqSectionTitle: 'internationalizedArrayStringValue',
+    },
+    nested: {
+      bottomCta: {
+        title: 'internationalizedArrayStringValue',
+        subtitle: 'internationalizedArrayTextValue',
+        primaryLabel: 'internationalizedArrayStringValue',
+        secondaryLabel: 'internationalizedArrayStringValue',
+      },
     },
   },
   {

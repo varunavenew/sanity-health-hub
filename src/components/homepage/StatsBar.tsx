@@ -1,5 +1,4 @@
 import { useHomepage } from "@/hooks/useSanity";
-import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -71,18 +70,9 @@ function AnimatedStat({ value, label }: { value: string; label: string }) {
 
 export const StatsBar = () => {
   const { data: homepage } = useHomepage();
-  const { t } = useTranslation();
 
-  const staticStats = [
-    { value: "15 000+", label: t("stats.patients") },
-    { value: "8+", label: t("stats.experience") },
-    { value: "5", label: t("stats.clinics") },
-    { value: "50+", label: t("stats.specialists") },
-  ];
-
-  const stats = homepage?.statsBar && homepage.statsBar.length > 0
-    ? homepage.statsBar
-    : staticStats;
+  const stats = (homepage?.statsBar || []).filter((s: any) => s?.value && s?.label);
+  if (stats.length === 0) return null;
 
   return (
     <section className="bg-secondary/50 py-6 md:py-8">

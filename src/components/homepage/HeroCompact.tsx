@@ -6,21 +6,6 @@ import { useTranslation } from "react-i18next";
 import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 
-// Static fallback images
-import urologiImg from "@/assets/categories/urologi-real.jpg";
-import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
-import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
-import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
-import flereImg from "@/assets/categories/flere-fagomrader.jpg";
-
-const staticCategories = [
-  { id: "urologi", title: "Urologi", image: urologiImg, path: "/urologi" },
-  { id: "fertilitet", title: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
-  { id: "gynekologi", title: "Gynekologi", image: gynekologiImg, path: "/gynekologi" },
-  { id: "ortopedi", title: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
-  { id: "flere", title: "Flere fagområder", image: flereImg, path: "/flere-fagomrader" },
-];
-
 export const HeroCompact = () => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
@@ -28,10 +13,12 @@ export const HeroCompact = () => {
   const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
 
   const serviceCategories = sortBySlug(
-    homepage?.categoryCards?.length ? homepage.categoryCards : staticCategories,
+    (homepage?.categoryCards || []).filter((c: any) => c?.image && c?.title),
     (c: { id?: string; title?: string }) => c.id || c.title,
     contentLang,
   );
+
+  if (serviceCategories.length === 0) return null;
 
   return (
     <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">

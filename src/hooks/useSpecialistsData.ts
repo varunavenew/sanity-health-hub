@@ -1,37 +1,28 @@
 import { useSpecialists, useSpecialist as useSanitySpecialist } from "@/hooks/useSanity";
-import {
-  specialists as staticSpecialists,
-  getSpecialistsSortedByLastName as staticSorted,
-  getSpecialistsByCategory as staticByCategory,
-  getAllClinics as staticAllClinics,
-  Specialist,
-} from "@/data/specialists";
+import { Specialist } from "@/data/specialists";
+import { resolveSpecialistBookingCategoryIds } from "@/lib/booking/specialist-booking";
 
 export type { Specialist };
 
-/**
- * Fetches all specialists from Sanity, falls back to static data.
- * Returns the same shape regardless of source.
- */
+/** Fetches all specialists from Sanity CMS. */
 export const useSpecialistsData = () => {
   const { data: sanityData, isLoading, isError } = useSpecialists();
 
-  const specialists: Specialist[] =
-    sanityData && sanityData.length > 0
-      ? sanityData.map((s) => ({
-          name: s.name,
-          title: s.title,
-          subtitle: s.subtitle,
-          expertise: s.expertise,
-          image: s.image,
-          category: s.category as Specialist["category"],
-          slug: s.slug,
-          bio: s.bio,
-          education: s.education,
-          languages: s.languages,
-          clinics: s.clinics,
-        }))
-      : staticSpecialists;
+  const specialists: Specialist[] = (sanityData || []).map((s) => ({
+    name: s.name,
+    title: s.title,
+    subtitle: s.subtitle,
+    expertise: s.expertise,
+    image: s.image,
+    category: s.category as Specialist["category"],
+    slug: s.slug,
+    bio: s.bio,
+    education: s.education,
+    languages: s.languages,
+    clinics: s.clinics,
+    sanityCategories: s.sanityCategories,
+    bookingCategoryIds: s.bookingCategoryIds,
+  }));
 
   const sorted = [...specialists].sort((a, b) =>
     a.name.toLowerCase().localeCompare(b.name.toLowerCase(), "nb")
@@ -58,36 +49,35 @@ export const useSpecialistsData = () => {
     findBySlug,
     isLoading,
     isError,
-    isSanity: !!(sanityData && sanityData.length > 0),
+    isSanity: true,
   };
 };
 
-/**
- * Single specialist by slug – Sanity first, static fallback.
- */
+/** Single specialist by slug from Sanity CMS. */
 export const useSpecialistBySlug = (slug: string) => {
   const { data: sanityData, isLoading } = useSanitySpecialist(slug);
 
-  if (sanityData) {
-    return {
-      specialist: {
-        name: sanityData.name,
-        title: sanityData.title,
-        subtitle: sanityData.subtitle,
-        expertise: sanityData.expertise,
-        image: sanityData.image,
-        category: sanityData.category as Specialist["category"],
-        slug: sanityData.slug,
-        bio: sanityData.bio,
-        education: sanityData.education,
-        languages: sanityData.languages,
-        clinics: sanityData.clinics,
-      } as Specialist,
-      isLoading,
-    };
-  }
+  if (!sanityData) return { specialist: null, isLoading };
 
-  // Fallback to static
-  const staticMatch = staticSpecialists.find((s) => s.slug === slug);
-  return { specialist: staticMatch || null, isLoading };
+  return {
+    specialist: {
+      name: sanityData.name,
+      title: sanityData.title,
+      subtitle: sanityData.subtitle,
+      expertise: sanityData.expertise,
+      image: sanityData.image,
+      category: sanityData.category as Specialist["category"],
+      slug: sanityData.slug,
+      bio: sanityData.bio,
+      education: sanityData.education,
+      languages: sanityData.languages,
+      clinics: sanityData.clinics,
+      sanityCategories: sanityData.sanityCategories,
+      bookingCategoryIds: resolveSpecialistBookingCategoryIds({
+        bookingCategoryIds: sanityData.bookingCategoryIds,
+        category: sanityData.category as Specialist["category"],
+      }),
+    } as Specialist,
+    isLoading,
+  };
 };

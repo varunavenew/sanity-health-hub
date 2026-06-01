@@ -1,6 +1,6 @@
 // Schema: Clinic Page
 import { ClinicIcon } from './icons'
-import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { i18nFaqItemPreview, i18nSlugFieldFromTitle, pickNo } from './i18n'
 
 export default {
   name: 'clinicPage',
@@ -71,7 +71,7 @@ export default {
     {
       name: 'hours',
       title: 'Åpningstider',
-      type: 'string',
+      type: 'internationalizedArrayString',
       group: 'contact',
     },
     {
@@ -174,16 +174,13 @@ export default {
       of: [
         {
           type: 'object',
+          name: 'clinicFaq',
+          title: 'FAQ',
           fields: [
             { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
             { name: 'answer', title: 'Svar', type: 'internationalizedArrayText', validation: (Rule: any) => Rule.required() },
           ],
-          preview: {
-            select: { title: 'question' },
-            prepare({ title }: any) {
-              return { title: pickNo(title) }
-            },
-          },
+          preview: i18nFaqItemPreview,
         },
       ],
     },

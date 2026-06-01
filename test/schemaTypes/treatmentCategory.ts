@@ -19,10 +19,18 @@ export default {
     i18nSlugFieldFromTitle('title'),
     {
       name: 'categoryId',
-      title: 'Kategori-ID',
+      title: 'Kategori-key (slug)',
       type: 'string',
-      description: 'Intern ID: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader',
+      description: 'Intern nøkkel brukt i app-ruting: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader',
       validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'categoryNumericId',
+      title: 'Kategori-ID',
+      type: 'number',
+      description:
+        'Numerisk booking-ID. Eksempel: 8=Gynekologi, 1=Fertilitet, 6=Urologi, 17=Ortopedi, 10=Graviditet, 23=Flere fagområder',
+      validation: (Rule: any) => Rule.required().min(1).max(999),
     },
     {
       name: 'heroImage',
@@ -89,6 +97,53 @@ export default {
       type: 'number',
       description: 'Lavere tall vises først. La stå tom for alfabetisk.',
     },
+    {
+      name: 'quickInfoItems',
+      title: 'Hurtiginfo (behandlingssider)',
+      type: 'array',
+      of: [{ type: 'internationalizedArrayString' }],
+      description: 'F.eks. Ingen henvisning, Kort ventetid, Forsikring godkjent',
+    },
+    {
+      name: 'linkedServicesSectionTitle',
+      title: 'Overskrift: koblede tjenester',
+      type: 'internationalizedArrayString',
+    },
+    {
+      name: 'processSectionTitle',
+      title: 'Overskrift: behandlingsprosess',
+      type: 'internationalizedArrayString',
+    },
+    {
+      name: 'faqSectionTitle',
+      title: 'FAQ-overskrift (behandlingssider)',
+      type: 'internationalizedArrayString',
+      description: 'Vises over FAQ-listen på enkeltbehandlinger i kategorien.',
+    },
+    {
+      name: 'bottomCta',
+      title: 'Bunn-CTA (behandlingssider)',
+      type: 'object',
+      description: 'Handlingsboks nederst på behandlingssider i denne kategorien.',
+      fields: [
+        { name: 'title', title: 'Overskrift', type: 'internationalizedArrayString' },
+        { name: 'subtitle', title: 'Ingress', type: 'internationalizedArrayText' },
+        { name: 'primaryLabel', title: 'Primærknapp', type: 'internationalizedArrayString' },
+        { name: 'secondaryLabel', title: 'Sekundærknapp', type: 'internationalizedArrayString' },
+        {
+          name: 'primaryPath',
+          title: 'Primær lenke',
+          type: 'string',
+          description: 'Valgfri. Tom = booking med kategori (f.eks. /booking?kategori=fertilitet).',
+        },
+        {
+          name: 'secondaryPath',
+          title: 'Sekundær lenke',
+          type: 'string',
+          initialValue: '/kontakt',
+        },
+      ],
+    },
     pageSectionsField,
     {
       name: 'seo',
@@ -113,9 +168,12 @@ export default {
     },
   ],
   preview: {
-    select: { title: 'title', subtitle: 'categoryId', media: 'heroImage' },
-    prepare({ title, subtitle, media }: any) {
-      return { title: pickNo(title) || 'Kategori', subtitle: subtitle || '', media }
+    select: { title: 'title', subtitle: 'categoryId', numericId: 'categoryNumericId', media: 'heroImage' },
+    prepare({ title, subtitle, numericId, media }: any) {
+      const idPart = numericId != null ? `#${numericId}` : ''
+      const keyPart = subtitle ? `${subtitle}` : ''
+      const previewSubtitle = [idPart, keyPart].filter(Boolean).join(' • ')
+      return { title: pickNo(title) || 'Kategori', subtitle: previewSubtitle, media }
     },
   },
 }

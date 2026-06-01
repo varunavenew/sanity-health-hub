@@ -3,7 +3,7 @@ import { Star, Quote, ArrowRight, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
-import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
+import type { GoogleReview } from "@/data/googleReviews";
 import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
@@ -76,18 +76,15 @@ export const GoogleReviewsSection = () => {
   const { t } = useTranslation();
   const { data: sanityReviews } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
-  const usingSanityReviews = Boolean(sanityReviews && sanityReviews.length > 0);
-  const googleReviewsList = usingSanityReviews
-    ? sanityReviews!.map((r, i) => ({
-        id: i,
-        name: r.name,
-        rating: r.rating,
-        text: r.text,
-        date: r.date,
-        source: "google" as const,
-      }))
-    : staticReviews;
-  const averageRating = settings?.googleAverageRating ?? googleRatingData.averageRating;
+  const googleReviewsList: GoogleReview[] = (sanityReviews || []).map((r, i) => ({
+    id: i,
+    name: r.name,
+    rating: r.rating,
+    text: r.text,
+    date: r.date,
+    source: "google" as const,
+  }));
+  const averageRating = settings?.googleAverageRating ?? 4.6;
   const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
   const heading = settings?.heading?.trim() || t("reviews.heading");
   const subheading = settings?.subheading?.trim() || t("reviews.subheading");
@@ -97,6 +94,8 @@ export const GoogleReviewsSection = () => {
   const legelistenLabel = t("reviews.legelistenLabel");
 
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
+
+  if (googleReviewsList.length === 0) return null;
 
   return (
     <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">

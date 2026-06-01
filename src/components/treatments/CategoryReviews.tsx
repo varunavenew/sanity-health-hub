@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useMemo } from "react";
 import { Quote, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
-import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
+import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
 
 const categoryKeywords: Record<string, string[]> = {
   gynekologi: ["gynekolog", "kvinne", "ida", "siri", "eggfrys", "egg", "ivf", "osteopat", "ingvild"],
@@ -10,19 +10,6 @@ const categoryKeywords: Record<string, string[]> = {
   ortopedi: ["skulder", "kne", "hånd", "fot", "operasjon", "kirurg", "haugstvedt", "warholm", "kristian"],
   graviditet: ["gravid", "foster", "fødsel", "ultralyd", "nipt"],
 };
-
-function getRelevantReviews(categoryId: string): GoogleReview[] {
-  const keywords = categoryKeywords[categoryId] || [];
-  if (keywords.length === 0) return staticReviews.slice(0, 8);
-
-  const matched = staticReviews.filter((r) =>
-    keywords.some((kw) => r.text.toLowerCase().includes(kw) || r.name.toLowerCase().includes(kw))
-  );
-
-  if (matched.length >= 6) return matched.slice(0, 8);
-  const remaining = staticReviews.filter((r) => !matched.includes(r));
-  return [...matched, ...remaining].slice(0, 8);
-}
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,9 +34,34 @@ interface CategoryReviewsProps {
 }
 
 export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsProps) => {
-  const reviews = getRelevantReviews(categoryId);
+  const { data: allReviews = [] } = useGoogleReviews();
+  const { data: settings } = useGoogleReviewSettings();
+
+  const reviews = useMemo(() => {
+    const keywords = categoryKeywords[categoryId] || [];
+    const mapped = allReviews.map((r, i) => ({
+      id: i,
+      name: r.name,
+      rating: r.rating,
+      text: r.text,
+      date: r.date,
+      source: "google" as const,
+    }));
+    if (keywords.length === 0) return mapped.slice(0, 8);
+
+    const matched = mapped.filter((r) =>
+      keywords.some((kw) => r.text.toLowerCase().includes(kw) || r.name.toLowerCase().includes(kw)),
+    );
+    if (matched.length >= 6) return matched.slice(0, 8);
+    const remaining = mapped.filter((r) => !matched.includes(r));
+    return [...matched, ...remaining].slice(0, 8);
+  }, [allReviews, categoryId]);
+
   const duplicated = [...reviews, ...reviews];
-  const legelistenRating = 4.8;
+  const googleRating = settings?.googleAverageRating ?? 4.6;
+  const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
+
+  if (reviews.length === 0) return null;
 
   return (
     <section className="py-14 md:py-20 bg-brand-warm relative overflow-hidden">
@@ -67,8 +79,8 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{googleRatingData.averageRating}</span>
-                  <PartialStars rating={googleRatingData.averageRating} />
+                  <span className="text-2xl font-normal text-brand-dark">{googleRating}</span>
+                  <PartialStars rating={googleRating} />
                 </div>
               </div>
             </div>
@@ -86,7 +98,6 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
         </div>
       </div>
 
-      {/* Infinite marquee */}
       <div className="relative mt-8">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
@@ -103,20 +114,22 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
                   <PartialStars rating={review.rating} />
                 </div>
                 <p className="text-brand-dark font-light leading-relaxed text-base mb-2">
-                  "{review.text.length > 120 ? review.text.slice(0, 120) + '...' : review.text}"
+                  "{review.text.length > 120 ? review.text.slice(0, 120) + "..." : review.text}"
                 </p>
                 <div className="mb-4" />
                 <div className="pt-4 border-t border-brand-dark/10 flex items-center justify-between">
                   <div>
-                    <p className={`text-brand-dark ${isAnonymous ? "italic text-brand-dark/60 font-light" : "font-normal"} flex items-center gap-2`}>
+                    <p
+                      className={`text-brand-dark ${isAnonymous ? "italic text-brand-dark/60 font-light" : "font-normal"} flex items-center gap-2`}
+                    >
                       {isAnonymous && <User className="w-3.5 h-3.5" />}
                       {review.name}
                     </p>
                     <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
-                    {review.source === "google" ? <GoogleIcon /> : <LegelistenIcon />}
-                    <span>{review.source === "google" ? "Google" : "Legelisten"}</span>
+                    <GoogleIcon />
+                    <span>Google</span>
                   </div>
                 </div>
               </div>

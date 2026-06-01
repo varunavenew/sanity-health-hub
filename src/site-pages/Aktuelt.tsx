@@ -4,12 +4,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import {
-  articles as staticArticles,
-  filterCategories,
-  normalizeCategory,
-  type Article,
-} from "@/data/articles";
+import { filterCategories, normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useSpecialists } from "@/hooks/useSanity";
 
 interface AktueltProps {
@@ -109,21 +104,17 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
 
-  // Use Sanity data if available, otherwise fall back to static
   const articles: Article[] = useMemo(() => {
-    const source = sanityArticles && sanityArticles.length > 0
-      ? sanityArticles.map((a) => ({
-          slug: a.slug,
-          title: a.title,
-          excerpt: a.excerpt,
-          image: a.image,
-          date: a.date,
-          category: a.category,
-          pinned: a.pinned,
-          featured: a.featured,
-        }))
-      : staticArticles;
-    // Normalize legacy "Nyheter" -> "Nytt fra oss"
+    const source = (sanityArticles || []).map((a) => ({
+      slug: a.slug,
+      title: a.title,
+      excerpt: a.excerpt,
+      image: a.image,
+      date: a.date,
+      category: a.category,
+      pinned: a.pinned,
+      featured: a.featured,
+    }));
     return source.map((a) => ({ ...a, category: normalizeCategory(a.category) }));
   }, [sanityArticles]);
 

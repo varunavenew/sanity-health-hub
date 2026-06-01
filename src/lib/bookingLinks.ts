@@ -12,6 +12,7 @@
 
 export interface BookingLinkParams {
   kategori?: string;     // category page id (gynekologi, urologi, fertilitet, ortopedi, graviditet, flere-fagomrader)
+  kategoriId?: number;   // numeric category id from Sanity (optional)
   tjeneste?: string;     // service slug or partial name match
   spesialist?: string;   // specialist slug
   klinikk?: string;      // clinic id (majorstuen, bekkestua, moss, moelv)
@@ -27,6 +28,32 @@ export const categoryPageToBookingId: Record<string, string> = {
   ortopedi: "ortoped",
   graviditet: "fostermedisiner",
 };
+
+/** Numeric category ids from Sanity -> category page ids used by booking flow. */
+export const categoryNumericIdToPageId: Record<number, string> = {
+  8: "gynekologi",
+  1: "fertilitet",
+  6: "urologi",
+  17: "ortopedi",
+  10: "graviditet",
+  23: "flere-fagomrader",
+};
+
+/** Category page slug → Metodika/Sanity numeric category id (fallback when CMS field is missing). */
+export const categoryPageIdToNumericId: Record<string, number> = Object.fromEntries(
+  Object.entries(categoryNumericIdToPageId).map(([id, pageId]) => [pageId, Number(id)]),
+);
+
+/** Resolve numeric category id from Sanity or static map. */
+export function resolveCategoryNumericId(
+  categoryPageId: string,
+  sanityNumericId?: number | null,
+): number | undefined {
+  if (typeof sanityNumericId === "number" && Number.isFinite(sanityNumericId) && sanityNumericId > 0) {
+    return sanityNumericId;
+  }
+  return categoryPageIdToNumericId[categoryPageId];
+}
 
 /** Category pages with a dedicated booking API group (used in patient journey step 01). */
 export const categoryPageBookingConfig: Record<
@@ -60,10 +87,17 @@ export function findBookingCategoryForPage(
   categoryPageId: string,
   categories: BookingCategoryMatch[],
 ): BookingCategoryMatch | undefined {
-  const clinicId = categoryPageToBookingId[categoryPageId] ?? categoryPageId;
+  const clinicId = clinicServiceIdForCategoryPage(categoryPageId);
   return categories.find(
     (c) => c.clinicServiceId === clinicId || c.id === clinicId,
   );
+}
+
+/** Metodika clinicServiceId for a category page slug (gynekologi → gynekolog). */
+export function clinicServiceIdForCategoryPage(categoryPageId: string): string {
+  const fromConfig = categoryPageBookingConfig[categoryPageId]?.clinicServiceId;
+  if (fromConfig) return fromConfig;
+  return categoryPageToBookingId[categoryPageId] ?? categoryPageId;
 }
 
 /** Map clinic service id from API to human-readable category page id in booking URLs. */
@@ -100,6 +134,7 @@ export const specialistCategoryToBookingId: Record<string, string> = {
 export function buildBookingUrl(params: BookingLinkParams = {}): string {
   const sp = new URLSearchParams();
   if (params.kategori) sp.set("kategori", params.kategori);
+  if (params.kategoriId != null) sp.set("kategoriId", String(params.kategoriId));
   if (params.tjeneste) sp.set("tjeneste", params.tjeneste);
   if (params.spesialist) sp.set("spesialist", params.spesialist);
   if (params.klinikk) sp.set("klinikk", params.klinikk);
@@ -134,9 +169,10 @@ export function bookingUrlForSpecialist(specialist: {
  */
 export function bookingUrlForTreatment(
   categoryId: string,
-  tjeneste?: string
+  tjeneste?: string,
+  kategoriId?: number,
 ): string {
-  return buildBookingUrl({ kategori: categoryId, tjeneste });
+  return buildBookingUrl({ kategori: categoryId, kategoriId, tjeneste });
 }
 
 /**

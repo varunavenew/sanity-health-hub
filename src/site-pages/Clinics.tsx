@@ -7,7 +7,6 @@ import { useClinics } from "@/hooks/useSanity";
 import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
 import { useTranslation } from "react-i18next";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
-import { clinics as staticClinics, type Clinic } from "@/data/clinicServices";
 import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
 import type { ImageRef } from "@/lib/media";
@@ -31,23 +30,16 @@ interface ClinicsProps {
 const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const { i18n } = useTranslation();
   const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
-  const { data: sanityClinics } = useClinics();
-  // Prefer static (richer detail) – merge in only Sanity fields that have a value,
-  // so a null/undefined value from Sanity never blanks out a working static field.
-  const merged: any[] = staticClinics.map((s) => {
-    const fromSanity = sanityClinics?.find((c: any) => c.slug === s.slug);
-    if (!fromSanity) return s;
-    const overrides: Record<string, any> = {};
-    for (const [key, value] of Object.entries(fromSanity)) {
-      if (value !== null && value !== undefined && value !== "") overrides[key] = value;
-    }
-    return {
-      ...s,
-      ...overrides,
-      detail: { ...s.detail, ...(fromSanity.detail || {}) },
-    };
-  });
-  const list: any[] = sortBySlug(merged, (c) => c.slug || c.label, contentLang);
+  const { data: sanityClinics = [], isLoading } = useClinics();
+  const list: any[] = sortBySlug(
+    sanityClinics.map((c: any) => ({
+      ...c,
+      primaryImage: c.primaryImage || clinicImages[c.slug || c.id],
+      detail: c.detail || {},
+    })),
+    (c) => c.slug || c.label,
+    contentLang,
+  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -93,7 +85,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           Liste over klinikker
         </h2>
 
-        {list.map((clinic: Clinic, idx: number) => {
+        {list.map((clinic: (typeof list)[number], idx: number) => {
           const detailHref = `/klinikker/${clinic.slug}`;
           const serviceCount = clinic.services?.length || 0;
           const image = (clinic as any).primaryImage || clinicImages[clinic.slug];

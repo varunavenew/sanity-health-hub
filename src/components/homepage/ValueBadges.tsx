@@ -8,15 +8,8 @@ export const ValueBadges = () => {
   const { data: homepage } = useHomepage();
   const { t } = useTranslation();
 
-  const staticBadges = [
-    t("valueBadges.tech"),
-    t("valueBadges.comfort"),
-    t("valueBadges.price"),
-  ];
-
-  const badges = homepage?.valueBadges && homepage.valueBadges.length > 0
-    ? homepage.valueBadges
-    : staticBadges;
+  const badges = (homepage?.valueBadges || []).filter(Boolean);
+  if (badges.length === 0) return null;
 
   return (
     <section className="py-4 md:py-6 bg-background">

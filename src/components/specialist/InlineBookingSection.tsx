@@ -1,112 +1,16 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "@/lib/router";
-import { Calendar, Clock, ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Specialist } from "@/data/specialists";
 import { motion, AnimatePresence } from "framer-motion";
-
-interface BookingService {
-  name: string;
-  price: string;
-  duration: string;
-}
-
-interface BookingCategory {
-  id: string;
-  label: string;
-  services: BookingService[];
-}
-
-const categoryToBookingIds: Record<string, string[]> = {
-  gynekologi: ["gynekolog", "fostermedisiner"],
-  fertilitet: ["fertilitet"],
-  urologi: ["urolog"],
-  ortopedi: ["ortoped", "handterapeut"],
-  annet: ["gastrokirurg", "ernaringsfysiolog", "psykolog", "sexolog", "endokrinolog", "revmatolog", "hudlege", "fysioterapeut", "areknuter", "sprengte-blodkar"],
-};
-
-const allBookingServices: BookingCategory[] = [
-  {
-    id: "fertilitet",
-    label: "Fertilitet",
-    services: [
-      { name: "Enkel sædanalyse", price: "1950", duration: "30 min" },
-      { name: "Fertilitetsutredning enkeltperson/single", price: "2850", duration: "1 time" },
-      { name: "Fertilitetsutredning par", price: "2850", duration: "1 time" },
-      { name: "Infertilitet Mann (inkl. sædprøve)", price: "2850", duration: "45 min" },
-      { name: "Telefonkonsultasjon fertilitet", price: "2850", duration: "45 min" },
-      { name: "Uforpliktende telefonsamtale med sykepleier", price: "0", duration: "20 min" },
-    ]
-  },
-  {
-    id: "fostermedisiner",
-    label: "Fostermedisiner",
-    services: [
-      { name: "Organrettet ultralyd", price: "2100", duration: "30 min" },
-      { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950", duration: "30 min" },
-      { name: "Svangerskapskontroll", price: "2100", duration: "30 min" },
-      { name: "Tidlig ultralyd + NIPT-test", price: "8990", duration: "30 min" },
-      { name: "Tidlig ultralyd", price: "2100", duration: "30 min" },
-    ]
-  },
-  {
-    id: "gynekolog",
-    label: "Gynekolog",
-    services: [
-      { name: "Generell undersøkelse", price: "2100", duration: "30 min" },
-      { name: "Endometriose / adenomyose", price: "3200", duration: "45 min" },
-      { name: "Overgangsalder", price: "3200", duration: "45 min" },
-      { name: "PCOS / Hormonforstyrrelser", price: "3200", duration: "45 min" },
-      { name: "Kontroll etter fødsel", price: "2100", duration: "30 min" },
-      { name: "Urinlekkasje", price: "2100", duration: "30 min" },
-    ]
-  },
-  {
-    id: "ortoped",
-    label: "Ortoped",
-    services: [
-      { name: "Konsultasjon ortoped skulder", price: "1800", duration: "30 min" },
-      { name: "Konsultasjon ortoped kne", price: "1800", duration: "30 min" },
-      { name: "Konsultasjon ortoped hofte", price: "1800", duration: "30 min" },
-      { name: "Konsultasjon ortoped fot/ankel", price: "1800", duration: "30 min" },
-      { name: "Konsultasjon ortoped hånd", price: "1800", duration: "30 min" },
-    ]
-  },
-  {
-    id: "urolog",
-    label: "Urolog",
-    services: [
-      { name: "Konsultasjon urolog", price: "1900", duration: "30 min" },
-      { name: "Prostataundersøkelse", price: "1900", duration: "30 min" },
-      { name: "Blod i urin, cystoskopi", price: "2650", duration: "30 min" },
-      { name: "Sterilisering Mann", price: "6500", duration: "30 min" },
-    ]
-  },
-  {
-    id: "gastrokirurg",
-    label: "Gastrokirurg",
-    services: [
-      { name: "Digital konsultasjon fedme vurdering", price: "0", duration: "45 min" },
-      { name: "Endetarmsplager", price: "2100", duration: "30 min" },
-      { name: "Mage / tarm spesialist", price: "2100", duration: "30 min" },
-    ]
-  },
-  {
-    id: "handterapeut",
-    label: "Håndterapeut",
-    services: [
-      { name: "Konsultasjon håndterapeut", price: "1400", duration: "45 min" },
-    ]
-  },
-];
-
-const categoryBookingMap: Record<string, string> = {
-  gynekologi: "gynekolog",
-  fertilitet: "fertilitet",
-  urologi: "urolog",
-  ortopedi: "ortoped",
-  annet: "",
-};
+import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
+import {
+  bookingUrlForSpecialistContext,
+  formatBookingServicePrice,
+  resolveSpecialistBookingCategoryIds,
+} from "@/lib/booking/specialist-booking";
+import { buildBookingUrl, categoryNumericIdToPageId } from "@/lib/bookingLinks";
 
 interface InlineBookingSectionProps {
   specialist: Specialist;
@@ -114,51 +18,81 @@ interface InlineBookingSectionProps {
 
 export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) => {
   const navigate = useNavigate();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const bookingCategoryIds = useMemo(
+    () => resolveSpecialistBookingCategoryIds(specialist),
+    [specialist.bookingCategoryIds, specialist.category],
+  );
+  const { categories, loading } = useSpecialistMetodikaBooking(bookingCategoryIds);
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
 
-  const bookingIds = categoryToBookingIds[specialist.category] || [];
-  const relevantCategories = allBookingServices.filter(c => bookingIds.includes(c.id));
-
-  if (relevantCategories.length === 0) {
+  if (bookingCategoryIds.length === 0) {
     return null;
   }
 
-  const handleSelectService = (categoryId: string, serviceName: string) => {
-    const kategori = categoryBookingMap[specialist.category] || categoryId;
-    // Pre-fill specialist + category + specific service so user lands on clinic step
-    const tjeneste = encodeURIComponent(serviceName);
-    const spesialist = specialist.slug ? `&spesialist=${specialist.slug}` : "";
-    navigate(`/booking?kategori=${kategori}&tjeneste=${tjeneste}${spesialist}`);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center gap-2 py-8 text-white/60">
+        <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+        <span className="text-sm font-light">Henter tjenester…</span>
+      </div>
+    );
+  }
+
+  if (categories.length === 0) {
+    return (
+      <p className="text-sm text-white/60 font-light py-4">
+        Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.
+      </p>
+    );
+  }
+
+  const handleSelectService = (apiGroupId: number, serviceName: string) => {
+    navigate(
+      bookingUrlForSpecialistContext({
+        specialistSlug: specialist.slug,
+        apiGroupId,
+        tjeneste: serviceName,
+      }),
+    );
   };
 
-  const effectiveExpanded = relevantCategories.length === 1 
-    ? relevantCategories[0].id 
-    : expandedCategory;
+  const effectiveExpanded =
+    categories.length === 1 ? categories[0].apiGroupId : expandedCategory;
+
+  const firstCategoryId = bookingCategoryIds[0];
 
   return (
     <div>
       <div className="space-y-3">
-        {relevantCategories.map((category) => (
-          <div key={category.id} className="border border-white/15 rounded-sm overflow-hidden bg-white/10">
+        {categories.map((category) => (
+          <div
+            key={category.apiGroupId}
+            className="border border-white/15 rounded-sm overflow-hidden bg-white/10"
+          >
             <button
-              onClick={() => relevantCategories.length > 1 && setExpandedCategory(
-                effectiveExpanded === category.id ? null : category.id
-              )}
-              aria-expanded={effectiveExpanded === category.id}
+              type="button"
+              onClick={() =>
+                categories.length > 1 &&
+                setExpandedCategory(
+                  effectiveExpanded === category.apiGroupId ? null : category.apiGroupId,
+                )
+              }
+              aria-expanded={effectiveExpanded === category.apiGroupId}
               className={`w-full flex items-center justify-between px-5 py-4 text-left transition-colors ${
-                relevantCategories.length > 1 ? "hover:bg-white/15 cursor-pointer" : "cursor-default"
+                categories.length > 1 ? "hover:bg-white/15 cursor-pointer" : "cursor-default"
               }`}
             >
               <span className="text-sm font-medium text-white">{category.label}</span>
-              {relevantCategories.length > 1 && (
-                effectiveExpanded === category.id 
-                  ? <ChevronUp className="w-4 h-4 text-white/40" aria-hidden="true" />
-                  : <ChevronDown className="w-4 h-4 text-white/40" aria-hidden="true" />
-              )}
+              {categories.length > 1 &&
+                (effectiveExpanded === category.apiGroupId ? (
+                  <ChevronUp className="w-4 h-4 text-white/40" aria-hidden="true" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-white/40" aria-hidden="true" />
+                ))}
             </button>
 
             <AnimatePresence>
-              {effectiveExpanded === category.id && (
+              {effectiveExpanded === category.apiGroupId && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
@@ -167,27 +101,25 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                   className="overflow-hidden"
                 >
                   <div className="border-t border-white/10">
-                    {category.services.map((service, idx) => (
+                    {category.services.map((service) => (
                       <button
-                        key={idx}
-                        onClick={() => handleSelectService(category.id, service.name)}
+                        key={service.apiActivityId ?? service.name}
+                        type="button"
+                        onClick={() => handleSelectService(category.apiGroupId, service.name)}
                         className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/15 transition-colors border-b border-white/5 last:border-b-0 group"
                       >
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-white font-light truncate pr-4">
                             {service.name}
                           </p>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="text-xs text-white/50 flex items-center gap-1">
-                              <Clock className="w-3 h-3" aria-hidden="true" />
-                              {service.duration}
-                            </span>
-                            <span className="text-xs font-medium text-white/80">
-                              {service.price === "0" ? "Gratis" : `${parseInt(service.price).toLocaleString("nb-NO")},-`}
-                            </span>
-                          </div>
+                          <span className="text-xs font-medium text-white/80 mt-1 inline-block">
+                            {formatBookingServicePrice(service.price)}
+                          </span>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors shrink-0" aria-hidden="true" />
+                        <ArrowRight
+                          className="w-4 h-4 text-white/40 group-hover:text-white transition-colors shrink-0"
+                          aria-hidden="true"
+                        />
                       </button>
                     ))}
                   </div>
@@ -202,11 +134,15 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
         <Button
           variant="outline"
           className="rounded-full font-light text-sm bg-brand-mid text-brand-dark border-brand-mid hover:bg-brand-mid/80"
-          onClick={() => {
-            const kategori = categoryBookingMap[specialist.category] || specialist.category;
-            const spesialist = specialist.slug ? `&spesialist=${specialist.slug}` : "";
-            navigate(`/booking?kategori=${kategori}${spesialist}`);
-          }}
+          onClick={() =>
+            navigate(
+              buildBookingUrl({
+                kategori: categoryNumericIdToPageId[firstCategoryId],
+                kategoriId: firstCategoryId,
+                spesialist: specialist.slug,
+              }),
+            )
+          }
         >
           Se alle tjenester og priser
           <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />

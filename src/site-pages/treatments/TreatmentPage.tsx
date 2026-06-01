@@ -1,15 +1,19 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams, useLocation, Link } from "@/lib/router";
-import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Plus, Minus, ChevronRight, ChevronLeft } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams, useLocation } from "@/lib/router";
+import { ArrowRight, Check, Phone, Clock, FileText, Shield, Plus, Minus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
-import { Specialist } from "@/data/specialists";
-import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
-import { StickyBookingCTA } from "@/components/StickyBookingCTA";
+import {
+  useTreatment,
+  useTreatmentCategory,
+  useFaqsByTreatmentCategory,
+  useSiteSettings,
+} from "@/hooks/useSanity";
+import { bookingUrlForTreatment, resolveCategoryNumericId } from "@/lib/bookingLinks";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 
@@ -18,13 +22,7 @@ interface TreatmentPageProps {
   isChatOpen: boolean;
 }
 
-const specialistLabels: Record<string, string> = {
-  gynekologi: "gynekolog",
-  urologi: "urolog",
-  fertilitet: "fertilitetsspesialist",
-  ortopedi: "ortoped",
-  "flere-fagomrader": "spesialist",
-};
+const QUICK_INFO_ICONS = [FileText, Clock, Shield] as const;
 
 const formatInlineMarkdown = (text: string): string => {
   return text
@@ -33,197 +31,61 @@ const formatInlineMarkdown = (text: string): string => {
     .replace(/_(.*?)_/g, '<em>$1</em>');
 };
 
-/* ─── FAQ Accordion (controlled: only one open at a time) ─── */
-const TreatmentFaq = ({ question, answer, isLast, customContent, isOpen, onToggle }: { question: string; answer: string; isLast: boolean; customContent?: React.ReactNode; isOpen: boolean; onToggle: () => void }) => {
-  return (
-    <div className={`${!isLast ? "border-b border-border" : ""}`}>
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 px-5 md:px-6 text-left hover:bg-secondary/20 transition-colors group"
-      >
-        <span className="text-[15px] md:text-base font-normal text-foreground pr-4">{question}</span>
-        {isOpen ? <Minus className="w-4 h-4 text-muted-foreground flex-shrink-0" /> : <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
-      </button>
-      <div
-        className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
-      >
-        <div className="overflow-hidden">
-          <div className="px-5 md:px-6 pb-5 pr-12">
-            {customContent || (
-              <p className="text-muted-foreground text-sm md:text-[15px] leading-relaxed font-light">
-                {answer}
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-/* ─── Accordion Group (manages single-open state) ─── */
-const AccordionGroup = ({ children }: { children: (openIndex: number | null, setOpenIndex: (i: number | null) => void) => React.ReactNode }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const toggle = (i: number | null) => setOpenIndex(prev => prev === i ? null : i);
-  return <>{children(openIndex, toggle)}</>;
-};
-
-/* ─── Quick Info Badges ─── */
-const QuickInfoBar = () => (
-  <div className="flex flex-wrap gap-3 mb-10">
-    {[
-      { icon: FileText, label: "Ingen henvisning" },
-      { icon: Clock, label: "Kort ventetid" },
-      { icon: Shield, label: "Forsikring godkjent" },
-    ].map(({ icon: Icon, label }) => (
-      <div
-        key={label}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-secondary/50 border border-border/50"
-      >
-        <Icon className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={1.5} />
-        <span className="text-xs md:text-sm text-foreground/70 font-light">{label}</span>
-      </div>
-    ))}
-  </div>
-);
-
-/* ─── Specialist Carousel Section (2×2 grid with pagination) ─── */
-const SpecialistCarouselSection = ({
-  pages,
-  totalSpecialists,
-  categoryId,
-  navigate,
+const TreatmentFaq = ({
+  question,
+  answer,
+  isLast,
+  customContent,
+  isOpen,
+  onToggle,
 }: {
-  pages: Specialist[][];
-  totalSpecialists: number;
-  categoryId: string;
-  navigate: ReturnType<typeof useNavigate>;
-}) => {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const goTo = (page: number) => {
-    if (page >= 0 && page < pages.length) setCurrentPage(page);
-  };
-
-  const currentSpecs = pages[currentPage] || [];
-
-  return (
-    <section className="py-14 md:py-20 bg-secondary">
-      <div className="container mx-auto px-6 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-            <div>
-              <p className="text-sm text-muted-foreground font-light mb-3">Dine behandlere</p>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
-                Møt våre spesialister
-              </h2>
-              <p className="text-muted-foreground font-light">
-                {totalSpecialists} spesialister tilgjengelig for denne behandlingen.
-              </p>
-            </div>
-            {pages.length > 1 && (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => goTo(currentPage - 1)}
-                  disabled={currentPage === 0}
-                  aria-label="Forrige spesialister"
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-background transition-colors text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  <ChevronLeft className="w-5 h-5" aria-hidden="true" />
-                </button>
-                <button
-                  onClick={() => goTo(currentPage + 1)}
-                  disabled={currentPage === pages.length - 1}
-                  aria-label="Neste spesialister"
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-background transition-colors text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  <ChevronRight className="w-5 h-5" aria-hidden="true" />
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {currentSpecs.map((spec) => (
-              <div key={spec.slug} className="rounded-2xl border border-border overflow-hidden bg-background">
-                <div className="flex items-center gap-4 p-5">
-                  <AssetImg
-                    src={spec.image}
-                    alt={spec.name}
-                    className="w-14 h-14 rounded-full object-cover flex-shrink-0 ring-2 ring-border"
-                    loading="lazy"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[15px] font-medium text-foreground">{spec.name}</h3>
-                    <p className="text-sm text-muted-foreground font-light">{spec.title}</p>
-                    {spec.clinics && spec.clinics.length > 0 && (
-                      <p className="text-xs text-muted-foreground font-light mt-1 flex items-center gap-1">
-                        <MapPin className="w-3 h-3" aria-hidden="true" />
-                        {spec.clinics.join(', ')}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                {spec.expertise.length > 0 && (
-                  <div className="px-5 pb-3">
-                    <div className="flex flex-wrap gap-1.5">
-                      {spec.expertise.slice(0, 4).map((tag) => (
-                        <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground font-light">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                <div className="flex items-center gap-2 px-5 py-3.5 border-t border-border/50">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs rounded-full font-light flex-1"
-                    onClick={() => navigate(`/spesialister/${spec.slug}`)}
-                  >
-                    Les mer om {spec.name.split(' ')[0]}
-                    <ArrowRight className="ml-1 w-3 h-3" aria-hidden="true" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="text-xs rounded-full font-light flex-1 bg-brand-dark text-white hover:bg-brand-dark/90"
-                    onClick={() => navigate(`/booking?kategori=${categoryId}`)}
-                  >
-                    <Calendar className="mr-1.5 w-3 h-3" aria-hidden="true" />
-                    Bestill time
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Pagination dots */}
-          {pages.length > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-6">
-              {pages.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  aria-label={`Side ${i + 1} av ${pages.length}`}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    i === currentPage
-                      ? 'bg-brand-dark scale-110'
-                      : 'bg-border hover:bg-muted-foreground/40'
-                  }`}
-                />
-              ))}
-              <span className="text-xs text-muted-foreground ml-2">
-                {currentPage + 1} / {pages.length}
-              </span>
-            </div>
+  question: string;
+  answer: string;
+  isLast: boolean;
+  customContent?: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+}) => (
+  <div className={`${!isLast ? "border-b border-border" : ""}`}>
+    <button
+      type="button"
+      onClick={onToggle}
+      className="w-full flex items-center justify-between py-5 px-5 md:px-6 text-left hover:bg-secondary/20 transition-colors group"
+    >
+      <span className="text-[15px] md:text-base font-normal text-foreground pr-4">{question}</span>
+      {isOpen ? (
+        <Minus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+      ) : (
+        <Plus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+      )}
+    </button>
+    <div
+      className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+    >
+      <div className="overflow-hidden">
+        <div className="px-5 md:px-6 pb-5 pr-12">
+          {customContent || (
+            <p className="text-muted-foreground text-sm md:text-[15px] leading-relaxed font-light">{answer}</p>
           )}
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </div>
+);
+
+const AccordionGroup = ({
+  children,
+}: {
+  children: (
+    openIndex: number | null,
+    setOpenIndex: (i: number | null) => void,
+  ) => React.ReactNode;
+}) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const toggle = (i: number | null) => setOpenIndex((prev) => (prev === i ? null : i));
+  return <>{children(openIndex, toggle)}</>;
 };
 
-/* ─── Main Component ─── */
 const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const params = useParams();
   const subId =
@@ -234,63 +96,62 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         : "";
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: sanityTreatment } = useTreatment(categoryId, subId || "");
+  const { t } = useTranslation();
+  const { data: treatment, isLoading } = useTreatment(categoryId, subId || "");
+  const { data: sanityCategory } = useTreatmentCategory(categoryId);
   const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
-  const { data: sanitySpecialists } = useSpecialists();
-  const treatmentKey = `${categoryId}/${subId}`;
-  const staticTreatment = treatmentContent[treatmentKey];
+  const { data: siteSettings } = useSiteSettings();
 
-  // Merge Sanity data with static fallback — Sanity stubs may lack content
-  const treatment: TreatmentData | undefined = sanityTreatment
-    ? {
-        title: sanityTreatment.title || staticTreatment?.title || "",
-        subtitle: sanityTreatment.subtitle || staticTreatment?.subtitle,
-        description: sanityTreatment.description || staticTreatment?.description || "",
-        heroImage: sanityTreatment.heroImage || staticTreatment?.heroImage || "",
-        parentCategory: sanityTreatment.parentCategory || staticTreatment?.parentCategory || categoryId,
-        benefits: (sanityTreatment.benefits && sanityTreatment.benefits.length > 0) ? sanityTreatment.benefits : staticTreatment?.benefits,
-        benefitsTitle: sanityTreatment.benefitsTitle || staticTreatment?.benefitsTitle,
-        process: (sanityTreatment.process && sanityTreatment.process.length > 0) ? sanityTreatment.process : staticTreatment?.process,
-        faqs: (sanityTreatment.faqs && sanityTreatment.faqs.length > 0) ? sanityTreatment.faqs : staticTreatment?.faqs,
-        sections: (sanityTreatment.sections && sanityTreatment.sections.length > 0) ? sanityTreatment.sections : staticTreatment?.sections,
-        relatedSpecialists: (sanityTreatment.relatedSpecialists && sanityTreatment.relatedSpecialists.length > 0) ? sanityTreatment.relatedSpecialists : staticTreatment?.relatedSpecialists,
-        linkedServices: (sanityTreatment.linkedServices && sanityTreatment.linkedServices.length > 0) ? sanityTreatment.linkedServices : staticTreatment?.linkedServices,
-      }
-    : staticTreatment;
+  const categoryNumericId = useMemo(
+    () =>
+      resolveCategoryNumericId(categoryId, sanityCategory?.categoryNumericId ?? treatment?.categoryNumericId),
+    [categoryId, sanityCategory?.categoryNumericId, treatment?.categoryNumericId],
+  );
 
-  // Get related specialists: explicit slugs first, fallback to all in category
-  const allSpecs: Specialist[] = (sanitySpecialists || []).map(s => ({
-    ...s,
-    category: s.category || "",
-  })) as Specialist[];
+  const treatmentBookingUrl = useMemo(
+    () => bookingUrlForTreatment(categoryId, undefined, categoryNumericId),
+    [categoryId, categoryNumericId],
+  );
 
-  const displaySpecialists = useMemo(() => {
-    // Sanity returns dereferenced objects; static fallback returns slug strings.
-    const related = treatment?.relatedSpecialists || staticTreatment?.relatedSpecialists;
-    if (related && related.length > 0) {
-      const slugs: string[] = related
-        .map((item: any) => (typeof item === "string" ? item : item?.slug))
-        .filter((s): s is string => !!s);
-      const matched = slugs
-        .map(slug => allSpecs.find(s => s.slug === slug))
-        .filter((s): s is Specialist => !!s);
-      if (matched.length > 0) return matched;
-    }
-    return allSpecs.filter(s => s.category === categoryId);
-  }, [treatment, staticTreatment, categoryId, allSpecs]);
+  const breadcrumbHome = useMemo(() => {
+    const nav = siteSettings?.mainNavigation as { path?: string; label?: string; navId?: string }[] | undefined;
+    const homeNav = nav?.find((item) => item.path === "/" || item.navId === "home");
+    return (typeof homeNav?.label === "string" && homeNav.label.trim()) || "";
+  }, [siteSettings?.mainNavigation]);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollSpecialists = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: direction === 'left' ? -320 : 320, behavior: 'smooth' });
-    }
-  };
+  const pageUi = useMemo(() => {
+    const cta = sanityCategory?.bottomCta;
+    const primaryPath = cta?.primaryPath?.trim() || treatmentBookingUrl;
+    const quickInfoItems = (sanityCategory?.quickInfoItems ?? []).filter(
+      (label): label is string => typeof label === "string" && label.length > 0,
+    );
+
+    return {
+      quickInfoItems,
+      linkedServicesTitle: (sanityCategory?.linkedServicesSectionTitle ?? "").trim(),
+      processTitle: (sanityCategory?.processSectionTitle ?? "").trim(),
+      faqTitle: (sanityCategory?.faqSectionTitle ?? "").trim(),
+      ctaTitle: (cta?.title ?? "").trim(),
+      ctaSubtitle: (cta?.subtitle ?? "").trim(),
+      ctaPrimaryLabel: (cta?.primaryLabel ?? "").trim(),
+      ctaSecondaryLabel: (cta?.secondaryLabel ?? "").trim(),
+      ctaPrimaryPath: primaryPath,
+      ctaSecondaryPath: (cta?.secondaryPath ?? "").trim(),
+    };
+  }, [sanityCategory, treatmentBookingUrl]);
+
+  const faqs = useMemo(() => {
+    if (sanityFaqs && sanityFaqs.length > 0) return sanityFaqs;
+    return treatment?.faqs ?? [];
+  }, [sanityFaqs, treatment?.faqs]);
+
+  const heroImage = treatment?.heroImage || sanityCategory?.heroImage || "";
 
   useEffect(() => {
-    if (treatment) {
+    if (treatment?.title) {
       document.title = `${treatment.title} | CMedical`;
     }
-  }, [treatment]);
+  }, [treatment?.title]);
 
   useEffect(() => {
     if (location.hash) {
@@ -301,15 +162,25 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     }
   }, [location.hash, treatment]);
 
+  if (isLoading) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-[40vh] flex items-center justify-center">
+          <p className="text-muted-foreground font-light">{t("common.loading")}</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
   if (!treatment) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-3xl font-normal text-foreground mb-4">Siden finnes ikke</h1>
-            <p className="text-muted-foreground font-light mb-8">Vi fant ikke behandlingen du leter etter.</p>
+            <h1 className="text-3xl font-normal text-foreground mb-4">{t("treatmentPage.notFoundTitle")}</h1>
+            <p className="text-muted-foreground font-light mb-8">{t("treatmentPage.notFoundBody")}</p>
             <Button onClick={() => navigate(`/${categoryId}`)} className="rounded-md">
-              Tilbake til {categoryId}
+              {t("treatmentPage.backTo")} {categoryId}
             </Button>
           </div>
         </div>
@@ -317,47 +188,62 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
     );
   }
 
-  const specialistLabel = specialistLabels[categoryId] || "spesialist";
+  const parentCategory =
+    treatment.parentCategory || sanityCategory?.title || categoryId;
+  const showBottomCta = Boolean(pageUi.ctaTitle);
+  const benefitsTitle = (treatment.benefitsTitle ?? "").trim();
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={`${treatment.title} – ${treatment.parentCategory || categoryId}`}
-        description={(treatment.description || "").split('\n')[0].slice(0, 155)}
+        title={`${treatment.title} – ${parentCategory}`}
+        description={(treatment.description || "").split("\n")[0].slice(0, 155)}
         canonical={`/behandlinger/${categoryId}/${subId}`}
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: treatment.parentCategory || categoryId, path: `/${categoryId}` },
+          ...(breadcrumbHome ? [{ name: breadcrumbHome, path: "/" }] : []),
+          { name: parentCategory, path: `/${categoryId}` },
           { name: treatment.title, path: `/behandlinger/${categoryId}/${subId}` },
         ]}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "MedicalProcedure",
           name: treatment.title,
-          description: (treatment.description || "").split('\n')[0] || "",
+          description: (treatment.description || "").split("\n")[0] || "",
           howPerformed: treatment.subtitle || undefined,
-          provider: {
-            "@type": "MedicalClinic",
-            name: "CMedical",
-          },
+          provider: { "@type": "MedicalClinic", name: "CMedical" },
         }}
       />
-      {/* ── Hero ── */}
+
       <header className="relative h-[32vh] md:h-[38vh] overflow-hidden">
-        <AssetImg
-          src={treatment.heroImage}
-          alt={treatment.title}
-          className="w-full h-full object-cover object-[center_30%]"
-          loading="eager"
-        />
+        {heroImage ? (
+          <AssetImg
+            src={heroImage}
+            alt={treatment.title}
+            className="w-full h-full object-cover object-[center_30%]"
+            loading="eager"
+          />
+        ) : (
+          <div className="w-full h-full bg-brand-dark" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
           <div className="container mx-auto px-0 md:px-8">
-            {/* Breadcrumb */}
             <div className="flex items-center gap-1.5 text-xs text-white/50 mb-3 font-light">
-              <button onClick={() => navigate("/")} className="hover:text-white/70 transition-colors">Hjem</button>
-              <ChevronRight className="w-3 h-3" />
-              <button onClick={() => navigate(`/${categoryId}`)} className="hover:text-white/70 transition-colors">{treatment.parentCategory}</button>
+              {breadcrumbHome ? (
+                <>
+                  <button type="button" onClick={() => navigate("/")} className="hover:text-white/70 transition-colors">
+                    {breadcrumbHome}
+                  </button>
+                  <ChevronRight className="w-3 h-3" />
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => navigate(`/${categoryId}`)}
+                className="hover:text-white/70 transition-colors"
+              >
+                {parentCategory}
+              </button>
               <ChevronRight className="w-3 h-3" />
               <span className="text-white/70">{treatment.title}</span>
             </div>
@@ -371,27 +257,41 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </div>
       </header>
 
-      {/* ── Main Content ── */}
       <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-8">
           <div className="max-w-3xl mx-auto">
-
-            {/* Quick info badges */}
-            <QuickInfoBar />
-
-            {/* Introduction */}
-            <div className="mb-14">
-              <div className="text-base md:text-[17px] text-foreground/80 leading-[1.8] font-light whitespace-pre-line">
-                {treatment.description || ""}
+            {pageUi.quickInfoItems.length > 0 && (
+              <div className="flex flex-wrap gap-3 mb-10">
+                {pageUi.quickInfoItems.map((label, i) => {
+                  const Icon = QUICK_INFO_ICONS[i] ?? FileText;
+                  return (
+                    <div
+                      key={`${label}-${i}`}
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-secondary/50 border border-border/50"
+                    >
+                      <Icon className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={1.5} />
+                      <span className="text-xs md:text-sm text-foreground/70 font-light">{label}</span>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
+            )}
 
-            {/* ── Content Sections — displayed openly, not in accordion ── */}
+            {treatment.description && (
+              <div className="mb-14">
+                <div className="text-base md:text-[17px] text-foreground/80 leading-[1.8] font-light whitespace-pre-line">
+                  {treatment.description}
+                </div>
+              </div>
+            )}
+
             {treatment.sections && treatment.sections.length > 0 && (
               <div className="mb-14 space-y-10">
                 {treatment.sections.map((section, i) => (
-                  <div key={`section-${i}`} className="rounded-2xl border border-border/50 bg-card p-6 md:p-8">
-                    <h3 className="text-lg md:text-xl font-normal text-foreground mb-4">{section.heading || `Seksjon ${i + 1}`}</h3>
+                  <div key={section.id || `section-${i}`} className="rounded-2xl border border-border/50 bg-card p-6 md:p-8">
+                    <h3 className="text-lg md:text-xl font-normal text-foreground mb-4">
+                      {section.heading || `${i + 1}`}
+                    </h3>
                     <div className="space-y-3">
                       {(section.content || "").split("\n").map((line, j) => {
                         const trimmed = line.trim();
@@ -400,11 +300,22 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                           return (
                             <div key={j} className="flex items-start gap-3 pl-1">
                               <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
-                              <p className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
+                              <p
+                                className="text-foreground/80 font-light leading-[1.8]"
+                                dangerouslySetInnerHTML={{
+                                  __html: formatInlineMarkdown(trimmed.slice(2)),
+                                }}
+                              />
                             </div>
                           );
                         }
-                        return <p key={j} className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }} />;
+                        return (
+                          <p
+                            key={j}
+                            className="text-foreground/80 font-light leading-[1.8]"
+                            dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed) }}
+                          />
+                        );
                       })}
                     </div>
                   </div>
@@ -412,10 +323,9 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               </div>
             )}
 
-            {/* ── Linked Services, Benefits, Process — in accordion ── */}
-            {((treatment.linkedServices && treatment.linkedServices.length > 0) ||
-              (treatment.benefits && treatment.benefits.length > 0) ||
-              (treatment.process && treatment.process.length > 0)) && (
+            {((pageUi.linkedServicesTitle && treatment.linkedServices && treatment.linkedServices.length > 0) ||
+              (benefitsTitle && treatment.benefits && treatment.benefits.length > 0) ||
+              (pageUi.processTitle && treatment.process && treatment.process.length > 0)) && (
               <div className="mb-14 rounded-2xl border border-border/50 overflow-hidden">
                 <AccordionGroup>
                   {(openIndex, setOpenIndex) => {
@@ -423,12 +333,11 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                     const next = () => ++idx;
                     return (
                       <>
-                        {/* Linked Services */}
                         {treatment.linkedServices && treatment.linkedServices.length > 0 && (() => {
                           const myIdx = next();
                           return (
                             <TreatmentFaq
-                              question="Vårt tverrfaglige team"
+                              question={pageUi.linkedServicesTitle}
                               answer=""
                               isLast={false}
                               isOpen={openIndex === myIdx}
@@ -436,9 +345,21 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                               customContent={
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                   {treatment.linkedServices!.map((service) => (
-                                    <button key={service.label} onClick={() => navigate(service.path)} className="text-left p-4 rounded-xl border border-border bg-card hover:bg-secondary/40 transition-all group">
-                                      <h3 className="text-sm font-normal text-foreground mb-1 flex items-center gap-2">{service.label} <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" /></h3>
-                                      <p className="text-xs text-muted-foreground font-light leading-relaxed">{service.description}</p>
+                                    <button
+                                      key={service.path + service.label}
+                                      type="button"
+                                      onClick={() => navigate(service.path)}
+                                      className="text-left p-4 rounded-xl border border-border bg-card hover:bg-secondary/40 transition-all group"
+                                    >
+                                      <h3 className="text-sm font-normal text-foreground mb-1 flex items-center gap-2">
+                                        {service.label}
+                                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
+                                      </h3>
+                                      {service.description && (
+                                        <p className="text-xs text-muted-foreground font-light leading-relaxed">
+                                          {service.description}
+                                        </p>
+                                      )}
                                     </button>
                                   ))}
                                 </div>
@@ -447,12 +368,11 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                           );
                         })()}
 
-                        {/* Benefits */}
-                        {treatment.benefits && treatment.benefits.length > 0 && (() => {
+                        {benefitsTitle && treatment.benefits && treatment.benefits.length > 0 && (() => {
                           const myIdx = next();
                           return (
                             <TreatmentFaq
-                              question={treatment.benefitsTitle || "Hvorfor velge oss"}
+                              question={benefitsTitle}
                               answer=""
                               isLast={false}
                               isOpen={openIndex === myIdx}
@@ -461,8 +381,12 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                                 <div className="space-y-3">
                                   {treatment.benefits!.map((benefit, i) => (
                                     <div key={i} className="flex items-start gap-3">
-                                      <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5"><Check className="w-3 h-3 text-accent-foreground" /></div>
-                                      <p className="text-foreground/80 font-light text-[15px] leading-relaxed">{benefit}</p>
+                                      <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <Check className="w-3 h-3 text-accent-foreground" />
+                                      </div>
+                                      <p className="text-foreground/80 font-light text-[15px] leading-relaxed">
+                                        {benefit}
+                                      </p>
                                     </div>
                                   ))}
                                 </div>
@@ -471,12 +395,11 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                           );
                         })()}
 
-                        {/* Treatment Process */}
-                        {treatment.process && treatment.process.length > 0 && (() => {
+                        {pageUi.processTitle && treatment.process && treatment.process.length > 0 && (() => {
                           const myIdx = next();
                           return (
                             <TreatmentFaq
-                              question="Slik foregår behandlingen"
+                              question={pageUi.processTitle}
                               answer=""
                               isLast={false}
                               isOpen={openIndex === myIdx}
@@ -487,10 +410,14 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                                   <div className="space-y-0">
                                     {treatment.process!.map((step, i) => (
                                       <div key={i} className="flex gap-5 relative">
-                                        <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0 z-10">{i + 1}</div>
+                                        <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0 z-10">
+                                          {i + 1}
+                                        </div>
                                         <div className="pb-6 pt-1 flex-1">
                                           <h3 className="font-medium text-foreground mb-1 text-[15px]">{step.title}</h3>
-                                          <p className="text-sm text-muted-foreground font-light leading-relaxed">{step.description}</p>
+                                          <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                                            {step.description}
+                                          </p>
                                         </div>
                                       </div>
                                     ))}
@@ -506,112 +433,90 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 </AccordionGroup>
               </div>
             )}
-
           </div>
         </div>
       </section>
 
-      {/* ── Specialist Carousel (2×2 grid pages) ── */}
-      {displaySpecialists.length > 0 && (() => {
-        const sorted = [...displaySpecialists].sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'nb')
-        );
-        const perPage = 4; // 2 cols × 2 rows
-        const pages: Specialist[][] = [];
-        for (let i = 0; i < sorted.length; i += perPage) {
-          pages.push(sorted.slice(i, i + perPage));
-        }
-
-        return (
-          <SpecialistCarouselSection
-            pages={pages}
-            totalSpecialists={sorted.length}
-            categoryId={categoryId}
-            navigate={navigate}
-          />
-        );
-      })()}
-
-      {/* ── General FAQ Section (only one open at a time) ── */}
-      {(() => {
-        const dynamicFaqs = sanityFaqs && sanityFaqs.length > 0 ? sanityFaqs : null;
-        const treatmentFaqs = treatment.faqs && treatment.faqs.length > 0 ? treatment.faqs : null;
-        const faqs = dynamicFaqs || treatmentFaqs;
-        if (!faqs || faqs.length === 0) return null;
-        return (
-          <section className="py-14 md:py-20 bg-secondary">
-            <div className="container mx-auto px-6 md:px-8">
-              <div className="max-w-3xl mx-auto">
-                <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">Ofte stilte spørsmål</h2>
-                <div className="rounded-2xl border border-border/50 overflow-hidden bg-background">
-                  <AccordionGroup>
-                    {(openIndex, setOpenIndex) => (
-                      <>
-                        {faqs.map((faq, i) => (
-                          <TreatmentFaq
-                            key={`faq-${i}`}
-                            question={faq.question}
-                            answer={faq.answer}
-                            isLast={i === faqs.length - 1}
-                            isOpen={openIndex === i}
-                            onToggle={() => setOpenIndex(i)}
-                          />
-                        ))}
-                      </>
-                    )}
-                  </AccordionGroup>
-                </div>
+      {faqs.length > 0 && (
+        <section className="py-14 md:py-20 bg-secondary">
+          <div className="container mx-auto px-6 md:px-8">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">{pageUi.faqTitle}</h2>
+              <div className="rounded-2xl border border-border/50 overflow-hidden bg-background">
+                <AccordionGroup>
+                  {(openIndex, setOpenIndex) => (
+                    <>
+                      {faqs.map((faq, i) => (
+                        <TreatmentFaq
+                          key={`faq-${i}`}
+                          question={faq.question}
+                          answer={faq.answer}
+                          isLast={i === faqs.length - 1}
+                          isOpen={openIndex === i}
+                          onToggle={() => setOpenIndex(i)}
+                        />
+                      ))}
+                    </>
+                  )}
+                </AccordionGroup>
               </div>
             </div>
-          </section>
-        );
-      })()}
+          </div>
+        </section>
+      )}
 
-      <PageSectionsRenderer sections={sanityTreatment?.pageSections} />
+      <PageSectionsRenderer sections={treatment.pageSections} />
 
-      {/* ── CTA Section ── */}
       <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-6 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <div className="bg-brand-dark rounded-2xl p-8 md:p-12 text-center mb-14">
-              <h2 className="text-2xl md:text-3xl font-normal text-white mb-3">
-                Klar for å ta neste steg?
-              </h2>
-              <p className="text-white/60 font-light mb-8 max-w-md mx-auto text-[15px]">
-                Bestill time enkelt online. Ingen henvisning nødvendig, og vi har kort ventetid.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button
-                  size="lg"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8 font-normal"
-                  onClick={() => navigate(`/booking?kategori=${categoryId}`)}
-                >
-                  Bestill time hos en {specialistLabel}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="ghost"
-                  className="border border-white/20 text-white bg-transparent hover:bg-white/10 rounded-full px-8 font-normal"
-                  onClick={() => navigate("/kontakt")}
-                >
-                  <Phone className="mr-2 w-4 h-4" />
-                  Kontakt oss
-                </Button>
+            {showBottomCta && (
+              <div className="bg-brand-dark rounded-2xl p-8 md:p-12 text-center mb-14">
+                <h2 className="text-2xl md:text-3xl font-normal text-white mb-3">{pageUi.ctaTitle}</h2>
+                {pageUi.ctaSubtitle && (
+                  <p className="text-white/60 font-light mb-8 max-w-md mx-auto text-[15px]">{pageUi.ctaSubtitle}</p>
+                )}
+                {(pageUi.ctaPrimaryLabel || (pageUi.ctaSecondaryLabel && pageUi.ctaSecondaryPath)) && (
+                  <div
+                    className={`flex flex-col sm:flex-row gap-3 justify-center ${pageUi.ctaSubtitle ? "" : "mt-2"}`}
+                  >
+                    {pageUi.ctaPrimaryLabel && (
+                      <Button
+                        size="lg"
+                        className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8 font-normal"
+                        onClick={() => navigate(pageUi.ctaPrimaryPath)}
+                      >
+                        {pageUi.ctaPrimaryLabel}
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    )}
+                    {pageUi.ctaSecondaryLabel && pageUi.ctaSecondaryPath && (
+                      <Button
+                        size="lg"
+                        variant="ghost"
+                        className="border border-white/20 text-white bg-transparent hover:bg-white/10 rounded-full px-8 font-normal"
+                        onClick={() => navigate(pageUi.ctaSecondaryPath)}
+                      >
+                        <Phone className="mr-2 w-4 h-4" />
+                        {pageUi.ctaSecondaryLabel}
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
-            </div>
+            )}
 
             <button
+              type="button"
               onClick={() => navigate(`/${categoryId}`)}
               className="text-sm text-muted-foreground hover:text-foreground font-light flex items-center gap-1.5 transition-colors"
             >
               <ArrowRight className="w-3.5 h-3.5 rotate-180" />
-              Tilbake til {treatment.parentCategory}
+              {parentCategory}
             </button>
           </div>
         </div>
       </section>
-
     </PageLayout>
   );
 };

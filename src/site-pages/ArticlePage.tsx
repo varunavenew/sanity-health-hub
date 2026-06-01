@@ -5,8 +5,7 @@ import { useParams, Link } from "@/lib/router";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { articles } from "@/data/articles";
-import { articleContent, type ContentBlock } from "@/data/articleContent";
+import type { ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
@@ -125,29 +124,23 @@ const renderBlock = (block: ContentBlock, index: number) => {
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
   const { slug } = useParams<{ slug: string }>();
-  const { data: sanityArticle } = useArticle(slug || "");
+  const { data: sanityArticle, isLoading } = useArticle(slug || "");
   const { data: sanityArticles } = useArticles();
-  const staticArticle = articles.find((a) => a.slug === slug);
-  
-  // Prefer Sanity data, fall back to static
-  const article = sanityArticle
-    ? { ...sanityArticle, image: sanityArticle.image || staticArticle?.image || "" }
-    : staticArticle;
-  const content = slug ? articleContent[slug] : undefined;
 
-  // Build related articles from Sanity first, then static fallback
+  const article = sanityArticle
+    ? { ...sanityArticle, image: sanityArticle.image || "" }
+    : undefined;
+
   const related = useMemo(() => {
     if (!article) return [];
-    const allArticles = sanityArticles && sanityArticles.length > 0
-      ? sanityArticles.map((a: any) => ({
-          slug: a.slug,
-          title: a.title,
-          excerpt: a.excerpt,
-          image: a.image,
-          date: a.date,
-          category: a.category,
-        }))
-      : articles;
+    const allArticles = (sanityArticles || []).map((a: any) => ({
+      slug: a.slug,
+      title: a.title,
+      excerpt: a.excerpt,
+      image: a.image,
+      date: a.date,
+      category: a.category,
+    }));
     return allArticles
       .filter((a: any) => a.category === article.category && a.slug !== article.slug)
       .slice(0, 3);
@@ -158,6 +151,16 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       document.title = `${article.title} | CMedical`;
     }
   }, [article]);
+
+  if (isLoading) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-screen flex items-center justify-center text-muted-foreground font-light">
+          Laster…
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (!article) {
     return (
@@ -246,12 +249,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
               </div>
             )}
 
-            {/* Body */}
-            {/* Body: prefer Sanity Portable Text, then static content, then excerpt */}
             {sanityArticle?.body && sanityArticle.body.length > 0 ? (
               <div><PortableText value={sanityArticle.body} components={portableTextComponents} /></div>
-            ) : content ? (
-              <div>{content.map(renderBlock)}</div>
             ) : (
               <p className="text-foreground/80 font-light leading-relaxed">{article.excerpt}</p>
             )}

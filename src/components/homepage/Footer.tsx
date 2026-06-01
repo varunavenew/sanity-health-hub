@@ -4,7 +4,6 @@ import { Link } from "@/lib/router";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
-import { clinics as staticClinics } from "@/data/clinicServices";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { resolveNavLabel } from "@/lib/navigation/resolve-nav-label";
@@ -37,10 +36,10 @@ export const Footer = () => {
         { label: t("footer.moreServices"), path: "/flere-fagomrader" },
       ];
 
-  // Clinic links from Sanity or static
-  const clinicLinks = clinics && clinics.length > 0
-    ? clinics.map((c: any) => ({ label: c.label || c.title, slug: c.slug || c.id }))
-    : staticClinics.map(c => ({ label: c.label, slug: c.slug }));
+  const clinicLinks = (clinics || []).map((c: any) => ({
+    label: c.label || c.title,
+    slug: c.slug || c.id,
+  }));
 
   const footerAboutLinks = useMemo(() => {
     const raw = settings?.footerAboutLinks?.length

@@ -3,26 +3,6 @@ import { useNavigate } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { useHomepage } from "@/hooks/useSanity";
 
-import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
-import tverrfagligTeam from "@/assets/hero/tverrfaglig-team.jpg";
-
-const staticBlocks = [
-  {
-    id: "overvektskirurgi",
-    title: "Robotassistert overvektskirurgi – presisjon, trygghet og varige resultater",
-    image: robotkirurgiHero,
-    cta: "Les mer",
-    path: "/robotassistert-kirurgi",
-  },
-  {
-    id: "livio",
-    title: "Livio Oslo blir en del av CMedical og tilbudet til pasientene styrkes",
-    image: tverrfagligTeam,
-    cta: "Les mer",
-    path: "/tverrfaglige-team",
-  },
-];
-
 export const PromoBlocks = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -31,10 +11,8 @@ export const PromoBlocks = () => {
   const sectionTitle =
     homepage?.promoBlocksTitle?.trim() || t("promoBlocks.title");
 
-  const blocks =
-    homepage?.promoBlocks && homepage.promoBlocks.length > 0
-      ? homepage.promoBlocks
-      : staticBlocks;
+  const blocks = (homepage?.promoBlocks || []).filter((b: any) => b?.image && b?.title);
+  if (blocks.length === 0) return null;
 
   return (
     <section className="bg-secondary/30 pt-10 md:pt-14 pb-4 md:pb-6">

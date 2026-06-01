@@ -2,17 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Phone, Clock, Shield, ChevronDown } from "lucide-react";
 import { useNavigate } from "@/lib/router";
-import { clinics } from "@/data/clinicServices";
+import { useClinics } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-
-const callableClinics = clinics.map(c => ({
-  label: c.label,
-  phone: c.phone,
-}));
 
 export const BookingCTA = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { data: clinics = [] } = useClinics();
+  const callableClinics = (clinics as { label: string; phone?: string }[])
+    .filter((c) => c.phone)
+    .map((c) => ({ label: c.label, phone: c.phone! }));
   const [showClinicPicker, setShowClinicPicker] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

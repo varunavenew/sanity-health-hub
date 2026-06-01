@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 import { clinics as staticClinics, getClinicsForService, type Clinic } from "@/data/clinicServices";
-import { findBookingCategoryForPage, slugifyNo } from "@/lib/bookingLinks";
+import { categoryNumericIdToPageId, findBookingCategoryForPage, slugifyNo } from "@/lib/bookingLinks";
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
 import { apiLocationToClinic, type BookingApiClinic } from "@/lib/booking/mapApiLocation";
 import {
@@ -333,6 +333,23 @@ const BookingDemo = () => {
         if (res.ok && json.ok && Array.isArray(json.categories) && json.categories.length > 0) {
           setBookingServices(json.categories);
           setServicesFromApi(true);
+          if (typeof window !== "undefined") {
+            console.log("[booking/category] wbactivities loaded via /api/booking/activity-groups", {
+              source: "api",
+              categoryCount: json.categories.length,
+              categories: json.categories.map((c) => ({
+                id: c.id,
+                clinicServiceId: c.clinicServiceId,
+                label: c.label,
+                serviceCount: c.services?.length ?? 0,
+                services: c.services?.map((s) => ({
+                  name: s.name,
+                  apiActivityId: s.apiActivityId,
+                  price: s.price,
+                })),
+              })),
+            });
+          }
         } else {
           setBookingServices(FALLBACK_BOOKING_SERVICES);
           setServicesFromApi(false);
@@ -405,7 +422,7 @@ const BookingDemo = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep]);
 
-  // Prefill from URL params: ?kategori=gynekologi&tjeneste=endometriose&spesialist=slug&klinikk=majorstuen
+  // Prefill from URL params: ?kategori=gynekologi&kategoriId=1&tjeneste=endometriose&spesialist=slug&klinikk=majorstuen
   // Jumps to the first unfilled step so users coming from a specific
   // page never have to start over.
   useEffect(() => {
@@ -413,24 +430,41 @@ const BookingDemo = () => {
     if (specialists.length === 0 || servicesLoading) return;
 
     const kategori = searchParams.get("kategori");
+    const kategoriIdRaw = searchParams.get("kategoriId");
     const tjeneste = searchParams.get("tjeneste");
     const spesialistSlug = searchParams.get("spesialist");
     const klinikkId = searchParams.get("klinikk");
+    const kategoriId = kategoriIdRaw != null ? Number(kategoriIdRaw) : NaN;
+    const kategoriFromNumericId =
+      Number.isFinite(kategoriId) && kategoriId > 0
+        ? categoryNumericIdToPageId[kategoriId]
+        : undefined;
+    const effectiveKategori = kategori || kategoriFromNumericId;
 
-    if (!kategori && !tjeneste && !spesialistSlug && !klinikkId) return;
+    if (!effectiveKategori && !tjeneste && !spesialistSlug && !klinikkId) return;
 
     // 1. Resolve category
     let resolvedCategoryListId: string | undefined;
     let resolvedCategoryClinicId: string | undefined;
     let resolvedCategoryLabel: string | undefined;
-    if (kategori && kategori !== "flere-fagomrader") {
-      const matchingCategory = findBookingCategoryForPage(kategori, bookingServices);
+    let matchingCategory: ReturnType<typeof findBookingCategoryForPage>;
+    if (effectiveKategori && effectiveKategori !== "flere-fagomrader") {
+      matchingCategory = findBookingCategoryForPage(effectiveKategori, bookingServices);
       if (matchingCategory) {
         resolvedCategoryListId = matchingCategory.id;
         resolvedCategoryClinicId = clinicIdForCategory(matchingCategory);
         resolvedCategoryLabel = matchingCategory.label;
         setExpandedCategory(matchingCategory.id);
         setFilterToCategoryId(matchingCategory.id);
+        if (typeof window !== "undefined") {
+          console.log("[booking/category] matched category for URL prefill", {
+            effectiveKategori,
+            categoryListId: resolvedCategoryListId,
+            clinicServiceId: resolvedCategoryClinicId,
+            label: resolvedCategoryLabel,
+            servicesFromWbactivities: matchingCategory.services,
+          });
+        }
       }
     }
 
@@ -475,9 +509,38 @@ const BookingDemo = () => {
         next.specialistChosen = true;
       }
       setBookingData(next);
+      if (matchingCategory && typeof window !== "undefined") {
+        console.log("[booking/category] prefill committed", {
+          categoryId: next.categoryId,
+          categoryLabel: next.category,
+          selectedService: next.service,
+        });
+      }
     }
     // If only kategori was given, expandedCategory is already set above.
   }, [searchParams, specialists, bookingServices, servicesLoading, bookingData.service, bookingData.clinic, bookingData.specialist]);
+
+  // Log services for the active category filter (step 1 UI)
+  useEffect(() => {
+    if (servicesLoading || bookingServices.length === 0) return;
+    const activeId = filterToCategoryId ?? expandedCategory;
+    if (!activeId) return;
+    const cat = bookingServices.find((c) => c.id === activeId);
+    if (!cat) return;
+    if (typeof window !== "undefined") {
+      console.log("[booking/category] services shown for category", {
+        categoryId: cat.id,
+        clinicServiceId: cat.clinicServiceId,
+        label: cat.label,
+        serviceCount: cat.services.length,
+        services: cat.services.map((s) => ({
+          name: s.name,
+          apiActivityId: s.apiActivityId,
+          price: s.price,
+        })),
+      });
+    }
+  }, [filterToCategoryId, expandedCategory, bookingServices, servicesLoading]);
 
   // Step 1: load duration from wbfreetimes when a category is expanded
   useEffect(() => {
