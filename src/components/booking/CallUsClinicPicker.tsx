@@ -10,6 +10,7 @@ interface Props {
   variant?: "light" | "dark";
   size?: "default" | "lg";
   label?: string;
+  className?: string;
 }
 
 /**
