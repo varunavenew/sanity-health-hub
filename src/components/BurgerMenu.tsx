@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
-import { useNavigate } from "@/lib/router";
+import { useNavigate, useLocaleParam } from "@/lib/router";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
-import { resolveNavLabel } from '@/lib/navigation/resolve-nav-label';
+import { resolveNavLabel, resolveNavPath } from '@/lib/navigation/resolve-nav-label';
 import { useTranslation } from 'react-i18next';
 
 const BurgerMenu = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const locale = useLocaleParam();
+  const uiLang = locale === "en" ? "en" : "nb";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -33,21 +35,25 @@ const BurgerMenu = () => {
       ? siteSettings.mainNavigation
       : staticMenuItems;
     return raw.map((item: { label?: string; path?: string; navId?: string }) => ({
-      path: item.path,
-      label: resolveNavLabel(item, t),
+      path: resolveNavPath(item, locale),
+      label: resolveNavLabel(item, t, uiLang),
     }));
-  }, [siteSettings?.mainNavigation, staticMenuItems, t, i18n.language]);
+  }, [siteSettings?.mainNavigation, staticMenuItems, t, locale, uiLang]);
 
   const ctaButton = useMemo(() => {
     const raw = siteSettings?.ctaButton || { path: '/booking', navId: 'bookAppointment' };
     return {
-      path: raw.path || '/booking',
+      path: resolveNavPath(
+        { path: raw.path || '/booking', navId: raw.navId || 'bookAppointment' },
+        locale,
+      ),
       label: resolveNavLabel(
         { label: raw.label, path: raw.path, navId: raw.navId || 'bookAppointment' },
         t,
+        uiLang,
       ),
     };
-  }, [siteSettings?.ctaButton, t, i18n.language]);
+  }, [siteSettings?.ctaButton, t, locale, uiLang]);
   const phone = siteSettings?.phone || '22 00 12 34';
   const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 

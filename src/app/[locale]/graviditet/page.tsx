@@ -1,7 +1,6 @@
-'use client'
+import { createSanityCategoryLandingPage } from "@/lib/behandlinger/create-category-landing-page";
 
-import CategoryPageNew from '@/site-pages/treatments/CategoryPageNew'
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <CategoryPageNew categoryId="graviditet" isChatOpen={false} />
-}
+export default createSanityCategoryLandingPage("graviditet");

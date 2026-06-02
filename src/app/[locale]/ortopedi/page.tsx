@@ -1,7 +1,6 @@
-'use client'
+import { createSanityCategoryLandingPage } from "@/lib/behandlinger/create-category-landing-page";
 
-import OrtopediPage from '@/site-pages/treatments/OrtopediPage'
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <OrtopediPage isChatOpen={false} />
-}
+export default createSanityCategoryLandingPage("ortopedi");

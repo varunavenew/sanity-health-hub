@@ -7,14 +7,19 @@ function collatorLocale(locale: SortLocale): string {
 }
 
 /** Resolve plain string or internationalizedArray entry for A–Å sorting. */
-export function textForSort(value: unknown): string {
+export function textForSort(value: unknown, locale: SortLocale = "no"): string {
   if (typeof value === "string") return value;
   if (Array.isArray(value)) {
+    const lang = locale === "en" ? "en" : "no";
     const entry = value.find(
+      (x: { language?: string; _key?: string; value?: string }) =>
+        (x.language || x._key) === lang,
+    );
+    const fallback = value.find(
       (x: { language?: string; _key?: string; value?: string }) =>
         (x.language || x._key) === "no",
     );
-    return (entry?.value ?? value[0]?.value ?? "") as string;
+    return (entry?.value ?? fallback?.value ?? value[0]?.value ?? "") as string;
   }
   return "";
 }

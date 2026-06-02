@@ -7,8 +7,10 @@ import {
   filterPublishedDocuments,
 } from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySlug, textForSort } from "@/lib/sortAlphabetical";
+import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
-import { mapTreatmentDocument } from "@/lib/sanity/treatment-data";
+import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
+import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
 import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
 import { useHomepageInitialData } from "@/components/homepage/HomepageDataProvider";
 import {
@@ -19,13 +21,11 @@ import {
   GOOGLE_REVIEW_SETTINGS_QUERY,
   TREATMENT_CATEGORIES_QUERY,
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
-  TREATMENT_BY_SLUG_QUERY,
   ABOUT_PAGE_QUERY,
   PRIVACY_POLICY_PAGE_QUERY,
   CONTACT_PAGE_QUERY,
   PRICING_PAGE_QUERY,
   INSURANCE_PAGE_QUERY,
-  SERVICES_PAGE_QUERY,
   CLINICS_QUERY,
   CLINIC_BY_SLUG_QUERY,
   SITE_SETTINGS_QUERY,
@@ -47,16 +47,12 @@ import {
   SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
+import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
+import {
+  fetchServicesPageData,
+} from "@/lib/sanity/services-page-data";
 
 const useSanityLang = useSanityContentLang;
-
-// Map Sanity treatmentCategory slugs to the internal category keys used by filters
-const mapSanityCategorySlug = (slug: string): string => {
-  const mapping: Record<string, string> = {
-    "flere-fagomrader": "annet",
-  };
-  return mapping[slug] || slug;
-};
 
 // Generic fetcher — auto-normalizes internationalizedArray fields.
 // `lang` may be passed explicitly (3rd arg), or via params.lang, otherwise "no".
@@ -175,7 +171,7 @@ export const useSpecialists = () => {
         subtitle: s.subtitle || "",
         expertise: s.specialties || [],
         bio: s.shortBio || "",
-        category: mapSanityCategorySlug(s.categories?.[0]?.slug || ""),
+        category: resolveSpecialistPrimaryCategory(s.categories),
         clinics: s.clinics || [],
         bookingCategoryIds: normalizeBookingCategoryIds(s.bookingCategoryIds),
         sanityCategories: mapSanitySpecialistCategories(s.categories),
@@ -198,7 +194,7 @@ export const useSpecialist = (slug: string) => {
         subtitle: data.subtitle || "",
         expertise: data.specialties || [],
         bio: data.shortBio || "",
-        category: mapSanityCategorySlug(data.categories?.[0]?.slug || ""),
+        category: resolveSpecialistPrimaryCategory(data.categories),
         clinics: data.clinics || [],
         bookingCategoryIds: normalizeBookingCategoryIds(data.bookingCategoryIds),
         sanityCategories: mapSanitySpecialistCategories(data.categories),
@@ -298,32 +294,46 @@ export const useTreatmentCategories = () => {
       const data = await fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang);
       return data?.length ? sortCategoryTreatments(data, lang) : data;
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: "always",
   });
 };
 
 export const useTreatmentCategory = (slug: string) => {
   const lang = useSanityLang();
-  return useQuery({
+  const serverInitial = useCategoryInitialData();
+  const serverMatches =
+    serverInitial?.lang === lang && serverInitial?.categorySlug === slug;
+  const serverData = serverMatches ? serverInitial?.data ?? undefined : undefined;
+
+  const query = useQuery({
     queryKey: ["sanity", "treatmentCategory", slug, lang],
-    queryFn: async () => {
-      const data = await fetchSanity<any>(TREATMENT_CATEGORY_BY_SLUG_QUERY, { slug }, lang);
-      if (!data) return null;
-      return {
-        ...data,
-        services: sortBySlug(data.treatments || [], (t: any) => t.slug || t.title, lang).map(
-          (t: any) => ({
-            name: t.title,
-            path: `/behandlinger/${data.categoryId || data.slug}/${t.slug}`,
-          }),
-        ),
-        faqs: [],
-        pageSections: normalizePageSections(data.pageSections),
-      };
-    },
+    queryFn: () => fetchTreatmentCategoryData(slug, lang),
+    initialData: serverData,
     enabled: !!slug,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: "always",
   });
+
+  const data = serverMatches ? (query.data ?? serverData) : query.data;
+
+  const legacy = data
+    ? {
+        ...data,
+        slug: data.slug ?? data.categoryId,
+        services: data.treatments.map((t) => ({
+          name: t.title,
+          path: t.href,
+        })),
+        faqs: [] as { question: string; answer: string }[],
+      }
+    : null;
+
+  return {
+    ...query,
+    data: legacy,
+    isPending: !legacy && query.isPending,
+  };
 };
 
 // ─── Treatment (sub-treatment) ───────────────────────────────────────
@@ -338,14 +348,7 @@ export const useTreatment = (categorySlug: string, treatmentSlug: string) => {
 
   const query = useQuery({
     queryKey: ["sanity", "treatment", categorySlug, treatmentSlug, lang],
-    queryFn: async () => {
-      const data = await fetchSanity<Record<string, unknown>>(
-        TREATMENT_BY_SLUG_QUERY,
-        { categorySlug, treatmentSlug },
-        lang,
-      );
-      return mapTreatmentDocument(data);
-    },
+    queryFn: () => fetchTreatmentData(categorySlug, treatmentSlug, lang),
     initialData: serverData,
     enabled: !!categorySlug && !!treatmentSlug,
     staleTime: 0,
@@ -470,14 +473,11 @@ export const useServicesPage = () => {
   return useQuery({
     queryKey: ["sanity", "servicesPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(SERVICES_PAGE_QUERY, undefined, lang);
-      if (!data?.categories?.length) return data;
-      return {
-        ...data,
-        categories: sortBySlug(data.categories, (c: any) => c.slug || c.title, lang),
-      };
+      const data = await fetchServicesPageData(lang);
+      return data;
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: "always",
   });
 };
 
@@ -707,11 +707,11 @@ export const useServiceCategoriesFromSanity = () => {
 
       return sortBySlug(unique, (cat) => cat.slug || cat.title, lang).map((cat) => ({
         id: cat.categoryId || cat.slug,
-        label: textForSort(cat.title) || cat.categoryId || cat.slug,
+        label: textForSort(cat.title, lang) || cat.categoryId || cat.slug,
         path: `/${cat.categoryId || cat.slug}`,
         subcategories: sortBySlug(cat.treatments || [], (t: any) => t.slug || t.title, lang).map(
           (t: any) => ({
-            label: textForSort(t.title) || t.slug,
+            label: textForSort(t.title, lang) || t.slug,
             path: `/behandlinger/${cat.categoryId || cat.slug}/${t.slug}`,
             items: sortByLabel(t.subItems || [], (item: any) => item.label).map(
               (item: any) => ({

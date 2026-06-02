@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import FlereFagomraderPage from "@/site-pages/treatments/FlereFagomraderPage";
 import { createBehandlingerCategoryMetadata } from "@/lib/seo/behandlinger-metadata";
+import { createSanityCategoryLandingPage } from "@/lib/behandlinger/create-category-landing-page";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export const generateMetadata = createBehandlingerCategoryMetadata("flere-fagomrader");
 
-export default function Page() {
-  return <FlereFagomraderPage isChatOpen={false} />;
-}
+export default createSanityCategoryLandingPage("flere-fagomrader");

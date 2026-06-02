@@ -1,7 +1,6 @@
-'use client'
+import { createSanityCategoryLandingPage } from "@/lib/behandlinger/create-category-landing-page";
 
-import Fertility from '@/site-pages/treatments/Fertility'
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <Fertility isChatOpen={false} />
-}
+export default createSanityCategoryLandingPage("fertilitet");

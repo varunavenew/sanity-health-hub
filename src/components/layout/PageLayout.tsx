@@ -2,7 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Link, useLocation, useNavigate } from "@/lib/router";
+import { Link, useLocation, useNavigate, useLocaleParam } from "@/lib/router";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
@@ -11,7 +11,7 @@ import { LanguageSelector } from "@/components/layout/LanguageSelector";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
 import { useSmartSearch } from "@/hooks/useSmartSearch";
 import { useSiteSettings } from "@/hooks/useSanity";
-import { resolveNavLabel } from "@/lib/navigation/resolve-nav-label";
+import { resolveNavLabel, resolveNavPath } from "@/lib/navigation/resolve-nav-label";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
@@ -24,7 +24,9 @@ interface PageLayoutProps {
 }
 
 export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayoutProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const locale = useLocaleParam();
+  const uiLang = locale === "en" ? "en" : "nb";
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -57,20 +59,25 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       : staticNavItems;
     return raw.map((item: { _key?: string; label?: string; path?: string; navId?: string; isServicesDropdown?: boolean }) => ({
       ...item,
-      label: resolveNavLabel(item, t),
+      label: resolveNavLabel(item, t, uiLang),
+      path: resolveNavPath(item, locale),
     }));
-  }, [siteSettings?.mainNavigation, staticNavItems, t, i18n.language]);
+  }, [siteSettings?.mainNavigation, staticNavItems, t, locale, uiLang]);
 
   const ctaButton = useMemo(() => {
     const raw = siteSettings?.ctaButton || { path: "/booking", navId: "bookAppointment" };
     return {
-      path: raw.path || "/booking",
+      path: resolveNavPath(
+        { path: raw.path || "/booking", navId: raw.navId || "bookAppointment" },
+        locale,
+      ),
       label: resolveNavLabel(
         { label: raw.label, path: raw.path, navId: raw.navId || "bookAppointment" },
         t,
+        uiLang,
       ),
     };
-  }, [siteSettings?.ctaButton, t, i18n.language]);
+  }, [siteSettings?.ctaButton, t, locale, uiLang]);
 
   // Close search when clicking outside
   useEffect(() => {

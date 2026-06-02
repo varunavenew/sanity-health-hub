@@ -20,7 +20,7 @@ import {
 } from "react";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 
-function useLocaleParam(): AppLocale {
+export function useLocaleParam(): AppLocale {
   const params = useParams<{ locale?: string }>();
   const raw = params?.locale;
   return raw === "en" ? "en" : "nb";

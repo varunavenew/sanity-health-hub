@@ -1,6 +1,7 @@
 import { useSpecialists, useSpecialist as useSanitySpecialist } from "@/hooks/useSanity";
 import { Specialist } from "@/data/specialists";
 import { resolveSpecialistBookingCategoryIds } from "@/lib/booking/specialist-booking";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 export type { Specialist };
 
@@ -30,7 +31,7 @@ export const useSpecialistsData = () => {
 
   const byCategory = (category: Specialist["category"]) =>
     specialists
-      .filter((s) => s.category === category)
+      .filter((s) => specialistMatchesCategory(s, category))
       .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase(), "nb"));
 
   const allClinics = () => {

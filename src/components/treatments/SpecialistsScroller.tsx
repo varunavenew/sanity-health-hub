@@ -4,6 +4,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 interface Specialist {
   category: string;
@@ -46,7 +47,7 @@ export const SpecialistsScroller = ({
   const filtered = useMemo(() => {
     if (filter) return specialists.filter(filter);
     if (!category || category === "alle") return specialists;
-    return specialists.filter((s) => s.category === category);
+    return specialists.filter((s) => specialistMatchesCategory(s, category));
   }, [specialists, category, filter]);
 
   const scroll = (dir: "left" | "right") => {

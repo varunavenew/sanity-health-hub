@@ -1,7 +1,6 @@
-'use client'
+import { createSanityCategoryLandingPage } from "@/lib/behandlinger/create-category-landing-page";
 
-import Gynecology from '@/site-pages/treatments/Gynecology'
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <Gynecology isChatOpen={false} />
-}
+export default createSanityCategoryLandingPage("gynekologi");

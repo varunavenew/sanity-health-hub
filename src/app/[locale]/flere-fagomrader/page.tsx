@@ -1,7 +1,6 @@
-'use client'
+import { createSanityCategoryLandingPage } from "@/lib/behandlinger/create-category-landing-page";
 
-import FlereFagomraderPage from '@/site-pages/treatments/FlereFagomraderPage'
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function Page() {
-  return <FlereFagomraderPage isChatOpen={false} />
-}
+export default createSanityCategoryLandingPage("flere-fagomrader");

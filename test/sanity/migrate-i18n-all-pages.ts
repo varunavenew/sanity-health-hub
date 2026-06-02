@@ -262,8 +262,21 @@ const SCHEMAS: Array<{
   {
     type: 'servicesPage',
     topFields: {
+      breadcrumbHome: 'internationalizedArrayStringValue',
       title: 'internationalizedArrayStringValue',
+      eyebrow: 'internationalizedArrayStringValue',
       introText: 'internationalizedArrayTextValue',
+      searchPlaceholder: 'internationalizedArrayStringValue',
+      featuredSectionTitle: 'internationalizedArrayStringValue',
+      faqSectionTitle: 'internationalizedArrayStringValue',
+    },
+    nested: {
+      badges: { label: 'internationalizedArrayStringValue' },
+      moreServicesSection: {
+        eyebrow: 'internationalizedArrayStringValue',
+        title: 'internationalizedArrayStringValue',
+        description: 'internationalizedArrayTextValue',
+      },
     },
   },
   {
@@ -455,12 +468,15 @@ const SCHEMAS: Array<{
     nested: {
       mainNavigation: {
         label: 'internationalizedArrayStringValue',
+        path: 'internationalizedArrayStringValue',
       },
       footerAboutLinks: {
         label: 'internationalizedArrayStringValue',
+        path: 'internationalizedArrayStringValue',
       },
       ctaButton: {
         label: 'internationalizedArrayStringValue',
+        path: 'internationalizedArrayStringValue',
       },
     },
   },
