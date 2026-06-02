@@ -21,28 +21,24 @@ import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 
 const expertAreas: ExpertArea[] = [
   {
-    eyebrow: "Spesialfelt",
     title: "Endometriose",
     desc: "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
     href: "/behandlinger/gynekologi/endometriose",
     image: expertEndometriose,
   },
   {
-    eyebrow: "Spesialfelt",
     title: "Fødselsskader og bekkenbunnshelse",
     desc: "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
     href: "/behandlinger/gynekologi/urinlekkasje",
     image: expertBekkenbunn,
   },
   {
-    eyebrow: "Spesialfelt",
     title: "Overgangsalder",
     desc: "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
     href: "/behandlinger/gynekologi/overgangsalder",
     image: expertOvergangsalder,
   },
   {
-    eyebrow: "Spesialfelt",
     title: "Vulvasmerter",
     desc: "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
     href: "/behandlinger/gynekologi/vulvalidelser",
@@ -137,7 +133,6 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  {/* ───────────── Hero – Variant B: uten video (split-screen) ───────────── */}
  <MasterLabel>Hero – Variant B: uten video (split-screen, samme som behandlingssider)</MasterLabel>
  <SplitHero
- eyebrow="Tema"
  title={title}
  description="Helhetlig oppfølging fra ungdomstid til seniortilværelse – med erfarne spesialister og kort ventetid."
  image={kvinnehelseHero}
@@ -195,7 +190,6 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
     <div className="container mx-auto px-6 md:px-16">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
         <div>
-          <p className="text-xs font-light text-foreground/55 mb-4">Tjenesten i denne saken</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
             Gynekologisk utredning
           </h2>
@@ -234,7 +228,6 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
   {/* ───────────── Spesialistområder – kortgrid med bilde + tittel + tekst ───────────── */}
   <MasterLabel>Spesialistområder – kortgrid (samme som "Eksperter som jobber..." på gynekologisiden)</MasterLabel>
   <ExpertAreasSection
-    eyebrow="Spesialistområder"
     title="Eksperter som jobber med det de kan aller best."
     description="Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier."
     items={expertAreas}
@@ -255,7 +248,6 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
   {/* ───────────── Tjenester (liste) ───────────── */}
  <MasterLabel>Tjenester – liste med relaterte behandlinger</MasterLabel>
  <ServicesListSection
- eyebrow="Tjenester"
  title="Relaterte tjenester innen kvinnehelse"
  description="Et utvalg behandlinger og utredninger som hører inn under dette temaet."
  items={relatedServices}
@@ -267,7 +259,6 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <div className="grid lg:grid-cols-12">
  <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
  <div className="max-w-xl">
- <p className="text-xs text-foreground/60 mb-5">Hvorfor CMedical</p>
  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
  Et helhetlig tilbud — samlet på ett sted.
  </h2>
