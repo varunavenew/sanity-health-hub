@@ -40,11 +40,6 @@ const HeroBlock = (s: Section) => {
  </>
  )}
  <div className="container mx-auto px-6 md:px-16 py-24 md:py-36 relative max-w-3xl">
- {s.eyebrow && (
- <p className={`text-xs uppercase font-light mb-5 ${hasImage ? "text-brand-light/80" : "text-muted-foreground"}`}>
- {s.eyebrow}
- </p>
- )}
  {s.heading && (
  <h1 className={`text-4xl md:text-6xl font-light mb-6 leading-[1.05] ${hasImage ? "text-brand-light" : "text-foreground"}`}>
  {s.heading}
@@ -185,7 +180,7 @@ const ServiceGroupsBlock = (s: Section) => (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
  {(s.groups || []).map((g: any, i: number) => (
  <div key={g._key || i} className="border border-border p-6 rounded-2xl bg-background">
- <p className="text-xs uppercase text-muted-foreground mb-2">{g.caption}</p>
+ 
  <h3 className="text-lg font-normal text-foreground mb-4">{g.label}</h3>
  <ul className="space-y-2">
  {(g.items || []).map((name: string, j: number) => (
@@ -209,7 +204,7 @@ const JourneyBlock = (s: Section) => (
  return (
  <div key={step._key || i}>
  {Icon && <Icon className="w-5 h-5 text-foreground mb-3" strokeWidth={1.5} />}
- {step.label && <p className="text-xs uppercase text-muted-foreground mb-2">{step.label}</p>}
+ 
  {step.title && <h3 className="text-lg font-normal text-foreground mb-2">{step.title}</h3>}
  {step.body && <p className="text-sm font-light text-muted-foreground leading-relaxed">{step.body}</p>}
  </div>
@@ -461,7 +456,7 @@ const RelatedThemesBlock = (s: Section) => (
  </div>
  )}
  <div className="p-5">
- <p className="text-xs uppercase text-muted-foreground mb-1">Tema</p>
+ 
  <h3 className="text-lg font-normal text-foreground">{it.label}</h3>
  {it.description && <p className="text-sm font-light text-muted-foreground mt-2 leading-relaxed">{it.description}</p>}
  </div>
