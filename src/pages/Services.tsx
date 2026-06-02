@@ -206,7 +206,6 @@ const Services = ({ isChatOpen }: PageProps) => {
       {/* Flere tjenester — unified list section */}
       {additionalServices.length > 0 && (
         <ServicesListSection
-          eyebrow="Flere tjenester"
           title="Vet du allerede hva du trenger?"
           description="Klikk og book direkte, eller les mer om den enkelte tjenesten."
           items={additionalServices.map((s) => ({ title: s.label, href: s.path }))}

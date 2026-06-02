@@ -148,10 +148,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <p className="text-xs text-foreground/60 mb-8 uppercase">
- <span className="mr-6">Ingen ventetid</span>
- <span>Ingen henvisning</span>
- </p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Urologi
  </h2>
@@ -199,7 +195,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  {/* 2. INTRO */}
  <section className="bg-background py-16 md:py-20">
  <div className="container mx-auto px-6 md:px-16 max-w-4xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Urologi</p>
  <p className="text-base md:text-lg font-light leading-relaxed text-foreground/85">
  Urologi er en medisinsk spesialitet som omhandler plager knyttet til mannens
  underliv og urinorganer hos begge kjønn — herunder penis, prostata, testikler,
@@ -215,7 +210,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Finn din inngang</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Hva kan vi hjelpe deg med?
  </h2>
@@ -244,7 +238,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Alt under samme tak</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Hva vi behandler
  </h2>
@@ -272,7 +265,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  {/* Robot highlight box — short focused dark stripe */}
  <div className="mt-14 bg-brand-dark text-white rounded-sm p-8 md:p-10 grid md:grid-cols-[1fr_auto] gap-8 items-center">
  <div>
- <p className="text-xs text-white/60 mb-3 uppercase">Norges ledende</p>
  <h3 className="text-xl md:text-2xl font-light leading-snug mb-3">
  Eneste private klinikk i Norge med robotoperasjoner
  </h3>
@@ -310,7 +302,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Slik går det for seg</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Pasientreisen, fortalt enkelt
  </h2>
@@ -338,7 +329,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
  <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
  <div>
- <p className="text-xs text-foreground/60 mb-4 uppercase">Møt teamet</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Spesialistene som følger deg.
  </h2>
@@ -399,7 +389,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  {/* 8. FAQ */}
  <section className="bg-background py-20 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase text-center">Vanlige spørsmål</p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-tight tracking-tight mb-10 text-center">
  Det folk spør om
  </h2>
@@ -419,7 +408,6 @@ const Urology = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
  <div className="lg:col-span-7">
- <p className="text-xs text-white/60 mb-4 uppercase">Klar når du er det</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">
  Booking tar to minutter. Ingen henvisning.
  </h2>

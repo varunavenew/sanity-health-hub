@@ -259,7 +259,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="max-w-3xl mx-auto">
  <div className="flex items-center gap-2 mb-2">
  <Stethoscope className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
- <p className="text-xs text-muted-foreground font-light uppercase">Tilbud</p>
  </div>
  <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
  <p className="text-sm text-muted-foreground font-light mb-6">
@@ -368,7 +367,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="max-w-3xl mx-auto">
  <div className="flex items-center gap-2 mb-2">
  <Users className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
- <p className="text-xs text-muted-foreground font-light uppercase">Spesialister</p>
  </div>
  <h2 className="text-lg font-normal text-foreground mb-6">Spesialister ved klinikken</h2>
  <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
