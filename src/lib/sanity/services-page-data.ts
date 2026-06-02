@@ -1,5 +1,8 @@
 import { SERVICES_PAGE_QUERY } from "@/lib/queries";
-import { categoryLandingPath } from "@/lib/sanity/category-keys";
+import {
+  behandlingerCategorySegment,
+  categoryLandingPath,
+} from "@/lib/sanity/category-keys";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { sortBySlug } from "@/lib/sortAlphabetical";
@@ -75,7 +78,9 @@ function mapCategoryTreatments(
       const slug = asPlainString(t.slug);
       return {
         title: asPlainString(t.title),
-        path: slug ? `/behandlinger/${categoryId}/${slug}` : "",
+        path: slug
+          ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
+          : "",
       };
     }),
     (t) => t.path || t.title,

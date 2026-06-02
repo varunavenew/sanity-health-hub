@@ -41,11 +41,39 @@ export function categoryLandingPath(
     gynekologi: "gynecology",
     fertilitet: "fertility",
     urologi: "urology",
+    ortopedi: "orthopedics",
+    graviditet: "pregnancy",
+    "flere-fagomrader": "more-specialties",
+    // Some flows use `annet` as the filter/category key for "more specialties".
+    // Keep URL segment stable for those cases too.
+    annet: "more-specialties",
   };
   if (locale === "en" && enSegment[categoryId]) {
     return `/${enSegment[categoryId]}`;
   }
   return `/${categoryId}`;
+}
+
+/**
+ * Treatment-category URL segment used under `/behandlinger/<segment>/...`.
+ * (Same mapping as `categoryLandingPath`, but returns the raw segment without the leading slash.)
+ */
+export function behandlingerCategorySegment(
+  categoryId: string,
+  locale: "no" | "en" = "no",
+): string {
+  const enSegment: Record<string, string> = {
+    gynekologi: "gynecology",
+    fertilitet: "fertility",
+    urologi: "urology",
+    ortopedi: "orthopedics",
+    graviditet: "pregnancy",
+    "flere-fagomrader": "more-specialties",
+    annet: "more-specialties",
+  };
+
+  if (locale === "en" && enSegment[categoryId]) return enSegment[categoryId];
+  return categoryId;
 }
 
 export function specialistMatchesCategory(

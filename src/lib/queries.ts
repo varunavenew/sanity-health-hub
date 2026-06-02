@@ -334,6 +334,38 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   ${localizedSeoObject}
 }`;
 
+export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
+  ${i18nString("label")},
+  ${i18nString("title")},
+  ${i18nText("subtitle")},
+  ${i18nString("searchPlaceholder")},
+  ${i18nString("moreArticlesTitle")},
+  ${i18nString("noArticlesText")},
+  ${i18nString("readMoreLabel")},
+  ${i18nString("specialistsEyebrowAll")},
+  ${i18nString("specialistsEyebrowWithin")},
+  ${i18nString("specialistsTitle")},
+  ${i18nString("specialistsSeeAllLabel")},
+  ${i18nString("socialSectionTitle")},
+  ${i18nString("filterAllLabel")},
+  ${i18nString("filterPatientStoriesLabel")},
+  ${i18nString("filterMediaLabel")},
+  ${i18nString("filterArticlesLabel")},
+  ${i18nString("filterUpdatesLabel")},
+  "featuredArticles": featuredArticles[]->{
+    _id,
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${localizedSlug},
+    "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+    "image": primaryImage.asset->url,
+    "date": publishedAt,
+    category,
+    pinned,
+    featured
+  },
+  ${localizedSeoObject}
+}`;
+
 export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
@@ -358,6 +390,9 @@ export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
   ${i18nText("introText")},
   "heroImage": heroImage.asset->url,
   partners,
+  "partnersLocalized": partnersLocalized[]{
+    "name": coalesce(name[language == $lang][0].value, name[_key == $lang][0].value, name[language == "no"][0].value, name[_key == "no"][0].value, name)
+  },
   steps[]{
     ${i18nString("title")},
     ${i18nText("description")}

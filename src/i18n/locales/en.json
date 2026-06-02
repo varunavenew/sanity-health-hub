@@ -288,7 +288,16 @@
     "searchPlaceholder": "Search articles...",
     "moreArticles": "More articles",
     "noArticles": "No articles found for this filter.",
-    "readMore": "Read more"
+    "readMore": "Read more",
+    "specialistsEyebrowAll": "Meet the team",
+    "specialistsEyebrowWithin": "Within {{category}}",
+    "specialistsTitle": "Specialists you can book an appointment with",
+    "followSocial": "Follow us on social media",
+    "filterAll": "All",
+    "filterPatientStories": "Patient stories",
+    "filterMedia": "In the media",
+    "filterArticles": "Articles",
+    "filterUpdates": "News from us"
   },
   "clinicGrid": {
     "title": "Our clinics"

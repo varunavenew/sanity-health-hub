@@ -288,7 +288,16 @@
     "searchPlaceholder": "Søk i artikler...",
     "moreArticles": "Flere artikler",
     "noArticles": "Ingen artikler funnet for dette filteret.",
-    "readMore": "Les mer"
+    "readMore": "Les mer",
+    "specialistsEyebrowAll": "Møt teamet",
+    "specialistsEyebrowWithin": "Innen {{category}}",
+    "specialistsTitle": "Spesialister du kan bestille time hos",
+    "followSocial": "Følg oss på sosiale medier",
+    "filterAll": "Alle",
+    "filterPatientStories": "Pasienthistorier",
+    "filterMedia": "Oss i media",
+    "filterArticles": "Fagartikler",
+    "filterUpdates": "Nytt fra oss"
   },
   "clinicGrid": {
     "title": "Våre klinikker"

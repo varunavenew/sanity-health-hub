@@ -44,29 +44,43 @@ export async function buildArticleMetadata(
   locale: string,
   slug: string,
 ): Promise<Metadata> {
-  const sanityLang = sanityContentLangFromLocale(locale);
-  const doc = await fetchArticleSeo(slug, sanityLang);
-  const base = `/${locale}/aktuelt/${slug}`;
-  return metadataFromSeo(
-    locale,
-    { nbPath: base, enPath: base },
-    doc?.seo,
-    {
-      nb: {
-        title: doc?.title ? `${doc.title} | CMedical` : "Aktuelt | CMedical",
-        description:
-          doc?.excerpt ||
-          "Les siste nyheter og artikler fra CMedical innen kvinnehelse, fertilitet og urologi.",
+  try {
+    const sanityLang = sanityContentLangFromLocale(locale);
+    const doc = await fetchArticleSeo(slug, sanityLang);
+    const base = `/${locale}/aktuelt/${slug}`;
+    return metadataFromSeo(
+      locale,
+      { nbPath: base, enPath: base },
+      doc?.seo,
+      {
+        nb: {
+          title: doc?.title ? `${doc.title} | CMedical` : "Aktuelt | CMedical",
+          description:
+            doc?.excerpt ||
+            "Les siste nyheter og artikler fra CMedical innen kvinnehelse, fertilitet og urologi.",
+        },
+        en: {
+          title: doc?.title ? `${doc.title} | CMedical` : "News | CMedical",
+          description:
+            doc?.excerpt ||
+            "Read the latest news and articles from CMedical on women's health, fertility and urology.",
+        },
       },
-      en: {
-        title: doc?.title ? `${doc.title} | CMedical` : "News | CMedical",
-        description:
-          doc?.excerpt ||
-          "Read the latest news and articles from CMedical on women's health, fertility and urology.",
-      },
-    },
-    { type: "article", publishedTime: doc?.date },
-  );
+      { type: "article", publishedTime: doc?.date },
+    );
+  } catch {
+    const isEn = locale === "en";
+    const base = `/${locale}/aktuelt/${slug}`;
+    return buildPageMetadata({
+      locale,
+      paths: { nbPath: base, enPath: base },
+      title: isEn ? "News | CMedical" : "Aktuelt | CMedical",
+      description: isEn
+        ? "Read the latest news and articles from CMedical on women's health, fertility and urology."
+        : "Les siste nyheter og artikler fra CMedical innen kvinnehelse, fertilitet og urologi.",
+      type: "article",
+    });
+  }
 }
 
 export async function buildTreatmentCategoryMetadata(

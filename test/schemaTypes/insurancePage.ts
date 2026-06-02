@@ -49,6 +49,24 @@ export default {
       description: 'Navn på forsikringspartnere (ikke oversettes)',
     },
     {
+      name: 'partnersLocalized',
+      title: 'Forsikringspartnere (oversatt)',
+      type: 'array',
+      description: 'Brukes for språkstyrte partnernavn (NO/EN).',
+      of: [
+        {
+          type: 'object',
+          fields: [{ name: 'name', title: 'Navn', type: 'internationalizedArrayString' }],
+          preview: {
+            select: { name: 'name' },
+            prepare({name}: any) {
+              return {title: pickNo(name) || 'Partner'}
+            },
+          },
+        },
+      ],
+    },
+    {
       name: 'steps',
       title: 'Steg',
       type: 'array',

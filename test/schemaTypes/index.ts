@@ -7,6 +7,7 @@ import treatment from './treatment'
 import aboutPage from './aboutPage'
 import contactPage from './contactPage'
 import specialist from './specialist'
+import newsPage from './newsPage'
 import pricingPage from './pricingPage'
 import insurancePage from './insurancePage'
 import servicesPage from './servicesPage'
@@ -37,6 +38,7 @@ export const schemaTypes = [
   homepage,
   aboutPage,
   contactPage,
+  newsPage,
   pricingPage,
   insurancePage,
   servicesPage,

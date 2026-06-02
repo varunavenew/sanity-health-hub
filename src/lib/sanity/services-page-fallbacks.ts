@@ -1,4 +1,7 @@
-import { categoryLandingPath } from "@/lib/sanity/category-keys";
+import {
+  behandlingerCategorySegment,
+  categoryLandingPath,
+} from "@/lib/sanity/category-keys";
 import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import type { ServicesPageListItem } from "@/lib/sanity/services-page-data";
 
@@ -11,10 +14,8 @@ type CategoryRow = {
   treatments?: Array<{ title?: string; slug?: string }>;
 };
 
-function treatmentPath(categoryId: string, slug: string): string {
-  const segment =
-    categoryId === "annet" || categoryId === "flere" ? "flere-fagomrader" : categoryId;
-  return `/behandlinger/${segment}/${slug}`;
+function treatmentPath(categoryId: string, slug: string, lang: "no" | "en"): string {
+  return `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`;
 }
 
 /** Same rules as the pre-Sanity Services page: non-featured categories + flere-fagområder treatments. */
@@ -36,7 +37,7 @@ export function buildMoreServicesFromCategories(
         const slug = (t.slug || "").trim();
         const title = (t.title || "").trim();
         if (!title || !slug) continue;
-        items.push({ title, path: treatmentPath(id, slug) });
+        items.push({ title, path: treatmentPath(id, slug, lang) });
       }
       continue;
     }
