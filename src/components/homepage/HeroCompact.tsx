@@ -32,7 +32,7 @@ export const HeroCompact = () => {
   return (
     <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">
       <div className="page-shell mb-6 md:mb-8">
-        <h2 className="text-xl md:text-2xl font-light text-foreground text-left">
+        <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground text-left">
           {t("services.title")}
         </h2>
       </div>
