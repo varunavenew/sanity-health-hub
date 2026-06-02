@@ -82,7 +82,9 @@
       "other": "More services",
       "allClinics": "All clinics"
     },
-    "count": "{{count}} specialists"
+    "count": "{{count}} specialists",
+    "seoTitle": "Our specialists – Leading experts in one place",
+    "seoDescription": "Meet CMedical's specialists in gynecology, fertility, urology and orthopedics. Experience, expertise and modern technology – no referral needed."
   },
   "reviews": {
     "heading": "Safety, care and healthcare through all phases of life",
@@ -92,7 +94,7 @@
     "ctaTitle": "Over 150,000 satisfied patients since 2002",
     "ctaSubtitle": "Become part of our story",
     "googleLabel": "Google Reviews",
-    "legelistenLabel": "Legelisten"
+    "legelistenLabel": "Legelisten Reviews"
   },
   "faq": {
     "title": "Frequently asked questions",

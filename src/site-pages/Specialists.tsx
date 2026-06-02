@@ -1,33 +1,33 @@
 import { AssetImg } from "@/components/AssetImg";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "@/lib/router";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { useTranslation } from "react-i18next";
 
 interface SpecialistsProps {
   isChatOpen: boolean;
 }
 
-const categoryLabels: Record<string, string> = {
-  alle: "Alle",
-  gynekologi: "Gynekologi",
-  fertilitet: "Fertilitet",
-  urologi: "Urologi",
-  ortopedi: "Ortopedi",
-  annet: "Flere tjenester",
-};
-
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
   const { sorted: specialists, allClinics } = useSpecialistsData();
   const clinicNames = allClinics();
-
-  useEffect(() => {
-    document.title = "Våre spesialister | CMedical";
-  }, []);
+  const categoryLabels = useMemo(
+    () => ({
+      alle: t("specialists.filters.all"),
+      gynekologi: t("specialists.filters.gynecology"),
+      fertilitet: t("specialists.filters.fertility"),
+      urologi: t("specialists.filters.urology"),
+      ortopedi: t("specialists.filters.orthopedics"),
+      annet: t("specialists.filters.other"),
+    }),
+    [t],
+  );
 
   const filtered = specialists.filter((s) => {
     const categoryMatch = activeFilter === "alle" || s.category === activeFilter;
@@ -38,23 +38,26 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Våre spesialister – Ledende eksperter samlet på ett sted"
-        description="Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig."
+        title={t("specialists.seoTitle", "Våre spesialister – Ledende eksperter samlet på ett sted")}
+        description={t(
+          "specialists.seoDescription",
+          "Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig.",
+        )}
         canonical="/spesialister"
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Spesialister", path: "/spesialister" },
+          { name: t("common.breadcrumbHome"), path: "/" },
+          { name: t("nav.specialists"), path: "/spesialister" },
         ]}
       />
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            <p className="text-white/60 text-xs mb-2">Vårt team</p>
+            <p className="text-white/60 text-xs mb-2">{t("specialists.ourTeam")}</p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
-              Våre spesialister
+              {t("specialists.title")}
             </h1>
             <p className="text-white/70 font-light text-base md:text-lg">
-              Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
+              {t("specialists.description")}
             </p>
           </div>
 
@@ -86,7 +89,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
               }`}
             >
               <MapPin className="w-3 h-3" />
-              Alle klinikker
+              {t("specialists.filters.allClinics")}
             </button>
             {clinicNames.map((clinic) => (
               <button
@@ -108,7 +111,9 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
 
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
-          <p className="text-sm text-muted-foreground mb-6">{filtered.length} spesialister</p>
+          <p className="text-sm text-muted-foreground mb-6">
+            {t("specialists.count", { count: filtered.length })}
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {filtered.map((specialist) => (
               <Link

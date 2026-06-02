@@ -82,7 +82,9 @@
       "other": "Flere tjenester",
       "allClinics": "Alle klinikker"
     },
-    "count": "{{count}} spesialister"
+    "count": "{{count}} spesialister",
+    "seoTitle": "Våre spesialister – Ledende eksperter samlet på ett sted",
+    "seoDescription": "Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig."
   },
   "reviews": {
     "heading": "Trygghet, omsorg og helsehjelp i livets ulike faser",
