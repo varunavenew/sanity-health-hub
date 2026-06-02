@@ -28,7 +28,7 @@ export function createBehandlingerTreatmentPage(
     params: Promise<{ locale: string; subId: string }>;
   }) => {
     const { locale, subId } = await params;
-    const appLocale: AppLocale = locale === "en" ? "en" : "nb";
+    const appLocale: AppLocale = locale === "en" ? "en" : "no";
     const sanityLang = locale === "en" ? "en" : "no";
 
     const initialTreatment = await fetchTreatmentData(

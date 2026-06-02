@@ -52,5 +52,5 @@ export function resolveNavPath(item: NavLinkLike, locale: string): string {
   }
   const path = typeof item.path === "string" ? item.path.trim() : "";
   if (!path) return path;
-  return localizeInternalPath(path, locale === "en" ? "en" : "nb");
+  return localizeInternalPath(path, locale === "en" ? "en" : "no");
 }

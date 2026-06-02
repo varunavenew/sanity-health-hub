@@ -212,7 +212,7 @@ const staticContent = (
 const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
   const { t, i18n } = useTranslation();
   const params = useParams<{ locale?: string }>();
-  const locale: AppLocale = params?.locale === "en" ? "en" : "nb";
+  const locale: AppLocale = params?.locale === "en" ? "en" : "no";
   const localePath = (path: string) => withLocalePath(locale, path);
   const isEn = i18n.language?.startsWith("en");
   const { data: sanityData, isLoading: loading } = usePrivacyPolicyPage();
