@@ -1,56 +1,252 @@
 // Schema: Services Page (Tjenester)
-// Aligned with migration data: title, introText, categories (references), seo
-import { TreatmentIcon } from './icons'
-import { pageSectionsField } from './pageSections'
+import { TreatmentIcon } from "./icons";
+import { i18nFaqItemPreview } from "./i18n";
+import { pageSectionsField } from "./pageSections";
+
+const i18nString = {
+  type: "internationalizedArrayString",
+};
+
+const i18nText = {
+  type: "internationalizedArrayText",
+};
 
 export default {
-  name: 'servicesPage',
-  title: 'Tjenester',
-  type: 'document',
+  name: "servicesPage",
+  title: "Tjenester",
+  type: "document",
   icon: TreatmentIcon,
+  groups: [
+    { name: "content", title: "Innhold", default: true },
+    { name: "faq", title: "FAQ" },
+  ],
   fields: [
     {
-      name: 'title',
-      title: 'Sidetittel',
-      type: 'internationalizedArrayString',
+      name: "breadcrumbHome",
+      title: "Brødsmule — hjem",
+      group: "content",
+      ...i18nString,
+    },
+    {
+      name: "title",
+      title: "Sidetittel (H1)",
+      group: "content",
+      ...i18nString,
       validation: (Rule: any) => Rule.required(),
     },
     {
-      name: 'heroImage',
-      title: 'Hero-bilde',
-      type: 'image',
+      name: "eyebrow",
+      title: "Eyebrow over tittel",
+      description: "Liten etikett over hovedoverskriften",
+      ...i18nString,
+    },
+    {
+      name: "heroImage",
+      title: "Hero-bilde",
+      type: "image",
       options: { hotspot: true },
     },
     {
-      name: 'introText',
-      title: 'Introduksjonstekst',
-      type: 'internationalizedArrayText',
+      name: "introText",
+      title: "Introduksjonstekst",
+      ...i18nText,
     },
     {
-      name: 'categories',
-      title: 'Tjenestekategorier',
-      type: 'array',
+      name: "badges",
+      title: "Hero-badges",
+      type: "array",
       of: [
         {
-          type: 'reference',
-          to: [{ type: 'treatmentCategory' }],
+          type: "object",
+          fields: [
+            { name: "label", title: "Tekst", ...i18nString },
+          ],
+          preview: {
+            select: { label: "label" },
+            prepare({ label }: { label?: { value?: string }[] }) {
+              const no = label?.find((l) => l.language === "no" || l._key === "no");
+              return { title: no?.value || label?.[0]?.value || "Badge" };
+            },
+          },
         },
       ],
     },
+    {
+      name: "searchPlaceholder",
+      title: "Søkefelt placeholder",
+      ...i18nString,
+    },
+    {
+      name: "featuredSectionTitle",
+      title: "Overskrift — utvalgte tjenester",
+      ...i18nString,
+    },
+    {
+      name: "featuredCategories",
+      title: "Utvalgte kategorier (bildekort)",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "treatmentCategory" }] }],
+    },
+    {
+      name: "moreServicesSection",
+      title: "Flere tjenester-seksjon",
+      type: "object",
+      fields: [
+        { name: "eyebrow", title: "Eyebrow", ...i18nString },
+        { name: "title", title: "Tittel", ...i18nString },
+        { name: "description", title: "Beskrivelse", ...i18nText },
+      ],
+    },
+    {
+      name: "moreServicesCategories",
+      title: "Flere tjenester — kategorier",
+      description:
+        "Velg kategorier som vises under «Flere tjenester». Sett visningsmodus til «Behandlingsliste» for å vise alle behandlinger i kategorien (f.eks. Flere fagområder).",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "category",
+              title: "Kategori",
+              type: "reference",
+              to: [{ type: "treatmentCategory" }],
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: "displayMode",
+              title: "Visningsmodus",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Lenke til kategori", value: "categoryLink" },
+                  { title: "Liste behandlinger", value: "treatmentsList" },
+                ],
+                layout: "radio",
+              },
+              initialValue: "categoryLink",
+            },
+          ],
+          preview: {
+            select: {
+              categoryId: "category.categoryId",
+              title: "category.title",
+              displayMode: "displayMode",
+            },
+            prepare({
+              categoryId,
+              title,
+              displayMode,
+            }: {
+              categoryId?: string;
+              title?: string;
+              displayMode?: string;
+            }) {
+              const mode =
+                displayMode === "treatmentsList" ? "Behandlingsliste" : "Kategorilenke";
+              return {
+                title: title || categoryId || "Kategori",
+                subtitle: mode,
+              };
+            },
+          },
+        },
+      ],
+    },
+    {
+      name: "faqSectionTitle",
+      title: "FAQ — seksjonstittel",
+      group: "faq",
+      ...i18nString,
+      initialValue: [
+        {
+          _type: "internationalizedArrayStringValue",
+          _key: "no",
+          language: "no",
+          value: "Ofte stilte spørsmål",
+        },
+        {
+          _type: "internationalizedArrayStringValue",
+          _key: "en",
+          language: "en",
+          value: "Frequently asked questions",
+        },
+      ],
+    },
+    {
+      name: "faqs",
+      title: "FAQ — spørsmål og svar",
+      description:
+        "Legg til, rediger og sorter FAQ-rader her. Vises på tjenester-siden.",
+      type: "array",
+      group: "faq",
+      of: [
+        {
+          type: "object",
+          name: "servicesFaq",
+          title: "FAQ",
+          fields: [
+            {
+              name: "question",
+              title: "Spørsmål",
+              type: "internationalizedArrayString",
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: "answer",
+              title: "Svar",
+              type: "internationalizedArrayText",
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: i18nFaqItemPreview,
+        },
+      ],
+    },
+    {
+      name: "faqCategory",
+      title: "FAQ — Sanity-kategori (fallback)",
+      description:
+        "Brukes bare hvis listen over er tom. Henter FAQ-dokumenter med samme kategori.",
+      type: "string",
+      group: "faq",
+      hidden: ({ document }: { document?: { faqs?: unknown[] } }) =>
+        Array.isArray(document?.faqs) && document.faqs.length > 0,
+      initialValue: "tjenester",
+      options: {
+        list: [
+          { title: "Tjenester (services page)", value: "tjenester" },
+          { title: "Generelt (homepage)", value: "generelt" },
+          { title: "Priser", value: "priser" },
+          { title: "Urologi", value: "urologi" },
+        ],
+      },
+    },
+    /** @deprecated Use featuredCategories + moreServicesCategories */
+    {
+      name: "categories",
+      title: "Tjenestekategorier (legacy)",
+      type: "array",
+      hidden: true,
+      of: [{ type: "reference", to: [{ type: "treatmentCategory" }] }],
+    },
     pageSectionsField,
     {
-      name: 'seo',
-      title: 'SEO',
-      type: 'seo',
+      name: "seo",
+      title: "SEO",
+      type: "seo",
     },
   ],
   preview: {
-    select: { title: 'title' },
-    prepare({ title }: any) {
+    select: { title: "title" },
+    prepare({ title }: { title?: { value?: string; language?: string; _key?: string }[] }) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Tjenester')
-        : (title || 'Tjenester')
-      return { title: titleStr }
+        ? (title.find((t) => (t.language || t._key) === "no")?.value ||
+            title[0]?.value ||
+            "Tjenester")
+        : (title || "Tjenester");
+      return { title: titleStr };
     },
   },
-}
+};

@@ -1,8 +1,9 @@
 /**
- * Wrap siteSettings navigation labels in internationalizedArrayString (NO + EN).
- * Fixes Studio errors on mainNavigation, footerAboutLinks, ctaButton.label.
+ * Wrap siteSettings navigation labels + paths in internationalizedArrayString (NO + EN).
+ * Fixes Studio errors on mainNavigation, footerAboutLinks, ctaButton.
  *
  * Run: cd test && npm run migrate:site-settings
+ * Or:  cd test && SANITY_TOKEN=… npx tsx sanity/migrate-site-settings-i18n.ts
  */
 import { sanityClient } from './config'
 
@@ -56,6 +57,53 @@ function toEn(no: string, navId?: string): string {
   return LABEL_EN[no] || no
 }
 
+const NAV_ID_PATH_EN: Record<string, string> = {
+  services: '/services',
+  pricing: '/pricing',
+  insurance: '/insurance',
+  news: '/news',
+  about: '/about',
+  clinics: '/clinics',
+  contact: '/contact',
+  specialists: '/specialists',
+  bookAppointment: '/book-appointment',
+}
+
+const PATH_EN: Record<string, string> = {
+  '/tjenester': '/services',
+  '/priser': '/pricing',
+  '/forsikring': '/insurance',
+  '/aktuelt': '/news',
+  '/om-oss': '/about',
+  '/klinikker': '/clinics',
+  '/kontakt': '/contact',
+  '/spesialister': '/specialists',
+  '/booking': '/book-appointment',
+}
+
+function toEnPath(noPath: string, navId?: string): string {
+  const normalized = noPath.trim()
+  if (navId && NAV_ID_PATH_EN[navId]) return NAV_ID_PATH_EN[navId]
+  return PATH_EN[normalized] || normalized
+}
+
+function wrapPath(path: unknown, navId?: string): I18nItem[] | unknown {
+  if (isI18nArray(path)) {
+    const no = pickNo(path)
+    if (!no) return path
+    const expectedEn = toEnPath(no, navId)
+    const enItem = path.find((i) => i.language === 'en')
+    const enVal = enItem?.value?.trim()
+    if (enVal && enVal !== no && enVal === expectedEn) return path
+    return i18nString(no, expectedEn)
+  }
+  if (typeof path === 'string' && path.trim()) {
+    const no = path.trim()
+    return i18nString(no, toEnPath(no, navId))
+  }
+  return path
+}
+
 function i18nString(no: string, en: string): I18nItem[] {
   return [
     { _type: 'internationalizedArrayStringValue', language: 'no', value: no },
@@ -78,21 +126,53 @@ function wrapLabel(label: unknown, navId?: string): I18nItem[] | unknown {
   return label
 }
 
+const PATH_TO_NAV_ID: Record<string, string> = {
+  '/tjenester': 'services',
+  '/services': 'services',
+  '/priser': 'pricing',
+  '/pricing': 'pricing',
+  '/forsikring': 'insurance',
+  '/insurance': 'insurance',
+  '/aktuelt': 'news',
+  '/news': 'news',
+  '/om-oss': 'about',
+  '/about': 'about',
+  '/klinikker': 'clinics',
+  '/clinics': 'clinics',
+  '/kontakt': 'contact',
+  '/contact': 'contact',
+  '/spesialister': 'specialists',
+  '/specialists': 'specialists',
+  '/booking': 'bookAppointment',
+  '/book-appointment': 'bookAppointment',
+}
+
 type NavItem = {
   _key?: string
   _type?: string
   label?: unknown
   navId?: string
-  path?: string
+  path?: unknown
   isServicesDropdown?: boolean
+}
+
+function inferNavId(item: NavItem): string | undefined {
+  if (typeof item.navId === 'string' && item.navId.trim()) return item.navId.trim()
+  const path = pickNo(item.path) || (typeof item.path === 'string' ? item.path.trim() : '')
+  return path ? PATH_TO_NAV_ID[path.split('?')[0].split('#')[0]] : undefined
 }
 
 function fixNavItems(items: NavItem[] | undefined): NavItem[] | undefined {
   if (!items?.length) return items
-  return items.map((item) => ({
-    ...item,
-    label: wrapLabel(item.label, item.navId),
-  }))
+  return items.map((item) => {
+    const navId = inferNavId(item)
+    return {
+      ...item,
+      ...(navId ? { navId } : {}),
+      label: wrapLabel(item.label, navId),
+      path: wrapPath(item.path, navId),
+    }
+  })
 }
 
 async function run() {
@@ -101,7 +181,7 @@ async function run() {
       _id: string
       mainNavigation?: NavItem[]
       footerAboutLinks?: NavItem[]
-      ctaButton?: { label?: unknown; path?: string }
+      ctaButton?: { label?: unknown; path?: unknown }
     }[]
   >(`*[_type == "siteSettings"]`)
 
@@ -131,9 +211,13 @@ async function run() {
     }
 
     if (doc.ctaButton) {
-      const nextLabel = wrapLabel(doc.ctaButton.label)
-      if (JSON.stringify(nextLabel) !== JSON.stringify(doc.ctaButton.label)) {
-        patch.ctaButton = { ...doc.ctaButton, label: nextLabel }
+      const nextCta = {
+        ...doc.ctaButton,
+        label: wrapLabel(doc.ctaButton.label),
+        path: wrapPath(doc.ctaButton.path ?? '/booking'),
+      }
+      if (JSON.stringify(nextCta) !== JSON.stringify(doc.ctaButton)) {
+        patch.ctaButton = nextCta
         changed = true
       }
     }

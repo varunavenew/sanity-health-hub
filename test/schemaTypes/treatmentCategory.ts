@@ -2,6 +2,7 @@
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
 import { CategoryIcon } from './icons'
 import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -87,6 +88,7 @@ export default {
           fields: [
             { name: 'value', title: 'Verdi', type: 'string' },
             { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
+            { name: 'sub', title: 'Undertekst', type: 'internationalizedArrayString' },
           ],
         },
       ],
@@ -144,6 +146,7 @@ export default {
         },
       ],
     },
+    categoryLandingPageField,
     pageSectionsField,
     {
       name: 'seo',

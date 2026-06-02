@@ -57,7 +57,11 @@
     "noWaiting": "Ingen ventetid",
     "findTreatment": "Finn behandlingen som passer for deg",
     "searchPlaceholder": "Søk etter behandling eller fagområde...",
-    "seeAllTreatments": "Se behandlinger innen {{name}}"
+    "seeAllTreatments": "Se behandlinger innen {{name}}",
+    "moreSectionTitle": "Vet du allerede hva du trenger?",
+    "moreSectionDescription": "Klikk og book direkte, eller les mer om den enkelte tjenesten.",
+    "seoTitle": "Tjenester – Finn behandlingen som passer for deg",
+    "seoDescription": "Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."
   },
   "specialists": {
     "title": "Møt våre spesialister",

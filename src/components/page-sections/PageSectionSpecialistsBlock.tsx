@@ -14,6 +14,7 @@ import {
   type PageSectionSpecialistsConfig,
 } from "@/lib/sanity/page-sections";
 import type { SanitySpecialist } from "@/hooks/useSanity";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 type Props = {
   config: PageSectionSpecialistsConfig;
@@ -46,7 +47,7 @@ function resolveSpecialists(
     config.treatmentCategory?.slug;
 
   if (mode === "category" && categoryKey) {
-    return all.filter((s) => s.category === categoryKey).slice(0, limit);
+    return all.filter((s) => specialistMatchesCategory(s, categoryKey)).slice(0, limit);
   }
 
   return all.slice(0, limit);

@@ -25,7 +25,17 @@ export default {
       name: 'category',
       title: 'Kategori',
       type: 'string',
-      description: 'Valgfri gruppering, f.eks. "generelt", "gynekologi", "urologi"',
+      description: 'Valgfri gruppering, f.eks. "tjenester", "generelt", "priser"',
+      options: {
+        list: [
+          { title: 'Tjenester', value: 'tjenester' },
+          { title: 'Generelt', value: 'generelt' },
+          { title: 'Priser', value: 'priser' },
+          { title: 'Urologi', value: 'urologi' },
+          { title: 'Finansiering', value: 'finansiering' },
+          { title: 'Praktisk', value: 'praktisk' },
+        ],
+      },
     },
     {
       name: 'relatedTreatmentCategory',

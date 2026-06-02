@@ -41,6 +41,7 @@
     "migrate:specialist-clinics:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-clinics.ts",
     "migrate:site-settings": "tsx sanity/migrate-site-settings-i18n.ts",
     "migrate:site-settings:dry": "DRY_RUN=1 tsx sanity/migrate-site-settings-i18n.ts",
+    "migrate:services-faqs": "tsx sanity/migrate-services-faqs.ts",
     "migrate:specialist-categories:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-categories.ts",
     "migrate:specialist-categories": "tsx sanity/migrate-specialist-categories.ts",
     "migrate:specialist-booking-ids:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-booking-category-ids.ts",

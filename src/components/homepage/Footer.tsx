@@ -1,18 +1,20 @@
 import { AssetImg } from "@/components/AssetImg";
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
-import { Link } from "@/lib/router";
+import { Link, useLocaleParam } from "@/lib/router";
 import logoNegative from "@/assets/logos/cm-wordmark-negative.png";
 import { useSiteSettings, useClinics } from "@/hooks/useSanity";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
-import { resolveNavLabel } from "@/lib/navigation/resolve-nav-label";
+import { resolveNavLabel, resolveNavPath } from "@/lib/navigation/resolve-nav-label";
 
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = {};
 
 export const Footer = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const locale = useLocaleParam();
+  const uiLang = locale === "en" ? "en" : "nb";
   const { data: settings } = useSiteSettings();
   const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
@@ -54,9 +56,10 @@ export const Footer = () => {
         ];
     return raw.map((link: { _key?: string; label?: string; path?: string; navId?: string }) => ({
       ...link,
-      label: resolveNavLabel(link, t),
+      label: resolveNavLabel(link, t, uiLang),
+      path: resolveNavPath(link, locale),
     }));
-  }, [settings?.footerAboutLinks, t, i18n.language]);
+  }, [settings?.footerAboutLinks, t, locale, uiLang]);
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";

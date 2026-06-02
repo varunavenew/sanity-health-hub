@@ -8,6 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists, type Specialist } from "@/data/specialists";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 export interface SubTreatmentContent {
   // Meta
@@ -74,7 +75,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       if (ordered.length > 0) return ordered.slice(0, 5);
     }
     if (c.specialistCategory) {
-      return specialists.filter((s) => s.category === c.specialistCategory).slice(0, 5);
+      return specialists
+        .filter((s) => specialistMatchesCategory(s, c.specialistCategory!))
+        .slice(0, 5);
     }
     return [];
   }, [c.specialistSlugs, c.specialistCategory]);

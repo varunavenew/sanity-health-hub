@@ -85,8 +85,8 @@ export default {
             {
               name: 'path',
               title: 'Lenke',
-              type: 'string',
-              description: 'Intern sti, f.eks. /priser eller /om-oss',
+              type: 'internationalizedArrayString',
+              description: 'Intern sti per språk, f.eks. NO: /priser · EN: /pricing',
               validation: (Rule: any) => Rule.required(),
             },
             {
@@ -99,8 +99,12 @@ export default {
           ],
           preview: {
             select: { title: 'label', subtitle: 'path' },
-            prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
-              return { title: pickNo(title) || 'Menyelement', subtitle }
+            prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
+              const pathStr =
+                typeof subtitle === 'string'
+                  ? subtitle
+                  : pickNo(subtitle)
+              return { title: pickNo(title) || 'Menyelement', subtitle: pathStr }
             },
           },
         },
@@ -121,8 +125,9 @@ export default {
         {
           name: 'path',
           title: 'Lenke',
-          type: 'string',
-          initialValue: '/booking',
+          type: 'internationalizedArrayString',
+          description: 'Intern sti per språk, f.eks. NO: /booking · EN: /book-appointment',
+          initialValue: undefined,
         },
       ],
     },
@@ -163,15 +168,19 @@ export default {
             {
               name: 'path',
               title: 'Lenke',
-              type: 'string',
-              description: 'Intern sti, f.eks. /om-oss eller /priser',
+              type: 'internationalizedArrayString',
+              description: 'Intern sti per språk, f.eks. NO: /priser · EN: /pricing',
               validation: (Rule: any) => Rule.required(),
             },
           ],
           preview: {
             select: { title: 'label', subtitle: 'path' },
-            prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
-              return { title: pickNo(title) || 'Footer-lenke', subtitle }
+            prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
+              const pathStr =
+                typeof subtitle === 'string'
+                  ? subtitle
+                  : pickNo(subtitle)
+              return { title: pickNo(title) || 'Footer-lenke', subtitle: pathStr }
             },
           },
         },

@@ -218,6 +218,7 @@ export default defineConfig({
         'homepage', 'contactPage', 'clinicPage', 'servicesPage',
         'insurancePage', 'themePage', 'pricingPage', 'specialistsPage',
         'specialist',
+        'siteSettings',
       ])
       if (!i18nTypes.has(context.schemaType)) return prev
       return [...prev, TranslateToEnglishAction]

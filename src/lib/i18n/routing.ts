@@ -1,3 +1,5 @@
+import { localizeInternalPath } from "@/lib/i18n/nav-paths";
+
 export const locales = ["nb", "en"] as const;
 export type AppLocale = (typeof locales)[number];
 export const defaultLocale: AppLocale = "nb";
@@ -29,10 +31,17 @@ export function withLocalePath(locale: AppLocale, to: string): string {
     return to;
   }
   const [rawPath, query] = to.split("?");
-  const path = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
+  let path = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
+
+  const firstSeg = path.split("/").filter(Boolean)[0];
+  if (firstSeg && isAppLocale(firstSeg)) {
+    path = stripLocaleFromPathname(path);
+  }
+
+  path = localizeInternalPath(path, locale);
+
   let base: string;
-  if (path === `/${locale}` || path.startsWith(`/${locale}/`)) base = path;
-  else if (path === "/") base = `/${locale}`;
+  if (path === "/") base = `/${locale}`;
   else base = `/${locale}${path}`;
   return query !== undefined && query !== "" ? `${base}?${query}` : base;
 }

@@ -57,7 +57,11 @@
     "noWaiting": "No waiting time",
     "findTreatment": "Find the right treatment for you",
     "searchPlaceholder": "Search for treatment or specialty...",
-    "seeAllTreatments": "See treatments in {{name}}"
+    "seeAllTreatments": "See treatments in {{name}}",
+    "moreSectionTitle": "Already know what you need?",
+    "moreSectionDescription": "Click to book directly, or read more about each service.",
+    "seoTitle": "Services – Find the right treatment for you",
+    "seoDescription": "View all services at CMedical: gynecology, fertility, urology, orthopedics and more specialties. No referral needed, short waiting times."
   },
   "specialists": {
     "title": "Meet our specialists",

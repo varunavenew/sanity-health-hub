@@ -127,6 +127,94 @@ export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"] | ord
   }
 }`;
 
+const CATEGORY_LANDING_GROQ = `
+  landingPage{
+    ${i18nStringLocale("documentTitle")},
+    ${i18nStringLocale("srOnlyTitle")},
+    hero{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("heading")},
+      ${i18nStringLocale("headingEmphasis")},
+      ${i18nText("body")},
+      bullets,
+      ${i18nStringLocale("primaryCtaLabel")},
+      ${i18nStringLocale("secondaryCtaLabel")},
+      ${i18nStringLocale("heroImageAlt")},
+      ${i18nStringLocale("secondaryImageAlt")}
+    },
+    segmentsSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nStringLocale("titleLine2")},
+      segments[]{
+        id,
+        ${i18nStringLocale("title")},
+        ${i18nText("description")},
+        tags,
+        ${i18nStringLocale("ctaLabel")},
+        href
+      }
+    },
+    whySection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      steps[]{
+        number,
+        ${i18nStringLocale("title")},
+        ${i18nText("description")}
+      }
+    },
+    audiencesSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nStringLocale("titleAccent")},
+      ${i18nStringLocale("readMoreLabel")},
+      audiences[]{
+        ${i18nStringLocale("title")},
+        ${i18nText("description")},
+        href,
+        icon
+      }
+    },
+    symptomsSection{
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      items[]{
+        ${i18nStringLocale("symptom")},
+        ${i18nStringLocale("service")},
+        href
+      }
+    },
+    servicesSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nText("description")}
+    },
+    resultsSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      ${i18nStringLocale("categoryLabel")},
+      ${i18nStringLocale("footnote")}
+    },
+    reviewsSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      reviews[]{
+        ${i18nText("text")},
+        author,
+        ${i18nStringLocale("date")}
+      }
+    },
+    specialistsSection{
+      ${i18nStringLocale("title")},
+      ${i18nStringLocale("seeAllLabel")},
+      seeAllHref
+    }
+  }
+`;
+
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
   _id, title, ${localizedSlug}, categoryId, categoryNumericId, description, icon, color,
   "heroImage": heroImage.asset->url,
@@ -142,12 +230,17 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
     primaryPath,
     secondaryPath
   },
-  stats,
+  stats[]{
+    value,
+    ${i18nStringLocale("label")},
+    ${i18nStringLocale("sub")}
+  },
   ${localizedSeoObject},
   "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
     _id, title, ${localizedSlug}, description, subtitle,
     "heroImage": heroImage.asset->url
   },
+  ${CATEGORY_LANDING_GROQ},
   ${PAGE_SECTIONS_GROQ}
 }`;
 
@@ -278,15 +371,52 @@ export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
 }`;
 
 export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
+  ${i18nString("breadcrumbHome")},
   ${i18nString("title")},
+  ${i18nString("eyebrow")},
   ${i18nText("introText")},
-  "categories": categories[]->{
-    _id,
+  ${i18nString("searchPlaceholder")},
+  ${i18nString("featuredSectionTitle")},
+  ${i18nString("faqSectionTitle")},
+  faqCategory,
+  faqs[]{
+    ${i18nString("question")},
+    ${i18nText("answer")}
+  },
+  badges[]{
+    ${i18nString("label")}
+  },
+  moreServicesSection{
+    ${i18nString("eyebrow")},
+    ${i18nString("title")},
+    ${i18nText("description")}
+  },
+  "featuredCategories": featuredCategories[]->{
+    categoryId,
     title,
     ${localizedSlug},
-    description,
-    icon,
-    color,
+    "heroImage": heroImage.asset->url,
+    "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
+      title,
+      ${localizedSlug}
+    }
+  },
+  moreServicesCategories[]{
+    displayMode,
+    "category": category->{
+      categoryId,
+      title,
+      ${localizedSlug},
+      "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
+        title,
+        ${localizedSlug}
+      }
+    }
+  },
+  "categories": categories[]->{
+    categoryId,
+    title,
+    ${localizedSlug},
     "heroImage": heroImage.asset->url
   },
   ${PAGE_SECTIONS_GROQ},
@@ -331,17 +461,20 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   socialMedia,
   mainNavigation[]{
     _key,
-    label,
+    ${i18nString("label")},
     navId,
-    path,
+    ${i18nString("path")},
     isServicesDropdown
   },
-  ctaButton{ label, path },
+  ctaButton{
+    ${i18nString("label")},
+    ${i18nString("path")}
+  },
   footerAboutLinks[]{
     _key,
-    label,
+    ${i18nString("label")},
     navId,
-    path
+    ${i18nString("path")}
   },
   notFoundTitle,
   notFoundText,

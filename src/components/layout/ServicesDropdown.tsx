@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useLocation } from "@/lib/router";
+import { useNavigate, useLocation, useLocaleParam } from "@/lib/router";
+import { navPathForLocale } from "@/lib/i18n/nav-paths";
 import { useServiceCategories } from '@/hooks/useServiceCategories';
 import { useTranslation } from 'react-i18next';
 
@@ -14,6 +15,7 @@ export const ServicesDropdown = () => {
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
+  const locale = useLocaleParam();
 
   // Find the category that matches the current route (longest matching path wins)
   const currentCategory = serviceCategories
@@ -44,16 +46,30 @@ export const ServicesDropdown = () => {
   };
 
   const handleNavigateServices = () => {
-    navigate('/tjenester');
+    navigate(navPathForLocale('services', locale));
     setIsOpen(false);
     setActiveCategory(null);
     setActiveSubcategory(null);
   };
 
-  const activeCategoryData = serviceCategories.find(c => c.id === activeCategory) || serviceCategories[0];
-  const activeSubcategoryData = activeCategoryData && activeSubcategory 
-    ? activeCategoryData.subcategories.find(s => s.label === activeSubcategory)
-    : null;
+  const activeCategoryData =
+    serviceCategories.find((c) => c.id === activeCategory) ?? serviceCategories[0];
+
+  const activeSubcategoryData =
+    activeCategoryData && activeSubcategory
+      ? activeCategoryData.subcategories.find((s) => s.label === activeSubcategory)
+      : null;
+
+  // Keep active category in sync when Sanity data loads or locale changes ids
+  useEffect(() => {
+    if (serviceCategories.length === 0) return;
+    const valid =
+      activeCategory && serviceCategories.some((c) => c.id === activeCategory);
+    if (!valid) {
+      setActiveCategory(currentCategory?.id ?? serviceCategories[0].id);
+      setActiveSubcategory(null);
+    }
+  }, [serviceCategories, activeCategory, currentCategory?.id]);
 
   return (
     <div 
@@ -129,7 +145,7 @@ export const ServicesDropdown = () => {
                       transition={{ duration: 0.12 }}
                     >
                       <nav className="grid grid-cols-1 gap-0">
-                        {activeCategoryData.subcategories.map((sub) => (
+                        {(activeCategoryData.subcategories ?? []).map((sub) => (
                           <button 
                             key={sub.label}
                             onMouseEnter={() => setActiveSubcategory(sub.label)}
