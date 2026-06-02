@@ -36,7 +36,7 @@ export const PromoBlocks = () => {
       <div className="container mx-auto px-4 md:px-8">
         {/* Section heading */}
         <div className="max-w-6xl mx-auto mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-light text-foreground">
+          <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground">
             Nyheter og artikler
           </h2>
         </div>

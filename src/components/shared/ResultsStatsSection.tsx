@@ -39,7 +39,7 @@ export const ResultsStatsSection = ({
               {eyebrow && (
                 <p className="text-xs text-foreground/60 mb-4 uppercase">{eyebrow}</p>
               )}
-              <h2 className="text-3xl md:text-5xl font-light leading-tight">{title}</h2>
+              <h2 className="text-2xl md:text-3xl font-light leading-tight">{title}</h2>
             </div>
             {description && (
               <div className="lg:col-span-7 flex items-end">
