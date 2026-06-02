@@ -215,7 +215,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
- <p className="text-sm text-brand-dark/60 font-light mb-3">Pasienterfaringer</p>
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">Hva pasientene sier</h2>
  </div>
  <div className="grid md:grid-cols-3 gap-6">
