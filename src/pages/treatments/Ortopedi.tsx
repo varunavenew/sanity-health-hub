@@ -103,10 +103,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <p className="text-xs text-foreground/60 mb-8 uppercase">
- <span className="mr-6">Ingen ventetid</span>
- <span>Ingen henvisning</span>
- </p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Ortopedi
  </h2>
@@ -147,7 +143,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  {/* INTRO */}
  <section className="bg-background py-16 md:py-20">
  <div className="container mx-auto px-6 md:px-16 max-w-4xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Ortopedi</p>
  <p className="text-base md:text-lg font-light leading-relaxed text-foreground/85">
  Ortopedi er en medisinsk spesialitet som tar seg av problemer med muskler,
  bein, ledd og sener. Våre ortopeder er eksperter på å behandle skader og
@@ -163,7 +158,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Finn din inngang</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Velg kroppsdel — vi finner riktig spesialist.
  </h2>
@@ -188,7 +182,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
 
  {/* Two segments */}
  <div className="mt-14 max-w-2xl mb-8">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Vet du ikke hva det heter?</p>
  <h3 className="text-2xl md:text-3xl font-light text-foreground leading-tight">
  Du trenger ikke en diagnose for å bestille.
  </h3>
@@ -208,7 +201,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
 
  {/* Second opinion dark stripe */}
  <div className="mt-14 bg-brand-dark text-white rounded-sm p-8 md:p-10">
- <p className="text-xs text-white/60 mb-3 uppercase">Second opinion</p>
  <h3 className="text-xl md:text-2xl font-light leading-snug mb-3 max-w-2xl">
  Har du vært andre steder uten å bli bra?
  </h3>
@@ -230,7 +222,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Alt under samme tak</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Hva vi behandler</h2>
  </div>
  <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
@@ -269,7 +260,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Slik går det for seg</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Pasientreisen, fortalt enkelt</h2>
  </div>
  <div className="divide-y divide-border/60 border-t border-border/60">
@@ -293,7 +283,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16 pt-20 md:pt-28 pb-10 md:pb-14">
  <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
  <div>
- <p className="text-xs text-foreground/60 mb-4 uppercase">Møt teamet</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Spesialistene som følger deg.</h2>
  </div>
  <Link to="/spesialister?kategori=ortopedi" className="text-sm font-light text-foreground hover:text-foreground/70">
@@ -350,7 +339,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  {/* FAQ */}
  <section className="bg-background py-20 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase text-center">Vanlige spørsmål</p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-tight tracking-tight mb-10 text-center">Det folk spør om</h2>
  <Accordion type="single" collapsible className="w-full">
  {faqs.map((faq, i) => (
@@ -368,7 +356,6 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
  <div className="lg:col-span-7">
- <p className="text-xs text-white/60 mb-4 uppercase">Klar når du er det</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">Booking tar to minutter. Ingen henvisning.</h2>
  <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
  Vi sender bekreftelse og forberedelser direkte til deg. Husk å ta med

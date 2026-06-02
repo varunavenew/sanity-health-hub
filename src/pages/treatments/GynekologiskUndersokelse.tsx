@@ -161,9 +161,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
  <div>
- <p className="text-xs text-foreground/60 mb-6 uppercase">
- Gynekolog — CMedical
- </p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Noe kjennes ikke helt <span className="italic">riktig</span>
  </h2>
@@ -238,9 +235,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- Konsultasjonen
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Hva skjer når du er hos oss
  </h2>
@@ -249,9 +243,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
  {consultationFlow.map((step) => (
  <div key={step.n} className="bg-background p-7 flex flex-col">
- <p className="text-xs text-brand-dark mb-5 uppercase">
- {step.n}
- </p>
  <h3 className="text-lg font-normal mb-3 leading-snug">
  {step.title}
  </h3>
@@ -272,9 +263,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
  <div className="lg:col-span-5">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- Hvem passer det for
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
  Du trenger ikke ha en diagnose for å bestille
  </h2>
@@ -324,9 +312,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  key={p.title}
  className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
  >
- <p className="text-xs text-foreground/80 mb-4 uppercase">
- {p.eyebrow}
- </p>
  <h3 className="text-lg font-normal text-foreground mb-3">
  {p.title}
  </h3>
@@ -346,9 +331,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-12">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- Etter undersøkelsen
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Avhengig av hva vi finner, er neste steg alltid klart
  </h2>
@@ -361,9 +343,6 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  to={a.href}
  className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
  >
- <p className="text-xs text-foreground/80 mb-4 uppercase">
- {a.eyebrow}
- </p>
  <h3 className="text-lg font-normal text-foreground mb-3">
  {a.title}
  </h3>

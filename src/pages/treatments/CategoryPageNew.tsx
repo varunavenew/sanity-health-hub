@@ -187,9 +187,6 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  className="bg-brand-warm p-7 md:p-9 flex flex-col"
  >
  <Icon className="w-6 h-6 text-foreground mb-7" strokeWidth={1.5} />
- <p className="text-xs uppercase text-muted-foreground font-light mb-3">
- {step.label}
- </p>
  <h3 className="text-lg md:text-xl font-light text-foreground leading-snug mb-3">
  {step.title}
  </h3>
@@ -231,9 +228,6 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <h3 className="text-base md:text-lg font-light text-foreground mb-0.5">
  {s.name}
  </h3>
- <p className="text-xs md:text-xs text-foreground/80 font-light uppercase">
- {s.title}
- </p>
  </div>
  </Link>
  ))}

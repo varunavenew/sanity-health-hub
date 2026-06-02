@@ -82,10 +82,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <p className="text-xs text-foreground/60 mb-8 uppercase">
- <span className="mr-6">Kort ventetid</span>
- <span>Ingen henvisning</span>
- </p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Flere fagområder
  </h2>
@@ -130,7 +126,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  {/* INTRO */}
  <section className="bg-background py-16 md:py-20">
  <div className="container mx-auto px-6 md:px-16 max-w-4xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Øvrige fagområder</p>
  <p className="text-base md:text-lg font-light leading-relaxed text-foreground/85">
  Vi har samlet noen av Nordens fremste spesialister innen gastrokirurgi,
  revmatologi, dermatologi, ernæringsfysiologi, karkirurgi, osteopati,
@@ -146,7 +141,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Fagområder</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">Finn fagfeltet som passer deg.</h2>
  </div>
  <div className="grid md:grid-cols-3 gap-6">
@@ -171,7 +165,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Alle spesialister</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Ledende spesialister — direkte til deg.
  </h2>
@@ -200,7 +193,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">Slik går det for seg</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">Pasientreisen, fortalt enkelt</h2>
  </div>
  <div className="divide-y divide-border/60 border-t border-border/60">
@@ -250,7 +242,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  {/* FAQ */}
  <section className="bg-background py-20 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
- <p className="text-xs text-foreground/60 mb-4 uppercase text-center">Vanlige spørsmål</p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-tight tracking-tight mb-10 text-center">Det folk spør om</h2>
  <Accordion type="single" collapsible className="w-full">
  {faqs.map((faq, i) => (
@@ -268,7 +259,6 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-center">
  <div className="lg:col-span-7">
- <p className="text-xs text-white/60 mb-4 uppercase">Klar når du er det</p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight mb-5">Booking tar to minutter. Ingen henvisning.</h2>
  <p className="text-base md:text-lg font-light text-white/70 leading-relaxed max-w-lg">
  Usikker på hvem du trenger? Ta en gratis og uforpliktende prat med oss
