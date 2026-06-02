@@ -166,6 +166,41 @@ function normalizeBookingCategoryIds(value: unknown): number[] {
 
 type I18nValueItem = { language?: string; _key?: string; value?: string };
 
+const SPECIALIST_EN_KEYWORD_MAP: Array<[string, string]> = [
+  ["Gynekologisk kirurg", "Gynecological surgeon"],
+  ["Fostermedisiner", "Fetal medicine specialist"],
+  ["Fødselslege", "Obstetrician"],
+  ["Gastrokirurg", "Gastrointestinal surgeon"],
+  ["Robotkirurg", "Robotic surgeon"],
+  ["Overvektskirurgi", "Obesity surgery"],
+  ["Embryolog", "Embryologist"],
+  ["Uroterapeut", "Urotherapist"],
+  ["Urologi", "Urology"],
+  ["Urolog", "Urologist"],
+  ["Ortopedi", "Orthopedics"],
+  ["Ortoped", "Orthopedic surgeon"],
+  ["Gynekologi", "Gynecology"],
+  ["Gynekolog", "Gynecologist"],
+  ["Androlog", "Andrologist"],
+  ["Seksolog", "Sexologist"],
+  ["Spesialist", "Specialist"],
+  ["Kirurg", "Surgeon"],
+];
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function translateSpecialistKeywordsForEn(value: string, lang: "no" | "en"): string {
+  if (lang !== "en" || !value) return value;
+  let result = value;
+  const sorted = [...SPECIALIST_EN_KEYWORD_MAP].sort((a, b) => b[0].length - a[0].length);
+  for (const [no, en] of sorted) {
+    result = result.replace(new RegExp(`\\b${escapeRegExp(no)}\\b`, "gi"), en);
+  }
+  return result;
+}
+
 function readLocalizedString(value: unknown, lang: "no" | "en"): string {
   if (typeof value === "string") return value;
   if (!Array.isArray(value)) return "";
@@ -173,9 +208,11 @@ function readLocalizedString(value: unknown, lang: "no" | "en"): string {
   const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
   if (typeof matchLang === "string" && matchLang.trim()) return matchLang;
   const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
-  if (typeof matchNo === "string" && matchNo.trim()) return matchNo;
+  if (typeof matchNo === "string" && matchNo.trim()) {
+    return translateSpecialistKeywordsForEn(matchNo, lang);
+  }
   const first = entries[0]?.value;
-  return typeof first === "string" ? first : "";
+  return typeof first === "string" ? translateSpecialistKeywordsForEn(first, lang) : "";
 }
 
 function readLocalizedStringArray(value: unknown, lang: "no" | "en"): string[] {
