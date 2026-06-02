@@ -88,7 +88,6 @@ const renderBlock = (block: RichBlock, i: number) => {
 };
 
 export const RichContentSection = ({
-  eyebrow,
   title,
   blocks,
   imagePosition = "right",
@@ -115,9 +114,6 @@ export const RichContentSection = ({
   const contentEl = (
     <div className={`flex items-center px-6 md:px-12 lg:px-16 py-16 md:py-24 ${!imageBlock ? "lg:col-span-2" : ""}`}>
       <div className="max-w-xl">
-        {eyebrow && (
-          <p className="text-xs text-foreground/60 font-light mb-3">{eyebrow}</p>
-        )}
         {title && (
           <h2 className="text-2xl md:text-3xl font-light text-foreground mb-8">
             {title}

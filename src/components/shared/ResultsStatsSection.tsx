@@ -22,10 +22,8 @@ interface ResultsStatsSectionProps {
  * temasider og spesialistsider.
  */
 export const ResultsStatsSection = ({
-  eyebrow = "Resultater",
   title,
   description,
-  category,
   stats,
   footnote,
   className = "",
@@ -36,9 +34,6 @@ export const ResultsStatsSection = ({
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
             <div className="lg:col-span-5">
-              {eyebrow && (
-                <p className="text-xs text-foreground/60 mb-4 uppercase">{eyebrow}</p>
-              )}
               <h2 className="text-2xl md:text-3xl font-light leading-tight">{title}</h2>
             </div>
             {description && (
@@ -51,9 +46,6 @@ export const ResultsStatsSection = ({
           </div>
 
           <div className="border-t border-brand-dark/5 py-8 md:py-10">
-            {category && (
-              <p className="text-xs text-brand-dark mb-6 uppercase">{category}</p>
-            )}
             <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
               {stats.map((row, i) => (
                 <div

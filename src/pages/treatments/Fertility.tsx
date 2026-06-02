@@ -233,9 +233,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4">
- Hva kan vi hjelpe deg med?
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Fortell oss hvor du er
  <span className="block">— vi finner veien videre.</span>
@@ -352,9 +349,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4">
- For deg som
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  Alle er velkomne
  <br />
@@ -416,7 +410,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  6. HVA VI TILBYR — tjeneste-grid (handlingsvalg)
  ============================================================ */}
  <ServicesListSection
- eyebrow="Tjenester"
  title="Hva vi tilbyr."
  description="Fra første samtale til oppfølging — hele fertilitetstilbudet vårt finner du her. Trenger du hjelp til å velge, kan du alltid ringe oss for en uforpliktende prat."
  items={services}
@@ -430,9 +423,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-5">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- Resultater
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Tall som forteller en historie.
  </h2>
@@ -446,9 +436,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
 
  <div className="border-t border-brand-dark/15 py-8 md:py-10">
- <p className="text-xs text-brand-dark mb-6 uppercase">
- Fertilitet
- </p>
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {[
  { v: "42%", k: "Suksessrate IVF", sub: "Kvinner under 35 år" },
@@ -488,9 +475,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
- <p className="text-sm text-brand-dark/60 font-light mb-3">
- Hva pasientene sier
- </p>
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
  Tilbakemeldinger fra ekte pasienter
  </h2>
@@ -543,7 +527,6 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
  <FeatureSpotlight
-        eyebrow="Pasienthistorie"
         title={`«Endelig følte du at noen lyttet — og hadde en plan dere kunne forstå.»`}
         text="Les hvordan ett par fant veien til foreldreskap etter flere år med usikkerhet — og hva som var annerledes hos CMedical."
         ctaLabel="Les hele historien"

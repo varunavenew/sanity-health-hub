@@ -16,7 +16,6 @@ interface ServicesListSectionProps {
 }
 
 export function ServicesListSection({
- eyebrow,
  title,
  description,
  items,
@@ -30,11 +29,6 @@ export function ServicesListSection({
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-6">
- {eyebrow && (
- <p className="text-xs text-foreground/60 mb-4">
- {eyebrow}
- </p>
- )}
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  {title}
  </h2>

@@ -228,9 +228,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4">
- Hvor er du nå?
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Vi møter deg der du er — uansett hvorfor du tar kontakt.
  </h2>
@@ -342,9 +339,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-5">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- Resultater
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Tall som forteller en historie.
  </h2>
@@ -358,9 +352,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
 
  <div className="border-t border-brand-dark/5 py-8 md:py-10">
- <p className="text-xs text-brand-dark mb-6 uppercase">
- Urologi
- </p>
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {[
  { v: "400+", k: "Robotoperasjoner", sub: "Per år" },
@@ -399,9 +390,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-6">
- <p className="text-xs text-foreground/60 mb-4">
- Alle behandlinger
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  Vet du allerede hva du trenger?
  </h2>
@@ -442,9 +430,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
- <p className="text-sm text-brand-dark/60 font-light mb-3">
- Hva pasientene sier
- </p>
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
  Tilbakemeldinger fra ekte pasienter
  </h2>
@@ -495,7 +480,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
 
  {/* 6. SPESIALISTER */}
  <FeatureSpotlight
-        eyebrow="Aktuelt"
         title={`Når er det riktig å snakke med en urolog?`}
         text="Mange venter for lenge. Her er tegnene som er verdt en konsultasjon — og hva en utredning faktisk innebærer."
         ctaLabel="Les mer"
@@ -516,9 +500,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
  <div className="lg:col-span-5">
- <p className="text-xs text-foreground/60 mb-4">
- Pasientreisen
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
  Fra første kontakt til riktig behandling.
  </h2>

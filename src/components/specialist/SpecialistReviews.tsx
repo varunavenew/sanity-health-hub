@@ -54,9 +54,6 @@ export const SpecialistReviews = ({ specialist }: SpecialistReviewsProps) => {
     <section className="bg-brand-warm py-14 md:py-20">
       <div className="container mx-auto px-6 md:px-16">
         <div className="mb-10 max-w-2xl">
-          <p className="text-sm text-brand-dark/75 font-light mb-2">
-            Pasienterfaringer
-          </p>
           <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
             Hva pasientene sier
           </h2>

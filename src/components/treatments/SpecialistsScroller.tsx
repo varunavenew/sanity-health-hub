@@ -33,7 +33,6 @@ interface Props {
 export const SpecialistsScroller = ({
   category,
   filter,
-  eyebrow = "Våre eksperter",
   title = "Møt våre spesialister",
   description = "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
   seeAllHref = "/spesialister",
@@ -66,7 +65,6 @@ export const SpecialistsScroller = ({
         {/* Header — identical to home */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-muted-foreground font-light mb-3">{eyebrow}</p>
             <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
               {title}
             </h2>

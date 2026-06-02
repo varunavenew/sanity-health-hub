@@ -156,7 +156,6 @@ const Services = ({ isChatOpen }: PageProps) => {
       {/* Hero header */}
       <section className="bg-background pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16 text-center">
-          <p className="text-sm text-muted-foreground font-light mb-2">Fagområder</p>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
           <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
           <div className="flex items-center justify-center gap-3 mb-8">
@@ -190,7 +189,6 @@ const Services = ({ isChatOpen }: PageProps) => {
 
       {/* Fagområder — Featured services (full-bleed, no gaps) */}
       <section className="bg-background pb-10 md:pb-14">
-        <p className="text-sm text-muted-foreground font-light mb-6 px-6 md:px-16">Utvalgte tjenester</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
           {featuredServices.map((item: any, idx: number) => (
             <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] overflow-hidden">
