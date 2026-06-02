@@ -35,6 +35,31 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+  async rewrites() {
+    return [
+      // Top-level treatment-category landings (some English folders don't exist yet).
+      { source: "/en/orthopedics", destination: "/en/ortopedi" },
+      { source: "/en/pregnancy", destination: "/en/graviditet" },
+      { source: "/en/more-specialties", destination: "/en/flere-fagomrader" },
+
+      // Treatment pages under `/behandlinger/<category>/...`.
+      { source: "/en/behandlinger/fertility", destination: "/en/behandlinger/fertilitet" },
+      { source: "/en/behandlinger/fertility/:subId", destination: "/en/behandlinger/fertilitet/:subId" },
+      { source: "/en/behandlinger/gynecology", destination: "/en/behandlinger/gynekologi" },
+      { source: "/en/behandlinger/gynecology/:subId", destination: "/en/behandlinger/gynekologi/:subId" },
+      { source: "/en/behandlinger/urology", destination: "/en/behandlinger/urologi" },
+      { source: "/en/behandlinger/urology/:subId", destination: "/en/behandlinger/urologi/:subId" },
+      { source: "/en/behandlinger/orthopedics", destination: "/en/behandlinger/ortopedi" },
+      { source: "/en/behandlinger/orthopedics/:subId", destination: "/en/behandlinger/ortopedi/:subId" },
+      { source: "/en/behandlinger/pregnancy", destination: "/en/behandlinger/graviditet" },
+      { source: "/en/behandlinger/pregnancy/:subId", destination: "/en/behandlinger/graviditet/:subId" },
+      { source: "/en/behandlinger/more-specialties", destination: "/en/behandlinger/flere-fagomrader" },
+      {
+        source: "/en/behandlinger/more-specialties/:subId",
+        destination: "/en/behandlinger/flere-fagomrader/:subId",
+      },
+    ];
+  },
   async redirects() {
     return [
       { source: "/product/:id", destination: "/nb/produkt/:id", permanent: true },

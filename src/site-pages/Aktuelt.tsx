@@ -1,11 +1,14 @@
+"use client";
+
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { Link } from "@/lib/router";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { filterCategories, normalizeCategory, type Article } from "@/data/articles";
-import { useArticles, useSpecialists } from "@/hooks/useSanity";
+import { normalizeCategory, type Article } from "@/data/articles";
+import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
+import { useTranslation } from "react-i18next";
 
 interface AktueltProps {
   isChatOpen: boolean;
@@ -13,12 +16,20 @@ interface AktueltProps {
 
 const ARTICLES_PER_PAGE = 6;
 
-// Map article filter category -> specialist category slug used by Sanity
-const CATEGORY_TO_SPECIALIST: Record<string, string> = {
-  Fagartikler: "", // mixed — show top 4 across all
-  Pasienthistorier: "",
-  "Oss i media": "",
-  "Nytt fra oss": "",
+const FILTER_KEYS = [
+  "all",
+  "patientStories",
+  "media",
+  "articles",
+  "updates",
+] as const;
+type FilterKey = (typeof FILTER_KEYS)[number];
+
+const FILTER_CATEGORY_MAP: Record<Exclude<FilterKey, "all">, string[]> = {
+  patientStories: ["Pasienthistorier"],
+  media: ["Oss i media"],
+  articles: ["Fagartikler"],
+  updates: ["Nytt fra oss"],
 };
 
 const formatDate = (dateStr: string) => {
@@ -26,7 +37,13 @@ const formatDate = (dateStr: string) => {
   return date.toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
 };
 
-const ArticleCard = ({ article }: { article: Article }) => {
+const ArticleCard = ({
+  article,
+  categoryLabel,
+}: {
+  article: Article;
+  categoryLabel: string;
+}) => {
   const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
 
   return (
@@ -40,7 +57,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
         />
         <div className="absolute top-3 left-3">
           <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
-            {article.category}
+            {categoryLabel}
           </span>
         </div>
       </div>
@@ -58,7 +75,15 @@ const ArticleCard = ({ article }: { article: Article }) => {
   );
 };
 
-const FeaturedCard = ({ article }: { article: Article }) => {
+const FeaturedCard = ({
+  article,
+  readMoreLabel,
+  categoryLabel,
+}: {
+  article: Article;
+  readMoreLabel: string;
+  categoryLabel: string;
+}) => {
   const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
 
   return (
@@ -73,7 +98,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
         <span className="inline-block bg-white/15 backdrop-blur-md text-white text-xs px-2.5 py-0.5 rounded-full mb-2">
-          {article.category}
+          {categoryLabel}
         </span>
         <h3 className="text-base md:text-lg font-medium text-white leading-snug mb-2 line-clamp-2">
           {article.title}
@@ -87,7 +112,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
             {formatDate(article.date)}
           </span>
           <span className="inline-flex items-center gap-1 text-white/90 text-xs font-medium group-hover:gap-2 transition-all">
-            Les mer <ArrowRight className="w-3.5 h-3.5" />
+            {readMoreLabel} <ArrowRight className="w-3.5 h-3.5" />
           </span>
         </div>
       </div>
@@ -96,9 +121,11 @@ const FeaturedCard = ({ article }: { article: Article }) => {
 };
 
 const Aktuelt = ({ isChatOpen }: AktueltProps) => {
+  const { t } = useTranslation();
   const { data: sanityArticles } = useArticles();
+  const { data: newsPage } = useNewsPage();
   const { data: specialists } = useSpecialists();
-  const [activeFilter, setActiveFilter] = useState("Alle");
+  const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
   const [isLoading, setIsLoading] = useState(false);
@@ -128,7 +155,11 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   }, [activeFilter, searchQuery]);
 
   const filteredArticles = articles.filter((a) => {
-    const matchesFilter = activeFilter === "Alle" || a.category === activeFilter;
+    const matchesFilter =
+      activeFilter === "all" ||
+      FILTER_CATEGORY_MAP[activeFilter as Exclude<FilterKey, "all">]?.includes(
+        a.category,
+      );
     const matchesSearch =
       !searchQuery ||
       a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -145,9 +176,16 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
   // Top featured: editor-controlled via the `featured` flag in Sanity.
   // Falls back to pinned/most-recent when no articles are explicitly flagged.
+  const manualFeatured = ((newsPage?.featuredArticles || []) as Article[])
+    .map((a) => ({ ...a, category: normalizeCategory(a.category || "") }))
+    .filter((a) => a?.slug);
   const explicitlyFeatured = sortedArticles.filter((a) => a.featured).slice(0, 4);
   const featuredTop =
-    explicitlyFeatured.length > 0 ? explicitlyFeatured : sortedArticles.slice(0, 4);
+    activeFilter === "all" && manualFeatured.length > 0
+      ? manualFeatured.slice(0, 4)
+      : explicitlyFeatured.length > 0
+        ? explicitlyFeatured
+        : sortedArticles.slice(0, 4);
   const featuredSlugs = new Set(featuredTop.map((a) => a.slug));
   const restArticles = sortedArticles.filter((a) => !featuredSlugs.has(a.slug));
   const visibleRest = restArticles.slice(0, visibleCount);
@@ -158,12 +196,16 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   // fertility specialists). Falls back to top 4 across all when on "Alle".
   const featuredSpecialists = useMemo(() => {
     if (!specialists?.length) return [];
-    if (activeFilter === "Alle") return specialists.slice(0, 4);
+    if (activeFilter === "all") {
+      return specialists.slice(0, 4);
+    }
     // Heuristic mapping: try to match active filter against specialist
     // category/expertise. Article categories are editorial, specialist
     // categories are clinical — we surface anyone whose expertise text
     // overlaps with the filter label.
-    const needle = activeFilter.toLowerCase();
+    const filterCategories =
+      FILTER_CATEGORY_MAP[activeFilter as Exclude<FilterKey, "all">] || [];
+    const needle = (filterCategories[0] || "").toLowerCase();
     const matches = specialists.filter((s) => {
       const hay = [
         s.category,
@@ -176,6 +218,49 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     });
     return (matches.length ? matches : specialists).slice(0, 4);
   }, [specialists, activeFilter]);
+
+  const newsUi = {
+    label: newsPage?.label || t("news.label"),
+    title: newsPage?.title || t("news.title"),
+    subtitle: newsPage?.subtitle || t("news.subtitle"),
+    searchPlaceholder: newsPage?.searchPlaceholder || t("news.searchPlaceholder"),
+    moreArticlesTitle: newsPage?.moreArticlesTitle || t("news.moreArticles"),
+    noArticlesText: newsPage?.noArticlesText || t("news.noArticles"),
+    readMoreLabel: newsPage?.readMoreLabel || t("news.readMore"),
+    specialistsEyebrowAll:
+      newsPage?.specialistsEyebrowAll || t("news.specialistsEyebrowAll"),
+    specialistsEyebrowWithin:
+      newsPage?.specialistsEyebrowWithin || t("news.specialistsEyebrowWithin"),
+    specialistsTitle: newsPage?.specialistsTitle || t("news.specialistsTitle"),
+    specialistsSeeAllLabel:
+      newsPage?.specialistsSeeAllLabel || t("specialists.seeAllShort"),
+    socialSectionTitle: newsPage?.socialSectionTitle || t("news.followSocial"),
+  };
+
+  const filterOptions: Array<{ key: FilterKey; label: string }> = [
+    { key: "all", label: newsPage?.filterAllLabel || t("news.filterAll") },
+    {
+      key: "patientStories",
+      label: newsPage?.filterPatientStoriesLabel || t("news.filterPatientStories"),
+    },
+    { key: "media", label: newsPage?.filterMediaLabel || t("news.filterMedia") },
+    {
+      key: "articles",
+      label: newsPage?.filterArticlesLabel || t("news.filterArticles"),
+    },
+    { key: "updates", label: newsPage?.filterUpdatesLabel || t("news.filterUpdates") },
+  ];
+
+  const categoryLabels: Record<string, string> = {
+    Pasienthistorier: filterOptions.find((o) => o.key === "patientStories")?.label || "Pasienthistorier",
+    "Oss i media": filterOptions.find((o) => o.key === "media")?.label || "Oss i media",
+    Fagartikler: filterOptions.find((o) => o.key === "articles")?.label || "Fagartikler",
+    "Nytt fra oss": filterOptions.find((o) => o.key === "updates")?.label || "Nytt fra oss",
+    Nyheter: filterOptions.find((o) => o.key === "updates")?.label || "Nytt fra oss",
+  };
+
+  const getCategoryLabel = (category: string) =>
+    categoryLabels[normalizeCategory(category)] || category;
 
   // Infinite scroll via IntersectionObserver
   const loadMore = useCallback(() => {
@@ -207,8 +292,11 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Aktuelt – Nyheter og fagartikler"
-        description="Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical. Fagartikler, nyheter og innsikt fra våre spesialister."
+        title={newsPage?.seo?.metaTitle || "Aktuelt – Nyheter og fagartikler"}
+        description={
+          newsPage?.seo?.metaDescription ||
+          "Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical. Fagartikler, nyheter og innsikt fra våre spesialister."
+        }
         canonical="/aktuelt"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -219,10 +307,10 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            <p className="text-white/50 text-xs mb-2">Nyheter & Fagartikler</p>
-            <h1 className="text-3xl md:text-4xl font-light text-white mb-3">Aktuelt</h1>
+            <p className="text-white/50 text-xs mb-2">{newsUi.label}</p>
+            <h1 className="text-3xl md:text-4xl font-light text-white mb-3">{newsUi.title}</h1>
             <p className="text-white/60 font-light text-sm">
-              Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical.
+              {newsUi.subtitle}
             </p>
           </div>
         </div>
@@ -235,24 +323,24 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Søk i artikler..."
+              placeholder={newsUi.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
             />
           </div>
           <div className="flex flex-wrap gap-2">
-            {filterCategories.map((cat) => (
+            {filterOptions.map((opt) => (
               <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
+                key={opt.key}
+                onClick={() => setActiveFilter(opt.key)}
                 className={`px-4 py-1.5 rounded-2xl text-sm transition-colors ${
-                  activeFilter === cat
+                  activeFilter === opt.key
                     ? "bg-brand-dark text-white"
                     : "bg-secondary/60 text-foreground/70 hover:bg-secondary hover:text-foreground"
                 }`}
               >
-                {cat}
+                {opt.label}
               </button>
             ))}
           </div>
@@ -267,7 +355,12 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             <div className="mb-16">
               <div className="grid md:grid-cols-2 gap-4">
                 {featuredTop.map((article) => (
-                  <FeaturedCard key={article.slug} article={article} />
+                  <FeaturedCard
+                    key={article.slug}
+                    article={article}
+                    readMoreLabel={newsUi.readMoreLabel}
+                    categoryLabel={getCategoryLabel(article.category)}
+                  />
                 ))}
               </div>
             </div>
@@ -276,10 +369,16 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           {/* Rest of articles, sorted by date */}
           {visibleRest.length > 0 && (
             <>
-              <h2 className="text-lg font-medium text-foreground mb-6">Flere artikler</h2>
+              <h2 className="text-lg font-medium text-foreground mb-6">
+                {newsUi.moreArticlesTitle}
+              </h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {visibleRest.map((article) => (
-                  <ArticleCard key={article.slug} article={article} />
+                  <ArticleCard
+                    key={article.slug}
+                    article={article}
+                    categoryLabel={getCategoryLabel(article.category)}
+                  />
                 ))}
               </div>
             </>
@@ -296,7 +395,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
 
           {filteredArticles.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-muted-foreground font-light">Ingen artikler funnet for dette filteret.</p>
+              <p className="text-muted-foreground font-light">{newsUi.noArticlesText}</p>
             </div>
           )}
         </div>
@@ -309,17 +408,25 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             <div className="flex items-end justify-between mb-6">
               <div>
                 <p className="text-xs text-muted-foreground mb-1">
-                  {activeFilter === "Alle" ? "Møt teamet" : `Innen ${activeFilter.toLowerCase()}`}
+                  {activeFilter === "all"
+                    ? newsUi.specialistsEyebrowAll
+                    : newsUi.specialistsEyebrowWithin.replace(
+                        "{{category}}",
+                        (
+                          filterOptions.find((f) => f.key === activeFilter)?.label ||
+                          ""
+                        ).toLowerCase(),
+                      )}
                 </p>
                 <h2 className="text-lg md:text-xl font-medium text-foreground">
-                  Spesialister du kan bestille time hos
+                  {newsUi.specialistsTitle}
                 </h2>
               </div>
               <Link
                 to="/spesialister"
                 className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
               >
-                Se alle <ArrowRight className="w-3.5 h-3.5" />
+                {newsUi.specialistsSeeAllLabel} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -356,7 +463,9 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       <section className="bg-background border-t border-border">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-medium text-foreground">Følg oss på sosiale medier</h2>
+            <h2 className="text-lg font-medium text-foreground">
+              {newsUi.socialSectionTitle}
+            </h2>
           </div>
           <SoMeFeed maxPosts={4} compact />
         </div>

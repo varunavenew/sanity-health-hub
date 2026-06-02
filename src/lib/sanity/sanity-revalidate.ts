@@ -16,6 +16,7 @@ export const SANITY_CACHE_TAGS = {
   /** Bust all tagged Sanity fetches (use sparingly from webhook). */
   all: "sanity",
   homepage: "sanity:homepage",
+  newsPage: "sanity:newsPage",
   contactPage: "sanity:contactPage",
   aboutPage: "sanity:aboutPage",
   privacyPolicyPage: "sanity:privacyPolicyPage",
@@ -104,6 +105,13 @@ export function invalidationPlanFromSanityDoc(doc: SanityDocRef): SanityInvalida
       paths.add("/en/aktuelt");
       break;
     }
+    case "newsPage":
+      tags.add(SANITY_CACHE_TAGS.newsPage);
+      paths.add("/nb/aktuelt");
+      paths.add("/en/news");
+      paths.add("/en/aktuelt");
+      paths.add("/nb/news");
+      break;
     case "treatmentCategory": {
       for (const slug of slugValues(doc.slug)) {
         tags.add(SANITY_CACHE_TAGS.treatmentCategory(slug));

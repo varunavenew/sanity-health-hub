@@ -21,6 +21,7 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
     'article', 'treatment', 'treatmentCategory', 'specialist',
     'themePage', 'homepage', 'aboutPage', 'contactPage',
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
+    'newsPage',
     'privacyPolicyPage',
   ]
 
@@ -71,16 +72,32 @@ export default defineConfig({
         )
         const mid = Math.floor(otherItems.length / 2)
 
-        // Custom Article list with pinned-first default ordering
+        // Articles section (same pattern as Specialists): singleton + list
         const articleItem = S.listItem()
-          .title('Artikler / Aktuelt')
-          .schemaType('article')
+          .title('Articles')
           .child(
-            S.documentTypeList('article')
-              .title('Artikler / Aktuelt')
-              .defaultOrdering([
-                { field: 'pinned', direction: 'desc' },
-                { field: 'publishedAt', direction: 'desc' },
+            S.list()
+              .title('Articles')
+              .items([
+                S.listItem()
+                  .title('About Articles')
+                  .schemaType('newsPage')
+                  .child(
+                    S.document()
+                      .schemaType('newsPage')
+                      .documentId('newsPage')
+                  ),
+                S.listItem()
+                  .title('Our Articles')
+                  .schemaType('article')
+                  .child(
+                    S.documentTypeList('article')
+                      .title('Our Articles')
+                      .defaultOrdering([
+                        { field: 'pinned', direction: 'desc' },
+                        { field: 'publishedAt', direction: 'desc' },
+                      ])
+                  ),
               ])
           )
 
@@ -216,7 +233,7 @@ export default defineConfig({
       const i18nTypes = new Set([
         'article', 'aboutPage', 'treatment', 'treatmentCategory',
         'homepage', 'contactPage', 'clinicPage', 'servicesPage',
-        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage',
+        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage', 'newsPage',
         'specialist',
         'siteSettings',
       ])

@@ -18,6 +18,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvider";
 import type { TreatmentData } from "@/lib/sanity/treatment-data";
+import { behandlingerCategorySegment, categoryLandingPath } from "@/lib/sanity/category-keys";
 
 interface TreatmentPageProps {
   categoryId: string;
@@ -111,6 +112,11 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
   const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
   const { data: siteSettings } = useSiteSettings();
 
+  const locale = params.locale === "en" ? "en" : "nb";
+  const sanityLang = locale === "en" ? "en" : "no";
+  const behandlingerSegment = behandlingerCategorySegment(categoryId, sanityLang);
+  const categoryPath = categoryLandingPath(categoryId, sanityLang);
+
   const categoryNumericId = useMemo(
     () =>
       resolveCategoryNumericId(categoryId, sanityCategory?.categoryNumericId ?? treatment?.categoryNumericId),
@@ -188,7 +194,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
           <div className="text-center">
             <h1 className="text-3xl font-normal text-foreground mb-4">{t("treatmentPage.notFoundTitle")}</h1>
             <p className="text-muted-foreground font-light mb-8">{t("treatmentPage.notFoundBody")}</p>
-            <Button onClick={() => navigate(`/${categoryId}`)} className="rounded-md">
+            <Button onClick={() => navigate(categoryPath)} className="rounded-md">
               {t("treatmentPage.backTo")} {categoryId}
             </Button>
           </div>
@@ -207,11 +213,11 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       <PageSEO
         title={`${treatment.title} – ${parentCategory}`}
         description={(treatment.description || "").split("\n")[0].slice(0, 155)}
-        canonical={`/behandlinger/${categoryId}/${subId}`}
+        canonical={`/behandlinger/${behandlingerSegment}/${subId}`}
         breadcrumbs={[
           ...(breadcrumbHome ? [{ name: breadcrumbHome, path: "/" }] : []),
-          { name: parentCategory, path: `/${categoryId}` },
-          { name: treatment.title, path: `/behandlinger/${categoryId}/${subId}` },
+          { name: parentCategory, path: categoryPath },
+          { name: treatment.title, path: `/behandlinger/${behandlingerSegment}/${subId}` },
         ]}
         jsonLd={{
           "@context": "https://schema.org",
@@ -248,7 +254,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
               ) : null}
               <button
                 type="button"
-                onClick={() => navigate(`/${categoryId}`)}
+                onClick={() => navigate(categoryPath)}
                 className="hover:text-white/70 transition-colors"
               >
                 {parentCategory}

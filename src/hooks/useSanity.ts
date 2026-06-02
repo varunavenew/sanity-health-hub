@@ -24,6 +24,7 @@ import {
   ABOUT_PAGE_QUERY,
   PRIVACY_POLICY_PAGE_QUERY,
   CONTACT_PAGE_QUERY,
+  NEWS_PAGE_QUERY,
   PRICING_PAGE_QUERY,
   INSURANCE_PAGE_QUERY,
   CLINICS_QUERY,
@@ -47,7 +48,11 @@ import {
   SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
+import {
+  behandlingerCategorySegment,
+  categoryLandingPath,
+  resolveSpecialistPrimaryCategory,
+} from "@/lib/sanity/category-keys";
 import {
   fetchServicesPageData,
 } from "@/lib/sanity/services-page-data";
@@ -159,6 +164,27 @@ function normalizeBookingCategoryIds(value: unknown): number[] {
   );
 }
 
+type I18nValueItem = { language?: string; _key?: string; value?: string };
+
+function readLocalizedString(value: unknown, lang: "no" | "en"): string {
+  if (typeof value === "string") return value;
+  if (!Array.isArray(value)) return "";
+  const entries = value as I18nValueItem[];
+  const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
+  if (typeof matchLang === "string" && matchLang.trim()) return matchLang;
+  const matchNo = entries.find((v) => (v.language || v._key) === "no")?.value;
+  if (typeof matchNo === "string" && matchNo.trim()) return matchNo;
+  const first = entries[0]?.value;
+  return typeof first === "string" ? first : "";
+}
+
+function readLocalizedStringArray(value: unknown, lang: "no" | "en"): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => readLocalizedString(entry, lang))
+    .filter((entry): entry is string => Boolean(entry && entry.trim()));
+}
+
 export const useSpecialists = () => {
   const lang = useSanityLang();
   return useQuery({
@@ -167,9 +193,9 @@ export const useSpecialists = () => {
       const data = await fetchSanity<any[]>(SPECIALISTS_QUERY, undefined, lang);
       return (data || []).map((s) => ({
         ...s,
-        title: s.role || "",
-        subtitle: s.subtitle || "",
-        expertise: s.specialties || [],
+        title: readLocalizedString(s.role, lang),
+        subtitle: readLocalizedString(s.subtitle, lang),
+        expertise: readLocalizedStringArray(s.specialties, lang),
         bio: s.shortBio || "",
         category: resolveSpecialistPrimaryCategory(s.categories),
         clinics: s.clinics || [],
@@ -190,9 +216,9 @@ export const useSpecialist = (slug: string) => {
       if (!data) return null;
       return {
         ...data,
-        title: data.role || "",
-        subtitle: data.subtitle || "",
-        expertise: data.specialties || [],
+        title: readLocalizedString(data.role, lang),
+        subtitle: readLocalizedString(data.subtitle, lang),
+        expertise: readLocalizedStringArray(data.specialties, lang),
         bio: data.shortBio || "",
         category: resolveSpecialistPrimaryCategory(data.categories),
         clinics: data.clinics || [],
@@ -430,6 +456,15 @@ export const useContactPage = () => {
   });
 };
 
+export const useNewsPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "newsPage", lang],
+    queryFn: () => fetchSanity<any>(NEWS_PAGE_QUERY, undefined, lang),
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
 // ─── Pricing Page ────────────────────────────────────────────────────
 export const usePricingPage = () => {
   const lang = useSanityLang();
@@ -448,10 +483,14 @@ export const useInsurancePage = () => {
     queryFn: async () => {
       const data = await fetchSanity<any>(INSURANCE_PAGE_QUERY, undefined, lang);
       if (!data) return null;
+      const localizedPartners = (data.partnersLocalized || [])
+        .map((p: any) => p?.name)
+        .filter(Boolean);
+      const partnerNames = localizedPartners.length > 0 ? localizedPartners : data.partners || [];
       return {
         ...data,
         subtitle: data.introText || "",
-        companies: (data.partners || []).map((p: string) => ({ name: p })),
+        companies: partnerNames.map((p: string) => ({ name: p })),
         steps: (data.steps || []).map((s: any, i: number) => ({
           num: String(i + 1),
           title: s.title,
@@ -708,20 +747,25 @@ export const useServiceCategoriesFromSanity = () => {
       return sortBySlug(unique, (cat) => cat.slug || cat.title, lang).map((cat) => ({
         id: cat.categoryId || cat.slug,
         label: textForSort(cat.title, lang) || cat.categoryId || cat.slug,
-        path: `/${cat.categoryId || cat.slug}`,
-        subcategories: sortBySlug(cat.treatments || [], (t: any) => t.slug || t.title, lang).map(
-          (t: any) => ({
-            label: textForSort(t.title, lang) || t.slug,
-            path: `/behandlinger/${cat.categoryId || cat.slug}/${t.slug}`,
-            items: sortByLabel(t.subItems || [], (item: any) => item.label).map(
-              (item: any) => ({
-                label: item.label,
-                anchor: item.anchor || undefined,
-                path: item.path || undefined,
-              }),
-            ),
-          }),
-        ),
+        path: categoryLandingPath(cat.categoryId || cat.slug, lang),
+        subcategories: sortBySlug(
+          cat.treatments || [],
+          (t: any) => t.slug || t.title,
+          lang,
+        ).map((t: any) => ({
+          label: textForSort(t.title, lang) || t.slug,
+          path: `/behandlinger/${behandlingerCategorySegment(
+            cat.categoryId || cat.slug,
+            lang,
+          )}/${t.slug}`,
+          items: sortByLabel(t.subItems || [], (item: any) => item.label).map(
+            (item: any) => ({
+              label: item.label,
+              anchor: item.anchor || undefined,
+              path: item.path || undefined,
+            }),
+          ),
+        })),
       }));
     },
     staleTime: 5 * 60 * 1000,

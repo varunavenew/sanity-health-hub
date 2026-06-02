@@ -3,6 +3,7 @@ import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import { sortBySlug } from "@/lib/sortAlphabetical";
 import { sanityClient } from "@/lib/sanityClient";
+import { behandlingerCategorySegment } from "@/lib/sanity/category-keys";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -306,7 +307,9 @@ export function mapTreatmentCategoryDocument(
         title: asPlainString(t.title),
         desc: asPlainString(t.description) || asPlainString(t.subtitle),
         slug,
-        href: slug ? `/behandlinger/${categoryId}/${slug}` : "",
+        href: slug
+          ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
+          : "",
       };
     }),
     (t) => t.slug || t.title,

@@ -5,6 +5,7 @@ import {
   fetchAboutPageDocument,
   fetchContactPageDocument,
   fetchHomepageDocument,
+  fetchNewsPageDocument,
   fetchPrivacyPolicyPageDocument,
 } from "@/lib/seo/fetch-sanity-seo";
 import { resolveMetaStrings } from "@/lib/seo/seo-fields";
@@ -44,6 +45,19 @@ const ABOUT_FALLBACK = {
     title: "About us – Clinical expertise and personal care",
     description:
       "CMedical is Scandinavia's leading clinic for gynecology, fertility and urology. Women's health is our strategic focus area. Since 2002, over 150,000 patients have been treated with us.",
+  },
+} as const;
+
+const NEWS_FALLBACK = {
+  nb: {
+    title: "Aktuelt | CMedical",
+    description:
+      "Hold deg oppdatert med nyheter og medisinske fagartikler fra CMedical.",
+  },
+  en: {
+    title: "News | CMedical",
+    description:
+      "Stay updated with news and medical insights from CMedical.",
   },
 } as const;
 
@@ -126,6 +140,27 @@ export async function buildAboutMetadata(locale: string): Promise<Metadata> {
   return buildPageMetadata({
     locale,
     paths: { nbPath: "/nb/om-oss", enPath: "/en/about" },
+    title,
+    description,
+    ogImage: (() => {
+      const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
+      return u || undefined;
+    })(),
+    noIndex: !!seo?.noIndex,
+    type: "website",
+  });
+}
+
+export async function buildNewsMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchNewsPageDocument(sanityLang);
+  const seo = data?.seo;
+  const { title, description } = resolveMetaStrings(seo, lang, NEWS_FALLBACK);
+
+  return buildPageMetadata({
+    locale,
+    paths: { nbPath: "/nb/aktuelt", enPath: "/en/news" },
     title,
     description,
     ogImage: (() => {

@@ -72,7 +72,7 @@ function sameCategoryRefs(
 async function run() {
   console.log("🔍 Loading treatmentCategory documents…");
   const categories = await sanityClient.fetch<CategoryDoc[]>(
-    `*[_type == "treatmentCategory"]{ _id, categoryId, title, categoryNumericId }`,
+    `*[_type == "treatmentCategory" && !(_id in path("drafts.**"))]{ _id, categoryId, title, categoryNumericId }`,
   );
 
   const categoryIdToDocId = new Map<string, string>();

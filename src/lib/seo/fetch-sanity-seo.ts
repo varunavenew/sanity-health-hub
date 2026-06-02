@@ -4,6 +4,7 @@ import {
   CONTACT_PAGE_QUERY,
   PRIVACY_POLICY_PAGE_QUERY,
   HOMEPAGE_QUERY,
+  NEWS_PAGE_QUERY,
   THEME_PAGE_QUERY,
   TREATMENT_BY_SLUG_QUERY,
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
@@ -50,6 +51,18 @@ export async function fetchAboutPageDocument(
     params: { lang },
     key: ["sanity", "aboutPage", lang, ABOUT_PAGE_QUERY],
     tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.aboutPage, SANITY_CACHE_TAGS.type("aboutPage")],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+}
+
+export async function fetchNewsPageDocument(
+  lang: "no" | "en",
+): Promise<DocWithSeo | null> {
+  return sanityFetchCached<DocWithSeo | null>({
+    query: NEWS_PAGE_QUERY,
+    params: { lang },
+    key: ["sanity", "newsPage", lang, NEWS_PAGE_QUERY],
+    tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.newsPage, SANITY_CACHE_TAGS.type("newsPage")],
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });
 }
