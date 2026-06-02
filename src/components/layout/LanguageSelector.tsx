@@ -8,7 +8,7 @@ import { appLocaleToI18n, syncI18nLanguage } from "@/lib/i18n/sync-language";
 import { invalidateSanityLocaleQueries } from "@/lib/sanity/invalidate-locale-queries";
 
 const languages = [
-  { code: "nb", label: "Norsk", short: "NO", flag: "🇳🇴" },
+  { code: "no", label: "Norsk", short: "NO", flag: "🇳🇴" },
   { code: "en", label: "English", short: "EN", flag: "🇬🇧" },
 ];
 
@@ -20,12 +20,12 @@ export const LanguageSelector = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const routeLocale = pathname.split("/").filter(Boolean)[0] === "en" ? "en" : "nb";
+  const routeLocale = pathname.split("/").filter(Boolean)[0] === "en" ? "en" : "no";
   const currentLang = routeLocale;
   const current = languages.find((l) => l.code === currentLang) || languages[0];
 
   const handleSelect = (code: string) => {
-    const target: AppLocale = code.startsWith("en") ? "en" : "nb";
+    const target: AppLocale = code.startsWith("en") ? "en" : "no";
     const i18nCode = appLocaleToI18n(target);
     syncI18nLanguage(i18nCode);
     try {

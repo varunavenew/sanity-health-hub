@@ -11,7 +11,7 @@ export type NavRouteId =
   | "bookAppointment";
 
 /** Norwegian + English internal paths (without locale prefix). */
-export type NavLocale = "nb" | "en";
+export type NavLocale = "no" | "en";
 
 export const NAV_ROUTE_PATHS: Record<NavRouteId, { nb: string; en: string }> = {
   services: { nb: "/tjenester", en: "/services" },

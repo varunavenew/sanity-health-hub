@@ -1,14 +1,14 @@
 import { localizeInternalPath } from "@/lib/i18n/nav-paths";
 
-export const locales = ["nb", "en"] as const;
+export const locales = ["no", "en"] as const;
 export type AppLocale = (typeof locales)[number];
-export const defaultLocale: AppLocale = "nb";
+export const defaultLocale: AppLocale = "no";
 
 export function isAppLocale(value: string): value is AppLocale {
   return (locales as readonly string[]).includes(value);
 }
 
-/** `/nb/foo` -> `/foo`; `/nb` -> `/` */
+/** `/no/foo` -> `/foo`; `/no` -> `/` */
 export function stripLocaleFromPathname(pathname: string): string {
   const parts = pathname.split("/").filter(Boolean);
   if (parts.length === 0) return "/";

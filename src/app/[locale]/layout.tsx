@@ -12,6 +12,6 @@ export async function generateStaticParams() {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale: localeParam } = await params;
-  const locale: AppLocale = isAppLocale(localeParam) ? localeParam : "nb";
+  const locale: AppLocale = isAppLocale(localeParam) ? localeParam : "no";
   return <NextProviders locale={locale}>{children}</NextProviders>;
 }
