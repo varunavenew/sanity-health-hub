@@ -19,7 +19,6 @@ interface AnimatedStatsSectionProps {
 export function AnimatedStatsSection({
  title = "Tall som forteller en historie.",
  description,
- categoryLabel,
  stats,
  footnote = "Tall oppdatert per Q1 2026. Resultater varierer individuelt.",
  background = "brand-light",
