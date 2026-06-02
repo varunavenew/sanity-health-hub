@@ -99,9 +99,6 @@ export const SpecialistFeaturedService = ({ specialist }: Props) => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-xs font-light text-foreground/55 mb-4">
-              Tjenesten i denne saken
-            </p>
             <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
               {cfg.label}
             </h2>

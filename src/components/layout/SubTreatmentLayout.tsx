@@ -131,9 +131,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
  <div>
- <p className="text-xs text-foreground/60 mb-6 uppercase">
- {c.eyebrow}
- </p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  {c.heroTitle}
  </h2>
@@ -225,9 +222,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="grid lg:grid-cols-2 items-stretch">
  <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
   <div className="max-w-lg">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- {c.flowEyebrow}
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
  {c.flowTitle}
  </h2>
@@ -276,9 +270,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- {c.flowEyebrow}
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  {c.flowTitle}
  </h2>
@@ -320,9 +311,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
  <div className="lg:col-span-5">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- {c.reasonsEyebrow}
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
  {c.reasonsTitle}
  </h2>
@@ -376,9 +364,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-6">
- {c.expertAreas.eyebrow && (
- <p className="text-xs text-foreground/60 mb-4 uppercase">{c.expertAreas.eyebrow}</p>
- )}
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  {c.expertAreas.title}
  </h2>
@@ -408,9 +393,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  />
  </div>
  <div className="p-7 flex flex-col flex-1">
- {a.eyebrow && (
- <p className="text-xs text-foreground/80 mb-3 uppercase">{a.eyebrow}</p>
- )}
  <h3 className="text-xl font-light text-foreground mb-3">
  {a.title}
  </h3>
@@ -444,9 +426,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <p.Icon className="w-10 h-10" aria-hidden="true" />
  </div>
  )}
- <p className="text-xs text-foreground/80 mb-4 uppercase">
- {p.eyebrow}
- </p>
  <h3 className="text-lg font-normal text-foreground mb-3">
  {p.title}
  </h3>
@@ -474,9 +453,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="grid lg:grid-cols-12">
  <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
  <div className="max-w-xl">
- <p className="text-xs text-foreground/60 mb-5">
- {c.textSection.eyebrow}
- </p>
  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
  {c.textSection.title}
  </h2>
@@ -524,7 +500,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
  <div className="max-w-3xl">
- <p className="text-xs mb-3 uppercase text-brand-dark">Klar når du er</p>
  <h2 className="text-2xl md:text-3xl font-light leading-tight">
  Få {c.title.toLowerCase()} hos en spesialist denne{"\u00A0"}uken.
  </h2>
@@ -551,9 +526,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-12">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- {c.relatedEyebrow ?? "Relaterte områder"}
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
  {c.relatedTitle ?? "Du er kanskje også interessert i"}
  </h2>
@@ -566,9 +538,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  to={a.href}
  className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
  >
- <p className="text-xs text-foreground/80 mb-4 uppercase">
- {a.eyebrow}
- </p>
  <h3 className="text-lg font-normal text-foreground mb-3">
  {a.title}
  </h3>

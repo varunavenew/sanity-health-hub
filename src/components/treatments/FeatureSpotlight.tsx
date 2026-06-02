@@ -23,7 +23,6 @@ interface FeatureSpotlightProps {
  * reviews and specialists scroller.
  */
 export const FeatureSpotlight = ({
-  eyebrow,
   title,
   text,
   ctaLabel,
@@ -57,9 +56,6 @@ export const FeatureSpotlight = ({
 
   const copy = (
     <div className="flex flex-col justify-center">
-      {eyebrow && (
-        <p className="text-xs text-foreground/60 mb-4">{eyebrow}</p>
-      )}
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-foreground mb-6">
         {title}
       </h2>

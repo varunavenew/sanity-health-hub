@@ -56,7 +56,6 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
       <div className="container mx-auto px-6 md:px-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <p className="text-sm text-brand-dark/75 font-light mb-2">Pasienterfaringer</p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
               Hva pasientene sier om {categoryTitle.toLowerCase()}
             </h2>

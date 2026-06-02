@@ -16,7 +16,6 @@ interface ProcessStepsSectionProps {
  * "Slik bruker du forsikringen" på /forsikring).
  */
 export const ProcessStepsSection = ({
-  eyebrow,
   title,
   steps,
   background = "bg-muted/30",
@@ -25,11 +24,6 @@ export const ProcessStepsSection = ({
     <section className={`py-16 md:py-24 ${background}`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-4xl mx-auto">
-          {eyebrow && (
-            <p className="text-xs text-foreground/60 font-light mb-3 text-center">
-              {eyebrow}
-            </p>
-          )}
           <h2 className="text-2xl md:text-3xl font-light text-foreground mb-12 text-center">
             {title}
           </h2>

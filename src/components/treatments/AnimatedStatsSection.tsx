@@ -17,10 +17,8 @@ interface AnimatedStatsSectionProps {
 }
 
 export function AnimatedStatsSection({
- eyebrow = "Resultater",
  title = "Tall som forteller en historie.",
  description,
- categoryLabel,
  stats,
  footnote = "Tall oppdatert per Q1 2026. Resultater varierer individuelt.",
  background = "brand-light",
@@ -32,9 +30,6 @@ export function AnimatedStatsSection({
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
  <div className="lg:col-span-5">
- <p className="text-xs text-foreground/60 mb-4 uppercase">
- {eyebrow}
- </p>
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  {title}
  </h2>
@@ -49,9 +44,6 @@ export function AnimatedStatsSection({
  </div>
 
  <div className="border-t border-brand-dark/15 py-8 md:py-10">
- <p className="text-xs text-brand-dark mb-6 uppercase">
- {categoryLabel}
- </p>
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {stats.map((row, i) => (
  <div

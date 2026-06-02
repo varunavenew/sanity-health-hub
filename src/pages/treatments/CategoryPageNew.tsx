@@ -126,9 +126,6 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <section id="services" className="bg-brand-warm py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-6xl">
  <div className="mb-10 md:mb-14 max-w-2xl">
- <p className="text-xs uppercase text-muted-foreground font-light mb-4">
- {content.servicesHeading}
- </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-5">
  Hva vi behandler
  </h2>
@@ -176,9 +173,6 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <section className="bg-background py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-6xl">
  <div className="mb-10 md:mb-14 max-w-2xl">
- <p className="text-xs uppercase text-muted-foreground font-light mb-4">
- Slik går det fram
- </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
  Pasientreisen, fortalt enkelt
  </h2>
@@ -214,9 +208,6 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <section className="bg-brand-warm pt-8 md:pt-10 pb-0">
  <div className="container mx-auto px-6 md:px-16 max-w-6xl">
  <div className="mb-10 md:mb-14 max-w-2xl">
- <p className="text-xs uppercase text-muted-foreground font-light mb-4">
- Møt teamet
- </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight">
  Spesialistene som følger deg
  </h2>
@@ -256,9 +247,6 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  {/* ── 7. FAQ ── */}
  <section className="bg-background py-16 md:py-24">
  <div className="container mx-auto px-6 md:px-16 max-w-3xl">
- <p className="text-xs uppercase text-muted-foreground font-light mb-4 text-center">
- Vanlige spørsmål
- </p>
  <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10 text-center">
  Det folk spør om
  </h2>

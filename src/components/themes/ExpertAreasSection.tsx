@@ -22,7 +22,6 @@ interface ExpertAreasSectionProps {
  * Samme mønster som "Eksperter som jobber med det de kan aller best" på gynekologisiden.
  */
 export const ExpertAreasSection = ({
-  eyebrow,
   title,
   description,
   items,
@@ -33,11 +32,6 @@ export const ExpertAreasSection = ({
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
             <div className="lg:col-span-6">
-              {eyebrow && (
-                <p className="text-xs text-foreground/60 font-light mb-4">
-                  {eyebrow}
-                </p>
-              )}
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                 {title}
               </h2>
@@ -67,11 +61,6 @@ export const ExpertAreasSection = ({
                   />
                 </div>
                 <div className="p-7 flex flex-col flex-1">
-                  {a.eyebrow && (
-                    <p className="text-[10px] uppercase text-foreground/60 font-light mb-3 pb-3 border-b border-border/40">
-                      {a.eyebrow}
-                    </p>
-                  )}
                   <h3 className="text-xl font-light text-foreground mb-3">
                     {a.title}
                   </h3>
