@@ -31,6 +31,11 @@ export type ServicesPageListItem = {
   path: string;
 };
 
+export type ServicesPageFaq = {
+  question: string;
+  answer: string;
+};
+
 export type ServicesPageData = {
   breadcrumbHome: string;
   title: string;
@@ -47,6 +52,7 @@ export type ServicesPageData = {
   };
   moreServicesItems: ServicesPageListItem[];
   faqSectionTitle: string;
+  faqs: ServicesPageFaq[];
   faqCategory: string;
   pageSections?: ReturnType<typeof normalizePageSections>;
   seo?: {
@@ -148,6 +154,17 @@ export function mapServicesPageDocument(
 
   const seoRaw = data.seo as Record<string, unknown> | undefined;
 
+  const faqsRaw = (data.faqs as unknown[]) || [];
+  const faqs: ServicesPageFaq[] = faqsRaw
+    .map((row) => {
+      const f = row as Record<string, unknown>;
+      const question = asPlainString(f.question);
+      const answer = asPlainString(f.answer);
+      if (!question || !answer) return null;
+      return { question, answer };
+    })
+    .filter((f): f is ServicesPageFaq => f !== null);
+
   return {
     breadcrumbHome: asPlainString(data.breadcrumbHome),
     title: asPlainString(data.title),
@@ -164,7 +181,8 @@ export function mapServicesPageDocument(
     },
     moreServicesItems,
     faqSectionTitle: asPlainString(data.faqSectionTitle),
-    faqCategory: asPlainString(data.faqCategory) || "generelt",
+    faqs,
+    faqCategory: asPlainString(data.faqCategory) || "tjenester",
     pageSections: normalizePageSections(data.pageSections),
     seo: seoRaw
       ? {

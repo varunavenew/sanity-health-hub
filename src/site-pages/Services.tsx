@@ -14,7 +14,6 @@ import { useSanityContentLang } from "@/lib/sanity/content-lang";
 import {
   buildMoreServicesFromCategories,
   buildMoreServicesFromStaticCategories,
-  getServicesPageFaqs,
 } from "@/lib/sanity/services-page-fallbacks";
 
 interface PageProps {
@@ -38,23 +37,34 @@ const Services = ({ isChatOpen }: PageProps) => {
   const { data: page, isPending } = useServicesPage();
   const { data: treatmentCategories } = useTreatmentCategories();
   const faqCategory = page?.faqCategory || "tjenester";
-  const { data: sanityFaqs } = useFaqs(faqCategory);
-  const { data: genereltFaqs } = useFaqs(
-    sanityFaqs?.length ? undefined : "generelt",
+  const { data: sanityFaqs, isPending: faqsPending } = useFaqs(
+    page?.faqs?.length ? undefined : faqCategory,
   );
 
   const faqs = useMemo(() => {
-    const raw = sanityFaqs?.length
-      ? sanityFaqs
-      : genereltFaqs?.length
-        ? genereltFaqs
-        : getServicesPageFaqs(contentLang);
-    return raw.map((f, i) => ({
-      id: `faq-${i}`,
-      question: f.question,
-      answer: f.answer,
-    }));
-  }, [sanityFaqs, genereltFaqs, contentLang]);
+    const inline = (page?.faqs || [])
+      .filter((f) => f.question?.trim() && f.answer?.trim())
+      .map((f, i) => ({
+        id: `faq-inline-${i}`,
+        question: f.question,
+        answer: f.answer,
+      }));
+    if (inline.length > 0) return inline;
+
+    return (sanityFaqs || [])
+      .filter(
+        (f) =>
+          typeof f.question === "string" &&
+          f.question.trim() &&
+          typeof f.answer === "string" &&
+          f.answer.trim(),
+      )
+      .map((f, i) => ({
+        id: `faq-${i}`,
+        question: f.question,
+        answer: f.answer,
+      }));
+  }, [page?.faqs, sanityFaqs]);
 
   const moreServicesItems = useMemo(() => {
     if (page?.moreServicesItems?.length) return page.moreServicesItems;
@@ -301,7 +311,15 @@ const Services = ({ isChatOpen }: PageProps) => {
         />
       ) : null}
 
-      {faqs.length > 0 && <FaqSection faqs={faqs} title={faqTitle} />}
+      {faqs.length > 0 ? (
+        <FaqSection faqs={faqs} title={faqTitle} />
+      ) : faqsPending ? (
+        <section className="py-16 md:py-24 bg-background">
+          <div className="container mx-auto px-4 text-center text-muted-foreground font-light">
+            …
+          </div>
+        </section>
+      ) : null}
 
       <PageSectionsRenderer sections={page.pageSections} />
 

@@ -1,5 +1,6 @@
 // Schema: Services Page (Tjenester)
 import { TreatmentIcon } from "./icons";
+import { i18nFaqItemPreview } from "./i18n";
 import { pageSectionsField } from "./pageSections";
 
 const i18nString = {
@@ -15,15 +16,21 @@ export default {
   title: "Tjenester",
   type: "document",
   icon: TreatmentIcon,
+  groups: [
+    { name: "content", title: "Innhold", default: true },
+    { name: "faq", title: "FAQ" },
+  ],
   fields: [
     {
       name: "breadcrumbHome",
       title: "Brødsmule — hjem",
+      group: "content",
       ...i18nString,
     },
     {
       name: "title",
       title: "Sidetittel (H1)",
+      group: "content",
       ...i18nString,
       validation: (Rule: any) => Rule.required(),
     },
@@ -150,14 +157,71 @@ export default {
     {
       name: "faqSectionTitle",
       title: "FAQ — seksjonstittel",
+      group: "faq",
       ...i18nString,
+      initialValue: [
+        {
+          _type: "internationalizedArrayStringValue",
+          _key: "no",
+          language: "no",
+          value: "Ofte stilte spørsmål",
+        },
+        {
+          _type: "internationalizedArrayStringValue",
+          _key: "en",
+          language: "en",
+          value: "Frequently asked questions",
+        },
+      ],
+    },
+    {
+      name: "faqs",
+      title: "FAQ — spørsmål og svar",
+      description:
+        "Legg til, rediger og sorter FAQ-rader her. Vises på tjenester-siden.",
+      type: "array",
+      group: "faq",
+      of: [
+        {
+          type: "object",
+          name: "servicesFaq",
+          title: "FAQ",
+          fields: [
+            {
+              name: "question",
+              title: "Spørsmål",
+              type: "internationalizedArrayString",
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: "answer",
+              title: "Svar",
+              type: "internationalizedArrayText",
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: i18nFaqItemPreview,
+        },
+      ],
     },
     {
       name: "faqCategory",
-      title: "FAQ — Sanity-kategori",
-      description: "Matcher `category`-feltet på FAQ-dokumenter (standard: generelt)",
+      title: "FAQ — Sanity-kategori (fallback)",
+      description:
+        "Brukes bare hvis listen over er tom. Henter FAQ-dokumenter med samme kategori.",
       type: "string",
-      initialValue: "generelt",
+      group: "faq",
+      hidden: ({ document }: { document?: { faqs?: unknown[] } }) =>
+        Array.isArray(document?.faqs) && document.faqs.length > 0,
+      initialValue: "tjenester",
+      options: {
+        list: [
+          { title: "Tjenester (services page)", value: "tjenester" },
+          { title: "Generelt (homepage)", value: "generelt" },
+          { title: "Priser", value: "priser" },
+          { title: "Urologi", value: "urologi" },
+        ],
+      },
     },
     /** @deprecated Use featuredCategories + moreServicesCategories */
     {

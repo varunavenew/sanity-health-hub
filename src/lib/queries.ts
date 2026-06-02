@@ -379,6 +379,10 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   ${i18nString("featuredSectionTitle")},
   ${i18nString("faqSectionTitle")},
   faqCategory,
+  faqs[]{
+    ${i18nString("question")},
+    ${i18nText("answer")}
+  },
   badges[]{
     ${i18nString("label")}
   },

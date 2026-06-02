@@ -9,6 +9,8 @@
  */
 import { sanityClient } from "./config";
 import { i18nString, i18nText } from "./lib/category-landing-i18n";
+import { patchSingletonFields } from "./lib/patch-singleton";
+import { servicesPageFaqs } from "./data/services-page-faqs";
 
 const doc = {
   breadcrumbHome: i18nString("Hjem", "Home"),
@@ -59,7 +61,8 @@ const doc = {
     },
   ],
   faqSectionTitle: i18nString("Ofte stilte spørsmål", "Frequently asked questions"),
-  faqCategory: "generelt",
+  faqs: servicesPageFaqs,
+  faqCategory: "tjenester",
   seo: {
     _type: "seo",
     metaTitle: i18nString(
@@ -74,9 +77,9 @@ const doc = {
 };
 
 async function main() {
-  console.log("▶ Patching servicesPage…");
-  await sanityClient.patch("servicesPage").set(doc).commit();
-  console.log("✓ servicesPage updated (NO + EN).");
+  console.log("▶ Patching servicesPage (published + draft)…");
+  const patched = await patchSingletonFields("servicesPage", doc);
+  console.log(`✓ servicesPage updated — patched: ${patched.join(", ")}`);
 }
 
 main().catch((e) => {

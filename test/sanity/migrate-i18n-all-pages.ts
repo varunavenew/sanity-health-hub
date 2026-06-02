@@ -277,6 +277,10 @@ const SCHEMAS: Array<{
         title: 'internationalizedArrayStringValue',
         description: 'internationalizedArrayTextValue',
       },
+      faqs: {
+        question: 'internationalizedArrayStringValue',
+        answer: 'internationalizedArrayTextValue',
+      },
     },
   },
   {
