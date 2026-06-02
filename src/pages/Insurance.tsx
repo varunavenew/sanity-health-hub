@@ -55,7 +55,6 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         ]}
       />
       <SplitHero
-        eyebrow="Bruk forsikringen din hos CMedical"
         title={title}
         description={subtitle}
         image={heroImage}

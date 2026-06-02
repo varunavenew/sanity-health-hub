@@ -37,7 +37,6 @@ const Index = ({ isChatOpen }: IndexProps) => {
       <LifePhasesSection />
       <SpecialistsSection />
       <ResultsStatsSection
-        eyebrow="Resultater"
         title="Tall som forteller en historie."
         description="Du fortjener åpenhet. Her er noen av tallene som beskriver hverdagen vår — på tvers av spesialiteter, klinikker og pasientmøter."
         category="CMedical totalt"

@@ -542,7 +542,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
         ]}
       />
       <SplitHero
-        eyebrow="Transparent og forutsigbar prising"
         title={pageTitle}
         description={pageSubtitle}
         image={heroImage}
