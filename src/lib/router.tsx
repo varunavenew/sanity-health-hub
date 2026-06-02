@@ -23,7 +23,7 @@ import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 export function useLocaleParam(): AppLocale {
   const params = useParams<{ locale?: string }>();
   const raw = params?.locale;
-  return raw === "en" ? "en" : "nb";
+  return raw === "en" ? "en" : "no";
 }
 
 export function useNavigate() {
@@ -55,7 +55,7 @@ export function useLocation(): {
   const searchParams = useNextSearchParams();
   const pathname = useMemo(() => {
     const parts = pathnameFull.split("/").filter(Boolean);
-    if (parts[0] === "nb" || parts[0] === "en") {
+    if (parts[0] === "no" || parts[0] === "en") {
       const rest = parts.slice(1);
       if (rest.length === 0) return "/";
       return `/${rest.join("/")}`;
