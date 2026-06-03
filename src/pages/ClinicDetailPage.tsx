@@ -274,9 +274,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <section className="bg-brand-warm/40 py-10 md:py-14">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
- <div className="flex items-center gap-2 mb-2">
- <Stethoscope className="w-4 h-4 text-brand-dark/75" strokeWidth={1.5} aria-hidden="true" />
- </div>
  <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
  <p className="text-sm text-muted-foreground font-light mb-6">
  CMedical {clinic.label} tilbyr {clinic.services.length} ulike fagområder. Klikk for å lese mer.
