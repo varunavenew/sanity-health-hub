@@ -326,41 +326,47 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
            Fagforfatter + fremhevet tjeneste — venstre/høyrestilt bilde, raka hjørner.
            Erstatter "Fagforfatter"-kortet og "Overgangsalder-konsultasjon"-kortet
            som tidligere lå hver for seg. ───────────── */}
-      <section className="bg-brand-light py-16 md:py-24 border-y border-border/60">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-            <div className="aspect-[4/3] overflow-hidden bg-secondary">
-              <img src={idaProfile} alt="Ida Bjørntvedt" loading="lazy" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
-                Ida Bjørntvedt
-              </h2>
-              <p className="text-sm font-light text-foreground/70 mb-5">
-                Spesialist i gynekologi · CMedical Sandvika
-              </p>
-              <p className="text-base font-light leading-relaxed text-foreground/80 mb-6">
-                Bjørntvedt har spesialisert seg på hormonelle plager og overgangsalder, og
-                jobber med kvinner i alle livsfaser. Hun underviser jevnlig kollegaer og
-                fastleger om moderne hormonbehandling.
-              </p>
-              <ul className="space-y-2 mb-8 text-sm font-light text-foreground/80">
-                <li>· Overgangsalder-konsultasjon — fra 2 490 kr</li>
-                <li>· 45 minutter, ingen henvisning nødvendig</li>
-                <li>· Time innen 10 dager</li>
-              </ul>
-              <div className="flex flex-wrap gap-4">
-                <Link to="/spesialister/ida-bjorntvedt" className="inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground pb-0.5 hover:gap-2.5 transition-all">
-                  Les hele profilen <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/behandlinger/gynekologi/overgangsalder" className="inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground transition-colors">
-                  Se hele tjenesten
-                </Link>
-              </div>
+      <section className="bg-brand-light border-y border-border/60">
+        <div className="grid md:grid-cols-2 md:min-h-[520px] md:max-h-screen">
+          {/* Image — fills its half edge-to-edge, capped at one viewport */}
+          <div className="relative order-1 min-h-[320px] md:min-h-0 md:h-full bg-secondary overflow-hidden">
+            <img
+              src={idaProfile}
+              alt="Ida Bjørntvedt"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+          {/* Content — vertically centered in its half */}
+          <div className="order-2 flex flex-col justify-center px-6 md:px-16 lg:px-20 py-12 md:py-16">
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
+              Ida Bjørntvedt
+            </h2>
+            <p className="text-sm font-light text-foreground/70 mb-5">
+              Spesialist i gynekologi · CMedical Sandvika
+            </p>
+            <p className="text-base font-light leading-relaxed text-foreground/80 mb-6 max-w-md">
+              Bjørntvedt har spesialisert seg på hormonelle plager og overgangsalder, og
+              jobber med kvinner i alle livsfaser. Hun underviser jevnlig kollegaer og
+              fastleger om moderne hormonbehandling.
+            </p>
+            <ul className="space-y-2 mb-8 text-sm font-light text-foreground/80">
+              <li>· Overgangsalder-konsultasjon — fra 2 490 kr</li>
+              <li>· 45 minutter, ingen henvisning nødvendig</li>
+              <li>· Time innen 10 dager</li>
+            </ul>
+            <div className="flex flex-wrap gap-4">
+              <Link to="/spesialister/ida-bjorntvedt" className="inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground pb-0.5 hover:gap-2.5 transition-all">
+                Les hele profilen <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/behandlinger/gynekologi/overgangsalder" className="inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground transition-colors">
+                Se hele tjenesten
+              </Link>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* ───────────── ANDRE SPESIALISTER (scroller) ───────────── */}
       <SpecialistsScroller
