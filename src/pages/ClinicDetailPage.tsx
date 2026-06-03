@@ -332,15 +332,13 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           </div>
         )}
 
-        {/* Extra interior gallery — currently only Majorstuen has photos */}
+        {/* Extra interior gallery — simple equal row (matches homepage pattern) */}
         {clinicGalleries[clinic.slug] && clinicGalleries[clinic.slug].length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full mt-0">
-            {clinicGalleries[clinic.slug].map((img, i) => (
+            {clinicGalleries[clinic.slug].map((img) => (
               <div
                 key={img.src}
-                className={`overflow-hidden bg-brand-mid/10 ${
-                  i === 0 ? "aspect-[4/3] col-span-2 md:col-span-2 md:row-span-2 md:aspect-auto" : "aspect-[3/4]"
-                }`}
+                className="aspect-[4/3] overflow-hidden bg-brand-mid/10"
               >
                 <img
                   src={img.src}
@@ -352,6 +350,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             ))}
           </div>
         )}
+
       </section>
 
  {/* Google Maps embed */}
