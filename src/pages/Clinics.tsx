@@ -16,7 +16,7 @@ import imgMoelv from "@/assets/clinics/moelv.jpg";
 const imgMajorstuenCard = majorstuenVenteromTv.url;
 
 const clinicImages: Record<string, string> = {
-  majorstuen: imgMajorstuen,
+  majorstuen: imgMajorstuenCard,
   bekkestua: imgBekkestua,
   moss: imgMoss,
   moelv: imgMoelv,
