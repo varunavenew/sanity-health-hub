@@ -8,6 +8,7 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import NewsItemMaster from "./masters/NewsItemMaster";
 import ArticleMaster from "./masters/ArticleMaster";
+import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
