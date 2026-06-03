@@ -22,8 +22,10 @@ export interface Clinic {
   bookingSystem: BookingSystem;
   externalBookingUrl?: string;
   mapsUrl?: string;
+  coords?: { lat: number; lng: number };
   detail: ClinicDetail;
 }
+
 
 export const clinics: Clinic[] = [
   { 
