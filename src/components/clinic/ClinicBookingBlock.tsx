@@ -29,54 +29,41 @@ export const ClinicBookingBlock = ({
 }: ClinicBookingBlockProps) => {
   const method = booking?.method || "info";
 
-  // Resolve primary + secondary actions per booking method
-  let primary: { label: string; href: string; external?: boolean; icon?: "arrow" | "external" | "phone" } | null = null;
-  let secondary: { label: string; href: string; external?: boolean; icon?: "phone" | "mail" } | null = null;
-  let subheading =
-    "Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging.";
+  // Always build a "Bestill time" primary (light) + "Ring oss" outline,
+  // and fall back to email if no phone. Subheading depends on method.
+  let bookingHref: string | null = null;
+  let bookingExternal = false;
+  let bookingIcon: "arrow" | "external" = "arrow";
 
   if (method === "pasientsky") {
-    primary = {
-      label: "Bestill time",
-      href: booking?.serviceProviderId
-        ? `https://booking.pasientsky.no/?serviceProviderId=${booking.serviceProviderId}`
-        : clinicId
-        ? `/booking?klinikk=${clinicId}`
-        : "/booking",
-      external: !!booking?.serviceProviderId,
-      icon: booking?.serviceProviderId ? "external" : "arrow",
-    };
-    if (phone) {
-      secondary = { label: phone, href: `tel:+47${phone.replace(/\s/g, "")}`, icon: "phone" };
-    } else if (email) {
-      secondary = { label: "Kontakt oss", href: `mailto:${email}`, icon: "mail" };
+    if (booking?.serviceProviderId) {
+      bookingHref = `https://booking.pasientsky.no/?serviceProviderId=${booking.serviceProviderId}`;
+      bookingExternal = true;
+      bookingIcon = "external";
+    } else {
+      bookingHref = clinicId ? `/booking?klinikk=${clinicId}` : "/booking";
     }
-  } else if (method === "closed") {
+  } else if (method === "info") {
+    if (booking?.externalBookingUrl) {
+      bookingHref = booking.externalBookingUrl;
+      bookingExternal = true;
+      bookingIcon = "external";
+    } else {
+      bookingHref = clinicId ? `/booking?klinikk=${clinicId}` : "/booking";
+    }
+  }
+  // closed → no booking button
+
+  let subheading =
+    "Bestill time ved å ringe oss eller sende en e-post. Vi hjelper deg med å finne riktig spesialist og tidspunkt.";
+  if (method === "closed") {
     subheading =
       booking?.closedMessage ||
       `Bookingsystemet ved CMedical ${clinicLabel} er midlertidig utilgjengelig. Kontakt oss på telefon eller e-post.`;
-    if (phone) primary = { label: phone, href: `tel:+47${phone.replace(/\s/g, "")}`, icon: "phone" };
-    if (email) secondary = { label: "Send e-post", href: `mailto:${email}`, icon: "mail" };
-  } else {
-    // info
-    subheading =
-      "Bestill time ved å ringe oss eller sende en e-post. Vi hjelper deg med å finne riktig spesialist og tidspunkt.";
-    if (phone) primary = { label: phone, href: `tel:+47${phone.replace(/\s/g, "")}`, icon: "phone" };
-    if (email) secondary = { label: "Send e-post", href: `mailto:${email}`, icon: "mail" };
-    if (booking?.externalBookingUrl && !primary) {
-      primary = { label: "Gå til booking", href: booking.externalBookingUrl, external: true, icon: "external" };
-    }
   }
 
-  const renderIcon = (icon?: string) => {
-    if (icon === "arrow") return <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />;
-    if (icon === "external") return <ExternalLink className="ml-2 w-4 h-4" aria-hidden="true" />;
-    if (icon === "phone") return <Phone className="mr-2 w-4 h-4" aria-hidden="true" />;
-    if (icon === "mail") return <Mail className="mr-2 w-4 h-4" aria-hidden="true" />;
-    return null;
-  };
-
-  const isLeadingIcon = (icon?: string) => icon === "phone" || icon === "mail";
+  const phoneHref = phone ? `tel:+47${phone.replace(/\s/g, "")}` : null;
+  const emailHref = email ? `mailto:${email}` : null;
 
   return (
     <section className="bg-brand-dark py-20 md:py-28" aria-labelledby="booking-heading">
@@ -99,29 +86,36 @@ export const ClinicBookingBlock = ({
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-            {primary && (
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center flex-wrap">
+            {bookingHref && (
               <Button asChild variant="cta-dark" size="lg" className="px-8 h-14 text-base">
                 <a
-                  href={primary.href}
-                  target={primary.external ? "_blank" : undefined}
-                  rel={primary.external ? "noopener noreferrer" : undefined}
+                  href={bookingHref}
+                  target={bookingExternal ? "_blank" : undefined}
+                  rel={bookingExternal ? "noopener noreferrer" : undefined}
                 >
-                  {isLeadingIcon(primary.icon) && renderIcon(primary.icon)}
-                  {primary.label}
-                  {!isLeadingIcon(primary.icon) && renderIcon(primary.icon)}
+                  Bestill time
+                  {bookingIcon === "arrow" ? (
+                    <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
+                  ) : (
+                    <ExternalLink className="ml-2 w-4 h-4" aria-hidden="true" />
+                  )}
                 </a>
               </Button>
             )}
-            {secondary && (
+            {phoneHref && (
               <Button asChild variant="cta-outline-dark" size="lg" className="px-8 h-14 text-base">
-                <a
-                  href={secondary.href}
-                  target={secondary.external ? "_blank" : undefined}
-                  rel={secondary.external ? "noopener noreferrer" : undefined}
-                >
-                  {renderIcon(secondary.icon)}
-                  {secondary.label}
+                <a href={phoneHref}>
+                  <Phone className="mr-2 w-4 h-4" aria-hidden="true" />
+                  {phone}
+                </a>
+              </Button>
+            )}
+            {!phoneHref && emailHref && (
+              <Button asChild variant="cta-outline-dark" size="lg" className="px-8 h-14 text-base">
+                <a href={emailHref}>
+                  <Mail className="mr-2 w-4 h-4" aria-hidden="true" />
+                  Send e-post
                 </a>
               </Button>
             )}
@@ -131,3 +125,4 @@ export const ClinicBookingBlock = ({
     </section>
   );
 };
+
