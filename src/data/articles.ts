@@ -126,6 +126,7 @@ export const articles: Article[] = [
     category: "Oss i media",
     pinned: true,
     featured: true,
+    mediaType: "podcast",
   },
   {
     slug: "jeg-matte-grate-pa-telefonen-for-a-bli-tatt-pa-alvor",
