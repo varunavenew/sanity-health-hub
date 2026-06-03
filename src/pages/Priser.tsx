@@ -664,31 +664,48 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 >
                                   <div className="px-4 pb-4 space-y-2">
                                     <div className="pt-2 border-t border-border/50">
-                                      {sub.items.map((item, idx) => (
-                                        <button
-                                          key={idx}
-                                          onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
-                                          className="w-full flex items-center justify-between py-3 border-b border-border/30 last:border-b-0 hover:bg-white rounded-sm px-2 -mx-2 transition-colors group/item text-left"
-                                        >
-                                          <div className="flex-1">
-                                            <p className="text-foreground text-sm font-light underline underline-offset-4 decoration-foreground/20 group-hover/item:decoration-foreground/60 transition-colors">
-                                              {item.name}
-                                            </p>
-                                            {item.duration && (
-                                              <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
-                                                <Clock className="w-3 h-3" />
-                                                {item.duration}
+                                      {sub.items.map((item, idx) => {
+                                        const bookable = isBookable(item.name, item.duration);
+                                        return (
+                                          <div
+                                            key={idx}
+                                            className="w-full flex items-center justify-between gap-3 py-3 border-b border-border/30 last:border-b-0 px-2 -mx-2"
+                                          >
+                                            <div className="flex-1 min-w-0">
+                                              <p className="text-foreground text-sm font-light">
+                                                {item.name}
                                               </p>
-                                            )}
+                                              {item.duration && (
+                                                <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
+                                                  <Clock className="w-3 h-3" />
+                                                  {item.duration}
+                                                </p>
+                                              )}
+                                            </div>
+                                            <div className="flex items-center gap-3 shrink-0">
+                                              <p className="font-normal text-foreground text-sm whitespace-nowrap">
+                                                {item.price === "0,-" ? "Gratis" : item.price}
+                                              </p>
+                                              {bookable ? (
+                                                <button
+                                                  onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
+                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-accent-foreground text-xs font-normal hover:bg-accent/90 transition-colors whitespace-nowrap"
+                                                >
+                                                  Bestill time
+                                                </button>
+                                              ) : (
+                                                <button
+                                                  onClick={() => navigate(sub.path)}
+                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/20 text-foreground text-xs font-normal hover:bg-foreground hover:text-background transition-colors whitespace-nowrap"
+                                                >
+                                                  Les mer
+                                                  <ArrowRight className="w-3 h-3" />
+                                                </button>
+                                              )}
+                                            </div>
                                           </div>
-                                          <div className="flex items-center gap-3">
-                                            <p className="font-normal text-foreground text-sm">
-                                              {item.price === "0,-" ? "Gratis" : item.price}
-                                            </p>
-                                            <ArrowRight className="w-3.5 h-3.5 text-foreground/20 group-hover/item:text-foreground/80 transition-colors" />
-                                          </div>
-                                        </button>
-                                      ))}
+                                        );
+                                      })}
                                     </div>
                                   </div>
                                 </motion.div>
