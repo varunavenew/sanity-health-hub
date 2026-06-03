@@ -1,3 +1,5 @@
+export type MediaType = "article" | "video" | "podcast" | "post";
+
 export interface Article {
   slug: string;
   title: string;
@@ -8,6 +10,7 @@ export interface Article {
   featured?: boolean;
   pinned?: boolean;
   externalUrl?: string;
+  mediaType?: MediaType;
 }
 
 export const filterCategories = [
