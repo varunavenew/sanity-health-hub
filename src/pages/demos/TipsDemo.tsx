@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Play, Mic, FileText, BarChart3 } from "lucide-react";
+import { ArrowRight, Play, Mic, FileText, BarChart3, Clock } from "lucide-react";
 import gynecologyHero from "@/assets/hero/gynecology-hero.jpg";
 import fertilityHero from "@/assets/hero/fertility-hero.jpg";
 import clinicHero from "@/assets/hero/cmedical-clinic.jpg";
