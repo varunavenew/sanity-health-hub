@@ -31,6 +31,27 @@ const formatDate = (dateStr: string) => {
   return date.toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
 };
 
+const MEDIA_META: Record<NonNullable<Article["mediaType"]>, { Icon: typeof FileText; label: string }> = {
+  article: { Icon: FileText, label: "Artikkel" },
+  video: { Icon: Video, label: "Video" },
+  podcast: { Icon: Mic, label: "Podcast" },
+  post: { Icon: MessageSquare, label: "Innlegg" },
+};
+
+const MediaBadge = ({ type }: { type?: Article["mediaType"] }) => {
+  const meta = MEDIA_META[type ?? "article"];
+  const Icon = meta.Icon;
+  return (
+    <div
+      className="absolute top-3 right-3 w-8 h-8 rounded-full bg-brand-dark/80 backdrop-blur-sm text-white flex items-center justify-center"
+      aria-label={meta.label}
+      title={meta.label}
+    >
+      <Icon className="w-4 h-4" strokeWidth={1.5} />
+    </div>
+  );
+};
+
 const ArticleCard = ({ article }: { article: Article }) => {
   const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
 
