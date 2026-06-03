@@ -61,6 +61,8 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Gamle+Ringeriksvei+36+1357+Bekkestua",
+    coords: { lat: 59.9176, lng: 10.6068 },
+
     services: ["gynekolog", "hudlege"],
     detail: {
       description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudlege i moderne og rolige omgivelser.",
