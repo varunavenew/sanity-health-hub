@@ -530,6 +530,17 @@ const Priser = ({ isChatOpen }: PageProps) => {
     navigate(path);
   };
 
+  // Heuristic: is this price line directly bookable, or does it require
+  // a consultation/info page first?
+  const isBookable = (itemName: string, duration: string): boolean => {
+    const name = itemName.toLowerCase();
+    const nonBookable = /(operasjon|kirurgi|\bivf\b|icsi|inseminasjon|inngrep|nedfrysning|nedfrysing|brokk|botox|hemoride|fimose|sterilisering|refertilisering|tur-p|ralp|rasp|core therm|hysteroskopi|mariskfjerning|tilbakesetting|gastric|labiaplastikk|\btvt\b|fremfall|konisering|microtese|micro-?tese|pesa|tesa|åreknute|flebektomi|extripasjon|fryseforsøk|\bfet\b|donasjon|donor|tånegl|fettkul|føflekk|småkirurgi|fjerning|hudkreft)/;
+    if (nonBookable.test(name)) return false;
+    const bookable = /(konsultasjon|kontroll|oppfølging|samtale|sjekk|rådgivning|terapi|ultralyd|analyse|prøve|\btest\b|utredning|resept|blodprøve|henvisning|svangerskap|abort|ammehjelp|fødsel|psykolog|sexolog|osteopat|ernær|håndterapeut|fysioterapeut)/;
+    if (bookable.test(name)) return true;
+    return Boolean(duration);
+  };
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
