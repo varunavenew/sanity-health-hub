@@ -10,11 +10,12 @@ interface SplitHeroProps {
  imageAlt?: string;
  primaryCta?: { label: string; to: string };
  secondaryCta?: { label: string; to: string };
+ dark?: boolean;
 }
 
 /**
- * Reusable split-screen hero matching the category page design
- * (warm background, image right, text left on desktop; image first on mobile).
+ * Reusable split-screen hero. Defaults to warm background; pass `dark` for brand-dark.
+ * Always edge-to-edge split, capped at max-h-screen.
  */
 export const SplitHero = ({
  title,
@@ -23,34 +24,47 @@ export const SplitHero = ({
  imageAlt,
  primaryCta,
  secondaryCta,
+ dark = false,
 }: SplitHeroProps) => {
  const navigate = useNavigate();
 
+ const bg = dark ? "bg-brand-dark" : "bg-brand-warm";
+ const titleColor = dark ? "text-white" : "text-foreground";
+ const descColor = dark ? "text-white/70" : "text-foreground/70";
+
  return (
- <header className="bg-brand-warm">
- <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
+ <header className={bg}>
+ <div className="grid md:grid-cols-2 md:min-h-[520px] md:max-h-screen">
  {/* Left: text */}
  <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
- <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+ <h1 className={`text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] mb-6 ${titleColor}`}>
  {title}
  </h1>
  {description && (
- <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
+ <p className={`text-base font-light leading-relaxed max-w-md mb-8 ${descColor}`}>
  {description}
  </p>
  )}
  <div className="flex flex-wrap gap-3">
  {primaryCta && (
- <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
+ <Button
+ variant={dark ? "cta-dark" : "cta"}
+ size="lg"
+ onClick={() => navigate(primaryCta.to)}
+ >
  {primaryCta.label}
  <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
  )}
  {secondaryCta && (
  <Button
- variant="ghost"
+ variant={dark ? "cta-outline-dark" : "ghost"}
  size="lg"
- className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-2xl"
+ className={
+ dark
+ ? undefined
+ : "border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-2xl"
+ }
  onClick={() => navigate(secondaryCta.to)}
  >
  <Phone className="mr-2 w-4 h-4" />
@@ -59,8 +73,8 @@ export const SplitHero = ({
  )}
  </div>
  </div>
- {/* Right: image */}
- <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
+ {/* Right: image (edge-to-edge) */}
+ <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0 md:h-full">
  <img
  src={image}
  alt={imageAlt || title}
@@ -68,7 +82,7 @@ export const SplitHero = ({
  />
  </div>
  </div>
- <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+ <div className={`h-px w-full ${dark ? "bg-white/10" : "bg-foreground/5"}`} aria-hidden="true" />
  </header>
  );
 };
