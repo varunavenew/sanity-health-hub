@@ -113,6 +113,7 @@ export const articles: Article[] = [
     category: "Nytt fra oss",
     pinned: true,
     featured: true,
+    mediaType: "post",
   },
   {
     slug: "historiene-ingen-snakker-om-etter-fodsel",
