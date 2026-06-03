@@ -167,15 +167,6 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  siden,» avslutter hun med et smil.
  </p>
 
- {/* Sted/sluttmeta */}
- <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-light text-foreground/60 pt-8 mt-10 border-t border-border/60">
- <span className="inline-flex items-center gap-1.5">
- <MapPin className="w-3 h-3" />
- CMedical Sandvika
- </span>
- <span>·</span>
- <span>Publisert 19. mai 2026</span>
- </div>
  </div>
  </div>
  </article>
