@@ -318,28 +318,10 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
           </div>
         </div>
-        {clinic.primaryImage ? (
-          <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-            <img src={clinic.primaryImage} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="aspect-[4/3] bg-brand-mid/20 flex items-center justify-center">
-                <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Extra interior gallery — simple equal row (matches homepage pattern) */}
-        {clinicGalleries[clinic.slug] && clinicGalleries[clinic.slug].length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full mt-0">
+        {clinicGalleries[clinic.slug] && clinicGalleries[clinic.slug].length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
             {clinicGalleries[clinic.slug].map((img) => (
-              <div
-                key={img.src}
-                className="aspect-[4/3] overflow-hidden bg-brand-mid/10"
-              >
+              <div key={img.src} className="aspect-[4/5] overflow-hidden bg-brand-mid/10">
                 <img
                   src={img.src}
                   alt={img.alt}
@@ -349,7 +331,20 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               </div>
             ))}
           </div>
+        ) : clinic.primaryImage ? (
+          <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
+            <img src={clinic.primaryImage} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="aspect-[4/5] bg-brand-mid/20 flex items-center justify-center">
+                <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
+              </div>
+            ))}
+          </div>
         )}
+
 
       </section>
 
