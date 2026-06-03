@@ -353,10 +353,10 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
  <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
- <div className="rounded-sm overflow-hidden border border-border/40">
+ <div className="rounded-sm overflow-hidden border border-border/40 relative">
  {(() => {
  const { lat, lng } = (clinic as any).coords;
- const d = 0.006;
+ const d = 0.004;
  const bbox = `${lng - d},${lat - d},${lng + d},${lat + d}`;
  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
  return (
@@ -364,14 +364,18 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  title={`Kart over CMedical ${clinic.label}`}
  src={src}
  width="100%"
- height="350"
- style={{ border: 0 }}
+ height="400"
+ style={{
+ border: 0,
+ filter: "sepia(0.55) saturate(0.75) hue-rotate(-8deg) brightness(1.02) contrast(0.95)",
+ }}
  loading="lazy"
  referrerPolicy="no-referrer-when-downgrade"
  />
  );
  })()}
  </div>
+
  {mapsUrl && (
  <a
  href={mapsUrl}
