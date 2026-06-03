@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { Link } from "react-router-dom";
-import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
+import { ArrowRight, Calendar, Search, Loader2, FileText, Video, Mic, MessageSquare } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import {
