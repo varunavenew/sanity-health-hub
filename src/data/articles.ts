@@ -90,6 +90,7 @@ export const articles: Article[] = [
     category: "Nytt fra oss",
     pinned: true,
     featured: true,
+    mediaType: "video",
   },
   {
     slug: "fra-operasjonsbordet-til-sydpolen-pa-14-maneder",
