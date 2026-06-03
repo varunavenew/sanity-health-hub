@@ -20,10 +20,10 @@ const clinicGalleries: Record<string, { src: string; alt: string }[]> = {
   majorstuen: [
     { src: majorstuenVenteromTv.url, alt: "Venterom med skjerm, planter og lounge-stoler på CMedical Majorstuen" },
     { src: majorstuenKorridorSittegruppe.url, alt: "Korridor med sittegruppe og treverk på CMedical Majorstuen" },
-    { src: majorstuenHvilerom.url, alt: "Rolig hvilerom med dempet lys på CMedical Majorstuen" },
     { src: majorstuenKorridor.url, alt: "Lys korridor med trepanel på CMedical Majorstuen" },
-    { src: majorstuenVenteromDetalj.url, alt: "Detalj fra venterommet med stoler og planter på CMedical Majorstuen" },
+    { src: majorstuenHvilerom.url, alt: "Rolig hvilerom med dempet lys på CMedical Majorstuen" },
   ],
+
 };
 
 // Lookup: service-ID → display label + optional link
