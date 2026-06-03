@@ -196,9 +196,13 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Tid til samtalen", desc: "Vi tar oss tid til å gå gjennom alt — også det som er vanskelig å snakke om." },
       { title: "Tett oppfølging", desc: "Vi følger deg over tid og justerer behandlingen etter behov." },
     ],
-    rating: "4,8 — Spesialister på kvinnehelse",
+    heroPrice: "Pris fra 2 500 kr",
+    heroBadges: [
+      { label: "Ingen ventetid", icon: "clock" },
+      { label: "Ingen henvisning", icon: "fileX" },
+    ],
     booking: { ...baseBooking, tjeneste: "overgangsalder" },
-    primaryCtaLabel: "Bestill konsultasjon",
+    primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Forløpet",
     flowTitle: "Hva skjer hos oss",
     flow: [
