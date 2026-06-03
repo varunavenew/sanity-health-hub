@@ -482,8 +482,6 @@ const Godkjenning = () => {
                             <div className="flex items-center gap-3 flex-wrap">
                               <Link
                                 to={page.path}
-                                target="_blank"
-                                rel="noreferrer"
                                 className="group inline-flex items-center gap-1.5 text-base font-light text-foreground hover:underline underline-offset-4"
                               >
                                 {page.name}
@@ -632,8 +630,6 @@ const MasterTemplatesPanel = ({
               <div className="mt-4 flex gap-2 flex-wrap">
                 <Link
                   to={t.examplePath}
-                  target="_blank"
-                  rel="noreferrer"
                   className="inline-flex items-center gap-1.5 bg-foreground text-background text-xs px-3 py-1.5 rounded-md hover:opacity-90 transition-opacity"
                 >
                   Se eksempel <ArrowUpRight className="w-3 h-3" />
@@ -706,8 +702,6 @@ const DemoPanel = () => (
               <li key={it.to}>
                 <Link
                   to={it.to}
-                  target="_blank"
-                  rel="noreferrer"
                   className="group flex items-center justify-between py-4 hover:px-2 transition-all duration-300"
                 >
                   <span className="text-sm md:text-base font-light text-foreground">{it.name}</span>
