@@ -37,6 +37,7 @@ export const articles: Article[] = [
     category: "Pasienthistorier",
     pinned: true,
     featured: true,
+    mediaType: "video",
   },
   {
     slug: "overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe",
