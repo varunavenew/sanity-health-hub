@@ -103,6 +103,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  accessibility: staticClinic.detail.accessibility,
  },
  mapsUrl: staticClinic.mapsUrl,
+ coords: staticClinic.coords,
+
  faqs: clinicFaqs[staticClinic.slug] || [],
  services: staticClinic.services,
  booking: undefined,
