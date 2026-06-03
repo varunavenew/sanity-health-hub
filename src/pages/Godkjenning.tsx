@@ -52,6 +52,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/article",
     exampleLabel: "Åpne komplett mal",
   },
+  {
+    key: "articleUnified",
+    title: "Artikkel — felles mal (ny)",
+    description: "Slår sammen Nyhet og Fagartikkel til én felles mal. Kategori-badge skiller typene (pasienthistorie/fagartikkel/nyhet). Bygget på feedback 3. juni.",
+    examplePath: "/maler/articleUnified",
+    exampleLabel: "Åpne ny felles mal",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
