@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Play, Mic, FileText, BarChart3 } from "lucide-react";
+import { ArrowRight, Play, Mic, FileText, BarChart3, Clock } from "lucide-react";
 import gynecologyHero from "@/assets/hero/gynecology-hero.jpg";
 import fertilityHero from "@/assets/hero/fertility-hero.jpg";
 import clinicHero from "@/assets/hero/cmedical-clinic.jpg";
@@ -323,8 +323,174 @@ const TipsCompactVariant = () => (
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
+// VARIANT D — Editorial split (1 stor + 3 små i sidekolonne)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const TipsEditorialVariant = () => {
+  const [lead, ...rest] = CARD_ITEMS;
+  const { Icon: LeadIcon, label: leadLabel } = FORMAT_META[lead.format];
+  return (
+    <section className="bg-brand-light py-20 md:py-28">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-end justify-between mb-10 md:mb-14 gap-6">
+            <h2 className="text-3xl md:text-5xl font-light text-foreground">
+              Vill du veta mer?
+            </h2>
+            <Link to="/aktuelt" className="text-sm font-light text-foreground/70 hover:text-foreground inline-flex items-center gap-1 shrink-0">
+              Se alt i Aktuelt <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid lg:grid-cols-12 gap-6 md:gap-8">
+            <Link to={lead.href} className="group lg:col-span-7 block">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-sm mb-4">
+                <img src={lead.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute top-4 left-4 inline-flex items-center gap-2 bg-brand-light/95 px-3 py-1.5 rounded-full text-xs font-light text-foreground">
+                  <LeadIcon className="w-3.5 h-3.5" strokeWidth={1.5} fill={lead.format === "video" ? "currentColor" : "none"} />
+                  {leadLabel}
+                </div>
+              </div>
+              <p className="text-xs font-light text-foreground/55 mb-2">{lead.meta}</p>
+              <h3 className="text-2xl md:text-3xl font-light text-foreground leading-[1.15] mb-2 group-hover:underline">
+                {lead.title}
+              </h3>
+              <p className="text-sm font-light text-foreground/65">{lead.source}</p>
+            </Link>
+            <div className="lg:col-span-5 flex flex-col divide-y divide-foreground/10">
+              {rest.map((item, i) => {
+                const { Icon, label } = FORMAT_META[item.format];
+                return (
+                  <Link key={i} to={item.href} className="group py-5 first:pt-0 last:pb-0 flex gap-4 items-start">
+                    <div className="relative w-24 h-24 shrink-0 overflow-hidden rounded-sm bg-background">
+                      <img src={item.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="inline-flex items-center gap-1.5 text-xs font-light text-foreground/55 mb-1.5">
+                        <Icon className="w-3 h-3" strokeWidth={1.5} fill={item.format === "video" ? "currentColor" : "none"} />
+                        {label}
+                      </div>
+                      <h3 className="text-sm font-normal text-foreground leading-snug mb-1 group-hover:underline">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs font-light text-foreground/55 line-clamp-1">{item.source}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VARIANT E — Horisontal scroller (skannbar tidslinje)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const TipsScrollerVariant = () => (
+  <section className="bg-brand-dark py-20 md:py-28">
+    <div className="container mx-auto px-6 md:px-16">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-end justify-between mb-10 md:mb-14 gap-6">
+          <div>
+            <p className="text-xs font-light text-brand-light/55 mb-2">Siste fra Aktuelt</p>
+            <h2 className="text-3xl md:text-5xl font-light text-brand-light">
+              Vill du veta mer?
+            </h2>
+          </div>
+          <Link to="/aktuelt" className="text-sm font-light text-brand-light/70 hover:text-brand-light inline-flex items-center gap-1 shrink-0">
+            Se alt <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+      <div className="-mx-6 md:-mx-16 px-6 md:px-16 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-4 md:gap-5 min-w-max pb-2">
+          {[...CARD_ITEMS, ...CARD_ITEMS].map((item, i) => {
+            const { Icon, label } = FORMAT_META[item.format];
+            return (
+              <Link key={i} to={item.href} className="group w-[280px] md:w-[320px] shrink-0">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-sm mb-3">
+                  <img src={item.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent" />
+                  <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-brand-light/95 px-2.5 py-1 rounded-full text-xs font-light text-foreground">
+                    <Icon className="w-3 h-3" strokeWidth={1.5} fill={item.format === "video" ? "currentColor" : "none"} />
+                    {label}
+                  </div>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <h3 className="text-sm md:text-base font-normal text-brand-light leading-snug line-clamp-3">
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-xs font-light text-brand-light/55">{item.meta}</p>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VARIANT F — Tidslinje-liste (datert, redaksjonell)
+// ─────────────────────────────────────────────────────────────────────────────
+
+type TimelineItem = CompactItem & { date: string; readTime: string };
+
+const TIMELINE_ITEMS: TimelineItem[] = [
+  { format: "article", date: "28. mai 2026", readTime: "5 min", title: "Endometriose – tegn du ikke bør ignorere", description: "Hva forskningen sier i 2026, og når du bør oppsøke spesialist.", href: "#" },
+  { format: "podcast", date: "21. mai 2026", readTime: "34 min", title: "Hormoner, humør og hverdagsliv", description: "Dr. Lene Holm om overgangsalder — episode 7 av CMedical Podkast.", href: "#" },
+  { format: "video", date: "14. mai 2026", readTime: "12 min", title: "Hva skjer i kroppen under overgangsalder?", description: "Kort, klinisk forklart av spesialist i gynekologi.", href: "#" },
+  { format: "stats", date: "02. mai 2026", readTime: "Rapport", title: "Norske kvinner og helsesystemet 2024", description: "CMedical Forskningsrapport om tilgang, ventetid og opplevd kvalitet.", href: "#" },
+];
+
+const TipsTimelineVariant = () => (
+  <section className="bg-brand-light py-20 md:py-28">
+    <div className="container mx-auto px-6 md:px-16">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-3xl md:text-5xl font-light text-foreground mb-10 md:mb-14">
+          Vill du veta mer?
+        </h2>
+        <ol className="relative border-l border-foreground/15">
+          {TIMELINE_ITEMS.map((item, i) => {
+            const { Icon, label } = FORMAT_META[item.format];
+            return (
+              <li key={i} className="pl-8 pb-10 last:pb-0 relative">
+                <span className="absolute -left-[13px] top-0 w-6 h-6 rounded-full bg-brand-light border border-foreground/20 flex items-center justify-center">
+                  <Icon className="w-3 h-3 text-foreground" strokeWidth={1.5} fill={item.format === "video" ? "currentColor" : "none"} />
+                </span>
+                <div className="flex items-center gap-3 text-xs font-light text-foreground/55 mb-2">
+                  <span>{item.date}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{label}</span>
+                  <span aria-hidden="true">·</span>
+                  <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" />{item.readTime}</span>
+                </div>
+                <Link to={item.href} className="group block">
+                  <h3 className="text-lg md:text-xl font-normal text-foreground leading-snug mb-1.5 group-hover:underline">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm font-light text-foreground/70 leading-relaxed">
+                    {item.description}
+                  </p>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </div>
+  </section>
+);
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Side
 // ─────────────────────────────────────────────────────────────────────────────
+
+
 
 const VariantBlock = ({
   label,
@@ -396,7 +562,7 @@ export default function TipsDemo() {
             fagområdeside og underbehandlingsside.
           </p>
           <p className="text-sm font-light text-foreground/65">
-            Under ser du tre varianter — samme datamodell, ulik visning.
+            Under ser du seks varianter — samme datamodell, ulik visning.
             Editor velger variant i Sanity.
           </p>
         </div>
@@ -424,6 +590,30 @@ export default function TipsDemo() {
         description="Tett 2-kolonners liste med ikon-boks og kort beskrivelse. Best når tipsene er mange og skal være lett å skanne."
       >
         <TipsCompactVariant />
+      </VariantBlock>
+
+      <VariantBlock
+        label="D"
+        title="Editorial split (1 stor + 3 små)"
+        description="Redaksjonell layout som prioriterer ett hovedtips og lister de neste tre ved siden av. Best på spesialist- og temasider hvor ett innhold er klart viktigst."
+      >
+        <TipsEditorialVariant />
+      </VariantBlock>
+
+      <VariantBlock
+        label="E"
+        title="Horisontal scroller (mørk seksjon)"
+        description="Skannbar karusell med overlay-titler på mørk bakgrunn. Best når det finnes mange tips og seksjonen ligger mellom to lyse seksjoner — gir visuelt pust."
+      >
+        <TipsScrollerVariant />
+      </VariantBlock>
+
+      <VariantBlock
+        label="F"
+        title="Tidslinje-liste (datert)"
+        description="Vertikal tidslinje med dato, format og lesetid. Best på 'siste fra Aktuelt' og blogg/oversiktsbruk hvor kronologi betyr noe."
+      >
+        <TipsTimelineVariant />
       </VariantBlock>
     </div>
   );
