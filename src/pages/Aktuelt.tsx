@@ -144,6 +144,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           category: a.category,
           pinned: a.pinned,
           featured: a.featured,
+          mediaType: (a as any).mediaType,
         }))
       : staticArticles;
     // Normalize legacy "Nyheter" -> "Nytt fra oss"
