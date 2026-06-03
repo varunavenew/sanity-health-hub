@@ -8,11 +8,12 @@ import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
 
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
 import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
 import imgMoss from "@/assets/clinics/moss.jpg";
 import imgMoelv from "@/assets/clinics/moelv.jpg";
 
-const imgMajorstuen = majorstuenVenteromTv.url;
+const imgMajorstuenCard = majorstuenVenteromTv.url;
 
 const clinicImages: Record<string, string> = {
   majorstuen: imgMajorstuen,
