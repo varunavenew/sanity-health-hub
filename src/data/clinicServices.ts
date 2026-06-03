@@ -100,6 +100,8 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:30–15:30",
     bookingSystem: "pasientsky",
     mapsUrl: "https://maps.google.com/?q=Storgata+60+2390+Moelv",
+    coords: { lat: 60.9286, lng: 10.6996 },
+
     services: ["gynekolog", "ortoped", "urolog", "areknuter", "karkirurgi", "hjertespesialist", "almennlege"],
     detail: {
       description: "CMedical Moelv ligger i Storgata 60 og er vår klinikk i Innlandet. Her tilbyr vi gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin.",
