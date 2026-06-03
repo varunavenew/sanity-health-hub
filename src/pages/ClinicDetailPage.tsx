@@ -8,6 +8,8 @@ import { getClinicBySlug } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { ClinicMap } from "@/components/clinic/ClinicMap";
+
 
 // Local interior gallery per clinic — extra photos shown below the primary image.
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
