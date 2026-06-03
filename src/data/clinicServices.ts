@@ -37,6 +37,8 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Kirkeveien+64B+0366+Oslo",
+    coords: { lat: 59.9300, lng: 10.7142 },
+
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
