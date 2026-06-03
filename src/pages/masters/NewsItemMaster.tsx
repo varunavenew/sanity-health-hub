@@ -192,10 +192,10 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto text-center">
  <Quote className="w-8 h-8 text-brand-dark/40 mx-auto mb-6" />
- <p className="text-lg md:text-xl lg:text-2xl font-light leading-snug text-foreground italic">
- Jeg fikk en time hos en spesialist på CMedical innen ti dager — og følte
- for første gang at noen virkelig lyttet.
- </p>
+  <p className="text-lg md:text-xl lg:text-2xl font-light leading-snug text-foreground italic">
+  Jeg fikk en time hos en spesialist på CMedical innen ti<br />
+  dager — og følte for første gang at noen virkelig lyttet.
+  </p>
  <p className="mt-6 text-sm font-light text-foreground/60">
  — Kari Hansen, pasient
  </p>
