@@ -116,6 +116,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  livePath: "/aktuelt",
  render: () => <ArticleMaster isChatOpen={false} />,
  },
+ articleUnified: {
+ title: "Mal: Artikkel (felles) — ny",
+ description:
+ "Felles mastermal for Aktuelt. Slår sammen Nyhet/Pasienthistorie/Fagartikkel til én mal — kategori-badge skiller typene. Bygget på feedback 3. juni: dato+område øverst, forfatter+del i header, faktaruta med venstrestrek, venstrestilt sitat, raka hjørner på alle bilder, sammenslått fagforfatter+tjeneste, og mørk CTA-boks nederst.",
+ livePath: "/aktuelt",
+ render: () => <ArticleUnifiedMaster isChatOpen={false} />,
+ },
 };
 
 
