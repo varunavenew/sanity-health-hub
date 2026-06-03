@@ -9,6 +9,23 @@ import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 
+// Local interior gallery per clinic — extra photos shown below the primary image.
+import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+import majorstuenKorridorSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
+import majorstuenHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import majorstuenKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
+import majorstuenVenteromDetalj from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
+
+const clinicGalleries: Record<string, { src: string; alt: string }[]> = {
+  majorstuen: [
+    { src: majorstuenVenteromTv.url, alt: "Venterom med skjerm, planter og lounge-stoler på CMedical Majorstuen" },
+    { src: majorstuenKorridorSittegruppe.url, alt: "Korridor med sittegruppe og treverk på CMedical Majorstuen" },
+    { src: majorstuenHvilerom.url, alt: "Rolig hvilerom med dempet lys på CMedical Majorstuen" },
+    { src: majorstuenKorridor.url, alt: "Lys korridor med trepanel på CMedical Majorstuen" },
+    { src: majorstuenVenteromDetalj.url, alt: "Detalj fra venterommet med stoler og planter på CMedical Majorstuen" },
+  ],
+};
+
 // Lookup: service-ID → display label + optional link
 const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
  fertilitet: { label: "Fertilitet", path: "/behandlinger/fertilitet" },
