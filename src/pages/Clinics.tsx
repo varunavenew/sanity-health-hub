@@ -86,11 +86,10 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  imageAlt="CMedical klinikk"
  primaryCta={{ label: "Bestill time", to: "/booking" }}
  secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
- dark
  />
 
  {/* Clinic split-screen rows */}
- <section aria-labelledby="clinics-heading">
+ <section className="bg-background" aria-labelledby="clinics-heading">
  <h2 id="clinics-heading" className="sr-only">
  Liste over klinikker
  </h2>
@@ -103,16 +102,20 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  const altBg = idx % 2 === 1 ? "bg-brand-warm/40" : "bg-background";
 
  return (
- <div key={clinic.id} className={`${altBg} border-t border-border/40`}>
  <div
- className={`grid md:grid-cols-2 md:min-h-[520px] md:max-h-screen ${
- reverse ? "md:[&>*:first-child]:order-2" : ""
+ key={clinic.id}
+ className={`${altBg} border-t border-border/40`}
+ >
+ <div className="container mx-auto px-6 md:px-16 py-12 md:py-20">
+ <div
+ className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
+ reverse ? "lg:[&>*:first-child]:order-2" : ""
  }`}
  >
- {/* Image — edge-to-edge */}
+ {/* Image */}
  <Link
  to={detailHref}
- className="group relative block overflow-hidden min-h-[320px] md:min-h-0 md:h-full order-1"
+ className="group block overflow-hidden rounded-sm aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5]"
  aria-label={`Les mer om CMedical ${clinic.label}`}
  >
  {image ? (
@@ -120,15 +123,17 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  src={image}
  alt={`CMedical ${clinic.label}`}
  loading="lazy"
- className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+ width={1024}
+ height={1024}
+ className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
  />
  ) : (
- <div className="absolute inset-0 w-full h-full bg-brand-mid/20" />
+ <div className="w-full h-full bg-brand-mid/20" />
  )}
  </Link>
 
  {/* Content */}
- <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-12 md:py-16 order-2">
+ <div className="flex flex-col">
  <h3 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-tight mb-5">
  <Link to={detailHref} className="hover:text-foreground transition-colors">
  CMedical {clinic.label}
@@ -141,6 +146,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </p>
  )}
 
+ {/* Key info */}
  <ul className="space-y-3 mb-7 border-t border-border/50 pt-6">
  <li className="flex items-start gap-3 text-sm">
  <MapPin className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
@@ -165,6 +171,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </li>
  </ul>
 
+ {/* Practical chips */}
  <div className="flex flex-wrap gap-2 mb-8">
  {clinic.detail?.parking && (
  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-xs text-muted-foreground font-light">
@@ -192,6 +199,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  )}
  </div>
 
+ {/* CTA row */}
  <div className="flex items-center gap-6">
  <Link
  to={detailHref}
@@ -210,6 +218,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  Vis i kart
  </a>
  )}
+ </div>
  </div>
  </div>
  </div>
