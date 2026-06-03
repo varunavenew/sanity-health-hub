@@ -8,6 +8,7 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import NewsItemMaster from "./masters/NewsItemMaster";
 import ArticleMaster from "./masters/ArticleMaster";
+import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -114,6 +115,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  "Mastermal for lengre fagartikler. Sentrert redaksjonelt hero, fagforfatter + faglig validering, sticky innholdsfortegnelse, pull-quotes, spesialist-kommentar, fakta- og CTA-boks, kildeliste og ansvarsfraskrivelse.",
  livePath: "/aktuelt",
  render: () => <ArticleMaster isChatOpen={false} />,
+ },
+ articleUnified: {
+ title: "Mal: Artikkel (felles) — ny",
+ description:
+ "Felles mastermal for Aktuelt. Slår sammen Nyhet/Pasienthistorie/Fagartikkel til én mal — kategori-badge skiller typene. Bygget på feedback 3. juni: dato+område øverst, forfatter+del i header, faktaruta med venstrestrek, venstrestilt sitat, raka hjørner på alle bilder, sammenslått fagforfatter+tjeneste, og mørk CTA-boks nederst.",
+ livePath: "/aktuelt",
+ render: () => <ArticleUnifiedMaster isChatOpen={false} />,
  },
 };
 
