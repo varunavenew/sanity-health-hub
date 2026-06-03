@@ -374,26 +374,8 @@ const NewsItemMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  ]}
  />
 
- {/* ───────────── TAGS + DEL ───────────── */}
- <section className="bg-background py-10 md:py-14">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-3xl mx-auto flex flex-wrap items-center gap-3">
- <Tag className="w-4 h-4 text-foreground/50" />
- {["Hofteprotese", "Ortopedi", "Pasienthistorie", "Sandvika"].map((t) => (
- <Link
- key={t}
- to={`/aktuelt?tag=${encodeURIComponent(t)}`}
- className="text-xs font-light px-3 py-1 rounded-full border border-border text-foreground/70 hover:border-brand-dark hover:text-foreground transition-colors"
- >
- {t}
- </Link>
- ))}
- <button className="ml-auto inline-flex items-center gap-1.5 text-xs font-light text-foreground/60 hover:text-foreground transition-colors">
- <Share2 className="w-3.5 h-3.5" /> Del artikkelen
- </button>
- </div>
- </div>
- </section>
+
+
 
 
 
