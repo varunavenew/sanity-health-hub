@@ -22,10 +22,8 @@ export interface Clinic {
   bookingSystem: BookingSystem;
   externalBookingUrl?: string;
   mapsUrl?: string;
-  coords?: { lat: number; lng: number };
   detail: ClinicDetail;
 }
-
 
 export const clinics: Clinic[] = [
   { 
@@ -37,8 +35,6 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Kirkeveien+64B+0366+Oslo",
-    coords: { lat: 59.9300, lng: 10.7142 },
-
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
@@ -61,8 +57,6 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Gamle+Ringeriksvei+36+1357+Bekkestua",
-    coords: { lat: 59.9176, lng: 10.6068 },
-
     services: ["gynekolog", "hudlege"],
     detail: {
       description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudlege i moderne og rolige omgivelser.",
@@ -81,8 +75,6 @@ export const clinics: Clinic[] = [
     bookingSystem: "external",
     externalBookingUrl: "https://colosseumfaust.no/spesialister/",
     mapsUrl: "https://maps.google.com/?q=Lilleengveien+8+1523+Moss",
-    coords: { lat: 59.4339, lng: 10.6886 },
-
     services: ["gynekolog", "ortoped", "gastrokirurg", "fysioterapeut", "plastikkirurgi"],
     detail: {
       description: "CMedical Moss holder til i Lilleengveien 8 og tilbyr et bredt spekter av tjenester inkludert gynekologi, ortopedi, gastrokirurgi og fysioterapi.",
@@ -100,8 +92,6 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:30–15:30",
     bookingSystem: "pasientsky",
     mapsUrl: "https://maps.google.com/?q=Storgata+60+2390+Moelv",
-    coords: { lat: 60.9286, lng: 10.6996 },
-
     services: ["gynekolog", "ortoped", "urolog", "areknuter", "karkirurgi", "hjertespesialist", "almennlege"],
     detail: {
       description: "CMedical Moelv ligger i Storgata 60 og er vår klinikk i Innlandet. Her tilbyr vi gynekologi, ortopedi, urologi, karkirurgi og allmennmedisin.",

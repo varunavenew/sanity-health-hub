@@ -8,8 +8,6 @@ import { getClinicBySlug } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
-import { ClinicMap } from "@/components/clinic/ClinicMap";
-
 
 // Local interior gallery per clinic — extra photos shown below the primary image.
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
@@ -105,8 +103,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  accessibility: staticClinic.detail.accessibility,
  },
  mapsUrl: staticClinic.mapsUrl,
- coords: staticClinic.coords,
-
  faqs: clinicFaqs[staticClinic.slug] || [],
  services: staticClinic.services,
  booking: undefined,
@@ -349,42 +345,26 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
 
       </section>
 
- {/* Map embed (OpenStreetMap — no API key, works on any domain) */}
- {(clinic as any).coords && (
+ {/* Google Maps embed */}
  <section className="bg-background py-10 md:py-14">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
  <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
  <div className="rounded-sm overflow-hidden border border-border/40">
- {(() => {
- const { lat, lng } = (clinic as any).coords;
- return (
- <ClinicMap
- lat={lat}
- lng={lng}
- label={clinic.label}
- address={clinic.address}
+ <iframe
+ title={`Kart over CMedical ${clinic.label}`}
+ src={`https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}&output=embed`}
+ width="100%"
+ height="350"
+ style={{ border: 0 }}
+ allowFullScreen
+ loading="lazy"
+ referrerPolicy="no-referrer-when-downgrade"
  />
- );
- })()}
  </div>
-
-
- {mapsUrl && (
- <a
- href={mapsUrl}
- target="_blank"
- rel="noopener noreferrer"
- className="text-xs text-brand-dark/70 hover:underline inline-flex items-center gap-1 mt-2"
- >
- Åpne i Google Maps
- </a>
- )}
  </div>
  </div>
  </section>
- )}
-
 
  {/* FAQ */}
  {faqs.length > 0 && (
