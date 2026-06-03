@@ -1,5 +1,7 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
+import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+const imgMajorstuen = majorstuenVenteromTv.url;
+
 import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
