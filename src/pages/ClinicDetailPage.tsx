@@ -8,6 +8,8 @@ import { getClinicBySlug } from "@/data/clinicServices";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { ClinicMap } from "@/components/clinic/ClinicMap";
+
 
 // Local interior gallery per clinic — extra photos shown below the primary image.
 import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
@@ -353,28 +355,20 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-3xl mx-auto">
  <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
- <div className="rounded-sm overflow-hidden border border-border/40 relative">
+ <div className="rounded-sm overflow-hidden border border-border/40">
  {(() => {
  const { lat, lng } = (clinic as any).coords;
- const d = 0.004;
- const bbox = `${lng - d},${lat - d},${lng + d},${lat + d}`;
- const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
  return (
- <iframe
- title={`Kart over CMedical ${clinic.label}`}
- src={src}
- width="100%"
- height="400"
- style={{
- border: 0,
- filter: "sepia(0.55) saturate(0.75) hue-rotate(-8deg) brightness(1.02) contrast(0.95)",
- }}
- loading="lazy"
- referrerPolicy="no-referrer-when-downgrade"
+ <ClinicMap
+ lat={lat}
+ lng={lng}
+ label={clinic.label}
+ address={clinic.address}
  />
  );
  })()}
  </div>
+
 
  {mapsUrl && (
  <a
