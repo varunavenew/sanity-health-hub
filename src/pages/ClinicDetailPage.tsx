@@ -9,6 +9,23 @@ import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 
+// Local interior gallery per clinic — extra photos shown below the primary image.
+import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+import majorstuenKorridorSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
+import majorstuenHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import majorstuenKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
+import majorstuenVenteromDetalj from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
+
+const clinicGalleries: Record<string, { src: string; alt: string }[]> = {
+  majorstuen: [
+    { src: majorstuenVenteromTv.url, alt: "Venterom med skjerm, planter og lounge-stoler på CMedical Majorstuen" },
+    { src: majorstuenKorridorSittegruppe.url, alt: "Korridor med sittegruppe og treverk på CMedical Majorstuen" },
+    { src: majorstuenHvilerom.url, alt: "Rolig hvilerom med dempet lys på CMedical Majorstuen" },
+    { src: majorstuenKorridor.url, alt: "Lys korridor med trepanel på CMedical Majorstuen" },
+    { src: majorstuenVenteromDetalj.url, alt: "Detalj fra venterommet med stoler og planter på CMedical Majorstuen" },
+  ],
+};
+
 // Lookup: service-ID → display label + optional link
 const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
  fertilitet: { label: "Fertilitet", path: "/behandlinger/fertilitet" },
@@ -294,27 +311,48 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  </section>
  )}
 
- {/* Clinic images – full bleed, no gap (matches homepage tjenester pattern) */}
- <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
- <div className="container mx-auto px-6 md:px-16 mb-6">
- <div className="max-w-3xl mx-auto">
- <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
- </div>
- </div>
- <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full">
- {clinic.primaryImage ? (
- <div className="aspect-[4/3] col-span-2 md:col-span-3 overflow-hidden">
- <img src={clinic.primaryImage} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
- </div>
- ) : (
- [1, 2, 3].map((i) => (
- <div key={i} className="aspect-[4/3] bg-brand-mid/20 flex items-center justify-center">
- <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
- </div>
- ))
- )}
- </div>
- </section>
+      {/* Clinic images – full bleed, no gap (matches homepage tjenester pattern) */}
+      <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
+        <div className="container mx-auto px-6 md:px-16 mb-6">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
+          </div>
+        </div>
+        {clinic.primaryImage ? (
+          <div className="w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
+            <img src={clinic.primaryImage} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="aspect-[4/3] bg-brand-mid/20 flex items-center justify-center">
+                <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Extra interior gallery — currently only Majorstuen has photos */}
+        {clinicGalleries[clinic.slug] && clinicGalleries[clinic.slug].length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full mt-0">
+            {clinicGalleries[clinic.slug].map((img, i) => (
+              <div
+                key={img.src}
+                className={`overflow-hidden bg-brand-mid/10 ${
+                  i === 0 ? "aspect-[4/3] col-span-2 md:col-span-2 md:row-span-2 md:aspect-auto" : "aspect-[3/4]"
+                }`}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
  {/* Google Maps embed */}
  <section className="bg-background py-10 md:py-14">
