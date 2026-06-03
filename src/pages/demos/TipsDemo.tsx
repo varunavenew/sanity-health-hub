@@ -562,7 +562,7 @@ export default function TipsDemo() {
             fagområdeside og underbehandlingsside.
           </p>
           <p className="text-sm font-light text-foreground/65">
-            Under ser du tre varianter — samme datamodell, ulik visning.
+            Under ser du seks varianter — samme datamodell, ulik visning.
             Editor velger variant i Sanity.
           </p>
         </div>
@@ -590,6 +590,30 @@ export default function TipsDemo() {
         description="Tett 2-kolonners liste med ikon-boks og kort beskrivelse. Best når tipsene er mange og skal være lett å skanne."
       >
         <TipsCompactVariant />
+      </VariantBlock>
+
+      <VariantBlock
+        label="D"
+        title="Editorial split (1 stor + 3 små)"
+        description="Redaksjonell layout som prioriterer ett hovedtips og lister de neste tre ved siden av. Best på spesialist- og temasider hvor ett innhold er klart viktigst."
+      >
+        <TipsEditorialVariant />
+      </VariantBlock>
+
+      <VariantBlock
+        label="E"
+        title="Horisontal scroller (mørk seksjon)"
+        description="Skannbar karusell med overlay-titler på mørk bakgrunn. Best når det finnes mange tips og seksjonen ligger mellom to lyse seksjoner — gir visuelt pust."
+      >
+        <TipsScrollerVariant />
+      </VariantBlock>
+
+      <VariantBlock
+        label="F"
+        title="Tidslinje-liste (datert)"
+        description="Vertikal tidslinje med dato, format og lesetid. Best på 'siste fra Aktuelt' og blogg/oversiktsbruk hvor kronologi betyr noe."
+      >
+        <TipsTimelineVariant />
       </VariantBlock>
     </div>
   );
