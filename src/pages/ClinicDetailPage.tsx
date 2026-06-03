@@ -354,8 +354,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         )}
       </section>
 
- </section>
-
  {/* Google Maps embed */}
  <section className="bg-background py-10 md:py-14">
  <div className="container mx-auto px-6 md:px-16">
