@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { SoMeFeed } from "@/components/homepage/SoMeFeed";
 import { Link } from "react-router-dom";
-import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
+import { ArrowRight, Calendar, Search, Loader2, FileText, Video, Mic, MessageSquare } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import {
@@ -31,6 +31,27 @@ const formatDate = (dateStr: string) => {
   return date.toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" });
 };
 
+const MEDIA_META: Record<NonNullable<Article["mediaType"]>, { Icon: typeof FileText; label: string }> = {
+  article: { Icon: FileText, label: "Artikkel" },
+  video: { Icon: Video, label: "Video" },
+  podcast: { Icon: Mic, label: "Podcast" },
+  post: { Icon: MessageSquare, label: "Innlegg" },
+};
+
+const MediaBadge = ({ type }: { type?: Article["mediaType"] }) => {
+  const meta = MEDIA_META[type ?? "article"];
+  const Icon = meta.Icon;
+  return (
+    <div
+      className="absolute top-3 right-3 w-8 h-8 rounded-full bg-brand-dark/80 backdrop-blur-sm text-white flex items-center justify-center"
+      aria-label={meta.label}
+      title={meta.label}
+    >
+      <Icon className="w-4 h-4" strokeWidth={1.5} />
+    </div>
+  );
+};
+
 const ArticleCard = ({ article }: { article: Article }) => {
   const linkTo = article.externalUrl || `/aktuelt/${article.slug}`;
 
@@ -48,6 +69,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
             {article.category}
           </span>
         </div>
+        <MediaBadge type={article.mediaType} />
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
         <Calendar className="w-3 h-3" />
@@ -75,6 +97,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
         />
       </div>
+      <MediaBadge type={article.mediaType} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
         <span className="inline-block bg-white/15 backdrop-blur-md text-white text-xs px-2.5 py-0.5 rounded-full mb-2">
@@ -121,6 +144,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
           category: a.category,
           pinned: a.pinned,
           featured: a.featured,
+          mediaType: (a as any).mediaType,
         }))
       : staticArticles;
     // Normalize legacy "Nyheter" -> "Nytt fra oss"

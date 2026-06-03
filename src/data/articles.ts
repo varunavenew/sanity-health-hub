@@ -1,3 +1,5 @@
+export type MediaType = "article" | "video" | "podcast" | "post";
+
 export interface Article {
   slug: string;
   title: string;
@@ -8,6 +10,7 @@ export interface Article {
   featured?: boolean;
   pinned?: boolean;
   externalUrl?: string;
+  mediaType?: MediaType;
 }
 
 export const filterCategories = [
@@ -34,6 +37,7 @@ export const articles: Article[] = [
     category: "Pasienthistorier",
     pinned: true,
     featured: true,
+    mediaType: "video",
   },
   {
     slug: "overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe",
@@ -86,6 +90,7 @@ export const articles: Article[] = [
     category: "Nytt fra oss",
     pinned: true,
     featured: true,
+    mediaType: "video",
   },
   {
     slug: "fra-operasjonsbordet-til-sydpolen-pa-14-maneder",
@@ -108,6 +113,7 @@ export const articles: Article[] = [
     category: "Nytt fra oss",
     pinned: true,
     featured: true,
+    mediaType: "post",
   },
   {
     slug: "historiene-ingen-snakker-om-etter-fodsel",
@@ -120,6 +126,7 @@ export const articles: Article[] = [
     category: "Oss i media",
     pinned: true,
     featured: true,
+    mediaType: "podcast",
   },
   {
     slug: "jeg-matte-grate-pa-telefonen-for-a-bli-tatt-pa-alvor",
