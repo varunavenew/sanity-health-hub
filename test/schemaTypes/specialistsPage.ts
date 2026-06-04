@@ -35,6 +35,7 @@ export default {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      description: 'Meta-tittel (metaTitle) og meta-beskrivelse (metaDescription) for /om-spesialister',
     },
   ],
   preview: {

@@ -89,8 +89,12 @@ async function pathForType(
       return '/tjenester'
     case 'article':
       return slug ? `/aktuelt/${slug}` : '/aktuelt'
+    case 'clinicsPage':
+      return '/klinikker'
     case 'clinicPage':
       return slug ? `/klinikker/${slug}` : '/klinikker'
+    case 'specialistsListingPage':
+      return '/spesialister'
     case 'specialist':
       return slug ? `/spesialister/${slug}` : '/spesialister'
     case 'themePage':

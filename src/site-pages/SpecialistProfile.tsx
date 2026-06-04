@@ -3,7 +3,8 @@ import { useRef } from "react";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
+import type { Specialist } from "@/data/specialists";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
@@ -20,9 +21,18 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const bookingRef = useRef<HTMLDivElement>(null);
-  const { findBySlug, byCategory } = useSpecialistsData();
+  const { specialist, isLoading } = useSpecialistBySlug(slug || "");
+  const { byCategory } = useSpecialistsData();
 
-  const specialist = findBySlug(slug || "");
+  if (isLoading) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <p className="text-muted-foreground font-light">Laster…</p>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (!specialist) {
     return (
@@ -39,9 +49,15 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     );
   }
 
-  const relatedSpecialists = byCategory(specialist.category)
+  const relatedSpecialists = byCategory(specialist.category as Specialist["category"])
     .filter((s) => s.slug !== specialist.slug)
     .slice(0, 4);
+
+  const seoTitle =
+    specialist.seo?.metaTitle || `${specialist.name} – ${specialist.title}`;
+  const seoDescription =
+    specialist.seo?.metaDescription ||
+    `Bestill time hos ${specialist.name}, ${specialist.title} hos CMedical. ${specialist.expertise?.join(", ")}. Ingen henvisning nødvendig.`;
 
   const scrollToBooking = () => {
     bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -52,8 +68,8 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={`${specialist.name} – ${specialist.title}`}
-        description={`Bestill time hos ${specialist.name}, ${specialist.title} hos CMedical. ${specialist.expertise?.join(', ')}. Ingen henvisning nødvendig.`}
+        title={seoTitle}
+        description={seoDescription}
         canonical={`/spesialister/${specialist.slug}`}
         type="profile"
         breadcrumbs={[

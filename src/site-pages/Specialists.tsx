@@ -4,15 +4,45 @@ import { Link } from "@/lib/router";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTranslation } from "react-i18next";
+import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
+
+const LISTING_FALLBACK = {
+  nb: {
+    heroEyebrow: "Vårt team",
+    heroTitle: "Møt våre spesialister",
+    heroDescription: "Erfaring, spisskompetanse og moderne teknologi – samlet på ett sted.",
+    countLabel: "{count} spesialister",
+    seoTitle: "Våre spesialister – Ledende eksperter samlet på ett sted",
+    seoDescription:
+      "Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig.",
+  },
+  en: {
+    heroEyebrow: "Our team",
+    heroTitle: "Meet our specialists",
+    heroDescription: "Experience, cutting-edge expertise and modern technology all in one place.",
+    countLabel: "{count} specialists",
+    seoTitle: "Our specialists – Leading experts in one place",
+    seoDescription:
+      "Meet CMedical's specialists in gynecology, fertility, urology and orthopedics. Experience, expertise and modern technology – no referral needed.",
+  },
+} as const;
+
+function formatCountLabel(template: string, count: number): string {
+  return template.replace(/\{count\}/g, String(count));
+}
 
 interface SpecialistsProps {
   isChatOpen: boolean;
 }
 
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const contentLang = sanityContentLangFromLocale(i18n.language);
+  const fb = LISTING_FALLBACK[contentLang === "en" ? "en" : "nb"];
+  const { data: page } = useSpecialistsListingPage();
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
   const { sorted: specialists, allClinics } = useSpecialistsData();
@@ -35,33 +65,34 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
     return categoryMatch && clinicMatch;
   });
 
+  const heroEyebrow = page?.heroEyebrow || fb.heroEyebrow;
+  const heroTitle = page?.heroTitle || fb.heroTitle;
+  const heroDescription = page?.heroDescription || fb.heroDescription;
+  const countText = formatCountLabel(page?.countLabel || fb.countLabel, filtered.length);
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={t("specialists.seoTitle", "Våre spesialister – Ledende eksperter samlet på ett sted")}
-        description={t(
-          "specialists.seoDescription",
-          "Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig.",
-        )}
+        title={page?.seo?.metaTitle || fb.seoTitle}
+        description={page?.seo?.metaDescription || fb.seoDescription}
         canonical="/spesialister"
         breadcrumbs={[
-          { name: t("common.breadcrumbHome"), path: "/" },
-          { name: t("nav.specialists"), path: "/spesialister" },
+          { name: t("common.breadcrumbHome", "Hjem"), path: "/" },
+          { name: t("nav.specialists", "Spesialister"), path: "/spesialister" },
         ]}
       />
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            <p className="text-white/60 text-xs mb-2">{t("specialists.ourTeam")}</p>
+            <p className="text-white/60 text-xs mb-2">{heroEyebrow}</p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
-              {t("specialists.title")}
+              {heroTitle}
             </h1>
             <p className="text-white/70 font-light text-base md:text-lg">
-              {t("specialists.description")}
+              {heroDescription}
             </p>
           </div>
 
-          {/* Category filter */}
           <div className="flex flex-wrap gap-2 mt-6">
             {Object.entries(categoryLabels).map(([key, label]) => (
               <button
@@ -78,7 +109,6 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
             ))}
           </div>
 
-          {/* Clinic filter */}
           <div className="flex flex-wrap gap-2 mt-3">
             <button
               onClick={() => setActiveClinic("alle")}
@@ -111,9 +141,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
 
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
-          <p className="text-sm text-muted-foreground mb-6">
-            {t("specialists.count", { count: filtered.length })}
-          </p>
+          <p className="text-sm text-muted-foreground mb-6">{countText}</p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {filtered.map((specialist) => (
               <Link
@@ -137,7 +165,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
                 {specialist.clinics && specialist.clinics.length > 0 && (
                   <p className="flex items-center gap-1 text-xs text-muted-foreground/60 font-light mt-0.5">
                     <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
-                    {specialist.clinics.join(' · ')}
+                    {specialist.clinics.join(" · ")}
                   </p>
                 )}
               </Link>

@@ -40,7 +40,13 @@ export default {
                 { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
                 { name: 'subheading', title: 'Undertekst', type: 'internationalizedArrayString' },
                 { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },
-                { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
+                {
+                  name: 'ctaLink',
+                  title: 'CTA-lenke',
+                  type: 'internationalizedArrayString',
+                  description:
+                    'Intern sti uten locale. NO: f.eks. /gynekologi — EN: f.eks. /gynecology',
+                },
               ],
               preview: {
                 select: { title: 'heading', subtitle: 'subheading', media: 'image' },

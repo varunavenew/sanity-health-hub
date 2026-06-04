@@ -45,6 +45,8 @@ import {
   TESTIMONIALS_QUERY,
   PRODUCT_BY_SLUG_QUERY,
   SPECIALISTS_PAGE_QUERY,
+  SPECIALISTS_LISTING_PAGE_QUERY,
+  CLINICS_PAGE_QUERY,
   SOCIAL_POSTS_QUERY,
 } from "@/lib/queries";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
@@ -138,6 +140,12 @@ export interface SanitySpecialist {
     title: string;
     categoryNumericId?: number;
   }[];
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    ogImage?: unknown;
+    noIndex?: boolean;
+  };
 }
 
 function mapSanitySpecialistCategories(
@@ -261,6 +269,7 @@ export const useSpecialist = (slug: string) => {
         clinics: data.clinics || [],
         bookingCategoryIds: normalizeBookingCategoryIds(data.bookingCategoryIds),
         sanityCategories: mapSanitySpecialistCategories(data.categories),
+        seo: data.seo,
       } as SanitySpecialist;
     },
     enabled: !!slug,
@@ -445,7 +454,34 @@ export const useAboutPage = () => {
           title: "",
           content: (block.children || []).map((c: any) => c.text).join(""),
         }));
-      return { ...data, title, subtitle, body, sections, pageSections: normalizePageSections(data.pageSections) };
+      const rawSection = data.clinicsSection as
+        | {
+            showSection?: boolean;
+            title?: string;
+            clinics?: unknown[];
+          }
+        | undefined;
+      const curatedClinics = rawSection?.clinics?.length
+        ? mapClinicListRows(rawSection.clinics, lang)
+        : undefined;
+      const clinicsSection = rawSection
+        ? {
+            showSection: rawSection.showSection !== false,
+            title:
+              typeof rawSection.title === "string" ? rawSection.title.trim() : "",
+            clinics: curatedClinics,
+          }
+        : undefined;
+
+      return {
+        ...data,
+        title,
+        subtitle,
+        body,
+        sections,
+        clinicsSection,
+        pageSections: normalizePageSections(data.pageSections),
+      };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -558,7 +594,16 @@ export const useServicesPage = () => {
 };
 
 // ─── Clinics ─────────────────────────────────────────────────────────
-function normalizeClinicRow(c: Record<string, unknown>) {
+export type SanityClinicListRow = {
+  id: string;
+  slug: string;
+  label: string;
+  address: string;
+  phone?: string;
+  hours?: string;
+};
+
+function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
   const label =
     typeof c.label === "string"
       ? c.label
@@ -570,7 +615,20 @@ function normalizeClinicRow(c: Record<string, unknown>) {
     label: label.trim(),
     slug: (c.slug as string) || (c.id as string) || "",
     id: (c.id as string) || (c.slug as string) || "",
+    address: typeof c.address === "string" ? c.address : "",
+    phone: typeof c.phone === "string" ? c.phone : undefined,
+    hours: typeof c.hours === "string" ? c.hours : undefined,
   };
+}
+
+export function mapClinicListRows(
+  rows: unknown[] | null | undefined,
+  lang: "no" | "en",
+): SanityClinicListRow[] {
+  const published = filterPublishedDocuments(rows || [])
+    .map((c) => normalizeClinicRow(c as Record<string, unknown>))
+    .filter((c) => c.label && c.address);
+  return sortBySlug(dedupeBySlug(published), (c) => c.slug || c.label, lang);
 }
 
 export const useClinics = () => {
@@ -578,11 +636,8 @@ export const useClinics = () => {
   return useQuery({
     queryKey: ["sanity", "clinics", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(CLINICS_QUERY, undefined, lang);
-      const published = filterPublishedDocuments(data || [])
-        .map((c) => normalizeClinicRow(c))
-        .filter((c) => c.label && (c as { address?: string }).address);
-      return sortBySlug(dedupeBySlug(published), (c) => c.slug || c.label, lang);
+      const data = await fetchSanity<unknown[]>(CLINICS_QUERY, undefined, lang);
+      return mapClinicListRows(data, lang);
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -809,7 +864,45 @@ export const useServiceCategoriesFromSanity = () => {
   });
 };
 
-// ─── Specialists Page ────────────────────────────────────────────────
+// ─── Clinics listing page ────────────────────────────────────────────
+export const useClinicsPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "clinicsPage", lang],
+    queryFn: () =>
+      fetchSanity<{
+        heroEyebrow?: string;
+        heroTitle?: string;
+        heroDescription?: string;
+        heroImage?: string;
+        primaryCtaLabel?: string;
+        primaryCtaPath?: string;
+        secondaryCtaLabel?: string;
+        secondaryCtaPath?: string;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+      }>(CLINICS_PAGE_QUERY, undefined, lang),
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+// ─── Specialists listing page (/spesialister) ────────────────────────
+export const useSpecialistsListingPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "specialistsListingPage", lang],
+    queryFn: () =>
+      fetchSanity<{
+        heroEyebrow?: string;
+        heroTitle?: string;
+        heroDescription?: string;
+        countLabel?: string;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+      }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang),
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+// ─── About specialists page (/om-spesialister) ───────────────────────
 export const useSpecialistsPage = () => {
   const lang = useSanityLang();
   return useQuery({

@@ -90,6 +90,12 @@ export interface Specialist {
   sanityCategories?: SpecialistSanityCategory[];
   /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */
   bookingCategoryIds?: number[];
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    ogImage?: unknown;
+    noIndex?: boolean;
+  };
 }
 
 export const specialists: Specialist[] = [

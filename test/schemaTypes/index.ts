@@ -18,6 +18,7 @@ import youtubeEmbed from './youtubeEmbed'
 import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
+import clinicsPage from './clinicsPage'
 
 import article from './article'
 import jobListing from './jobListing'
@@ -26,6 +27,7 @@ import faq from './faq'
 import themePage from './themePage'
 import product from './product'
 import specialistsPage from './specialistsPage'
+import specialistsListingPage from './specialistsListingPage'
 import testimonial from './testimonial'
 import {
   pageSectionSpecialists,
@@ -43,9 +45,11 @@ export const schemaTypes = [
   insurancePage,
   servicesPage,
   clinicPage,
-  
+  clinicsPage,
+
   themePage,
   specialistsPage,
+  specialistsListingPage,
 
   // Content
   treatmentCategory,

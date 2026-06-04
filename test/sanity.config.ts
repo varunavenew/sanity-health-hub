@@ -13,7 +13,7 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norsk'},
   {id: 'en', title: 'English'},
 ] as const
-import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
+import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon} from './schemaTypes/icons'
 
 // Default document node with locale-specific preview panes (nb + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
@@ -49,7 +49,18 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ])
 }
 
-const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial', 'googleReview', 'googleReviewSettings']
+const hiddenTypes = [
+  'specialist',
+  'specialistsPage',
+  'specialistsListingPage',
+  'clinicPage',
+  'clinicsPage',
+  'pricingPage',
+  'testimonial',
+  'googleReview',
+  'googleReviewSettings',
+  'newsPage',
+]
 
 export default defineConfig({
   name: 'default',
@@ -67,6 +78,8 @@ export default defineConfig({
             !hiddenTypes.includes(item.getId() || '') &&
             item.getId() !== 'article' &&
             item.getId() !== 'clinicPage' &&
+            item.getId() !== 'clinicsPage' &&
+            item.getId() !== 'specialistsListingPage' &&
             item.getId() !== 'treatmentCategory' &&
             item.getId() !== 'treatment',
         )
@@ -101,13 +114,32 @@ export default defineConfig({
               ])
           )
 
-        const clinicItem = S.listItem()
-          .title('Klinikk')
-          .schemaType('clinicPage')
+        const clinicsItem = S.listItem()
+          .title('Clinics')
+          .icon(ClinicIcon)
           .child(
-            S.documentTypeList('clinicPage')
-              .title('Klinikk')
-              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
+            S.list()
+              .title('Clinics')
+              .items([
+                S.listItem()
+                  .title('About our clinics')
+                  .icon(ClinicIcon)
+                  .child(
+                    S.document()
+                      .schemaType('clinicsPage')
+                      .documentId('clinicsPage')
+                  ),
+                S.documentTypeListItem('clinicPage')
+                  .title('Our clinics')
+                  .child(
+                    S.documentTypeList('clinicPage')
+                      .title('Our clinics')
+                      .defaultOrdering([
+                        { field: 'sortOrder', direction: 'asc' },
+                        { field: '_updatedAt', direction: 'desc' },
+                      ])
+                  ),
+              ])
           )
 
         const treatmentCategoryItem = S.listItem()
@@ -142,6 +174,14 @@ export default defineConfig({
                     S.document()
                       .schemaType('specialistsPage')
                       .documentId('specialistsPage')
+                  ),
+                S.listItem()
+                  .title('Specialists listing')
+                  .icon(SpecialistIcon)
+                  .child(
+                    S.document()
+                      .schemaType('specialistsListingPage')
+                      .documentId('specialistsListingPage')
                   ),
                 S.documentTypeListItem('specialist')
                   .title('Our specialists')
@@ -203,7 +243,7 @@ export default defineConfig({
           .items([
             ...otherItems.slice(0, mid),
             articleItem,
-            clinicItem,
+            clinicsItem,
             treatmentCategoryItem,
             treatmentItem,
             specialistsItem,
@@ -232,8 +272,8 @@ export default defineConfig({
     actions: (prev, context) => {
       const i18nTypes = new Set([
         'article', 'aboutPage', 'treatment', 'treatmentCategory',
-        'homepage', 'contactPage', 'clinicPage', 'servicesPage',
-        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage', 'newsPage',
+        'homepage', 'contactPage', 'clinicPage', 'clinicsPage', 'servicesPage',
+        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage', 'specialistsListingPage', 'newsPage',
         'specialist',
         'siteSettings',
       ])

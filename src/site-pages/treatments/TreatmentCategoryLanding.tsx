@@ -1,7 +1,6 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
@@ -83,13 +82,6 @@ const TreatmentCategoryLanding = ({
   const fallbackHero = CATEGORY_HERO_FALLBACK[categoryId] ?? fertilityHeroFallback;
 
   const heroImage = category?.heroImage || fallbackHero;
-  const documentTitle =
-    landing?.documentTitle ||
-    `${category?.title || categoryId} | CMedical`;
-
-  useEffect(() => {
-    document.title = documentTitle;
-  }, [documentTitle]);
 
   if (isPending) {
     return (

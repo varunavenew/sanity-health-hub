@@ -142,6 +142,12 @@ export default {
       type: 'number',
       description: 'Lavere tall vises først. La stå tom for alfabetisk.',
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      description: 'Meta-tittel og meta-beskrivelse for spesialistens profilside',
+    },
   ],
   orderings: [
     {
