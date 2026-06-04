@@ -1,3 +1,5 @@
+"use client";
+
 import { useParams, Link } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useJobListing } from "@/hooks/useSanity";

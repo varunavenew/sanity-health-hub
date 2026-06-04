@@ -1,3 +1,5 @@
+"use client";
+
 import { useParams, useNavigate } from "@/lib/router";
 import { useRef } from "react";
 import { Calendar, ArrowRight } from "lucide-react";
