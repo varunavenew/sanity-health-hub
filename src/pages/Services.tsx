@@ -208,12 +208,7 @@ const Services = ({ isChatOpen }: PageProps) => {
         <ServicesListSection
           title="Vet du allerede hva du trenger?"
           description="Klikk og book direkte, eller les mer om den enkelte tjenesten."
-          columns={2}
-          items={additionalServices.map((s) => ({
-            title: s.label,
-            href: s.path,
-            icon: getServiceIcon(s.label),
-          }))}
+          items={additionalServices.map((s) => ({ title: s.label, href: s.path }))}
         />
       )}
 
