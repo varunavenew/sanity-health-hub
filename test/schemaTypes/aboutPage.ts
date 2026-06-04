@@ -47,16 +47,31 @@ export default {
       ],
     },
     {
-      name: 'clinicImages',
-      title: 'Klinikkbilder',
-      type: 'array',
-      of: [
+      name: 'clinicsSection',
+      title: 'Seksjon — klinikker',
+      description:
+        'Vises på Om oss (og Kontakt). Tom klinikkliste = alle publiserte klinikker.',
+      type: 'object',
+      fields: [
         {
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            { name: 'caption', title: 'Bildetekst', type: 'string' },
-          ],
+          name: 'showSection',
+          title: 'Vis seksjonen',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'title',
+          title: 'Overskrift',
+          type: 'internationalizedArrayString',
+          description: 'F.eks. «Våre klinikker»',
+        },
+        {
+          name: 'clinics',
+          title: 'Klinikker (valgfritt)',
+          type: 'array',
+          of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
+          description:
+            'Velg rekkefølge. La stå tom for å liste alle publiserte klinikker automatisk.',
         },
       ],
     },

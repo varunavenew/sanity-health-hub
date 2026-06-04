@@ -7,8 +7,12 @@ import {
 } from "@/lib/seo/metadata-builders";
 import { resolveMetaStrings, type SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
+import { NAV_ROUTE_PATHS } from "@/lib/i18n/nav-paths";
 import {
   fetchArticleSeo,
+  fetchClinicSeo,
+  fetchJobListingSeo,
+  fetchSpecialistSeo,
   fetchThemePageSeo,
   fetchTreatmentCategorySeo,
   fetchTreatmentSeo,
@@ -162,4 +166,115 @@ export async function buildThemePageMetadata(
       },
     },
   );
+}
+
+function specialistSeoFallbacks(
+  doc: {
+    name?: string;
+    role?: string;
+    shortBio?: string;
+    expertise?: string[];
+  },
+  lang: "nb" | "en",
+): { title: string; description: string } {
+  const name = doc.name || "Specialist";
+  const role = doc.role || "";
+  const expertise = doc.expertise?.filter(Boolean).join(", ") || "";
+  const bio = doc.shortBio?.trim().slice(0, 160);
+
+  if (lang === "en") {
+    return {
+      title: role ? `${name} – ${role}` : name,
+      description:
+        bio ||
+        `Book an appointment with ${name}${role ? `, ${role}` : ""} at CMedical.${expertise ? ` ${expertise}.` : ""} No referral needed.`.slice(
+          0,
+          160,
+        ),
+    };
+  }
+
+  return {
+    title: role ? `${name} – ${role}` : name,
+    description:
+      bio ||
+      `Bestill time hos ${name}${role ? `, ${role}` : ""} hos CMedical.${expertise ? ` ${expertise}.` : ""} Ingen henvisning nødvendig.`.slice(
+        0,
+        160,
+      ),
+  };
+}
+
+export async function buildSpecialistMetadata(
+  locale: string,
+  slug: string,
+): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const doc = await fetchSpecialistSeo(slug, sanityLang);
+  const base = `/${locale}/spesialister/${slug}`;
+  const fallbacks = {
+    nb: specialistSeoFallbacks(doc || {}, "nb"),
+    en: specialistSeoFallbacks(doc || {}, "en"),
+  };
+
+  return metadataFromSeo(
+    locale,
+    { nbPath: base, enPath: base },
+    doc?.seo,
+    fallbacks,
+  );
+}
+
+export async function buildClinicMetadata(
+  locale: string,
+  slug: string,
+): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const doc = await fetchClinicSeo(slug, sanityLang);
+  const label = doc?.label || slug;
+  const nbClinics = NAV_ROUTE_PATHS.clinics.nb;
+  const enClinics = NAV_ROUTE_PATHS.clinics.en;
+
+  return metadataFromSeo(
+    locale,
+    {
+      nbPath: `/no${nbClinics}/${slug}`,
+      enPath: `/en${enClinics}/${slug}`,
+    },
+    doc?.seo,
+    {
+      nb: {
+        title: `CMedical ${label} – Klinikk`,
+        description: `Besøk CMedical ${label}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`,
+      },
+      en: {
+        title: `CMedical ${label} – Clinic`,
+        description: `Visit CMedical ${label}. Opening hours, services and contact information for our clinic.`,
+      },
+    },
+  );
+}
+
+export async function buildJobListingMetadata(
+  locale: string,
+  slug: string,
+): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const doc = await fetchJobListingSeo(slug, sanityLang);
+  const jobTitle = doc?.title?.trim() || slug;
+
+  return buildPageMetadata({
+    locale,
+    paths: { nbPath: `/no/karriere/${slug}`, enPath: `/en/karriere/${slug}` },
+    title: `${jobTitle} – Karriere hos CMedical`,
+    description:
+      doc?.excerpt?.trim() ||
+      (lang === "en"
+        ? `Apply for the ${jobTitle} position at CMedical.`
+        : `Søk på stillingen ${jobTitle} hos CMedical.`),
+    type: "website",
+  });
 }

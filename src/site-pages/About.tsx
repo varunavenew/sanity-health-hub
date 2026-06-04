@@ -86,7 +86,12 @@ const About = ({ isChatOpen }: AboutProps) => {
         </div>
       </article>
 
-      <ClinicGrid />
+      {sanityData?.clinicsSection?.showSection !== false ? (
+        <ClinicGrid
+          title={sanityData?.clinicsSection?.title}
+          clinics={sanityData?.clinicsSection?.clinics}
+        />
+      ) : null}
 
       {pageSections?.length ? <PageSectionsRenderer sections={pageSections} /> : null}
 

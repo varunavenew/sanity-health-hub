@@ -1,6 +1,6 @@
 // Schema: Services Page (Tjenester)
 import { TreatmentIcon } from "./icons";
-import { i18nFaqItemPreview } from "./i18n";
+import { i18nFaqItemPreview, pickNo } from "./i18n";
 import { pageSectionsField } from "./pageSections";
 
 const i18nString = {
@@ -106,6 +106,8 @@ export default {
       of: [
         {
           type: "object",
+          name: "moreServicesCategory",
+          title: "Kategori",
           fields: [
             {
               name: "category",
@@ -131,22 +133,23 @@ export default {
           preview: {
             select: {
               categoryId: "category.categoryId",
-              title: "category.title",
+              categoryTitle: "category.title",
               displayMode: "displayMode",
             },
             prepare({
               categoryId,
-              title,
+              categoryTitle,
               displayMode,
             }: {
               categoryId?: string;
-              title?: string;
+              categoryTitle?: unknown;
               displayMode?: string;
             }) {
               const mode =
                 displayMode === "treatmentsList" ? "Behandlingsliste" : "Kategorilenke";
+              const label = pickNo(categoryTitle) || categoryId || "Velg kategori";
               return {
-                title: title || categoryId || "Kategori",
+                title: label,
                 subtitle: mode,
               };
             },

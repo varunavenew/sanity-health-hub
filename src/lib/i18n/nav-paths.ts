@@ -37,6 +37,28 @@ for (const id of Object.keys(NAV_ROUTE_PATHS) as NavRouteId[]) {
   PATH_TO_NAV_ID[en] = id;
 }
 
+/** Marketing / category paths (not in main nav) — used as fallback when CMS EN link is empty */
+const MARKETING_NB_TO_EN: Record<string, string> = {
+  "/gynekologi": "/gynecology",
+  "/urologi": "/urology",
+  "/fertilitet": "/fertility",
+  "/ortopedi": "/ortopedi",
+  "/graviditet": "/graviditet",
+  "/flere-fagomrader": "/flere-fagomrader",
+  "/kvinnehelse": "/kvinnehelse",
+  "/robotassistert-kirurgi": "/robotassistert-kirurgi",
+  "/tverrfaglige-team": "/tverrfaglige-team",
+  "/tjenester": "/services",
+  "/behandlinger/gynekologi": "/behandlinger/gynekologi",
+  "/behandlinger/fertilitet": "/behandlinger/fertilitet",
+  "/behandlinger/urologi": "/behandlinger/urologi",
+};
+
+for (const [nb, en] of Object.entries(MARKETING_NB_TO_EN)) {
+  if (!NB_TO_EN_PATH[nb]) NB_TO_EN_PATH[nb] = en;
+  if (!EN_TO_NB_PATH[en]) EN_TO_NB_PATH[en] = nb;
+}
+
 export function navPathForLocale(navId: NavRouteId, locale: NavLocale): string {
   return NAV_ROUTE_PATHS[navId][locale === "en" ? "en" : "nb"];
 }

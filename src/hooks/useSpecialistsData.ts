@@ -78,6 +78,7 @@ export const useSpecialistBySlug = (slug: string) => {
         bookingCategoryIds: sanityData.bookingCategoryIds,
         category: sanityData.category as Specialist["category"],
       }),
+      seo: sanityData.seo,
     } as Specialist,
     isLoading,
   };

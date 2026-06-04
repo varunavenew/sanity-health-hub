@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
+import { normalizePageTitle } from "@/lib/seo/metadata-builders";
 
 interface BreadcrumbItem {
   name: string;
@@ -40,7 +41,7 @@ export const PageSEO = ({
     ? canonical.replace(BASE_URL, "")
     : canonical;
   const fullCanonical = `${BASE_URL}${cleanPath}`;
-  const fullTitle = title.includes("CMedical") ? title : `${title} | CMedical`;
+  const fullTitle = normalizePageTitle(title);
 
   const breadcrumbJsonLd = breadcrumbs.length > 0
     ? {

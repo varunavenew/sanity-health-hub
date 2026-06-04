@@ -249,6 +249,7 @@ const SCHEMAS: Array<{
         heading: 'internationalizedArrayStringValue',
         subheading: 'internationalizedArrayStringValue',
         ctaText: 'internationalizedArrayStringValue',
+        ctaLink: 'internationalizedArrayStringValue',
       },
       statsBar: { label: 'internationalizedArrayStringValue' },
       valueBadges: { label: 'internationalizedArrayStringValue' },

@@ -1,3 +1,5 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink } from "lucide-react";

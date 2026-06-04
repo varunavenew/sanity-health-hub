@@ -26,6 +26,19 @@ const i18nStringLocale = (field: string) =>
 
 const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
 
+const publishedClinicFilter = `!(_id in path("drafts.**"))`;
+
+/** Shared row shape for clinic lists (grid, about section, footer). */
+export const CLINIC_LIST_ROW_PROJECTION = `
+  _id,
+  ${localizedSlug},
+  "id": coalesce(slug[language == $lang][0].value.current, slug[language == "no"][0].value.current, slug[0].value.current, slug.current),
+  "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  address,
+  phone,
+  ${i18nString("hours")}
+`;
+
 /** Modular specialists / articles blocks — append inside page GROQ projections */
 export const PAGE_SECTIONS_GROQ = `
   pageSections[]{
@@ -68,7 +81,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       ${i18nString("heading")},
       ${i18nString("subheading")},
       ${i18nString("ctaText")},
-      ctaLink,
+      ${i18nString("ctaLink")},
       "image": image.asset->url
     }
   },
@@ -102,7 +115,8 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && ${slugMatche
   "clinics": clinics[]->title,
   ${localizedSlug},
   "image": photo.asset->url,
-  "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
+  "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
+  ${localizedSeoObject}
 }`;
 
 export const GOOGLE_REVIEWS_QUERY = `*[_type == "googleReview"] | order(_createdAt desc){
@@ -306,6 +320,13 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
   "heroImage": heroImage.asset->url,
   "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
   values,
+  clinicsSection{
+    showSection,
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    "clinics": clinics[]->{
+      ${CLINIC_LIST_ROW_PROJECTION}
+    }
+  },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
@@ -458,10 +479,9 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   ${localizedSeoObject}
 }`;
 
-const publishedClinicFilter = `!(_id in path("drafts.**"))`;
-
 export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter}] | order(${orderSlugAsc}){
-  _id, ${localizedSlug}, "id": coalesce(slug[language == $lang][0].value.current, slug[language == "no"][0].value.current, slug[0].value.current, slug.current), "label": title, address, phone, ${i18nString("hours")}, services,
+  ${CLINIC_LIST_ROW_PROJECTION},
+  services,
   description, email, contactDescription,
   valueProposition,
   locationSearch,
@@ -474,7 +494,8 @@ export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter
 }`;
 
 export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
-  _id, ${localizedSlug}, "id": coalesce(slug[language == $lang][0].value.current, slug[language == "no"][0].value.current, slug[0].value.current, slug.current), "label": title, address, phone, ${i18nString("hours")}, services,
+  ${CLINIC_LIST_ROW_PROJECTION},
+  services,
   description, email, contactDescription,
   valueProposition,
   locationSearch,
@@ -569,6 +590,17 @@ export const JOB_LISTINGS_QUERY = `*[_type == "jobListing" && active == true] | 
   applyUrl,
 }`;
 
+export const CLINIC_SEO_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
+  "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  ${localizedSeoObject}
+}`;
+
+export const JOB_LISTING_SEO_BY_SLUG_QUERY = `*[_type == "jobListing" && active == true && ${slugMatchesParam("slug")}][0]{
+  title,
+  excerpt,
+  ${localizedSlug}
+}`;
+
 export const JOB_LISTING_BY_SLUG_QUERY = `*[_type == "jobListing" && ${slugMatchesParam("slug")}][0]{
   _id,
   title,
@@ -612,7 +644,28 @@ export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"
 }`;
 
 export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
-  title, subtitle, body, seo
+  title, subtitle, body,
+  ${localizedSeoObject}
+}`;
+
+export const SPECIALISTS_LISTING_PAGE_QUERY = `*[_type == "specialistsListingPage"][0]{
+  ${i18nString("heroEyebrow")},
+  ${i18nString("heroTitle")},
+  ${i18nText("heroDescription")},
+  ${i18nString("countLabel")},
+  ${localizedSeoObject}
+}`;
+
+export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage"][0]{
+  ${i18nString("heroEyebrow")},
+  ${i18nString("heroTitle")},
+  ${i18nText("heroDescription")},
+  "heroImage": heroImage.asset->url,
+  ${i18nString("primaryCtaLabel")},
+  primaryCtaPath,
+  ${i18nString("secondaryCtaLabel")},
+  secondaryCtaPath,
+  ${localizedSeoObject}
 }`;
 
 export const PRODUCTS_QUERY = `*[_type == "product"] | order(sortOrder asc){

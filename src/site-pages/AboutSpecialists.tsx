@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+"use client";
+
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -14,10 +15,6 @@ interface AboutSpecialistsProps {
 
 const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
   const { data: pageData } = useSpecialistsPage();
-
-  useEffect(() => {
-    document.title = pageData?.seo?.metaTitle || "Om våre spesialister | CMedical";
-  }, [pageData]);
 
   const title = pageData?.title || "Om våre spesialister";
   const subtitle =

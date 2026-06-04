@@ -27,6 +27,7 @@ const TYPES_WITH_SEO = [
   'treatmentCategory',
   'treatment',
   'themePage',
+  'specialist',
   'specialistsPage',
   'privacyPolicyPage',
 ]

@@ -1,18 +1,46 @@
 #!/usr/bin/env npx tsx
 /**
- * Seeds full servicesPage content (NO + EN).
+ * Seed missing servicesPage fields (NO + EN) — eyebrow, badges, search, etc.
+ * Skips fields that already have i18n content unless FORCE=1.
  *
  * From test/:
- *   SANITY_TOKEN=… npx tsx sanity/migrate-services-page-content.ts
- *
- * Deploy schema first: npx sanity schema deploy
+ *   npm run migrate:services-page-content:dry
+ *   npm run migrate:services-page-content
  */
 import { sanityClient } from "./config";
 import { i18nString, i18nText } from "./lib/category-landing-i18n";
 import { patchSingletonFields } from "./lib/patch-singleton";
 import { servicesPageFaqs } from "./data/services-page-faqs";
 
-const doc = {
+const DRY_RUN = process.env.DRY_RUN === "1";
+const FORCE = process.env.FORCE === "1";
+
+type I18nEntry = { language?: string; _key?: string; value?: string };
+
+function pickNo(value: unknown): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  const no = value.find(
+    (e) => (e as I18nEntry).language === "no" || (e as I18nEntry)._key === "no",
+  ) as I18nEntry | undefined;
+  if (no?.value) return String(no.value).trim();
+  const first = value[0] as I18nEntry | undefined;
+  return first?.value ? String(first.value).trim() : "";
+}
+
+function hasI18nValue(value: unknown): boolean {
+  return Boolean(pickNo(value));
+}
+
+function hasBadges(value: unknown): boolean {
+  return Array.isArray(value) && value.length > 0;
+}
+
+function hasFeatured(value: unknown): boolean {
+  return Array.isArray(value) && value.length > 0;
+}
+
+const DEFAULTS: Record<string, unknown> = {
   breadcrumbHome: i18nString("Hjem", "Home"),
   title: i18nString("Våre tjenester", "Our services"),
   eyebrow: i18nString("Tjenester", "Services"),
@@ -76,10 +104,77 @@ const doc = {
   },
 };
 
+function buildPatch(existing: Record<string, unknown> | null): Record<string, unknown> {
+  if (FORCE || !existing) return { ...DEFAULTS };
+
+  const patch: Record<string, unknown> = {};
+
+  const i18nFields = [
+    "breadcrumbHome",
+    "title",
+    "eyebrow",
+    "introText",
+    "searchPlaceholder",
+    "featuredSectionTitle",
+    "faqSectionTitle",
+  ] as const;
+
+  for (const key of i18nFields) {
+    if (!hasI18nValue(existing[key])) {
+      patch[key] = DEFAULTS[key];
+    }
+  }
+
+  if (!hasBadges(existing.badges)) patch.badges = DEFAULTS.badges;
+  if (!hasFeatured(existing.featuredCategories)) {
+    patch.featuredCategories = DEFAULTS.featuredCategories;
+  }
+
+  const more = (existing.moreServicesSection as Record<string, unknown>) || {};
+  if (
+    !hasI18nValue(more.eyebrow) ||
+    !hasI18nValue(more.title) ||
+    !hasI18nValue(more.description)
+  ) {
+    patch.moreServicesSection = DEFAULTS.moreServicesSection;
+  }
+
+  if (!hasFeatured(existing.moreServicesCategories)) {
+    patch.moreServicesCategories = DEFAULTS.moreServicesCategories;
+  }
+
+  if (!Array.isArray(existing.faqs) || (existing.faqs as unknown[]).length === 0) {
+    patch.faqs = DEFAULTS.faqs;
+  }
+
+  if (!existing.seo) patch.seo = DEFAULTS.seo;
+
+  return patch;
+}
+
 async function main() {
+  const existing = await sanityClient.fetch<Record<string, unknown> | null>(
+    `*[_id == "servicesPage"][0]`,
+  );
+
+  const patch = buildPatch(existing);
+
+  if (Object.keys(patch).length === 0) {
+    console.log("servicesPage already has content — nothing to patch (use FORCE=1 to overwrite).");
+    return;
+  }
+
+  console.log("Fields to set:", Object.keys(patch).join(", "));
+
+  if (DRY_RUN) {
+    console.log("\nDry run — no changes written.");
+    return;
+  }
+
   console.log("▶ Patching servicesPage (published + draft)…");
-  const patched = await patchSingletonFields("servicesPage", doc);
+  const patched = await patchSingletonFields("servicesPage", patch);
   console.log(`✓ servicesPage updated — patched: ${patched.join(", ")}`);
+  console.log("Publish in Studio if you were editing the draft.");
 }
 
 main().catch((e) => {

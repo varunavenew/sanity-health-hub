@@ -77,7 +77,7 @@ function asI18nArray(no: string, en: string): I18nValue[] {
 
 async function run() {
   const specialists = await sanityClient.fetch<SpecialistDoc[]>(
-    `*[_type == "specialist"]{_id, name, role, subtitle, specialties}`,
+    `*[_type == "specialist" && !(_id in path("drafts.**"))]{_id, name, role, subtitle, specialties}`,
   )
 
   if (!specialists.length) {
@@ -114,9 +114,6 @@ async function run() {
     }
 
     await sanityClient.patch(doc._id).set(setPayload).commit()
-    const draftId = doc._id.startsWith('drafts.') ? doc._id : `drafts.${doc._id}`
-    await sanityClient.createIfNotExists({_id: draftId, _type: 'specialist'})
-    await sanityClient.patch(draftId).set(setPayload).commit()
   }
 
   console.log(

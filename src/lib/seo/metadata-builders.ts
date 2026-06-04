@@ -13,8 +13,16 @@ export interface LocalizedPaths {
   enPath: string;
 }
 
-function displayTitle(title: string): string {
-  return title.includes("CMedical") ? title : `${title} | CMedical`;
+const BRAND_SUFFIX_RE = /\s*\|\s*CMedical\s*$/i;
+
+/** Single brand suffix — avoids doubling with root layout `title.template` or PageSEO. */
+export function normalizePageTitle(title: string): string {
+  let t = title.trim();
+  if (!t) return "CMedical";
+  while (BRAND_SUFFIX_RE.test(t)) {
+    t = t.replace(BRAND_SUFFIX_RE, "").trim();
+  }
+  return `${t} | CMedical`;
 }
 
 /**
@@ -33,8 +41,10 @@ export function buildPageMetadata(opts: {
 }): Metadata {
   const base = siteUrl();
   const loc = appLocaleFromParam(opts.locale);
-  const title = typeof opts.title === "string" ? opts.title : "";
-  const description = typeof opts.description === "string" ? opts.description : "";
+  const title = typeof opts.title === "string" ? opts.title.trim() : "";
+  const description =
+    (typeof opts.description === "string" ? opts.description.trim() : "") ||
+    "CMedical – privat spesialisthelse.";
   const canonicalPath = loc === "en" ? opts.paths.enPath : opts.paths.nbPath;
   const canonical = `${base}${canonicalPath}`;
   const nbAbsolute = `${base}${opts.paths.nbPath}`;
@@ -42,16 +52,13 @@ export function buildPageMetadata(opts: {
 
   const ogLocale = loc === "en" ? "en_US" : "nb_NO";
   const ogLocaleAlt = loc === "en" ? "nb_NO" : "en_US";
-  const resolvedTitle = displayTitle(title);
-
-  const titleField: Metadata["title"] = title.includes("CMedical")
-    ? { absolute: title }
-    : title;
+  const pageTitle = normalizePageTitle(title);
 
   const ogImage = resolveOgImageUrl(opts.ogImage);
 
   return {
-    title: titleField,
+    // Absolute title — do not use layout template `%s | CMedical` (would duplicate suffix).
+    title: { absolute: pageTitle },
     description,
     alternates: {
       canonical,
@@ -74,7 +81,7 @@ export function buildPageMetadata(opts: {
           },
         },
     openGraph: {
-      title: resolvedTitle,
+      title: pageTitle,
       description,
       url: canonical,
       type: opts.type ?? "website",
@@ -93,7 +100,7 @@ export function buildPageMetadata(opts: {
     },
     twitter: {
       card: "summary_large_image",
-      title: resolvedTitle,
+      title: pageTitle,
       description,
       images: [ogImage],
     },

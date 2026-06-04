@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import { useParams, Link } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
