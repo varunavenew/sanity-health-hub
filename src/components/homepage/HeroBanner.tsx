@@ -111,7 +111,7 @@ export const HeroBanner = () => {
           exit="exit"
           transition={{ duration: 0.35, ease: "easeInOut" }}
           className="absolute inset-0 cursor-pointer group"
-          onClick={() => { if (!dragging.current) navigate(slide.ctaPath); }}
+          onClick={() => navigate(slide.ctaPath)}
         >
           <img
             src={slide.image}
