@@ -328,7 +328,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+ <div className="lg:col-span-5 lg:self-center relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-[520px] overflow-hidden">
  <img
  src={heroClinicLounge}
  alt="CMedical fertilitetsklinikk i Sandvika"
