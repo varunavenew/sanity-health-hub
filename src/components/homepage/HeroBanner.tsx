@@ -44,6 +44,7 @@ export const HeroBanner = () => {
     {
       id: "fertilitet",
       image: fertilityHero,
+      video: fertilityHeroVideo.url,
       alt: t("hero.fertilitet.label"),
       label: t("hero.fertilitet.label"),
       subtitle: t("hero.fertilitet.subtitle"),
