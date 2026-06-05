@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { ArrowRight, Check, Star, Phone, Quote, Users, Clock, User } from "lucide-react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,6 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
-import audienceCoupleImg from "@/assets/fertility/audience-couple.jpg";
-import audienceWaitingImg from "@/assets/fertility/audience-waiting.jpg";
-import audienceSingleImg from "@/assets/fertility/audience-single.jpg";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
@@ -101,27 +98,27 @@ const segments = [
 
 
 const audiences = [
- {
- title: "Heterofile par",
- image: audienceCoupleImg,
- desc:
- "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
- href: "/booking?kategori=fertilitet",
- },
- {
- title: "De ventende",
- image: audienceWaitingImg,
- desc:
- "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
- href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
- },
- {
- title: "Singel",
- image: audienceSingleImg,
- desc:
- "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
- href: "/booking?kategori=fertilitet",
- },
+  {
+    title: "Heterofile par",
+    Icon: Users,
+    desc:
+      "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
+    href: "/booking?kategori=fertilitet",
+  },
+  {
+    title: "De ventende",
+    Icon: Clock,
+    desc:
+      "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
+    href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
+  },
+  {
+    title: "Singel",
+    Icon: User,
+    desc:
+      "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
+    href: "/booking?kategori=fertilitet",
+  },
 ];
 
 const services = [
@@ -356,38 +353,31 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-  <div className="grid md:grid-cols-3 gap-6">
-   {audiences.map((a) => (
-    <div
-     key={a.title}
-     className="bg-background rounded-sm border border-border/40 flex flex-col overflow-hidden"
-    >
-     <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary">
-      <img
-       src={a.image}
-       alt={a.title}
-       loading="lazy"
-       className="absolute inset-0 w-full h-full object-cover"
-      />
-     </div>
-     <div className="p-7 flex flex-col flex-1">
-      <h3 className="text-lg font-normal text-foreground mb-3">
-       {a.title}
-      </h3>
-      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-       {a.desc}
-      </p>
-      <Link
-       to={a.href}
-       className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
-      >
-       Les mer
-       <ArrowRight className="w-3.5 h-3.5" />
-      </Link>
-     </div>
-    </div>
-   ))}
-  </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {audiences.map((a) => (
+              <div
+                key={a.title}
+                className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
+              >
+                <div className="mb-6 text-foreground/80">
+                  <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-normal text-foreground mb-3">
+                  {a.title}
+                </h3>
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                  {a.desc}
+                </p>
+                <Link
+                  to={a.href}
+                  className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
+                >
+                  Les mer
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
  </div>
  </div>
  </section>
