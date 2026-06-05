@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarCheck } from "lucide-react";
 
 export interface ServiceListItem {
  title: string;
  desc?: string;
  href: string;
+}
+
+interface BookingCtaConfig {
+ title?: string;
+ desc?: string;
+ href?: string;
 }
 
 interface ServicesListSectionProps {
@@ -13,6 +19,8 @@ interface ServicesListSectionProps {
  description?: string;
  items: ServiceListItem[];
  background?: "background" | "brand-light";
+ /** When set, renders a booking CTA tile that fills the trailing grid cell. */
+ bookingCta?: boolean | BookingCtaConfig;
 }
 
 export function ServicesListSection({
@@ -20,8 +28,20 @@ export function ServicesListSection({
  description,
  items,
  background = "background",
+ bookingCta,
 }: ServicesListSectionProps) {
  const bgClass = background === "brand-light" ? "bg-brand-light" : "bg-background";
+
+ const cta: BookingCtaConfig | null = bookingCta
+   ? {
+       title: typeof bookingCta === "object" ? bookingCta.title ?? "Bestill time" : "Bestill time",
+       desc:
+         typeof bookingCta === "object"
+           ? bookingCta.desc ?? "Finn ledig tid hos våre spesialister."
+           : "Finn ledig tid hos våre spesialister.",
+       href: typeof bookingCta === "object" ? bookingCta.href ?? "/booking" : "/booking",
+     }
+   : null;
 
  return (
  <section className={`${bgClass} text-foreground py-20 md:py-28`}>
@@ -62,6 +82,25 @@ export function ServicesListSection({
  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
  </Link>
  ))}
+ {cta && (
+ <Link
+ to={cta.href!}
+ className="bg-brand-dark text-brand-light p-6 flex items-start justify-between gap-4 hover:bg-brand-dark/90 transition-colors group"
+ >
+ <div>
+ <div className="flex items-center gap-2 mb-1.5">
+ <CalendarCheck className="w-4 h-4" strokeWidth={1.5} />
+ <h3 className="text-base font-normal">{cta.title}</h3>
+ </div>
+ {cta.desc && (
+ <p className="text-sm font-light text-brand-light/70 leading-snug">
+ {cta.desc}
+ </p>
+ )}
+ </div>
+ <ArrowRight className="w-4 h-4 mt-1 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
+ </Link>
+ )}
  </div>
  </div>
  </div>
