@@ -89,30 +89,6 @@ export const HeroBanner = () => {
     return () => clearInterval(timer);
   }, [next]);
 
-  const dragStart = useRef<number | null>(null);
-  const dragging = useRef(false);
-
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    dragStart.current = e.clientX;
-    dragging.current = false;
-  }, []);
-
-  const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (dragStart.current !== null && Math.abs(e.clientX - dragStart.current) > 10) {
-      dragging.current = true;
-    }
-  }, []);
-
-  const onPointerUp = useCallback((e: React.PointerEvent) => {
-    if (dragStart.current === null) return;
-    const diff = e.clientX - dragStart.current;
-    dragStart.current = null;
-    if (Math.abs(diff) > 50) {
-      if (diff < 0) next();
-      else prev();
-    }
-  }, [next, prev]);
-
   const slide = heroSlides[current];
 
   const variants = {
@@ -123,11 +99,7 @@ export const HeroBanner = () => {
 
   return (
     <section
-      className="relative w-full h-[65vh] md:h-[70vh] min-h-[400px] overflow-hidden bg-brand-light select-none touch-pan-y"
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      style={{ cursor: "grab" }}
+      className="relative w-full h-[65vh] md:h-[70vh] min-h-[400px] overflow-hidden bg-brand-light select-none"
     >
       <AnimatePresence custom={direction} mode="popLayout">
         <motion.div
