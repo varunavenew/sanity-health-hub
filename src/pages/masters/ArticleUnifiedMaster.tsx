@@ -349,7 +349,25 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                 Denne artikkelen erstatter ikke individuell medisinsk rådgivning. Snakk med
                 en spesialist før du gjør endringer i behandling.
               </p>
+
+              {/* Tags + Del — rett etter selve innlegget */}
+              <div className="mt-10 pt-8 border-t border-border/60 flex flex-wrap items-center gap-3">
+                <Tag className="w-4 h-4 text-foreground/50" />
+                {["Overgangsalder", "Hormonbehandling", "Kvinnehelse", "Gynekologi"].map((t) => (
+                  <Link
+                    key={t}
+                    to={`/aktuelt?tag=${encodeURIComponent(t)}`}
+                    className="text-xs font-light px-3 py-1 rounded-full border border-border text-foreground/70 hover:border-brand-dark hover:text-foreground transition-colors"
+                  >
+                    {t}
+                  </Link>
+                ))}
+                <button className="ml-auto inline-flex items-center gap-1.5 text-xs font-light text-foreground/60 hover:text-foreground transition-colors">
+                  <Share2 className="w-3.5 h-3.5" /> Del artikkelen
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
       </article>
