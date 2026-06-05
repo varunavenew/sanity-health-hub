@@ -17,12 +17,12 @@ interface FeatureSpotlightProps {
 }
 
 /**
- * Flexible spotlight section for fagområde pages — heading, media (image or
- * video), short text and a link. Intended to host editable content like a
- * patient story, news teaser or any single highlighted message between the
- * reviews and specialists scroller.
+ * Edge-to-edge split-screen spotlight matching the site's flow-with-image
+ * pattern from SubTreatmentLayout. One column hosts copy with generous
+ * whitespace, the other a full-bleed image or video.
  */
 export const FeatureSpotlight = ({
+  eyebrow,
   title,
   text,
   ctaLabel,
@@ -33,7 +33,7 @@ export const FeatureSpotlight = ({
   mediaLeft = false,
 }: FeatureSpotlightProps) => {
   const media = (
-    <div className="relative aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-sm bg-secondary/40">
+    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[560px] overflow-hidden">
       {video ? (
         <video
           src={video}
@@ -55,39 +55,44 @@ export const FeatureSpotlight = ({
   );
 
   const copy = (
-    <div className="flex flex-col justify-center">
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-foreground mb-6">
-        {title}
-      </h2>
-      <p className="text-base font-light text-muted-foreground leading-relaxed mb-8 max-w-md">
-        {text}
-      </p>
-      <Link
-        to={ctaHref}
-        className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
-      >
-        {ctaLabel}
-        <ArrowRight className="w-3.5 h-3.5" />
-      </Link>
+    <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+      <div className="max-w-lg">
+        {eyebrow && (
+          <p className="text-xs font-light text-foreground/60 mb-5">
+            {eyebrow}
+          </p>
+        )}
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
+          {title}
+        </h2>
+        <p className="text-base font-light text-muted-foreground leading-relaxed mb-10">
+          {text}
+        </p>
+        <Link
+          to={ctaHref}
+          className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
+        >
+          {ctaLabel}
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </div>
     </div>
   );
 
   return (
-    <section className="bg-brand-light py-20 md:py-28">
-      <div className="page-shell">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-stretch">
-          {mediaLeft ? (
-            <>
-              {media}
-              {copy}
-            </>
-          ) : (
-            <>
-              {copy}
-              {media}
-            </>
-          )}
-        </div>
+    <section className="bg-brand-light text-foreground">
+      <div className="grid lg:grid-cols-2 items-stretch">
+        {mediaLeft ? (
+          <>
+            {media}
+            {copy}
+          </>
+        ) : (
+          <>
+            {copy}
+            {media}
+          </>
+        )}
       </div>
     </section>
   );
