@@ -98,27 +98,27 @@ const segments = [
 
 
 const audiences = [
- {
- title: "Heterofile par",
- image: audienceCoupleImg,
- desc:
- "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
- href: "/booking?kategori=fertilitet",
- },
- {
- title: "De ventende",
- image: audienceWaitingImg,
- desc:
- "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
- href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
- },
- {
- title: "Singel",
- image: audienceSingleImg,
- desc:
- "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
- href: "/booking?kategori=fertilitet",
- },
+  {
+    title: "Heterofile par",
+    Icon: Users,
+    desc:
+      "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
+    href: "/booking?kategori=fertilitet",
+  },
+  {
+    title: "De ventende",
+    Icon: Clock,
+    desc:
+      "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
+    href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
+  },
+  {
+    title: "Singel",
+    Icon: User,
+    desc:
+      "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
+    href: "/booking?kategori=fertilitet",
+  },
 ];
 
 const services = [
