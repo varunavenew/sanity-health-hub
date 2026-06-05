@@ -15,6 +15,7 @@ import spotlightImg from "@/assets/hero/cmedical-hands.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { TagList } from "@/components/treatments/TagList";
 
 import urologiHero from "@/assets/categories/urologi-real.jpg";
 import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
