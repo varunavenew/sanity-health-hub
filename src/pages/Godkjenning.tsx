@@ -39,25 +39,11 @@ const MASTER_TEMPLATES: {
     exampleLabel: "Åpne komplett mal",
   },
   {
-    key: "newsItem",
-    title: "Nyhet / Aktuelt",
-    description: "Kort nyhetsoppslag med ingress, brødtekst, sitat og CTA. Vises også i Aktuelt-feeden.",
-    examplePath: "/maler/newsItem",
-    exampleLabel: "Åpne komplett mal",
-  },
-  {
-    key: "article",
-    title: "Fagartikkel",
-    description: "Lengre redaksjonell artikkel med rik tekst, accordion, relaterte tjenester og FAQ.",
-    examplePath: "/maler/article",
-    exampleLabel: "Åpne komplett mal",
-  },
-  {
     key: "articleUnified",
-    title: "Artikkel — felles mal (ny)",
-    description: "Slår sammen Nyhet og Fagartikkel til én felles mal. Kategori-badge skiller typene (pasienthistorie/fagartikkel/nyhet). Bygget på feedback 3. juni.",
+    title: "Artikkel",
+    description: "Felles mastermal for alt redaksjonelt innhold i Aktuelt — pasienthistorier, fagartikler, nyheter og klinikknytt. Kategori-badge skiller typene.",
     examplePath: "/maler/articleUnified",
-    exampleLabel: "Åpne ny felles mal",
+    exampleLabel: "Åpne mal",
   },
 ];
 
