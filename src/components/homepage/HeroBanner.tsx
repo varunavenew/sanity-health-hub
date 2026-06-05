@@ -14,6 +14,7 @@ import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 interface HeroSlide {
   id: string;
   image: string;
+  video?: string;
   alt: string;
   label: string;
   subtitle: string;
