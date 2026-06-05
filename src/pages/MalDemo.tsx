@@ -6,8 +6,6 @@ import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
-import NewsItemMaster from "./masters/NewsItemMaster";
-import ArticleMaster from "./masters/ArticleMaster";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
