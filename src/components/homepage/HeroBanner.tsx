@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 // Static fallback images
 import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
 import fertilityHero from "@/assets/hero/fertility-hero.jpg";
+import fertilityHeroVideo from "@/assets/hero/fertilitet-hero.mp4.asset.json";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
 
 interface HeroSlide {
