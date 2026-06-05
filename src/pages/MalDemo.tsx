@@ -7,7 +7,7 @@ import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
-import SpecialistProfile from "./SpecialistProfile";
+import SpecialistProfileMaster from "./masters/SpecialistProfileMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -113,7 +113,7 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     description:
       "Mastermal for spesialistprofiler. Bruk denne når en ny spesialist skal legges inn — hero med portrett og biografi, ekspertiseområder, tilknyttede tjenester, anmeldelser og bookingseksjon. Innholdet hentes fra spesialistdata, slik at det er nok å registrere en ny spesialist for å få siden riktig.",
     livePath: "/spesialister/ida-bjorntvedt",
-    render: () => <Navigate to="/spesialister/ida-bjorntvedt" replace />,
+    render: () => <SpecialistProfileMaster isChatOpen={false} />,
   },
 };
 
