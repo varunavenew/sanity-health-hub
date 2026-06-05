@@ -15,6 +15,7 @@ import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { TagList } from "@/components/treatments/TagList";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
 import expertKropp from "@/assets/hero/cmedical-skin-texture.jpg";
@@ -36,7 +37,11 @@ const lifePhases = [
  title: "Hud, kropp og vev",
  desc:
  "Hudlege, plastikkirurgi, gastrokirurgi, karkirurgi og åreknutebehandling — for synlige plager og operasjonsbehov.",
- tags: ["Hud", "Kirurgi", "Kar"],
+ tags: [
+   { label: "Hud", href: "/behandlinger/flere-fagomrader/hudlege" },
+   { label: "Kirurgi", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
+   { label: "Kar", href: "/behandlinger/flere-fagomrader/areknuter" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
  {
@@ -44,7 +49,11 @@ const lifePhases = [
  title: "Helse og balanse",
  desc:
  "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager, langvarige smerter eller hormonforstyrrelser.",
- tags: ["Hormoner", "Ledd", "Ernæring"],
+ tags: [
+   { label: "Hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
+   { label: "Ledd", href: "/behandlinger/flere-fagomrader/revmatologi" },
+   { label: "Ernæring", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
  {
@@ -52,7 +61,10 @@ const lifePhases = [
  title: "Sinn og seksualitet",
  desc:
  "Psykolog og sexolog — for deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
- tags: ["Psykolog", "Sexolog"],
+ tags: [
+   { label: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
+   { label: "Sexolog", href: "/behandlinger/flere-fagomrader/sexologi" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
  {
@@ -60,7 +72,10 @@ const lifePhases = [
  title: "Tverrfaglige forløp",
  desc:
  "Når det er sammensatt — vi setter sammen team av spesialister og koordinerer hele forløpet for deg.",
- tags: ["Team", "Koordinering"],
+ tags: [
+   { label: "Team", href: "/booking?kategori=flere-fagomrader" },
+   { label: "Koordinering", href: "/booking?kategori=flere-fagomrader" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
 ];
@@ -235,16 +250,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
  {p.desc}
  </p>
- <div className="flex flex-wrap gap-1.5 mb-5">
- {p.tags.map((tag) => (
- <span
- key={tag}
- className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
- >
- {tag}
- </span>
- ))}
- </div>
+ <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
  <Link
  to={p.href}
  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"

@@ -15,6 +15,7 @@ import spotlightImg from "@/assets/hero/cmedical-hands.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { TagList } from "@/components/treatments/TagList";
 
 import urologiHero from "@/assets/categories/urologi-real.jpg";
 import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
@@ -36,7 +37,11 @@ const lifePhases = [
  title: "Mann med plager i underlivet",
  desc:
  "Prostataproblemer, smerter i testikler, ereksjonsproblemer eller vannlatingsplager — vi hjelper deg finne svar.",
- tags: ["Prostata", "Vannlating", "Ereksjon"],
+ tags: [
+   { label: "Prostata", href: "/behandlinger/urologi/prostata" },
+   { label: "Vannlating", href: "/behandlinger/urologi/prostata" },
+   { label: "Ereksjon", href: "/behandlinger/urologi/ereksjon" },
+ ],
  href: "/booking?kategori=urologi",
  },
  {
@@ -44,7 +49,11 @@ const lifePhases = [
  title: "Kvinne med urologiske plager",
  desc:
  "Urinlekkasje, hyppig vannlating, blæreinfeksjoner eller blod i urinen — urologi gjelder ikke bare menn.",
- tags: ["Inkontinens", "Blære", "Nyrer"],
+ tags: [
+   { label: "Inkontinens", href: "/behandlinger/urologi/urinlekkasje" },
+   { label: "Blære", href: "/behandlinger/urologi/blare" },
+   { label: "Nyrer", href: "/behandlinger/urologi/nyrer" },
+ ],
  href: "/booking?kategori=urologi",
  },
  {
@@ -52,7 +61,11 @@ const lifePhases = [
  title: "Prostatasjekk",
  desc:
  "Vi anbefaler alle menn over 50 å ta en prostatasjekk — eller tidligere ved symptomer, forhøyet PSA eller arvelighet.",
- tags: ["PSA", "Forebygging", "Utredning"],
+ tags: [
+   { label: "PSA", href: "/behandlinger/urologi/prostata" },
+   { label: "Forebygging", href: "/behandlinger/urologi/prostata" },
+   { label: "Utredning", href: "/behandlinger/urologi/prostata" },
+ ],
  href: "/booking?kategori=urologi&tjeneste=prostatasjekk",
  },
  {
@@ -60,7 +73,10 @@ const lifePhases = [
  title: "Sterilisering og fertilitet",
  desc:
  "Sterilisering, refertilisering og utredning av mannlig infertilitet — raskt, trygt og med kort restitusjon.",
- tags: ["Vasektomi", "Refertilisering"],
+ tags: [
+   { label: "Vasektomi", href: "/behandlinger/urologi/sterilisering" },
+   { label: "Refertilisering", href: "/behandlinger/urologi/refertilisering" },
+ ],
  href: "/booking?kategori=urologi",
  },
 ];
@@ -242,16 +258,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
  {p.desc}
  </p>
- <div className="flex flex-wrap gap-1.5 mb-5">
- {p.tags.map((tag) => (
- <span
- key={tag}
- className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
- >
- {tag}
- </span>
- ))}
- </div>
+ <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
  <Link
  to={p.href}
  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"

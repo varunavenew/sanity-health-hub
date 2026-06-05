@@ -15,6 +15,7 @@ import spotlightImg from "@/assets/hero/hero-treatment.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { TagList } from "@/components/treatments/TagList";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 import expertSkulder from "@/assets/hero/hero-treatment.jpg";
@@ -36,7 +37,11 @@ const lifePhases = [
  title: "Akutt skade eller smerte",
  desc:
  "Vridd kne, vondt etter et fall, plutselige ryggsmerter — vi ser deg raskt og legger en plan med en gang.",
- tags: ["Akutt", "Diagnose", "MR"],
+ tags: [
+   { label: "Akutt", href: "/booking?kategori=ortopedi" },
+   { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
+   { label: "MR", href: "/booking?kategori=ortopedi" },
+ ],
  href: "/booking?kategori=ortopedi",
  },
  {
@@ -44,7 +49,11 @@ const lifePhases = [
  title: "Slitasje og kroniske plager",
  desc:
  "Kne- og hofteslitasje, frossen skulder, langvarige smerter — utredning og behandling i ditt tempo.",
- tags: ["Artrose", "Smerte", "Bevegelse"],
+ tags: [
+   { label: "Artrose", href: "/behandlinger/ortopedi/kne" },
+   { label: "Smerte", href: "/behandlinger/ortopedi/skulder" },
+   { label: "Bevegelse", href: "/behandlinger/ortopedi/hofte" },
+ ],
  href: "/booking?kategori=ortopedi",
  },
  {
@@ -52,7 +61,10 @@ const lifePhases = [
  title: "Trenger second opinion",
  desc:
  "Har du fått en diagnose du er usikker på? Vi får ofte pasienter med kompliserte caser — og ser dem med nye øyne.",
- tags: ["Second opinion", "Vurdering"],
+ tags: [
+   { label: "Second opinion", href: "/behandlinger/ortopedi/second-opinion" },
+   { label: "Vurdering", href: "/behandlinger/ortopedi/second-opinion" },
+ ],
  href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
  },
  {
@@ -60,7 +72,11 @@ const lifePhases = [
  title: "Klar for kirurgi eller injeksjon",
  desc:
  "Artroskopi, kortisoninjeksjon, PRP eller hyaluronsyre — vi tilbyr hele bredden av ortopediske behandlinger.",
- tags: ["Kirurgi", "PRP", "Injeksjon"],
+ tags: [
+   { label: "Kirurgi", href: "/behandlinger/ortopedi/artroskopi" },
+   { label: "PRP", href: "/behandlinger/ortopedi/kne" },
+   { label: "Injeksjon", href: "/behandlinger/ortopedi/kne" },
+ ],
  href: "/booking?kategori=ortopedi",
  },
 ];
@@ -240,16 +256,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
  {p.desc}
  </p>
- <div className="flex flex-wrap gap-1.5 mb-5">
- {p.tags.map((tag) => (
- <span
- key={tag}
- className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
- >
- {tag}
- </span>
- ))}
- </div>
+ <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
  <Link
  to={p.href}
  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
