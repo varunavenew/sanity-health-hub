@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { SpecialistComment } from "@/components/article/SpecialistComment";
+
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { FaqSection } from "@/components/layout/FaqSection";
 import heroKvinnehelse from "@/assets/hero/kvinnehelse-hero.jpg";
