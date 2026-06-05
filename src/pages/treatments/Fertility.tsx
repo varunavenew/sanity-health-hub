@@ -545,8 +545,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  10. UNIFIED PRE-FOOTER CTA
  ============================================================ */}
- <BookingCTA />
       <InsurancePartners />
+      <BookingCTA />
 
 
  </PageLayout>

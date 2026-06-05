@@ -531,8 +531,8 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* UNIFIED PRE-FOOTER CTA — samme som hjem */}
- <BookingCTA />
       <InsurancePartners />
+      <BookingCTA />
 
  <LeadPopup />
  </PageLayout>

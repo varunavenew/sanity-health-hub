@@ -646,8 +646,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  10. UNIFIED PRE-FOOTER CTA — samme som hjem
  ============================================================ */}
- <BookingCTA />
       <InsurancePartners />
+      <BookingCTA />
  </PageLayout>
  );
 };
