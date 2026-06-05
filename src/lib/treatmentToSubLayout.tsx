@@ -65,6 +65,42 @@ const summarize = (text: string, maxChars = 220): string => {
   return (lastDot > 80 ? cut.slice(0, lastDot + 1) : cut.trim() + "…");
 };
 
+/**
+ * Render simple markdown-lite content (paragraphs + "- " bullet lists) into
+ * JSX. Used so reasons sections that include lists render properly instead of
+ * being truncated to a one-liner ending on a colon.
+ */
+const renderRichContent = (text: string): ReactNode => {
+  const blocks: ReactNode[] = [];
+  const lines = text.split("\n");
+  let i = 0;
+  let key = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) { i++; continue; }
+    if (line.trim().startsWith("- ")) {
+      const items: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith("- ")) {
+        items.push(stripMarkdown(lines[i].trim().slice(2)));
+        i++;
+      }
+      blocks.push(
+        <ul key={`l-${key++}`}>
+          {items.map((it, idx) => <li key={idx}>{it}</li>)}
+        </ul>,
+      );
+    } else {
+      const paragraph: string[] = [];
+      while (i < lines.length && lines[i].trim() && !lines[i].trim().startsWith("- ")) {
+        paragraph.push(lines[i].trim());
+        i++;
+      }
+      blocks.push(<p key={`p-${key++}`}>{stripMarkdown(paragraph.join(" "))}</p>);
+    }
+  }
+  return <>{blocks}</>;
+};
+
 const splitTitleDesc = (s: string): { title: string; desc: string } => {
   // "Tittel — beskrivelse" / "Tittel: beskrivelse" / "Tittel – beskrivelse"
   const m = s.match(/^(.{3,60}?)\s[—–:-]\s(.+)$/);
