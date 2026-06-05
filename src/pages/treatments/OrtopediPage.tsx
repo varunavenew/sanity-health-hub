@@ -256,16 +256,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
  {p.desc}
  </p>
- <div className="flex flex-wrap gap-1.5 mb-5">
- {p.tags.map((tag) => (
- <span
- key={tag}
- className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
- >
- {tag}
- </span>
- ))}
- </div>
+ <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
  <Link
  to={p.href}
  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
