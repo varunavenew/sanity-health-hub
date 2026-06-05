@@ -108,6 +108,22 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     livePath: "/aktuelt",
     render: () => <ArticleUnifiedMaster isChatOpen={false} />,
   },
+  specialistProfile: {
+    title: "Mal: Spesialistprofil",
+    description:
+      "Mastermal for spesialistprofiler. Bruk denne når en ny spesialist skal legges inn — hero med portrett og biografi, ekspertiseområder, tilknyttede tjenester, anmeldelser og bookingseksjon. Innholdet hentes fra spesialistdata, slik at det er nok å registrere en ny spesialist for å få siden riktig.",
+    livePath: "/spesialister/ida-bjorntvedt",
+    render: () => (
+      <MemoryRouter initialEntries={["/spesialister/ida-bjorntvedt"]}>
+        <Routes>
+          <Route
+            path="/spesialister/:slug"
+            element={<SpecialistProfile isChatOpen={false} />}
+          />
+        </Routes>
+      </MemoryRouter>
+    ),
+  },
 };
 
 
