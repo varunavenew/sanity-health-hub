@@ -44,7 +44,7 @@ export interface SubTreatmentContent {
  reasonsTitle: string;
  reasonsLead?: string;
  reasonsLead2?: string;
- reasons: { n: string; title: string; desc: string }[];
+ reasons: { n: string; title: string; desc: ReactNode }[];
  // Section 4 — løfter (cards with optional icon and "Les mer" link)
  promises: {
  eyebrow: string;
