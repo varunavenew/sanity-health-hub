@@ -45,6 +45,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/articleUnified",
     exampleLabel: "Åpne mal",
   },
+  {
+    key: "specialistProfile",
+    title: "Spesialistprofil",
+    description: "Mastermal for spesialistprofiler. Brukes når en ny spesialist skal legges inn — siden bygges automatisk fra spesialistens data.",
+    examplePath: "/maler/specialistProfile",
+    exampleLabel: "Åpne mal",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
