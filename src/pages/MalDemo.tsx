@@ -6,8 +6,6 @@ import Fertility from "./treatments/Fertility";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
-import NewsItemMaster from "./masters/NewsItemMaster";
-import ArticleMaster from "./masters/ArticleMaster";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
@@ -102,27 +100,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  return <SubTreatmentLayout isChatOpen={false} content={content} />;
  },
  },
- newsItem: {
- title: "Mal: Nyhet / Pasienthistorie",
- description:
- "Mastermal for nyheter og pasienthistorier. Splitscreen-hero med tekst + bilde, kort journalistisk brødtekst, faktaboks, byline og relaterte nyheter. Brukes til klinikknytt, pasienthistorier, presse og kortere stykker.",
- livePath: "/aktuelt",
- render: () => <NewsItemMaster isChatOpen={false} />,
- },
- article: {
- title: "Mal: Fagartikkel",
- description:
- "Mastermal for lengre fagartikler. Sentrert redaksjonelt hero, fagforfatter + faglig validering, sticky innholdsfortegnelse, pull-quotes, spesialist-kommentar, fakta- og CTA-boks, kildeliste og ansvarsfraskrivelse.",
- livePath: "/aktuelt",
- render: () => <ArticleMaster isChatOpen={false} />,
- },
- articleUnified: {
- title: "Mal: Artikkel (felles) — ny",
- description:
- "Felles mastermal for Aktuelt. Slår sammen Nyhet/Pasienthistorie/Fagartikkel til én mal — kategori-badge skiller typene. Bygget på feedback 3. juni: dato+område øverst, forfatter+del i header, faktaruta med venstrestrek, venstrestilt sitat, raka hjørner på alle bilder, sammenslått fagforfatter+tjeneste, og mørk CTA-boks nederst.",
- livePath: "/aktuelt",
- render: () => <ArticleUnifiedMaster isChatOpen={false} />,
- },
+  articleUnified: {
+    title: "Mal: Artikkel",
+    description:
+      "Felles mastermal for Aktuelt. Brukes for alt redaksjonelt innhold — pasienthistorier, fagartikler, nyheter og klinikknytt. Kategori-badge skiller typene. Dato+område øverst, forfatter+del i header, faktaruta med venstrestrek, venstrestilt sitat, raka hjørner på alle bilder, sammenslått fagforfatter+tjeneste, og mørk CTA-boks nederst.",
+    livePath: "/aktuelt",
+    render: () => <ArticleUnifiedMaster isChatOpen={false} />,
+  },
 };
 
 
