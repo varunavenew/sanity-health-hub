@@ -65,6 +65,42 @@ const summarize = (text: string, maxChars = 220): string => {
   return (lastDot > 80 ? cut.slice(0, lastDot + 1) : cut.trim() + "…");
 };
 
+/**
+ * Render simple markdown-lite content (paragraphs + "- " bullet lists) into
+ * JSX. Used so reasons sections that include lists render properly instead of
+ * being truncated to a one-liner ending on a colon.
+ */
+const renderRichContent = (text: string): ReactNode => {
+  const blocks: ReactNode[] = [];
+  const lines = text.split("\n");
+  let i = 0;
+  let key = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) { i++; continue; }
+    if (line.trim().startsWith("- ")) {
+      const items: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith("- ")) {
+        items.push(stripMarkdown(lines[i].trim().slice(2)));
+        i++;
+      }
+      blocks.push(
+        <ul key={`l-${key++}`}>
+          {items.map((it, idx) => <li key={idx}>{it}</li>)}
+        </ul>,
+      );
+    } else {
+      const paragraph: string[] = [];
+      while (i < lines.length && lines[i].trim() && !lines[i].trim().startsWith("- ")) {
+        paragraph.push(lines[i].trim());
+        i++;
+      }
+      blocks.push(<p key={`p-${key++}`}>{stripMarkdown(paragraph.join(" "))}</p>);
+    }
+  }
+  return <>{blocks}</>;
+};
+
 const splitTitleDesc = (s: string): { title: string; desc: string } => {
   // "Tittel — beskrivelse" / "Tittel: beskrivelse" / "Tittel – beskrivelse"
   const m = s.match(/^(.{3,60}?)\s[—–:-]\s(.+)$/);
@@ -120,12 +156,12 @@ export const treatmentToSubLayout = ({
         ];
 
   // ── Reasons: prefer sections (rich), fall back to benefits not used above.
-  let reasons: { n: string; title: string; desc: string }[] = [];
+  let reasons: { n: string; title: string; desc: ReactNode }[] = [];
   if (data.sections && data.sections.length > 0) {
     reasons = data.sections.slice(0, 5).map((s, i) => ({
       n: String(i + 1).padStart(2, "0"),
       title: s.heading,
-      desc: summarize(s.content),
+      desc: renderRichContent(s.content),
     }));
   } else if (data.benefits && data.benefits.length > heroPoints.length) {
     reasons = data.benefits.slice(heroPoints.length, heroPoints.length + 5).map((b, i) => {
