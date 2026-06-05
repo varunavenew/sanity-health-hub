@@ -116,13 +116,26 @@ export const HeroBanner = () => {
           className="absolute inset-0 cursor-pointer group"
           onClick={() => navigate(slide.ctaPath)}
         >
-          <img
-            src={slide.image}
-            alt={slide.alt}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-            style={{ objectPosition: slide.objectPosition }}
-            loading={current === 0 ? "eager" : "lazy"}
-          />
+          {slide.video ? (
+            <video
+              src={slide.video}
+              poster={slide.image}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{ objectPosition: slide.objectPosition }}
+            />
+          ) : (
+            <img
+              src={slide.image}
+              alt={slide.alt}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{ objectPosition: slide.objectPosition }}
+              loading={current === 0 ? "eager" : "lazy"}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 pb-20 md:pb-24">
             <div className="page-shell">
