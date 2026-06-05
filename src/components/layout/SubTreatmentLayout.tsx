@@ -333,9 +333,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <h3 className="text-base font-normal text-foreground mb-1.5">
  {r.title}
  </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
- {r.desc}
- </p>
+                  <div className="text-sm font-light text-muted-foreground leading-relaxed max-w-md space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                    {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                  </div>
  </div>
  </div>
  ))}
