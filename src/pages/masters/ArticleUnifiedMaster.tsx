@@ -164,24 +164,32 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
       <article className="bg-background py-14 md:py-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Sidebar */}
-            <aside className="lg:col-span-3 order-2 lg:order-1">
+            {/* Sidebar — sticky scroll-spy, skjult under lg */}
+            <aside className="hidden lg:block lg:col-span-3 lg:order-1">
               <div className="lg:sticky lg:top-28">
                 <p className="text-sm font-normal text-foreground mb-4">
                   I denne artikkelen
                 </p>
                 <nav>
                   <ul className="space-y-2.5 border-l border-border">
-                    {sections.map((s) => (
-                      <li key={s.id}>
-                        <a
-                          href={`#${s.id}`}
-                          className="block pl-4 text-sm font-light text-foreground/70 hover:text-foreground hover:border-brand-dark border-l-2 border-transparent -ml-px transition-colors"
-                        >
-                          {s.label}
-                        </a>
-                      </li>
-                    ))}
+                    {sections.map((s) => {
+                      const isActive = activeId === s.id;
+                      return (
+                        <li key={s.id}>
+                          <a
+                            href={`#${s.id}`}
+                            aria-current={isActive ? "true" : undefined}
+                            className={`block pl-4 text-sm font-light -ml-px border-l-2 transition-colors ${
+                              isActive
+                                ? "text-foreground border-brand-dark"
+                                : "text-foreground/60 border-transparent hover:text-foreground hover:border-brand-dark/40"
+                            }`}
+                          >
+                            {s.label}
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </nav>
               </div>
