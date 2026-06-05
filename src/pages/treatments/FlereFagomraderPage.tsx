@@ -333,7 +333,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  />
 
  {/* 4b. STATS */}
- <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
+ <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
@@ -384,7 +384,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* 4. ALLE BEHANDLINGER */}
- <section className="bg-background text-foreground py-20 md:py-28">
+ <section className="bg-background text-foreground py-12 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
@@ -425,7 +425,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* 5. REVIEWS */}
- <section className="bg-brand-warm py-20 md:py-24">
+ <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
