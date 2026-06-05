@@ -226,7 +226,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. SEGMENT — "Fortell oss hvor du er" (identifiser deg)
  ============================================================ */}
- <section className="bg-brand-light text-foreground py-20 md:py-28">
+ <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
