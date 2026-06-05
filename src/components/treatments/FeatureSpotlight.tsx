@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 interface FeatureSpotlightProps {
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   text: string;
   ctaLabel: string;
   ctaHref: string;
