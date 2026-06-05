@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, MemoryRouter, Routes, Route } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 
@@ -7,6 +7,7 @@ import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
+import SpecialistProfile from "./SpecialistProfile";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
