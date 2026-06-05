@@ -126,10 +126,10 @@ const AppContent = () => {
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
-        <Route path="/behandlinger/urologi/:subId" element={<TreatmentPage categoryId="urologi" isChatOpen={false} />} />
-        <Route path="/behandlinger/ortopedi/:subId" element={<TreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
-        <Route path="/behandlinger/graviditet/:subId" element={<TreatmentPage categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/:subId" element={<TreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
+        <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
+        <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
+        <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
         <Route path="/tverrfaglige-team" element={<TverrfagligePage isChatOpen={false} />} />
