@@ -400,40 +400,48 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </section>
  )}
 
- {/* 4. PROMISES — icon-cards with optional "Les mer" link */}
- <section className="bg-secondary/40 pt-0 pb-20 md:pb-24">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
- {c.promises.map((p) => (
- <div
- key={p.title}
- className="bg-background p-7 rounded-sm border border-border/40 flex flex-col"
- >
- {p.Icon && (
- <div className="w-12 h-12 flex items-center justify-center mb-5 text-foreground/80">
- <p.Icon className="w-10 h-10" aria-hidden="true" />
- </div>
- )}
- <h3 className="text-lg font-normal text-foreground mb-3">
- {p.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed flex-1">
- {p.desc}
- </p>
- {p.href && (
- <Link
- to={p.href}
- className="mt-6 inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
- >
- {p.ctaLabel ?? "Les mer"}
- <ArrowRight className="w-3.5 h-3.5" />
- </Link>
- )}
- </div>
- ))}
- </div>
- </div>
- </section>
+      {/* 4. PROMISES — editorial three-column with hairline dividers */}
+      <section className="bg-secondary/40 pt-0 pb-24 md:pb-32">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-3 md:divide-x divide-y md:divide-y-0 divide-border/50">
+              {c.promises.map((p, idx) => (
+                <div
+                  key={p.title}
+                  className="group relative flex flex-col px-0 py-10 md:py-2 md:px-10 first:md:pl-0 last:md:pr-0"
+                >
+                  <div className="flex items-baseline gap-3 mb-6">
+                    <span className="text-xs font-light text-foreground/40 tabular-nums">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    {p.eyebrow && (
+                      <span className="text-xs font-light text-foreground/60">
+                        {p.eyebrow}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[18ch]">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed flex-1 max-w-[34ch]">
+                    {p.desc}
+                  </p>
+                  {p.href && (
+                    <Link
+                      to={p.href}
+                      className="mt-8 inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground/30 pb-1 self-start hover:border-foreground transition-colors"
+                    >
+                      {p.ctaLabel ?? "Les mer"}
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
 
  {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
  {c.textSection && (
