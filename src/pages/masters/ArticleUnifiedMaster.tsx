@@ -287,28 +287,14 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                 <li>Endret hudtekstur og hårtap</li>
               </ul>
 
-              {/* Spesialist-kommentar — også strek til venstre */}
-              <aside className="bg-secondary/40 p-6 md:p-8 my-10 border-l-2 border-brand-dark">
-                <h3 className="text-sm font-medium text-foreground mb-4">
-                  Kommentar fra spesialisten
-                </h3>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-full bg-background flex-shrink-0 flex items-center justify-center text-sm font-light text-foreground/70">
-                    HR
-                  </div>
-                  <div>
-                    <p className="text-base font-light leading-relaxed text-foreground/90 mb-3 italic">
-                      «I praksis ser vi at mange kvinner kommer til oss etter at de har
-                      blitt avfeid flere ganger. Det første vi gjør er å lytte — og deretter
-                      kartlegge hele bildet, ikke bare ett symptom.»
-                    </p>
-                    <p className="text-xs font-normal text-foreground">Dr. Hannah Russell</p>
-                    <p className="text-xs font-light text-foreground/60">
-                      Fertilitetslege og gynekolog, CMedical
-                    </p>
-                  </div>
-                </div>
-              </aside>
+              {/* Spesialist-kommentar — felles komponent */}
+              <SpecialistComment
+                initials="HR"
+                quote="I praksis ser vi at mange kvinner kommer til oss etter at de har blitt avfeid flere ganger. Det første vi gjør er å lytte — og deretter kartlegge hele bildet, ikke bare ett symptom."
+                name="Dr. Hannah Russell"
+                role="Fertilitetslege og gynekolog, CMedical"
+              />
+
 
               <h2
                 id="behandling"
