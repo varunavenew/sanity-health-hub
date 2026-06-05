@@ -156,12 +156,12 @@ export const treatmentToSubLayout = ({
         ];
 
   // ── Reasons: prefer sections (rich), fall back to benefits not used above.
-  let reasons: { n: string; title: string; desc: string }[] = [];
+  let reasons: { n: string; title: string; desc: ReactNode }[] = [];
   if (data.sections && data.sections.length > 0) {
     reasons = data.sections.slice(0, 5).map((s, i) => ({
       n: String(i + 1).padStart(2, "0"),
       title: s.heading,
-      desc: summarize(s.content),
+      desc: renderRichContent(s.content),
     }));
   } else if (data.benefits && data.benefits.length > heroPoints.length) {
     reasons = data.benefits.slice(heroPoints.length, heroPoints.length + 5).map((b, i) => {
