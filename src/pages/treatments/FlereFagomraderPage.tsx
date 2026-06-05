@@ -15,6 +15,7 @@ import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { TagList } from "@/components/treatments/TagList";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
 import expertKropp from "@/assets/hero/cmedical-skin-texture.jpg";
