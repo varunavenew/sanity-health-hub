@@ -37,7 +37,11 @@ const lifePhases = [
  title: "Hud, kropp og vev",
  desc:
  "Hudlege, plastikkirurgi, gastrokirurgi, karkirurgi og åreknutebehandling — for synlige plager og operasjonsbehov.",
- tags: ["Hud", "Kirurgi", "Kar"],
+ tags: [
+   { label: "Hud", href: "/behandlinger/flere-fagomrader/hudlege" },
+   { label: "Kirurgi", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
+   { label: "Kar", href: "/behandlinger/flere-fagomrader/areknuter" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
  {
@@ -45,7 +49,11 @@ const lifePhases = [
  title: "Helse og balanse",
  desc:
  "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager, langvarige smerter eller hormonforstyrrelser.",
- tags: ["Hormoner", "Ledd", "Ernæring"],
+ tags: [
+   { label: "Hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
+   { label: "Ledd", href: "/behandlinger/flere-fagomrader/revmatologi" },
+   { label: "Ernæring", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
  {
@@ -53,7 +61,10 @@ const lifePhases = [
  title: "Sinn og seksualitet",
  desc:
  "Psykolog og sexolog — for deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
- tags: ["Psykolog", "Sexolog"],
+ tags: [
+   { label: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
+   { label: "Sexolog", href: "/behandlinger/flere-fagomrader/sexologi" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
  {
@@ -61,7 +72,10 @@ const lifePhases = [
  title: "Tverrfaglige forløp",
  desc:
  "Når det er sammensatt — vi setter sammen team av spesialister og koordinerer hele forløpet for deg.",
- tags: ["Team", "Koordinering"],
+ tags: [
+   { label: "Team", href: "/booking?kategori=flere-fagomrader" },
+   { label: "Koordinering", href: "/booking?kategori=flere-fagomrader" },
+ ],
  href: "/booking?kategori=flere-fagomrader",
  },
 ];
