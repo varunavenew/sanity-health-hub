@@ -569,11 +569,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  />
  )}
 
- {/* BESTILL TIME — unified pre-footer CTA */}
- <BookingCTA />
+      {/* SAMARBEIDSPARTNERE / FORSIKRING — før booking CTA */}
+      <InsurancePartners />
 
-  {/* SAMARBEIDSPARTNERE / FORSIKRING — før footer */}
-  <InsurancePartners />
+      {/* BESTILL TIME — unified pre-footer CTA */}
+      <BookingCTA />
  </PageLayout>
  );
 };
