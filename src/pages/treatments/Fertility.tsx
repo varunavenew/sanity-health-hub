@@ -516,13 +516,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
- <FeatureSpotlight
-        title={`«Endelig følte du at noen lyttet — og hadde en plan dere kunne forstå.»`}
-        text="Les hvordan ett par fant veien til foreldreskap etter flere år med usikkerhet — og hva som var annerledes hos CMedical."
-        ctaLabel="Les hele historien"
-        ctaHref="/aktuelt"
+  <FeatureSpotlight
+        eyebrow="Start her"
+        title={<>Begynn med en <span className="italic">fertilitetssjekk</span></>}
+        text="En grundig kartlegging av eggstokkreserve, hormoner og anatomi — slik at du vet hvor du står. Du møter en spesialist som går gjennom funnene og legger en plan tilpasset deg og din partner."
+        ctaLabel="Les mer om fertilitetssjekk"
+        ctaHref="/behandlinger/fertilitet/fertilitetssjekk"
         image={fertilityHeroImg}
-        imageAlt=""
+        imageAlt="Konsultasjon med fertilitetsspesialist hos CMedical"
       />
 
       <SpecialistsScroller
