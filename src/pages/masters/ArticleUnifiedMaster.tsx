@@ -8,6 +8,8 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { FaqSection } from "@/components/layout/FaqSection";
+import { SpecialistComment } from "@/components/article/SpecialistComment";
+
 import heroKvinnehelse from "@/assets/hero/kvinnehelse-hero.jpg";
 import heroClinic from "@/assets/hero/hero-clinic-lounge.jpg";
 import heroGyn from "@/assets/hero/gynecology-hero.jpg";
