@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, MemoryRouter, Routes, Route } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 
@@ -7,6 +7,7 @@ import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
+import SpecialistProfile from "./SpecialistProfile";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -106,6 +107,22 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Felles mastermal for Aktuelt. Brukes for alt redaksjonelt innhold — pasienthistorier, fagartikler, nyheter og klinikknytt. Kategori-badge skiller typene. Dato+område øverst, forfatter+del i header, faktaruta med venstrestrek, venstrestilt sitat, raka hjørner på alle bilder, sammenslått fagforfatter+tjeneste, og mørk CTA-boks nederst.",
     livePath: "/aktuelt",
     render: () => <ArticleUnifiedMaster isChatOpen={false} />,
+  },
+  specialistProfile: {
+    title: "Mal: Spesialistprofil",
+    description:
+      "Mastermal for spesialistprofiler. Bruk denne når en ny spesialist skal legges inn — hero med portrett og biografi, ekspertiseområder, tilknyttede tjenester, anmeldelser og bookingseksjon. Innholdet hentes fra spesialistdata, slik at det er nok å registrere en ny spesialist for å få siden riktig.",
+    livePath: "/spesialister/ida-bjorntvedt",
+    render: () => (
+      <MemoryRouter initialEntries={["/spesialister/ida-bjorntvedt"]}>
+        <Routes>
+          <Route
+            path="/spesialister/:slug"
+            element={<SpecialistProfile isChatOpen={false} />}
+          />
+        </Routes>
+      </MemoryRouter>
+    ),
   },
 };
 
