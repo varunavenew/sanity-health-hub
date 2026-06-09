@@ -34,7 +34,7 @@ const staticContent = {
       paragraphs: [
         "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.",
         "En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.",
-        "Kortere sykemelding – raskere tilbake til hverdagen: Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker.",
+        "Kortere sykemelding – raskere tilbake til hverdagen: Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–6 uker. Ved robotassistert prostatektomi (RALP) er sykmeldingen typisk 4–6 uker.",
       ],
     },
     {

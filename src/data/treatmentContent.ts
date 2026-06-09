@@ -670,9 +670,14 @@ export const treatmentContent: Record<string, TreatmentData> = {
         content: "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotkirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotkirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene.",
       },
       {
-        id: "nyrestein",
-        heading: "Nyrestein",
-        content: "Nyrestein, også kjent som nefrolithiasis, er små, faste formasjoner som dannes i nyrene når mineraler og salter i urinen krystalliserer. Disse steinene kan forårsake betydelig smerte når de beveger seg gjennom urinveiene.\n\nSymptomer på nyrestein kan være intense ryggsmerter, smerte i siden eller magen, hyppig vannlating, blod i urinen, og kvalme. De fleste nyresteiner er små nok til å passere naturlig, men i noen tilfeller kan de kreve medisinsk behandling.\n\nBehandlingen av nyrestein kan omfatte smertestillende medisiner, endringer i kostholdet, økt væskeinntak for å hjelpe steinene å passere, eller medisinske prosedyrer som knusing av steinene med sjokkbølger (ekstrakorporeal sjokkbølgeterapi) eller kirurgisk inngrep for å fjerne større steiner.",
+        id: "blarestein",
+        heading: "Blærestein",
+        content: "Blærestein er harde formasjoner som dannes i urinblæren når urin blir stående og mineraler krystalliserer. Det kan oppstå ved ufullstendig tømming av blæren, for eksempel ved forstørret prostata eller andre avløpsproblemer.\n\nSymptomer kan være smerter ved vannlating, hyppig vannlating, blod i urinen, smerter nederst i magen eller stans i urinstrålen. Mindre steiner kan i noen tilfeller passere naturlig, mens større steiner krever behandling.\n\nBehandling skjer som regel ved å knuse steinen i blæren (cystolitholapaxi) gjennom urinrøret, slik at fragmentene kan skylles ut. Ved svært store steiner eller samtidig prostataoperasjon kan åpen eller robotassistert kirurgi være aktuelt. Vi utreder også underliggende årsaker slik at problemet ikke kommer tilbake.\n\n*Merk: CMedical utfører ikke behandling for nyrestein.*",
+      },
+      {
+        id: "nefrektomi",
+        heading: "Nefrektomi (fjerning av nyre)",
+        content: "Nefrektomi er kirurgisk fjerning av hele eller deler av en nyre. Inngrepet utføres ikke kun ved nyrekreft — det kan også være aktuelt ved store, ikke-fungerende nyrer, alvorlige skader, kroniske infeksjoner eller andre godartede tilstander der nyren gjør mer skade enn nytte.\n\nVi utfører nefrektomi robotassistert eller som kikkhullskirurgi når det er mulig. Dette gir mindre smerter, kortere sykehusopphold og raskere rehabilitering sammenlignet med åpen kirurgi. Ved partiell nefrektomi bevarer vi så mye friskt nyrevev som mulig.",
       },
     ],
     relatedSpecialists: ["nabeel-yousaf-khan"],
@@ -758,7 +763,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "rask-rehabilitering",
         heading: "Rask rehabilitering",
-        content: "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen.",
+        content: "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–6 uker. Ved robotassistert prostatektomi (RALP) er sykmeldingen typisk 4–6 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen.",
       },
       {
         id: "presisjon",
