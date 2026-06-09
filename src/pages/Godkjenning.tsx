@@ -456,6 +456,8 @@ const Godkjenning = () => {
           />
         ) : tab === "demo" ? (
           <DemoPanel />
+        ) : tab === "fremdrift" ? (
+          <FremdriftsplanPanel />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
