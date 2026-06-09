@@ -138,11 +138,6 @@ const RISKS: { title: string; description: string }[] = [
       "Hvis innhold ikke er på plass innen 15. juni, forskyves alt nedstrøms. Maler kan bygges med plassholder, men sidene kan ikke godkjennes uten reelt innhold.",
   },
   {
-    title: "Metodika-integrasjon",
-    description:
-      "Avhengig av tredjepart. Vi anbefaler tidlig dialog og test så snart 23. juni-leveransen er klar.",
-  },
-  {
     title: "Domene-peking",
       description: "DNS-endring tar opptil 24 timer.",
   },
