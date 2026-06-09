@@ -401,7 +401,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
 
       {/* 4. PROMISES — editorial three-column with hairline dividers */}
-      <section className="bg-secondary/40 pt-0 pb-24 md:pb-32">
+      <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-3 md:divide-x divide-y md:divide-y-0 divide-border/50">
