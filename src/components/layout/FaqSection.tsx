@@ -45,7 +45,7 @@ export const FaqSection = ({
   };
 
   return (
-    <section className={`py-16 md:py-24 ${background}`}>
+    <section className={`py-10 md:py-14 ${background}`}>
       {withJsonLd && (
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
