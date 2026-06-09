@@ -43,7 +43,10 @@ const PHASES: Phase[] = [
     title: "Metodika-integrasjon klar for test",
     owner: "Byrå",
     description:
-      "Booking via Metodika er integrert. CMedical kan teste integrasjonen og gi tilbakemelding frem til 1. juli.",
+      "Booking via Metodika er integrert. CMedical kan teste integrasjonen og gi tilbakemelding frem til 1. juli. Forutsetter at tjeneste-mapping per underkategori er levert, slik at riktig Metodika-tjeneste velges automatisk fra hver side.",
+    deliverables: [
+      "Mottatt tjeneste-mapping fra CMedical (underkategori → Metodika-tjeneste)",
+    ],
     milestone: true,
   },
   {
@@ -111,6 +114,7 @@ const NEED_FROM_CLIENT: { title: string; items: string[] }[] = [
     items: [
       "Tilgang/API-nøkkel til Metodika (eller bekreftelse på iframe-URL per klinikk)",
       "Mapping mellom tjeneste og Metodika-ressurs/spesialist",
+      "Tjeneste-mapping per underkategori: for hver underkategori/behandling på siden må dere oppgi hvilken Metodika-tjeneste bookingen skal peke til, slik at riktig tjeneste velges automatisk i bookingflyten (leveres som regneark: side/URL → underkategori → Metodika-tjeneste-ID/navn → varighet → pris)",
       "Bekreftet pris pr. tjeneste (med «fra»-pris der relevant)",
     ],
   },
