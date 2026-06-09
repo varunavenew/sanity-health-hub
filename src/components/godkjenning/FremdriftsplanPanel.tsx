@@ -65,16 +65,10 @@ const PHASES: Phase[] = [
     milestone: true,
   },
   {
-    dates: "2.–3. juli",
-    title: "CMedical gjennomgår og samler tilbakemeldinger",
-    owner: "CMedical",
-    description: "CMedical går grundig gjennom hele siden og samler eventuelle feil, justeringer og godkjenninger i fanen «Booking» og «Godkjenning».",
-  },
-  {
-    dates: "4.–7. juli",
+    dates: "2.–7. juli",
     title: "Betatest og ferdigstilling",
-    owner: "Byrå",
-    description: "Byrå retter innmeldte feil, kjører QA, ytelse- og SEO-sjekk, og forbereder domene og analyse. Alt skal være klart til lansering innen 7. juli.",
+    owner: "Begge",
+    description: "CMedical går grundig gjennom hele siden og samler tilbakemeldinger i fanen «Booking» og «Godkjenning». Byrå retter innmeldte feil, kjører QA, ytelse- og SEO-sjekk, og forbereder domene og analyse. Alt skal være klart til lansering innen 7. juli.",
     milestone: true,
   },
   {
