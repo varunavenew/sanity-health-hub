@@ -29,7 +29,7 @@ export const ResultsStatsSection = ({
   className = "",
 }: ResultsStatsSectionProps) => {
   return (
-    <section className={`bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5 ${className}`}>
+    <section className={`bg-brand-light text-foreground py-12 md:py-16 border-t border-brand-dark/5 ${className}`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">

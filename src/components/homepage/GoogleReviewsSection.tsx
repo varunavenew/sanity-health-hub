@@ -89,9 +89,9 @@ export const GoogleReviewsSection = () => {
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
 
   return (
-    <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">
+    <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16 relative">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
           <div className="max-w-xl">
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{heading}</h2>
           </div>
