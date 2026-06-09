@@ -101,8 +101,6 @@ const NEED_FROM_CLIENT: { title: string; items: string[] }[] = [
       "Alle bilder etter spesifikasjonene i «CMedial bilde- og mediespesifikasjoner v3» (mappestruktur 01–09, filnavn-konvensjon)",
       "ALT-tekster per bilde i Excel/tekstfil",
       "Endelige tekster per side (eller bekreftelse på eksisterende)",
-      "Logo i SVG og PNG (transparent, min. 800px)",
-      "Eventuell video (1920×1080, .mp4, under 20 MB) + thumbnail",
       "Spesialist-portretter (3:4, min. 1200×1600) + bio per spesialist",
     ],
   },
