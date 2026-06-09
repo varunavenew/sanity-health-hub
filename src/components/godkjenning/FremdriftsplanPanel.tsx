@@ -144,7 +144,7 @@ const RISKS: { title: string; description: string }[] = [
   },
   {
     title: "Domene-peking",
-      "DNS-endring tar opptil 24 timer.",
+      description: "DNS-endring tar opptil 24 timer.",
   },
   {
     title: "GDPR og samtykke",
