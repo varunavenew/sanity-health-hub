@@ -47,12 +47,12 @@ export const Footer = () => {
     const raw = settings?.footerAboutLinks?.length
       ? settings.footerAboutLinks
       : [
-          { _key: "om-oss", navId: "about", path: "/om-oss" },
-          { _key: "spesialister", navId: "specialists", path: "/spesialister" },
-          { _key: "priser", navId: "pricing", path: "/priser" },
-          { _key: "forsikring", navId: "insurance", path: "/forsikring" },
-          { _key: "aktuelt", navId: "news", path: "/aktuelt" },
-          { _key: "karriere", path: "/karriere" },
+          { _key: "om-oss", navId: "about" },
+          { _key: "spesialister", navId: "specialists" },
+          { _key: "priser", navId: "pricing" },
+          { _key: "forsikring", navId: "insurance" },
+          { _key: "aktuelt", navId: "news" },
+          { _key: "karriere", path: "/karriere", pathNb: "/karriere", pathEn: "/karriere" },
         ];
     return raw.map((link: { _key?: string; label?: string; path?: string; navId?: string }) => ({
       ...link,

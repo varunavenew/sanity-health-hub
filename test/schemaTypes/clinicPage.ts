@@ -54,6 +54,7 @@ export default {
       name: 'address',
       title: 'Adresse',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
       group: 'contact',
     },
     {
@@ -72,6 +73,7 @@ export default {
       name: 'hours',
       title: 'Åpningstider',
       type: 'internationalizedArrayString',
+      validation: (Rule: any) => Rule.required(),
       group: 'contact',
     },
     {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useParams, Link } from "@/lib/router";
+import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { plainMetaString } from "@/lib/seo/seo-fields";
+import { useTranslation } from "react-i18next";
 
 // Lookup: service-ID → display label + optional link
 const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
@@ -39,14 +41,18 @@ interface ClinicDetailPageProps {
 }
 
 const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: paramSlug } = useParams<{ slug: string }>();
+  const slug = useRouteSlug() || paramSlug || "";
+  const { i18n } = useTranslation();
+  const sanityLang = (i18n.language || "nb").startsWith("en") ? "en" : "no";
   const { data: clinic, isLoading } = useClinic(slug || "");
 
   useEffect(() => {
     if (clinic) {
-      document.title = `CMedical ${clinic.label} | Klinikk`;
+      const name = plainMetaString(clinic.label ?? clinic.title, "Klinikk", sanityLang);
+      document.title = `CMedical ${name} | Klinikk`;
     }
-  }, [clinic]);
+  }, [clinic, sanityLang]);
 
   // Only show skeleton if Sanity is still loading AND we have no static fallback
   if (isLoading) {
@@ -79,25 +85,58 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     );
   }
 
-  const faqs = clinic.faqs || [];
-  const detail = clinic.detail || {};
+  const rawDetail = clinic.detail || {};
+  const label = plainMetaString(clinic.label ?? clinic.title, "Klinikk", sanityLang);
+  const description = plainMetaString(clinic.description, "", sanityLang);
+  const hours = plainMetaString(clinic.hours, "", sanityLang);
+  const detail = {
+    parking: plainMetaString(rawDetail.parking, "", sanityLang),
+    publicTransport: plainMetaString(rawDetail.publicTransport, "", sanityLang),
+    accessibility: plainMetaString(rawDetail.accessibility, "", sanityLang),
+  };
+  const faqs = (clinic.faqs || [])
+    .map((faq: { question?: unknown; answer?: unknown }) => ({
+      question: plainMetaString(faq.question, "", sanityLang),
+      answer: plainMetaString(faq.answer, "", sanityLang),
+    }))
+    .filter((faq) => faq.question && faq.answer);
+  const booking = (clinic as { booking?: Record<string, unknown> }).booking
+    ? {
+        ...(clinic as { booking?: Record<string, unknown> }).booking,
+        closedMessage: plainMetaString(
+          (clinic as { booking?: { closedMessage?: unknown } }).booking?.closedMessage,
+          "",
+          sanityLang,
+        ),
+      }
+    : undefined;
   const mapsUrl = clinic.mapsUrl || (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
+  const seoTitle = plainMetaString(
+    clinic.seo?.metaTitle,
+    `CMedical ${label} – Klinikk`,
+    sanityLang,
+  );
+  const seoDescription = plainMetaString(
+    clinic.seo?.metaDescription,
+    `Besøk CMedical ${label}. ${clinic.address || ""}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`,
+    sanityLang,
+  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={clinic.seo?.metaTitle || `CMedical ${clinic.label} – Klinikk`}
-        description={clinic.seo?.metaDescription || `Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`}
+        title={seoTitle}
+        description={seoDescription}
         canonical={`/klinikker/${clinic.slug}`}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Om oss", path: "/om-oss" },
-          { name: `CMedical ${clinic.label}`, path: `/klinikker/${clinic.slug}` },
+          { name: `CMedical ${label}`, path: `/klinikker/${clinic.slug}` },
         ]}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "MedicalClinic",
-          name: `CMedical ${clinic.label}`,
+          name: `CMedical ${label}`,
           address: {
             "@type": "PostalAddress",
             streetAddress: clinic.address,
@@ -119,13 +158,15 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             <header className="mb-8 pb-6 border-b border-brand-dark/10">
               <p className="text-muted-foreground text-xs mb-2">Klinikk</p>
               <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
-                CMedical {clinic.label}
+                CMedical {label}
               </h1>
             </header>
 
-            <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {clinic.description}
-            </p>
+            {description ? (
+              <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+                {description}
+              </p>
+            ) : null}
           </div>
         </div>
       </div>
@@ -163,7 +204,9 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   <Clock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-normal text-foreground">Åpningstider</p>
-                    <p className="text-sm text-muted-foreground font-light">{clinic.hours}</p>
+                    {hours ? (
+                      <p className="text-sm text-muted-foreground font-light">{hours}</p>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -213,7 +256,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               </div>
               <h2 className="text-lg font-normal text-foreground mb-2">Tjenester ved denne klinikken</h2>
               <p className="text-sm text-muted-foreground font-light mb-6">
-                CMedical {clinic.label} tilbyr {clinic.services.length} ulike fagområder. Klikk for å lese mer.
+                CMedical {label} tilbyr {clinic.services.length} ulike fagområder. Klikk for å lese mer.
               </p>
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
@@ -246,7 +289,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       )}
 
       {/* Clinic images – full bleed, no gap (matches homepage tjenester pattern) */}
-      <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
+      <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${label}`}>
         <div className="container mx-auto px-6 md:px-16 mb-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
@@ -255,7 +298,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full">
           {clinic.primaryImage ? (
             <div className="aspect-[4/3] col-span-2 md:col-span-3 overflow-hidden">
-              <img src={clinic.primaryImage} alt={`CMedical ${clinic.label}`} className="w-full h-full object-cover" loading="lazy" />
+              <img src={clinic.primaryImage} alt={`CMedical ${label}`} className="w-full h-full object-cover" loading="lazy" />
             </div>
           ) : (
             [1, 2, 3].map((i) => (
@@ -274,7 +317,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
             <div className="rounded-sm overflow-hidden border border-border/40">
               <iframe
-                title={`Kart over CMedical ${clinic.label}`}
+                title={`Kart over CMedical ${label}`}
                 src={`https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}&output=embed`}
                 width="100%"
                 height="350"
@@ -335,8 +378,14 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                           />
                         )}
                       </div>
-                      <p className="text-sm font-normal text-foreground group-hover:text-brand-dark transition-colors">{s.name}</p>
-                      {s.role && <p className="text-xs text-muted-foreground font-light">{s.role}</p>}
+                      <p className="text-sm font-normal text-foreground group-hover:text-brand-dark transition-colors">
+                        {plainMetaString(s.name, "", sanityLang)}
+                      </p>
+                      {plainMetaString(s.role, "", sanityLang) ? (
+                        <p className="text-xs text-muted-foreground font-light">
+                          {plainMetaString(s.role, "", sanityLang)}
+                        </p>
+                      ) : null}
                     </Link>
                   </li>
                 ))}
@@ -360,7 +409,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                   return (
                     <li key={t.slug} className="group">
                       <Link to={href} className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
-                        <span>{t.title}</span>
+                        <span>{plainMetaString(t.title, "", sanityLang)}</span>
                         <ArrowRight className="w-3.5 h-3.5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} aria-hidden="true" />
                       </Link>
                     </li>
@@ -374,8 +423,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
 
       {/* Standardized booking flow */}
       <ClinicBookingBlock
-        booking={(clinic as any).booking}
-        clinicLabel={clinic.label}
+        booking={booking as any}
+        clinicLabel={label}
         clinicId={clinic.id}
         phone={clinic.phone}
         email={(clinic as any).email}

@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {i18nSlugFieldFromTitle} from './i18n'
 
 export default defineType({
   name: 'newsPage',
@@ -17,6 +18,7 @@ export default defineType({
       type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
+    defineField(i18nSlugFieldFromTitle('title') as Parameters<typeof defineField>[0]),
     defineField({
       name: 'subtitle',
       title: 'Undertittel',

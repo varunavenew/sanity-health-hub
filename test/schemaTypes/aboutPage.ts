@@ -1,6 +1,7 @@
 // Schema: About Page (Om oss)
 // Aligned with migration data: title, subtitle, body (blockContent), seo
 import { GenericIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -15,6 +16,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'subtitle',
       title: 'Undertittel',

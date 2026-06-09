@@ -37,6 +37,20 @@ for (const id of Object.keys(NAV_ROUTE_PATHS) as NavRouteId[]) {
   PATH_TO_NAV_ID[en] = id;
 }
 
+/** Common CMS path aliases → canonical routes (locale switch fallback). */
+const PATH_ALIASES: Record<string, NavRouteId> = {
+  "/prices": "pricing",
+  "/current": "news",
+  "/about-us": "about",
+};
+
+for (const [alias, id] of Object.entries(PATH_ALIASES)) {
+  PATH_TO_NAV_ID[alias] = id;
+  const { nb, en } = NAV_ROUTE_PATHS[id];
+  if (!NB_TO_EN_PATH[alias]) NB_TO_EN_PATH[alias] = en;
+  if (!EN_TO_NB_PATH[alias]) EN_TO_NB_PATH[alias] = nb;
+}
+
 /** Marketing / category paths (not in main nav) — used as fallback when CMS EN link is empty */
 const MARKETING_NB_TO_EN: Record<string, string> = {
   "/gynekologi": "/gynecology",

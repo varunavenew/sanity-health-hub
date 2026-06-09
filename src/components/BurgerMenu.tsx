@@ -18,14 +18,14 @@ const BurgerMenu = () => {
 
   const staticMenuItems = useMemo(
     () => [
-      { navId: 'services', path: '/tjenester' },
-      { navId: 'pricing', path: '/priser' },
-      { navId: 'clinics', path: '/klinikker' },
-      { navId: 'about', path: '/om-oss' },
-      { navId: 'insurance', path: '/forsikring' },
-      { navId: 'news', path: '/aktuelt' },
-      { navId: 'contact', path: '/kontakt' },
-      { navId: 'specialists', path: '/spesialister' },
+      { navId: "services" },
+      { navId: "pricing" },
+      { navId: "clinics" },
+      { navId: "about" },
+      { navId: "insurance" },
+      { navId: "news" },
+      { navId: "contact" },
+      { navId: "specialists" },
     ],
     [],
   );
@@ -41,10 +41,10 @@ const BurgerMenu = () => {
   }, [siteSettings?.mainNavigation, staticMenuItems, t, locale, uiLang]);
 
   const ctaButton = useMemo(() => {
-    const raw = siteSettings?.ctaButton || { path: '/booking', navId: 'bookAppointment' };
+    const raw = siteSettings?.ctaButton || { navId: "bookAppointment" };
     return {
       path: resolveNavPath(
-        { path: raw.path || '/booking', navId: raw.navId || 'bookAppointment' },
+        { ...raw, navId: raw.navId || "bookAppointment" },
         locale,
       ),
       label: resolveNavLabel(

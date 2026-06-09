@@ -19,6 +19,7 @@ import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
 import clinicsPage from './clinicsPage'
+import careersPage from './careersPage'
 
 import article from './article'
 import jobListing from './jobListing'
@@ -46,6 +47,7 @@ export const schemaTypes = [
   servicesPage,
   clinicPage,
   clinicsPage,
+  careersPage,
 
   themePage,
   specialistsPage,

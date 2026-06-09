@@ -1,9 +1,16 @@
 import type { NextConfig } from "next";
 import path from "path";
+import webpack from "webpack";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: [],
+  transpilePackages: [
+    "next-sanity",
+    "sanity",
+    "@sanity/vision",
+    "sanity-plugin-internationalized-array",
+    "sanity-plugin-iframe-pane",
+  ],
   /**
    * Mirror Studio env vars into NEXT_PUBLIC_* so the browser bundle can read the
    * same project/dataset as `test/sanity` when only `SANITY_PROJECT_ID` is set.
@@ -27,16 +34,43 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev", pathname: "/**" },
     ],
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.resolve = config.resolve ?? {};
+    config.resolve.modules = [
+      path.resolve(__dirname, "node_modules"),
+      ...(Array.isArray(config.resolve.modules)
+        ? config.resolve.modules
+        : config.resolve.modules
+          ? [config.resolve.modules]
+          : ["node_modules"]),
+    ];
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "src"),
+      react: path.resolve(__dirname, "node_modules/react"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
     };
+    if (!isServer) {
+      config.plugins = config.plugins ?? [];
+      config.plugins.push(
+        new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+          resource.request = resource.request.replace(/^node:/, "");
+        }),
+      );
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        crypto: false,
+      };
+    }
     return config;
   },
   async rewrites() {
     return [
+      // CMS nav aliases (siteSettings paths that differ from Next.js route folders).
+      { source: "/en/prices", destination: "/en/pricing" },
+      { source: "/en/current", destination: "/en/news" },
+      { source: "/en/about-us", destination: "/en/about" },
+
       // Top-level treatment-category landings (some English folders don't exist yet).
       { source: "/en/orthopedics", destination: "/en/ortopedi" },
       { source: "/en/pregnancy", destination: "/en/graviditet" },
@@ -63,6 +97,10 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/product/:id", destination: "/nb/produkt/:id", permanent: true },
+
+      // Legacy singleton folders → CMS slug routes (defaults until Studio changes slugs).
+      { source: "/:locale(nb|no)/tjenester-og-priser", destination: "/:locale/tjenester", permanent: true },
+      { source: "/:locale(en)/tjenester-og-priser", destination: "/:locale/services", permanent: true },
     ];
   },
 };

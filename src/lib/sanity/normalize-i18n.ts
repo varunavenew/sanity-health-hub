@@ -8,12 +8,18 @@ const isI18nEntry = (v: unknown): boolean =>
     v &&
       typeof v === "object" &&
       typeof (v as { _type?: string })._type === "string" &&
-      (v as { _type: string })._type.startsWith("internationalizedArray") &&
-      "value" in (v as object),
+      (v as { _type: string })._type.startsWith("internationalizedArray"),
   );
 
 const isI18nEntryArray = (arr: unknown[]): boolean =>
   arr.length > 0 && arr.every(isI18nEntry);
+
+function entryValue(entry: unknown): unknown {
+  if (!entry || typeof entry !== "object") return "";
+  const value = (entry as { value?: unknown }).value;
+  if (value === undefined || value === null) return "";
+  return unwrapSlugValue(value);
+}
 
 function unwrapSlugValue(value: unknown): unknown {
   if (
@@ -32,14 +38,14 @@ const pickI18nValue = (arr: unknown[], lang: "no" | "en"): unknown => {
     const o = e as { language?: string; _key?: string };
     return (o.language || o._key) === lang;
   });
-  if (match) return unwrapSlugValue((match as { value: unknown }).value);
-  if (lang === "en") return undefined;
+  if (match) return entryValue(match);
+  if (lang === "en") return "";
   const fallback =
     arr.find((e) => {
       const o = e as { language?: string; _key?: string };
       return (o.language || o._key) === "no";
     }) || arr[0];
-  return unwrapSlugValue((fallback as { value?: unknown })?.value);
+  return entryValue(fallback);
 };
 
 /**
@@ -47,6 +53,7 @@ const pickI18nValue = (arr: unknown[], lang: "no" | "en"): unknown => {
  */
 export function normalizeI18n(input: unknown, lang: "no" | "en"): unknown {
   if (input == null) return input;
+  if (isI18nEntry(input)) return entryValue(input);
   if (Array.isArray(input)) {
     if (isI18nEntryArray(input)) {
       return normalizeI18n(pickI18nValue(input, lang), lang);

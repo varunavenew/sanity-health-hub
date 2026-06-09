@@ -42,13 +42,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
   const staticNavItems = useMemo(
     () => [
-      { _key: "tjenester", navId: "services", path: "/tjenester", isServicesDropdown: true },
-      { _key: "priser", navId: "pricing", path: "/priser" },
-      { _key: "forsikring", navId: "insurance", path: "/forsikring" },
-      { _key: "aktuelt", navId: "news", path: "/aktuelt" },
-      { _key: "om-oss", navId: "about", path: "/om-oss" },
-      { _key: "klinikker", navId: "clinics", path: "/klinikker" },
-      { _key: "kontakt", navId: "contact", path: "/kontakt" },
+      { _key: "tjenester", navId: "services", isServicesDropdown: true },
+      { _key: "priser", navId: "pricing" },
+      { _key: "forsikring", navId: "insurance" },
+      { _key: "aktuelt", navId: "news" },
+      { _key: "om-oss", navId: "about" },
+      { _key: "klinikker", navId: "clinics" },
+      { _key: "kontakt", navId: "contact" },
     ],
     [],
   );
@@ -65,10 +65,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   }, [siteSettings?.mainNavigation, staticNavItems, t, locale, uiLang]);
 
   const ctaButton = useMemo(() => {
-    const raw = siteSettings?.ctaButton || { path: "/booking", navId: "bookAppointment" };
+    const raw = siteSettings?.ctaButton || { navId: "bookAppointment" };
     return {
       path: resolveNavPath(
-        { path: raw.path || "/booking", navId: raw.navId || "bookAppointment" },
+        { ...raw, navId: raw.navId || "bookAppointment" },
         locale,
       ),
       label: resolveNavLabel(

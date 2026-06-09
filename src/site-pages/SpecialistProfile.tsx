@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useNavigate } from "@/lib/router";
+import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
 import { useRef } from "react";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,8 @@ interface SpecialistProfileProps {
 }
 
 const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: paramSlug } = useParams<{ slug: string }>();
+  const slug = useRouteSlug() || paramSlug || "";
   const navigate = useNavigate();
   const bookingRef = useRef<HTMLDivElement>(null);
   const { specialist, isLoading } = useSpecialistBySlug(slug || "");

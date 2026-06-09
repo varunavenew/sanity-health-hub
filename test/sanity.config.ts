@@ -65,6 +65,7 @@ const hiddenTypes = [
 export default defineConfig({
   name: 'default',
   title: 'sanity',
+  basePath: '/studio',
 
   projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
   dataset: process.env.SANITY_DATASET || 'production',

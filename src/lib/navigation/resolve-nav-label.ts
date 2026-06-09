@@ -1,17 +1,15 @@
 import type { TFunction } from "i18next";
-import type { AppLocale } from "@/lib/i18n/routing";
 import {
   NAV_ROUTE_PATHS,
   PATH_TO_NAV_ID,
-  localizeInternalPath,
   type NavRouteId,
 } from "@/lib/i18n/nav-paths";
+import {
+  resolveNavPath,
+  type NavLinkLike,
+} from "@/lib/navigation/nav-path-utils";
 
-export type NavLinkLike = {
-  label?: string;
-  path?: string;
-  navId?: string;
-};
+export type { NavLinkLike };
 
 function navIdForItem(item: NavLinkLike): NavRouteId | undefined {
   if (item.navId?.trim()) {
@@ -23,14 +21,16 @@ function navIdForItem(item: NavLinkLike): NavRouteId | undefined {
 }
 
 /**
- * Standard menu items use locale JSON (`nav.*`) so EN/NO switch instantly.
- * Custom CMS-only links use the Sanity label for the active locale.
+ * Prefer Sanity label; fall back to locale JSON (`nav.*`) when navId is set.
  */
 export function resolveNavLabel(
   item: NavLinkLike,
   t: TFunction,
   lng?: "nb" | "en",
 ): string {
+  const cms = typeof item.label === "string" ? item.label.trim() : "";
+  if (cms) return cms;
+
   const id = navIdForItem(item);
   if (id) {
     const key = `nav.${id}`;
@@ -38,19 +38,7 @@ export function resolveNavLabel(
     if (translated !== key) return translated;
   }
 
-  const cms = typeof item.label === "string" ? item.label.trim() : "";
-  if (cms) return cms;
-
   return item.path || "";
 }
 
-/** Resolve locale-specific internal path from CMS navId/path or static fallback. */
-export function resolveNavPath(item: NavLinkLike, locale: string): string {
-  const id = navIdForItem(item);
-  if (id) {
-    return NAV_ROUTE_PATHS[id][locale === "en" ? "en" : "nb"];
-  }
-  const path = typeof item.path === "string" ? item.path.trim() : "";
-  if (!path) return path;
-  return localizeInternalPath(path, locale === "en" ? "en" : "no");
-}
+export { resolveNavPath };

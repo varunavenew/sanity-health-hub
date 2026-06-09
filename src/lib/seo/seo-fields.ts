@@ -37,11 +37,17 @@ export function plainMetaString(
     const t = pickI18nMetaString(value, lang);
     return t || fallback;
   }
-  if (value && typeof value === "object" && "value" in value) {
-    const inner = (value as { value: unknown }).value;
-    if (typeof inner === "string") {
-      const t = inner.trim();
-      return t || fallback;
+  if (value && typeof value === "object") {
+    const obj = value as { _type?: string; value?: unknown; language?: string; _key?: string };
+    if (typeof obj._type === "string" && obj._type.startsWith("internationalizedArray")) {
+      return "";
+    }
+    if ("value" in value) {
+      const inner = obj.value;
+      if (typeof inner === "string") {
+        const t = inner.trim();
+        return t || fallback;
+      }
     }
   }
   return fallback;

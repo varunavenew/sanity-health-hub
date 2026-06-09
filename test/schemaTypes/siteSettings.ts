@@ -86,7 +86,8 @@ export default {
               name: 'path',
               title: 'Lenke',
               type: 'internationalizedArrayString',
-              description: 'Intern sti per språk, f.eks. NO: /priser · EN: /pricing',
+              description:
+                'Intern sti per språk (uten /nb eller /en). Brukes direkte i header/footer. Må matche en eksisterende side, f.eks. NO: /priser · EN: /pricing. Alias som /en/prices omdirigeres automatisk.',
               validation: (Rule: any) => Rule.required(),
             },
             {
@@ -169,7 +170,8 @@ export default {
               name: 'path',
               title: 'Lenke',
               type: 'internationalizedArrayString',
-              description: 'Intern sti per språk, f.eks. NO: /priser · EN: /pricing',
+              description:
+                'Intern sti per språk (uten /nb eller /en). Brukes direkte i header/footer. Må matche en eksisterende side, f.eks. NO: /priser · EN: /pricing. Alias som /en/prices omdirigeres automatisk.',
               validation: (Rule: any) => Rule.required(),
             },
           ],

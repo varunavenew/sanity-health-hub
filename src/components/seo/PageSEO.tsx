@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { normalizePageTitle } from "@/lib/seo/metadata-builders";
+import { plainMetaString } from "@/lib/seo/seo-fields";
 
 interface BreadcrumbItem {
   name: string;
@@ -41,7 +42,10 @@ export const PageSEO = ({
     ? canonical.replace(BASE_URL, "")
     : canonical;
   const fullCanonical = `${BASE_URL}${cleanPath}`;
-  const fullTitle = normalizePageTitle(title);
+  const sanityLang = lang === "en" ? "en" : "no";
+  const safeTitle = plainMetaString(title, "", sanityLang);
+  const safeDescription = plainMetaString(description, "", sanityLang);
+  const fullTitle = normalizePageTitle(safeTitle);
 
   const breadcrumbJsonLd = breadcrumbs.length > 0
     ? {
@@ -62,7 +66,7 @@ export const PageSEO = ({
     <Helmet>
       <html lang={htmlLang} />
       <title>{fullTitle}</title>
-      <meta name="description" content={description} />
+      <meta name="description" content={safeDescription} />
       <link rel="canonical" href={fullCanonical} />
       <link rel="alternate" hrefLang="nb-NO" href={fullCanonical} />
       <link rel="alternate" hrefLang="en" href={fullCanonical} />
@@ -71,7 +75,7 @@ export const PageSEO = ({
 
       {/* Open Graph */}
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
+      <meta property="og:description" content={safeDescription} />
       <meta property="og:url" content={fullCanonical} />
       <meta property="og:type" content={type} />
       <meta property="og:locale" content={ogLocale} />
@@ -83,7 +87,7 @@ export const PageSEO = ({
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:description" content={safeDescription} />
 
       {/* JSON-LD */}
       {breadcrumbJsonLd && (

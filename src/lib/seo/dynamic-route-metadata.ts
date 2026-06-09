@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import {
   appLocaleFromParam,
   buildPageMetadata,
@@ -7,7 +7,6 @@ import {
 } from "@/lib/seo/metadata-builders";
 import { resolveMetaStrings, type SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
-import { NAV_ROUTE_PATHS } from "@/lib/i18n/nav-paths";
 import {
   fetchArticleSeo,
   fetchClinicSeo,
@@ -17,6 +16,7 @@ import {
   fetchTreatmentCategorySeo,
   fetchTreatmentSeo,
 } from "@/lib/seo/fetch-sanity-seo";
+import { fetchThemeLocalizedPaths, pathsForDetailBySlug, pathsForCategorySlug, pathsForTreatment } from "@/lib/routing/singleton-slug-paths";
 
 function metadataFromSeo(
   locale: string,
@@ -51,10 +51,10 @@ export async function buildArticleMetadata(
   try {
     const sanityLang = sanityContentLangFromLocale(locale);
     const doc = await fetchArticleSeo(slug, sanityLang);
-    const base = `/${locale}/aktuelt/${slug}`;
+    const paths = await pathsForDetailBySlug("articles", "newsPage", slug, sanityLang);
     return metadataFromSeo(
       locale,
-      { nbPath: base, enPath: base },
+      paths,
       doc?.seo,
       {
         nb: {
@@ -92,12 +92,12 @@ export async function buildTreatmentCategoryMetadata(
   categorySlug: string,
 ): Promise<Metadata> {
   const sanityLang = sanityContentLangFromLocale(locale);
+  const paths = await pathsForCategorySlug(categorySlug);
   const doc = await fetchTreatmentCategorySeo(categorySlug, sanityLang);
-  const base = `/${locale}/behandlinger/${categorySlug}`;
   const title = doc?.title || categorySlug;
   return metadataFromSeo(
     locale,
-    { nbPath: base, enPath: base },
+    paths,
     doc?.seo,
     {
       nb: {
@@ -118,13 +118,13 @@ export async function buildTreatmentMetadata(
   treatmentSlug: string,
 ): Promise<Metadata> {
   const sanityLang = sanityContentLangFromLocale(locale);
+  const paths = await pathsForTreatment(categorySlug, treatmentSlug, sanityLang);
   const doc = await fetchTreatmentSeo(categorySlug, treatmentSlug, sanityLang);
-  const base = `/${locale}/behandlinger/${categorySlug}/${treatmentSlug}`;
   const title = doc?.title || treatmentSlug;
   const category = doc?.parentCategory || categorySlug;
   return metadataFromSeo(
     locale,
-    { nbPath: base, enPath: base },
+    paths,
     doc?.seo,
     {
       nb: {
@@ -145,15 +145,18 @@ export async function buildTreatmentMetadata(
 
 export async function buildThemePageMetadata(
   locale: string,
-  themeSlug: string,
+  themeQuerySlug: string,
+  publicUrlSlug?: string,
 ): Promise<Metadata> {
   const sanityLang = sanityContentLangFromLocale(locale);
-  const doc = await fetchThemePageSeo(themeSlug, sanityLang);
-  const base = `/${locale}/${themeSlug}`;
-  const title = doc?.title || themeSlug;
+  const doc = await fetchThemePageSeo(themeQuerySlug, sanityLang);
+  const paths = publicUrlSlug
+    ? await fetchThemeLocalizedPaths(publicUrlSlug)
+    : await fetchThemeLocalizedPaths(themeQuerySlug);
+  const title = doc?.title || themeQuerySlug;
   return metadataFromSeo(
     locale,
-    { nbPath: base, enPath: base },
+    paths,
     doc?.seo,
     {
       nb: {
@@ -212,7 +215,7 @@ export async function buildSpecialistMetadata(
   const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const doc = await fetchSpecialistSeo(slug, sanityLang);
-  const base = `/${locale}/spesialister/${slug}`;
+  const paths = await pathsForDetailBySlug("specialists", "specialistsListingPage", slug, sanityLang);
   const fallbacks = {
     nb: specialistSeoFallbacks(doc || {}, "nb"),
     en: specialistSeoFallbacks(doc || {}, "en"),
@@ -220,7 +223,7 @@ export async function buildSpecialistMetadata(
 
   return metadataFromSeo(
     locale,
-    { nbPath: base, enPath: base },
+    paths,
     doc?.seo,
     fallbacks,
   );
@@ -234,15 +237,11 @@ export async function buildClinicMetadata(
   const sanityLang = sanityContentLangFromLocale(locale);
   const doc = await fetchClinicSeo(slug, sanityLang);
   const label = doc?.label || slug;
-  const nbClinics = NAV_ROUTE_PATHS.clinics.nb;
-  const enClinics = NAV_ROUTE_PATHS.clinics.en;
+  const paths = await pathsForDetailBySlug("clinics", "clinicsPage", slug, sanityLang);
 
   return metadataFromSeo(
     locale,
-    {
-      nbPath: `/no${nbClinics}/${slug}`,
-      enPath: `/en${enClinics}/${slug}`,
-    },
+    paths,
     doc?.seo,
     {
       nb: {
@@ -265,10 +264,11 @@ export async function buildJobListingMetadata(
   const sanityLang = sanityContentLangFromLocale(locale);
   const doc = await fetchJobListingSeo(slug, sanityLang);
   const jobTitle = doc?.title?.trim() || slug;
+  const paths = await pathsForDetailBySlug("jobs", "careersPage", slug, sanityLang);
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: `/no/karriere/${slug}`, enPath: `/en/karriere/${slug}` },
+    paths,
     title: `${jobTitle} – Karriere hos CMedical`,
     description:
       doc?.excerpt?.trim() ||

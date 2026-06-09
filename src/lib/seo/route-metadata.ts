@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getImageUrl } from "@/lib/sanityClient";
+import { getImageUrl } from "@/lib/sanity/image-url";
 import { appLocaleFromParam, buildPageMetadata } from "@/lib/seo/metadata-builders";
 import {
   NAV_ROUTE_PATHS,
@@ -20,6 +20,7 @@ import {
 } from "@/lib/seo/fetch-sanity-seo";
 import type { LocalizedPaths } from "@/lib/seo/metadata-builders";
 import { plainMetaString, resolveMetaStrings } from "@/lib/seo/seo-fields";
+import { fetchSingletonLocalizedPaths } from "@/lib/routing/singleton-slug-paths";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 
 function pathsForNav(navId: NavRouteId): LocalizedPaths {
@@ -105,7 +106,7 @@ export async function buildContactMetadata(locale: string): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/nb/kontakt", enPath: "/en/contact" },
+    paths: await fetchSingletonLocalizedPaths("contactPage"),
     title,
     description,
     ogImage: (() => {
@@ -139,7 +140,7 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/nb/personvern", enPath: "/en/personvern" },
+    paths: await fetchSingletonLocalizedPaths("privacyPolicyPage"),
     title,
     description,
     type: "website",
@@ -155,7 +156,7 @@ export async function buildAboutMetadata(locale: string): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/nb/om-oss", enPath: "/en/about" },
+    paths: await fetchSingletonLocalizedPaths("aboutPage"),
     title,
     description,
     ogImage: (() => {
@@ -189,7 +190,7 @@ export async function buildInsuranceMetadata(locale: string): Promise<Metadata> 
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/no/forsikring", enPath: "/en/insurance" },
+    paths: await fetchSingletonLocalizedPaths("insurancePage"),
     title,
     description,
     ogImage: (() => {
@@ -210,7 +211,7 @@ export async function buildNewsMetadata(locale: string): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/nb/aktuelt", enPath: "/en/news" },
+    paths: await fetchSingletonLocalizedPaths("newsPage"),
     title,
     description,
     ogImage: (() => {
@@ -248,7 +249,7 @@ export async function buildSpecialistsAboutMetadata(locale: string): Promise<Met
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/no/om-spesialister", enPath: "/en/om-spesialister" },
+    paths: await fetchSingletonLocalizedPaths("specialistsPage"),
     title,
     description,
     ogImage: (() => {
@@ -273,12 +274,10 @@ const SERVICES_FALLBACK = {
   },
 } as const;
 
-export async function buildServicesMetadata(
-  locale: string,
-  paths: LocalizedPaths = pathsForNav("services"),
-): Promise<Metadata> {
+export async function buildServicesMetadata(locale: string): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
+  const paths = await fetchSingletonLocalizedPaths("servicesPage");
   const data = await fetchServicesPageDocument(sanityLang);
   const seo = data?.seo;
   const resolved = resolveMetaStrings(seo, lang, SERVICES_FALLBACK);
@@ -329,7 +328,7 @@ export async function buildPricingMetadata(locale: string): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    paths: pathsForNav("pricing"),
+    paths: await fetchSingletonLocalizedPaths("pricingPage"),
     title,
     description,
     ogImage: (() => {
@@ -369,7 +368,7 @@ export async function buildSpecialistsListingMetadata(
 
   return buildPageMetadata({
     locale,
-    paths: pathsForNav("specialists"),
+    paths: await fetchSingletonLocalizedPaths("specialistsListingPage"),
     title,
     description,
     ogImage: (() => {
@@ -409,7 +408,7 @@ export async function buildClinicsListingMetadata(
 
   return buildPageMetadata({
     locale,
-    paths: pathsForNav("clinics"),
+    paths: await fetchSingletonLocalizedPaths("clinicsPage"),
     title,
     description,
     ogImage: (() => {
@@ -439,10 +438,16 @@ export async function buildKarriereListingMetadata(
 ): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const { title, description } = KARRIERE_LISTING_FALLBACK[lang];
+  let paths = { nbPath: "/no/karriere", enPath: "/en/karriere" };
+  try {
+    paths = await fetchSingletonLocalizedPaths("careersPage");
+  } catch {
+    // careersPage slug not yet in CMS
+  }
 
   return buildPageMetadata({
     locale,
-    paths: { nbPath: "/no/karriere", enPath: "/en/karriere" },
+    paths,
     title,
     description,
     type: "website",

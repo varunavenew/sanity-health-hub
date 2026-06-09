@@ -76,6 +76,23 @@ export function useLocation(): {
 
 export { useParams };
 
+/** Detail slug from `[slug]` or catch-all `[...segments]` routes. */
+export function useRouteSlug(): string {
+  const params = useParams<{ slug?: string; segments?: string | string[] }>();
+  const pathname = usePathname() || "/";
+
+  if (typeof params?.slug === "string" && params.slug) return params.slug;
+  const segments = params?.segments;
+  if (Array.isArray(segments) && segments.length > 0) {
+    return segments[segments.length - 1] ?? "";
+  }
+  if (typeof segments === "string" && segments) return segments;
+
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts[0] === "no" || parts[0] === "en") return parts[parts.length - 1] ?? "";
+  return parts[parts.length - 1] ?? "";
+}
+
 type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
   to: string;
   replace?: boolean;

@@ -24,6 +24,30 @@ const i18nText = (field: string) =>
 const i18nStringLocale = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
 
+/** Both locales — for nav path switching and CMS-driven URLs. */
+const i18nPathBoth = (field: string) => `
+  "pathNb": coalesce(${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field}[0].value),
+  "pathEn": coalesce(${field}[language == "en"][0].value, ${field}[_key == "en"][0].value, ${field}[0].value)
+`;
+
+/** Both locales — for CMS-driven singleton URLs and static path generation. */
+const localizedSlugBoth = `
+  "slugNb": coalesce(
+    slug[language == "no"][0].value.current,
+    slug[_key == "no"][0].value.current,
+    slug[0].value.current,
+    slug.current
+  ),
+  "slugEn": coalesce(
+    slug[language == "en"][0].value.current,
+    slug[_key == "en"][0].value.current,
+    slug[language == "no"][0].value.current,
+    slug[_key == "no"][0].value.current,
+    slug[0].value.current,
+    slug.current
+  )
+`;
+
 const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
 
 const publishedClinicFilter = `!(_id in path("drafts.**"))`;
@@ -509,6 +533,97 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   seo
 }`;
 
+export const CMS_ROUTE_INDEX_QUERY = `{
+  "listings": {
+    "newsPage": *[_type == "newsPage"][0]{ ${localizedSlugBoth} },
+    "clinicsPage": *[_type == "clinicsPage"][0]{ ${localizedSlugBoth} },
+    "specialistsListingPage": *[_type == "specialistsListingPage"][0]{ ${localizedSlugBoth} },
+    "careersPage": *[_type == "careersPage"][0]{ ${localizedSlugBoth} }
+  },
+  "singletons": *[_type in [
+    "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
+    "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
+    "privacyPolicyPage", "careersPage"
+  ]]{
+    _type,
+    ${localizedSlugBoth}
+  },
+  "themes": *[_type == "themePage"]{
+    _id,
+    _type,
+    ${localizedSlugBoth}
+  },
+  "categories": *[_type == "treatmentCategory"]{
+    _id,
+    _type,
+    categoryId,
+    ${localizedSlugBoth}
+  },
+  "treatments": *[_type == "treatment"]{
+    _id,
+    _type,
+    ${localizedSlugBoth},
+    "categoryId": category->categoryId,
+    "categorySlugNb": coalesce(
+      category->slug[language == "no"][0].value.current,
+      category->slug[_key == "no"][0].value.current,
+      category->slug[0].value.current
+    ),
+    "categorySlugEn": coalesce(
+      category->slug[language == "en"][0].value.current,
+      category->slug[_key == "en"][0].value.current,
+      category->slug[language == "no"][0].value.current,
+      category->slug[_key == "no"][0].value.current,
+      category->slug[0].value.current
+    )
+  },
+  "clinics": *[_type == "clinicPage" && ${publishedClinicFilter}]{
+    _id,
+    _type,
+    ${localizedSlugBoth}
+  },
+  "specialists": *[_type == "specialist"]{
+    _id,
+    _type,
+    ${localizedSlugBoth}
+  },
+  "articles": *[_type == "article"]{
+    _id,
+    _type,
+    ${localizedSlugBoth}
+  },
+  "jobs": *[_type == "jobListing" && active == true]{
+    _id,
+    _type,
+    ${localizedSlugBoth}
+  },
+  "products": *[_type == "product"]{
+    _id,
+    _type,
+    ${localizedSlugBoth}
+  }
+}`;
+
+/** @deprecated Use CMS_ROUTE_INDEX_QUERY + resolveCmsRoute */
+export const CMS_PAGE_SLUG_INDEX_QUERY = CMS_ROUTE_INDEX_QUERY;
+
+/** @deprecated Use resolveCmsRoute from route index */
+export const CMS_PAGE_BY_SLUG_QUERY = `*[
+  (
+    _type in [
+      "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
+      "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
+      "privacyPolicyPage"
+    ]
+    || _type == "themePage"
+  )
+  && ${slugMatchesParam("slug")}
+][0]{
+  _id,
+  _type,
+  ${localizedSlugBoth}
+}`;
+
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   title,
   phone,
@@ -520,17 +635,20 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
     ${i18nString("label")},
     navId,
     ${i18nString("path")},
+    ${i18nPathBoth("path")},
     isServicesDropdown
   },
   ctaButton{
     ${i18nString("label")},
-    ${i18nString("path")}
+    ${i18nString("path")},
+    ${i18nPathBoth("path")}
   },
   footerAboutLinks[]{
     _key,
     ${i18nString("label")},
     navId,
-    ${i18nString("path")}
+    ${i18nString("path")},
+    ${i18nPathBoth("path")}
   },
   notFoundTitle,
   notFoundText,
