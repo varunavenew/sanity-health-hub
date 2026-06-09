@@ -423,7 +423,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  </div>
  </div>
  {/* Right: image */}
- <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
+ <div className="relative order-1 lg:order-2 min-h-[420px] lg:min-h-full">
  <img
  src={category.heroImage}
  alt={category.title}
