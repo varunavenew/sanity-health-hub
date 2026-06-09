@@ -144,8 +144,7 @@ const RISKS: { title: string; description: string }[] = [
   },
   {
     title: "Domene-peking",
-    description:
-      "DNS-endring tar opptil 24 timer. Må forberedes 7.–8. juli for å være klart 9. juli.",
+      "DNS-endring tar opptil 24 timer.",
   },
   {
     title: "GDPR og samtykke",
