@@ -271,7 +271,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <section className="bg-background">
  <div className="grid lg:grid-cols-12">
- <div className="lg:col-span-7 page-edge-text-left py-20 lg:py-28">
+ <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
  <div className="max-w-xl">
  <p className="text-xs text-foreground/60 mb-5">
  Hvorfor CMedical
@@ -345,7 +345,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  4. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
  ============================================================ */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-20">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -387,6 +387,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
  {/* 5. SYMPTOMSJEKK — selvdiagnose, peker mot tjenester */}
  <SymptomServiceSection
+ background="background"
  title="Hva kjenner du på?"
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
  items={[
@@ -411,7 +412,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16">
+ <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
@@ -464,7 +465,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  8. TILBAKEMELDINGER — sosial bevis rett før spesialistene
  ============================================================ */}
- <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
+ <section className="bg-brand-warm pt-10 md:pt-12 pb-14 md:pb-16">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">

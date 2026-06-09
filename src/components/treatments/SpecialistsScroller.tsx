@@ -64,7 +64,7 @@ export const SpecialistsScroller = ({
   const showSeeAllButton = filtered.length > 1;
 
   return (
-    <section className="pt-24 md:pt-32 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
+    <section className="pt-14 md:pt-20 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {/* Header — identical to home */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
