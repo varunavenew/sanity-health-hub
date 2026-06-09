@@ -69,30 +69,43 @@ const lifePhases = [
  title: "Graviditet, fødsel og tiden etter",
  desc:
  "Svangerskapskontroll, ultralyd, etterkontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
- tags: [
- { label: "Tidlig ultralyd", href: "/booking?kategori=gynekologi" },
- { label: "NIPT", href: "/booking?kategori=gynekologi" },
- { label: "Graviditetsoppfølging", href: "/booking?kategori=gynekologi" },
- { label: "6-ukerskontroll etter fødsel", href: "/booking?kategori=gynekologi" },
- { label: "Spontanabort", href: "/booking?kategori=gynekologi" },
- { label: "Abort", href: "/booking?kategori=gynekologi" },
- { label: "Fremfall og fødselsskader", href: "/behandlinger/gynekologi/vaginale-fremfall" },
- ],
- href: "/booking?kategori=gynekologi",
- },
- {
- n: "04",
- title: "Overgangsalder — på dine premisser",
- desc:
- "Perimenopause og menopause kan være krevende. Vi hjelper deg å forstå kroppen og finner riktig behandling for deg.",
- tags: [
- { label: "Overgangsalder / klimakteriet", href: "/behandlinger/gynekologi/overgangsalder" },
- { label: "Hormonbehandling", href: "/behandlinger/gynekologi/overgangsalder" },
- { label: "Urininkontinens", href: "/behandlinger/gynekologi/urinlekkasje" },
- { label: "Tørrhet i underlivet", href: "/behandlinger/gynekologi/overgangsalder" },
- ],
- href: "/behandlinger/gynekologi/overgangsalder",
- },
+  tags: [
+  { label: "Tidlig ultralyd", href: "/booking?kategori=gynekologi" },
+  { label: "NIPT", href: "/booking?kategori=gynekologi" },
+  { label: "Graviditetsoppfølging", href: "/booking?kategori=gynekologi" },
+  { label: "6-ukerskontroll etter fødsel", href: "/booking?kategori=gynekologi" },
+  { label: "Spontanabort", href: "/booking?kategori=gynekologi" },
+  { label: "Abort", href: "/booking?kategori=gynekologi" },
+  { label: "Fødselsskader", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+  ],
+  href: "/booking?kategori=gynekologi",
+  },
+  {
+  n: "04",
+  title: "Urogynekologi — fremfall og lekkasje",
+  desc:
+  "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
+  tags: [
+  { label: "Vaginale fremfall", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+  { label: "Urininkontinens", href: "/behandlinger/gynekologi/urinlekkasje" },
+  { label: "Bekkenbunnsdysfunksjon", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+  { label: "Tyngdefølelse i underlivet", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+  ],
+  href: "/behandlinger/gynekologi/vaginale-fremfall",
+  },
+  {
+  n: "05",
+  title: "Overgangsalder — på dine premisser",
+  desc:
+  "Perimenopause og menopause kan være krevende. Vi hjelper deg å forstå kroppen og finner riktig behandling for deg.",
+  tags: [
+  { label: "Overgangsalder / klimakteriet", href: "/behandlinger/gynekologi/overgangsalder" },
+  { label: "Hormonbehandling", href: "/behandlinger/gynekologi/overgangsalder" },
+  { label: "Tørrhet i underlivet", href: "/behandlinger/gynekologi/overgangsalder" },
+  { label: "Hetetokter og søvnproblemer", href: "/behandlinger/gynekologi/overgangsalder" },
+  ],
+  href: "/behandlinger/gynekologi/overgangsalder",
+  },
 ];
 
 const expertAreas = [
