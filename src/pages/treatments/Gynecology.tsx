@@ -276,25 +276,29 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {lifePhases.map((p) => (
- <div key={p.n} className="bg-background p-7 flex flex-col">
- <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
- {p.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
- {p.desc}
- </p>
- <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
- <Link
- to={p.href}
- className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
- >
- Les mer
- <ArrowRight className="w-3.5 h-3.5" />
- </Link>
- </div>
- ))}
+ <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+ {lifePhases.map((p, i) => {
+  // 3 + 2 layout: first three cards span 2/6, last two span 3/6
+  const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
+  return (
+  <div key={p.n} className={`bg-background p-7 flex flex-col ${span}`}>
+  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
+  {p.title}
+  </h3>
+  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+  {p.desc}
+  </p>
+  <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
+  <Link
+  to={p.href}
+  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
+  >
+  Les mer
+  <ArrowRight className="w-3.5 h-3.5" />
+  </Link>
+  </div>
+  );
+ })}
  </div>
  </div>
  </div>
