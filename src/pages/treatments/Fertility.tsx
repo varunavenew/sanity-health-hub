@@ -387,6 +387,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
  {/* 5. SYMPTOMSJEKK — selvdiagnose, peker mot tjenester */}
  <SymptomServiceSection
+ background="background"
  title="Hva kjenner du på?"
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
  items={[
