@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
 import { toast } from "@/hooks/use-toast";
 import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
+import { FremdriftsplanPanel } from "@/components/godkjenning/FremdriftsplanPanel";
 
 // Mastermaler vises som komplette demo-sider med ALLE seksjonstyper samlet,
 // slik at kunden kan godkjenne hele malen før innholdet tilpasses per side.
@@ -191,7 +192,7 @@ const Godkjenning = () => {
   const [reviewer, setReviewer] = useState("");
   const [filter, setFilter] = useState<"alle" | Status>("alle");
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler" | "demo">("sider");
+  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler" | "demo" | "fremdrift">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
 
   useEffect(() => {
@@ -372,6 +373,7 @@ const Godkjenning = () => {
               <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
               <TabBtn active={tab === "maler"} onClick={() => setTab("maler")} icon={<LayoutTemplate className="w-4 h-4" />} label="Maler" />
               <TabBtn active={tab === "demo"} onClick={() => setTab("demo")} icon={<Eye className="w-4 h-4" />} label="Demo" />
+              <TabBtn active={tab === "fremdrift"} onClick={() => setTab("fremdrift")} icon={<CalendarClock className="w-4 h-4" />} label="Fremdriftsplan" />
             </div>
 
             <div className="flex gap-2 items-center">
@@ -454,6 +456,8 @@ const Godkjenning = () => {
           />
         ) : tab === "demo" ? (
           <DemoPanel />
+        ) : tab === "fremdrift" ? (
+          <FremdriftsplanPanel />
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
