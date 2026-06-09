@@ -396,9 +396,9 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
 
  {/* ── 1. Hero: Split-screen ── */}
  <header className="bg-brand-warm">
- <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
+ <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  {/* Left: text */}
- <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+ <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 lg:order-1">
  <p className="text-xs text-foreground/60 font-light mb-4">{category.subtitle}</p>
  <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
  {category.title}
@@ -423,7 +423,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  </div>
  </div>
  {/* Right: image */}
- <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
+ <div className="relative order-1 lg:order-2 min-h-[420px] lg:min-h-full">
  <img
  src={category.heroImage}
  alt={category.title}
