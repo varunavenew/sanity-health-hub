@@ -6,7 +6,7 @@ export const SpecialistsSection = () => {
   const navigate = useNavigate();
   
   return (
-    <section className="py-24 bg-muted/30">
+    <section className="py-14 md:py-20 bg-muted/30">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           {/* Left - Large text */}
