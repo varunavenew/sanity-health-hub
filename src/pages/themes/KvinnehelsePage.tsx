@@ -133,7 +133,8 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
 
  {/* Content */}
  <section className="pt-6 md:pt-8 pb-16 md:pb-24 bg-background">
- <div className="container mx-auto px-4 md:px-8 max-w-3xl">
+  <div className="container mx-auto px-6 md:px-16">
+  <div className="max-w-3xl mx-auto">
  {/* Intro texts */}
  {introTexts.map((text, i) => (
  <p key={i} className="text-base text-muted-foreground font-light leading-relaxed mb-6">
