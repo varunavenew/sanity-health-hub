@@ -43,7 +43,10 @@ const PHASES: Phase[] = [
     title: "Metodika-integrasjon klar for test",
     owner: "Byrå",
     description:
-      "Booking via Metodika er integrert. CMedical kan teste integrasjonen og gi tilbakemelding frem til 1. juli.",
+      "Booking via Metodika er integrert. CMedical kan teste integrasjonen og gi tilbakemelding frem til 1. juli. Forutsetter at tjeneste-mapping per underkategori er levert, slik at riktig Metodika-tjeneste velges automatisk fra hver side.",
+    deliverables: [
+      "Mottatt tjeneste-mapping fra CMedical (underkategori → Metodika-tjeneste)",
+    ],
     milestone: true,
   },
   {
