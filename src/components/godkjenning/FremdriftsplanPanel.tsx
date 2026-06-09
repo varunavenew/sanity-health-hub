@@ -57,6 +57,14 @@ const PHASES: Phase[] = [
       "CMedical tester bookingflyt, bekreftelser, kalender og betaling. Tilbakemeldinger registreres i fanen «Booking».",
   },
   {
+    dates: "29. juni",
+    title: "Tredjepartsintegrasjoner klare",
+    owner: "CMedical",
+    description:
+      "Goalstar og øvrige tredjeparter er klare for integrering fra denne datoen.",
+    milestone: true,
+  },
+  {
     dates: "2. juli",
     title: "Alt demo-design integrert med Sanity og lagt på server",
     owner: "Byrå",
