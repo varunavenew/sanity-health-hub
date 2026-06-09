@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
 import { toast } from "@/hooks/use-toast";
 import { ChangeRequestDialog } from "@/components/godkjenning/ChangeRequestDialog";
 import { ChangeRequestInbox, type ChangeRequest } from "@/components/godkjenning/ChangeRequestInbox";
+import { FremdriftsplanPanel } from "@/components/godkjenning/FremdriftsplanPanel";
 
 // Mastermaler vises som komplette demo-sider med ALLE seksjonstyper samlet,
 // slik at kunden kan godkjenne hele malen før innholdet tilpasses per side.
