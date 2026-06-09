@@ -276,7 +276,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+ <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
  {lifePhases.map((p) => (
  <div key={p.n} className="bg-background p-7 flex flex-col">
  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
