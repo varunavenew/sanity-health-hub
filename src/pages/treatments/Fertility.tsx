@@ -412,7 +412,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16">
+ <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
