@@ -17,6 +17,7 @@ import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
+import fertilityHeroVideo from "@/assets/hero/fertilitet-hero.mp4.asset.json";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { AnimatedStat } from "@/components/AnimatedStat";
 
@@ -210,11 +211,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- {/* Right — coverbilde, fyller hele halvdelen */}
+ {/* Right — covervideo, fyller hele halvdelen */}
  <div className="relative min-h-[420px] lg:min-h-full">
- <img
- src={fertilityHeroImg}
- alt="Fertilitetsbehandling hos CMedical"
+ <video
+ src={fertilityHeroVideo.url}
+ poster={fertilityHeroImg}
+ autoPlay
+ muted
+ loop
+ playsInline
  className="absolute inset-0 w-full h-full object-cover"
  />
  </div>

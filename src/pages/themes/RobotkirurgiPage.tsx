@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
+import robotkirurgiHeroVideo from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
 import { useThemePage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { VideoPlayer } from "@/components/ui/video-player";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -84,16 +86,35 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           { name: "Robotassistert kirurgi", path: "/robotassistert-kirurgi" },
         ]}
       />
-      {/* Hero */}
-      <section className="relative h-[30vh] min-h-[220px] overflow-hidden">
-        <img src={heroImg} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
-          <div className="container mx-auto">
-            <h1 className="text-3xl md:text-5xl font-light text-white">{title}</h1>
+      {/* Hero — tittel øverst, video full bredde under (samme mønster som /kvinnehelse) */}
+      <header className="bg-brand-warm pt-24 md:pt-28 pb-10 md:pb-14">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-3xl mx-auto">
+            <p className="text-xs text-foreground/60 font-light mb-4">Teknologi</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+              {title}
+            </h1>
+            <p className="text-base text-foreground/70 font-light leading-relaxed max-w-xl mb-8">
+              Se hvordan robotassistert kirurgi gir kirurgen presisjon og oversikt – og pasienten en skånsom vei tilbake til hverdagen.
+            </p>
+            <Button variant="cta" size="lg" onClick={() => navigate("/booking")}>
+              Bestill time
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
           </div>
         </div>
-      </section>
+
+        <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
+          <div className="max-w-5xl mx-auto">
+            <VideoPlayer
+              thumbnailUrl={heroImg}
+              videoUrl={robotkirurgiHeroVideo.url}
+              title="Robotassistert kirurgi"
+              className="w-full aspect-video"
+            />
+          </div>
+        </div>
+      </header>
 
       {/* Content */}
       <section className="py-16 md:py-24 bg-background">
