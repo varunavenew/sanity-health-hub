@@ -167,18 +167,17 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h1>
 
  {/* ============================================================
- 1. HERO — split screen 50/50, bilde kant-i-kant
+ 1. HERO — tittel/intro øverst, video full bredde under (samme som /kvinnehelse)
  ============================================================ */}
- <header className="bg-brand-light pt-24 lg:pt-0">
- <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
- {/* Left — copy + CTA */}
- <div className="flex items-center page-edge-text-left py-16 lg:py-24">
- <div className="max-w-xl w-full">
+ <header className="bg-brand-light pt-24 md:pt-28 pb-10 md:pb-14">
+ <div className="page-shell">
+ <div className="max-w-3xl">
+ <p className="text-xs text-foreground/60 font-light mb-4">Konseptfilm</p>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
  </h2>
 
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+ <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground max-w-xl">
  Å ville bli foreldre er noe av det sterkeste man kan kjenne på.
  For mange går det av seg selv. For andre tar det litt lenger
  tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og
@@ -212,21 +211,17 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- {/* Right — covervideo, fyller hele halvdelen */}
- <div className="relative min-h-[420px] lg:min-h-full">
- <video
- src={fertilityHeroVideo.url}
- poster={fertilityHeroImg}
- autoPlay
- muted
- loop
- playsInline
- className="absolute inset-0 w-full h-full object-cover"
+ <div className="page-shell mt-12 md:mt-16">
+ <VideoPlayer
+ thumbnailUrl={fertilityHeroImg}
+ videoUrl={fertilityHeroVideo.url}
+ title="Fertilitet hos CMedical"
+ className="w-full aspect-video"
  />
  </div>
- </div>
- <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+ <div className="h-px w-full bg-foreground/5 mt-16" aria-hidden="true" />
  </header>
+
 
 
  {/* ============================================================
