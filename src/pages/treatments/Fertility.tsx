@@ -211,7 +211,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="page-shell mt-12 md:mt-16">
+  <div className="page-shell mt-8 md:mt-10">
  <VideoPlayer
  thumbnailUrl={fertilityHeroImg}
  videoUrl={fertilityHeroVideo.url}
@@ -219,8 +219,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  className="w-full aspect-video"
  />
  </div>
- <div className="h-px w-full bg-foreground/5 mt-16" aria-hidden="true" />
  </header>
+
+
 
 
 
