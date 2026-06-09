@@ -345,7 +345,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  4. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
  ============================================================ */}
- <section className="bg-secondary/40 py-20 md:py-28">
+ <section className="bg-secondary/40 py-14 md:py-20">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
