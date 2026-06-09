@@ -1385,12 +1385,25 @@ const BookingDemo = () => {
  )}
  >
  Bekreft bestilling
- </Button>
+  </Button>
 
- </motion.div>
- )}
- </AnimatePresence>
- </main>
+  </motion.div>
+  )}
+  </AnimatePresence>
+
+  {/* Hjelp / kontakt oss */}
+  <div className="mt-10 pt-6 border-t border-brand-dark/10 text-center">
+  <p className="text-sm text-brand-dark/60 font-light leading-relaxed">
+  Om du opplever utfordringer med online timebestilling, er du hjertelig velkommen til å ringe oss på{' '}
+  <a href="tel:+47226000050" className="text-brand-dark underline hover:text-brand-dark/70 transition-colors">
+  +47 22 60 00 50
+  </a>.
+  </p>
+  <p className="text-xs text-brand-dark/50 font-light mt-1.5">
+  Vi er tilgjengelige fra 08:00 – 20:00 alle hverdager.
+  </p>
+  </div>
+  </main>
 
  {/* Specialist Info Dialog */}
  <Dialog open={!!selectedSpecialistInfo} onOpenChange={(open) => !open && setSelectedSpecialistInfo(null)}>
