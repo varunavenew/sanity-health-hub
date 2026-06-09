@@ -188,8 +188,9 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
  {ctaText}
  <ArrowRight className="ml-2 w-4 h-4" />
  </Button>
- </div>
- </section>
+  </div>
+  </div>
+  </section>
  </PageLayout>
  );
 };
