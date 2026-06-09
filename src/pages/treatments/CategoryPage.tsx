@@ -396,7 +396,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
 
  {/* ── 1. Hero: Split-screen ── */}
  <header className="bg-brand-warm">
- <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
+ <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  {/* Left: text */}
  <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
  <p className="text-xs text-foreground/60 font-light mb-4">{category.subtitle}</p>
