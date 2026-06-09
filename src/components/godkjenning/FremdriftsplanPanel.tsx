@@ -107,8 +107,6 @@ const NEED_FROM_CLIENT: { title: string; items: string[] }[] = [
   {
     title: "Booking og Metodika (frist 22. juni)",
     items: [
-      "Tilgang/API-nøkkel til Metodika (eller bekreftelse på iframe-URL per klinikk)",
-      "Mapping mellom tjeneste og Metodika-ressurs/spesialist",
       "Tjeneste-mapping per underkategori: for hver underkategori/behandling på siden må dere oppgi hvilken Metodika-tjeneste bookingen skal peke til, slik at riktig tjeneste velges automatisk i bookingflyten (leveres som regneark: side/URL → underkategori → Metodika-tjeneste-ID/navn → varighet → pris)",
       "Bekreftet pris pr. tjeneste (med «fra»-pris der relevant)",
     ],
