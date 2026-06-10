@@ -17,6 +17,11 @@ import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
+import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
+import journeyResult from "@/assets/fertility/journey-03-result.jpg";
+import audienceCouple from "@/assets/fertility/audience-couple.jpg";
+import audienceSingle from "@/assets/fertility/audience-single.jpg";
+import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
 import fertilityHeroVideo from "@/assets/hero/fertilitet-hero.mp4.asset.json";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
