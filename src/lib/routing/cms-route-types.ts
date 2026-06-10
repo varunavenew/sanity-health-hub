@@ -69,7 +69,8 @@ export const SINGLETON_PAGE_TYPES = [
 
 export type SingletonPageType = (typeof SINGLETON_PAGE_TYPES)[number];
 
-export function normalizeSlugSegment(slug: string): string {
+export function normalizeSlugSegment(slug: string | null | undefined): string {
+  if (!slug) return "";
   return slug.replace(/^\/+|\/+$/g, "");
 }
 

@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import { getImageUrl } from "@/lib/sanity/image-url";
 import { appLocaleFromParam, buildPageMetadata } from "@/lib/seo/metadata-builders";
 import {
-  NAV_ROUTE_PATHS,
-  type NavRouteId,
-} from "@/lib/i18n/nav-paths";
-import {
   fetchAboutPageDocument,
   fetchClinicsPageDocument,
   fetchContactPageDocument,
@@ -22,11 +18,6 @@ import type { LocalizedPaths } from "@/lib/seo/metadata-builders";
 import { plainMetaString, resolveMetaStrings } from "@/lib/seo/seo-fields";
 import { fetchSingletonLocalizedPaths } from "@/lib/routing/singleton-slug-paths";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
-
-function pathsForNav(navId: NavRouteId): LocalizedPaths {
-  const { nb, en } = NAV_ROUTE_PATHS[navId];
-  return { nbPath: `/no${nb}`, enPath: `/en${en}` };
-}
 
 const HOME_DEFAULTS = {
   nb: {

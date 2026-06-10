@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation, useLocaleParam } from "@/lib/router";
-import { navPathForLocale } from "@/lib/i18n/nav-paths";
+import { pathForNavId } from "@/lib/routing/nav-cms-paths";
+import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useServiceCategories } from '@/hooks/useServiceCategories';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +17,7 @@ export const ServicesDropdown = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
   const locale = useLocaleParam();
+  const { index: cmsRouteIndex } = useCmsRouteContext();
 
   // Find the category that matches the current route (longest matching path wins)
   const currentCategory = serviceCategories
@@ -46,7 +48,10 @@ export const ServicesDropdown = () => {
   };
 
   const handleNavigateServices = () => {
-    navigate(navPathForLocale('services', locale));
+    const servicesPath = cmsRouteIndex
+      ? pathForNavId(cmsRouteIndex, "services", locale)
+      : "";
+    if (servicesPath) navigate(servicesPath);
     setIsOpen(false);
     setActiveCategory(null);
     setActiveSubcategory(null);

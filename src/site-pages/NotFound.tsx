@@ -1,6 +1,7 @@
 "use client";
 
 import { Link, useLocation } from "@/lib/router";
+import { coercePath } from "@/lib/navigation/coerce-path";
 import { useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSanity";
@@ -38,7 +39,7 @@ const NotFound = ({ isChatOpen = false }: NotFoundProps) => {
     "Lenken kan være utdatert, eller siden kan ha flyttet seg. Du finner det meste igjen et av disse stedene — eller du kan starte forfra på forsiden.";
   const image = settings?.notFoundImage || notFoundImg;
   const ctaLabel = settings?.notFoundCtaLabel || "Tilbake til forsiden";
-  const ctaPath = settings?.notFoundCtaPath || "/";
+  const ctaPath = coercePath(settings?.notFoundCtaPath) || "/";
 
   return (
     <PageLayout isChatOpen={isChatOpen}>

@@ -582,7 +582,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
     _type,
     ${localizedSlugBoth}
   },
-  "specialists": *[_type == "specialist"]{
+  "specialists": *[_type == "specialist" && !(_id in path("drafts.**"))]{
     _id,
     _type,
     ${localizedSlugBoth}
@@ -622,6 +622,12 @@ export const CMS_PAGE_BY_SLUG_QUERY = `*[
   _id,
   _type,
   ${localizedSlugBoth}
+}`;
+
+/** Nav paths only — used to backfill missing singleton/listing slugs for routing. */
+export const NAV_PATHS_FOR_ROUTE_INDEX_QUERY = `*[_type == "siteSettings"][0].mainNavigation[]{
+  navId,
+  ${i18nPathBoth("path")}
 }`;
 
 export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{

@@ -90,7 +90,9 @@
     "migrate:treatment-full": "tsx sanity/migrate-treatment-full-content.ts",
     "migrate:treatment-full:no-en": "SKIP_EN=1 tsx sanity/migrate-treatment-full-content.ts",
     "create:flere-fagomrader-treatments:dry": "DRY_RUN=1 tsx sanity/create-missing-flere-fagomrader-treatments.ts",
-    "create:flere-fagomrader-treatments": "tsx sanity/create-missing-flere-fagomrader-treatments.ts"
+    "create:flere-fagomrader-treatments": "tsx sanity/create-missing-flere-fagomrader-treatments.ts",
+    "migrate:contact-cta-cards": "tsx sanity/migrate-contact-cta-cards.ts",
+    "sync:nav-paths": "tsx sanity/sync-nav-paths-now.ts"
   },
   "keywords": [
     "sanity"

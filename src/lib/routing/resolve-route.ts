@@ -10,13 +10,29 @@ import {
   slugForLocale,
   slugPairFromDoc,
 } from "@/lib/routing/cms-route-types";
+import {
+  DEFAULT_LISTING_SLUGS,
+  listingSlugPair,
+} from "@/lib/routing/listing-default-slugs";
 
 function listingSlug(
   listings: ListingSlugs,
   key: keyof ListingSlugs,
   locale: string,
 ): string {
-  return slugForLocale(listings[key] ?? undefined, locale);
+  return slugForLocale(listingSlugPair(listings, key), locale);
+}
+
+/** Match listing prefix for active locale or alternate locale (e.g. /en/spesialister/…). */
+function matchesListingPrefix(
+  prefix: string,
+  pair: SlugPair | undefined,
+  locale: string,
+): boolean {
+  if (!pair) return false;
+  if (slugForLocale(pair, locale) === prefix) return true;
+  const altLocale = locale === "en" ? "no" : "en";
+  return slugForLocale(pair, altLocale) === prefix;
 }
 
 function docSlug(doc: RouteIndexDoc, locale: string): string {
@@ -28,7 +44,15 @@ function matchDoc(
   segment: string,
   locale: string,
 ): RouteIndexDoc | undefined {
-  return docs.find((doc) => docSlug(doc, locale) === segment);
+  return docs.find((doc) => {
+    const pair = slugPairFromDoc(doc);
+    if (!pair) return false;
+    return (
+      docSlug(doc, locale) === segment ||
+      pair.slugNb === segment ||
+      pair.slugEn === segment
+    );
+  });
 }
 
 function buildRoute(
@@ -71,8 +95,7 @@ export function resolveCmsRoute(
   if (normalized.length === 2) {
     const [prefix, detailSlug] = normalized;
 
-    const newsPrefix = listingSlug(listings, "newsPage", lang);
-    if (newsPrefix && prefix === newsPrefix) {
+    if (matchesListingPrefix(prefix, listingSlugPair(listings, "newsPage"), lang)) {
       const article = matchDoc(index.articles, detailSlug, lang);
       const pair = slugPairFromDoc(article);
       if (article && pair) {
@@ -82,8 +105,7 @@ export function resolveCmsRoute(
       }
     }
 
-    const clinicsPrefix = listingSlug(listings, "clinicsPage", lang);
-    if (clinicsPrefix && prefix === clinicsPrefix) {
+    if (matchesListingPrefix(prefix, listingSlugPair(listings, "clinicsPage"), lang)) {
       const clinic = matchDoc(index.clinics, detailSlug, lang);
       const pair = slugPairFromDoc(clinic);
       if (clinic && pair) {
@@ -93,8 +115,7 @@ export function resolveCmsRoute(
       }
     }
 
-    const specialistsPrefix = listingSlug(listings, "specialistsListingPage", lang);
-    if (specialistsPrefix && prefix === specialistsPrefix) {
+    if (matchesListingPrefix(prefix, listingSlugPair(listings, "specialistsListingPage"), lang)) {
       const specialist = matchDoc(index.specialists, detailSlug, lang);
       const pair = slugPairFromDoc(specialist);
       if (specialist && pair) {
@@ -104,8 +125,7 @@ export function resolveCmsRoute(
       }
     }
 
-    const careersPrefix = listingSlug(listings, "careersPage", lang);
-    if (careersPrefix && prefix === careersPrefix) {
+    if (matchesListingPrefix(prefix, listingSlugPair(listings, "careersPage"), lang)) {
       const job = matchDoc(index.jobs, detailSlug, lang);
       const pair = slugPairFromDoc(job);
       if (job && pair) {
@@ -161,11 +181,9 @@ export function resolveCmsRoute(
     }
 
     // Listing pages (news, clinics, specialists, careers)
-    for (const [listingType, pair] of Object.entries(listings) as [
-      keyof ListingSlugs,
-      SlugPair | undefined,
-    ][]) {
-      if (pair && slugForLocale(pair, lang) === segment) {
+    for (const listingType of Object.keys(DEFAULT_LISTING_SLUGS) as (keyof ListingSlugs)[]) {
+      const pair = listingSlugPair(listings, listingType);
+      if (matchesListingPrefix(segment, pair, lang)) {
         return buildRoute("listing", listingType, segment, normalized, pair, {
           listingType,
         });
@@ -210,9 +228,8 @@ export function staticParamsFromRouteIndex(
       if (slug) push(locale, [slug]);
     }
 
-    for (const listingType of Object.keys(index.listings) as (keyof ListingSlugs)[]) {
-      const pair = index.listings[listingType];
-      const slug = slugForLocale(pair, lang);
+    for (const listingType of Object.keys(DEFAULT_LISTING_SLUGS) as (keyof ListingSlugs)[]) {
+      const slug = slugForLocale(listingSlugPair(index.listings, listingType), lang);
       if (slug) push(locale, [slug]);
     }
 

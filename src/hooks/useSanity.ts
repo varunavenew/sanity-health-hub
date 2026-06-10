@@ -48,7 +48,11 @@ import {
   SPECIALISTS_LISTING_PAGE_QUERY,
   CLINICS_PAGE_QUERY,
   SOCIAL_POSTS_QUERY,
+  CMS_ROUTE_INDEX_QUERY,
+  NAV_PATHS_FOR_ROUTE_INDEX_QUERY,
 } from "@/lib/queries";
+import type { CmsRouteIndex } from "@/lib/routing/cms-route-types";
+import { enrichRouteIndexWithNavPaths } from "@/lib/routing/enrich-route-index";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
 import {
   behandlingerCategorySegment,
@@ -523,7 +527,25 @@ export const useContactPage = () => {
     queryFn: async () => {
       const data = await fetchSanity<any>(CONTACT_PAGE_QUERY, undefined, lang);
       if (!data) return null;
-      return { ...data, subtitle: data.introText || "" };
+      const str = (value: unknown) => (typeof value === "string" ? value.trim() : "");
+      const ctaCards = (data.ctaCards || []).map((card: Record<string, unknown>) => ({
+        ...card,
+        title: str(card.title),
+        description: str(card.description),
+        ctaText: str(card.ctaText),
+        ctaLink: str(card.ctaLink),
+        icon: str(card.icon) || "Calendar",
+        ctaAction: str(card.ctaAction) || "navigate",
+        variant: str(card.variant) || "solid",
+      }));
+      return {
+        ...data,
+        title: str(data.title),
+        introText: str(data.introText),
+        subtitle: str(data.introText),
+        ctaCards,
+        pageSections: normalizePageSections(data.pageSections),
+      };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -649,6 +671,26 @@ export const useClinic = (slug: string) => {
     queryKey: ["sanity", "clinic", slug, lang],
     queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang),
     enabled: !!slug,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+// ─── CMS route index (dynamic slugs) ─────────────────────────────────
+export const useCmsRouteIndex = (initialData?: CmsRouteIndex) => {
+  return useQuery({
+    queryKey: ["sanity", "cmsRouteIndex"],
+    queryFn: async () => {
+      const [index, navItems] = await Promise.all([
+        fetchSanity<CmsRouteIndex>(CMS_ROUTE_INDEX_QUERY, undefined, "no"),
+        fetchSanity<import("@/lib/routing/enrich-route-index").NavPathSource[]>(
+          NAV_PATHS_FOR_ROUTE_INDEX_QUERY,
+          undefined,
+          "no",
+        ),
+      ]);
+      return enrichRouteIndexWithNavPaths(index, navItems ?? []);
+    },
+    initialData,
     staleTime: 5 * 60 * 1000,
   });
 };

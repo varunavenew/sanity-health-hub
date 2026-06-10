@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "routes:gen": "node scripts/generate-app-routes.mjs",
+    "verify:cms-routes": "tsx src/scripts/verify-cms-routes.ts",
     "dev:vite": "vite",
     "build:vite": "vite build",
     "preview:vite": "vite preview",

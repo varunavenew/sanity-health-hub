@@ -100,7 +100,7 @@ export const HeroBanner = () => {
       onPointerUp={onPointerUp}
       style={{ cursor: "grab" }}
     >
-      <AnimatePresence custom={direction} mode="popLayout">
+      <AnimatePresence custom={direction} mode="wait">
         <motion.div
           key={slide.id}
           custom={direction}

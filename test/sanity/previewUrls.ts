@@ -46,7 +46,7 @@ async function treatmentPath(doc: SanityPreviewDoc, locale: PreviewLocale): Prom
   return `/behandlinger/${slug}`
 }
 
-type SanityPreviewDoc = {
+export type SanityPreviewDoc = {
   slug?: { current?: string } | Array<{ language?: string; _key?: string; value?: { current?: string } }>
   category?: { _ref?: string }
 }

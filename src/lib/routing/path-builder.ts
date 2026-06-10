@@ -4,9 +4,9 @@ import type { CmsRouteIndex, ResolvedCmsRoute, SlugPair } from "@/lib/routing/cm
 import {
   localizedPathsFromSlugPair,
   slugForLocale,
-  slugPairFromDoc,
 } from "@/lib/routing/cms-route-types";
 import type { SingletonPageType } from "@/lib/routing/cms-route-types";
+import { slugPairForPageType } from "@/lib/routing/nav-cms-paths";
 
 export function buildLocalePath(locale: AppLocale | string, segments: string[]): string {
   const loc = locale === "en" ? "en" : "no";
@@ -33,8 +33,7 @@ export async function fetchSingletonLocalizedPaths(
   pageType: SingletonPageType,
 ): Promise<{ nbPath: string; enPath: string }> {
   const index = await fetchCmsRouteIndex();
-  const doc = index.singletons.find((row) => row._type === pageType);
-  const pair = slugPairFromDoc(doc);
+  const pair = slugPairForPageType(index, pageType);
   if (!pair) {
     throw new Error(`Missing CMS slug for singleton page type: ${pageType}`);
   }

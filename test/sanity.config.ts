@@ -4,6 +4,10 @@ import {visionTool} from '@sanity/vision'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
 import {schemaTypes} from './schemaTypes'
 import TranslateToEnglishAction from './sanity/actions/translateToEnglish'
+import {
+  NAV_SYNC_PAGE_TYPES,
+  PublishWithNavSync,
+} from './sanity/actions/publishWithNavSync'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 
@@ -65,7 +69,8 @@ const hiddenTypes = [
 export default defineConfig({
   name: 'default',
   title: 'sanity',
-  basePath: '/studio',
+  // `/` for sanity.studio + sanity.io/@…/studio/… links; `/studio` when embedded in Next.js (see next.config.ts env).
+  basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
 
   projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
   dataset: process.env.SANITY_DATASET || 'production',
@@ -271,6 +276,14 @@ export default defineConfig({
 
   document: {
     actions: (prev, context) => {
+      let actions = prev
+
+      if (NAV_SYNC_PAGE_TYPES.has(context.schemaType)) {
+        actions = actions.map((action) =>
+          action.action === 'publish' ? PublishWithNavSync : action,
+        )
+      }
+
       const i18nTypes = new Set([
         'article', 'aboutPage', 'treatment', 'treatmentCategory',
         'homepage', 'contactPage', 'clinicPage', 'clinicsPage', 'servicesPage',
@@ -278,8 +291,8 @@ export default defineConfig({
         'specialist',
         'siteSettings',
       ])
-      if (!i18nTypes.has(context.schemaType)) return prev
-      return [...prev, TranslateToEnglishAction]
+      if (!i18nTypes.has(context.schemaType)) return actions
+      return [...actions, TranslateToEnglishAction]
     },
   },
 })

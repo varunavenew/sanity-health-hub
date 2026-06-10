@@ -120,7 +120,7 @@ export function mapHomepageDocument(
         title: (row.title as string) || "",
         description: (row.description as string) || "",
         cta: (row.ctaText as string) || "Les mer",
-        path: (row.ctaLink as string) || "/",
+        path: asPlainString(row.ctaLink) || "/",
         image: (row.image as string) || "",
       };
     }),

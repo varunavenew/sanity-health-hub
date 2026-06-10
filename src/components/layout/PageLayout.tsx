@@ -12,6 +12,7 @@ import { searchSuggestions, SearchItem } from "@/data/searchData";
 import { useSmartSearch } from "@/hooks/useSmartSearch";
 import { useSiteSettings } from "@/hooks/useSanity";
 import { resolveNavLabel, resolveNavPath } from "@/lib/navigation/resolve-nav-label";
+import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
@@ -39,6 +40,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const location = useLocation();
   const navigate = useNavigate();
   const { data: siteSettings } = useSiteSettings();
+  const { index: cmsRouteIndex, localeMap } = useCmsRouteContext();
 
   const staticNavItems = useMemo(
     () => [
@@ -59,10 +61,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       : staticNavItems;
     return raw.map((item: { _key?: string; label?: string; path?: string; navId?: string; isServicesDropdown?: boolean }) => ({
       ...item,
-      label: resolveNavLabel(item, t, uiLang),
-      path: resolveNavPath(item, locale),
+      label: resolveNavLabel(item, t, uiLang, localeMap),
+      path: resolveNavPath(item, locale, cmsRouteIndex),
     }));
-  }, [siteSettings?.mainNavigation, staticNavItems, t, locale, uiLang]);
+  }, [siteSettings?.mainNavigation, staticNavItems, t, locale, uiLang, cmsRouteIndex, localeMap]);
 
   const ctaButton = useMemo(() => {
     const raw = siteSettings?.ctaButton || { navId: "bookAppointment" };
@@ -70,14 +72,16 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
       path: resolveNavPath(
         { ...raw, navId: raw.navId || "bookAppointment" },
         locale,
+        cmsRouteIndex,
       ),
       label: resolveNavLabel(
         { label: raw.label, path: raw.path, navId: raw.navId || "bookAppointment" },
         t,
         uiLang,
+        localeMap,
       ),
     };
-  }, [siteSettings?.ctaButton, t, locale, uiLang]);
+  }, [siteSettings?.ctaButton, t, locale, uiLang, cmsRouteIndex, localeMap]);
 
   // Close search when clicking outside
   useEffect(() => {

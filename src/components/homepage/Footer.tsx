@@ -7,6 +7,7 @@ import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { resolveNavLabel, resolveNavPath } from "@/lib/navigation/resolve-nav-label";
+import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 
 const FOOTER_CATEGORY_ORDER = ["gynekologi", "graviditet", "fertilitet", "urologi", "ortopedi", "flere"];
 const FOOTER_LABEL_MAP: Record<string, string> = {};
@@ -16,6 +17,7 @@ export const Footer = () => {
   const locale = useLocaleParam();
   const uiLang = locale === "en" ? "en" : "nb";
   const { data: settings } = useSiteSettings();
+  const { index: cmsRouteIndex } = useCmsRouteContext();
   const { categories } = useServiceCategories();
   const { data: clinics } = useClinics();
 
@@ -57,9 +59,9 @@ export const Footer = () => {
     return raw.map((link: { _key?: string; label?: string; path?: string; navId?: string }) => ({
       ...link,
       label: resolveNavLabel(link, t, uiLang),
-      path: resolveNavPath(link, locale),
+      path: resolveNavPath(link, locale, cmsRouteIndex),
     }));
-  }, [settings?.footerAboutLinks, t, locale, uiLang]);
+  }, [settings?.footerAboutLinks, t, locale, uiLang, cmsRouteIndex]);
 
   const phone = settings?.phone || "+47 22 60 00 50";
   const email = settings?.email || "info@cmedical.no";

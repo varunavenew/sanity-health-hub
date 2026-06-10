@@ -76,6 +76,14 @@ const nextConfig: NextConfig = {
       { source: "/en/pregnancy", destination: "/en/graviditet" },
       { source: "/en/more-specialties", destination: "/en/flere-fagomrader" },
 
+      // Listing prefixes — accept Norwegian segments on English routes (bookmarks, hardcoded links).
+      { source: "/en/spesialister", destination: "/en/specialists" },
+      { source: "/en/spesialister/:path*", destination: "/en/specialists/:path*" },
+      { source: "/en/klinikker", destination: "/en/clinics" },
+      { source: "/en/klinikker/:path*", destination: "/en/clinics/:path*" },
+      { source: "/en/aktuelt", destination: "/en/news" },
+      { source: "/en/aktuelt/:path*", destination: "/en/news/:path*" },
+
       // Treatment pages under `/behandlinger/<category>/...`.
       { source: "/en/behandlinger/fertility", destination: "/en/behandlinger/fertilitet" },
       { source: "/en/behandlinger/fertility/:subId", destination: "/en/behandlinger/fertilitet/:subId" },

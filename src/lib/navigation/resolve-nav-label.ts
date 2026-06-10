@@ -1,23 +1,31 @@
 import type { TFunction } from "i18next";
-import {
-  NAV_ROUTE_PATHS,
-  PATH_TO_NAV_ID,
-  type NavRouteId,
-} from "@/lib/i18n/nav-paths";
+import type { NavRouteId } from "@/lib/i18n/nav-paths";
 import {
   resolveNavPath,
   type NavLinkLike,
 } from "@/lib/navigation/nav-path-utils";
+import type { SlugLocaleMap } from "@/lib/routing/slug-locale-map";
 
 export type { NavLinkLike };
 
-function navIdForItem(item: NavLinkLike): NavRouteId | undefined {
+function navIdForItem(
+  item: NavLinkLike,
+  cmsMap?: SlugLocaleMap,
+): NavRouteId | undefined {
   if (item.navId?.trim()) {
-    const id = item.navId.trim() as NavRouteId;
-    return id in NAV_ROUTE_PATHS ? id : undefined;
+    return item.navId.trim() as NavRouteId;
   }
+
   const path = item.path?.split("?")[0]?.split("#")[0];
-  return path ? PATH_TO_NAV_ID[path] : undefined;
+  if (path && cmsMap?.pathToNavId) {
+    return cmsMap.pathToNavId[normalizeNavPath(path)];
+  }
+  return undefined;
+}
+
+function normalizeNavPath(path: string): string {
+  const base = path.split("?")[0]?.split("#")[0]?.trim() || "/";
+  return base.startsWith("/") ? base : `/${base}`;
 }
 
 /**
@@ -27,11 +35,12 @@ export function resolveNavLabel(
   item: NavLinkLike,
   t: TFunction,
   lng?: "nb" | "en",
+  cmsMap?: SlugLocaleMap,
 ): string {
   const cms = typeof item.label === "string" ? item.label.trim() : "";
   if (cms) return cms;
 
-  const id = navIdForItem(item);
+  const id = navIdForItem(item, cmsMap);
   if (id) {
     const key = `nav.${id}`;
     const translated = lng ? t(key, { lng }) : t(key);

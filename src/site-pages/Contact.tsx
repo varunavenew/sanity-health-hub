@@ -12,8 +12,10 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { CTASection } from "@/components/layout/CTASection";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { coercePath } from "@/lib/navigation/coerce-path";
 import { useTranslation } from "react-i18next";
 
 import contactHero from "@/assets/hero/contact-hero.jpg";
@@ -28,6 +30,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const { data: sanityClinics } = useClinics();
   const { data: contactPage } = useContactPage();
   const clinics = sanityClinics || [];
+  const ctaCards = contactPage?.ctaCards ?? [];
+  const pageSections = contactPage?.pageSections;
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -62,60 +66,55 @@ const Contact = ({ isChatOpen }: ContactProps) => {
 
       <ClinicGrid />
 
-      {/* Help Cards Section - dynamic from Sanity */}
-      {(() => {
-        const iconMap: Record<string, LucideIcon> = {
-          Calendar, Shield, Phone, Mail, MessageCircle,
-        };
-
-        const cards = contactPage?.ctaCards || [];
-
-        if (!cards.length) return null;
-
-        return (
-          <section className="py-16 md:py-24 bg-brand-dark">
-            <div className="container mx-auto px-6 md:px-16">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {cards.map((card: any, i: number) => {
-                  const Icon = iconMap[card.icon] || Calendar;
-                  const isOutline = card.variant === "outline";
-                  const handleClick = () => {
-                    if (card.ctaAction === "openContactDialog") {
-                      setContactDialogOpen(true);
-                    } else if (card.ctaLink) {
-                      if (card.ctaLink.startsWith("http")) {
-                        window.open(card.ctaLink, "_blank", "noopener,noreferrer");
-                      } else {
-                        navigate(card.ctaLink);
-                      }
+      {ctaCards.length > 0 && (
+        <section className="py-16 md:py-24 bg-brand-dark">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {ctaCards.map((card, i) => {
+                const iconMap: Record<string, LucideIcon> = {
+                  Calendar, Shield, Phone, Mail, MessageCircle,
+                };
+                const Icon = iconMap[card.icon] || Calendar;
+                const isOutline = card.variant === "outline";
+                const ctaLink = coercePath(card.ctaLink);
+                const handleClick = () => {
+                  if (card.ctaAction === "openContactDialog") {
+                    setContactDialogOpen(true);
+                  } else if (ctaLink) {
+                    if (ctaLink.startsWith("http")) {
+                      window.open(ctaLink, "_blank", "noopener,noreferrer");
+                    } else {
+                      navigate(ctaLink);
                     }
-                  };
-                  return (
-                    <div key={i} className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
-                      <Icon className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
-                      <h3 className="font-normal text-xl text-white mb-3">{card.title}</h3>
-                      <p className="text-white/70 leading-relaxed mb-6 text-base font-light flex-1">
-                        {card.description}
-                      </p>
-                      <Button
-                        className={
-                          isOutline
-                            ? "rounded-sm w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
-                            : "bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
-                        }
-                        onClick={handleClick}
-                      >
-                        {card.ctaText}
-                        {!isOutline && <ArrowRight className="ml-2 w-4 h-4" />}
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
+                  }
+                };
+                return (
+                  <div key={i} className="p-8 rounded-sm bg-white/5 border border-white/10 flex flex-col">
+                    <Icon className="w-8 h-8 text-white/70 mb-6" strokeWidth={1.5} />
+                    <h3 className="font-normal text-xl text-white mb-3">{card.title}</h3>
+                    <p className="text-white/70 leading-relaxed mb-6 text-base font-light flex-1">
+                      {card.description}
+                    </p>
+                    <Button
+                      className={
+                        isOutline
+                          ? "rounded-sm w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
+                          : "bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
+                      }
+                      onClick={handleClick}
+                    >
+                      {card.ctaText}
+                      {!isOutline && <ArrowRight className="ml-2 w-4 h-4" />}
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
-          </section>
-        );
-      })()}
+          </div>
+        </section>
+      )}
+
+      {pageSections?.length ? <PageSectionsRenderer sections={pageSections} /> : null}
 
       {/* Contact Form Section */}
       <section className="py-16 md:py-24 bg-brand-warm">

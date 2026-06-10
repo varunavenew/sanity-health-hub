@@ -17,6 +17,9 @@ type Props = {
 /** Keep in sync with `SANITY_DATA_REVALIDATE_SEC.singletonPage`. */
 export const revalidate = 600;
 
+/** Allow on-demand rendering for CMS slugs not yet in `generateStaticParams`. */
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   try {
     const index = await fetchCmsRouteIndex();

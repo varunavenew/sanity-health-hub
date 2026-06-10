@@ -1,3 +1,5 @@
+import type { SlugLocaleMap } from "@/lib/routing/slug-locale-map";
+
 /** Stable nav keys — keep in sync with Sanity `navId` options and `nav.*` i18n keys. */
 export type NavRouteId =
   | "services"
@@ -10,48 +12,17 @@ export type NavRouteId =
   | "specialists"
   | "bookAppointment";
 
-/** Norwegian + English internal paths (without locale prefix). */
 export type NavLocale = "no" | "en";
 
-export const NAV_ROUTE_PATHS: Record<NavRouteId, { nb: string; en: string }> = {
-  services: { nb: "/tjenester", en: "/services" },
-  pricing: { nb: "/priser", en: "/pricing" },
-  insurance: { nb: "/forsikring", en: "/insurance" },
-  news: { nb: "/aktuelt", en: "/news" },
-  about: { nb: "/om-oss", en: "/about" },
-  clinics: { nb: "/klinikker", en: "/clinics" },
-  contact: { nb: "/kontakt", en: "/contact" },
-  specialists: { nb: "/spesialister", en: "/specialists" },
+/**
+ * Fixed app routes that are not CMS singletons.
+ * Booking slugs are overridden by Site Settings → CTA path when set in Sanity.
+ */
+export const FIXED_NAV_PATHS: Partial<Record<NavRouteId, { nb: string; en: string }>> = {
   bookAppointment: { nb: "/booking", en: "/book-appointment" },
 };
 
-const NB_TO_EN_PATH: Record<string, string> = {};
-const EN_TO_NB_PATH: Record<string, string> = {};
-export const PATH_TO_NAV_ID: Record<string, NavRouteId> = {};
-
-for (const id of Object.keys(NAV_ROUTE_PATHS) as NavRouteId[]) {
-  const { nb, en } = NAV_ROUTE_PATHS[id];
-  NB_TO_EN_PATH[nb] = en;
-  EN_TO_NB_PATH[en] = nb;
-  PATH_TO_NAV_ID[nb] = id;
-  PATH_TO_NAV_ID[en] = id;
-}
-
-/** Common CMS path aliases → canonical routes (locale switch fallback). */
-const PATH_ALIASES: Record<string, NavRouteId> = {
-  "/prices": "pricing",
-  "/current": "news",
-  "/about-us": "about",
-};
-
-for (const [alias, id] of Object.entries(PATH_ALIASES)) {
-  PATH_TO_NAV_ID[alias] = id;
-  const { nb, en } = NAV_ROUTE_PATHS[id];
-  if (!NB_TO_EN_PATH[alias]) NB_TO_EN_PATH[alias] = en;
-  if (!EN_TO_NB_PATH[alias]) EN_TO_NB_PATH[alias] = nb;
-}
-
-/** Marketing / category paths (not in main nav) — used as fallback when CMS EN link is empty */
+/** Non-CMS marketing / design paths — locale switch fallback only. */
 const MARKETING_NB_TO_EN: Record<string, string> = {
   "/gynekologi": "/gynecology",
   "/urologi": "/urology",
@@ -62,23 +33,35 @@ const MARKETING_NB_TO_EN: Record<string, string> = {
   "/kvinnehelse": "/kvinnehelse",
   "/robotassistert-kirurgi": "/robotassistert-kirurgi",
   "/tverrfaglige-team": "/tverrfaglige-team",
-  "/tjenester": "/services",
   "/behandlinger/gynekologi": "/behandlinger/gynekologi",
   "/behandlinger/fertilitet": "/behandlinger/fertilitet",
   "/behandlinger/urologi": "/behandlinger/urologi",
 };
 
+const MARKETING_EN_TO_NB: Record<string, string> = {};
 for (const [nb, en] of Object.entries(MARKETING_NB_TO_EN)) {
-  if (!NB_TO_EN_PATH[nb]) NB_TO_EN_PATH[nb] = en;
-  if (!EN_TO_NB_PATH[en]) EN_TO_NB_PATH[en] = nb;
+  MARKETING_EN_TO_NB[en] = nb;
 }
 
-export function navPathForLocale(navId: NavRouteId, locale: NavLocale): string {
-  return NAV_ROUTE_PATHS[navId][locale === "en" ? "en" : "nb"];
+export function navPathForLocale(
+  navId: NavRouteId,
+  locale: NavLocale,
+  cmsMap?: SlugLocaleMap,
+): string {
+  const cmsPaths = cmsMap?.navPaths[navId];
+  if (cmsPaths) return cmsPaths[locale === "en" ? "en" : "nb"];
+
+  const fixed = FIXED_NAV_PATHS[navId];
+  if (fixed) return fixed[locale === "en" ? "en" : "nb"];
+  return "";
 }
 
 /** Map an internal path to the locale-appropriate slug (preserves suffix after path). */
-export function localizeInternalPath(path: string, locale: NavLocale): string {
+export function localizeInternalPath(
+  path: string,
+  locale: NavLocale,
+  cmsMap?: SlugLocaleMap,
+): string {
   const hashIdx = path.indexOf("#");
   const hash = hashIdx >= 0 ? path.slice(hashIdx) : "";
   const withoutHash = hashIdx >= 0 ? path.slice(0, hashIdx) : path;
@@ -88,7 +71,10 @@ export function localizeInternalPath(path: string, locale: NavLocale): string {
 
   if (base === "/") return path;
 
-  const map = locale === "en" ? NB_TO_EN_PATH : EN_TO_NB_PATH;
-  const localized = map[base] ?? base;
+  const cmsLocaleMap = locale === "en" ? cmsMap?.nbToEn : cmsMap?.enToNb;
+  const localized = cmsLocaleMap?.[base]
+    ?? (locale === "en" ? MARKETING_NB_TO_EN[base] : MARKETING_EN_TO_NB[base])
+    ?? base;
+
   return `${localized}${query}${hash}`;
 }

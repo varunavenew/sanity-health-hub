@@ -19,6 +19,8 @@ import {
   type ReactNode,
 } from "react";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { coercePath } from "@/lib/navigation/coerce-path";
+import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 
 export function useLocaleParam(): AppLocale {
   const params = useParams<{ locale?: string }>();
@@ -29,17 +31,18 @@ export function useLocaleParam(): AppLocale {
 export function useNavigate() {
   const router = useRouter();
   const locale = useLocaleParam();
+  const { localeMap } = useCmsRouteContext();
   return useCallback(
     (to: string | number, options?: { replace?: boolean; state?: unknown }) => {
       if (typeof to === "number") {
         if (to === -1) router.back();
         return;
       }
-      const href = withLocalePath(locale, to);
+      const href = withLocalePath(locale, coercePath(to, locale), localeMap);
       if (options?.replace) router.replace(href);
       else router.push(href);
     },
-    [router, locale],
+    [router, locale, localeMap],
   );
 }
 
@@ -102,7 +105,8 @@ type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
 
 export function Link({ to, replace, children, onClick, ...rest }: LinkProps) {
   const locale = useLocaleParam();
-  const href = withLocalePath(locale, to);
+  const { localeMap } = useCmsRouteContext();
+  const href = withLocalePath(locale, coercePath(to, locale), localeMap);
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {

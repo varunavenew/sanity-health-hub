@@ -11,7 +11,7 @@
  *
  * Naming follows kebab-case keys used in getIcon().
  */
-import { forwardRef, type SVGProps } from "react";
+import { forwardRef, type ReactElement, type SVGProps } from "react";
 
 export interface CustomIconProps extends Omit<SVGProps<SVGSVGElement>, "ref"> {
   size?: number | string;
@@ -37,7 +37,7 @@ type IconFC = ReturnType<typeof forwardRef<SVGSVGElement, CustomIconProps>>;
 
 const make = (
   name: string,
-  draw: (b: ReturnType<typeof baseProps>) => JSX.Element,
+  draw: (b: ReturnType<typeof baseProps>) => ReactElement,
 ): IconFC => {
   const C = forwardRef<SVGSVGElement, CustomIconProps>(
     ({ size, strokeWidth, ...rest }, ref) => {

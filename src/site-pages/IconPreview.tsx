@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { getIcon, type IconName } from "@/lib/icons";
 
 /**
@@ -506,7 +507,7 @@ const IconPreview = () => {
     key: string;
     label: string;
     description: string;
-    render: (stroke: string, size: number) => JSX.Element;
+    render: (stroke: string, size: number) => ReactElement;
   }[] = [
     {
       key: "forbindelse",
