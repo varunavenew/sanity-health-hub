@@ -403,14 +403,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  background="background"
  title="Hva kjenner du på?"
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
- items={[
- { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
- { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk" },
- { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon" },
- { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse" },
- { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Samtale og utredning", href: "/booking?kategori=fertilitet" },
- ]}
+  items={[
+  { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning", image: audienceCouple, imageAlt: "Par i samtale" },
+  { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk", image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
+  { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk", image: audienceWaiting, imageAlt: "Stille refleksjon" },
+  { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon", image: journeyLab, imageAlt: "Laboratorium for nedfrysing" },
+  { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/booking?kategori=fertilitet&tjeneste=sedanalyse", image: fertilityHeroImg, imageAlt: "Mannlig fertilitetsutredning" },
+  { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Samtale og utredning", href: "/booking?kategori=fertilitet", image: audienceSingle, imageAlt: "Vei mot foreldreskap" },
+  ]}
  />
 
  {/* ============================================================
