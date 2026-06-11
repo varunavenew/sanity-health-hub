@@ -51,7 +51,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       />
 
       {/* Editorial header */}
-      <header className="bg-brand-warm pt-24 md:pt-28 pb-10 md:pb-14">
+      <header className="bg-brand-warm pt-20 md:pt-24 pb-6 md:pb-8">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl">
             <p className="text-muted-foreground text-xs mb-3">Karriere hos CMedical</p>
