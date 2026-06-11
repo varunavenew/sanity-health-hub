@@ -51,14 +51,14 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       />
 
       {/* Editorial header */}
-      <header className="bg-brand-warm pt-24 md:pt-28 pb-10 md:pb-14">
+      <header className="bg-brand-warm pt-20 md:pt-24 pb-6 md:pb-8">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl">
-            <p className="text-muted-foreground text-xs mb-3">Karriere hos CMedical</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark mb-6">
+            <p className="text-muted-foreground text-xs mb-2">Karriere hos CMedical</p>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-brand-dark mb-3">
               Bygg karrieren der pasienten alltid kommer først
             </h1>
-            <p className="text-brand-dark/75 text-base md:text-lg font-light leading-relaxed max-w-2xl">
+            <p className="text-brand-dark/75 text-sm md:text-base font-light leading-relaxed max-w-2xl">
               Hos CMedical jobber du i et inspirerende fagmiljø med dyktige kolleger,
               moderne utstyr og en kultur der pasientens beste alltid står i sentrum.
               Vi tilbyr konkurransedyktige betingelser og gode utviklingsmuligheter.
@@ -68,7 +68,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       </header>
 
       {/* Listings */}
-      <section className="bg-background py-14 md:py-20">
+      <section className="bg-background py-8 md:py-10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl">
             <div className="flex items-baseline justify-between gap-4 mb-8 pb-4 border-b border-brand-dark/10">
