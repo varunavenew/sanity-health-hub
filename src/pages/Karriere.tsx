@@ -68,7 +68,7 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       </header>
 
       {/* Listings */}
-      <section className="bg-background py-14 md:py-20">
+      <section className="bg-background py-8 md:py-10">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl">
             <div className="flex items-baseline justify-between gap-4 mb-8 pb-4 border-b border-brand-dark/10">
