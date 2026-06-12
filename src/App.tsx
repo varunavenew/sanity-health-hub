@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import TreatmentPage from "./pages/treatments/TreatmentPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
+import DonorbehandlingPage from "./pages/treatments/fertilitet/DonorbehandlingPage";
 import Priser from "./pages/Priser";
 import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
@@ -125,6 +126,7 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
+        <Route path="/behandlinger/fertilitet/donorbehandling" element={<DonorbehandlingPage isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
