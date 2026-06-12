@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import TreatmentPage from "./pages/treatments/TreatmentPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
+import DonorbehandlingPage from "./pages/treatments/fertilitet/DonorbehandlingPage";
 import Priser from "./pages/Priser";
 import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
