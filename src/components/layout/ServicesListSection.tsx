@@ -83,22 +83,22 @@ export function ServicesListSection({
  </Link>
  ))}
  {cta && (
- <Link
+				<Link
  to={cta.href!}
  className="bg-brand-dark text-brand-light p-6 flex items-start justify-between gap-4 hover:bg-brand-dark/90 transition-colors group"
  >
  <div>
  <div className="flex items-center gap-2 mb-1.5">
- <CalendarCheck className="w-4 h-4" strokeWidth={1.5} />
+ <CalendarCheck className="w-4 h-4 text-accent" strokeWidth={1.5} />
  <h3 className="text-base font-normal">{cta.title}</h3>
  </div>
  {cta.desc && (
- <p className="text-sm font-light text-brand-light/70 leading-snug">
+ <p className="text-sm font-light text-brand-light/80 leading-snug">
  {cta.desc}
  </p>
  )}
  </div>
- <ArrowRight className="w-4 h-4 mt-1 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
+ <ArrowRight className="w-4 h-4 mt-1 flex-shrink-0 text-accent group-hover:translate-x-0.5 transition-transform" />
  </Link>
  )}
  </div>
