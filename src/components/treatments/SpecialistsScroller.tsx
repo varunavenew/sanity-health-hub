@@ -59,13 +59,12 @@ export const SpecialistsScroller = ({
 
   const computedSeeAllLabel = seeAllLabel ?? `Se alle ${filtered.length} spesialister`;
   const showSeeAllButton = filtered.length > 1;
+  const useScroller = filtered.length >= 4;
 
   const gridClass =
     filtered.length === 2
       ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
-      : filtered.length === 3
-      ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto"
-      : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
+      : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto";
 
   return (
     <section className="pt-14 md:pt-20 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
@@ -81,6 +80,24 @@ export const SpecialistsScroller = ({
             )}
           </div>
           <div className="flex items-center gap-3">
+            {useScroller && (
+              <div className="hidden md:flex items-center gap-2">
+                <button
+                  onClick={() => scroll("left")}
+                  className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
+                  aria-label="Scroll venstre"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => scroll("right")}
+                  className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
+                  aria-label="Scroll høyre"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
             {showSeeAllButton && (
               <Button variant="cta-outline" asChild>
                 <Link to={seeAllHref}>
@@ -91,17 +108,50 @@ export const SpecialistsScroller = ({
             )}
           </div>
         </div>
+      </div>
 
-        {filtered.length === 1 ? (
+      {filtered.length === 1 ? (
+        <div className="container mx-auto px-6 md:px-16">
           <SpecialistFeature sp={filtered[0]} />
-        ) : (
+        </div>
+      ) : useScroller ? (
+        <div
+          ref={scrollRef}
+          className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pl-6 md:pl-16"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {filtered.map((sp) => (
+            <div key={sp.slug} className="flex-shrink-0 w-[280px] snap-start pr-6">
+              <SpecialistCard sp={sp} />
+            </div>
+          ))}
+          <Link
+            to={seeAllHref}
+            className="flex-shrink-0 w-[280px] snap-start pr-6"
+            aria-label={computedSeeAllLabel}
+          >
+            <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
+              <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
+                <ArrowRight className="w-6 h-6 text-foreground" />
+              </div>
+              <p className="text-foreground font-normal mb-1">Se alle</p>
+              <p className="text-muted-foreground text-sm font-light">{filtered.length} spesialister</p>
+            </div>
+          </Link>
+        </div>
+      ) : (
+        <div className="container mx-auto px-6 md:px-16">
           <div className={`grid gap-6 ${gridClass}`}>
             {filtered.map((sp) => (
               <SpecialistCard key={sp.slug} sp={sp} />
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 };
