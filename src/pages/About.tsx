@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroFamily from "@/assets/hero/hero-family.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
