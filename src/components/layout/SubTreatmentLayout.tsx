@@ -12,7 +12,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
 import promiseSpecialists from "@/assets/promises/spesialiste.webp.asset.json";
-import promiseUnderOneRoof from "@/assets/clinics/majorstuen/korridor.asset.json";
+import promiseUnderOneRoof from "@/assets/promises/endokrinologi.jpg.asset.json";
 
 const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
 
