@@ -1,30 +1,68 @@
-## Endringer fra kundetilbakemelding
+## Mål
 
-Forslag til hvordan vi løser hvert punkt. Si fra hvis noe skal endres eller droppes — så implementerer jeg alt i én runde.
+Alle ~60 undertjenester skal følge Fertilitet-malen (samme strukturelle sections: hero → segments → flow → reasons → promises → related → CTA), med modulære sections som brukes der det gir mening. Innholdet hentes fra `CMedical_innhold_Lovable-7.md`, bildene fra Dropbox-mappen.
 
-### Robotkirurgi
-Filer: `src/pages/themes/RobotkirurgiPage.tsx` (siden `/robotassistert-kirurgi`) og `src/data/gynekologiSubPages.tsx` (siden `/behandlinger/gynekologi/robotkirurgi`).
+## Infrastruktur som allerede finnes
 
-1. **Sykmeldingslengde 2–6 uker.** Endre "2–3 uker" → "2–6 uker" og legge til en setning om at RALP (prostatakreft) typisk ligger i øvre del av spennet (4–6 uker).
-2. **Safe Histology Surgery.** Legge til et nytt kort avsnitt under "Presisjon som merkes" som forklarer hva Safe Histology Surgery er og hvorfor det er viktig (mer presis vevsdiagnostikk, tryggere reseksjon). Jeg trenger en kort kunde-tekst eller godkjenner at jeg formulerer et nøytralt avsnitt selv.
-3. **Våre robotkirurger — Bjørn Brennhovd, Nicolai Wessel og Thomas Thaulow.** Legge til en seksjon "Våre robotkirurger" (samme format som "Vår karkirurg" på åreknuter) med kort bio. Jeg trenger bio-tekstene fra kunden, eller jeg skriver utkast basert på offentlig info som de godkjenner.
+- `SubTreatmentLayout.tsx` — rik master-layout med flow, reasons, promises, expertAreas, textSection, related, CTA, specialists, insurance, FAQ. Brukes allerede av gynekologi/undersokelse og driver alle generiske undersider via `GenericSubTreatmentPage`.
+- `treatmentToSubLayout.tsx` — adapter fra `TreatmentData` → `SubTreatmentContent`.
+- `treatmentContent.ts` — sentralt datalager (~1700 linjer) som allerede dekker mange undersider, men med tynt innhold.
 
-### Ortopedi (`src/data/treatmentContent.ts` + ev. sub-page-data)
-4. **Hånd & albue:** Fjerne PRP fra Oslo-tilbudet (kun Faust). Legge til seksjon "Våre spesialister" med info om at de jobber i to-spann ved avansert kirurgi (navn fra kunde).
-5. **Fot & ankel:** Fremheve MIS og MICA (minimalt invasiv kirurgi) tydelig.
-6. **Hofte:** Få frem at vi gjør mer enn vanlig hofteskopi (f.eks. tenodese). Legge til "Vår spesialist" Warholm med bio.
-7. **Kne:** Tone ned artrose/protese (vi gjør ikke protesekirurgi). Løfte frem korsbånd og menisk. Legge til Marc som "Vår spesialist" med bio.
+**Beslutning:** Behold dataarkitekturen. Jeg fyller `treatmentContent.ts` med rikt innhold fra dokumentet og kobler på riktige bilder per slug. Bespoke `.tsx`-sider (Sleeve, Ernæringsfysiolog) beholdes som de er — resten kjøres via den generiske ruten med rikere data. Resultat: alle 60 sider får master-layouten, men hver side er unik på innhold/bilder.
 
-### Urologi — Nyrer (`src/pages/treatments/UrologiPage.tsx` / sub-page)
-8. Fjerne nyrestein, erstatte med blærestein.
-9. Legge til nefrektomi (presisere at det ikke kun gjelder nyrekreft).
+## Runde 1 — Fundament (denne meldingen)
 
-### Gynekologi — Robotkirurgi
-10. Thomas Thaulow med info — dekkes av punkt 3 over.
+1. Last opp alle 63 Dropbox-bilder som Lovable Assets (én `.asset.json` per bilde under `src/assets/services/`).
+2. Bygg `src/data/serviceImages.ts` — en `Record<slug, { url, alt }>` som mapper hver tjenesteslug til sitt bilde. Inkluderer både kategori-hero (Hero_*.jpg) og undertjeneste-bilder.
+3. Utvid `treatmentToSubLayout.tsx` til å plukke `heroImage` fra `serviceImages` når `data.heroImage` mangler — så all bildelogikk er sentralisert.
+4. Verifiser med eksisterende ruter (Urologi → Prostata, Gynekologi → Endometriose) at bildene kommer fram.
 
-### Det jeg trenger fra deg før implementering
-- Bio-tekst (eller OK til å skrive utkast) for: Brennhovd, Wessel, Thaulow, Warholm, Marc, og hånd/albue-spesialistene.
-- Kort beskrivelse av Safe Histology Surgery slik dere ønsker det formulert, eller OK til at jeg skriver et nøytralt utkast.
-- Bekreftelse på at sykmelding skal stå som "2–6 uker (4–6 uker ved RALP)".
+Leverer: bilde-manifest + bilder synlige på eksisterende generiske sider.
 
-Si fra hva du har av tekst, så implementerer jeg alt samlet.
+## Runde 2 — Innhold per kategori (etter godkjenning)
+
+Bygg ut `treatmentContent.ts` med rik tekst fra dokumentet, én kategori om gangen. For hver undertjeneste fylles:
+
+- `description` — brødtekst fra dokumentet
+- `sections` — H4/H5-blokker (Symptomer, Diagnose, Behandling, Etter behandling)
+- `process` — tre steg når relevant (kirurgi/utredning)
+- `benefits` — bullet-liste fra dokumentet
+- `faqs` — egne FAQ-er der dokumentet har dem, ellers standard CMedical-FAQ
+- `relatedSpecialists` — slugs basert på spesialist-koblingene i dokumentet
+- `linkedServices` — søsken-tjenester i samme kategori
+
+Rekkefølge (én runde per kategori, godkjenn mellom):
+
+1. **Urologi** (9): Blære og urinveier, Forhud, Mannlig infertilitet, Nyrer, Prostata, Refertilisering, Robotassistert kirurgi, Sterilisering, Testikler og pung
+2. **Gynekologi** (18): Blødningsforstyrrelser, Celleforandringer, Cyster, Endometriose, Fjerne livmor, Fødselsskader, Fostermedisin, Graviditet, Gynekologisk kirurgi, Hysteroskopi, Labiaplastikk, NIPT, Overgangsalder, PCOS, PMS/PMDD, Robotassistert, Spontanabort, Urinlekkasje, Vaginale fremfall, Vulvalidelser *(de eksisterende «godkjent copy»-sidene rører jeg ikke)*
+3. **Fertilitet** (9): IVF, IUI, Eggdonasjon, Nedfrysing, PGT, Mannlig fertilitet, Psykisk helsehjelp, Fertilitetssjekk, Donorbehandling
+4. **Ortopedi** (5): Fot/ankel, Hånd/albue, Hofte, Kne, Skulder
+5. **Flere fagområder** (12): Åreknute, Endokrinologi, Gastrokirurgi, Hudlege, Osteopati, Plastikkirurgi, Psykologi, Revmatologi, Sexologi, Bariatrisk-klyngen (Sleeve+Ernæring finnes alt)
+
+## Runde 3 — Polish
+
+- Kategori-landingssider (UrologiPage, OrtopediPage, etc.) får oppdatert hero-bilder fra Hero_*.jpg.
+- Sjekke at related-cards mellom søsken-tjenester i samme kategori peker riktig.
+- SEO-titles, meta-descriptions og JSON-LD per side.
+
+## Hva jeg IKKE rører
+
+- Eksisterende «godkjent copy»-sider: `/behandlinger/gynekologi`, `/behandlinger/fertilitet`, `/behandlinger/fertilitet/fertilitetssjekk`, `/behandlinger/gynekologi/undersokelse` (kun bilde-bytte hvis du ber om det).
+- Sleeve-siden og Ernæringsfysiolog-siden (bygget bespoke i forrige runde).
+- Spesialistdata (DEL 2 av dokumentet) — egen runde senere hvis du vil.
+
+## Teknisk
+
+```text
+src/
+  assets/services/
+    urologi-prostata.jpg.asset.json         (63 stk totalt)
+    ...
+  data/
+    serviceImages.ts        ← NY: slug → { url, alt }
+    treatmentContent.ts     ← UTVIDET med rik tekst
+  lib/
+    treatmentToSubLayout.tsx ← liten fallback til serviceImages
+```
+
+Si JA så starter jeg Runde 1 nå.
