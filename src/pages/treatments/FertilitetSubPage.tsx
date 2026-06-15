@@ -6,7 +6,7 @@ import TreatmentPage from "./TreatmentPage";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
-import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom-hero.asset.json";
 import clinicVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
 
 const CLINIC_IMAGES = [
