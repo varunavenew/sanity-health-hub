@@ -37,7 +37,6 @@ const segments = [
     tags: [
       { label: "Informasjonssamtale", href: BASE },
       { label: "Gastric Sleeve", href: BASE },
-      { label: "Gastric Bypass", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
     ],
     cta: "Les mer",
     href: BASE,
