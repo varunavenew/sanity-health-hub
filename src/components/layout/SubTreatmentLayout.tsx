@@ -11,7 +11,7 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
-import promiseSpecialists from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
+import promiseSpecialists from "@/assets/promises/spesialiste.webp.asset.json";
 import promiseUnderOneRoof from "@/assets/clinics/majorstuen/korridor.asset.json";
 
 const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
