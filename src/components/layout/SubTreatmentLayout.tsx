@@ -35,8 +35,10 @@ export interface SubTreatmentContent {
  flowEyebrow: string;
  flowTitle: string;
  flow: { n: string; title: string; desc: string }[];
- flowImage?: string; // when set, renders split layout with image on the right
+ flowImage?: string; // image used in the "Slik foregår det" section (e.g. clinic interior)
  flowImageAlt?: string;
+ heroImage?: string; // dedicated image for hero right column; falls back to flowImage
+ heroImageAlt?: string;
  flowLinkLabel?: string;
  flowLinkHref?: string;
  // Section 3 — hvem / symptomer
