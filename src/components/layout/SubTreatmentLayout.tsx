@@ -308,8 +308,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </section>
  )}
 
- {/* 3. REASONS / SYMPTOMS */}
- <section className="bg-background py-20 md:py-28">
+  {/* 3. REASONS / SYMPTOMS */}
+  <section className="bg-background py-14 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
  <div className="lg:col-span-5">
@@ -336,8 +336,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </Button>
  </div>
 
- <div className="lg:col-span-7">
- <div className="divide-y divide-border/60 border-t border-border/60">
+  <div className="lg:col-span-7">
+  <div className="divide-y divide-border/60 border-t border-b border-border/60">
  {c.reasons.map((r) => (
  <div key={r.n} className="grid grid-cols-12 gap-4 py-6">
  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
