@@ -150,19 +150,15 @@ const SectionHeader = ({
   </div>
 );
 
-const DuoCard = ({ sp, tall }: { sp: any; tall?: boolean }) => {
+const DuoCard = ({ sp }: { sp: any }) => {
   if (!sp) return null;
   return (
     <Link
       to={`/spesialister/${sp.slug}`}
-      className="group block"
+      className="group flex flex-col md:flex-row gap-6 md:gap-8 items-start"
       aria-label={`Les mer om ${sp.name}`}
     >
-      <div
-        className={`relative overflow-hidden bg-secondary mb-4 ${
-          tall ? "aspect-[4/5]" : "aspect-[3/4]"
-        }`}
-      >
+      <div className="relative w-full md:w-2/5 overflow-hidden bg-secondary aspect-[4/5] md:aspect-[3/4] flex-shrink-0">
         <img
           src={sp.image}
           alt={sp.name}
@@ -175,16 +171,29 @@ const DuoCard = ({ sp, tall }: { sp: any; tall?: boolean }) => {
           </div>
         )}
       </div>
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex flex-col justify-between md:py-4 flex-1">
         <div>
-          <h3 className="text-xl md:text-2xl font-light text-foreground mb-1">
+          <h3 className="text-xl md:text-2xl font-light text-foreground mb-2">
             {sp.name}
           </h3>
-          <p className="text-sm text-muted-foreground font-light">
+          <p className="text-sm text-muted-foreground font-light mb-4">
             {sp.title}
+            {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
           </p>
+          {sp.expertise && sp.expertise.length > 0 && (
+            <ul className="space-y-2">
+              {sp.expertise.slice(0, 3).map((item: string) => (
+                <li key={item} className="text-sm font-light text-foreground/80">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        <ArrowRight className="w-4 h-4 text-foreground/60 group-hover:translate-x-1 transition-transform" />
+        <div className="mt-6 flex items-center text-sm font-light text-foreground group-hover:underline">
+          Les mer
+          <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+        </div>
       </div>
     </Link>
   );
