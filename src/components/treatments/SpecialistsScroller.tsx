@@ -107,14 +107,18 @@ export const SpecialistsScroller = ({
 };
 
 /** Editorial split layout when there is exactly one specialist for a service. */
-const SpecialistFeature = ({ sp }: { sp: any }) => (
-  <Link
-    to={`/spesialister/${sp.slug}`}
-    aria-label={`Les mer om ${sp.name}`}
-    className="group block"
-  >
+const SpecialistFeature = ({ sp }: { sp: any }) => {
+  const shortBio = sp.bio
+    ? sp.bio.split("\n\n")[0].slice(0, 280)
+    : "";
+
+  return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-stretch">
-      <div className="md:col-span-5 md:col-start-1">
+      <Link
+        to={`/spesialister/${sp.slug}`}
+        aria-label={`Les mer om ${sp.name}`}
+        className="group md:col-span-5 md:col-start-1 block"
+      >
         <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
           <img
             src={sp.image}
@@ -128,7 +132,7 @@ const SpecialistFeature = ({ sp }: { sp: any }) => (
             </div>
           )}
         </div>
-      </div>
+      </Link>
 
       <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between border-t border-brand-dark/15 pt-8 md:pt-0 md:border-t-0">
         <div>
@@ -138,10 +142,17 @@ const SpecialistFeature = ({ sp }: { sp: any }) => (
           <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-4">
             {sp.name}
           </h3>
-          <p className="text-base md:text-lg text-muted-foreground font-light mb-8 max-w-md">
+          <p className="text-base md:text-lg text-muted-foreground font-light mb-6 max-w-md">
             {sp.title}
             {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
           </p>
+
+          {shortBio && (
+            <p className="text-sm font-light text-foreground/80 mb-8 max-w-md leading-relaxed">
+              {shortBio}
+              {sp.bio.length > 280 && " …"}
+            </p>
+          )}
 
           {sp.expertise && sp.expertise.length > 0 && (
             <div className="border-t border-brand-dark/15">
@@ -159,14 +170,18 @@ const SpecialistFeature = ({ sp }: { sp: any }) => (
           )}
         </div>
 
-        <div className="mt-10 inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-brand-dark/40 pb-1 w-fit transition-all duration-300 group-hover:gap-3 group-hover:border-brand-dark">
-          Les mer om {sp.name.split(" ")[0]}
-          <ArrowRight className="w-4 h-4" />
+        <div className="mt-10">
+          <Button variant="cta" asChild>
+            <Link to="/booking">
+              Finn ledig tid hos {sp.name.split(" ")[0]}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </div>
-  </Link>
-);
+  );
+};
 
 /** Card used in the static grid (few specialists). Mirrors the scroller card. */
 const SpecialistCard = ({ sp }: { sp: any }) => (
