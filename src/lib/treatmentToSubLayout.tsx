@@ -187,13 +187,24 @@ export const treatmentToSubLayout = ({
       };
     });
   }
-  if (reasons.length === 0) {
-    reasons = [
-      { n: "01", title: "Tydelige plager", desc: "Du har symptomer som påvirker hverdagen og ønsker en forklaring." },
-      { n: "02", title: "Trygghet og rutine", desc: "Du vil ha en rutinekontroll og bekreftelse på at alt er som det skal." },
-      { n: "03", title: "Andre meningen", desc: "Du har vært til vurdering tidligere og ønsker en grundig second opinion." },
-    ];
+  // Generic fallback reasons used when content is thin so the journey section
+  // isn't just a CTA next to a single bullet.
+  const GENERIC_REASONS = [
+    { title: "Du vil ha svar — raskt", desc: "Du ønsker en grundig vurdering uten ventetid, og en plan du faktisk forstår." },
+    { title: "Du vil møte en spesialist", desc: "Du vil bli sett av noen som jobber med dette daglig, ikke en generalist på utplassering." },
+    { title: "Du vil ta et informert valg", desc: "Du vil ha tid til å stille spørsmål, og en anbefaling tilpasset deg — ikke en mal." },
+    { title: "Du vil ha trygghet i forløpet", desc: "Du vil vite hva som skjer videre, hvem du møter, og hvordan vi følger deg opp." },
+  ];
+  if (reasons.length < 3) {
+    const existing = new Set(reasons.map((r) => r.title.toLowerCase()));
+    for (const g of GENERIC_REASONS) {
+      if (reasons.length >= 3) break;
+      if (!existing.has(g.title.toLowerCase())) {
+        reasons.push({ n: String(reasons.length + 1).padStart(2, "0"), title: g.title, desc: g.desc });
+      }
+    }
   }
+
 
   // ── Related: from linkedServices.
   const related =
