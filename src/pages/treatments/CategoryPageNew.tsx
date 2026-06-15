@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import {
  categoryNewContent,
@@ -74,43 +75,50 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  }}
  />
 
- {/* ── 1. Hero: Split-screen (image + beige plate) ── */}
- <header className="bg-brand-warm">
- <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
- <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
- <p className="text-xs text-foreground/60 font-light mb-4">
- {content.subtitle}
- </p>
- <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
- {content.title}
- </h1>
- <p className="text-base text-foreground/70 font-light leading-relaxed max-w-md mb-8">
- {content.description.slice(0, 200)}
- </p>
- <div className="flex flex-wrap gap-3">
- <Button variant="cta" size="lg" onClick={() => navigate(content.bookingPath)}>
- Bestill time
- <ArrowRight className="ml-2 w-4 h-4" />
- </Button>
- <Button
- variant="ghost"
- size="lg"
- className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-foreground hover:border-brand-dark rounded-2xl"
- onClick={() => navigate("/kontakt")}
- >
- <Phone className="mr-2 w-4 h-4" />
- Kontakt oss
- </Button>
- </div>
- </div>
- <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
- <img
- src={content.heroImage}
- alt={content.title}
- className="absolute inset-0 w-full h-full object-cover"
- />
- </div>
- </div>
+ {/* ── 1. Hero: Full-bleed split 50/50, edge-to-edge image (Fertilitet-mal) ── */}
+ <header className="bg-brand-light pt-24 lg:pt-0">
+   <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+     <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+       <div className="max-w-xl w-full">
+         <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+           {content.title}
+         </h2>
+         <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+           {content.description.slice(0, 220)}
+         </p>
+
+         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+           <Button
+             variant="cta"
+             size="lg"
+             className="px-8 w-full sm:w-auto"
+             onClick={() => navigate(content.bookingPath)}
+           >
+             Bestill time
+           </Button>
+           <CallUsClinicPicker variant="light" label="Ring oss" />
+         </div>
+
+         <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+           {["Ingen henvisning", "Korte ventetider", "Erfarne spesialister"].map((u) => (
+             <li key={u} className="inline-flex items-center gap-2">
+               <Check className="w-4 h-4" aria-hidden="true" />
+               <span>{u}</span>
+             </li>
+           ))}
+         </ul>
+       </div>
+     </div>
+
+     <div className="relative min-h-[420px] lg:min-h-full">
+       <img
+         src={content.heroImage}
+         alt={content.title}
+         className="absolute inset-0 w-full h-full object-cover"
+       />
+     </div>
+   </div>
+   <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>
 
  {/* ── 2. Centered intro paragraph ── */}
