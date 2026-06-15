@@ -105,6 +105,7 @@ const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: 
     eyebrow: "Gjenbrukbar seksjon",
     items: [
       { to: "/demoer/tips", name: "Tips / «Vill du veta mer?» — 3 varianter" },
+      { to: "/demoer/spesialister-layout", name: "Spesialister — 1 / 2 / 3 / 4+ layout" },
     ],
   },
 ];
