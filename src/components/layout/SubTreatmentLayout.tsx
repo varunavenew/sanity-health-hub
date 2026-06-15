@@ -115,27 +115,22 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  />
  <h1 className="sr-only">{c.title} hos CMedical</h1>
 
- {/* BREADCRUMB */}
- <div className="bg-brand-light pt-24 lg:pt-28">
- <div className="container mx-auto px-6 md:px-16">
- <nav className="text-xs font-light text-foreground/60 flex items-center gap-2">
- <Link to="/" className="hover:text-foreground">Hjem</Link>
- <span>›</span>
- <Link to={c.parent.path} className="hover:text-foreground">{c.parent.name}</Link>
- <span>›</span>
- <span className="text-foreground/80">{c.title}</span>
- </nav>
- </div>
- </div>
-
   {/* 1. HERO — full-bleed split 50/50, image fills the right half */}
   {(() => {
     const heroImg = c.heroImage ?? c.flowImage;
     return (
       <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
-          {/* Left — copy + CTA */}
-          <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+          {/* Left — breadcrumb + copy + CTA */}
+          <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
+            <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+              <Link to="/" className="hover:text-foreground">Hjem</Link>
+              <span>›</span>
+              <Link to={c.parent.path} className="hover:text-foreground">{c.parent.name}</Link>
+              <span>›</span>
+              <span className="text-foreground/80">{c.title}</span>
+            </nav>
+
             <div className="max-w-xl w-full">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 {c.heroTitle}
