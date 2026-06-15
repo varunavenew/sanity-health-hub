@@ -20,9 +20,6 @@ import { AnimatedStat } from "@/components/AnimatedStat";
 import heroAsset from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
 const heroImg = heroAsset.url;
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
-import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
-import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
-import journeyResult from "@/assets/fertility/journey-03-result.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -361,12 +358,12 @@ const BariatriskKirurgiPage = ({ isChatOpen }: PageProps) => {
         title="Hva kjenner du på?"
         description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
         items={[
-          { symptom: "Jeg har prøvd diett og trening uten å lykkes", service: "Informasjonssamtale", href: BASE, image: journeyConsultation, imageAlt: "Samtale med kirurg" },
-          { symptom: "BMI over 35 og en eller flere følgesykdommer", service: "Vurdering av kirurg", href: BASE, image: journeyLab, imageAlt: "Medisinsk vurdering" },
-          { symptom: "Jeg har diabetes type 2 og vil vurdere kirurgi", service: "Endokrinolog + kirurg", href: "/behandlinger/flere-fagomrader/endokrinologi", image: journeyResult, imageAlt: "Endokrinolog-konsultasjon" },
-          { symptom: "Jeg er operert og trenger oppfølging", service: "Ernæring og medisinsk", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog", image: journeyConsultation, imageAlt: "Oppfølgingssamtale" },
-          { symptom: "Jeg trenger mental forberedelse", service: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi", image: journeyLab, imageAlt: "Psykolog-samtale" },
-          { symptom: "Hud-overskudd etter vekttap", service: "Plastikkirurgi", href: "/behandlinger/flere-fagomrader/plastikkirurgi", image: journeyResult, imageAlt: "Plastikkirurgisk konsultasjon" },
+          { symptom: "Du har prøvd diett og trening uten å lykkes", service: "Informasjonssamtale", href: BASE },
+          { symptom: "BMI over 35 og en eller flere følgesykdommer", service: "Vurdering av kirurg", href: BASE },
+          { symptom: "Diabetes type 2 og vurderer kirurgi", service: "Endokrinolog + kirurg", href: "/behandlinger/flere-fagomrader/endokrinologi" },
+          { symptom: "Operert og trenger oppfølging", service: "Ernæring og medisinsk", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+          { symptom: "Trenger mental forberedelse", service: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
+          { symptom: "Hud-overskudd etter vekttap", service: "Plastikkirurgi", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
         ]}
       />
 
