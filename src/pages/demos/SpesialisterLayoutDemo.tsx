@@ -52,21 +52,17 @@ const SpesialisterLayoutDemo = () => {
         seeAllHref="/spesialister"
       />
 
-      {/* 2 specialists — asymmetric duo */}
-      <DemoLabel n={2} note="Asymmetrisk duo — én forhøyet, én forskjøvet ned" />
+      {/* 2 specialists — horizontal editorial pair */}
+      <DemoLabel n={2} note="Horisontalt par — bilde til venstre, info til høyre" />
       <section className="py-14 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
           <SectionHeader
             title="Møt våre spesialister"
-            description="To spesialister presenteres som en bevisst asymmetrisk duo — vi unngår symmetrisk midtstilling."
+            description="To spesialister presenteres side om side med bilde til venstre og kort presentasjon til høyre."
           />
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-start">
-            <div className="md:col-span-7">
-              <DuoCard sp={two[0]} tall />
-            </div>
-            <div className="md:col-span-5 md:pt-24">
-              <DuoCard sp={two[1]} />
-            </div>
+          <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-12">
+            <DuoCard sp={two[0]} />
+            <DuoCard sp={two[1]} />
           </div>
         </div>
       </section>
