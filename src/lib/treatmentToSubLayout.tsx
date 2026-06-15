@@ -2,6 +2,19 @@ import type { ReactNode } from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage } from "@/data/serviceImages";
+import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
+import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
+import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
+import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import clinicVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+
+const CLINIC_IMAGES = [clinicKorridor.url, clinicSittegruppe.url, clinicVenterom.url, clinicHvilerom.url, clinicVenteromTv.url];
+const pickClinicImage = (key: string): string => {
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+  return CLINIC_IMAGES[hash % CLINIC_IMAGES.length];
+};
+
 
 /**
  * Adapter that converts the legacy TreatmentData (used by the old
