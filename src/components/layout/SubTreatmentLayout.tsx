@@ -11,6 +11,10 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
+import clinicKorridor from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
+import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+
+const promiseImages = [clinicVenterom.url, clinicKorridor.url, clinicHvilerom.url];
 
 export interface SubTreatmentContent {
  // Meta
