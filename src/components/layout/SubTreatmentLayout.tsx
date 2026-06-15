@@ -425,7 +425,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                     src={promiseImages[i % promiseImages.length]}
                     alt=""
                     loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
