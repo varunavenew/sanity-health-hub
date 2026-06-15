@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
+import { getServiceImage } from "@/data/serviceImages";
 
 /**
  * Adapter that converts the legacy TreatmentData (used by the old
@@ -213,6 +214,8 @@ export const treatmentToSubLayout = ({
     flowEyebrow: "Konsultasjonen",
     flowTitle: "Slik foregår det",
     flow,
+    flowImage: heroImage ?? getServiceImage(categoryId, subId),
+    flowImageAlt: data.title,
     reasonsEyebrow: "Hvem passer det for",
     reasonsTitle: "Når bør du ta kontakt",
     reasonsLead: undefined,
