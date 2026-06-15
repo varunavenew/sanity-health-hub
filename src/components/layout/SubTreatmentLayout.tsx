@@ -10,11 +10,11 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
-import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
-import clinicKorridor from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
-import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import promiseComfort from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import promiseSpecialists from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
+import promiseUnderOneRoof from "@/assets/clinics/majorstuen/korridor.asset.json";
 
-const promiseImages = [clinicVenterom.url, clinicKorridor.url, clinicHvilerom.url];
+const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
 
 export interface SubTreatmentContent {
  // Meta
