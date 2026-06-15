@@ -141,9 +141,36 @@ const ALIAS: Record<string, string> = {
   "flere-fagomrader": "flere",
 };
 
+/**
+ * Per-(category,subId) aliases when route slugs differ from image slugs.
+ * Key: `${categoryId}/${subId}` (route shape). Value: target subId in images.
+ */
+const SUB_ALIAS: Record<string, string> = {
+  // gynekologi
+  "gynekologi/tverrfaglig": "tverrfaglig-team",
+  "gynekologi/undersokelse": "gynekologisk-undersokelse",
+  "gynekologi/kirurgi": "gynekologisk-kirurgi",
+  "gynekologi/vaginale-fremfall": "vaginalt-fremfall",
+  "gynekologi/cyster": "cyster-pa-eggstokkene",
+  "gynekologi/hysteroskopi": "gynekologisk-kirurgi", // no dedicated image
+  // urologi
+  "urologi/blaere": "blaere-og-urinveier",
+  "urologi/infertilitet": "mannlig-infertilitet",
+  "urologi/testikler": "testikler-og-pung",
+  // fertilitet
+  "fertilitet/teamet": "fertilitetsteamet",
+  // ortopedi
+  "ortopedi/fot-ankel": "fot-og-ankel",
+  "ortopedi/hand-albue": "hand-og-albue",
+  // flere-fagomrader (category aliased to "flere")
+  "flere-fagomrader/areknuter": "areknutebehandling",
+  "flere-fagomrader/ernaringsfysiolog": "ernaeringsfysologi",
+};
+
 function normalize(categoryId: string, subId?: string): string {
   const cat = ALIAS[categoryId] ?? categoryId;
-  return subId ? `${cat}-${subId}` : `${cat}-hero`;
+  const sub = subId ? (SUB_ALIAS[`${categoryId}/${subId}`] ?? subId) : undefined;
+  return sub ? `${cat}-${sub}` : `${cat}-hero`;
 }
 
 /**
