@@ -61,9 +61,7 @@ export const SpecialistsScroller = ({
   const showSeeAllButton = filtered.length > 1;
 
   const gridClass =
-    filtered.length === 1
-      ? "grid-cols-1 max-w-xs mx-auto"
-      : filtered.length === 2
+    filtered.length === 2
       ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
       : filtered.length === 3
       ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto"
@@ -94,18 +92,81 @@ export const SpecialistsScroller = ({
           </div>
         </div>
 
-        {/* Adaptive grid — 1/2/3 items get a centered narrow grid so cards stay
-            a consistent ~280–320 px and never leave awkward empty columns.
-            4+ items fill the container in a responsive multi-column grid. */}
-        <div className={`grid gap-6 ${gridClass}`}>
-          {filtered.map((sp) => (
-            <SpecialistCard key={sp.slug} sp={sp} />
-          ))}
-        </div>
+        {filtered.length === 1 ? (
+          <SpecialistFeature sp={filtered[0]} />
+        ) : (
+          <div className={`grid gap-6 ${gridClass}`}>
+            {filtered.map((sp) => (
+              <SpecialistCard key={sp.slug} sp={sp} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 };
+
+/** Editorial split layout when there is exactly one specialist for a service. */
+const SpecialistFeature = ({ sp }: { sp: any }) => (
+  <Link
+    to={`/spesialister/${sp.slug}`}
+    aria-label={`Les mer om ${sp.name}`}
+    className="group block"
+  >
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-stretch">
+      <div className="md:col-span-5 md:col-start-1">
+        <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+          <img
+            src={sp.image}
+            alt={sp.name}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+          {sp.clinics && sp.clinics.length > 0 && (
+            <div className="absolute top-3 left-3 flex items-center gap-1 text-white/90 text-xs font-light drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+              <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
+              {sp.clinics.join(" · ")}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between border-t border-brand-dark/15 pt-8 md:pt-0 md:border-t-0">
+        <div>
+          <div className="text-xs font-light text-muted-foreground mb-6">
+            Din spesialist
+          </div>
+          <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-4">
+            {sp.name}
+          </h3>
+          <p className="text-base md:text-lg text-muted-foreground font-light mb-8 max-w-md">
+            {sp.title}
+            {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
+          </p>
+
+          {sp.expertise && sp.expertise.length > 0 && (
+            <div className="border-t border-brand-dark/15">
+              <ul className="divide-y divide-brand-dark/10">
+                {sp.expertise.slice(0, 6).map((item: string) => (
+                  <li
+                    key={item}
+                    className="py-3 text-sm font-light text-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-10 inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-brand-dark/40 pb-1 w-fit transition-all duration-300 group-hover:gap-3 group-hover:border-brand-dark">
+          Les mer om {sp.name.split(" ")[0]}
+          <ArrowRight className="w-4 h-4" />
+        </div>
+      </div>
+    </div>
+  </Link>
+);
 
 /** Card used in the static grid (few specialists). Mirrors the scroller card. */
 const SpecialistCard = ({ sp }: { sp: any }) => (
