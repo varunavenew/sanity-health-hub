@@ -451,52 +451,52 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
 
 
- {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
- {c.textSection && (
- <section className="bg-background">
- <div className="grid lg:grid-cols-12">
- <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
- <div className="max-w-xl">
- <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
- {c.textSection.title}
- </h2>
- {c.textSection.lead && (
- <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
- {c.textSection.lead}
- </p>
- )}
- {c.textSection.points && c.textSection.points.length > 0 && (
- <div className="divide-y divide-border/60 border-t border-border/60">
- {c.textSection.points.map((step) => (
- <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
- <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
- {step.n}
- </div>
- <div className="col-span-10 md:col-span-11">
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {step.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
- {step.desc}
- </p>
- </div>
- </div>
- ))}
- </div>
- )}
- </div>
- </div>
- <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
- <img
- src={c.textSection.image}
- alt={c.textSection.imageAlt ?? ""}
- loading="lazy"
- className="absolute inset-0 w-full h-full object-cover"
- />
- </div>
- </div>
- </section>
- )}
+  {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
+  {c.textSection && (
+  <section className="bg-background">
+  <div className="grid lg:grid-cols-12 lg:items-stretch">
+  <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 h-full flex flex-col justify-center">
+  <div className="max-w-xl">
+  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+  {c.textSection.title}
+  </h2>
+  {c.textSection.lead && (
+  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
+  {c.textSection.lead}
+  </p>
+  )}
+  {c.textSection.points && c.textSection.points.length > 0 && (
+  <div className="divide-y divide-border/60 border-t border-border/60">
+  {c.textSection.points.map((step) => (
+  <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
+  {step.n}
+  </div>
+  <div className="col-span-10 md:col-span-11">
+  <h3 className="text-base font-normal text-foreground mb-1.5">
+  {step.title}
+  </h3>
+  <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+  {step.desc}
+  </p>
+  </div>
+  </div>
+  ))}
+  </div>
+  )}
+  </div>
+  </div>
+  <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:h-full overflow-hidden">
+  <img
+  src={c.textSection.image}
+  alt={c.textSection.imageAlt ?? ""}
+  loading="lazy"
+  className="absolute inset-0 w-full h-full object-cover"
+  />
+  </div>
+  </div>
+  </section>
+  )}
 
 
  {/* 4b. MID-PAGE CONVERSION BAND */}
