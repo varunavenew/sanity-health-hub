@@ -17,7 +17,8 @@ import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { AnimatedStat } from "@/components/AnimatedStat";
 
-import heroImg from "@/assets/hero/cmedical-hero-2.jpg";
+import heroAsset from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
+const heroImg = heroAsset.url;
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
