@@ -24,11 +24,18 @@ interface Props {
   isChatOpen: boolean;
 }
 
+// Slug aliases so multiple URLs map to the same SubTreatmentLayout entry.
+const SUB_ID_ALIASES: Record<string, string> = {
+  eggfrys: "nedfrysing",
+  "nedfrysing-av-egg": "nedfrysing",
+};
+
 const FertilitetSubPage = ({ isChatOpen }: Props) => {
   const { subId } = useParams<{ subId: string }>();
-  const base = subId ? fertilitetSubPages[subId] : undefined;
+  const resolvedId = subId ? (SUB_ID_ALIASES[subId] ?? subId) : undefined;
+  const base = resolvedId ? fertilitetSubPages[resolvedId] : undefined;
 
-  if (!base || !subId) {
+  if (!base || !resolvedId) {
     return <TreatmentPage categoryId="fertilitet" isChatOpen={isChatOpen} />;
   }
 
