@@ -13,7 +13,7 @@ import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import TreatmentPage from "./pages/treatments/TreatmentPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
-import DonorbehandlingPage from "./pages/treatments/fertilitet/DonorbehandlingPage";
+
 import BariatriskKirurgiPage from "./pages/treatments/flere-fagomrader/BariatriskKirurgiPage";
 import SleeveGastrektomiPage from "./pages/treatments/flere-fagomrader/SleeveGastrektomiPage";
 import ErnaringsfysiologPage from "./pages/treatments/flere-fagomrader/ErnaringsfysiologPage";
