@@ -67,24 +67,18 @@ const SpesialisterLayoutDemo = () => {
         </div>
       </section>
 
-      {/* 3 specialists — staggered zig-zag */}
-      <DemoLabel n={3} note="Zig-zag — midten løftet, en stille rytme" />
+      {/* 3 specialists — straight row */}
+      <DemoLabel n={3} note="Rett rad — tre like kort på linje" />
       <section className="py-14 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
           <SectionHeader
             title="Møt våre spesialister"
-            description="Tre spesialister får en zig-zag-rytme. Det skaper bevegelse uten å fragmentere komposisjonen."
+            description="Tre spesialister vises i en rett rad med like kort."
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
-            <div className="md:pt-16">
-              <TrioCard sp={three[0]} />
-            </div>
-            <div>
-              <TrioCard sp={three[1]} />
-            </div>
-            <div className="md:pt-16">
-              <TrioCard sp={three[2]} />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <TrioCard sp={three[0]} />
+            <TrioCard sp={three[1]} />
+            <TrioCard sp={three[2]} />
           </div>
         </div>
       </section>
