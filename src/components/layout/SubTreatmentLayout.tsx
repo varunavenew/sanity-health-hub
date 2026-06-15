@@ -216,11 +216,19 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   })()}
 
 
- {/* 2. FLOW */}
+ {/* 2. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
  <div className="grid lg:grid-cols-2 items-stretch">
- <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+ <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
+ <img
+ src={c.flowImage}
+ alt={c.flowImageAlt ?? ""}
+ loading="lazy"
+ className="absolute inset-0 w-full h-full object-cover"
+ />
+ </div>
+ <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center order-2 lg:order-none">
   <div className="max-w-lg">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
  {c.flowTitle}
@@ -254,14 +262,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </Link>
  )}
  </div>
- </div>
- <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[560px] overflow-hidden">
- <img
- src={c.flowImage}
- alt={c.flowImageAlt ?? ""}
- loading="lazy"
- className="absolute inset-0 w-full h-full object-cover"
- />
  </div>
  </div>
  </section>

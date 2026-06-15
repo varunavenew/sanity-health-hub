@@ -10,17 +10,15 @@ import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
 import clinicVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
 
 const CLINIC_IMAGES = [
-  clinicKorridor.url,
-  clinicSittegruppe.url,
-  clinicVenterom.url,
   clinicHvilerom.url,
+  clinicVenterom.url,
+  clinicSittegruppe.url,
+  clinicKorridor.url,
   clinicVenteromTv.url,
 ];
-const pickClinicImage = (key: string): string => {
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
-  return CLINIC_IMAGES[hash % CLINIC_IMAGES.length];
-};
+// Always use the lounge/rest-room image so the flow split sits opposite the hero image.
+const pickClinicImage = (_key: string): string => clinicHvilerom.url;
+void CLINIC_IMAGES;
 
 interface Props {
   isChatOpen: boolean;
