@@ -224,7 +224,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {/* 2. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
- <div className="grid lg:grid-cols-2 items-stretch">
+ <div className="grid lg:grid-cols-2 items-stretch min-h-[640px] lg:min-h-screen">
  <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
  <img
  src={c.flowImage}
