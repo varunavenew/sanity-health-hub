@@ -20,6 +20,7 @@ import { AnimatedStat } from "@/components/AnimatedStat";
 import heroAsset from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
 const heroImg = heroAsset.url;
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+import teamImage from "@/assets/hero/tverrfaglig-team.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -302,10 +303,10 @@ const BariatriskKirurgiPage = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 lg:self-center relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-[520px] overflow-hidden">
+          <div className="lg:col-span-5 relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-auto lg:min-h-full overflow-hidden">
             <img
-              src={heroClinicLounge}
-              alt="CMedical klinikk"
+              src={teamImage}
+              alt="Tverrfaglig team hos CMedical"
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />
