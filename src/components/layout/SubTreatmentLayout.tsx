@@ -10,7 +10,7 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
-import promiseComfort from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
 import promiseSpecialists from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
 import promiseUnderOneRoof from "@/assets/clinics/majorstuen/korridor.asset.json";
 
