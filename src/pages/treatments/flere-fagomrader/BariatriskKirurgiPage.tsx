@@ -106,8 +106,8 @@ const audiences = [
 ];
 
 const services = [
-  { title: "Informasjonssamtale", desc: "Forberedende samtale med kirurg", href: BASE },
-  { title: "Gastric Sleeve", desc: "Robotassistert sleeve gastrektomi", href: BASE },
+  { title: "Informasjonssamtale", desc: "Gratis digital førstesamtale", href: `${BASE}/sleeve-gastrektomi` },
+  { title: "Sleeve gastrektomi (gastric sleeve)", desc: "Robotassistert slankeoperasjon", href: `${BASE}/sleeve-gastrektomi` },
   { title: "Robotassistert kirurgi", desc: "Presis, skånsom teknikk", href: "/robotassistert-kirurgi" },
   { title: "Endokrinologi", desc: "Hormonell utredning og behandling", href: "/behandlinger/flere-fagomrader/endokrinologi" },
   { title: "Ernæringsfysiolog", desc: "Kosthold før og etter operasjon", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },

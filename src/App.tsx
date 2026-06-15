@@ -15,6 +15,7 @@ import TreatmentPage from "./pages/treatments/TreatmentPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
 import DonorbehandlingPage from "./pages/treatments/fertilitet/DonorbehandlingPage";
 import BariatriskKirurgiPage from "./pages/treatments/flere-fagomrader/BariatriskKirurgiPage";
+import SleeveGastrektomiPage from "./pages/treatments/flere-fagomrader/SleeveGastrektomiPage";
 import Priser from "./pages/Priser";
 import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
@@ -133,6 +134,7 @@ const AppContent = () => {
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<BariatriskKirurgiPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<SleeveGastrektomiPage isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
