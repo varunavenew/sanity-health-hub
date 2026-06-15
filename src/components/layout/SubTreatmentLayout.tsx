@@ -116,7 +116,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <h1 className="sr-only">{c.title} hos CMedical</h1>
 
  {/* BREADCRUMB */}
- <div className="bg-brand-light pt-24 lg:pt-28 pb-4">
+ <div className="bg-brand-light pt-24 lg:pt-28">
  <div className="container mx-auto px-6 md:px-16">
  <nav className="text-xs font-light text-foreground/60 flex items-center gap-2">
  <Link to="/" className="hover:text-foreground">Hjem</Link>
