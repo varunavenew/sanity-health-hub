@@ -189,6 +189,7 @@ const AppContent = () => {
         <Route path="/godkjenning" element={<Godkjenning />} />
         <Route path="/maler/:key" element={<MalDemo />} />
         <Route path="/demoer/tips" element={<TipsDemo />} />
+        <Route path="/demoer/spesialister-layout" element={<SpesialisterLayoutDemo />} />
         {/* Specialist profile design demos */}
         <Route path="/spesialist-design" element={<SpecialistDesignHub isChatOpen={false} />} />
         <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
