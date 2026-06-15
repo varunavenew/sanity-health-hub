@@ -10,6 +10,7 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
 
 export interface SubTreatmentContent {
  // Meta
@@ -409,36 +410,34 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </section>
  )}
 
-      {/* 4. PROMISES — editorial three-column with hairline dividers */}
+      {/* 4. PROMISES — image + three stacked promises */}
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-3 md:divide-x divide-y md:divide-y-0 divide-border/50">
-              {c.promises.map((p, idx) => (
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-stretch">
+            <div className="lg:col-span-5 relative overflow-hidden min-h-[320px] lg:min-h-full">
+              <img
+                src={clinicVenterom.url}
+                alt="Fra klinikken"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+            <div className="lg:col-span-7 divide-y divide-border/50">
+              {c.promises.map((p) => (
                 <div
                   key={p.title}
-                  className="group relative flex flex-col px-0 py-10 md:py-2 md:px-10 first:md:pl-0 last:md:pr-0"
+                  className="group relative flex flex-col py-8 first:pt-0 last:pb-0"
                 >
-                  <div className="flex items-baseline gap-3 mb-6">
-                    <span className="text-xs font-light text-foreground/40 tabular-nums">
-                      {String(idx + 1).padStart(2, "0")}
-                    </span>
-                    {p.eyebrow && (
-                      <span className="text-xs font-light text-foreground/60">
-                        {p.eyebrow}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[18ch]">
+                  <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
                     {p.title}
                   </h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed flex-1 max-w-[34ch]">
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-[48ch]">
                     {p.desc}
                   </p>
                   {p.href && (
                     <Link
                       to={p.href}
-                      className="mt-8 inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground/30 pb-1 self-start hover:border-foreground transition-colors"
+                      className="mt-6 inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground/30 pb-1 self-start hover:border-foreground transition-colors"
                     >
                       {p.ctaLabel ?? "Les mer"}
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
