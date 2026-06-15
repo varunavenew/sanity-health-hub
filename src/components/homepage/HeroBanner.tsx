@@ -6,10 +6,14 @@ import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 // Static fallback images
-import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
-import fertilityHero from "@/assets/hero/fertility-hero.jpg";
+import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
+import fertilityHeroAsset from "@/assets/hero/fertilitet-hero-v2.jpg.asset.json";
 import fertilityHeroVideo from "@/assets/hero/fertilitet-hero.mp4.asset.json";
-import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
+import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
+
+const kvinnehelseHero = kvinnehelseHeroAsset.url;
+const fertilityHero = fertilityHeroAsset.url;
+const robotkirurgiHero = tverrfagligTeamAsset.url;
 
 interface HeroSlide {
   id: string;
