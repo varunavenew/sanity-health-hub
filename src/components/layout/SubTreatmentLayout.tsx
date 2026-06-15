@@ -308,8 +308,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </section>
  )}
 
- {/* 3. REASONS / SYMPTOMS */}
- <section className="bg-background py-20 md:py-28">
+  {/* 3. REASONS / SYMPTOMS */}
+  <section className="bg-background py-14 md:py-16">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
  <div className="lg:col-span-5">
