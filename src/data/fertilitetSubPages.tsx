@@ -549,5 +549,58 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaLabel: "Se alle fertilitetsspesialister",
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
+
+  /* ───────────────────────── HYSTEROSKOPI (fertilitet) ───────────────────────── */
+  hysteroskopi: {
+    seoTitle: "Hysteroskopi | CMedical — vurdering av livmorhulen",
+    seoDescription:
+      "Hysteroskopi som del av fertilitetsutredning. Skånsom undersøkelse av livmorhulen — polypper, myomer og sammenvoksinger kan ofte behandles samtidig.",
+    canonical: "/behandlinger/fertilitet/hysteroskopi",
+    parent,
+    title: "Hysteroskopi",
+    eyebrow: "Fertilitet — Hysteroskopi",
+    heroTitle: <>Inn i livmoren — <span className="italic">uten snitt</span></>,
+    heroDescription:
+      "Hysteroskopi er en skånsom teknikk der vi ser direkte inn i livmoren med et tynt kamera. I et fertilitetsforløp brukes den til å vurdere livmorhulen og fjerne det som kan stå i veien for graviditet — ofte i samme inngrep.",
+    heroPoints: [
+      { title: "Ingen snitt", desc: "Inngrepet gjøres gjennom skjeden — ingen ytre arr." },
+      { title: "Diagnose og behandling samtidig", desc: "Polypper og små myomer kan ofte fjernes i samme seanse." },
+      { title: "Kort restitusjon", desc: "De fleste reiser hjem samme dag og er raskt tilbake i hverdagen." },
+      { title: "Del av fertilitetsutredning", desc: "Funn fra hysteroskopi inngår direkte i den videre behandlingsplanen." },
+    ],
+    rating: "4,8 — Norges eldste private fertilitetsklinikk",
+    booking: { ...baseBooking, tjeneste: "hysteroskopi" },
+    primaryCtaLabel: "Bestill konsultasjon",
+    flowEyebrow: "Forløpet",
+    flowTitle: "Slik gjennomføres hysteroskopi",
+    flow: [
+      { n: "01", title: "Konsultasjon", desc: "Fertilitetsspesialist vurderer indikasjon og forklarer inngrepet i detalj." },
+      { n: "02", title: "Forberedelser", desc: "Enkle forberedelser og smertelindring tilpasset deg." },
+      { n: "03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose. Vanligvis 15–30 minutter." },
+      { n: "04", title: "Veien videre", desc: "Funn og prøvesvar gjennomgås — og kobles til neste steg i fertilitetsplanen." },
+    ],
+    reasonsEyebrow: "Når er det aktuelt",
+    reasonsTitle: "Når brukes hysteroskopi i et fertilitetsforløp?",
+    reasonsLead:
+      "Tilstanden i livmorhulen har direkte betydning for at et embryo skal kunne feste seg. Hysteroskopi gir oss et tydelig bilde — og en mulighet til å rette opp i ting samtidig.",
+    reasons: [
+      { n: "01", title: "Polypper i livmoren", desc: "Polypper kan hindre innfesting og fjernes enkelt." },
+      { n: "02", title: "Myomer i livmorhulen", desc: "Submukøse myomer kan reduseres uten åpen kirurgi." },
+      { n: "03", title: "Sammenvoksinger", desc: "Asherman syndrom og andre intrauterine sammenvoksinger." },
+      { n: "04", title: "Gjentatte mislykkede IVF-forsøk", desc: "Vurdering av livmorhulen før nytt behandlingsforsøk." },
+      { n: "05", title: "Gjentatte spontanaborter", desc: "Kartlegging av strukturelle årsaker i livmoren." },
+      { n: "06", title: "Uavklarte funn på ultralyd", desc: "Når noe ikke ser normalt ut og bør avklares før behandling." },
+    ],
+    promises: standardPromises,
+    related: [
+      { eyebrow: "Utredning", title: "Fertilitetssjekk", desc: "Hysteroskopi kan være neste steg etter en grundig fertilitetssjekk.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { eyebrow: "Behandling", title: "IVF", desc: "Optimalisering av livmorhulen før IVF gir bedre odds for innfesting.", href: "/behandlinger/fertilitet/ivf" },
+      { eyebrow: "Tilstand", title: "Infertilitet", desc: "Strukturelle årsaker i livmoren er én av flere ting vi utreder.", href: "/behandlinger/fertilitet/infertilitet" },
+    ],
+    ctaTitle: "Bestill vurdering for hysteroskopi",
+    ctaDescription:
+      "Et lite inngrep med store muligheter — vi gir deg en konkret plan etter første konsultasjon.",
+  },
 };
+
 
