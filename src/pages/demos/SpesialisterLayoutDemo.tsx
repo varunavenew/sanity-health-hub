@@ -52,43 +52,33 @@ const SpesialisterLayoutDemo = () => {
         seeAllHref="/spesialister"
       />
 
-      {/* 2 specialists — asymmetric duo */}
-      <DemoLabel n={2} note="Asymmetrisk duo — én forhøyet, én forskjøvet ned" />
+      {/* 2 specialists — horizontal editorial pair */}
+      <DemoLabel n={2} note="Horisontalt par — bilde til venstre, info til høyre" />
       <section className="py-14 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
           <SectionHeader
             title="Møt våre spesialister"
-            description="To spesialister presenteres som en bevisst asymmetrisk duo — vi unngår symmetrisk midtstilling."
+            description="To spesialister presenteres side om side med bilde til venstre og kort presentasjon til høyre."
           />
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-start">
-            <div className="md:col-span-7">
-              <DuoCard sp={two[0]} tall />
-            </div>
-            <div className="md:col-span-5 md:pt-24">
-              <DuoCard sp={two[1]} />
-            </div>
+          <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-12">
+            <DuoCard sp={two[0]} />
+            <DuoCard sp={two[1]} />
           </div>
         </div>
       </section>
 
-      {/* 3 specialists — staggered zig-zag */}
-      <DemoLabel n={3} note="Zig-zag — midten løftet, en stille rytme" />
+      {/* 3 specialists — straight row */}
+      <DemoLabel n={3} note="Rett rad — tre like kort på linje" />
       <section className="py-14 md:py-20 bg-secondary/30">
         <div className="container mx-auto px-6 md:px-16">
           <SectionHeader
             title="Møt våre spesialister"
-            description="Tre spesialister får en zig-zag-rytme. Det skaper bevegelse uten å fragmentere komposisjonen."
+            description="Tre spesialister vises i en rett rad med like kort."
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
-            <div className="md:pt-16">
-              <TrioCard sp={three[0]} />
-            </div>
-            <div>
-              <TrioCard sp={three[1]} />
-            </div>
-            <div className="md:pt-16">
-              <TrioCard sp={three[2]} />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <TrioCard sp={three[0]} />
+            <TrioCard sp={three[1]} />
+            <TrioCard sp={three[2]} />
           </div>
         </div>
       </section>
@@ -160,19 +150,15 @@ const SectionHeader = ({
   </div>
 );
 
-const DuoCard = ({ sp, tall }: { sp: any; tall?: boolean }) => {
+const DuoCard = ({ sp }: { sp: any }) => {
   if (!sp) return null;
   return (
     <Link
       to={`/spesialister/${sp.slug}`}
-      className="group block"
+      className="group flex flex-col md:flex-row gap-6 md:gap-8 items-start"
       aria-label={`Les mer om ${sp.name}`}
     >
-      <div
-        className={`relative overflow-hidden bg-secondary mb-4 ${
-          tall ? "aspect-[4/5]" : "aspect-[3/4]"
-        }`}
-      >
+      <div className="relative w-full md:w-2/5 overflow-hidden bg-secondary aspect-[4/5] md:aspect-[3/4] flex-shrink-0">
         <img
           src={sp.image}
           alt={sp.name}
@@ -185,16 +171,29 @@ const DuoCard = ({ sp, tall }: { sp: any; tall?: boolean }) => {
           </div>
         )}
       </div>
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex flex-col justify-between md:py-4 flex-1">
         <div>
-          <h3 className="text-xl md:text-2xl font-light text-foreground mb-1">
+          <h3 className="text-xl md:text-2xl font-light text-foreground mb-2">
             {sp.name}
           </h3>
-          <p className="text-sm text-muted-foreground font-light">
+          <p className="text-sm text-muted-foreground font-light mb-4">
             {sp.title}
+            {sp.subtitle && sp.subtitle !== sp.title && ` · ${sp.subtitle}`}
           </p>
+          {sp.expertise && sp.expertise.length > 0 && (
+            <ul className="space-y-2">
+              {sp.expertise.slice(0, 3).map((item: string) => (
+                <li key={item} className="text-sm font-light text-foreground/80">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        <ArrowRight className="w-4 h-4 text-foreground/60 group-hover:translate-x-1 transition-transform" />
+        <div className="mt-6 flex items-center text-sm font-light text-foreground group-hover:underline">
+          Les mer
+          <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+        </div>
       </div>
     </Link>
   );
