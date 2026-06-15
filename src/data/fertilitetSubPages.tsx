@@ -465,4 +465,89 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaLabel: "Se alle fertilitetsspesialister",
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
+
+  /* ───────────────────────── DONORBEHANDLING ───────────────────────── */
+  donorbehandling: {
+    seoTitle: "Donorbehandling | CMedical — donorsæd, donoregg og partnerdonasjon",
+    seoDescription:
+      "Donorbehandling hos CMedical — donorsæd, donoregg og partnerdonasjon. Vi følger Bioteknologiloven og veileder deg gjennom alle valg.",
+    canonical: "/behandlinger/fertilitet/donorbehandling",
+    parent,
+    title: "Donorbehandling",
+    eyebrow: "Behandling — CMedical",
+    heroTitle: <>Donorbehandling <span className="italic">— mange veier til foreldreskap</span></>,
+    heroDescription:
+      "Behandling med donorsæd eller donerte egg kan være aktuelt for mange. I Norge er det ikke tillatt med samtidig donasjon av egg og sæd (såkalt dobbeldonasjon), og single kvinner får ikke tilbud om eggdonasjon i henhold til Bioteknologiloven. Et unntak er likekjønnede par der den ene kvinnen kan gi befruktet egg til den andre — såkalt partnerdonasjon.",
+    heroPoints: [
+      { title: "Partnerdonasjon", desc: "For likekjønnede par — den ene gir egg som settes tilbake hos partner." },
+      { title: "Donorsæd fra kvalitetssikrede banker", desc: "Livio Sperm Bank, Cryos og European Sperm Bank — med god tilgang på norsk donorsæd." },
+      { title: "Donoregg ved medisinsk indikasjon", desc: "Tilbys heterofile par der kvinnen ikke kan bruke egne egg." },
+      { title: "Tett oppfølging og veiledning", desc: "Vi forklarer Bioteknologiloven og hva som gjelder i din situasjon." },
+    ],
+    rating: "4,8 — Trygg og åpen prosess",
+    booking: { ...baseBooking, tjeneste: "donorbehandling" },
+    primaryCtaLabel: "Bestill samtale om donorbehandling",
+    flowEyebrow: "Forløpet",
+    flowTitle: "Slik foregår donorbehandling hos oss",
+    flow: [
+      { n: "Steg 01", title: "Førstegangssamtale", desc: "Vi går gjennom situasjonen, hva loven sier og hvilke muligheter som er aktuelle for deg eller dere." },
+      { n: "Steg 02", title: "Medisinsk utredning", desc: "Vi sikrer at kroppen er klar for behandling og graviditet." },
+      { n: "Steg 03", title: "Donorvalg", desc: "Vi hjelper deg med valg av donorsæd eller donoregg fra kvalitetssikrede banker." },
+      { n: "Steg 04", title: "Behandling", desc: "Inseminasjon, IVF eller partnerdonasjon — avhengig av hva som passer best." },
+      { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
+    ],
+    reasonsEyebrow: "Når er donorbehandling aktuelt",
+    reasonsTitle: "Hvem passer donorbehandling for?",
+    reasonsLead:
+      "Donorbehandling kan være riktig løsning når egne egg eller sæd ikke er et alternativ — eller når det er en sosial eller medisinsk grunn til å bruke donor.",
+    reasons: [
+      { n: "01", title: "Likekjønnede par", desc: "Partnerdonasjon eller IUI/IVF med donorsæd — dere velger sammen hva som passer best." },
+      { n: "02", title: "Single som ønsker barn", desc: "IUI med donorsæd er ofte det enkleste første steget når du ønsker barn på egen hånd." },
+      { n: "03", title: "Eggmangel eller redusert eggkvalitet", desc: "Donoregg kan være aktuelt når egne egg ikke gir resultat." },
+      { n: "04", title: "Nedsatt sædkvalitet eller azoospermi", desc: "Donorsæd kan brukes ved IUI eller IVF når partnerens sæd ikke er et alternativ." },
+      { n: "05", title: "Genetiske årsaker", desc: "Når dere ikke ønsker å overføre en arvelig sykdom." },
+    ],
+    promises: standardPromises,
+    expertAreas: {
+      eyebrow: "Tjenester innen donorbehandling",
+      title: "Hva passer for deg?",
+      description:
+        "Vi tilbyr ulike former for donorbehandling, regulert av norsk Bioteknologilov. Her er en oversikt over hva som er aktuelt — og når.",
+      items: [
+        {
+          eyebrow: "Behandling",
+          title: "Partnerdonasjon",
+          desc: "Partnerdonasjon ble tillatt i Norge 01.01.2021 og er aktuelt for to kvinner i et parforhold. Egget hentes fra den ene kvinnen, befruktes med donorsæd, og embryoet settes tilbake hos partneren. Tillatt på både medisinsk og sosialt grunnlag — kun for gift eller samboende kvinner i ekteskapslignende forhold.",
+          href: "/behandlinger/fertilitet/donorbehandling#partnerdonasjon",
+          image: "",
+        },
+        {
+          eyebrow: "Behandling",
+          title: "Donorsæd",
+          desc: "Vi benytter donorsæd fra Livio Sperm Bank, Cryos og European Sperm Bank, og har god tilgang på norsk donorsæd. Etter norske retningslinjer bruker vi sæd fra ikke-anonym donor — barnet har rett til informasjon om donors identitet ved fylte 15 år. Donorsæd kan reserveres til søskenforsøk.",
+          href: "/behandlinger/fertilitet/donorbehandling#donorsed",
+          image: "",
+        },
+        {
+          eyebrow: "Behandling",
+          title: "Donoregg",
+          desc: "I følge Bioteknologiloven er behandling med donoregg tillatt kun til heterofile par. Det tilbys i situasjoner der kvinnen ikke kan bruke egne egg på grunn av eggmangel eller svært redusert eggkvalitet. Vi følger retningslinjene i Bioteknologiloven.",
+          href: "/behandlinger/fertilitet/donorbehandling#donoregg",
+          image: "",
+        },
+      ],
+    },
+    related: [
+      { eyebrow: "Behandling", title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
+      { eyebrow: "Behandling", title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/iui" },
+      { eyebrow: "Støtte", title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+    ],
+    ctaTitle: "Snakk med oss om donorbehandling",
+    ctaDescription:
+      "Synes du det er vanskelig å forstå alt? Du er ikke alene. Vi tar tiden som trengs — og du er aldri alene i prosessen.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
 };
+
