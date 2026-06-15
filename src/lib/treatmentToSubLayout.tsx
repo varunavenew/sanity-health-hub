@@ -2,6 +2,19 @@ import type { ReactNode } from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage } from "@/data/serviceImages";
+import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
+import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
+import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
+import clinicHvilerom from "@/assets/clinics/majorstuen/hvilerom.asset.json";
+import clinicVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+
+const CLINIC_IMAGES = [clinicKorridor.url, clinicSittegruppe.url, clinicVenterom.url, clinicHvilerom.url, clinicVenteromTv.url];
+const pickClinicImage = (key: string): string => {
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+  return CLINIC_IMAGES[hash % CLINIC_IMAGES.length];
+};
+
 
 /**
  * Adapter that converts the legacy TreatmentData (used by the old
@@ -174,13 +187,24 @@ export const treatmentToSubLayout = ({
       };
     });
   }
-  if (reasons.length === 0) {
-    reasons = [
-      { n: "01", title: "Tydelige plager", desc: "Du har symptomer som påvirker hverdagen og ønsker en forklaring." },
-      { n: "02", title: "Trygghet og rutine", desc: "Du vil ha en rutinekontroll og bekreftelse på at alt er som det skal." },
-      { n: "03", title: "Andre meningen", desc: "Du har vært til vurdering tidligere og ønsker en grundig second opinion." },
-    ];
+  // Generic fallback reasons used when content is thin so the journey section
+  // isn't just a CTA next to a single bullet.
+  const GENERIC_REASONS = [
+    { title: "Du vil ha svar — raskt", desc: "Du ønsker en grundig vurdering uten ventetid, og en plan du faktisk forstår." },
+    { title: "Du vil møte en spesialist", desc: "Du vil bli sett av noen som jobber med dette daglig, ikke en generalist på utplassering." },
+    { title: "Du vil ta et informert valg", desc: "Du vil ha tid til å stille spørsmål, og en anbefaling tilpasset deg — ikke en mal." },
+    { title: "Du vil ha trygghet i forløpet", desc: "Du vil vite hva som skjer videre, hvem du møter, og hvordan vi følger deg opp." },
+  ];
+  if (reasons.length < 3) {
+    const existing = new Set(reasons.map((r) => r.title.toLowerCase()));
+    for (const g of GENERIC_REASONS) {
+      if (reasons.length >= 3) break;
+      if (!existing.has(g.title.toLowerCase())) {
+        reasons.push({ n: String(reasons.length + 1).padStart(2, "0"), title: g.title, desc: g.desc });
+      }
+    }
   }
+
 
   // ── Related: from linkedServices.
   const related =
@@ -214,8 +238,10 @@ export const treatmentToSubLayout = ({
     flowEyebrow: "Konsultasjonen",
     flowTitle: "Slik foregår det",
     flow,
-    flowImage: heroImage ?? getServiceImage(categoryId, subId),
-    flowImageAlt: data.title,
+    flowImage: pickClinicImage(`${categoryId}/${subId}`),
+    flowImageAlt: `CMedical klinikk — ${data.title}`,
+    heroImage: heroImage ?? getServiceImage(categoryId, subId),
+    heroImageAlt: data.title,
     reasonsEyebrow: "Hvem passer det for",
     reasonsTitle: "Når bør du ta kontakt",
     reasonsLead: undefined,
