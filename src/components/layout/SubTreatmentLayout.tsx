@@ -128,113 +128,97 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </div>
 
-  {/* 1. HERO */}
-  <header className="bg-brand-light pb-20 md:pb-28">
-  <div className="container mx-auto px-6 md:px-16">
-  <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
-  <div>
-  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
-  {c.heroTitle}
-  </h2>
-  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground max-w-md">
-  {c.heroDescription}
-  </p>
+  {/* 1. HERO — full-bleed split 50/50, image fills the right half */}
+  {(() => {
+    const heroImg = c.heroImage ?? c.flowImage;
+    return (
+      <header className="bg-brand-light pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          {/* Left — copy + CTA */}
+          <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+            <div className="max-w-xl w-full">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                {c.heroTitle}
+              </h2>
+              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+                {c.heroDescription}
+              </p>
 
- 				<div className="mb-8 max-w-sm">
-  <p className="text-base font-normal text-foreground mb-1">
-  {c.title}
-  </p>
-  {c.heroPrice && (
-  <p className="text-sm font-light text-muted-foreground mb-4">
-  {c.heroPrice}
-  </p>
-  )}
-  <Button
-  variant="cta"
-  size="lg"
-  className="px-8 w-full sm:w-auto"
-  onClick={() => (window.location.href = buildBookingUrl(c.booking))}
-  >
-  {c.primaryCtaLabel ?? "Bestill time"}
-  </Button>
-  </div>
+              <div className="mb-8 max-w-sm">
+                {c.heroPrice && (
+                  <p className="text-sm font-light text-muted-foreground mb-4">
+                    {c.heroPrice}
+                  </p>
+                )}
+                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                  <Button
+                    variant="cta"
+                    size="lg"
+                    className="px-8 w-full sm:w-auto"
+                    onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+                  >
+                    {c.primaryCtaLabel ?? "Bestill time"}
+                  </Button>
+                  <CallUsClinicPicker variant="light" label="Ring oss" />
+                </div>
+              </div>
 
-  {c.heroBadges && c.heroBadges.length > 0 ? (
-  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground mb-8">
-  {c.heroBadges.map((b) => {
-  const Icon = b.icon === "fileX" ? FileX : b.icon === "check" ? Check : Clock;
-  return (
-  <span key={b.label} className="inline-flex items-center gap-2">
-  <Icon className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-  {b.label}
-  </span>
-  );
-  })}
-  </div>
-  ) : (
-  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground mb-8">
-  <span className="inline-flex items-center gap-2">
-  <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-  Ingen ventetid
-  </span>
-  <span className="inline-flex items-center gap-2">
-  <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-  Ingen henvisning
-  </span>
-  </div>
-  )}
+              {c.heroBadges && c.heroBadges.length > 0 ? (
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground mb-8">
+                  {c.heroBadges.map((b) => {
+                    const Icon = b.icon === "fileX" ? FileX : b.icon === "check" ? Check : Clock;
+                    return (
+                      <span key={b.label} className="inline-flex items-center gap-2">
+                        <Icon className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+                        {b.label}
+                      </span>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground mb-8">
+                  <span className="inline-flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+                    Ingen ventetid
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+                    Ingen henvisning
+                  </span>
+                </div>
+              )}
 
-  {/* Heropunkter — kompakt liste under CTA når bildet vises til høyre */}
-  {c.flowImage ? (
-  <ul className="space-y-3 max-w-md">
-  {c.heroPoints.map((p) => (
-  <li key={p.title} className="flex items-start gap-3">
-  <Check className="w-4 h-4 text-foreground mt-1 shrink-0" strokeWidth={1.5} />
-  <div>
-  <span className="text-sm font-normal text-foreground">{p.title}</span>
-  {p.desc && (
-  <span className="text-sm font-light text-muted-foreground"> — {p.desc}</span>
-  )}
-  </div>
-  </li>
-  ))}
-  </ul>
-  ) : null}
-  </div>
+              <ul className="space-y-3 max-w-md">
+                {c.heroPoints.map((p) => (
+                  <li key={p.title} className="flex items-start gap-3">
+                    <Check className="w-4 h-4 text-foreground mt-1 shrink-0" strokeWidth={1.5} />
+                    <div>
+                      <span className="text-sm font-normal text-foreground">{p.title}</span>
+                      {p.desc && (
+                        <span className="text-sm font-light text-muted-foreground"> — {p.desc}</span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
-
-  {c.flowImage ? (
-  <div className="relative min-h-[420px] lg:min-h-[560px] overflow-hidden rounded-sm">
-  <img
-  src={c.flowImage}
-  alt={c.flowImageAlt ?? c.title}
-  className="absolute inset-0 w-full h-full object-cover"
-  />
-  </div>
-  ) : (
-  <div className="bg-secondary/50 p-8 md:p-10 rounded-sm">
-  <ul className="space-y-6">
-  {c.heroPoints.map((p) => (
-  <li key={p.title} className="flex items-start gap-4">
-  <span className="w-7 h-7 rounded-full bg-background border border-border flex items-center justify-center flex-shrink-0 mt-0.5">
-  <Check className="w-3.5 h-3.5 text-foreground" />
-  </span>
-  <div>
-  <h3 className="text-base font-normal text-foreground mb-1">
-  {p.title}
-  </h3>
-  <p className="text-sm font-light text-muted-foreground leading-relaxed">
-  {p.desc}
-  </p>
-  </div>
-  </li>
-  ))}
-  </ul>
-  </div>
-  )}
-  </div>
-  </div>
-  </header>
+          {/* Right — image fills the entire half */}
+          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
+            {heroImg && (
+              <img
+                src={heroImg}
+                alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+          </div>
+        </div>
+        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+      </header>
+    );
+  })()}
 
 
  {/* 2. FLOW */}
