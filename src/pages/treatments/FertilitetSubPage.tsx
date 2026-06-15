@@ -39,8 +39,8 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
     return <TreatmentPage categoryId="fertilitet" isChatOpen={isChatOpen} />;
   }
 
-  const heroImage = base.heroImage ?? getServiceImage("fertilitet", subId);
-  const flowImage = base.flowImage ?? pickClinicImage(`fertilitet/${subId}`);
+  const heroImage = base.heroImage ?? getServiceImage("fertilitet", resolvedId);
+  const flowImage = base.flowImage ?? pickClinicImage(`fertilitet/${resolvedId}`);
 
   const content = {
     specialistCategory: "fertilitet" as const,
