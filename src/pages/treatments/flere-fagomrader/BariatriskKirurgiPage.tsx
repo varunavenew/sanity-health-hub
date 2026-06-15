@@ -37,7 +37,6 @@ const segments = [
     tags: [
       { label: "Informasjonssamtale", href: BASE },
       { label: "Gastric Sleeve", href: BASE },
-      { label: "Gastric Bypass", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
     ],
     cta: "Les mer",
     href: BASE,
@@ -109,7 +108,6 @@ const audiences = [
 const services = [
   { title: "Informasjonssamtale", desc: "Forberedende samtale med kirurg", href: BASE },
   { title: "Gastric Sleeve", desc: "Robotassistert sleeve gastrektomi", href: BASE },
-  { title: "Gastric Bypass", desc: "Når sleeve ikke er riktig valg", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
   { title: "Robotassistert kirurgi", desc: "Presis, skånsom teknikk", href: "/robotassistert-kirurgi" },
   { title: "Endokrinologi", desc: "Hormonell utredning og behandling", href: "/behandlinger/flere-fagomrader/endokrinologi" },
   { title: "Ernæringsfysiolog", desc: "Kosthold før og etter operasjon", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
