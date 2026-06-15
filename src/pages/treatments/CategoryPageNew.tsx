@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
+import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import {
  categoryNewContent,
