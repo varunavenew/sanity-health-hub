@@ -1613,10 +1613,28 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Moderne utstyr for best mulig bildekvalitet",
       "Kort ventetid – time innen få dager",
     ],
+    sections: [
+      {
+        heading: "Slik foregår ultralydundersøkelsen",
+        content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6–10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg. Fra uke 11 utføres ultralyd med utvendig (abdominal) ultralydprobe.",
+      },
+      {
+        heading: "Hvis undersøkelsen viser noe uventet",
+        content: "Om undersøkelsen viser tegn på alvorlig sykdom eller skader hos fostret, vil du få veiledning og samtale med lege, og eventuelt henvisning til fostermedisinsk avdeling ved sykehuset.",
+      },
+      {
+        heading: "Du bestemmer hva du er komfortabel med",
+        content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Ved tidlig ultralydundersøkelse vil du få være avskjermet. Hos oss er det viktig at du føler deg komfortabel og trygg.",
+      },
+      {
+        heading: "Erfarne fostermedisinere",
+        content: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere.",
+      },
+    ],
     process: [
-      { title: "Tidlig ultralyd (uke 7-12)", description: "Bekreftelse av svangerskap, datering av termin, antall fostre og hjerteaktivitet." },
-      { title: "Nakketranslusensmåling (uke 11-14)", description: "Vurdering av risiko for kromosomavvik, kan kombineres med blodprøve." },
-      { title: "Organrettet ultralyd (uke 18-20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum." },
+      { title: "Tidlig ultralyd (uke 6–10)", description: "Bekreftelse av svangerskap, datering av termin, antall fostre og hjerteaktivitet. Utføres med innvendig probe." },
+      { title: "Ultralyd uke 11–14", description: "Vurdering av fosterets utvikling, kan kombineres med nakketranslusensmåling og blodprøve." },
+      { title: "Organrettet ultralyd (uke 18–20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum med utvendig probe." },
     ],
     faqs: [
       { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
