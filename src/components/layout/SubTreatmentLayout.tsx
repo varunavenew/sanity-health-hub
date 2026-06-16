@@ -224,7 +224,39 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   })()}
 
 
- {/* 2. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
+  {/* 2. REASONS / SYMPTOMS */}
+  <section className="bg-background py-14 md:py-20">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      <h2 className="text-3xl md:text-4xl font-light leading-tight text-foreground mb-3">
+        {c.reasonsTitle}
+      </h2>
+      {c.reasonsLead && (
+        <p className="text-base font-light text-muted-foreground leading-relaxed mb-2">
+          {c.reasonsLead}
+        </p>
+      )}
+      {c.reasonsLead2 && (
+        <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
+          {c.reasonsLead2}
+        </p>
+      )}
+      <div className="divide-y divide-border border-y border-border mt-8">
+        {c.reasons.map((r) => (
+          <details key={r.n} className="group py-5">
+            <summary className="cursor-pointer flex items-center justify-between text-foreground font-normal text-[15px] list-none">
+              <span>{r.title}</span>
+              <span className="ml-4 text-muted-foreground group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <div className="mt-3 text-sm font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+              {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+ {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
  <div className="grid lg:grid-cols-2 items-stretch min-h-[640px] lg:min-h-screen">
@@ -310,38 +342,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </section>
  )}
-
-  {/* 3. REASONS / SYMPTOMS */}
-  <section className="bg-background py-14 md:py-20">
-    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-      <h2 className="text-3xl md:text-4xl font-light leading-tight text-foreground mb-3">
-        {c.reasonsTitle}
-      </h2>
-      {c.reasonsLead && (
-        <p className="text-base font-light text-muted-foreground leading-relaxed mb-2">
-          {c.reasonsLead}
-        </p>
-      )}
-      {c.reasonsLead2 && (
-        <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
-          {c.reasonsLead2}
-        </p>
-      )}
-      <div className="divide-y divide-border border-y border-border mt-8">
-        {c.reasons.map((r) => (
-          <details key={r.n} className="group py-5">
-            <summary className="cursor-pointer flex items-center justify-between text-foreground font-normal text-[15px] list-none">
-              <span>{r.title}</span>
-              <span className="ml-4 text-muted-foreground group-open:rotate-45 transition-transform">+</span>
-            </summary>
-            <div className="mt-3 text-sm font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-              {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
 
  {/* 3b. EXPERT AREAS — image cards (optional) */}
  {c.expertAreas && c.expertAreas.items.length > 0 && (
