@@ -601,6 +601,184 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ctaDescription:
       "Et lite inngrep med store muligheter — vi gir deg en konkret plan etter første konsultasjon.",
   },
+
+  /* ───────────────────────── FERTILITETSUTREDNING ───────────────────────── */
+  fertilitetsutredning: {
+    seoTitle: "Fertilitetsutredning | CMedical — et trygt første steg",
+    seoDescription:
+      "Fertilitetsutredning hos CMedical. Blodprøver, ultralyd og sædanalyse — en grundig kartlegging som gir deg trygghet og oversikt over veien videre.",
+    canonical: "/behandlinger/fertilitet/fertilitetsutredning",
+    parent,
+    title: "Fertilitetsutredning",
+    eyebrow: "Fertilitet — CMedical",
+    heroTitle: <>Et trygt <span className="italic">første steg</span></>,
+    heroDescription:
+      "Å ta det første steget kan føles stort — enten du kommer alene eller sammen med en partner. Hos oss møter du et fagmiljø som tar seg tid til å lytte, forstå og veilede deg videre. Denne fasen handler ikke om å ha alle svarene — men om å begynne et sted.",
+    heroPoints: [
+      { title: "En uforpliktende start", desc: "Mange begynner med en samtale — vi tilpasser tempoet etter deg." },
+      { title: "Grundig kartlegging", desc: "Blodprøver, ultralyd og sædanalyse gir et helhetlig bilde." },
+      { title: "Felles plan videre", desc: "Sammen går vi gjennom resultatene og snakker om alternativene." },
+      { title: "Samme team hele veien", desc: "Du møter de samme fagpersonene — kontinuitet skaper trygghet." },
+    ],
+    rating: "4,8 — Norges eldste private fertilitetsklinikk",
+    booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
+    primaryCtaLabel: "Bestill fertilitetsutredning",
+    flowEyebrow: "Forløpet",
+    flowTitle: "Slik foregår en fertilitetsutredning",
+    flow: [
+      { n: "Steg 01", title: "Uforpliktende samtale", desc: "Du forteller om din situasjon, stiller spørsmål og blir kjent med mulighetene som finnes." },
+      { n: "Steg 02", title: "Vi blir kjent med deg", desc: "Vi går gjennom livssituasjon, ønsker, forventninger og eventuell tidligere sykehistorie." },
+      { n: "Steg 03", title: "Medisinske undersøkelser", desc: "Blodprøver og ultralyd av livmor og eggstokker for kvinner — sædanalyse for menn." },
+      { n: "Steg 04", title: "Gjennomgang av resultater", desc: "Sammen ser vi på funnene og snakker om hva de betyr for deg." },
+      { n: "Steg 05", title: "Veien videre — i ditt tempo", desc: "Egen plan: fortsette på egen hånd, starte behandling, eller ta deg mer tid." },
+    ],
+    reasonsEyebrow: "Slik fungerer fertilitetsutredningen",
+    reasonsTitle: "Alt du trenger å vite — steg for steg",
+    reasonsLead:
+      "Vi har samlet hele innholdet i utredningen i en oversikt du kan utforske i ditt eget tempo. Trykk på hvert tema for å lese mer.",
+    reasons: [
+      {
+        n: "01",
+        title: "En uforpliktende start",
+        desc: (
+          <>
+            <p>
+              Mange velger å starte med en samtale. Her får du mulighet til å fortelle om din situasjon, stille spørsmål og bli kjent med hvilke muligheter som finnes. For noen er dette nok i første omgang. For andre er det naturlig å gå videre med en medisinsk utredning.
+            </p>
+            <p>Vi tilpasser tempoet etter deg.</p>
+            <p className="font-normal text-foreground">Vi blir kjent med deg — eller dere</p>
+            <p>I første konsultasjon ønsker vi å forstå helheten:</p>
+            <ul>
+              <li>Din eller deres livssituasjon</li>
+              <li>Ønsker og forventninger</li>
+              <li>Eventuell tidligere sykehistorie</li>
+              <li>Hvor dere er i prosessen</li>
+            </ul>
+            <p>Dette gir oss et godt grunnlag for å gi råd som er relevante og trygge.</p>
+            <p className="font-normal text-foreground">Undersøkelser som gir oversikt</p>
+            <p>En fertilitetsutredning kan bestå av:</p>
+            <p className="font-normal text-foreground">For kvinner:</p>
+            <ul>
+              <li>Blodprøver for hormonnivå</li>
+              <li>Ultralyd av livmor og eggstokker</li>
+            </ul>
+            <p className="font-normal text-foreground">For menn:</p>
+            <ul>
+              <li>Sædanalyse</li>
+            </ul>
+            <p>Undersøkelsene gir oss innsikt i fertiliteten og kan avdekke forhold som har betydning for veien videre.</p>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Hva skjer etter utredningen?",
+        desc: (
+          <>
+            <p>For noen gir utredningen trygghet og bekreftelse på at alt ser normalt ut. For andre kan den avdekke årsaker som gjør at behandling anbefales.</p>
+            <p>Sammen går vi gjennom resultatene og snakker om aktuelle alternativer — enten det er å fortsette på egen hånd, starte behandling, eller ta seg litt mer tid.</p>
+          </>
+        ),
+      },
+      {
+        n: "03",
+        title: "Ingen beslutninger må tas med én gang",
+        desc: "Det er helt vanlig å bruke tid på å kjenne etter hva som føles riktig. Noen er klare for neste steg raskt, mens andre trenger flere samtaler før de bestemmer seg.",
+      },
+      {
+        n: "04",
+        title: "Individuell oppfølging — hele veien",
+        desc: (
+          <>
+            <p>Vi tilpasser utredning, behandling og oppfølging til deg og din situasjon. Samtidig vet vi at dette ofte er en følelsesmessig prosess — og vi er her for å støtte deg, uansett hvor du er i løpet.</p>
+            <ul>
+              <li>Assistert befruktning</li>
+              <li>Assistert befruktning for par og single</li>
+              <li>Det første møtet og fertilitetsutredning</li>
+            </ul>
+          </>
+        ),
+      },
+      {
+        n: "05",
+        title: "Det første møtet og fertilitetsutredning",
+        desc: "Hos oss skal du føle deg trygg og godt ivaretatt fra første møte. Vi vil skape rom for en god samtale om dine tanker og ønsker for behandlingen. Etter den første samtalen, er neste steg en grundig fertilitetssjekk av deg, og/eller din partner. Deretter finner vi sammen veien videre.",
+      },
+      {
+        n: "06",
+        title: "Før utredning",
+        desc: "Vi anbefaler at du eller dere tar blodprøver i forkant av timen. Kontakt oss gjerne, så er vi behjelpelige med rekvirering av blodprøver.",
+      },
+      {
+        n: "07",
+        title: "Det første møte",
+        desc: (
+          <>
+            <p>Fordi infertilitet oppleves likt for kvinner og menn, anbefaler vi at dere begge stiller på den første samtalen.</p>
+            <p>
+              Samtalen med deg, og eventuelt din partner, er det første vi gjør. Her ønsker vi å bli bedre kjent med deg, som enkeltindivider, eller dere som par. Samtalen vil i stor grad dreie seg om hvem du er, hvilke ønsker og mål du har, hvem dere eventuelt er som par, og ikke minst medisinsk historie. Her vil du få muligheten til å stille de spørsmål du måtte ha om både behandling og veien videre.
+            </p>
+            <p>Vårt mål er at du går fra den første samtalen med all informasjon du trenger, og ønsker, for at du skal kunne ha en klar forståelse av veien videre.</p>
+          </>
+        ),
+      },
+      {
+        n: "08",
+        title: "Fertilitetsutredning",
+        desc: (
+          <>
+            <p>I tillegg til samtalen vil det være nødvendig å gjøre en fertilitetsutredning av deg, og eventuelt partner. Vi tilpasser behandlingen til deg, enten du er singel eller i et parforhold. Fertilitetsutredningen vil være en av de tingene som gjør at vi kan skreddersy behandlingen til deg, eller dere som par.</p>
+            <p className="font-normal text-foreground">Kvinner</p>
+            <p>For kvinner innebærer en fertilitetsutredning at vi gjør en grundig gynekologisk undersøkelse med innvendig ultralyd. Her sjekker vi at alt ser bra ut i livmoren og eggstokkene. Fertilitetslegen vil oppdatere deg underveis i undersøkelsen, og er det noe du lurer på må du ikke være redd for å stille spørsmål.</p>
+            <p className="font-normal text-foreground">Menn</p>
+            <p>For menn vil det være behov for en sædanalyse. En sædanalyse er en sjekk av sædcellene, og det er ønskelig at prøven avlegges hos oss. Vi vil blant annet sjekke antall spermier, konsentrasjon og bevegelighet. Dersom det er problemer med å få utløsning, vil dette være en av de tingene man avdekker under den første samtalen.</p>
+          </>
+        ),
+      },
+      {
+        n: "09",
+        title: "Under fertilitetsutredningen",
+        desc: "Du vil få vite alle eventuelle funn som blir gjort under fertilitetsutredningen. Her vil du igjen få muligheten til å stille de spørsmål du måtte ha, om eventuelle funn, mulig behandling og veien videre.",
+      },
+      {
+        n: "10",
+        title: "En emosjonell prosess",
+        desc: (
+          <>
+            <p>Fertilitetsbehandling handler ikke bare om det medisinske — det er også en personlig og følelsesmessig reise. Mange opplever et spenn av følelser underveis: håp, usikkerhet, sårbarhet, forventning — og noen ganger skuffelse. For noen kan det være tungt å ta steget inn i behandling, mens for andre oppleves det som en lettelse at noe endelig skjer.</p>
+            <p>Uansett hvordan du eller dere har det, er det rom for alle reaksjoner hos oss.</p>
+            <p>Vi ønsker å være en trygg støttespiller gjennom hele prosessen. Du skal alltid kunne ta kontakt dersom du har spørsmål, bekymringer eller bare behov for å snakke med noen som forstår. Vårt mål er at du skal føle deg godt informert, forberedt og ivaretatt i hvert steg av behandlingsforløpet.</p>
+            <p>For å skape trygghet og kontinuitet vil vi så langt det er mulig sørge for at du møter de samme fagpersonene underveis. Mange opplever det som verdifullt å ha en fast sykepleier og fertilitetslege som kjenner deres situasjon og følger dem gjennom prosessen.</p>
+            <p>Vi tilpasser både behandling og oppfølging til deg og din situasjon — og er her for å støtte deg, både medisinsk og menneskelig, hele veien.</p>
+          </>
+        ),
+      },
+      {
+        n: "11",
+        title: "Rådgivning: Fertilitetsbehandling og parforholdet",
+        desc: (
+          <>
+            <p>En lang periode med forsøk på å bli gravide kan påvirke både nærhet og seksualitet i parforholdet. For noen kan fertilitetsbehandling ta mye plass i hverdagen, og kroppen kan oppleves mer som et middel enn en del av egne følelser og behov. Mange beskriver prosessen som en følelsesmessig berg- og dalbane, hvor det til tider kan være krevende å forstå hverandres reaksjoner og behov. Også i tiden under og etter en graviditet kan hormonelle endringer påvirke både overskudd og seksuell lyst.</p>
+            <p>Hos CMedical møter vi dette med en helhetlig tilnærming, der både fysiske, psykiske og relasjonelle sider ivaretas gjennom hele behandlingsforløpet. Sexologisk rådgivning er en del av tilbudet, og kan bidra til økt trygghet og støtte i en periode som ofte oppleves som uforutsigbar.</p>
+          </>
+        ),
+      },
+    ],
+    promises: standardPromises,
+    related: [
+      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Den raske kartleggingen av hvor du står — uten henvisning.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { eyebrow: "Behandling", title: "Assistert befruktning", desc: "Når utredningen viser at dere trenger hjelp på veien.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { eyebrow: "Behandling", title: "IVF — prøverørsbehandling", desc: "Den mest effektive fertilitetsbehandlingen som finnes.", href: "/behandlinger/fertilitet/ivf" },
+    ],
+    ctaTitle: "Klar for å ta det første steget?",
+    ctaDescription:
+      "Bestill en fertilitetsutredning eller en uforpliktende samtale — vi tilpasser tempoet etter deg, og du bestemmer veien videre.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
 };
+
+
 
 
