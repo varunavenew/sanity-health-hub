@@ -102,7 +102,6 @@ interface Props {
 }
 
 const ReasonsEditorial = ({
-  eyebrow,
   title,
   lead,
   lead2,
@@ -115,6 +114,14 @@ const ReasonsEditorial = ({
   items: { n: string; title: string; desc: ReactNode }[];
 }) => {
   if (!items || items.length === 0) return null;
+
+  // Use accordion when there is enough content that the section would
+  // otherwise become very long. Keep the first item open by default so the
+  // reader immediately sees the primary copy without extra scroll.
+  const useAccordion = items.length > 2;
+  const proseClasses =
+    "text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40";
+
   return (
     <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-6 md:px-16">
@@ -122,11 +129,6 @@ const ReasonsEditorial = ({
           {/* Sticky left intro */}
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
-              {eyebrow && (
-                <p className="text-xs font-light text-foreground/60 mb-5">
-                  {eyebrow}
-                </p>
-              )}
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
                 {title}
               </h2>
@@ -143,25 +145,45 @@ const ReasonsEditorial = ({
             </div>
           </div>
 
-          {/* Editorial list — fully visible content, no accordion */}
           <div className="lg:col-span-7">
-            <ol className="divide-y divide-border/60 border-t border-border/60">
-              {items.map((r, i) => (
-                <li key={r.n} className="grid grid-cols-12 gap-4 md:gap-6 py-8 first:pt-8">
-                  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/50 tabular-nums pt-1.5">
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <div className="col-span-10 md:col-span-11">
+            {useAccordion ? (
+              <Accordion
+                type="single"
+                collapsible
+                defaultValue={`reason-0`}
+                className="border-t border-border/60"
+              >
+                {items.map((r, i) => (
+                  <AccordionItem
+                    key={r.n}
+                    value={`reason-${i}`}
+                    className="border-b border-border/60"
+                  >
+                    <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
+                      {r.title}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-8">
+                      <div className={proseClasses}>
+                        {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            ) : (
+              <ol className="divide-y divide-border/60 border-t border-border/60">
+                {items.map((r) => (
+                  <li key={r.n} className="py-8 first:pt-8">
                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
                       {r.title}
                     </h3>
-                    <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                    <div className={proseClasses}>
                       {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ol>
+                  </li>
+                ))}
+              </ol>
+            )}
           </div>
         </div>
       </div>
