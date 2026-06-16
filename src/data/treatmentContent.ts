@@ -1356,28 +1356,26 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister.",
+    description: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.\n\nVurderer du Sleeve Gastrektomi? Hos oss får du gratis digital førstekonsultasjon og trygg veiledning gjennom hele prosessen – fra forberedelser til oppfølging. Her kan du bli kjent med behandlingen og hvordan vi kan støtte deg på veien mot en lettere og sunnere hverdag.",
     sections: [
       {
         id: "bariatrisk-kirurgi",
         heading: "Bariatrisk kirurgi",
-        content: "Med bariatrisk kirurgi kan vi tilby trygge og varige løsninger for vektreduksjon."
+        content: "Med bariatrisk kirurgi kan vi tilby trygge og varige løsninger for vektreduksjon. Les mer om metoden og hvordan vi kan hjelpe deg [her](/behandlinger/flere-fagomrader/overvektskirurgi)."
       },
       {
         id: "sleeve-gastrektomi",
         heading: "Sleeve gastrektomi",
-        content: "Robotassistert kirurgi for sleeve gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80% av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon."
+        content: "Robotassistert kirurgi for sleeve gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80% av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat. Laparoskopisk teknikk er i dag førstevalg ved mange vanlige operasjoner, blant annet ved fjerning av galleblære, overvektskirurgi og behandling av gastroøsofageal reflukssykdom (sure oppstøt).\n\nEtter en laparoskopisk robotassistert operasjon opplever de fleste pasienter mindre ubehag og en raskere tilbakevending til sine daglige aktiviteter. Dette reduserer behovet for langvarig sykemelding og minsker risikoen for komplikasjoner som brokk i operasjonssårene.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon. Den nyeste teknologien oversetter kirurgens hånd-, håndledd- og fingerbevegelser til mikrobevegelser i da Vinci X-robotinstrumentene, noe som gir enestående kontroll og nøyaktighet.\n\nSleeve Gastrektomi er en effektiv operasjonsmetode for varig vektreduksjon. Hos oss får du gratis digital førstekonsultasjon og tett oppfølging hele veien. Utforsk mer om prosessen [her](/behandlinger/flere-fagomrader/sleeve-gastrektomi)."
       },
     ],
-    benefits: [
-      "Robotassistert bariatrisk kirurgi (sleeve gastrektomi)",
-      "Kikkhullsoperasjoner for gallestein",
-      "Utredning og behandling av endetarmsplager",
-      "Brokkbehandling med kikkehull og åpen teknikk",
-      "Gratis digital førstekonsultasjon for fedmevurdering",
-      "Tverrfaglig oppfølging med ernæringsfysiolog",
+    linkedServices: [
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
+      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi med tett oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
+      { label: "Robotassistert kirurgi", description: "Presis kirurgi med da Vinci X-teknologi.", path: "/behandlinger/flere-fagomrader/robotkirurgi" },
+      { label: "Prisliste", description: "Se priser for gastrokirurgi og overvektskirurgi.", path: "/priser" },
     ],
-    relatedSpecialists: ["marian-bale"],
+    relatedSpecialists: ["andreas-edenberg"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
       { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
