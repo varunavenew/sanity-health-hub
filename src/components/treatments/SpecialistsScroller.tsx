@@ -117,7 +117,7 @@ export const SpecialistsScroller = ({
       ) : useScroller ? (
         <div
           ref={scrollRef}
-          className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pl-6 md:pl-16"
+          className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -125,13 +125,13 @@ export const SpecialistsScroller = ({
           }}
         >
           {filtered.map((sp) => (
-            <div key={sp.slug} className="flex-shrink-0 w-[280px] snap-start pr-6">
+            <div key={sp.slug} className="flex-shrink-0 w-[280px] snap-start">
               <SpecialistCard sp={sp} />
             </div>
           ))}
           <Link
             to={seeAllHref}
-            className="flex-shrink-0 w-[280px] snap-start pr-6"
+            className="flex-shrink-0 w-[280px] snap-start"
             aria-label={computedSeeAllLabel}
           >
             <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
@@ -143,6 +143,7 @@ export const SpecialistsScroller = ({
             </div>
           </Link>
         </div>
+
       ) : (
         <div className="container mx-auto px-6 md:px-16">
           <div className={`grid gap-6 ${gridClass}`}>
