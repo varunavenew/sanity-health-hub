@@ -1299,19 +1299,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
     heroImage: flereFagImg,
     description: "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen. Vi utreder og behandler et bredt spekter av hudlidelser – fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i hud.\n\nI tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov.\n\nVi tilbyr grundig vurdering og behandling tilpasset din hud og dine behov – enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.",
     benefits: [
-      "Bredt spekter av hudlidelser – akne, eksem, rosacea, psoriasis",
-      "Føflekksjekk og fjerning ved behov",
-      "Behandling av hudkreft og autoimmune tilstander",
-      "Vortebehandling og solskader",
-      "Grundig vurdering tilpasset din hud",
+      "Ingen henvisning — bestill direkte uten henvisning fra fastlege.",
+      "Korte ventetider — du får hjelp innen kort tid.",
+      "Erfarne spesialister — du møter hudleger som jobber med dette til daglig.",
     ],
-    faqs: [
-      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva skjer ved første konsultasjon?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
+    faqs: [],
   },
   "flere-fagomrader/ernaringsfysiolog": {
     title: "Ernæringsfysiolog",
