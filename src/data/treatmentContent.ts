@@ -1754,4 +1754,321 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
+
+  // ==========================================
+  // FERTILITET — Assistert befruktning for par og single (Prompt 2)
+  // ==========================================
+  "fertilitet/par-og-single": {
+    title: "Assistert befruktning for par og single",
+    subtitle: "For par, to kvinner, single kvinner og menn",
+    parentCategory: "Fertilitet",
+    heroImage: fertilitetImg,
+    description: "Hos oss er det plass til ulike veier til det samme ønsket — å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, kvinner som ønsker å bli mor på egen hånd, og menn som ønsker innsikt i egen fertilitet. Uansett livssituasjon møter du oss med respekt, trygghet og forståelse.",
+    sections: [
+      {
+        heading: "Hvem kan få hjelp hos oss?",
+        content: "Hos oss er det plass til ulike veier til det samme ønsket – å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold og kvinner som ønsker å bli mor på egen hånd nå eller bevare mulighetene for å bli gravid i fremtiden. Uansett livssituasjon møter vi deg eller dere med respekt, trygghet og forståelse.\n\nNoen har prøvd lenge uten å lykkes. Andre er helt i startfasen og ønsker å vite mer om mulighetene som finnes. For mange kan det være et stort steg å ta kontakt – derfor er vi opptatt av å gjøre veien inn så trygg og forutsigbar som mulig.\n\nRammene for behandling er regulert av Bioteknologiloven. For kvinner er øvre aldersgrense ved inseminasjon eller innsetting av befruktet egg satt til 46 år. I forkant av behandling må alle testes for hepatitt B og C samt HIV. Blodprøvene må være tatt i løpet av de siste 24 månedene før oppstart av IVF-behandling.\n\nVi vet at ingen reiser er like. Derfor har vi laget egne sider som tar utgangspunkt i din eller deres situasjon — slik at du enkelt kan finne informasjon som er relevant for deg.",
+      },
+      {
+        heading: "Mann og kvinne i parforhold — har dere prøvd en stund uten å lykkes?",
+        content: "Mange av parene som kommer til oss har forsøkt å bli gravide over tid. For noen har det gått måneder, for andre flere år. Noen er helt klare for å søke hjelp, mens andre trenger litt tid før de tar steget. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt.",
+      },
+      {
+        heading: "Et trygt første steg",
+        content: "Noen ønsker å starte med en uforpliktende samtale, mens andre er klare for fertilitetsutredning. Når dere kommer til oss første gang, setter vi av god tid – slik at dere kan senke skuldrene og bli godt ivaretatt.\n\nVi blir kjent med dere som par. I første konsultasjon ønsker vi å forstå helheten:\n\n- Hvor lenge dere har prøvd\n- Om dere har barn fra før\n- Hva dere håper på\n- Hvordan dere opplever situasjonen\n\nDette gir oss et godt grunnlag for å anbefale riktig vei videre.\n\nUndersøkelser som gir svar. For kvinnen gjør vi ofte:\n\n- Blodprøver for hormonnivå\n- Gynekologisk undersøkelse og ultralyd\n\nFor mannen:\n\n- Sædprøve for vurdering av sædkvalitet\n\nSammen gir dette oss et bilde av muligheter og eventuelle utfordringer.",
+      },
+      {
+        heading: "Veien videre — tilpasset dere",
+        content: "Noen ganger finner vi ingen konkret årsak, og det kan i seg selv gi trygghet til å fortsette på egen hånd. Andre ganger anbefaler vi behandling.\n\nMulige alternativer:\n\n- Hormonstimulering\n- Inseminasjon\n- IVF (prøverørsbehandling)\n- Donorsæd (ved behov)",
+      },
+      {
+        heading: "Fertilitetskirurgi",
+        content: "Vi tilpasser behandlingen til dere som par, basert på behov og situasjon. Vi vet at dette kan være en følelsesmessig krevende prosess, hvor vi er her for å støtte dere begge hele veien.",
+      },
+      {
+        heading: "To kvinner i parforhold",
+        content: "Flere og flere kvinner velger å få barn sammen som par. Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse for deres situasjon.\n\nNår dere tar kontakt, starter vi med en samtale hvor vi blir kjent med dere og deres ønsker. Sammen finner vi ut:\n\n- Hvilken behandling som passer best\n- Hvordan prosessen kan tilpasses deres liv\n- Donorsæd — trygt og oversiktlig\n\nVi hjelper dere gjennom hele prosessen:\n\n- Valg av donor i tråd med gjeldende lovverk\n- Bestilling, transport og trygg oppbevaring av donorsæd\n- Oppfølging underveis\n\nBehandlingsalternativer:\n\n- Inseminasjon — ofte førstevalg, skånsom behandling, kan gjøres i naturlig syklus\n- IVF (prøverørsbehandling) — aktuelt dersom inseminasjon ikke gir ønsket resultat, høyere sannsynlighet per forsøk, mulighet for å fryse befruktede egg",
+      },
+      {
+        heading: "En prosess på deres premisser",
+        content: "Vi tilpasser behandlingen til dere og deres livssituasjon — og er samtidig en trygg støtte gjennom en prosess som kan romme både forventning, sårbarhet og håp.",
+      },
+      {
+        heading: "Singel kvinne — få barn på egen hånd eller bevare muligheten for senere",
+        content: "Å velge å få barn alene er et stort og viktig valg. Mange kvinner kommer til oss for å utforske mulighetene — enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden.\n\nStart med en uforpliktende samtale. Første steg er en rolig samtale hvor vi:\n\n- Blir kjent med deg og din situasjon\n- Snakker om ønsker og forventninger\n- Går gjennom muligheter og alternativer\n\nDu får god tid til å stille spørsmål.\n\nKartlegging av fertilitet. For å kunne gi deg best mulig råd gjør vi:\n\n- Blodprøver for hormonnivå\n- Ultralyd av livmor og eggstokker\n\nDette gir oss et tydelig bilde av fertiliteten din og hva som kan være riktig vei videre.",
+      },
+      {
+        heading: "Fryse ned egg",
+        content: "For noen er det aktuelt å bevare muligheten for graviditet senere. Vi hjelper deg med å vurdere om nedfrysing av egg er riktig for deg, og når det eventuelt bør gjøres.\n\nInseminasjon eller IVF? Valg av behandling er individuelt:\n\n- Inseminasjon — ofte førstevalg, skånsom og enkel metode, kan gjøres i naturlig syklus\n- IVF — aktuelt ved behov for høyere sannsynlighet, innebærer hormonstimulering og egguttak",
+      },
+      {
+        heading: "Donorsæd",
+        content: "Behandlingen skjer med donorsæd fra godkjente sædbanker. I henhold til norsk lov er donor ikke anonym, noe som gir barnet rett til informasjon senere i livet.",
+      },
+      {
+        heading: "Din reise — ditt tempo",
+        content: "Dette er en viktig og personlig prosess. Noen ønsker å starte raskt, mens andre trenger tid. Vi tilpasser til deg og dine ønsker — og er her for å støtte deg hele veien i ditt tempo.",
+      },
+      {
+        heading: "Singel mann — ønsker du innsikt i din fertilitet?",
+        content: "Mange menn tar kontakt for å få en bedre forståelse av egen fertilitet, enten av nysgjerrighet, som en del av familieplanlegging, eller før et eventuelt senere ønske om barn.\n\nEt enkelt første steg: sædanalyse. En sædanalyse gir viktig informasjon om sædkvaliteten din. Prøven vurderes med tanke på blant annet:\n\n- Antall sædceller\n- Bevegelighet\n- Form\n\nResultatet kan gi trygghet — eller avdekke forhold det kan være nyttig å følge opp.",
+      },
+      {
+        heading: "Hva skjer videre?",
+        content: "Dersom analysen viser avvik, hjelper vi deg med videre vurdering og eventuelle tiltak. For noen kan det være aktuelt med flere undersøkelser eller henvisning videre.\n\nKunnskap gir muligheter. Å få innsikt i egen fertilitet kan gjøre det lettere å ta gode valg — både nå og i fremtiden.",
+      },
+    ],
+    linkedServices: [
+      { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
+      { label: "Assistert befruktning", description: "Vår hovedside om assistert befruktning og IVF.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+      { label: "Eggfrys / nedfrysing", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/eggfrys" },
+    ],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Ta kontakt med oss så finner vi en tid som passer deg." },
+      { question: "Aldersgrense", answer: "Øvre aldersgrense for kvinner ved inseminasjon eller innsetting av befruktet egg er 46 år, jf. Bioteknologiloven." },
+      { question: "Donorsæd", answer: "Behandlingen skjer med donorsæd fra godkjente sædbanker. Etter norsk lov er donor ikke anonym, og barnet har rett til informasjon senere i livet." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
+
+  // ==========================================
+  // HUDHELSE — Hudbehandlinger (Prompt 4)
+  // ==========================================
+  "flere-fagomrader/hudbehandlinger": {
+    title: "Hudbehandlinger",
+    subtitle: "Medisinsk forankrede hudbehandlinger utført av hudlege",
+    parentCategory: "Hudhelse",
+    heroImage: flereFagImg,
+    description: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse — samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer. Våre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.",
+    sections: [
+      {
+        heading: "Kosmetiske behandlinger",
+        content: "Hos CMedical på Bekkestua tilbyr vi et utvalg kosmetiske behandlinger som utføres av hudlege. Våre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. For mange handler kosmetiske behandlinger ikke om å endre utseendet, men om å behandle hudplager eller oppnå en jevnere og friskere hud. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nVår tilnærming:\n\n- Medisinsk vurdering før behandling\n- Behandling utført av hudlege\n- Naturlige og balanserte resultater\n- Hudhelse på kort og lang sikt",
+      },
+      {
+        heading: "Trygg behandling basert på dokumenterte metoder",
+        content: "Før en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte.\n\nDette er en viktig del av vår faglige tilnærming og skiller behandling hos hudlege fra rene estetiske klinikker.",
+      },
+      {
+        heading: "Behandling av pigmentforandringer og solskader",
+        content: "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles.\n\nVi tilbyr blant annet:\n\n- IPL-behandling av pigmentflekker\n- Behandling av solskadet hud\n- Vurdering av pigmentforandringer\n\nFør behandling vurderer hudlegen alltid flekkene medisinsk.",
+      },
+      {
+        heading: "Rødhet og synlige blodkar",
+        content: "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning.\n\nAktuelle behandlinger:\n\n- IPL-behandling av rødhet, sprengte blodkar og diffus rødhet i ansiktet",
+      },
+      {
+        heading: "Forbedring av hudstruktur",
+        content: "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt.\n\nVi tilbyr blant annet:\n\n- Microneedling\n- Mesoterapi\n- Behandling for jevnere hudtone",
+      },
+      {
+        heading: "Hudhelse og kosmetisk dermatologi",
+        content: "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi. Mange pasienter oppsøker oss for tilstander som:\n\n- Akne\n- Perioral dermatitt\n- Pigmentforandringer\n- Solskadet hud\n- Hudforandringer som bør vurderes av hudlege\n\nKosmetiske behandlinger kan i noen tilfeller være en del av en helhetlig behandling av huden.",
+      },
+      {
+        heading: "Behandling av elastisitet og volum",
+        content: "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur.\n\nAktuelle behandlinger kan inkludere:\n\n- Rynkebehandling\n- Profhilo\n- Radiesse\n- Behandling av slapp hud\n- Skin boosters\n\nBehandlingen tilpasses individuelt etter hudtype, alder og ønsket resultat.",
+      },
+      {
+        heading: "Føflekksjekk",
+        content: "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling. Hos CMedical utfører hudlegen en grundig gjennomgang av hele huden, fra topp til tå.\n\nUnder en føflekksjekk bruker hudlegen et dermatoskop — et spesialisert optisk verktøy som gir forstørret og detaljert innsyn i hudens strukturer. Dette gjør det mulig å vurdere føflekker og andre hudforandringer med langt større nøyaktighet enn ved vanlig øyeundersøkelse.\n\nHudlegen ser etter spesifikke endringer i form, farge, grenser og struktur som kan tyde på malignitet eller andre tilstander som bør følges opp.\n\nAktuelle indikasjoner for føflekksjekk:\n\n- Kontroll av eksisterende føflekker og pigmentforandringer\n- Vurdering av nye eller endrede hudlesjoner\n- Screening ved høy soleksponering eller familiær hudkrefthistorikk",
+      },
+      {
+        heading: "Jevnlig oppfølging for pasienter med mange føflekker",
+        content: "Undersøkelsen er ikke-invasiv og gjennomføres i løpet av konsultasjonen. Dersom hudlegen finner forandringer som bør utredes videre eller fjernes, vil du få råd om neste steg.",
+      },
+    ],
+    linkedServices: [
+      { label: "Behandlingsutstyr (IPL)", description: "Mer om vår IPL- og laserbehandling.", path: "/behandlinger/flere-fagomrader/behandlingsutstyr" },
+      { label: "Hudpleieprodukter", description: "Medisinsk hudpleie fra SkinCeuticals.", path: "/behandlinger/flere-fagomrader/hudpleieprodukter" },
+      { label: "Hudlege", description: "Konsultasjon og vurdering hos hudlege.", path: "/behandlinger/flere-fagomrader/hudlege" },
+    ],
+    faqs: [
+      { question: "Hvor utføres behandlingene?", answer: "Alle hudbehandlinger utføres ved vår klinikk på Bekkestua." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+      { question: "Vurderes huden alltid medisinsk først?", answer: "Ja. Før en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." },
+    ],
+  },
+
+  // ==========================================
+  // HUDHELSE — Behandlingsutstyr (Prompt 5)
+  // ==========================================
+  "flere-fagomrader/behandlingsutstyr": {
+    title: "Behandlingsutstyr (IPL)",
+    subtitle: "Laser- og IPL-behandling utført av hudlege",
+    parentCategory: "Hudhelse",
+    heroImage: flereFagImg,
+    description: "Hos CMedical Bekkestua tilbyr vi laserbehandling og IPL-behandling (Intense Pulsed Light) — en trygg og effektiv metode som bruker lysenergi til å behandle ulike hudplager. Mange oppsøker oss for å få hjelp med rødhet, synlige blodkar, pigmentforandringer eller solskadet hud. Behandlingen kan også bidra til en jevnere hudtone og bedre hudkvalitet over tid.",
+    sections: [
+      {
+        heading: "En skånsom behandling for bedre hudhelse",
+        content: "For oss handler IPL om hudhelse og livskvalitet. Ujevn pigmentering, rosacea eller vedvarende rødhet kan være mer enn et kosmetisk problem — det kan påvirke både velvære og selvtillit. Vi møter deg med forståelse og medisinsk kompetanse, og vurderer alltid om IPL er riktig behandling for deg.",
+      },
+      {
+        heading: "Trygghet, informasjon og realistiske forventninger",
+        content: "Behandlingen utføres av hudlege, og vi legger vekt på trygghet, informasjon og realistiske forventninger.",
+      },
+      {
+        heading: "Bestill en uforpliktende vurdering",
+        content: "Ønsker du å vite om IPL kan være et godt alternativ for deg? Ta kontakt med Linnea hos oss for en uforpliktende vurdering — vi hjelper deg gjerne.",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Oversikt over alle våre hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudbehandlinger" },
+      { label: "Hudpleieprodukter", description: "SkinCeuticals — medisinsk hudpleie.", path: "/behandlinger/flere-fagomrader/hudpleieprodukter" },
+    ],
+    faqs: [
+      { question: "Hvor utføres IPL?", answer: "På CMedical Bekkestua, av hudlege." },
+      { question: "Hva kan IPL behandle?", answer: "Rødhet, synlige blodkar, pigmentforandringer og solskadet hud — for bedre hudhelse og jevnere hudtone over tid." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille en uforpliktende vurdering direkte." },
+    ],
+  },
+
+  // ==========================================
+  // HUDHELSE — Hudpleieprodukter (Prompt 6)
+  // ==========================================
+  "flere-fagomrader/hudpleieprodukter": {
+    title: "Hudpleieprodukter — SkinCeuticals",
+    subtitle: "Medisinsk hudpleie med dokumentert effekt",
+    parentCategory: "Hudhelse",
+    heroImage: flereFagImg,
+    description: "SkinCeuticals er et anerkjent medisinsk hudpleiemerke utviklet med utgangspunkt i avansert dermatologisk forskning. Produktene er formulert for å beskytte sunn hud, korrigere eksisterende hudskader og forebygge fremtidige hudproblemer — med dokumenterte resultater.",
+    sections: [
+      {
+        heading: "Hudpleieprodukter med dokumentert effekt — oppdag SkinCeuticals",
+        content: "Med høye konsentrasjoner av aktive ingredienser, som antioksidanter inkludert vitamin C, tilbyr SkinCeuticals målrettede løsninger for ulike hudtilstander. Serien passer både til daglig pleie og som et komplement til estetiske behandlinger, og produktene er ofte anbefalt av hudleger verden over.\n\nEnten du ønsker å redusere fine linjer, forbedre hudtekstur, jevne ut pigmentering eller styrke hudbarrieren, finnes det en SkinCeuticals-rutine tilpasset dine behov. Alle produkter er utviklet med fokus på effektivitet, sikkerhet og hudens naturlige balanse.\n\nFor best resultat anbefaler vi at du får hjelp av vår fagperson og dermatolog til å sette sammen en hudpleieplan som passer din hud og dine mål.\n\nProduktene kan kjøpes på vår klinikk på Bekkestua.",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Medisinsk forankrede behandlinger hos hudlege.", path: "/behandlinger/flere-fagomrader/hudbehandlinger" },
+      { label: "Behandlingsutstyr (IPL)", description: "IPL- og laserbehandling.", path: "/behandlinger/flere-fagomrader/behandlingsutstyr" },
+    ],
+    faqs: [
+      { question: "Hvor får jeg kjøpt produktene?", answer: "På vår klinikk på Bekkestua." },
+      { question: "Får jeg veiledning av fagperson?", answer: "Ja — vår dermatolog hjelper deg å sette sammen en hudpleieplan tilpasset din hud." },
+    ],
+  },
+
+  // ==========================================
+  // OVERVEKTSKIRURGI — Sleeve-gastrektomi (Prompt 7)
+  // ==========================================
+  "flere-fagomrader/sleeve-gastrektomi": {
+    title: "Sleeve-gastrektomi",
+    subtitle: "Robotassistert overvektskirurgi med presisjon",
+    parentCategory: "Overvektskirurgi",
+    heroImage: flereFagImg,
+    description: "Robotassistert sleeve-gastrektomi (rSG) er en moderne form for laparoskopisk overvektskirurgi, hvor den nyeste teknologien gir enda større presisjon enn ved tradisjonell teknikk. Under inngrepet fjernes 60–80 % av magesekken, og den gjenværende delen formes til en smal «sleeve» som begrenser matinntaket. Resultatet kan være betydelig vekttap — samtidig som kroppens evne til å ta opp næringsstoffer bevares.",
+    sections: [
+      {
+        heading: "Sleeve-gastrektomi",
+        content: "Robotassistert kirurgi for sleeve-gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80 % av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat. Laparoskopisk teknikk er i dag førstevalg ved mange vanlige operasjoner, blant annet ved fjerning av galleblære, overvektskirurgi og behandling av gastroøsofageal reflukssykdom (sure oppstøt).\n\nEtter en laparoskopisk robotassistert operasjon opplever de fleste pasienter mindre ubehag og en raskere tilbakevending til sine daglige aktiviteter. Dette reduserer behovet for langvarig sykemelding og minsker risikoen for komplikasjoner som brokk i operasjonssårene.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon. Den nyeste teknologien oversetter kirurgens hånd-, håndledd- og fingerbevegelser til mikrobevegelser i da Vinci X-robotinstrumentene, noe som gir enestående kontroll og nøyaktighet.\n\nTa det første steget mot en enklere hverdag og økt livskvalitet — bestill en uforpliktende konsultasjon med Dr. Andreas Edenberg.",
+      },
+      {
+        heading: "Før operasjonen",
+        content: "For at operasjonen din skal kunne gjennomføres på best mulig måte, ber vi deg om å lese gjennom dokumentet «Informasjon om anestesi til deg som skal opereres på CMedical», tilsendt før operasjonsdagen din.\n\nDu vil ha en samtale med vår kliniske ernæringsfysiolog før operasjonen, som vil gi deg veiledning om kostholdet ditt i den første perioden etter inngrepet, samt lage en plan for videre kosthold.",
+      },
+      {
+        heading: "God forberedelse gir best resultat",
+        content: "Å forberede seg godt før en overvektsoperasjon er viktig både for din helse og for et best mulig resultat. Hos oss i CMedical får du trygg og personlig veiledning, enten individuelt eller i gruppe, slik at du føler deg trygg og godt ivaretatt hele veien.",
+      },
+      {
+        heading: "Din personlige oppfølging",
+        content: "Før og etter operasjonen møter du vårt erfarne tverrfaglige team, som kan bestå av både lege, sykepleier og klinisk ernæringsfysiolog — som hjelper deg med råd og støtte tilpasset akkurat deg.",
+      },
+      {
+        heading: "Viktig møte før operasjonen",
+        content: "Før operasjonen kalles du inn til en grundig samtale med din lege. Husk å ta med en oppdatert liste over alle medisiner, kosttilskudd og naturmidler du eventuelt bruker, med navn, styrke og dosering. Du kan finne oversikt over reseptpliktige medisiner på helsenorge.no eller hos fastlegen din.\n\nFor noen kan det også være nødvendig med ekstra undersøkelser som gastroskopi, røntgen, eller kontroll av hjerte- og lungefunksjon.\n\nViktig for kvinner i fruktbar alder: Hvis du er seksuelt aktiv, må du bruke sikker prevensjon. Dersom du er gravid, må operasjonen utsettes. For best mulig helse for både deg og en eventuell baby, anbefales det å vente minst 12–18 måneder etter operasjonen før en graviditet planlegges.",
+      },
+      {
+        heading: "Lavkaloridiett før operasjonen",
+        content: "De siste tre ukene før operasjonen skal du følge en lavkaloridiett på 800–1200 kalorier per dag. Dette gjør leveren mindre og reduserer fettmengden i buken, noe som gjør operasjonen enklere og tryggere.",
+      },
+      {
+        heading: "Jobb med gode kostvaner allerede nå",
+        content: "Ved å begynne med noen små, viktige endringer i matvanene dine før operasjonen, gjør du overgangen etterpå mye lettere:\n\n- Spis på faste tider — unngå småspising mellom måltidene\n- Velg proteinrike matvarer — rent kjøtt, fugl, fisk, egg, belgfrukter og magre meieriprodukter er gode valg\n- Bli bevisst på følelsesspising — forsøk å finne andre måter å håndtere stress, tristhet eller kjedsomhet på enn å spise",
+      },
+      {
+        heading: "Bli mer aktiv i hverdagen",
+        content: "Regelmessig fysisk aktivitet før operasjonen vil gjøre kroppen sterkere og bedre forberedt. Det er aldri for sent å starte, og små skritt teller!\n\nEndring av spisemønster — en nøkkel til suksess. For å få et varig godt resultat etter operasjonen er det helt nødvendig å endre måten du spiser på:\n\n- Spis regelmessig, i små porsjoner\n- Tygg maten godt og bruk god tid på måltidene",
+      },
+      {
+        heading: "Planlegg måltider og unngå impuls-spising",
+        content: "Mange opplever at operasjonen hjelper dem å endre dårlige vaner, men forberedelse på forhånd gir deg en stor fordel. Husk at for noen kan det være krevende å gi slipp på mat som trøst, og det er helt normalt å kjenne på slike følelser. Vi tilbyr støtte både før og etter operasjonen for deg som trenger hjelp til å finne nye måter å håndtere vanskelige følelser på.\n\nAndre viktige forberedelser:\n\n- Planlegg for endringene som kommer\n- Øk aktivitetsnivået gradvis\n- Slutt å røyke — røykeslutt er et krav før operasjon",
+      },
+      {
+        heading: "Under operasjonen",
+        content: "Operasjonen varer vanligvis i 30–40 minutter. Kirurgen lager flere små snitt i magen for å kunne sette inn de laparoskopiske instrumentene. En del av magesekken fjernes for å lage en «sleeve» som reduserer magens størrelse. Den gjenværende delen av magesekken blir deretter lukket med suturer eller klips for å sikre at det ikke oppstår lekkasjer. Når operasjonen er ferdig, vil kirurgen utføre en test for å sjekke at det ikke er noen lekkasjer fra den nye magesekken.",
+      },
+      {
+        heading: "Etter operasjonen",
+        content: "Etter operasjonen blir du lagt på postoperativ avdeling for observasjon. Du vil tilbringe natten hos oss på CMedical, og kan reise hjem neste formiddag. Morgenen etter operasjonen får du flytende kost og intravenøs væske. Det er viktig at du fortsetter å ta dine faste medisiner og at du er i bevegelse, så lenge du føler deg i stand til det.",
+      },
+      {
+        heading: "Hjemreise",
+        content: "Du må avtale at noen henter deg, eller eventuelt ta en taxi hjem. CMedical kan dessverre ikke skrive ut taxirekvisisjon. Hvis du er forsikringspasient, ber vi deg om å avklare reisekostnader med ditt forsikringsselskap før operasjonen. Vær oppmerksom på at du ikke kan kjøre bil det første døgnet etter narkosen.",
+      },
+      {
+        heading: "Forstoppelse",
+        content: "Det er normalt å ikke ha avføring daglig etter en overvektsoperasjon. Avføring sjeldnere enn hver tredje dag regnes som forstoppelse. For å forebygge dette anbefales det å drikke rikelig med vann og være i aktivitet.\n\nDet kan også hjelpe å:\n\n- Drikke Biola eller sviskesaft\n- Spise svisker som har ligget i vann over natten\n- Innta knuste linfrø (1 spiseskje i ½ glass vann over natten)\n- Bruke Laktulose (15–30 ml daglig) i 2–4 dager inntil avføringen er normalt",
+      },
+      {
+        heading: "Diaré",
+        content: "Diaré kan skyldes laktose- eller fettintoleranse, eller at du ikke tåler kunstige søtstoffer, sukker eller fiber like godt som før. Hvis du opplever diaré, bør du unngå søt melk, samt mat som grøt, brunost eller prim. Vær forsiktig med fett i kosten.",
+      },
+      {
+        heading: "Luftplager og luftsmerter",
+        content: "Etter operasjonen kan du oppleve oppblåst mage, rumling og økt luftavgang. Dette kan skyldes at det nye spisemønsteret fører til at du svelger mer luft enn før, eller at maten ikke blir helt brutt ned i mage og tynntarm. For å redusere dette kan det hjelpe å spise langsomt, tygge maten godt, og unngå kullsyreholdige drikker, tyggegummi og drops.\n\nForholdsregler:\n\n- Sørg for å drikke rikelig, opp til 1,5 liter i løpet av dagen\n- Følg anbefalingene fra ernæringsfysiologen\n- Unngå tunge løft og intens trening de første 2–3 ukene\n- Spis små og hyppige måltider\n- Du vil være sykemeldt i ca. 4 uker",
+      },
+      {
+        heading: "Kosthold og ernæring etter slankeoperasjon",
+        content: "Oppfølging etter en slankeoperasjon er en viktig del av behandlingsforløpet. Målet vårt er å sikre at du får en så god opplevelse som mulig, med få komplikasjoner, lite ubehag (som smerte eller kvalme), og et best mulig behandlingsresultat. Vi ønsker at du skal føle deg trygg og ivaretatt gjennom hele prosessen, også etter at du har kommet hjem.\n\nFør operasjonen vil du ha en samtale med vår kliniske ernæringsfysiolog, som vil gi deg veiledning om kostholdet ditt i den første perioden etter inngrepet, samt lage en plan for videre kosthold. Etter operasjonen vil du ha regelmessige oppfølgingssamtaler med vår kliniske ernæringsfysiolog i løpet av de 12 første månedene for å sikre at du får best mulig oppfølging og støtte.",
+      },
+      {
+        heading: "Ved medisinske spørsmål eller komplikasjoner",
+        content: "Som ved alle kirurgiske inngrep finnes det en risiko for komplikasjoner, som blødning eller infeksjoner. Hvis du opplever ubehag eller smerter den første tiden etter operasjonen, skal du ta direkte kontakt med kirurgen. Du vil få telefonnummeret til din kirurg ved utskrivelse.",
+      },
+      {
+        heading: "Raskere restitusjon",
+        content: "Robotassistert kirurgi er en moderne, minimal invasiv behandling hvor inngrepet utføres gjennom små snitt i stedet for et større operasjonssår. Denne skånsomme tilnærmingen kan gi flere fordeler for deg som pasient — blant annet mindre smerter, færre komplikasjoner og en raskere tilheling sammenlignet med tradisjonell åpen kirurgi.",
+      },
+      {
+        heading: "Raskt tilbake til hverdagen",
+        content: "Etter operasjonen kan de fleste pasienter spise, drikke og bevege seg allerede samme kveld. Mange reiser hjem dagen etter inngrepet, og opplever en mer komfortabel og stressfri restitusjon.",
+      },
+      {
+        heading: "Kortere sykemelding",
+        content: "Sykemeldingsperioden varierer, men for mange er to uker tilstrekkelig før de kan gjenoppta vanlige aktiviteter. Ved fysiske yrker kan noe mer tid være nødvendig. Robotassistert kirurgi gir likevel mulighet for en raskere tilbakevending til arbeid og hverdagsliv.",
+      },
+      {
+        heading: "Avansert teknologi for presis behandling",
+        content: "Ved hjelp av presise instrumenter og avansert teknologi kan kirurgen tilpasse teknikken nøyaktig til dine behov. Dette sikrer en mer skånsom behandling, samtidig som presisjonen bidrar til bedre resultater.",
+      },
+      {
+        heading: "Trygg og effektiv behandling hos erfarne kirurger",
+        content: "Robotassistert kirurgi benyttes av spesialister innen blant annet urologi, gynekologi og gastrokirurgi, og gir en trygg og effektiv behandling med raskere restitusjon og økt pasientsikkerhet.\n\nCMedical har over 7 års erfaring med robotassisterte inngrep, og våre erfarne kirurger sørger for at du får den beste behandlingen, med høy presisjon og maksimal trygghet gjennom hele prosessen.",
+      },
+    ],
+    process: [
+      { title: "Konsultasjon", description: "Uforpliktende digital eller fysisk konsultasjon med kirurg." },
+      { title: "Utredning", description: "Grundig medisinsk utredning, samtale med ernæringsfysiolog og lavkaloridiett siste tre uker." },
+      { title: "Operasjon", description: "Robotassistert sleeve-gastrektomi — ca. 30–40 minutter, overnatting på klinikken." },
+      { title: "Oppfølging", description: "Tett oppfølging av lege og klinisk ernæringsfysiolog i 12 måneder etter inngrepet." },
+    ],
+    linkedServices: [
+      { label: "Overvektskirurgi", description: "Hovedsiden om robotassistert overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
+      { label: "Ernæringsfysiolog", description: "Veiledning før og etter operasjonen.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+      { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
+    ],
+    faqs: [
+      { question: "Hvor lenge varer operasjonen?", answer: "Selve inngrepet tar vanligvis 30–40 minutter." },
+      { question: "Hvor lenge er jeg sykemeldt?", answer: "De fleste er sykemeldt i ca. 4 uker. Ved fysiske yrker kan det være behov for litt lengre tid." },
+      { question: "Hvem kvalifiserer?", answer: "Generelt kreves BMI over 40, eller over 35 med tilleggssykdommer. Vi gjør en individuell vurdering." },
+      { question: "Er det krav om røykeslutt?", answer: "Ja — røykeslutt er et krav før operasjonen." },
+      { question: "Graviditet etter operasjon?", answer: "Vi anbefaler å vente minst 12–18 måneder etter operasjonen før en graviditet planlegges." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." },
+    ],
+  },
 };
+
