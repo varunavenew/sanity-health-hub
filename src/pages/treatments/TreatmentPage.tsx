@@ -10,6 +10,7 @@ import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecial
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { treatmentToSubLayout, type CategoryId } from "@/lib/treatmentToSubLayout";
+import { getDedicatedServiceImage } from "@/data/serviceImages";
 
 interface TreatmentPageProps {
   categoryId: string;
