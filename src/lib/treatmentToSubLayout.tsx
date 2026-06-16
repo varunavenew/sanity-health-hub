@@ -204,13 +204,12 @@ export const treatmentToSubLayout = ({
     { title: "Du vil ta et informert valg", desc: "Du vil ha tid til å stille spørsmål, og en anbefaling tilpasset deg — ikke en mal." },
     { title: "Du vil ha trygghet i forløpet", desc: "Du vil vite hva som skjer videre, hvem du møter, og hvordan vi følger deg opp." },
   ];
-  if (reasons.length < 3) {
-    const existing = new Set(reasons.map((r) => r.title.toLowerCase()));
+  // Only fall back to generic reasons when there are NO real sections at all
+  // — otherwise we'd duplicate content the editor has already written above.
+  if (reasons.length === 0) {
     for (const g of GENERIC_REASONS) {
       if (reasons.length >= 3) break;
-      if (!existing.has(g.title.toLowerCase())) {
-        reasons.push({ n: String(reasons.length + 1).padStart(2, "0"), title: g.title, desc: g.desc });
-      }
+      reasons.push({ n: String(reasons.length + 1).padStart(2, "0"), title: g.title, desc: g.desc });
     }
   }
 
