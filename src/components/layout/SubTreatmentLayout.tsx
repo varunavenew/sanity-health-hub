@@ -1,14 +1,12 @@
-import { useEffect, useState, ReactNode, ComponentType, SVGProps } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone, Clock, FileX, Plus, Minus } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { PageSEO } from "@/components/seo/PageSEO";
+import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
