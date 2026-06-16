@@ -128,7 +128,7 @@ const Services = ({ isChatOpen }: PageProps) => {
   useEffect(() => { document.title = "Tjenester | CMedical"; }, []);
 
   // Build "Flere tjenester" list — everything NOT in the 5 featured cards
-  const primaryIds = ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi"];
+  const primaryIds = ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi", "flere-fagomrader"];
   const additionalServices: { label: string; path: string }[] = [];
 
   // Add non-primary categories
