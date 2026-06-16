@@ -39,7 +39,7 @@ export interface SubTreatmentContent {
  rating?: string;
  heroPrice?: string; // e.g. "Pris fra 2 200 kr" — shown above CTA
  hideSeePriser?: boolean; // hides the secondary "Se priser" link
- heroBadges?: { label: string; icon?: "clock" | "fileX" | "check" }[]; // replaces rating badge when provided
+ 
  // Booking
  booking: { kategori: string; tjeneste?: string };
  primaryCtaLabel?: string;
@@ -237,31 +237,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                   <CallUsClinicPicker variant="light" label="Ring oss" />
                 </div>
               </div>
-
-              {c.heroBadges && c.heroBadges.length > 0 ? (
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground mb-8">
-                  {c.heroBadges.map((b) => {
-                    const Icon = b.icon === "fileX" ? FileX : b.icon === "check" ? Check : Clock;
-                    return (
-                      <span key={b.label} className="inline-flex items-center gap-2">
-                        <Icon className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                        {b.label}
-                      </span>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-light text-muted-foreground mb-8">
-                  <span className="inline-flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                    Ingen ventetid
-                  </span>
-                  <span className="inline-flex items-center gap-2">
-                    <FileX className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                    Ingen henvisning
-                  </span>
-                </div>
-              )}
 
               <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm font-light text-foreground">
                 {c.heroPoints.map((p) => (

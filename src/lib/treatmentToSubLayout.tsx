@@ -228,10 +228,6 @@ export const treatmentToSubLayout = ({
     heroTitle,
     heroDescription: summarize(firstParagraph, 320),
     heroPoints,
-    heroBadges: [
-      { label: "Ingen ventetid", icon: "clock" },
-      { label: "Ingen henvisning", icon: "fileX" },
-    ],
     booking: { kategori: categoryId, tjeneste: subId },
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
