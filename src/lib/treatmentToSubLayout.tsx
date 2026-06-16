@@ -23,7 +23,7 @@ void CLINIC_IMAGES;
  * i samme layout, uten å måtte skrive om alt innhold for hånd.
  */
 
-type CategoryId = "gynekologi" | "fertilitet" | "urologi" | "ortopedi" | "graviditet" | "flere-fagomrader";
+export type CategoryId = "gynekologi" | "fertilitet" | "urologi" | "ortopedi" | "graviditet" | "flere-fagomrader";
 
 const CATEGORY_LABEL: Record<CategoryId, { name: string; path: string }> = {
   gynekologi: { name: "Gynekologi", path: "/gynekologi" },
