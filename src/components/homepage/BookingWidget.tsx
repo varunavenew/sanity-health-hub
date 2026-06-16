@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, MapPin, Stethoscope, Clipboard } from "lucide-react";
 import { useNavigate } from "@/lib/router";

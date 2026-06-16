@@ -12,6 +12,10 @@ export const BOOKING_URLS = {
     process.env.BOOKING_WEBACCOUNTS_URL || `${BOOKING_API_BASE}/webaccounts`,
   appointments:
     process.env.BOOKING_APPOINTMENTS_URL || `${BOOKING_API_BASE}/appointments`,
+  itemPrices:
+    process.env.BOOKING_ITEM_PRICES_URL ||
+    process.env.PRICE_URL ||
+    `${BOOKING_API_BASE}/itemprices`,
 };
 
 export function unwrapList(payload: unknown): unknown[] {

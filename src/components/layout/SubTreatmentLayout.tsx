@@ -1,5 +1,8 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, ReactNode, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Phone } from "lucide-react";
@@ -7,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { specialists, type Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
 export interface SubTreatmentContent {
@@ -56,13 +60,17 @@ export interface SubTreatmentContent {
 interface Props {
   isChatOpen: boolean;
   content: SubTreatmentContent;
+  locale?: "no" | "en";
 }
 
 const insurancePartners = [
   "Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika",
 ];
 
-export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
+export const SubTreatmentLayout = ({ isChatOpen, content: c, locale: _locale = "no" }: Props) => {
+  const { t } = useTranslation();
+  const { specialists } = useSpecialistsData();
+
   useEffect(() => {
     document.title = `${c.title} | CMedical`;
   }, [c.title]);
@@ -80,7 +88,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         .slice(0, 5);
     }
     return [];
-  }, [c.specialistSlugs, c.specialistCategory]);
+  }, [c.specialistSlugs, c.specialistCategory, specialists]);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -89,7 +97,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         description={c.seoDescription}
         canonical={c.canonical}
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
+          { name: t("subTreatment.home"), path: "/" },
           c.parent,
           { name: c.title, path: c.canonical },
         ]}
@@ -100,7 +108,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       <div className="bg-brand-light pt-24 lg:pt-28 pb-4">
         <div className="container mx-auto px-6 md:px-16">
           <nav className="text-xs font-light text-foreground/60 flex items-center gap-2">
-            <Link to="/" className="hover:text-foreground">Hjem</Link>
+            <Link to="/" className="hover:text-foreground">{t("subTreatment.home")}</Link>
             <span>›</span>
             <Link to={c.parent.path} className="hover:text-foreground">{c.parent.name}</Link>
             <span>›</span>
@@ -131,13 +139,13 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                   className="px-8 w-full sm:w-auto"
                   onClick={() => (window.location.href = buildBookingUrl(c.booking))}
                 >
-                  {c.primaryCtaLabel ?? "Bestill time"}
+                  {c.primaryCtaLabel ?? t("subTreatment.bookAppointment")}
                 </Button>
                 <Link
                   to="/priser"
                   className="text-sm font-light text-foreground hover:text-foreground/70 border-b border-foreground/40 hover:border-foreground pb-0.5 transition-colors"
                 >
-                  Se priser
+                  {t("subTreatment.seePrices")}
                 </Link>
               </div>
 
@@ -246,7 +254,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 className="px-8"
                 onClick={() => (window.location.href = buildBookingUrl(c.booking))}
               >
-                {c.primaryCtaLabel ?? "Bestill time"}
+                {c.primaryCtaLabel ?? t("subTreatment.bookAppointment")}
               </Button>
             </div>
 
@@ -302,9 +310,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl">
-              <p className="text-[11px] tracking-wider mb-3 uppercase text-brand-dark">Klar når du er</p>
+              <p className="text-[11px] tracking-wider mb-3 uppercase text-brand-dark">{t("subTreatment.readyWhenYouAre")}</p>
               <h2 className="text-2xl md:text-3xl font-light leading-tight">
-                Få {c.title.toLowerCase()} hos en spesialist denne uken.
+                {t("subTreatment.bookSpecialistThisWeek", { title: c.title.toLowerCase() })}
               </h2>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
@@ -314,7 +322,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 className="px-8"
                 onClick={() => (window.location.href = buildBookingUrl(c.booking))}
               >
-                {c.primaryCtaLabel ?? "Bestill time"}
+                {c.primaryCtaLabel ?? t("subTreatment.bookAppointment")}
               </Button>
               <a
                 href="tel:+4722000000"
@@ -335,10 +343,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             <div className="max-w-6xl mx-auto">
               <div className="max-w-2xl mb-12">
                 <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
-                  {c.relatedEyebrow ?? "Relaterte områder"}
+                  {c.relatedEyebrow ?? t("subTreatment.relatedEyebrow")}
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  {c.relatedTitle ?? "Du er kanskje også interessert i"}
+                  {c.relatedTitle ?? t("subTreatment.relatedTitle")}
                 </h2>
               </div>
 
@@ -359,7 +367,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                       {a.desc}
                     </p>
                     <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                      Les mer
+                      {t("subTreatment.readMore")}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </Link>
@@ -377,17 +385,17 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                  Menneskene bak
+                  {t("subTreatment.specialistsEyebrow")}
                 </p>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Spesialistene som følger deg.
+                  {t("subTreatment.specialistsTitle")}
                 </h2>
               </div>
               <Link
                 to={c.specialistCtaHref ?? `/spesialister?kategori=${c.specialistCategory ?? ""}`}
                 className="text-sm font-light text-foreground hover:text-foreground/70 transition-colors"
               >
-                {c.specialistCtaLabel ?? "Se alle spesialister"} →
+                {c.specialistCtaLabel ?? t("subTreatment.seeAllSpecialists")} →
               </Link>
             </div>
           </div>
@@ -432,10 +440,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
           <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div className="lg:col-span-4">
               <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-3">
-                SAMARBEIDSPARTNERE
+                {t("subTreatment.insurancePartners")}
               </p>
               <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
-                Vi har avtale med de største forsikringsselskapene i Norge.
+                {t("subTreatment.insuranceTitle")}
               </h3>
             </div>
             <div className="lg:col-span-8">

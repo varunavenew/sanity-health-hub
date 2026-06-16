@@ -13,6 +13,121 @@ export function pickNo(value: unknown): string {
   return typeof value === 'string' ? value : ''
 }
 
+export function pickSpecialtyLabel(entry: unknown): string {
+  return pickSpecialtyLabelForLang(entry, 'no')
+}
+
+export function pickSpecialtyLabelForLang(entry: unknown, lang: string): string {
+  if (entry && typeof entry === 'object' && 'label' in entry) {
+    return pickForLang((entry as { label?: unknown }).label, lang)
+  }
+  return pickForLang(entry, lang)
+}
+
+export function hasSpecialtyWithLangText(items: unknown, lang: string): boolean {
+  if (!Array.isArray(items) || items.length === 0) return false
+  return items.some((entry) => Boolean(pickSpecialtyLabelForLang(entry, lang)?.trim()))
+}
+
+export function hasSpecialtyWithNoText(items: unknown): boolean {
+  return hasSpecialtyWithLangText(items, 'no')
+}
+
+export function hasSpecialtyWithEnText(items: unknown): boolean {
+  return hasSpecialtyWithLangText(items, 'en')
+}
+
+/** Sanity validation: internationalized field must have Norwegian text. */
+export function requiredNoI18n(message: string) {
+  return (Rule: any) =>
+    Rule.custom((value: unknown) => {
+      if (!pickNo(value)?.trim()) return message
+      return true
+    })
+}
+
+/**
+ * Sanity validation: internationalized field must have Norwegian and English text.
+ * Use Rule.custom only — Rule.required() on internationalizedArray* fields can
+ * cause infinite re-render loops in Studio (sanity-plugin-internationalized-array).
+ */
+export function requiredNoEnI18n(label: string) {
+  return (Rule: any) =>
+    Rule.custom((value: unknown) => {
+      if (!pickNo(value)?.trim()) return `${label} (norsk) er påkrevd`
+      if (!pickForLang(value, 'en')?.trim()) return `${label} (engelsk) er påkrevd`
+      return true
+    })
+}
+
+function slugForLang(value: unknown, lang: string): string {
+  if (!Array.isArray(value)) return ''
+  const entry = value.find((x: any) => (x.language || x._key) === lang)
+  const current = entry?.value?.current ?? entry?.value
+  return typeof current === 'string' ? current.trim() : ''
+}
+
+/** Sanity validation: localized slug must exist for NO and EN. */
+export function requiredNoEnSlug() {
+  return (Rule: any) =>
+    Rule.custom((value: unknown) => {
+      if (!slugForLang(value, 'no')) return 'URL-slug (norsk) er påkrevd'
+      if (!slugForLang(value, 'en')) return 'URL-slug (engelsk) er påkrevd'
+      return true
+    })
+}
+
+function hasLangBlockContent(value: unknown, lang: string): boolean {
+  if (!Array.isArray(value)) return false
+  const entry = value.find((x: any) => (x.language || x._key) === lang)
+  if (!entry) return false
+  const v = entry.value
+  if (typeof v === 'string') return Boolean(v.trim())
+  if (Array.isArray(v)) return v.length > 0
+  return Boolean(v)
+}
+
+/** Sanity validation: block content must exist for NO and EN. */
+export function requiredNoEnBlockContent(label: string) {
+  return (Rule: any) =>
+    Rule.custom((value: unknown) => {
+      if (!hasLangBlockContent(value, 'no')) return `${label} (norsk) er påkrevd`
+      if (!hasLangBlockContent(value, 'en')) return `${label} (engelsk) er påkrevd`
+      return true
+    })
+}
+
+/** Document-level check: block content exists in both NO and EN. */
+export function hasNoEnBlockContent(value: unknown): boolean {
+  return hasLangBlockContent(value, 'no') && hasLangBlockContent(value, 'en')
+}
+
+/** Sanity validation: SEO object with Norwegian meta title and description. */
+export function requiredNoSeo(Rule: any) {
+  return Rule.required().custom((seo: unknown) => {
+    if (!seo || typeof seo !== 'object') return 'SEO-innstillinger er påkrevd'
+    const s = seo as Record<string, unknown>
+    if (!pickNo(s.metaTitle)?.trim()) return 'Meta-tittel (norsk) er påkrevd'
+    if (!pickNo(s.metaDescription)?.trim()) return 'Meta-beskrivelse (norsk) er påkrevd'
+    return true
+  })
+}
+
+/** Sanity validation: SEO object with NO + EN meta title and description. */
+export function requiredNoEnSeo(Rule: any) {
+  return Rule.required().custom((seo: unknown) => {
+    if (!seo || typeof seo !== 'object') return 'SEO-innstillinger er påkrevd'
+    const s = seo as Record<string, unknown>
+    if (!pickNo(s.metaTitle)?.trim()) return 'Meta-tittel (norsk) er påkrevd'
+    if (!pickForLang(s.metaTitle, 'en')?.trim()) return 'Meta-tittel (engelsk) er påkrevd'
+    if (!pickNo(s.metaDescription)?.trim()) return 'Meta-beskrivelse (norsk) er påkrevd'
+    if (!pickForLang(s.metaDescription, 'en')?.trim()) {
+      return 'Meta-beskrivelse (engelsk) er påkrevd'
+    }
+    return true
+  })
+}
+
 export function pickForLang(value: unknown, lang: string): string {
   if (!Array.isArray(value)) return typeof value === 'string' ? value : ''
   const entry = value.find((x: any) => (x.language || x._key) === lang)
@@ -53,6 +168,7 @@ type SlugFieldOverrides = {
   title?: string
   group?: string
   description?: string
+  requireNoEn?: boolean
 }
 
 /**
@@ -77,7 +193,9 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
       },
       maxLength: 96,
     },
-    validation: (Rule: any) => Rule.required(),
+    validation: overrides.requireNoEn
+      ? requiredNoEnSlug()
+      : (Rule: any) => Rule.required(),
   }
 }
 
@@ -100,6 +218,8 @@ export function i18nSlugFieldFromString(sourceField: string, overrides: SlugFiel
       },
       maxLength: 96,
     },
-    validation: (Rule: any) => Rule.required(),
+    validation: overrides.requireNoEn
+      ? requiredNoEnSlug()
+      : (Rule: any) => Rule.required(),
   }
 }

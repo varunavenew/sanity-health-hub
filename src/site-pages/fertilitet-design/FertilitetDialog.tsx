@@ -5,7 +5,8 @@ import { ArrowRight, ArrowLeft, ArrowUpRight, Star } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { DemoSpecialistCard } from "./DemoSpecialistCard";
 import {
@@ -27,9 +28,11 @@ const rotatingPrompts = [
 const FertilitetDialog = ({ isChatOpen }: PageProps) => {
   useEffect(() => { document.title = "Fertilitet · Dialog | CMedical"; }, []);
 
+  const { specialists } = useSpecialistsData();
+
   const fertilitySpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "fertilitet").slice(0, 4),
-    []
+    () => specialists.filter((s) => specialistMatchesCategory(s, "fertilitet")).slice(0, 4),
+    [specialists]
   );
 
   const [idx, setIdx] = useState(0);

@@ -7,10 +7,9 @@ import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import {
-  sanitySpecialistToCard,
   type PageSectionSpecialistsConfig,
 } from "@/lib/sanity/page-sections";
 import type { SanitySpecialist } from "@/hooks/useSanity";
@@ -28,16 +27,12 @@ function resolveSpecialists(
   const mode = config.displayMode ?? "all";
 
   if (mode === "manual" && config.specialists?.length) {
-    return config.specialists
-      .map((raw) => {
-        const s = raw as SanitySpecialist & { role?: string; specialties?: string[] };
-        return sanitySpecialistToCard({
-          ...s,
-          title: s.title || s.role || "",
-          expertise: s.expertise?.length ? s.expertise : s.specialties || [],
-          category: s.category || (s as { categories?: { slug?: string }[] }).categories?.[0]?.slug || "",
-        });
-      })
+    const slugs = config.specialists
+      .map((raw) => (raw as SanitySpecialist).slug)
+      .filter(Boolean);
+    return slugs
+      .map((slug) => all.find((s) => s.slug === slug))
+      .filter((s): s is Specialist => Boolean(s))
       .slice(0, limit);
   }
 

@@ -64,9 +64,8 @@ export default {
           ],
           preview: {
             select: { label: "label" },
-            prepare({ label }: { label?: { value?: string }[] }) {
-              const no = label?.find((l) => l.language === "no" || l._key === "no");
-              return { title: no?.value || label?.[0]?.value || "Badge" };
+            prepare({ label }: { label?: unknown }) {
+              return { title: pickNo(label) || "Badge" };
             },
           },
         },

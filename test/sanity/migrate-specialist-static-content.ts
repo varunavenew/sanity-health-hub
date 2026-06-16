@@ -9,6 +9,7 @@
  * - role (internationalizedArrayString)
  * - subtitle (internationalizedArrayString)
  * - shortBio (internationalizedArrayText)
+ * - bio (internationalizedArrayBlockContent — full biography paragraphs)
  * - specialties (array of internationalizedArrayString)
  * - education (array of internationalizedArrayString)
  * - languages (string[])
@@ -21,6 +22,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { sanityClient } from './config'
 import { slugFromSpecialistDoc, specialistSlugProjection } from './lib/specialist-slug-groq'
+import { i18nBioNo, i18nShortBioNo } from './lib/specialist-bio-i18n'
 
 type StaticSpecialist = {
   name?: string
@@ -40,6 +42,7 @@ type SpecialistDoc = {
   role?: unknown
   subtitle?: unknown
   shortBio?: unknown
+  bio?: unknown
   specialties?: unknown
   education?: unknown
   languages?: unknown
@@ -114,6 +117,18 @@ function hasMeaningfulValue(value: unknown): boolean {
     }
   }
   return false
+}
+
+function hasMeaningfulBio(value: unknown): boolean {
+  if (!Array.isArray(value) || value.length === 0) return false
+  const entry = value.find(
+    (item) =>
+      item &&
+      typeof item === 'object' &&
+      ((item as { language?: string; _key?: string }).language === 'no' ||
+        (item as { _key?: string })._key === 'no'),
+  ) as { value?: unknown } | undefined
+  return Array.isArray(entry?.value) && entry.value.length > 0
 }
 
 function loadStaticSpecialists(): StaticSpecialist[] {
@@ -195,6 +210,7 @@ async function run() {
       role,
       subtitle,
       shortBio,
+      bio,
       specialties,
       education,
       languages
@@ -240,17 +256,26 @@ async function run() {
       patch.subtitle = i18nStringNo(staticItem.subtitle)
     }
     if (staticItem.bio && (FORCE || !hasMeaningfulValue(doc.shortBio))) {
-      patch.shortBio = i18nTextNo(staticItem.bio)
+      const shortBio = i18nShortBioNo(staticItem.bio)
+      if (shortBio) patch.shortBio = shortBio
+    }
+    if (staticItem.bio && (FORCE || !hasMeaningfulBio(doc.bio))) {
+      const bio = i18nBioNo(staticItem.bio)
+      if (bio) patch.bio = bio
     }
     if (
       staticItem.expertise &&
       staticItem.expertise.length &&
       (FORCE || !hasMeaningfulValue(doc.specialties))
     ) {
-      patch.specialties = staticItem.expertise.map((item) => i18nStringNo(item))
+      patch.specialties = staticItem.expertise.map((item, index) => ({
+        _type: 'specialtyItem',
+        _key: `spec-${index}`,
+        label: i18nStringNo(item),
+      }))
     }
     if (staticItem.education && (FORCE || !hasMeaningfulValue(doc.education))) {
-      patch.education = [i18nStringNo(staticItem.education)]
+      patch.education = [{ _type: 'educationItem', label: i18nStringNo(staticItem.education) }]
     }
     if (
       staticItem.languages &&

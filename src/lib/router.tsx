@@ -96,6 +96,30 @@ export function useRouteSlug(): string {
   return parts[parts.length - 1] ?? "";
 }
 
+/** Treatment slug from `/behandlinger/:category/:treatment` (legacy `subId` or CMS `segments`). */
+export function useTreatmentSlug(): string {
+  const params = useParams<{ subId?: string; segments?: string | string[] }>();
+  const pathname = usePathname() || "/";
+
+  if (typeof params?.subId === "string" && params.subId) return params.subId;
+
+  const segments = params?.segments;
+  const list = Array.isArray(segments)
+    ? segments
+    : typeof segments === "string"
+      ? [segments]
+      : [];
+
+  if (list[0] === "behandlinger" && list.length >= 3) return list[2] ?? "";
+  if (list.length >= 2) return list[list.length - 1] ?? "";
+
+  const parts = pathname.split("/").filter(Boolean);
+  const start = parts[0] === "no" || parts[0] === "en" ? 1 : 0;
+  const rest = parts.slice(start);
+  if (rest[0] === "behandlinger" && rest.length >= 3) return rest[2] ?? "";
+  return rest[rest.length - 1] ?? "";
+}
+
 type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
   to: string;
   replace?: boolean;

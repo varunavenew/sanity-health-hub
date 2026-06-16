@@ -19,7 +19,9 @@ The field in your screenshot (**Sidetittel** on `homepage` → `title`) is inclu
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `SANITY_TOKEN` | **Yes** | Write access to your dataset |
-| `LOVABLE_API_KEY` | No | Better translations via Lovable AI (optional) |
+| `OPENAI_API_KEY` | No | OpenAI translations (`sk-...`; uses `gpt-4o-mini` by default) |
+| `OPENAI_MODEL` | No | Override OpenAI model (e.g. `gpt-4o`) |
+| `LOVABLE_API_KEY` | No | Lovable AI Gateway (`lv_...`; used if `OPENAI_API_KEY` is unset) |
 
 ```bash
 cd test

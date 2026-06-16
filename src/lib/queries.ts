@@ -50,6 +50,47 @@ const localizedSlugBoth = `
 
 const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
 
+const SUB_TREATMENT_LAYOUT_GROQ = `
+  layout{
+    ${i18nString('eyebrow')},
+    ${i18nString('heroTitle')},
+    ${i18nText('heroDescription')},
+    ${i18nString('rating')},
+    ${i18nString('primaryCtaLabel')},
+    bookingService,
+    ${i18nString('flowEyebrow')},
+    ${i18nString('flowTitle')},
+    ${i18nString('reasonsEyebrow')},
+    ${i18nString('reasonsTitle')},
+    ${i18nText('reasonsLead')},
+    ${i18nText('reasonsLead2')},
+    ${i18nString('ctaTitle')},
+    ${i18nText('ctaDescription')},
+    ${i18nString('specialistCtaLabel')},
+    specialistCtaHref,
+    ${i18nString('relatedEyebrow')},
+    ${i18nString('relatedTitle')},
+    heroPoints[]{ ${i18nString('title')}, ${i18nText('desc')} },
+    flow[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+    reasons[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+    promises[]{ ${i18nString('eyebrow')}, ${i18nString('title')}, ${i18nText('desc')} },
+    related[]{ ${i18nString('eyebrow')}, ${i18nString('title')}, ${i18nText('desc')}, path }
+  }
+`;
+
+/** Treatment category fields used on specialist profile featured-service block. */
+const specialistCategoryProjection = `
+  _id, title, ${localizedSlug}, categoryId, categoryNumericId,
+  ${i18nText("description")},
+  "quickInfoItems": quickInfoItems[]{
+    "text": coalesce(@[language == $lang][0].value, @[_key == $lang][0].value, @[language == "no"][0].value, @[_key == "no"][0].value)
+  },
+  "heroImage": heroImage.asset->url
+`;
+
+const i18nBlockContent = (field: string) =>
+  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
+
 const publishedClinicFilter = `!(_id in path("drafts.**"))`;
 
 /** Shared row shape for clinic lists (grid, about section, footer). */
@@ -58,6 +99,7 @@ export const CLINIC_LIST_ROW_PROJECTION = `
   ${localizedSlug},
   "id": coalesce(slug[language == $lang][0].value.current, slug[language == "no"][0].value.current, slug[0].value.current, slug.current),
   "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  sortOrder,
   address,
   phone,
   ${i18nString("hours")}
@@ -109,7 +151,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       "image": image.asset->url
     }
   },
-  "serviceCategories": serviceCategories[]->{ _id, categoryId, ${i18nString("title")}, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
+  "serviceCategories": serviceCategories[]->{ _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
   valueBadges[]{icon, ${i18nString("label")}},
   statsBar[]{value, ${i18nString("label")}},
   ${i18nString("promoBlocksTitle")},
@@ -120,26 +162,59 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
     ctaLink,
     "image": image.asset->url
   },
+  ${i18nString("faqSectionTitle")},
+  "faqs": faqs[]->{
+    sortOrder,
+    ${localizedFaqRow}
+  },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
-export const SPECIALISTS_QUERY = `*[_type == "specialist"] | order(name asc){
+export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
   _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
-  bookingCategoryIds,
-  "clinics": clinics[]->title,
-  ${localizedSlug},
-  "image": photo.asset->url,
-  "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
-}`;
-
-export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && ${slugMatchesParam("slug")}][0]{
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
-  bookingCategoryIds,
+  bookingCategoryIds, sortOrder,
   "clinics": clinics[]->title,
   ${localizedSlug},
   "image": photo.asset->url,
   "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
+  ${localizedSeoObject}
+}`;
+
+export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**")) && ${slugMatchesParam("slug")}][0]{
+  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  bookingCategoryIds, sortOrder,
+  "clinicRefs": clinics[]->{
+    "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${localizedSlug}
+  },
+  ${localizedSlug},
+  "image": photo.asset->url,
+  ${i18nBlockContent("bio")},
+  "categories": categories[]->{ ${specialistCategoryProjection} },
+  "faqs": faqs[]->{
+    sortOrder,
+    category,
+    ${localizedFaqRow}
+  },
+  "relatedSpecialistsSection": relatedSpecialistsSection{
+    ${i18nStringLocale("eyebrow")},
+    ${i18nStringLocale("heading")},
+    ${i18nStringLocale("ctaLabel")},
+    ctaPath,
+    "specialists": specialists[]->{
+      _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+      bookingCategoryIds, sortOrder,
+      "clinicRefs": clinics[]->{
+        "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+        ${localizedSlug}
+      },
+      ${localizedSlug},
+      "image": photo.asset->url,
+      "categories": categories[]->{ ${specialistCategoryProjection} },
+      ${localizedSeoObject}
+    }
+  },
   ${localizedSeoObject}
 }`;
 
@@ -156,13 +231,24 @@ export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][
   ${i18nStringLocale("ctaSubtitle")}
 }`;
 
-export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"] | order(${orderSlugAsc}){
-  _id, title, ${localizedSlug}, categoryId, categoryNumericId, description, icon, color,
+const CATEGORY_TREATMENT_ROW = `
+  _id, title, sortOrder, ${localizedSlug}, description, subtitle,
+  "heroImage": heroImage.asset->url
+`;
+
+/** Explicit Behandlinger[] on category doc, else treatments whose Kategori points here. */
+const CATEGORY_TREATMENTS_GROQ = `
+  "treatments": select(
+    count(treatments) > 0 => treatments[]->{${CATEGORY_TREATMENT_ROW}},
+    *[_type == "treatment" && references(^._id)]{${CATEGORY_TREATMENT_ROW}}
+  )
+`;
+
+export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"]{
+  _id, title, sortOrder, ${localizedSlug}, categoryId, categoryNumericId, description, icon, color,
   "heroImage": heroImage.asset->url,
   stats,
-  "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
-    _id, title, ${localizedSlug}, description, "heroImage": heroImage.asset->url
-  }
+  ${CATEGORY_TREATMENTS_GROQ}
 }`;
 
 const CATEGORY_LANDING_GROQ = `
@@ -274,10 +360,7 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
     ${i18nStringLocale("sub")}
   },
   ${localizedSeoObject},
-  "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
-    _id, title, ${localizedSlug}, description, subtitle,
-    "heroImage": heroImage.asset->url
-  },
+  ${CATEGORY_TREATMENTS_GROQ},
   ${CATEGORY_LANDING_GROQ},
   ${PAGE_SECTIONS_GROQ}
 }`;
@@ -325,12 +408,10 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
     ${i18nText('description')},
     path
   },
+  ${SUB_TREATMENT_LAYOUT_GROQ},
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
-
-const i18nBlockContent = (field: string) =>
-  `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
 
 export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
   ${i18nString('title')},
@@ -473,28 +554,25 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   },
   "featuredCategories": featuredCategories[]->{
     categoryId,
+    sortOrder,
     title,
     ${localizedSlug},
     "heroImage": heroImage.asset->url,
-    "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
-      title,
-      ${localizedSlug}
-    }
+    ${CATEGORY_TREATMENTS_GROQ}
   },
   moreServicesCategories[]{
     displayMode,
     "category": category->{
       categoryId,
+      sortOrder,
       title,
       ${localizedSlug},
-      "treatments": *[_type == "treatment" && references(^._id)] | order(${orderSlugAsc}){
-        title,
-        ${localizedSlug}
-      }
+      ${CATEGORY_TREATMENTS_GROQ}
     }
   },
   "categories": categories[]->{
     categoryId,
+    sortOrder,
     title,
     ${localizedSlug},
     "heroImage": heroImage.asset->url
@@ -503,18 +581,17 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   ${localizedSeoObject}
 }`;
 
-export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter}] | order(${orderSlugAsc}){
+export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter}]{
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
   description, email, contactDescription,
   valueProposition,
   locationSearch,
-  sortOrder,
   "primaryImage": primaryImage.asset->url,
   booking,
   detail,
   faqs[]{${localizedFaqRow}},
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter} && ${slugMatchesParam("slug")}][0]{
@@ -523,14 +600,13 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   description, email, contactDescription,
   valueProposition,
   locationSearch,
-  sortOrder,
   "primaryImage": primaryImage.asset->url,
   booking,
   detail,
   faqs[]{${localizedFaqRow}},
   specialists[]->{ name, ${localizedSlug}, "image": photo.asset->url, role },
   treatments[]->{ title, ${localizedSlug}, ${localizedRefSlugField("category", "categorySlug")}, "categoryLabel": parentCategoryLabel },
-  seo
+  ${localizedSeoObject}
 }`;
 
 export const CMS_ROUTE_INDEX_QUERY = `{
@@ -759,12 +835,12 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
   ${localizedSeoObject}
 }`;
 
-export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"] | order(${orderSlugAsc}){
-  _id, title, categoryId, ${localizedSlug},
+export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{
+  _id, title, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{
-    _id, title, ${localizedSlug},
+    _id, title, sortOrder, ${localizedSlug},
     subItems[]{label, anchor, path}
-  } | order(${orderSlugAsc})
+  }
 }`;
 
 export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{

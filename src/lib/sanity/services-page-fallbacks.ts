@@ -2,6 +2,7 @@ import {
   behandlingerCategorySegment,
   categoryLandingPath,
 } from "@/lib/sanity/category-keys";
+import { sortBySortOrder } from "@/lib/sortAlphabetical";
 import { serviceCategories as staticServiceCategories } from "@/data/serviceCategories";
 import type { ServicesPageListItem } from "@/lib/sanity/services-page-data";
 
@@ -11,7 +12,8 @@ type CategoryRow = {
   categoryId?: string;
   slug?: string;
   title?: string;
-  treatments?: Array<{ title?: string; slug?: string }>;
+  sortOrder?: unknown;
+  treatments?: Array<{ title?: string; slug?: string; sortOrder?: unknown }>;
 };
 
 function treatmentPath(categoryId: string, slug: string, lang: "no" | "en"): string {
@@ -25,7 +27,12 @@ export function buildMoreServicesFromCategories(
 ): ServicesPageListItem[] {
   const items: ServicesPageListItem[] = [];
 
-  for (const cat of categories) {
+  for (const cat of sortBySortOrder(
+    categories,
+    (c) => c.sortOrder,
+    (c) => c.title || c.categoryId || c.slug,
+    lang,
+  )) {
     const id = (cat.categoryId || cat.slug || "").trim();
     if (!id || FEATURED_CATEGORY_IDS.has(id)) continue;
 
@@ -33,7 +40,12 @@ export function buildMoreServicesFromCategories(
       id === "flere-fagomrader" || id === "flere" || id === "annet";
 
     if (isFlere) {
-      for (const t of cat.treatments || []) {
+      for (const t of sortBySortOrder(
+        cat.treatments || [],
+        (row) => row.sortOrder,
+        (row) => row.title || row.slug,
+        lang,
+      )) {
         const slug = (t.slug || "").trim();
         const title = (t.title || "").trim();
         if (!title || !slug) continue;
@@ -48,9 +60,6 @@ export function buildMoreServicesFromCategories(
     });
   }
 
-  items.sort((a, b) =>
-    a.title.localeCompare(b.title, lang === "en" ? "en" : "nb"),
-  );
   return items.filter((item) => item.path);
 }
 

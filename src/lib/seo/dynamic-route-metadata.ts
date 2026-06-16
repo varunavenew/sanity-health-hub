@@ -17,6 +17,7 @@ import {
   fetchTreatmentSeo,
 } from "@/lib/seo/fetch-sanity-seo";
 import { fetchThemeLocalizedPaths, pathsForDetailBySlug, pathsForCategorySlug, pathsForTreatment } from "@/lib/routing/singleton-slug-paths";
+import { categorySlugForFetch } from "@/lib/sanity/category-keys";
 
 function metadataFromSeo(
   locale: string,
@@ -118,29 +119,45 @@ export async function buildTreatmentMetadata(
   treatmentSlug: string,
 ): Promise<Metadata> {
   const sanityLang = sanityContentLangFromLocale(locale);
-  const paths = await pathsForTreatment(categorySlug, treatmentSlug, sanityLang);
-  const doc = await fetchTreatmentSeo(categorySlug, treatmentSlug, sanityLang);
-  const title = doc?.title || treatmentSlug;
-  const category = doc?.parentCategory || categorySlug;
-  return metadataFromSeo(
-    locale,
-    paths,
-    doc?.seo,
-    {
-      nb: {
-        title: `${title} – ${category} | CMedical`,
-        description:
-          doc?.description?.slice(0, 160) ||
-          `Les om ${title} hos CMedical.`,
+  const fetchCategorySlug = categorySlugForFetch(categorySlug);
+  try {
+    const paths = await pathsForTreatment(categorySlug, treatmentSlug, sanityLang);
+    const doc = await fetchTreatmentSeo(fetchCategorySlug, treatmentSlug, sanityLang);
+    const title = doc?.title || treatmentSlug;
+    const category = doc?.parentCategory || categorySlug;
+    return metadataFromSeo(
+      locale,
+      paths,
+      doc?.seo,
+      {
+        nb: {
+          title: `${title} – ${category} | CMedical`,
+          description:
+            doc?.description?.slice(0, 160) ||
+            `Les om ${title} hos CMedical.`,
+        },
+        en: {
+          title: `${title} – ${category} | CMedical`,
+          description:
+            doc?.description?.slice(0, 160) ||
+            `Learn about ${title} at CMedical.`,
+        },
       },
-      en: {
-        title: `${title} – ${category} | CMedical`,
-        description:
-          doc?.description?.slice(0, 160) ||
-          `Learn about ${title} at CMedical.`,
-      },
-    },
-  );
+    );
+  } catch {
+    const isEn = locale === "en";
+    const base = `/${locale}/behandlinger/${categorySlug}/${treatmentSlug}`;
+    return buildPageMetadata({
+      locale,
+      paths: { nbPath: base, enPath: base },
+      title: isEn
+        ? `${treatmentSlug} | CMedical`
+        : `${treatmentSlug} | CMedical`,
+      description: isEn
+        ? `Learn about ${treatmentSlug} at CMedical.`
+        : `Les om ${treatmentSlug} hos CMedical.`,
+    });
+  }
 }
 
 export async function buildThemePageMetadata(
@@ -171,43 +188,6 @@ export async function buildThemePageMetadata(
   );
 }
 
-function specialistSeoFallbacks(
-  doc: {
-    name?: string;
-    role?: string;
-    shortBio?: string;
-    expertise?: string[];
-  },
-  lang: "nb" | "en",
-): { title: string; description: string } {
-  const name = doc.name || "Specialist";
-  const role = doc.role || "";
-  const expertise = doc.expertise?.filter(Boolean).join(", ") || "";
-  const bio = doc.shortBio?.trim().slice(0, 160);
-
-  if (lang === "en") {
-    return {
-      title: role ? `${name} – ${role}` : name,
-      description:
-        bio ||
-        `Book an appointment with ${name}${role ? `, ${role}` : ""} at CMedical.${expertise ? ` ${expertise}.` : ""} No referral needed.`.slice(
-          0,
-          160,
-        ),
-    };
-  }
-
-  return {
-    title: role ? `${name} – ${role}` : name,
-    description:
-      bio ||
-      `Bestill time hos ${name}${role ? `, ${role}` : ""} hos CMedical.${expertise ? ` ${expertise}.` : ""} Ingen henvisning nødvendig.`.slice(
-        0,
-        160,
-      ),
-  };
-}
-
 export async function buildSpecialistMetadata(
   locale: string,
   slug: string,
@@ -216,17 +196,29 @@ export async function buildSpecialistMetadata(
   const sanityLang = sanityContentLangFromLocale(locale);
   const doc = await fetchSpecialistSeo(slug, sanityLang);
   const paths = await pathsForDetailBySlug("specialists", "specialistsListingPage", slug, sanityLang);
-  const fallbacks = {
-    nb: specialistSeoFallbacks(doc || {}, "nb"),
-    en: specialistSeoFallbacks(doc || {}, "en"),
+
+  if (!doc?.seo?.metaTitle?.trim() || !doc?.seo?.metaDescription?.trim()) {
+    return buildPageMetadata({
+      locale,
+      paths,
+      title: lang === "en" ? "Specialist not found" : "Spesialist ikke funnet",
+      description: "",
+      noIndex: true,
+    });
+  }
+
+  const cmsSeo = {
+    nb: {
+      title: doc.seo.metaTitle,
+      description: doc.seo.metaDescription,
+    },
+    en: {
+      title: doc.seo.metaTitle,
+      description: doc.seo.metaDescription,
+    },
   };
 
-  return metadataFromSeo(
-    locale,
-    paths,
-    doc?.seo,
-    fallbacks,
-  );
+  return metadataFromSeo(locale, paths, doc.seo, cmsSeo);
 }
 
 export async function buildClinicMetadata(

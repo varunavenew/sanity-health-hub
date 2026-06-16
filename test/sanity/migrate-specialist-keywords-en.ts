@@ -95,10 +95,25 @@ async function run() {
       : undefined
 
     const specialties = Array.isArray(doc.specialties)
-      ? doc.specialties.map((entry) => {
-          const noValue = readI18n(entry as string | I18nValue[], 'no')
-          return asI18nArray(noValue, translateKeywords(noValue))
-        })
+      ? doc.specialties
+          .map((entry, index) => {
+            const raw =
+              entry && typeof entry === 'object' && !Array.isArray(entry) && 'label' in entry
+                ? (entry as { label?: string | I18nValue[] }).label
+                : entry
+            const noValue = readI18n(raw as string | I18nValue[], 'no')
+            const translated = asI18nArray(noValue, translateKeywords(noValue))
+            const existing =
+              entry && typeof entry === 'object' && !Array.isArray(entry)
+                ? (entry as { _key?: string })
+                : undefined
+            return {
+              _type: 'specialtyItem',
+              _key: existing?._key || `spec-${index}`,
+              label: translated,
+            }
+          })
+          .filter((item) => Array.isArray(item.label) && item.label.length > 0)
       : undefined
 
     const setPayload: Record<string, unknown> = {}

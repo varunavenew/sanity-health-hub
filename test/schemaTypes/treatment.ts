@@ -3,6 +3,7 @@
 import { TreatmentIcon } from './icons'
 import { i18nFaqItemPreview, i18nSlugFieldFromTitle, i18nTitleItemPreview, pickNo } from './i18n'
 import { pageSectionsField } from './pageSections'
+import { subTreatmentLayoutType } from './subTreatmentLayout'
 
 export default {
   name: 'treatment',
@@ -181,6 +182,12 @@ export default {
       title: 'Sorteringsrekkefølge',
       type: 'number',
       description: 'Lavere tall vises først innenfor kategorien.',
+    },
+    {
+      name: 'layout',
+      title: 'Sidelayout',
+      description: 'Hero, forløp, symptomer og relaterte behandlinger (SubTreatmentLayout)',
+      type: 'subTreatmentLayout',
     },
     pageSectionsField,
     {

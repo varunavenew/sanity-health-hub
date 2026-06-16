@@ -85,8 +85,7 @@ export const pageSectionSpecialists = {
       title: 'Maks antall',
       type: 'number',
       initialValue: 8,
-      validation: (Rule: { min: (n: number) => unknown; max: (n: number) => unknown }) =>
-        Rule.min(1).max(24),
+      validation: (Rule: any) => Rule.min(1).max(24),
     },
     {
       name: 'variant',
@@ -170,8 +169,7 @@ export const pageSectionArticles = {
       title: 'Maks antall',
       type: 'number',
       initialValue: 6,
-      validation: (Rule: { min: (n: number) => unknown; max: (n: number) => unknown }) =>
-        Rule.min(1).max(12),
+      validation: (Rule: any) => Rule.min(1).max(12),
     },
     {
       name: 'variant',

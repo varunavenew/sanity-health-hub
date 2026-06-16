@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   clinicServiceIdForCategoryPage,
 } from "@/lib/bookingLinks";
-import type { SpecialistSanityCategory } from "@/data/specialists";
+import type { SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 
 export type BookingCategoryService = {
   name: string;

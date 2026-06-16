@@ -34,6 +34,7 @@ import {
   pageSectionSpecialists,
   pageSectionArticles,
 } from './pageSections'
+import { subTreatmentLayoutType } from './subTreatmentLayout'
 
 
 export const schemaTypes = [
@@ -68,6 +69,7 @@ export const schemaTypes = [
   
 
   // Shared types
+  subTreatmentLayoutType,
   pageSectionSpecialists,
   pageSectionArticles,
   youtubeEmbed,

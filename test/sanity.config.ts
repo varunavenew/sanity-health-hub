@@ -197,7 +197,7 @@ export default defineConfig({
                       .defaultOrdering([
                         { field: 'sortOrder', direction: 'asc' },
                         { field: 'name', direction: 'asc' },
-                      ])
+                      ]),
                   ),
               ])
           )

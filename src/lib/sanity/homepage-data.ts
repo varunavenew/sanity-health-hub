@@ -1,7 +1,7 @@
 import { HOMEPAGE_QUERY } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { sortBySortOrder, type SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityClient } from "@/lib/sanityClient";
 
@@ -36,9 +36,16 @@ export type HomepageCategoryCard = {
   image: string;
 };
 
+export type HomepageFaq = {
+  question: string;
+  answer: string;
+};
+
 export type HomepageData = {
   tagline?: string;
   promoBlocksTitle: string;
+  faqSectionTitle?: string;
+  faqs: HomepageFaq[];
   statsBar: { value: string; label: string }[];
   heroSlides: HomepageHeroSlide[];
   categoryCards: HomepageCategoryCard[];
@@ -54,6 +61,22 @@ export type HomepageData = {
   pageSections: ReturnType<typeof normalizePageSections>;
   seo?: SanitySeoFields;
 };
+
+function mapHomepageFaqs(value: unknown): HomepageFaq[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((row) => {
+      const faq = row as { question?: unknown; answer?: unknown; sortOrder?: number };
+      return {
+        question: asPlainString(faq.question),
+        answer: asPlainString(faq.answer),
+        sortOrder: typeof faq.sortOrder === "number" ? faq.sortOrder : 0,
+      };
+    })
+    .filter((faq) => faq.question && faq.answer)
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map(({ question, answer }) => ({ question, answer }));
+}
 
 export function mapHomepageDocument(
   data: Record<string, unknown> | null | undefined,
@@ -71,6 +94,8 @@ export function mapHomepageDocument(
     tagline: asPlainString(data.tagline) || undefined,
     promoBlocksTitle:
       typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
+    faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
+    faqs: mapHomepageFaqs(data.faqs),
     statsBar: statsBar.map((s) => {
       const row = s as { value?: string; label?: string };
       return { value: row.value || "", label: row.label || "" };
@@ -89,7 +114,7 @@ export function mapHomepageDocument(
         };
       })
       .filter((s) => s.image && s.label),
-    categoryCards: sortBySlug(
+    categoryCards: sortBySortOrder(
       serviceCategories
         .map((c) => {
           const row = c as Record<string, unknown>;
@@ -99,15 +124,17 @@ export function mapHomepageDocument(
           return {
             id: routeKey,
             title: asPlainString(row.title),
+            sortOrder: row.sortOrder,
             // Routes use Norwegian categoryId paths (/fertilitet), not EN marketing slugs (/fertility).
             path: routeKey ? `/${routeKey}` : "",
             image: asPlainString(row.heroImage),
           };
         })
-        .filter((c) => c.image && c.title),
-      (c) => c.id || c.title,
+        .filter((c) => c.id && c.title && c.image),
+      (c) => c.sortOrder,
+      (c) => c.title,
       lang,
-    ),
+    ).map(({ sortOrder: _sortOrder, ...card }) => card),
     valueBadges: valueBadges.map((v) => {
       if (typeof v === "string") return v;
       const row = v as { label?: string };

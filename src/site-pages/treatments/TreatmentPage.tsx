@@ -3,7 +3,7 @@
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams, useLocation } from "@/lib/router";
+import { useNavigate, useParams, useLocation, useTreatmentSlug } from "@/lib/router";
 import { ArrowRight, Check, Phone, Clock, FileText, Shield, Plus, Minus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -98,16 +98,11 @@ const AccordionGroup = ({
 
 const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentProps) => {
   const params = useParams();
-  const subId =
-    typeof params.subId === "string"
-      ? params.subId
-      : Array.isArray(params.subId)
-        ? params.subId[0] ?? ""
-        : "";
+  const treatmentSlug = useTreatmentSlug();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  const { data: treatment, isLoading } = useTreatment(categoryId, subId || "");
+  const { data: treatment, isLoading } = useTreatment(categoryId, treatmentSlug);
   const { data: sanityCategory } = useTreatmentCategory(categoryId);
   const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
   const { data: siteSettings } = useSiteSettings();
@@ -213,11 +208,11 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       <PageSEO
         title={`${treatment.title} – ${parentCategory}`}
         description={(treatment.description || "").split("\n")[0].slice(0, 155)}
-        canonical={`/behandlinger/${behandlingerSegment}/${subId}`}
+        canonical={`/behandlinger/${behandlingerSegment}/${treatmentSlug}`}
         breadcrumbs={[
           ...(breadcrumbHome ? [{ name: breadcrumbHome, path: "/" }] : []),
           { name: parentCategory, path: categoryPath },
-          { name: treatment.title, path: `/behandlinger/${behandlingerSegment}/${subId}` },
+          { name: treatment.title, path: `/behandlinger/${behandlingerSegment}/${treatmentSlug}` },
         ]}
         jsonLd={{
           "@context": "https://schema.org",
@@ -551,19 +546,13 @@ const TreatmentPage = ({
   initialTreatment = null,
   sanityLang = "no",
 }: TreatmentPageProps) => {
-  const params = useParams();
-  const subId =
-    typeof params.subId === "string"
-      ? params.subId
-      : Array.isArray(params.subId)
-        ? params.subId[0] ?? ""
-        : "";
+  const treatmentSlug = useTreatmentSlug();
 
   return (
     <TreatmentDataProvider
       lang={sanityLang}
       categorySlug={categoryId}
-      treatmentSlug={subId}
+      treatmentSlug={treatmentSlug}
       data={initialTreatment}
     >
       <TreatmentPageContent categoryId={categoryId} isChatOpen={isChatOpen} />

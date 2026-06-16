@@ -9,6 +9,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { assetSrc } from "@/lib/media";
 
 interface AktueltProps {
   isChatOpen: boolean;
@@ -439,7 +440,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
                   <div className="aspect-[3/4] bg-secondary rounded-sm overflow-hidden mb-3">
                     {s.image ? (
                       <img
-                        src={s.image}
+                        src={assetSrc(s.image)}
                         alt={s.name}
                         loading="lazy"
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"

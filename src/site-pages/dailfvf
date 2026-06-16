@@ -1,0 +1,10 @@
+Daily Progress Report
+Date: 12-06-2026
+Project: CMedical
+
+Tasks Completed:
+
+1. Implemented the pricing API integration in the booking flow.
+2. Handled pricing data based on treatment selection and mapped it to individual treatments.
+3. Integrated the pricing page with the booking flow and reused the existing booking flow functionality on the pricing page.
+4. Worked on removing fallback/static data when adding new specialists and enforced required field validations for specialist creation.

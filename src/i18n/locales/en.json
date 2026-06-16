@@ -122,6 +122,21 @@
     "ctaContact": "Contact us",
     "backTo": "Back to"
   },
+  "subTreatment": {
+    "home": "Home",
+    "bookAppointment": "Book appointment",
+    "seePrices": "See prices",
+    "readyWhenYouAre": "Ready when you are",
+    "bookSpecialistThisWeek": "Get {{title}} with a specialist this week.",
+    "relatedEyebrow": "Related areas",
+    "relatedTitle": "You may also be interested in",
+    "readMore": "Read more",
+    "specialistsEyebrow": "The people behind",
+    "specialistsTitle": "The specialists who will support you.",
+    "seeAllSpecialists": "See all specialists",
+    "insurancePartners": "PARTNERS",
+    "insuranceTitle": "We have agreements with the largest insurance companies in Norway."
+  },
   "homeFaq": {
     "referral": {
       "question": "Referral",

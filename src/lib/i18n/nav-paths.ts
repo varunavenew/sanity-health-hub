@@ -1,4 +1,5 @@
 import type { SlugLocaleMap } from "@/lib/routing/slug-locale-map";
+import { lookupLocalizedPath } from "@/lib/routing/slug-locale-map";
 
 /** Stable nav keys — keep in sync with Sanity `navId` options and `nav.*` i18n keys. */
 export type NavRouteId =
@@ -27,15 +28,20 @@ const MARKETING_NB_TO_EN: Record<string, string> = {
   "/gynekologi": "/gynecology",
   "/urologi": "/urology",
   "/fertilitet": "/fertility",
-  "/ortopedi": "/ortopedi",
-  "/graviditet": "/graviditet",
-  "/flere-fagomrader": "/flere-fagomrader",
+  "/ortopedi": "/orthopedics",
+  "/graviditet": "/pregnancy",
+  "/ovrige": "/other",
+  "/flere-fagomrader": "/other",
   "/kvinnehelse": "/kvinnehelse",
   "/robotassistert-kirurgi": "/robotassistert-kirurgi",
   "/tverrfaglige-team": "/tverrfaglige-team",
-  "/behandlinger/gynekologi": "/behandlinger/gynekologi",
-  "/behandlinger/fertilitet": "/behandlinger/fertilitet",
-  "/behandlinger/urologi": "/behandlinger/urologi",
+  "/behandlinger/gynekologi": "/behandlinger/gynecology",
+  "/behandlinger/fertilitet": "/behandlinger/fertility",
+  "/behandlinger/urologi": "/behandlinger/urology",
+  "/behandlinger/ortopedi": "/behandlinger/orthopedics",
+  "/behandlinger/graviditet": "/behandlinger/pregnancy",
+  "/behandlinger/ovrige": "/behandlinger/other",
+  "/behandlinger/flere-fagomrader": "/behandlinger/other",
 };
 
 const MARKETING_EN_TO_NB: Record<string, string> = {};
@@ -71,8 +77,8 @@ export function localizeInternalPath(
 
   if (base === "/") return path;
 
-  const cmsLocaleMap = locale === "en" ? cmsMap?.nbToEn : cmsMap?.enToNb;
-  const localized = cmsLocaleMap?.[base]
+  const localized =
+    lookupLocalizedPath(base, locale, cmsMap)
     ?? (locale === "en" ? MARKETING_NB_TO_EN[base] : MARKETING_EN_TO_NB[base])
     ?? base;
 

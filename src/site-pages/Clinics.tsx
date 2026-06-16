@@ -6,7 +6,7 @@ import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscop
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics, useClinicsPage } from "@/hooks/useSanity";
-import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { type SortLocale } from "@/lib/sortAlphabetical";
 import { useTranslation } from "react-i18next";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 import { CTASection } from "@/components/layout/CTASection";
@@ -64,15 +64,11 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const fb = HERO_FALLBACK[contentLang === "en" ? "en" : "nb"];
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
-  const list: any[] = sortBySlug(
-    sanityClinics.map((c: any) => ({
-      ...c,
-      primaryImage: c.primaryImage || clinicImages[c.slug || c.id],
-      detail: c.detail || {},
-    })),
-    (c) => c.slug || c.label,
-    contentLang,
-  );
+  const list: any[] = sanityClinics.map((c: any) => ({
+    ...c,
+    primaryImage: c.primaryImage || clinicImages[c.slug || c.id],
+    detail: c.detail || {},
+  }));
 
   const clinicCount = list.length;
   const heroEyebrow = formatEyebrow(page?.heroEyebrow || fb.eyebrow, clinicCount);

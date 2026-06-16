@@ -4,6 +4,13 @@ import webpack from "webpack";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Pin workspace root — avoids Next.js picking up parent lockfile (Documents/package-lock.json).
+  outputFileTracingRoot: path.join(__dirname),
+  // Disable dev indicator panel (segment explorer can crash with React 19 on Windows).
+  devIndicators: false,
+  experimental: {
+    devtoolSegmentExplorer: false,
+  },
   transpilePackages: [
     "next-sanity",
     "sanity",
@@ -35,9 +42,11 @@ const nextConfig: NextConfig = {
     ],
   },
   webpack: (config, { isServer }) => {
+    const projectNodeModules = path.resolve(__dirname, "node_modules");
+
     config.resolve = config.resolve ?? {};
     config.resolve.modules = [
-      path.resolve(__dirname, "node_modules"),
+      projectNodeModules,
       ...(Array.isArray(config.resolve.modules)
         ? config.resolve.modules
         : config.resolve.modules
@@ -47,8 +56,8 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@": path.resolve(__dirname, "src"),
-      react: path.resolve(__dirname, "node_modules/react"),
-      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
+      react: path.join(projectNodeModules, "react"),
+      "react-dom": path.join(projectNodeModules, "react-dom"),
     };
     if (!isServer) {
       config.plugins = config.plugins ?? [];

@@ -5,6 +5,12 @@ import {
   slugPairFromDoc,
 } from "@/lib/routing/cms-route-types";
 import { NAV_CMS_SOURCES, pathsForNavId } from "@/lib/routing/nav-cms-paths";
+import {
+  behandlingerCategorySegment,
+  FLERE_FAGOMRADER_CATEGORY_ID,
+} from "@/lib/sanity/category-keys";
+
+const BEHANDLINGER_PREFIX = "behandlinger";
 
 export type SlugLocaleMap = {
   nbToEn: Record<string, string>;
@@ -39,6 +45,43 @@ function addPathPair(
     map.pathToNavId[nbPath] = navId;
     map.pathToNavId[enPath] = navId;
   }
+}
+
+/** Register both bare and `/behandlinger/…` variants for locale switching. */
+function addPathPairWithBehandlinger(
+  map: SlugLocaleMap,
+  nbSegments: string,
+  enSegments: string,
+  navId?: NavRouteId,
+) {
+  addPathPair(map, nbSegments, enSegments, navId);
+  addPathPair(map, `${BEHANDLINGER_PREFIX}/${nbSegments}`, `${BEHANDLINGER_PREFIX}/${enSegments}`, navId);
+}
+
+/** Resolve a path using CMS slug pairs, including `/behandlinger/` prefix variants. */
+export function lookupLocalizedPath(
+  path: string,
+  locale: "no" | "en",
+  cmsMap?: SlugLocaleMap,
+): string | undefined {
+  const base = path.trim() || "/";
+  if (base === "/") return "/";
+
+  const map = locale === "en" ? cmsMap?.nbToEn : cmsMap?.enToNb;
+  if (!map) return undefined;
+
+  if (map[base]) return map[base];
+
+  const behandlingerLead = `/${BEHANDLINGER_PREFIX}/`;
+  if (base.startsWith(behandlingerLead)) {
+    const inner = base.slice(`/${BEHANDLINGER_PREFIX}`.length) || "/";
+    if (map[inner]) return `/${BEHANDLINGER_PREFIX}${map[inner]}`;
+  } else {
+    const withPrefix = `/${BEHANDLINGER_PREFIX}${base}`;
+    if (map[withPrefix]) return map[withPrefix];
+  }
+
+  return undefined;
 }
 
 const LISTING_COLLECTIONS: Partial<
@@ -107,7 +150,17 @@ export function buildSlugLocaleMap(index: CmsRouteIndex | null | undefined): Slu
   for (const doc of index.categories) {
     const pair = slugPairFromDoc(doc);
     if (!pair) continue;
-    addPathPair(map, pair.slugNb, pair.slugEn);
+    const categoryId = doc.categoryId || pair.slugNb;
+    const nbMarketing = behandlingerCategorySegment(categoryId, "no");
+    const enMarketing = behandlingerCategorySegment(categoryId, "en");
+
+    addPathPairWithBehandlinger(map, pair.slugNb, pair.slugEn);
+    if (nbMarketing !== pair.slugNb || enMarketing !== pair.slugEn) {
+      addPathPairWithBehandlinger(map, nbMarketing, enMarketing);
+    }
+    if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
+      addPathPairWithBehandlinger(map, "flere-fagomrader", enMarketing);
+    }
   }
 
   for (const doc of index.themes) {
@@ -120,15 +173,33 @@ export function buildSlugLocaleMap(index: CmsRouteIndex | null | undefined): Slu
     const treatmentPair = slugPairFromDoc(doc);
     if (!treatmentPair) continue;
 
-    const catNb = normalizeSlugSegment(doc.categorySlugNb || doc.categoryId || "");
+    const categoryId = doc.categoryId || "";
+    const catNb = normalizeSlugSegment(doc.categorySlugNb || categoryId);
     const catEn = normalizeSlugSegment(doc.categorySlugEn || catNb);
     if (!catNb || !catEn) continue;
 
-    addPathPair(
-      map,
-      `${catNb}/${treatmentPair.slugNb}`,
-      `${catEn}/${treatmentPair.slugEn}`,
-    );
+    const nbInner = `${catNb}/${treatmentPair.slugNb}`;
+    const enInner = `${catEn}/${treatmentPair.slugEn}`;
+    addPathPairWithBehandlinger(map, nbInner, enInner);
+
+    if (categoryId) {
+      const nbMarketing = behandlingerCategorySegment(categoryId, "no");
+      const enMarketing = behandlingerCategorySegment(categoryId, "en");
+      if (nbMarketing !== catNb || enMarketing !== catEn) {
+        addPathPairWithBehandlinger(
+          map,
+          `${nbMarketing}/${treatmentPair.slugNb}`,
+          `${enMarketing}/${treatmentPair.slugEn}`,
+        );
+      }
+      if (categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
+        addPathPairWithBehandlinger(
+          map,
+          `flere-fagomrader/${treatmentPair.slugNb}`,
+          `${enMarketing}/${treatmentPair.slugEn}`,
+        );
+      }
+    }
   }
 
   return map;

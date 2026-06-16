@@ -1,7 +1,7 @@
 import { TREATMENT_CATEGORY_BY_SLUG_QUERY } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sortBySlug } from "@/lib/sortAlphabetical";
+import { sortBySortOrder } from "@/lib/sortAlphabetical";
 import { sanityClient } from "@/lib/sanityClient";
 import { behandlingerCategorySegment } from "@/lib/sanity/category-keys";
 
@@ -297,10 +297,15 @@ export function mapTreatmentCategoryDocument(
   if (!data) return null;
 
   const categoryId = asPlainString(data.categoryId) || asPlainString(data.slug) || "";
-  const treatmentsRaw = (data.treatments as unknown[]) || [];
+  const treatmentsRaw = sortBySortOrder(
+    (data.treatments as unknown[]) || [],
+    (row) => (row as Record<string, unknown>).sortOrder,
+    (row) => (row as Record<string, unknown>).title,
+    lang,
+  );
 
-  const treatments = sortBySlug(
-    treatmentsRaw.map((row) => {
+  const treatments = treatmentsRaw
+    .map((row) => {
       const t = row as Record<string, unknown>;
       const slug = asPlainString(t.slug);
       return {
@@ -311,10 +316,8 @@ export function mapTreatmentCategoryDocument(
           ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
           : "",
       };
-    }),
-    (t) => t.slug || t.title,
-    lang,
-  ).map(({ title, desc, href }) => ({ title, desc, href }));
+    })
+    .map(({ title, desc, href }) => ({ title, desc, href }));
 
   const stats = ((data.stats as unknown[]) || []).map((row) => {
     const s = row as Record<string, unknown>;

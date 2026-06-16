@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/next-dev.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -91,6 +91,10 @@
     "uuid": "^11.1.1",
     "vaul": "^0.9.9",
     "zod": "^3.25.76"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

@@ -16,6 +16,7 @@ import {
   slugForLocale,
   slugPairFromDoc,
 } from "@/lib/routing/cms-route-types";
+import { categoryRouteSegmentMatches, categorySlugForFetch, behandlingerCategorySegment } from "@/lib/sanity/category-keys";
 
 export async function fetchThemeLocalizedPaths(
   urlSlug: string,
@@ -64,6 +65,7 @@ export async function pathsForCategorySlug(categorySlug: string): Promise<{ nbPa
   const index = await fetchCmsRouteIndex();
   const cat = index.categories.find(
     (row) =>
+      categoryRouteSegmentMatches(categorySlug, row) ||
       row.categoryId === categorySlug ||
       row.slugNb === categorySlug ||
       row.slugEn === categorySlug,
@@ -73,6 +75,39 @@ export async function pathsForCategorySlug(categorySlug: string): Promise<{ nbPa
   return localizedPathsFromSlugPair(pair);
 }
 
+function treatmentSlugMatches(
+  row: { slugNb?: string; slugEn?: string },
+  treatmentSlug: string,
+  lang: "no" | "en",
+): boolean {
+  const pair = slugPairFromDoc(row);
+  if (!pair) return false;
+  return (
+    slugForLocale(pair, lang) === treatmentSlug ||
+    pair.slugNb === treatmentSlug ||
+    pair.slugEn === treatmentSlug
+  );
+}
+
+function treatmentMatchesCategory(
+  row: {
+    categoryId?: string;
+    categorySlugNb?: string;
+    categorySlugEn?: string;
+  },
+  categorySlug: string,
+  category?: { categoryId?: string },
+): boolean {
+  if (category?.categoryId && row.categoryId === category.categoryId) return true;
+  return (
+    categoryRouteSegmentMatches(categorySlug, {
+      categoryId: row.categoryId,
+      slugNb: row.categorySlugNb,
+      slugEn: row.categorySlugEn,
+    }) || categorySlug === row.categoryId
+  );
+}
+
 export async function pathsForTreatment(
   categorySlug: string,
   treatmentSlug: string,
@@ -80,20 +115,52 @@ export async function pathsForTreatment(
 ): Promise<{ nbPath: string; enPath: string }> {
   const index = await fetchCmsRouteIndex();
   const lang = sanityLang === "en" ? "en" : "no";
-  const treatment = index.treatments.find((row) => {
-    if (slugForLocale(slugPairFromDoc(row) ?? undefined, lang) !== treatmentSlug) return false;
-    const catNb = row.categorySlugNb || row.categoryId || "";
-    const catEn = row.categorySlugEn || catNb;
-    return categorySlug === catNb || categorySlug === catEn || categorySlug === row.categoryId;
+  const normalizedCategory = categorySlugForFetch(categorySlug);
+
+  const cat = index.categories.find(
+    (row) =>
+      categoryRouteSegmentMatches(categorySlug, row) ||
+      row.categoryId === normalizedCategory ||
+      row.categoryId === categorySlug ||
+      row.slugNb === categorySlug ||
+      row.slugEn === categorySlug,
+  );
+
+  let treatment = index.treatments.find((row) => {
+    if (!treatmentSlugMatches(row, treatmentSlug, lang)) return false;
+    return treatmentMatchesCategory(row, categorySlug, cat);
   });
-  const tPair = slugPairFromDoc(treatment);
-  const cat = index.categories.find((c) => c.categoryId === treatment?.categoryId);
-  const cPair = slugPairFromDoc(cat);
-  if (!tPair || !cPair) {
-    throw new Error(`Missing CMS treatment path: ${categorySlug}/${treatmentSlug}`);
+
+  if (!treatment) {
+    treatment = index.treatments.find((row) => {
+      if (!treatmentSlugMatches(row, treatmentSlug, lang)) return false;
+      return treatmentMatchesCategory(row, normalizedCategory, cat);
+    });
   }
+
+  const tPair = slugPairFromDoc(treatment);
+  const resolvedCat =
+    cat ?? index.categories.find((c) => c.categoryId === treatment?.categoryId);
+  const cPair = slugPairFromDoc(resolvedCat);
+
+  if (tPair && cPair) {
+    const categoryId = resolvedCat?.categoryId || normalizedCategory;
+    const nbCat = behandlingerCategorySegment(categoryId, "no") || cPair.slugNb;
+    const enCat = behandlingerCategorySegment(categoryId, "en") || cPair.slugEn;
+    return {
+      nbPath: `/no/behandlinger/${nbCat}/${tPair.slugNb}`,
+      enPath: `/en/behandlinger/${enCat}/${tPair.slugEn}`,
+    };
+  }
+
+  const nbCat =
+    (cat?.categoryId && behandlingerCategorySegment(cat.categoryId, "no")) ||
+    categorySlug;
+  const enCat =
+    (cat?.categoryId && behandlingerCategorySegment(cat.categoryId, "en")) ||
+    categorySlug;
   return {
-    nbPath: `/no/${cPair.slugNb}/${tPair.slugNb}`,
-    enPath: `/en/${cPair.slugEn}/${tPair.slugEn}`,
+    nbPath: `/no/behandlinger/${nbCat}/${treatmentSlug}`,
+    enPath: `/en/behandlinger/${enCat}/${treatmentSlug}`,
   };
 }

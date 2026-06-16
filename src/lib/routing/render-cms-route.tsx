@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { CategoryDataProvider } from "@/components/providers/CategoryDataProvider";
+import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvider";
 import { TreatmentHydration } from "@/components/providers/TreatmentHydration";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
@@ -90,7 +91,11 @@ export async function buildCmsRouteMetadata(
     case "category":
       return buildTreatmentCategoryMetadata(locale, route.categoryId || route.slug);
     case "treatment":
-      return buildTreatmentMetadata(locale, route.categorySlug || route.categoryId || "", route.slug);
+      return buildTreatmentMetadata(
+        locale,
+        route.categoryId || route.categorySlug || "",
+        route.slug,
+      );
     case "clinic":
       return buildClinicMetadata(locale, route.slug);
     case "specialist":
@@ -155,12 +160,20 @@ export async function renderCmsRoute(
       );
       return (
         <TreatmentHydration state={dehydrate(queryClient)}>
-          <SubPage
-            isChatOpen={false}
-            categoryId={categoryId}
-            initialTreatment={initialTreatment}
-            sanityLang={sanityLang}
-          />
+          <TreatmentDataProvider
+            lang={sanityLang}
+            categorySlug={categorySlug}
+            treatmentSlug={route.slug}
+            contentSlug={route.slugPair.slugNb}
+            data={initialTreatment}
+          >
+            <SubPage
+              isChatOpen={false}
+              categoryId={categoryId}
+              initialTreatment={initialTreatment}
+              sanityLang={sanityLang}
+            />
+          </TreatmentDataProvider>
         </TreatmentHydration>
       );
     }

@@ -8,7 +8,8 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
@@ -86,13 +87,15 @@ const faqs = [
 const insurance = ["Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertikal", "Codan", "Eika"];
 
 const Ortopedi = ({ isChatOpen }: PageProps) => {
+  const { specialists } = useSpecialistsData();
+
   useEffect(() => {
     document.title = "Ortopedi | CMedical — skader og sykdommer i muskler, bein og ledd";
   }, []);
 
   const ortoSpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "ortopedi").slice(0, 5),
-    []
+    () => specialists.filter((s) => specialistMatchesCategory(s, "ortopedi")).slice(0, 5),
+    [specialists],
   );
 
   return (

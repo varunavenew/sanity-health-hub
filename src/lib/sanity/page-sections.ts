@@ -1,4 +1,4 @@
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SanitySpecialist } from "@/hooks/useSanity";
 
 export type PageSectionSpecialistsConfig = {

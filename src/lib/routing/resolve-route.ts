@@ -14,6 +14,11 @@ import {
   DEFAULT_LISTING_SLUGS,
   listingSlugPair,
 } from "@/lib/routing/listing-default-slugs";
+import {
+  categoryRouteSegmentMatches,
+  categorySlugForFetch,
+  FLERE_FAGOMRADER_CATEGORY_ID,
+} from "@/lib/sanity/category-keys";
 
 function listingSlug(
   listings: ListingSlugs,
@@ -53,6 +58,31 @@ function matchDoc(
       pair.slugEn === segment
     );
   });
+}
+
+function matchCategoryDoc(
+  docs: RouteIndexDoc[],
+  segment: string,
+  locale: string,
+): RouteIndexDoc | undefined {
+  const direct = matchDoc(docs, segment, locale);
+  if (direct) return direct;
+  return docs.find((doc) => categoryRouteSegmentMatches(segment, doc));
+}
+
+/** Match treatment slug for active locale or alternate locale slug. */
+function treatmentSlugMatches(
+  doc: RouteIndexDoc,
+  segment: string,
+  locale: string,
+): boolean {
+  const pair = slugPairFromDoc(doc);
+  if (!pair) return false;
+  return (
+    docSlug(doc, locale) === segment ||
+    pair.slugNb === segment ||
+    pair.slugEn === segment
+  );
 }
 
 function buildRoute(
@@ -136,20 +166,27 @@ export function resolveCmsRoute(
     }
 
     // Category / treatment
-    const category = matchDoc(index.categories, prefix, lang);
+    const category = matchCategoryDoc(index.categories, prefix, lang);
     if (category) {
       const treatment = index.treatments.find((t) => {
-        if (docSlug(t, lang) !== detailSlug) return false;
-        const catSlugNb = normalizeSlugSegment(t.categorySlugNb || category.categoryId || "");
-        const catSlugEn = normalizeSlugSegment(t.categorySlugEn || catSlugNb);
-        const catSlug = lang === "en" ? catSlugEn : catSlugNb;
-        return catSlug === prefix || category.categoryId === t.categoryId;
+        if (!treatmentSlugMatches(t, detailSlug, lang)) return false;
+        if (category.categoryId && t.categoryId === category.categoryId) return true;
+        return categoryRouteSegmentMatches(prefix, {
+          categoryId: t.categoryId,
+          slugNb: t.categorySlugNb,
+          slugEn: t.categorySlugEn,
+        });
       });
       const pair = slugPairFromDoc(treatment);
       if (treatment && pair) {
+        const categoryId = category.categoryId || treatment.categoryId;
+        const categorySlug =
+          categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+            ? FLERE_FAGOMRADER_CATEGORY_ID
+            : prefix;
         return buildRoute("treatment", "treatment", detailSlug, normalized, pair, {
-          categorySlug: prefix,
-          categoryId: category.categoryId || treatment.categoryId,
+          categorySlug,
+          categoryId,
         });
       }
     }
@@ -171,12 +208,17 @@ export function resolveCmsRoute(
       return buildRoute("theme", "themePage", segment, normalized, themePair);
     }
 
-    const category = matchDoc(index.categories, segment, lang);
+    const category = matchCategoryDoc(index.categories, segment, lang);
     const categoryPair = slugPairFromDoc(category);
     if (category && categoryPair) {
+      const categoryId = category.categoryId;
+      const categorySlug =
+        categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+          ? docSlug(category, lang) || segment
+          : segment;
       return buildRoute("category", "treatmentCategory", segment, normalized, categoryPair, {
-        categoryId: category.categoryId,
-        categorySlug: segment,
+        categoryId,
+        categorySlug,
       });
     }
 
@@ -226,6 +268,9 @@ export function staticParamsFromRouteIndex(
       const pair = slugPairFromDoc(doc);
       const slug = slugForLocale(pair ?? undefined, lang);
       if (slug) push(locale, [slug]);
+      if (locale === "no" && doc.categoryId === FLERE_FAGOMRADER_CATEGORY_ID) {
+        push(locale, ["flere-fagomrader"]);
+      }
     }
 
     for (const listingType of Object.keys(DEFAULT_LISTING_SLUGS) as (keyof ListingSlugs)[]) {
@@ -264,6 +309,12 @@ export function staticParamsFromRouteIndex(
       );
       if (categorySlug && treatmentSlug) {
         push(locale, [categorySlug, treatmentSlug]);
+        if (
+          locale === "no" &&
+          doc.categoryId === FLERE_FAGOMRADER_CATEGORY_ID
+        ) {
+          push(locale, ["flere-fagomrader", treatmentSlug]);
+        }
       }
     }
   }

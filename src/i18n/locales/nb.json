@@ -122,6 +122,21 @@
     "ctaContact": "Kontakt oss",
     "backTo": "Tilbake til"
   },
+  "subTreatment": {
+    "home": "Hjem",
+    "bookAppointment": "Bestill time",
+    "seePrices": "Se priser",
+    "readyWhenYouAre": "Klar når du er",
+    "bookSpecialistThisWeek": "Få {{title}} hos en spesialist denne uken.",
+    "relatedEyebrow": "Relaterte områder",
+    "relatedTitle": "Du er kanskje også interessert i",
+    "readMore": "Les mer",
+    "specialistsEyebrow": "Menneskene bak",
+    "specialistsTitle": "Spesialistene som følger deg.",
+    "seeAllSpecialists": "Se alle spesialister",
+    "insurancePartners": "SAMARBEIDSPARTNERE",
+    "insuranceTitle": "Vi har avtale med de største forsikringsselskapene i Norge."
+  },
   "homeFaq": {
     "referral": {
       "question": "Henvisning",

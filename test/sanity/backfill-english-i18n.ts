@@ -1,17 +1,19 @@
 /**
- * Backfill English (`en`) for all internationalizedArray fields (no Lovable key required).
+ * Backfill English (`en`) for all internationalizedArray fields (no paid API key required).
  *
- * Uses MyMemory free translation by default. Optional: LOVABLE_API_KEY for higher quality.
+ * Uses MyMemory free translation by default. Optional AI: OPENAI_API_KEY or LOVABLE_API_KEY.
  * Deduplicates strings and caches to `.translation-cache.json` (resumable).
  *
  * ENV:
  *   DRY_RUN=1           – preview only
  *   FORCE=1             – overwrite existing EN
  *   ONLY=type1,type2    – limit document types
- *   LOVABLE_API_KEY     – optional, use Lovable AI instead of free translators
+ *   OPENAI_API_KEY      – optional, OpenAI Chat Completions (sk-...)
+ *   OPENAI_MODEL        – optional, default gpt-4o-mini
+ *   LOVABLE_API_KEY     – optional, Lovable AI Gateway (lv_...)
  *   TRANSLATE_PROVIDER  – lingva (default) | google | mymemory | auto
  *   TRANSLATION_CACHE   – path to cache file (default: sanity/.translation-cache.json)
- *   TRANSLATE_DELAY_MS  – delay between API calls (default 1000)
+ *   TRANSLATE_DELAY_MS  – delay between API calls (default 500 for OpenAI, 1500 for free)
  *   CONTINUE_ON_ERROR   – default 1; set to 0 to stop on first API failure
  *   ENABLE_GOOGLE_FALLBACK=1 – off by default (Google rate-limits many IPs)
  *   OFFLINE_ONLY=1      – only use cache/seed files, no network
@@ -24,12 +26,25 @@
  *   npx tsx sanity/backfill-english-i18n.ts
  */
 import { sanityClient } from './config'
-import { getWorkingLingvaHosts, saveCache, translateNoToEn } from './lib/translate-free'
+import {
+  cacheTranslation,
+  getCachedTranslation,
+  getWorkingLingvaHosts,
+  saveCache,
+  translateNoToEn,
+} from './lib/translate-free'
 
 const DRY_RUN = process.env.DRY_RUN === '1'
 const FORCE = process.env.FORCE === '1'
 const OFFLINE_ONLY = process.env.OFFLINE_ONLY === '1'
-const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY?.trim()
+const OPENAI_MODEL = process.env.OPENAI_MODEL?.trim() || 'gpt-4o-mini'
+const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY?.trim()
+const USES_AI = !!(OPENAI_API_KEY || LOVABLE_API_KEY)
+const AI_DELAY_MS = Number(
+  process.env.TRANSLATE_DELAY_MS || (OPENAI_API_KEY ? 500 : 1500)
+)
+const AI_MAX_RETRIES = Number(process.env.AI_MAX_RETRIES || 6)
 const ONLY = (process.env.ONLY || '')
   .split(',')
   .map((s) => s.trim())
@@ -127,34 +142,128 @@ function collectJobs(node: unknown, path: (string | number)[], jobs: Job[]) {
   }
 }
 
+const AI_SYSTEM_PROMPT =
+  'Translate Norwegian (Bokmål) medical website content to professional English. ' +
+  'Return ONLY the translation. Keep CMedical, Livio Oslo unchanged.'
+
+let aiAuthWarned = false
+
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms))
+}
+
+async function chatCompletionsTranslate(
+  url: string,
+  apiKey: string,
+  model: string,
+  providerLabel: string,
+  text: string
+): Promise<string> {
+  if (!apiKey || !text?.trim()) return ''
+
+  for (let attempt = 0; attempt <= AI_MAX_RETRIES; attempt++) {
+    if (attempt > 0) {
+      const wait = Math.min(60_000, 2_000 * 2 ** (attempt - 1))
+      console.warn(`  ⚠ ${providerLabel} retry ${attempt}/${AI_MAX_RETRIES} in ${wait}ms…`)
+      await sleep(wait)
+    }
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: AI_SYSTEM_PROMPT },
+          { role: 'user', content: text },
+        ],
+      }),
+    })
+
+    if (res.ok) {
+      const json = await res.json()
+      await sleep(AI_DELAY_MS)
+      return json?.choices?.[0]?.message?.content?.trim() || ''
+    }
+
+    if (res.status === 429 && attempt < AI_MAX_RETRIES) {
+      const retryAfter = Number(res.headers.get('retry-after'))
+      const wait = Number.isFinite(retryAfter) && retryAfter > 0
+        ? retryAfter * 1000
+        : Math.min(60_000, 3_000 * 2 ** attempt)
+      if (!aiAuthWarned) {
+        aiAuthWarned = true
+        console.warn(
+          `\n  ⚠ ${providerLabel} rate limit (429). Retrying with backoff — ` +
+            `set TRANSLATE_DELAY_MS=1000 to slow down.\n`
+        )
+      }
+      await sleep(wait)
+      continue
+    }
+
+    if (!aiAuthWarned) {
+      aiAuthWarned = true
+      if (res.status === 401 || res.status === 403) {
+        console.error(
+          `\n  ✗ ${providerLabel} API ${res.status} — check your API key in test/.env.local.\n`
+        )
+      } else if (res.status === 429) {
+        console.error(
+          `\n  ✗ ${providerLabel} API 429 — rate limit / quota exceeded. ` +
+            `Wait a few minutes, check billing at platform.openai.com, ` +
+            `then re-run (cache resumes).\n`
+        )
+      } else {
+        console.error(`\n  ✗ ${providerLabel} API ${res.status} — translation requests are failing.\n`)
+      }
+    }
+    return ''
+  }
+
+  return ''
+}
+
+async function openaiTranslate(text: string): Promise<string> {
+  return chatCompletionsTranslate(
+    'https://api.openai.com/v1/chat/completions',
+    OPENAI_API_KEY || '',
+    OPENAI_MODEL,
+    'OpenAI',
+    text
+  )
+}
+
 async function lovableTranslate(text: string): Promise<string> {
-  if (!LOVABLE_API_KEY || !text?.trim()) return ''
-  const res = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'google/gemini-2.5-flash',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'Translate Norwegian (Bokmål) medical website content to professional English. Return ONLY the translation. Keep CMedical, Livio Oslo unchanged.',
-        },
-        { role: 'user', content: text },
-      ],
-    }),
-  })
-  if (!res.ok) return ''
-  const json = await res.json()
-  return json?.choices?.[0]?.message?.content?.trim() || ''
+  return chatCompletionsTranslate(
+    'https://ai.gateway.lovable.dev/v1/chat/completions',
+    LOVABLE_API_KEY || '',
+    'google/gemini-2.5-flash',
+    'Lovable',
+    text
+  )
 }
 
 async function translateText(text: string): Promise<string> {
-  if (LOVABLE_API_KEY) return lovableTranslate(text)
-  return translateNoToEn(text)
+  const trimmed = text?.trim()
+  if (!trimmed) return ''
+
+  const cached = getCachedTranslation(trimmed)
+  if (cached) return cached
+
+  let result = ''
+  if (OPENAI_API_KEY) result = await openaiTranslate(trimmed)
+  else if (LOVABLE_API_KEY) result = await lovableTranslate(trimmed)
+  else return translateNoToEn(trimmed)
+
+  if (result) {
+    cacheTranslation(trimmed, result)
+    saveCache()
+  }
+  return result
 }
 
 function cloneBlocksFresh(blocks: unknown[]): unknown[] {
@@ -306,16 +415,29 @@ async function run() {
     ? DOCUMENT_TYPES.filter((t) => ONLY.includes(t))
     : DOCUMENT_TYPES
 
-  const translator = LOVABLE_API_KEY
-    ? 'Lovable AI'
-    : `${process.env.TRANSLATE_PROVIDER || 'lingva'} (free; cache: .translation-cache.json)`
+  const translator = OPENAI_API_KEY
+    ? `OpenAI (${OPENAI_MODEL})`
+    : LOVABLE_API_KEY
+      ? 'Lovable AI'
+      : `${process.env.TRANSLATE_PROVIDER || 'lingva'} (free; cache: .translation-cache.json)`
 
   console.log('▶ Backfill English i18n')
   console.log(`  Translator: ${translator}`)
   console.log(`  Dry run:    ${DRY_RUN ? '✓ (no writes)' : '✗'}`)
   console.log(`  Force:      ${FORCE ? '✓' : '✗'}`)
   if (ONLY.length) console.log(`  Types:      ${types.join(', ')}`)
-  if (!LOVABLE_API_KEY && !OFFLINE_ONLY && !DRY_RUN) {
+  if (
+    !OPENAI_API_KEY &&
+    LOVABLE_API_KEY &&
+    !LOVABLE_API_KEY.startsWith('lv_') &&
+    LOVABLE_API_KEY.startsWith('sk-')
+  ) {
+    console.warn(
+      '\n  ⚠ LOVABLE_API_KEY looks like an OpenAI key (sk-...). ' +
+        'Use OPENAI_API_KEY for OpenAI, or lv_... for Lovable gateway.\n'
+    )
+  }
+  if (!USES_AI && !OFFLINE_ONLY && !DRY_RUN) {
     await getWorkingLingvaHosts()
   }
   console.log()
@@ -344,27 +466,28 @@ async function run() {
     return
   }
 
-  // Phase 2: pre-translate unique strings (deduped cache)
-  if (!LOVABLE_API_KEY) {
-    console.log('\n⏳ Pre-translating unique strings (cached for resume)…')
-    let done = 0
-    for (const s of uniqueStrings) {
-      try {
-        await translateNoToEn(s)
-        done++
-        if (done % 50 === 0) {
-          console.log(`  … ${done}/${uniqueStrings.length}`)
-          saveCache()
-        }
-      } catch (e) {
-        console.warn(`  ⚠ ${(e as Error).message}`)
+  // Phase 2: pre-translate unique strings (deduped cache — critical for AI rate limits)
+  console.log('\n⏳ Pre-translating unique strings (cached for resume)…')
+  let done = 0
+  let translated = 0
+  for (const s of uniqueStrings) {
+    const before = getCachedTranslation(s)
+    try {
+      const out = await translateText(s)
+      done++
+      if (out && !before) translated++
+      if (done % 25 === 0) {
+        console.log(`  … ${done}/${uniqueStrings.length} (${translated} new)`)
         saveCache()
-        continue
       }
+    } catch (e) {
+      console.warn(`  ⚠ ${(e as Error).message}`)
+      saveCache()
+      done++
     }
-    saveCache()
-    console.log(`  ✓ ${done} strings in cache\n`)
   }
+  saveCache()
+  console.log(`  ✓ ${done} strings ready (${translated} newly translated)\n`)
 
   // Phase 3: apply per document
   let totalDocs = 0

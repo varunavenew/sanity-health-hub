@@ -18,7 +18,7 @@ export default defineType({
       type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
-    defineField(i18nSlugFieldFromTitle('title') as Parameters<typeof defineField>[0]),
+    i18nSlugFieldFromTitle('title'),
     defineField({
       name: 'subtitle',
       title: 'Undertittel',

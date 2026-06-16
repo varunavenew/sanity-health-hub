@@ -65,7 +65,7 @@ export const PublishWithNavSync: DocumentActionComponent = (props) => {
 
   return {
     label: "Publish",
-    disabled: publish.disabled,
+    disabled: publish.disabled !== false,
     tone: "positive",
     onHandle,
   };

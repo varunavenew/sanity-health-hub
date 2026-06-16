@@ -11,7 +11,8 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
@@ -167,9 +168,10 @@ const reviews = [
    ────────────────────────────────────────────────────────────── */
 
 const Gynecology = ({ isChatOpen }: PageProps) => {
+  const { specialists } = useSpecialistsData();
   const gynSpecialists = useMemo(() => {
-    return specialists.filter((s) => s.category === "gynekologi").slice(0, 5);
-  }, []);
+    return specialists.filter((s) => specialistMatchesCategory(s, "gynekologi")).slice(0, 5);
+  }, [specialists]);
 
   useEffect(() => {
     document.title = "Gynekologi | CMedical — Kvinnehelse for livet";

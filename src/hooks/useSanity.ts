@@ -1,12 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import { sanityClient } from "@/lib/sanityClient";
 import { useSanityContentLang } from "@/lib/sanity/content-lang";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import {
+  mapAndSortSanitySpecialists,
+  mapSanitySpecialistRow,
+  type RawSanitySpecialist,
+} from "@/lib/sanity/specialist-data";
+import {
   dedupeBySlug,
   filterPublishedDocuments,
 } from "@/lib/sanity/published-docs";
-import { sortByLabel, sortBySlug, textForSort } from "@/lib/sortAlphabetical";
+import { sortByLabel, sortBySortOrder, textForSort, parseSortOrder } from "@/lib/sortAlphabetical";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
@@ -122,35 +128,11 @@ export const useHomepage = () => {
 };
 
 // ─── Specialists ─────────────────────────────────────────────────────
-export interface SanitySpecialist {
-  _id: string;
-  name: string;
-  title: string;
-  subtitle?: string;
-  expertise: string[];
-  image: string;
-  category: string;
-  slug: string;
-  bio?: string;
-  education?: string;
-  experience?: string;
-  languages?: string[];
-  clinics?: string[];
+export type SanitySpecialist = Specialist & {
+  _id?: string;
   bookingEnabled?: boolean;
-  bookingCategoryIds?: number[];
-  sanityCategories?: {
-    categoryId: string;
-    slug: string;
-    title: string;
-    categoryNumericId?: number;
-  }[];
-  seo?: {
-    metaTitle?: string;
-    metaDescription?: string;
-    ogImage?: unknown;
-    noIndex?: boolean;
-  };
-}
+  experience?: string;
+};
 
 function mapSanitySpecialistCategories(
   categories: Array<{
@@ -239,18 +221,8 @@ export const useSpecialists = () => {
   return useQuery({
     queryKey: ["sanity", "specialists", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SPECIALISTS_QUERY, undefined, lang);
-      return (data || []).map((s) => ({
-        ...s,
-        title: readLocalizedString(s.role, lang),
-        subtitle: readLocalizedString(s.subtitle, lang),
-        expertise: readLocalizedStringArray(s.specialties, lang),
-        bio: s.shortBio || "",
-        category: resolveSpecialistPrimaryCategory(s.categories),
-        clinics: s.clinics || [],
-        bookingCategoryIds: normalizeBookingCategoryIds(s.bookingCategoryIds),
-        sanityCategories: mapSanitySpecialistCategories(s.categories),
-      })) as SanitySpecialist[];
+      const data = await fetchSanity<RawSanitySpecialist[]>(SPECIALISTS_QUERY, undefined, lang);
+      return mapAndSortSanitySpecialists(data, lang);
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -261,20 +233,13 @@ export const useSpecialist = (slug: string) => {
   return useQuery({
     queryKey: ["sanity", "specialist", slug, lang],
     queryFn: async () => {
-      const data = await fetchSanity<any>(SPECIALIST_BY_SLUG_QUERY, { slug }, lang);
+      const data = await fetchSanity<RawSanitySpecialist | null>(
+        SPECIALIST_BY_SLUG_QUERY,
+        { slug },
+        lang,
+      );
       if (!data) return null;
-      return {
-        ...data,
-        title: readLocalizedString(data.role, lang),
-        subtitle: readLocalizedString(data.subtitle, lang),
-        expertise: readLocalizedStringArray(data.specialties, lang),
-        bio: data.shortBio || "",
-        category: resolveSpecialistPrimaryCategory(data.categories),
-        clinics: data.clinics || [],
-        bookingCategoryIds: normalizeBookingCategoryIds(data.bookingCategoryIds),
-        sanityCategories: mapSanitySpecialistCategories(data.categories),
-        seo: data.seo,
-      } as SanitySpecialist;
+      return mapSanitySpecialistRow(data, lang);
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
@@ -357,9 +322,14 @@ export const useGoogleReviewSettings = () => {
 
 // ─── Treatment Categories ────────────────────────────────────────────
 const sortCategoryTreatments = (categories: any[], lang: "no" | "en") =>
-  sortBySlug(categories, (c) => c.slug || c.title, lang).map((cat) => ({
+  sortBySortOrder(categories, (c) => c.sortOrder, (c) => c.title || c.slug, lang).map((cat) => ({
     ...cat,
-    treatments: sortBySlug(cat.treatments || [], (t: any) => t.slug || t.title, lang),
+    treatments: sortBySortOrder(
+      cat.treatments || [],
+      (t: any) => t.sortOrder,
+      (t: any) => t.title || t.slug,
+      lang,
+    ),
   }));
 
 export const useTreatmentCategories = () => {
@@ -623,6 +593,7 @@ export type SanityClinicListRow = {
   address: string;
   phone?: string;
   hours?: string;
+  sortOrder?: number;
 };
 
 function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
@@ -633,13 +604,13 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
         ? c.title
         : "";
   return {
-    ...c,
     label: label.trim(),
     slug: (c.slug as string) || (c.id as string) || "",
     id: (c.id as string) || (c.slug as string) || "",
     address: typeof c.address === "string" ? c.address : "",
     phone: typeof c.phone === "string" ? c.phone : undefined,
     hours: typeof c.hours === "string" ? c.hours : undefined,
+    sortOrder: parseSortOrder(c.sortOrder) ?? undefined,
   };
 }
 
@@ -650,7 +621,7 @@ export function mapClinicListRows(
   const published = filterPublishedDocuments(rows || [])
     .map((c) => normalizeClinicRow(c as Record<string, unknown>))
     .filter((c) => c.label && c.address);
-  return sortBySlug(dedupeBySlug(published), (c) => c.slug || c.label, lang);
+  return sortBySortOrder(dedupeBySlug(published), (c) => c.sortOrder, (c) => c.label, lang);
 }
 
 export const useClinics = () => {
@@ -805,7 +776,7 @@ export const useJobListing = (slug: string) => {
 };
 
 // ─── FAQs ────────────────────────────────────────────────────────────
-export const useFaqs = (category?: string) => {
+export const useFaqs = (category?: string, enabled = true) => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "faqs", category, lang],
@@ -816,6 +787,7 @@ export const useFaqs = (category?: string) => {
         lang
       ),
     staleTime: 5 * 60 * 1000,
+    enabled,
   });
 };
 
@@ -878,13 +850,14 @@ export const useServiceCategoriesFromSanity = () => {
         return true;
       });
 
-      return sortBySlug(unique, (cat) => cat.slug || cat.title, lang).map((cat) => ({
+      return sortBySortOrder(unique, (cat) => cat.sortOrder, (cat) => cat.title || cat.slug, lang).map((cat) => ({
         id: cat.categoryId || cat.slug,
         label: textForSort(cat.title, lang) || cat.categoryId || cat.slug,
         path: categoryLandingPath(cat.categoryId || cat.slug, lang),
-        subcategories: sortBySlug(
+        subcategories: sortBySortOrder(
           cat.treatments || [],
-          (t: any) => t.slug || t.title,
+          (t: any) => t.sortOrder,
+          (t: any) => t.title || t.slug,
           lang,
         ).map((t: any) => ({
           label: textForSort(t.title, lang) || t.slug,

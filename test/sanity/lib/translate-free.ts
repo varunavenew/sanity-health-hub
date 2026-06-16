@@ -247,3 +247,11 @@ export function getCachedTranslation(text: string): string | undefined {
   loadCache()
   return cache[text?.trim()]
 }
+
+export function cacheTranslation(text: string, translation: string): void {
+  const trimmed = text?.trim()
+  if (!trimmed || !translation?.trim()) return
+  loadCache()
+  cache[trimmed] = translation.trim()
+  dirty = true
+}
