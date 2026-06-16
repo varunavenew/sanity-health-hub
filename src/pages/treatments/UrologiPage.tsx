@@ -485,15 +485,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 6. SPESIALISTER */}
- <FeatureSpotlight
-        title={`Når er det riktig å snakke med en urolog?`}
-        text="Mange venter for lenge. Her er tegnene som er verdt en konsultasjon — og hva en utredning faktisk innebærer."
-        ctaLabel="Les mer"
-        ctaHref="/aktuelt"
-        image={spotlightImg}
-        imageAlt=""
-      />
+  {/* 6. SPESIALISTER */}
 
       <SpecialistsScroller
  category="urologi"
