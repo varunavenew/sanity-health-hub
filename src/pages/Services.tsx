@@ -18,6 +18,7 @@ import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
 import urologiImg from "@/assets/categories/urologi-real.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
+import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -34,6 +35,7 @@ const staticFeatured = [
   { label: "Gynekologi", image: gynekologiImg, path: "/gynekologi" },
   { label: "Urologi", image: urologiImg, path: "/urologi" },
   { label: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
+  { label: "Graviditet", image: graviditetImg, path: "/graviditet" },
   { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
 ];
 
@@ -80,7 +82,7 @@ const Services = ({ isChatOpen }: PageProps) => {
             const key = c.categoryId || c.slug;
             if (seen.has(key)) return false;
             seen.add(key);
-            return ["gynekologi", "urologi", "fertilitet", "ortopedi"].includes(key);
+            return ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi"].includes(key);
           })
           .map((c: any) => ({
             label: c.title,
@@ -123,8 +125,8 @@ const Services = ({ isChatOpen }: PageProps) => {
 
   useEffect(() => { document.title = "Tjenester | CMedical"; }, []);
 
-  // Build "Flere tjenester" list — everything NOT in the 4 featured cards
-  const primaryIds = ["gynekologi", "urologi", "fertilitet", "ortopedi"];
+  // Build "Flere tjenester" list — everything NOT in the 5 featured cards
+  const primaryIds = ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi"];
   const additionalServices: { label: string; path: string }[] = [];
 
   // Add non-primary categories
@@ -146,7 +148,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={servicesPage?.seo?.metaTitle || "Tjenester – Finn behandlingen som passer for deg"}
-        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."}
+        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, graviditet, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."}
         canonical="/tjenester"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
@@ -189,7 +191,7 @@ const Services = ({ isChatOpen }: PageProps) => {
 
       {/* Fagområder — Featured services (full-bleed, no gaps) */}
       <section className="bg-background pb-10 md:pb-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0">
           {featuredServices.map((item: any, idx: number) => (
             <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] overflow-hidden">
               <img src={item.image} alt={item.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />

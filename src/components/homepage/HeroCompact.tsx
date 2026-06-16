@@ -9,12 +9,14 @@ import urologiImg from "@/assets/categories/urologi-real.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
+import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
 import flereImg from "@/assets/categories/flere-fagomrader.jpg";
 
 const staticCategories = [
   { id: 'urologi', title: 'Urologi', image: urologiImg, path: '/urologi' },
   { id: 'fertilitet', title: 'Fertilitet', image: fertilitetImg, path: '/fertilitet' },
   { id: 'gynekologi', title: 'Gynekologi', image: gynekologiImg, path: '/gynekologi' },
+  { id: 'graviditet', title: 'Graviditet', image: graviditetImg, path: '/graviditet' },
   { id: 'ortopedi', title: 'Ortopedi', image: ortopediImg, path: '/ortopedi' },
   { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader' },
 ];
@@ -41,7 +43,7 @@ export const HeroCompact = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="grid grid-cols-2 md:grid-cols-5 gap-0 w-full"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-0 w-full"
       >
           {serviceCategories.map((category: any, index: number) => (
             <motion.button
