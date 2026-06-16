@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout, type CategoryId } from "@/lib/treatmentToSubLayout";
+import NotFound from "@/pages/NotFound";
 
 interface Props {
   categoryId: CategoryId;
@@ -21,7 +22,7 @@ const GenericSubTreatmentPage = ({ categoryId, isChatOpen }: Props) => {
   const data = subId ? treatmentContent[`${categoryId}/${subId}`] : undefined;
 
   if (!data || !subId) {
-    return null;
+    return <NotFound isChatOpen={isChatOpen} />;
   }
 
   const content = treatmentToSubLayout({ data, categoryId, subId });
