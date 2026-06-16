@@ -440,6 +440,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </div>
       </section>
 
+      {/* 4b. REVIEWS — pasienttilbakemeldinger (samme som fertilitet) */}
+      <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
 
 
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
