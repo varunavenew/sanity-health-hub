@@ -96,36 +96,40 @@ const About = ({ isChatOpen }: AboutProps) => {
         ]}
       />
 
-      {/* HERO — full-bleed split 50/50 */}
-      <header className="bg-brand-warm pt-24 lg:pt-0">
-        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[760px]">
-          <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
-            <div className="max-w-xl w-full">
-              
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-brand-dark leading-[1.05]">
-                {title}
-              </h2>
-              {introParagraphs.length > 0 && (
-                <div className="space-y-5 text-brand-dark/80 text-base md:text-lg leading-relaxed font-light mb-10">
-                  {introParagraphs.map((p: string, i: number) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              )}
-              <Button
-                className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
-                onClick={() => navigate('/booking')}
-              >
-                Book konsultasjon
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </div>
+      {/* HERO — editorial stacked: eyebrow, H1, divider, intro, full-width image */}
+      <header className="bg-brand-warm pt-32 lg:pt-40">
+        <div className="page-shell">
+          <div className="max-w-4xl">
+            <p className="text-sm font-light text-brand-dark/60 mb-6">Om CMedical</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-brand-dark leading-[1.05] mb-12 md:mb-16">
+              {title}
+            </h1>
           </div>
-
-          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
+          <div className="h-px w-full bg-brand-dark/15 mb-12 md:mb-16" aria-hidden="true" />
+          <div className="max-w-3xl space-y-6 text-brand-dark/80 text-base leading-[1.8] font-light mb-12">
+            <p>
+              Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
+            </p>
+            <p>
+              CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.
+            </p>
+            <p>
+              Vi skal forene det fremste innen medisinsk presisjon med varme, respekt og tydelig kommunikasjon. Pasienten skal oppleve trygghet i hvert møte, forutsigbarhet i hvert steg og kvalitet i alle ledd.
+            </p>
+          </div>
+          <Button
+            className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light mb-16 md:mb-20"
+            onClick={() => navigate('/booking')}
+          >
+            Book konsultasjon
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        </div>
+        <div className="page-shell pb-16 md:pb-24">
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-secondary/40">
             <img
               src={heroImage}
-              alt="Omsorg hos CMedical - Familie"
+              alt="Omsorg hos CMedical – Familie"
               className="absolute inset-0 w-full h-full object-cover object-[30%_20%]"
             />
           </div>
