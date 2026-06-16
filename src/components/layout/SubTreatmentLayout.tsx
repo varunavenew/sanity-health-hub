@@ -261,8 +261,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   })()}
 
 
-  {/* 2. REASONS / SYMPTOMS — matches homepage FAQ pattern */}
-  <ReasonsAccordion
+  {/* 2. REASONS / INFO — editorial sticky split */}
+  <ReasonsEditorial
+    eyebrow={c.reasonsEyebrow}
     title={c.reasonsTitle}
     lead={c.reasonsLead}
     lead2={c.reasonsLead2}
