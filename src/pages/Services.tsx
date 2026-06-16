@@ -38,6 +38,7 @@ const staticFeatured = [
   { label: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
   { label: "Graviditet", image: graviditetImg, path: "/graviditet" },
   { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
+  { label: "Flere tjenester", image: flereImg, path: "/flere-fagomrader" },
 ];
 
 // Icons for "Flere tjenester" grid use the shared Claude.ai (-cl) set via getServiceIcon
