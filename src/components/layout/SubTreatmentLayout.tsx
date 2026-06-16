@@ -31,6 +31,8 @@ export interface SubTreatmentContent {
  canonical: string;
  // Breadcrumb
  parent: { name: string; path: string };
+ /** Optional ancestor shown between Hjem and parent (e.g. "Flere fagområder"). */
+ grandparent?: { name: string; path: string };
  title: string;
  // Hero
  eyebrow: string;
