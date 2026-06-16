@@ -195,19 +195,15 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 </div>
               )}
 
-              <ul className="space-y-3 max-w-md">
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm font-light text-foreground">
                 {c.heroPoints.map((p) => (
-                  <li key={p.title} className="flex items-start gap-3">
-                    <Check className="w-4 h-4 text-foreground mt-1 shrink-0" strokeWidth={1.5} />
-                    <div>
-                      <span className="text-sm font-normal text-foreground">{p.title}</span>
-                      {p.desc && (
-                        <span className="text-sm font-light text-muted-foreground"> — {p.desc}</span>
-                      )}
-                    </div>
-                  </li>
+                  <span key={p.title} className="inline-flex items-center gap-2">
+                    <Check className="w-4 h-4 text-foreground shrink-0" strokeWidth={1.5} />
+                    {p.title}
+                  </span>
                 ))}
-              </ul>
+              </div>
+
             </div>
           </div>
 
