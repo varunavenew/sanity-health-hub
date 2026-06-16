@@ -482,15 +482,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 6. SPESIALISTER */}
- <FeatureSpotlight
-        title={`«Tilbake i full aktivitet — raskere enn forventet.»`}
-        text="Les hvordan en pasient kom seg tilbake etter et inngrep, og hva tett oppfølging betydde i opptreningen."
-        ctaLabel="Les historien"
-        ctaHref="/aktuelt"
-        image={spotlightImg}
-        imageAlt=""
-      />
+  {/* 6. SPESIALISTER */}
 
       <SpecialistsScroller
  category="ortopedi"

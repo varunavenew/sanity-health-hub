@@ -477,15 +477,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 6. SPESIALISTER */}
- <FeatureSpotlight
-        title={`Når flere spesialister samarbeider om det samme forløpet.`}
-        text="Slik jobber teamene våre på tvers — kortere vei mellom utredning, behandling og oppfølging."
-        ctaLabel="Les mer"
-        ctaHref="/aktuelt"
-        image={spotlightImg}
-        imageAlt=""
-      />
+  {/* 6. SPESIALISTER */}
 
       <SpecialistsScroller
  category="annet"

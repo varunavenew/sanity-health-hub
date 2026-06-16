@@ -595,14 +595,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
- <FeatureSpotlight
-        title={`Det du bør vite før du booker en gynekologisk undersøkelse.`}
-        text="Hva skjer i konsultasjonen, hva tas, og hva får du svar på? En kort guide som forklarer steg for steg."
-        ctaLabel="Les guiden"
-        ctaHref="/aktuelt"
-        image={spotlightImg}
-        imageAlt=""
-      />
 
       <SpecialistsScroller
  category="gynekologi"
