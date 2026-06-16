@@ -131,9 +131,8 @@ const AppContent = () => {
         <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<BariatriskKirurgiPage isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<SleeveGastrektomiPage isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/ernaringsfysiolog" element={<ErnaringsfysiologPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
