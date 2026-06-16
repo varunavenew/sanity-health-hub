@@ -228,6 +228,8 @@ export function getServiceImage(categoryId: string, subId?: string): string | un
  */
 export function getDedicatedServiceImage(categoryId: string, subId?: string): string | undefined {
   if (!subId) return undefined;
+  const cross = CROSS_CATEGORY_ALIAS[`${categoryId}/${subId}`];
+  if (cross && serviceImageBySlug[cross]) return serviceImageBySlug[cross];
   const exact = serviceImageBySlug[normalize(categoryId, subId)];
   if (exact) return exact;
   const alt = subId
