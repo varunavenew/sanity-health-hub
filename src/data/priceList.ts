@@ -1,0 +1,459 @@
+// Static price list — shared between /priser page and treatment hero CTA.
+// All prices are guideline "fra"-prices; final price may vary based on time, weekend, etc.
+
+export interface PriceItem {
+  name: string;
+  price: string;
+  duration: string;
+}
+
+export interface PriceSubcategory {
+  label: string;
+  path: string;
+  items: PriceItem[];
+}
+
+export interface PriceCategory {
+  id: string;
+  label: string;
+  path: string;
+  subcategories: PriceSubcategory[];
+}
+
+export const priceCategories: PriceCategory[] = [
+  {
+    id: 'gynekologi',
+    label: 'Gynekologi',
+    path: '/gynekologi',
+    subcategories: [
+      {
+        label: 'Konsultasjoner',
+        path: '/behandlinger/gynekologi/undersokelse',
+        items: [
+          { name: "Konsultasjon 30 minutter", price: "fra 2.100,-", duration: "30 min" },
+        ]
+      },
+      {
+        label: 'Operasjoner og inngrep',
+        path: '/behandlinger/gynekologi/operasjoner',
+        items: [
+          { name: "TVT operasjon", price: "fra 46.000,-", duration: "" },
+          { name: "Fremfallsoperasjon", price: "fra 44.000,-", duration: "" },
+          { name: "Konisering", price: "fra 9.930,-", duration: "" },
+          { name: "Botox blære", price: "fra 16.000,-", duration: "" },
+          { name: "Labiaplastikk", price: "fra 40.000,-", duration: "" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'urologi',
+    label: 'Urologi',
+    path: '/urologi',
+    subcategories: [
+      {
+        label: 'Konsultasjoner',
+        path: '/behandlinger/urologi/konsultasjon',
+        items: [
+          { name: "Konsultasjon 30 min", price: "fra 1.900,-", duration: "30 min" },
+          { name: "Konsultasjon 60 minutter", price: "fra 2.600,-", duration: "60 min" },
+        ]
+      },
+      {
+        label: 'Inngrep',
+        path: '/behandlinger/urologi/inngrep',
+        items: [
+          { name: "Fimose (trang forhud)", price: "fra 9.100,-", duration: "" },
+          { name: "Sterilisering (inkl. sædanalyse etter 3 mnd)", price: "6.500,-", duration: "" },
+          { name: "Sædanalyse (ikke infertilitetsutredning)", price: "800,-", duration: "" },
+          { name: "Refertilisering", price: "fra 35.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Robotkirurgi og prostata',
+        path: '/behandlinger/urologi/robotkirurgi',
+        items: [
+          { name: "RALP (robotkirurgi prostatakreft)", price: "fra 178.500,-", duration: "" },
+          { name: "RASP (robotkirurgi godartet prostataforstørrelse)", price: "fra 178.500,-", duration: "" },
+          { name: "TUR-P (inklusiv overnatting)", price: "fra 75.000,-", duration: "" },
+          { name: "Core Therm (mikrobølge varmebehandling)", price: "fra 49.300,-", duration: "" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'fertilitet',
+    label: 'Fertilitet',
+    path: '/fertilitet',
+    subcategories: [
+      {
+        label: 'Fertilitetsutredning',
+        path: '/behandlinger/fertilitet/fertilitet-infertilitet',
+        items: [
+          { name: "Fertilitetsutredning og rådgivning inkl. ultralyd", price: "2.850,-", duration: "" },
+          { name: "Gynekologisk undersøkelse inkl. ultralyd", price: "2.100,-", duration: "" },
+          { name: "Oppfølgingssamtale med gynekolog etter forsøk/utredning", price: "2.100,-", duration: "" },
+          { name: "Telefon-/webkonsultasjon med gynekolog", price: "2.100,-", duration: "" },
+          { name: "Undersøkelse av livmorhulen (SIS)", price: "2.500,-", duration: "" },
+          { name: "Undersøkelse av eggledere (SIS + HyCoSy)", price: "3.600,-", duration: "" },
+          { name: "Lavdose hormonbehandling for stimulering av eggløsning", price: "2.100,- per ultralyd", duration: "" },
+        ]
+      },
+      {
+        label: 'IVF',
+        path: '/behandlinger/fertilitet/ivf',
+        items: [
+          { name: "IVF 1 forsøk", price: "46.000,-", duration: "" },
+          { name: "IVF-pakke 3 forsøk, under 39 år", price: "92.000,-", duration: "" },
+          { name: "IVF-pakke 3 forsøk, 39–41 år", price: "115.000,-", duration: "" },
+          { name: "ICSI (mikroinjeksjon)", price: "5.000,-", duration: "" },
+          { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
+          { name: "Avbrutt behandling (IVF/ICSI) før egguthenting", price: "7.000,-", duration: "" },
+          { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'IVF Frysebehandlinger',
+        path: '/behandlinger/fertilitet/frys',
+        items: [
+          { name: "Fryseforsøk (FET)", price: "17.500,-", duration: "" },
+          { name: "Avbrutt behandling før fryseforsøk", price: "4.000,-", duration: "" },
+          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "" },
+          { name: "Tilbakesetting embryo etter opptining egg og befruktning", price: "32.000,-", duration: "" },
+          { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Inseminasjon',
+        path: '/behandlinger/fertilitet/inseminasjon',
+        items: [
+          { name: "Inseminasjon med donorsæd (AID)", price: "12.600,-", duration: "" },
+          { name: "Inseminasjon med partnersæd (AIH)", price: "12.600,-", duration: "" },
+          { name: "Pakkeprisavtale inseminasjon 3 behandlinger", price: "26.000,-", duration: "" },
+          { name: "Avbrutt behandling inseminasjon", price: "4.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Sædanalyse og mannlig infertilitet',
+        path: '/behandlinger/fertilitet/saedanalyse',
+        items: [
+          { name: "Enkel sædanalyse", price: "1.950,-", duration: "" },
+          { name: "Utvidet sædanalyse", price: "5.500,-", duration: "" },
+          { name: "Sædanalyse etter vasektomi", price: "2.200,-", duration: "" },
+          { name: "Nedfrysning av sædceller", price: "4.500,-", duration: "" },
+          { name: "PESA/TESA (spermieuthenting)", price: "5.000,-", duration: "" },
+          { name: "MicroTESE (inkl. narkose)", price: "37.000,-", duration: "" },
+          { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Donorbehandling',
+        path: '/behandlinger/fertilitet/donor',
+        items: [
+          { name: "Partnerdonasjon", price: "45.000,-", duration: "" },
+          { name: "Eggdonasjon (inkl. tilbakesetting av én blastocyst)", price: "97.000,-", duration: "" },
+          { name: "Nedfrysing av sæd til eggdonasjon", price: "5.000,-", duration: "" },
+          { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
+          { name: "Tilbakesetting av opptint embryo eggdonasjon", price: "17.500,-", duration: "" },
+          { name: "Administrasjonskostnad bestilling donoregg", price: "2.150,-", duration: "" },
+          { name: "Administrasjonskostnad bestilling donorsæd", price: "2.150,-", duration: "" },
+          { name: "Årlig avgift oppbevaring reserverte donorsæd", price: "3.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Nedfrysing og oppbevaring av egne egg',
+        path: '/behandlinger/fertilitet/eggfrysing',
+        items: [
+          { name: "Konsultasjon/utredning", price: "2.850,-", duration: "" },
+          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "" },
+          { name: "Tilbakesetting embryo etter opptining og befruktning", price: "32.000,-", duration: "" },
+          { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
+          { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Øvrige tjenester',
+        path: '/behandlinger/fertilitet/ovrige',
+        items: [
+          { name: "Graviditetskontroll etter assistert befruktning", price: "2.100,-", duration: "" },
+          { name: "Office-hysteroskopi", price: "9.500,-", duration: "" },
+          { name: "Tester på livmorslimhinne (ERA/ALICE/EMMA)", price: "fra 13.500,-", duration: "" },
+          { name: "Administrasjonsgebyr flytting embryo/sæd/egg", price: "5.000,-", duration: "" },
+          { name: "Resept", price: "500,-", duration: "" },
+          { name: "Blodprøver tatt hos CMedical", price: "250,-", duration: "" },
+          { name: "Henvisning offentlig sykehus", price: "900,-", duration: "" },
+          { name: "Administrasjonsgebyr", price: "300,-", duration: "" },
+          { name: "Ikke møtt til fertilitetsutredning (avbest. min 24t før)", price: "2.850,-", duration: "" },
+          { name: "Ikke møtt til ultralydkontroll/sædanalyse (avbest. min 24t før)", price: "1.950,-", duration: "" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'ortopedi',
+    label: 'Ortopedi',
+    path: '/ortopedi',
+    subcategories: [
+      {
+        label: 'Konsultasjoner',
+        path: '/behandlinger/ortopedi/konsultasjon',
+        items: [
+          { name: "Konsultasjon ortoped skulder", price: "1.800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped kne", price: "1.800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped hofte", price: "1.800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped fot/ankel", price: "1.800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped hånd", price: "1.800,-", duration: "30 min" },
+          { name: "Konsultasjon ortoped albue", price: "1.800,-", duration: "30 min" },
+          { name: "Second opinion konsultasjon", price: "fra 2.800,-", duration: "" },
+        ]
+      },
+      {
+        label: 'Håndterapi',
+        path: '/behandlinger/ortopedi/hand-albue',
+        items: [
+          { name: "Konsultasjon håndterapeut", price: "1.400,-", duration: "60 min" },
+        ]
+      },
+      {
+        label: 'Fysioterapi',
+        path: '/behandlinger/ortopedi/fysioterapi',
+        items: [
+          { name: "Oppfølgingstime Fysioterapeut / Osteopat 60 min", price: "1.800,-", duration: "1 time" },
+          { name: "Oppfølgingstime Fysioterapeut / Osteopat 30 min", price: "950,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'endokrinologi',
+    label: 'Endokrinologi',
+    path: '/behandlinger/flere-fagomrader/endokrinologi',
+    subcategories: [
+      {
+        label: 'Endokrinologi',
+        path: '/behandlinger/flere-fagomrader/endokrinologi',
+        items: [
+          { name: "Endokrinolog 60 min konsultasjon", price: "4.500,-", duration: "1 time" },
+          { name: "Endokrinolog oppfølging/kontroll 30 min", price: "2.900,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'gastrokirurgi',
+    label: 'Gastrokirurgi',
+    path: '/behandlinger/flere-fagomrader/gastrokirurgi',
+    subcategories: [
+      {
+        label: 'Gastrokirurgi',
+        path: '/behandlinger/flere-fagomrader/gastrokirurgi',
+        items: [
+          { name: "Førstegangskonsultasjon fedme vurdering", price: "Gratis", duration: "45 min" },
+          { name: "Konsultasjon 30 min (kun samtale)", price: "2.100,-", duration: "30 min" },
+          { name: "Anorektoskopi inkl. konsultasjon", price: "fra 4.700,-", duration: "" },
+          { name: "Tillegg strikkbehandling (endetarmsundersøkelse)", price: "1.500,-", duration: "" },
+          { name: "Mariskfjerning i lokal", price: "fra 7.200,-", duration: "" },
+          { name: "Botox for analfissur", price: "5.200,-", duration: "" },
+          { name: "Småkirurgi i lokal (fettkul, føflekk)", price: "fra 5.000,-", duration: "" },
+          { name: "Inngrodd tånegl", price: "fra 5.500,-", duration: "" },
+          { name: "Hemorideoperasjon", price: "fra 28.000,-", duration: "" },
+          { name: "Lyskebrokk kikkhullsoperasjon", price: "fra 40.000,-", duration: "" },
+          { name: "Navlebrokk kikkhullsoperasjon", price: "fra 46.860,-", duration: "" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'psykologi',
+    label: 'Psykologi',
+    path: '/behandlinger/flere-fagomrader/psykologi',
+    subcategories: [
+      {
+        label: 'Psykologi',
+        path: '/behandlinger/flere-fagomrader/psykologi',
+        items: [
+          { name: "Psykolog 50 min", price: "1.900,-", duration: "1 time" },
+          { name: "Psykolog 50 min, digitaltime", price: "1.900,-", duration: "1 time" },
+          { name: "Psykolog 80 min", price: "2.500,-", duration: "1 time 30 min" },
+          { name: "Psykolog 80 min, digitaltime", price: "2.500,-", duration: "1 time 30 min" },
+          { name: "Psykolog partime 50 min", price: "2.300,-", duration: "1 time" },
+          { name: "Psykolog partime 80 min", price: "2.950,-", duration: "1 time 30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'sexologi',
+    label: 'Sexologi',
+    path: '/behandlinger/flere-fagomrader/sexologi',
+    subcategories: [
+      {
+        label: 'Sexologi',
+        path: '/behandlinger/flere-fagomrader/sexologi',
+        items: [
+          { name: "Sexolog individuell", price: "1.750,-", duration: "1 time" },
+          { name: "Sexolog for par", price: "1.850,-", duration: "1 time" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'revmatologi',
+    label: 'Revmatologi',
+    path: '/behandlinger/flere-fagomrader/revmatologi',
+    subcategories: [
+      {
+        label: 'Revmatologi',
+        path: '/behandlinger/flere-fagomrader/revmatologi',
+        items: [
+          { name: "Førstegangskonsultasjon revmatolog", price: "3.150,-", duration: "45 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'ernaering',
+    label: 'Ernæringsfysiolog',
+    path: '/behandlinger/flere-fagomrader/ernaeringsfysiolog',
+    subcategories: [
+      {
+        label: 'Ernæringsfysiolog',
+        path: '/behandlinger/flere-fagomrader/ernaeringsfysiolog',
+        items: [
+          { name: "Klinisk ernæringsfysiolog", price: "1.990,-", duration: "1 time" },
+          { name: "Klinisk ernæringsfysiolog oppfølging", price: "1.490,-", duration: "45 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'aareknuter',
+    label: 'Åreknutebehandling',
+    path: '/behandlinger/flere-fagomrader/areknutebehandling',
+    subcategories: [
+      {
+        label: 'Åreknutebehandling',
+        path: '/behandlinger/flere-fagomrader/areknutebehandling',
+        items: [
+          { name: "Konsultasjon 30 min", price: "1.400,-", duration: "30 min" },
+          { name: "Åreknuteoperasjon (laser/radiofrekvens – ett ben)", price: "fra 20.900,-", duration: "" },
+          { name: "Flebektomi/extripasjon – ett ben", price: "11.000,-", duration: "" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'graviditet',
+    label: 'Graviditet og fostermedisin',
+    path: '/behandlinger/graviditet',
+    subcategories: [
+      {
+        label: 'Svangerskapskontroll',
+        path: '/behandlinger/graviditet/svangerskapskontroll',
+        items: [
+          { name: "Svangerskapskontroll", price: "2.150,-", duration: "30 min" },
+          { name: "Tidlig ultralyd enkel", price: "2.150,-", duration: "30 min" },
+          { name: "Kontroll etter fødsel", price: "2.100,-", duration: "30 min" },
+        ]
+      },
+      {
+        label: 'Fosterdiagnostikk',
+        path: '/behandlinger/graviditet/fosterdiagnostikk',
+        items: [
+          { name: "Tidlig ultralyd + NIPT-test", price: "8.990,-", duration: "30 min" },
+          { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9.950,-", duration: "30 min" },
+          { name: "Organrettet ultralyd", price: "2.100,-", duration: "30 min" },
+        ]
+      },
+      {
+        label: 'Fødselsforberedelse og oppfølging',
+        path: '/behandlinger/graviditet/fodselsforberedelse',
+        items: [
+          { name: "Fødselsforberedende samtale", price: "3.200,-", duration: "45 min" },
+          { name: "Konsultasjon etter abort eller dødfødsel", price: "3.200,-", duration: "45 min" },
+          { name: "Konsultasjon fødselsangst", price: "3.200,-", duration: "45 min" },
+          { name: "Konsultasjon traumatisk fødsel", price: "3.200,-", duration: "45 min" },
+          { name: "Ammehjelp ved brystbetennelse", price: "3.200,-", duration: "45 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'hudlege',
+    label: 'Hudlege',
+    path: '/behandlinger/flere-fagomrader/hudlege',
+    subcategories: [
+      {
+        label: 'Dermatologi',
+        path: '/behandlinger/flere-fagomrader/hudlege',
+        items: [
+          { name: "Konsultasjon hudlege", price: "2.100,-", duration: "30 min" },
+          { name: "Føflekksjekk", price: "2.100,-", duration: "30 min" },
+          { name: "Akne-behandling", price: "2.100,-", duration: "30 min" },
+          { name: "Eksem / psoriasis", price: "2.100,-", duration: "30 min" },
+          { name: "Hudkreft – utredning", price: "2.100,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'osteopati',
+    label: 'Osteopati',
+    path: '/behandlinger/flere-fagomrader/osteopati',
+    subcategories: [
+      {
+        label: 'Osteopati',
+        path: '/behandlinger/flere-fagomrader/osteopati',
+        items: [
+          { name: "Osteopat førstekonsultasjon 60 min", price: "1.800,-", duration: "1 time" },
+          { name: "Osteopat oppfølging 60 min", price: "1.800,-", duration: "1 time" },
+          { name: "Osteopat oppfølging 30 min", price: "950,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'overvektskirurgi',
+    label: 'Overvektskirurgi',
+    path: '/behandlinger/flere-fagomrader/overvektskirurgi',
+    subcategories: [
+      {
+        label: 'Overvektskirurgi',
+        path: '/behandlinger/flere-fagomrader/overvektskirurgi',
+        items: [
+          { name: "Digital konsultasjon fedme vurdering", price: "0,-", duration: "45 min" },
+          { name: "Gastric sleeve", price: "Ta kontakt", duration: "" },
+          { name: "Gastric bypass", price: "Ta kontakt", duration: "" },
+        ]
+      },
+    ]
+  },
+];
+
+/** Parse "fra 20.900,-" or "1.800,-" → 20900. Returns null for "Gratis"/"Ta kontakt"/etc. */
+const parsePrice = (s: string): number | null => {
+  const digits = s.replace(/fra\s*/i, "").replace(/[^0-9]/g, "");
+  if (!digits) return null;
+  const n = parseInt(digits, 10);
+  return Number.isFinite(n) && n > 0 ? n : null;
+};
+
+const formatNok = (n: number): string => n.toLocaleString("nb-NO").replace(/\u00A0/g, ".").replace(/\s/g, ".");
+
+/**
+ * Lowest "fra"-price for a given treatment path, formatted as "Pris fra kr 1.800,-".
+ * Matches priceCategories subcategories whose path equals the given path.
+ * Returns null when no numeric prices are configured for the path.
+ */
+export const getFromPriceForPath = (path: string): string | null => {
+  if (!path) return null;
+  for (const cat of priceCategories) {
+    for (const sub of cat.subcategories) {
+      if (sub.path !== path) continue;
+      const nums = sub.items.map((i) => parsePrice(i.price)).filter((n): n is number => n !== null);
+      if (!nums.length) return null;
+      return `Pris fra kr ${formatNok(Math.min(...nums))},-`;
+    }
+  }
+  return null;
+};
