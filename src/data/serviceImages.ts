@@ -153,6 +153,10 @@ const SUB_ALIAS: Record<string, string> = {
   "gynekologi/vaginale-fremfall": "vaginalt-fremfall",
   "gynekologi/cyster": "cyster-pa-eggstokkene",
   "gynekologi/hysteroskopi": "gynekologisk-kirurgi", // no dedicated image
+  // NIPT lives in graviditet image set
+  // gynekologi pages without dedicated images — reuse closest relevant photo
+  "gynekologi/pcos": "hormonforstyrrelser",
+  "gynekologi/pms-pmdd": "hormonforstyrrelser",
   // urologi
   "urologi/blaere": "blaere-og-urinveier",
   "urologi/infertilitet": "mannlig-infertilitet",
@@ -173,6 +177,17 @@ const SUB_ALIAS: Record<string, string> = {
   // fertilitet
   "fertilitet/par-og-single": "assistert-befruktning",
   "fertilitet/assistert-befruktning-par-single": "assistert-befruktning",
+};
+
+/**
+ * Cross-category subId aliases — when an image lives under a different
+ * category than the route. Looked up after the in-category SUB_ALIAS miss.
+ * Value is the full image slug (e.g. "graviditet-nipt").
+ */
+const CROSS_CATEGORY_ALIAS: Record<string, string> = {
+  "gynekologi/nipt": "graviditet-nipt",
+  "gynekologi/fostermedisin": "graviditet-fosterdiagnostikk",
+  "gynekologi/fodselsskader": "graviditet-svangerskapsteam",
 };
 
 function normalize(categoryId: string, subId?: string): string {
