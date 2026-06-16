@@ -213,6 +213,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  canonical={c.canonical}
  breadcrumbs={[
  { name: "Hjem", path: "/" },
+ ...(c.grandparent ? [c.grandparent] : []),
  c.parent,
  { name: c.title, path: c.canonical },
  ]}
@@ -230,12 +231,19 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
             <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
               <Link to="/" className="hover:text-foreground">Hjem</Link>
               <span>›</span>
+              {c.grandparent && (
+                <>
+                  <Link to={c.grandparent.path} className="hover:text-foreground">{c.grandparent.name}</Link>
+                  <span>›</span>
+                </>
+              )}
               <Link to={c.parent.path} className="hover:text-foreground">{c.parent.name}</Link>
               <span>›</span>
               <span className="text-foreground/80">{c.title}</span>
             </nav>
 
             <div className="max-w-xl w-full">
+
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 {c.heroTitle}
               </h2>
