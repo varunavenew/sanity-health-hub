@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
-import TreatmentPage from "./TreatmentPage";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
+import NotFound from "@/pages/NotFound";
 
 interface Props {
   isChatOpen: boolean;
@@ -36,8 +36,7 @@ const GynekologiSubPage = ({ isChatOpen }: Props) => {
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
 
-  // 3) Legacy fallback.
-  return <TreatmentPage categoryId="gynekologi" isChatOpen={isChatOpen} />;
+  return <NotFound isChatOpen={isChatOpen} />;
 };
 
 export default GynekologiSubPage;
