@@ -231,6 +231,7 @@ export const treatmentToSubLayout = ({
     heroPoints,
     booking: { kategori: categoryId, tjeneste: subId },
     primaryCtaLabel: "Se ledige tider",
+    heroPrice: getFromPriceForPath(canonical) ?? undefined,
     flowEyebrow: "Konsultasjonen",
     flowTitle: "Slik foregår det",
     flow,
