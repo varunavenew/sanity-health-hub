@@ -14,30 +14,15 @@ import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
 // Note: The page uses Sanity data via usePricingPage() when available,
 // falling back to the static priceCategories below.
+import { priceCategories, type PriceCategory } from "@/data/priceList";
 
 interface PageProps { isChatOpen: boolean }
 
-interface PriceItem {
-  name: string;
-  price: string;
-  duration: string;
-}
-
-interface PriceSubcategory {
-  label: string;
-  path: string;
-  items: PriceItem[];
-}
-
-interface PriceCategory {
-  id: string;
-  label: string;
-  path: string;
-  subcategories: PriceSubcategory[];
-}
-
-// Price categories matching the service categories structure
-const priceCategories: PriceCategory[] = [
+// Price categories are defined in src/data/priceList.ts so the treatment hero
+// CTAs can derive a "Pris fra" from the same source as this page.
+void ({} as PriceCategory);
+const _priceCategories = priceCategories;
+const __unused_dup_block = [
   {
     id: 'gynekologi',
     label: 'Gynekologi',
