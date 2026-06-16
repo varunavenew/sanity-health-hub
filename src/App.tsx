@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import About from "./pages/About";
@@ -13,10 +13,6 @@ import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import TreatmentPage from "./pages/treatments/TreatmentPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
-
-import BariatriskKirurgiPage from "./pages/treatments/flere-fagomrader/BariatriskKirurgiPage";
-import SleeveGastrektomiPage from "./pages/treatments/flere-fagomrader/SleeveGastrektomiPage";
-import ErnaringsfysiologPage from "./pages/treatments/flere-fagomrader/ErnaringsfysiologPage";
 import Priser from "./pages/Priser";
 import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
@@ -135,9 +131,8 @@ const AppContent = () => {
         <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<BariatriskKirurgiPage isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<SleeveGastrektomiPage isChatOpen={false} />} />
-        <Route path="/behandlinger/flere-fagomrader/ernaringsfysiolog" element={<ErnaringsfysiologPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
