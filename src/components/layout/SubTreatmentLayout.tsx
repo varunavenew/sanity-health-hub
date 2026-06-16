@@ -1,4 +1,4 @@
-import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
+import { useEffect, useState, ReactNode, ComponentType, SVGProps } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -8,7 +8,7 @@ import {
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone, Clock, FileX } from "lucide-react";
+import { ArrowRight, Check, Star, Phone, Clock, FileX, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -106,6 +106,74 @@ interface Props {
  content: SubTreatmentContent;
 }
 
+const ReasonsAccordion = ({
+  title,
+  lead,
+  lead2,
+  items,
+}: {
+  title: string;
+  lead?: string;
+  lead2?: string;
+  items: { n: string; title: string; desc: ReactNode }[];
+}) => {
+  const [openId, setOpenId] = useState<string | null>(null);
+  if (!items || items.length === 0) return null;
+  return (
+    <section className="py-10 md:py-14 bg-background">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-4">
+            {title}
+          </h2>
+          {(lead || lead2) && (
+            <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
+              {lead && (
+                <p className="text-base font-light text-muted-foreground leading-relaxed">{lead}</p>
+              )}
+              {lead2 && (
+                <p className="text-base font-light text-muted-foreground leading-relaxed">{lead2}</p>
+              )}
+            </div>
+          )}
+          <div className="space-y-0 border-t border-border">
+            {items.map((r) => {
+              const isOpen = openId === r.n;
+              return (
+                <div key={r.n} className="border-b border-border">
+                  <button
+                    type="button"
+                    onClick={() => setOpenId(isOpen ? null : r.n)}
+                    className="w-full flex items-center justify-between py-5 text-left hover:text-brand-dark transition-colors"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-base md:text-lg font-normal text-foreground">
+                      {r.title}
+                    </span>
+                    {isOpen ? (
+                      <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    ) : (
+                      <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    )}
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-out ${
+                      isOpen ? "max-h-[800px] pb-5" : "max-h-0"
+                    }`}
+                  >
+                    <div className="text-muted-foreground text-sm md:text-base font-light leading-relaxed pr-8 space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                      {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
@@ -224,37 +292,14 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   })()}
 
 
-  {/* 2. REASONS / SYMPTOMS */}
-  <section className="bg-background py-14 md:py-20">
-    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-      <h2 className="text-3xl md:text-4xl font-light leading-tight text-foreground mb-3">
-        {c.reasonsTitle}
-      </h2>
-      {c.reasonsLead && (
-        <p className="text-base font-light text-muted-foreground leading-relaxed mb-2">
-          {c.reasonsLead}
-        </p>
-      )}
-      {c.reasonsLead2 && (
-        <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
-          {c.reasonsLead2}
-        </p>
-      )}
-      <div className="divide-y divide-border border-y border-border mt-8">
-        {c.reasons.map((r) => (
-          <details key={r.n} className="group py-5">
-            <summary className="cursor-pointer flex items-center justify-between text-foreground font-normal text-[15px] list-none">
-              <span>{r.title}</span>
-              <span className="ml-4 text-muted-foreground group-open:rotate-45 transition-transform">+</span>
-            </summary>
-            <div className="mt-3 text-sm font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-              {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
+  {/* 2. REASONS / SYMPTOMS — matches homepage FAQ pattern */}
+  <ReasonsAccordion
+    title={c.reasonsTitle}
+    lead={c.reasonsLead}
+    lead2={c.reasonsLead2}
+    items={c.reasons}
+  />
+
 
  {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
