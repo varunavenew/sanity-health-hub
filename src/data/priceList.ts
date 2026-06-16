@@ -167,8 +167,8 @@ export const priceCategories: PriceCategory[] = [
         path: '/behandlinger/fertilitet/eggfrysing',
         items: [
           { name: "Konsultasjon/utredning", price: "2.850,-", duration: "" },
-          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "" },
-          { name: "Tilbakesetting embryo etter opptining og befruktning", price: "32.000,-", duration: "" },
+          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "", info: "Inkluderer monitorering med ultralyd under stimulering, egguthenting og nedfrysing av egg, samt ett års lagring fra frysedato." },
+          { name: "Tilbakesetting embryo etter opptining og befruktning", price: "32.000,-", duration: "", info: "Tilbakesetting med partnerens sædceller eller donorsæd. Kostnad for donorsperm, mva. og transport kommer i tillegg." },
           { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
           { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
         ]
