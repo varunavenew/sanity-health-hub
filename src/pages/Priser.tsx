@@ -247,9 +247,31 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             className="w-full flex items-center justify-between gap-3 py-3 border-b border-border/30 last:border-b-0 px-2 -mx-2"
                                           >
                                             <div className="flex-1 min-w-0">
-                                              <p className="text-foreground text-sm font-light">
-                                                {item.name}
-                                              </p>
+                                              <div className="flex items-center gap-1.5">
+                                                <p className="text-foreground text-sm font-light">
+                                                  {item.name}
+                                                </p>
+                                                {item.info && (
+                                                  <Popover>
+                                                    <PopoverTrigger asChild>
+                                                      <button
+                                                        type="button"
+                                                        aria-label={`Mer informasjon om ${item.name}`}
+                                                        className="inline-flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                                                      >
+                                                        <Info className="w-3.5 h-3.5" strokeWidth={1.5} />
+                                                      </button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent
+                                                      side="top"
+                                                      align="start"
+                                                      className="w-80 text-xs font-light leading-relaxed text-foreground"
+                                                    >
+                                                      {item.info}
+                                                    </PopoverContent>
+                                                  </Popover>
+                                                )}
+                                              </div>
                                               {item.duration && (
                                                 <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
                                                   <Clock className="w-3 h-3" />
