@@ -242,19 +242,24 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </p>
 
               <div className="mb-8 max-w-sm">
-                {c.heroPrice && (
-                  <p className="text-sm font-light text-muted-foreground mb-4">
-                    {c.heroPrice}
-                  </p>
-                )}
                 <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                   <Button
                     variant="cta"
                     size="lg"
-                    className="px-8 w-full sm:w-auto"
+                    className="h-auto py-3 px-6 w-full sm:w-auto flex-col items-start gap-0.5 text-left"
                     onClick={() => (window.location.href = buildBookingUrl(c.booking))}
                   >
-                    {c.primaryCtaLabel ?? "Bestill time"}
+                    <span className="block text-base font-normal leading-tight">
+                      {c.primaryCtaLabel ?? c.title}
+                    </span>
+                    {c.heroPrice && (
+                      <span className="block text-xs font-light opacity-80 leading-tight">
+                        {c.heroPrice}
+                      </span>
+                    )}
+                    <span className="block text-sm font-light leading-tight mt-1">
+                      Se ledige tider og book
+                    </span>
                   </Button>
                   <CallUsClinicPicker variant="light" label="Ring oss" />
                 </div>
@@ -528,10 +533,20 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <Button
  variant="cta"
  size="lg"
- className="px-8"
+ className="h-auto py-3 px-6 flex-col items-start gap-0.5 text-left"
  onClick={() => (window.location.href = buildBookingUrl(c.booking))}
  >
- {c.primaryCtaLabel ?? "Bestill time"}
+ <span className="block text-base font-normal leading-tight">
+ {c.primaryCtaLabel ?? c.title}
+ </span>
+ {c.heroPrice && (
+ <span className="block text-xs font-light opacity-80 leading-tight">
+ {c.heroPrice}
+ </span>
+ )}
+ <span className="block text-sm font-light leading-tight mt-1">
+ Se ledige tider og book
+ </span>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
 
