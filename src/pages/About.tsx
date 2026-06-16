@@ -66,6 +66,24 @@ const About = ({ isChatOpen }: AboutProps) => {
     document.title = `${seoTitle} | CMedical`;
   }, []);
 
+  // Group paragraphs into sections by heading. The final "Vår ambisjon"
+  // section is rendered separately as a dark closing stripe.
+  type Section = { heading: string; paragraphs: string[] };
+  const allSections: Section[] = [];
+  let current: Section | null = null;
+  for (const p of bodyParagraphs) {
+    if (p.heading) {
+      current = { heading: p.heading, paragraphs: [] };
+      allSections.push(current);
+    } else if (current) {
+      current.paragraphs.push(p.text || p);
+    }
+  }
+  const ambition = allSections.find((s) => s.heading === "Vår ambisjon");
+  const sections = allSections.filter((s) => s !== ambition);
+  const pullQuote =
+    "Faglig trygghet og personlig omsorg skal alltid gå hånd i hånd — i alle livets faser.";
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
@@ -77,10 +95,10 @@ const About = ({ isChatOpen }: AboutProps) => {
           { name: "Om oss", path: "/om-oss" },
         ]}
       />
-      {/* HERO — full-bleed split 50/50, image fills the right half */}
+
+      {/* HERO — full-bleed split 50/50 */}
       <header className="bg-brand-warm pt-24 lg:pt-0">
-        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
-          {/* Left — eyebrow + title + intro */}
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[760px]">
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <div className="max-w-xl w-full">
               <p className="text-xs font-light text-brand-dark/60 mb-6">Om CMedical</p>
@@ -104,7 +122,6 @@ const About = ({ isChatOpen }: AboutProps) => {
             </div>
           </div>
 
-          {/* Right — image fills the entire half */}
           <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
             <img
               src={heroImage}
@@ -115,34 +132,67 @@ const About = ({ isChatOpen }: AboutProps) => {
         </div>
       </header>
 
-      {/* Continued content */}
+      {/* EDITORIAL BODY — asymmetric two-column rhythm */}
       <article className="bg-brand-warm">
-        <div className="container mx-auto px-6 md:px-16 py-16 md:py-24">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {bodyParagraphs.map((p: any, i: number) =>
-                p.heading ? (
-                  <h2
-                    key={i}
-                    className="text-2xl md:text-3xl font-light text-brand-dark mt-16 first:mt-0 mb-5"
-                  >
-                    {p.heading}
-                  </h2>
-                ) : (
-                  <p key={i} className={`mt-5 ${p.bold ? "text-brand-dark font-normal" : ""}`}>
-                    {p.text || p}
+        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+          <div className="max-w-6xl mx-auto space-y-20 md:space-y-28">
+            {sections.map((s, idx) => (
+              <section
+                key={s.heading}
+                className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16"
+              >
+                <div className="md:col-span-5">
+                  <p className="text-xs font-light text-brand-dark/50 mb-4">
+                    {String(idx + 1).padStart(2, "0")} — Kapittel
                   </p>
-                )
-              )}
-            </div>
+                  <h2 className="text-2xl md:text-3xl lg:text-[2.25rem] font-light text-brand-dark leading-[1.15]">
+                    {s.heading}
+                  </h2>
+                </div>
+                <div className="md:col-span-7 space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+                  {s.paragraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+
+        {/* Pull quote */}
+        <div className="container mx-auto px-6 md:px-16 pb-20 md:pb-28">
+          <div className="max-w-4xl mx-auto">
+            <blockquote className="text-2xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-[1.2]">
+              <span className="text-brand-mid">“</span>
+              {pullQuote}
+              <span className="text-brand-mid">”</span>
+            </blockquote>
           </div>
         </div>
       </article>
 
+      {/* AMBITION — short dark closing stripe */}
+      {ambition && (
+        <section className="bg-brand-dark text-brand-warm">
+          <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+            <div className="max-w-4xl">
+              <p className="text-xs font-light text-brand-warm/60 mb-6">Vår ambisjon</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] mb-10">
+                En ny standard for privat spesialisthelsetjeneste.
+              </h2>
+              <div className="space-y-5 text-brand-warm/80 text-base md:text-lg leading-relaxed font-light max-w-3xl">
+                {ambition.paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <ClinicGrid />
 
       <SpecialistsSection />
-
 
       <CTASection
         title="Ta vare på livet og underlivet"
