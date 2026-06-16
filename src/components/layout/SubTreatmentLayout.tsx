@@ -312,76 +312,36 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
 
   {/* 3. REASONS / SYMPTOMS */}
-  <section className="bg-background py-14 md:py-16">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
- <div className="lg:col-span-5">
- <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
- {c.reasonsTitle}
- </h2>
- {c.reasonsLead && (
- <p className="text-base font-light text-muted-foreground leading-relaxed mb-4 max-w-md">
- {c.reasonsLead}
- </p>
- )}
- {c.reasonsLead2 && (
- <p className="text-base font-light text-muted-foreground leading-relaxed max-w-md mb-8">
- {c.reasonsLead2}
- </p>
- )}
- <Button
- variant="cta"
- size="lg"
- className="px-8"
- onClick={() => (window.location.href = buildBookingUrl(c.booking))}
- >
- {c.primaryCtaLabel ?? "Bestill time"}
- </Button>
- </div>
-
-  <div className="lg:col-span-7">
-  <Accordion
-    type="single"
-    collapsible
-    defaultValue={c.reasons[0]?.n}
-    className="border-t border-b border-border/60"
-  >
-  {c.reasons.map((r) => (
-  <AccordionItem
-    key={r.n}
-    value={r.n}
-    className="border-b border-border/60 last:border-b-0"
-  >
-  <AccordionTrigger className="py-6 hover:no-underline group">
-  <div className="grid grid-cols-12 gap-4 w-full text-left">
-  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
-  {r.n}
-  </div>
-  <div className="col-span-10 md:col-span-11">
-  <h3 className="text-base font-normal text-foreground">
-  {r.title}
-  </h3>
-  </div>
-  </div>
-  </AccordionTrigger>
-  <AccordionContent className="pb-6">
-  <div className="grid grid-cols-12 gap-4">
-  <div className="col-span-2 md:col-span-1" />
-  <div className="col-span-10 md:col-span-11">
-  <div className="text-sm font-light text-muted-foreground leading-relaxed max-w-xl space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-  {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-  </div>
-  </div>
-  </div>
-  </AccordionContent>
-  </AccordionItem>
-  ))}
-  </Accordion>
-  </div>
-
- </div>
- </div>
- </section>
+  <section className="bg-background py-14 md:py-20">
+    <div className="container mx-auto px-6 md:px-16 max-w-3xl">
+      <h2 className="text-3xl md:text-4xl font-light leading-tight text-foreground mb-3">
+        {c.reasonsTitle}
+      </h2>
+      {c.reasonsLead && (
+        <p className="text-base font-light text-muted-foreground leading-relaxed mb-2">
+          {c.reasonsLead}
+        </p>
+      )}
+      {c.reasonsLead2 && (
+        <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
+          {c.reasonsLead2}
+        </p>
+      )}
+      <div className="divide-y divide-border border-y border-border mt-8">
+        {c.reasons.map((r) => (
+          <details key={r.n} className="group py-5">
+            <summary className="cursor-pointer flex items-center justify-between text-foreground font-normal text-[15px] list-none">
+              <span>{r.title}</span>
+              <span className="ml-4 text-muted-foreground group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <div className="mt-3 text-sm font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+              {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
 
  {/* 3b. EXPERT AREAS — image cards (optional) */}
  {c.expertAreas && c.expertAreas.items.length > 0 && (
