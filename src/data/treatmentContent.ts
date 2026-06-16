@@ -1297,7 +1297,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen. Vi utreder og behandler et bredt spekter av hudlidelser – fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i hud.\n\nI tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov.\n\nVi tilbyr grundig vurdering og behandling tilpasset din hud og dine behov – enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.",
+    description: "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen.",
+    sections: [
+      {
+        id: "hva-vi-behandler",
+        heading: "Hva vi behandler",
+        content: "Vi utreder og behandler et bredt spekter av hudlidelser – fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i hud. I tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov.",
+      },
+      {
+        id: "tilpasset-deg",
+        heading: "Tilpasset deg",
+        content: "Vi tilbyr grundig vurdering og behandling tilpasset din hud og dine behov – enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.",
+      },
+    ],
     benefits: [
       "Ingen henvisning — bestill direkte uten henvisning fra fastlege.",
       "Korte ventetider — du får hjelp innen kort tid.",
