@@ -167,12 +167,8 @@ export const serviceCategories: ServiceCategory[] = [
         label: 'Gastrokirurgi',
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
-          { label: 'Galleblære og galleveier', path: '/behandlinger/flere-fagomrader/gastrokirurgi-galleblare' },
-          { label: 'Brokk (lyske, navle, arr)', path: '/behandlinger/flere-fagomrader/gastrokirurgi-brokk' },
-          { label: 'Mage og tarm', path: '/behandlinger/flere-fagomrader/gastrokirurgi-mage-tarm' },
-          { label: 'Refluks og halsbrann', path: '/behandlinger/flere-fagomrader/gastrokirurgi-refluks' },
-          { label: 'Endetarm og proktologi', path: '/behandlinger/flere-fagomrader/gastrokirurgi-proktologi' },
-          { label: 'Gastroskopi og koloskopi', path: '/behandlinger/flere-fagomrader/gastrokirurgi-skopi' },
+          { label: 'Bariatrisk kirurgi', path: '/behandlinger/flere-fagomrader/overvektskirurgi' },
+          { label: 'Sleeve gastrektomi', path: '/behandlinger/flere-fagomrader/sleeve-gastrektomi' },
         ],
       },
       {
