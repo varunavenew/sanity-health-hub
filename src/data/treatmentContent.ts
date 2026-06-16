@@ -1365,8 +1365,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
     ],
     linkedServices: [
-      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
-      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
+      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
+      { label: "Gallestein / kikkhullskirurgi", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi" },
+      { label: "Brokkbehandling", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
+      { label: "Endetarmsplager", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
     ],
     relatedSpecialists: ["andreas-edenberg"],
     faqs: [
@@ -1746,7 +1749,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
     ],
     linkedServices: [
-      { label: "Sleeve gastrektomi", description: "Les mer om den robotassisterte metoden, forberedelser og oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
+      { label: "Sleeve gastrektomi", description: "Les mer om den robotassisterte metoden, forberedelser og oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
       { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
       { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
     ],
@@ -1800,7 +1803,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
     ],
     linkedServices: [
-      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Oversikt over overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Oversikt over overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
       { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
       { label: "Robotassistert kirurgi", description: "Presis kirurgi med da Vinci X-teknologi.", path: "/behandlinger/flere-fagomrader/robotkirurgi" },
       { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
@@ -2009,6 +2012,67 @@ export const treatmentContent: Record<string, TreatmentData> = {
     faqs: [
       { question: "Hvor får jeg kjøpt produktene?", answer: "På vår klinikk på Bekkestua." },
       { question: "Får jeg veiledning av fagperson?", answer: "Ja — vår dermatolog hjelper deg å sette sammen en hudpleieplan tilpasset din hud." },
+    ],
+  },
+
+  // ─── Gastrokirurgi-undersider (placeholdere — Synnøve fyller med tekst) ───
+  "flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi": {
+    title: "Gallestein / kikkhullskirurgi",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om gallesteinsbehandling og kikkhullskirurgi hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    sections: [
+      {
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om gallesteinsbehandling og kikkhullskirurgi. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+      },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+    ],
+  },
+
+  "flere-fagomrader/gastrokirurgi/brokkbehandling": {
+    title: "Brokkbehandling",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om brokkbehandling hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    sections: [
+      {
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om utredning og kirurgisk behandling av brokk. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+      },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
+      { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+    ],
+  },
+
+  "flere-fagomrader/gastrokirurgi/endetarmsplager": {
+    title: "Endetarmsplager",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om utredning og behandling av endetarmsplager hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    sections: [
+      {
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om utredning og behandling av endetarmsplager. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+      },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
+      { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
     ],
   },
 

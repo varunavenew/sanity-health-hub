@@ -127,6 +127,12 @@ interface AdapterOptions {
   categoryId: CategoryId;
   subId: string;
   heroImage?: string;
+  /** Override breadcrumb parent (e.g. nest a method under a samleområde-landing). */
+  parentOverride?: { name: string; path: string };
+  /** Optional grandparent shown between Hjem and parent. */
+  grandparent?: { name: string; path: string };
+  /** Override canonical URL for nested routes. */
+  canonicalOverride?: string;
 }
 
 export const treatmentToSubLayout = ({
@@ -134,10 +140,13 @@ export const treatmentToSubLayout = ({
   categoryId,
   subId,
   heroImage,
+  parentOverride,
+  grandparent,
+  canonicalOverride,
 }: AdapterOptions): SubTreatmentContent => {
-  const parent = CATEGORY_LABEL[categoryId];
+  const parent = parentOverride ?? CATEGORY_LABEL[categoryId];
   const specialistLabel = SPECIALIST_LABEL[categoryId];
-  const canonical = `/behandlinger/${categoryId}/${subId}`;
+  const canonical = canonicalOverride ?? `/behandlinger/${categoryId}/${subId}`;
   const firstParagraph =
     data.description.split(/\n\n+/).find((p) => p.trim().length > 0)?.trim() ?? data.description;
 
@@ -224,6 +233,7 @@ export const treatmentToSubLayout = ({
     seoDescription: summarize(data.description, 160),
     canonical,
     parent,
+    grandparent,
     title: data.title,
     eyebrow: `${parent.name} — CMedical`,
     heroTitle,
