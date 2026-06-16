@@ -317,20 +317,15 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {c.flowTitle}
  </h2>
 
- <ol className="space-y-7">
- {c.flow.map((step, idx) => (
- <li key={step.n} className="flex gap-4">
- <span className="text-xs font-light text-foreground/60 pt-1 tabular-nums shrink-0 w-6">
- {String(idx + 1).padStart(2, "0")}
- </span>
- <div>
+ <ol className="divide-y divide-border/40 border-t border-border/40">
+ {c.flow.map((step) => (
+ <li key={step.n} className="py-5">
  <h3 className="text-base font-normal text-foreground mb-1.5 leading-snug">
  {step.title}
  </h3>
  <p className="text-sm font-light text-muted-foreground leading-relaxed">
  {step.desc}
  </p>
- </div>
  </li>
  ))}
  </ol>
@@ -590,7 +585,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  ? (s: any) => c.specialistSlugs!.includes(s.slug)
  : undefined
  }
- eyebrow={c.specialistEyebrow ?? "Våre eksperter"}
  title={c.specialistTitle ?? "Spesialistene som følger deg."}
  description={c.specialistDescription ?? "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."}
  seeAllHref={c.specialistCtaHref ?? `/spesialister?kategori=${c.specialistCategory ?? ""}`}
