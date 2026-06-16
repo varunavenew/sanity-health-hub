@@ -39,7 +39,7 @@ export interface SubTreatmentContent {
  rating?: string;
  heroPrice?: string; // e.g. "Pris fra 2 200 kr" — shown above CTA
  hideSeePriser?: boolean; // hides the secondary "Se priser" link
- heroBadges?: { label: string; icon?: "clock" | "fileX" | "check" }[]; // replaces rating badge when provided
+ 
  // Booking
  booking: { kategori: string; tjeneste?: string };
  primaryCtaLabel?: string;
