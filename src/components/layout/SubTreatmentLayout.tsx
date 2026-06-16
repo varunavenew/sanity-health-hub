@@ -1,4 +1,11 @@
 import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Clock, FileX } from "lucide-react";
