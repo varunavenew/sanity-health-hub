@@ -5,6 +5,8 @@ export interface PriceItem {
   name: string;
   price: string;
   duration: string;
+  /** Extra explanatory text shown via an "i" info popover on /priser. */
+  info?: string;
 }
 
 export interface PriceSubcategory {
@@ -103,9 +105,9 @@ export const priceCategories: PriceCategory[] = [
         label: 'IVF',
         path: '/behandlinger/fertilitet/ivf',
         items: [
-          { name: "IVF 1 forsøk", price: "46.000,-", duration: "" },
-          { name: "IVF-pakke 3 forsøk, under 39 år", price: "92.000,-", duration: "" },
-          { name: "IVF-pakke 3 forsøk, 39–41 år", price: "115.000,-", duration: "" },
+          { name: "IVF 1 forsøk", price: "46.000,-", duration: "", info: "Inkluderer alle relevante ultralydundersøkelser, embryodyrkning til blastocyst i embryoscop og første graviditetsultralyd. Dersom ikke befruktning og/eller ingen tilbakesetting av embryo er prisen som en IVF-behandling. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
+          { name: "IVF-pakke 3 forsøk, under 39 år", price: "92.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
+          { name: "IVF-pakke 3 forsøk, 39–41 år", price: "115.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes, og kvinnen skal ikke være over 41 år. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
           { name: "ICSI (mikroinjeksjon)", price: "5.000,-", duration: "" },
           { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
           { name: "Avbrutt behandling (IVF/ICSI) før egguthenting", price: "7.000,-", duration: "" },
@@ -116,10 +118,10 @@ export const priceCategories: PriceCategory[] = [
         label: 'IVF Frysebehandlinger',
         path: '/behandlinger/fertilitet/frys',
         items: [
-          { name: "Fryseforsøk (FET)", price: "17.500,-", duration: "" },
+          { name: "Fryseforsøk (FET)", price: "17.500,-", duration: "", info: "Inkluderer prebehandling, undersøkelse, monitorering med ultralyd før tilbakesetting og første svangerskapskontroll." },
           { name: "Avbrutt behandling før fryseforsøk", price: "4.000,-", duration: "" },
-          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "" },
-          { name: "Tilbakesetting embryo etter opptining egg og befruktning", price: "32.000,-", duration: "" },
+          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "", info: "Inkluderer monitorering med ultralyd under stimulering, egguthenting og nedfrysing av egg, samt ett års lagring fra frysedato." },
+          { name: "Tilbakesetting embryo etter opptining egg og befruktning", price: "32.000,-", duration: "", info: "Tilbakesetting med partnerens sædceller eller donorsæd. Kostnad for donorsperm, mva. og transport kommer i tillegg." },
           { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
         ]
       },
@@ -137,9 +139,9 @@ export const priceCategories: PriceCategory[] = [
         label: 'Sædanalyse og mannlig infertilitet',
         path: '/behandlinger/fertilitet/saedanalyse',
         items: [
-          { name: "Enkel sædanalyse", price: "1.950,-", duration: "" },
-          { name: "Utvidet sædanalyse", price: "5.500,-", duration: "" },
-          { name: "Sædanalyse etter vasektomi", price: "2.200,-", duration: "" },
+          { name: "Enkel sædanalyse", price: "1.950,-", duration: "", info: "Det anbefales å ha en ejakulasjon 2–5 dager før sædprøven leveres for optimal enkel sædanalyse. Prøven kan medbringes hjemmefra og må leveres CMedical innen 60 min. Prøven må oppbevares kroppstemperert underveis." },
+          { name: "Utvidet sædanalyse", price: "5.500,-", duration: "", info: "Det anbefales å ha en ejakulasjon 1–2 dager før sædprøven leveres for optimal utvidet sædanalyse. Prøven må tas på CMedical og timen må bookes i tidsperioden kl 09:00–12:00." },
+          { name: "Sædanalyse etter vasektomi", price: "2.200,-", duration: "", info: "Denne undersøkelsen er inkludert ved vasektomi på CMedical." },
           { name: "Nedfrysning av sædceller", price: "4.500,-", duration: "" },
           { name: "PESA/TESA (spermieuthenting)", price: "5.000,-", duration: "" },
           { name: "MicroTESE (inkl. narkose)", price: "37.000,-", duration: "" },
@@ -151,7 +153,7 @@ export const priceCategories: PriceCategory[] = [
         path: '/behandlinger/fertilitet/donor',
         items: [
           { name: "Partnerdonasjon", price: "45.000,-", duration: "" },
-          { name: "Eggdonasjon (inkl. tilbakesetting av én blastocyst)", price: "97.000,-", duration: "" },
+          { name: "Eggdonasjon (inkl. tilbakesetting av én blastocyst)", price: "97.000,-", duration: "", info: "Beløpet splittes i to innbetalinger: 51.000,- ved oppstart av behandling og 46.000,- ved nedfrysing av blastocyst." },
           { name: "Nedfrysing av sæd til eggdonasjon", price: "5.000,-", duration: "" },
           { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
           { name: "Tilbakesetting av opptint embryo eggdonasjon", price: "17.500,-", duration: "" },
@@ -165,8 +167,8 @@ export const priceCategories: PriceCategory[] = [
         path: '/behandlinger/fertilitet/eggfrysing',
         items: [
           { name: "Konsultasjon/utredning", price: "2.850,-", duration: "" },
-          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "" },
-          { name: "Tilbakesetting embryo etter opptining og befruktning", price: "32.000,-", duration: "" },
+          { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "", info: "Inkluderer monitorering med ultralyd under stimulering, egguthenting og nedfrysing av egg, samt ett års lagring fra frysedato." },
+          { name: "Tilbakesetting embryo etter opptining og befruktning", price: "32.000,-", duration: "", info: "Tilbakesetting med partnerens sædceller eller donorsæd. Kostnad for donorsperm, mva. og transport kommer i tillegg." },
           { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
           { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
         ]
@@ -175,7 +177,7 @@ export const priceCategories: PriceCategory[] = [
         label: 'Øvrige tjenester',
         path: '/behandlinger/fertilitet/ovrige',
         items: [
-          { name: "Graviditetskontroll etter assistert befruktning", price: "2.100,-", duration: "" },
+          { name: "Graviditetskontroll etter assistert befruktning", price: "2.100,-", duration: "", info: "Inkludert i IVF/ICSI-behandling. Pris gjelder ved øvrige behandlinger." },
           { name: "Office-hysteroskopi", price: "9.500,-", duration: "" },
           { name: "Tester på livmorslimhinne (ERA/ALICE/EMMA)", price: "fra 13.500,-", duration: "" },
           { name: "Administrasjonsgebyr flytting embryo/sæd/egg", price: "5.000,-", duration: "" },
