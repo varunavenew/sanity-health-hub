@@ -344,24 +344,45 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
 
   <div className="lg:col-span-7">
-  <div className="divide-y divide-border/60 border-t border-b border-border/60">
- {c.reasons.map((r) => (
- <div key={r.n} className="grid grid-cols-12 gap-4 py-6">
- <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
- {r.n}
- </div>
- <div className="col-span-10 md:col-span-11">
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {r.title}
- </h3>
-                  <div className="text-sm font-light text-muted-foreground leading-relaxed max-w-md space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
-                    {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-                  </div>
- </div>
- </div>
- ))}
- </div>
- </div>
+  <Accordion
+    type="single"
+    collapsible
+    defaultValue={c.reasons[0]?.n}
+    className="border-t border-b border-border/60"
+  >
+  {c.reasons.map((r) => (
+  <AccordionItem
+    key={r.n}
+    value={r.n}
+    className="border-b border-border/60 last:border-b-0"
+  >
+  <AccordionTrigger className="py-6 hover:no-underline group">
+  <div className="grid grid-cols-12 gap-4 w-full text-left">
+  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
+  {r.n}
+  </div>
+  <div className="col-span-10 md:col-span-11">
+  <h3 className="text-base font-normal text-foreground">
+  {r.title}
+  </h3>
+  </div>
+  </div>
+  </AccordionTrigger>
+  <AccordionContent className="pb-6">
+  <div className="grid grid-cols-12 gap-4">
+  <div className="col-span-2 md:col-span-1" />
+  <div className="col-span-10 md:col-span-11">
+  <div className="text-sm font-light text-muted-foreground leading-relaxed max-w-xl space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+  {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+  </div>
+  </div>
+  </div>
+  </AccordionContent>
+  </AccordionItem>
+  ))}
+  </Accordion>
+  </div>
+
  </div>
  </div>
  </section>
