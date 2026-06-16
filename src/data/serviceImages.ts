@@ -165,6 +165,14 @@ const SUB_ALIAS: Record<string, string> = {
   // flere-fagomrader (category aliased to "flere")
   "flere-fagomrader/areknuter": "areknutebehandling",
   "flere-fagomrader/ernaringsfysiolog": "ernaeringsfysologi",
+  "flere-fagomrader/ernaeringsfysiolog": "ernaeringsfysologi",
+  "flere-fagomrader/hudbehandlinger": "hudhelse",
+  "flere-fagomrader/behandlingsutstyr": "hudhelse",
+  "flere-fagomrader/hudpleieprodukter": "hudhelse",
+  "flere-fagomrader/sleeve-gastrektomi": "overvektskirurgi",
+  // fertilitet
+  "fertilitet/par-og-single": "assistert-befruktning",
+  "fertilitet/assistert-befruktning-par-single": "assistert-befruktning",
 };
 
 function normalize(categoryId: string, subId?: string): string {

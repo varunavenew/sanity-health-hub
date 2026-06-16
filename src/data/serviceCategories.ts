@@ -124,15 +124,17 @@ export const serviceCategories: ServiceCategory[] = [
         label: 'Hudhelse',
         path: '/behandlinger/flere-fagomrader/hudhelse',
         items: [
-          { label: 'Behandlingsutstyr' },
-          { label: 'Hudbehandlinger' },
-          { label: 'Hudpleieprodukter' },
+          { label: 'Hudbehandlinger', path: '/behandlinger/flere-fagomrader/hudbehandlinger' },
+          { label: 'Behandlingsutstyr', path: '/behandlinger/flere-fagomrader/behandlingsutstyr' },
+          { label: 'Hudpleieprodukter', path: '/behandlinger/flere-fagomrader/hudpleieprodukter' },
         ],
       },
       {
-        label: 'Bariatrisk kirurgi',
-        path: '/behandlinger/flere-fagomrader/bariatrisk-kirurgi',
-        items: [{ label: 'Sleeve gastrektomi' }],
+        label: 'Overvektskirurgi',
+        path: '/behandlinger/flere-fagomrader/overvektskirurgi',
+        items: [
+          { label: 'Sleeve-gastrektomi', path: '/behandlinger/flere-fagomrader/sleeve-gastrektomi' },
+        ],
       },
       { label: 'Gastrokirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi' },
       { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },

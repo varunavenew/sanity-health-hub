@@ -126,12 +126,25 @@ const AppContent = () => {
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
         
+        {/* Fertilitet slug aliases */}
+        <Route path="/behandlinger/fertilitet/assistert-befruktning-par-single" element={<Navigate to="/behandlinger/fertilitet/par-og-single" replace />} />
+        <Route path="/behandlinger/fertilitet/fertilitetsutredning-juli" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning" replace />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
         <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
+        {/* Hudhelse — new category, sub-pages live under flere-fagomrader */}
+        <Route path="/behandlinger/hudhelse" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse" replace />} />
+        <Route path="/behandlinger/hudhelse/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudbehandlinger" replace />} />
+        <Route path="/behandlinger/hudhelse/behandlingsutstyr" element={<Navigate to="/behandlinger/flere-fagomrader/behandlingsutstyr" replace />} />
+        <Route path="/behandlinger/hudhelse/hudpleieprodukter" element={<Navigate to="/behandlinger/flere-fagomrader/hudpleieprodukter" replace />} />
+        {/* Overvektskirurgi — new category, sub-pages live under flere-fagomrader */}
+        <Route path="/behandlinger/overvektskirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/overvektskirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/sleeve-gastrektomi" replace />} />
         <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/sleeve-gastrektomi" replace />} />
+        {/* Ernæringsfysiolog slug alias */}
+        <Route path="/behandlinger/flere-fagomrader/ernaeringsfysiolog" element={<Navigate to="/behandlinger/flere-fagomrader/ernaringsfysiolog" replace />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
