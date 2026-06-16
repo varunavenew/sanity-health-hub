@@ -113,11 +113,20 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
           <div className="max-w-3xl mx-auto">
             <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {bodyParagraphs.map((p: any, i: number) => (
-                <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
-                  {p.text || p}
-                </p>
-              ))}
+              {bodyParagraphs.map((p: any, i: number) =>
+                p.heading ? (
+                  <h2
+                    key={i}
+                    className="text-xl md:text-2xl font-normal text-brand-dark mt-10 mb-2 pt-6 border-t border-brand-dark/10"
+                  >
+                    {p.heading}
+                  </h2>
+                ) : (
+                  <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
+                    {p.text || p}
+                  </p>
+                )
+              )}
             </div>
 
             {/* CTA */}
