@@ -1803,7 +1803,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
     ],
     linkedServices: [
-      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Oversikt over overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Oversikt over overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
       { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
       { label: "Robotassistert kirurgi", description: "Presis kirurgi med da Vinci X-teknologi.", path: "/behandlinger/flere-fagomrader/robotkirurgi" },
       { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
