@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { fertilitetSubPages } from "@/data/fertilitetSubPages";
 import { getServiceImage } from "@/data/serviceImages";
-import TreatmentPage from "./TreatmentPage";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
+import NotFound from "@/pages/NotFound";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
@@ -34,10 +34,22 @@ const SUB_ID_ALIASES: Record<string, string> = {
 
 const FertilitetSubPage = ({ isChatOpen }: Props) => {
   const { subId } = useParams<{ subId: string }>();
+  const rich = subId ? treatmentContent[`fertilitet/${subId}`] : undefined;
+
+  // 1) Rich treatmentContent entry — source-of-truth fagtekst from the document.
+  if (rich && subId) {
+    const content = treatmentToSubLayout({
+      data: rich,
+      categoryId: "fertilitet",
+      subId,
+    });
+    return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
+  }
+
   const resolvedId = subId ? (SUB_ID_ALIASES[subId] ?? subId) : undefined;
   const base = resolvedId ? fertilitetSubPages[resolvedId] : undefined;
 
-  // 1) Curated SubTreatmentContent entry — use as-is.
+  // 2) Curated SubTreatmentContent entry for pages not yet in treatmentContent.
   if (base && resolvedId) {
     const heroImage = base.heroImage ?? getServiceImage("fertilitet", resolvedId);
     const flowImage = base.flowImage ?? pickClinicImage(`fertilitet/${resolvedId}`);
@@ -56,20 +68,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
 
-  // 2) Rich treatmentContent entry — adapt via shared converter so fagteksten
-  //    fra dokumentet vises ordrett i seksjon 2 (samme som NIPT).
-  const rich = resolvedId ? treatmentContent[`fertilitet/${resolvedId}`] : undefined;
-  if (rich && resolvedId) {
-    const content = treatmentToSubLayout({
-      data: rich,
-      categoryId: "fertilitet",
-      subId: resolvedId,
-    });
-    return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
-  }
-
-  // 3) Legacy fallback.
-  return <TreatmentPage categoryId="fertilitet" isChatOpen={isChatOpen} />;
+  return <NotFound isChatOpen={isChatOpen} />;
 };
 
 export default FertilitetSubPage;

@@ -3,11 +3,13 @@ import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Plus, Minus, ChevronRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
 import { Specialist } from "@/data/specialists";
 import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { treatmentToSubLayout, type CategoryId } from "@/lib/treatmentToSubLayout";
 
 interface TreatmentPageProps {
   categoryId: string;
@@ -21,6 +23,15 @@ const specialistLabels: Record<string, string> = {
   ortopedi: "ortoped",
   "flere-fagomrader": "spesialist",
 };
+
+const modernCategoryIds = new Set<string>([
+  "gynekologi",
+  "fertilitet",
+  "urologi",
+  "ortopedi",
+  "graviditet",
+  "flere-fagomrader",
+]);
 
 const formatInlineMarkdown = (text: string): string => {
   return text
@@ -290,6 +301,16 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
       }
     }
   }, [location.hash, treatment]);
+
+  if (subId && treatment && modernCategoryIds.has(categoryId)) {
+    const content = treatmentToSubLayout({
+      data: staticTreatment ?? treatment,
+      categoryId: categoryId as CategoryId,
+      subId,
+    });
+
+    return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
+  }
 
   if (!treatment) {
     return (

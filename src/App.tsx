@@ -11,7 +11,6 @@ import Guide from "./pages/Guide";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
-import TreatmentPage from "./pages/treatments/TreatmentPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
 import Priser from "./pages/Priser";
 import Insurance from "./pages/Insurance";

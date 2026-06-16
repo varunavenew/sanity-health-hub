@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
-import TreatmentPage from "./TreatmentPage";
 import { treatmentContent } from "@/data/treatmentContent";
-import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
+import { treatmentToSubLayout, type CategoryId } from "@/lib/treatmentToSubLayout";
+import NotFound from "@/pages/NotFound";
 
 interface Props {
-  categoryId: "urologi" | "ortopedi" | "graviditet" | "flere-fagomrader";
+  categoryId: CategoryId;
   isChatOpen: boolean;
 }
 
@@ -14,15 +14,15 @@ interface Props {
  * Fertilitet. Konverterer treatmentContent → SubTreatmentLayout slik at
  * ALLE undersider deler samme layout som /behandlinger/gynekologi/undersokelse.
  *
- * Hvis det ikke finnes data for kombinasjonen kategori/subId, faller den
- * tilbake til legacy TreatmentPage så ingenting går i stykker.
+ * Hvis det ikke finnes data for kombinasjonen kategori/subId, viser vi 404
+ * i stedet for å falle tilbake til gammel layout.
  */
 const GenericSubTreatmentPage = ({ categoryId, isChatOpen }: Props) => {
   const { subId } = useParams<{ subId: string }>();
   const data = subId ? treatmentContent[`${categoryId}/${subId}`] : undefined;
 
   if (!data || !subId) {
-    return <TreatmentPage categoryId={categoryId} isChatOpen={isChatOpen} />;
+    return <NotFound isChatOpen={isChatOpen} />;
   }
 
   const content = treatmentToSubLayout({ data, categoryId, subId });
