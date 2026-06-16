@@ -475,8 +475,40 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </section>
       )}
 
-      {/* 4b. REVIEWS — pasienttilbakemeldinger (samme som fertilitet) */}
-      <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
+      {/* 4b. PROMISES — three image cards (swapped above reviews) */}
+      <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
+            {c.promises.map((p, i) => (
+              <div key={p.title} className="group flex flex-col">
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
+                  <img
+                    src={promiseImages[i % promiseImages.length]}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
+                  {p.title}
+                </h3>
+                <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-[48ch]">
+                  {p.desc}
+                </p>
+                {p.href && (
+                  <Link
+                    to={p.href}
+                    className="mt-6 inline-flex items-center gap-2 text-sm font-light text-foreground border-b border-foreground/30 pb-1 self-start hover:border-foreground transition-colors"
+                  >
+                    {p.ctaLabel ?? "Les mer"}
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
 
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
