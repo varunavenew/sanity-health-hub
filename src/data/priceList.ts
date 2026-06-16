@@ -177,7 +177,7 @@ export const priceCategories: PriceCategory[] = [
         label: 'Øvrige tjenester',
         path: '/behandlinger/fertilitet/ovrige',
         items: [
-          { name: "Graviditetskontroll etter assistert befruktning", price: "2.100,-", duration: "" },
+          { name: "Graviditetskontroll etter assistert befruktning", price: "2.100,-", duration: "", info: "Inkludert i IVF/ICSI-behandling. Pris gjelder ved øvrige behandlinger." },
           { name: "Office-hysteroskopi", price: "9.500,-", duration: "" },
           { name: "Tester på livmorslimhinne (ERA/ALICE/EMMA)", price: "fra 13.500,-", duration: "" },
           { name: "Administrasjonsgebyr flytting embryo/sæd/egg", price: "5.000,-", duration: "" },
