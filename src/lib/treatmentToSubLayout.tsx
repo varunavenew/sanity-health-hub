@@ -233,6 +233,7 @@ export const treatmentToSubLayout = ({
     seoDescription: summarize(data.description, 160),
     canonical,
     parent,
+    grandparent,
     title: data.title,
     eyebrow: `${parent.name} — CMedical`,
     heroTitle,
