@@ -191,7 +191,7 @@ const Services = ({ isChatOpen }: PageProps) => {
 
       {/* Fagområder — Featured services (full-bleed, no gaps) */}
       <section className="bg-background pb-10 md:pb-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0">
           {featuredServices.map((item: any, idx: number) => (
             <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] overflow-hidden">
               <img src={item.image} alt={item.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
