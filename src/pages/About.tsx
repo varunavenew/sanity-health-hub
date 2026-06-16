@@ -101,7 +101,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[760px]">
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <div className="max-w-xl w-full">
-              <p className="text-xs font-light text-brand-dark/60 mb-6">Om CMedical</p>
+              
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-brand-dark leading-[1.05]">
                 {title}
               </h2>
