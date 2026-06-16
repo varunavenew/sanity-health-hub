@@ -2015,5 +2015,66 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
 
+  // ─── Gastrokirurgi-undersider (placeholdere — Synnøve fyller med tekst) ───
+  "flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi": {
+    title: "Gallestein / kikkhullskirurgi",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om gallesteinsbehandling og kikkhullskirurgi hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    sections: [
+      {
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om gallesteinsbehandling og kikkhullskirurgi. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+      },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+    ],
+  },
+
+  "flere-fagomrader/gastrokirurgi/brokkbehandling": {
+    title: "Brokkbehandling",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om brokkbehandling hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    sections: [
+      {
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om utredning og kirurgisk behandling av brokk. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+      },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
+      { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+    ],
+  },
+
+  "flere-fagomrader/gastrokirurgi/endetarmsplager": {
+    title: "Endetarmsplager",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om utredning og behandling av endetarmsplager hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    sections: [
+      {
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om utredning og behandling av endetarmsplager. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+      },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
+      { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+    ],
+  },
+
 };
 
