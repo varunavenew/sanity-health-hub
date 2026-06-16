@@ -19,6 +19,7 @@ import urologiImg from "@/assets/categories/urologi-real.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
 import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
+import flereImg from "@/assets/categories/flere-fagomrader.jpg";
 
 interface PageProps {
   isChatOpen: boolean;
