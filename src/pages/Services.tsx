@@ -148,7 +148,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={servicesPage?.seo?.metaTitle || "Tjenester – Finn behandlingen som passer for deg"}
-        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."}
+        description={servicesPage?.seo?.metaDescription || "Se alle tjenester hos CMedical: gynekologi, graviditet, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid."}
         canonical="/tjenester"
         breadcrumbs={[
           { name: "Hjem", path: "/" },
