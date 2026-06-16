@@ -153,6 +153,10 @@ const SUB_ALIAS: Record<string, string> = {
   "gynekologi/vaginale-fremfall": "vaginalt-fremfall",
   "gynekologi/cyster": "cyster-pa-eggstokkene",
   "gynekologi/hysteroskopi": "gynekologisk-kirurgi", // no dedicated image
+  // NIPT lives in graviditet image set
+  // gynekologi pages without dedicated images — reuse closest relevant photo
+  "gynekologi/pcos": "hormonforstyrrelser",
+  "gynekologi/pms-pmdd": "hormonforstyrrelser",
   // urologi
   "urologi/blaere": "blaere-og-urinveier",
   "urologi/infertilitet": "mannlig-infertilitet",
@@ -175,6 +179,17 @@ const SUB_ALIAS: Record<string, string> = {
   "fertilitet/assistert-befruktning-par-single": "assistert-befruktning",
 };
 
+/**
+ * Cross-category subId aliases — when an image lives under a different
+ * category than the route. Looked up after the in-category SUB_ALIAS miss.
+ * Value is the full image slug (e.g. "graviditet-nipt").
+ */
+const CROSS_CATEGORY_ALIAS: Record<string, string> = {
+  "gynekologi/nipt": "graviditet-nipt",
+  "gynekologi/fostermedisin": "graviditet-fosterdiagnostikk",
+  "gynekologi/fodselsskader": "graviditet-svangerskapsteam",
+};
+
 function normalize(categoryId: string, subId?: string): string {
   const cat = ALIAS[categoryId] ?? categoryId;
   const sub = subId ? (SUB_ALIAS[`${categoryId}/${subId}`] ?? subId) : undefined;
@@ -186,6 +201,10 @@ function normalize(categoryId: string, subId?: string): string {
  * Falls back to the category hero image, then undefined.
  */
 export function getServiceImage(categoryId: string, subId?: string): string | undefined {
+  if (subId) {
+    const cross = CROSS_CATEGORY_ALIAS[`${categoryId}/${subId}`];
+    if (cross && serviceImageBySlug[cross]) return serviceImageBySlug[cross];
+  }
   const exact = serviceImageBySlug[normalize(categoryId, subId)];
   if (exact) return exact;
   // try common slug rewrites
@@ -199,6 +218,26 @@ export function getServiceImage(categoryId: string, subId?: string): string | un
   }
   // fallback: category hero
   return serviceImageBySlug[`${ALIAS[categoryId] ?? categoryId}-hero`];
+}
+
+/**
+ * Like getServiceImage, but only returns a URL when a dedicated image
+ * exists for the (category, subId) pair. Returns undefined when only the
+ * category-level hero would match. Used to override hardcoded fallbacks
+ * in static content.
+ */
+export function getDedicatedServiceImage(categoryId: string, subId?: string): string | undefined {
+  if (!subId) return undefined;
+  const cross = CROSS_CATEGORY_ALIAS[`${categoryId}/${subId}`];
+  if (cross && serviceImageBySlug[cross]) return serviceImageBySlug[cross];
+  const exact = serviceImageBySlug[normalize(categoryId, subId)];
+  if (exact) return exact;
+  const alt = subId
+    .replace(/oe/g, "o")
+    .replace(/ae/g, "a")
+    .replace(/aa/g, "a");
+  const altKey = `${ALIAS[categoryId] ?? categoryId}-${alt}`;
+  return serviceImageBySlug[altKey];
 }
 
 export function getCategoryHeroImage(categoryId: string): string | undefined {

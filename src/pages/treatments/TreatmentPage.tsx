@@ -10,6 +10,7 @@ import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecial
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { treatmentToSubLayout, type CategoryId } from "@/lib/treatmentToSubLayout";
+import { getDedicatedServiceImage } from "@/data/serviceImages";
 
 interface TreatmentPageProps {
   categoryId: string;
@@ -242,12 +243,15 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
   const staticTreatment = treatmentContent[treatmentKey];
 
   // Merge Sanity data with static fallback — Sanity stubs may lack content
+  // Prefer dedicated CDN image keyed by route over hardcoded static fallbacks
+  const dedicatedImage = getDedicatedServiceImage(categoryId, subId);
+
   const treatment: TreatmentData | undefined = sanityTreatment
     ? {
         title: sanityTreatment.title || staticTreatment?.title || "",
         subtitle: sanityTreatment.subtitle || staticTreatment?.subtitle,
         description: sanityTreatment.description || staticTreatment?.description || "",
-        heroImage: sanityTreatment.heroImage || staticTreatment?.heroImage || "",
+        heroImage: sanityTreatment.heroImage || dedicatedImage || staticTreatment?.heroImage || "",
         parentCategory: sanityTreatment.parentCategory || staticTreatment?.parentCategory || categoryId,
         benefits: (sanityTreatment.benefits && sanityTreatment.benefits.length > 0) ? sanityTreatment.benefits : staticTreatment?.benefits,
         benefitsTitle: sanityTreatment.benefitsTitle || staticTreatment?.benefitsTitle,
@@ -257,7 +261,9 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         relatedSpecialists: (sanityTreatment.relatedSpecialists && sanityTreatment.relatedSpecialists.length > 0) ? sanityTreatment.relatedSpecialists : staticTreatment?.relatedSpecialists,
         linkedServices: (sanityTreatment.linkedServices && sanityTreatment.linkedServices.length > 0) ? sanityTreatment.linkedServices : staticTreatment?.linkedServices,
       }
-    : staticTreatment;
+    : staticTreatment
+    ? { ...staticTreatment, heroImage: dedicatedImage || staticTreatment.heroImage }
+    : undefined;
 
   // Get related specialists: explicit slugs first, fallback to all in category
   const allSpecs: Specialist[] = (sanitySpecialists || []).map(s => ({
