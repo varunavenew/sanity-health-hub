@@ -1749,7 +1749,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
     ],
     linkedServices: [
-      { label: "Sleeve gastrektomi", description: "Les mer om den robotassisterte metoden, forberedelser og oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
+      { label: "Sleeve gastrektomi", description: "Les mer om den robotassisterte metoden, forberedelser og oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
       { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
       { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
     ],
