@@ -106,6 +106,74 @@ interface Props {
  content: SubTreatmentContent;
 }
 
+const ReasonsAccordion = ({
+  title,
+  lead,
+  lead2,
+  items,
+}: {
+  title: string;
+  lead?: string;
+  lead2?: string;
+  items: { n: string; title: string; desc: ReactNode }[];
+}) => {
+  const [openId, setOpenId] = useState<string | null>(null);
+  if (!items || items.length === 0) return null;
+  return (
+    <section className="py-10 md:py-14 bg-background">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-4">
+            {title}
+          </h2>
+          {(lead || lead2) && (
+            <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
+              {lead && (
+                <p className="text-base font-light text-muted-foreground leading-relaxed">{lead}</p>
+              )}
+              {lead2 && (
+                <p className="text-base font-light text-muted-foreground leading-relaxed">{lead2}</p>
+              )}
+            </div>
+          )}
+          <div className="space-y-0 border-t border-border">
+            {items.map((r) => {
+              const isOpen = openId === r.n;
+              return (
+                <div key={r.n} className="border-b border-border">
+                  <button
+                    type="button"
+                    onClick={() => setOpenId(isOpen ? null : r.n)}
+                    className="w-full flex items-center justify-between py-5 text-left hover:text-brand-dark transition-colors"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-base md:text-lg font-normal text-foreground">
+                      {r.title}
+                    </span>
+                    {isOpen ? (
+                      <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    ) : (
+                      <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    )}
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-out ${
+                      isOpen ? "max-h-[800px] pb-5" : "max-h-0"
+                    }`}
+                  >
+                    <div className="text-muted-foreground text-sm md:text-base font-light leading-relaxed pr-8 space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                      {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
