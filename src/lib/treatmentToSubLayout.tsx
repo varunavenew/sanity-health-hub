@@ -129,6 +129,8 @@ interface AdapterOptions {
   heroImage?: string;
   /** Override breadcrumb parent (e.g. nest a method under a samleområde-landing). */
   parentOverride?: { name: string; path: string };
+  /** Optional grandparent shown between Hjem and parent. */
+  grandparent?: { name: string; path: string };
   /** Override canonical URL for nested routes. */
   canonicalOverride?: string;
 }
@@ -139,6 +141,7 @@ export const treatmentToSubLayout = ({
   subId,
   heroImage,
   parentOverride,
+  grandparent,
   canonicalOverride,
 }: AdapterOptions): SubTreatmentContent => {
   const parent = parentOverride ?? CATEGORY_LABEL[categoryId];
