@@ -5,6 +5,8 @@ export interface PriceItem {
   name: string;
   price: string;
   duration: string;
+  /** Extra explanatory text shown via an "i" info popover on /priser. */
+  info?: string;
 }
 
 export interface PriceSubcategory {
