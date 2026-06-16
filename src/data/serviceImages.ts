@@ -201,6 +201,24 @@ export function getServiceImage(categoryId: string, subId?: string): string | un
   return serviceImageBySlug[`${ALIAS[categoryId] ?? categoryId}-hero`];
 }
 
+/**
+ * Like getServiceImage, but only returns a URL when a dedicated image
+ * exists for the (category, subId) pair. Returns undefined when only the
+ * category-level hero would match. Used to override hardcoded fallbacks
+ * in static content.
+ */
+export function getDedicatedServiceImage(categoryId: string, subId?: string): string | undefined {
+  if (!subId) return undefined;
+  const exact = serviceImageBySlug[normalize(categoryId, subId)];
+  if (exact) return exact;
+  const alt = subId
+    .replace(/oe/g, "o")
+    .replace(/ae/g, "a")
+    .replace(/aa/g, "a");
+  const altKey = `${ALIAS[categoryId] ?? categoryId}-${alt}`;
+  return serviceImageBySlug[altKey];
+}
+
 export function getCategoryHeroImage(categoryId: string): string | undefined {
   return serviceImageBySlug[`${ALIAS[categoryId] ?? categoryId}-hero`];
 }
