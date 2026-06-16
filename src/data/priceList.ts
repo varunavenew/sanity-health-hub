@@ -153,7 +153,7 @@ export const priceCategories: PriceCategory[] = [
         path: '/behandlinger/fertilitet/donor',
         items: [
           { name: "Partnerdonasjon", price: "45.000,-", duration: "" },
-          { name: "Eggdonasjon (inkl. tilbakesetting av én blastocyst)", price: "97.000,-", duration: "" },
+          { name: "Eggdonasjon (inkl. tilbakesetting av én blastocyst)", price: "97.000,-", duration: "", info: "Beløpet splittes i to innbetalinger: 51.000,- ved oppstart av behandling og 46.000,- ved nedfrysing av blastocyst." },
           { name: "Nedfrysing av sæd til eggdonasjon", price: "5.000,-", duration: "" },
           { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
           { name: "Tilbakesetting av opptint embryo eggdonasjon", price: "17.500,-", duration: "" },
