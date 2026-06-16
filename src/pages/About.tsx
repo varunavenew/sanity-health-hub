@@ -77,67 +77,63 @@ const About = ({ isChatOpen }: AboutProps) => {
           { name: "Om oss", path: "/om-oss" },
         ]}
       />
-      {/* Letter-style content */}
-      <article className="bg-brand-warm pt-20">
-        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
-          <div className="max-w-3xl mx-auto">
-            {/* Header */}
-            <header className="mb-8 pb-6 border-b border-brand-dark/10">
-              <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
+      {/* HERO — full-bleed split 50/50, image fills the right half */}
+      <header className="bg-brand-warm pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          {/* Left — eyebrow + title + intro */}
+          <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
+            <div className="max-w-xl w-full">
+              <p className="text-xs font-light text-brand-dark/60 mb-6">Om CMedical</p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-brand-dark leading-[1.05]">
                 {title}
-              </h1>
-            </header>
-
-            {/* Main content - intro */}
-            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {introParagraphs.map((p: string, i: number) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Image */}
-        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="max-w-3xl mx-auto">
-            <img 
-              src={heroImage} 
-              alt="Omsorg hos CMedical - Familie"
-              className="w-full aspect-[3/2] object-cover object-[30%_20%]"
-            />
-          </div>
-        </div>
-
-        {/* Continued content */}
-        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
-          <div className="max-w-3xl mx-auto">
-            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-              {bodyParagraphs.map((p: any, i: number) =>
-                p.heading ? (
-                  <h2
-                    key={i}
-                    className="text-xl md:text-2xl font-normal text-brand-dark mt-10 mb-2 pt-6 border-t border-brand-dark/10"
-                  >
-                    {p.heading}
-                  </h2>
-                ) : (
-                  <p key={i} className={p.bold ? "text-brand-dark font-normal pt-2" : ""}>
-                    {p.text || p}
-                  </p>
-                )
+              </h2>
+              {introParagraphs.length > 0 && (
+                <div className="space-y-5 text-brand-dark/80 text-base md:text-lg leading-relaxed font-light mb-10">
+                  {introParagraphs.map((p: string, i: number) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
               )}
-            </div>
-
-            {/* CTA */}
-            <div className="mt-8 pt-6 border-t border-brand-dark/10">
-              <Button 
+              <Button
                 className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
                 onClick={() => navigate('/booking')}
               >
                 Book konsultasjon
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
+            </div>
+          </div>
+
+          {/* Right — image fills the entire half */}
+          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
+            <img
+              src={heroImage}
+              alt="Omsorg hos CMedical - Familie"
+              className="absolute inset-0 w-full h-full object-cover object-[30%_20%]"
+            />
+          </div>
+        </div>
+      </header>
+
+      {/* Continued content */}
+      <article className="bg-brand-warm">
+        <div className="container mx-auto px-6 md:px-16 py-16 md:py-24">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+              {bodyParagraphs.map((p: any, i: number) =>
+                p.heading ? (
+                  <h2
+                    key={i}
+                    className="text-2xl md:text-3xl font-light text-brand-dark mt-16 first:mt-0 mb-5"
+                  >
+                    {p.heading}
+                  </h2>
+                ) : (
+                  <p key={i} className={`mt-5 ${p.bold ? "text-brand-dark font-normal" : ""}`}>
+                    {p.text || p}
+                  </p>
+                )
+              )}
             </div>
           </div>
         </div>
