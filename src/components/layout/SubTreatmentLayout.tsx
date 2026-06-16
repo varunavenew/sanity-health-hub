@@ -1,17 +1,12 @@
-import { useEffect, useState, ReactNode, ComponentType, SVGProps } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone, Clock, FileX, Plus, Minus } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
@@ -106,68 +101,67 @@ interface Props {
  content: SubTreatmentContent;
 }
 
-const ReasonsAccordion = ({
+const ReasonsEditorial = ({
+  eyebrow,
   title,
   lead,
   lead2,
   items,
 }: {
+  eyebrow?: string;
   title: string;
   lead?: string;
   lead2?: string;
   items: { n: string; title: string; desc: ReactNode }[];
 }) => {
-  const [openId, setOpenId] = useState<string | null>(null);
   if (!items || items.length === 0) return null;
   return (
-    <section className="py-10 md:py-14 bg-background">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-4">
-            {title}
-          </h2>
-          {(lead || lead2) && (
-            <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
+    <section className="py-20 md:py-28 bg-background">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
+          {/* Sticky left intro */}
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              {eyebrow && (
+                <p className="text-xs font-light text-foreground/60 mb-5">
+                  {eyebrow}
+                </p>
+              )}
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+                {title}
+              </h2>
               {lead && (
-                <p className="text-base font-light text-muted-foreground leading-relaxed">{lead}</p>
+                <p className="text-base font-light text-muted-foreground leading-relaxed mb-3">
+                  {lead}
+                </p>
               )}
               {lead2 && (
-                <p className="text-base font-light text-muted-foreground leading-relaxed">{lead2}</p>
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  {lead2}
+                </p>
               )}
             </div>
-          )}
-          <div className="space-y-0 border-t border-border">
-            {items.map((r) => {
-              const isOpen = openId === r.n;
-              return (
-                <div key={r.n} className="border-b border-border">
-                  <button
-                    type="button"
-                    onClick={() => setOpenId(isOpen ? null : r.n)}
-                    className="w-full flex items-center justify-between py-5 text-left hover:text-brand-dark transition-colors"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="text-base md:text-lg font-normal text-foreground">
+          </div>
+
+          {/* Editorial list — fully visible content, no accordion */}
+          <div className="lg:col-span-7">
+            <ol className="divide-y divide-border/60 border-t border-border/60">
+              {items.map((r, i) => (
+                <li key={r.n} className="grid grid-cols-12 gap-4 md:gap-6 py-8 first:pt-8">
+                  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/50 tabular-nums pt-1.5">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div className="col-span-10 md:col-span-11">
+                    <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
                       {r.title}
-                    </span>
-                    {isOpen ? (
-                      <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    ) : (
-                      <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    )}
-                  </button>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-out ${
-                      isOpen ? "max-h-[800px] pb-5" : "max-h-0"
-                    }`}
-                  >
-                    <div className="text-muted-foreground text-sm md:text-base font-light leading-relaxed pr-8 space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
+                    </h3>
+                    <div className="text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40">
                       {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>
@@ -267,8 +261,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   })()}
 
 
-  {/* 2. REASONS / SYMPTOMS — matches homepage FAQ pattern */}
-  <ReasonsAccordion
+  {/* 2. REASONS / INFO — editorial sticky split */}
+  <ReasonsEditorial
+    eyebrow={c.reasonsEyebrow}
     title={c.reasonsTitle}
     lead={c.reasonsLead}
     lead2={c.reasonsLead2}
@@ -445,6 +440,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </div>
       </section>
 
+      {/* 4b. REVIEWS — pasienttilbakemeldinger (samme som fertilitet) */}
+      <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
 
 
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
