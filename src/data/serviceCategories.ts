@@ -117,9 +117,34 @@ export const serviceCategories: ServiceCategory[] = [
     label: 'Flere tjenester',
     path: '/flere-fagomrader',
     subcategories: [
-      { label: 'Endokrinologi', path: '/behandlinger/flere-fagomrader/endokrinologi' },
-      { label: 'Ernæringsfysiolog', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog' },
-      { label: 'Hudlege', path: '/behandlinger/flere-fagomrader/hudlege' },
+      {
+        label: 'Endokrinologi',
+        path: '/behandlinger/flere-fagomrader/endokrinologi',
+        items: [
+          { label: 'Stoffskifte', path: '/behandlinger/flere-fagomrader/endokrinologi-stoffskifte' },
+          { label: 'Diabetes', path: '/behandlinger/flere-fagomrader/endokrinologi-diabetes' },
+          { label: 'Binyrer og hormoner', path: '/behandlinger/flere-fagomrader/endokrinologi-binyrer' },
+        ],
+      },
+      {
+        label: 'Ernæringsfysiolog',
+        path: '/behandlinger/flere-fagomrader/ernaringsfysiolog',
+        items: [
+          { label: 'Vekt og kosthold', path: '/behandlinger/flere-fagomrader/ernaring-vekt' },
+          { label: 'Matintoleranser', path: '/behandlinger/flere-fagomrader/ernaring-intoleranser' },
+          { label: 'Sykdomsernæring', path: '/behandlinger/flere-fagomrader/ernaring-sykdom' },
+        ],
+      },
+      {
+        label: 'Hudlege',
+        path: '/behandlinger/flere-fagomrader/hudlege',
+        items: [
+          { label: 'Føflekksjekk', path: '/behandlinger/flere-fagomrader/hudlege-foflekksjekk' },
+          { label: 'Eksem og psoriasis', path: '/behandlinger/flere-fagomrader/hudlege-eksem' },
+          { label: 'Akne', path: '/behandlinger/flere-fagomrader/hudlege-akne' },
+          { label: 'Hudkreft', path: '/behandlinger/flere-fagomrader/hudlege-hudkreft' },
+        ],
+      },
       {
         label: 'Hudhelse',
         path: '/behandlinger/flere-fagomrader/hudhelse',
@@ -134,16 +159,86 @@ export const serviceCategories: ServiceCategory[] = [
         path: '/behandlinger/flere-fagomrader/overvektskirurgi',
         items: [
           { label: 'Sleeve-gastrektomi', path: '/behandlinger/flere-fagomrader/sleeve-gastrektomi' },
+          { label: 'Gastrisk bypass', path: '/behandlinger/flere-fagomrader/gastrisk-bypass' },
+          { label: 'Oppfølging etter overvektskirurgi', path: '/behandlinger/flere-fagomrader/overvektskirurgi-oppfolging' },
         ],
       },
-      { label: 'Gastrokirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi' },
-      { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },
-      { label: 'Plastikkirurgi', path: '/behandlinger/flere-fagomrader/plastikkirurgi' },
-      { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi' },
-      { label: 'Revmatologi', path: '/behandlinger/flere-fagomrader/revmatologi' },
-      { label: 'Robotassistert kirurgi', path: '/behandlinger/flere-fagomrader/robotkirurgi' },
-      { label: 'Sexologi', path: '/behandlinger/flere-fagomrader/sexologi' },
-      { label: 'Åreknutebehandling', path: '/behandlinger/flere-fagomrader/areknuter' },
+      {
+        label: 'Gastrokirurgi',
+        path: '/behandlinger/flere-fagomrader/gastrokirurgi',
+        items: [
+          { label: 'Galleblære og galleveier', path: '/behandlinger/flere-fagomrader/gastrokirurgi-galleblare' },
+          { label: 'Brokk (lyske, navle, arr)', path: '/behandlinger/flere-fagomrader/gastrokirurgi-brokk' },
+          { label: 'Mage og tarm', path: '/behandlinger/flere-fagomrader/gastrokirurgi-mage-tarm' },
+          { label: 'Refluks og halsbrann', path: '/behandlinger/flere-fagomrader/gastrokirurgi-refluks' },
+          { label: 'Endetarm og proktologi', path: '/behandlinger/flere-fagomrader/gastrokirurgi-proktologi' },
+          { label: 'Gastroskopi og koloskopi', path: '/behandlinger/flere-fagomrader/gastrokirurgi-skopi' },
+        ],
+      },
+      {
+        label: 'Osteopati',
+        path: '/behandlinger/flere-fagomrader/osteopati',
+        items: [
+          { label: 'Nakke og rygg', path: '/behandlinger/flere-fagomrader/osteopati-nakke-rygg' },
+          { label: 'Kroniske smerter', path: '/behandlinger/flere-fagomrader/osteopati-kroniske-smerter' },
+          { label: 'Bekkenrelaterte plager', path: '/behandlinger/flere-fagomrader/osteopati-bekken' },
+        ],
+      },
+      {
+        label: 'Plastikkirurgi',
+        path: '/behandlinger/flere-fagomrader/plastikkirurgi',
+        items: [
+          { label: 'Bryst', path: '/behandlinger/flere-fagomrader/plastikkirurgi-bryst' },
+          { label: 'Kropp', path: '/behandlinger/flere-fagomrader/plastikkirurgi-kropp' },
+          { label: 'Ansikt', path: '/behandlinger/flere-fagomrader/plastikkirurgi-ansikt' },
+          { label: 'Rekonstruksjon', path: '/behandlinger/flere-fagomrader/plastikkirurgi-rekonstruksjon' },
+        ],
+      },
+      {
+        label: 'Psykologi',
+        path: '/behandlinger/flere-fagomrader/psykologi',
+        items: [
+          { label: 'Angst og depresjon', path: '/behandlinger/flere-fagomrader/psykologi-angst-depresjon' },
+          { label: 'Traumer', path: '/behandlinger/flere-fagomrader/psykologi-traumer' },
+          { label: 'Parterapi og relasjoner', path: '/behandlinger/flere-fagomrader/psykologi-parterapi' },
+        ],
+      },
+      {
+        label: 'Revmatologi',
+        path: '/behandlinger/flere-fagomrader/revmatologi',
+        items: [
+          { label: 'Leddgikt', path: '/behandlinger/flere-fagomrader/revmatologi-leddgikt' },
+          { label: 'Artrose', path: '/behandlinger/flere-fagomrader/revmatologi-artrose' },
+          { label: 'Bindevevssykdommer', path: '/behandlinger/flere-fagomrader/revmatologi-bindevev' },
+        ],
+      },
+      {
+        label: 'Robotassistert kirurgi',
+        path: '/behandlinger/flere-fagomrader/robotkirurgi',
+        items: [
+          { label: 'Gynekologisk robotkirurgi', path: '/behandlinger/flere-fagomrader/robotkirurgi-gynekologi' },
+          { label: 'Urologisk robotkirurgi', path: '/behandlinger/flere-fagomrader/robotkirurgi-urologi' },
+          { label: 'Gastrokirurgisk robotkirurgi', path: '/behandlinger/flere-fagomrader/robotkirurgi-gastro' },
+        ],
+      },
+      {
+        label: 'Sexologi',
+        path: '/behandlinger/flere-fagomrader/sexologi',
+        items: [
+          { label: 'Samliv og relasjoner', path: '/behandlinger/flere-fagomrader/sexologi-samliv' },
+          { label: 'Seksuelle funksjonsplager', path: '/behandlinger/flere-fagomrader/sexologi-funksjon' },
+          { label: 'Identitet og legning', path: '/behandlinger/flere-fagomrader/sexologi-identitet' },
+        ],
+      },
+      {
+        label: 'Åreknutebehandling',
+        path: '/behandlinger/flere-fagomrader/areknuter',
+        items: [
+          { label: 'Sklerosering', path: '/behandlinger/flere-fagomrader/areknuter-sklerosering' },
+          { label: 'Laserbehandling', path: '/behandlinger/flere-fagomrader/areknuter-laser' },
+          { label: 'Kirurgisk fjerning', path: '/behandlinger/flere-fagomrader/areknuter-kirurgi' },
+        ],
+      },
     ],
   },
 ];
