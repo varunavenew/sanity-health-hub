@@ -11,9 +11,21 @@ interface Props {
 
 const GynekologiSubPage = ({ isChatOpen }: Props) => {
   const { subId } = useParams<{ subId: string }>();
+  const rich = subId ? treatmentContent[`gynekologi/${subId}`] : undefined;
+
+  // 1) Rich treatmentContent entry — source-of-truth fagtekst from the document.
+  if (rich && subId) {
+    const content = treatmentToSubLayout({
+      data: rich,
+      categoryId: "gynekologi",
+      subId,
+    });
+    return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
+  }
+
   const base = subId ? gynekologiSubPages[subId] : undefined;
 
-  // 1) Curated SubTreatmentContent entry.
+  // 2) Curated SubTreatmentContent entry for pages not yet in treatmentContent.
   if (base) {
     const content = {
       specialistCategory: "gynekologi" as const,
@@ -21,18 +33,6 @@ const GynekologiSubPage = ({ isChatOpen }: Props) => {
       specialistCtaHref: "/spesialister?kategori=gynekologi",
       ...base,
     };
-    return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
-  }
-
-  // 2) Rich treatmentContent entry — adapt så fagteksten fra dokumentet
-  //    vises ordrett i seksjon 2 (samme som NIPT).
-  const rich = subId ? treatmentContent[`gynekologi/${subId}`] : undefined;
-  if (rich && subId) {
-    const content = treatmentToSubLayout({
-      data: rich,
-      categoryId: "gynekologi",
-      subId,
-    });
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
 
