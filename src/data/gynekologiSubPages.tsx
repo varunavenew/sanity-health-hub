@@ -50,10 +50,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Ingen ventetid · Ingen henvisning nødvendig",
     heroPrice: "Pris fra 2 200 kr",
     hideSeePriser: true,
-    heroBadges: [
-      { label: "Ingen ventetid", icon: "clock" },
-      { label: "Ingen henvisning", icon: "fileX" },
-    ],
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Konsultasjonen",
@@ -199,10 +195,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Tett oppfølging", desc: "Vi følger deg over tid og justerer behandlingen etter behov." },
     ],
     heroPrice: "Pris fra 2 500 kr",
-    heroBadges: [
-      { label: "Ingen ventetid", icon: "clock" },
-      { label: "Ingen henvisning", icon: "fileX" },
-    ],
     booking: { ...baseBooking, tjeneste: "overgangsalder" },
     primaryCtaLabel: "Se ledige tider",
     flowEyebrow: "Forløpet",
