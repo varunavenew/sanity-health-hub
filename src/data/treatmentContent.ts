@@ -1356,24 +1356,17 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.\n\nVurderer du Sleeve Gastrektomi? Hos oss får du gratis digital førstekonsultasjon og trygg veiledning gjennom hele prosessen – fra forberedelser til oppfølging. Her kan du bli kjent med behandlingen og hvordan vi kan støtte deg på veien mot en lettere og sunnere hverdag.",
+    description: "Avanserte, minimalt invasive inngrep i fordøyelsessystemet — utført av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.",
     sections: [
       {
-        id: "bariatrisk-kirurgi",
-        heading: "Bariatrisk kirurgi",
-        content: "Med bariatrisk kirurgi kan vi tilby trygge og varige løsninger for vektreduksjon. Les mer om metoden og hvordan vi kan hjelpe deg [her](/behandlinger/flere-fagomrader/overvektskirurgi)."
-      },
-      {
-        id: "sleeve-gastrektomi",
-        heading: "Sleeve gastrektomi",
-        content: "Robotassistert kirurgi for sleeve gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80% av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat. Laparoskopisk teknikk er i dag førstevalg ved mange vanlige operasjoner, blant annet ved fjerning av galleblære, overvektskirurgi og behandling av gastroøsofageal reflukssykdom (sure oppstøt).\n\nEtter en laparoskopisk robotassistert operasjon opplever de fleste pasienter mindre ubehag og en raskere tilbakevending til sine daglige aktiviteter. Dette reduserer behovet for langvarig sykemelding og minsker risikoen for komplikasjoner som brokk i operasjonssårene.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon. Den nyeste teknologien oversetter kirurgens hånd-, håndledd- og fingerbevegelser til mikrobevegelser i da Vinci X-robotinstrumentene, noe som gir enestående kontroll og nøyaktighet.\n\nSleeve Gastrektomi er en effektiv operasjonsmetode for varig vektreduksjon. Hos oss får du gratis digital førstekonsultasjon og tett oppfølging hele veien. Utforsk mer om prosessen [her](/behandlinger/flere-fagomrader/sleeve-gastrektomi)."
+        id: "om-gastrokirurgi",
+        heading: "Om gastrokirurgi",
+        content: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.\n\nVurderer du Sleeve Gastrektomi? Hos oss får du gratis digital førstekonsultasjon og trygg veiledning gjennom hele prosessen – fra forberedelser til oppfølging. Her kan du bli kjent med behandlingen og hvordan vi kan støtte deg på veien mot en lettere og sunnere hverdag."
       },
     ],
     linkedServices: [
-      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
-      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi med tett oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
-      { label: "Robotassistert kirurgi", description: "Presis kirurgi med da Vinci X-teknologi.", path: "/behandlinger/flere-fagomrader/robotkirurgi" },
-      { label: "Prisliste", description: "Se priser for gastrokirurgi og overvektskirurgi.", path: "/priser" },
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
+      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
     ],
     relatedSpecialists: ["andreas-edenberg"],
     faqs: [
@@ -1731,29 +1724,95 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
   "flere-fagomrader/overvektskirurgi": {
     title: "Overvektskirurgi",
-    subtitle: "Robotassistert sleeve gastrektomi for varige resultater.",
+    subtitle: "Bariatrisk kirurgi • Kort ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Ved CMedical tilbyr vi robotassistert overvektskirurgi med høyeste presisjon og skånsomhet – en teknologi som kombinerer avansert 3D-visualisering og mikrobevegelser styrt av erfarne kirurger. Denne metoden kan gi mindre smerter, raskere restitusjon og et bedre kosmetisk resultat.\n\nRobotassistert sleeve gastrektomi (rSG) er en moderne form for overvektskirurgi, også kalt slankeoperasjon. I denne prosedyren fjernes 60–80% av magesekken for å redusere matinntaket og fremme vektnedgang. Denne typen kirurgi er særlig egnet for deg som ønsker varige resultater med minimal belastning på kroppen.\n\nEtter ett år kan pasienter som gjennomgår sleeve gastrektomi forvente et vekttap på 20–25% av total kroppsvekt, med fortsatt vekttap frem mot to år etter operasjonen.",
-    benefits: [
-      "Robotassistert kirurgi for høyeste presisjon",
-      "Mindre smerter og raskere restitusjon",
-      "Varig vekttap på 20-25% av kroppsvekt etter ett år",
-      "Gratis digital konsultasjon for vurdering",
-      "Tverrfaglig oppfølging med ernæringsfysiolog",
+    description: "Robotassistert overvektskirurgi med høyeste presisjon og skånsomhet — for varige resultater og en lettere hverdag.",
+    sections: [
+      {
+        id: "om-overvektskirurgi",
+        heading: "Om overvektskirurgi",
+        content: "Ved CMedical tilbyr vi robotassistert overvektskirurgi med høyeste presisjon og skånsomhet – en teknologi som kombinerer avansert 3D-visualisering og mikrobevegelser styrt av erfarne kirurger. Denne metoden kan gi mindre smerter, raskere restitusjon og et bedre kosmetisk resultat.\n\nRobotassistert sleeve gastrektomi (rSG) er en moderne form for overvektskirurgi, også kalt slankeoperasjon. I denne prosedyren fjernes 60–80 % av magesekken for å redusere matinntaket og fremme vektnedgang. Denne typen kirurgi er særlig egnet for deg som ønsker varige resultater med minimal belastning på kroppen.",
+      },
+      {
+        id: "resultater",
+        heading: "Resultater",
+        content: "Robotassistert kirurgi er i dag den raskest voksende formen for slankeoperasjon i USA. Etter ett år kan pasienter som gjennomgår sleeve gastrektomi forvente et vekttap på 20–25 % av total kroppsvekt, med fortsatt vekttap frem mot to år etter operasjonen.",
+      },
+      {
+        id: "ta-kontakt",
+        heading: "Ta det første steget",
+        content: "Ta det første steget mot en enklere hverdag og økt livskvalitet – bestill en uforpliktende konsultasjon med Dr. Andreas Edenberg.",
+      },
     ],
-    process: [
-      { title: "Konsultasjon", description: "Gratis digital eller fysisk konsultasjon med kirurg for vurdering av egnethet." },
-      { title: "Utredning", description: "Grundig medisinsk utredning inkludert blodprøver, gastroskopi og psykologisk vurdering." },
-      { title: "Operasjon", description: "Robotassistert sleeve gastrektomi. Inngrepet tar ca. 1-2 timer." },
-      { title: "Oppfølging", description: "Tett oppfølging med ernæringsfysiolog og kirurg det første året etter operasjonen." },
+    linkedServices: [
+      { label: "Sleeve gastrektomi", description: "Les mer om den robotassisterte metoden, forberedelser og oppfølging.", path: "/behandlinger/flere-fagomrader/sleeve-gastrektomi" },
+      { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
+      { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
     ],
+    relatedSpecialists: ["andreas-edenberg"],
     faqs: [
-      { question: "Hvem kvalifiserer for overvektskirurgi?", answer: "Generelt kreves BMI over 40, eller over 35 med tilleggssykdommer. Vi gjør en individuell vurdering." },
-      { question: "Er det gratis konsultasjon?", answer: "Ja, vi tilbyr gratis digital konsultasjon for vurdering av om du er egnet for overvektskirurgi." },
-      { question: "Hva er fordelene med robotassistert teknikk?", answer: "Robotassistert kirurgi gir bedre presisjon, mindre smerter, raskere restitusjon og et bedre kosmetisk resultat sammenlignet med tradisjonell teknikk." },
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+      { question: "Nedbetaling", answer: "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon." },
+    ],
+  },
+
+  "flere-fagomrader/sleeve-gastrektomi": {
+    title: "Sleeve gastrektomi",
+    subtitle: "Robotassistert overvektskirurgi • Kort ventetid • Ingen henvisning",
+    parentCategory: "Flere fagområder",
+    heroImage: flereFagImg,
+    description: "Robotassistert sleeve gastrektomi (rSG) — en moderne, skånsom metode for varig vektreduksjon med tett tverrfaglig oppfølging hele veien.",
+    sections: [
+      {
+        id: "om-sleeve-gastrektomi",
+        heading: "Om sleeve gastrektomi",
+        content: "Robotassistert kirurgi for sleeve gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80 % av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat. Laparoskopisk teknikk er i dag førstevalg ved mange vanlige operasjoner, blant annet ved fjerning av galleblære, overvektskirurgi og behandling av gastroøsofageal reflukssykdom (sure oppstøt).\n\nEtter en laparoskopisk robotassistert operasjon opplever de fleste pasienter mindre ubehag og en raskere tilbakevending til sine daglige aktiviteter. Dette reduserer behovet for langvarig sykemelding og minsker risikoen for komplikasjoner som brokk i operasjonssårene.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon. Den nyeste teknologien oversetter kirurgens hånd-, håndledd- og fingerbevegelser til mikrobevegelser i da Vinci X-robotinstrumentene, noe som gir enestående kontroll og nøyaktighet.",
+      },
+      {
+        id: "for-operasjonen",
+        heading: "Før operasjonen",
+        content: "For at operasjonen skal kunne gjennomføres på best mulig måte, ber vi deg om å lese gjennom dokumentet «Informasjon om anestesi til deg som skal opereres på CMedical», tilsendt før operasjonsdagen.\n\nDu vil ha en samtale med vår kliniske ernæringsfysiolog før operasjonen, som vil gi deg veiledning om kostholdet ditt i den første perioden etter inngrepet, samt lage en plan for videre kosthold.\n\n**God forberedelse gir best resultat.** Å forberede deg godt før en overvektsoperasjon er viktig både for helsen og for et best mulig resultat. Hos oss får du trygg og personlig veiledning, enten individuelt eller i gruppe.\n\n**Din personlige oppfølging.** Før og etter operasjonen møter du vårt erfarne tverrfaglige team — lege, sykepleier og klinisk ernæringsfysiolog — som hjelper deg med råd og støtte tilpasset akkurat deg.\n\n**Viktig møte før operasjonen.** Før operasjonen kalles du inn til en grundig samtale med din lege. Ta med en oppdatert liste over alle medisiner, kosttilskudd og naturmidler du bruker, med navn, styrke og dosering. For noen kan det også være nødvendig med ekstra undersøkelser som gastroskopi, røntgen, eller kontroll av hjerte- og lungefunksjon.\n\n**Viktig for kvinner i fruktbar alder.** Hvis du er seksuelt aktiv, må du bruke sikker prevensjon. Dersom du er gravid, må operasjonen utsettes. For best mulig helse for både deg og en eventuell baby, anbefales det å vente minst 12–18 måneder etter operasjonen før en graviditet planlegges.\n\n**Lavkaloridiett før operasjonen.** De siste tre ukene før operasjonen skal du følge en lavkaloridiett på 800–1200 kalorier per dag. Dette gjør leveren mindre og reduserer fettmengden i buken, noe som gjør operasjonen enklere og tryggere.\n\n**Jobb med gode kostvaner allerede nå:**\n- Spis på faste tider – unngå småspising mellom måltidene\n- Velg proteinrike matvarer – rent kjøtt, fugl, fisk, egg, belgfrukter og magre meieriprodukter er gode valg\n- Bli bevisst på følelsesspising – forsøk å finne andre måter å håndtere stress, tristhet eller kjedsomhet på enn å spise\n\n**Endring av spisemønster – en nøkkel til suksess:**\n- Spis regelmessig, i små porsjoner\n- Tygg maten godt og bruk god tid på måltidene\n- Planlegg måltider og unngå impuls-spising\n\n**Andre viktige forberedelser:**\n- Planlegg for endringene som kommer\n- Øk aktivitetsnivået gradvis\n- Slutt å røyke – røykeslutt er et krav før operasjon",
+      },
+      {
+        id: "under-operasjonen",
+        heading: "Under operasjonen",
+        content: "Operasjonen varer vanligvis i 30–40 minutter. Kirurgen lager flere små snitt i magen for å kunne sette inn de laparoskopiske instrumentene. En del av magesekken fjernes for å lage en «sleeve» som reduserer magens størrelse. Den gjenværende delen av magesekken blir deretter lukket med suturer eller klips for å sikre at det ikke oppstår lekkasjer. Når operasjonen er ferdig, vil kirurgen utføre en test for å sjekke at det ikke er noen lekkasjer fra den nye magesekken.",
+      },
+      {
+        id: "etter-operasjonen",
+        heading: "Etter operasjonen",
+        content: "Etter operasjonen blir du lagt på postoperativ avdeling for observasjon. Du vil tilbringe natten hos oss på CMedical, og kan reise hjem neste formiddag. Morgenen etter operasjonen får du flytende kost og intravenøs væske. Det er viktig at du fortsetter å ta dine faste medisiner og at du er i bevegelse, så lenge du føler deg i stand til det.\n\n**Hjemreise.** Du må avtale at noen henter deg, eller eventuelt ta en taxi hjem. CMedical kan dessverre ikke skrive ut taxirekvisisjon. Hvis du er forsikringspasient, ber vi deg om å avklare reisekostnader med ditt forsikringsselskap før operasjonen. Vær oppmerksom på at du ikke kan kjøre bil det første døgnet etter narkosen.",
+      },
+      {
+        id: "tiden-etter-hjemkomst",
+        heading: "Tiden etter hjemkomst",
+        content: "**Forstoppelse.** Det er normalt å ikke ha avføring daglig etter en overvektsoperasjon. Avføring sjeldnere enn hver tredje dag regnes som forstoppelse. For å forebygge dette anbefales det å drikke rikelig med vann og være i aktivitet.\n\nDet kan også hjelpe å:\n- Drikke Biola eller sviskesaft\n- Spise svisker som har ligget i vann over natten\n- Innta knuste linfrø (1 spiseskje i ½ glass vann over natten)\n- Bruke Laktulose (15–30 ml daglig) i 2–4 dager inntil avføringen er normalt\n\n**Diaré** kan skyldes laktose- eller fettintoleranse, eller at du ikke tåler kunstige søtstoffer, sukker eller fiber like godt som før. Hvis du opplever diaré, bør du unngå søt melk, samt mat som grøt, brunost eller prim. Vær forsiktig med fett i kosten.\n\n**Luftplager/luftsmerter.** Etter operasjonen kan du oppleve oppblåst mage, rumling og økt luftavgang. Dette kan skyldes at det nye spisemønsteret fører til at du svelger mer luft enn før, eller at maten ikke blir helt brutt ned i mage og tynntarm. For å redusere dette, kan det hjelpe å spise langsomt, tygge maten godt, og unngå kullsyreholdige drikker, tyggegummi og drops.\n\n**Forholdsregler:**\n- Sørg for å drikke rikelig, opp til 1,5 liter i løpet av dagen\n- Følg anbefalingene fra ernæringsfysiologen\n- Unngå tunge løft og intens trening de første 2–3 ukene\n- Spis små og hyppige måltider\n- Du vil være sykemeldt i ca. 4 uker\n\n**Kosthold og ernæring etter slankeoperasjon.** Oppfølging etter en slankeoperasjon er en viktig del av behandlingsforløpet. Målet vårt er å sikre at du får en så god opplevelse som mulig, med få komplikasjoner, lite ubehag og et best mulig behandlingsresultat. Etter operasjonen vil du ha regelmessige oppfølgingssamtaler med vår kliniske ernæringsfysiolog i løpet av de 12 første månedene.\n\n**Ved medisinske spørsmål eller komplikasjoner.** Som ved alle kirurgiske inngrep finnes det en risiko for komplikasjoner, som blødning eller infeksjoner. Hvis du opplever ubehag eller smerter den første tiden etter operasjonen, skal du ta direkte kontakt med kirurgen. Du vil få telefonnummeret til din kirurg ved utskrivelse.",
+      },
+      {
+        id: "fordeler",
+        heading: "Fordeler med moderne kirurgi",
+        content: "**Raskere restitusjon.** Robotassistert kirurgi er en moderne, minimalt invasiv behandling hvor inngrepet utføres gjennom små snitt i stedet for et større operasjonssår. Denne skånsomme tilnærmingen kan gi flere fordeler – blant annet mindre smerter, færre komplikasjoner og en raskere tilheling sammenlignet med tradisjonell åpen kirurgi.\n\n**Raskt tilbake til hverdagen.** Etter operasjonen kan de fleste pasienter spise, drikke og bevege seg allerede samme kveld. Mange reiser hjem dagen etter inngrepet, og opplever en mer komfortabel og stressfri restitusjon.\n\n**Kortere sykemelding.** Sykemeldingsperioden varierer, men for mange er to uker tilstrekkelig før de kan gjenoppta vanlige aktiviteter. Ved fysiske yrker kan noe mer tid være nødvendig.\n\n**Avansert teknologi for presis behandling.** Ved hjelp av presise instrumenter og avansert teknologi kan kirurgen tilpasse teknikken nøyaktig til dine behov.\n\n**Trygg og effektiv behandling hos erfarne kirurger.** Robotassistert kirurgi benyttes av spesialister innen blant annet urologi, gynekologi og gastrokirurgi, og gir en trygg og effektiv behandling med raskere restitusjon og økt pasientsikkerhet.\n\nCMedical har over 7 års erfaring med robotassisterte inngrep, og våre erfarne kirurger sørger for at du får den beste behandlingen, med høy presisjon og maksimal trygghet gjennom hele prosessen.",
+      },
+    ],
+    linkedServices: [
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Oversikt over overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
+      { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
+      { label: "Robotassistert kirurgi", description: "Presis kirurgi med da Vinci X-teknologi.", path: "/behandlinger/flere-fagomrader/robotkirurgi" },
+      { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+    ],
+    relatedSpecialists: ["andreas-edenberg"],
+    faqs: [
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
+      { question: "Sykemelding", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer. Etter sleeve gastrektomi er du vanligvis sykemeldt i ca. 4 uker." },
+      { question: "Utredning", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+      { question: "Nedbetaling", answer: "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon." },
     ],
   },
 
@@ -1953,124 +2012,5 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
 
-  // ==========================================
-  // OVERVEKTSKIRURGI — Sleeve-gastrektomi (Prompt 7)
-  // ==========================================
-  "flere-fagomrader/sleeve-gastrektomi": {
-    title: "Sleeve-gastrektomi",
-    subtitle: "Robotassistert overvektskirurgi med presisjon",
-    parentCategory: "Overvektskirurgi",
-    heroImage: flereFagImg,
-    description: "Robotassistert sleeve-gastrektomi (rSG) er en moderne form for laparoskopisk overvektskirurgi, hvor den nyeste teknologien gir enda større presisjon enn ved tradisjonell teknikk. Under inngrepet fjernes 60–80 % av magesekken, og den gjenværende delen formes til en smal «sleeve» som begrenser matinntaket. Resultatet kan være betydelig vekttap — samtidig som kroppens evne til å ta opp næringsstoffer bevares.",
-    sections: [
-      {
-        heading: "Sleeve-gastrektomi",
-        content: "Robotassistert kirurgi for sleeve-gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80 % av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat. Laparoskopisk teknikk er i dag førstevalg ved mange vanlige operasjoner, blant annet ved fjerning av galleblære, overvektskirurgi og behandling av gastroøsofageal reflukssykdom (sure oppstøt).\n\nEtter en laparoskopisk robotassistert operasjon opplever de fleste pasienter mindre ubehag og en raskere tilbakevending til sine daglige aktiviteter. Dette reduserer behovet for langvarig sykemelding og minsker risikoen for komplikasjoner som brokk i operasjonssårene.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon. Den nyeste teknologien oversetter kirurgens hånd-, håndledd- og fingerbevegelser til mikrobevegelser i da Vinci X-robotinstrumentene, noe som gir enestående kontroll og nøyaktighet.\n\nTa det første steget mot en enklere hverdag og økt livskvalitet — bestill en uforpliktende konsultasjon med Dr. Andreas Edenberg.",
-      },
-      {
-        heading: "Før operasjonen",
-        content: "For at operasjonen din skal kunne gjennomføres på best mulig måte, ber vi deg om å lese gjennom dokumentet «Informasjon om anestesi til deg som skal opereres på CMedical», tilsendt før operasjonsdagen din.\n\nDu vil ha en samtale med vår kliniske ernæringsfysiolog før operasjonen, som vil gi deg veiledning om kostholdet ditt i den første perioden etter inngrepet, samt lage en plan for videre kosthold.",
-      },
-      {
-        heading: "God forberedelse gir best resultat",
-        content: "Å forberede seg godt før en overvektsoperasjon er viktig både for din helse og for et best mulig resultat. Hos oss i CMedical får du trygg og personlig veiledning, enten individuelt eller i gruppe, slik at du føler deg trygg og godt ivaretatt hele veien.",
-      },
-      {
-        heading: "Din personlige oppfølging",
-        content: "Før og etter operasjonen møter du vårt erfarne tverrfaglige team, som kan bestå av både lege, sykepleier og klinisk ernæringsfysiolog — som hjelper deg med råd og støtte tilpasset akkurat deg.",
-      },
-      {
-        heading: "Viktig møte før operasjonen",
-        content: "Før operasjonen kalles du inn til en grundig samtale med din lege. Husk å ta med en oppdatert liste over alle medisiner, kosttilskudd og naturmidler du eventuelt bruker, med navn, styrke og dosering. Du kan finne oversikt over reseptpliktige medisiner på helsenorge.no eller hos fastlegen din.\n\nFor noen kan det også være nødvendig med ekstra undersøkelser som gastroskopi, røntgen, eller kontroll av hjerte- og lungefunksjon.\n\nViktig for kvinner i fruktbar alder: Hvis du er seksuelt aktiv, må du bruke sikker prevensjon. Dersom du er gravid, må operasjonen utsettes. For best mulig helse for både deg og en eventuell baby, anbefales det å vente minst 12–18 måneder etter operasjonen før en graviditet planlegges.",
-      },
-      {
-        heading: "Lavkaloridiett før operasjonen",
-        content: "De siste tre ukene før operasjonen skal du følge en lavkaloridiett på 800–1200 kalorier per dag. Dette gjør leveren mindre og reduserer fettmengden i buken, noe som gjør operasjonen enklere og tryggere.",
-      },
-      {
-        heading: "Jobb med gode kostvaner allerede nå",
-        content: "Ved å begynne med noen små, viktige endringer i matvanene dine før operasjonen, gjør du overgangen etterpå mye lettere:\n\n- Spis på faste tider — unngå småspising mellom måltidene\n- Velg proteinrike matvarer — rent kjøtt, fugl, fisk, egg, belgfrukter og magre meieriprodukter er gode valg\n- Bli bevisst på følelsesspising — forsøk å finne andre måter å håndtere stress, tristhet eller kjedsomhet på enn å spise",
-      },
-      {
-        heading: "Bli mer aktiv i hverdagen",
-        content: "Regelmessig fysisk aktivitet før operasjonen vil gjøre kroppen sterkere og bedre forberedt. Det er aldri for sent å starte, og små skritt teller!\n\nEndring av spisemønster — en nøkkel til suksess. For å få et varig godt resultat etter operasjonen er det helt nødvendig å endre måten du spiser på:\n\n- Spis regelmessig, i små porsjoner\n- Tygg maten godt og bruk god tid på måltidene",
-      },
-      {
-        heading: "Planlegg måltider og unngå impuls-spising",
-        content: "Mange opplever at operasjonen hjelper dem å endre dårlige vaner, men forberedelse på forhånd gir deg en stor fordel. Husk at for noen kan det være krevende å gi slipp på mat som trøst, og det er helt normalt å kjenne på slike følelser. Vi tilbyr støtte både før og etter operasjonen for deg som trenger hjelp til å finne nye måter å håndtere vanskelige følelser på.\n\nAndre viktige forberedelser:\n\n- Planlegg for endringene som kommer\n- Øk aktivitetsnivået gradvis\n- Slutt å røyke — røykeslutt er et krav før operasjon",
-      },
-      {
-        heading: "Under operasjonen",
-        content: "Operasjonen varer vanligvis i 30–40 minutter. Kirurgen lager flere små snitt i magen for å kunne sette inn de laparoskopiske instrumentene. En del av magesekken fjernes for å lage en «sleeve» som reduserer magens størrelse. Den gjenværende delen av magesekken blir deretter lukket med suturer eller klips for å sikre at det ikke oppstår lekkasjer. Når operasjonen er ferdig, vil kirurgen utføre en test for å sjekke at det ikke er noen lekkasjer fra den nye magesekken.",
-      },
-      {
-        heading: "Etter operasjonen",
-        content: "Etter operasjonen blir du lagt på postoperativ avdeling for observasjon. Du vil tilbringe natten hos oss på CMedical, og kan reise hjem neste formiddag. Morgenen etter operasjonen får du flytende kost og intravenøs væske. Det er viktig at du fortsetter å ta dine faste medisiner og at du er i bevegelse, så lenge du føler deg i stand til det.",
-      },
-      {
-        heading: "Hjemreise",
-        content: "Du må avtale at noen henter deg, eller eventuelt ta en taxi hjem. CMedical kan dessverre ikke skrive ut taxirekvisisjon. Hvis du er forsikringspasient, ber vi deg om å avklare reisekostnader med ditt forsikringsselskap før operasjonen. Vær oppmerksom på at du ikke kan kjøre bil det første døgnet etter narkosen.",
-      },
-      {
-        heading: "Forstoppelse",
-        content: "Det er normalt å ikke ha avføring daglig etter en overvektsoperasjon. Avføring sjeldnere enn hver tredje dag regnes som forstoppelse. For å forebygge dette anbefales det å drikke rikelig med vann og være i aktivitet.\n\nDet kan også hjelpe å:\n\n- Drikke Biola eller sviskesaft\n- Spise svisker som har ligget i vann over natten\n- Innta knuste linfrø (1 spiseskje i ½ glass vann over natten)\n- Bruke Laktulose (15–30 ml daglig) i 2–4 dager inntil avføringen er normalt",
-      },
-      {
-        heading: "Diaré",
-        content: "Diaré kan skyldes laktose- eller fettintoleranse, eller at du ikke tåler kunstige søtstoffer, sukker eller fiber like godt som før. Hvis du opplever diaré, bør du unngå søt melk, samt mat som grøt, brunost eller prim. Vær forsiktig med fett i kosten.",
-      },
-      {
-        heading: "Luftplager og luftsmerter",
-        content: "Etter operasjonen kan du oppleve oppblåst mage, rumling og økt luftavgang. Dette kan skyldes at det nye spisemønsteret fører til at du svelger mer luft enn før, eller at maten ikke blir helt brutt ned i mage og tynntarm. For å redusere dette kan det hjelpe å spise langsomt, tygge maten godt, og unngå kullsyreholdige drikker, tyggegummi og drops.\n\nForholdsregler:\n\n- Sørg for å drikke rikelig, opp til 1,5 liter i løpet av dagen\n- Følg anbefalingene fra ernæringsfysiologen\n- Unngå tunge løft og intens trening de første 2–3 ukene\n- Spis små og hyppige måltider\n- Du vil være sykemeldt i ca. 4 uker",
-      },
-      {
-        heading: "Kosthold og ernæring etter slankeoperasjon",
-        content: "Oppfølging etter en slankeoperasjon er en viktig del av behandlingsforløpet. Målet vårt er å sikre at du får en så god opplevelse som mulig, med få komplikasjoner, lite ubehag (som smerte eller kvalme), og et best mulig behandlingsresultat. Vi ønsker at du skal føle deg trygg og ivaretatt gjennom hele prosessen, også etter at du har kommet hjem.\n\nFør operasjonen vil du ha en samtale med vår kliniske ernæringsfysiolog, som vil gi deg veiledning om kostholdet ditt i den første perioden etter inngrepet, samt lage en plan for videre kosthold. Etter operasjonen vil du ha regelmessige oppfølgingssamtaler med vår kliniske ernæringsfysiolog i løpet av de 12 første månedene for å sikre at du får best mulig oppfølging og støtte.",
-      },
-      {
-        heading: "Ved medisinske spørsmål eller komplikasjoner",
-        content: "Som ved alle kirurgiske inngrep finnes det en risiko for komplikasjoner, som blødning eller infeksjoner. Hvis du opplever ubehag eller smerter den første tiden etter operasjonen, skal du ta direkte kontakt med kirurgen. Du vil få telefonnummeret til din kirurg ved utskrivelse.",
-      },
-      {
-        heading: "Raskere restitusjon",
-        content: "Robotassistert kirurgi er en moderne, minimal invasiv behandling hvor inngrepet utføres gjennom små snitt i stedet for et større operasjonssår. Denne skånsomme tilnærmingen kan gi flere fordeler for deg som pasient — blant annet mindre smerter, færre komplikasjoner og en raskere tilheling sammenlignet med tradisjonell åpen kirurgi.",
-      },
-      {
-        heading: "Raskt tilbake til hverdagen",
-        content: "Etter operasjonen kan de fleste pasienter spise, drikke og bevege seg allerede samme kveld. Mange reiser hjem dagen etter inngrepet, og opplever en mer komfortabel og stressfri restitusjon.",
-      },
-      {
-        heading: "Kortere sykemelding",
-        content: "Sykemeldingsperioden varierer, men for mange er to uker tilstrekkelig før de kan gjenoppta vanlige aktiviteter. Ved fysiske yrker kan noe mer tid være nødvendig. Robotassistert kirurgi gir likevel mulighet for en raskere tilbakevending til arbeid og hverdagsliv.",
-      },
-      {
-        heading: "Avansert teknologi for presis behandling",
-        content: "Ved hjelp av presise instrumenter og avansert teknologi kan kirurgen tilpasse teknikken nøyaktig til dine behov. Dette sikrer en mer skånsom behandling, samtidig som presisjonen bidrar til bedre resultater.",
-      },
-      {
-        heading: "Trygg og effektiv behandling hos erfarne kirurger",
-        content: "Robotassistert kirurgi benyttes av spesialister innen blant annet urologi, gynekologi og gastrokirurgi, og gir en trygg og effektiv behandling med raskere restitusjon og økt pasientsikkerhet.\n\nCMedical har over 7 års erfaring med robotassisterte inngrep, og våre erfarne kirurger sørger for at du får den beste behandlingen, med høy presisjon og maksimal trygghet gjennom hele prosessen.",
-      },
-    ],
-    process: [
-      { title: "Konsultasjon", description: "Uforpliktende digital eller fysisk konsultasjon med kirurg." },
-      { title: "Utredning", description: "Grundig medisinsk utredning, samtale med ernæringsfysiolog og lavkaloridiett siste tre uker." },
-      { title: "Operasjon", description: "Robotassistert sleeve-gastrektomi — ca. 30–40 minutter, overnatting på klinikken." },
-      { title: "Oppfølging", description: "Tett oppfølging av lege og klinisk ernæringsfysiolog i 12 måneder etter inngrepet." },
-    ],
-    linkedServices: [
-      { label: "Overvektskirurgi", description: "Hovedsiden om robotassistert overvektskirurgi hos CMedical.", path: "/behandlinger/flere-fagomrader/overvektskirurgi" },
-      { label: "Ernæringsfysiolog", description: "Veiledning før og etter operasjonen.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
-      { label: "Gastrokirurgi", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
-    ],
-    faqs: [
-      { question: "Hvor lenge varer operasjonen?", answer: "Selve inngrepet tar vanligvis 30–40 minutter." },
-      { question: "Hvor lenge er jeg sykemeldt?", answer: "De fleste er sykemeldt i ca. 4 uker. Ved fysiske yrker kan det være behov for litt lengre tid." },
-      { question: "Hvem kvalifiserer?", answer: "Generelt kreves BMI over 40, eller over 35 med tilleggssykdommer. Vi gjør en individuell vurdering." },
-      { question: "Er det krav om røykeslutt?", answer: "Ja — røykeslutt er et krav før operasjonen." },
-      { question: "Graviditet etter operasjon?", answer: "Vi anbefaler å vente minst 12–18 måneder etter operasjonen før en graviditet planlegges." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." },
-    ],
-  },
 };
 
