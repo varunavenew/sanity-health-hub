@@ -35,6 +35,7 @@ const staticFeatured = [
   { label: "Gynekologi", image: gynekologiImg, path: "/gynekologi" },
   { label: "Urologi", image: urologiImg, path: "/urologi" },
   { label: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
+  { label: "Graviditet", image: graviditetImg, path: "/graviditet" },
   { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
 ];
 
