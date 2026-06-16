@@ -242,24 +242,20 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </p>
 
               <div className="mb-8 max-w-sm">
+                {c.heroPrice && (
+                  <div className="mb-4 text-sm font-light text-foreground/80">
+                    <span className="block text-base text-foreground">{c.title}</span>
+                    <span className="block">{c.heroPrice}</span>
+                  </div>
+                )}
                 <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                   <Button
                     variant="cta"
                     size="lg"
-                    className="h-auto py-3 px-6 w-full sm:w-auto flex-col items-start gap-0.5 text-left"
+                    className="px-6 w-full sm:w-auto"
                     onClick={() => (window.location.href = buildBookingUrl(c.booking))}
                   >
-                    <span className="block text-base font-normal leading-tight">
-                      {c.primaryCtaLabel ?? c.title}
-                    </span>
-                    {c.heroPrice && (
-                      <span className="block text-xs font-light opacity-80 leading-tight">
-                        {c.heroPrice}
-                      </span>
-                    )}
-                    <span className="block text-sm font-light leading-tight mt-1">
-                      Se ledige tider og book
-                    </span>
+                    Se ledige tider og book
                   </Button>
                   <CallUsClinicPicker variant="light" label="Ring oss" />
                 </div>
@@ -530,23 +526,19 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </h2>
  </div>
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+ {c.heroPrice && (
+ <div className="text-sm font-light text-foreground/80">
+ <span className="block text-base text-foreground">{c.title}</span>
+ <span className="block">{c.heroPrice}</span>
+ </div>
+ )}
  <Button
  variant="cta"
  size="lg"
- className="h-auto py-3 px-6 flex-col items-start gap-0.5 text-left"
+ className="px-6"
  onClick={() => (window.location.href = buildBookingUrl(c.booking))}
  >
- <span className="block text-base font-normal leading-tight">
- {c.primaryCtaLabel ?? c.title}
- </span>
- {c.heroPrice && (
- <span className="block text-xs font-light opacity-80 leading-tight">
- {c.heroPrice}
- </span>
- )}
- <span className="block text-sm font-light leading-tight mt-1">
  Se ledige tider og book
- </span>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
 
