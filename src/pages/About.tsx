@@ -132,24 +132,16 @@ const About = ({ isChatOpen }: AboutProps) => {
         </div>
       </header>
 
-      {/* EDITORIAL BODY — asymmetric two-column rhythm */}
+      {/* EDITORIAL BODY — single column, left-aligned */}
       <article className="bg-brand-warm">
-        <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
-          <div className="max-w-6xl mx-auto space-y-20 md:space-y-28">
-            {sections.map((s, idx) => (
-              <section
-                key={s.heading}
-                className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16"
-              >
-                <div className="md:col-span-5">
-                  <p className="text-xs font-light text-brand-dark/50 mb-4">
-                    {String(idx + 1).padStart(2, "0")} — Kapittel
-                  </p>
-                  <h2 className="text-2xl md:text-3xl lg:text-[2.25rem] font-light text-brand-dark leading-[1.15]">
-                    {s.heading}
-                  </h2>
-                </div>
-                <div className="md:col-span-7 space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+        <div className="page-shell py-20 md:py-28">
+          <div className="max-w-3xl space-y-16 md:space-y-24">
+            {sections.map((s) => (
+              <section key={s.heading}>
+                <h2 className="text-2xl md:text-3xl lg:text-[2.25rem] font-light text-brand-dark leading-[1.15] mb-6">
+                  {s.heading}
+                </h2>
+                <div className="space-y-5 text-brand-dark/80 text-base leading-[1.8] font-light">
                   {s.paragraphs.map((p, i) => (
                     <p key={i}>{p}</p>
                   ))}
@@ -160,12 +152,12 @@ const About = ({ isChatOpen }: AboutProps) => {
         </div>
 
         {/* Pull quote */}
-        <div className="container mx-auto px-6 md:px-16 pb-20 md:pb-28">
-          <div className="max-w-4xl mx-auto">
+        <div className="page-shell pb-20 md:pb-28">
+          <div className="max-w-4xl">
             <blockquote className="text-2xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-[1.2]">
-              <span className="text-brand-mid">“</span>
+              <span className="text-brand-mid">"</span>
               {pullQuote}
-              <span className="text-brand-mid">”</span>
+              <span className="text-brand-mid">"</span>
             </blockquote>
           </div>
         </div>
