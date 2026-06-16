@@ -128,6 +128,7 @@ const AppContent = () => {
         
         {/* Fertilitet slug aliases */}
         <Route path="/behandlinger/fertilitet/assistert-befruktning-par-single" element={<Navigate to="/behandlinger/fertilitet/par-og-single" replace />} />
+        <Route path="/behandlinger/fertilitet/fertilitetsutredning-juli" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning" replace />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />
