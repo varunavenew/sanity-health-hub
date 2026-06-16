@@ -290,6 +290,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                 >
                                                   Bestill time
                                                 </button>
+                                              ) : item.info ? (
+                                                // Info-popover ved (i) ved siden av navnet dekker behovet — ingen "Les mer".
+                                                null
                                               ) : (
                                                 <button
                                                   onClick={() => navigate(sub.path)}
