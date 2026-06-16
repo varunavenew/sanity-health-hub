@@ -84,7 +84,7 @@ const Services = ({ isChatOpen }: PageProps) => {
             const key = c.categoryId || c.slug;
             if (seen.has(key)) return false;
             seen.add(key);
-            return ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi"].includes(key);
+            return ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi", "flere-fagomrader"].includes(key);
           })
           .map((c: any) => ({
             label: c.title,
