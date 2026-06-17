@@ -105,12 +105,16 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const cat = priceCategories.find(c => c.id === newId);
     setExpandedSubcategory(cat?.subcategories[0]?.label ?? null);
     if (newId) {
-      requestAnimationFrame(() => {
+      const scrollToCat = () => {
         const el = document.getElementById(`kat-${newId}`);
         if (!el) return;
-        const top = el.getBoundingClientRect().top + window.scrollY - 96;
+        const header = document.querySelector('header');
+        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({ top, behavior: 'smooth' });
-      });
+      };
+      requestAnimationFrame(scrollToCat);
+      setTimeout(scrollToCat, 320);
     }
   };
 
