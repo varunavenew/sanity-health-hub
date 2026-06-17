@@ -180,12 +180,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         >
                           <div className="flex flex-col min-w-0">
                             <span className={`text-xl md:text-2xl font-light truncate transition-colors ${
-                              isOpen ? 'text-brand-warm' : 'text-foreground group-hover:text-foreground/90'
+                              isOpen ? 'text-brand-dark' : 'text-foreground group-hover:text-foreground/90'
                             }`}>
                               {category.label}
                             </span>
                             <span className={`text-xs font-light mt-1 ${
-                              isOpen ? 'text-brand-warm/70' : 'text-muted-foreground'
+                              isOpen ? 'text-brand-dark/60' : 'text-muted-foreground'
                             }`}>
                               {totalItems} tjenester
                             </span>
