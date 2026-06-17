@@ -82,12 +82,12 @@ export interface SubTreatmentContent {
  expertAreas?: {
  title: string;
  description?: string;
- items: { eyebrow?: string; title: string; desc: string; href: string; image: string }[];
+ items: { title: string; desc: string; href: string; image: string }[];
  };
  // Section 5 — relaterte
  relatedEyebrow?: string;
  relatedTitle?: string;
- related: { eyebrow?: string; title: string; desc: string; href: string }[];
+ related: { title: string; desc: string; href: string }[];
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
