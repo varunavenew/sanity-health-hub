@@ -307,14 +307,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
                                                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
                                                           >
-                                                            Bestill
+                                                            Book time
                                                           </button>
                                                         ) : (
                                                           <Link
                                                             to={buildBookingUrl({ kategori: category.id })}
-                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/25 text-foreground text-xs font-normal hover:bg-foreground hover:text-background hover:border-foreground transition-colors whitespace-nowrap"
+                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
                                                           >
-                                                            Bestill vurderingstime
+                                                            Start med konsultasjon
                                                           </Link>
                                                         )}
                                                       </div>
