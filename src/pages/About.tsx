@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroFamily from "@/assets/hero/hero-family.jpg";
-import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { ClinicGrid } from "@/components/ClinicGrid";
+import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
