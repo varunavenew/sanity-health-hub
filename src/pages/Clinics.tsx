@@ -95,28 +95,21 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  Liste over klinikker
  </h2>
 
- {list.map((clinic: Clinic, idx: number) => {
+        {list.map((clinic: Clinic, idx: number) => {
  const detailHref = `/klinikker/${clinic.slug}`;
  const serviceCount = clinic.services?.length || 0;
  const image = (clinic as any).primaryImage || clinicImages[clinic.slug];
  const reverse = idx % 2 === 1;
- const altBg = idx % 2 === 1 ? "bg-brand-warm/40" : "bg-background";
 
  return (
  <div
  key={clinic.id}
- className={`${altBg} border-t border-border/40`}
- >
- <div className="container mx-auto px-6 md:px-16 py-12 md:py-20">
- <div
- className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
- reverse ? "lg:[&>*:first-child]:order-2" : ""
- }`}
+ className="relative grid grid-cols-1 lg:grid-cols-2 min-h-screen border-t border-border/40"
  >
  {/* Image */}
  <Link
  to={detailHref}
- className="group block overflow-hidden rounded-sm aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5]"
+ className={`group relative block overflow-hidden h-[60vh] lg:h-auto lg:min-h-screen ${reverse ? "lg:order-2" : ""}`}
  aria-label={`Les mer om CMedical ${clinic.label}`}
  >
  {image ? (
@@ -124,17 +117,16 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  src={image}
  alt={`CMedical ${clinic.label}`}
  loading="lazy"
- width={1024}
- height={1024}
- className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+ className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
  />
  ) : (
- <div className="w-full h-full bg-brand-mid/20" />
+ <div className="absolute inset-0 bg-brand-mid/20" />
  )}
  </Link>
 
  {/* Content */}
- <div className="flex flex-col">
+ <div className={`flex items-center bg-background ${reverse ? "lg:order-1" : ""}`}>
+ <div className="w-full px-6 md:px-12 lg:px-16 py-12 lg:py-20 max-w-xl">
  <h3 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-tight mb-5">
  <Link to={detailHref} className="hover:text-foreground transition-colors">
  CMedical {clinic.label}
@@ -142,12 +134,11 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </h3>
 
  {clinic.detail?.description && (
- <p className="text-base text-muted-foreground font-light leading-[1.8] mb-8 max-w-md">
+ <p className="text-base text-muted-foreground font-light leading-[1.8] mb-8">
  {clinic.detail.description}
  </p>
  )}
 
- {/* Key info */}
  <ul className="space-y-3 mb-7 border-t border-border/50 pt-6">
  <li className="flex items-start gap-3 text-sm">
  <MapPin className="w-3.5 h-3.5 text-brand-dark/75 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
@@ -172,7 +163,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  </li>
  </ul>
 
- {/* Practical chips */}
  <div className="flex flex-wrap gap-2 mb-8">
  {clinic.detail?.parking && (
  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-xs text-muted-foreground font-light">
@@ -200,7 +190,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  )}
  </div>
 
- {/* CTA row */}
  <div className="flex items-center gap-6">
  <Link
  to={detailHref}
@@ -219,7 +208,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
  Vis i kart
  </a>
  )}
- </div>
  </div>
  </div>
  </div>
