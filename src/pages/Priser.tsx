@@ -168,35 +168,33 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         key={category.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-brand-warm border-brand-dark/20 shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
+                            ? 'bg-brand-warm border border-brand-dark/20 border-l-[6px] border-l-brand-yellow shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
                             : 'bg-brand-beige/40 border-brand-dark/10 hover:bg-brand-beige/60'
                         }`}
                       >
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className={`w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group transition-colors ${
-                            isOpen ? 'bg-brand-dark' : ''
-                          }`}
+                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group transition-colors"
                           aria-expanded={isOpen}
                           aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
                         >
                           <div className="flex flex-col min-w-0">
                             <span className={`text-xl md:text-2xl font-light truncate transition-colors ${
-                              isOpen ? 'text-brand-warm' : 'text-foreground group-hover:text-foreground/90'
+                              isOpen ? 'text-brand-dark' : 'text-foreground group-hover:text-foreground/90'
                             }`}>
                               {category.label}
                             </span>
                             <span className={`text-xs font-light mt-1 ${
-                              isOpen ? 'text-brand-warm/70' : 'text-muted-foreground'
+                              isOpen ? 'text-brand-dark/60' : 'text-muted-foreground'
                             }`}>
                               {totalItems} tjenester
                             </span>
                           </div>
                           <span
                             aria-hidden="true"
-                            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors border ${
+                            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all border ${
                               isOpen
-                                ? 'bg-brand-warm text-brand-dark border-brand-warm'
+                                ? 'bg-white text-brand-dark border-brand-dark/10 shadow-sm'
                                 : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
                             }`}
                           >
@@ -225,7 +223,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         className={`rounded-xl border transition-all ${
                                           subOpen
                                             ? 'bg-brand-beige/30 border-brand-dark/15'
-                                            : 'bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/30 hover:shadow-[0_2px_8px_rgba(66,51,42,0.08)]'
+                                            : 'bg-white border-brand-dark/20 hover:border-brand-mid/60'
                                         }`}
                                       >
 
@@ -242,12 +240,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             {sub.label}
                                           </span>
                                           <div className="flex items-center gap-3">
-                                            <span className="text-muted-foreground text-xs font-light">
+                                            <span className="text-brand-dark/40 text-sm font-light">
                                               {sub.items.length}
                                             </span>
                                             <ChevronRight
-                                              className={`w-4 h-4 text-muted-foreground transition-transform ${
-                                                subOpen ? 'rotate-90 text-foreground/80' : ''
+                                              className={`w-4 h-4 text-brand-mid transition-all ${
+                                                subOpen ? 'rotate-90 text-foreground/80' : 'group-hover:text-brand-dark'
                                               }`}
                                               aria-hidden="true"
                                             />
@@ -341,13 +339,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 </div>
 
                                 {/* Les mer — plassert nederst i åpen boks */}
-                                <div className="mt-6 pt-5 border-t border-foreground/10">
+                                <div className="mt-6 pt-5 border-t border-brand-dark/10">
                                   <Link
                                     to={category.path}
-                                    className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+                                    className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
                                   >
                                     Les mer om {category.label.toLowerCase()}
-                                    <ArrowRight className="w-3.5 h-3.5" />
+                                    <ArrowRight className="w-4 h-4" />
                                   </Link>
                                 </div>
                               </div>
