@@ -51,6 +51,7 @@ import SjekkDialog from "./pages/fertilitet-design/SjekkDialog";
 import SjekkMagasin from "./pages/fertilitet-design/SjekkMagasin";
 import SjekkKlinikk from "./pages/fertilitet-design/SjekkKlinikk";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
+import GraviditetEtterMaster from "./pages/demos/GraviditetEtterMaster";
 import UrologiPage from "./pages/treatments/UrologiPage";
 import OrtopediPage from "./pages/treatments/OrtopediPage";
 import FlereFagomraderPage from "./pages/treatments/FlereFagomraderPage";
