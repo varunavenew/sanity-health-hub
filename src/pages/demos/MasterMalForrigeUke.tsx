@@ -150,7 +150,7 @@ const reviews = [
  PAGE
  ────────────────────────────────────────────────────────────── */
 
-const Fertility = ({ isChatOpen }: PageProps) => {
+const MasterMalForrigeUke = ({ isChatOpen }: PageProps) => {
  // Spesialister: Madeleine først, deretter resten av fertilitetsspesialistene
  const fertilitySpecialists = useMemo(() => {
  const fertility = specialists.filter((s) => s.category === "fertilitet");
