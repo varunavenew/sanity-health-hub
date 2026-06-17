@@ -53,6 +53,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/specialistProfile",
     exampleLabel: "Åpne mal",
   },
+  {
+    key: "treatmentCategoryForrigeUke",
+    title: "Fagområde – versjon fra 10. juni (forrige uke)",
+    description: "Snapshot av fagområde-mastermalen slik den så ut for ca. én uke siden. Brukes for å sammenligne med dagens versjon.",
+    examplePath: "/maler/treatmentCategoryForrigeUke",
+    exampleLabel: "Åpne tidligere versjon",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [

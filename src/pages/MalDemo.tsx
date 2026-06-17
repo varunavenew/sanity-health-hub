@@ -8,6 +8,7 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import SpecialistProfileMaster from "./masters/SpecialistProfileMaster";
+import MasterMalForrigeUke from "./demos/MasterMalForrigeUke";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -114,6 +115,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Mastermal for spesialistprofiler. Bruk denne når en ny spesialist skal legges inn — hero med portrett og biografi, ekspertiseområder, tilknyttede tjenester, anmeldelser og bookingseksjon. Innholdet hentes fra spesialistdata, slik at det er nok å registrere en ny spesialist for å få siden riktig.",
     livePath: "/spesialister/ida-bjorntvedt",
     render: () => <SpecialistProfileMaster isChatOpen={false} />,
+  },
+  treatmentCategoryForrigeUke: {
+    title: "Mal: Fagområde – Fertilitet (slik den var for ~1 uke siden)",
+    description:
+      "Snapshot av mastermalen for fagområder slik den så ut 10. juni 2026. Brukes som referanse mot dagens versjon — innhold, struktur og seksjoner er bevart fra den gang.",
+    livePath: "/maler/treatmentCategoryForrigeUke",
+    render: () => <MasterMalForrigeUke isChatOpen={false} />,
   },
 };
 
