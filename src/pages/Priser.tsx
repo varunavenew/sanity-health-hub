@@ -310,9 +310,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             Bestill
                                                           </button>
                                                         ) : (
-                                                          <span className="text-xs text-muted-foreground font-light whitespace-nowrap">
-                                                            Krever konsultasjon
-                                                          </span>
+                                                          <Link
+                                                            to={buildBookingUrl({ kategori: category.id })}
+                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/25 text-foreground text-xs font-normal hover:bg-foreground hover:text-background hover:border-foreground transition-colors whitespace-nowrap"
+                                                          >
+                                                            <Calendar className="w-3 h-3" />
+                                                            Book konsultasjon
+                                                          </Link>
                                                         )}
                                                       </div>
                                                     </div>
