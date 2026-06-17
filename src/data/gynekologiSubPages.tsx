@@ -228,6 +228,58 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       "Du skal ikke føle at du er alene om dette. Vi har tid, kompetanse og verktøyene til å hjelpe deg.",
   },
 
+  /* ───────────────────────── UROGYNEKOLOGI (samlet hub) ───────────────────────── */
+  urogynekologi: {
+    seoTitle: "Urogynekologi | CMedical — fremfall og urinlekkasje",
+    seoDescription:
+      "Urogynekologi samler fremfall (prolaps) og urinlekkasje på ett sted. Utredning og behandling — konservativt og kirurgisk — uavhengig av alder eller fødselshistorikk.",
+    canonical: "/behandlinger/gynekologi/urogynekologi",
+    parent,
+    title: "Urogynekologi",
+    eyebrow: "Spesialfelt — Urogynekologi",
+    heroTitle: <>Fremfall og urinlekkasje hører <span className="italic">sammen</span></>,
+    heroDescription:
+      "Urogynekologi er fagfeltet for bekkenbunn, fremfall (prolaps) og urinlekkasje. Plagene kan oppstå uavhengig av fødsel eller alder — og de henger ofte sammen. Her samler vi utredning og behandling på ett sted.",
+    heroPoints: [
+      { title: "Samlet kompetanse", desc: "Fremfall og lekkasje vurderes sammen — ikke i hver sin silo." },
+      { title: "Hele spekteret", desc: "Fra bekkenbunnstrening og pessar til moderne kirurgi, inkludert robotassistert." },
+      { title: "Uavhengig av livsfase", desc: "Du kan ha urogynekologiske plager uten å ha født — og uten å være i overgangsalderen." },
+      { title: "Erfarne spesialister", desc: "Urogynekologi krever volum og rutine. Våre kirurger gjør dette ofte." },
+    ],
+    rating: "4,7 — Spesialister på bekkenbunnshelse",
+    booking: { ...baseBooking, tjeneste: "urogynekologi" },
+    primaryCtaLabel: "Bestill utredning",
+    flowEyebrow: "Forløpet",
+    flowTitle: "Slik utreder og behandler vi",
+    flow: [
+      { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
+      { n: "Steg 02", title: "Undersøkelse", desc: "Klinisk undersøkelse av bekkenbunn, vurdering av fremfall, eventuell ultralyd og urinprøve." },
+      { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
+      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall." },
+    ],
+    reasonsEyebrow: "Symptomer og tilstand",
+    reasonsTitle: "Når bør du ta kontakt?",
+    reasonsLead:
+      "Urogynekologiske plager rammer både kvinner som har født og kvinner som ikke har det, både unge og eldre. Felles for alle er at det finnes hjelp — og at det sjelden blir bedre av seg selv.",
+    reasons: [
+      { n: "01", title: "Tyngdefølelse eller utbuling i underlivet", desc: "Klassisk tegn på fremfall (prolaps) — av livmor, blære eller endetarm." },
+      { n: "02", title: "Lekkasje ved hoste, nys eller trening", desc: "Stresslekkasje responderer ofte godt på bekkenbunnstrening eller kirurgi." },
+      { n: "03", title: "Plutselig og sterk urintrang", desc: "Urge-lekkasje gir akutt trang med lite varsel og krever annen behandling enn stresslekkasje." },
+      { n: "04", title: "Hyppig vannlating, også om natten", desc: "Kan henge sammen med både bekkenbunn, blære og hormoner — vi vurderer helheten." },
+      { n: "05", title: "Følelse av at noe «faller ned»", desc: "Mange beskriver det som om noe ligger an mot underlivet — det er en grunn til å bli undersøkt." },
+      { n: "06", title: "Plager ved samleie", desc: "Fremfall og bekkenbunnsdysfunksjon kan gi smerter eller ubehag som påvirker sexlivet." },
+    ],
+    promises: standardPromises,
+    related: [
+      { eyebrow: "Tilstand", title: "Urinlekkasje", desc: "Utdypende side om stress-, urge- og blandingslekkasje.", href: "/behandlinger/gynekologi/urinlekkasje" },
+      { eyebrow: "Tilstand", title: "Vaginale fremfall", desc: "Utdypende side om prolaps av livmor, blære og endetarm.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Avansert kirurgi for komplekse fremfall og inkontinensplager.", href: "/behandlinger/gynekologi/robotkirurgi" },
+    ],
+    ctaTitle: "Bestill urogynekologisk utredning",
+    ctaDescription:
+      "Du trenger ikke leve med fremfall eller lekkasje. Vi gir deg en grundig vurdering og en konkret plan tilpasset deg.",
+  },
+
   /* ───────────────────────── URINLEKKASJE ───────────────────────── */
   urinlekkasje: {
     seoTitle: "Urinlekkasje | CMedical — utredning og behandling",
