@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroFamily from "@/assets/hero/hero-family.jpg";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
@@ -16,10 +15,11 @@ interface AboutProps {
   isChatOpen: boolean;
 }
 
-// Static fallback content
+type Block = { heading?: string; text?: string; bold?: boolean };
+
+// Static fallback content (current approved copy)
 const staticContent = {
   title: "Ledende ekspertise. Personlig omsorg.",
-  introParagraphs: [],
   bodyParagraphs: [
     { heading: "Historien bak CMedical" },
     { text: "CMedical ble til ut av personlige erfaringer – og en grunnleggende tro på at pasienter fortjener bedre." },
@@ -38,7 +38,7 @@ const staticContent = {
     { text: "Klinikkene våre er utformet for å skape trygghet og verdighet, med varme og diskre omgivelser og medarbeidere som har tid til å se og lytte. Vi jobber også strategisk for å gjøre spesialisert helsehjelp tilgjengelig for flere – gjennom effektive pasientforløp og konkurransedyktige priser, uten å gå på kompromiss med kvalitet." },
     { heading: "Vår ambisjon" },
     { text: "CMedical skal sette en ny standard for privat spesialisthelsetjeneste i Norge – og etter hvert internasjonalt. Med moderne teknologi, korte beslutningslinjer, solid kompetanse og varme omgivelser skaper vi et helsetilbud der faglig trygghet og personlig omsorg alltid går hånd i hånd – i alle livets faser.", bold: true },
-  ],
+  ] as Block[],
 };
 
 const About = ({ isChatOpen }: AboutProps) => {
@@ -46,43 +46,51 @@ const About = ({ isChatOpen }: AboutProps) => {
   const { specialists } = useSpecialistsData();
   const { data: sanityData } = useAboutPage();
 
-  // Use Sanity data if available, otherwise static fallback
   const title = sanityData?.title || staticContent.title;
   const heroImage = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : heroFamily;
-  
-  // Map Sanity sections back into paragraph structure, or use static
-  const introParagraphs = sanityData?.sections?.length
-    ? sanityData.sections.slice(0, 3).map((s: any) => s.content)
-    : staticContent.introParagraphs;
-  
-  const bodyParagraphs = sanityData?.sections?.length && sanityData.sections.length > 3
-    ? sanityData.sections.slice(3).map((s: any) => ({ text: s.content, bold: false }))
-    : staticContent.bodyParagraphs;
+
+  const bodyParagraphs: Block[] =
+    sanityData?.sections?.length
+      ? sanityData.sections.map((s: any) => ({ text: s.content }))
+      : staticContent.bodyParagraphs;
+
+  // Split content so the image sits between the first chapter and the rest –
+  // mirroring the older letter-style layout.
+  let splitIndex = bodyParagraphs.findIndex(
+    (b, i) => i > 0 && b.heading
+  );
+  if (splitIndex === -1) splitIndex = Math.ceil(bodyParagraphs.length / 2);
+  const introBlocks = bodyParagraphs.slice(0, splitIndex);
+  const restBlocks = bodyParagraphs.slice(splitIndex);
 
   const seoTitle = "Om oss – Faglig trygghet og personlig omsorg";
-  const seoDescription = "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Siden 2002 har over 150 000 pasienter fått behandling hos oss.";
+  const seoDescription =
+    "CMedical er Nordens ledende klinikk for gynekologi, fertilitet og urologi. Kvinnehelse er vårt strategiske satsningsområde. Siden 2002 har over 150 000 pasienter fått behandling hos oss.";
 
   useEffect(() => {
     document.title = `${seoTitle} | CMedical`;
   }, []);
 
-  // Group paragraphs into sections by heading. The final "Vår ambisjon"
-  // section is rendered separately as a dark closing stripe.
-  type Section = { heading: string; paragraphs: string[] };
-  const allSections: Section[] = [];
-  let current: Section | null = null;
-  for (const p of bodyParagraphs) {
+  const renderBlock = (p: Block, i: number) => {
     if (p.heading) {
-      current = { heading: p.heading, paragraphs: [] };
-      allSections.push(current);
-    } else if (current) {
-      current.paragraphs.push(p.text || p);
+      return (
+        <h2
+          key={`h-${i}`}
+          className="text-xl md:text-2xl font-light text-brand-dark pt-6 first:pt-0"
+        >
+          {p.heading}
+        </h2>
+      );
     }
-  }
-  const ambition = allSections.find((s) => s.heading === "Vår ambisjon");
-  const sections = allSections.filter((s) => s !== ambition);
-  const pullQuote =
-    "Faglig trygghet og personlig omsorg skal alltid gå hånd i hånd — i alle livets faser.";
+    return (
+      <p
+        key={`p-${i}`}
+        className={p.bold ? "text-brand-dark font-normal pt-2" : ""}
+      >
+        {p.text}
+      </p>
+    );
+  };
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -96,23 +104,42 @@ const About = ({ isChatOpen }: AboutProps) => {
         ]}
       />
 
-      {/* HERO — full-bleed split-screen 50/50 (text + CTA left, image right) */}
-      <header className="bg-brand-warm pt-24 lg:pt-0">
-        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
-          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
-            <div className="max-w-xl w-full">
-              <p className="text-sm font-light text-brand-dark/60 mb-6">Om CMedical</p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-brand-dark leading-[1.05] mb-8">
+      {/* Letter-style content */}
+      <article className="bg-brand-warm pt-20">
+        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+          <div className="max-w-3xl mx-auto">
+            <header className="mb-8 pb-6 border-b border-brand-dark/10">
+              <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
                 {title}
               </h1>
-              <div className="space-y-5 text-brand-dark/80 text-base leading-[1.8] font-light mb-10">
-                <p>
-                  Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
-                </p>
-                <p>
-                  CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.
-                </p>
-              </div>
+            </header>
+
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+              {introBlocks.map(renderBlock)}
+            </div>
+          </div>
+        </div>
+
+        {/* Image */}
+        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto">
+            <img
+              src={heroImage}
+              alt="Omsorg hos CMedical - Familie"
+              className="w-full aspect-[3/2] object-cover object-[30%_20%]"
+            />
+          </div>
+        </div>
+
+        {/* Continued content */}
+        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+              {restBlocks.map(renderBlock)}
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-brand-dark/10">
               <Button
                 className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
                 onClick={() => navigate('/booking')}
@@ -122,75 +149,65 @@ const About = ({ isChatOpen }: AboutProps) => {
               </Button>
             </div>
           </div>
-
-          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
-            <img
-              src={heroImage}
-              alt="Omsorg hos CMedical – Familie"
-              className="absolute inset-0 w-full h-full object-cover object-[30%_20%]"
-            />
-          </div>
-        </div>
-      </header>
-
-      {/* EDITORIAL BODY — 12-column rhythm with numbered chapters */}
-      <article className="bg-brand-warm">
-        <div className="page-shell py-20 md:py-28">
-          <div className="max-w-6xl mx-auto space-y-20 md:space-y-28">
-            {sections.map((s, idx) => (
-              <section key={s.heading} className="grid md:grid-cols-12 gap-8 md:gap-12">
-                <div className="md:col-span-5">
-                  <p className="text-sm font-light text-brand-dark/50 mb-3">
-                    {String(idx + 1).padStart(2, "0")} — Kapittel
-                  </p>
-                  <h2 className="text-2xl md:text-3xl lg:text-[2.25rem] font-light text-brand-dark leading-[1.15]">
-                    {s.heading}
-                  </h2>
-                </div>
-                <div className="md:col-span-7 space-y-5 text-brand-dark/80 text-base leading-[1.8] font-light">
-                  {s.paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        </div>
-
-        {/* Pull quote */}
-        <div className="page-shell pb-20 md:pb-28">
-          <div className="max-w-5xl mx-auto">
-            <blockquote className="text-2xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-[1.2]">
-              <span className="text-brand-mid">"</span>
-              {pullQuote}
-              <span className="text-brand-mid">"</span>
-            </blockquote>
-          </div>
         </div>
       </article>
 
-
-      {/* AMBITION — short dark closing stripe */}
-      {ambition && (
-        <section className="bg-brand-dark text-brand-warm">
-          <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
-            <div className="max-w-4xl">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] mb-10">
-                En ny standard for privat spesialisthelsetjeneste.
-              </h2>
-              <div className="space-y-5 text-brand-warm/80 text-base md:text-lg leading-relaxed font-light max-w-3xl">
-                {ambition.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       <ClinicGrid />
 
-      <SpecialistsSection />
+      {/* Specialists section - dark themed */}
+      <section className="bg-brand-dark py-16 md:py-24">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-10">
+              <p className="text-white/60 text-xs mb-3">Vårt team</p>
+              <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
+                Møt våre spesialister
+              </h2>
+              <p className="text-white/70 font-light max-w-xl">
+                Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+              {specialists.slice(0, 8).map((specialist) => (
+                <Link
+                  to={`/spesialister/${specialist.slug}`}
+                  key={specialist.slug}
+                  className="group"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden bg-brand-dark">
+                    <img
+                      src={specialist.image}
+                      alt={specialist.name}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="font-normal text-white text-sm mb-0.5">{specialist.name}</h3>
+                      <p className="text-white/70 text-xs font-light">
+                        {specialist.title}
+                        {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-10">
+              <Button
+                className="rounded-sm bg-transparent border border-white/30 text-white hover:bg-white hover:text-brand-dark transition-colors font-light"
+                asChild
+              >
+                <Link to="/spesialister">
+                  Se alle {specialists.length} spesialister
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <CTASection
         title="Ta vare på livet og underlivet"
