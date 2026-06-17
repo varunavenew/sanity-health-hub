@@ -1,74 +1,39 @@
-import { useMemo } from "react";
 import { Quote, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { useGoogleReviews } from "@/hooks/useSanity";
-import type { Specialist } from "@/lib/sanity/specialist-types";
+import { getAutoMatchedReviews } from "@/lib/sanity/specialist-review-match";
+import type { Specialist, SpecialistPatientReview } from "@/lib/sanity/specialist-types";
 
 interface SpecialistReviewsProps {
   specialist: Specialist;
 }
 
-type ReviewItem = {
-  id: string;
-  name: string;
-  text: string;
-  rating: number;
-  date?: string;
-};
-
-const categoryKeywords: Record<string, string[]> = {
-  gynekologi: ["gynekolog", "kvinne", "ultralyd"],
-  fertilitet: ["fertil", "ivf", "egg", "befruktning", "embryo"],
-  urologi: ["urolog", "prostata"],
-  ortopedi: ["skulder", "kne", "hånd", "fot", "ortoped", "kirurg"],
-  annet: [],
-};
-
-function getRelevantReviews(specialist: Specialist, reviews: ReviewItem[]): ReviewItem[] {
-  const firstName = specialist.name.split(" ")[0].toLowerCase();
-  const lastName = specialist.name.split(" ").slice(-1)[0].toLowerCase();
-
-  const nameMatched = reviews.filter(
-    (r) =>
-      r.text.toLowerCase().includes(firstName) ||
-      r.text.toLowerCase().includes(lastName),
-  );
-
-  if (nameMatched.length >= 3) return nameMatched.slice(0, 6);
-
-  const keywords = categoryKeywords[specialist.category] || [];
-  const catMatched = reviews.filter((r) =>
-    keywords.some((kw) => r.text.toLowerCase().includes(kw)),
-  );
-
-  const combined: ReviewItem[] = [...nameMatched];
-  for (const r of catMatched) {
-    if (!combined.some((item) => item.id === r.id) && combined.length < 3) {
-      combined.push(r);
-    }
-  }
-
-  for (const r of reviews) {
-    if (combined.length >= 3) break;
-    if (!combined.some((item) => item.id === r.id)) combined.push(r);
-  }
-
-  return combined;
-}
+type ReviewItem = SpecialistPatientReview;
 
 export const SpecialistReviews = ({ specialist }: SpecialistReviewsProps) => {
   const { data: sanityReviews = [] } = useGoogleReviews();
 
-  const reviews = useMemo(() => {
-    const normalized: ReviewItem[] = sanityReviews.map((review, index) => ({
-      id: `review-${index}`,
-      name: review.name || "Anonym",
-      text: review.text || "",
-      rating: review.rating || 5,
-      date: review.date,
-    }));
-    return getRelevantReviews(specialist, normalized);
-  }, [sanityReviews, specialist]);
+  const curated = specialist.patientReviews?.filter((r) => r.text && r.name) ?? [];
+  const reviews =
+    curated.length > 0
+      ? curated
+      : getAutoMatchedReviews(
+          specialist.name,
+          specialist.category,
+          sanityReviews.map((review, index) => ({
+            id: review._id || `review-${index}`,
+            text: review.text || "",
+          })),
+        ).map((match) => {
+          const full = sanityReviews.find((r) => r._id === match.id);
+          return {
+            id: match.id,
+            name: full?.name || "Anonym",
+            text: match.text,
+            rating: full?.rating || 5,
+            date: full?.date,
+          };
+        });
 
   if (reviews.length === 0) return null;
 

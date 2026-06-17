@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
+import { servicesTileGridClass } from "@/lib/ui/grid-cols-for-count";
 
 export interface ServiceListItem {
   title: string;
@@ -46,7 +47,7 @@ export function ServicesListSection({
             )}
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+          <div className={`${servicesTileGridClass(items.length)} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
             {items.map((s) => (
               <Link
                 key={s.title}

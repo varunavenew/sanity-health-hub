@@ -209,6 +209,13 @@ export default {
       description: 'Språkkoder/navn (oversettes ikke)',
     },
     {
+      name: 'faqSectionTitle',
+      title: 'FAQ-overskrift',
+      type: 'internationalizedArrayString',
+      description: 'Overskrift over FAQ-seksjonen (f.eks. «Ofte stilte spørsmål»). Må fylles ut på norsk og engelsk.',
+      validation: requiredNoEnI18n('FAQ-overskrift'),
+    },
+    {
       name: 'faqs',
       title: 'FAQ',
       type: 'array',
@@ -222,26 +229,30 @@ export default {
       title: 'Relaterte spesialister',
       type: 'object',
       description:
-        'Seksjonen «Andre spesialister» nederst på profilsiden. Tom spesialistliste = automatisk fra samme fagområde.',
+        'Seksjonen «Andre spesialister» nederst på profilsiden. Velg minst én annen spesialist som skal vises.',
       options: { collapsible: true, collapsed: false },
+      validation: (Rule: any) => Rule.required().error('Relaterte spesialister må fylles ut'),
       fields: [
         {
           name: 'eyebrow',
           title: 'Undertekst',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Samme fagområde»',
+          description: 'F.eks. «Samme fagområde». Må fylles ut på norsk og engelsk.',
+          validation: requiredNoEnI18n('Undertekst'),
         },
         {
           name: 'heading',
           title: 'Overskrift',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Andre spesialister»',
+          description: 'F.eks. «Andre spesialister». Må fylles ut på norsk og engelsk.',
+          validation: requiredNoEnI18n('Overskrift'),
         },
         {
           name: 'ctaLabel',
           title: 'Lenketekst',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Se alle»',
+          description: 'F.eks. «Se alle». Må fylles ut på norsk og engelsk.',
+          validation: requiredNoEnI18n('Lenketekst'),
         },
         {
           name: 'ctaPath',
@@ -249,6 +260,7 @@ export default {
           type: 'string',
           description: 'Intern sti uten språkprefix, f.eks. /spesialister',
           initialValue: '/spesialister',
+          validation: (Rule: any) => Rule.required().error('Lenke er påkrevd'),
         },
         {
           name: 'specialists',
@@ -256,15 +268,18 @@ export default {
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
           description:
-            'Velg hvilke spesialister som vises (rekkefølgen fra Studio beholdes). La stå tom for automatisk utvalg.',
+            'Velg hvilke spesialister som vises (rekkefølgen fra Studio beholdes). Minst én påkrevd.',
           validation: (Rule: any) =>
-            Rule.custom((refs: Array<{ _ref?: string }> | undefined, context: { document?: { _id?: string } }) => {
-              if (!Array.isArray(refs) || refs.length === 0) return true
-              const docId = String(context.document?._id || '').replace(/^drafts\./, '')
-              if (!docId) return true
-              const includesSelf = refs.some((ref) => ref?._ref === docId)
-              return includesSelf ? 'Velg andre spesialister — ikke profilen du redigerer' : true
-            }),
+            Rule.required()
+              .min(1)
+              .error('Velg minst én spesialist')
+              .custom((refs: Array<{ _ref?: string }> | undefined, context: { document?: { _id?: string } }) => {
+                if (!Array.isArray(refs) || refs.length === 0) return true
+                const docId = String(context.document?._id || '').replace(/^drafts\./, '')
+                if (!docId) return true
+                const includesSelf = refs.some((ref) => ref?._ref === docId)
+                return includesSelf ? 'Velg andre spesialister — ikke profilen du redigerer' : true
+              }),
         },
       ],
     },
@@ -279,6 +294,15 @@ export default {
       title: 'Sorteringsrekkefølge',
       type: 'number',
       description: 'Lavere tall vises først. La stå tom for alfabetisk.',
+    },
+    {
+      name: 'patientReviews',
+      title: 'Pasientanmeldelser',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
+      description:
+        'Velg Google-anmeldelser som vises i «Hva pasientene sier» på profilsiden. Rekkefølgen fra Studio beholdes. Tom liste = automatisk utvalg basert på navn og fagområde.',
+      validation: (Rule: any) => Rule.max(6).error('Velg maks seks anmeldelser'),
     },
     {
       name: 'seo',
@@ -324,6 +348,41 @@ export default {
       const faqs = document.faqs as unknown[] | undefined
       if (!Array.isArray(faqs) || faqs.length === 0) {
         issues.push('Minst ett FAQ-element må velges')
+      }
+      if (!pickNo(document.faqSectionTitle)?.trim()) {
+        issues.push('FAQ-overskrift (norsk) mangler')
+      }
+      if (!pickForLang(document.faqSectionTitle, 'en')?.trim()) {
+        issues.push('FAQ-overskrift (engelsk) mangler')
+      }
+      const related = document.relatedSpecialistsSection as Record<string, unknown> | undefined
+      if (!related || typeof related !== 'object') {
+        issues.push('Relaterte spesialister-seksjonen mangler')
+      }
+      if (!pickNo(related?.eyebrow)?.trim()) {
+        issues.push('Relaterte spesialister: undertekst (norsk) mangler')
+      }
+      if (!pickForLang(related?.eyebrow, 'en')?.trim()) {
+        issues.push('Relaterte spesialister: undertekst (engelsk) mangler')
+      }
+      if (!pickNo(related?.heading)?.trim()) {
+        issues.push('Relaterte spesialister: overskrift (norsk) mangler')
+      }
+      if (!pickForLang(related?.heading, 'en')?.trim()) {
+        issues.push('Relaterte spesialister: overskrift (engelsk) mangler')
+      }
+      if (!pickNo(related?.ctaLabel)?.trim()) {
+        issues.push('Relaterte spesialister: lenketekst (norsk) mangler')
+      }
+      if (!pickForLang(related?.ctaLabel, 'en')?.trim()) {
+        issues.push('Relaterte spesialister: lenketekst (engelsk) mangler')
+      }
+      if (!String(related?.ctaPath || '').trim()) {
+        issues.push('Relaterte spesialister: lenke mangler')
+      }
+      const relatedSpecialists = related?.specialists as unknown[] | undefined
+      if (!Array.isArray(relatedSpecialists) || relatedSpecialists.length === 0) {
+        issues.push('Relaterte spesialister: velg minst én spesialist')
       }
       const seo = document.seo as Record<string, unknown> | undefined
       if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta-tittel (norsk) mangler')

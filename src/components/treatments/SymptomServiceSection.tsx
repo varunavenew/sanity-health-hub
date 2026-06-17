@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
+import { symptomCardGridClass } from "@/lib/ui/grid-cols-for-count";
 
 export interface SymptomItem {
   symptom: string;
@@ -51,7 +52,7 @@ export function SymptomServiceSection({
             )}
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          <div className={`${symptomCardGridClass(items.length)} gap-4 md:gap-5`}>
             {items.map((item) => (
               <Link
                 key={item.symptom}

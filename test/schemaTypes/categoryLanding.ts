@@ -126,7 +126,6 @@ export const categoryLandingPageField = {
         { name: 'primaryCtaLabel', title: 'Primærknapp', ...i18nStr, validation: reqI18n('Primærknapp') },
         { name: 'secondaryCtaLabel', title: 'Sekundærknapp (ring)', ...i18nStr, validation: reqI18n('Sekundærknapp') },
         { name: 'heroImageAlt', title: 'Hero-bilde alt-tekst', ...i18nStr, validation: reqI18n('Hero-bilde alt-tekst') },
-        { name: 'secondaryImageAlt', title: 'Sekundærbilde alt-tekst', ...i18nStr },
       ],
     },
     {
@@ -162,6 +161,20 @@ export const categoryLandingPageField = {
           type: 'array',
           of: [stepItem],
           validation: (Rule: any) => Rule.required().min(1).error('Legg til minst ett steg'),
+        },
+        {
+          name: 'image',
+          title: 'Sidebilde',
+          type: 'image',
+          options: { hotspot: true },
+          description: 'Vises til høyre for steg-listen i «Hvorfor oss»-seksjonen.',
+          validation: (Rule: any) => Rule.required().error('Sidebilde er påkrevd'),
+        },
+        {
+          name: 'imageAlt',
+          title: 'Sidebilde alt-tekst',
+          ...i18nStr,
+          validation: reqI18n('Sidebilde alt-tekst'),
         },
       ],
     },
@@ -241,23 +254,6 @@ export const categoryLandingPageField = {
           validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én anmeldelse'),
         },
       ],
-    },
-    {
-      name: 'specialistsSection',
-      title: 'Spesialister',
-      type: 'object',
-      validation: (Rule: any) => Rule.required().error('Spesialister-seksjonen er påkrevd'),
-      fields: [
-        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
-        { name: 'seeAllLabel', title: 'Se alle-tekst', ...i18nStr, validation: reqI18n('Se alle-tekst') },
-        { name: 'seeAllHref', title: 'Se alle-lenke', type: 'string', validation: reqStr('Se alle-lenke') },
-      ],
-    },
-    {
-      name: 'documentTitle',
-      title: 'Nettleser-tittel',
-      type: 'internationalizedArrayString',
-      validation: reqI18n('Nettleser-tittel'),
     },
     {
       name: 'srOnlyTitle',

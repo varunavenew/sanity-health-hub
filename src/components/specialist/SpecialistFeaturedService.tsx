@@ -17,9 +17,8 @@ export const SpecialistFeaturedService = ({ specialist }: SpecialistFeaturedServ
   const category = specialist.sanityCategories?.[0];
   if (!category?.title) return null;
 
-  const bullets = category.quickInfoItems ?? [];
   const href = featuredServiceHref(category.categoryId, category.slug);
-  const hasContent = Boolean(category.description) || bullets.length > 0 || category.heroImage;
+  const hasContent = Boolean(category.title) && Boolean(category.heroImage);
   if (!hasContent) return null;
 
   return (
@@ -35,20 +34,6 @@ export const SpecialistFeaturedService = ({ specialist }: SpecialistFeaturedServ
             <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] mb-5">
               {category.title}
             </h2>
-            {category.description ? (
-              <p className="text-base font-light text-foreground/80 leading-relaxed max-w-md mb-7">
-                {category.description}
-              </p>
-            ) : null}
-            {bullets.length > 0 ? (
-              <ul className="space-y-2 mb-8">
-                {bullets.map((b) => (
-                  <li key={b} className="text-sm font-light text-foreground/75">
-                    · {b}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
             <Link
               to={href}
               className="inline-flex items-center gap-2 text-sm font-normal text-foreground border-b border-foreground pb-1 hover:gap-3 transition-all"

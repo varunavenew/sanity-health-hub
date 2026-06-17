@@ -6,8 +6,6 @@ export interface SpecialistSanityCategory {
   slug: string;
   title: string;
   categoryNumericId?: number;
-  description?: string;
-  quickInfoItems?: string[];
   heroImage?: string;
 }
 
@@ -22,6 +20,14 @@ export interface SpecialistFaq {
   question: string;
   answer: string;
   category?: string;
+}
+
+export interface SpecialistPatientReview {
+  id: string;
+  name: string;
+  text: string;
+  rating: number;
+  date?: string;
 }
 
 export interface SpecialistRelatedSection {
@@ -66,8 +72,12 @@ export interface Specialist {
   /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */
   bookingCategoryIds?: number[];
   sortOrder?: number;
+  /** FAQ section heading from Sanity (`faqSectionTitle`). */
+  faqSectionTitle?: string;
   /** FAQ rows selected in Studio. */
   faqs?: SpecialistFaq[];
+  /** Google reviews selected in Studio for «Hva pasientene sier». */
+  patientReviews?: SpecialistPatientReview[];
   /** CMS-driven «Andre spesialister» section (optional). */
   relatedSpecialistsSection?: SpecialistRelatedSection;
   seo?: {

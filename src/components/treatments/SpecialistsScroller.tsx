@@ -6,18 +6,15 @@ import { Button } from "@/components/ui/button";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
-interface Specialist {
-  category: string;
-  title?: string;
-  subtitle?: string;
-  expertise?: string[];
-}
+import type { Specialist } from "@/lib/sanity/specialist-types";
 
 interface Props {
   /** Category slug to filter on. Omit/'alle' to show everyone. */
   category?: string;
   /** Custom predicate. Overrides `category` when provided. */
   filter?: (s: Specialist) => boolean;
+  /** Pre-resolved list — skips internal filtering when set. */
+  items?: Specialist[];
   eyebrow?: string;
   title?: string;
   description?: string;
@@ -35,6 +32,7 @@ interface Props {
 export const SpecialistsScroller = ({
   category,
   filter,
+  items: itemsOverride,
   eyebrow = "Våre eksperter",
   title = "Møt våre spesialister",
   description = "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
@@ -45,10 +43,11 @@ export const SpecialistsScroller = ({
   const { sorted: specialists } = useSpecialistsData();
 
   const filtered = useMemo(() => {
+    if (itemsOverride?.length) return itemsOverride;
     if (filter) return specialists.filter(filter);
     if (!category || category === "alle") return specialists;
     return specialists.filter((s) => specialistMatchesCategory(s, category));
-  }, [specialists, category, filter]);
+  }, [specialists, category, filter, itemsOverride]);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;

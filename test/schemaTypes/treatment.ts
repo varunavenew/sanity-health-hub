@@ -84,6 +84,13 @@ export default {
       ],
       validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én fordel'),
     },
+    {
+      name: 'processSectionTitle',
+      title: 'Overskrift: behandlingsprosess',
+      type: 'internationalizedArrayString',
+      description: 'Vises som trekkspill-tittel over prosesstegene på behandlingssiden.',
+      validation: reqI18n('Overskrift: behandlingsprosess'),
+    },
     // Treatment Process
     {
       name: 'process',
@@ -142,6 +149,67 @@ export default {
       ],
       validation: (Rule: any) => Rule.required().min(1).error('Legg til minst ett FAQ-element'),
     },
+    {
+      name: 'quickInfoItems',
+      title: 'Hurtiginfo',
+      type: 'array',
+      of: [{ type: 'internationalizedArrayString' }],
+      description: 'F.eks. Ingen henvisning, Kort ventetid, Forsikring godkjent',
+      validation: (Rule: any) => Rule.required().min(1).error('Legg til minst ett hurtiginfo-punkt'),
+    },
+    {
+      name: 'faqSectionTitle',
+      title: 'FAQ-overskrift',
+      type: 'internationalizedArrayString',
+      description: 'Vises over FAQ-listen på behandlingssiden.',
+      validation: reqI18n('FAQ-overskrift'),
+    },
+    {
+      name: 'bottomCta',
+      title: 'Bunn-CTA',
+      type: 'object',
+      description: 'Handlingsboks nederst på behandlingssiden.',
+      validation: (Rule: any) => Rule.required().error('Bunn-CTA er påkrevd'),
+      fields: [
+        {
+          name: 'title',
+          title: 'Overskrift',
+          type: 'internationalizedArrayString',
+          validation: reqI18n('Overskrift'),
+        },
+        {
+          name: 'subtitle',
+          title: 'Ingress',
+          type: 'internationalizedArrayText',
+          validation: reqI18n('Ingress'),
+        },
+        {
+          name: 'primaryLabel',
+          title: 'Primærknapp',
+          type: 'internationalizedArrayString',
+          validation: reqI18n('Primærknapp'),
+        },
+        {
+          name: 'secondaryLabel',
+          title: 'Sekundærknapp',
+          type: 'internationalizedArrayString',
+          validation: reqI18n('Sekundærknapp'),
+        },
+        {
+          name: 'primaryPath',
+          title: 'Primær lenke',
+          type: 'string',
+          description: 'Tom = booking for behandlingens kategori.',
+        },
+        {
+          name: 'secondaryPath',
+          title: 'Sekundær lenke',
+          type: 'string',
+          initialValue: '/kontakt',
+          validation: reqStr('Sekundær lenke'),
+        },
+      ],
+    },
     // Content sections (accordion items on treatment page)
     {
       name: 'sections',
@@ -196,6 +264,13 @@ export default {
         },
       ],
       validation: (Rule: any) => Rule.required().min(1).error('Velg minst én spesialist'),
+    },
+    {
+      name: 'linkedServicesSectionTitle',
+      title: 'Overskrift: koblede tjenester',
+      type: 'internationalizedArrayString',
+      description: 'Vises som trekkspill-tittel over koblede tjenester på behandlingssiden.',
+      validation: reqI18n('Overskrift: koblede tjenester'),
     },
     // Linked services (cross-links to other treatments)
     {
@@ -354,9 +429,49 @@ export default {
       if (!Array.isArray(process) || process.length === 0) {
         issues.push('Minst ett prosessteg må legges til')
       }
+      if (!pickNo(document.processSectionTitle)?.trim()) {
+        issues.push('Overskrift behandlingsprosess (norsk) mangler')
+      }
+      if (!pickForLang(document.processSectionTitle, 'en')?.trim()) {
+        issues.push('Overskrift behandlingsprosess (engelsk) mangler')
+      }
       const faqs = document.faqs as unknown[] | undefined
       if (!Array.isArray(faqs) || faqs.length === 0) {
         issues.push('Minst ett FAQ-element må legges til')
+      }
+      const quickInfo = document.quickInfoItems as unknown[] | undefined
+      if (!Array.isArray(quickInfo) || quickInfo.length === 0) {
+        issues.push('Minst ett hurtiginfo-punkt må legges til')
+      }
+      if (!pickNo(document.faqSectionTitle)?.trim()) {
+        issues.push('FAQ-overskrift (norsk) mangler')
+      }
+      if (!pickForLang(document.faqSectionTitle, 'en')?.trim()) {
+        issues.push('FAQ-overskrift (engelsk) mangler')
+      }
+      const bottomCta = document.bottomCta as Record<string, unknown> | undefined
+      if (!pickNo(bottomCta?.title)?.trim()) issues.push('Bunn-CTA overskrift (norsk) mangler')
+      if (!pickForLang(bottomCta?.title, 'en')?.trim()) {
+        issues.push('Bunn-CTA overskrift (engelsk) mangler')
+      }
+      if (!pickNo(bottomCta?.subtitle)?.trim()) issues.push('Bunn-CTA ingress (norsk) mangler')
+      if (!pickForLang(bottomCta?.subtitle, 'en')?.trim()) {
+        issues.push('Bunn-CTA ingress (engelsk) mangler')
+      }
+      if (!pickNo(bottomCta?.primaryLabel)?.trim()) {
+        issues.push('Bunn-CTA primærknapp (norsk) mangler')
+      }
+      if (!pickForLang(bottomCta?.primaryLabel, 'en')?.trim()) {
+        issues.push('Bunn-CTA primærknapp (engelsk) mangler')
+      }
+      if (!pickNo(bottomCta?.secondaryLabel)?.trim()) {
+        issues.push('Bunn-CTA sekundærknapp (norsk) mangler')
+      }
+      if (!pickForLang(bottomCta?.secondaryLabel, 'en')?.trim()) {
+        issues.push('Bunn-CTA sekundærknapp (engelsk) mangler')
+      }
+      if (!String(bottomCta?.secondaryPath || '').trim()) {
+        issues.push('Bunn-CTA sekundær lenke mangler')
       }
       const sections = document.sections as unknown[] | undefined
       if (!Array.isArray(sections) || sections.length === 0) {
@@ -369,6 +484,12 @@ export default {
       const linked = document.linkedServices as unknown[] | undefined
       if (!Array.isArray(linked) || linked.length === 0) {
         issues.push('Minst én koblet tjeneste må legges til')
+      }
+      if (!pickNo(document.linkedServicesSectionTitle)?.trim()) {
+        issues.push('Overskrift koblede tjenester (norsk) mangler')
+      }
+      if (!pickForLang(document.linkedServicesSectionTitle, 'en')?.trim()) {
+        issues.push('Overskrift koblede tjenester (engelsk) mangler')
       }
       const subItems = document.subItems as unknown[] | undefined
       if (!Array.isArray(subItems) || subItems.length === 0) {

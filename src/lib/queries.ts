@@ -50,6 +50,8 @@ const localizedSlugBoth = `
 
 const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
 
+const localizedGoogleReviewRow = `_id, author, rating, ${i18nText('text')}, date`;
+
 const SUB_TREATMENT_LAYOUT_GROQ = `
   layout{
     ${i18nString('eyebrow')},
@@ -81,10 +83,6 @@ const SUB_TREATMENT_LAYOUT_GROQ = `
 /** Treatment category fields used on specialist profile featured-service block. */
 const specialistCategoryProjection = `
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
-  ${i18nText("description")},
-  "quickInfoItems": quickInfoItems[]{
-    "text": coalesce(@[language == $lang][0].value, @[_key == $lang][0].value, @[language == "no"][0].value, @[_key == "no"][0].value)
-  },
   "heroImage": heroImage.asset->url
 `;
 
@@ -120,6 +118,17 @@ export const PAGE_SECTIONS_GROQ = `
     variant,
     ${i18nPageSectionString("ctaLabel")},
     ctaPath,
+    ${i18nPageSectionString("seeAllLabel")},
+    seeAllHref,
+    ${i18nPageSectionString("primaryLabel")},
+    ${i18nPageSectionString("secondaryLabel")},
+    primaryPath,
+    ${i18nPageSectionText("subtitle")},
+    "bookingCategory": bookingCategory->{ categoryId },
+    quickInfoItems[]{
+      icon,
+      "text": coalesce(text[language == $lang][0].value, text[_key == $lang][0].value, text[language == "no"][0].value, text[_key == "no"][0].value, text)
+    },
     "treatmentCategory": treatmentCategory->{ categoryId, ${localizedSlug} },
     "specialists": specialists[]->{
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
@@ -151,7 +160,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       "image": image.asset->url
     }
   },
-  "serviceCategories": serviceCategories[]->{ _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug}, description, icon, color, "heroImage": heroImage.asset->url },
+  "serviceCategories": serviceCategories[]->{ _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug}, "heroImage": heroImage.asset->url },
   valueBadges[]{icon, ${i18nString("label")}},
   statsBar[]{value, ${i18nString("label")}},
   ${i18nString("promoBlocksTitle")},
@@ -192,10 +201,14 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
   "image": photo.asset->url,
   ${i18nBlockContent("bio")},
   "categories": categories[]->{ ${specialistCategoryProjection} },
+  ${i18nStringLocale("faqSectionTitle")},
   "faqs": faqs[]->{
     sortOrder,
     category,
     ${localizedFaqRow}
+  },
+  "patientReviews": patientReviews[]->{
+    ${localizedGoogleReviewRow}
   },
   "relatedSpecialistsSection": relatedSpecialistsSection{
     ${i18nStringLocale("eyebrow")},
@@ -245,7 +258,7 @@ const CATEGORY_TREATMENTS_GROQ = `
 `;
 
 export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"]{
-  _id, title, sortOrder, ${localizedSlug}, categoryId, categoryNumericId, description, icon, color,
+  _id, title, sortOrder, ${localizedSlug}, categoryId, categoryNumericId,
   "heroImage": heroImage.asset->url,
   stats,
   ${CATEGORY_TREATMENTS_GROQ}
@@ -253,7 +266,6 @@ export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"]{
 
 const CATEGORY_LANDING_GROQ = `
   landingPage{
-    ${i18nStringLocale("documentTitle")},
     ${i18nStringLocale("srOnlyTitle")},
     hero{
       ${i18nStringLocale("eyebrow")},
@@ -264,7 +276,6 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("primaryCtaLabel")},
       ${i18nStringLocale("secondaryCtaLabel")},
       ${i18nStringLocale("heroImageAlt")},
-      ${i18nStringLocale("secondaryImageAlt")}
     },
     segmentsSection{
       ${i18nStringLocale("eyebrow")},
@@ -283,6 +294,8 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nText("description")},
+      "image": image.asset->url,
+      ${i18nStringLocale("imageAlt")},
       steps[]{
         number,
         ${i18nStringLocale("title")},
@@ -330,30 +343,13 @@ const CATEGORY_LANDING_GROQ = `
         author,
         ${i18nStringLocale("date")}
       }
-    },
-    specialistsSection{
-      ${i18nStringLocale("title")},
-      ${i18nStringLocale("seeAllLabel")},
-      seeAllHref
     }
   }
 `;
 
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
-  _id, title, ${localizedSlug}, categoryId, categoryNumericId, description, icon, color,
+  _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   "heroImage": heroImage.asset->url,
-  quickInfoItems,
-  ${i18nStringLocale("linkedServicesSectionTitle")},
-  ${i18nStringLocale("processSectionTitle")},
-  ${i18nStringLocale("faqSectionTitle")},
-  bottomCta{
-    ${i18nStringLocale("title")},
-    ${i18nText("subtitle")},
-    ${i18nStringLocale("primaryLabel")},
-    ${i18nStringLocale("secondaryLabel")},
-    primaryPath,
-    secondaryPath
-  },
   stats[]{
     value,
     ${i18nStringLocale("label")},
@@ -383,6 +379,18 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${i18nString('subtitle')},
   ${i18nText('description')},
   ${i18nString('benefitsTitle')},
+  ${i18nStringLocale('linkedServicesSectionTitle')},
+  ${i18nStringLocale('processSectionTitle')},
+  quickInfoItems,
+  ${i18nStringLocale('faqSectionTitle')},
+  bottomCta{
+    ${i18nStringLocale('title')},
+    ${i18nText('subtitle')},
+    ${i18nStringLocale('primaryLabel')},
+    ${i18nStringLocale('secondaryLabel')},
+    primaryPath,
+    secondaryPath
+  },
   benefits,
   "heroImage": heroImage.asset->url,
   ${localizedParentCategory},

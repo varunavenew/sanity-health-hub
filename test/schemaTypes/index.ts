@@ -33,6 +33,7 @@ import testimonial from './testimonial'
 import {
   pageSectionSpecialists,
   pageSectionArticles,
+  pageSectionBookingCta,
 } from './pageSections'
 import { subTreatmentLayoutType } from './subTreatmentLayout'
 
@@ -72,6 +73,7 @@ export const schemaTypes = [
   subTreatmentLayoutType,
   pageSectionSpecialists,
   pageSectionArticles,
+  pageSectionBookingCta,
   youtubeEmbed,
   blockContent,
   seo,

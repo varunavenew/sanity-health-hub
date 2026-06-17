@@ -5,9 +5,10 @@ import type { SpecialistFaq } from "@/lib/sanity/specialist-types";
 
 type SpecialistFAQBlockProps = {
   faqs?: SpecialistFaq[];
+  title?: string;
 };
 
-export const SpecialistFAQBlock = ({ faqs }: SpecialistFAQBlockProps) => {
+export const SpecialistFAQBlock = ({ faqs, title }: SpecialistFAQBlockProps) => {
   const specialistFaqs = useMemo(
     () => (faqs ?? []).filter((item) => item.question && item.answer),
     [faqs],
@@ -33,5 +34,5 @@ export const SpecialistFAQBlock = ({ faqs }: SpecialistFAQBlockProps) => {
 
   if (items.length === 0) return null;
 
-  return <FaqSection faqs={items} />;
+  return <FaqSection faqs={items} title={title} />;
 };

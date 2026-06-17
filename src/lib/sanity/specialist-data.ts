@@ -1,4 +1,4 @@
-import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
+import type { Specialist, SpecialistClinicRef, SpecialistFaq, SpecialistPatientReview, SpecialistRelatedSection, SpecialistSanityCategory } from "@/lib/sanity/specialist-types";
 import { resolveSpecialistPrimaryCategory } from "@/lib/sanity/category-keys";
 import { sortBySortOrder } from "@/lib/sortAlphabetical";
 
@@ -71,11 +71,19 @@ export type RawSanitySpecialist = {
   }>;
   bookingCategoryIds?: number[];
   sortOrder?: number;
+  faqSectionTitle?: unknown;
   faqs?: Array<{
     question?: string;
     answer?: string;
     category?: string;
     sortOrder?: number;
+  }>;
+  patientReviews?: Array<{
+    _id?: string;
+    author?: string;
+    rating?: number;
+    text?: string;
+    date?: string;
   }>;
   relatedSpecialistsSection?: {
     eyebrow?: string;
@@ -148,6 +156,48 @@ function readEducation(value: unknown, lang: SanityLang): string | undefined {
   return parts.length > 0 ? parts.join(" · ") : undefined;
 }
 
+function formatReviewDate(value: unknown, lang: SanityLang): string {
+  if (value == null) return "";
+  const locale = lang === "en" ? "en-GB" : "nb-NO";
+  if (typeof value === "string") {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toLocaleDateString(locale, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+    return value;
+  }
+  return "";
+}
+
+function mapPatientReviews(
+  reviews: RawSanitySpecialist["patientReviews"],
+  lang: SanityLang,
+): SpecialistPatientReview[] | undefined {
+  if (!Array.isArray(reviews) || reviews.length === 0) return undefined;
+  const mapped = reviews
+    .map((review) => {
+      const text = typeof review.text === "string" ? review.text.trim() : "";
+      const name = typeof review.author === "string" ? review.author.trim() : "";
+      if (!text || !name) return null;
+      return {
+        id: typeof review._id === "string" ? review._id : name,
+        name,
+        text,
+        rating:
+          typeof review.rating === "number" && review.rating >= 1 && review.rating <= 5
+            ? review.rating
+            : 5,
+        date: formatReviewDate(review.date, lang) || undefined,
+      };
+    })
+    .filter((review): review is SpecialistPatientReview => review !== null);
+  return mapped.length > 0 ? mapped : undefined;
+}
+
 function mapSpecialistFaqs(
   faqs: RawSanitySpecialist["faqs"],
 ): SpecialistFaq[] | undefined {
@@ -193,15 +243,6 @@ function mapSanitySpecialistCategories(
       slug: c.slug!,
       title: readLocalizedString(c.title, lang),
       categoryNumericId: c.categoryNumericId,
-      description:
-        typeof c.description === "string"
-          ? c.description.trim()
-          : readLocalizedString(c.description, lang) || undefined,
-      quickInfoItems: Array.isArray(c.quickInfoItems)
-        ? c.quickInfoItems
-            .map((item) => (typeof item?.text === "string" ? item.text.trim() : ""))
-            .filter(Boolean)
-        : undefined,
       heroImage: typeof c.heroImage === "string" ? c.heroImage : undefined,
     }));
 }
@@ -286,7 +327,9 @@ export function mapSanitySpecialistRow(
     sanityCategories: mapSanitySpecialistCategories(raw.categories, lang),
     bookingCategoryIds,
     sortOrder: typeof raw.sortOrder === "number" ? raw.sortOrder : undefined,
+    faqSectionTitle: readLocalizedString(raw.faqSectionTitle, lang) || undefined,
     faqs: mapSpecialistFaqs(raw.faqs),
+    patientReviews: mapPatientReviews(raw.patientReviews, lang),
     relatedSpecialistsSection: mapRelatedSpecialistsSection(raw.relatedSpecialistsSection, lang),
     seo:
       seoTitle && seoDescription

@@ -103,11 +103,11 @@ export async function buildTreatmentCategoryMetadata(
     {
       nb: {
         title: `${title} – Spesialistbehandling hos CMedical`,
-        description: doc?.description?.slice(0, 160) || `Behandlinger innen ${title} hos CMedical.`,
+        description: `Behandlinger innen ${title} hos CMedical.`,
       },
       en: {
         title: `${title} – Specialist care at CMedical`,
-        description: doc?.description?.slice(0, 160) || `Treatments in ${title} at CMedical.`,
+        description: `Treatments in ${title} at CMedical.`,
       },
     },
   );

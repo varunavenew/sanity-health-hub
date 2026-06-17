@@ -130,17 +130,17 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
   }, [siteSettings?.mainNavigation]);
 
   const pageUi = useMemo(() => {
-    const cta = sanityCategory?.bottomCta;
+    const cta = treatment?.bottomCta;
     const primaryPath = cta?.primaryPath?.trim() || treatmentBookingUrl;
-    const quickInfoItems = (sanityCategory?.quickInfoItems ?? []).filter(
+    const quickInfoItems = (treatment?.quickInfoItems ?? []).filter(
       (label): label is string => typeof label === "string" && label.length > 0,
     );
 
     return {
       quickInfoItems,
-      linkedServicesTitle: (sanityCategory?.linkedServicesSectionTitle ?? "").trim(),
-      processTitle: (sanityCategory?.processSectionTitle ?? "").trim(),
-      faqTitle: (sanityCategory?.faqSectionTitle ?? "").trim(),
+      linkedServicesTitle: (treatment?.linkedServicesSectionTitle ?? "").trim(),
+      processTitle: (treatment?.processSectionTitle ?? "").trim(),
+      faqTitle: (treatment?.faqSectionTitle ?? "").trim(),
       ctaTitle: (cta?.title ?? "").trim(),
       ctaSubtitle: (cta?.subtitle ?? "").trim(),
       ctaPrimaryLabel: (cta?.primaryLabel ?? "").trim(),
@@ -148,7 +148,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       ctaPrimaryPath: primaryPath,
       ctaSecondaryPath: (cta?.secondaryPath ?? "").trim(),
     };
-  }, [sanityCategory, treatmentBookingUrl]);
+  }, [treatment, treatmentBookingUrl]);
 
   const faqs = useMemo(() => {
     if (sanityFaqs && sanityFaqs.length > 0) return sanityFaqs;

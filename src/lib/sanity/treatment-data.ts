@@ -17,12 +17,22 @@ function asPlainString(value: unknown): string {
         )
         .join("\n");
     }
+    if (typeof first === "string") return first;
+    if (first && typeof first === "object" && "value" in first) {
+      const inner = (first as { value: unknown }).value;
+      if (typeof inner === "string") return inner;
+    }
   }
   if (typeof value === "object" && "value" in (value as object)) {
     const inner = (value as { value: unknown }).value;
     if (typeof inner === "string") return inner;
   }
   return "";
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((v) => asPlainString(v)).filter(Boolean);
 }
 
 export type TreatmentSection = {
@@ -57,6 +67,15 @@ export type SubTreatmentLayoutData = {
   specialistCtaHref?: string;
 };
 
+export type TreatmentBottomCta = {
+  title?: string;
+  subtitle?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
+  primaryPath?: string;
+  secondaryPath?: string;
+};
+
 export type TreatmentData = {
   title: string;
   subtitle?: string;
@@ -67,6 +86,11 @@ export type TreatmentData = {
   categoryNumericId?: number;
   benefitsTitle?: string;
   benefits?: { title: string; description: string }[];
+  linkedServicesSectionTitle?: string;
+  processSectionTitle?: string;
+  quickInfoItems?: string[];
+  faqSectionTitle?: string;
+  bottomCta?: TreatmentBottomCta;
   process?: { title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
   sections: TreatmentSection[];
@@ -103,6 +127,9 @@ export function mapTreatmentDocument(
     .map((row) => asPlainString((row as Record<string, unknown>).slug))
     .filter(Boolean);
 
+  const bottomCtaRaw = data.bottomCta as Record<string, unknown> | undefined;
+  const quickInfoItems = asStringArray(data.quickInfoItems);
+
   return {
     title: asPlainString(data.title),
     subtitle: asPlainString(data.subtitle) || undefined,
@@ -115,6 +142,21 @@ export function mapTreatmentDocument(
         ? data.categoryNumericId
         : undefined,
     benefitsTitle: asPlainString(data.benefitsTitle) || undefined,
+    linkedServicesSectionTitle:
+      asPlainString(data.linkedServicesSectionTitle) || undefined,
+    processSectionTitle: asPlainString(data.processSectionTitle) || undefined,
+    quickInfoItems: quickInfoItems.length ? quickInfoItems : undefined,
+    faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
+    bottomCta: bottomCtaRaw
+      ? {
+          title: asPlainString(bottomCtaRaw.title) || undefined,
+          subtitle: asPlainString(bottomCtaRaw.subtitle) || undefined,
+          primaryLabel: asPlainString(bottomCtaRaw.primaryLabel) || undefined,
+          secondaryLabel: asPlainString(bottomCtaRaw.secondaryLabel) || undefined,
+          primaryPath: asPlainString(bottomCtaRaw.primaryPath) || undefined,
+          secondaryPath: asPlainString(bottomCtaRaw.secondaryPath) || undefined,
+        }
+      : undefined,
     benefits: ((data.benefits as unknown[]) || []).map((b) => {
       const row = b as Record<string, unknown>;
       if (row && typeof row === 'object' && 'title' in row) {
