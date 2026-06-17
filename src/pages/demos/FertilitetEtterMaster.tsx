@@ -308,7 +308,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
 
-            <div className="lg:col-span-7">
+            <div>
               <Accordion
                 type="single"
                 collapsible
