@@ -496,11 +496,11 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-              <div className="lg:col-span-5">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 mb-14">
+              <div>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">Tall som forteller en historie.</h2>
               </div>
-              <div className="lg:col-span-7 flex items-end">
+              <div className="flex items-end">
                 <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
                   resultatene våre innen fertilitetsbehandling de siste årene.
