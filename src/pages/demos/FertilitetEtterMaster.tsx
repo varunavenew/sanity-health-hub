@@ -286,9 +286,6 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
             <div>
               <div className="lg:sticky lg:top-28">
-                <p className="text-xs text-foreground/60 mb-5">
-                  Alternativ for undertjenester
-                </p>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
                   Det du lurer på — fordelt så det er enkelt å finne.
                 </h2>
@@ -359,7 +356,6 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
         <div className="grid lg:grid-cols-12">
           <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
             <div className="max-w-xl">
-              <p className="text-xs text-foreground/60 mb-5">Hvorfor CMedical</p>
               <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
                 Det beste fra to klinikker — samlet på ett sted.
               </h2>
@@ -584,7 +580,6 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
 
       {/* 9. SPESIALISTER */}
       <FeatureSpotlight
-        eyebrow="Start her"
         title={<>Begynn med en <span className="italic">fertilitetssjekk</span></>}
         text="En grundig kartlegging av eggstokkreserve, hormoner og anatomi — slik at du vet hvor du står. Du møter en spesialist som går gjennom funnene og legger en plan tilpasset deg og din partner."
         ctaLabel="Les mer om fertilitetssjekk"
