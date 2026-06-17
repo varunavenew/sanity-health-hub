@@ -7,7 +7,6 @@ export type ResultStat = {
 };
 
 interface ResultsStatsSectionProps {
-  eyebrow?: string;
   title: string;
   description?: string;
   category?: string;

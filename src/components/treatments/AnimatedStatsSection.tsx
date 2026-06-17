@@ -7,7 +7,6 @@ export interface StatRow {
 }
 
 interface AnimatedStatsSectionProps {
- eyebrow?: string;
  title?: string;
  description?: string;
  categoryLabel: string;

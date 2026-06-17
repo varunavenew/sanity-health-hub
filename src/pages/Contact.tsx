@@ -64,7 +64,6 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         ]}
       />
       <SplitHero
-        eyebrow="Vi er her for å hjelpe"
         title={t("contact.title")}
         description={t("contact.subtitle")}
         image={contactHero}
