@@ -173,9 +173,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                     <span className="text-xl md:text-2xl font-light text-foreground truncate">
                       {category.label}
                     </span>
-                    <span className="text-sm font-light text-muted-foreground hidden sm:inline">
-                      {expandedCategory === category.id ? 'Lukk prisliste' : 'Se priser'}
-                    </span>
                   </button>
                   <div className="flex items-center gap-3 shrink-0">
                     <button
