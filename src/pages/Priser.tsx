@@ -265,11 +265,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                     <button
                                                       key={idx}
                                                       onClick={() => navigate(href)}
-                                                      className="w-full flex items-center justify-between p-4 rounded-xl border bg-brand-beige/30 border-brand-dark/10 hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
+                                                      className="w-full flex items-center justify-between p-4 rounded-xl border bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/35 hover:shadow-[0_4px_12px_rgba(66,51,42,0.1)] transition-all text-left group"
                                                     >
                                                       <div className="flex-1 pr-4 min-w-0">
                                                         <div className="flex items-center gap-2">
-                                                          <span className="block font-normal text-foreground">
+                                                          <span className="block font-normal text-brand-dark">
                                                             {item.name}
                                                           </span>
                                                           {item.info && (
@@ -280,7 +280,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                                   tabIndex={0}
                                                                   onClick={(e) => e.stopPropagation()}
                                                                   aria-label={`Mer informasjon om ${item.name}`}
-                                                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-foreground/10 text-foreground/80 hover:bg-foreground hover:text-background transition-colors shrink-0"
+                                                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-dark/10 text-brand-dark/70 hover:bg-brand-dark hover:text-brand-warm transition-colors shrink-0"
                                                                 >
                                                                   <Info className="w-3 h-3" strokeWidth={2.2} />
                                                                 </span>
@@ -295,19 +295,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             </Tooltip>
                                                           )}
                                                         </div>
-                                                        <div className="flex items-center gap-3 mt-1 text-sm text-foreground/70 font-light">
-                                                          <span className="text-foreground/85 tabular-nums">
+                                                        <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light">
+                                                          <span className="text-brand-dark/85 tabular-nums">
                                                             {item.price === "0,-" ? "Gratis" : item.price}
                                                           </span>
                                                           {item.duration && (
                                                             <>
-                                                              <span className="text-foreground/30">·</span>
+                                                              <span className="text-brand-dark/30">·</span>
                                                               <span>{item.duration}</span>
                                                             </>
                                                           )}
                                                           {!bookable && (
                                                             <>
-                                                              <span className="text-foreground/30">·</span>
+                                                              <span className="text-brand-dark/30">·</span>
                                                               <span className="italic">krever konsultasjon</span>
                                                             </>
                                                           )}
