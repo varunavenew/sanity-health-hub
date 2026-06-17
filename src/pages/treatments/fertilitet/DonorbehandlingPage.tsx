@@ -381,7 +381,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
 
       {/* 9. SPESIALISTER */}
       <FeatureSpotlight
-        eyebrow="Start her"
+        
         title={<>Begynn med en <span className="italic">samtale</span></>}
         text="Donorforløp starter med en grundig samtale der vi går gjennom dine ønsker, juridiske rammer og medisinske muligheter. Slik vet du hva som passer for nettopp din situasjon."
         ctaLabel="Bestill konsultasjon"

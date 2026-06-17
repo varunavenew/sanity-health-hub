@@ -534,7 +534,7 @@ const MasterMalForrigeUke = ({ isChatOpen }: PageProps) => {
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
   <FeatureSpotlight
-        eyebrow="Start her"
+        
         title={<>Begynn med en <span className="italic">fertilitetssjekk</span></>}
         text="En grundig kartlegging av eggstokkreserve, hormoner og anatomi — slik at du vet hvor du står. Du møter en spesialist som går gjennom funnene og legger en plan tilpasset deg og din partner."
         ctaLabel="Les mer om fertilitetssjekk"
