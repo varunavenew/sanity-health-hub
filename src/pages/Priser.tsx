@@ -325,6 +325,17 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                     );
                                   })}
                                 </div>
+
+                                {/* Les mer — plassert nederst i åpen boks */}
+                                <div className="mt-6 pt-5 border-t border-foreground/10">
+                                  <Link
+                                    to={category.path}
+                                    className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+                                  >
+                                    Les mer om {category.label.toLowerCase()}
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                  </Link>
+                                </div>
                               </div>
                             </motion.div>
                           )}
