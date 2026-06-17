@@ -162,29 +162,44 @@ const Priser = ({ isChatOpen }: PageProps) => {
                     : 'bg-white/60 border-border/50 hover:bg-white hover:border-border'
                 }`}
               >
-                {/* Category Header - entire bar is clickable to toggle */}
-                <button
-                  onClick={() => toggleCategory(category.id)}
-                  className="w-full flex items-center justify-between p-5 md:p-6 cursor-pointer text-left"
-                  aria-expanded={expandedCategory === category.id}
-                  aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-xl md:text-2xl font-light text-foreground">
+                {/* Category Header - toggle on click, separate "Les mer" link */}
+                <div className="w-full flex items-center justify-between p-5 md:p-6 gap-4">
+                  <button
+                    onClick={() => toggleCategory(category.id)}
+                    className="flex items-center gap-4 flex-1 min-w-0 text-left cursor-pointer"
+                    aria-expanded={expandedCategory === category.id}
+                    aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
+                  >
+                    <span className="text-xl md:text-2xl font-light text-foreground truncate">
                       {category.label}
                     </span>
-                    <span className="text-sm font-light text-muted-foreground">
+                    <span className="text-sm font-light text-muted-foreground hidden sm:inline">
                       {expandedCategory === category.id ? 'Lukk prisliste' : 'Se priser'}
                     </span>
+                  </button>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); navigate(category.path); }}
+                      className="hidden md:inline-flex items-center gap-1.5 text-sm font-light text-foreground/70 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+                    >
+                      Les mer om {category.label.toLowerCase()}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => toggleCategory(category.id)}
+                      aria-hidden="true"
+                      tabIndex={-1}
+                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10"
+                    >
+                      {expandedCategory === category.id ? (
+                        <Minus className="w-4 h-4 text-foreground/80" />
+                      ) : (
+                        <Plus className="w-4 h-4 text-foreground/80" />
+                      )}
+                    </button>
                   </div>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10`}>
-                    {expandedCategory === category.id ? (
-                      <Minus className="w-4 h-4 text-foreground/80" aria-hidden="true" />
-                    ) : (
-                      <Plus className="w-4 h-4 text-foreground/80" aria-hidden="true" />
-                    )}
-                  </div>
-                </button>
+                </div>
+
 
                 {/* Subcategories - Expanded Content */}
                 <AnimatePresence>
