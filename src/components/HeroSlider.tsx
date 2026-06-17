@@ -3,7 +3,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage1 from "@/assets/hero/cmedical-hero-1.jpg";
 import heroImage2 from "@/assets/hero/cmedical-hero-2.jpg";
-import heroImage3 from "@/assets/hero/cmedical-hero-3.jpg";
+import heroImage3Asset from "@/assets/hero/cmedical-hero-fertilitet.jpg.asset.json";
+const heroImage3 = heroImage3Asset.url;
 
 const slides = [
  {
