@@ -382,7 +382,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+          <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
             <img
               src={heroClinicLounge}
               alt="CMedical fertilitetsklinikk i Sandvika"
