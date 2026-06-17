@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -18,6 +18,10 @@ const categoryLabels: Record<string, string> = {
   annet: "Flere tjenester",
 };
 
+// Normalize for resilient string comparison (case + whitespace tolerant)
+const norm = (v: unknown): string =>
+  typeof v === "string" ? v.trim().toLowerCase() : "";
+
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
@@ -28,11 +32,23 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
     document.title = "Våre spesialister | CMedical";
   }, []);
 
-  const filtered = specialists.filter((s) => {
-    const categoryMatch = activeFilter === "alle" || s.category === activeFilter;
-    const clinicMatch = activeClinic === "alle" || (s.clinics?.includes(activeClinic) ?? false);
-    return categoryMatch && clinicMatch;
-  });
+  // Combined AND filter: a specialist must match BOTH the selected category
+  // and the selected clinic (when either is set to something other than "alle").
+  const filtered = useMemo(() => {
+    const wantCategory = norm(activeFilter);
+    const wantClinic = norm(activeClinic);
+
+    return specialists.filter((s) => {
+      const categoryMatch =
+        wantCategory === "alle" || norm(s.category) === wantCategory;
+      if (!categoryMatch) return false;
+
+      if (wantClinic === "alle") return true;
+      const clinics = Array.isArray(s.clinics) ? s.clinics : [];
+      return clinics.some((c) => norm(c) === wantClinic);
+    });
+  }, [specialists, activeFilter, activeClinic]);
+
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
