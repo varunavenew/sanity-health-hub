@@ -60,6 +60,7 @@ const hiddenTypes = [
   'clinicPage',
   'clinicsPage',
   'pricingPage',
+  'bookingPage',
   'testimonial',
   'googleReview',
   'googleReviewSettings',
@@ -202,6 +203,14 @@ export default defineConfig({
               ])
           )
 
+        const bookingItem = S.listItem()
+          .title('Bestill time')
+          .child(
+            S.document()
+              .schemaType('bookingPage')
+              .documentId('bookingPage'),
+          )
+
         const priserItem = S.listItem()
           .title('Priser')
           .icon(PricingIcon)
@@ -253,6 +262,7 @@ export default defineConfig({
             treatmentCategoryItem,
             treatmentItem,
             specialistsItem,
+            bookingItem,
             priserItem,
             googleReviewsItem,
             ...otherItems.slice(mid),

@@ -15,6 +15,10 @@ import {
 import { sortByLabel, sortBySortOrder, textForSort, parseSortOrder } from "@/lib/sortAlphabetical";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
 import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
+import {
+  resolveBookingPageCopy,
+  type BookingPageCopy,
+} from "@/lib/sanity/booking-page-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
 import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
@@ -32,6 +36,7 @@ import {
   CONTACT_PAGE_QUERY,
   NEWS_PAGE_QUERY,
   PRICING_PAGE_QUERY,
+  BOOKING_PAGE_QUERY,
   INSURANCE_PAGE_QUERY,
   CLINICS_QUERY,
   CLINIC_BY_SLUG_QUERY,
@@ -536,6 +541,22 @@ export const usePricingPage = () => {
   return useQuery({
     queryKey: ["sanity", "pricingPage", lang],
     queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang),
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useBookingPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "bookingPage", lang],
+    queryFn: async () => {
+      const data = await fetchSanity<Partial<BookingPageCopy> | null>(
+        BOOKING_PAGE_QUERY,
+        undefined,
+        lang,
+      );
+      return resolveBookingPageCopy(data);
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
