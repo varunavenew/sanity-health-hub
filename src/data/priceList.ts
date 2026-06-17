@@ -442,8 +442,16 @@ const parsePrice = (s: string): number | null => {
 
 const formatNok = (n: number): string => n.toLocaleString("nb-NO").replace(/\u00A0/g, ".").replace(/\s/g, ".");
 
+const formatFromPrice = (n: number): string => `Pris fra ${formatNok(n)} kr`;
+
+const normalize = (s: string): string =>
+  s.toLowerCase()
+    .replace(/ø/g, "o").replace(/æ/g, "ae").replace(/å/g, "a")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
 /**
- * Lowest "fra"-price for a given treatment path, formatted as "Pris fra kr 1.800,-".
+ * Lowest "fra"-price for a given treatment path, formatted as "Pris fra 1.800 kr".
  * Matches priceCategories subcategories whose path equals the given path.
  * Returns null when no numeric prices are configured for the path.
  */
@@ -454,8 +462,38 @@ export const getFromPriceForPath = (path: string): string | null => {
       if (sub.path !== path) continue;
       const nums = sub.items.map((i) => parsePrice(i.price)).filter((n): n is number => n !== null);
       if (!nums.length) return null;
-      return `Pris fra kr ${formatNok(Math.min(...nums))},-`;
+      return formatFromPrice(Math.min(...nums));
     }
   }
   return null;
 };
+
+/**
+ * Lowest "fra"-price by treatment title within a category.
+ * Scans all items in the matching category and returns the lowest price
+ * among items whose name overlaps (substring, normalized) with the title.
+ */
+export const getFromPriceForTitle = (categoryId: string, title: string): string | null => {
+  if (!categoryId || !title) return null;
+  const cat = priceCategories.find((c) => c.id === categoryId);
+  if (!cat) return null;
+  const nTitle = normalize(title);
+  if (!nTitle) return null;
+  const titleTokens = nTitle.split(" ").filter((t) => t.length >= 4);
+  const matches: number[] = [];
+  for (const sub of cat.subcategories) {
+    for (const item of sub.items) {
+      const nName = normalize(item.name);
+      const hit =
+        nName.includes(nTitle) ||
+        nTitle.includes(nName) ||
+        (titleTokens.length > 0 && titleTokens.every((t) => nName.includes(t)));
+      if (!hit) continue;
+      const p = parsePrice(item.price);
+      if (p !== null) matches.push(p);
+    }
+  }
+  if (!matches.length) return null;
+  return formatFromPrice(Math.min(...matches));
+};
+
