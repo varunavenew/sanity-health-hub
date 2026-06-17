@@ -43,7 +43,6 @@ const staticContent = {
 
 const About = ({ isChatOpen }: AboutProps) => {
   const navigate = useNavigate();
-  const { specialists } = useSpecialistsData();
   const { data: sanityData } = useAboutPage();
 
   const title = sanityData?.title || staticContent.title;
