@@ -41,7 +41,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
           </div>
           <div className="lg:w-1/2 bg-brand-dark text-white flex items-center">
             <div className="px-8 md:px-14 py-12 md:py-0 w-full max-w-xl">
-              <p className="text-xs text-white/60 font-light mb-6">{fertilitetContent.title} · Etablert 1989</p>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight mb-6">
                 {fertilitetContent.heroHeadline}
               </h1>
@@ -69,7 +68,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm py-20 md:py-24">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl grid grid-cols-12 gap-10">
           <div className="col-span-12 md:col-span-4">
-            <p className="text-xs text-muted-foreground font-light mb-6">Kort fortalt</p>
             <p className="text-2xl md:text-3xl font-light text-foreground leading-tight">{fertilitetContent.subtitle}</p>
           </div>
           <p className="col-span-12 md:col-span-8 text-lg md:text-xl text-foreground/80 font-light leading-[1.6]">{fertilitetContent.intro}</p>
@@ -81,7 +79,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12">
             <div className="max-w-xl">
-              <p className="text-xs text-muted-foreground font-light mb-6">Teamet</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Spesialistene som driver klinikken</h2>
             </div>
             <Link to="/spesialister" className="hidden md:inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground">
@@ -97,7 +94,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       {/* RESULT STATS */}
       <section className="bg-brand-dark py-14 md:py-16 text-white">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-white/60 font-light mb-8">Resultater</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
             {fertilitetResultStats.map((s) => (
               <div key={s.k}>
@@ -113,7 +109,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       {/* SERVICES — som katalog */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Tilbud</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Behandlingskatalog</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {fertilitetServices.map((s) => {
@@ -122,7 +117,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
                 <Link key={s.name} to={s.href} className="group block bg-background border border-border/40 rounded-2xl p-6 hover:border-foreground/40 transition-all">
                   <Icon className="w-5 h-5 text-foreground/70 mb-5" strokeWidth={1.5} />
                   <h3 className="text-base font-light text-foreground mb-2">{s.name}</h3>
-                  <p className="text-xs text-muted-foreground font-light leading-relaxed mb-5">{s.desc}</p>
                   <span className="inline-flex items-center gap-1 text-xs font-light text-foreground/70 group-hover:text-foreground">Les mer <ArrowRight className="w-3 h-3" strokeWidth={1.5} /></span>
                 </Link>
               );
@@ -134,12 +128,10 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       {/* WHY US */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hvorfor CMedical</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Tre løfter</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {fertilitetWhySteps.map((w) => (
               <div key={w.n} className="border border-border/40 rounded-2xl p-7">
-                <p className="text-xs text-muted-foreground font-light mb-4">{w.n}</p>
                 <h3 className="text-xl font-light text-foreground mb-3">{w.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed">{w.desc}</p>
               </div>
@@ -151,7 +143,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       {/* AUDIENCES — sjekkliste */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hvem behandler vi</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Alle er velkomne</h2>
           <ul className="space-y-3">
             {fertilitetAudiences.map((a) => (
@@ -171,7 +162,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       {/* SEGMENTS as quick paths */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Snarveier</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Hva trenger du?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fertilitetSegments.map((s) => (
@@ -192,7 +182,6 @@ const FertilitetKlinikk = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Det folk spør om</h2>
           <Accordion type="single" collapsible className="w-full">
             {fertilitetFaqs.map((faq, i) => (

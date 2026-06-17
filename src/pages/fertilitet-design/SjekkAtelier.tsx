@@ -77,9 +77,6 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
 
             {/* Faktablokk */}
             <aside className="col-span-12 md:col-span-5 md:pl-8 md:border-l border-border/60">
-              <p className="text-xs text-muted-foreground font-light mb-8">
-                Det praktiske
-              </p>
               <dl className="space-y-5">
                 {facts.map((f) => (
                   <div key={f.k} className="flex items-baseline justify-between gap-6 border-b border-border/60 pb-4">
@@ -111,9 +108,6 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14 md:mb-16 items-end">
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                Innholdet i sjekken
-              </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
                 Seks målepunkter — <br /> ett samlet bilde
               </h2>
@@ -155,9 +149,6 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-14 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">
-              Hvem er sjekken for
-            </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
               Kjenner du deg igjen i én av disse?
             </h2>
@@ -197,9 +188,6 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">
-              Veien videre
-            </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
               Hvis du vil ta et steg til
             </h2>
@@ -212,9 +200,6 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
                 to={r.href}
                 className="group block border-b md:border-b-0 md:border-r border-border/60 last:border-r-0 p-7 md:p-8 hover:bg-muted/30 transition-colors"
               >
-                <p className="text-xs text-muted-foreground font-light mb-4">
-                  {r.eyebrow}
-                </p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-3 leading-snug">
                   {r.title}
                 </h3>
@@ -234,9 +219,6 @@ const SjekkAtelier = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">
-            Vanlige spørsmål
-          </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
           </h2>

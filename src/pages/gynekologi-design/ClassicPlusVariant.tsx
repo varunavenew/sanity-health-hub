@@ -53,9 +53,6 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-8 md:gap-12 items-center">
             {/* LEFT: all text, left-aligned */}
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                CMedical Kvinnehelse
-              </p>
               <h1 className="text-5xl md:text-7xl lg:text-[5.25rem] font-light text-foreground leading-[1] tracking-tight">
                 {gynekologiContent.title}
               </h1>
@@ -102,9 +99,6 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-14 md:mb-16">
             <div className="col-span-12 md:col-span-5">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                {gynekologiContent.servicesHeading}
-              </p>
               <h2 className="text-4xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
                 Tjenester innen<br />gynekologi
               </h2>
@@ -172,9 +166,6 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-7xl">
           <div className="flex items-end justify-between mb-12 md:mb-14">
             <div className="max-w-xl">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                Møt teamet
-              </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
                 Våre gynekologer
               </h2>
@@ -202,9 +193,6 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
       {/* FAQ – inline +/- accordion, classic feel */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">
-            Vanlige spørsmål
-          </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
           </h2>

@@ -50,9 +50,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* SPLIT HERO */}
       <section className="bg-brand-warm pt-8 pb-0">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl mb-10 md:mb-14">
-          <p className="text-xs text-muted-foreground font-light mb-6">
-            {fertilitetContent.title} · {fertilitetContent.subtitle}
-          </p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground leading-[1.02] tracking-tight max-w-4xl">
             {fertilitetContent.heroHeadline}
           </h1>
@@ -65,7 +62,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
           <div className="lg:w-1/2 relative bg-brand-mid/40 flex items-center">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-warm/30 via-transparent to-brand-dark/10" />
             <div className="relative z-10 px-8 md:px-14 py-12 md:py-0 w-full max-w-lg">
-              <p className="text-xs text-foreground/70 font-light mb-6">Det folk sier til oss</p>
               <div className="h-24 md:h-28 mb-8 relative">
                 {rotatingPrompts.map((p, i) => (
                   <p
@@ -107,7 +103,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">Alle er velkomne</p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Hvem er du som lurer?</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -127,7 +122,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* SEGMENTS — pasientens spørsmål */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hva er ditt utgangspunkt?</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Vi møter deg der du er — ikke der vi tror du burde være.</h2>
           <div className="space-y-3">
             {fertilitetSegments.map((s) => (
@@ -165,7 +159,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12">
             <div className="max-w-xl">
-              <p className="text-xs text-muted-foreground font-light mb-6">Mennesker, ikke titler</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Spesialistene som følger dere</h2>
             </div>
             <Link to="/spesialister" className="hidden md:inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground">
@@ -181,7 +174,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* SERVICES — enkel liste */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hele tilbudet</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Alt på ett sted</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
             {fertilitetServices.map((s) => {
@@ -223,7 +215,6 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Det folk spør om</h2>
           <Accordion type="single" collapsible className="w-full">
             {fertilitetFaqs.map((faq, i) => (

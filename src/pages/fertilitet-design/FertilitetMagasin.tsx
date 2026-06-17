@@ -85,7 +85,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
       {/* PULL QUOTE */}
       <section className="bg-background py-24 md:py-32">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl">
-          <p className="text-xs text-muted-foreground font-light mb-8">Lederen</p>
           <p className="text-2xl md:text-4xl font-light text-foreground leading-[1.3] italic">
             "{fertilitetContent.intro}"
           </p>
@@ -98,14 +97,12 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/20">01</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 01</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Hvem er det for</h2>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {fertilitetAudiences.map((a, i) => (
               <article key={a.title} className="border-t border-foreground/30 pt-6">
-                <p className="text-xs text-muted-foreground font-light mb-3">0{i + 1}</p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-4">{a.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed mb-5">{a.desc}</p>
                 <Link to={a.href} className="text-sm font-light text-foreground underline underline-offset-4 hover:text-brand-dark">Bestill →</Link>
@@ -121,7 +118,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/15">02</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 02</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Reisen</h2>
             </div>
           </div>
@@ -143,7 +139,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/20">03</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 03</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Spesialistene</h2>
             </div>
           </div>
@@ -159,7 +154,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/15">04</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 04</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Behandlingene</h2>
             </div>
           </div>
@@ -196,7 +190,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
       {/* SEGMENTS as side notes */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Notater i margen</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Tre vanlige veier inn</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {fertilitetSegments.slice(0, 3).map((s) => (
@@ -216,7 +209,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/15">05</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 05</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Stemmer fra pasienter</h2>
             </div>
           </div>
@@ -236,7 +228,6 @@ const FertilitetMagasin = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Det folk spør om</h2>
           <Accordion type="single" collapsible className="w-full">
             {fertilitetFaqs.map((faq, i) => (

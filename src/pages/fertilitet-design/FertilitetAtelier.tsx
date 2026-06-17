@@ -88,9 +88,6 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
 
             {/* Numerisk panel */}
             <aside className="col-span-12 md:col-span-5 md:pl-8 md:border-l border-border/60">
-              <p className="text-xs text-muted-foreground font-light mb-8">
-                Klinikken i tall
-              </p>
               <dl className="grid grid-cols-2 gap-y-10 gap-x-6">
                 {stats.map((s) => (
                   <div key={s.label}>
@@ -113,9 +110,6 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14 md:mb-16 items-end">
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                Teamet
-              </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
                 Du møter spesialistene <br /> som faktisk behandler deg.
               </h2>
@@ -163,9 +157,6 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-14 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">
-              Hva trenger du?
-            </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
               Fire utgangspunkt — én klinikk
             </h2>
@@ -208,9 +199,6 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-12">
             <div className="col-span-12 md:col-span-5">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                Tjenestekatalog
-              </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
                 Et komplett fertilitetstilbud — under samme tak.
               </h2>
@@ -260,9 +248,6 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">
-            Vanlige spørsmål
-          </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
           </h2>

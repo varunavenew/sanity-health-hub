@@ -48,7 +48,6 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
       {/* SPLIT HERO */}
       <section className="bg-brand-warm pt-8 pb-0">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl mb-10 md:mb-14">
-          <p className="text-xs text-muted-foreground font-light mb-6">{sjekkContent.title} · {sjekkContent.subtitle}</p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground leading-[1.02] tracking-tight max-w-4xl">{sjekkContent.heroHeadline}</h1>
         </div>
         <div className="flex flex-col lg:flex-row lg:h-[58vh] lg:min-h-[460px]">
@@ -58,7 +57,6 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
           <div className="lg:w-1/2 relative bg-brand-mid/40 flex items-center">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-warm/30 via-transparent to-brand-dark/10" />
             <div className="relative z-10 px-8 md:px-14 py-12 md:py-0 w-full max-w-lg">
-              <p className="text-xs text-foreground/70 font-light mb-6">Det folk lurer på</p>
               <div className="h-24 md:h-28 mb-8 relative">
                 {prompts.map((p, i) => (
                   <p key={p} className={`absolute inset-0 text-2xl md:text-3xl font-light text-foreground italic leading-snug transition-all duration-700 ${i === idx ? "opacity-100" : "opacity-0 translate-y-3"}`}>"{p}"</p>
@@ -90,7 +88,6 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
       {/* FLOW — som dialog */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hva skjer i timen</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Seks korte steg — én konsultasjon</h2>
           <div className="space-y-3">
             {sjekkFlow.map((s) => (
@@ -107,12 +104,10 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
       {/* REASONS */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hvorfor ta en sjekk</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Du trenger ingen god grunn — men her er fem.</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {sjekkReasons.map((r) => (
               <div key={r.n} className="bg-background border border-border/40 rounded-2xl p-6">
-                <p className="text-xs text-muted-foreground font-light mb-3">{r.n}</p>
                 <h3 className="text-lg font-light text-foreground mb-2">{r.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed">{r.desc}</p>
               </div>
@@ -126,7 +121,6 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12">
             <div className="max-w-xl">
-              <p className="text-xs text-muted-foreground font-light mb-6">Hvem du møter</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Spesialistene som tar deg igjennom</h2>
             </div>
           </div>
@@ -139,12 +133,10 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
       {/* RELATED */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Hvis sjekken viser noe</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Mulige neste steg</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {sjekkRelated.map((r) => (
               <Link key={r.title} to={r.href} className="group block bg-background border border-border/40 rounded-2xl p-7 hover:border-foreground/40 transition-all">
-                <p className="text-xs text-muted-foreground font-light mb-4">{r.eyebrow}</p>
                 <h3 className="text-xl font-light text-foreground mb-3">{r.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed mb-5">{r.desc}</p>
                 <span className="text-sm font-light text-foreground underline underline-offset-4">Les mer →</span>
@@ -159,7 +151,6 @@ const SjekkDialog = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Det folk spør om</h2>
           <Accordion type="single" collapsible className="w-full">
             {sjekkFaqs.map((faq, i) => (

@@ -73,9 +73,6 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
       {/* Intro */}
       <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">
-            Designforslag · Gynekologi
-          </p>
           <h1 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-6">
             Tre tonefall for én side
           </h1>
@@ -106,9 +103,6 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
                   />
                 </div>
                 <div className="p-6 md:p-8">
-                  <p className="text-xs text-muted-foreground font-light mb-4">
-                    {v.eyebrow}
-                  </p>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <h2 className="text-2xl md:text-3xl font-light text-foreground">{v.title}</h2>
                     <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" strokeWidth={1.5} />
@@ -126,9 +120,6 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
           </div>
 
           <div className="mt-16 md:mt-20 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-4">
-              Slik leser du forslagene
-            </p>
             <p className="text-sm text-muted-foreground font-light leading-relaxed">
               Hver variant er en fullt levende side. Klikk inn for å se layout, rytme og hvordan
               tjenester, spesialister, pasienthistorier og booking samspiller. Den nåværende

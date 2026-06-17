@@ -59,9 +59,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 items-end">
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs text-muted-foreground font-light mb-8">
-                {fertilitetContent.title} · {fertilitetContent.subtitle}
-              </p>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-foreground leading-[0.95] tracking-tight">
                 Noen ganger trenger kroppen <em className="italic font-light">litt hjelp</em> på veien.
               </h1>
@@ -123,9 +120,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 md:mb-20 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">
-              Hvor er du i dag?
-            </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
               Fortell oss hvor du er — vi finner veien videre.
             </h2>
@@ -166,9 +160,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
       <section className="bg-background pb-20 md:pb-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">
-              For deg som
-            </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
               Alle er velkomne — uansett utgangspunkt.
             </h2>
@@ -198,9 +189,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 max-w-2xl">
-            <p className="text-xs text-muted-foreground font-light mb-6">
-              Alt under samme tak
-            </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
               Tjenester, kapittel for kapittel
             </h2>
@@ -246,9 +234,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12 md:mb-16">
             <div className="max-w-xl">
-              <p className="text-xs text-muted-foreground font-light mb-6">
-                Spesialistene
-              </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
                 Mennesker som følger deg
               </h2>
@@ -273,9 +258,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
                     className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground font-light mb-2">
-                  {s.subtitle || s.title}
-                </p>
                 <h3 className="text-xl font-light text-foreground mb-1">{s.name}</h3>
                 <p className="text-sm text-muted-foreground font-light">
                   {s.expertise.slice(0, 2).join(" · ")}
@@ -291,9 +273,6 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs text-muted-foreground font-light mb-6">
-            Vanlige spørsmål
-          </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
           </h2>
