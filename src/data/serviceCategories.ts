@@ -34,6 +34,7 @@ export const serviceCategories: ServiceCategory[] = [
         ],
       },
       { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse' },
+      { label: 'Urogynekologi (fremfall og lekkasje)', path: '/behandlinger/gynekologi/urogynekologi' },
       { label: 'Urinlekkasje', path: '/behandlinger/gynekologi/urinlekkasje' },
       { label: 'Endometriose', path: '/behandlinger/gynekologi/endometriose' },
       { label: 'Overgangsalder', path: '/behandlinger/gynekologi/overgangsalder' },
