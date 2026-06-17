@@ -1,3 +1,4 @@
+import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote, Users, Clock, User } from "lucide-react";
@@ -190,6 +191,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   det finnes svar.
   </p>
 
+  {(() => {
+  const entry = getCategoryEntryPrice("fertilitet");
+  return entry ? (
+  <div className="mb-4 text-sm font-light text-foreground/80">
+  <span className="block text-base text-foreground">{entry.label}</span>
+  <span className="block">{entry.price}</span>
+  </div>
+  ) : null;
+  })()}
   <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
   <Button
   variant="cta"
