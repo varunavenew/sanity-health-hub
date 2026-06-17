@@ -200,7 +200,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
                             }`}
                           >
-                            {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                            <ChevronDown
+                              className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+                            />
                           </span>
                         </button>
 
