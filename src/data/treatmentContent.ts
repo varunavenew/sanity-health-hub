@@ -1149,8 +1149,13 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    description: "Vi tilbyr alle subspesialiteter innen ortopedisk fot- og ankelkirurgi, og våre spesialister kan utføre alle typer inngrep. Ved flere diagnoser benytter vi avanserte minimalt invasive operasjonsmetoder kalt **MIS (Minimally Invasive Surgery)** og **MICA (Minimally Invasive Chevron-Akin)**. Dette er operasjonsmetoder — ikke diagnoser — som lar oss korrigere feilstillinger og senerelaterte plager gjennom svært små snitt, med mindre vevsskade, mindre smerte og raskere rehabilitering. Hvilken metode som er aktuell for deg avhenger av diagnosen og funn ved undersøkelse.",
     sections: [
+      {
+        id: "hallux-valgus",
+        heading: "Hallux valgus (skjev stortå)",
+        content: "Hallux valgus er en feilstilling der stortåen vinkles mot de andre tærne, samtidig som det dannes en kul (knyst) på innsiden av foten. Tilstanden gir ofte smerter ved bruk av sko, hevelse og gnagsår, og kan over tid endre belastningen av hele forfoten.\n\n**Behandling:** Ved milde plager kan brede sko, innleggssåler og fysioterapi være tilstrekkelig. Når plagene vedvarer er kirurgi aktuelt.\n\n**Operasjonsmetode — MIS / MICA:** Hos oss utfører vi inngrepet med minimalt invasiv teknikk (MIS / MICA — Minimally Invasive Chevron-Akin). Korrigeringen av stortåen gjøres gjennom svært små snitt, med presise beinkutt og fiksering med skruer. Sammenlignet med åpen kirurgi gir metoden generelt mindre hevelse, mindre arrdannelse og raskere mobilisering. MIS og MICA er operasjonsmetoder vi velger ut fra diagnose og funn, ikke egne diagnoser i seg selv."
+      },
       {
         id: "kompartment-syndrom",
         heading: "Kompartment-syndrom",
@@ -1185,7 +1190,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfeller repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer.\n\nKontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker.",
+    description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
+    sections: [
+      {
+        id: "avanserte-inngrep",
+        heading: "Avanserte hofteinngrep",
+        content: "I tillegg til vanlig hofteartroskopi tilbyr vi mer avanserte prosedyrer for pasienter med komplekse plager. Dette inkluderer blant annet:\n\n- **Tenodese av iliopsoas-/psoassenen** ved snapping hip og senerelaterte smerter\n- **Reinsertering og reparasjon av leddleppen (labrum)**\n- **Behandling av FAI (femoroacetabulær impingement)** med rekonturering av lårhalsen\n- **Bruskbehandling** ved fokale skader i hofteleddet\n\nValg av metode tilpasses individuelt etter grundig utredning og bildediagnostikk."
+      },
+      {
+        id: "for-aktive-pasienter",
+        heading: "For yngre, aktive pasienter",
+        content: "Pasientgruppen vår på hofte er i hovedsak yngre og aktive — ofte idrettsutøvere på mosjonist- og elitenivå som har fått idrettsskader i hoften. Målet med behandlingen er å bevare leddet, redusere smerte og få deg trygt tilbake til den aktiviteten du driver med."
+      },
+    ],
     relatedSpecialists: ["kristian-marstrand-warholm"],
     faqs: [
       { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
@@ -1200,7 +1217,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to — i såkalte «to-spann» — slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
+    relatedSpecialists: ["jan-ragnar-haugstvedt", "istvan-zoltan-rigo", "endre-soreide", "sondre-hassellund", "lars-eldar-myrseth"],
     sections: [
       {
         id: "tennisalbue",
@@ -1231,12 +1249,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
     sections: [
       {
-        id: "bruskskader",
-        heading: "Bruskskader i kneet",
-        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet.\n\nArtrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50 åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd.\n\n**Symptomer:** Smerter ved aktivitet, hevelse og stivhet (ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
+        id: "korsband",
+        heading: "Korsbåndskader",
+        content: "Korsbåndskader er en av de vanligste alvorlige idrettsskadene i kneet. Fremre korsbånd (ACL) skades ofte ved vridning av kneet under aktivitet — typisk i fotball, håndball og alpint. Skaden gir akutt smerte, hevelse og opplevelse av at kneet «svikter».\n\n**Utredning:** Klinisk undersøkelse kombinert med MR gir oss et godt grunnlag for å vurdere skaden og eventuelle tilleggsskader (menisk, leddbrusk, sidebånd).\n\n**Behandling:** For aktive pasienter og pasienter med ustabilt kne er rekonstruksjon av korsbåndet ofte aktuelt. Inngrepet gjøres som artroskopi (kikkhullskirurgi), der det skadede båndet erstattes med et seneautograft. Vi tilbyr også behandling av komplekse skader med rekonstruksjon av flere leddbånd."
+      },
+      {
+        id: "menisk",
+        heading: "Meniskskader",
+        content: "Menisken er en støtdempende bruskskive mellom lårben og leggben. Skader oppstår ved vridning, fall eller gradvis slitasje. Symptomene er smerter ved bøy og vridning, hevelse, og av og til en låsende eller knepende følelse i kneet.\n\n**Behandling:** Der det er mulig forsøker vi alltid å reparere menisken fremfor å fjerne vev — særlig hos yngre pasienter. Reparasjonen gjøres artroskopisk. Ved skader som ikke kan repareres fjernes kun det skadede vevet, slik at mest mulig av menisken bevares.\n\nMålet er å bevare leddet og redusere risikoen for senere slitasje."
+      },
+      {
+        id: "andre-knetilstander",
+        heading: "Andre knetilstander vi behandler",
+        content: "I tillegg til korsbånd og menisk behandler vi blant annet sidebåndskader, patellaluksasjon, fokale bruskskader og frie legemer i kneet. Vi tilbyr ikke protesekirurgi — pasienter med langtkommen artrose henvises videre ved behov."
       },
     ],
     relatedSpecialists: ["marc-jacob-strauss"],

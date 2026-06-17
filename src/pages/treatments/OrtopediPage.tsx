@@ -36,7 +36,7 @@ const lifePhases = [
  n: "01",
  title: "Akutt skade eller smerte",
  desc:
- "Vridd kne, vondt etter et fall, plutselige ryggsmerter — vi ser deg raskt og legger en plan med en gang.",
+ "Vridd kne, vondt etter et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
  tags: [
    { label: "Akutt", href: "/booking?kategori=ortopedi" },
    { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
@@ -131,7 +131,7 @@ const allServices = [
  { title: "Dupuytrens kontraktur", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
  { title: "Hælspore og hælsmerter", desc: "Fot", href: "/behandlinger/ortopedi/fot" },
  { title: "Ankelbåndskader", desc: "Ankel", href: "/behandlinger/ortopedi/fot" },
- { title: "Skiveprolaps", desc: "Rygg", href: "/behandlinger/ortopedi/rygg" },
+ 
  { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
  { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
  { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
