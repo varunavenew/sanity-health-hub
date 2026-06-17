@@ -569,14 +569,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  Få {c.title.toLowerCase()} hos en spesialist denne{"\u00A0"}uken.
  </h2>
  </div>
- <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
- {c.heroPrice && (
- <div className="text-sm font-light text-foreground/80">
- <span className="block text-base text-foreground">{c.title}</span>
- <span className="block">{c.heroPrice}</span>
- </div>
- )}
- <Button
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <Button
  variant="cta"
  size="lg"
  className="px-6"
