@@ -144,7 +144,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       />
 
       {/* Price List Section */}
-      <section id="prisliste" className="py-10 md:py-14 bg-background">
+      <section id="prisliste" className="py-10 md:py-14 bg-white">
         <div className="container mx-auto px-4 md:px-8">
           {(() => {
             const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
