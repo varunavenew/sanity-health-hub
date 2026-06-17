@@ -214,8 +214,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             key={sub.label}
                             className={`rounded-lg transition-all border ${
                               expandedSubcategory === sub.label 
-                                ? 'bg-secondary/60 border-border/50' 
-                                : 'bg-secondary/30 border-transparent hover:bg-secondary/50 hover:border-border/30'
+                                ? 'bg-background border-border/30' 
+                                : 'bg-background/50 border-transparent hover:bg-background/70 hover:border-border/30'
                             }`}
                           >
                             <button
