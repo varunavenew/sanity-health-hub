@@ -77,8 +77,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const first = priceCategories.find(c => prioritized.includes(c.id));
     return first?.id ?? priceCategories[0]?.id ?? null;
   })();
+  const firstSubLabel = (() => {
+    const cat = priceCategories.find(c => c.id === firstCategoryId);
+    return cat?.subcategories[0]?.label ?? null;
+  })();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(firstCategoryId);
-  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
+  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(firstSubLabel);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
@@ -96,8 +100,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, []);
 
   const toggleCategory = (id: string) => {
-    setExpandedCategory(expandedCategory === id ? null : id);
-    setExpandedSubcategory(null);
+    const newId = expandedCategory === id ? null : id;
+    setExpandedCategory(newId);
+    const cat = priceCategories.find(c => c.id === newId);
+    setExpandedSubcategory(cat?.subcategories[0]?.label ?? null);
   };
 
   const toggleSubcategory = (label: string) => {
@@ -168,7 +174,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         key={category.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-brand-warm border border-brand-dark/20 border-l-[6px] border-l-brand-yellow shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
+                            ? 'bg-brand-warm border border-brand-dark/20 border-l-[6px] border-l-brand-dark shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
                             : 'bg-brand-beige/40 border-brand-dark/10 hover:bg-brand-beige/60'
                         }`}
                       >
