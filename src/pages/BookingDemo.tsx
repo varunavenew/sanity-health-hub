@@ -997,7 +997,7 @@ const BookingDemo = () => {
  <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
  <div className="mb-5 flex items-end justify-between">
  <div>
- <p className="text-xs text-brand-dark/60 font-medium mb-1 uppercase">
+  <p className="text-xs text-brand-dark/60 font-medium mb-1">
  Valgt dag
  </p>
  <h3 className="text-xl font-light text-brand-dark capitalize">
@@ -1101,7 +1101,7 @@ const BookingDemo = () => {
  )}
  >
  <span className={cn(
- "text-xs font-medium uppercase",
+  "text-xs font-medium",
  isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
  )}>
  {format(date, "EEE", { locale: nb })}
@@ -1133,7 +1133,7 @@ const BookingDemo = () => {
  <div className="bg-brand-beige/30 rounded-2xl p-6 border border-brand-dark/10">
  <div className="mb-5 flex items-end justify-between">
  <div>
- <p className="text-xs text-brand-dark/60 font-medium mb-1 uppercase">
+  <p className="text-xs text-brand-dark/60 font-medium mb-1">
  Velg en tid
  </p>
  <h3 className="text-xl font-light text-brand-dark capitalize">
@@ -1211,28 +1211,28 @@ const BookingDemo = () => {
  <h3 className="font-normal text-lg mb-4 text-brand-dark">Din bestilling</h3>
  <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
  <div>
- <span className="text-brand-dark/60 text-xs uppercase">Tjeneste</span>
+  <span className="text-brand-dark/60 text-xs">Tjeneste</span>
  <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.name}</p>
  </div>
  <div>
- <span className="text-brand-dark/60 text-xs uppercase">Pris</span>
+  <span className="text-brand-dark/60 text-xs">Pris</span>
  <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.price === "0" ? "Gratis" : `Fra ${bookingData.service?.price} kr`}</p>
  <p className="text-xs text-brand-dark/75 mt-0.5 font-light">Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.</p>
  </div>
  <div>
- <span className="text-brand-dark/60 text-xs uppercase">Klinikk</span>
+  <span className="text-brand-dark/60 text-xs">Klinikk</span>
  <p className="font-normal mt-1 text-brand-dark">{bookingData.clinic?.label}</p>
  </div>
  <div>
- <span className="text-brand-dark/60 text-xs uppercase">Varighet</span>
+  <span className="text-brand-dark/60 text-xs">Varighet</span>
  <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.duration}</p>
  </div>
  <div>
- <span className="text-brand-dark/60 text-xs uppercase">Dato</span>
+  <span className="text-brand-dark/60 text-xs">Dato</span>
  <p className="font-normal mt-1 capitalize text-brand-dark">{bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}</p>
  </div>
  <div>
- <span className="text-brand-dark/60 text-xs uppercase">Tid</span>
+  <span className="text-brand-dark/60 text-xs">Tid</span>
  <p className="font-normal mt-1 text-brand-dark">{bookingData.time}</p>
  </div>
  </div>
