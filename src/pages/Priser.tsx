@@ -153,54 +153,42 @@ const Priser = ({ isChatOpen }: PageProps) => {
               const first = priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id));
               const rest = priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb'));
               return [...first, ...rest];
-            })().map((category) => (
+            })().map((category) => {
+              const isOpen = expandedCategory === category.id;
+              return (
               <div 
                 key={category.id}
-                className={`rounded-xl overflow-hidden transition-all duration-300 border ${
-                  expandedCategory === category.id 
-                    ? 'bg-white border-border shadow-sm' 
-                    : 'bg-white/60 border-border/50 hover:bg-white hover:border-border'
+                className={`rounded-2xl overflow-hidden transition-all duration-300 border ${
+                  isOpen 
+                    ? 'bg-background border-foreground/15' 
+                    : 'bg-background/40 border-foreground/10 hover:bg-background/70 hover:border-foreground/15'
                 }`}
               >
-                {/* Category Header - toggle on click, separate "Les mer" link */}
-                <div className="w-full flex items-center justify-between p-5 md:p-6 gap-4">
-                  <button
-                    onClick={() => toggleCategory(category.id)}
-                    className="flex items-center gap-4 flex-1 min-w-0 text-left cursor-pointer"
-                    aria-expanded={expandedCategory === category.id}
-                    aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
+                {/* Category Header */}
+                <button
+                  onClick={() => toggleCategory(category.id)}
+                  className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left"
+                  aria-expanded={isOpen}
+                  aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
+                >
+                  <span className="text-xl md:text-2xl font-light text-foreground truncate">
+                    {category.label}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all bg-foreground/5 border border-foreground/15"
                   >
-                    <span className="text-xl md:text-2xl font-light text-foreground truncate">
-                      {category.label}
-                    </span>
-                  </button>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); navigate(category.path); }}
-                      className="hidden md:inline-flex items-center gap-1.5 text-sm font-light text-foreground/70 hover:text-foreground transition-colors underline-offset-4 hover:underline"
-                    >
-                      Les mer om {category.label.toLowerCase()}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => toggleCategory(category.id)}
-                      aria-hidden="true"
-                      tabIndex={-1}
-                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10"
-                    >
-                      {expandedCategory === category.id ? (
-                        <Minus className="w-4 h-4 text-foreground/80" />
-                      ) : (
-                        <Plus className="w-4 h-4 text-foreground/80" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
+                    {isOpen ? (
+                      <Minus className="w-4 h-4 text-foreground/80" />
+                    ) : (
+                      <Plus className="w-4 h-4 text-foreground/80" />
+                    )}
+                  </span>
+                </button>
 
                 {/* Subcategories - Expanded Content */}
                 <AnimatePresence>
-                  {expandedCategory === category.id && (
+                  {isOpen && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
@@ -208,30 +196,34 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       transition={{ duration: 0.25, ease: 'easeOut' }}
                       className="overflow-hidden"
                     >
-                      <div className="px-5 md:px-6 pb-6 md:pb-8 space-y-3">
-                        {category.subcategories.map((sub) => (
-                          <div 
-                            key={sub.label}
-                            className={`rounded-lg transition-all border ${
-                              expandedSubcategory === sub.label 
-                                ? 'bg-background border-border/30' 
-                                : 'bg-background/50 border-transparent hover:bg-background/70 hover:border-border/30'
-                            }`}
+                      <div className="px-5 md:px-6 pb-6 md:pb-8">
+                        {/* Les mer — eget område, klart separert fra +/- */}
+                        <div className="mb-5 pb-5 border-b border-foreground/10">
+                          <Link
+                            to={category.path}
+                            className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
                           >
+                            Les mer om {category.label.toLowerCase()}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                        </div>
+                        <div className="space-y-1">
+                        {category.subcategories.map((sub) => (
+                          <div key={sub.label}>
                             <button
                               onClick={() => toggleSubcategory(sub.label)}
-                              className="w-full flex items-center justify-between p-4 cursor-pointer"
+                              className="w-full flex items-center justify-between py-3 px-1 cursor-pointer border-b border-foreground/10"
                               aria-expanded={expandedSubcategory === sub.label}
                             >
                               <span
                                  className={`text-[15px] font-light transition-colors ${
-                                   expandedSubcategory === sub.label ? 'text-foreground font-normal' : 'text-foreground/70'
+                                   expandedSubcategory === sub.label ? 'text-foreground' : 'text-foreground/75'
                                  }`}
                               >
                                 {sub.label}
                               </span>
                               <div className="flex items-center gap-3">
-                                <span className="text-muted-foreground text-sm">
+                                <span className="text-muted-foreground text-xs font-light">
                                   {sub.items.length} tjenester
                                 </span>
                                 <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${
@@ -250,14 +242,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                   transition={{ duration: 0.15 }}
                                   className="overflow-hidden"
                                 >
-                                  <div className="px-4 pb-4 space-y-2">
-                                    <div className="pt-2 border-t border-border/50">
+                                  <div className="py-2">
                                       {sub.items.map((item, idx) => {
                                         const bookable = isBookable(item.name, item.duration);
                                         return (
                                           <div
                                             key={idx}
-                                            className="w-full grid grid-cols-[1fr_auto_120px] items-center gap-4 py-3 border-b border-border/30 last:border-b-0 px-2 -mx-2"
+                                            className="w-full grid grid-cols-[1fr_auto_120px] items-center gap-4 py-3 border-b border-foreground/5 last:border-b-0 px-1"
                                           >
                                             {/* Name + info */}
                                             <div className="min-w-0">
@@ -271,9 +262,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       <button
                                                         type="button"
                                                         aria-label={`Mer informasjon om ${item.name}`}
-                                                        className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-foreground/30 text-foreground/70 hover:bg-foreground hover:text-background hover:border-foreground transition-colors shrink-0"
+                                                        className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-foreground/10 text-foreground/80 hover:bg-foreground hover:text-background transition-colors shrink-0"
                                                       >
-                                                        <Info className="w-3 h-3" strokeWidth={2} />
+                                                        <Info className="w-3 h-3" strokeWidth={2.2} />
                                                       </button>
                                                     </TooltipTrigger>
                                                     <TooltipContent
@@ -287,19 +278,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                 )}
                                               </div>
                                               {item.duration && (
-                                                <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
+                                                <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5 font-light">
                                                   <Clock className="w-3 h-3" />
                                                   {item.duration}
                                                 </p>
                                               )}
                                             </div>
 
-                                            {/* Price column — fixed-aligned */}
+                                            {/* Price column */}
                                             <p className="font-normal text-foreground text-sm whitespace-nowrap text-right tabular-nums">
                                               {item.price === "0,-" ? "Gratis" : item.price}
                                             </p>
 
-                                            {/* Action column — fixed width so prices align */}
+                                            {/* Action column */}
                                             <div className="flex justify-end">
                                               {bookable ? (
                                                 <button
@@ -311,22 +302,22 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               ) : null}
                                             </div>
                                           </div>
-
                                         );
                                       })}
-                                    </div>
                                   </div>
                                 </motion.div>
                               )}
                             </AnimatePresence>
                           </div>
                         ))}
+                        </div>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* CTA */}
