@@ -373,7 +373,6 @@ const Godkjenning = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 md:px-12 py-8 max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Internt verktøy</p>
           <h1 className="text-3xl md:text-4xl font-light text-foreground">Godkjenning av sider</h1>
           <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-2xl font-light">
             Gå gjennom hver side, sett status og send konkrete endringsforespørsler med vedlegg.
@@ -486,7 +485,7 @@ const Godkjenning = () => {
           <div className="space-y-12">
             {grouped.map(([category, pages]) => (
               <section key={category}>
-                <h2 className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-4 pb-2 border-b border-border">
+                <h2 className="text-sm text-muted-foreground mb-4 pb-2 border-b border-border">
                   {category} <span className="ml-1 text-foreground/60">({pages.length})</span>
                 </h2>
                 <ul className="divide-y divide-border">
@@ -506,7 +505,7 @@ const Godkjenning = () => {
                                 {page.name}
                                 <ArrowUpRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground" strokeWidth={1.5} />
                               </Link>
-                              <span className={`inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${STATUS_META[status].bg}`}>
+                              <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-full border ${STATUS_META[status].bg}`}>
                                 <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[status].dot}`} />
                                 {STATUS_META[status].label}
                               </span>
@@ -627,9 +626,9 @@ const MasterTemplatesPanel = ({
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h3 className="text-base font-light text-foreground">{t.title}</h3>
-                  <p className="text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">Eksempel: {t.exampleLabel}</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Eksempel: {t.exampleLabel}</p>
                 </div>
-                <span className={`inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${STATUS_META[status].bg}`}>
+                <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-full border ${STATUS_META[status].bg}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[status].dot}`} />
                   {STATUS_META[status].label}
                 </span>
@@ -694,7 +693,7 @@ const StatCard = ({ label, value, accent }: { label: string; value: number; acce
   };
   return (
     <div className="border border-border bg-background rounded-lg px-4 py-3">
-      <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="text-[11px] text-muted-foreground">{label}</p>
       <p className={`text-2xl font-light mt-1 ${accent ? accents[accent] : "text-foreground"}`}>{value}</p>
     </div>
   );
@@ -712,9 +711,8 @@ const DemoPanel = () => (
     <div className="space-y-12">
       {DEMO_GROUPS.map((g) => (
         <section key={g.title}>
-          <div className="flex items-baseline justify-between border-b border-border/60 pb-3 mb-4">
+          <div className="border-b border-border/60 pb-3 mb-4">
             <h3 className="text-base font-light text-foreground">{g.title}</h3>
-            <span className="text-[11px] uppercase text-muted-foreground font-light">{g.eyebrow}</span>
           </div>
           <ul className="divide-y divide-border/60">
             {g.items.map((it) => (
