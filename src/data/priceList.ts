@@ -102,7 +102,7 @@ export const priceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'IVF',
+        label: 'Assistert befruktning',
         path: '/behandlinger/fertilitet/ivf',
         items: [
           { name: "IVF 1 forsøk", price: "46.000,-", duration: "", info: "Inkluderer alle relevante ultralydundersøkelser, embryodyrkning til blastocyst i embryoscop og første graviditetsultralyd. Dersom ikke befruktning og/eller ingen tilbakesetting av embryo er prisen som en IVF-behandling. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
@@ -115,7 +115,7 @@ export const priceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'IVF Frysebehandlinger',
+        label: 'Frysebehandlinger (assistert befruktning)',
         path: '/behandlinger/fertilitet/frys',
         items: [
           { name: "Fryseforsøk (FET)", price: "17.500,-", duration: "", info: "Inkluderer prebehandling, undersøkelse, monitorering med ultralyd før tilbakesetting og første svangerskapskontroll." },
