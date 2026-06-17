@@ -87,12 +87,13 @@ const lifePhases = [
   desc:
   "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
   tags: [
+  { label: "Urogynekologi (samlet)", href: "/behandlinger/gynekologi/urogynekologi" },
   { label: "Vaginale fremfall", href: "/behandlinger/gynekologi/vaginale-fremfall" },
   { label: "Urininkontinens", href: "/behandlinger/gynekologi/urinlekkasje" },
-  { label: "Bekkenbunnsdysfunksjon", href: "/behandlinger/gynekologi/vaginale-fremfall" },
-  { label: "Tyngdefølelse i underlivet", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+  { label: "Bekkenbunnsdysfunksjon", href: "/behandlinger/gynekologi/urogynekologi" },
+  { label: "Tyngdefølelse i underlivet", href: "/behandlinger/gynekologi/urogynekologi" },
   ],
-  href: "/behandlinger/gynekologi/vaginale-fremfall",
+  href: "/behandlinger/gynekologi/urogynekologi",
   },
   {
   n: "05",
@@ -146,6 +147,7 @@ const expertAreas = [
 
 const allServices = [
  { title: "Gynekologisk undersøkelse", desc: "Utredning og samtale", href: "/behandlinger/gynekologi/undersokelse" },
+ { title: "Urogynekologi", desc: "Fremfall og urinlekkasje — samlet", href: "/behandlinger/gynekologi/urogynekologi" },
  { title: "Endometriose", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/endometriose" },
  { title: "Overgangsalder", desc: "Hormonbehandling og oppfølging", href: "/behandlinger/gynekologi/overgangsalder" },
  { title: "Urinlekkasje", desc: "Konservativ og kirurgisk behandling", href: "/behandlinger/gynekologi/urinlekkasje" },

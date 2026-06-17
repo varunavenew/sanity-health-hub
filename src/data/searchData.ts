@@ -11,6 +11,7 @@ export const searchItems: SearchItem[] = [
   // Gynekologi
   { label: 'Gynekologi', path: '/behandlinger/gynekologi', category: 'Tjeneste', keywords: ['gyn', 'kvinne', 'underlivsplager'] },
   { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse', category: 'Gynekologi', keywords: ['undersøkelse', 'kontroll'] },
+  { label: 'Urogynekologi', path: '/behandlinger/gynekologi/urogynekologi', category: 'Gynekologi', keywords: ['urogynekologi', 'fremfall', 'prolaps', 'inkontinens', 'lekkasje', 'bekkenbunn', 'urinlekkasje'] },
   { label: 'Urinlekkasje', path: '/behandlinger/gynekologi/urinlekkasje', category: 'Gynekologi', keywords: ['inkontinens', 'lekkasje'] },
   { label: 'Endometriose', path: '/behandlinger/gynekologi/endometriose', category: 'Gynekologi', keywords: ['smerter', 'underlivssmerter', 'adenomyose', 'magesmerter', 'menssmerter', 'vondt'] },
   { label: 'Overgangsalder', path: '/behandlinger/gynekologi/overgangsalder', category: 'Gynekologi', keywords: ['menopause', 'klimakteriet', 'hormoner', 'hetetokter', 'svette', 'humør'] },
