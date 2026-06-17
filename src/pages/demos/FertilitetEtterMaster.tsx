@@ -353,8 +353,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
 
       {/* 3. HVORFOR CMEDICAL — Det beste fra to klinikker */}
       <section className="bg-background">
-        <div className="grid lg:grid-cols-12">
-          <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+        <div className="grid lg:grid-cols-2">
+          <div className="px-6 md:px-16 lg:px-20 py-20 lg:py-28">
             <div className="max-w-xl">
               <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
                 Det beste fra to klinikker — samlet på ett sted.
