@@ -10,6 +10,7 @@ import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import SpecialistProfileMaster from "./masters/SpecialistProfileMaster";
 import MasterMalForrigeUke from "./demos/MasterMalForrigeUke";
+import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -130,6 +131,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Snapshot av mastermalen for fagområder slik den så ut 10. juni 2026. Brukes som referanse mot dagens versjon — innhold, struktur og seksjoner er bevart fra den gang.",
     livePath: "/maler/treatmentCategoryForrigeUke",
     render: () => <MasterMalForrigeUke isChatOpen={false} />,
+  },
+  treatmentCategoryToUkerSiden: {
+    title: "Mal: Fagområde – Gynekologi (slik den var for ~2 uker siden)",
+    description:
+      "Snapshot av mastermalen for fagområder (gynekologi) slik den så ut 2. juni 2026. Brukes som referanse mot dagens versjon — innhold, struktur og seksjoner er bevart fra den gang.",
+    livePath: "/maler/treatmentCategoryToUkerSiden",
+    render: () => <MasterMalToUkerSiden isChatOpen={false} />,
   },
 };
 
