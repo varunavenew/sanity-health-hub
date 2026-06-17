@@ -115,6 +115,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     livePath: "/spesialister/ida-bjorntvedt",
     render: () => <SpecialistProfileMaster isChatOpen={false} />,
   },
+  treatmentCategoryForrigeUke: {
+    title: "Mal: Fagområde – Fertilitet (slik den var for ~1 uke siden)",
+    description:
+      "Snapshot av mastermalen for fagområder slik den så ut 10. juni 2026. Brukes som referanse mot dagens versjon — innhold, struktur og seksjoner er bevart fra den gang.",
+    livePath: "/maler/treatmentCategoryForrigeUke",
+    render: () => <MasterMalForrigeUke isChatOpen={false} />,
+  },
 };
 
 
