@@ -1149,8 +1149,13 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    description: "Vi tilbyr alle subspesialiteter innen ortopedisk fot- og ankelkirurgi, og våre spesialister kan utføre alle typer inngrep. Ved flere diagnoser benytter vi avanserte minimalt invasive operasjonsmetoder kalt **MIS (Minimally Invasive Surgery)** og **MICA (Minimally Invasive Chevron-Akin)**. Dette er operasjonsmetoder — ikke diagnoser — som lar oss korrigere feilstillinger og senerelaterte plager gjennom svært små snitt, med mindre vevsskade, mindre smerte og raskere rehabilitering. Hvilken metode som er aktuell for deg avhenger av diagnosen og funn ved undersøkelse.",
     sections: [
+      {
+        id: "hallux-valgus",
+        heading: "Hallux valgus (skjev stortå)",
+        content: "Hallux valgus er en feilstilling der stortåen vinkles mot de andre tærne, samtidig som det dannes en kul (knyst) på innsiden av foten. Tilstanden gir ofte smerter ved bruk av sko, hevelse og gnagsår, og kan over tid endre belastningen av hele forfoten.\n\n**Behandling:** Ved milde plager kan brede sko, innleggssåler og fysioterapi være tilstrekkelig. Når plagene vedvarer er kirurgi aktuelt.\n\n**Operasjonsmetode — MIS / MICA:** Hos oss utfører vi inngrepet med minimalt invasiv teknikk (MIS / MICA — Minimally Invasive Chevron-Akin). Korrigeringen av stortåen gjøres gjennom svært små snitt, med presise beinkutt og fiksering med skruer. Sammenlignet med åpen kirurgi gir metoden generelt mindre hevelse, mindre arrdannelse og raskere mobilisering. MIS og MICA er operasjonsmetoder vi velger ut fra diagnose og funn, ikke egne diagnoser i seg selv."
+      },
       {
         id: "kompartment-syndrom",
         heading: "Kompartment-syndrom",
