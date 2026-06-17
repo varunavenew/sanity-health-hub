@@ -43,6 +43,7 @@ const lifePhases = [
    { label: "Ereksjon", href: "/behandlinger/urologi/ereksjon" },
  ],
  href: "/booking?kategori=urologi",
+ cta: "Bestill konsultasjon",
  },
  {
  n: "02",
@@ -55,6 +56,7 @@ const lifePhases = [
     { label: "Nyrer", href: "/behandlinger/urologi/nyrer" },
   ],
  href: "/behandlinger/urologi/blaere",
+ cta: "Les mer",
  },
  {
  n: "03",
@@ -67,6 +69,7 @@ const lifePhases = [
    { label: "Utredning", href: "/behandlinger/urologi/prostata" },
  ],
  href: "/booking?kategori=urologi&tjeneste=prostatasjekk",
+ cta: "Bestill prostatasjekk",
  },
  {
  n: "04",
@@ -78,6 +81,7 @@ const lifePhases = [
    { label: "Refertilisering", href: "/behandlinger/urologi/refertilisering" },
  ],
  href: "/booking?kategori=urologi",
+ cta: "Bestill time",
  },
 ];
 
@@ -259,7 +263,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  to={p.href}
  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
  >
- Les mer
+ {p.cta}
  <ArrowRight className="w-3.5 h-3.5" />
  </Link>
  </div>
