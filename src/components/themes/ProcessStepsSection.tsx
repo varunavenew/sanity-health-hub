@@ -5,7 +5,6 @@ export type ProcessStep = {
 };
 
 interface ProcessStepsSectionProps {
-  eyebrow?: string;
   title: string;
   steps: ProcessStep[];
   background?: string;

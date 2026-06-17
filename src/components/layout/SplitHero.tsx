@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 interface SplitHeroProps {
- eyebrow?: string;
  title: string;
  description?: string;
  image: string;

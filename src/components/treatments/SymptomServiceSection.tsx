@@ -10,7 +10,6 @@ export interface SymptomItem {
 }
 
 interface SymptomServiceSectionProps {
-  eyebrow?: string;
   title: string;
   description?: string;
   items: SymptomItem[];
