@@ -192,9 +192,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                           </div>
                           <span
                             aria-hidden="true"
-                            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors border ${
+                            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all border ${
                               isOpen
-                                ? 'bg-brand-warm text-brand-dark border-brand-warm'
+                                ? 'bg-white text-brand-dark border-brand-dark/10 shadow-sm'
                                 : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
                             }`}
                           >
