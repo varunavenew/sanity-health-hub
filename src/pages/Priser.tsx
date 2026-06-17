@@ -162,29 +162,44 @@ const Priser = ({ isChatOpen }: PageProps) => {
                     : 'bg-white/60 border-border/50 hover:bg-white hover:border-border'
                 }`}
               >
-                {/* Category Header - entire bar is clickable to toggle */}
-                <button
-                  onClick={() => toggleCategory(category.id)}
-                  className="w-full flex items-center justify-between p-5 md:p-6 cursor-pointer text-left"
-                  aria-expanded={expandedCategory === category.id}
-                  aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-xl md:text-2xl font-light text-foreground">
+                {/* Category Header - toggle on click, separate "Les mer" link */}
+                <div className="w-full flex items-center justify-between p-5 md:p-6 gap-4">
+                  <button
+                    onClick={() => toggleCategory(category.id)}
+                    className="flex items-center gap-4 flex-1 min-w-0 text-left cursor-pointer"
+                    aria-expanded={expandedCategory === category.id}
+                    aria-label={`${expandedCategory === category.id ? 'Lukk' : 'Åpne'} ${category.label}`}
+                  >
+                    <span className="text-xl md:text-2xl font-light text-foreground truncate">
                       {category.label}
                     </span>
-                    <span className="text-sm font-light text-muted-foreground">
+                    <span className="text-sm font-light text-muted-foreground hidden sm:inline">
                       {expandedCategory === category.id ? 'Lukk prisliste' : 'Se priser'}
                     </span>
+                  </button>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); navigate(category.path); }}
+                      className="hidden md:inline-flex items-center gap-1.5 text-sm font-light text-foreground/70 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+                    >
+                      Les mer om {category.label.toLowerCase()}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => toggleCategory(category.id)}
+                      aria-hidden="true"
+                      tabIndex={-1}
+                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10"
+                    >
+                      {expandedCategory === category.id ? (
+                        <Minus className="w-4 h-4 text-foreground/80" />
+                      ) : (
+                        <Plus className="w-4 h-4 text-foreground/80" />
+                      )}
+                    </button>
                   </div>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all bg-foreground/5 border border-foreground/10`}>
-                    {expandedCategory === category.id ? (
-                      <Minus className="w-4 h-4 text-foreground/80" aria-hidden="true" />
-                    ) : (
-                      <Plus className="w-4 h-4 text-foreground/80" aria-hidden="true" />
-                    )}
-                  </div>
-                </button>
+                </div>
+
 
                 {/* Subcategories - Expanded Content */}
                 <AnimatePresence>
@@ -245,10 +260,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         return (
                                           <div
                                             key={idx}
-                                            className="w-full flex items-center justify-between gap-3 py-3 border-b border-border/30 last:border-b-0 px-2 -mx-2"
+                                            className="w-full grid grid-cols-[1fr_auto_120px] items-center gap-4 py-3 border-b border-border/30 last:border-b-0 px-2 -mx-2"
                                           >
-                                            <div className="flex-1 min-w-0">
-                                              <div className="flex items-center gap-1.5">
+                                            {/* Name + info */}
+                                            <div className="min-w-0">
+                                              <div className="flex items-center gap-2">
                                                 <p className="text-foreground text-sm font-light">
                                                   {item.name}
                                                 </p>
@@ -258,9 +274,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       <button
                                                         type="button"
                                                         aria-label={`Mer informasjon om ${item.name}`}
-                                                        className="inline-flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                                                        className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-foreground/30 text-foreground/70 hover:bg-foreground hover:text-background hover:border-foreground transition-colors shrink-0"
                                                       >
-                                                        <Info className="w-3.5 h-3.5" strokeWidth={1.5} />
+                                                        <Info className="w-3 h-3" strokeWidth={2} />
                                                       </button>
                                                     </TooltipTrigger>
                                                     <TooltipContent
@@ -280,10 +296,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                 </p>
                                               )}
                                             </div>
-                                            <div className="flex items-center gap-3 shrink-0">
-                                              <p className="font-normal text-foreground text-sm whitespace-nowrap">
-                                                {item.price === "0,-" ? "Gratis" : item.price}
-                                              </p>
+
+                                            {/* Price column — fixed-aligned */}
+                                            <p className="font-normal text-foreground text-sm whitespace-nowrap text-right tabular-nums">
+                                              {item.price === "0,-" ? "Gratis" : item.price}
+                                            </p>
+
+                                            {/* Action column — fixed width so prices align */}
+                                            <div className="flex justify-end">
                                               {bookable ? (
                                                 <button
                                                   onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
@@ -291,20 +311,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                 >
                                                   Bestill time
                                                 </button>
-                                              ) : item.info ? (
-                                                // Info-popover ved (i) ved siden av navnet dekker behovet — ingen "Les mer".
-                                                null
-                                              ) : (
-                                                <button
-                                                  onClick={() => navigate(sub.path)}
-                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/20 text-foreground text-xs font-normal hover:bg-foreground hover:text-background transition-colors whitespace-nowrap"
-                                                >
-                                                  Les mer
-                                                  <ArrowRight className="w-3 h-3" />
-                                                </button>
-                                              )}
+                                              ) : null}
                                             </div>
                                           </div>
+
                                         );
                                       })}
                                     </div>
