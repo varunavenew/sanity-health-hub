@@ -174,9 +174,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       >
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className={`w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group transition-colors ${
-                            isOpen ? 'bg-brand-dark' : ''
-                          }`}
+                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group transition-colors"
                           aria-expanded={isOpen}
                           aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
                         >
