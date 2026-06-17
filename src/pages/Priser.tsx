@@ -339,13 +339,13 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 </div>
 
                                 {/* Les mer — plassert nederst i åpen boks */}
-                                <div className="mt-6 pt-5 border-t border-foreground/10">
+                                <div className="mt-6 pt-5 border-t border-brand-dark/10">
                                   <Link
                                     to={category.path}
-                                    className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+                                    className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
                                   >
                                     Les mer om {category.label.toLowerCase()}
-                                    <ArrowRight className="w-3.5 h-3.5" />
+                                    <ArrowRight className="w-4 h-4" />
                                   </Link>
                                 </div>
                               </div>
