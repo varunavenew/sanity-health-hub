@@ -153,29 +153,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
             ];
             return (
               <div className="max-w-5xl mx-auto">
-                {/* Quick-jump pills */}
-                <nav aria-label="Hopp til kategori" className="mb-6 flex flex-wrap gap-2">
-                  {ordered.map((c) => (
-                    <button
-                      key={c.id}
-                      onClick={() => {
-                        setExpandedCategory(c.id);
-                        setExpandedSubcategory(null);
-                        requestAnimationFrame(() => {
-                          document.getElementById(`kat-${c.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        });
-                      }}
-                      className={`px-3.5 py-1.5 rounded-full text-sm font-light border transition-colors ${
-                        expandedCategory === c.id
-                          ? 'bg-foreground text-background border-foreground'
-                          : 'bg-background text-foreground/80 border-foreground/15 hover:border-foreground/40'
-                      }`}
-                    >
-                      {c.label}
-                    </button>
-                  ))}
-                </nav>
-
                 <p className="text-xs text-muted-foreground font-light mb-5">
                   Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen.
                 </p>
@@ -190,18 +167,18 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         key={category.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-background border-foreground/20 shadow-sm'
-                            : 'bg-card border-foreground/10 hover:border-foreground/25'
+                            ? 'bg-background border-foreground/25 shadow-md'
+                            : 'bg-card border-foreground/10 hover:border-foreground/30 hover:shadow-sm hover:-translate-y-0.5'
                         }`}
                       >
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left"
+                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group"
                           aria-expanded={isOpen}
                           aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
                         >
                           <div className="flex flex-col min-w-0">
-                            <span className="text-xl md:text-2xl font-light text-foreground truncate">
+                            <span className="text-xl md:text-2xl font-light text-foreground truncate group-hover:text-foreground/90 transition-colors">
                               {category.label}
                             </span>
                             <span className="text-xs text-muted-foreground font-light mt-1">
@@ -213,7 +190,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors border ${
                               isOpen
                                 ? 'bg-foreground text-background border-foreground'
-                                : 'bg-background text-foreground/80 border-foreground/15'
+                                : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
                             }`}
                           >
                             {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
@@ -230,27 +207,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
                               className="overflow-hidden"
                             >
                               <div className="px-5 md:px-6 pb-6 md:pb-8">
-                                <div className="mb-5 pb-5 border-b border-foreground/10">
-                                  <Link
-                                    to={category.path}
-                                    className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
-                                  >
-                                    Les mer om {category.label.toLowerCase()}
-                                    <ArrowRight className="w-3.5 h-3.5" />
-                                  </Link>
-                                </div>
-                                <div className="space-y-1.5">
+                                <div className="space-y-2">
                                   {category.subcategories.map((sub) => {
                                     const subOpen = expandedSubcategory === sub.label;
                                     return (
                                       <div
                                         key={sub.label}
-                                        className={`rounded-xl border transition-colors ${
+                                        className={`rounded-xl border transition-all ${
                                           subOpen
-                                            ? 'bg-muted/60 border-foreground/10'
-                                            : 'bg-transparent border-transparent hover:bg-muted/40'
+                                            ? 'bg-muted/70 border-foreground/20 shadow-sm'
+                                            : 'bg-card/60 border-foreground/15 hover:border-foreground/30 hover:bg-card'
                                         }`}
                                       >
+
                                         <button
                                           onClick={() => toggleSubcategory(sub.label)}
                                           className="w-full flex items-center justify-between py-3 px-3 cursor-pointer text-left"
