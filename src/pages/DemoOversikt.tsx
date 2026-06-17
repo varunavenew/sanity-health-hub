@@ -50,6 +50,15 @@ const groups = [
  { to: "/spesialist-design/atelier", name: "Spesialist — Forslag 3" },
  ],
  },
+ {
+ title: "Hjemmeside",
+ eyebrow: "Seksjons-overganger",
+ items: [
+ { to: "/hjem-demo/blend", name: "Hjem — Mørk tonal blend" },
+ { to: "/hjem-demo/overlap", name: "Hjem — Overlappende kortgrid" },
+ { to: "/hjem-demo/kutt", name: "Hjem — Asymmetrisk kutt" },
+ ],
+ },
 ];
 
 const DemoOversikt = ({ isChatOpen = false }: PageProps) => {

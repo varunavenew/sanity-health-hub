@@ -64,6 +64,9 @@ import Godkjenning from "./pages/Godkjenning";
 import MalDemo from "./pages/MalDemo";
 import TipsDemo from "./pages/demos/TipsDemo";
 import SpesialisterLayoutDemo from "./pages/demos/SpesialisterLayoutDemo";
+import HomeDemoBlend from "./pages/home-demo/HomeDemoBlend";
+import HomeDemoOverlap from "./pages/home-demo/HomeDemoOverlap";
+import HomeDemoCut from "./pages/home-demo/HomeDemoCut";
 import SpecialistDesignHub from "./pages/specialist-design/DesignHub";
 import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
 import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
@@ -202,6 +205,10 @@ const AppContent = () => {
         <Route path="/maler/:key" element={<MalDemo />} />
         <Route path="/demoer/tips" element={<TipsDemo />} />
         <Route path="/demoer/spesialister-layout" element={<SpesialisterLayoutDemo />} />
+        {/* Homepage section-transition demos */}
+        <Route path="/hjem-demo/blend" element={<HomeDemoBlend isChatOpen={false} />} />
+        <Route path="/hjem-demo/overlap" element={<HomeDemoOverlap isChatOpen={false} />} />
+        <Route path="/hjem-demo/kutt" element={<HomeDemoCut isChatOpen={false} />} />
         {/* Specialist profile design demos */}
         <Route path="/spesialist-design" element={<SpecialistDesignHub isChatOpen={false} />} />
         <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
