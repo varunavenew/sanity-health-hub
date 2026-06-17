@@ -598,8 +598,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       {/* 10. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING */}
       <section className="bg-background">
         <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="lg:col-span-5">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16">
+            <div>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
                 Fra første kontakt til riktig behandling.
               </h2>
@@ -612,7 +612,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
               </Button>
             </div>
 
-            <div className="lg:col-span-7">
+            <div>
               <div className="divide-y divide-border/60 border-t border-border/60">
                 {journey.map((step) => (
                   <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
