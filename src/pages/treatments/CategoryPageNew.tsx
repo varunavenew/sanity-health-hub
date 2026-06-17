@@ -11,9 +11,9 @@ import { LeadPopup } from "@/components/LeadPopup";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { getCategoryEntryPrice } from "@/data/priceList";
 import {
  categoryNewContent,
- getServiceIcon,
 } from "./categoryPageContent";
 
 interface CategoryPageNewProps {
@@ -41,7 +41,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  return <div>Kategori ikke funnet</div>;
  }
 
- // Resolve groups → service objects with icon + path
+ // Resolve groups → service objects with path (icons removed per design)
  const groupsWithServices = content.groups
  .map((g) => ({
  label: g.label,
@@ -49,11 +49,12 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  .map((name) => ({
  name,
  path: content.serviceLinks[name],
- Icon: getServiceIcon(name),
  }))
  .filter((s) => !!s.path),
  }))
  .filter((g) => g.services.length > 0);
+
+ const entryPrice = getCategoryEntryPrice(categoryId);
 
  return (
  <PageLayout isChatOpen={isChatOpen}>
@@ -87,17 +88,24 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
            {content.description.slice(0, 220)}
          </p>
 
-         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
-           <Button
-             variant="cta"
-             size="lg"
-             className="px-8 w-full sm:w-auto"
-             onClick={() => navigate(content.bookingPath)}
-           >
-             Bestill time
-           </Button>
-           <CallUsClinicPicker variant="light" label="Ring oss" />
-         </div>
+          {entryPrice && (
+            <div className="mb-4 text-sm font-light text-foreground/80">
+              <span className="block text-base text-foreground">{entryPrice.label}</span>
+              <span className="block">{entryPrice.price}</span>
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+            <Button
+              variant="cta"
+              size="lg"
+              className="px-8 w-full sm:w-auto"
+              onClick={() => navigate(content.bookingPath)}
+            >
+              Bestill time
+            </Button>
+            <CallUsClinicPicker variant="light" label="Ring oss" />
+          </div>
 
          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
            {["Ingen henvisning", "Korte ventetider", "Erfarne spesialister"].map((u) => (
@@ -156,12 +164,8 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  <li key={`${group.label}-${s.name}`}>
  <Link
  to={s.path!}
- className="flex items-center gap-3 text-sm font-light text-foreground/85 hover:text-foreground group"
+ className="flex items-center justify-between gap-3 text-sm font-light text-foreground/85 hover:text-foreground group py-1"
  >
- <s.Icon
- className="w-4 h-4 text-foreground/60 flex-shrink-0"
- strokeWidth={1.5}
- />
  <span className="flex-1">{s.name}</span>
  <ArrowRight
  className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
