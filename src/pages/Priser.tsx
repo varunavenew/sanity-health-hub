@@ -173,9 +173,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                     <span className="text-xl md:text-2xl font-light text-foreground truncate">
                       {category.label}
                     </span>
-                    <span className="text-sm font-light text-muted-foreground hidden sm:inline">
-                      {expandedCategory === category.id ? 'Lukk prisliste' : 'Se priser'}
-                    </span>
                   </button>
                   <div className="flex items-center gap-3 shrink-0">
                     <button
@@ -217,8 +214,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             key={sub.label}
                             className={`rounded-lg transition-all border ${
                               expandedSubcategory === sub.label 
-                                ? 'bg-secondary/60 border-border/50' 
-                                : 'bg-secondary/30 border-transparent hover:bg-secondary/50 hover:border-border/30'
+                                ? 'bg-background border-border/30' 
+                                : 'bg-background/50 border-transparent hover:bg-background/70 hover:border-border/30'
                             }`}
                           >
                             <button
@@ -307,7 +304,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               {bookable ? (
                                                 <button
                                                   onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
-                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-accent-foreground text-xs font-normal hover:bg-accent/90 transition-colors whitespace-nowrap"
+                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
                                                 >
                                                   Bestill time
                                                 </button>
