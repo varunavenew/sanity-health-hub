@@ -54,6 +54,7 @@ export interface SubTreatmentContent {
  flowImageAlt?: string;
  heroImage?: string; // dedicated image for hero right column; falls back to flowImage
  heroImageAlt?: string;
+ heroVideo?: string; // optional video for hero right column; takes precedence over heroImage
  flowLinkLabel?: string;
  flowLinkHref?: string;
  // Section 3 — hvem / symptomer
