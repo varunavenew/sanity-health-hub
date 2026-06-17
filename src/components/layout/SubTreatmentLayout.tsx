@@ -54,6 +54,7 @@ export interface SubTreatmentContent {
  flowImageAlt?: string;
  heroImage?: string; // dedicated image for hero right column; falls back to flowImage
  heroImageAlt?: string;
+ heroVideo?: string; // optional video for hero right column; takes precedence over heroImage
  flowLinkLabel?: string;
  flowLinkHref?: string;
  // Section 3 — hvem / symptomer
@@ -285,13 +286,23 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
           {/* Right — image fills the entire half */}
           <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
-            {heroImg && (
+            {c.heroVideo ? (
+              <video
+                src={c.heroVideo}
+                poster={heroImg}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : heroImg ? (
               <img
                 src={heroImg}
                 alt={c.heroImageAlt ?? c.flowImageAlt ?? c.title}
                 className="absolute inset-0 w-full h-full object-cover"
               />
-            )}
+            ) : null}
           </div>
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />

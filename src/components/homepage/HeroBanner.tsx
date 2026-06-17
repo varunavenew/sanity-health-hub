@@ -41,7 +41,7 @@ export const HeroBanner = () => {
       label: t("hero.kvinnehelse.label"),
       subtitle: t("hero.kvinnehelse.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/kvinnehelse",
+      ctaPath: "/gynekologi",
       objectPosition: "center 20%",
     },
     {
@@ -61,7 +61,7 @@ export const HeroBanner = () => {
       label: t("hero.robotkirurgi.label"),
       subtitle: t("hero.robotkirurgi.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/robotassistert-kirurgi",
+      ctaPath: "/behandlinger/urologi/robotkirurgi",
       objectPosition: "center 40%",
     },
   ];

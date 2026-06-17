@@ -9,6 +9,7 @@ import heroFamily from "@/assets/hero/hero-family.jpg";
 import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
+import robotkirurgiHeroVideo from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
@@ -27,6 +28,7 @@ export interface TreatmentData {
   subtitle: string;
   parentCategory: string;
   heroImage: string;
+  heroVideo?: string;
   description: string;
   sections?: ContentSection[];
   benefits?: string[];
@@ -758,6 +760,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: heroTech,
+    heroVideo: robotkirurgiHeroVideo.url,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nVi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi, brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP).",
     sections: [
       {

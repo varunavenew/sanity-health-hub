@@ -248,6 +248,7 @@ export const treatmentToSubLayout = ({
     flowImageAlt: `CMedical klinikk — ${data.title}`,
     heroImage: heroImage ?? getServiceImage(categoryId, subId),
     heroImageAlt: data.title,
+    heroVideo: data.heroVideo,
     reasonsEyebrow: data.sections && data.sections.length > 0 ? "Det du bør vite" : "Hvem passer det for",
     reasonsTitle: data.sections && data.sections.length > 0 ? `Om ${data.title}` : "Når bør du ta kontakt",
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
