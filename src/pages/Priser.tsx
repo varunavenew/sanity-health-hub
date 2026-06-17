@@ -77,8 +77,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const first = priceCategories.find(c => prioritized.includes(c.id));
     return first?.id ?? priceCategories[0]?.id ?? null;
   })();
+  const firstSubLabel = (() => {
+    const cat = priceCategories.find(c => c.id === firstCategoryId);
+    return cat?.subcategories[0]?.label ?? null;
+  })();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(firstCategoryId);
-  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
+  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(firstSubLabel);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
