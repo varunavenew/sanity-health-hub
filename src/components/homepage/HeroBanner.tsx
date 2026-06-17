@@ -41,7 +41,7 @@ export const HeroBanner = () => {
       label: t("hero.kvinnehelse.label"),
       subtitle: t("hero.kvinnehelse.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/kvinnehelse",
+      ctaPath: "/gynekologi",
       objectPosition: "center 20%",
     },
     {
