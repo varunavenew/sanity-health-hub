@@ -60,6 +60,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/treatmentCategoryForrigeUke",
     exampleLabel: "Åpne tidligere versjon",
   },
+  {
+    key: "treatmentCategoryToUkerSiden",
+    title: "Fagområde – versjon fra 2. juni (~2 uker siden)",
+    description: "Snapshot av fagområde-mastermalen (gynekologi) slik den så ut for ca. to uker siden. Brukes for å sammenligne med dagens versjon.",
+    examplePath: "/maler/treatmentCategoryToUkerSiden",
+    exampleLabel: "Åpne tidligere versjon",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
