@@ -32,7 +32,7 @@ export const FeatureSpotlight = ({
   mediaLeft = false,
 }: FeatureSpotlightProps) => {
   const media = (
-    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-[560px] overflow-hidden">
+    <div className="relative bg-secondary/40 h-full overflow-hidden">
       {video ? (
         <video
           src={video}
