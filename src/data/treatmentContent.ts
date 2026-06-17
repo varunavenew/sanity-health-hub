@@ -1185,7 +1185,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfeller repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer.\n\nKontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker.",
+    description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
+    sections: [
+      {
+        id: "avanserte-inngrep",
+        heading: "Avanserte hofteinngrep",
+        content: "I tillegg til vanlig hofteartroskopi tilbyr vi mer avanserte prosedyrer for pasienter med komplekse plager. Dette inkluderer blant annet:\n\n- **Tenodese av iliopsoas-/psoassenen** ved snapping hip og senerelaterte smerter\n- **Reinsertering og reparasjon av leddleppen (labrum)**\n- **Behandling av FAI (femoroacetabulær impingement)** med rekonturering av lårhalsen\n- **Bruskbehandling** ved fokale skader i hofteleddet\n\nValg av metode tilpasses individuelt etter grundig utredning og bildediagnostikk."
+      },
+      {
+        id: "for-aktive-pasienter",
+        heading: "For yngre, aktive pasienter",
+        content: "Pasientgruppen vår på hofte er i hovedsak yngre og aktive — ofte idrettsutøvere på mosjonist- og elitenivå som har fått idrettsskader i hoften. Målet med behandlingen er å bevare leddet, redusere smerte og få deg trygt tilbake til den aktiviteten du driver med."
+      },
+    ],
     relatedSpecialists: ["kristian-marstrand-warholm"],
     faqs: [
       { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
