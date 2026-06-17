@@ -147,6 +147,7 @@ const expertAreas = [
 
 const allServices = [
  { title: "Gynekologisk undersøkelse", desc: "Utredning og samtale", href: "/behandlinger/gynekologi/undersokelse" },
+ { title: "Urogynekologi", desc: "Fremfall og urinlekkasje — samlet", href: "/behandlinger/gynekologi/urogynekologi" },
  { title: "Endometriose", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/endometriose" },
  { title: "Overgangsalder", desc: "Hormonbehandling og oppfølging", href: "/behandlinger/gynekologi/overgangsalder" },
  { title: "Urinlekkasje", desc: "Konservativ og kirurgisk behandling", href: "/behandlinger/gynekologi/urinlekkasje" },
