@@ -353,8 +353,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
 
       {/* 3. HVORFOR CMEDICAL — Det beste fra to klinikker */}
       <section className="bg-background">
-        <div className="grid lg:grid-cols-12">
-          <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+        <div className="grid lg:grid-cols-2">
+          <div className="px-6 md:px-16 lg:px-20 py-20 lg:py-28">
             <div className="max-w-xl">
               <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
                 Det beste fra to klinikker — samlet på ett sted.
@@ -382,7 +382,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+          <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
             <img
               src={heroClinicLounge}
               alt="CMedical fertilitetsklinikk i Sandvika"
@@ -496,11 +496,11 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-light text-foreground py-20 md:py-28 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-              <div className="lg:col-span-5">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 mb-14">
+              <div>
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">Tall som forteller en historie.</h2>
               </div>
-              <div className="lg:col-span-7 flex items-end">
+              <div className="flex items-end">
                 <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
                   resultatene våre innen fertilitetsbehandling de siste årene.
@@ -598,8 +598,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
       {/* 10. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING */}
       <section className="bg-background">
         <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="lg:col-span-5">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16">
+            <div>
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
                 Fra første kontakt til riktig behandling.
               </h2>
@@ -612,7 +612,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
               </Button>
             </div>
 
-            <div className="lg:col-span-7">
+            <div>
               <div className="divide-y divide-border/60 border-t border-border/60">
                 {journey.map((step) => (
                   <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
