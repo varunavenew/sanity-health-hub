@@ -561,4 +561,4 @@ const MasterMalForrigeUke = ({ isChatOpen }: PageProps) => {
  );
 };
 
-export default Fertility;
+export default MasterMalForrigeUke;
