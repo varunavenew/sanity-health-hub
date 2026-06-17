@@ -11,6 +11,7 @@ import ArticleUnifiedMaster from "./masters/ArticleUnifiedMaster";
 import SpecialistProfileMaster from "./masters/SpecialistProfileMaster";
 import MasterMalForrigeUke from "./demos/MasterMalForrigeUke";
 import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
+import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -138,6 +139,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Snapshot av mastermalen for fagområder (gynekologi) slik den så ut 2. juni 2026. Brukes som referanse mot dagens versjon — innhold, struktur og seksjoner er bevart fra den gang.",
     livePath: "/maler/treatmentCategoryToUkerSiden",
     render: () => <MasterMalToUkerSiden isChatOpen={false} />,
+  },
+  fertilitetEtterMaster: {
+    title: "Mal-demo: Fertilitet bygget på mastermalen",
+    description:
+      "Fertilitet-siden satt opp etter mastermalen (gynekologi-snapshot, 2 uker siden). Struktur, design og seksjoner er identiske med mastermalen — kun innhold er fertilitetsspesifikt (tekst, bilder, hero-video, 'fra'-pris, spesialister, anmeldelser).",
+    livePath: "/maler/fertilitetEtterMaster",
+    render: () => <FertilitetEtterMaster isChatOpen={false} />,
   },
 };
 
