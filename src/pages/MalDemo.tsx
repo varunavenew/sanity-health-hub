@@ -52,7 +52,7 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  treatmentCategory: {
  title: "Mal: Fagområde – Gynekologi",
  description:
- "Mastermal for hovedfagområder. Bruker gynekologi-siden som referanse — den inneholder 'Spesialistområder'-seksjonen (2x2-grid med bilde, eyebrow og 'Les mer'-lenke) slik kunden har godkjent den.",
+  "Mastermal for hovedfagområder. Bruker gynekologi-siden som referanse — den inneholder 'Spesialistområder'-seksjonen (2x2-grid med bilde og 'Les mer'-lenke) slik kunden har godkjent den.",
  livePath: "/behandlinger/gynekologi",
  render: () => <Gynecology isChatOpen={false} />,
  },
