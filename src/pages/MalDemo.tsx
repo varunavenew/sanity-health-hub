@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 
 
 import Fertility from "./treatments/Fertility";
+import Gynecology from "./treatments/Gynecology";
 import KvinnehelseMaster from "./themes/KvinnehelseMaster";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
