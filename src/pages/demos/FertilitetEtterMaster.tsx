@@ -103,7 +103,6 @@ const segments = [
 
 const expertAreas = [
   {
-    eyebrow: "Spesialfelt",
     title: "IVF — prøverørsbehandling",
     desc:
       "Vårt mest etablerte fagfelt. Vi har gjennomført IVF siden 1989 og kombinerer erfaring med oppdaterte protokoller.",
@@ -111,7 +110,6 @@ const expertAreas = [
     image: journeyLab,
   },
   {
-    eyebrow: "Spesialfelt",
     title: "Eggdonasjon",
     desc:
       "Norges nyeste eggbank. Vi følger dere trygt gjennom hele forløpet — fra første samtale til oppfølging.",
@@ -119,7 +117,6 @@ const expertAreas = [
     image: journeyResult,
   },
   {
-    eyebrow: "Spesialfelt",
     title: "Nedfrysing av egg",
     desc:
       "For deg som vil bevare mulighetene dine. Vi forklarer hva som er realistisk å forvente — og hva som ikke er det.",
@@ -127,7 +124,6 @@ const expertAreas = [
     image: audienceWaiting,
   },
   {
-    eyebrow: "Spesialfelt",
     title: "Mannlig fertilitet",
     desc:
       "Sædanalyse, utredning og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
