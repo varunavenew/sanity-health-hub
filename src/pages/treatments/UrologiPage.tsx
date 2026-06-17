@@ -263,7 +263,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  to={p.href}
  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
  >
- Les mer
+ {p.cta}
  <ArrowRight className="w-3.5 h-3.5" />
  </Link>
  </div>
