@@ -27,6 +27,7 @@ export interface TreatmentData {
   subtitle: string;
   parentCategory: string;
   heroImage: string;
+  heroVideo?: string;
   description: string;
   sections?: ContentSection[];
   benefits?: string[];
