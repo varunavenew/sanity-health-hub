@@ -22,7 +22,6 @@ interface FeatureSpotlightProps {
  * whitespace, the other a full-bleed image or video.
  */
 export const FeatureSpotlight = ({
-  eyebrow,
   title,
   text,
   ctaLabel,
