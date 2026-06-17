@@ -213,7 +213,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
         <div className="grid lg:grid-cols-12">
           <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
             <div className="max-w-xl">
-              <p className="text-xs text-foreground/60 mb-5">Hvorfor CMedical</p>
+              
               <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
                 Erfaring, åpenhet og et trygt forløp.
               </h2>
@@ -381,7 +381,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
 
       {/* 9. SPESIALISTER */}
       <FeatureSpotlight
-        eyebrow="Start her"
+        
         title={<>Begynn med en <span className="italic">samtale</span></>}
         text="Donorforløp starter med en grundig samtale der vi går gjennom dine ønsker, juridiske rammer og medisinske muligheter. Slik vet du hva som passer for nettopp din situasjon."
         ctaLabel="Bestill konsultasjon"
