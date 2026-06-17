@@ -301,7 +301,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                         {item.price === "0,-" ? "Gratis" : item.price}
                                                       </p>
 
-                                                      <div className="flex justify-end min-w-[110px]">
+                                                      <div className="flex justify-end min-w-[150px]">
                                                         {bookable ? (
                                                           <button
                                                             onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
@@ -314,8 +314,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             to={buildBookingUrl({ kategori: category.id })}
                                                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/25 text-foreground text-xs font-normal hover:bg-foreground hover:text-background hover:border-foreground transition-colors whitespace-nowrap"
                                                           >
-                                                            <Calendar className="w-3 h-3" />
-                                                            Book konsultasjon
+                                                            Bestill vurderingstime
                                                           </Link>
                                                         )}
                                                       </div>
