@@ -1212,7 +1212,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to — i såkalte «to-spann» — slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
+    relatedSpecialists: ["jan-ragnar-haugstvedt", "istvan-zoltan-rigo", "endre-soreide", "sondre-hassellund", "lars-eldar-myrseth"],
     sections: [
       {
         id: "tennisalbue",
