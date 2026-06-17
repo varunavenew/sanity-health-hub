@@ -54,7 +54,6 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       <header className="bg-brand-warm pt-20 md:pt-24 pb-6 md:pb-8">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl">
-            <p className="text-muted-foreground text-xs mb-2">Karriere hos CMedical</p>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-brand-dark mb-3">
               Bygg karrieren der pasienten alltid kommer først
             </h1>
@@ -206,7 +205,6 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       <section className="bg-brand-warm py-14 md:py-20 border-t border-brand-dark/5">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl">
-            <p className="text-muted-foreground text-xs mb-3">Spontansøknad</p>
             <h2 className="text-2xl md:text-3xl font-light text-brand-dark mb-4">
               Finner du ikke stillingen du ser etter?
             </h2>

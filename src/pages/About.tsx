@@ -175,7 +175,6 @@ const About = ({ isChatOpen }: AboutProps) => {
         <section className="bg-brand-dark text-brand-warm">
           <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
             <div className="max-w-4xl">
-              <p className="text-xs font-light text-brand-warm/60 mb-6">Vår ambisjon</p>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] mb-10">
                 En ny standard for privat spesialisthelsetjeneste.
               </h2>
