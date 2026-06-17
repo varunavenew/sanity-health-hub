@@ -283,7 +283,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
             allerede har valgt sitt steg i livet. */}
       <section className="py-20 md:py-28 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
             <div>
               <div className="lg:sticky lg:top-28">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
