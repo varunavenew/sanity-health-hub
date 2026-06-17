@@ -166,10 +166,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       <div
                         id={`kat-${category.id}`}
                         key={category.id}
-                        className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
+                        className={`rounded-2xl overflow-hidden border border-brand-dark/10 transition-all duration-300 ${
                           isOpen
-                            ? 'bg-card border-foreground/35 shadow-lg'
-                            : 'bg-card border-foreground/20 hover:border-foreground/40 hover:shadow-md hover:-translate-y-0.5'
+                            ? 'bg-brand-beige/60'
+                            : 'bg-brand-beige/40 hover:bg-brand-beige/60'
                         }`}
                       >
                         <button
@@ -216,8 +216,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         key={sub.label}
                                         className={`rounded-xl border transition-all ${
                                           subOpen
-                                            ? 'bg-background border-foreground/25 shadow-sm'
-                                            : 'bg-background/70 border-foreground/20 hover:border-foreground/35 hover:bg-background'
+                                            ? 'bg-white border-brand-dark/30'
+                                            : 'bg-brand-beige/30 border-brand-dark/10 hover:bg-white hover:border-brand-dark/30'
                                         }`}
                                       >
 
@@ -265,7 +265,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                     <button
                                                       key={idx}
                                                       onClick={() => navigate(href)}
-                                                      className="w-full flex items-center justify-between p-4 rounded-xl border bg-background border-foreground/15 hover:bg-card hover:border-foreground/35 hover:shadow-sm transition-all text-left group"
+                                                      className="w-full flex items-center justify-between p-4 rounded-xl border bg-brand-beige/30 border-brand-dark/10 hover:bg-white hover:border-brand-dark/30 hover:shadow-[0_4px_20px_rgba(66,51,42,0.06)] transition-all text-left group"
                                                     >
                                                       <div className="flex-1 pr-4 min-w-0">
                                                         <div className="flex items-center gap-2">
