@@ -1,3 +1,4 @@
+import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote, Users, Clock, User } from "lucide-react";
