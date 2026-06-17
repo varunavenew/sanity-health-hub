@@ -183,10 +183,10 @@ export const ServicesDropdown = () => {
  <button 
  key={item.label}
                                   onClick={() => {
-                                    // If the item has its own page, navigate there.
-                                    // Otherwise fall back to the parent subcategory page
-                                    // (e.g. "Akne" -> /hudhelse) so users always land on a real page.
-                                    if (item.path) {
+                                    // Fall back to the parent subcategory page when the item
+                                    // either has no own path or its path doesn't resolve to a
+                                    // real treatment page (e.g. "Akne" -> /hudlege).
+                                    if (item.path && hasTreatmentPage(item.path)) {
                                       handleNavigate(item.path);
                                     } else {
                                       handleNavigate(activeSubcategoryData.path);
