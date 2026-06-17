@@ -43,6 +43,7 @@ const lifePhases = [
    { label: "Ereksjon", href: "/behandlinger/urologi/ereksjon" },
  ],
  href: "/booking?kategori=urologi",
+ cta: "Bestill konsultasjon",
  },
  {
  n: "02",
@@ -55,6 +56,7 @@ const lifePhases = [
     { label: "Nyrer", href: "/behandlinger/urologi/nyrer" },
   ],
  href: "/behandlinger/urologi/blaere",
+ cta: "Les mer",
  },
  {
  n: "03",
@@ -67,6 +69,7 @@ const lifePhases = [
    { label: "Utredning", href: "/behandlinger/urologi/prostata" },
  ],
  href: "/booking?kategori=urologi&tjeneste=prostatasjekk",
+ cta: "Bestill prostatasjekk",
  },
  {
  n: "04",
@@ -78,6 +81,7 @@ const lifePhases = [
    { label: "Refertilisering", href: "/behandlinger/urologi/refertilisering" },
  ],
  href: "/booking?kategori=urologi",
+ cta: "Bestill time",
  },
 ];
 
