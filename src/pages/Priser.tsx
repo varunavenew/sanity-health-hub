@@ -255,29 +255,35 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               transition={{ duration: 0.15 }}
                                               className="overflow-hidden"
                                             >
-                                              <div className="px-3 pb-2">
+                                              <div className="p-3 pt-1 space-y-2">
                                                 {sub.items.map((item, idx) => {
                                                   const bookable = isBookable(item.name, item.duration);
+                                                  const href = bookable
+                                                    ? `/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`
+                                                    : buildBookingUrl({ kategori: category.id });
                                                   return (
-                                                    <div
+                                                    <button
                                                       key={idx}
-                                                      className="w-full grid grid-cols-[1fr_auto_auto] items-center gap-3 md:gap-5 py-3 border-t border-foreground/20 first:border-t-0"
+                                                      onClick={() => navigate(href)}
+                                                      className="w-full flex items-center justify-between p-4 rounded-xl border bg-background border-foreground/15 hover:bg-card hover:border-foreground/35 hover:shadow-sm transition-all text-left group"
                                                     >
-                                                      <div className="min-w-0">
+                                                      <div className="flex-1 pr-4 min-w-0">
                                                         <div className="flex items-center gap-2">
-                                                          <p className="text-foreground text-sm font-light">
+                                                          <span className="block font-normal text-foreground">
                                                             {item.name}
-                                                          </p>
+                                                          </span>
                                                           {item.info && (
                                                             <Tooltip delayDuration={100}>
                                                               <TooltipTrigger asChild>
-                                                                <button
-                                                                  type="button"
+                                                                <span
+                                                                  role="button"
+                                                                  tabIndex={0}
+                                                                  onClick={(e) => e.stopPropagation()}
                                                                   aria-label={`Mer informasjon om ${item.name}`}
                                                                   className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-foreground/10 text-foreground/80 hover:bg-foreground hover:text-background transition-colors shrink-0"
                                                                 >
                                                                   <Info className="w-3 h-3" strokeWidth={2.2} />
-                                                                </button>
+                                                                </span>
                                                               </TooltipTrigger>
                                                               <TooltipContent
                                                                 side="top"
@@ -289,39 +295,35 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             </Tooltip>
                                                           )}
                                                         </div>
-                                                        {item.duration && (
-                                                          <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5 font-light">
-                                                            <Clock className="w-3 h-3" />
-                                                            {item.duration}
-                                                          </p>
-                                                        )}
+                                                        <div className="flex items-center gap-3 mt-1 text-sm text-foreground/70 font-light">
+                                                          <span className="text-foreground/85 tabular-nums">
+                                                            {item.price === "0,-" ? "Gratis" : item.price}
+                                                          </span>
+                                                          {item.duration && (
+                                                            <>
+                                                              <span className="text-foreground/30">·</span>
+                                                              <span>{item.duration}</span>
+                                                            </>
+                                                          )}
+                                                          {!bookable && (
+                                                            <>
+                                                              <span className="text-foreground/30">·</span>
+                                                              <span className="italic">krever konsultasjon</span>
+                                                            </>
+                                                          )}
+                                                        </div>
                                                       </div>
-
-                                                      <p className="font-normal text-foreground text-sm whitespace-nowrap text-right tabular-nums">
-                                                        {item.price === "0,-" ? "Gratis" : item.price}
-                                                      </p>
-
-                                                      <div className="flex justify-end min-w-[150px]">
-                                                        {bookable ? (
-                                                          <button
-                                                            onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
-                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
-                                                          >
-                                                            Book time
-                                                          </button>
-                                                        ) : (
-                                                          <Link
-                                                            to={buildBookingUrl({ kategori: category.id })}
-                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
-                                                          >
-                                                            Start med konsultasjon
-                                                          </Link>
-                                                        )}
-                                                      </div>
-                                                    </div>
+                                                      <span
+                                                        aria-hidden="true"
+                                                        className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-foreground text-background group-hover:scale-105 transition-transform"
+                                                      >
+                                                        <ArrowRight className="w-4 h-4" />
+                                                      </span>
+                                                    </button>
                                                   );
                                                 })}
                                               </div>
+
                                             </motion.div>
                                           )}
                                         </AnimatePresence>
