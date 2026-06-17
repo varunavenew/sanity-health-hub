@@ -144,7 +144,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       />
 
       {/* Price List Section */}
-      <section id="prisliste" className="py-10 md:py-14 bg-muted/40">
+      <section id="prisliste" className="py-10 md:py-14 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           {(() => {
             const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
@@ -168,8 +168,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         key={category.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-background border-foreground/25 shadow-md'
-                            : 'bg-card border-foreground/10 hover:border-foreground/30 hover:shadow-sm hover:-translate-y-0.5'
+                            ? 'bg-card border-foreground/35 shadow-lg'
+                            : 'bg-card border-foreground/20 hover:border-foreground/40 hover:shadow-md hover:-translate-y-0.5'
                         }`}
                       >
                         <button
@@ -216,8 +216,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         key={sub.label}
                                         className={`rounded-xl border transition-all ${
                                           subOpen
-                                            ? 'bg-muted/70 border-foreground/20 shadow-sm'
-                                            : 'bg-card/60 border-foreground/15 hover:border-foreground/30 hover:bg-card'
+                                            ? 'bg-background border-foreground/25 shadow-sm'
+                                            : 'bg-background/70 border-foreground/20 hover:border-foreground/35 hover:bg-background'
                                         }`}
                                       >
 
@@ -261,7 +261,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   return (
                                                     <div
                                                       key={idx}
-                                                      className="w-full grid grid-cols-[1fr_auto_auto] items-center gap-3 md:gap-5 py-3 border-t border-foreground/10 first:border-t-0"
+                                                      className="w-full grid grid-cols-[1fr_auto_auto] items-center gap-3 md:gap-5 py-3 border-t border-foreground/20 first:border-t-0"
                                                     >
                                                       <div className="min-w-0">
                                                         <div className="flex items-center gap-2">
