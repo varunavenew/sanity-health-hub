@@ -174,7 +174,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         key={category.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-brand-warm border border-brand-dark/20 border-l-[6px] border-l-brand-yellow shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
+                            ? 'bg-brand-warm border border-brand-dark/20 border-l-[6px] border-l-brand-dark shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
                             : 'bg-brand-beige/40 border-brand-dark/10 hover:bg-brand-beige/60'
                         }`}
                       >
