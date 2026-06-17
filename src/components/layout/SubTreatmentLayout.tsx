@@ -35,7 +35,6 @@ export interface SubTreatmentContent {
  grandparent?: { name: string; path: string };
  title: string;
  // Hero
- eyebrow: string;
  heroTitle: ReactNode;
  heroDescription: string;
  heroPoints: { title: string; desc: string }[];
@@ -47,7 +46,6 @@ export interface SubTreatmentContent {
  booking: { kategori: string; tjeneste?: string };
  primaryCtaLabel?: string;
  // Section 2 — flow / hva skjer
- flowEyebrow: string;
  flowTitle: string;
  flow: { n: string; title: string; desc: string }[];
  flowImage?: string; // image used in the "Slik foregår det" section (e.g. clinic interior)
@@ -58,14 +56,12 @@ export interface SubTreatmentContent {
  flowLinkLabel?: string;
  flowLinkHref?: string;
  // Section 3 — hvem / symptomer
- reasonsEyebrow: string;
  reasonsTitle: string;
  reasonsLead?: string;
  reasonsLead2?: string;
  reasons: { n: string; title: string; desc: ReactNode }[];
  // Section 4 — løfter (cards with optional icon and "Les mer" link)
  promises: {
- eyebrow: string;
  title: string;
  desc: string;
  Icon?: ComponentType<SVGProps<SVGSVGElement>>;
@@ -74,7 +70,6 @@ export interface SubTreatmentContent {
  }[];
  // Section 4c — optional text+image content section ("Det beste fra to klinikker"-style)
  textSection?: {
- eyebrow: string;
  title: string;
  lead?: string;
  points?: { n: string; title: string; desc: string }[];
@@ -83,15 +78,13 @@ export interface SubTreatmentContent {
  };
  // Section 4d — optional expert areas (image cards grid)
  expertAreas?: {
- eyebrow?: string;
  title: string;
  description?: string;
- items: { eyebrow?: string; title: string; desc: string; href: string; image: string }[];
+ items: { title: string; desc: string; href: string; image: string }[];
  };
  // Section 5 — relaterte
- relatedEyebrow?: string;
  relatedTitle?: string;
- related: { eyebrow: string; title: string; desc: string; href: string }[];
+ related: { title: string; desc: string; href: string }[];
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
@@ -100,7 +93,6 @@ export interface SubTreatmentContent {
  specialistSlugs?: string[]; // optional whitelist of who does this service
  specialistCtaLabel?: string;
  specialistCtaHref?: string;
- specialistEyebrow?: string;
  specialistTitle?: string;
  specialistDescription?: string;
 }
@@ -116,7 +108,6 @@ const ReasonsEditorial = ({
   lead2,
   items,
 }: {
-  eyebrow?: string;
   title: string;
   lead?: string;
   lead2?: string;
@@ -313,7 +304,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
   {/* 2. REASONS / INFO — editorial sticky split */}
   <ReasonsEditorial
-    eyebrow={c.reasonsEyebrow}
     title={c.reasonsTitle}
     lead={c.reasonsLead}
     lead2={c.reasonsLead2}

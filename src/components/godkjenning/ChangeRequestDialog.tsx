@@ -106,7 +106,6 @@ export const ChangeRequestDialog = ({
       >
         <div className="px-6 pt-6 pb-4 border-b border-border flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Endringer ønskes</p>
             <h3 className="text-xl font-light text-foreground mt-1 truncate">{pageName}</h3>
             <p className="text-xs text-muted-foreground font-mono truncate">{pagePath}</p>
           </div>

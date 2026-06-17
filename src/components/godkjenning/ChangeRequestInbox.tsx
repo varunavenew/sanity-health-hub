@@ -129,7 +129,7 @@ export const ChangeRequestInbox = ({ requests, reviewer }: Props) => {
                   {items.map((req) => (
                     <li key={req.id} className="p-4">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
-                        <span className={`inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${STATUS_META[req.status].bg}`}>
+                        <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-full border ${STATUS_META[req.status].bg}`}>
                           <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[req.status].dot}`} />
                           {STATUS_META[req.status].label}
                         </span>

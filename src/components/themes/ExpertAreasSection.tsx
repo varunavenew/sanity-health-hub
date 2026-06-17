@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 export type ExpertArea = {
-  eyebrow?: string;
   title: string;
   desc: string;
   href: string;
@@ -11,14 +10,13 @@ export type ExpertArea = {
 };
 
 interface ExpertAreasSectionProps {
-  eyebrow?: string;
   title: string;
   description?: string;
   items: ExpertArea[];
 }
 
 /**
- * ExpertAreasSection – kortgrid med bilde + eyebrow + tittel + tekst + "Les mer".
+ * ExpertAreasSection – kortgrid med bilde + tittel + tekst + "Les mer".
  * Samme mønster som "Eksperter som jobber med det de kan aller best" på gynekologisiden.
  */
 export const ExpertAreasSection = ({

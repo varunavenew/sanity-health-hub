@@ -22,7 +22,6 @@ type StatBlock = { type: "stat"; value: string; label: string; body: string };
 export type RichBlock = Paragraph | ImageBlock | VideoBlock | LinkBlock | StatBlock;
 
 interface RichContentSectionProps {
-  eyebrow?: string;
   title?: string;
   blocks: RichBlock[];
 }

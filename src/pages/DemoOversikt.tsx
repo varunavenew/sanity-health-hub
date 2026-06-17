@@ -8,7 +8,6 @@ interface PageProps { isChatOpen?: boolean }
 const groups = [
  {
  title: "Gynekologi",
- eyebrow: "Fagområde",
  items: [
  { to: "/gynekologi-design/editorial", name: "Gynekologi — Editorial" },
  { to: "/gynekologi-design/journey", name: "Gynekologi — Reisen" },
@@ -19,7 +18,6 @@ const groups = [
  },
  {
  title: "Fertilitet",
- eyebrow: "Fagområde",
  items: [
  { to: "/fertilitet-design/fertilitet/editorial", name: "Fertilitet — Editorial" },
  { to: "/fertilitet-design/fertilitet/journey", name: "Fertilitet — Reisen" },
@@ -31,7 +29,6 @@ const groups = [
  },
  {
  title: "Fertilitetssjekk",
- eyebrow: "Underområde",
  items: [
  { to: "/fertilitet-design/fertilitetssjekk/editorial", name: "Fertilitetssjekk — Editorial" },
  { to: "/fertilitet-design/fertilitetssjekk/journey", name: "Fertilitetssjekk — Reisen" },
@@ -43,7 +40,6 @@ const groups = [
  },
  {
  title: "Spesialistprofil",
- eyebrow: "Profilside",
  items: [
  { to: "/spesialist-design/editorial", name: "Spesialist — Forslag 1" },
  { to: "/spesialist-design/klinisk", name: "Spesialist — Forslag 2" },
@@ -52,7 +48,6 @@ const groups = [
  },
  {
  title: "Hjemmeside",
- eyebrow: "Seksjons-overganger",
  items: [
  { to: "/hjem-demo/blend", name: "Hjem — Mørk tonal blend" },
  { to: "/hjem-demo/overlap", name: "Hjem — Overlappende kortgrid" },
@@ -70,9 +65,6 @@ const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
  <PageLayout isChatOpen={isChatOpen}>
  <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
  <div className="container mx-auto px-6 md:px-16 max-w-5xl">
- <p className="text-xs uppercase text-muted-foreground font-light mb-6">
- Designforslag · Oversikt
- </p>
  <h1 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-6">
  Alle demoer på ett sted
  </h1>
@@ -88,11 +80,8 @@ const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
  <div className="space-y-16 md:space-y-20">
  {groups.map((g) => (
  <div key={g.title}>
- <div className="flex items-baseline justify-between border-b border-border/60 pb-4 mb-6">
+  <div className="border-b border-border/60 pb-4 mb-6">
  <h2 className="text-2xl md:text-3xl font-light text-foreground">{g.title}</h2>
- <span className="text-xs uppercase text-muted-foreground font-light">
- {g.eyebrow}
- </span>
  </div>
  <ul className="divide-y divide-border/60">
  {g.items.map((it) => (

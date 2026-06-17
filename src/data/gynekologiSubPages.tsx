@@ -12,17 +12,14 @@ const baseBooking = { kategori: "gynekologi" as const };
 
 const standardPromises = [
   {
-    eyebrow: "Trygghet",
     title: "Du bestemmer hva du er komfortabel med",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {
-    eyebrow: "Kompetanse",
     title: "Spesialister med dybde",
     desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
   },
   {
-    eyebrow: "Helhet",
     title: "Alt under samme tak",
     desc: "Trenger du videre utredning, kirurgi eller psykologhjelp — vi koordinerer hele forløpet for deg. Ingenting forsvinner mellom sprekker.",
   },
@@ -37,7 +34,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/undersokelse",
     parent,
     title: "Gynekologisk undersøkelse",
-    eyebrow: "Gynekolog — CMedical",
     heroTitle: <>Noe kjennes ikke helt <span className="italic">riktig</span></>,
     heroDescription:
       "Du trenger ikke vite hva det er — det er det vi er her for. En gynekologisk undersøkelse er det naturlige første steget, enten du har konkrete plager eller bare ønsker å sjekke at alt er som det skal.",
@@ -52,7 +48,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     hideSeePriser: true,
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
-    flowEyebrow: "Konsultasjonen",
     flowTitle: "Slik foregår timen",
     flowImage: imgMajorstuen,
     flowImageAlt: "Interiør fra CMedical-klinikken",
@@ -64,7 +59,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Minutt 25–40", title: "Funn og forklaring", desc: "Legen gjennomgår hva vi finner, forklarer med klare ord — og spør hvordan du opplever det." },
       { n: "Minutt 40–55", title: "Plan for veien videre", desc: "Trenger du ikke mer nå, avslutter vi der. Trenger du oppfølging eller behandling, legger vi en konkret plan." },
     ],
-    reasonsEyebrow: "Hvem passer det for",
     reasonsTitle: "Du trenger ikke ha en diagnose for å\u00A0bestille",
     reasonsLead:
       "En gynekologisk undersøkelse er for alle som har en kropp som trenger å bli sett. Kanskje kjenner du på noe vagt og udefinerbart, kanskje vil du bare forsikre deg om at alt er ok.",
@@ -79,34 +73,29 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     expertAreas: {
-      eyebrow: "Spesialistområder",
       title: "Eksperter som jobber med det de kan aller\u00A0best.",
       description:
         "Hos oss møter du gynekologer som har spesialisert seg dypt innenfor sitt fagfelt. Det betyr at du får riktig kompetanse fra første konsultasjon — uten omveier.",
       items: [
         {
-          eyebrow: "Spesialfelt",
           title: "Endometriose",
           desc: "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
           href: "/behandlinger/gynekologi/endometriose",
           image: expertEndometriose,
         },
         {
-          eyebrow: "Spesialfelt",
           title: "Fødselsskader og bekkenbunnshelse",
           desc: "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
           href: "/behandlinger/gynekologi/urinlekkasje",
           image: expertBekkenbunn,
         },
         {
-          eyebrow: "Spesialfelt",
           title: "Overgangsalder",
           desc: "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
           href: "/behandlinger/gynekologi/overgangsalder",
           image: expertOvergangsalder,
         },
         {
-          eyebrow: "Spesialfelt",
           title: "Vulvasmerter",
           desc: "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
           href: "/behandlinger/gynekologi/vulvalidelser",
@@ -115,9 +104,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       ],
     },
     related: [
-      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer for grundig vurdering.", href: "/behandlinger/gynekologi/endometriose" },
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { eyebrow: "Tilstand", title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "Endometriose", desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer for grundig vurdering.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
     ],
     ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
@@ -132,7 +121,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/endometriose",
     parent,
     title: "Endometriose",
-    eyebrow: "Spesialfelt — Endometriose",
     heroTitle: <>Vondt er ikke bare <span className="italic">mensen</span></>,
     heroDescription:
       "Endometriose er en av de vanligste — og mest oversette — gynekologiske sykdommene. Hos oss møter du spesialister som tar smertene dine på alvor og finner svar.",
@@ -145,7 +133,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialiserte endometriosespesialister",
     booking: { ...baseBooking, tjeneste: "endometriose" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi endometriose",
     flow: [
       { n: "Steg 01", title: "Samtale og kartlegging", desc: "Vi går grundig gjennom symptomer, syklus og hvordan plagene påvirker hverdagen din." },
@@ -153,7 +140,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi forklarer hva vi finner — med tydelige ord og bilder du forstår." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell behandling, smertelindring eller kirurgi — vi finner det som passer deg." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du mistenke endometriose?",
     reasonsLead:
       "Endometriose kan se ut som mange andre tilstander, og blir ofte oversett i mange år. Disse symptomene bør tas på alvor.",
@@ -167,9 +153,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Kraftige eller uregelmessige blødninger kan henge sammen med endometriose, myomer eller polypper.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { eyebrow: "Spesialfelt", title: "Cyster på eggstokkene", desc: "Endometriomer (sjokoladecyster) er en form for endometriose som kan kreve egen vurdering.", href: "/behandlinger/gynekologi/cyster" },
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv kirurgi gir kortere innleggelse og raskere restitusjon.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Blødningsforstyrrelser", desc: "Kraftige eller uregelmessige blødninger kan henge sammen med endometriose, myomer eller polypper.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Cyster på eggstokkene", desc: "Endometriomer (sjokoladecyster) er en form for endometriose som kan kreve egen vurdering.", href: "/behandlinger/gynekologi/cyster" },
+      { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv kirurgi gir kortere innleggelse og raskere restitusjon.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Få en grundig endometriosevurdering",
     ctaDescription:
@@ -184,7 +170,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/overgangsalder",
     parent,
     title: "Overgangsalder",
-    eyebrow: "Spesialfelt — Overgangsalder",
     heroTitle: <>Du skal ikke <span className="italic">tåle deg</span> gjennom overgangsalderen</>,
     heroDescription:
       "Hetetokter, søvnproblemer, humørsvingninger og tørrhet — symptomene er reelle, og de kan behandles. Vi gir deg trygg, oppdatert hormonbehandling tilpasset deg.",
@@ -197,7 +182,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     heroPrice: "Pris fra 2 500 kr",
     booking: { ...baseBooking, tjeneste: "overgangsalder" },
     primaryCtaLabel: "Se ledige tider",
-    flowEyebrow: "Forløpet",
     flowTitle: "Hva skjer hos oss",
     flow: [
       { n: "Steg 01", title: "Grundig samtale", desc: "Vi kartlegger symptomer, livssituasjon og din helsehistorikk." },
@@ -205,7 +189,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi går gjennom alternativene — hormonell, ikke-hormonell og livsstil — og finner det som passer deg." },
       { n: "Steg 04", title: "Oppfølging", desc: "Kontroll etter 3 måneder for å justere behandlingen og sikre at du har det bra." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Symptomer det er verdt å ta på alvor",
     reasonsLead:
       "Overgangsalderen rammer alle kvinner — men opplevelsen er svært individuell. Disse symptomene fortjener oppmerksomhet.",
@@ -219,9 +202,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Vulvalidelser", desc: "Tørrhet og smerter i vulva er vanlig i overgangsalderen og kan behandles spesifikt.", href: "/behandlinger/gynekologi/vulvalidelser" },
-      { eyebrow: "Tilstand", title: "Urinlekkasje", desc: "Mange opplever økt urinlekkasje rundt overgangsalderen — det finnes gode behandlingsalternativer.", href: "/behandlinger/gynekologi/urinlekkasje" },
-      { eyebrow: "Tilstand", title: "Vaginale fremfall", desc: "Vevsstøtte svekkes med fallende østrogen og kan gi behov for støtte eller kirurgi.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { title: "Vulvalidelser", desc: "Tørrhet og smerter i vulva er vanlig i overgangsalderen og kan behandles spesifikt.", href: "/behandlinger/gynekologi/vulvalidelser" },
+      { title: "Urinlekkasje", desc: "Mange opplever økt urinlekkasje rundt overgangsalderen — det finnes gode behandlingsalternativer.", href: "/behandlinger/gynekologi/urinlekkasje" },
+      { title: "Vaginale fremfall", desc: "Vevsstøtte svekkes med fallende østrogen og kan gi behov for støtte eller kirurgi.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
     ],
     ctaTitle: "Bestill samtale om overgangsalder",
     ctaDescription:
@@ -236,7 +219,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/urogynekologi",
     parent,
     title: "Urogynekologi",
-    eyebrow: "Spesialfelt — Urogynekologi",
     heroTitle: <>Fremfall og urinlekkasje hører <span className="italic">sammen</span></>,
     heroDescription:
       "Urogynekologi er fagfeltet for bekkenbunn, fremfall (prolaps) og urinlekkasje. Plagene kan oppstå uavhengig av fødsel eller alder — og de henger ofte sammen. Her samler vi utredning og behandling på ett sted.",
@@ -249,7 +231,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "urogynekologi" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
@@ -257,7 +238,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du ta kontakt?",
     reasonsLead:
       "Urogynekologiske plager rammer både kvinner som har født og kvinner som ikke har det, både unge og eldre. Felles for alle er at det finnes hjelp — og at det sjelden blir bedre av seg selv.",
@@ -271,9 +251,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tilstand", title: "Urinlekkasje", desc: "Utdypende side om stress-, urge- og blandingslekkasje.", href: "/behandlinger/gynekologi/urinlekkasje" },
-      { eyebrow: "Tilstand", title: "Vaginale fremfall", desc: "Utdypende side om prolaps av livmor, blære og endetarm.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Avansert kirurgi for komplekse fremfall og inkontinensplager.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Urinlekkasje", desc: "Utdypende side om stress-, urge- og blandingslekkasje.", href: "/behandlinger/gynekologi/urinlekkasje" },
+      { title: "Vaginale fremfall", desc: "Utdypende side om prolaps av livmor, blære og endetarm.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { title: "Robotassistert kirurgi", desc: "Avansert kirurgi for komplekse fremfall og inkontinensplager.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Bestill urogynekologisk utredning",
     ctaDescription:
@@ -288,7 +268,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/urinlekkasje",
     parent,
     title: "Urinlekkasje",
-    eyebrow: "Tilstand — Urinlekkasje",
     heroTitle: <>Urinlekkasje er <span className="italic">vanlig</span> — og kan behandles</>,
     heroDescription:
       "Mange kvinner lever med urinlekkasje i stillhet i mange år. Det trenger du ikke. Vi tilbyr utredning og behandling — alt fra bekkenbunnstrening til kirurgi.",
@@ -301,7 +280,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "urinlekkasje" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, livssituasjon og hvordan urinlekkasjen påvirker hverdagen." },
@@ -309,7 +287,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Konservative tiltak først — bekkenbunnstrening, livsstilsråd og medikamenter ved behov." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservative tiltak ikke er nok, vurderer vi moderne, skånsomme kirurgiske inngrep." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du søke hjelp?",
     reasonsLead:
       "Urinlekkasje kommer i mange former. Felles for alle er at det finnes hjelp — og at det sjelden blir bedre av seg selv.",
@@ -323,9 +300,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tilstand", title: "Vaginale fremfall", desc: "Fremfall og urinlekkasje opptrer ofte sammen og kan behandles parallelt.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
-      { eyebrow: "Spesialfelt", title: "Overgangsalder", desc: "Hormonelle endringer påvirker bekkenbunn og blære — vi vurderer helheten.", href: "/behandlinger/gynekologi/overgangsalder" },
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Avansert kirurgi for komplekse fremfall og inkontinensplager.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Vaginale fremfall", desc: "Fremfall og urinlekkasje opptrer ofte sammen og kan behandles parallelt.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { title: "Overgangsalder", desc: "Hormonelle endringer påvirker bekkenbunn og blære — vi vurderer helheten.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Robotassistert kirurgi", desc: "Avansert kirurgi for komplekse fremfall og inkontinensplager.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Bestill utredning av urinlekkasje",
     ctaDescription:
@@ -340,7 +317,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/pcos",
     parent,
     title: "PCOS",
-    eyebrow: "Tilstand — PCOS",
     heroTitle: <>PCOS er mer enn <span className="italic">cyster</span></>,
     heroDescription:
       "Polycystisk ovariesyndrom påvirker hormoner, syklus, hud, vekt og fertilitet. Vi gir deg en helhetlig utredning — og en plan som faktisk fungerer i hverdagen din.",
@@ -353,7 +329,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "pcos" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi PCOS",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi kartlegger syklus, symptomer, familiehistorikk og hva som er viktig for deg nå." },
@@ -361,7 +336,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi går gjennom funnene og forklarer hva PCOS betyr for akkurat deg." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på dine mål." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Tegn på PCOS",
     reasonsLead:
       "PCOS gir svært variable symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
@@ -375,9 +349,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tjeneste", title: "Fertilitetsutredning", desc: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PCOS.", href: "/behandlinger/fertilitet" },
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { eyebrow: "Tilstand", title: "PMS og PMDD", desc: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", href: "/behandlinger/gynekologi/pms-pmdd" },
+      { title: "Fertilitetsutredning", desc: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PCOS.", href: "/behandlinger/fertilitet" },
+      { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "PMS og PMDD", desc: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", href: "/behandlinger/gynekologi/pms-pmdd" },
     ],
     ctaTitle: "Få en grundig PCOS-utredning",
     ctaDescription:
@@ -392,7 +366,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/vulvalidelser",
     parent,
     title: "Vulvalidelser",
-    eyebrow: "Spesialfelt — Vulvalidelser",
     heroTitle: <>Smertene er <span className="italic">ekte</span> — og de kan behandles</>,
     heroDescription:
       "Vulvodyni, lichen og kroniske vulvasmerter blir ofte avfeid eller oversett. Hos oss møter du spesialister som har erfaring med nettopp dette feltet.",
@@ -405,7 +378,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "vulvalidelser" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi vulvalidelser",
     flow: [
       { n: "Steg 01", title: "Grundig samtale", desc: "Vi går gjennom smerteforløp, hva som utløser og hva som lindrer." },
@@ -413,7 +385,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose", desc: "Vi forklarer tilstanden — vulvodyni, lichen sclerosus, lichen planus eller annet." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Tilpasset plan med medisinsk, fysioterapeutisk og psykologisk støtte ved behov." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Tegn det er verdt å ta på alvor",
     reasonsLead:
       "Vulvalidelser er ofte usynlige for andre, men styrer hverdagen din. Disse symptomene fortjener spesialistvurdering.",
@@ -427,9 +398,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Overgangsalder", desc: "Vulvaplager er vanlige i overgangsalderen og kan henge sammen med østrogenmangel.", href: "/behandlinger/gynekologi/overgangsalder" },
-      { eyebrow: "Tjeneste", title: "Gynekologisk undersøkelse", desc: "Trenger du en grundig generell vurdering først? Start her.", href: "/behandlinger/gynekologi/undersokelse" },
-      { eyebrow: "Inngrep", title: "Labiaplastikk", desc: "Funksjonelle eller estetiske inngrep ved plager fra labia.", href: "/behandlinger/gynekologi/labiaplastikk" },
+      { title: "Overgangsalder", desc: "Vulvaplager er vanlige i overgangsalderen og kan henge sammen med østrogenmangel.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Gynekologisk undersøkelse", desc: "Trenger du en grundig generell vurdering først? Start her.", href: "/behandlinger/gynekologi/undersokelse" },
+      { title: "Labiaplastikk", desc: "Funksjonelle eller estetiske inngrep ved plager fra labia.", href: "/behandlinger/gynekologi/labiaplastikk" },
     ],
     ctaTitle: "Få spesialisert hjelp ved vulvaplager",
     ctaDescription:
@@ -444,7 +415,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/celleforandringer",
     parent,
     title: "Celleforandringer",
-    eyebrow: "Tilstand — Celleforandringer",
     heroTitle: <>Et unormalt prøvesvar betyr <span className="italic">ikke</span> kreft</>,
     heroDescription:
       "Celleforandringer er vanlige og oftest ufarlige — men de skal følges opp. Hos oss får du rask kolposkopi og en tydelig plan, så slipper du å vente i uvisshet.",
@@ -457,7 +427,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "celleforandringer" },
     primaryCtaLabel: "Bestill kolposkopi",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik følger vi opp celleforandringer",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom prøvesvar og forklarer hva de betyr." },
@@ -465,7 +434,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Biopsi om nødvendig", desc: "Liten vevsprøve som gir presist svar på alvorlighetsgrad." },
       { n: "Steg 04", title: "Plan eller behandling", desc: "Kontroll, oppfølging eller konisering — basert på funn." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du komme til oss?",
     reasonsLead:
       "De fleste celleforandringer gir ingen symptomer og oppdages ved screening. Disse situasjonene tilsier rask vurdering.",
@@ -479,9 +447,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tjeneste", title: "Gynekologisk undersøkelse", desc: "Rutinekontroll og cellprøver gjøres ved samme besøk.", href: "/behandlinger/gynekologi/undersokelse" },
-      { eyebrow: "Inngrep", title: "Hysteroskopi", desc: "Inngrep i livmoren ved behov for vevsprøve eller fjerning av polypper.", href: "/behandlinger/gynekologi/kirurgi" },
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Uvanlige blødninger må alltid utredes — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Gynekologisk undersøkelse", desc: "Rutinekontroll og cellprøver gjøres ved samme besøk.", href: "/behandlinger/gynekologi/undersokelse" },
+      { title: "Hysteroskopi", desc: "Inngrep i livmoren ved behov for vevsprøve eller fjerning av polypper.", href: "/behandlinger/gynekologi/kirurgi" },
+      { title: "Blødningsforstyrrelser", desc: "Uvanlige blødninger må alltid utredes — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
     ],
     ctaTitle: "Få rask vurdering av celleforandringer",
     ctaDescription:
@@ -496,7 +464,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/pms-pmdd",
     parent,
     title: "PMS og PMDD",
-    eyebrow: "Tilstand — PMS og PMDD",
     heroTitle: <>Når mensen tar over <span className="italic">halve livet</span></>,
     heroDescription:
       "PMDD er en alvorlig form for premenstruelt syndrom og rammer 3–8 % av kvinner. Hos oss møter du spesialister som tar plagene på alvor — og tilbyr moderne behandling.",
@@ -509,7 +476,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "pms-pmdd" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi PMS og PMDD",
     flow: [
       { n: "Steg 01", title: "Symptomdagbok", desc: "Du fører dagbok over to sykluser — det er nøkkelen til riktig diagnose." },
@@ -517,7 +483,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose", desc: "PMS, PMDD eller annen tilstand — vi forklarer hva mønstrene betyr." },
       { n: "Steg 04", title: "Behandling", desc: "SSRI, hormonell behandling, livsstilsendringer eller kombinasjon — basert på dine plager." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når er det mer enn 'bare PMS'?",
     reasonsLead:
       "Forskjellen mellom PMS og PMDD ligger i alvorlighetsgrad og hvordan symptomene påvirker livet ditt. Disse tegnene tilsier utredning.",
@@ -531,9 +496,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tilstand", title: "PCOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pcos" },
-      { eyebrow: "Spesialfelt", title: "Overgangsalder", desc: "PMDD kan endre karakter mot perimenopausen — og kreve ny tilnærming.", href: "/behandlinger/gynekologi/overgangsalder" },
-      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "PCOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "Overgangsalder", desc: "PMDD kan endre karakter mot perimenopausen — og kreve ny tilnærming.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Endometriose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
     ],
     ctaTitle: "Få en grundig PMS/PMDD-utredning",
     ctaDescription:
@@ -548,7 +513,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/vaginale-fremfall",
     parent,
     title: "Vaginale fremfall",
-    eyebrow: "Tilstand — Vaginale fremfall",
     heroTitle: <>Det skal ikke kjennes som det <span className="italic">faller ut</span></>,
     heroDescription:
       "Vaginale fremfall rammer mange kvinner — særlig etter fødsel og i overgangsalderen. Vi tilbyr alt fra bekkenbunnsterapi til moderne kirurgi.",
@@ -561,7 +525,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "vaginale-fremfall" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom symptomer, fødselshistorie og hvordan det påvirker hverdagen." },
@@ -569,7 +532,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Bekkenbunnstrening, pessar eller kirurgi — basert på grad og dine ønsker." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Skånsom rekonstruktiv kirurgi, ofte robotassistert, med rask restitusjon." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Tegn på vaginale fremfall",
     reasonsLead:
       "Fremfall utvikler seg ofte gradvis. Disse symptomene tyder på at det er på tide å bli vurdert.",
@@ -583,9 +545,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tilstand", title: "Urinlekkasje", desc: "Fremfall og urinlekkasje opptrer ofte sammen og kan behandles parallelt.", href: "/behandlinger/gynekologi/urinlekkasje" },
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Moderne kirurgi for komplekse fremfall — kortere innleggelse og raskere restitusjon.", href: "/behandlinger/gynekologi/robotkirurgi" },
-      { eyebrow: "Spesialfelt", title: "Overgangsalder", desc: "Hormonelle endringer påvirker vevsstøtte — vi vurderer helheten.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Urinlekkasje", desc: "Fremfall og urinlekkasje opptrer ofte sammen og kan behandles parallelt.", href: "/behandlinger/gynekologi/urinlekkasje" },
+      { title: "Robotassistert kirurgi", desc: "Moderne kirurgi for komplekse fremfall — kortere innleggelse og raskere restitusjon.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Overgangsalder", desc: "Hormonelle endringer påvirker vevsstøtte — vi vurderer helheten.", href: "/behandlinger/gynekologi/overgangsalder" },
     ],
     ctaTitle: "Bestill vurdering av fremfall",
     ctaDescription:
@@ -600,7 +562,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/cyster",
     parent,
     title: "Cyster på eggstokkene",
-    eyebrow: "Tilstand — Eggstokkcyster",
     heroTitle: <>De fleste cyster er <span className="italic">ufarlige</span> — men noen må følges</>,
     heroDescription:
       "Cyster på eggstokkene er svært vanlig og oftest godartede. Vi gir deg en grundig vurdering og en plan — så slipper du å gå med uvisshet.",
@@ -613,7 +574,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "cyster" },
     primaryCtaLabel: "Bestill ultralyd",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi cyster",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom symptomer, syklus og eventuelle tidligere funn." },
@@ -621,7 +581,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Plan", desc: "Observasjon, hormonell behandling eller kirurgi — basert på funn." },
       { n: "Steg 04", title: "Kontroll eller inngrep", desc: "Tett oppfølging eller skånsom kikkhullskirurgi om det trengs." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør cyster vurderes?",
     reasonsLead:
       "Mange cyster gir ingen symptomer og oppdages tilfeldig. Disse situasjonene tilsier at du bør bli sett.",
@@ -635,9 +594,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "Endometriomer (sjokoladecyster) er en form for endometriose med egne behandlingsbehov.", href: "/behandlinger/gynekologi/endometriose" },
-      { eyebrow: "Tilstand", title: "PCOS", desc: "Mange små cyster på eggstokkene kan være tegn på PCOS.", href: "/behandlinger/gynekologi/pcos" },
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Skånsom kirurgi for komplekse eller store cyster.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Endometriose", desc: "Endometriomer (sjokoladecyster) er en form for endometriose med egne behandlingsbehov.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "PCOS", desc: "Mange små cyster på eggstokkene kan være tegn på PCOS.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "Robotassistert kirurgi", desc: "Skånsom kirurgi for komplekse eller store cyster.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Få vurdert en cyste hos spesialist",
     ctaDescription:
@@ -652,7 +611,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/robotkirurgi",
     parent,
     title: "Robotassistert kirurgi",
-    eyebrow: "Inngrep — Robotassistert kirurgi",
     heroTitle: <>Avansert kirurgi — <span className="italic">skånsomt</span> utført</>,
     heroDescription:
       "Robotassistert kirurgi gir kirurgen presisjon utover det som er mulig med tradisjonell kikkhullskirurgi. Resultat: mindre arr, mindre smerter og raskere restitusjon.",
@@ -665,7 +623,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på avansert kirurgi",
     booking: { ...baseBooking, tjeneste: "robotkirurgi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomfører vi robotkirurgi",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vurdering av om robotassistert kirurgi er rett valg for deg." },
@@ -673,7 +630,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Operasjonen gjennomføres i full narkose med kirurgen ved roboten." },
       { n: "Steg 04", title: "Oppfølging", desc: "Tett oppfølging hjemme, kontroll på klinikken og full støtte underveis." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når brukes robotassistert kirurgi?",
     reasonsLead:
       "Robotteknologi egner seg særlig for komplekse inngrep der presisjon er avgjørende.",
@@ -687,9 +643,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "Avansert endometriosekirurgi — også de kompliserte tilfellene.", href: "/behandlinger/gynekologi/endometriose" },
-      { eyebrow: "Inngrep", title: "Fjerne livmor", desc: "Hysterektomi gjort med moderne, skånsomme teknikker.", href: "/behandlinger/gynekologi/fjerne-livmor" },
-      { eyebrow: "Tilstand", title: "Vaginale fremfall", desc: "Rekonstruktiv kirurgi for komplekse fremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { title: "Endometriose", desc: "Avansert endometriosekirurgi — også de kompliserte tilfellene.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "Fjerne livmor", desc: "Hysterektomi gjort med moderne, skånsomme teknikker.", href: "/behandlinger/gynekologi/fjerne-livmor" },
+      { title: "Vaginale fremfall", desc: "Rekonstruktiv kirurgi for komplekse fremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
     ],
     ctaTitle: "Bestill konsultasjon om robotkirurgi",
     ctaDescription:
@@ -704,7 +660,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/kirurgi",
     parent,
     title: "Hysteroskopi",
-    eyebrow: "Inngrep — Hysteroskopi",
     heroTitle: <>Inn i livmoren — <span className="italic">uten snitt</span></>,
     heroDescription:
       "Hysteroskopi er en skånsom teknikk der vi ser direkte inn i livmoren med et tynt kamera. Vi kan undersøke, ta vevsprøver og fjerne polypper i samme inngrep.",
@@ -717,7 +672,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "hysteroskopi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysteroskopi",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi vurderer indikasjon og forklarer inngrepet i detalj." },
@@ -725,7 +679,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose, etter behov." },
       { n: "Steg 04", title: "Etterpå", desc: "Kort observasjon, så hjem. Kontroll og prøvesvar i etterkant." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når kan hysteroskopi være aktuelt?",
     reasonsLead:
       "Hysteroskopi brukes både til diagnostikk og behandling av flere tilstander i livmoren.",
@@ -739,9 +692,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Hysteroskopi er ofte nøkkelen til å finne årsaken til unormale blødninger.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { eyebrow: "Tjeneste", title: "Celleforandringer", desc: "Vurdering av livmorhalsen og endometriet ved patologiske prøvesvar.", href: "/behandlinger/gynekologi/celleforandringer" },
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Når større kirurgi er aktuelt — vi tilbyr hele spekteret.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Blødningsforstyrrelser", desc: "Hysteroskopi er ofte nøkkelen til å finne årsaken til unormale blødninger.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Celleforandringer", desc: "Vurdering av livmorhalsen og endometriet ved patologiske prøvesvar.", href: "/behandlinger/gynekologi/celleforandringer" },
+      { title: "Robotassistert kirurgi", desc: "Når større kirurgi er aktuelt — vi tilbyr hele spekteret.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Bestill vurdering for hysteroskopi",
     ctaDescription:
@@ -756,7 +709,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/fjerne-livmor",
     parent,
     title: "Fjerne livmor",
-    eyebrow: "Inngrep — Hysterektomi",
     heroTitle: <>En <span className="italic">stor</span> beslutning — gjort så <span className="italic">skånsomt</span> som mulig</>,
     heroDescription:
       "Når livmoren skal fjernes, skal det gjøres med best mulig teknikk og av erfarne hender. Vi gir deg tid til samtalen og tilbyr moderne, minimalt invasive metoder.",
@@ -769,7 +721,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på avansert kirurgi",
     booking: { ...baseBooking, tjeneste: "hysterektomi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysterektomi hos oss",
     flow: [
       { n: "Steg 01", title: "Grundig konsultasjon", desc: "Vi går gjennom indikasjon, alternativer og hvilken teknikk som passer for deg." },
@@ -777,7 +728,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Operasjonen", desc: "Inngrepet utføres som regel med robot eller kikkhullskirurgi." },
       { n: "Steg 04", title: "Restitusjon", desc: "Tett oppfølging hjemme og kontroll på klinikken." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når kan hysterektomi være aktuelt?",
     reasonsLead:
       "Hysterektomi vurderes når andre behandlinger ikke fungerer eller er uaktuelle. Beslutningen tas alltid i samråd med deg.",
@@ -791,9 +741,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Inngrep", title: "Robotassistert kirurgi", desc: "Den vanligste teknikken vi bruker for hysterektomi i dag.", href: "/behandlinger/gynekologi/robotkirurgi" },
-      { eyebrow: "Tilstand", title: "Vaginale fremfall", desc: "Ofte gjort i kombinasjon med rekonstruktiv kirurgi for fremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Mange alternativer finnes — hysterektomi er sjelden første valg.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Robotassistert kirurgi", desc: "Den vanligste teknikken vi bruker for hysterektomi i dag.", href: "/behandlinger/gynekologi/robotkirurgi" },
+      { title: "Vaginale fremfall", desc: "Ofte gjort i kombinasjon med rekonstruktiv kirurgi for fremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { title: "Blødningsforstyrrelser", desc: "Mange alternativer finnes — hysterektomi er sjelden første valg.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
     ],
     ctaTitle: "Bestill samtale om hysterektomi",
     ctaDescription:
@@ -808,7 +758,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/labiaplastikk",
     parent,
     title: "Labiaplastikk",
-    eyebrow: "Inngrep — Labiaplastikk",
     heroTitle: <>Når funksjon og <span className="italic">komfort</span> betyr alt</>,
     heroDescription:
       "Labiaplastikk gjøres både av funksjonelle grunner — gnag, smerter, ubehag — og av estetiske ønsker. Vi tar oss tid til samtalen og gir deg en realistisk vurdering.",
@@ -821,7 +770,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "labiaplastikk" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres labiaplastikk",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom motivasjon, ønsker og hva inngrepet kan og ikke kan oppnå." },
@@ -829,7 +777,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Utføres i lokalbedøvelse eller kort narkose, etter behov." },
       { n: "Steg 04", title: "Heling og oppfølging", desc: "Tett oppfølging i helingsperioden og kontroll etter 6 uker." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når vurderes labiaplastikk?",
     reasonsLead:
       "Mange opplever plager med store eller asymmetriske labia. Det er grunner som tas på alvor.",
@@ -843,9 +790,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Vulvalidelser", desc: "Smerter i vulva har ofte andre årsaker enn anatomi — vi utreder bredt.", href: "/behandlinger/gynekologi/vulvalidelser" },
-      { eyebrow: "Tjeneste", title: "Gynekologisk undersøkelse", desc: "En grundig generell vurdering først er ofte god start.", href: "/behandlinger/gynekologi/undersokelse" },
-      { eyebrow: "Spesialfelt", title: "Overgangsalder", desc: "Hormonelle endringer kan påvirke vev — også vurdert i samtale.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Vulvalidelser", desc: "Smerter i vulva har ofte andre årsaker enn anatomi — vi utreder bredt.", href: "/behandlinger/gynekologi/vulvalidelser" },
+      { title: "Gynekologisk undersøkelse", desc: "En grundig generell vurdering først er ofte god start.", href: "/behandlinger/gynekologi/undersokelse" },
+      { title: "Overgangsalder", desc: "Hormonelle endringer kan påvirke vev — også vurdert i samtale.", href: "/behandlinger/gynekologi/overgangsalder" },
     ],
     ctaTitle: "Bestill informasjonssamtale",
     ctaDescription:
@@ -860,7 +807,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/blodningsforstyrrelser",
     parent,
     title: "Blødningsforstyrrelser",
-    eyebrow: "Spesialfelt — Blødningsforstyrrelser",
     heroTitle: <>Mensen skal ikke <span className="italic">styre</span> livet ditt</>,
     heroDescription:
       "Kraftige, langvarige eller uregelmessige blødninger har nesten alltid en årsak — og oftest en behandling. Vi utreder grundig og finner det som passer deg.",
@@ -873,7 +819,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "blodningsforstyrrelser" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi blødningsforstyrrelser",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom mønster, varighet, mengde og påvirkning på hverdagen." },
@@ -881,7 +826,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose", desc: "Vi forklarer hva vi finner — myomer, polypper, hormonell ubalanse, adenomyose eller annet." },
       { n: "Steg 04", title: "Behandling", desc: "Tilpasset plan: medisinsk, hormonell, hysteroskopisk eller kirurgisk." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du komme til oss?",
     reasonsLead:
       "Det finnes ingen «normalt» som må passe alle. Disse mønstrene fortjener spesialistvurdering.",
@@ -895,9 +839,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Inngrep", title: "Hysteroskopi", desc: "Direkte undersøkelse og behandling av polypper og myomer i livmoren.", href: "/behandlinger/gynekologi/kirurgi" },
-      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "Endometriose kan gi kraftige og smertefulle blødninger — det utredes parallelt.", href: "/behandlinger/gynekologi/endometriose" },
-      { eyebrow: "Tjeneste", title: "Celleforandringer", desc: "Mellomblødninger og postcoital blødning krever vurdering av livmorhalsen.", href: "/behandlinger/gynekologi/celleforandringer" },
+      { title: "Hysteroskopi", desc: "Direkte undersøkelse og behandling av polypper og myomer i livmoren.", href: "/behandlinger/gynekologi/kirurgi" },
+      { title: "Endometriose", desc: "Endometriose kan gi kraftige og smertefulle blødninger — det utredes parallelt.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "Celleforandringer", desc: "Mellomblødninger og postcoital blødning krever vurdering av livmorhalsen.", href: "/behandlinger/gynekologi/celleforandringer" },
     ],
     ctaTitle: "Få utredet blødningsforstyrrelser",
     ctaDescription:
@@ -912,7 +856,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/hysteroskopi",
     parent,
     title: "Hysteroskopi",
-    eyebrow: "Inngrep — Hysteroskopi",
     heroTitle: <>Et lite <span className="italic">kikkhull</span> — store svar</>,
     heroDescription:
       "Hysteroskopi lar oss se rett inn i livmorhulen og ofte behandle samme dag. Et skånsomt inngrep som gir presise svar når blødninger, polypper eller fertilitetsutfordringer skal utredes.",
@@ -925,7 +868,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "hysteroskopi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysteroskopi",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom symptomer, tidligere funn og hva du kan forvente." },
@@ -933,7 +875,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Selve undersøkelsen tar 10–30 minutter, ofte uten narkose." },
       { n: "Steg 04", title: "Svar og plan", desc: "Du får tilbakemelding samme dag og en plan videre." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når er hysteroskopi aktuelt?",
     reasonsLead: "Hysteroskopi brukes både til utredning og behandling.",
     reasons: [
@@ -946,9 +887,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Blødningsforstyrrelser", desc: "Hysteroskopi er ofte sentralt i utredningen.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { eyebrow: "Inngrep", title: "Gynekologisk kirurgi", desc: "Når mer omfattende inngrep er aktuelt.", href: "/behandlinger/gynekologi/kirurgi" },
-      { eyebrow: "Tjeneste", title: "Gynekologisk undersøkelse", desc: "Ofte første steg før hysteroskopi.", href: "/behandlinger/gynekologi/undersokelse" },
+      { title: "Blødningsforstyrrelser", desc: "Hysteroskopi er ofte sentralt i utredningen.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Gynekologisk kirurgi", desc: "Når mer omfattende inngrep er aktuelt.", href: "/behandlinger/gynekologi/kirurgi" },
+      { title: "Gynekologisk undersøkelse", desc: "Ofte første steg før hysteroskopi.", href: "/behandlinger/gynekologi/undersokelse" },
     ],
     ctaTitle: "Bestill vurdering for hysteroskopi",
     ctaDescription: "Et lite inngrep med store muligheter — du får en konkret plan etter første konsultasjon.",
@@ -962,7 +903,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/fostermedisin",
     parent,
     title: "Fostermedisin",
-    eyebrow: "Spesialfelt — Fostermedisin",
     heroTitle: <>Trygghet gjennom <span className="italic">hele</span> svangerskapet</>,
     heroDescription:
       "Vi tilbyr avansert ultralyd og fosterdiagnostikk hos spesialister som gjør dette daglig — fra tidlig ultralyd til tilvekstkontroller og målrettede undersøkelser.",
@@ -975,7 +915,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "fostermedisin" },
     primaryCtaLabel: "Bestill ultralyd",
-    flowEyebrow: "Forløpet",
     flowTitle: "Hva du kan forvente",
     flow: [
       { n: "Steg 01", title: "Innsjekk", desc: "Kort samtale om svangerskapet og hva du ønsker undersøkt." },
@@ -983,7 +922,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Gjennomgang", desc: "Vi går gjennom funnene og hva de betyr." },
       { n: "Steg 04", title: "Videre plan", desc: "Eventuelle kontroller eller henvisninger avtales." },
     ],
-    reasonsEyebrow: "Aktuelle undersøkelser",
     reasonsTitle: "Hva vi tilbyr",
     reasonsLead: "Et bredt fostermedisinsk tilbud — tilpasset uke og behov.",
     reasons: [
@@ -996,9 +934,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Tjeneste", title: "NIPT", desc: "Trygg, tidlig vurdering av kromosomavvik.", href: "/behandlinger/gynekologi/nipt" },
-      { eyebrow: "Tjeneste", title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
-      { eyebrow: "Spesialfelt", title: "Fødselsskader", desc: "Vurdering og oppfølging etter fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "NIPT", desc: "Trygg, tidlig vurdering av kromosomavvik.", href: "/behandlinger/gynekologi/nipt" },
+      { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
+      { title: "Fødselsskader", desc: "Vurdering og oppfølging etter fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
     ctaTitle: "Bestill fostermedisinsk vurdering",
     ctaDescription: "Trygghet og tid — hos spesialister som ser mye.",
@@ -1012,7 +950,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/fodselsskader",
     parent,
     title: "Fødselsskader",
-    eyebrow: "Spesialfelt — Fødselsskader",
     heroTitle: <>Det skal være <span className="italic">lov</span> å ha plager etter fødsel</>,
     heroDescription:
       "Mange opplever plager etter fødsel som aldri ble tatt tak i. Vi har et dedikert team for utredning og behandling — inkludert fremfall, urinlekkasje og smerter.",
@@ -1025,7 +962,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "fodselsskader" },
     primaryCtaLabel: "Bestill vurdering",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi fødselsskader",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom fødselen, plagene og hvordan de påvirker hverdagen." },
@@ -1033,7 +969,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Plan", desc: "En konkret behandlingsplan — alene eller i tverrfaglig team." },
       { n: "Steg 04", title: "Behandling", desc: "Konservativ behandling eller kirurgi, tilpasset deg." },
     ],
-    reasonsEyebrow: "Symptomer",
     reasonsTitle: "Når bør du komme?",
     reasonsLead: "Det er aldri for sent å få hjelp med fødselsskader.",
     reasons: [
@@ -1046,9 +981,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Vaginale fremfall", desc: "Utredning og behandling av livmor- og skjedefremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
-      { eyebrow: "Spesialfelt", title: "Urinlekkasje", desc: "Dedikert utredning av lekkasjeproblematikk.", href: "/behandlinger/gynekologi/urinlekkasje" },
-      { eyebrow: "Tjeneste", title: "Graviditet", desc: "Oppfølging og 6-ukerskontroll etter fødsel.", href: "/behandlinger/gynekologi/graviditet" },
+      { title: "Vaginale fremfall", desc: "Utredning og behandling av livmor- og skjedefremfall.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
+      { title: "Urinlekkasje", desc: "Dedikert utredning av lekkasjeproblematikk.", href: "/behandlinger/gynekologi/urinlekkasje" },
+      { title: "Graviditet", desc: "Oppfølging og 6-ukerskontroll etter fødsel.", href: "/behandlinger/gynekologi/graviditet" },
     ],
     ctaTitle: "Få hjelp med fødselsskader",
     ctaDescription: "Det er aldri for sent. Vi tar plagene dine på alvor.",
@@ -1062,7 +997,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/graviditet",
     parent,
     title: "Graviditet",
-    eyebrow: "Tjeneste — Graviditet",
     heroTitle: <>Trygg gjennom <span className="italic">hele</span> reisen</>,
     heroDescription:
       "Privat oppfølging gjennom svangerskap og barseltid — fra positiv test til 6-ukerskontroll. Du møter samme spesialist, med tid til spørsmål.",
@@ -1075,7 +1009,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "graviditet" },
     primaryCtaLabel: "Bestill svangerskapskontroll",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik følger vi deg gjennom svangerskapet",
     flow: [
       { n: "Steg 01", title: "Tidlig kontroll", desc: "Bekreftelse, terminbestemmelse og første gjennomgang." },
@@ -1083,7 +1016,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Mot termin", desc: "Forberedelse til fødsel og tett oppfølging ved behov." },
       { n: "Steg 04", title: "6-ukerskontroll", desc: "Grundig vurdering etter fødsel — kropp, bekkenbunn og hvordan du har det." },
     ],
-    reasonsEyebrow: "Når vi følger opp",
     reasonsTitle: "Hva vi tilbyr gravide",
     reasonsLead: "Et bredt og fleksibelt tilbud — som tillegg eller alternativ.",
     reasons: [
@@ -1096,9 +1028,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Fostermedisin", desc: "Ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
-      { eyebrow: "Tjeneste", title: "NIPT", desc: "Tidlig vurdering av kromosomavvik.", href: "/behandlinger/gynekologi/nipt" },
-      { eyebrow: "Spesialfelt", title: "Fødselsskader", desc: "Hvis du har plager etter en tidligere fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "Fostermedisin", desc: "Ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
+      { title: "NIPT", desc: "Tidlig vurdering av kromosomavvik.", href: "/behandlinger/gynekologi/nipt" },
+      { title: "Fødselsskader", desc: "Hvis du har plager etter en tidligere fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
     ctaTitle: "Bestill svangerskapsoppfølging",
     ctaDescription: "Trygghet, tid og kontinuitet — gjennom hele svangerskapet.",
@@ -1112,7 +1044,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/nipt",
     parent,
     title: "NIPT",
-    eyebrow: "Tjeneste — NIPT",
     heroTitle: <>En <span className="italic">enkel</span> blodprøve — tidlige svar</>,
     heroDescription:
       "NIPT (non-invasive prenatal test) er en blodprøve som vurderer risiko for kromosomavvik fra uke 10. Treffsikker og uten risiko for fosteret.",
@@ -1125,7 +1056,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "nipt" },
     primaryCtaLabel: "Bestill NIPT",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår NIPT",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Samtale om hva prøven kan og ikke kan vise." },
@@ -1133,7 +1063,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Blodprøve", desc: "Enkel blodprøve som sendes til analyse." },
       { n: "Steg 04", title: "Svar", desc: "Svar foreligger vanligvis innen 1–2 uker, med oppfølgende samtale." },
     ],
-    reasonsEyebrow: "Hva NIPT vurderer",
     reasonsTitle: "Hva prøven kan si noe om",
     reasonsLead: "NIPT er en risikovurdering — ikke en diagnostisk test.",
     reasons: [
@@ -1146,9 +1075,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Fostermedisin", desc: "Avansert ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
-      { eyebrow: "Tjeneste", title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
-      { eyebrow: "Tjeneste", title: "Gynekologisk undersøkelse", desc: "Ofte første møte med gynekolog.", href: "/behandlinger/gynekologi/undersokelse" },
+      { title: "Fostermedisin", desc: "Avansert ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
+      { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
+      { title: "Gynekologisk undersøkelse", desc: "Ofte første møte med gynekolog.", href: "/behandlinger/gynekologi/undersokelse" },
     ],
     ctaTitle: "Bestill NIPT",
     ctaDescription: "Tidlig trygghet — uten risiko for fosteret.",
@@ -1162,7 +1091,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/spontanabort",
     parent,
     title: "Spontanabort",
-    eyebrow: "Spesialfelt — Spontanabort",
     heroTitle: <>Det er <span className="italic">lov</span> å sørge — og kreve svar</>,
     heroDescription:
       "Spontanabort er vanligere enn mange tror — og likevel sjelden snakket høyt om. Vi tilbyr både akutt oppfølging og utredning når det skjer flere ganger.",
@@ -1175,7 +1103,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "spontanabort" },
     primaryCtaLabel: "Bestill samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik følger vi opp",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom det som har skjedd og hva du trenger nå." },
@@ -1183,7 +1110,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Plan", desc: "Avventende, medisinsk eller kirurgisk håndtering — basert på situasjonen." },
       { n: "Steg 04", title: "Oppfølging", desc: "Kontroll og samtale i etterkant — også med tanke på fremtidige svangerskap." },
     ],
-    reasonsEyebrow: "Når utrede?",
     reasonsTitle: "Når bør spontanabort utredes nærmere?",
     reasonsLead: "Vi følger anerkjente retningslinjer — men også deg som person.",
     reasons: [
@@ -1196,9 +1122,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Inngrep", title: "Hysteroskopi", desc: "Aktuelt som del av utredning ved gjentatte spontanaborter.", href: "/behandlinger/gynekologi/hysteroskopi" },
-      { eyebrow: "Spesialfelt", title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig-team" },
-      { eyebrow: "Tjeneste", title: "Graviditet", desc: "Tett oppfølging i neste svangerskap.", href: "/behandlinger/gynekologi/graviditet" },
+      { title: "Hysteroskopi", desc: "Aktuelt som del av utredning ved gjentatte spontanaborter.", href: "/behandlinger/gynekologi/hysteroskopi" },
+      { title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig-team" },
+      { title: "Graviditet", desc: "Tett oppfølging i neste svangerskap.", href: "/behandlinger/gynekologi/graviditet" },
     ],
     ctaTitle: "Bestill oppfølging",
     ctaDescription: "Du skal ikke stå alene — verken medisinsk eller menneskelig.",
@@ -1212,7 +1138,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/tverrfaglig-team",
     parent,
     title: "Tverrfaglig team",
-    eyebrow: "Tjeneste — Tverrfaglig team",
     heroTitle: <>Kvinnehelse er <span className="italic">mer</span> enn én spesialitet</>,
     heroDescription:
       "Mange plager løses best når flere fagfelt jobber sammen. Vårt tverrfaglige team kobler gynekologi med osteopati, sexologi, psykologi og ernæring — under samme tak.",
@@ -1225,7 +1150,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "tverrfaglig" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik jobber vi tverrfaglig",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi starter med en grundig samtale om plager og mål." },
@@ -1233,7 +1157,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandling", desc: "Parallelle eller sekvensielle forløp — alltid koordinert." },
       { n: "Steg 04", title: "Evaluering", desc: "Vi justerer planen etter hvert som du blir bedre." },
     ],
-    reasonsEyebrow: "Vårt team",
     reasonsTitle: "Hvilke fagfolk du kan møte",
     reasonsLead: "Et bredt team som dekker det meste innen kvinnehelse.",
     reasons: [
@@ -1246,9 +1169,9 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Spesialfelt", title: "Overgangsalder", desc: "Typisk tilstand der tverrfaglig støtte gir best resultat.", href: "/behandlinger/gynekologi/overgangsalder" },
-      { eyebrow: "Spesialfelt", title: "Endometriose", desc: "Krever ofte mer enn én tilnærming.", href: "/behandlinger/gynekologi/endometriose" },
-      { eyebrow: "Spesialfelt", title: "Fødselsskader", desc: "Best resultat med tverrfaglig oppfølging.", href: "/behandlinger/gynekologi/fodselsskader" },
+      { title: "Overgangsalder", desc: "Typisk tilstand der tverrfaglig støtte gir best resultat.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Endometriose", desc: "Krever ofte mer enn én tilnærming.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "Fødselsskader", desc: "Best resultat med tverrfaglig oppfølging.", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
     ctaTitle: "Bestill tverrfaglig vurdering",
     ctaDescription: "Når én spesialitet ikke holder — vi setter sammen riktig team for deg.",

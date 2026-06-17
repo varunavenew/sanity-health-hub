@@ -586,7 +586,7 @@ const IconPreview = () => {
             ============================================================ */}
         <section className="space-y-6 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
           <div className="space-y-2 max-w-3xl">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+            <div className="text-[11px] text-foreground/50">
               Fertilitet — alternativer
             </div>
             <h2 className="text-xl">Tre konsepter for fertilitets-ikonet</h2>
@@ -636,7 +636,7 @@ const IconPreview = () => {
 
         <section className="space-y-5 rounded-lg border border-foreground/15 bg-foreground/[0.02] p-6 md:p-8">
           <div className="space-y-2 max-w-3xl">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-foreground/50">
+            <div className="text-[11px] text-foreground/50">
               Nytt forslag
             </div>
             <h2 className="text-xl">Scandinavian editorial-sett — 53 symbolske ikoner</h2>
@@ -649,7 +649,7 @@ const IconPreview = () => {
 
           {CLAUDE_GROUPS.map((group, gi) => (
             <div key={gi} className="space-y-3 pt-4">
-              <h3 className="text-[11px] uppercase tracking-[0.18em] text-foreground/55 border-b border-foreground/10 pb-2">
+              <h3 className="text-[11px] text-foreground/55 border-b border-foreground/10 pb-2">
                 {group.title}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">

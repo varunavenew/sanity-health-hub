@@ -16,7 +16,6 @@ interface Props {
   category?: string;
   /** Custom predicate. Overrides `category` when provided. */
   filter?: (s: Specialist) => boolean;
-  eyebrow?: string;
   title?: string;
   description?: string;
   /** Link target for "Se alle". */
@@ -186,10 +185,7 @@ const SpecialistFeature = ({ sp }: { sp: any }) => {
       </Link>
 
       <div className="md:col-span-6 md:col-start-7 flex flex-col justify-between border-t border-brand-dark/15 pt-8 md:pt-0 md:border-t-0">
-        <div>
-          <div className="text-xs font-light text-muted-foreground mb-6">
-            Din spesialist
-          </div>
+          <div>
           <h3 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] mb-4">
             {sp.name}
           </h3>

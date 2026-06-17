@@ -83,7 +83,6 @@ const lifePhases = [
 
 const expertAreas = [
  {
- eyebrow: "Spesialfelt",
  title: "Prostata og urinveier",
  desc:
  "Prostatasjekk, forstørret prostata, prostatakreft, blære- og nyreutredning. Vi har Norges fremste urologer.",
@@ -91,7 +90,6 @@ const expertAreas = [
  image: expertProstata,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Testikler og pung",
  desc:
  "Kul, hevelse, smerter eller varicocele — grundig undersøkelse og behandling med spesialister du kan stole på.",
@@ -99,7 +97,6 @@ const expertAreas = [
  image: expertTestikler,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Penis, forhud og potens",
  desc:
  "Trang forhud, skjev penis, ereksjonsproblemer og lavt testosteron — utredning og behandling i trygge rammer.",
@@ -107,7 +104,6 @@ const expertAreas = [
  image: expertPenis,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Robotassistert kirurgi",
  desc:
  "Eneste private aktør i Norge med robotassisterte operasjoner. Mer presis kirurgi og raskere restitusjon.",

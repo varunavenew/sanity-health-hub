@@ -9,7 +9,6 @@ interface PageProps { isChatOpen: boolean }
 const variants = [
   {
     slug: "fertilitet/editorial",
-    eyebrow: "Forslag 02 · Fertilitet",
     title: "Editorial",
     subtitle: "Magasinpreget, varm og fortellende",
     description:
@@ -19,7 +18,6 @@ const variants = [
   },
   {
     slug: "fertilitet/journey",
-    eyebrow: "Forslag 03 · Fertilitet",
     title: "Reisen",
     subtitle: "Pasientreisen som rød tråd",
     description:
@@ -29,7 +27,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/editorial",
-    eyebrow: "Forslag 02 · Fertilitetssjekk",
     title: "Editorial",
     subtitle: "Rolig, opplysende og myk",
     description:
@@ -39,7 +36,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/journey",
-    eyebrow: "Forslag 03 · Fertilitetssjekk",
     title: "Reisen",
     subtitle: "Trinn for trinn gjennom sjekken",
     description:
@@ -49,7 +45,6 @@ const variants = [
   },
   {
     slug: "fertilitet/atelier",
-    eyebrow: "Forslag 04 · Fertilitet",
     title: "Atelier",
     subtitle: "Klinisk presisjon, spesialistene i forgrunn",
     description:
@@ -59,7 +54,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/atelier",
-    eyebrow: "Forslag 04 · Fertilitetssjekk",
     title: "Atelier",
     subtitle: "Klinisk, konkret, faktabasert",
     description:
@@ -69,7 +63,6 @@ const variants = [
   },
   {
     slug: "fertilitet/dialog",
-    eyebrow: "Forslag 05 · Fertilitet",
     title: "Dialog",
     subtitle: "Split-hero med pasientens stemme",
     description:
@@ -79,7 +72,6 @@ const variants = [
   },
   {
     slug: "fertilitet/magasin",
-    eyebrow: "Forslag 06 · Fertilitet",
     title: "Magasin",
     subtitle: "Split-hero som magasinforside",
     description:
@@ -89,7 +81,6 @@ const variants = [
   },
   {
     slug: "fertilitet/klinikk",
-    eyebrow: "Forslag 07 · Fertilitet",
     title: "Klinikk",
     subtitle: "Split-hero med faktapanel",
     description:
@@ -99,7 +90,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/dialog",
-    eyebrow: "Forslag 05 · Fertilitetssjekk",
     title: "Dialog",
     subtitle: "Split-hero med pasientens spørsmål",
     description:
@@ -109,7 +99,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/magasin",
-    eyebrow: "Forslag 06 · Fertilitetssjekk",
     title: "Magasin",
     subtitle: "Split-hero som magasinforside",
     description:
@@ -119,7 +108,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/klinikk",
-    eyebrow: "Forslag 07 · Fertilitetssjekk",
     title: "Klinikk",
     subtitle: "Split-hero med faktapanel",
     description:
@@ -138,9 +126,6 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-light mb-6">
-            Designforslag · Fertilitet
-          </p>
           <h1 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-6">
             To tonefall — to sider
           </h1>
@@ -170,9 +155,6 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
                   />
                 </div>
                 <div className="p-6 md:p-8">
-                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
-                    {v.eyebrow}
-                  </p>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <h2 className="text-2xl md:text-3xl font-light text-foreground">{v.title}</h2>
                     <ArrowUpRight
@@ -193,9 +175,6 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
           </div>
 
           <div className="mt-16 md:mt-20 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-light mb-4">
-              Slik leser du forslagene
-            </p>
             <p className="text-sm text-muted-foreground font-light leading-relaxed">
               Hver variant er en fullt levende side. Klikk inn for å se layout, rytme og hvordan
               tjenester, spesialister og booking samspiller. Eksisterende

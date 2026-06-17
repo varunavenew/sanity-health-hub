@@ -14,7 +14,6 @@ interface BookingCtaConfig {
 }
 
 interface ServicesListSectionProps {
- eyebrow?: string;
  title: string;
  description?: string;
  items: ServiceListItem[];

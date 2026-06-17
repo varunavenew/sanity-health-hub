@@ -5,17 +5,14 @@ const baseBooking = { kategori: "fertilitet" as const };
 
 const standardPromises = [
   {
-    eyebrow: "Trygghet",
     title: "Du bestemmer hva du er komfortabel med",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stille spørsmål underveis og ta med deg noen om du ønsker det.",
   },
   {
-    eyebrow: "Kompetanse",
     title: "Spesialister med dybde",
     desc: "Hos oss møter du leger og embryologer med erfaring fra ledende fertilitetssentre — ikke en generalist på utplassering.",
   },
   {
-    eyebrow: "Helhet",
     title: "Alt under samme tak",
     desc: "Konsultasjon, laboratorium og behandling i samme bygg. Vi koordinerer hele forløpet — ingenting forsvinner mellom sprekker.",
   },
@@ -30,7 +27,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/fertilitetssjekk",
     parent,
     title: "Fertilitetssjekk",
-    eyebrow: "Fertilitet — CMedical",
     heroTitle: <>Forstå <span className="italic">fruktbarheten</span> din</>,
     heroDescription:
       "En fertilitetssjekk gir deg et klart bilde av hvor du står. Ikke fordi noe nødvendigvis er galt — men fordi du fortjener gode svar. Vi tar blodprøver, ultralyd og en grundig samtale med spesialist.",
@@ -44,7 +40,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "fertilitetssjekk" },
     primaryCtaLabel: "Bestill fertilitetssjekk",
-    flowEyebrow: "Innholdet i sjekken",
     flowTitle: "Det vi kartlegger — og hva det betyr for deg",
     flow: [
       { n: "01", title: "Eggstokkreserve (AMH)", desc: "AMH er et hormon som sier noe om hvor mange egganlegg du har igjen — en indikator på fruktbarhetsvinduet ditt." },
@@ -54,7 +49,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "05", title: "Samtale med spesialist", desc: "Du møter en fertilitetsspesialist som gjennomgår alle funn med deg — og legger en plan om noe bør følges opp." },
       { n: "06", title: "Individuell plan", desc: "Basert på funnene setter vi opp det som er aktuelt: 'vil følge opp' eller 'her er neste behandling'." },
     ],
-    reasonsEyebrow: "Hva får du ut av en fertilitetssjekk",
     reasonsTitle: "En sjekk gir deg svar — ikke nødvendigvis problemer",
     reasonsLead:
       "Mange tror en fertilitetssjekk er noe man gjør først når man har prøvd lenge og noe er galt. Slik er det ikke. En sjekk er rett og slett en kartlegging av fruktbarheten din — slik at du vet hva du har å forholde deg til.",
@@ -69,9 +63,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Behandling", title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Behandling", title: "IUI — inseminasjon", desc: "Et enklere første steg når årsaken er mild — eller når du ønsker donor.", href: "/behandlinger/fertilitet/iui" },
-      { eyebrow: "Mulighet", title: "Nedfrysing av egg", desc: "Gir deg tid. Vi forklarer når det er riktig — og hva det innebærer.", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "IUI — inseminasjon", desc: "Et enklere første steg når årsaken er mild — eller når du ønsker donor.", href: "/behandlinger/fertilitet/iui" },
+      { title: "Nedfrysing av egg", desc: "Gir deg tid. Vi forklarer når det er riktig — og hva det innebærer.", href: "/behandlinger/fertilitet/nedfrysing" },
     ],
     ctaTitle: "Klar til å finne ut hvor du står?",
     ctaDescription:
@@ -89,7 +83,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/ivf",
     parent,
     title: "IVF",
-    eyebrow: "Behandling — CMedical",
     heroTitle: <>Når kroppen trenger litt <span className="italic">hjelp</span> på veien</>,
     heroDescription:
       "IVF — prøverørsbehandling — er den mest effektive fertilitetsbehandlingen som finnes. Vi har gjort det siden 1989 og fulgt over 3 800 barn inn i verden. Du møter samme team gjennom hele forløpet.",
@@ -102,7 +95,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "42% suksessrate IVF — kvinner under 35 år",
     booking: { ...baseBooking, tjeneste: "ivf" },
     primaryCtaLabel: "Bestill IVF-konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres en IVF-syklus",
     flow: [
       { n: "Steg 01", title: "Konsultasjon og plan", desc: "Vi går gjennom utredningen, legger en behandlingsplan og forklarer hva du kan forvente." },
@@ -112,7 +104,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 05", title: "Embryooverføring", desc: "Det beste embryoet settes tilbake i livmoren. Et enkelt og smertefritt inngrep." },
       { n: "Steg 06", title: "Venting og test", desc: "To ukers venting før graviditetstest. Vi følger deg tett gjennom hele perioden." },
     ],
-    reasonsEyebrow: "Når er IVF aktuelt",
     reasonsTitle: "Hvem passer IVF for?",
     reasonsLead:
       "IVF er ikke alltid første steg, men det er ofte det mest effektive. Behandlingen passer for mange — og vi vurderer alltid det enkleste alternativet først.",
@@ -126,9 +117,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Det naturlige første steget — vi finner årsaken før vi behandler.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { eyebrow: "Alternativ", title: "IUI — inseminasjon", desc: "En enklere behandling som ofte prøves først ved milde årsaker.", href: "/behandlinger/fertilitet/iui" },
-      { eyebrow: "Tilleggstest", title: "Genetisk testing (PGT)", desc: "Genetisk vurdering av embryoene før overføring — for utvalgte indikasjoner.", href: "/behandlinger/fertilitet/pgt" },
+      { title: "Fertilitetssjekk", desc: "Det naturlige første steget — vi finner årsaken før vi behandler.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "IUI — inseminasjon", desc: "En enklere behandling som ofte prøves først ved milde årsaker.", href: "/behandlinger/fertilitet/iui" },
+      { title: "Genetisk testing (PGT)", desc: "Genetisk vurdering av embryoene før overføring — for utvalgte indikasjoner.", href: "/behandlinger/fertilitet/pgt" },
     ],
     ctaTitle: "Bestill IVF-konsultasjon",
     ctaDescription:
@@ -146,7 +137,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/iui",
     parent,
     title: "IUI — inseminasjon",
-    eyebrow: "Behandling — CMedical",
     heroTitle: <>Den <span className="italic">enkleste</span> veien — når den passer</>,
     heroDescription:
       "Inseminasjon (IUI) er en skånsom fertilitetsbehandling der bearbeidet sæd plasseres direkte i livmoren rundt eggløsning. Det er ofte det første steget — og passer mange par, single og likekjønnede par.",
@@ -159,7 +149,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "iui" },
     primaryCtaLabel: "Bestill IUI-samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår en IUI-behandling",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom utredning, sykluskontroll og om IUI er rett behandling for deg." },
@@ -168,7 +157,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Inseminasjon", desc: "Bearbeidet sæd plasseres direkte i livmoren — en kort, smertefri prosedyre." },
       { n: "Steg 05", title: "Oppfølging", desc: "Graviditetstest etter ca. to uker — vi følger deg tett gjennom ventetiden." },
     ],
-    reasonsEyebrow: "Når er IUI aktuelt",
     reasonsTitle: "Hvem passer IUI for?",
     reasonsLead:
       "IUI er ofte det første behandlingssteget når årsaken til ufrivillig barnløshet er mild — og når egglederne er åpne.",
@@ -181,9 +169,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Behandling", title: "IVF", desc: "Hvis IUI ikke gir resultat, er IVF det neste naturlige steget.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Mulighet", title: "Eggdonasjon", desc: "Hvis dine egne egg ikke er et alternativ.", href: "/behandlinger/fertilitet/eggdonasjon" },
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Forstå hvor du står før du velger behandling.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "IVF", desc: "Hvis IUI ikke gir resultat, er IVF det neste naturlige steget.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Eggdonasjon", desc: "Hvis dine egne egg ikke er et alternativ.", href: "/behandlinger/fertilitet/eggdonasjon" },
+      { title: "Fertilitetssjekk", desc: "Forstå hvor du står før du velger behandling.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
     ],
     ctaTitle: "Bestill IUI-samtale",
     ctaDescription:
@@ -201,7 +189,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/eggdonasjon",
     parent,
     title: "Eggdonasjon",
-    eyebrow: "Behandling — CMedical",
     heroTitle: <>Når svaret ligger i en <span className="italic">annen</span> celle</>,
     heroDescription:
       "Eggdonasjon er en trygg og regulert behandling — og for mange den eneste muligheten til å bli gravid. Vi har Norges nyeste eggbank, og du møter et team som har gjort dette siden ordningen ble lovlig.",
@@ -214,7 +201,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Trygt og åpent",
     booking: { ...baseBooking, tjeneste: "eggdonasjon" },
     primaryCtaLabel: "Bestill samtale om eggdonasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår eggdonasjon hos oss",
     flow: [
       { n: "Steg 01", title: "Førstegangssamtale", desc: "Vi forklarer hele prosessen, hva loven sier og hva som er aktuelt for dere." },
@@ -223,7 +209,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Behandling og overføring", desc: "Donoregg befruktes med partner- eller donorsæd. Embryoet overføres til livmoren." },
       { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
     ],
-    reasonsEyebrow: "Når er eggdonasjon aktuelt",
     reasonsTitle: "Hvem passer eggdonasjon for?",
     reasonsLead:
       "Eggdonasjon kan være riktig løsning når egne egg ikke gir resultat — eller ikke er et alternativ. Vi tar alle samtaler trygt og uten press.",
@@ -236,9 +221,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Behandling", title: "IVF", desc: "Eggdonasjon kombineres alltid med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Mulighet", title: "Nedfrysing av egg", desc: "Hvis du ønsker å bevare egne egg for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
-      { eyebrow: "Støtte", title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donor­forløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+      { title: "IVF", desc: "Eggdonasjon kombineres alltid med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Nedfrysing av egg", desc: "Hvis du ønsker å bevare egne egg for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donor­forløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Snakk med oss om eggdonasjon",
     ctaDescription:
@@ -256,7 +241,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/nedfrysing",
     parent,
     title: "Nedfrysing av egg",
-    eyebrow: "Mulighet — CMedical",
     heroTitle: <>Litt mer <span className="italic">tid</span> når du trenger det</>,
     heroDescription:
       "Nedfrysing av egg lar deg ta vare på fertiliteten din nå — uten å måtte ta valget om barn i dag. Vi tilbyr også nedfrysing av sæd og embryo, som del av eller utenfor en IVF-behandling.",
@@ -269,7 +253,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "nedfrysing" },
     primaryCtaLabel: "Bestill samtale om nedfrysing",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår nedfrysing av egg",
     flow: [
       { n: "Steg 01", title: "Samtale og fertilitetssjekk", desc: "Vi vurderer eggstokkreserven din og om nedfrysing gir mening i din situasjon." },
@@ -278,7 +261,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Nedfrysing og lagring", desc: "Eggene fryses ned med vitrifikasjon og lagres trygt på klinikken." },
       { n: "Steg 05", title: "Bruk når du er klar", desc: "Når du ønsker å bli gravid, tiner vi eggene og gjennomfører IVF." },
     ],
-    reasonsEyebrow: "Når kan nedfrysing være riktig",
     reasonsTitle: "Hvem velger å fryse ned egg?",
     reasonsLead:
       "Det finnes mange gode grunner til å fryse ned egg. Det viktigste er at du tar valget basert på riktig informasjon — ikke press.",
@@ -291,9 +273,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Sjekken viser om du er i et godt vindu for nedfrysing.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { eyebrow: "Behandling", title: "IVF", desc: "Når du vil bruke eggene dine, går de inn i en IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Mannlig", title: "Mannlig fertilitet", desc: "Vi fryser også ned sæd — før kreftbehandling eller annen indikasjon.", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
+      { title: "Fertilitetssjekk", desc: "Sjekken viser om du er i et godt vindu for nedfrysing.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "IVF", desc: "Når du vil bruke eggene dine, går de inn i en IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Mannlig fertilitet", desc: "Vi fryser også ned sæd — før kreftbehandling eller annen indikasjon.", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
     ],
     ctaTitle: "Snakk med oss om nedfrysing",
     ctaDescription:
@@ -311,7 +293,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/pgt",
     parent,
     title: "Genetisk testing (PGT)",
-    eyebrow: "Tilleggstest — CMedical",
     heroTitle: <>Trygghet <span className="italic">før</span> overføring</>,
     heroDescription:
       "PGT — preimplantasjonsgenetisk testing — undersøker embryoene før de settes tilbake i livmoren. Det er aktuelt ved utvalgte indikasjoner og kan øke sjansen for vellykket graviditet.",
@@ -324,7 +305,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på fertilitet",
     booking: { ...baseBooking, tjeneste: "pgt" },
     primaryCtaLabel: "Bestill PGT-samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik fungerer PGT i et IVF-forløp",
     flow: [
       { n: "Steg 01", title: "Genetisk veiledning", desc: "Vi går gjennom indikasjon, hva testen kan svare på og hva den ikke kan." },
@@ -333,7 +313,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Resultat", desc: "Vi gjennomgår resultatene sammen — og hvilke embryo som er aktuelle for overføring." },
       { n: "Steg 05", title: "Embryooverføring", desc: "Det best egnede embryoet settes tilbake i livmoren." },
     ],
-    reasonsEyebrow: "Når er PGT aktuelt",
     reasonsTitle: "Hvem kan PGT være riktig for?",
     reasonsLead:
       "PGT er ikke for alle som tar IVF. Det er en tilleggstest med klare indikasjoner — og vi vurderer alltid om det er riktig for deg.",
@@ -346,9 +325,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Forarbeid", title: "IVF", desc: "PGT gjøres alltid som del av en IVF-behandling.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Først kartlegger vi grunnlaget — så vurderer vi PGT.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { eyebrow: "Støtte", title: "Psykisk helsehjelp", desc: "Genetiske spørsmål er tunge. Vi tilbyr samtaler hele veien.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+      { title: "IVF", desc: "PGT gjøres alltid som del av en IVF-behandling.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Fertilitetssjekk", desc: "Først kartlegger vi grunnlaget — så vurderer vi PGT.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Psykisk helsehjelp", desc: "Genetiske spørsmål er tunge. Vi tilbyr samtaler hele veien.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Bestill PGT-samtale",
     ctaDescription:
@@ -366,7 +345,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/mannlig-fertilitet",
     parent,
     title: "Mannlig fertilitet",
-    eyebrow: "For menn — CMedical",
     heroTitle: <>Halvparten av <span className="italic">svaret</span> ligger ofte her</>,
     heroDescription:
       "Når et par ikke blir gravide, er årsaken hos mannen i omtrent halvparten av tilfellene. En enkel sædanalyse gir deg svar — og er det naturlige første steget.",
@@ -379,7 +357,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på mannlig fertilitet",
     booking: { ...baseBooking, tjeneste: "sedanalyse" },
     primaryCtaLabel: "Bestill sædanalyse",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi mannlig fertilitet",
     flow: [
       { n: "Steg 01", title: "Sædanalyse", desc: "Du leverer en prøve — analysen gjøres samme dag av vårt laboratorium." },
@@ -387,7 +364,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Eventuell videre utredning", desc: "Ultralyd, hormonprøver eller henvisning til urolog ved behov." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Vi vurderer alt fra livsstilsendringer til IVF/ICSI eller mikro-TESE." },
     ],
-    reasonsEyebrow: "Når sjekke mannlig fertilitet",
     reasonsTitle: "Når er det lurt å ta en sjekk?",
     reasonsLead:
       "En sædanalyse er enkel, rask og gir konkrete svar. Det burde være en selvfølge når et par utreder fertilitet — ikke noe som kommer som siste utvei.",
@@ -400,9 +376,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Behandling", title: "IVF med ICSI", desc: "Ved nedsatt sædkvalitet er IVF med ICSI ofte løsningen.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Mulighet", title: "Nedfrysing av sæd", desc: "Frys ned sæd før behandling eller for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk (par)", desc: "Vi anbefaler at begge tar en sjekk samtidig.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "IVF med ICSI", desc: "Ved nedsatt sædkvalitet er IVF med ICSI ofte løsningen.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Nedfrysing av sæd", desc: "Frys ned sæd før behandling eller for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "Fertilitetssjekk (par)", desc: "Vi anbefaler at begge tar en sjekk samtidig.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
     ],
     ctaTitle: "Bestill sædanalyse",
     ctaDescription:
@@ -420,7 +396,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/psykisk-helsehjelp",
     parent,
     title: "Psykisk helsehjelp",
-    eyebrow: "Støtte — CMedical",
     heroTitle: <>Du skal ikke <span className="italic">stå</span> i dette alene</>,
     heroDescription:
       "Et fertilitetsforløp tar mye plass — også psykisk. Vi tilbyr samtaler med psykolog som kjenner forløpet, fra første utredning til etter graviditetstest. Det er en del av tilbudet vårt — ikke et tillegg.",
@@ -433,7 +408,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,9 — Psykologer som forstår forløpet",
     booking: { ...baseBooking, tjeneste: "samtale" },
     primaryCtaLabel: "Bestill samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik tilbyr vi psykisk støtte",
     flow: [
       { n: "Steg 01", title: "Første samtale", desc: "En åpen, uforpliktende samtale der vi blir kjent og finner ut hva du trenger." },
@@ -441,7 +415,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Samtaler i ditt tempo", desc: "Underveis i behandlingen — og etterpå om du ønsker det." },
       { n: "Steg 04", title: "Tett samspill med behandlerteamet", desc: "Med ditt samtykke samarbeider vi på tvers, slik at du opplever helhet." },
     ],
-    reasonsEyebrow: "Når kan psykolog hjelpe",
     reasonsTitle: "Du trenger ikke vente på krisen",
     reasonsLead:
       "Mange ber om hjelp først når det blir tungt. Vi vil at du skal vite at samtalene står klare hele veien — også når alt 'går greit'.",
@@ -454,9 +427,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Behandling", title: "IVF", desc: "Psykologisk støtte hører naturlig hjemme i et IVF-forløp.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Mulighet", title: "Eggdonasjon", desc: "Egne psykologsamtaler er en obligatorisk del av forløpet.", href: "/behandlinger/fertilitet/eggdonasjon" },
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Vi snakker også med deg som vurderer om dette er rett for deg.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "IVF", desc: "Psykologisk støtte hører naturlig hjemme i et IVF-forløp.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Eggdonasjon", desc: "Egne psykologsamtaler er en obligatorisk del av forløpet.", href: "/behandlinger/fertilitet/eggdonasjon" },
+      { title: "Fertilitetssjekk", desc: "Vi snakker også med deg som vurderer om dette er rett for deg.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
     ],
     ctaTitle: "Bestill en samtale",
     ctaDescription:
@@ -474,7 +447,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/donorbehandling",
     parent,
     title: "Donorbehandling",
-    eyebrow: "Behandling — CMedical",
     heroTitle: <>Donorbehandling <span className="italic">— mange veier til foreldreskap</span></>,
     heroDescription:
       "Behandling med donorsæd eller donerte egg kan være aktuelt for mange. I Norge er det ikke tillatt med samtidig donasjon av egg og sæd (såkalt dobbeldonasjon), og single kvinner får ikke tilbud om eggdonasjon i henhold til Bioteknologiloven. Et unntak er likekjønnede par der den ene kvinnen kan gi befruktet egg til den andre — såkalt partnerdonasjon.",
@@ -487,7 +459,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Trygg og åpen prosess",
     booking: { ...baseBooking, tjeneste: "donorbehandling" },
     primaryCtaLabel: "Bestill samtale om donorbehandling",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår donorbehandling hos oss",
     flow: [
       { n: "Steg 01", title: "Førstegangssamtale", desc: "Vi går gjennom situasjonen, hva loven sier og hvilke muligheter som er aktuelle for deg eller dere." },
@@ -496,7 +467,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Behandling", desc: "Inseminasjon, IVF eller partnerdonasjon — avhengig av hva som passer best." },
       { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
     ],
-    reasonsEyebrow: "Når er donorbehandling aktuelt",
     reasonsTitle: "Hvem passer donorbehandling for?",
     reasonsLead:
       "Donorbehandling kan være riktig løsning når egne egg eller sæd ikke er et alternativ — eller når det er en sosial eller medisinsk grunn til å bruke donor.",
@@ -509,27 +479,23 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     expertAreas: {
-      eyebrow: "Tjenester innen donorbehandling",
       title: "Hva passer for deg?",
       description:
         "Vi tilbyr ulike former for donorbehandling, regulert av norsk Bioteknologilov. Her er en oversikt over hva som er aktuelt — og når.",
       items: [
         {
-          eyebrow: "Behandling",
           title: "Partnerdonasjon",
           desc: "Partnerdonasjon ble tillatt i Norge 01.01.2021 og er aktuelt for to kvinner i et parforhold. Egget hentes fra den ene kvinnen, befruktes med donorsæd, og embryoet settes tilbake hos partneren. Tillatt på både medisinsk og sosialt grunnlag — kun for gift eller samboende kvinner i ekteskapslignende forhold.",
           href: "/behandlinger/fertilitet/donorbehandling#partnerdonasjon",
           image: "",
         },
         {
-          eyebrow: "Behandling",
           title: "Donorsæd",
           desc: "Vi benytter donorsæd fra Livio Sperm Bank, Cryos og European Sperm Bank, og har god tilgang på norsk donorsæd. Etter norske retningslinjer bruker vi sæd fra ikke-anonym donor — barnet har rett til informasjon om donors identitet ved fylte 15 år. Donorsæd kan reserveres til søskenforsøk.",
           href: "/behandlinger/fertilitet/donorbehandling#donorsed",
           image: "",
         },
         {
-          eyebrow: "Behandling",
           title: "Donoregg",
           desc: "I følge Bioteknologiloven er behandling med donoregg tillatt kun til heterofile par. Det tilbys i situasjoner der kvinnen ikke kan bruke egne egg på grunn av eggmangel eller svært redusert eggkvalitet. Vi følger retningslinjene i Bioteknologiloven.",
           href: "/behandlinger/fertilitet/donorbehandling#donoregg",
@@ -538,9 +504,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       ],
     },
     related: [
-      { eyebrow: "Behandling", title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Behandling", title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/iui" },
-      { eyebrow: "Støtte", title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+      { title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/iui" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Snakk med oss om donorbehandling",
     ctaDescription:
@@ -558,7 +524,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/hysteroskopi",
     parent,
     title: "Hysteroskopi",
-    eyebrow: "Fertilitet — Hysteroskopi",
     heroTitle: <>Inn i livmoren — <span className="italic">uten snitt</span></>,
     heroDescription:
       "Hysteroskopi er en skånsom teknikk der vi ser direkte inn i livmoren med et tynt kamera. I et fertilitetsforløp brukes den til å vurdere livmorhulen og fjerne det som kan stå i veien for graviditet — ofte i samme inngrep.",
@@ -571,7 +536,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "hysteroskopi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysteroskopi",
     flow: [
       { n: "01", title: "Konsultasjon", desc: "Fertilitetsspesialist vurderer indikasjon og forklarer inngrepet i detalj." },
@@ -579,7 +543,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose. Vanligvis 15–30 minutter." },
       { n: "04", title: "Veien videre", desc: "Funn og prøvesvar gjennomgås — og kobles til neste steg i fertilitetsplanen." },
     ],
-    reasonsEyebrow: "Når er det aktuelt",
     reasonsTitle: "Når brukes hysteroskopi i et fertilitetsforløp?",
     reasonsLead:
       "Tilstanden i livmorhulen har direkte betydning for at et embryo skal kunne feste seg. Hysteroskopi gir oss et tydelig bilde — og en mulighet til å rette opp i ting samtidig.",
@@ -593,9 +556,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Utredning", title: "Fertilitetssjekk", desc: "Hysteroskopi kan være neste steg etter en grundig fertilitetssjekk.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { eyebrow: "Behandling", title: "IVF", desc: "Optimalisering av livmorhulen før IVF gir bedre odds for innfesting.", href: "/behandlinger/fertilitet/ivf" },
-      { eyebrow: "Tilstand", title: "Infertilitet", desc: "Strukturelle årsaker i livmoren er én av flere ting vi utreder.", href: "/behandlinger/fertilitet/infertilitet" },
+      { title: "Fertilitetssjekk", desc: "Hysteroskopi kan være neste steg etter en grundig fertilitetssjekk.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "IVF", desc: "Optimalisering av livmorhulen før IVF gir bedre odds for innfesting.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Infertilitet", desc: "Strukturelle årsaker i livmoren er én av flere ting vi utreder.", href: "/behandlinger/fertilitet/infertilitet" },
     ],
     ctaTitle: "Bestill vurdering for hysteroskopi",
     ctaDescription:
@@ -610,7 +573,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/fertilitet/fertilitetsutredning",
     parent,
     title: "Fertilitetsutredning",
-    eyebrow: "Fertilitet — CMedical",
     heroTitle: <>Et trygt <span className="italic">første steg</span></>,
     heroDescription:
       "Å ta det første steget kan føles stort — enten du kommer alene eller sammen med en partner. Hos oss møter du et fagmiljø som tar seg tid til å lytte, forstå og veilede deg videre. Denne fasen handler ikke om å ha alle svarene — men om å begynne et sted.",
@@ -623,7 +585,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
     primaryCtaLabel: "Bestill fertilitetsutredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår en fertilitetsutredning",
     flow: [
       { n: "Steg 01", title: "Uforpliktende samtale", desc: "Du forteller om din situasjon, stiller spørsmål og blir kjent med mulighetene som finnes." },
@@ -632,7 +593,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Gjennomgang av resultater", desc: "Sammen ser vi på funnene og snakker om hva de betyr for deg." },
       { n: "Steg 05", title: "Veien videre — i ditt tempo", desc: "Egen plan: fortsette på egen hånd, starte behandling, eller ta deg mer tid." },
     ],
-    reasonsEyebrow: "Slik fungerer fertilitetsutredningen",
     reasonsTitle: "Alt du trenger å vite — steg for steg",
     reasonsLead:
       "Vi har samlet hele innholdet i utredningen i en oversikt du kan utforske i ditt eget tempo. Trykk på hvert tema for å lese mer.",
@@ -766,9 +726,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { eyebrow: "Forarbeid", title: "Fertilitetssjekk", desc: "Den raske kartleggingen av hvor du står — uten henvisning.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { eyebrow: "Behandling", title: "Assistert befruktning", desc: "Når utredningen viser at dere trenger hjelp på veien.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { eyebrow: "Behandling", title: "IVF — prøverørsbehandling", desc: "Den mest effektive fertilitetsbehandlingen som finnes.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Fertilitetssjekk", desc: "Den raske kartleggingen av hvor du står — uten henvisning.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Assistert befruktning", desc: "Når utredningen viser at dere trenger hjelp på veien.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "IVF — prøverørsbehandling", desc: "Den mest effektive fertilitetsbehandlingen som finnes.", href: "/behandlinger/fertilitet/ivf" },
     ],
     ctaTitle: "Klar for å ta det første steget?",
     ctaDescription:

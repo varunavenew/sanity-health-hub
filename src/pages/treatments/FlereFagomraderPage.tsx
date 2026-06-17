@@ -82,7 +82,6 @@ const lifePhases = [
 
 const expertAreas = [
  {
- eyebrow: "Spesialfelt",
  title: "Hud og kirurgi",
  desc:
  "Hudlege, plastikkirurgi, gastrokirurgi og karkirurgi — fra moleanalyse til avansert kirurgi.",
@@ -90,7 +89,6 @@ const expertAreas = [
  image: expertKropp,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Indremedisin og kropp",
  desc:
  "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager og langvarige smerter.",
@@ -98,7 +96,6 @@ const expertAreas = [
  image: expertHelse,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Psykologi og sexologi",
  desc:
  "Trygge samtaler om angst, depresjon, samliv, seksualitet og identitet — i et tempo som passer deg.",
@@ -106,7 +103,6 @@ const expertAreas = [
  image: expertSinn,
  },
  {
- eyebrow: "Tverrfaglig",
  title: "Sammen om hele deg",
  desc:
  "Vi samarbeider på tvers av fagfelt — psykolog med urolog, sexolog med gynekolog, ernæringsfysiolog med endokrinolog.",

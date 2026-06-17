@@ -52,7 +52,7 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  treatmentCategory: {
  title: "Mal: Fagområde – Gynekologi",
  description:
- "Mastermal for hovedfagområder. Bruker gynekologi-siden som referanse — den inneholder 'Spesialistområder'-seksjonen (2x2-grid med bilde, eyebrow og 'Les mer'-lenke) slik kunden har godkjent den.",
+  "Mastermal for hovedfagområder. Bruker gynekologi-siden som referanse — den inneholder 'Spesialistområder'-seksjonen (2x2-grid med bilde og 'Les mer'-lenke) slik kunden har godkjent den.",
  livePath: "/behandlinger/gynekologi",
  render: () => <Gynecology isChatOpen={false} />,
  },
@@ -97,7 +97,6 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  ...base,
  promises: enrichedPromises,
  textSection: {
- eyebrow: "Hvorfor CMedical",
  title: "Et trygt sted å starte — uansett hvor du er i forløpet.",
  lead: "Denne valgfrie tekstseksjonen kan brukes til å fortelle historien bak behandlingen, vår tilnærming, eller hva som gjør tilbudet vårt unikt. Kombiner gjerne med en nummerert liste — eller la teksten stå alene.",
  points: [
@@ -162,9 +161,6 @@ export default function MalDemo() {
  <div className="bg-brand-dark text-brand-light sticky top-0 z-50">
  <div className="container mx-auto px-6 md:px-16 py-3 flex items-center justify-between gap-4">
  <div className="flex items-center gap-3 text-sm font-light min-w-0">
- <span className="inline-flex items-center px-2 py-0.5 rounded bg-brand-light/10 text-xs uppercase shrink-0">
- Mastermal
- </span>
  <span className="truncate">{mal.title}</span>
  </div>
  <div className="flex items-center gap-2 shrink-0">

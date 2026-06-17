@@ -97,7 +97,6 @@ const lifePhases = [
 
 const expertAreas = [
  {
- eyebrow: "Spesialfelt",
  title: "Endometriose",
  desc:
  "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
@@ -105,7 +104,6 @@ const expertAreas = [
  image: expertEndometriose,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Fødselsskader og bekkenbunnshelse",
  desc:
  "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
@@ -113,7 +111,6 @@ const expertAreas = [
  image: expertBekkenbunn,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Overgangsalder",
  desc:
  "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
@@ -121,7 +118,6 @@ const expertAreas = [
  image: expertOvergangsalder,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Vulvasmerter",
  desc:
  "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",

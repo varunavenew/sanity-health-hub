@@ -50,7 +50,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <Link
             to="/gynekologi-design"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground font-light transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground font-light transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             Tilbake til alle varianter
@@ -61,7 +61,7 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       {/* HERO – tight, intro carries to services */}
       <section className="bg-background pt-14 md:pt-20 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-10">
+          <p className="text-xs text-muted-foreground font-light mb-10">
             <span className="inline-block w-8 h-px bg-foreground/40 align-middle mr-3" />
             {gynekologiContent.title} — {gynekologiContent.subtitle}
           </p>
@@ -100,9 +100,6 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-20">
             <div className="col-span-12 md:col-span-5">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-                Tjenesteregister · {String(gynekologiServices.length).padStart(2, "0")} områder
-              </p>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground leading-[1.02] tracking-tight">
                 {gynekologiContent.servicesHeading}
               </h2>
@@ -141,9 +138,6 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
                         />
                       </div>
                       <div>
-                        <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-3">
-                          Kapittel {String(gi + 1).padStart(2, "0")}
-                        </p>
                         <h3 className="text-2xl md:text-3xl font-light text-foreground leading-tight mb-2">
                           {group.label}
                         </h3>
@@ -221,9 +215,6 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-14 md:mb-16">
             <div className="max-w-xl">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-                Møt teamet
-              </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
                 Spesialistene som følger deg
               </h2>
@@ -251,9 +242,6 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-24 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
-            Vanlige spørsmål
-          </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
             Det folk spør om
           </h2>
@@ -275,9 +263,6 @@ const IndexVariant = ({ isChatOpen }: PageProps) => {
       {/* Closing CTA — calm, not loud */}
       <section className="bg-brand-warm py-24 md:py-32 border-t border-border/40">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl text-center">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
-            Klar når du er det
-          </p>
           <h2 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-8">
             Time innen kort tid.<br />
             Ingen henvisning.

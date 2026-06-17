@@ -115,9 +115,6 @@ const TipsCardsVariant = () => (
                   </span>
                 </div>
                 <div className="bg-background p-4 flex-1 flex flex-col">
-                  <p className="text-xs font-light text-foreground/55 mb-2">
-                    {item.meta}
-                  </p>
                   <h3 className="text-sm font-normal text-foreground leading-snug mb-2 group-hover:underline">
                     {item.title}
                   </h3>
@@ -140,7 +137,6 @@ const TipsCardsVariant = () => (
 
 type FeatureItem = {
   format: Format;
-  eyebrow: string;
   title: string;
   description: string;
   bullets: string[];
@@ -152,7 +148,6 @@ type FeatureItem = {
 const FEATURE_ITEMS: FeatureItem[] = [
   {
     format: "podcast",
-    eyebrow: "Podcast i denne saken",
     title: "Hormoner, humør og hverdagsliv",
     description:
       "Spesialist Lene Holm snakker om hva som skjer i kroppen under overgangsalder, og hva som faktisk hjelper.",
@@ -163,7 +158,6 @@ const FEATURE_ITEMS: FeatureItem[] = [
   },
   {
     format: "video",
-    eyebrow: "Video i denne saken",
     title: "Slik forbereder du deg til en gynekologisk undersøkelse",
     description:
       "En kort film hvor spesialisten forklarer steg for steg hva som skjer — slik at du vet hva du kan forvente.",
@@ -190,9 +184,6 @@ const TipsFeatureVariant = () => (
                 className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center py-10 md:py-14 first:pt-0 last:pb-0"
               >
                 <div>
-                  <p className="text-xs font-light text-foreground/55 mb-3">
-                    {item.eyebrow}
-                  </p>
                   <h3 className="text-2xl md:text-3xl font-light text-foreground leading-[1.15] mb-4">
                     {item.title}
                   </h3>
@@ -302,9 +293,6 @@ const TipsCompactVariant = () => (
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-light text-foreground/55 mb-1">
-                    {label}
-                  </p>
                   <h3 className="text-base font-normal text-foreground mb-1 group-hover:underline">
                     {item.title}
                   </h3>
@@ -350,7 +338,6 @@ const TipsEditorialVariant = () => {
                   {leadLabel}
                 </div>
               </div>
-              <p className="text-xs font-light text-foreground/55 mb-2">{lead.meta}</p>
               <h3 className="text-2xl md:text-3xl font-light text-foreground leading-[1.15] mb-2 group-hover:underline">
                 {lead.title}
               </h3>
@@ -395,7 +382,6 @@ const TipsScrollerVariant = () => (
       <div className="max-w-6xl mx-auto">
         <div className="flex items-end justify-between mb-10 md:mb-14 gap-6">
           <div>
-            <p className="text-xs font-light text-brand-light/55 mb-2">Siste fra Aktuelt</p>
             <h2 className="text-3xl md:text-5xl font-light text-brand-light">
               Vill du veta mer?
             </h2>
@@ -507,9 +493,6 @@ const VariantBlock = ({
     <div className="bg-background border-y border-foreground/10">
       <div className="container mx-auto px-6 md:px-16 py-8">
         <div className="max-w-6xl mx-auto">
-          <p className="text-xs font-light text-foreground/55 mb-2">
-            Variant {label}
-          </p>
           <h2 className="text-xl md:text-2xl font-normal text-foreground mb-2">
             {title}
           </h2>
@@ -549,9 +532,6 @@ export default function TipsDemo() {
       {/* Intro */}
       <div className="container mx-auto px-6 md:px-16 py-14 md:py-20">
         <div className="max-w-3xl">
-          <p className="text-xs font-light text-foreground/55 mb-3">
-            Ny seksjon
-          </p>
           <h1 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] mb-5">
             Tips til relatert innhold
           </h1>

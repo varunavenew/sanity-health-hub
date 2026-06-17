@@ -198,9 +198,9 @@ export const FremdriftsplanPanel = () => {
               )}
             </span>
             <div className="flex items-baseline justify-between gap-3 flex-wrap">
-              <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{p.dates}</p>
+              <p className="text-[11px] text-muted-foreground">{p.dates}</p>
               <span
-                className={`inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${ownerStyle[p.owner]}`}
+                className={`inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full border ${ownerStyle[p.owner]}`}
               >
                 {p.owner}
               </span>

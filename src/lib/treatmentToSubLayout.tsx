@@ -46,17 +46,14 @@ const SPECIALIST_LABEL: Record<CategoryId, string> = {
 
 const STANDARD_PROMISES = [
   {
-    eyebrow: "Trygghet",
     title: "Du bestemmer hva du er komfortabel med",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {
-    eyebrow: "Kompetanse",
     title: "Spesialister med dybde",
     desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
   },
   {
-    eyebrow: "Helhet",
     title: "Alt under samme tak",
     desc: "Trenger du videre utredning, behandling eller oppfølging — vi koordinerer hele forløpet for deg.",
   },
@@ -218,7 +215,6 @@ export const treatmentToSubLayout = ({
   const related =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => ({
-          eyebrow: "Tjeneste",
           title: ls.label,
           desc: ls.description,
           href: ls.path,
@@ -234,14 +230,12 @@ export const treatmentToSubLayout = ({
     parent,
     grandparent,
     title: data.title,
-    eyebrow: `${parent.name} — CMedical`,
     heroTitle,
     heroDescription: summarize(firstParagraph, 320),
     heroPoints,
     booking: { kategori: categoryId, tjeneste: subId },
     primaryCtaLabel: "Se ledige tider",
     heroPrice: getFromPriceForTitle(categoryId, data.title) ?? getFromPriceForPath(canonical) ?? undefined,
-    flowEyebrow: "Konsultasjonen",
     flowTitle: "Slik foregår det",
     flow,
     flowImage: pickClinicImage(`${categoryId}/${subId}`),
@@ -249,12 +243,10 @@ export const treatmentToSubLayout = ({
     heroImage: heroImage ?? getServiceImage(categoryId, subId),
     heroImageAlt: data.title,
     heroVideo: data.heroVideo,
-    reasonsEyebrow: data.sections && data.sections.length > 0 ? "Det du bør vite" : "Hvem passer det for",
     reasonsTitle: data.sections && data.sections.length > 0 ? `Om ${data.title}` : "Når bør du ta kontakt",
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
     reasons,
     promises: STANDARD_PROMISES,
-    relatedEyebrow: related.length > 0 ? "Relaterte tjenester" : undefined,
     relatedTitle: related.length > 0 ? "Andre ting vi hjelper med" : undefined,
     related,
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
