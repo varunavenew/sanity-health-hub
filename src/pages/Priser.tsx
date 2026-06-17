@@ -315,7 +315,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       </div>
                                                       <span
                                                         aria-hidden="true"
-                                                        className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-foreground text-background group-hover:scale-105 transition-transform"
+                                                        className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-brand-dark text-brand-warm group-hover:scale-105 transition-transform"
                                                       >
                                                         <ArrowRight className="w-4 h-4" />
                                                       </span>
