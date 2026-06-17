@@ -166,23 +166,29 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       <div
                         id={`kat-${category.id}`}
                         key={category.id}
-                        className={`rounded-2xl overflow-hidden border border-brand-dark/10 transition-all duration-300 ${
+                        className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-brand-beige/60'
-                            : 'bg-brand-beige/40 hover:bg-brand-beige/60'
+                            ? 'bg-brand-warm border-brand-dark/20 shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
+                            : 'bg-brand-beige/40 border-brand-dark/10 hover:bg-brand-beige/60'
                         }`}
                       >
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group"
+                          className={`w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group transition-colors ${
+                            isOpen ? 'bg-brand-dark' : ''
+                          }`}
                           aria-expanded={isOpen}
                           aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
                         >
                           <div className="flex flex-col min-w-0">
-                            <span className="text-xl md:text-2xl font-light text-foreground truncate group-hover:text-foreground/90 transition-colors">
+                            <span className={`text-xl md:text-2xl font-light truncate transition-colors ${
+                              isOpen ? 'text-brand-warm' : 'text-foreground group-hover:text-foreground/90'
+                            }`}>
                               {category.label}
                             </span>
-                            <span className="text-xs text-muted-foreground font-light mt-1">
+                            <span className={`text-xs font-light mt-1 ${
+                              isOpen ? 'text-brand-warm/70' : 'text-muted-foreground'
+                            }`}>
                               {totalItems} tjenester
                             </span>
                           </div>
@@ -190,7 +196,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             aria-hidden="true"
                             className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors border ${
                               isOpen
-                                ? 'bg-foreground text-background border-foreground'
+                                ? 'bg-brand-warm text-brand-dark border-brand-warm'
                                 : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
                             }`}
                           >
