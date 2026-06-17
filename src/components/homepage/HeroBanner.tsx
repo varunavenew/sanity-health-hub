@@ -160,6 +160,20 @@ export const HeroBanner = () => {
                   {slide.cta}
                   <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
                 </span>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-5">
+                  <span className="inline-flex items-center gap-2 text-sm text-white/90">
+                    <Check className="w-4 h-4 text-white/90" strokeWidth={2} />
+                    Ingen henvisning
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-sm text-white/90">
+                    <Check className="w-4 h-4 text-white/90" strokeWidth={2} />
+                    Korte ventetider
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-sm text-white/90">
+                    <Check className="w-4 h-4 text-white/90" strokeWidth={2} />
+                    Erfarne spesialister
+                  </span>
+                </div>
               </motion.div>
             </div>
           </div>
