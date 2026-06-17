@@ -165,7 +165,7 @@ const reviews = [
  PAGE
  ────────────────────────────────────────────────────────────── */
 
-const Gynecology = ({ isChatOpen }: PageProps) => {
+const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  const gynSpecialists = useMemo(() => {
  return specialists.filter((s) => s.category === "gynekologi").slice(0, 5);
  }, []);
@@ -652,4 +652,4 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  );
 };
 
-export default Gynecology;
+export default MasterMalToUkerSiden;
