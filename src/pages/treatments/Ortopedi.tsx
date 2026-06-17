@@ -379,7 +379,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
  <div className="lg:col-span-4">
- <p className="text-xs text-brand-dark mb-3">SAMARBEIDSPARTNERE</p>
+ 
  <h3 className="text-xl md:text-2xl font-light leading-snug text-foreground">
  Vi har avtale med de største forsikringsselskapene i Norge.
  </h3>
