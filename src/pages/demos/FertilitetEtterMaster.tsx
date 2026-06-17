@@ -287,8 +287,8 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
             allerede har valgt sitt steg i livet. */}
       <section className="py-20 md:py-28 bg-background">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
-            <div className="lg:col-span-5">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20">
+            <div>
               <div className="lg:sticky lg:top-28">
                 <p className="text-xs text-foreground/60 mb-5">
                   Alternativ for undertjenester
@@ -308,7 +308,7 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
 
-            <div className="lg:col-span-7">
+            <div>
               <Accordion
                 type="single"
                 collapsible
