@@ -117,9 +117,16 @@ export function mapTreatmentDocument(
     benefitsTitle: asPlainString(data.benefitsTitle) || undefined,
     benefits: ((data.benefits as unknown[]) || []).map((b) => {
       const row = b as Record<string, unknown>;
+      if (row && typeof row === 'object' && 'title' in row) {
+        return {
+          title: asPlainString(row.title),
+          description: asPlainString(row.description),
+        };
+      }
+      // Legacy: bare internationalizedArrayString per array item
       return {
-        title: asPlainString(row.title),
-        description: asPlainString(row.description),
+        title: asPlainString(b),
+        description: '',
       };
     }),
     process: ((data.process as unknown[]) || []).map((p) => {

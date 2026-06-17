@@ -252,6 +252,8 @@
     "seoDescription": "See all CMedical prices. A clear price list for gynecology, fertility, urology, orthopedics and more. Transparent and predictable pricing.",
     "duration": "Duration",
     "disclaimer": "All prices are indicative “from” prices. The final price may vary depending on time of day, weekends, additional services during treatment and other factors.",
+    "loadingPrices": "Loading prices…",
+    "loadError": "Could not load prices. Please try again later.",
     "seePrices": "View prices",
     "closePriceList": "Close price list",
     "openCategory": "Open",

@@ -21,4 +21,13 @@ const result = spawnSync(
   },
 );
 
+if (result.status !== 0 && result.stderr) {
+  const msg = result.stderr.toString();
+  if (msg.includes("vendor-chunks/@sanity")) {
+    console.error(
+      "\nTip: run `npm run dev:clean` to clear a stale .next cache, then retry.\n",
+    );
+  }
+}
+
 process.exit(result.status ?? 1);

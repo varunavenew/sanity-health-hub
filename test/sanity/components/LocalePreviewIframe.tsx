@@ -23,6 +23,6 @@ export function createLocalePreviewPane({ locale, schemaType }: LocalePreviewOpt
     )
   }
 
-  LocalePreviewPane.displayName = locale === 'nb' ? 'LocalePreviewNb' : 'LocalePreviewEn'
+  LocalePreviewPane.displayName = locale === 'no' ? 'LocalePreviewNo' : 'LocalePreviewEn'
   return LocalePreviewPane
 }

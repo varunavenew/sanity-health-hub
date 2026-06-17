@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 
-export type PreviewLocale = 'nb' | 'en'
+export type PreviewLocale = 'no' | 'en'
 
 export const PREVIEW_BASE_URL =
   typeof window !== 'undefined' && window.location.hostname === 'localhost'

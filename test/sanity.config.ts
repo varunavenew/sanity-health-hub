@@ -19,7 +19,7 @@ export const SUPPORTED_LANGUAGES = [
 ] as const
 import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon} from './schemaTypes/icons'
 
-// Default document node with locale-specific preview panes (nb + en)
+// Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
     'article', 'treatment', 'treatmentCategory', 'specialist',
@@ -30,14 +30,14 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ]
 
   if (previewableTypes.includes(schemaType)) {
-    const PreviewNb = createLocalePreviewPane({locale: 'nb', schemaType})
+    const PreviewNo = createLocalePreviewPane({locale: 'no', schemaType})
     const PreviewEn = createLocalePreviewPane({locale: 'en', schemaType})
 
     return S.document().views([
       S.view.form().title('About'),
       S.view
-        .component(PreviewNb)
-        .id('preview-nb')
+        .component(PreviewNo)
+        .id('preview-no')
         .title('View')
         .icon(NorwegianFlagIcon),
       S.view

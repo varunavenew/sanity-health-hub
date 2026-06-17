@@ -133,13 +133,6 @@ const FAQ_FALLBACK_KEYS  = ["referral", "payment", "insurance", "cancellation"] 
 const TESTIMONIAL_KEYS   = ["one", "two", "three"] as const;
 const TESTIMONIAL_NAMES  = ["Maria S.", "Anders L.", "Sofie H."] as const;
 
-const slugifyNo = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a")
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-
 // ─── Component ────────────────────────────────────────────────────────────────
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
@@ -149,8 +142,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq,             setOpenFaq]             = useState<string | null>(null);
 
-  // ─── Same durationByActivityId pattern as BookingDemo ────────────────────
-const [durationByActivityId, setDurationByActivityId] = useState<Record<number, DurationState>>({});
+  const [durationByActivityId, setDurationByActivityId] = useState<Record<number, DurationState>>({});
   const { sorted }              = useSpecialistsData();
   const specialists             = sorted.slice(0, 8);
   const { data: sanityPricing } = usePricingPage();
@@ -161,6 +153,9 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
     loading:    bookingLoading,
     error:      bookingError,
   } = useBookingPriceCategories();
+
+  const hasApiPrices =
+    !bookingLoading && !bookingError && bookingCategories.length > 0;
 
   // FAQs
   const staticFaqs = FAQ_FALLBACK_KEYS.map((key) => ({
@@ -187,28 +182,6 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
   const pageSubtitle = sanityPricing?.introText?.trim() || t("pricing.subtitle");
   const sortLocale   = i18n.language?.startsWith("en") ? "en" : "nb";
 
-  // Sanity CMS categories
-  const cmsPriceCategories: PriceCategory[] = (sanityPricing?.priceCategories || []).map(
-    (category: any, index: number) => {
-      const label        = category?.categoryName?.trim() || `Kategori ${index + 1}`;
-      const categorySlug = category?.categoryRef?.slug || category?.categoryRef?.id || slugifyNo(label);
-      const items        = (category?.items || []).map((item: any) => ({
-        name:     item?.name || "",
-        price:    item?.priceLabel || (item?.price != null ? `${item.price},-` : ""),
-        duration: item?.note || "",
-      }));
-      return {
-        id: categorySlug, label,
-        path: `/${categorySlug}`,
-        subcategories: [{ label, path: `/${categorySlug}`, items }],
-      };
-    },
-  );
-
-  // Priority: Sanity CMS > Booking API
-  const effectivePriceCategories: PriceCategory[] =
-    cmsPriceCategories.length > 0 ? cmsPriceCategories : bookingCategories;
-
   useEffect(() => {
     document.title = `${t("nav.pricing")} | CMedical`;
   }, [t, i18n.language]);
@@ -218,7 +191,7 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
   useEffect(() => {
     if (!expandedCategory) return;
 
-    const category = effectivePriceCategories.find((c) => c.id === expandedCategory);
+    const category = bookingCategories.find((c) => c.id === expandedCategory);
     if (!category) return;
 
     // Collect all apiActivityIds across all subcategories
@@ -271,7 +244,7 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
 
     loadDurations();
     return () => { cancelled = true; };
-  }, [expandedCategory, effectivePriceCategories]);
+  }, [expandedCategory, bookingCategories]);
 
   const toggleCategory = (id: string) => {
     setExpandedCategory(expandedCategory === id ? null : id);
@@ -283,10 +256,10 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
 
   const prioritized = ["gynekologi", "urologi", "fertilitet", "ortopedi"];
   const sortedCategories = [
-    ...effectivePriceCategories
+    ...bookingCategories
       .filter((c) => prioritized.includes(c.id))
       .sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
-    ...effectivePriceCategories
+    ...bookingCategories
       .filter((c) => !prioritized.includes(c.id))
       .sort((a, b) => a.label.localeCompare(b.label, sortLocale)),
   ];
@@ -321,42 +294,36 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
             </p>
           </div>
 
-          {/* Loading skeletons */}
           {/* Loading state */}
-{bookingLoading && cmsPriceCategories.length === 0 && (
-  <div className="max-w-5xl mx-auto">
-    {/* Spinner */}
-    <div className="flex flex-col items-center justify-center py-20 gap-4">
-      <div className="w-10 h-10 rounded-full border-2 border-foreground/10 border-t-foreground animate-spin" />
-      <p className="text-sm text-muted-foreground font-light">
-        Henter priser…
-      </p>
-    </div>
-
-    {/* Skeleton rows below spinner */}
-    <div className="space-y-4 mt-4">
-      {[...Array(5)].map((_, i) => (
-        <div
-          key={i}
-          className="h-16 rounded-xl bg-muted animate-pulse"
-          style={{ animationDelay: `${i * 100}ms` }}
-        />
-      ))}
-    </div>
-  </div>
-)}
+          {bookingLoading && (
+            <div className="max-w-5xl mx-auto">
+              <div className="flex flex-col items-center justify-center py-20 gap-4">
+                <div className="w-10 h-10 rounded-full border-2 border-foreground/10 border-t-foreground animate-spin" />
+                <p className="text-sm text-muted-foreground font-light">
+                  {t("pricing.loadingPrices")}
+                </p>
+              </div>
+              <div className="space-y-4 mt-4">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-16 rounded-xl bg-muted animate-pulse"
+                    style={{ animationDelay: `${i * 100}ms` }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Error state */}
-          {bookingError && cmsPriceCategories.length === 0 && !bookingLoading && (
+          {bookingError && !bookingLoading && (
             <p className="text-center text-destructive font-light py-8">
-              {t("pricing.loadError", {
-                defaultValue: "Could not load prices. Please try again later.",
-              })}
+              {t("pricing.loadError")}
             </p>
           )}
 
-          {/* Category list */}
-          {!bookingLoading && (
+          {/* Category list — booking API only */}
+          {hasApiPrices && (
             <div className="max-w-5xl mx-auto space-y-4">
               {sortedCategories.map((category) => (
                 <div
@@ -499,24 +466,21 @@ const [durationByActivityId, setDurationByActivityId] = useState<Record<number, 
                 </div>
               ))}
 
-              {sortedCategories.length === 0 && !bookingLoading && (
-                <p className="text-center text-muted-foreground font-light py-8">
-                  {t("pricing.subtitle")}
-                </p>
-              )}
             </div>
           )}
 
           {/* CTA */}
-          <div className="mt-16 md:mt-20 text-center">
-            <button
-              onClick={() => navigate("/booking")}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-brand-dark text-white rounded-full font-normal hover:bg-brand-dark/90 transition-colors"
-            >
-              {t("nav.bookAppointment")}
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+          {hasApiPrices && (
+            <div className="mt-16 md:mt-20 text-center">
+              <button
+                onClick={() => navigate("/booking")}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-dark text-white rounded-full font-normal hover:bg-brand-dark/90 transition-colors"
+              >
+                {t("nav.bookAppointment")}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

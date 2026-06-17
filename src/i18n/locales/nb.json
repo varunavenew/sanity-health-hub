@@ -252,6 +252,8 @@
     "seoDescription": "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising.",
     "duration": "Varighet",
     "disclaimer": "Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.",
+    "loadingPrices": "Henter priser…",
+    "loadError": "Kunne ikke laste priser. Prøv igjen senere.",
     "seePrices": "Se priser",
     "closePriceList": "Lukk prisliste",
     "openCategory": "Åpne",
