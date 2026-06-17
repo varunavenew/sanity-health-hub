@@ -172,14 +172,16 @@ export const ServicesDropdown = () => {
  {activeSubcategoryData.items.map((item) => (
  <button 
  key={item.label}
- onClick={() => {
- if (item.path) {
- handleNavigate(item.path);
- } else {
- const anchor = item.anchor || item.label.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g, 'ae').replace(/[ø]/g, 'o').replace(/[å]/g, 'a');
- handleNavigate(`${activeSubcategoryData.path}#${anchor}`);
- }
- }}
+                                  onClick={() => {
+                                    // If the item has its own page, navigate there.
+                                    // Otherwise fall back to the parent subcategory page
+                                    // (e.g. "Akne" -> /hudhelse) so users always land on a real page.
+                                    if (item.path) {
+                                      handleNavigate(item.path);
+                                    } else {
+                                      handleNavigate(activeSubcategoryData.path);
+                                    }
+                                  }}
  className="w-full text-left py-1.5 px-2 text-[12px] font-light transition-colors rounded text-white/60 hover:text-white hover:bg-white/10"
  >
  {item.label}
