@@ -223,7 +223,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         className={`rounded-xl border transition-all ${
                                           subOpen
                                             ? 'bg-brand-beige/30 border-brand-dark/15'
-                                            : 'bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/30 hover:shadow-[0_2px_8px_rgba(66,51,42,0.08)]'
+                                            : 'bg-white border-brand-dark/20 hover:border-brand-mid/60'
                                         }`}
                                       >
 
