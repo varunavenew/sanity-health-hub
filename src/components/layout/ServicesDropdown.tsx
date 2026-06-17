@@ -4,6 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useServiceCategories } from '@/hooks/useServiceCategories';
 import { useTranslation } from 'react-i18next';
+import { treatmentContent } from '@/data/treatmentContent';
+
+// Returns true if a service item path resolves to a real treatment page.
+// Sub-treatment routes look like /behandlinger/{categoryId}/{subId}.
+const hasTreatmentPage = (path: string): boolean => {
+  const match = path.match(/^\/behandlinger\/([^/]+)\/([^/?#]+)/);
+  if (!match) return true; // non-sub-treatment paths are assumed valid
+  const [, categoryId, subId] = match;
+  return Boolean(treatmentContent[`${categoryId}/${subId}`]);
+};
 
 export const ServicesDropdown = () => {
  const { categories: serviceCategories } = useServiceCategories();
