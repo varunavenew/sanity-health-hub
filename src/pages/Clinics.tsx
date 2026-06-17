@@ -80,7 +80,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
 
  {/* Hero */}
  <SplitHero
- eyebrow={`${list.length} klinikker · Ingen henvisning · Kort ventetid`}
+ 
  title="Finn din nærmeste klinikk"
  description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
  image={imgMajorstuen}
