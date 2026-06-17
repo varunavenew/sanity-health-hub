@@ -500,6 +500,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Mindre smerter og kortere rekonvalesens",
       "Høyt volum – erfarne kirurger med dokumentert kvalitet",
     ],
+    relatedSpecialists: ["thomas-fredrik-thaulow"],
     faqs: [
       { question: "Hvilke inngrep utføres med robot?", answer: "Vi bruker robot til fjerning av muskelknuter, dyp endometriose, hysterektomi og enkelte andre komplekse inngrep." },
       { question: "Er robotkirurgi trygt?", answer: "Ja, robotkirurgi er vel dokumentert internasjonalt og gir ofte bedre resultater enn tradisjonelle metoder." },
