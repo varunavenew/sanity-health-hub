@@ -73,7 +73,7 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
       {/* Intro */}
       <section className="bg-brand-warm pt-32 md:pt-40 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16 max-w-5xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-light mb-6">
+          <p className="text-xs text-muted-foreground font-light mb-6">
             Designforslag · Gynekologi
           </p>
           <h1 className="text-4xl md:text-6xl font-light text-foreground leading-[1.05] tracking-tight mb-6">
@@ -106,7 +106,7 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
                   />
                 </div>
                 <div className="p-6 md:p-8">
-                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                  <p className="text-xs text-muted-foreground font-light mb-4">
                     {v.eyebrow}
                   </p>
                   <div className="flex items-start justify-between gap-3 mb-3">
@@ -126,7 +126,7 @@ const DesignHub = ({ isChatOpen }: PageProps) => {
           </div>
 
           <div className="mt-16 md:mt-20 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-light mb-4">
+            <p className="text-xs text-muted-foreground font-light mb-4">
               Slik leser du forslagene
             </p>
             <p className="text-sm text-muted-foreground font-light leading-relaxed">

@@ -25,7 +25,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <Link
             to="/fertilitet-design"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground font-light transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground font-light transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             Tilbake til alle forslag
@@ -38,7 +38,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 items-end">
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
+              <p className="text-xs text-muted-foreground font-light mb-8">
                 {sjekkContent.title} · CMedical
               </p>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-foreground leading-[0.95] tracking-tight">
@@ -94,7 +94,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 md:mb-20 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Innholdet i sjekken
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -131,7 +131,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Hvem er sjekken for
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -142,7 +142,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
             {sjekkReasons.map((r) => (
               <li key={r.n} className="bg-background p-6 md:p-8">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                <p className="text-xs text-muted-foreground font-light mb-4">
                   {r.n}
                 </p>
                 <h3 className="text-lg md:text-xl font-light text-foreground leading-snug mb-3">
@@ -161,7 +161,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Veien videre
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -176,7 +176,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
                 to={r.href}
                 className="group block bg-card border border-border/60 rounded-2xl p-7 md:p-8 hover:border-foreground/40 transition-all"
               >
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                <p className="text-xs text-muted-foreground font-light mb-4">
                   {r.eyebrow}
                 </p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-3">{r.title}</h3>
@@ -196,7 +196,7 @@ const SjekkEditorial = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+          <p className="text-xs text-muted-foreground font-light mb-6">
             Vanlige spørsmål
           </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">

@@ -44,7 +44,7 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <Link
             to="/gynekologi-design"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground font-light transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground font-light transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             Tilbake til alle varianter
@@ -57,7 +57,7 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 items-end">
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
+              <p className="text-xs text-muted-foreground font-light mb-8">
                 {gynekologiContent.title} · {gynekologiContent.subtitle}
               </p>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-foreground leading-[0.95] tracking-tight">
@@ -120,7 +120,7 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 md:mb-20 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               {gynekologiContent.servicesHeading}
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-6">
@@ -172,7 +172,7 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12 md:mb-16">
             <div className="max-w-xl">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+              <p className="text-xs text-muted-foreground font-light mb-6">
                 Spesialistene
               </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -202,7 +202,7 @@ const EditorialVariant = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+          <p className="text-xs text-muted-foreground font-light mb-6">
             Vanlige spørsmål
           </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">

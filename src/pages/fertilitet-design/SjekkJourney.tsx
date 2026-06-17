@@ -62,7 +62,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
           <div className="container mx-auto px-6 md:px-16 max-w-6xl">
             <Link
               to="/fertilitet-design"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/85 hover:text-white font-light transition-colors"
+              className="inline-flex items-center gap-2 text-xs text-white/85 hover:text-white font-light transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
               Tilbake til alle forslag
@@ -72,7 +72,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
 
         <div className="absolute inset-0 flex items-end pb-20 md:pb-28">
           <div className="container mx-auto px-6 md:px-16 max-w-6xl text-white">
-            <p className="text-xs uppercase tracking-[0.22em] text-white/85 font-light mb-6">
+            <p className="text-xs text-white/85 font-light mb-6">
               {sjekkContent.title} · {sjekkContent.subtitle}
             </p>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] tracking-tight max-w-4xl mb-8">
@@ -105,7 +105,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-16 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Slik foregår det
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -119,7 +119,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
               return (
                 <div key={step.label} className="bg-background p-8 md:p-10 flex flex-col">
                   <Icon className="w-6 h-6 text-foreground mb-8" strokeWidth={1.5} />
-                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                  <p className="text-xs text-muted-foreground font-light mb-4">
                     {step.label}
                   </p>
                   <h3 className="text-xl font-light text-foreground leading-snug mb-3">
@@ -139,7 +139,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 md:mb-16 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Innholdet i sjekken
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -153,7 +153,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
                 key={step.n}
                 className="bg-card border border-border/60 rounded-2xl p-7 md:p-8"
               >
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                <p className="text-xs text-muted-foreground font-light mb-4">
                   {step.n}
                 </p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-3 leading-snug">
@@ -172,7 +172,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Hvem er sjekken for
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -186,7 +186,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
                 key={r.n}
                 className="bg-background border border-border/60 rounded-2xl p-6 md:p-7"
               >
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                <p className="text-xs text-muted-foreground font-light mb-4">
                   {r.n}
                 </p>
                 <h3 className="text-lg font-light text-foreground leading-snug mb-3">
@@ -205,7 +205,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Veien videre
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">
@@ -220,7 +220,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
                 to={r.href}
                 className="group block bg-card border border-border/60 rounded-2xl p-7 md:p-8 hover:border-foreground/40 transition-all"
               >
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-light mb-4">
+                <p className="text-xs text-muted-foreground font-light mb-4">
                   {r.eyebrow}
                 </p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-3">{r.title}</h3>
@@ -240,7 +240,7 @@ const SjekkJourney = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+          <p className="text-xs text-muted-foreground font-light mb-6">
             Vanlige spørsmål
           </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">

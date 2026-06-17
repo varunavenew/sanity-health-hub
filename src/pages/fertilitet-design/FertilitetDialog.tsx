@@ -41,7 +41,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <div className="bg-brand-warm pt-24 md:pt-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <Link to="/fertilitet-design" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground font-light">
+          <Link to="/fertilitet-design" className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground font-light">
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} /> Tilbake til alle forslag
           </Link>
         </div>
@@ -50,7 +50,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* SPLIT HERO */}
       <section className="bg-brand-warm pt-8 pb-0">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl mb-10 md:mb-14">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+          <p className="text-xs text-muted-foreground font-light mb-6">
             {fertilitetContent.title} · {fertilitetContent.subtitle}
           </p>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-foreground leading-[1.02] tracking-tight max-w-4xl">
@@ -65,7 +65,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
           <div className="lg:w-1/2 relative bg-brand-mid/40 flex items-center">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-warm/30 via-transparent to-brand-dark/10" />
             <div className="relative z-10 px-8 md:px-14 py-12 md:py-0 w-full max-w-lg">
-              <p className="text-xs uppercase tracking-[0.22em] text-foreground/70 font-light mb-6">Det folk sier til oss</p>
+              <p className="text-xs text-foreground/70 font-light mb-6">Det folk sier til oss</p>
               <div className="h-24 md:h-28 mb-8 relative">
                 {rotatingPrompts.map((p, i) => (
                   <p
@@ -107,7 +107,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-12 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">Alle er velkomne</p>
+            <p className="text-xs text-muted-foreground font-light mb-6">Alle er velkomne</p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Hvem er du som lurer?</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -127,7 +127,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* SEGMENTS — pasientens spørsmål */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">Hva er ditt utgangspunkt?</p>
+          <p className="text-xs text-muted-foreground font-light mb-6">Hva er ditt utgangspunkt?</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Vi møter deg der du er — ikke der vi tror du burde være.</h2>
           <div className="space-y-3">
             {fertilitetSegments.map((s) => (
@@ -165,7 +165,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="flex items-end justify-between mb-12">
             <div className="max-w-xl">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">Mennesker, ikke titler</p>
+              <p className="text-xs text-muted-foreground font-light mb-6">Mennesker, ikke titler</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Spesialistene som følger dere</h2>
             </div>
             <Link to="/spesialister" className="hidden md:inline-flex items-center gap-2 text-sm font-light text-foreground/70 hover:text-foreground">
@@ -181,7 +181,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* SERVICES — enkel liste */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">Hele tilbudet</p>
+          <p className="text-xs text-muted-foreground font-light mb-6">Hele tilbudet</p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight mb-12 max-w-3xl">Alt på ett sted</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/60 border border-border/60 rounded-2xl overflow-hidden">
             {fertilitetServices.map((s) => {
@@ -210,7 +210,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
             {fertilitetClinicStats.map((s) => (
               <div key={s.k}>
                 <p className="text-3xl md:text-4xl font-light mb-2">{s.v}</p>
-                <p className="text-xs uppercase tracking-[0.18em] text-white/60 font-light">{s.k}</p>
+                <p className="text-xs text-white/60 font-light">{s.k}</p>
                 <p className="text-xs text-white/50 font-light mt-1">{s.sub}</p>
               </div>
             ))}
@@ -223,7 +223,7 @@ const FertilitetDialog = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
+          <p className="text-xs text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Det folk spør om</h2>
           <Accordion type="single" collapsible className="w-full">
             {fertilitetFaqs.map((faq, i) => (

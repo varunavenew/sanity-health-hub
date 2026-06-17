@@ -25,7 +25,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
     <PageLayout isChatOpen={isChatOpen}>
       <div className="bg-brand-warm pt-24 md:pt-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
-          <Link to="/fertilitet-design" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground font-light">
+          <Link to="/fertilitet-design" className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground font-light">
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} /> Tilbake til alle forslag
           </Link>
         </div>
@@ -36,11 +36,11 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
         <div className="flex flex-col lg:flex-row lg:h-[78vh] lg:min-h-[600px]">
           <div className="lg:w-3/5 h-[45vh] lg:h-full relative">
             <img src={fertilitetImages.lab} alt="Fertilitetssjekk" className="w-full h-full object-cover" />
-            <div className="absolute top-6 left-6 md:top-10 md:left-10 text-white/90 text-xs uppercase tracking-[0.3em] font-light drop-shadow">Utgave 02 · Sjekken</div>
+            <div className="absolute top-6 left-6 md:top-10 md:left-10 text-white/90 text-xs font-light drop-shadow">Utgave 02 · Sjekken</div>
           </div>
           <div className="lg:w-2/5 bg-brand-warm flex flex-col justify-between p-8 md:p-14">
             <div>
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-10">
+              <div className="flex items-center justify-between text-xs text-muted-foreground font-light mb-10">
                 <span>I dette nummeret</span>
                 <span>{new Date().getFullYear()}</span>
               </div>
@@ -65,7 +65,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
       {/* PULL QUOTE */}
       <section className="bg-background py-24 md:py-32">
         <div className="container mx-auto px-6 md:px-16 max-w-4xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">Lederen</p>
+          <p className="text-xs text-muted-foreground font-light mb-8">Lederen</p>
           <p className="text-2xl md:text-4xl font-light text-foreground leading-[1.3] italic mb-8">"{sjekkContent.intro}"</p>
           <p className="text-base text-muted-foreground font-light leading-relaxed">{sjekkContent.intro2}</p>
         </div>
@@ -77,14 +77,14 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/20">01</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">Kapittel 01</p>
+              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 01</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Hvorfor ta en sjekk</h2>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {sjekkReasons.map((r) => (
               <article key={r.n} className="border-t border-foreground/30 pt-6">
-                <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-3">{r.n}</p>
+                <p className="text-xs text-muted-foreground font-light mb-3">{r.n}</p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-3">{r.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed">{r.desc}</p>
               </article>
@@ -99,7 +99,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/15">02</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">Kapittel 02</p>
+              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 02</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Slik foregår det</h2>
             </div>
           </div>
@@ -121,7 +121,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/20">03</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">Kapittel 03</p>
+              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 03</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Spesialistene</h2>
             </div>
           </div>
@@ -137,14 +137,14 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14">
             <div className="col-span-12 md:col-span-3"><p className="text-7xl font-light text-foreground/15">04</p></div>
             <div className="col-span-12 md:col-span-9">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-4">Kapittel 04</p>
+              <p className="text-xs text-muted-foreground font-light mb-4">Kapittel 04</p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.1] tracking-tight">Hva skjer etterpå</h2>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
             {sjekkRelated.map((r) => (
               <Link key={r.title} to={r.href} className="group block border-t border-foreground/30 pt-6">
-                <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-3">{r.eyebrow}</p>
+                <p className="text-xs text-muted-foreground font-light mb-3">{r.eyebrow}</p>
                 <h3 className="text-xl md:text-2xl font-light text-foreground mb-4">{r.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed mb-5">{r.desc}</p>
                 <span className="text-sm font-light text-foreground underline underline-offset-4">Les mer →</span>
@@ -159,7 +159,7 @@ const SjekkMagasin = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-brand-warm py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
+          <p className="text-xs text-muted-foreground font-light mb-6">Vanlige spørsmål</p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">Det folk spør om</h2>
           <Accordion type="single" collapsible className="w-full">
             {sjekkFaqs.map((faq, i) => (

@@ -45,7 +45,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <Link
             to="/fertilitet-design"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground font-light transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground font-light transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             Tilbake til alle forslag
@@ -58,7 +58,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 items-start">
             <div className="col-span-12 md:col-span-7">
-              <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-10">
+              <div className="flex items-center gap-3 text-xs text-muted-foreground font-light mb-10">
                 <span className="w-8 h-px bg-foreground/30" />
                 <span>{fertilitetContent.subtitle}</span>
               </div>
@@ -88,7 +88,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
 
             {/* Numerisk panel */}
             <aside className="col-span-12 md:col-span-5 md:pl-8 md:border-l border-border/60">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-8">
+              <p className="text-xs text-muted-foreground font-light mb-8">
                 Klinikken i tall
               </p>
               <dl className="grid grid-cols-2 gap-y-10 gap-x-6">
@@ -113,7 +113,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-14 md:mb-16 items-end">
             <div className="col-span-12 md:col-span-7">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+              <p className="text-xs text-muted-foreground font-light mb-6">
                 Teamet
               </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
@@ -139,7 +139,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
                     className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
                   />
                 </div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-light mb-1.5">
+                <p className="text-[11px] text-muted-foreground font-light mb-1.5">
                   {s.subtitle || s.title}
                 </p>
                 <h3 className="text-base font-light text-foreground leading-snug">{s.name}</h3>
@@ -163,7 +163,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="mb-14 max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+            <p className="text-xs text-muted-foreground font-light mb-6">
               Hva trenger du?
             </p>
             <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
@@ -178,7 +178,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
                 to={s.href}
                 className="group grid grid-cols-12 gap-6 md:gap-10 border-b border-border/60 py-8 md:py-10 hover:bg-muted/30 transition-colors px-2 md:px-4 -mx-2 md:-mx-4"
               >
-                <div className="col-span-12 md:col-span-1 text-xs font-light text-muted-foreground tracking-widest pt-2">
+                <div className="col-span-12 md:col-span-1 text-xs font-light text-muted-foregroundst pt-2">
                   {String(i + 1).padStart(2, "0")}
                 </div>
                 <div className="col-span-12 md:col-span-5">
@@ -208,7 +208,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16 max-w-6xl">
           <div className="grid grid-cols-12 gap-6 md:gap-10 mb-12">
             <div className="col-span-12 md:col-span-5">
-              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+              <p className="text-xs text-muted-foreground font-light mb-6">
                 Tjenestekatalog
               </p>
               <h2 className="text-3xl md:text-5xl font-light text-foreground leading-[1.05] tracking-tight">
@@ -260,7 +260,7 @@ const FertilitetAtelier = ({ isChatOpen }: PageProps) => {
       {/* FAQ */}
       <section className="bg-background py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-light mb-6">
+          <p className="text-xs text-muted-foreground font-light mb-6">
             Vanlige spørsmål
           </p>
           <h2 className="text-3xl md:text-4xl font-light text-foreground leading-[1.1] tracking-tight mb-10">
