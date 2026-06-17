@@ -507,13 +507,16 @@ export const getCategoryEntryPrice = (
 ): { label: string; price: string } | null => {
   const cat = priceCategories.find((c) => c.id === categoryId);
   if (!cat) return null;
+  // Use the first subcategory (typically "Konsultasjoner") so the entry price
+  // reflects an initial consultation rather than an unrelated cheap add-on
+  // (e.g. sædanalyse 800,- under urologi).
+  const sub = cat.subcategories[0];
+  if (!sub) return null;
   let best: { label: string; n: number } | null = null;
-  for (const sub of cat.subcategories) {
-    for (const item of sub.items) {
-      const p = parsePrice(item.price);
-      if (p === null) continue;
-      if (!best || p < best.n) best = { label: item.name, n: p };
-    }
+  for (const item of sub.items) {
+    const p = parsePrice(item.price);
+    if (p === null) continue;
+    if (!best || p < best.n) best = { label: item.name, n: p };
   }
   if (!best) return null;
   return { label: best.label, price: formatFromPrice(best.n) };
