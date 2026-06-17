@@ -19,7 +19,7 @@ import urologiImg from "@/assets/categories/urologi-real.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
 import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
-import flereImg from "@/assets/categories/flere-fagomrader.jpg";
+
 
 interface PageProps {
   isChatOpen: boolean;
@@ -38,7 +38,6 @@ const staticFeatured = [
   { label: "Fertilitet", image: fertilitetImg, path: "/fertilitet" },
   { label: "Graviditet", image: graviditetImg, path: "/graviditet" },
   { label: "Ortopedi", image: ortopediImg, path: "/ortopedi" },
-  { label: "Flere tjenester", image: flereImg, path: "/flere-fagomrader" },
 ];
 
 // Icons for "Flere tjenester" grid use the shared Claude.ai (-cl) set via getServiceIcon
@@ -84,7 +83,7 @@ const Services = ({ isChatOpen }: PageProps) => {
             const key = c.categoryId || c.slug;
             if (seen.has(key)) return false;
             seen.add(key);
-            return ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi", "flere-fagomrader"].includes(key);
+            return ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi"].includes(key);
           })
           .map((c: any) => ({
             label: c.title,
@@ -128,7 +127,7 @@ const Services = ({ isChatOpen }: PageProps) => {
   useEffect(() => { document.title = "Tjenester | CMedical"; }, []);
 
   // Build "Flere tjenester" list — everything NOT in the 5 featured cards
-  const primaryIds = ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi", "flere-fagomrader"];
+  const primaryIds = ["gynekologi", "urologi", "fertilitet", "graviditet", "ortopedi"];
   const additionalServices: { label: string; path: string }[] = [];
 
   // Add non-primary categories
@@ -193,7 +192,7 @@ const Services = ({ isChatOpen }: PageProps) => {
 
       {/* Fagområder — Featured services (full-bleed, no gaps) */}
       <section className="bg-background pb-10 md:pb-14">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-0">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-0">
           {featuredServices.map((item: any, idx: number) => (
             <motion.button key={item.label} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: idx * 0.05 }} onClick={() => navigate(item.path)} className="group relative aspect-[3/4] overflow-hidden">
               <img src={item.image} alt={item.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
