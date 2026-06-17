@@ -51,6 +51,7 @@ import SjekkDialog from "./pages/fertilitet-design/SjekkDialog";
 import SjekkMagasin from "./pages/fertilitet-design/SjekkMagasin";
 import SjekkKlinikk from "./pages/fertilitet-design/SjekkKlinikk";
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
+import GraviditetEtterMaster from "./pages/demos/GraviditetEtterMaster";
 import UrologiPage from "./pages/treatments/UrologiPage";
 import OrtopediPage from "./pages/treatments/OrtopediPage";
 import FlereFagomraderPage from "./pages/treatments/FlereFagomraderPage";
@@ -118,7 +119,7 @@ const AppContent = () => {
         <Route path="/urology" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/urologi" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/ortopedi" element={<OrtopediPage isChatOpen={false} />} />
-        <Route path="/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
+        <Route path="/graviditet" element={<GraviditetEtterMaster isChatOpen={false} />} />
         <Route path="/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Norwegian slugs */}
         <Route path="/behandlinger/gynekologi" element={<Gynecology isChatOpen={false} />} />
