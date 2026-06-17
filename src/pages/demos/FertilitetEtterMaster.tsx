@@ -97,7 +97,7 @@ const segments = [
       { label: "Mannlig fertilitet", href: `${FERT}/mannlig-fertilitet` },
     ],
     cta: "Bestill analyse",
-    href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
+    href: "/booking?kategori=fertilitet&tjeneste=enkel-sedanalyse",
   },
 ];
 
