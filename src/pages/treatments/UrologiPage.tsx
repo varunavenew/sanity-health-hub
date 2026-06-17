@@ -50,11 +50,11 @@ const lifePhases = [
  desc:
  "Urinlekkasje, hyppig vannlating, blæreinfeksjoner eller blod i urinen — urologi gjelder ikke bare menn.",
  tags: [
-   { label: "Inkontinens", href: "/behandlinger/urologi/urinlekkasje" },
-   { label: "Blære", href: "/behandlinger/urologi/blare" },
-   { label: "Nyrer", href: "/behandlinger/urologi/nyrer" },
- ],
- href: "/booking?kategori=urologi",
+    { label: "Inkontinens", href: "/behandlinger/urologi/blaere" },
+    { label: "Blære", href: "/behandlinger/urologi/blaere" },
+    { label: "Nyrer", href: "/behandlinger/urologi/nyrer" },
+  ],
+ href: "/behandlinger/urologi/blaere",
  },
  {
  n: "03",
