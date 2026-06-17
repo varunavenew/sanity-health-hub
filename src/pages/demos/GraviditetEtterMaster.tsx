@@ -22,12 +22,18 @@ import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getCategoryEntryPrice } from "@/data/priceList";
 
-import heroImg from "@/assets/services/graviditet-hero.jpg";
-import ultralydImg from "@/assets/services/graviditet-ultralyd.jpg";
-import niptImg from "@/assets/services/graviditet-nipt.jpg";
-import fosterImg from "@/assets/services/graviditet-fosterdiagnostikk.jpg";
-import teamImg from "@/assets/services/graviditet-svangerskapsteam.jpg";
+import heroAsset from "@/assets/services/graviditet-hero.jpg.asset.json";
+import ultralydAsset from "@/assets/services/graviditet-ultralyd.jpg.asset.json";
+import niptAsset from "@/assets/services/graviditet-nipt.jpg.asset.json";
+import fosterAsset from "@/assets/services/graviditet-fosterdiagnostikk.jpg.asset.json";
+import teamAsset from "@/assets/services/graviditet-svangerskapsteam.jpg.asset.json";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
+
+const heroImg = heroAsset.url;
+const ultralydImg = ultralydAsset.url;
+const niptImg = niptAsset.url;
+const fosterImg = fosterAsset.url;
+const teamImg = teamAsset.url;
 
 interface PageProps {
   isChatOpen: boolean;
