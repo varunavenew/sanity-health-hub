@@ -48,9 +48,16 @@ type TemplateConfig = {
 
 const TEMPLATES: Record<string, TemplateConfig> = {
  treatmentCategory: {
- title: "Mal: Fagområde – Fertilitet",
+ title: "Mal: Fagområde – Gynekologi",
  description:
- "Mastermal for hovedfagområder (Gynekologi, Fertilitet, Urologi). Bruker fertilitetssiden som den står i dag – den inneholder alle seksjonene en fagområdeside trenger.",
+ "Mastermal for hovedfagområder. Bruker gynekologi-siden som referanse — den inneholder 'Spesialistområder'-seksjonen (2x2-grid med bilde, eyebrow og 'Les mer'-lenke) slik kunden har godkjent den.",
+ livePath: "/behandlinger/gynekologi",
+ render: () => <Gynecology isChatOpen={false} />,
+ },
+ treatmentCategoryFertilitet: {
+ title: "Mal: Fagområde – Fertilitet (alternativ)",
+ description:
+ "Alternativ fagområde-master basert på fertilitetssiden — bruk denne når siden trenger video-hero og fertilitetsspesifikke seksjoner.",
  livePath: "/behandlinger/fertilitet",
  render: () => <Fertility isChatOpen={false} />,
  },
