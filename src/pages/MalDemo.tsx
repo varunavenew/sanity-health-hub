@@ -97,7 +97,6 @@ const TEMPLATES: Record<string, TemplateConfig> = {
  ...base,
  promises: enrichedPromises,
  textSection: {
- eyebrow: "Hvorfor CMedical",
  title: "Et trygt sted å starte — uansett hvor du er i forløpet.",
  lead: "Denne valgfrie tekstseksjonen kan brukes til å fortelle historien bak behandlingen, vår tilnærming, eller hva som gjør tilbudet vårt unikt. Kombiner gjerne med en nummerert liste — eller la teksten stå alene.",
  points: [

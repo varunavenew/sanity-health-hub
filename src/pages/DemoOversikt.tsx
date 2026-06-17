@@ -8,7 +8,6 @@ interface PageProps { isChatOpen?: boolean }
 const groups = [
  {
  title: "Gynekologi",
- eyebrow: "Fagområde",
  items: [
  { to: "/gynekologi-design/editorial", name: "Gynekologi — Editorial" },
  { to: "/gynekologi-design/journey", name: "Gynekologi — Reisen" },
@@ -19,7 +18,6 @@ const groups = [
  },
  {
  title: "Fertilitet",
- eyebrow: "Fagområde",
  items: [
  { to: "/fertilitet-design/fertilitet/editorial", name: "Fertilitet — Editorial" },
  { to: "/fertilitet-design/fertilitet/journey", name: "Fertilitet — Reisen" },
@@ -31,7 +29,6 @@ const groups = [
  },
  {
  title: "Fertilitetssjekk",
- eyebrow: "Underområde",
  items: [
  { to: "/fertilitet-design/fertilitetssjekk/editorial", name: "Fertilitetssjekk — Editorial" },
  { to: "/fertilitet-design/fertilitetssjekk/journey", name: "Fertilitetssjekk — Reisen" },
@@ -43,7 +40,6 @@ const groups = [
  },
  {
  title: "Spesialistprofil",
- eyebrow: "Profilside",
  items: [
  { to: "/spesialist-design/editorial", name: "Spesialist — Forslag 1" },
  { to: "/spesialist-design/klinisk", name: "Spesialist — Forslag 2" },
@@ -52,7 +48,6 @@ const groups = [
  },
  {
  title: "Hjemmeside",
- eyebrow: "Seksjons-overganger",
  items: [
  { to: "/hjem-demo/blend", name: "Hjem — Mørk tonal blend" },
  { to: "/hjem-demo/overlap", name: "Hjem — Overlappende kortgrid" },

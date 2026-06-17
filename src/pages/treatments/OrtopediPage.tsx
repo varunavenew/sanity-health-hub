@@ -83,7 +83,6 @@ const lifePhases = [
 
 const expertAreas = [
  {
- eyebrow: "Spesialfelt",
  title: "Skulder",
  desc:
  "Inneklemming, kalkavleiringer, rotatormansjettskader, frossen og ustabil skulder — utredet og behandlet av spesialister.",
@@ -91,7 +90,6 @@ const expertAreas = [
  image: expertSkulder,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Kne og hofte",
  desc:
  "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og avansert artroskopi.",
@@ -99,7 +97,6 @@ const expertAreas = [
  image: expertKne,
  },
  {
- eyebrow: "Spesialfelt",
  title: "Hånd, albue og fot",
  desc:
  "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
@@ -107,7 +104,6 @@ const expertAreas = [
  image: expertHand,
  },
  {
- eyebrow: "Second opinion",
  title: "Andre vurdering",
  desc:
  "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",

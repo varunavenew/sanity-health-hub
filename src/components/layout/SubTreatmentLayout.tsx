@@ -35,7 +35,6 @@ export interface SubTreatmentContent {
  grandparent?: { name: string; path: string };
  title: string;
  // Hero
- eyebrow?: string;
  heroTitle: ReactNode;
  heroDescription: string;
  heroPoints: { title: string; desc: string }[];
@@ -65,7 +64,6 @@ export interface SubTreatmentContent {
  reasons: { n: string; title: string; desc: ReactNode }[];
  // Section 4 — løfter (cards with optional icon and "Les mer" link)
  promises: {
-  eyebrow?: string;
  title: string;
  desc: string;
  Icon?: ComponentType<SVGProps<SVGSVGElement>>;
@@ -74,7 +72,6 @@ export interface SubTreatmentContent {
  }[];
  // Section 4c — optional text+image content section ("Det beste fra to klinikker"-style)
  textSection?: {
-  eyebrow?: string;
  title: string;
  lead?: string;
  points?: { n: string; title: string; desc: string }[];
@@ -83,7 +80,6 @@ export interface SubTreatmentContent {
  };
  // Section 4d — optional expert areas (image cards grid)
  expertAreas?: {
- eyebrow?: string;
  title: string;
  description?: string;
  items: { eyebrow?: string; title: string; desc: string; href: string; image: string }[];
@@ -116,7 +112,6 @@ const ReasonsEditorial = ({
   lead2,
   items,
 }: {
-  eyebrow?: string;
   title: string;
   lead?: string;
   lead2?: string;

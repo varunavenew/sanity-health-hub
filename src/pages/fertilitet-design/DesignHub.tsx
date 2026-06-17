@@ -9,7 +9,6 @@ interface PageProps { isChatOpen: boolean }
 const variants = [
   {
     slug: "fertilitet/editorial",
-    eyebrow: "Forslag 02 · Fertilitet",
     title: "Editorial",
     subtitle: "Magasinpreget, varm og fortellende",
     description:
@@ -19,7 +18,6 @@ const variants = [
   },
   {
     slug: "fertilitet/journey",
-    eyebrow: "Forslag 03 · Fertilitet",
     title: "Reisen",
     subtitle: "Pasientreisen som rød tråd",
     description:
@@ -29,7 +27,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/editorial",
-    eyebrow: "Forslag 02 · Fertilitetssjekk",
     title: "Editorial",
     subtitle: "Rolig, opplysende og myk",
     description:
@@ -39,7 +36,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/journey",
-    eyebrow: "Forslag 03 · Fertilitetssjekk",
     title: "Reisen",
     subtitle: "Trinn for trinn gjennom sjekken",
     description:
@@ -49,7 +45,6 @@ const variants = [
   },
   {
     slug: "fertilitet/atelier",
-    eyebrow: "Forslag 04 · Fertilitet",
     title: "Atelier",
     subtitle: "Klinisk presisjon, spesialistene i forgrunn",
     description:
@@ -59,7 +54,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/atelier",
-    eyebrow: "Forslag 04 · Fertilitetssjekk",
     title: "Atelier",
     subtitle: "Klinisk, konkret, faktabasert",
     description:
@@ -69,7 +63,6 @@ const variants = [
   },
   {
     slug: "fertilitet/dialog",
-    eyebrow: "Forslag 05 · Fertilitet",
     title: "Dialog",
     subtitle: "Split-hero med pasientens stemme",
     description:
@@ -79,7 +72,6 @@ const variants = [
   },
   {
     slug: "fertilitet/magasin",
-    eyebrow: "Forslag 06 · Fertilitet",
     title: "Magasin",
     subtitle: "Split-hero som magasinforside",
     description:
@@ -89,7 +81,6 @@ const variants = [
   },
   {
     slug: "fertilitet/klinikk",
-    eyebrow: "Forslag 07 · Fertilitet",
     title: "Klinikk",
     subtitle: "Split-hero med faktapanel",
     description:
@@ -99,7 +90,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/dialog",
-    eyebrow: "Forslag 05 · Fertilitetssjekk",
     title: "Dialog",
     subtitle: "Split-hero med pasientens spørsmål",
     description:
@@ -109,7 +99,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/magasin",
-    eyebrow: "Forslag 06 · Fertilitetssjekk",
     title: "Magasin",
     subtitle: "Split-hero som magasinforside",
     description:
@@ -119,7 +108,6 @@ const variants = [
   },
   {
     slug: "fertilitetssjekk/klinikk",
-    eyebrow: "Forslag 07 · Fertilitetssjekk",
     title: "Klinikk",
     subtitle: "Split-hero med faktapanel",
     description:

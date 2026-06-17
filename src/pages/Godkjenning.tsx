@@ -76,10 +76,9 @@ const MASTER_TEMPLATES: {
   },
 ];
 
-const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
+const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = [
   {
     title: "Gynekologi",
-    eyebrow: "Fagområde",
     items: [
       { to: "/gynekologi-design/editorial", name: "Gynekologi — Editorial" },
       { to: "/gynekologi-design/journey", name: "Gynekologi — Reisen" },
@@ -90,7 +89,6 @@ const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: 
   },
   {
     title: "Fertilitet",
-    eyebrow: "Fagområde",
     items: [
       { to: "/fertilitet-design/fertilitet/editorial", name: "Fertilitet — Editorial" },
       { to: "/fertilitet-design/fertilitet/journey", name: "Fertilitet — Reisen" },
@@ -102,7 +100,6 @@ const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: 
   },
   {
     title: "Fertilitetssjekk",
-    eyebrow: "Underområde",
     items: [
       { to: "/fertilitet-design/fertilitetssjekk/editorial", name: "Fertilitetssjekk — Editorial" },
       { to: "/fertilitet-design/fertilitetssjekk/journey", name: "Fertilitetssjekk — Reisen" },
@@ -114,7 +111,6 @@ const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: 
   },
   {
     title: "Spesialistprofil",
-    eyebrow: "Profilside",
     items: [
       { to: "/spesialist-design/editorial", name: "Spesialist — Forslag 1" },
       { to: "/spesialist-design/klinisk", name: "Spesialist — Forslag 2" },
@@ -123,7 +119,6 @@ const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: 
   },
   {
     title: "Seksjoner",
-    eyebrow: "Gjenbrukbar seksjon",
     items: [
       { to: "/demoer/tips", name: "Tips / «Vill du veta mer?» — 3 varianter" },
       { to: "/demoer/spesialister-layout", name: "Spesialister — 1 / 2 / 3 / 4+ layout" },

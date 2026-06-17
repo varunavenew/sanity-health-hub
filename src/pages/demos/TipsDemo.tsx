@@ -137,7 +137,6 @@ const TipsCardsVariant = () => (
 
 type FeatureItem = {
   format: Format;
-  eyebrow: string;
   title: string;
   description: string;
   bullets: string[];
@@ -149,7 +148,6 @@ type FeatureItem = {
 const FEATURE_ITEMS: FeatureItem[] = [
   {
     format: "podcast",
-    eyebrow: "Podcast i denne saken",
     title: "Hormoner, humør og hverdagsliv",
     description:
       "Spesialist Lene Holm snakker om hva som skjer i kroppen under overgangsalder, og hva som faktisk hjelper.",
@@ -160,7 +158,6 @@ const FEATURE_ITEMS: FeatureItem[] = [
   },
   {
     format: "video",
-    eyebrow: "Video i denne saken",
     title: "Slik forbereder du deg til en gynekologisk undersøkelse",
     description:
       "En kort film hvor spesialisten forklarer steg for steg hva som skjer — slik at du vet hva du kan forvente.",

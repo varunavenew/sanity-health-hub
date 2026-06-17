@@ -13,7 +13,6 @@ interface PageProps {
 const variants = [
   {
     slug: "editorial",
-    eyebrow: "Variant 01",
     title: "Editorial",
     subtitle: "Magasinpreget, varm og fortellende",
     description:
@@ -23,7 +22,6 @@ const variants = [
   },
   {
     slug: "journey",
-    eyebrow: "Variant 02",
     title: "Reisen",
     subtitle: "Pasienthistorier som rød tråd",
     description:
@@ -33,7 +31,6 @@ const variants = [
   },
   {
     slug: "atelier",
-    eyebrow: "Variant 03",
     title: "Atelier",
     subtitle: "Galleri-stil med store bilder",
     description:
@@ -43,7 +40,6 @@ const variants = [
   },
   {
     slug: "index",
-    eyebrow: "Variant 04",
     title: "Index",
     subtitle: "Moderne, strammere og rolig",
     description:
@@ -53,7 +49,6 @@ const variants = [
   },
   {
     slug: "klassisk-plus",
-    eyebrow: "Variant 05",
     title: "Klassisk+",
     subtitle: "Som dagens side – med en frisk vri",
     description:

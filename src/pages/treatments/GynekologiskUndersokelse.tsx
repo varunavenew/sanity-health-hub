@@ -82,17 +82,14 @@ const reasons = [
 
 const promises = [
  {
- eyebrow: "Tryghet",
  title: "Du bestemmer hva du er komfortabel med",
  desc: "Undersøkelsen gjøres alltid i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
  },
  {
- eyebrow: "Kompetanse",
  title: "Gynekologer som er spesialister",
  desc: "Hos oss møter du leger som spesifikt jobber med kvinnehelse — ikke et utplassert sykehusansvar. Du har vår fulle oppmerksomhet.",
  },
  {
- eyebrow: "Helhet",
  title: "Ingenting forsvinner mellom sprekker",
  desc: "Alt er samlet på ett sted: Trenger du kirurgi, fertilitetsbehandling eller psykologhjelp — vi koordinerer hele forløpet for deg.",
  },
@@ -100,19 +97,16 @@ const promises = [
 
 const relatedAreas = [
  {
- eyebrow: "Spesialbehandling",
  title: "Endometriose",
  desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer enn for å gi grundig og rask vurdering.",
  href: "/behandlinger/gynekologi/endometriose",
  },
  {
- eyebrow: "Spesialbehandling",
  title: "Blødningsforstyrrelser",
  desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — eller noe annet. Vi finner årsaken.",
  href: "/behandlinger/gynekologi/blodningsforstyrrelser",
  },
  {
- eyebrow: "Spesialbehandling",
  title: "PCOS",
  desc: "Polycystisk ovariesyndrom er vanlig, og kan gi uregelmessig syklus, akne og uttretthet — med mer. Vi gir utredning og oppfølging gjennom alle faser av livet.",
  href: "/behandlinger/gynekologi/pcos",

@@ -46,17 +46,14 @@ const SPECIALIST_LABEL: Record<CategoryId, string> = {
 
 const STANDARD_PROMISES = [
   {
-    eyebrow: "Trygghet",
     title: "Du bestemmer hva du er komfortabel med",
     desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
   },
   {
-    eyebrow: "Kompetanse",
     title: "Spesialister med dybde",
     desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
   },
   {
-    eyebrow: "Helhet",
     title: "Alt under samme tak",
     desc: "Trenger du videre utredning, behandling eller oppfølging — vi koordinerer hele forløpet for deg.",
   },
@@ -218,7 +215,6 @@ export const treatmentToSubLayout = ({
   const related =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => ({
-          eyebrow: "Tjeneste",
           title: ls.label,
           desc: ls.description,
           href: ls.path,
@@ -234,7 +230,6 @@ export const treatmentToSubLayout = ({
     parent,
     grandparent,
     title: data.title,
-    eyebrow: `${parent.name} — CMedical`,
     heroTitle,
     heroDescription: summarize(firstParagraph, 320),
     heroPoints,
