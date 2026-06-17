@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink, Info } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
@@ -252,8 +253,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   {item.name}
                                                 </p>
                                                 {item.info && (
-                                                  <Popover>
-                                                    <PopoverTrigger asChild>
+                                                  <Tooltip delayDuration={100}>
+                                                    <TooltipTrigger asChild>
                                                       <button
                                                         type="button"
                                                         aria-label={`Mer informasjon om ${item.name}`}
@@ -261,15 +262,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       >
                                                         <Info className="w-3.5 h-3.5" strokeWidth={1.5} />
                                                       </button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent
+                                                    </TooltipTrigger>
+                                                    <TooltipContent
                                                       side="top"
                                                       align="start"
-                                                      className="w-80 text-xs font-light leading-relaxed text-foreground"
+                                                      className="max-w-xs text-xs font-light leading-relaxed"
                                                     >
                                                       {item.info}
-                                                    </PopoverContent>
-                                                  </Popover>
+                                                    </TooltipContent>
+                                                  </Tooltip>
                                                 )}
                                               </div>
                                               {item.duration && (
