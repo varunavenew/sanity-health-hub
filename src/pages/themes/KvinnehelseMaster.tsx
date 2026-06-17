@@ -79,9 +79,6 @@ const relatedServices = [
 const MasterLabel = ({ children }: { children: React.ReactNode }) => (
  <div className="bg-brand-light border-y border-brand-dark/10">
  <div className="container mx-auto px-6 md:px-16 py-3 flex items-center gap-3">
- <span className="inline-flex items-center px-2 py-0.5 rounded bg-brand-dark text-brand-light text-[10px] uppercase">
- Seksjon
- </span>
  <span className="text-xs text-foreground/70 font-light">{children}</span>
  </div>
  </div>
