@@ -156,6 +156,15 @@ const Urology = ({ isChatOpen }: PageProps) => {
  kanskje frykter. CMedical er eneste private aktør i Norge som tilbyr
  robotoperasjoner. Ingen ventetid, ingen henvisning nødvendig.
  </p>
+ {(() => {
+ const entry = getCategoryEntryPrice("urologi");
+ return entry ? (
+ <div className="mb-4 text-sm font-light text-foreground/80">
+ <span className="block text-base text-foreground">{entry.label}</span>
+ <span className="block">{entry.price}</span>
+ </div>
+ ) : null;
+ })()}
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
  variant="cta"
