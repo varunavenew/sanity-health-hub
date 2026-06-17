@@ -233,7 +233,7 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
       />
       <header className="bg-brand-warm">
         <div className="container mx-auto px-6 md:px-16 py-16 md:py-24">
-          <p className="text-xs text-foreground/60 font-light mb-4">Juridisk informasjon</p>
+          
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] max-w-3xl">
             {title}
           </h1>

@@ -184,7 +184,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  </Link>
 
  <header className="mb-8 pb-6 border-b border-brand-dark/10">
- <p className="text-muted-foreground text-xs mb-2">Klinikk</p>
+ 
  <h1 className="text-3xl md:text-4xl font-light text-brand-dark">
  CMedical {clinic.label}
  </h1>

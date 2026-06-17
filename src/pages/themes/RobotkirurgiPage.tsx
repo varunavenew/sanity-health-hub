@@ -90,7 +90,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
       <header className="bg-brand-warm pt-24 md:pt-28 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto">
-            <p className="text-xs text-foreground/60 font-light mb-4">Teknologi</p>
+            
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
               {title}
             </h1>

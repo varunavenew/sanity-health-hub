@@ -48,7 +48,7 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
             transition={{ duration: 0.6 }}
             className="max-w-2xl"
           >
-            <p className="text-white/60 text-xs mb-2">Vårt team</p>
+            
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-4">
               {title}
             </h1>
