@@ -67,6 +67,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/treatmentCategoryToUkerSiden",
     exampleLabel: "Åpne tidligere versjon",
   },
+  {
+    key: "fertilitetEtterMaster",
+    title: "Demo: Fertilitet bygget på mastermalen",
+    description: "Fertilitet satt opp etter den godkjente mastermalen (2. juni-snapshot). Identisk struktur og design som mastermalen — kun innhold er fertilitetsspesifikt (tekst, hero-video, 'fra'-pris, bilder, spesialister).",
+    examplePath: "/maler/fertilitetEtterMaster",
+    exampleLabel: "Åpne demo",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; eyebrow: string; items: { to: string; name: string }[] }[] = [
