@@ -304,7 +304,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               {bookable ? (
                                                 <button
                                                   onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
-                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent text-accent-foreground text-xs font-normal hover:bg-accent/90 transition-colors whitespace-nowrap"
+                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
                                                 >
                                                   Bestill time
                                                 </button>
