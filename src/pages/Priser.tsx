@@ -240,12 +240,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             {sub.label}
                                           </span>
                                           <div className="flex items-center gap-3">
-                                            <span className="text-muted-foreground text-xs font-light">
+                                            <span className="text-brand-dark/40 text-sm font-light">
                                               {sub.items.length}
                                             </span>
                                             <ChevronRight
-                                              className={`w-4 h-4 text-muted-foreground transition-transform ${
-                                                subOpen ? 'rotate-90 text-foreground/80' : ''
+                                              className={`w-4 h-4 text-brand-mid transition-all ${
+                                                subOpen ? 'rotate-90 text-foreground/80' : 'group-hover:text-brand-dark'
                                               }`}
                                               aria-hidden="true"
                                             />
