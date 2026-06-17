@@ -294,10 +294,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  <div className="grid lg:grid-cols-12">
  <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
  <div className="max-w-xl">
- <p className="text-xs text-foreground/60 mb-5">
- Hvorfor CMedical
- </p>
- <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
  Det beste fra to klinikker — samlet på ett sted.
  </h2>
  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
