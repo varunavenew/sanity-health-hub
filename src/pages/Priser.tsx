@@ -104,6 +104,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
     setExpandedCategory(newId);
     const cat = priceCategories.find(c => c.id === newId);
     setExpandedSubcategory(cat?.subcategories[0]?.label ?? null);
+    if (newId) {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(`kat-${newId}`);
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    }
   };
 
   const toggleSubcategory = (label: string) => {
