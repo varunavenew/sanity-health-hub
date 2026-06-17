@@ -7,6 +7,12 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
@@ -270,6 +276,83 @@ const FertilitetEtterMaster = ({ isChatOpen }: PageProps) => {
                   </Link>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2b. SPLIT-FAQ — alternativ for undertjenester med mye tekst
+            (samme mønster som NIPT / GynekologiSubPage). På undertjenester
+            erstatter denne seksjonen "Fortell oss hvor du er", siden brukeren
+            allerede har valgt sitt steg i livet. */}
+      <section className="py-20 md:py-28 bg-background">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
+            <div className="lg:col-span-5">
+              <div className="lg:sticky lg:top-28">
+                <p className="text-xs text-foreground/60 mb-5">
+                  Alternativ for undertjenester
+                </p>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+                  Det du lurer på — fordelt så det er enkelt å finne.
+                </h2>
+                <p className="text-base font-light text-muted-foreground leading-relaxed mb-3">
+                  På undertjenester med mye fagstoff bruker vi denne split-løsningen
+                  istedenfor segment-seksjonen over. Innholdet fordeles strategisk
+                  så du raskt kan lese akkurat det som er relevant for deg.
+                </p>
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  Første punkt er åpent som standard, så det viktigste alltid
+                  møter leseren først — uten ekstra scroll.
+                </p>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7">
+              <Accordion
+                type="single"
+                collapsible
+                defaultValue="faq-0"
+                className="border-t border-border/60"
+              >
+                {[
+                  {
+                    q: "Hva er IVF, og når er det aktuelt?",
+                    a: "IVF (in vitro-fertilisering) er prøverørsbehandling der egg og sæd møtes utenfor kroppen. Det er aktuelt når andre forsøk ikke har lyktes, ved nedsatt eggstokkreserve, ved tubefaktor eller når sædkvaliteten er nedsatt.",
+                  },
+                  {
+                    q: "Hvor lang ventetid har dere?",
+                    a: "Vi har som regel kort ventetid på første konsultasjon — ofte innen 1–2 uker. Selve behandlingen planlegges deretter etter din syklus og vårt laboratoriums kapasitet.",
+                  },
+                  {
+                    q: "Trenger jeg henvisning fra fastlege?",
+                    a: "Nei. Du kan ta direkte kontakt med oss uten henvisning. Har du allerede en utredning eller prøvesvar, tar vi gjerne imot dem i forkant så vi sparer tid.",
+                  },
+                  {
+                    q: "Hva koster en fertilitetsbehandling?",
+                    a: "Prisene varierer med behandlingstype. Prisene på siden er «fra»-priser og en grundig prisoversikt får du i første konsultasjon, der vi går gjennom forløpet som passer deg.",
+                  },
+                  {
+                    q: "Kan jeg bruke helseforsikring?",
+                    a: "Mange forsikringer dekker utredning og deler av behandlingen. Vi hjelper deg med å sjekke hva din avtale dekker før vi starter.",
+                  },
+                ].map((f, i) => (
+                  <AccordionItem
+                    key={f.q}
+                    value={`faq-${i}`}
+                    className="border-b border-border/60"
+                  >
+                    <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
+                      {f.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-8">
+                      <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                        {f.a}
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         </div>
