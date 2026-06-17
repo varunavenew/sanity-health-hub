@@ -85,7 +85,7 @@ const segments = [
       { label: "Spermiefrys", href: `${FERT}/nedfrysing` },
     ],
     cta: "Snakk med oss",
-    href: "/booking?kategori=fertilitet&tjeneste=eggdonasjon",
+    href: "/booking?kategori=fertilitet&tjeneste=uforpliktende-telefonsamtale-om-fertilitet-med-sykepleier",
   },
   {
     id: "mann",
@@ -97,7 +97,7 @@ const segments = [
       { label: "Mannlig fertilitet", href: `${FERT}/mannlig-fertilitet` },
     ],
     cta: "Bestill analyse",
-    href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
+    href: "/booking?kategori=fertilitet&tjeneste=enkel-sedanalyse",
   },
 ];
 
