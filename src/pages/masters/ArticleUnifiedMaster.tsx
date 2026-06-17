@@ -409,7 +409,6 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
       {/* ───────────── ANDRE SPESIALISTER (scroller) ───────────── */}
       <SpecialistsScroller
         category="gynekologi"
-        eyebrow=""
         title="Andre gynekologer hos oss"
         description="Møt teamet av spesialister som jobber med kvinnehelse."
         seeAllHref="/spesialister?kategori=gynekologi"
