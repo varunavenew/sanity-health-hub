@@ -100,8 +100,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, []);
 
   const toggleCategory = (id: string) => {
-    setExpandedCategory(expandedCategory === id ? null : id);
-    setExpandedSubcategory(null);
+    const newId = expandedCategory === id ? null : id;
+    setExpandedCategory(newId);
+    const cat = priceCategories.find(c => c.id === newId);
+    setExpandedSubcategory(cat?.subcategories[0]?.label ?? null);
   };
 
   const toggleSubcategory = (label: string) => {
