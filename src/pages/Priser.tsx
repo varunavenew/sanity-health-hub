@@ -71,7 +71,12 @@ const staticFaqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const firstCategoryId = (() => {
+    const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
+    const first = priceCategories.find(c => prioritized.includes(c.id));
+    return first?.id ?? priceCategories[0]?.id ?? null;
+  })();
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(firstCategoryId);
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
