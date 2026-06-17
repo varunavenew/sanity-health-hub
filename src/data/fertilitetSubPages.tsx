@@ -40,7 +40,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "fertilitetssjekk" },
     primaryCtaLabel: "Bestill fertilitetssjekk",
-    flowEyebrow: "Innholdet i sjekken",
     flowTitle: "Det vi kartlegger — og hva det betyr for deg",
     flow: [
       { n: "01", title: "Eggstokkreserve (AMH)", desc: "AMH er et hormon som sier noe om hvor mange egganlegg du har igjen — en indikator på fruktbarhetsvinduet ditt." },
@@ -50,7 +49,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "05", title: "Samtale med spesialist", desc: "Du møter en fertilitetsspesialist som gjennomgår alle funn med deg — og legger en plan om noe bør følges opp." },
       { n: "06", title: "Individuell plan", desc: "Basert på funnene setter vi opp det som er aktuelt: 'vil følge opp' eller 'her er neste behandling'." },
     ],
-    reasonsEyebrow: "Hva får du ut av en fertilitetssjekk",
     reasonsTitle: "En sjekk gir deg svar — ikke nødvendigvis problemer",
     reasonsLead:
       "Mange tror en fertilitetssjekk er noe man gjør først når man har prøvd lenge og noe er galt. Slik er det ikke. En sjekk er rett og slett en kartlegging av fruktbarheten din — slik at du vet hva du har å forholde deg til.",
@@ -97,7 +95,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "42% suksessrate IVF — kvinner under 35 år",
     booking: { ...baseBooking, tjeneste: "ivf" },
     primaryCtaLabel: "Bestill IVF-konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres en IVF-syklus",
     flow: [
       { n: "Steg 01", title: "Konsultasjon og plan", desc: "Vi går gjennom utredningen, legger en behandlingsplan og forklarer hva du kan forvente." },
@@ -107,7 +104,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 05", title: "Embryooverføring", desc: "Det beste embryoet settes tilbake i livmoren. Et enkelt og smertefritt inngrep." },
       { n: "Steg 06", title: "Venting og test", desc: "To ukers venting før graviditetstest. Vi følger deg tett gjennom hele perioden." },
     ],
-    reasonsEyebrow: "Når er IVF aktuelt",
     reasonsTitle: "Hvem passer IVF for?",
     reasonsLead:
       "IVF er ikke alltid første steg, men det er ofte det mest effektive. Behandlingen passer for mange — og vi vurderer alltid det enkleste alternativet først.",
@@ -153,7 +149,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "iui" },
     primaryCtaLabel: "Bestill IUI-samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår en IUI-behandling",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom utredning, sykluskontroll og om IUI er rett behandling for deg." },
@@ -162,7 +157,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Inseminasjon", desc: "Bearbeidet sæd plasseres direkte i livmoren — en kort, smertefri prosedyre." },
       { n: "Steg 05", title: "Oppfølging", desc: "Graviditetstest etter ca. to uker — vi følger deg tett gjennom ventetiden." },
     ],
-    reasonsEyebrow: "Når er IUI aktuelt",
     reasonsTitle: "Hvem passer IUI for?",
     reasonsLead:
       "IUI er ofte det første behandlingssteget når årsaken til ufrivillig barnløshet er mild — og når egglederne er åpne.",
@@ -207,7 +201,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Trygt og åpent",
     booking: { ...baseBooking, tjeneste: "eggdonasjon" },
     primaryCtaLabel: "Bestill samtale om eggdonasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår eggdonasjon hos oss",
     flow: [
       { n: "Steg 01", title: "Førstegangssamtale", desc: "Vi forklarer hele prosessen, hva loven sier og hva som er aktuelt for dere." },
@@ -216,7 +209,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Behandling og overføring", desc: "Donoregg befruktes med partner- eller donorsæd. Embryoet overføres til livmoren." },
       { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
     ],
-    reasonsEyebrow: "Når er eggdonasjon aktuelt",
     reasonsTitle: "Hvem passer eggdonasjon for?",
     reasonsLead:
       "Eggdonasjon kan være riktig løsning når egne egg ikke gir resultat — eller ikke er et alternativ. Vi tar alle samtaler trygt og uten press.",
@@ -261,7 +253,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "nedfrysing" },
     primaryCtaLabel: "Bestill samtale om nedfrysing",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår nedfrysing av egg",
     flow: [
       { n: "Steg 01", title: "Samtale og fertilitetssjekk", desc: "Vi vurderer eggstokkreserven din og om nedfrysing gir mening i din situasjon." },
@@ -270,7 +261,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Nedfrysing og lagring", desc: "Eggene fryses ned med vitrifikasjon og lagres trygt på klinikken." },
       { n: "Steg 05", title: "Bruk når du er klar", desc: "Når du ønsker å bli gravid, tiner vi eggene og gjennomfører IVF." },
     ],
-    reasonsEyebrow: "Når kan nedfrysing være riktig",
     reasonsTitle: "Hvem velger å fryse ned egg?",
     reasonsLead:
       "Det finnes mange gode grunner til å fryse ned egg. Det viktigste er at du tar valget basert på riktig informasjon — ikke press.",
@@ -315,7 +305,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på fertilitet",
     booking: { ...baseBooking, tjeneste: "pgt" },
     primaryCtaLabel: "Bestill PGT-samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik fungerer PGT i et IVF-forløp",
     flow: [
       { n: "Steg 01", title: "Genetisk veiledning", desc: "Vi går gjennom indikasjon, hva testen kan svare på og hva den ikke kan." },
@@ -324,7 +313,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Resultat", desc: "Vi gjennomgår resultatene sammen — og hvilke embryo som er aktuelle for overføring." },
       { n: "Steg 05", title: "Embryooverføring", desc: "Det best egnede embryoet settes tilbake i livmoren." },
     ],
-    reasonsEyebrow: "Når er PGT aktuelt",
     reasonsTitle: "Hvem kan PGT være riktig for?",
     reasonsLead:
       "PGT er ikke for alle som tar IVF. Det er en tilleggstest med klare indikasjoner — og vi vurderer alltid om det er riktig for deg.",
@@ -369,7 +357,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på mannlig fertilitet",
     booking: { ...baseBooking, tjeneste: "sedanalyse" },
     primaryCtaLabel: "Bestill sædanalyse",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi mannlig fertilitet",
     flow: [
       { n: "Steg 01", title: "Sædanalyse", desc: "Du leverer en prøve — analysen gjøres samme dag av vårt laboratorium." },
@@ -377,7 +364,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Eventuell videre utredning", desc: "Ultralyd, hormonprøver eller henvisning til urolog ved behov." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Vi vurderer alt fra livsstilsendringer til IVF/ICSI eller mikro-TESE." },
     ],
-    reasonsEyebrow: "Når sjekke mannlig fertilitet",
     reasonsTitle: "Når er det lurt å ta en sjekk?",
     reasonsLead:
       "En sædanalyse er enkel, rask og gir konkrete svar. Det burde være en selvfølge når et par utreder fertilitet — ikke noe som kommer som siste utvei.",
@@ -422,7 +408,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,9 — Psykologer som forstår forløpet",
     booking: { ...baseBooking, tjeneste: "samtale" },
     primaryCtaLabel: "Bestill samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik tilbyr vi psykisk støtte",
     flow: [
       { n: "Steg 01", title: "Første samtale", desc: "En åpen, uforpliktende samtale der vi blir kjent og finner ut hva du trenger." },
@@ -430,7 +415,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Samtaler i ditt tempo", desc: "Underveis i behandlingen — og etterpå om du ønsker det." },
       { n: "Steg 04", title: "Tett samspill med behandlerteamet", desc: "Med ditt samtykke samarbeider vi på tvers, slik at du opplever helhet." },
     ],
-    reasonsEyebrow: "Når kan psykolog hjelpe",
     reasonsTitle: "Du trenger ikke vente på krisen",
     reasonsLead:
       "Mange ber om hjelp først når det blir tungt. Vi vil at du skal vite at samtalene står klare hele veien — også når alt 'går greit'.",
@@ -475,7 +459,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Trygg og åpen prosess",
     booking: { ...baseBooking, tjeneste: "donorbehandling" },
     primaryCtaLabel: "Bestill samtale om donorbehandling",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår donorbehandling hos oss",
     flow: [
       { n: "Steg 01", title: "Førstegangssamtale", desc: "Vi går gjennom situasjonen, hva loven sier og hvilke muligheter som er aktuelle for deg eller dere." },
@@ -484,7 +467,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Behandling", desc: "Inseminasjon, IVF eller partnerdonasjon — avhengig av hva som passer best." },
       { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
     ],
-    reasonsEyebrow: "Når er donorbehandling aktuelt",
     reasonsTitle: "Hvem passer donorbehandling for?",
     reasonsLead:
       "Donorbehandling kan være riktig løsning når egne egg eller sæd ikke er et alternativ — eller når det er en sosial eller medisinsk grunn til å bruke donor.",
@@ -554,7 +536,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "hysteroskopi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysteroskopi",
     flow: [
       { n: "01", title: "Konsultasjon", desc: "Fertilitetsspesialist vurderer indikasjon og forklarer inngrepet i detalj." },
@@ -562,7 +543,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose. Vanligvis 15–30 minutter." },
       { n: "04", title: "Veien videre", desc: "Funn og prøvesvar gjennomgås — og kobles til neste steg i fertilitetsplanen." },
     ],
-    reasonsEyebrow: "Når er det aktuelt",
     reasonsTitle: "Når brukes hysteroskopi i et fertilitetsforløp?",
     reasonsLead:
       "Tilstanden i livmorhulen har direkte betydning for at et embryo skal kunne feste seg. Hysteroskopi gir oss et tydelig bilde — og en mulighet til å rette opp i ting samtidig.",
@@ -605,7 +585,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Norges eldste private fertilitetsklinikk",
     booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
     primaryCtaLabel: "Bestill fertilitetsutredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår en fertilitetsutredning",
     flow: [
       { n: "Steg 01", title: "Uforpliktende samtale", desc: "Du forteller om din situasjon, stiller spørsmål og blir kjent med mulighetene som finnes." },
@@ -614,7 +593,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Gjennomgang av resultater", desc: "Sammen ser vi på funnene og snakker om hva de betyr for deg." },
       { n: "Steg 05", title: "Veien videre — i ditt tempo", desc: "Egen plan: fortsette på egen hånd, starte behandling, eller ta deg mer tid." },
     ],
-    reasonsEyebrow: "Slik fungerer fertilitetsutredningen",
     reasonsTitle: "Alt du trenger å vite — steg for steg",
     reasonsLead:
       "Vi har samlet hele innholdet i utredningen i en oversikt du kan utforske i ditt eget tempo. Trykk på hvert tema for å lese mer.",

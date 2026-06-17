@@ -46,7 +46,6 @@ export interface SubTreatmentContent {
  booking: { kategori: string; tjeneste?: string };
  primaryCtaLabel?: string;
  // Section 2 — flow / hva skjer
- flowEyebrow?: string;
  flowTitle: string;
  flow: { n: string; title: string; desc: string }[];
  flowImage?: string; // image used in the "Slik foregår det" section (e.g. clinic interior)
@@ -57,7 +56,6 @@ export interface SubTreatmentContent {
  flowLinkLabel?: string;
  flowLinkHref?: string;
  // Section 3 — hvem / symptomer
- reasonsEyebrow?: string;
  reasonsTitle: string;
  reasonsLead?: string;
  reasonsLead2?: string;
@@ -85,7 +83,6 @@ export interface SubTreatmentContent {
  items: { title: string; desc: string; href: string; image: string }[];
  };
  // Section 5 — relaterte
- relatedEyebrow?: string;
  relatedTitle?: string;
  related: { title: string; desc: string; href: string }[];
  // Final CTA
@@ -96,7 +93,6 @@ export interface SubTreatmentContent {
  specialistSlugs?: string[]; // optional whitelist of who does this service
  specialistCtaLabel?: string;
  specialistCtaHref?: string;
- specialistEyebrow?: string;
  specialistTitle?: string;
  specialistDescription?: string;
 }

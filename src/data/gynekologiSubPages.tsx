@@ -48,7 +48,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     hideSeePriser: true,
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
-    flowEyebrow: "Konsultasjonen",
     flowTitle: "Slik foregår timen",
     flowImage: imgMajorstuen,
     flowImageAlt: "Interiør fra CMedical-klinikken",
@@ -60,7 +59,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Minutt 25–40", title: "Funn og forklaring", desc: "Legen gjennomgår hva vi finner, forklarer med klare ord — og spør hvordan du opplever det." },
       { n: "Minutt 40–55", title: "Plan for veien videre", desc: "Trenger du ikke mer nå, avslutter vi der. Trenger du oppfølging eller behandling, legger vi en konkret plan." },
     ],
-    reasonsEyebrow: "Hvem passer det for",
     reasonsTitle: "Du trenger ikke ha en diagnose for å\u00A0bestille",
     reasonsLead:
       "En gynekologisk undersøkelse er for alle som har en kropp som trenger å bli sett. Kanskje kjenner du på noe vagt og udefinerbart, kanskje vil du bare forsikre deg om at alt er ok.",
@@ -135,7 +133,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialiserte endometriosespesialister",
     booking: { ...baseBooking, tjeneste: "endometriose" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi endometriose",
     flow: [
       { n: "Steg 01", title: "Samtale og kartlegging", desc: "Vi går grundig gjennom symptomer, syklus og hvordan plagene påvirker hverdagen din." },
@@ -143,7 +140,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi forklarer hva vi finner — med tydelige ord og bilder du forstår." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell behandling, smertelindring eller kirurgi — vi finner det som passer deg." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du mistenke endometriose?",
     reasonsLead:
       "Endometriose kan se ut som mange andre tilstander, og blir ofte oversett i mange år. Disse symptomene bør tas på alvor.",
@@ -186,7 +182,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     heroPrice: "Pris fra 2 500 kr",
     booking: { ...baseBooking, tjeneste: "overgangsalder" },
     primaryCtaLabel: "Se ledige tider",
-    flowEyebrow: "Forløpet",
     flowTitle: "Hva skjer hos oss",
     flow: [
       { n: "Steg 01", title: "Grundig samtale", desc: "Vi kartlegger symptomer, livssituasjon og din helsehistorikk." },
@@ -194,7 +189,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi går gjennom alternativene — hormonell, ikke-hormonell og livsstil — og finner det som passer deg." },
       { n: "Steg 04", title: "Oppfølging", desc: "Kontroll etter 3 måneder for å justere behandlingen og sikre at du har det bra." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Symptomer det er verdt å ta på alvor",
     reasonsLead:
       "Overgangsalderen rammer alle kvinner — men opplevelsen er svært individuell. Disse symptomene fortjener oppmerksomhet.",
@@ -237,7 +231,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "urogynekologi" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
@@ -245,7 +238,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du ta kontakt?",
     reasonsLead:
       "Urogynekologiske plager rammer både kvinner som har født og kvinner som ikke har det, både unge og eldre. Felles for alle er at det finnes hjelp — og at det sjelden blir bedre av seg selv.",
@@ -288,7 +280,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "urinlekkasje" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, livssituasjon og hvordan urinlekkasjen påvirker hverdagen." },
@@ -296,7 +287,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Konservative tiltak først — bekkenbunnstrening, livsstilsråd og medikamenter ved behov." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservative tiltak ikke er nok, vurderer vi moderne, skånsomme kirurgiske inngrep." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du søke hjelp?",
     reasonsLead:
       "Urinlekkasje kommer i mange former. Felles for alle er at det finnes hjelp — og at det sjelden blir bedre av seg selv.",
@@ -339,7 +329,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "pcos" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi PCOS",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi kartlegger syklus, symptomer, familiehistorikk og hva som er viktig for deg nå." },
@@ -347,7 +336,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi går gjennom funnene og forklarer hva PCOS betyr for akkurat deg." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på dine mål." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Tegn på PCOS",
     reasonsLead:
       "PCOS gir svært variable symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
@@ -390,7 +378,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "vulvalidelser" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi vulvalidelser",
     flow: [
       { n: "Steg 01", title: "Grundig samtale", desc: "Vi går gjennom smerteforløp, hva som utløser og hva som lindrer." },
@@ -398,7 +385,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose", desc: "Vi forklarer tilstanden — vulvodyni, lichen sclerosus, lichen planus eller annet." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Tilpasset plan med medisinsk, fysioterapeutisk og psykologisk støtte ved behov." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Tegn det er verdt å ta på alvor",
     reasonsLead:
       "Vulvalidelser er ofte usynlige for andre, men styrer hverdagen din. Disse symptomene fortjener spesialistvurdering.",
@@ -441,7 +427,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "celleforandringer" },
     primaryCtaLabel: "Bestill kolposkopi",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik følger vi opp celleforandringer",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom prøvesvar og forklarer hva de betyr." },
@@ -449,7 +434,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Biopsi om nødvendig", desc: "Liten vevsprøve som gir presist svar på alvorlighetsgrad." },
       { n: "Steg 04", title: "Plan eller behandling", desc: "Kontroll, oppfølging eller konisering — basert på funn." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du komme til oss?",
     reasonsLead:
       "De fleste celleforandringer gir ingen symptomer og oppdages ved screening. Disse situasjonene tilsier rask vurdering.",
@@ -492,7 +476,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "pms-pmdd" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi PMS og PMDD",
     flow: [
       { n: "Steg 01", title: "Symptomdagbok", desc: "Du fører dagbok over to sykluser — det er nøkkelen til riktig diagnose." },
@@ -500,7 +483,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose", desc: "PMS, PMDD eller annen tilstand — vi forklarer hva mønstrene betyr." },
       { n: "Steg 04", title: "Behandling", desc: "SSRI, hormonell behandling, livsstilsendringer eller kombinasjon — basert på dine plager." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når er det mer enn 'bare PMS'?",
     reasonsLead:
       "Forskjellen mellom PMS og PMDD ligger i alvorlighetsgrad og hvordan symptomene påvirker livet ditt. Disse tegnene tilsier utredning.",
@@ -543,7 +525,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "vaginale-fremfall" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom symptomer, fødselshistorie og hvordan det påvirker hverdagen." },
@@ -551,7 +532,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandlingsplan", desc: "Bekkenbunnstrening, pessar eller kirurgi — basert på grad og dine ønsker." },
       { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Skånsom rekonstruktiv kirurgi, ofte robotassistert, med rask restitusjon." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Tegn på vaginale fremfall",
     reasonsLead:
       "Fremfall utvikler seg ofte gradvis. Disse symptomene tyder på at det er på tide å bli vurdert.",
@@ -594,7 +574,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "cyster" },
     primaryCtaLabel: "Bestill ultralyd",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi cyster",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom symptomer, syklus og eventuelle tidligere funn." },
@@ -602,7 +581,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Plan", desc: "Observasjon, hormonell behandling eller kirurgi — basert på funn." },
       { n: "Steg 04", title: "Kontroll eller inngrep", desc: "Tett oppfølging eller skånsom kikkhullskirurgi om det trengs." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør cyster vurderes?",
     reasonsLead:
       "Mange cyster gir ingen symptomer og oppdages tilfeldig. Disse situasjonene tilsier at du bør bli sett.",
@@ -645,7 +623,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på avansert kirurgi",
     booking: { ...baseBooking, tjeneste: "robotkirurgi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomfører vi robotkirurgi",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vurdering av om robotassistert kirurgi er rett valg for deg." },
@@ -653,7 +630,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Operasjonen gjennomføres i full narkose med kirurgen ved roboten." },
       { n: "Steg 04", title: "Oppfølging", desc: "Tett oppfølging hjemme, kontroll på klinikken og full støtte underveis." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når brukes robotassistert kirurgi?",
     reasonsLead:
       "Robotteknologi egner seg særlig for komplekse inngrep der presisjon er avgjørende.",
@@ -696,7 +672,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "hysteroskopi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysteroskopi",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi vurderer indikasjon og forklarer inngrepet i detalj." },
@@ -704,7 +679,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose, etter behov." },
       { n: "Steg 04", title: "Etterpå", desc: "Kort observasjon, så hjem. Kontroll og prøvesvar i etterkant." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når kan hysteroskopi være aktuelt?",
     reasonsLead:
       "Hysteroskopi brukes både til diagnostikk og behandling av flere tilstander i livmoren.",
@@ -747,7 +721,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på avansert kirurgi",
     booking: { ...baseBooking, tjeneste: "hysterektomi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysterektomi hos oss",
     flow: [
       { n: "Steg 01", title: "Grundig konsultasjon", desc: "Vi går gjennom indikasjon, alternativer og hvilken teknikk som passer for deg." },
@@ -755,7 +728,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Operasjonen", desc: "Inngrepet utføres som regel med robot eller kikkhullskirurgi." },
       { n: "Steg 04", title: "Restitusjon", desc: "Tett oppfølging hjemme og kontroll på klinikken." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når kan hysterektomi være aktuelt?",
     reasonsLead:
       "Hysterektomi vurderes når andre behandlinger ikke fungerer eller er uaktuelle. Beslutningen tas alltid i samråd med deg.",
@@ -798,7 +770,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "labiaplastikk" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres labiaplastikk",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom motivasjon, ønsker og hva inngrepet kan og ikke kan oppnå." },
@@ -806,7 +777,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Utføres i lokalbedøvelse eller kort narkose, etter behov." },
       { n: "Steg 04", title: "Heling og oppfølging", desc: "Tett oppfølging i helingsperioden og kontroll etter 6 uker." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når vurderes labiaplastikk?",
     reasonsLead:
       "Mange opplever plager med store eller asymmetriske labia. Det er grunner som tas på alvor.",
@@ -849,7 +819,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "blodningsforstyrrelser" },
     primaryCtaLabel: "Bestill utredning",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi blødningsforstyrrelser",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom mønster, varighet, mengde og påvirkning på hverdagen." },
@@ -857,7 +826,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Diagnose", desc: "Vi forklarer hva vi finner — myomer, polypper, hormonell ubalanse, adenomyose eller annet." },
       { n: "Steg 04", title: "Behandling", desc: "Tilpasset plan: medisinsk, hormonell, hysteroskopisk eller kirurgisk." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når bør du komme til oss?",
     reasonsLead:
       "Det finnes ingen «normalt» som må passe alle. Disse mønstrene fortjener spesialistvurdering.",
@@ -900,7 +868,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "hysteroskopi" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik gjennomføres hysteroskopi",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom symptomer, tidligere funn og hva du kan forvente." },
@@ -908,7 +875,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Inngrepet", desc: "Selve undersøkelsen tar 10–30 minutter, ofte uten narkose." },
       { n: "Steg 04", title: "Svar og plan", desc: "Du får tilbakemelding samme dag og en plan videre." },
     ],
-    reasonsEyebrow: "Symptomer og tilstand",
     reasonsTitle: "Når er hysteroskopi aktuelt?",
     reasonsLead: "Hysteroskopi brukes både til utredning og behandling.",
     reasons: [
@@ -949,7 +915,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "fostermedisin" },
     primaryCtaLabel: "Bestill ultralyd",
-    flowEyebrow: "Forløpet",
     flowTitle: "Hva du kan forvente",
     flow: [
       { n: "Steg 01", title: "Innsjekk", desc: "Kort samtale om svangerskapet og hva du ønsker undersøkt." },
@@ -957,7 +922,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Gjennomgang", desc: "Vi går gjennom funnene og hva de betyr." },
       { n: "Steg 04", title: "Videre plan", desc: "Eventuelle kontroller eller henvisninger avtales." },
     ],
-    reasonsEyebrow: "Aktuelle undersøkelser",
     reasonsTitle: "Hva vi tilbyr",
     reasonsLead: "Et bredt fostermedisinsk tilbud — tilpasset uke og behov.",
     reasons: [
@@ -998,7 +962,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "fodselsskader" },
     primaryCtaLabel: "Bestill vurdering",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik utreder vi fødselsskader",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom fødselen, plagene og hvordan de påvirker hverdagen." },
@@ -1006,7 +969,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Plan", desc: "En konkret behandlingsplan — alene eller i tverrfaglig team." },
       { n: "Steg 04", title: "Behandling", desc: "Konservativ behandling eller kirurgi, tilpasset deg." },
     ],
-    reasonsEyebrow: "Symptomer",
     reasonsTitle: "Når bør du komme?",
     reasonsLead: "Det er aldri for sent å få hjelp med fødselsskader.",
     reasons: [
@@ -1047,7 +1009,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "graviditet" },
     primaryCtaLabel: "Bestill svangerskapskontroll",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik følger vi deg gjennom svangerskapet",
     flow: [
       { n: "Steg 01", title: "Tidlig kontroll", desc: "Bekreftelse, terminbestemmelse og første gjennomgang." },
@@ -1055,7 +1016,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Mot termin", desc: "Forberedelse til fødsel og tett oppfølging ved behov." },
       { n: "Steg 04", title: "6-ukerskontroll", desc: "Grundig vurdering etter fødsel — kropp, bekkenbunn og hvordan du har det." },
     ],
-    reasonsEyebrow: "Når vi følger opp",
     reasonsTitle: "Hva vi tilbyr gravide",
     reasonsLead: "Et bredt og fleksibelt tilbud — som tillegg eller alternativ.",
     reasons: [
@@ -1096,7 +1056,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "nipt" },
     primaryCtaLabel: "Bestill NIPT",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik foregår NIPT",
     flow: [
       { n: "Steg 01", title: "Konsultasjon", desc: "Samtale om hva prøven kan og ikke kan vise." },
@@ -1104,7 +1063,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Blodprøve", desc: "Enkel blodprøve som sendes til analyse." },
       { n: "Steg 04", title: "Svar", desc: "Svar foreligger vanligvis innen 1–2 uker, med oppfølgende samtale." },
     ],
-    reasonsEyebrow: "Hva NIPT vurderer",
     reasonsTitle: "Hva prøven kan si noe om",
     reasonsLead: "NIPT er en risikovurdering — ikke en diagnostisk test.",
     reasons: [
@@ -1145,7 +1103,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "spontanabort" },
     primaryCtaLabel: "Bestill samtale",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik følger vi opp",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom det som har skjedd og hva du trenger nå." },
@@ -1153,7 +1110,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Plan", desc: "Avventende, medisinsk eller kirurgisk håndtering — basert på situasjonen." },
       { n: "Steg 04", title: "Oppfølging", desc: "Kontroll og samtale i etterkant — også med tanke på fremtidige svangerskap." },
     ],
-    reasonsEyebrow: "Når utrede?",
     reasonsTitle: "Når bør spontanabort utredes nærmere?",
     reasonsLead: "Vi følger anerkjente retningslinjer — men også deg som person.",
     reasons: [
@@ -1194,7 +1150,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "tverrfaglig" },
     primaryCtaLabel: "Bestill konsultasjon",
-    flowEyebrow: "Forløpet",
     flowTitle: "Slik jobber vi tverrfaglig",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi starter med en grundig samtale om plager og mål." },
@@ -1202,7 +1157,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Behandling", desc: "Parallelle eller sekvensielle forløp — alltid koordinert." },
       { n: "Steg 04", title: "Evaluering", desc: "Vi justerer planen etter hvert som du blir bedre." },
     ],
-    reasonsEyebrow: "Vårt team",
     reasonsTitle: "Hvilke fagfolk du kan møte",
     reasonsLead: "Et bredt team som dekker det meste innen kvinnehelse.",
     reasons: [
