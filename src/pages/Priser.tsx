@@ -138,187 +138,230 @@ const Priser = ({ isChatOpen }: PageProps) => {
       />
 
       {/* Price List Section */}
-      <section id="prisliste" className="py-10 md:py-14 bg-background">
+      <section id="prisliste" className="py-10 md:py-14 bg-muted/40">
         <div className="container mx-auto px-4 md:px-8">
-          {/* Pricing disclaimer */}
-          <div className="max-w-5xl mx-auto mb-6">
-            <p className="text-sm text-muted-foreground font-light">
-              Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.
-            </p>
-          </div>
-          {/* Categories - Direct content */}
-          <div className="max-w-5xl mx-auto space-y-4">
-            {(() => {
-              const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
-              const first = priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id));
-              const rest = priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb'));
-              return [...first, ...rest];
-            })().map((category) => {
-              const isOpen = expandedCategory === category.id;
-              return (
-              <div 
-                key={category.id}
-                className={`rounded-2xl overflow-hidden transition-all duration-300 border ${
-                  isOpen 
-                    ? 'bg-background border-foreground/15' 
-                    : 'bg-background/40 border-foreground/10 hover:bg-background/70 hover:border-foreground/15'
-                }`}
-              >
-                {/* Category Header */}
-                <button
-                  onClick={() => toggleCategory(category.id)}
-                  className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left"
-                  aria-expanded={isOpen}
-                  aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
-                >
-                  <span className="text-xl md:text-2xl font-light text-foreground truncate">
-                    {category.label}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all bg-foreground/5 border border-foreground/15"
-                  >
-                    {isOpen ? (
-                      <Minus className="w-4 h-4 text-foreground/80" />
-                    ) : (
-                      <Plus className="w-4 h-4 text-foreground/80" />
-                    )}
-                  </span>
-                </button>
-
-                {/* Subcategories - Expanded Content */}
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeOut' }}
-                      className="overflow-hidden"
+          {(() => {
+            const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
+            const ordered = [
+              ...priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
+              ...priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb')),
+            ];
+            return (
+              <div className="max-w-5xl mx-auto">
+                {/* Quick-jump pills */}
+                <nav aria-label="Hopp til kategori" className="mb-6 flex flex-wrap gap-2">
+                  {ordered.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => {
+                        setExpandedCategory(c.id);
+                        setExpandedSubcategory(null);
+                        requestAnimationFrame(() => {
+                          document.getElementById(`kat-${c.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                      }}
+                      className={`px-3.5 py-1.5 rounded-full text-sm font-light border transition-colors ${
+                        expandedCategory === c.id
+                          ? 'bg-foreground text-background border-foreground'
+                          : 'bg-background text-foreground/80 border-foreground/15 hover:border-foreground/40'
+                      }`}
                     >
-                      <div className="px-5 md:px-6 pb-6 md:pb-8">
-                        {/* Les mer — eget område, klart separert fra +/- */}
-                        <div className="mb-5 pb-5 border-b border-foreground/10">
-                          <Link
-                            to={category.path}
-                            className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
-                          >
-                            Les mer om {category.label.toLowerCase()}
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-                        </div>
-                        <div className="space-y-1">
-                        {category.subcategories.map((sub) => (
-                          <div key={sub.label}>
-                            <button
-                              onClick={() => toggleSubcategory(sub.label)}
-                              className="w-full flex items-center justify-between py-3 px-1 cursor-pointer border-b border-foreground/10"
-                              aria-expanded={expandedSubcategory === sub.label}
-                            >
-                              <span
-                                 className={`text-[15px] font-light transition-colors ${
-                                   expandedSubcategory === sub.label ? 'text-foreground' : 'text-foreground/75'
-                                 }`}
-                              >
-                                {sub.label}
-                              </span>
-                              <div className="flex items-center gap-3">
-                                <span className="text-muted-foreground text-xs font-light">
-                                  {sub.items.length} tjenester
-                                </span>
-                                <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${
-                                  expandedSubcategory === sub.label ? 'rotate-90 text-foreground/80' : ''
-                                }`} aria-hidden="true" />
-                              </div>
-                            </button>
+                      {c.label}
+                    </button>
+                  ))}
+                </nav>
 
-                            {/* Price items */}
-                            <AnimatePresence>
-                              {expandedSubcategory === sub.label && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: 'auto', opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  transition={{ duration: 0.15 }}
-                                  className="overflow-hidden"
-                                >
-                                  <div className="py-2">
-                                      {sub.items.map((item, idx) => {
-                                        const bookable = isBookable(item.name, item.duration);
-                                        return (
-                                          <div
-                                            key={idx}
-                                            className="w-full grid grid-cols-[1fr_auto_120px] items-center gap-4 py-3 border-b border-foreground/5 last:border-b-0 px-1"
-                                          >
-                                            {/* Name + info */}
-                                            <div className="min-w-0">
-                                              <div className="flex items-center gap-2">
-                                                <p className="text-foreground text-sm font-light">
-                                                  {item.name}
-                                                </p>
-                                                {item.info && (
-                                                  <Tooltip delayDuration={100}>
-                                                    <TooltipTrigger asChild>
-                                                      <button
-                                                        type="button"
-                                                        aria-label={`Mer informasjon om ${item.name}`}
-                                                        className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-foreground/10 text-foreground/80 hover:bg-foreground hover:text-background transition-colors shrink-0"
-                                                      >
-                                                        <Info className="w-3 h-3" strokeWidth={2.2} />
-                                                      </button>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent
-                                                      side="top"
-                                                      align="start"
-                                                      className="max-w-xs text-xs font-light leading-relaxed"
-                                                    >
-                                                      {item.info}
-                                                    </TooltipContent>
-                                                  </Tooltip>
-                                                )}
-                                              </div>
-                                              {item.duration && (
-                                                <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5 font-light">
-                                                  <Clock className="w-3 h-3" />
-                                                  {item.duration}
-                                                </p>
-                                              )}
-                                            </div>
+                <p className="text-xs text-muted-foreground font-light mb-5">
+                  Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen.
+                </p>
 
-                                            {/* Price column */}
-                                            <p className="font-normal text-foreground text-sm whitespace-nowrap text-right tabular-nums">
-                                              {item.price === "0,-" ? "Gratis" : item.price}
-                                            </p>
-
-                                            {/* Action column */}
-                                            <div className="flex justify-end">
-                                              {bookable ? (
-                                                <button
-                                                  onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
-                                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
-                                                >
-                                                  Bestill time
-                                                </button>
-                                              ) : null}
-                                            </div>
-                                          </div>
-                                        );
-                                      })}
-                                  </div>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
+                <div className="space-y-3">
+                  {ordered.map((category) => {
+                    const isOpen = expandedCategory === category.id;
+                    const totalItems = category.subcategories.reduce((s, sc) => s + sc.items.length, 0);
+                    return (
+                      <div
+                        id={`kat-${category.id}`}
+                        key={category.id}
+                        className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
+                          isOpen
+                            ? 'bg-background border-foreground/20 shadow-sm'
+                            : 'bg-card border-foreground/10 hover:border-foreground/25'
+                        }`}
+                      >
+                        <button
+                          onClick={() => toggleCategory(category.id)}
+                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left"
+                          aria-expanded={isOpen}
+                          aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
+                        >
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-xl md:text-2xl font-light text-foreground truncate">
+                              {category.label}
+                            </span>
+                            <span className="text-xs text-muted-foreground font-light mt-1">
+                              {totalItems} tjenester
+                            </span>
                           </div>
-                        ))}
-                        </div>
+                          <span
+                            aria-hidden="true"
+                            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors border ${
+                              isOpen
+                                ? 'bg-foreground text-background border-foreground'
+                                : 'bg-background text-foreground/80 border-foreground/15'
+                            }`}
+                          >
+                            {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                          </span>
+                        </button>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25, ease: 'easeOut' }}
+                              className="overflow-hidden"
+                            >
+                              <div className="px-5 md:px-6 pb-6 md:pb-8">
+                                <div className="mb-5 pb-5 border-b border-foreground/10">
+                                  <Link
+                                    to={category.path}
+                                    className="inline-flex items-center gap-1.5 text-sm font-light text-foreground/80 hover:text-foreground transition-colors underline-offset-4 hover:underline"
+                                  >
+                                    Les mer om {category.label.toLowerCase()}
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                  </Link>
+                                </div>
+                                <div className="space-y-1.5">
+                                  {category.subcategories.map((sub) => {
+                                    const subOpen = expandedSubcategory === sub.label;
+                                    return (
+                                      <div
+                                        key={sub.label}
+                                        className={`rounded-xl border transition-colors ${
+                                          subOpen
+                                            ? 'bg-muted/60 border-foreground/10'
+                                            : 'bg-transparent border-transparent hover:bg-muted/40'
+                                        }`}
+                                      >
+                                        <button
+                                          onClick={() => toggleSubcategory(sub.label)}
+                                          className="w-full flex items-center justify-between py-3 px-3 cursor-pointer text-left"
+                                          aria-expanded={subOpen}
+                                        >
+                                          <span
+                                            className={`text-[15px] font-light transition-colors ${
+                                              subOpen ? 'text-foreground' : 'text-foreground/80'
+                                            }`}
+                                          >
+                                            {sub.label}
+                                          </span>
+                                          <div className="flex items-center gap-3">
+                                            <span className="text-muted-foreground text-xs font-light">
+                                              {sub.items.length}
+                                            </span>
+                                            <ChevronRight
+                                              className={`w-4 h-4 text-muted-foreground transition-transform ${
+                                                subOpen ? 'rotate-90 text-foreground/80' : ''
+                                              }`}
+                                              aria-hidden="true"
+                                            />
+                                          </div>
+                                        </button>
+
+                                        <AnimatePresence initial={false}>
+                                          {subOpen && (
+                                            <motion.div
+                                              initial={{ height: 0, opacity: 0 }}
+                                              animate={{ height: 'auto', opacity: 1 }}
+                                              exit={{ height: 0, opacity: 0 }}
+                                              transition={{ duration: 0.15 }}
+                                              className="overflow-hidden"
+                                            >
+                                              <div className="px-3 pb-2">
+                                                {sub.items.map((item, idx) => {
+                                                  const bookable = isBookable(item.name, item.duration);
+                                                  return (
+                                                    <div
+                                                      key={idx}
+                                                      className="w-full grid grid-cols-[1fr_auto_auto] items-center gap-3 md:gap-5 py-3 border-t border-foreground/10 first:border-t-0"
+                                                    >
+                                                      <div className="min-w-0">
+                                                        <div className="flex items-center gap-2">
+                                                          <p className="text-foreground text-sm font-light">
+                                                            {item.name}
+                                                          </p>
+                                                          {item.info && (
+                                                            <Tooltip delayDuration={100}>
+                                                              <TooltipTrigger asChild>
+                                                                <button
+                                                                  type="button"
+                                                                  aria-label={`Mer informasjon om ${item.name}`}
+                                                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-foreground/10 text-foreground/80 hover:bg-foreground hover:text-background transition-colors shrink-0"
+                                                                >
+                                                                  <Info className="w-3 h-3" strokeWidth={2.2} />
+                                                                </button>
+                                                              </TooltipTrigger>
+                                                              <TooltipContent
+                                                                side="top"
+                                                                align="start"
+                                                                className="max-w-xs text-xs font-light leading-relaxed"
+                                                              >
+                                                                {item.info}
+                                                              </TooltipContent>
+                                                            </Tooltip>
+                                                          )}
+                                                        </div>
+                                                        {item.duration && (
+                                                          <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5 font-light">
+                                                            <Clock className="w-3 h-3" />
+                                                            {item.duration}
+                                                          </p>
+                                                        )}
+                                                      </div>
+
+                                                      <p className="font-normal text-foreground text-sm whitespace-nowrap text-right tabular-nums">
+                                                        {item.price === "0,-" ? "Gratis" : item.price}
+                                                      </p>
+
+                                                      <div className="flex justify-end min-w-[110px]">
+                                                        {bookable ? (
+                                                          <button
+                                                            onClick={() => navigate(`/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`)}
+                                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-normal hover:bg-foreground/90 transition-colors whitespace-nowrap"
+                                                          >
+                                                            Bestill
+                                                          </button>
+                                                        ) : (
+                                                          <span className="text-xs text-muted-foreground font-light whitespace-nowrap">
+                                                            Krever konsultasjon
+                                                          </span>
+                                                        )}
+                                                      </div>
+                                                    </div>
+                                                  );
+                                                })}
+                                              </div>
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    );
+                  })}
+                </div>
               </div>
-              );
-            })}
-          </div>
+            );
+          })()}
 
           {/* CTA */}
           <div className="mt-16 md:mt-20 text-center">
