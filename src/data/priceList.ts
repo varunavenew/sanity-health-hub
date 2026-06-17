@@ -497,3 +497,26 @@ export const getFromPriceForTitle = (categoryId: string, title: string): string 
   return formatFromPrice(Math.min(...matches));
 };
 
+/**
+ * Lowest "fra"-price across all items in a category, plus the matching item label.
+ * Used on category landing hero (e.g. /fertilitet, /gynekologi, /urologi) to show
+ * a small "Tjeneste / Pris fra X kr" block above the CTA.
+ */
+export const getCategoryEntryPrice = (
+  categoryId: string,
+): { label: string; price: string } | null => {
+  const cat = priceCategories.find((c) => c.id === categoryId);
+  if (!cat) return null;
+  let best: { label: string; n: number } | null = null;
+  for (const sub of cat.subcategories) {
+    for (const item of sub.items) {
+      const p = parsePrice(item.price);
+      if (p === null) continue;
+      if (!best || p < best.n) best = { label: item.name, n: p };
+    }
+  }
+  if (!best) return null;
+  return { label: best.label, price: formatFromPrice(best.n) };
+};
+
+
