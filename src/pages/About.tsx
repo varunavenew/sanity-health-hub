@@ -96,37 +96,34 @@ const About = ({ isChatOpen }: AboutProps) => {
         ]}
       />
 
-      {/* HERO — editorial stacked: eyebrow, H1, divider, intro, full-width image */}
-      <header className="bg-brand-warm pt-32 lg:pt-40">
-        <div className="page-shell">
-          <div className="max-w-4xl">
-            <p className="text-sm font-light text-brand-dark/60 mb-6">Om CMedical</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-brand-dark leading-[1.05] mb-12 md:mb-16">
-              {title}
-            </h1>
+      {/* HERO — full-bleed split-screen 50/50 (text + CTA left, image right) */}
+      <header className="bg-brand-warm pt-24 lg:pt-0">
+        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+            <div className="max-w-xl w-full">
+              <p className="text-sm font-light text-brand-dark/60 mb-6">Om CMedical</p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-brand-dark leading-[1.05] mb-8">
+                {title}
+              </h1>
+              <div className="space-y-5 text-brand-dark/80 text-base leading-[1.8] font-light mb-10">
+                <p>
+                  Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
+                </p>
+                <p>
+                  CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.
+                </p>
+              </div>
+              <Button
+                className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
+                onClick={() => navigate('/booking')}
+              >
+                Book konsultasjon
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
           </div>
-          <div className="h-px w-full bg-brand-dark/15 mb-12 md:mb-16" aria-hidden="true" />
-          <div className="max-w-3xl space-y-6 text-brand-dark/80 text-base leading-[1.8] font-light mb-12">
-            <p>
-              Helse handler om mer enn behandling. Det handler om å bli sett, forstått og fulgt opp – uten unødige forsinkelser eller usikkerhet underveis.
-            </p>
-            <p>
-              CMedical er etablert på en tydelig erkjennelse: Mange opplever et helsevesen preget av ventetid, fragmenterte forløp og manglende kontinuitet. Vår rolle er å skape et alternativ – der høyspesialisert og tverrfaglig kompetanse kombineres med tilgjengelighet og ekte omsorg.
-            </p>
-            <p>
-              Vi skal forene det fremste innen medisinsk presisjon med varme, respekt og tydelig kommunikasjon. Pasienten skal oppleve trygghet i hvert møte, forutsigbarhet i hvert steg og kvalitet i alle ledd.
-            </p>
-          </div>
-          <Button
-            className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light mb-16 md:mb-20"
-            onClick={() => navigate('/booking')}
-          >
-            Book konsultasjon
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-        </div>
-        <div className="page-shell pb-16 md:pb-24">
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-secondary/40">
+
+          <div className="relative min-h-[420px] lg:min-h-full bg-secondary/40">
             <img
               src={heroImage}
               alt="Omsorg hos CMedical – Familie"
@@ -136,16 +133,21 @@ const About = ({ isChatOpen }: AboutProps) => {
         </div>
       </header>
 
-      {/* EDITORIAL BODY — single column, left-aligned */}
+      {/* EDITORIAL BODY — 12-column rhythm with numbered chapters */}
       <article className="bg-brand-warm">
         <div className="page-shell py-20 md:py-28">
-          <div className="max-w-3xl space-y-16 md:space-y-24">
-            {sections.map((s) => (
-              <section key={s.heading}>
-                <h2 className="text-2xl md:text-3xl lg:text-[2.25rem] font-light text-brand-dark leading-[1.15] mb-6">
-                  {s.heading}
-                </h2>
-                <div className="space-y-5 text-brand-dark/80 text-base leading-[1.8] font-light">
+          <div className="max-w-6xl mx-auto space-y-20 md:space-y-28">
+            {sections.map((s, idx) => (
+              <section key={s.heading} className="grid md:grid-cols-12 gap-8 md:gap-12">
+                <div className="md:col-span-5">
+                  <p className="text-sm font-light text-brand-dark/50 mb-3">
+                    {String(idx + 1).padStart(2, "0")} — Kapittel
+                  </p>
+                  <h2 className="text-2xl md:text-3xl lg:text-[2.25rem] font-light text-brand-dark leading-[1.15]">
+                    {s.heading}
+                  </h2>
+                </div>
+                <div className="md:col-span-7 space-y-5 text-brand-dark/80 text-base leading-[1.8] font-light">
                   {s.paragraphs.map((p, i) => (
                     <p key={i}>{p}</p>
                   ))}
@@ -157,7 +159,7 @@ const About = ({ isChatOpen }: AboutProps) => {
 
         {/* Pull quote */}
         <div className="page-shell pb-20 md:pb-28">
-          <div className="max-w-4xl">
+          <div className="max-w-5xl mx-auto">
             <blockquote className="text-2xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-[1.2]">
               <span className="text-brand-mid">"</span>
               {pullQuote}
@@ -166,6 +168,7 @@ const About = ({ isChatOpen }: AboutProps) => {
           </div>
         </div>
       </article>
+
 
       {/* AMBITION — short dark closing stripe */}
       {ambition && (
