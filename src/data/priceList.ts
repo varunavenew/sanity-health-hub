@@ -69,10 +69,10 @@ const rawPriceCategories: PriceCategory[] = [
         label: 'Inngrep',
         path: '/behandlinger/urologi/inngrep',
         items: [
-          { name: "Fimose (trang forhud)", price: "fra 9.100,-", duration: "" },
-          { name: "Sterilisering (inkl. sædanalyse etter 3 mnd)", price: "6.500,-", duration: "" },
+          { name: "Fimose (trang forhud)", price: "fra 9.100,-", duration: "", requiresConsultation: true },
+          { name: "Sterilisering (inkl. sædanalyse etter 3 mnd)", price: "6.500,-", duration: "", requiresConsultation: true },
           { name: "Sædanalyse (ikke infertilitetsutredning)", price: "800,-", duration: "" },
-          { name: "Refertilisering", price: "fra 35.000,-", duration: "" },
+          { name: "Refertilisering", price: "fra 35.000,-", duration: "", requiresConsultation: true },
         ]
       },
       {
