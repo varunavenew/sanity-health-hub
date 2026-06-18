@@ -145,7 +145,8 @@ const AppContent = () => {
         <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
         {/* Hudhelse — new category, sub-pages live under flere-fagomrader */}
         <Route path="/behandlinger/hudhelse" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse" replace />} />
-        <Route path="/behandlinger/hudhelse/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudbehandlinger" replace />} />
+        <Route path="/behandlinger/hudhelse/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
+        <Route path="/behandlinger/hudhelse/hudbehandlinger/:methodId" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
         <Route path="/behandlinger/hudhelse/behandlingsutstyr" element={<Navigate to="/behandlinger/flere-fagomrader/behandlingsutstyr" replace />} />
         <Route path="/behandlinger/hudhelse/hudpleieprodukter" element={<Navigate to="/behandlinger/flere-fagomrader/hudpleieprodukter" replace />} />
         {/* Hudhelse › Hudbehandlinger — samleområde med nested undersider */}
