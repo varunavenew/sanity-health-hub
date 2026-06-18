@@ -475,7 +475,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
 
       {/* 4. RELATED — moved above promises so methods/subsider stands first */}
-      {c.related.length > 0 && (
+      {!c.relatedAsIntro && c.related.length > 0 && (
         <section className="bg-secondary/40 py-20 md:py-28">
           <div className="container mx-auto px-6 md:px-16">
             <div className="max-w-6xl mx-auto">
