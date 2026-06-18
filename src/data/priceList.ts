@@ -7,6 +7,8 @@ export interface PriceItem {
   duration: string;
   /** Extra explanatory text shown via an "i" info popover on /priser. */
   info?: string;
+  /** If true, shows "Krever konsultasjon" instead of a booking button on /priser. */
+  requiresConsultation?: boolean;
 }
 
 export interface PriceSubcategory {
