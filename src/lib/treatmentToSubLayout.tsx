@@ -213,11 +213,14 @@ export const treatmentToSubLayout = ({
   // If the related links represent treatments that are part of this service
   // (e.g. the Hudhelse landing page where the cards are Hudbehandlinger,
   // Behandlingsutstyr, Hudpleieprodukter), render the section right after the
-  // hero as an intro/overview. We detect this by checking that at least one
-  // linked service is a direct child of this page's canonical path — that's a
-  // strong signal this page is a samleside, not a leaf treatment.
+  // hero as an intro/overview. This only applies when the hero alone covers
+  // the description — i.e. there is no separate text/reasons section. If the
+  // page has its own text content (like Hudbehandlinger), the text must be
+  // section 2 and related cards come after it.
   const relatedAsIntro =
-    related.length > 0 && related.some((r) => r.href.startsWith(canonical + "/"));
+    reasons.length === 0 &&
+    related.length > 0 &&
+    related.some((r) => r.href.startsWith(canonical + "/"));
 
   const heroTitle: ReactNode = data.title;
 
