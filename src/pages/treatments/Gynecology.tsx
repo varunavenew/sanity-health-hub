@@ -469,50 +469,49 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
   <div className="container mx-auto px-6 md:px-16">
    <div className="max-w-6xl mx-auto">
-    <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
-     <div className="lg:col-span-6">
-      <p className="text-xs font-light text-foreground/60 mb-3">Tjenester og inngrep</p>
-      <h2 className="text-3xl md:text-5xl font-light leading-tight">
-       Hva vi tilbyr
-      </h2>
-     </div>
-     <div className="lg:col-span-6 lg:pt-3">
-      <p className="text-base font-light text-muted-foreground leading-relaxed">
-       Dette er undersøkelsene, behandlingene og inngrepene vi utfører.
-       Usikker på hva du trenger? Start med en gynekologisk undersøkelse —
-       så tar vi det derfra.
-      </p>
-     </div>
-    </div>
-
-    <div className="space-y-10">
-     {serviceGroups.map((group) => (
-      <div key={group.label}>
-       <p className="text-xs font-light text-foreground/60 mb-4 uppercase">
-        {group.label}
-       </p>
-       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
-        {group.items.map((s) => (
-         <Link
-          key={s.title}
-          to={s.href}
-          className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-warm/40 transition-colors group"
-         >
-          <div>
-           <h3 className="text-base font-normal text-foreground mb-1.5">
-            {s.title}
-           </h3>
-           <p className="text-sm font-light text-muted-foreground leading-snug">
-            {s.desc}
-           </p>
-          </div>
-          <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
-         </Link>
-        ))}
-       </div>
+     <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+      <div className="lg:col-span-6">
+       <h2 className="text-3xl md:text-5xl font-light leading-tight">
+        Hva vi tilbyr
+       </h2>
       </div>
-     ))}
-    </div>
+      <div className="lg:col-span-6 lg:pt-3">
+       <p className="text-base font-light text-muted-foreground leading-relaxed">
+        Dette er undersøkelsene, behandlingene og inngrepene vi utfører.
+        Usikker på hva du trenger? Start med en gynekologisk undersøkelse —
+        så tar vi det derfra.
+       </p>
+      </div>
+     </div>
+
+     <div className="space-y-12">
+      {serviceGroups.map((group) => (
+       <div key={group.label}>
+        <p className="text-xs font-light text-foreground/60 mb-4">
+         {group.label}
+        </p>
+        <ul className="border-t border-brand-dark/10">
+         {group.items.map((s) => (
+          <li key={s.title} className="border-b border-brand-dark/10">
+           <Link
+            to={s.href}
+            className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
+           >
+            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+             {s.title}
+            </h3>
+            <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
+             {s.desc}
+            </p>
+            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
+           </Link>
+          </li>
+         ))}
+        </ul>
+       </div>
+      ))}
+     </div>
+
    </div>
   </div>
  </section>
