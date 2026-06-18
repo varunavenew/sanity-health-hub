@@ -22,7 +22,9 @@ export interface PriceCategory {
   subcategories: PriceSubcategory[];
 }
 
-export const priceCategories: PriceCategory[] = [
+import { serviceCategories } from "./serviceCategories";
+
+const rawPriceCategories: PriceCategory[] = [
   {
     id: 'gynekologi',
     label: 'Gynekologi',
@@ -386,14 +388,24 @@ export const priceCategories: PriceCategory[] = [
     path: '/behandlinger/flere-fagomrader/hudlege',
     subcategories: [
       {
-        label: 'Dermatologi',
+        label: 'Konsultasjon',
         path: '/behandlinger/flere-fagomrader/hudlege',
         items: [
           { name: "Konsultasjon hudlege", price: "2.100,-", duration: "30 min" },
-          { name: "Føflekksjekk", price: "2.100,-", duration: "30 min" },
-          { name: "Akne-behandling", price: "2.100,-", duration: "30 min" },
-          { name: "Eksem / psoriasis", price: "2.100,-", duration: "30 min" },
-          { name: "Hudkreft – utredning", price: "2.100,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'hudhelse',
+    label: 'Hudhelse',
+    path: '/behandlinger/flere-fagomrader/hudhelse',
+    subcategories: [
+      {
+        label: 'Konsultasjon',
+        path: '/behandlinger/flere-fagomrader/hudhelse',
+        items: [
+          { name: "Konsultasjon hudlege (vurdering før behandling)", price: "fra 2.100,-", duration: "30 min" },
         ]
       },
     ]
