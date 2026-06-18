@@ -291,7 +291,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       key={idx}
                                                       className="py-3 border-b border-brand-dark/5 last:border-b-0"
                                                     >
-                                                      <div className="flex items-start justify-between gap-4">
+                                                      <div className="flex items-center justify-between gap-4">
                                                         <div className="flex-1 min-w-0 max-w-prose">
                                                           <span className="block font-normal text-brand-dark">
                                                             {item.name}
@@ -310,27 +310,34 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             </div>
                                                           )}
                                                         </div>
-                                                        <div className="flex items-center gap-3 shrink-0">
-                                                          {isConsult ? (
-                                                            <Link
-                                                              to={sub.path}
-                                                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
-                                                            >
-                                                              Les mer
-                                                              <ArrowRight className="w-3 h-3" />
-                                                            </Link>
-                                                          ) : (
-                                                            <Link
-                                                              to={buildBookingUrl({ kategori: category.id })}
-                                                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
-                                                            >
-                                                              Bestill time
-                                                              <ArrowRight className="w-3 h-3" />
-                                                            </Link>
+                                                        <div className="flex flex-col items-end gap-0.5 shrink-0">
+                                                          <div className="flex items-center gap-3">
+                                                            {isConsult ? (
+                                                              <Link
+                                                                to={sub.path}
+                                                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
+                                                              >
+                                                                Les mer
+                                                                <ArrowRight className="w-3 h-3" />
+                                                              </Link>
+                                                            ) : (
+                                                              <Link
+                                                                to={buildBookingUrl({ kategori: category.id })}
+                                                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
+                                                              >
+                                                                Bestill time
+                                                                <ArrowRight className="w-3 h-3" />
+                                                              </Link>
+                                                            )}
+                                                            <span className="text-sm font-light text-brand-dark tabular-nums min-w-[70px] text-right whitespace-nowrap">
+                                                              {item.price === "0,-" ? "Gratis" : item.price}
+                                                            </span>
+                                                          </div>
+                                                          {item.priceNote && (
+                                                            <span className="text-xs text-muted-foreground font-light">
+                                                              {item.priceNote}
+                                                            </span>
                                                           )}
-                                                          <span className="text-sm font-light text-brand-dark tabular-nums min-w-[70px] text-right">
-                                                            {item.price === "0,-" ? "Gratis" : item.price}
-                                                          </span>
                                                         </div>
                                                       </div>
                                                     </div>
