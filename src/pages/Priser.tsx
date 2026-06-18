@@ -72,17 +72,14 @@ const staticFaqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const firstCategoryId = (() => {
-    const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
-    const first = priceCategories.find(c => prioritized.includes(c.id));
-    return first?.id ?? priceCategories[0]?.id ?? null;
-  })();
-  const firstSubLabel = (() => {
-    const cat = priceCategories.find(c => c.id === firstCategoryId);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(() => {
+    const cat = priceCategories.find(c => c.id === 'gynekologi');
+    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? null);
+  });
+  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(() => {
+    const cat = priceCategories.find(c => c.id === 'gynekologi');
     return cat?.subcategories[0]?.label ?? null;
-  })();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(firstCategoryId);
-  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(firstSubLabel);
+  });
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
@@ -102,8 +99,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const toggleCategory = (id: string) => {
     const newId = expandedCategory === id ? null : id;
     setExpandedCategory(newId);
-    const cat = priceCategories.find(c => c.id === newId);
-    setExpandedSubcategory(cat?.subcategories[0]?.label ?? null);
+    setExpandedSubcategory(null);
     if (newId) {
       const scrollToCat = () => {
         const el = document.getElementById(`kat-${newId}`);
