@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 // Static fallback images
 import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
-import fertilityHeroAsset from "@/assets/hero/fertilitet-hero-v2.jpg.asset.json";
+import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
 
 const kvinnehelseHero = kvinnehelseHeroAsset.url;
