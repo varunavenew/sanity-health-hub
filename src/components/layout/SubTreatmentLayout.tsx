@@ -345,6 +345,37 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     items={c.reasons}
   />
 
+  {/* 3. RELATED (as services) — treatments included in this service, shown before flow */}
+  {c.relatedAsServices && c.related.length > 0 && (
+    <section className="bg-secondary/40 py-20 md:py-28">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="max-w-2xl mb-12">
+            <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+              {c.relatedTitle ?? "Dette hjelper vi deg med"}
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {c.related.map((a) => (
+              <Link
+                key={a.title}
+                to={a.href}
+                className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
+              >
+                <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+                <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                  Les mer
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
 
 
  {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
