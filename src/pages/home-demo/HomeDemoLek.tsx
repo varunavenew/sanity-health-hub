@@ -4,7 +4,7 @@ import { HeroBanner } from "@/components/homepage/HeroBanner";
 import { PromoBlocks } from "@/components/homepage/PromoBlocks";
 import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
-import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
+import { SpecialistsSectionElegant } from "@/components/homepage/SpecialistsSectionElegant";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { ResultsStatsSection } from "@/components/shared/ResultsStatsSection";
@@ -38,7 +38,7 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
       <ValueBadges />
       <PromoBlocks />
       <LifePhasesSection />
-      <SpecialistsSection />
+      <SpecialistsSectionElegant />
       <ResultsStatsSection
         title="Tall som forteller en historie."
         description="Du fortjener åpenhet. Her er noen av tallene som beskriver hverdagen vår — på tvers av spesialiteter, klinikker og pasientmøter."
