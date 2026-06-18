@@ -175,7 +175,11 @@ export const treatmentToSubLayout = ({
           { n: "Trinn 3", title: "Plan for veien videre", desc: "Du får en tydelig plan — enten det er behandling, oppfølging eller trygghet i at alt er som det skal." },
         ];
 
-  // ── Reasons: prefer sections (rich), fall back to benefits not used above.
+  // ── Reasons: only build from rich `sections`. We intentionally do NOT fall
+  // back to leftover benefits — those tend to be one-liners like "Tilbys på
+  // CMedical Bekkestua" which don't deserve a full editorial section. When
+  // sections are absent the whole block is hidden (ReasonsEditorial returns
+  // null on empty items) and the page jumps straight to flow/related.
   let reasons: { n: string; title: string; desc: ReactNode }[] = [];
   if (data.sections && data.sections.length > 0) {
     reasons = data.sections.slice(0, 30).map((s, i) => ({
@@ -183,21 +187,11 @@ export const treatmentToSubLayout = ({
       title: s.heading,
       desc: renderRichContent(s.content),
     }));
-  } else if (data.benefits && data.benefits.length > heroPoints.length) {
-    reasons = data.benefits.slice(heroPoints.length, heroPoints.length + 5).map((b, i) => {
-      const { title, desc } = splitTitleDesc(b);
-      return {
-        n: String(i + 1).padStart(2, "0"),
-        title,
-        desc: desc || "",
-      };
-    });
   }
-  // NOTE: We intentionally do NOT fall back to generic reasons. If a treatment
-  // has no `sections` (and no extra benefits beyond hero points), the hero
-  // already covers everything — a generic "Når bør du ta kontakt" block would
-  // just be filler. The section is hidden entirely (ReasonsEditorial returns
-  // null on empty items) and the page jumps straight to the flow.
+
+  // ── Hero availability: lift any "Tilbys på …" benefit out so it surfaces in
+  // the hero instead of becoming a thin reasons section.
+  const heroAvailability = (data.benefits ?? []).find((b) => /^tilbys\s+(p[åa]|kun)/i.test(b.trim()));
 
 
   // ── Related: from linkedServices.
