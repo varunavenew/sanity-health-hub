@@ -108,6 +108,7 @@ const AppContent = () => {
         <Route path="/guide" element={<Guide isChatOpen={false} />} />
         <Route path="/contact" element={<Contact isChatOpen={false} />} />
         <Route path="/priser" element={<Priser isChatOpen={false} />} />
+        <Route path="/demoer/priser-inline-info" element={<PriserInlineInfo isChatOpen={false} />} />
         <Route path="/tjenester" element={<Services isChatOpen={false} />} />
         <Route path="/tjenester-og-priser" element={<Services isChatOpen={false} />} />
         <Route path="/forsikring" element={<Insurance isChatOpen={false} />} />
