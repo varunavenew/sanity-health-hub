@@ -187,17 +187,20 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             const subKey = `${active.id}--${sub.label}`;
                             const isOpen = openSubcategory === subKey;
                             return (
-                              <div key={sub.label}>
+                              <div key={sub.label} className={isOpen ? 'relative' : ''}>
+                                {isOpen && (
+                                  <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-brand-dark/40" aria-hidden="true" />
+                                )}
                                 <button
                                   onClick={() => toggleSubcategory(subKey)}
                                   className="w-full flex items-center justify-between mb-5 pb-2 border-b border-brand-mid/40 text-left group"
                                 >
-                                  <h3 className="text-sm font-normal text-brand-dark/80">
+                                  <h3 className={`text-sm ${isOpen ? 'font-medium text-brand-dark' : 'font-normal text-brand-dark/80'}`}>
                                     {sub.label}
                                   </h3>
                                   <span className="inline-flex items-center gap-2">
                                     <span className="text-xs font-light text-brand-dark/50 tabular-nums">
-                                      {sub.items.length} tjenester
+                                      {isOpen ? 'Klikk for å lukke' : 'Klikk for å se priser'}
                                     </span>
                                     {isOpen ? (
                                       <Minus className="w-3.5 h-3.5 text-brand-dark/60 group-hover:text-brand-dark transition-colors" />
