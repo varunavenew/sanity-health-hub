@@ -150,7 +150,7 @@ export const serviceCategories: ServiceCategory[] = [
         label: 'Hudhelse',
         path: '/behandlinger/flere-fagomrader/hudhelse',
         items: [
-          { label: 'Hudbehandlinger', path: '/behandlinger/flere-fagomrader/hudbehandlinger' },
+          { label: 'Hudbehandlinger', path: '/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger' },
           { label: 'Behandlingsutstyr', path: '/behandlinger/flere-fagomrader/behandlingsutstyr' },
           { label: 'Hudpleieprodukter', path: '/behandlinger/flere-fagomrader/hudpleieprodukter' },
         ],

@@ -13,6 +13,8 @@ import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
 import GastrokirurgiMethodPage from "./pages/treatments/GastrokirurgiMethodPage";
+import HudbehandlingerPage from "./pages/treatments/HudbehandlingerPage";
+import HudbehandlingerMethodPage from "./pages/treatments/HudbehandlingerMethodPage";
 import Priser from "./pages/Priser";
 import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
@@ -143,9 +145,14 @@ const AppContent = () => {
         <Route path="/behandlinger/graviditet/:subId" element={<GenericSubTreatmentPage categoryId="graviditet" isChatOpen={false} />} />
         {/* Hudhelse — new category, sub-pages live under flere-fagomrader */}
         <Route path="/behandlinger/hudhelse" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse" replace />} />
-        <Route path="/behandlinger/hudhelse/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudbehandlinger" replace />} />
+        <Route path="/behandlinger/hudhelse/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
+        <Route path="/behandlinger/hudhelse/hudbehandlinger/:methodId" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
         <Route path="/behandlinger/hudhelse/behandlingsutstyr" element={<Navigate to="/behandlinger/flere-fagomrader/behandlingsutstyr" replace />} />
         <Route path="/behandlinger/hudhelse/hudpleieprodukter" element={<Navigate to="/behandlinger/flere-fagomrader/hudpleieprodukter" replace />} />
+        {/* Hudhelse › Hudbehandlinger — samleområde med nested undersider */}
+        <Route path="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" element={<HudbehandlingerPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/:methodId" element={<HudbehandlingerMethodPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
         {/* Gastrokirurgi — samleområde med nested undersider per metode */}
         <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/:methodId" element={<GastrokirurgiMethodPage isChatOpen={false} />} />
         {/* Old flat URLs → redirect to nested Gastrokirurgi-undersider */}
