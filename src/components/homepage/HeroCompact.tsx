@@ -21,7 +21,11 @@ const staticCategories = [
   { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader' },
 ];
 
-export const HeroCompact = () => {
+interface HeroCompactProps {
+  showHeader?: boolean;
+}
+
+export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
   const navigate = useNavigate();
   const { data: homepage } = useHomepage();
   const { t } = useTranslation();
@@ -32,12 +36,14 @@ export const HeroCompact = () => {
       : staticCategories;
 
   return (
-    <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">
-      <div className="page-shell mb-6 md:mb-8">
-        <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground text-left">
-          {t("services.title")}
-        </h2>
-      </div>
+    <section className={`bg-background pb-4 md:pb-6 ${showHeader ? "pt-10 md:pt-14" : "border-t border-brand-dark/10"}`}>
+      {showHeader && (
+        <div className="page-shell mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground text-left">
+            {t("services.title")}
+          </h2>
+        </div>
+      )}
 
       <motion.div
         initial={{ opacity: 0 }}
