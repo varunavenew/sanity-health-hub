@@ -539,40 +539,32 @@ const Fertility = ({ isChatOpen }: PageProps) => {
      </div>
 
      <div className="space-y-12">
-      {serviceGroups.map((group) => {
-       const fillers = (3 - (group.items.length % 3)) % 3;
-       return (
-        <div key={group.label}>
-         <p className="text-xs font-light text-foreground/60 mb-4 uppercase">
-          {group.label}
-         </p>
-         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
-          {group.items.map((s) => (
+      {serviceGroups.map((group) => (
+       <div key={group.label}>
+        <p className="text-xs font-light text-foreground/60 mb-4">
+         {group.label}
+        </p>
+        <ul className="border-t border-brand-dark/10">
+         {group.items.map((s) => (
+          <li key={s.title} className="border-b border-brand-dark/10">
            <Link
-            key={s.title}
             to={s.href}
-            className="bg-brand-light p-6 md:p-8 flex items-start justify-between gap-4 group hover:bg-brand-light/70 transition-colors"
+            className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
            >
-            <div className="min-w-0">
-             <h3 className="text-base md:text-lg font-normal text-foreground group-hover:text-foreground/70 transition-colors">
-              {s.title}
-             </h3>
-             <p className="text-sm font-light text-muted-foreground mt-2 leading-snug">
-              {s.desc}
-             </p>
-            </div>
-            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors mt-1 flex-shrink-0" />
+            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+             {s.title}
+            </h3>
+            <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
+             {s.desc}
+            </p>
+            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
            </Link>
-          ))}
-          {Array.from({ length: fillers }).map((_, i) => (
-           <div key={`f-${i}`} className="hidden lg:block bg-brand-dark/5" />
-          ))}
-         </div>
-        </div>
-       );
-      })}
+          </li>
+         ))}
+        </ul>
+       </div>
+      ))}
      </div>
-
     </div>
    </div>
   </section>
