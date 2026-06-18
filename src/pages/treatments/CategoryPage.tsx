@@ -18,7 +18,8 @@ import { getServiceIcon } from "./categoryPageContent";
 
 // Static fallback images
 import urologiImg from "@/assets/categories/urologi.jpg";
-import fertilitetImg from "@/assets/categories/fertilitet.jpg";
+import fertilitetAsset from "@/assets/hero-fertilitet.jpg.asset.json";
+const fertilitetImg = fertilitetAsset.url;
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagomraderImg from "@/assets/categories/flere-fagomrader.jpg";

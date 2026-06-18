@@ -16,7 +16,8 @@ import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSec
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { AnimatedStat } from "@/components/AnimatedStat";
 
-import fertilityHeroImg from "@/assets/categories/fertilitet-real.jpg";
+import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
+const fertilityHeroImg = fertilityHeroAsset.url;
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
 import journeyResult from "@/assets/fertility/journey-03-result.jpg";
