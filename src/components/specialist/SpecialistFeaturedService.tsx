@@ -92,7 +92,7 @@ export const SpecialistFeaturedService = ({ specialist }: Props) => {
   return (
     <section className="bg-brand-light py-16 md:py-24 border-t border-foreground/10">
       <div className="container mx-auto px-6 md:px-16">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-center max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
