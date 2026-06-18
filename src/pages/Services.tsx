@@ -217,6 +217,13 @@ const Services = ({ isChatOpen }: PageProps) => {
         />
       )}
 
+      {/* Spesialister som utfører behandlingene */}
+      <SpecialistsScroller
+        title="Spesialistene som utfører behandlingene"
+        description="Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."
+        seeAllHref="/spesialister"
+      />
+
       {/* Unified FAQ — same as home */}
       <FaqSection faqs={faqs} />
 
