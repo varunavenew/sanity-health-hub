@@ -76,16 +76,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const cat = priceCategories.find(c => c.id === 'gynekologi');
     return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
   });
-  const [openSubcategories, setOpenSubcategories] = useState<Record<string, boolean>>(() => {
-    // Default: open all subcategories on first load
-    const initial: Record<string, boolean> = {};
-    priceCategories.forEach((cat) => {
-      cat.subcategories.forEach((sub) => {
-        initial[`${cat.id}--${sub.label}`] = false;
-      });
-    });
-    return initial;
-  });
+  const [openSubcategory, setOpenSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
@@ -103,7 +94,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, []);
 
   const toggleSubcategory = (key: string) => {
-    setOpenSubcategories((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenSubcategory((prev) => (prev === key ? null : key));
   };
 
   const toggleFaq = (id: string) => {
@@ -194,7 +185,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         <div className="space-y-10">
                           {active.subcategories.map((sub) => {
                             const subKey = `${active.id}--${sub.label}`;
-                            const isOpen = openSubcategories[subKey] ?? false;
+                            const isOpen = openSubcategory === subKey;
                             return (
                               <div key={sub.label}>
                                 <button
