@@ -228,9 +228,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                               animate={{ height: 'auto', opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
                               transition={{ duration: 0.25, ease: 'easeOut' }}
-                              className="overflow-hidden"
+                              className={`overflow-hidden ${isOpen ? 'rounded-b-2xl' : ''}`}
                             >
-                              <div className="px-5 md:px-6 pb-6 md:pb-8">
+                              <div className="px-5 md:px-6 pb-0">
                                 <div className="space-y-2">
                                   {category.subcategories.map((sub) => {
                                     const subOpen = expandedSubcategory === sub.label;
