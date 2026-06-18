@@ -79,10 +79,10 @@ const rawPriceCategories: PriceCategory[] = [
         label: 'Robotkirurgi og prostata',
         path: '/behandlinger/urologi/robotkirurgi',
         items: [
-          { name: "RALP (robotkirurgi prostatakreft)", price: "fra 178.500,-", duration: "" },
-          { name: "RASP (robotkirurgi godartet prostataforstørrelse)", price: "fra 178.500,-", duration: "" },
-          { name: "TUR-P (inklusiv overnatting)", price: "fra 75.000,-", duration: "" },
-          { name: "Core Therm (mikrobølge varmebehandling)", price: "fra 49.300,-", duration: "" },
+          { name: "RALP (robotkirurgi prostatakreft)", price: "fra 178.500,-", duration: "", requiresConsultation: true },
+          { name: "RASP (robotkirurgi godartet prostataforstørrelse)", price: "fra 178.500,-", duration: "", requiresConsultation: true },
+          { name: "TUR-P (inklusiv overnatting)", price: "fra 75.000,-", duration: "", requiresConsultation: true },
+          { name: "Core Therm (mikrobølge varmebehandling)", price: "fra 49.300,-", duration: "", requiresConsultation: true },
         ]
       },
     ]
@@ -109,13 +109,13 @@ const rawPriceCategories: PriceCategory[] = [
         label: 'Assistert befruktning',
         path: '/behandlinger/fertilitet/ivf',
         items: [
-          { name: "IVF 1 forsøk", price: "46.000,-", duration: "", info: "Inkluderer alle relevante ultralydundersøkelser, embryodyrkning til blastocyst i embryoscop og første graviditetsultralyd. Dersom ikke befruktning og/eller ingen tilbakesetting av embryo er prisen som en IVF-behandling. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
-          { name: "IVF-pakke 3 forsøk, under 39 år", price: "92.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
-          { name: "IVF-pakke 3 forsøk, 39–41 år", price: "115.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes, og kvinnen skal ikke være over 41 år. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen." },
-          { name: "ICSI (mikroinjeksjon)", price: "5.000,-", duration: "" },
-          { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "" },
-          { name: "Avbrutt behandling (IVF/ICSI) før egguthenting", price: "7.000,-", duration: "" },
-          { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "" },
+          { name: "IVF 1 forsøk", price: "46.000,-", duration: "", info: "Inkluderer alle relevante ultralydundersøkelser, embryodyrkning til blastocyst i embryoscop og første graviditetsultralyd. Dersom ikke befruktning og/eller ingen tilbakesetting av embryo er prisen som en IVF-behandling. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen.", requiresConsultation: true },
+          { name: "IVF-pakke 3 forsøk, under 39 år", price: "92.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen.", requiresConsultation: true },
+          { name: "IVF-pakke 3 forsøk, 39–41 år", price: "115.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes, og kvinnen skal ikke være over 41 år. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen.", requiresConsultation: true },
+          { name: "ICSI (mikroinjeksjon)", price: "5.000,-", duration: "", requiresConsultation: true },
+          { name: "Nedfrysning av befruktet egg/blastocyst", price: "4.500,-", duration: "", requiresConsultation: true },
+          { name: "Avbrutt behandling (IVF/ICSI) før egguthenting", price: "7.000,-", duration: "", requiresConsultation: true },
+          { name: "Årlig avgift oppbevaring sæd/egg/blastocyster", price: "3.000,-", duration: "", requiresConsultation: true },
         ]
       },
       {
