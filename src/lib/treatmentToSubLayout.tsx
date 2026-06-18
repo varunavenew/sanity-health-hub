@@ -255,7 +255,7 @@ export const treatmentToSubLayout = ({
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
     ctaDescription: `Møt en erfaren ${specialistLabel} hos CMedical — ingen henvisning nødvendig, og kort ventetid.`,
     specialistCategory: (categoryId === "graviditet" || categoryId === "flere-fagomrader"
-      ? undefined
+      ? "annet"
       : (categoryId as "gynekologi" | "fertilitet" | "urologi" | "ortopedi")),
     specialistSlugs: data.relatedSpecialists,
     specialistCtaLabel: `Se alle ${specialistLabel}er`,
