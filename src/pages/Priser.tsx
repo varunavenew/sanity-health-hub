@@ -265,8 +265,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                           aria-expanded={subOpen}
                                         >
                                           <span
-                                            className={`text-[15px] md:text-base font-light transition-colors ${
-                                              subOpen ? 'text-brand-dark' : 'text-foreground/80'
+                                            className={`text-[15px] md:text-base transition-colors ${
+                                              subOpen ? 'text-brand-dark font-medium' : 'text-foreground/80 font-light'
                                             }`}
                                           >
                                             {sub.label}
