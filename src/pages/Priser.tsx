@@ -185,8 +185,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         key={category.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
                           isOpen
-                            ? 'bg-white border border-brand-dark/20 border-l-[6px] border-l-brand-dark shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
-                            : 'bg-muted border-brand-dark/10 hover:bg-muted/80'
+                            ? 'bg-muted border-brand-dark/15 border-l-[6px] border-l-brand-dark shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
+                            : 'bg-white border-brand-dark/15 hover:border-brand-dark/30'
                         }`}
                       >
                         <button
@@ -211,7 +211,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             aria-hidden="true"
                             className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all border ${
                               isOpen
-                                ? 'bg-white text-brand-dark border-brand-dark/10 shadow-sm'
+                                ? 'bg-brand-dark text-white border-brand-dark shadow-sm'
                                 : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
                             }`}
                           >
