@@ -68,6 +68,7 @@ import SpesialisterLayoutDemo from "./pages/demos/SpesialisterLayoutDemo";
 import HomeDemoBlend from "./pages/home-demo/HomeDemoBlend";
 import HomeDemoOverlap from "./pages/home-demo/HomeDemoOverlap";
 import HomeDemoCut from "./pages/home-demo/HomeDemoCut";
+import HomeDemoLek from "./pages/home-demo/HomeDemoLek";
 import SpecialistDesignHub from "./pages/specialist-design/DesignHub";
 import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
 import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
@@ -210,6 +211,7 @@ const AppContent = () => {
         <Route path="/hjem-demo/blend" element={<HomeDemoBlend isChatOpen={false} />} />
         <Route path="/hjem-demo/overlap" element={<HomeDemoOverlap isChatOpen={false} />} />
         <Route path="/hjem-demo/kutt" element={<HomeDemoCut isChatOpen={false} />} />
+        <Route path="/hjem-demo/lek" element={<HomeDemoLek isChatOpen={false} />} />
         {/* Specialist profile design demos */}
         <Route path="/spesialist-design" element={<SpecialistDesignHub isChatOpen={false} />} />
         <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
