@@ -247,7 +247,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                     return (
                                       <div
                                         key={sub.label}
-                                        className={`rounded-xl border transition-all ${
+                                        id={`sub-${sub.label}`}
+                                        className={`scroll-mt-24 rounded-xl border transition-all ${
                                           subOpen
                                             ? 'bg-brand-beige/30 border-brand-dark/15'
                                             : 'bg-white border-brand-dark/20 hover:border-brand-mid/60'
