@@ -81,7 +81,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const initial: Record<string, boolean> = {};
     priceCategories.forEach((cat) => {
       cat.subcategories.forEach((sub) => {
-        initial[`${cat.id}--${sub.label}`] = true;
+        initial[`${cat.id}--${sub.label}`] = false;
       });
     });
     return initial;
@@ -194,7 +194,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         <div className="space-y-10">
                           {active.subcategories.map((sub) => {
                             const subKey = `${active.id}--${sub.label}`;
-                            const isOpen = openSubcategories[subKey] ?? true;
+                            const isOpen = openSubcategories[subKey] ?? false;
                             return (
                               <div key={sub.label}>
                                 <button
