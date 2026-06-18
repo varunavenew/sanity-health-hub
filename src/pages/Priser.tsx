@@ -19,6 +19,7 @@ import pricingHero from "@/assets/hero/pricing-hero.jpg";
 // Price categories live in src/data/priceList.ts so the treatment hero
 // CTAs can derive a "Pris fra" from the same source as this page.
 import { priceCategories } from "@/data/priceList";
+import { buildBookingUrl } from "@/lib/bookingLinks";
 
 interface PageProps { isChatOpen: boolean }
 
