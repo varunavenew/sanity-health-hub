@@ -9,6 +9,7 @@ interface SplitHeroProps {
  imageAlt?: string;
  primaryCta?: { label: string; to: string };
  secondaryCta?: { label: string; to: string };
+ bottomNote?: string;
 }
 
 /**
@@ -22,6 +23,7 @@ export const SplitHero = ({
  imageAlt,
  primaryCta,
  secondaryCta,
+ bottomNote,
 }: SplitHeroProps) => {
  const navigate = useNavigate();
 
@@ -56,9 +58,14 @@ export const SplitHero = ({
  {secondaryCta.label}
  </Button>
  )}
- </div>
- </div>
- {/* Right: image */}
+  {bottomNote && (
+  <p className="mt-6 text-xs text-brand-dark/60 font-light max-w-md leading-relaxed">
+  {bottomNote}
+  </p>
+  )}
+  </div>
+  </div>
+  {/* Right: image */}
  <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
  <img
  src={image}
