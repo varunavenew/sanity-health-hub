@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Star, Quote, ArrowRight, User } from "lucide-react";
+import { Star, Quote, ArrowRight, User, ShieldCheck, FileX, Clock } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -164,6 +164,22 @@ export const GoogleReviewsSection = () => {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
             </div>
+          </div>
+
+          {/* Trust badges — compact, under the heading */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
+              <ShieldCheck className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
+              {t("valueBadges.tech")}
+            </span>
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
+              <FileX className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
+              Ingen henvisninger
+            </span>
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
+              <Clock className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
+              Kort ventetid
+            </span>
           </div>
         </div>
       </div>
