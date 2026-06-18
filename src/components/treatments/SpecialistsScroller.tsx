@@ -16,6 +16,10 @@ interface Props {
   category?: string;
   /** Custom predicate. Overrides `category` when provided. */
   filter?: (s: Specialist) => boolean;
+  /** Fallback category used when `filter`/`category` returns no matches.
+   *  Useful when a per-page whitelist of slugs doesn't match the active
+   *  data source — we still want the section to render. */
+  fallbackCategory?: string;
   title?: string;
   description?: string;
   /** Link target for "Se alle". */
@@ -32,6 +36,7 @@ interface Props {
 export const SpecialistsScroller = ({
   category,
   filter,
+  fallbackCategory,
   title = "Møt våre spesialister",
   description = "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.",
   seeAllHref = "/spesialister",
@@ -41,10 +46,14 @@ export const SpecialistsScroller = ({
   const { sorted: specialists } = useSpecialistsData();
 
   const filtered = useMemo(() => {
-    if (filter) return specialists.filter(filter);
-    if (!category || category === "alle") return specialists;
-    return specialists.filter((s) => s.category === category);
-  }, [specialists, category, filter]);
+    let result = specialists;
+    if (filter) result = specialists.filter(filter);
+    else if (category && category !== "alle") result = specialists.filter((s) => s.category === category);
+    if (result.length === 0 && fallbackCategory && fallbackCategory !== "alle") {
+      result = specialists.filter((s) => s.category === fallbackCategory);
+    }
+    return result;
+  }, [specialists, category, filter, fallbackCategory]);
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;

@@ -12,6 +12,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
@@ -215,6 +216,13 @@ const Services = ({ isChatOpen }: PageProps) => {
           bookingCta
         />
       )}
+
+      {/* Spesialister som utfører behandlingene */}
+      <SpecialistsScroller
+        title="Spesialistene som utfører behandlingene"
+        description="Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."
+        seeAllHref="/spesialister"
+      />
 
       {/* Unified FAQ — same as home */}
       <FaqSection faqs={faqs} />

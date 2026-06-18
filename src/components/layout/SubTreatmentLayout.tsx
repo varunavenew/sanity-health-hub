@@ -669,7 +669,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
 
  {/* 6. SPESIALISTER — samme presentasjon som på fertilitetssiden */}
- {(c.specialistCategory || (c.specialistSlugs && c.specialistSlugs.length > 0)) && (
  <SpecialistsScroller
  category={c.specialistCategory}
  filter={
@@ -677,12 +676,12 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  ? (s: any) => c.specialistSlugs!.includes(s.slug)
  : undefined
  }
- title={c.specialistTitle ?? "Spesialistene som følger deg."}
+ fallbackCategory={c.specialistCategory ?? "annet"}
+ title={c.specialistTitle ?? "Spesialister som utfører dette"}
  description={c.specialistDescription ?? "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted."}
  seeAllHref={c.specialistCtaHref ?? `/spesialister?kategori=${c.specialistCategory ?? ""}`}
  seeAllLabel={c.specialistCtaLabel}
  />
- )}
 
       {/* SAMARBEIDSPARTNERE / FORSIKRING — før booking CTA */}
       <InsurancePartners />
