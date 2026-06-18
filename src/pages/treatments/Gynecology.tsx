@@ -24,6 +24,7 @@ import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
+import kvinnehelseVideo from "@/assets/kvinnehelse-6.mp4.asset.json";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -269,17 +270,16 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="relative min-h-[420px] lg:min-h-full">
- <video
- src="/videos/kvinnehelse-konsept.mp4"
- poster="/videos/kvinnehelse-konsept-poster.jpg"
- autoPlay
- muted
- loop
- playsInline
- className="absolute inset-0 w-full h-full object-cover"
- />
- </div>
+  <div className="relative min-h-[420px] lg:min-h-full">
+  <video
+  src={kvinnehelseVideo.url}
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="absolute inset-0 w-full h-full object-cover"
+  />
+  </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>
