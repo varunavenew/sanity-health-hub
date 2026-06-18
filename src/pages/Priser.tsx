@@ -283,15 +283,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               className="overflow-hidden"
                                             >
                                               <div className="p-3 md:p-4 space-y-1">
-                                                {sub.items.map((item, idx) => {
-                                                  const bookable = isBookable(item.name, item.duration);
-                                                  const href = bookable
-                                                    ? `/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`
-                                                    : sub.path;
-                                                  return (
+                                                {sub.items.map((item, idx) => (
                                                     <button
                                                       key={idx}
-                                                      onClick={() => navigate(href)}
+                                                      onClick={() => navigate(sub.path)}
                                                       className="w-full py-3 text-left group"
                                                     >
                                                       <div className="flex items-center justify-between gap-3">
@@ -299,28 +294,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                           <span className="block font-normal text-brand-dark">
                                                             {item.name}
                                                           </span>
-                                                          <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light flex-wrap">
-                                                            {item.duration && (
+                                                          {item.duration && (
+                                                            <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light flex-wrap">
                                                               <span>{item.duration}</span>
-                                                            )}
-                                                            {!bookable && (
-                                                              <>
-                                                                {item.duration && <span className="text-brand-dark/30">·</span>}
-                                                                <span className="italic">krever konsultasjon</span>
-                                                              </>
-                                                            )}
-                                                          </div>
+                                                            </div>
+                                                          )}
                                                         </div>
-                                                        {bookable ? (
-                                                          <span className="text-sm font-light text-brand-dark tabular-nums shrink-0">
-                                                            {item.price === "0,-" ? "Gratis" : item.price}
-                                                          </span>
-                                                        ) : (
-                                                          <span className="inline-flex items-center gap-1 text-sm font-light text-brand-dark shrink-0 group-hover:gap-2 transition-all">
-                                                            Les mer
-                                                            <ArrowRight className="w-3.5 h-3.5" />
-                                                          </span>
-                                                        )}
+                                                        <span className="text-sm font-light text-brand-dark tabular-nums shrink-0">
+                                                          {item.price === "0,-" ? "Gratis" : item.price}
+                                                        </span>
                                                       </div>
                                                       {item.info && (
                                                         <div className="mt-3 pt-3 border-t border-brand-dark/10">
@@ -333,8 +315,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                         </div>
                                                       )}
                                                     </button>
-                                                  );
-                                                })}
+                                                  ))}
                                                 {/* Les mer — nederst i underfane */}
                                                 <div className="pt-4 border-t border-brand-dark/10 mt-2">
                                                   <Link
