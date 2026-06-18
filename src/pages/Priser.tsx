@@ -240,7 +240,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         id={`sub-${sub.label}`}
                                         className={`scroll-mt-24 rounded-xl border transition-all ${
                                           subOpen
-                                            ? 'bg-brand-beige/30 border-brand-dark/15'
+                                            ? 'bg-brand-beige/30 border-brand-dark/15 overflow-hidden'
                                             : 'bg-white border-brand-dark/20 hover:border-brand-mid/60'
                                         }`}
                                       >
@@ -281,9 +281,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               animate={{ height: 'auto', opacity: 1 }}
                                               exit={{ height: 0, opacity: 0 }}
                                               transition={{ duration: 0.15 }}
-                                              className="overflow-hidden"
+                                              className={`overflow-hidden ${subOpen ? 'rounded-b-xl' : ''}`}
                                             >
-                                              <div className="p-3 md:p-4 space-y-1">
+                                              <div className="pt-3 md:pt-4 px-3 md:px-4 pb-0 space-y-1">
                                                 {sub.items.map((item, idx) => {
                                                   const isConsult = item.requiresConsultation;
                                                   return (
