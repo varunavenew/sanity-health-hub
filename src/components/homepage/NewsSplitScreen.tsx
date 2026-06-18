@@ -85,14 +85,14 @@ export const NewsSplitScreen = () => {
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/5"
               />
-              <div className="relative z-10 flex h-full flex-col justify-end px-4 md:px-6 lg:px-8 py-6 md:py-8 text-brand-light">
-                <span className="text-[11px] md:text-xs font-light text-brand-light/70 mb-2">
+              <div className="relative z-10 flex h-full flex-col justify-end px-4 md:px-6 lg:px-8 py-6 md:py-8 text-white">
+                <span className="text-[11px] md:text-xs font-light text-white/70 mb-2">
                   {item.eyebrow}
                 </span>
                 <h3 className="text-sm md:text-base lg:text-lg font-light leading-snug mb-3 line-clamp-3">
                   {item.title}
                 </h3>
-                <span className="inline-flex items-center gap-1.5 text-xs font-light text-brand-light/80 group-hover:text-brand-light">
+                <span className="inline-flex items-center gap-1.5 text-xs font-light text-white/80 group-hover:text-white">
                   Les mer
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
