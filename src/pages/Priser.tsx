@@ -311,6 +311,28 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                               <span className="italic">krever konsultasjon</span>
                                                             </>
                                                           )}
+                                                          {item.info && (
+                                                            <Tooltip delayDuration={100}>
+                                                              <TooltipTrigger asChild>
+                                                                <span
+                                                                  role="button"
+                                                                  tabIndex={0}
+                                                                  onClick={(e) => e.stopPropagation()}
+                                                                  aria-label={`Mer informasjon om ${item.name}`}
+                                                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-dark/10 text-brand-dark/70 hover:bg-brand-dark hover:text-brand-warm transition-colors shrink-0 ml-1"
+                                                                >
+                                                                  <Info className="w-3 h-3" strokeWidth={2.2} />
+                                                                </span>
+                                                              </TooltipTrigger>
+                                                              <TooltipContent
+                                                                side="top"
+                                                                align="start"
+                                                                className="max-w-xs text-xs font-light leading-relaxed"
+                                                              >
+                                                                {item.info}
+                                                              </TooltipContent>
+                                                            </Tooltip>
+                                                          )}
                                                         </div>
                                                       </div>
                                                       <span
