@@ -292,33 +292,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       className="w-full flex items-center justify-between p-4 rounded-xl border bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/35 hover:shadow-[0_4px_12px_rgba(66,51,42,0.1)] transition-all text-left group"
                                                     >
                                                       <div className="flex-1 pr-4 min-w-0">
-                                                        <div className="flex items-center gap-2">
-                                                          <span className="block font-normal text-brand-dark">
-                                                            {item.name}
-                                                          </span>
-                                                          {item.info && (
-                                                            <Tooltip delayDuration={100}>
-                                                              <TooltipTrigger asChild>
-                                                                <span
-                                                                  role="button"
-                                                                  tabIndex={0}
-                                                                  onClick={(e) => e.stopPropagation()}
-                                                                  aria-label={`Mer informasjon om ${item.name}`}
-                                                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-dark/10 text-brand-dark/70 hover:bg-brand-dark hover:text-brand-warm transition-colors shrink-0"
-                                                                >
-                                                                  <Info className="w-3 h-3" strokeWidth={2.2} />
-                                                                </span>
-                                                              </TooltipTrigger>
-                                                              <TooltipContent
-                                                                side="top"
-                                                                align="start"
-                                                                className="max-w-xs text-xs font-light leading-relaxed"
-                                                              >
-                                                                {item.info}
-                                                              </TooltipContent>
-                                                            </Tooltip>
-                                                          )}
-                                                        </div>
+                                                        <span className="block font-normal text-brand-dark">
+                                                          {item.name}
+                                                        </span>
                                                         <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light">
                                                           <span className="text-brand-dark/85 tabular-nums">
                                                             {item.price === "0,-" ? "Gratis" : item.price}
