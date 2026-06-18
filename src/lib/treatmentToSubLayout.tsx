@@ -59,6 +59,37 @@ const STANDARD_PROMISES = [
   },
 ];
 
+// Pages where section 2 should be an accordion (distinct sub-topics the reader
+// scans and picks between — different conditions, procedures or questions).
+// Everything else defaults to FORM A (one continuous prose article with
+// inline subheadings — no accordion).
+const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
+  // Urologi — different conditions/procedures
+  "urologi/blaere",
+  "urologi/nyrer",
+  "urologi/prostata",
+  // Gynekologi — distinct conditions
+  "gynekologi/overgangsalder",
+  "gynekologi/celleforandringer",
+  "gynekologi/cyster",
+  "gynekologi/vulvalidelser",
+  "gynekologi/graviditet",
+  // Fertilitet — distinct treatments/diagnostics
+  "fertilitet/infertilitet",
+  "fertilitet/assistert-befruktning",
+  "fertilitet/donorbehandling",
+  "fertilitet/eggfrys",
+  "fertilitet/saedanalyse",
+  // Ortopedi — different body regions
+  "ortopedi/fot-ankel",
+  "ortopedi/hand-albue",
+  "ortopedi/skulder",
+  // Graviditet
+  "graviditet/nipt",
+  // Øvrige
+  "flere-fagomrader/sexologi",
+]);
+
 /** Strip simple markdown (bold/italic/links) for derived descriptions. */
 const stripMarkdown = (s: string): string =>
   s
@@ -243,6 +274,7 @@ export const treatmentToSubLayout = ({
     reasonsTitle: data.sections && data.sections.length > 0 ? `Om ${data.title}` : "Når bør du ta kontakt",
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
     reasons,
+    reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`) ? "accordion" : "prose",
     promises: STANDARD_PROMISES,
     relatedTitle: related.length > 0
       ? (relatedIsChildren
