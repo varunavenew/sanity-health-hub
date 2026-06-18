@@ -28,13 +28,24 @@ const HudbehandlingerMethodPage = ({ isChatOpen }: Props) => {
   const data = treatmentContent[dataKey];
   if (!data) return <NotFound isChatOpen={isChatOpen} />;
 
+  // Build sibling list from the parent samleområde so "Andre ting vi hjelper med"
+  // shows the other hudbehandlinger — not a back-link to the parent.
+  const selfPath = `/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/${methodId}`;
+  const parentData = treatmentContent["flere-fagomrader/hudbehandlinger"];
+  const siblings = (parentData?.linkedServices ?? []).filter((ls) => ls.path !== selfPath);
+
+  const dataWithSiblings = {
+    ...data,
+    linkedServices: siblings.length > 0 ? siblings : data.linkedServices,
+  };
+
   const content = treatmentToSubLayout({
-    data,
+    data: dataWithSiblings,
     categoryId: "flere-fagomrader",
     subId: methodId,
     parentOverride: PARENT,
     grandparent: GRANDPARENT,
-    canonicalOverride: `/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/${methodId}`,
+    canonicalOverride: selfPath,
   });
 
   return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
