@@ -115,7 +115,20 @@ const Priser = ({ isChatOpen }: PageProps) => {
   };
 
   const toggleSubcategory = (label: string) => {
-    setExpandedSubcategory(expandedSubcategory === label ? null : label);
+    const newLabel = expandedSubcategory === label ? null : label;
+    setExpandedSubcategory(newLabel);
+    if (newLabel) {
+      const scrollToSub = () => {
+        const el = document.getElementById(`sub-${newLabel}`);
+        if (!el) return;
+        const header = document.querySelector('header');
+        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      };
+      requestAnimationFrame(scrollToSub);
+      setTimeout(scrollToSub, 320);
+    }
   };
 
   const toggleFaq = (id: string) => {
