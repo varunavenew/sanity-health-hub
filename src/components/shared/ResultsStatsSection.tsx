@@ -31,7 +31,7 @@ export const ResultsStatsSection = ({
     <section className={`bg-brand-light text-foreground py-12 md:py-16 border-t border-brand-dark/5 ${className}`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+          <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
             <div className="lg:col-span-5">
               <h2 className="text-2xl md:text-3xl font-light leading-tight">{title}</h2>
             </div>
