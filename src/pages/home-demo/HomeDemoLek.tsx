@@ -32,7 +32,7 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
       <h1 className="sr-only">{t("h1")}</h1>
 
       <HeroBanner />
-      <HeroCompact />
+      <HeroCompact showHeader={false} />
       <GoogleReviewsSection />
       <ValueBadges />
       <PromoBlocks />
