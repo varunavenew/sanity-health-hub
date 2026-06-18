@@ -72,13 +72,9 @@ const staticFaqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(() => {
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
     const cat = priceCategories.find(c => c.id === 'gynekologi');
-    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? null);
-  });
-  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(() => {
-    const cat = priceCategories.find(c => c.id === 'gynekologi');
-    return cat?.subcategories[0]?.label ?? null;
+    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
   });
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
@@ -96,48 +92,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
     document.title = "Priser | CMedical";
   }, []);
 
-  const toggleCategory = (id: string) => {
-    const newId = expandedCategory === id ? null : id;
-    setExpandedCategory(newId);
-    setExpandedSubcategory(null);
-    if (newId) {
-      const scrollToCat = () => {
-        const el = document.getElementById(`kat-${newId}`);
-        if (!el) return;
-        const header = document.querySelector('header');
-        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-      };
-      requestAnimationFrame(scrollToCat);
-      setTimeout(scrollToCat, 320);
-    }
-  };
-
-  const toggleSubcategory = (label: string) => {
-    const newLabel = expandedSubcategory === label ? null : label;
-    setExpandedSubcategory(newLabel);
-    if (newLabel) {
-      const scrollToSub = () => {
-        const el = document.getElementById(`sub-${newLabel}`);
-        if (!el) return;
-        const header = document.querySelector('header');
-        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-      };
-      requestAnimationFrame(scrollToSub);
-      setTimeout(scrollToSub, 320);
-    }
-  };
-
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
   };
 
-  const handleNavigate = (path: string) => {
-    navigate(path);
-  };
+
 
 
   return (
@@ -161,7 +120,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       />
 
       {/* Price List Section */}
-      <section id="prisliste" className="py-10 md:py-14 bg-white">
+      <section id="prisliste" className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           {(() => {
             const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
@@ -169,218 +128,143 @@ const Priser = ({ isChatOpen }: PageProps) => {
               ...priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
               ...priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb')),
             ];
+            const active = ordered.find(c => c.id === activeCategory) ?? ordered[0];
             return (
-              <div className="max-w-5xl mx-auto">
-                <p className="text-xs text-muted-foreground font-light mb-5">
+              <div className="max-w-6xl mx-auto">
+                <p className="text-xs text-muted-foreground font-light mb-10 md:mb-14">
                   Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen.
                 </p>
 
-                <div className="space-y-3">
-                  {ordered.map((category) => {
-                    const isOpen = expandedCategory === category.id;
-                    const totalItems = category.subcategories.reduce((s, sc) => s + sc.items.length, 0);
-                    return (
-                      <div
-                        id={`kat-${category.id}`}
-                        key={category.id}
-                        className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
-                          isOpen
-                            ? 'bg-white border-brand-dark/15 border-l-[6px] border-l-brand-dark shadow-[0_4px_24px_rgba(66,51,42,0.08)]'
-                            : 'bg-muted border-brand-dark/15 hover:border-brand-dark/30'
-                        }`}
-                      >
-                        <button
-                          onClick={() => toggleCategory(category.id)}
-                          className="w-full flex items-center justify-between p-5 md:p-6 gap-4 text-left group transition-colors"
-                          aria-expanded={isOpen}
-                          aria-label={`${isOpen ? 'Lukk' : 'Åpne'} ${category.label}`}
-                        >
-                          <div className="flex flex-col min-w-0">
-                            <span className={`text-xl md:text-2xl font-light truncate transition-colors ${
-                              isOpen ? 'text-brand-dark' : 'text-foreground group-hover:text-foreground/90'
-                            }`}>
-                              {category.label}
-                            </span>
-                            <span className={`text-xs font-light mt-1 ${
-                              isOpen ? 'text-brand-dark/60' : 'text-muted-foreground'
-                            }`}>
-                              {totalItems} tjenester
-                            </span>
-                          </div>
-                          <span
-                            aria-hidden="true"
-                            className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all border ${
-                              isOpen
-                                ? 'bg-brand-dark text-white border-brand-dark shadow-sm'
-                                : 'bg-background text-foreground/80 border-foreground/20 group-hover:bg-foreground group-hover:text-background group-hover:border-foreground'
+                <div className="flex flex-col md:flex-row gap-12 md:gap-20">
+                  {/* Left rail: specialties */}
+                  <aside className="w-full md:w-56 shrink-0">
+                    <p className="text-xs text-muted-foreground font-light mb-5">Fagområder</p>
+                    <nav className="flex md:flex-col gap-x-4 gap-y-2 overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 md:sticky md:top-28">
+                      {ordered.map((cat) => {
+                        const isActive = cat.id === active?.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            onClick={() => {
+                              setActiveCategory(cat.id);
+                              const el = document.getElementById('prisliste');
+                              if (el && window.innerWidth < 768) {
+                                const header = document.querySelector('header');
+                                const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
+                                window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+                              }
+                            }}
+                            className={`text-left py-1.5 whitespace-nowrap transition-colors ${
+                              isActive
+                                ? 'text-brand-dark border-b border-brand-dark w-fit'
+                                : 'text-brand-dark/50 hover:text-brand-dark'
                             }`}
+                            aria-current={isActive ? 'page' : undefined}
                           >
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-                            />
-                          </span>
-                        </button>
+                            {cat.label}
+                          </button>
+                        );
+                      })}
+                    </nav>
+                  </aside>
 
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25, ease: 'easeOut' }}
-                              className={`overflow-hidden ${isOpen ? 'rounded-b-2xl' : ''}`}
-                            >
-                              <div className="px-5 md:px-6 pb-0">
-                                <div className="space-y-2">
-                                  {category.subcategories.map((sub) => {
-                                    const subOpen = expandedSubcategory === sub.label;
-                                    return (
-                                      <div
-                                        key={sub.label}
-                                        id={`sub-${sub.label}`}
-                                        className={`scroll-mt-24 rounded-xl border transition-all ${
-                                          subOpen
-                                            ? 'bg-brand-beige/30 border-brand-dark/15 overflow-hidden'
-                                            : 'bg-white border-brand-dark/20 hover:border-brand-mid/60'
-                                        }`}
-                                      >
+                  {/* Right: active category content */}
+                  <main className="flex-1 min-w-0">
+                    {active && (
+                      <section key={active.id}>
+                        <h2 className="text-2xl md:text-3xl font-light text-brand-dark mb-2">
+                          {active.label}
+                        </h2>
+                        <p className="text-sm font-light text-muted-foreground mb-10">
+                          {active.subcategories.reduce((s, sc) => s + sc.items.length, 0)} tjenester
+                        </p>
 
-                                        <button
-                                          onClick={() => toggleSubcategory(sub.label)}
-                                          className={`w-full flex items-center justify-between py-4 px-4 md:px-5 cursor-pointer text-left transition-colors ${
-                                            subOpen
-                                              ? 'bg-brand-beige/60 rounded-t-xl border-b border-brand-dark/10'
-                                              : ''
-                                          }`}
-                                          aria-expanded={subOpen}
-                                        >
-                                          <span
-                                            className={`text-[15px] md:text-base transition-colors ${
-                                              subOpen ? 'text-brand-dark font-medium' : 'text-foreground/80 font-light'
-                                            }`}
-                                          >
-                                            {sub.label}
-                                          </span>
-                                          <div className="flex items-center gap-3">
-                                            <span className="text-brand-dark/40 text-sm font-light">
-                                              {sub.items.length}
-                                            </span>
-                                            <ChevronRight
-                                              className={`w-4 h-4 text-brand-mid transition-all ${
-                                                subOpen ? 'rotate-90 text-foreground/80' : 'group-hover:text-brand-dark'
-                                              }`}
-                                              aria-hidden="true"
-                                            />
-                                          </div>
-                                        </button>
-
-                                        <AnimatePresence initial={false}>
-                                          {subOpen && (
-                                            <motion.div
-                                              initial={{ height: 0, opacity: 0 }}
-                                              animate={{ height: 'auto', opacity: 1 }}
-                                              exit={{ height: 0, opacity: 0 }}
-                                              transition={{ duration: 0.15 }}
-                                              className={`overflow-hidden ${subOpen ? 'rounded-b-xl' : ''}`}
-                                            >
-                                              <div className="pt-3 md:pt-4 px-3 md:px-4 pb-0 space-y-1">
-                                                {sub.items.map((item, idx) => {
-                                                  const isConsult = item.requiresConsultation;
-                                                  return (
-                                                    <div
-                                                      key={idx}
-                                                      className="py-3 border-b border-brand-dark/5 last:border-b-0"
-                                                    >
-                                                      <div className="flex items-center justify-between gap-4">
-                                                        <div className="flex-1 min-w-0 max-w-prose">
-                                                          <span className="block font-normal text-brand-dark">
-                                                            {item.name}
-                                                          </span>
-                                                          {item.duration && (
-                                                            <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light flex-wrap">
-                                                              <span>{item.duration}</span>
-                                                            </div>
-                                                          )}
-                                                        </div>
-                                                        <div className="flex flex-col items-end gap-0.5 shrink-0">
-                                                          <div className="flex items-center gap-3">
-                                                            <span className="text-sm font-light text-brand-dark tabular-nums min-w-[70px] text-right whitespace-nowrap">
-                                                              {item.price === "0,-" ? "Gratis" : item.price}
-                                                            </span>
-                                                            {isConsult ? (
-                                                              <Link
-                                                                to={sub.path}
-                                                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
-                                                              >
-                                                                Les mer
-                                                                <ArrowRight className="w-3 h-3" />
-                                                              </Link>
-                                                            ) : (
-                                                              <Link
-                                                                to={buildBookingUrl({ kategori: category.id })}
-                                                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
-                                                              >
-                                                                Bestill time
-                                                                <ArrowRight className="w-3 h-3" />
-                                                              </Link>
-                                                            )}
-                                                          </div>
-                                                          {item.priceNote && (
-                                                            <span className="text-xs text-muted-foreground font-light">
-                                                              {item.priceNote}
-                                                            </span>
-                                                          )}
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  );
-                                                })}
-                                                {/* Les mer — nederst i underfane */}
-                                                <div className="mt-2 -mx-3 md:-mx-4 px-4 md:px-5 py-4 bg-brand-beige/60 border-t border-brand-dark/10 rounded-b-xl">
-                                                  <Link
-                                                    to={sub.path}
-                                                    className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
-                                                  >
-                                                    Les mer om {sub.label.toLowerCase()}
-                                                    <ArrowRight className="w-4 h-4" />
-                                                  </Link>
-                                                </div>
-                                              </div>
-
-                                            </motion.div>
-                                          )}
-                                        </AnimatePresence>
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-
-                                {/* Les mer — plassert nederst i åpen boks */}
-                                <div className="mt-6 -mx-5 md:-mx-6 px-5 md:px-6 py-5 bg-brand-beige/60 border-t border-brand-dark/10 rounded-b-2xl">
-                                  <Link
-                                    to={category.path}
-                                    className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
-                                  >
-                                    Les mer om {category.label.toLowerCase()}
-                                    <ArrowRight className="w-4 h-4" />
-                                  </Link>
-                                </div>
+                        <div className="space-y-14">
+                          {active.subcategories.map((sub) => (
+                            <div key={sub.label}>
+                              <div className="flex items-baseline justify-between mb-5 pb-2 border-b border-brand-mid/40">
+                                <h3 className="text-sm font-normal text-brand-dark/80">
+                                  {sub.label}
+                                </h3>
+                                <Link
+                                  to={sub.path}
+                                  className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/60 hover:text-brand-dark hover:gap-2 transition-all"
+                                >
+                                  Les mer
+                                  <ArrowRight className="w-3 h-3" />
+                                </Link>
                               </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
+
+                              <ul className="divide-y divide-brand-mid/30">
+                                {sub.items.map((item, idx) => {
+                                  const isConsult = item.requiresConsultation;
+                                  return (
+                                    <li
+                                      key={idx}
+                                      className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                                    >
+                                      <div className="flex-1 min-w-0">
+                                        <p className="font-normal text-brand-dark">{item.name}</p>
+                                        {(item.duration || item.priceNote) && (
+                                          <p className="mt-1 text-xs font-light text-brand-dark/60">
+                                            {item.duration}
+                                            {item.duration && item.priceNote ? ' · ' : ''}
+                                            {item.priceNote}
+                                          </p>
+                                        )}
+                                      </div>
+                                      <div className="flex items-center gap-5 sm:gap-6 shrink-0">
+                                        <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap">
+                                          {item.price === "0,-" ? "Gratis" : item.price}
+                                        </span>
+
+                                        {isConsult ? (
+                                          <Link
+                                            to={sub.path}
+                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
+                                          >
+                                            Les mer
+                                            <ArrowRight className="w-3 h-3" />
+                                          </Link>
+                                        ) : (
+                                          <Link
+                                            to={buildBookingUrl({ kategori: active.id })}
+                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors whitespace-nowrap"
+                                          >
+                                            Bestill time
+                                            <ArrowRight className="w-3 h-3" />
+                                          </Link>
+                                        )}
+                                      </div>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-12 pt-6 border-t border-brand-mid/30">
+                          <Link
+                            to={active.path}
+                            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
+                          >
+                            Les mer om {active.label.toLowerCase()}
+                            <ArrowRight className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      </section>
+                    )}
+                  </main>
                 </div>
               </div>
             );
           })()}
 
           {/* CTA */}
-          <div className="mt-16 md:mt-20 text-center">
-            <button 
-              onClick={() => navigate('/booking')} 
+          <div className="mt-20 md:mt-24 text-center">
+            <button
+              onClick={() => navigate('/booking')}
               className="inline-flex items-center gap-2 px-8 py-4 bg-brand-dark text-white rounded-full font-normal hover:bg-brand-dark/90 transition-colors"
             >
               Bestill time
@@ -389,6 +273,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
 
       {/* Specialists Section - Dark background */}
       <section className="py-16 md:py-24 bg-brand-dark">
