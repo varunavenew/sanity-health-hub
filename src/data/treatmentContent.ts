@@ -1334,31 +1334,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "flere-fagomrader/hudlege": {
-    title: "Hudlege",
-    subtitle: "Ingen ventetid • Ingen henvisning",
-    parentCategory: "Flere fagområder",
-    heroImage: flereFagImg,
-    description: "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen.",
-    sections: [
-      {
-        id: "hva-vi-behandler",
-        heading: "Hva vi behandler",
-        content: "Vi utreder og behandler et bredt spekter av hudlidelser – fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i hud. I tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov.",
-      },
-      {
-        id: "tilpasset-deg",
-        heading: "Tilpasset deg",
-        content: "Vi tilbyr grundig vurdering og behandling tilpasset din hud og dine behov – enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.",
-      },
-    ],
-    benefits: [
-      "Ingen henvisning — bestill direkte uten henvisning fra fastlege.",
-      "Korte ventetider — du får hjelp innen kort tid.",
-      "Erfarne spesialister — du møter hudleger som jobber med dette til daglig.",
-    ],
-    faqs: [],
-  },
   "flere-fagomrader/ernaringsfysiolog": {
     title: "Ernæringsfysiolog",
     subtitle: "Ingen ventetid • Ingen henvisning",

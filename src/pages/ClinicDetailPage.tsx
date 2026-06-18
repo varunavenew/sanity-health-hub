@@ -39,7 +39,7 @@ const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
  handterapeut: { label: "Håndterapeut" },
  revmatolog: { label: "Revmatolog" },
  urolog: { label: "Urologi", path: "/behandlinger/urologi" },
- hudlege: { label: "Hudlege" },
+ hudhelse: { label: "Hudhelse", path: "/behandlinger/flere-fagomrader/hudhelse" },
  areknuter: { label: "Åreknuter" },
  "sprengte-blodkar": { label: "Sprengte blodkar" },
  fysioterapeut: { label: "Fysioterapeut" },
@@ -64,7 +64,7 @@ const clinicFaqs: Record<string, { question: string; answer: string }[]> = {
  ],
  bekkestua: [
  { question: "Trenger jeg henvisning?", answer: "For de fleste konsultasjoner trenger du ikke henvisning. Sjekk med ditt forsikringsselskap dersom du ønsker forsikringsdekning." },
- { question: "Hvilke tjenester tilbys på Bekkestua?", answer: "Vi tilbyr gynekologi og hudlege ved vår klinikk på Bekkestua." },
+ { question: "Hvilke tjenester tilbys på Bekkestua?", answer: "Vi tilbyr gynekologi og hudhelse ved vår klinikk på Bekkestua." },
  { question: "Er det parkering?", answer: "Ja, det er gratis parkering rett utenfor klinikken." },
  ],
  ski: [

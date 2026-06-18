@@ -82,7 +82,7 @@ export const sitePages: SitePage[] = [
 
   // Flere fagområder
   { path: "/behandlinger/flere-fagomrader/endokrinologi", name: "Endokrinologi", category: "Flere – underbehandlinger" },
-  { path: "/behandlinger/flere-fagomrader/hudlege", name: "Hudlege", category: "Flere – underbehandlinger" },
+  
   { path: "/behandlinger/flere-fagomrader/hudhelse", name: "Hudhelse", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/ernaringsfysiolog", name: "Ernæringsfysiolog", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/gastrokirurgi", name: "Gastrokirurgi", category: "Flere – underbehandlinger" },
