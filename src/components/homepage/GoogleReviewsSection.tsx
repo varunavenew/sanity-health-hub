@@ -132,33 +132,29 @@ export const GoogleReviewsSection = () => {
 
       <div className="container mx-auto px-6 md:px-16 mt-24 md:mt-32">
         <div className="max-w-5xl">
-          {/* Timeline marker */}
-          <div className="flex items-center gap-4 mb-8 text-xs font-light text-brand-dark/60">
-            <span>2002</span>
-            <span className="flex-1 h-px bg-brand-dark/20 relative">
-              <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-brand-dark/60" />
-            </span>
-            <span>I dag</span>
-          </div>
+          {/* Eyebrow — matches other section subtitles */}
+          <p className="text-sm text-brand-dark/60 font-light mb-6">
+            Bli en del av vår historie
+          </p>
 
-          {/* Editorial composition: huge number + caption + CTA */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
+          {/* Editorial composition: restrained number + heading + CTA */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end pb-6 border-b border-brand-dark/10">
             <div className="md:col-span-8">
-              <p className="text-[clamp(4rem,14vw,11rem)] font-light text-brand-dark leading-[0.9] tracking-tight">
-                150&thinsp;000<span className="text-brand-dark/40">+</span>
-              </p>
-              <p className="text-brand-dark/70 text-base md:text-lg font-light mt-4 max-w-md">
-                {ctaSubtitle}
+              <p className="text-[clamp(3.5rem,10vw,8rem)] font-light text-brand-dark leading-[0.95]">
+                150&thinsp;000<span className="text-brand-dark/30 font-extralight">+</span>
               </p>
             </div>
 
-            <div className="md:col-span-4 md:pb-3 md:border-l md:border-brand-dark/15 md:pl-8">
-              <p className="text-brand-dark font-light text-lg leading-snug mb-5">
+            <div className="md:col-span-4">
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight mb-5">
                 {ctaTitle.replace(/Over\s*150\s*000\+?\s*/i, '').replace(/^[a-zæøå]/, (c) => c.toUpperCase()) || 'Fornøyde pasienter siden 2002.'}
+              </h2>
+              <p className="text-brand-dark/70 font-light leading-relaxed mb-6">
+                {ctaSubtitle}
               </p>
               <button
                 onClick={() => navigate('/booking')}
-                className="group inline-flex items-center gap-3 text-brand-dark text-base font-light border-b border-brand-dark/30 pb-1 hover:border-brand-dark transition-colors"
+                className="group inline-flex items-center gap-3 text-brand-dark font-light border-b border-brand-dark/30 pb-1 hover:border-brand-dark transition-colors"
               >
                 {t("nav.bookAppointment")}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -166,8 +162,8 @@ export const GoogleReviewsSection = () => {
             </div>
           </div>
 
-          {/* Trust badges — compact, under the heading */}
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          {/* Trust badges — compact, under the divider */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3">
             <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
               <ShieldCheck className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
               {t("valueBadges.tech")}
