@@ -1761,6 +1761,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Hudpleierådgivning tilpasset dine behov",
       "Tilbys på CMedical Bekkestua",
     ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Medisinsk forankrede hudbehandlinger utført av hudlege — pigment, rødhet, struktur, volum og føflekksjekk.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+      { label: "Behandlingsutstyr", description: "IPL- og laserteknologi vi bruker — trygg behandling basert på dokumenterte metoder.", path: "/behandlinger/flere-fagomrader/behandlingsutstyr" },
+      { label: "Hudpleieprodukter", description: "SkinCeuticals og medisinsk hudpleie anbefalt av hudlege — for daglig stell og oppfølging hjemme.", path: "/behandlinger/flere-fagomrader/hudpleieprodukter" },
+    ],
     faqs: [
       { question: "Hvor tilbys hudhelse?", answer: "Hudhelse, rådgivning og ulike former for hudbehandling tilbys kun på CMedical Bekkestua." },
       { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
