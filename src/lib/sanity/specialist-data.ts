@@ -179,10 +179,11 @@ function mapPatientReviews(
 ): SpecialistPatientReview[] | undefined {
   if (!Array.isArray(reviews) || reviews.length === 0) return undefined;
   const mapped = reviews
-    .map((review) => {
+    .map((review): SpecialistPatientReview | null => {
       const text = typeof review.text === "string" ? review.text.trim() : "";
       const name = typeof review.author === "string" ? review.author.trim() : "";
       if (!text || !name) return null;
+      const formattedDate = formatReviewDate(review.date, lang);
       return {
         id: typeof review._id === "string" ? review._id : name,
         name,
@@ -191,7 +192,7 @@ function mapPatientReviews(
           typeof review.rating === "number" && review.rating >= 1 && review.rating <= 5
             ? review.rating
             : 5,
-        date: formatReviewDate(review.date, lang) || undefined,
+        ...(formattedDate ? { date: formattedDate } : {}),
       };
     })
     .filter((review): review is SpecialistPatientReview => review !== null);
