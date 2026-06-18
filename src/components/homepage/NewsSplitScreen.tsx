@@ -47,9 +47,6 @@ export const NewsSplitScreen = () => {
         {/* Venstre — redaksjonell intro */}
         <div className="bg-brand-dark text-brand-light flex flex-col justify-between px-6 md:px-12 lg:px-16 py-12 md:py-16">
           <div>
-            <span className="text-xs font-light text-brand-light/60 mb-6 block">
-              Aktuelt
-            </span>
             <h2
               id="news-split-heading"
               className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] max-w-md mb-6"
@@ -86,16 +83,16 @@ export const NewsSplitScreen = () => {
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/5"
+                className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent"
               />
-              <div className="relative z-10 flex h-full flex-col justify-end px-4 md:px-6 lg:px-8 py-6 md:py-8 text-white">
-                <span className="text-[11px] md:text-xs font-light text-white/80 mb-2">
+              <div className="relative z-10 flex h-full flex-col justify-end px-4 md:px-6 lg:px-8 py-6 md:py-8 text-brand-dark">
+                <span className="text-[11px] md:text-xs font-light text-brand-dark/60 mb-2">
                   {item.eyebrow}
                 </span>
                 <h3 className="text-sm md:text-base lg:text-lg font-light leading-snug mb-3 line-clamp-3">
                   {item.title}
                 </h3>
-                <span className="inline-flex items-center gap-1.5 text-xs font-light text-white/90 group-hover:text-white">
+                <span className="inline-flex items-center gap-1.5 text-xs font-light text-brand-dark/80 group-hover:text-brand-dark">
                   Les mer
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
