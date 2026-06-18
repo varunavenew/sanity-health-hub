@@ -357,6 +357,16 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                     </button>
                                                   );
                                                 })}
+                                                {/* Les mer — nederst i underfane */}
+                                                <div className="pt-4 border-t border-brand-dark/10 mt-2">
+                                                  <Link
+                                                    to={sub.path}
+                                                    className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
+                                                  >
+                                                    Les mer om {sub.label.toLowerCase()}
+                                                    <ArrowRight className="w-4 h-4" />
+                                                  </Link>
+                                                </div>
                                               </div>
 
                                             </motion.div>
