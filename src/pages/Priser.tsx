@@ -298,62 +298,52 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   const bookable = isBookable(item.name, item.duration);
                                                   const href = bookable
                                                     ? `/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`
-                                                    : buildBookingUrl({ kategori: category.id });
+                                                    : sub.path;
                                                   return (
                                                     <button
                                                       key={idx}
                                                       onClick={() => navigate(href)}
-                                                      className="w-full flex items-center justify-between p-4 rounded-xl border bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/35 hover:shadow-[0_4px_12px_rgba(66,51,42,0.1)] transition-all text-left group"
+                                                      className="w-full p-4 rounded-xl border bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/35 hover:shadow-[0_4px_12px_rgba(66,51,42,0.1)] transition-all text-left group"
                                                     >
-                                                      <div className="flex-1 pr-4 min-w-0">
-                                                        <span className="block font-normal text-brand-dark">
-                                                          {item.name}
-                                                        </span>
-                                                        <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light">
-                                                          <span className="text-brand-dark/85 tabular-nums">
-                                                            {item.price === "0,-" ? "Gratis" : item.price}
+                                                      <div className="flex items-center justify-between">
+                                                        <div className="flex-1 pr-4 min-w-0">
+                                                          <span className="block font-normal text-brand-dark">
+                                                            {item.name}
                                                           </span>
-                                                          {item.duration && (
-                                                            <>
-                                                              <span className="text-brand-dark/30">·</span>
-                                                              <span>{item.duration}</span>
-                                                            </>
-                                                          )}
-                                                          {!bookable && (
-                                                            <>
-                                                              <span className="text-brand-dark/30">·</span>
-                                                              <span className="italic">krever konsultasjon</span>
-                                                            </>
-                                                          )}
-                                                          {item.info && (
-                                                            <Tooltip delayDuration={100}>
-                                                              <TooltipTrigger asChild>
-                                                                <span
-                                                                  role="button"
-                                                                  tabIndex={0}
-                                                                  onClick={(e) => e.stopPropagation()}
-                                                                  aria-label={`Mer informasjon om ${item.name}`}
-                                                                  className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-dark/10 text-brand-dark/70 hover:bg-brand-dark hover:text-brand-warm transition-colors shrink-0 ml-1"
-                                                                >
-                                                                  <Info className="w-3 h-3" strokeWidth={2.2} />
-                                                                </span>
-                                                              </TooltipTrigger>
-                                                              <TooltipContent
-                                                                side="top"
-                                                                align="start"
-                                                                className="max-w-xs text-xs font-light leading-relaxed"
-                                                              >
-                                                                {item.info}
-                                                              </TooltipContent>
-                                                            </Tooltip>
-                                                          )}
+                                                          <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light flex-wrap">
+                                                            <span className="text-brand-dark/85 tabular-nums">
+                                                              {item.price === "0,-" ? "Gratis" : item.price}
+                                                            </span>
+                                                            {item.duration && (
+                                                              <>
+                                                                <span className="text-brand-dark/30">·</span>
+                                                                <span>{item.duration}</span>
+                                                              </>
+                                                            )}
+                                                            {!bookable && (
+                                                              <>
+                                                                <span className="text-brand-dark/30">·</span>
+                                                                <span className="italic">krever konsultasjon</span>
+                                                              </>
+                                                            )}
+                                                          </div>
                                                         </div>
+                                                        <span
+                                                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-dark text-brand-warm text-sm font-light group-hover:scale-105 transition-transform shrink-0"
+                                                        >
+                                                          {bookable ? 'Book time' : 'Les mer'}
+                                                        </span>
                                                       </div>
-                                                      <span
-                                                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-dark text-brand-warm text-sm font-light group-hover:scale-105 transition-transform shrink-0"
-                                                      >
-                                                        {bookable ? 'Book time' : 'Book konsultasjon'}
-                                                      </span>
+                                                      {item.info && (
+                                                        <div className="mt-3 pt-3 border-t border-brand-dark/10">
+                                                          <div className="flex items-start gap-2">
+                                                            <Info className="w-4 h-4 text-brand-dark/50 mt-0.5 shrink-0" strokeWidth={1.5} />
+                                                            <p className="text-xs font-light text-brand-dark/70 leading-relaxed text-left">
+                                                              {item.info}
+                                                            </p>
+                                                          </div>
+                                                        </div>
+                                                      )}
                                                     </button>
                                                   );
                                                 })}
