@@ -233,6 +233,8 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "urogynekologi" },
     primaryCtaLabel: "Bestill utredning",
+    heroImage: imgUrogynekologiHero,
+    heroImageAlt: "Hender som støtter underlivet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
