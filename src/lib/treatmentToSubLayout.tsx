@@ -193,22 +193,11 @@ export const treatmentToSubLayout = ({
       };
     });
   }
-  // Generic fallback reasons used when content is thin so the journey section
-  // isn't just a CTA next to a single bullet.
-  const GENERIC_REASONS = [
-    { title: "Du vil ha svar — raskt", desc: "Du ønsker en grundig vurdering uten ventetid, og en plan du faktisk forstår." },
-    { title: "Du vil møte en spesialist", desc: "Du vil bli sett av noen som jobber med dette daglig, ikke en generalist på utplassering." },
-    { title: "Du vil ta et informert valg", desc: "Du vil ha tid til å stille spørsmål, og en anbefaling tilpasset deg — ikke en mal." },
-    { title: "Du vil ha trygghet i forløpet", desc: "Du vil vite hva som skjer videre, hvem du møter, og hvordan vi følger deg opp." },
-  ];
-  // Only fall back to generic reasons when there are NO real sections at all
-  // — otherwise we'd duplicate content the editor has already written above.
-  if (reasons.length === 0) {
-    for (const g of GENERIC_REASONS) {
-      if (reasons.length >= 3) break;
-      reasons.push({ n: String(reasons.length + 1).padStart(2, "0"), title: g.title, desc: g.desc });
-    }
-  }
+  // NOTE: We intentionally do NOT fall back to generic reasons. If a treatment
+  // has no `sections` (and no extra benefits beyond hero points), the hero
+  // already covers everything — a generic "Når bør du ta kontakt" block would
+  // just be filler. The section is hidden entirely (ReasonsEditorial returns
+  // null on empty items) and the page jumps straight to the flow.
 
 
   // ── Related: from linkedServices.
