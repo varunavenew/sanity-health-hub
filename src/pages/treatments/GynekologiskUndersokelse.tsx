@@ -153,7 +153,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <header className="bg-brand-light pb-20 md:pb-28">
  <div className="container mx-auto px-6 md:px-16">
- <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+ <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
  <div>
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Noe kjennes ikke helt <span className="italic">riktig</span>
@@ -255,7 +255,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <section className="bg-background py-20 md:py-28">
  <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
+ <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
  <div className="lg:col-span-5">
  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-6">
  Du trenger ikke ha en diagnose for å bestille
