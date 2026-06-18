@@ -69,6 +69,7 @@ import HomeDemoBlend from "./pages/home-demo/HomeDemoBlend";
 import HomeDemoOverlap from "./pages/home-demo/HomeDemoOverlap";
 import HomeDemoCut from "./pages/home-demo/HomeDemoCut";
 import HomeDemoLek from "./pages/home-demo/HomeDemoLek";
+import PriserInlineInfo from "./pages/demos/PriserInlineInfo";
 import SpecialistDesignHub from "./pages/specialist-design/DesignHub";
 import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
 import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
@@ -107,6 +108,7 @@ const AppContent = () => {
         <Route path="/guide" element={<Guide isChatOpen={false} />} />
         <Route path="/contact" element={<Contact isChatOpen={false} />} />
         <Route path="/priser" element={<Priser isChatOpen={false} />} />
+        <Route path="/demoer/priser-inline-info" element={<PriserInlineInfo isChatOpen={false} />} />
         <Route path="/tjenester" element={<Services isChatOpen={false} />} />
         <Route path="/tjenester-og-priser" element={<Services isChatOpen={false} />} />
         <Route path="/forsikring" element={<Insurance isChatOpen={false} />} />

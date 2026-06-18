@@ -55,6 +55,12 @@ const groups = [
  { to: "/hjem-demo/lek", name: "Hjem — Lekekasse (kopi)" },
  ],
  },
+ {
+ title: "Priser",
+ items: [
+ { to: "/demoer/priser-inline-info", name: "Priser — Info under tjenesten (demo)" },
+ ],
+ },
 ];
 
 const DemoOversikt = ({ isChatOpen = false }: PageProps) => {
