@@ -210,12 +210,14 @@ export const treatmentToSubLayout = ({
         }))
       : [];
 
-  // If every related link is a child of the current canonical path, treat
-  // the section as an intro/overview of treatments included in this service
-  // (e.g. the Hudhelse landing page). Render it as section 2 and rename it
-  // accordingly. Otherwise keep the default "Andre ting vi hjelper med".
+  // If the related links represent treatments that are part of this service
+  // (e.g. the Hudhelse landing page where the cards are Hudbehandlinger,
+  // Behandlingsutstyr, Hudpleieprodukter), render the section right after the
+  // hero as an intro/overview. We detect this by checking that at least one
+  // linked service is a direct child of this page's canonical path — that's a
+  // strong signal this page is a samleside, not a leaf treatment.
   const relatedAsIntro =
-    related.length > 0 && related.every((r) => r.href.startsWith(canonical + "/"));
+    related.length > 0 && related.some((r) => r.href.startsWith(canonical + "/"));
 
   const heroTitle: ReactNode = data.title;
 
