@@ -141,23 +141,36 @@ const expertAreas = [
  },
 ];
 
-const allServices = [
- { title: "Gynekologisk undersøkelse", desc: "Utredning og samtale", href: "/behandlinger/gynekologi/undersokelse" },
- { title: "Urogynekologi", desc: "Fremfall og urinlekkasje — samlet", href: "/behandlinger/gynekologi/urogynekologi" },
- { title: "Endometriose", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/endometriose" },
- { title: "Overgangsalder", desc: "Hormonbehandling og oppfølging", href: "/behandlinger/gynekologi/overgangsalder" },
- { title: "Urinlekkasje", desc: "Konservativ og kirurgisk behandling", href: "/behandlinger/gynekologi/urinlekkasje" },
- { title: "PCOS", desc: "Utredning og oppfølging", href: "/behandlinger/gynekologi/pcos" },
- { title: "Vulvalidelser", desc: "Spesialisert utredning", href: "/behandlinger/gynekologi/vulvalidelser" },
- { title: "Cellforandringer", desc: "Oppfølging og konisering", href: "/behandlinger/gynekologi/celleforandringer" },
- { title: "PMS og PMDD", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/pms-pmdd" },
- { title: "Cellprøver", desc: "Screening og oppfølging", href: "/behandlinger/gynekologi/undersokelse" },
- { title: "Vaginale fremfall", desc: "Konservativ og kirurgisk", href: "/behandlinger/gynekologi/vaginale-fremfall" },
- { title: "Cyster på eggstokkene", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/cyster" },
- { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/gynekologi/robotkirurgi" },
- { title: "Hysteroskopi", desc: "Inngrep i livmoren", href: "/behandlinger/gynekologi/kirurgi" },
- { title: "Fjerne livmor", desc: "Planlagt kirurgi", href: "/behandlinger/gynekologi/fjerne-livmor" },
- { title: "Labiaplastikk", desc: "Estetisk og funksjonell", href: "/behandlinger/gynekologi/labiaplastikk" },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+ {
+  label: "Undersøkelse og utredning",
+  items: [
+   { title: "Gynekologisk undersøkelse", desc: "Helsesjekk og førstekonsultasjon", href: "/behandlinger/gynekologi/undersokelse" },
+   { title: "Ultralyd", desc: "Gynekologisk og tidlig graviditet", href: "/behandlinger/gynekologi/undersokelse" },
+   { title: "Hysteroskopi", desc: "Undersøkelse av livmorhulen", href: "/behandlinger/gynekologi/kirurgi" },
+   { title: "Office-hysteroskopi", desc: "Poliklinisk inngrep uten narkose", href: "/behandlinger/gynekologi/kirurgi" },
+   { title: "NIPT", desc: "Fosterdiagnostikk", href: "/behandlinger/gynekologi/undersokelse" },
+   { title: "Prevensjon og rådgivning", desc: "Valg av riktig prevensjon", href: "/behandlinger/gynekologi/undersokelse" },
+  ],
+ },
+ {
+  label: "Behandling",
+  items: [
+   { title: "Hormonbehandling", desc: "Overgangsalder og hormonforstyrrelser", href: "/behandlinger/gynekologi/overgangsalder" },
+   { title: "Botoxbehandling", desc: "Vaginisme og vulvalidelser", href: "/behandlinger/gynekologi/vulvalidelser" },
+   { title: "Konisering", desc: "Behandling av celleforandringer", href: "/behandlinger/gynekologi/celleforandringer" },
+   { title: "6-ukers kontroll etter fødsel", desc: "Oppfølging etter fødsel", href: "/behandlinger/gynekologi/undersokelse" },
+  ],
+ },
+ {
+  label: "Kirurgi",
+  items: [
+   { title: "Robotassistert kirurgi", desc: "Høy presisjon, rask rehabilitering", href: "/behandlinger/gynekologi/robotkirurgi" },
+   { title: "Gynekologisk kirurgi", desc: "Laparoskopi og åpen kirurgi", href: "/behandlinger/gynekologi/kirurgi" },
+   { title: "Fjerne livmor (hysterektomi)", desc: "Kirurgisk fjerning av livmor", href: "/behandlinger/gynekologi/fjerne-livmor" },
+   { title: "Labiaplastikk", desc: "Kirurgisk inngrep", href: "/behandlinger/gynekologi/labiaplastikk" },
+  ],
+ },
 ];
 
 const journey = [
