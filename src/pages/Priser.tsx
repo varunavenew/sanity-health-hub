@@ -132,9 +132,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
             const active = ordered.find(c => c.id === activeCategory) ?? ordered[0];
             return (
               <div className="max-w-6xl mx-auto">
-                <p className="text-xs text-muted-foreground font-light mb-10 md:mb-14">
-                  Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen.
-                </p>
 
                 <div className="flex flex-col md:flex-row gap-12 md:gap-20">
                   {/* Left rail: specialties */}
