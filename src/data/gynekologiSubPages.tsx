@@ -6,6 +6,8 @@ import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
+import urogynekologiHero from "@/assets/urogynekologi-hero.jpg.asset.json";
+const imgUrogynekologiHero = urogynekologiHero.url;
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
