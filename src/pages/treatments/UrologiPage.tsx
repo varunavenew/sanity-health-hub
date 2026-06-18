@@ -131,18 +131,13 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     ],
   },
   {
-    label: "Behandling",
+    label: "Behandling og kirurgi",
     items: [
       { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
       { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
       { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
       { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
       { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
-    ],
-  },
-  {
-    label: "Kirurgi",
-    items: [
       { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
       { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
       { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },

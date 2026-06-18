@@ -129,15 +129,10 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     ],
   },
   {
-    label: "Behandling",
+    label: "Behandling og kirurgi",
     items: [
       { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
       { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
-    ],
-  },
-  {
-    label: "Kirurgi",
-    items: [
       { title: "Korsbåndruptur", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
       { title: "Meniskskader", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
       { title: "Karpaltunnelsyndrom", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },

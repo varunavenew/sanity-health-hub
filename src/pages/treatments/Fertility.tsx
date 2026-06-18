@@ -170,18 +170,13 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     ],
   },
   {
-    label: "Behandling",
+    label: "Behandling og kirurgi",
     items: [
       { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf" },
       { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
       { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
       { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
       { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
-    ],
-  },
-  {
-    label: "Kirurgi",
-    items: [
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
     ],
   },
