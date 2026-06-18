@@ -38,7 +38,6 @@ interface PageProps {
 
 const expertAreas = [
   {
- {
  title: "Plastikkirurgi",
  desc: "Rekonstruksjon og estetisk",
  href: "/behandlinger/flere-fagomrader/plastikkirurgi",
