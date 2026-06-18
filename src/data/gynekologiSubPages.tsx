@@ -6,6 +6,8 @@ import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
+import urogynekologiHero from "@/assets/urogynekologi-hero.jpg.asset.json";
+const imgUrogynekologiHero = urogynekologiHero.url;
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
@@ -231,6 +233,8 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,7 — Spesialister på bekkenbunnshelse",
     booking: { ...baseBooking, tjeneste: "urogynekologi" },
     primaryCtaLabel: "Bestill utredning",
+    heroImage: imgUrogynekologiHero,
+    heroImageAlt: "Hender som støtter underlivet",
     flowTitle: "Slik utreder og behandler vi",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
