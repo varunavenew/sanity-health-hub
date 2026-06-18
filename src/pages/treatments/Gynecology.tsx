@@ -464,46 +464,57 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  />
 
  {/* ============================================================
- 6. VET DU ALLEREDE HVA DU TRENGER? — full liste (handlingsvalg)
+ 6. HVA VI TILBYR — gruppert oversikt
  ============================================================ */}
- <section className="bg-background text-foreground pt-20 md:pt-28 pb-12 md:pb-16">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
- <div className="lg:col-span-6">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Vet du allerede hva du trenger?
- </h2>
- </div>
- <div className="lg:col-span-6 lg:pt-3">
- <p className="text-base font-light text-muted-foreground leading-relaxed">
- Klikk og book direkte, eller les mer om den enkelte
- gynekologiske utredningen eller behandlingen.
- </p>
- </div>
- </div>
+ <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+  <div className="container mx-auto px-6 md:px-16">
+   <div className="max-w-6xl mx-auto">
+    <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+     <div className="lg:col-span-6">
+      <p className="text-xs font-light text-foreground/60 mb-3">Tjenester og inngrep</p>
+      <h2 className="text-3xl md:text-5xl font-light leading-tight">
+       Hva vi tilbyr
+      </h2>
+     </div>
+     <div className="lg:col-span-6 lg:pt-3">
+      <p className="text-base font-light text-muted-foreground leading-relaxed">
+       Dette er undersøkelsene, behandlingene og inngrepene vi utfører.
+       Usikker på hva du trenger? Start med en gynekologisk undersøkelse —
+       så tar vi det derfra.
+      </p>
+     </div>
+    </div>
 
- <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {allServices.map((s) => (
- <Link
- key={s.title}
- to={s.href}
- className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
- >
- <div>
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {s.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-snug">
- {s.desc}
- </p>
- </div>
- <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
- </Link>
- ))}
- </div>
- </div>
- </div>
+    <div className="space-y-10">
+     {serviceGroups.map((group) => (
+      <div key={group.label}>
+       <p className="text-xs font-light text-foreground/60 mb-4 uppercase">
+        {group.label}
+       </p>
+       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+        {group.items.map((s) => (
+         <Link
+          key={s.title}
+          to={s.href}
+          className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-warm/40 transition-colors group"
+         >
+          <div>
+           <h3 className="text-base font-normal text-foreground mb-1.5">
+            {s.title}
+           </h3>
+           <p className="text-sm font-light text-muted-foreground leading-snug">
+            {s.desc}
+           </p>
+          </div>
+          <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
+         </Link>
+        ))}
+       </div>
+      </div>
+     ))}
+    </div>
+   </div>
+  </div>
  </section>
 
  {/* ============================================================
