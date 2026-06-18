@@ -160,16 +160,31 @@ const expertAreas = [
   },
 ];
 
-const services = [
- { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
- { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf" },
- { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
- { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
- { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
- { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/pgt" },
- { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
- { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
- { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+  {
+    label: "Utredning",
+    items: [
+      { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
+      { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/pgt" },
+    ],
+  },
+  {
+    label: "Behandling",
+    items: [
+      { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf" },
+      { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
+      { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
+      { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
+    ],
+  },
+  {
+    label: "Tilleggstjenester",
+    items: [
+      { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+    ],
+  },
 ];
 
 const reviews = [
