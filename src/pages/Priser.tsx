@@ -350,10 +350,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                         </div>
                                                       </div>
                                                       <span
-                                                        aria-hidden="true"
-                                                        className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 bg-brand-dark text-brand-warm group-hover:scale-105 transition-transform"
+                                                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-dark text-brand-warm text-sm font-light group-hover:scale-105 transition-transform shrink-0"
                                                       >
-                                                        <ArrowRight className="w-4 h-4" />
+                                                        {bookable ? 'Book time' : 'Book konsultasjon'}
                                                       </span>
                                                     </button>
                                                   );
