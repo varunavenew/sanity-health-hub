@@ -77,14 +77,26 @@ const Priser = ({ isChatOpen }: PageProps) => {
     return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
   });
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const { sorted } = useSpecialistsData();
+  const specialists = sorted.slice(0, 8);
+  const { data: sanityPricing } = usePricingPage();
+  const { data: sanityFaqs } = useFaqs("priser");
+  const faqs = sanityFaqs && sanityFaqs.length > 0
+    ? sanityFaqs.map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
+    : staticFaqs;
+  const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
+  const pageTitle = sanityPricing?.title || "Prisliste";
+  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter tjeneste";
+
+  useEffect(() => {
+    document.title = "Priser | CMedical";
+  }, []);
 
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
   };
 
-  const handleNavigate = (path: string) => {
-    navigate(path);
-  };
+
 
 
   return (
