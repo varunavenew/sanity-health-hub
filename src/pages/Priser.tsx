@@ -99,8 +99,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const toggleCategory = (id: string) => {
     const newId = expandedCategory === id ? null : id;
     setExpandedCategory(newId);
-    const cat = priceCategories.find(c => c.id === newId);
-    setExpandedSubcategory(cat?.subcategories[0]?.label ?? null);
+    setExpandedSubcategory(null);
     if (newId) {
       const scrollToCat = () => {
         const el = document.getElementById(`kat-${newId}`);
