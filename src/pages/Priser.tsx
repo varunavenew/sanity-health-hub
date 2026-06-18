@@ -94,7 +94,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   }, []);
 
   const toggleSubcategory = (key: string) => {
-    setOpenSubcategories((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenSubcategory((prev) => (prev === key ? null : key));
   };
 
   const toggleFaq = (id: string) => {
