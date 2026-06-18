@@ -129,6 +129,37 @@ const audiences = [
   },
 ];
 
+const expertAreas = [
+  {
+    title: "IVF — prøverørsbehandling",
+    desc:
+      "Vårt mest etablerte fagfelt. Vi har gjennomført IVF siden 1989 og kombinerer erfaring med oppdaterte protokoller.",
+    href: "/behandlinger/fertilitet/ivf",
+    image: journeyLab,
+  },
+  {
+    title: "Eggdonasjon",
+    desc:
+      "Norges nyeste eggbank. Vi følger dere trygt gjennom hele forløpet — fra første samtale til oppfølging.",
+    href: "/behandlinger/fertilitet/eggdonasjon",
+    image: journeyResult,
+  },
+  {
+    title: "Nedfrysing av egg",
+    desc:
+      "For deg som vil bevare mulighetene dine. Vi forklarer hva som er realistisk å forvente — og hva som ikke er det.",
+    href: "/behandlinger/fertilitet/nedfrysing",
+    image: audienceWaiting,
+  },
+  {
+    title: "Mannlig fertilitet",
+    desc:
+      "Sædanalyse, utredning og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
+    href: "/behandlinger/fertilitet/mannlig-fertilitet",
+    image: audienceCouple,
+  },
+];
+
 const services = [
  { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
  { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf" },
