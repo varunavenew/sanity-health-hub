@@ -130,33 +130,25 @@ export const GoogleReviewsSection = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-16 mt-24 md:mt-32">
+      <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
         <div className="max-w-5xl">
-          {/* Eyebrow — matches other section subtitles */}
-          <p className="text-sm text-brand-dark/60 font-light mb-6">
-            Bli en del av vår historie
-          </p>
-
           {/* Editorial composition: restrained number + heading + CTA */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end pb-6 border-b border-brand-dark/10">
             <div className="md:col-span-8">
               <p className="text-[clamp(3.5rem,10vw,8rem)] font-light text-brand-dark leading-[0.95]">
                 150&thinsp;000<span className="text-brand-dark/30 font-extralight">+</span>
               </p>
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight mt-3 md:mt-4">
+                {ctaTitle.replace(/Over\s*150\s*000\+?\s*/i, '').replace(/^[a-zæøå]/, (c) => c.toUpperCase()) || 'Fornøyde pasienter siden 2002.'}
+              </h2>
             </div>
 
             <div className="md:col-span-4">
-              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight mb-5">
-                {ctaTitle.replace(/Over\s*150\s*000\+?\s*/i, '').replace(/^[a-zæøå]/, (c) => c.toUpperCase()) || 'Fornøyde pasienter siden 2002.'}
-              </h2>
-              <p className="text-brand-dark/70 font-light leading-relaxed mb-6">
-                {ctaSubtitle}
-              </p>
               <button
-                onClick={() => navigate('/booking')}
+                onClick={() => navigate('/tjenester')}
                 className="group inline-flex items-center gap-3 text-brand-dark font-light border-b border-brand-dark/30 pb-1 hover:border-brand-dark transition-colors"
               >
-                {t("nav.bookAppointment")}
+                Se våre tjenester
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
             </div>
