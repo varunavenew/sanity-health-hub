@@ -165,6 +165,22 @@ export const GoogleReviewsSection = () => {
               </button>
             </div>
           </div>
+
+          {/* Trust badges — compact, under the heading */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
+              <ShieldCheck className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
+              {t("valueBadges.tech")}
+            </span>
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
+              <FileX className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
+              Ingen henvisninger
+            </span>
+            <span className="inline-flex items-center gap-2 text-sm text-brand-dark/70 font-light">
+              <Clock className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} />
+              Kort ventetid
+            </span>
+          </div>
         </div>
       </div>
     </section>
