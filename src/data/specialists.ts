@@ -2,6 +2,8 @@
 // Based on real specialists from cmedical.no/no/spesialister
 // Updated with real bio data scraped from individual profile pages
 
+import type { ImageRef } from '@/lib/media';
+
 // Specialist images
 import alenkaBIndas from '@/assets/specialists/alenka-bindas.jpg';
 import anamikaChoudhury from '@/assets/specialists/anamika-choudhury.jpg';
@@ -63,17 +65,14 @@ import tomHenrySundoen from '@/assets/specialists/tom-henry-sundoen.jpg';
 import tonjeWestlie from '@/assets/specialists/tonje-westlie.jpg';
 import trondJorgensen from '@/assets/specialists/trond-jorgensen.jpg';
 
-import type { ImageRef } from "@/lib/media";
+export type BioBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'image'; src: string; alt?: string; caption?: string }
+  | { type: 'video'; src: string; poster?: string; caption?: string }
+  | { type: 'embed'; url: string; caption?: string }
+  | { type: 'link'; href: string; label: string; description?: string };
 
-/** Linked treatmentCategory from Sanity (Tilknyttede kategorier). */
-export interface SpecialistSanityCategory {
-  categoryId: string;
-  slug: string;
-  title: string;
-  categoryNumericId?: number;
-}
-
-export interface Specialist {
+export interface LegacySpecialist {
   name: string;
   title: string;
   subtitle?: string;
@@ -82,23 +81,15 @@ export interface Specialist {
   category: 'gynekologi' | 'fertilitet' | 'urologi' | 'ortopedi' | 'annet';
   slug: string;
   bio?: string;
+  /** Optional rich bio with images/video/links. Falls back to bio string. */
+  richBio?: BioBlock[];
   education?: string;
   experience?: string;
   languages?: string[];
   clinics?: string[];
-  /** Categories linked in Sanity Studio — drives inline booking section. */
-  sanityCategories?: SpecialistSanityCategory[];
-  /** Metodika wbactivitygroup IDs from Sanity (e.g. 8, 10). */
-  bookingCategoryIds?: number[];
-  seo?: {
-    metaTitle?: string;
-    metaDescription?: string;
-    ogImage?: unknown;
-    noIndex?: boolean;
-  };
 }
 
-export const specialists: Specialist[] = [
+export const specialists: LegacySpecialist[] = [
   {
     name: "Alenka Bindas",
     title: "Gynekolog",
@@ -751,14 +742,14 @@ export const specialists: Specialist[] = [
 ];
 
 // Get specialists sorted alphabetically by first name (A-Å)
-export const getSpecialistsSortedByLastName = (): Specialist[] => {
+export const getSpecialistsSortedByLastName = (): LegacySpecialist[] => {
   return [...specialists].sort((a, b) => {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'nb');
   });
 };
 
 // Get specialists by category
-export const getSpecialistsByCategory = (category: Specialist['category']): Specialist[] => {
+export const getSpecialistsByCategory = (category: LegacySpecialist['category']): LegacySpecialist[] => {
   return specialists.filter(s => s.category === category)
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'nb'));
 };
@@ -771,7 +762,7 @@ export const getAllClinics = (): string[] => {
 };
 
 // Get specialists by clinic
-export const getSpecialistsByClinic = (clinic: string): Specialist[] => {
+export const getSpecialistsByClinic = (clinic: string): LegacySpecialist[] => {
   return specialists.filter(s => s.clinics?.includes(clinic))
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'nb'));
 };

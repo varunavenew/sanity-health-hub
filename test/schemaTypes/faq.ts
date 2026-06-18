@@ -1,7 +1,7 @@
 // Schema: FAQ
 // Standalone FAQ documents, optionally linked to a category/page
 import { FAQIcon } from './icons'
-import { pickNo } from './i18n'
+import { pickNo, requiredNoEnI18n } from './i18n'
 
 export default {
   name: 'faq',
@@ -13,13 +13,13 @@ export default {
       name: 'question',
       title: 'Spørsmål',
       type: 'internationalizedArrayString',
-      validation: (Rule: any) => Rule.required(),
+      validation: requiredNoEnI18n('Spørsmål'),
     },
     {
       name: 'answer',
       title: 'Svar',
       type: 'internationalizedArrayText',
-      validation: (Rule: any) => Rule.required(),
+      validation: requiredNoEnI18n('Svar'),
     },
     {
       name: 'category',

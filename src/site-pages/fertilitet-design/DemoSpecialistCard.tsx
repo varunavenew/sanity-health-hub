@@ -1,7 +1,7 @@
 import { AssetImg } from "@/components/AssetImg";
 import { Link } from "@/lib/router";
 import { MapPin } from "lucide-react";
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 
 // Mirrors the homepage SpecialistsSection card so all demo variants share
 // the exact specialist presentation our customer already approves of.

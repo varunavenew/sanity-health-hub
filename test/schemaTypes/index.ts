@@ -19,6 +19,8 @@ import seo from './seo'
 import siteSettings from './siteSettings'
 import clinicPage from './clinicPage'
 import clinicsPage from './clinicsPage'
+import careersPage from './careersPage'
+import bookingPage from './bookingPage'
 
 import article from './article'
 import jobListing from './jobListing'
@@ -32,7 +34,10 @@ import testimonial from './testimonial'
 import {
   pageSectionSpecialists,
   pageSectionArticles,
+  pageSectionBookingCta,
 } from './pageSections'
+import { subTreatmentLayoutType } from './subTreatmentLayout'
+import { locationSearchType } from './locationSearch'
 
 
 export const schemaTypes = [
@@ -46,6 +51,8 @@ export const schemaTypes = [
   servicesPage,
   clinicPage,
   clinicsPage,
+  careersPage,
+  bookingPage,
 
   themePage,
   specialistsPage,
@@ -66,8 +73,11 @@ export const schemaTypes = [
   
 
   // Shared types
+  locationSearchType,
+  subTreatmentLayoutType,
   pageSectionSpecialists,
   pageSectionArticles,
+  pageSectionBookingCta,
   youtubeEmbed,
   blockContent,
   seo,

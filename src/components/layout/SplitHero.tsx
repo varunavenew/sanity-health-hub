@@ -30,7 +30,7 @@ export const SplitHero = ({
   const navigate = useNavigate();
 
   return (
-    <header className="bg-brand-warm">
+    <header className="bg-brand-warm pt-16">
       <div className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]">
         {/* Left: text */}
         <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">

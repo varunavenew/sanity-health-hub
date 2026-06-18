@@ -67,8 +67,7 @@ function mergeLocations(
  * GET — locations per booking category (from wbfreetimes → rooms → locations).
  * Response: { ok, byCategoryId: { [categoryId]: CategoryClinicTag[] }, allLocations }
  *
- * Not used by the booking UI (step 1 badges use static clinic config to avoid rate limits).
- * Kept for admin/debug or optional `?categoryId=` partial loads.
+ * Used by booking step 1 for per-category clinic badges.
  */
 export async function GET() {
   const apiKey = process.env.BOOKING_API_KEY;

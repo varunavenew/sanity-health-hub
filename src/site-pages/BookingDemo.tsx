@@ -1,7 +1,7 @@
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "@/lib/router";
-import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, Phone, RotateCcw } from "lucide-react";
+import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
 import { format, addDays, isSameDay, parseISO } from "date-fns";
@@ -13,16 +13,25 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-import { clinics as staticClinics, getClinicsForService, type Clinic } from "@/data/clinicServices";
 import { categoryNumericIdToPageId, findBookingCategoryForPage, slugifyNo } from "@/lib/bookingLinks";
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
-import { apiLocationToClinic, type BookingApiClinic } from "@/lib/booking/mapApiLocation";
+import {
+  apiLocationToClinic,
+  type BookingApiClinic,
+  type CategoryClinicTag,
+} from "@/lib/booking/mapApiLocation";
 import {
   isBookingCaregiver,
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { assetSrc } from "@/lib/media";
+import { useBookingPage } from "@/hooks/useSanity";
+import {
+  DEFAULT_BOOKING_PAGE_COPY,
+  fillBookingTemplate,
+  splitTemplateLink,
+} from "@/lib/sanity/booking-page-copy";
 
 export type BookingServiceCategory = {
   id: string;
@@ -42,13 +51,34 @@ function dayKey(date: Date): string {
   return d.toISOString();
 }
 
-/** Short label for step 1 clinic badges (from static clinic config, no API). */
-function clinicBadgeLabel(clinic: Clinic): string {
-  if (clinic.id === "majorstuen") return "Majorstuen";
-  if (clinic.id === "bekkestua") return "Bekkestua";
-  if (clinic.id === "moss") return "Moss";
-  if (clinic.id === "moelv") return "Moelv";
-  return clinic.label.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || clinic.label;
+/** Short label for step 1 clinic badges (from booking API location names). */
+function clinicBadgeLabel(locationName: string): string {
+  return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
+}
+
+function LinkedTemplateText({
+  template,
+  token,
+  href,
+  linkText,
+  linkClassName = "underline hover:text-brand-dark transition-colors",
+}: {
+  template: string;
+  token: string;
+  href: string;
+  linkText: string;
+  linkClassName?: string;
+}) {
+  const [before, after] = splitTemplateLink(template, token);
+  return (
+    <>
+      {before}
+      <a href={href} className={linkClassName}>
+        {linkText}
+      </a>
+      {after}
+    </>
+  );
 }
 
 async function mapWithConcurrency<T, R>(
@@ -68,160 +98,6 @@ async function mapWithConcurrency<T, R>(
   await Promise.all(workers);
   return results;
 }
-
-// Fallback when the booking API is unavailable
-const FALLBACK_BOOKING_SERVICES: BookingServiceCategory[] = [
-  {
-    id: "fostermedisiner",
-    label: "Graviditet - fostermedisiner",
-    services: [
-      { name: "Organrettet ultralyd (En mer avansert ultralyd)", price: "2100" },
-      { name: "Organrettet ultralyd + NIPT test (uke 12-14)", price: "9950" },
-      { name: "Svangerskapskontroll", price: "2100" },
-      { name: "Tidlig ultralyd + NIPT-test", price: "8990" },
-      { name: "Tidlig ultralyd", price: "2100" },
-    ]
-  },
-  {
-    id: "fertilitet",
-    label: "Fertilitet",
-    services: [
-      { name: "Enkel sædanalyse", price: "1950" },
-      { name: "Fertilitetsutredning enkeltperson/single", price: "2850" },
-      { name: "Fertilitetsutredning par", price: "2850" },
-      { name: "Infertilitet Mann (inkl. sædprøve)", price: "2850" },
-      { name: "Samtaleterapi under fertilitetsbehandling", price: "1000" },
-      { name: "Telefonkonsultasjon fertilitet", price: "2850" },
-      { name: "Uforpliktende telefonsamtale om fertilitet med sykepleier", price: "0" },
-    ]
-  },
-  {
-    id: "gynekolog",
-    label: "Gynekolog",
-    services: [
-      { name: "Blødningsforstyrrelser / muskelknuter / polypper / hormonelt", price: "3200" },
-      { name: "Endometriose / adenomyose", price: "3200" },
-      { name: "Fremfall / tyngdefølelse underliv / fødselsskader", price: "2100" },
-      { name: "Generell undersøkelse", price: "2100" },
-      { name: "Kontroll etter fødsel", price: "2100" },
-      { name: "Overgangsalder", price: "3200" },
-      { name: "PCOS / Hormonforstyrrelser", price: "3200" },
-      { name: "Smerter i underlivet / Vulvodyni / Vaginisme", price: "3200" },
-      { name: "Tidlig ultralyd enkel", price: "2100" },
-      { name: "Urinlekkasje", price: "2100" },
-      { name: "Ammehjelp ved brystbetennelsesproblematikk", price: "3200" },
-      { name: "Digitaltime Gynekolog", price: "2100" },
-      { name: "Hudlidelser vulva", price: "2100" },
-      { name: "Kontroll / oppfølging", price: "2100" },
-      { name: "Premenstruelle plager (PMS / PMDD)", price: "3200" },
-      { name: "Svangerskapsoppfølging", price: "2100" },
-    ]
-  },
-  {
-    id: "fysioterapeut",
-    label: "Fysioterapeut / Osteopat",
-    services: [
-      { name: "Oppfølgingstime Fysioterapeut / Osteopat", price: "1800" },
-      { name: "Oppfølgingstime hos Fysioterapeut/Osteopat", price: "950" },
-    ]
-  },
-  {
-    id: "ernaringsfysiolog",
-    label: "Klinisk Ernæringsfysiolog",
-    services: [
-      { name: "Klinisk ernæringsfysiolog", price: "1990" },
-      { name: "Klinisk ernæringsfysiolog oppfølging 45 min", price: "1490" },
-    ]
-  },
-  {
-    id: "psykolog",
-    label: "Psykolog",
-    services: [
-      { name: "Psykolog 50 min", price: "1900" },
-      { name: "Psykolog 50 min, digitaltime", price: "1900" },
-      { name: "Psykolog 80 min", price: "2500" },
-      { name: "Psykolog 80 min, digitaltime", price: "2500" },
-      { name: "Psykolog partime 50 min", price: "2300" },
-      { name: "Psykolog partime 80 min", price: "2950" },
-    ]
-  },
-  {
-    id: "sexolog",
-    label: "Sexolog",
-    services: [
-      { name: "Sexolog for par", price: "1600" },
-      { name: "Sexolog", price: "1600" },
-    ]
-  },
-  {
-    id: "endokrinolog",
-    label: "Endokrinolog",
-    services: [
-      { name: "Endokrinolog 60 min konsultasjon", price: "4500" },
-      { name: "Endokrinolog oppfølging/kontroll 30 min", price: "2900" },
-    ]
-  },
-  {
-    id: "gastrokirurg",
-    label: "Gastrokirurg",
-    services: [
-      { name: "Digital konsultasjon fedme vurdering for robotkirurgi", price: "0" },
-      { name: "Endetarmsplager", price: "2100" },
-      { name: "Mage / tarm spesialist", price: "2100" },
-    ]
-  },
-  {
-    id: "handterapeut",
-    label: "Håndterapeut",
-    services: [
-      { name: "Konsultasjon håndterapeut", price: "1400" },
-    ]
-  },
-  {
-    id: "ortoped",
-    label: "Ortoped",
-    services: [
-      { name: "Konsultasjon ortoped albue", price: "1800" },
-      { name: "Konsultasjon ortoped fot/ankel", price: "1800" },
-      { name: "Konsultasjon ortoped hofte", price: "1800" },
-      { name: "Konsultasjon ortoped hånd", price: "1800" },
-      { name: "Konsultasjon ortoped kne", price: "1800" },
-      { name: "Konsultasjon ortoped skulder", price: "1800" },
-    ]
-  },
-  {
-    id: "revmatolog",
-    label: "Revmatolog",
-    services: [
-      { name: "Førstegangskonsultasjon revmatolog", price: "3150" },
-    ]
-  },
-  {
-    id: "sprengte-blodkar",
-    label: "Sprengte blodkar",
-    services: [
-      { name: "Kosmetisk behandling av sprengte blodkar 60 min", price: "2500" },
-    ]
-  },
-  {
-    id: "areknuter",
-    label: "Åreknuter",
-    services: [
-      { name: "Vurdering åreknuter", price: "1800" },
-    ]
-  },
-  {
-    id: "urolog",
-    label: "Urolog",
-    services: [
-      { name: "Konsultasjon urolog", price: "1900" },
-      { name: "Blod i urin, cystoskopi", price: "2650" },
-      { name: "Prostataundersøkelse", price: "1900" },
-      { name: "Sterilisering Mann", price: "6500" },
-      { name: "Uforpliktende samtale på telefon om prostata med uroterapeut", price: "0" },
-    ]
-  },
-];
 
 type BookingServiceItem = {
   name: string;
@@ -282,7 +158,7 @@ interface BookingData {
   category?: string;
   categoryId?: string;
   service?: BookingServiceItem;
-  clinic?: BookingApiClinic | Clinic;
+  clinic?: BookingApiClinic;
   specialistChosen?: boolean; // true once user has passed the specialist step
   date?: Date;
   time?: string;
@@ -308,36 +184,48 @@ const BookingDemo = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
+  const { data: copy = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
-  const [servicesFromApi, setServicesFromApi] = useState(false);
-  /** Metodika locations in static config — for "Alle klinikker" badge on step 1. */
-  const metodikaClinicCount = useMemo(
-    () => staticClinics.filter((c) => c.bookingSystem === "metodika").length,
-    [],
-  );
+  const [categoryClinicsById, setCategoryClinicsById] = useState<
+    Record<string, CategoryClinicTag[]>
+  >({});
+  const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadActivityGroups() {
+    async function loadBookingCatalog() {
       try {
-        const res = await fetch("/api/booking/activity-groups");
-        const json = (await res.json()) as {
+        const [groupsRes, clinicsRes] = await Promise.all([
+          fetch("/api/booking/activity-groups"),
+          fetch("/api/booking/category-clinics"),
+        ]);
+
+        const groupsJson = (await groupsRes.json()) as {
           ok?: boolean;
           categories?: BookingServiceCategory[];
-          message?: string;
         };
+        const clinicsJson = (await clinicsRes.json()) as {
+          ok?: boolean;
+          byCategoryId?: Record<string, CategoryClinicTag[]>;
+          allLocations?: CategoryClinicTag[];
+        };
+
         if (cancelled) return;
 
-        if (res.ok && json.ok && Array.isArray(json.categories) && json.categories.length > 0) {
-          setBookingServices(json.categories);
-          setServicesFromApi(true);
+        if (
+          groupsRes.ok &&
+          groupsJson.ok &&
+          Array.isArray(groupsJson.categories) &&
+          groupsJson.categories.length > 0
+        ) {
+          setBookingServices(groupsJson.categories);
           if (typeof window !== "undefined") {
             console.log("[booking/category] wbactivities loaded via /api/booking/activity-groups", {
               source: "api",
-              categoryCount: json.categories.length,
-              categories: json.categories.map((c) => ({
+              categoryCount: groupsJson.categories.length,
+              categories: groupsJson.categories.map((c) => ({
                 id: c.id,
                 clinicServiceId: c.clinicServiceId,
                 label: c.label,
@@ -351,18 +239,28 @@ const BookingDemo = () => {
             });
           }
         } else {
-          setBookingServices(FALLBACK_BOOKING_SERVICES);
-          setServicesFromApi(false);
+          setBookingServices([]);
+        }
+
+        if (clinicsRes.ok && clinicsJson.ok) {
+          setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
+          setAllBookingLocations(clinicsJson.allLocations ?? []);
+        } else {
+          setCategoryClinicsById({});
+          setAllBookingLocations([]);
         }
       } catch {
-        setBookingServices(FALLBACK_BOOKING_SERVICES);
-        setServicesFromApi(false);
+        if (!cancelled) {
+          setBookingServices([]);
+          setCategoryClinicsById({});
+          setAllBookingLocations([]);
+        }
       } finally {
         if (!cancelled) setServicesLoading(false);
       }
     }
 
-    loadActivityGroups();
+    loadBookingCatalog();
     return () => {
       cancelled = true;
     };
@@ -397,7 +295,6 @@ const BookingDemo = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [externalClinic, setExternalClinic] = useState<Clinic | null>(null);
   const [apiFreeTimeSlots, setApiFreeTimeSlots] = useState<ApiFreeTimeSlot[]>([]);
   const [apiBookingClinics, setApiBookingClinics] = useState<BookingApiClinic[]>([]);
   const [availabilityFromApi, setAvailabilityFromApi] = useState(false);
@@ -412,10 +309,26 @@ const BookingDemo = () => {
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
   >({});
 
+  const totalSteps = 5;
+  const stepNameByIndex = useMemo(
+    () =>
+      [
+        null,
+        copy.stepLabelService,
+        copy.stepLabelClinic,
+        copy.stepLabelSpecialist,
+        copy.stepLabelTime,
+        copy.stepLabelConfirm,
+      ] as const,
+    [copy],
+  );
+  const stepProgressLabel = (step: number) =>
+    fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
+
   const currentStep = useMemo(() => 
     !bookingData.service ? 1 : !bookingData.clinic ? 2 : !bookingData.specialistChosen ? 3 : !bookingData.time ? 4 : 5
   , [bookingData.service, bookingData.clinic, bookingData.specialistChosen, bookingData.time]);
-  const totalSteps = 5;
+  const progressAriaLabels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
 
   // Scroll to top when step changes
   useEffect(() => {
@@ -956,11 +869,7 @@ const BookingDemo = () => {
     availableClinics,
   ]);
 
-  const handleSelectClinic = (clinic: BookingApiClinic | Clinic) => {
-    if (clinic.bookingSystem === 'external') {
-      setExternalClinic(clinic);
-      return;
-    }
+  const handleSelectClinic = (clinic: BookingApiClinic) => {
     setBookingData({
       ...bookingData,
       clinic,
@@ -1020,16 +929,12 @@ const BookingDemo = () => {
     const slot = bookingData.selectedSlot;
 
     if (!activityId || !slot) {
-      setSubmitError(
-        "Manglende booking-data. Velg tjeneste, klinikk og tid på nytt, eller ring oss for hjelp.",
-      );
+      setSubmitError(copy.errorMissingData);
       return;
     }
 
     if (bookingData.activityTypeId == null) {
-      setSubmitError(
-        "Kunne ikke hente aktivitetstype fra booking-systemet. Prøv igjen eller ring oss.",
-      );
+      setSubmitError(copy.errorActivityType);
       return;
     }
 
@@ -1069,7 +974,7 @@ const BookingDemo = () => {
       if (!res.ok || !json.ok) {
         setSubmitError(
           json.message ??
-            "Bestillingen kunne ikke fullføres. Prøv igjen eller ring oss på 22 60 00 50.",
+            copy.errorSubmit,
         );
         return;
       }
@@ -1077,7 +982,7 @@ const BookingDemo = () => {
       setIsSubmitted(true);
     } catch {
       setSubmitError(
-        "Bestillingen kunne ikke fullføres. Sjekk nettverket og prøv igjen, eller ring oss på 22 60 00 50.",
+        copy.errorSubmitNetwork,
       );
     } finally {
       setSubmitLoading(false);
@@ -1132,36 +1037,28 @@ const BookingDemo = () => {
           </div>
           
           <h1 className="text-3xl font-light text-foreground mb-2">
-            Bestilling bekreftet
+            {copy.successTitle}
           </h1>
           <p className="text-muted-foreground mb-8 font-light">
-            Du vil motta en bekreftelse på SMS{formData.email ? " og e-post" : ""}.
+            {formData.email ? copy.successMessageSmsEmail : copy.successMessageSms}
           </p>
           
           <div className="bg-white rounded-lg p-6 text-left mb-6">
             <div className="space-y-4 text-sm">
               <div className="flex justify-between py-2 border-b border-border/30">
-                <span className="text-muted-foreground">Behandling</span>
+                <span className="text-muted-foreground">{copy.successLabelTreatment}</span>
                 <span className="font-medium">{bookingData.service?.name}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-border/30">
-                <span className="text-muted-foreground">Klinikk</span>
-                <span className="font-medium">CMedical – {bookingData.clinic?.label}</span>
+                <span className="text-muted-foreground">{copy.successLabelClinic}</span>
+                <span className="font-medium">{copy.successClinicPrefix}{bookingData.clinic?.label}</span>
               </div>
-              {bookingData.clinic &&
-              "address" in bookingData.clinic &&
-              bookingData.clinic.address ? (
-                <div className="flex justify-between py-2 border-b border-border/30">
-                  <span className="text-muted-foreground">Adresse</span>
-                  <span className="font-medium">{bookingData.clinic.address}</span>
-                </div>
-              ) : null}
               <div className="flex justify-between py-2 border-b border-border/30">
-                <span className="text-muted-foreground">Dato og tid</span>
+                <span className="text-muted-foreground">{copy.successLabelDateTime}</span>
                 <span className="font-medium">{bookingData.date && format(bookingData.date, "d. MMM yyyy", { locale: nb })} kl. {bookingData.time}</span>
               </div>
               <div className="flex justify-between py-2">
-                <span className="text-muted-foreground">Behandler</span>
+                <span className="text-muted-foreground">{copy.successLabelSpecialist}</span>
                 <span className="font-medium">{bookingData.specialist?.name}</span>
               </div>
             </div>
@@ -1171,90 +1068,9 @@ const BookingDemo = () => {
             onClick={() => navigate("/")} 
             className="bg-foreground text-background hover:bg-foreground/90 px-8 py-3 rounded-lg font-normal"
           >
-            Tilbake til forsiden
+            {copy.successBackHome}
           </Button>
         </div>
-      </div>
-    );
-  }
-
-  // External clinic view (e.g., Moss → Colosseum Faust)
-  if (externalClinic) {
-    return (
-      <div className="min-h-screen bg-[#f5f4f0] flex flex-col">
-        <header className="sticky top-0 z-50 bg-foreground">
-          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-            <button 
-              onClick={() => setExternalClinic(null)} 
-              className="flex items-center gap-1.5 text-sm text-background/80 hover:text-background transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Tilbake</span>
-            </button>
-            <h1 className="text-sm text-background/90">CMedical {externalClinic.label}</h1>
-            <button 
-              onClick={handleClose}
-              className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
-              aria-label="Lukk"
-            >
-              <X className="w-5 h-5 text-background" />
-            </button>
-          </div>
-        </header>
-
-        <main className="flex-1 flex items-center justify-center px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="max-w-md w-full text-center"
-          >
-            <div className="mb-10">
-              <div className="w-16 h-16 rounded-full bg-brand-dark/10 flex items-center justify-center mx-auto mb-6">
-                <MapPin className="w-7 h-7 text-brand-dark/60" strokeWidth={1.5} />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
-                CMedical {externalClinic.label}
-              </h2>
-              <p className="text-sm text-muted-foreground font-light">
-                {externalClinic.address}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-lg p-8 mb-6 shadow-sm">
-              <p className="text-muted-foreground font-light mb-4">
-                Ring oss for å bestille time
-              </p>
-              <a 
-                href={`tel:+47${externalClinic.phone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-3 text-2xl md:text-3xl font-light text-foreground hover:text-foreground/80 transition-colors"
-              >
-                <Phone className="w-6 h-6" strokeWidth={1.5} />
-                +47 {externalClinic.phone}
-              </a>
-              <p className="text-xs text-muted-foreground mt-3 font-light">
-                {externalClinic.hours}
-              </p>
-            </div>
-
-            {externalClinic.externalBookingUrl && (
-              <div className="bg-white rounded-lg p-6 shadow-sm">
-                <p className="text-sm text-muted-foreground font-light mb-4">
-                  Eller bestill time online hos vår samarbeidspartner
-                </p>
-                <a
-                  href={externalClinic.externalBookingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-dark text-white rounded-sm hover:bg-brand-dark/90 transition-colors font-light text-sm"
-                >
-                  Bestill time online
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            )}
-          </motion.div>
-        </main>
       </div>
     );
   }
@@ -1269,11 +1085,11 @@ const BookingDemo = () => {
       <header className="sticky top-0 z-50 bg-white border-b border-brand-dark/10">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="w-9" aria-hidden="true" />
-          <h1 className="text-sm text-brand-dark">Bestill time</h1>
+          <h1 className="text-sm text-brand-dark">{copy.pageTitle}</h1>
           <button
             onClick={handleClose}
             className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-full transition-colors"
-            aria-label="Lukk bestilling og gå til forsiden"
+            aria-label={copy.closeAriaLabel}
           >
             <X className="w-5 h-5 text-brand-dark" aria-hidden="true" />
           </button>
@@ -1291,14 +1107,14 @@ const BookingDemo = () => {
                 className="flex items-center gap-1 text-xs font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
               >
                 <ArrowLeft className="w-3 h-3" />
-                <span className="underline">Tilbake</span>
-                <span className="text-brand-dark/60 ml-2">· Steg {currentStep} av 5</span>
+                <span className="underline">{copy.backLabel}</span>
+                <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(currentStep)}</span>
               </button>
             ) : (
-              <span className="text-xs font-light text-brand-dark/60">Steg {currentStep} av 5</span>
+              <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
             )}
             <span className="text-xs font-normal text-brand-dark">
-              {[null, "Tjeneste", "Klinikk", "Behandler", "Tid", "Bekreft"][currentStep]}
+              {stepNameByIndex[currentStep]}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
@@ -1306,7 +1122,7 @@ const BookingDemo = () => {
               const canNavigate = currentStep > step;
               const isActive = currentStep === step;
               const isDone = currentStep > step;
-              const labels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"];
+              const labels = progressAriaLabels;
               return (
                 <button
                   key={step}
@@ -1339,19 +1155,19 @@ const BookingDemo = () => {
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
                 <div>
-                  <span className="text-brand-dark/60 text-xs">Tjeneste: </span>
+                  <span className="text-brand-dark/60 text-xs">{copy.summaryServiceLabel} </span>
                   <span className="font-normal text-brand-dark">{bookingData.service.name}</span>
                 </div>
               )}
               {bookingData.clinic && (
                 <div>
-                  <span className="text-brand-dark/60 text-xs">Klinikk: </span>
+                  <span className="text-brand-dark/60 text-xs">{copy.summaryClinicLabel} </span>
                   <span className="font-normal text-brand-dark">{bookingData.clinic.label}</span>
                 </div>
               )}
               {bookingData.specialist && (
                 <div>
-                  <span className="text-brand-dark/60 text-xs">Behandler: </span>
+                  <span className="text-brand-dark/60 text-xs">{copy.summarySpecialistLabel} </span>
                   <span className="font-normal text-brand-dark">{bookingData.specialist.name}</span>
                 </div>
               )}
@@ -1372,8 +1188,11 @@ const BookingDemo = () => {
             >
               <h2 className="text-2xl font-light text-brand-dark text-center mb-6">
                 {filterToCategoryId
-                  ? `Velg tjeneste innen ${bookingServices.find((c) => c.id === filterToCategoryId)?.label ?? ""}`
-                  : "Velg tjeneste"}
+                  ? fillBookingTemplate(copy.step1HeadingFiltered, {
+                      category:
+                        bookingServices.find((c) => c.id === filterToCategoryId)?.label ?? "",
+                    })
+                  : copy.step1Heading}
               </h2>
 
               {filterToCategoryId && (
@@ -1386,29 +1205,35 @@ const BookingDemo = () => {
                     }}
                     className="text-sm text-brand-dark/70 hover:text-brand-dark underline underline-offset-4"
                   >
-                    Vis alle tjenester
+                    {copy.step1ShowAllServices}
                   </button>
                 </div>
               )}
 
               {servicesLoading && (
-                <p className="text-center text-sm text-brand-dark/60 font-light">Henter tjenester…</p>
+                <p className="text-center text-sm text-brand-dark/60 font-light">{copy.step1Loading}</p>
               )}
 
-              {!servicesLoading && !servicesFromApi && (
-                <p className="text-center text-xs text-brand-dark/60 font-light">
-                  Viser standard tjenesteliste (booking-API utilgjengelig).
-                </p>
+              {!servicesLoading && bookingServices.length === 0 && (
+                <FriendlyEmpty
+                  title={copy.step1EmptyTitle}
+                  message={copy.step1EmptyMessage}
+                  phone={copy.supportPhone}
+                  phoneLabel={copy.supportPhoneLabel}
+                />
               )}
 
+              {bookingServices.length > 0 && (
               <div className="space-y-3">
                 {[...bookingServices]
                   .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
                   .sort(sortBookingCategories)
                   .map((category) => {
-                    const clinicsForCategory = getClinicsForService(
-                      category.clinicServiceId ?? category.id,
-                    );
+                    const clinicsForCategory = categoryClinicsById[category.id] ?? [];
+                    const showAlleKlinikker =
+                      clinicsForCategory.length > 0 &&
+                      allBookingLocations.length > 0 &&
+                      clinicsForCategory.length === allBookingLocations.length;
                     const isExpanded = expandedCategory === category.id;
 
                     return (
@@ -1428,20 +1253,17 @@ const BookingDemo = () => {
                           <span className="font-normal text-brand-dark min-w-0">{category.label}</span>
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
-                              {clinicsForCategory.length > 0 &&
-                              metodikaClinicCount > 0 &&
-                              clinicsForCategory.filter((c) => c.bookingSystem === "metodika")
-                                .length === metodikaClinicCount ? (
+                              {showAlleKlinikker ? (
                                 <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
-                                  Alle klinikker
+                                  {copy.step1AllClinicsBadge}
                                 </span>
                               ) : (
                                 clinicsForCategory.map((clinic) => (
                                   <span
-                                    key={clinic.id}
+                                    key={clinic.locationId}
                                     className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
                                   >
-                                    {clinicBadgeLabel(clinic)}
+                                    {clinicBadgeLabel(clinic.name)}
                                   </span>
                                 ))
                               )}
@@ -1500,14 +1322,14 @@ const BookingDemo = () => {
                                         </span>
                                         <div className="flex items-center gap-3 mt-1 flex-wrap">
                                           <span className="text-sm text-brand-dark/80">
-                                            {isFree ? "Gratis" : `Fra kr ${service.price},-`}
+                                            {isFree ? copy.step1PriceFree : fillBookingTemplate(copy.step1PriceFrom, { price: service.price })}
                                           </span>
                                           {!isFree && (duration || durationLoading) ? (
                                             <>
                                               <span className="text-brand-dark/40">·</span>
                                               <span className="text-sm text-brand-dark/70">
                                                 {durationLoading
-                                                  ? "Henter varighet…"
+                                                  ? copy.step1LoadingDuration
                                                   : duration}
                                               </span>
                                             </>
@@ -1533,6 +1355,7 @@ const BookingDemo = () => {
                     );
                   })}
               </div>
+              )}
             </motion.div>
           ) : !bookingData.clinic ? (
             /* Step 2: Select Clinic */
@@ -1544,18 +1367,20 @@ const BookingDemo = () => {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <h2 className="text-2xl font-light text-brand-dark mb-4">Velg klinikk</h2>
+              <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
               {bookingData.service?.apiActivityId && availabilityLoading && (
                 <p className="text-sm text-brand-dark/60 font-light mb-4">
-                  Henter klinikker fra booking-systemet…
+                  {copy.step2Loading}
                 </p>
               )}
 
               {clinicsAvailabilityReady && availableClinics.length === 0 && (
                 <FriendlyEmpty
-                  title="Ingen klinikker tilgjengelig akkurat nå"
-                  message="Denne tjenesten er ikke bookbar online for øyeblikket. Vi hjelper deg gjerne med å finne riktig time."
+                  title={copy.step2EmptyTitle}
+                  message={copy.step2EmptyMessage}
+                  phone={copy.supportPhone}
+                  phoneLabel={copy.supportPhoneLabel}
                 />
               )}
 
@@ -1590,14 +1415,14 @@ const BookingDemo = () => {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <h2 className="text-2xl font-light text-brand-dark mb-2">Velg behandler</h2>
+              <h2 className="text-2xl font-light text-brand-dark mb-2">{copy.step3Heading}</h2>
               <p className="text-sm text-brand-dark/60 font-light mb-4">
-                Velg en behandler, eller gå videre for å se alle ledige tider.
+                {copy.step3Subtitle}
               </p>
 
               {hasApiActivity && caregiversLoading && (
                 <p className="text-sm text-brand-dark/60 font-light mb-4">
-                  Henter behandlere fra booking-systemet…
+                  {copy.step3Loading}
                 </p>
               )}
 
@@ -1619,9 +1444,9 @@ const BookingDemo = () => {
                     <Calendar className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
                   </div>
                 <div className="flex-1">
-                  <p className="font-normal text-brand-dark">Første ledige</p>
+                  <p className="font-normal text-brand-dark">{copy.step3FirstAvailableTitle}</p>
                   <p className="text-sm text-brand-dark/60 font-light">
-                    Vis alle ledige tider uavhengig av behandler
+                    {copy.step3FirstAvailableSubtitle}
                   </p>
                 </div>
                 <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
@@ -1632,8 +1457,10 @@ const BookingDemo = () => {
                 step3Caregivers.length === 0 &&
                 caregiverIdsFromSlots.length === 0 && (
                   <FriendlyEmpty
-                    title="Ingen behandlere med ledige tider"
-                    message="Vi finner ingen behandlere knyttet til ledige timer for denne tjenesten. Velg «Første ledige» eller ring oss for hjelp."
+                    title={copy.step3EmptyNoCaregiversTitle}
+                    message={copy.step3EmptyNoCaregiversMessage}
+                    phone={copy.supportPhone}
+                    phoneLabel={copy.supportPhoneLabel}
                   />
                 )}
 
@@ -1642,8 +1469,10 @@ const BookingDemo = () => {
                 step3Caregivers.length === 0 &&
                 caregiverIdsFromSlots.length > 0 && (
                   <FriendlyEmpty
-                    title="Kunne ikke hente behandlere"
-                    message="Booking-systemet svarte ikke med behandlerinformasjon. Velg «Første ledige» eller prøv igjen senere."
+                    title={copy.step3EmptyFetchTitle}
+                    message={copy.step3EmptyFetchMessage}
+                    phone={copy.supportPhone}
+                    phoneLabel={copy.supportPhoneLabel}
                   />
                 )}
 
@@ -1709,7 +1538,7 @@ const BookingDemo = () => {
               className="space-y-4"
             >
               <h2 className="text-2xl font-light text-brand-dark mb-4">
-                Velg tid
+                {copy.step4Heading}
                 {bookingData.specialist && (
                   <span className="text-base text-brand-dark/60 font-light ml-2">
                     – {bookingData.specialist.name}
@@ -1722,14 +1551,14 @@ const BookingDemo = () => {
                 <div className="mb-5 flex items-end justify-between">
                   <div>
                     <p className="text-xs text-brand-dark/60 font-medium mb-1 uppercase">
-                      Valgt dag
+                      {copy.step4SelectedDayLabel}
                     </p>
                     <h3 className="text-xl font-light text-brand-dark capitalize">
                       {selectedDate
                         ? format(selectedDate, "EEEE d. MMMM", { locale: nb })
                         : bookableDates.length > 0
                           ? format(bookableDates[0], "EEEE d. MMMM", { locale: nb })
-                          : "Ingen ledige dager"}
+                          : copy.step4NoDaysLabel}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2">
@@ -1867,7 +1696,7 @@ const BookingDemo = () => {
                                     : "text-brand-dark/60",
                               )}
                             >
-                              {isToday ? "I dag" : format(date, "MMM", { locale: nb })}
+                              {isToday ? copy.step4TodayLabel : format(date, "MMM", { locale: nb })}
                             </span>
                           </button>
                         );
@@ -1883,7 +1712,7 @@ const BookingDemo = () => {
                   <div className="mb-5 flex items-end justify-between">
                     <div>
                       <p className="text-xs text-brand-dark/60 font-medium mb-1 uppercase">
-                        Velg en tid
+                        {copy.step4PickTimeLabel}
                       </p>
                       <h3 className="text-xl font-light text-brand-dark capitalize">
                         {format(selectedDate, "EEEE d. MMMM", { locale: nb })}
@@ -1891,18 +1720,20 @@ const BookingDemo = () => {
                     </div>
                     {selectedDayDurationLabel && (
                       <span className="text-xs text-brand-dark/60 font-medium">
-                        Varighet {selectedDayDurationLabel}
+                        {copy.step4DurationPrefix} {selectedDayDurationLabel}
                       </span>
                     )}
                   </div>
 
                   {!hasApiActivity ? (
                     <FriendlyEmpty
-                      title="Online tider ikke tilgjengelig"
-                      message="Denne tjenesten har ikke kobling til booking-systemet. Ring oss, så hjelper vi deg med å finne en time."
+                      title={copy.step4NotOnlineTitle}
+                      message={copy.step4NotOnlineMessage}
+                      phone={copy.supportPhone}
+                      phoneLabel={copy.supportPhoneLabel}
                     />
                   ) : timesLoading ? (
-                    <p className="text-sm text-brand-dark/60 font-light">Henter ledige tider…</p>
+                    <p className="text-sm text-brand-dark/60 font-light">{copy.step4LoadingTimes}</p>
                   ) : availableSlots.length > 0 ? (
                     <div className="grid grid-cols-3 gap-2 sm:gap-3">
                       {availableSlots.map((slot) => (
@@ -1917,8 +1748,10 @@ const BookingDemo = () => {
                     </div>
                   ) : (
                     <FriendlyEmpty
-                      title="Ingen ledige timer denne dagen"
-                      message="Prøv en annen dag i kalenderen, eller gi oss en ringedirekte – vi finner ofte en åpning som ikke ligger ute online."
+                      title={copy.step4NoSlotsTitle}
+                      message={copy.step4NoSlotsMessage}
+                      phone={copy.supportPhone}
+                      phoneLabel={copy.supportPhoneLabel}
                     />
                   )}
                 </div>
@@ -1935,45 +1768,49 @@ const BookingDemo = () => {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <h2 className="text-2xl font-light text-brand-dark mb-4">Bekreft</h2>
+              <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step5Heading}</h2>
 
               {/* Summary Card */}
               <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
-                <h3 className="font-normal text-lg mb-4 text-brand-dark">Din bestilling</h3>
+                <h3 className="font-normal text-lg mb-4 text-brand-dark">{copy.step5OrderTitle}</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
                   <div>
-                    <span className="text-brand-dark/60 text-xs uppercase">Tjeneste</span>
+                    <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelService}</span>
                     <p className="font-normal mt-1 text-brand-dark">{bookingData.service?.name}</p>
                   </div>
                   <div>
-                    <span className="text-brand-dark/60 text-xs uppercase">Pris</span>
+                    <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelPrice}</span>
                     <p className="font-normal mt-1 text-brand-dark">
-                      {bookingData.service?.price === "0" ? "Gratis" : `Fra ${bookingData.service?.price} kr`}
+                      {bookingData.service?.price === "0"
+                        ? copy.step5PriceFree
+                        : fillBookingTemplate(copy.step5PriceFrom, {
+                            price: bookingData.service?.price ?? "",
+                          })}
                     </p>
                     <p className="text-xs text-brand-dark/75 mt-0.5 font-light">
-                      Prisen kan påvirkes av tid på døgnet, helg og eventuelle tillegg.
+                      {copy.step5PriceNote}
                     </p>
                   </div>
                   <div>
-                    <span className="text-brand-dark/60 text-xs uppercase">Klinikk</span>
+                    <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelClinic}</span>
                     <p className="font-normal mt-1 text-brand-dark">{bookingData.clinic?.label}</p>
                   </div>
                   {bookingData.slotDurationMinutes != null && (
                     <div>
-                      <span className="text-brand-dark/60 text-xs uppercase">Varighet</span>
+                      <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDuration}</span>
                       <p className="font-normal mt-1 text-brand-dark">
                         {formatDurationMinutes(bookingData.slotDurationMinutes)}
                       </p>
                     </div>
                   )}
                   <div>
-                    <span className="text-brand-dark/60 text-xs uppercase">Dato</span>
+                    <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelDate}</span>
                     <p className="font-normal mt-1 capitalize text-brand-dark">
                       {bookingData.date && format(bookingData.date, "EEEE d. MMMM", { locale: nb })}
                     </p>
                   </div>
                   <div>
-                    <span className="text-brand-dark/60 text-xs uppercase">Tid</span>
+                    <span className="text-brand-dark/60 text-xs uppercase">{copy.step5LabelTime}</span>
                     <p className="font-normal mt-1 text-brand-dark">{bookingData.time}</p>
                   </div>
                 </div>
@@ -1993,36 +1830,36 @@ const BookingDemo = () => {
 
               {/* Personal Info Form */}
               <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-6">
-                <h3 className="font-normal text-lg mb-4 text-brand-dark">Dine opplysninger</h3>
+                <h3 className="font-normal text-lg mb-4 text-brand-dark">{copy.step5PersonalInfoTitle}</h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="firstName" className="text-sm text-brand-dark/70">Fornavn *</label>
+                      <label htmlFor="firstName" className="text-sm text-brand-dark/70">{copy.formFirstNameLabel}</label>
                       <Input
                         id="firstName"
                         name="given-name"
                         autoComplete="given-name"
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        placeholder="Fornavn"
+                        placeholder={copy.formFirstNamePlaceholder}
                         className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
                       />
                     </div>
                     <div>
-                      <label htmlFor="lastName" className="text-sm text-brand-dark/70">Etternavn *</label>
+                      <label htmlFor="lastName" className="text-sm text-brand-dark/70">{copy.formLastNameLabel}</label>
                       <Input
                         id="lastName"
                         name="family-name"
                         autoComplete="family-name"
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        placeholder="Etternavn"
+                        placeholder={copy.formLastNamePlaceholder}
                         className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="birthNumber" className="text-sm text-brand-dark/70">Fødselsnummer (11 siffer) *</label>
+                    <label htmlFor="birthNumber" className="text-sm text-brand-dark/70">{copy.formBirthNumberLabel}</label>
                     <Input
                       id="birthNumber"
                       name="birthNumber"
@@ -2031,51 +1868,58 @@ const BookingDemo = () => {
                         const val = e.target.value.replace(/\D/g, '').slice(0, 11);
                         setFormData({ ...formData, birthNumber: val });
                       }}
-                      placeholder="DDMMÅÅXXXXX"
+                      placeholder={copy.formBirthNumberPlaceholder}
                       maxLength={11}
                       inputMode="numeric"
                       className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
-                      * Fødselsnummeret er påkrevd for sikker identifisering og journalføring i henhold til helsepersonelloven. Opplysningene behandles konfidensielt og deles ikke med tredjepart.
+                      {copy.formBirthNumberHelp}
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="phone" className="text-sm text-brand-dark/70">Mobilnummer *</label>
+                    <label htmlFor="phone" className="text-sm text-brand-dark/70">{copy.formPhoneLabel}</label>
                     <Input
                       id="phone"
                       name="tel"
                       autoComplete="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+47 XXX XX XXX"
+                      placeholder={copy.formPhonePlaceholder}
                       type="tel"
                       inputMode="tel"
                       className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
-                      Bekreftelse og påminnelse sendes på SMS til dette nummeret.
+                      {copy.formPhoneHelp}
                     </p>
                   </div>
                   <div>
-                    <label htmlFor="email" className="text-sm text-brand-dark/70">E-postadresse</label>
+                    <label htmlFor="email" className="text-sm text-brand-dark/70">{copy.formEmailLabel}</label>
                     <Input
                       id="email"
                       name="email"
                       autoComplete="email"
                       value={formData.email || ""}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="din@epost.no"
+                      placeholder={copy.formEmailPlaceholder}
                       type="email"
                       className="mt-1.5 h-12 rounded-lg border-brand-dark/30 bg-white focus-visible:bg-white text-brand-dark placeholder:text-brand-dark/60"
                     />
                     <p className="text-xs text-brand-dark/60 mt-1.5 leading-relaxed font-light">
-                      Valgfritt. Bekreftelse sendes også til e-post om oppgitt.
+                      {copy.formEmailHelp}
                     </p>
                   </div>
                   <div className="bg-brand-beige rounded-lg p-4 text-xs text-brand-dark/70 leading-relaxed space-y-2 font-light">
-                    <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> Om- eller avbestilling må skje senest 24 timer før avtalt tidspunkt. Ved manglende oppmøte eller sen avbestilling vil det påløpe et gebyr.</p>
-                    <p>«<a href="/vilkar" className="underline hover:text-brand-dark transition-colors">Vilkår</a>» – les vilkårene for bestilling og behandling hos CMedical.</p>
+                    <p><strong className="text-brand-dark font-normal">Avbestillingsregler:</strong> {copy.formCancellationRules}</p>
+                    <p>
+                      <LinkedTemplateText
+                        template={copy.formTermsPageTeaser}
+                        token="{{termsLink}}"
+                        href="/vilkar"
+                        linkText={copy.formTermsLinkText}
+                      />
+                    </p>
                   </div>
                   <div className="space-y-3 pt-2">
                     <div className="flex items-start gap-3">
@@ -2086,7 +1930,12 @@ const BookingDemo = () => {
                         className="mt-0.5"
                       />
                       <label htmlFor="terms" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
-                        Jeg godtar <a href="/vilkar" className="underline">vilkårene</a> for bestilling *
+                        <LinkedTemplateText
+                          template={copy.formTermsCheckbox}
+                          token="{{termsLink}}"
+                          href="/vilkar"
+                          linkText={copy.formTermsInlineLinkText}
+                        />
                       </label>
                     </div>
                     <div className="flex items-start gap-3">
@@ -2097,7 +1946,12 @@ const BookingDemo = () => {
                         className="mt-0.5"
                       />
                       <label htmlFor="dataProcessing" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
-                        Jeg samtykker til at CMedical kan behandle innsendt informasjon i henhold til <a href="/personvern" className="underline">personvernerklæringen</a> *
+                        <LinkedTemplateText
+                          template={copy.formPrivacyCheckbox}
+                          token="{{privacyLink}}"
+                          href="/personvern"
+                          linkText={copy.formPrivacyLinkText}
+                        />
                       </label>
                     </div>
                     <div className="flex items-start gap-3">
@@ -2108,7 +1962,7 @@ const BookingDemo = () => {
                         className="mt-0.5"
                       />
                       <label htmlFor="acceptInfo" className="text-sm text-brand-dark/80 leading-relaxed cursor-pointer font-light">
-                        Jeg ønsker å motta informasjon og nyheter fra CMedical
+                        {copy.formMarketingCheckbox}
                       </label>
                     </div>
                   </div>
@@ -2151,7 +2005,7 @@ const BookingDemo = () => {
                     : "bg-brand-beige text-brand-dark/40 cursor-not-allowed"
                 )}
               >
-                {submitLoading ? "Sender bestilling…" : "Bekreft bestilling"}
+                {submitLoading ? copy.step5SubmittingLabel : copy.step5SubmitLabel}
               </Button>
 
             </motion.div>

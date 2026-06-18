@@ -14,7 +14,7 @@ export default defineType({
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
-    defineField(i18nSlugFieldFromString('name') as Parameters<typeof defineField>[0]),
+    i18nSlugFieldFromString('name'),
     defineField({
       name: 'category',
       title: 'Kategori',

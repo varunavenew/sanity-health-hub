@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import {
   fertilitetContent,
   fertilitetImages,
@@ -26,9 +27,11 @@ const FertilitetEditorial = ({ isChatOpen }: PageProps) => {
     document.title = "Fertilitet · Editorial | CMedical";
   }, []);
 
+  const { specialists } = useSpecialistsData();
+
   const fertilitySpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "fertilitet").slice(0, 3),
-    []
+    () => specialists.filter((s) => specialistMatchesCategory(s, "fertilitet")).slice(0, 3),
+    [specialists]
   );
 
   const groupsWithServices = useMemo(

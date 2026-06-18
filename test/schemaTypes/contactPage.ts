@@ -1,6 +1,7 @@
 // Schema: Contact Page (Kontakt)
 // Aligned with migration data: title, introText, phone, email, address, openingHours, seo
 import { ContactIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -15,6 +16,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'heroImage',
       title: 'Hero-bilde',

@@ -2,6 +2,7 @@
 
 import type { PageSection } from "@/lib/sanity/page-sections";
 import { PageSectionArticlesBlock } from "./PageSectionArticlesBlock";
+import { PageSectionBookingCtaBlock } from "./PageSectionBookingCtaBlock";
 import { PageSectionSpecialistsBlock } from "./PageSectionSpecialistsBlock";
 
 type Props = {
@@ -22,6 +23,10 @@ export function PageSectionsRenderer({ sections }: Props) {
 
         if (section._type === "pageSectionArticles") {
           return <PageSectionArticlesBlock key={key} config={section} />;
+        }
+
+        if (section._type === "pageSectionBookingCta") {
+          return <PageSectionBookingCtaBlock key={key} config={section} />;
         }
 
         return null;

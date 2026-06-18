@@ -1,5 +1,5 @@
 import { Iframe, type IframeProps } from 'sanity-plugin-iframe-pane'
-import { buildPreviewUrl, type PreviewLocale } from '../previewUrls'
+import { buildPreviewUrl, type PreviewLocale, type SanityPreviewDoc } from '../previewUrls'
 
 type LocalePreviewOptions = {
   locale: PreviewLocale
@@ -15,13 +15,14 @@ export function createLocalePreviewPane({ locale, schemaType }: LocalePreviewOpt
         options={{
           // Required when multiple iframe panes exist (see sanity-plugin-iframe-pane)
           key: `preview-${locale}`,
-          url: (doc) => buildPreviewUrl(schemaType, doc ?? undefined, locale),
+          url: (doc) =>
+            buildPreviewUrl(schemaType, (doc as SanityPreviewDoc | undefined) ?? undefined, locale),
           reload: { button: true },
         }}
       />
     )
   }
 
-  LocalePreviewPane.displayName = locale === 'nb' ? 'LocalePreviewNb' : 'LocalePreviewEn'
+  LocalePreviewPane.displayName = locale === 'no' ? 'LocalePreviewNo' : 'LocalePreviewEn'
   return LocalePreviewPane
 }

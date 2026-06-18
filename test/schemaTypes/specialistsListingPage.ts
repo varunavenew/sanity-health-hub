@@ -1,5 +1,6 @@
 // Schema: Specialists directory (/spesialister) — hero + SEO (singleton)
 import { SpecialistIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 
 export default {
   name: 'specialistsListingPage',
@@ -19,6 +20,9 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('heroTitle', {
+      description: 'URL-sti uten locale, f.eks. /spesialister (NO) og /specialists (EN).',
+    }),
     {
       name: 'heroDescription',
       title: 'Hero – beskrivelse',

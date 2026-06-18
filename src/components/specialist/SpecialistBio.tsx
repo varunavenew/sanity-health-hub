@@ -1,17 +1,20 @@
 import { motion } from "framer-motion";
-import { Specialist } from "@/data/specialists";
+import { PortableText } from "@portabletext/react";
+import type { PortableTextBlock } from "@portabletext/types";
+import type { Specialist } from "@/lib/sanity/specialist-types";
+import { specialistBioPortableTextComponents } from "@/components/specialist/specialist-bio-portable-text";
 
 interface SpecialistBioProps {
   specialist: Specialist;
 }
 
 export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
-  const bioSections = specialist.bio?.split('\n\n') || [];
   const firstName = specialist.name.split(" ")[0];
+  const hasBioBody = Array.isArray(specialist.bioBody) && specialist.bioBody.length > 0;
+  const shortBioParagraphs = specialist.bio?.split("\n\n").filter(Boolean) ?? [];
+  const hasShortBio = shortBioParagraphs.length > 0;
 
-  if (!specialist.bio) {
-    return null;
-  }
+  if (!hasBioBody && !hasShortBio && !specialist.education) return null;
 
   return (
     <section id="specialist-bio" className="bg-background py-14 md:py-20">
@@ -26,11 +29,30 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
           <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
             Om {firstName}
           </h2>
-          {bioSections.map((paragraph, idx) => (
-            <p key={idx} className="text-base md:text-lg text-foreground/80 font-light leading-[1.85]">
-              {paragraph}
+
+          {hasBioBody ? (
+            <div className="space-y-6">
+              <PortableText
+                value={specialist.bioBody as PortableTextBlock[]}
+                components={specialistBioPortableTextComponents}
+              />
+            </div>
+          ) : (
+            shortBioParagraphs.map((paragraph, idx) => (
+              <p
+                key={idx}
+                className="text-base md:text-lg text-foreground/80 font-light leading-[1.85]"
+              >
+                {paragraph}
+              </p>
+            ))
+          )}
+
+          {specialist.education ? (
+            <p className="text-sm text-muted-foreground font-light pt-2">
+              {specialist.education}
             </p>
-          ))}
+          ) : null}
         </motion.div>
       </div>
     </section>

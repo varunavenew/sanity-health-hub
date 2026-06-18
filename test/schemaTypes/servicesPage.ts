@@ -1,6 +1,6 @@
 // Schema: Services Page (Tjenester)
 import { TreatmentIcon } from "./icons";
-import { i18nFaqItemPreview, pickNo } from "./i18n";
+import { i18nFaqItemPreview, i18nSlugFieldFromTitle, pickNo } from "./i18n";
 import { pageSectionsField } from "./pageSections";
 
 const i18nString = {
@@ -34,6 +34,7 @@ export default {
       ...i18nString,
       validation: (Rule: any) => Rule.required(),
     },
+    { ...i18nSlugFieldFromTitle("title", { group: "content" }) },
     {
       name: "eyebrow",
       title: "Eyebrow over tittel",
@@ -63,9 +64,8 @@ export default {
           ],
           preview: {
             select: { label: "label" },
-            prepare({ label }: { label?: { value?: string }[] }) {
-              const no = label?.find((l) => l.language === "no" || l._key === "no");
-              return { title: no?.value || label?.[0]?.value || "Badge" };
+            prepare({ label }: { label?: unknown }) {
+              return { title: pickNo(label) || "Badge" };
             },
           },
         },

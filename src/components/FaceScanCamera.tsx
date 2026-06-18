@@ -15,7 +15,7 @@ export const FaceScanCamera = ({ isOpen, onClose, onCapture }: FaceScanCameraPro
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
   const [instruction, setInstruction] = useState("Posisjonér ansiktet i ovalen");
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (isOpen) {

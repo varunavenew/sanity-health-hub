@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export interface FaqItem {
   id: string;
@@ -46,11 +46,7 @@ export const FaqSection = ({
 
   return (
     <section className={`py-16 md:py-24 ${background}`}>
-      {withJsonLd && (
-        <Helmet>
-          <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        </Helmet>
-      )}
+      {withJsonLd && <JsonLd data={jsonLd} />}
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-light text-foreground text-center mb-8">

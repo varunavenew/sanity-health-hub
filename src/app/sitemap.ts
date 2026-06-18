@@ -1,94 +1,68 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/env";
 import { locales } from "@/lib/i18n/routing";
-import { fetchSitemapSlugs } from "@/lib/sanity/sitemap-data";
+import { fetchCmsRouteIndex } from "@/lib/routing/fetch-route-index";
+import { staticParamsFromRouteIndex } from "@/lib/routing/resolve-route";
 
-const MARKETING_SEGMENTS = [
-  "",
-  "about",
+/** Non-CMS App Router pages (booking, demos, etc.) — not driven by Sanity slugs. */
+const STATIC_APP_SEGMENTS = [
   "guide",
-  "contact",
-  "priser",
-  "tjenester",
-  "tjenester-og-priser",
-  "forsikring",
-  "om-oss",
-  "kontakt",
-  "gynecology",
-  "gynekologi",
-  "fertility",
-  "fertilitet",
-  "urology",
-  "urologi",
-  "ortopedi",
-  "graviditet",
-  "flere-fagomrader",
-  "behandlinger/gynekologi",
-  "behandlinger/fertilitet",
-  "behandlinger/urologi",
-  "behandlinger/ortopedi",
-  "behandlinger/graviditet",
-  "behandlinger/flere-fagomrader",
-  "kvinnehelse",
-  "tverrfaglige-team",
-  "robotassistert-kirurgi",
-  "fastlegeveiledning-overgangsalder",
-  "personvern",
-  "karriere",
-  "aktuelt",
-  "om-spesialister",
-  "spesialister",
   "booking",
   "bestill-time",
-  "klinikker",
+  "book-appointment",
+  "godkjenning",
+  "icon-preview",
+  "demoer",
+  "design-demoer",
+  "fastlegeveiledning-overgangsalder",
+  "fertilitet-design",
+  "gynekologi-design",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
   const entries: MetadataRoute.Sitemap = [];
+  const seen = new Set<string>();
 
   const push = (
     path: string,
-    opts?: { changeFrequency?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never"; priority?: number },
+    opts?: {
+      changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
+      priority?: number;
+    },
   ) => {
+    const normalized = path === "" || path === "/" ? "" : path.replace(/^\//, "");
     for (const loc of locales) {
-      const urlPath = path === "" || path === "/" ? `/${loc}` : `/${loc}/${path.replace(/^\//, "")}`;
+      const urlPath = normalized ? `/${loc}/${normalized}` : `/${loc}`;
+      const url = `${base}${urlPath}`;
+      if (seen.has(url)) continue;
+      seen.add(url);
       entries.push({
-        url: `${base}${urlPath}`,
+        url,
         changeFrequency: opts?.changeFrequency ?? "weekly",
-        priority: opts?.priority ?? (path === "" || path === "/" ? 1 : 0.7),
+        priority: opts?.priority ?? (normalized ? 0.7 : 1),
       });
     }
   };
 
-  for (const seg of MARKETING_SEGMENTS) {
-    push(seg === "" ? "" : seg, { priority: seg === "" ? 1 : 0.7 });
+  push("", { priority: 1 });
+
+  for (const seg of STATIC_APP_SEGMENTS) {
+    push(seg);
   }
 
   try {
-    const { clinics, articles, jobs } = await fetchSitemapSlugs();
-    for (const loc of locales) {
-      for (const slug of clinics ?? []) {
-        entries.push({
-          url: `${base}/${loc}/klinikker/${slug}`,
-          changeFrequency: "weekly",
-          priority: 0.75,
-        });
-      }
-      for (const slug of articles ?? []) {
-        entries.push({
-          url: `${base}/${loc}/aktuelt/${slug}`,
-          changeFrequency: "monthly",
-          priority: 0.55,
-        });
-      }
-      for (const slug of jobs ?? []) {
-        entries.push({
-          url: `${base}/${loc}/karriere/${slug}`,
-          changeFrequency: "weekly",
-          priority: 0.5,
-        });
-      }
+    const index = await fetchCmsRouteIndex();
+    const params = staticParamsFromRouteIndex(index);
+    for (const { locale, segments } of params) {
+      const url = `${base}/${locale}/${segments.join("/")}`;
+      if (seen.has(url)) continue;
+      seen.add(url);
+      entries.push({
+        url,
+        changeFrequency: "weekly",
+        priority: segments.length > 1 ? 0.65 : 0.8,
+      });
     }
   } catch {
     /* Sanity optional at build time */

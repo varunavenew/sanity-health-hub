@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { useParams, Link } from "@/lib/router";
+import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -123,7 +123,8 @@ const renderBlock = (block: ContentBlock, index: number) => {
 };
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: paramSlug } = useParams<{ slug: string }>();
+  const slug = useRouteSlug() || paramSlug || "";
   const { data: sanityArticle, isLoading } = useArticle(slug || "");
   const { data: sanityArticles } = useArticles();
 

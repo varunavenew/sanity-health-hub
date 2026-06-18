@@ -1,5 +1,6 @@
 // Schema: Clinics listing page (/klinikker) — hero + SEO (singleton)
 import { ClinicIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 
 export default {
   name: 'clinicsPage',
@@ -20,6 +21,9 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('heroTitle', {
+      description: 'URL-sti uten locale, f.eks. /klinikker (NO) og /clinics (EN).',
+    }),
     {
       name: 'heroDescription',
       title: 'Hero – beskrivelse',

@@ -1,18 +1,15 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
+import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import {
-  sanitySpecialistToCard,
-  type PageSectionSpecialistsConfig,
-} from "@/lib/sanity/page-sections";
+import { type PageSectionSpecialistsConfig } from "@/lib/sanity/page-sections";
 import type { SanitySpecialist } from "@/hooks/useSanity";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 
@@ -28,16 +25,12 @@ function resolveSpecialists(
   const mode = config.displayMode ?? "all";
 
   if (mode === "manual" && config.specialists?.length) {
-    return config.specialists
-      .map((raw) => {
-        const s = raw as SanitySpecialist & { role?: string; specialties?: string[] };
-        return sanitySpecialistToCard({
-          ...s,
-          title: s.title || s.role || "",
-          expertise: s.expertise?.length ? s.expertise : s.specialties || [],
-          category: s.category || (s as { categories?: { slug?: string }[] }).categories?.[0]?.slug || "",
-        });
-      })
+    const slugs = config.specialists
+      .map((raw) => (raw as SanitySpecialist).slug)
+      .filter(Boolean);
+    return slugs
+      .map((slug) => all.find((s) => s.slug === slug))
+      .filter((s): s is Specialist => Boolean(s))
       .slice(0, limit);
   }
 
@@ -53,6 +46,15 @@ function resolveSpecialists(
   return all.slice(0, limit);
 }
 
+function categoryHref(config: PageSectionSpecialistsConfig): string {
+  if (config.seeAllHref?.trim()) return config.seeAllHref.trim();
+  const categoryKey =
+    config.categorySlug ||
+    config.treatmentCategory?.categoryId ||
+    config.treatmentCategory?.slug;
+  return categoryKey ? `/spesialister?kategori=${categoryKey}` : "/spesialister";
+}
+
 export function PageSectionSpecialistsBlock({ config }: Props) {
   const { t } = useTranslation();
   const { sorted: allSpecialists } = useSpecialistsData();
@@ -63,13 +65,25 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
   );
 
   const variant = config.variant ?? "carousel";
+  const seeAllHref = categoryHref(config);
+  const seeAllLabel =
+    config.seeAllLabel?.trim() ||
+    t("specialists.seeAll", {
+      count: specialists.length,
+      defaultValue: `Se alle ${specialists.length} spesialister`,
+    });
 
   if (variant === "carousel") {
+    if (specialists.length === 0) return null;
+
     return (
-      <ConfigurableCarouselSection
-        config={config}
-        specialists={specialists}
-        totalCount={allSpecialists.length}
+      <SpecialistsScroller
+        items={specialists}
+        eyebrow={config.eyebrow || undefined}
+        title={config.title || undefined}
+        description={config.description || undefined}
+        seeAllHref={seeAllHref}
+        seeAllLabel={seeAllLabel}
       />
     );
   }
@@ -129,87 +143,13 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
               className="rounded-sm bg-transparent border border-white/30 text-white hover:bg-white hover:text-brand-dark transition-colors font-light"
               asChild
             >
-              <Link to="/spesialister">
-                {t("specialists.seeAll", {
-                  count: allSpecialists.length,
-                  defaultValue: `Se alle ${allSpecialists.length} spesialister`,
-                })}
+              <Link to={seeAllHref}>
+                {seeAllLabel}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-/** Carousel with optional CMS headings; falls back to default SpecialistsSection copy when empty */
-function ConfigurableCarouselSection({
-  config,
-  specialists,
-  totalCount,
-}: {
-  config: PageSectionSpecialistsConfig;
-  specialists: Specialist[];
-  totalCount: number;
-}) {
-  const { t } = useTranslation();
-  const hasCustomCopy = Boolean(config.title || config.description || config.eyebrow);
-
-  if (!hasCustomCopy) {
-    return <SpecialistsSection />;
-  }
-
-  if (specialists.length === 0) return null;
-
-  return (
-    <section className="pt-24 md:pt-32 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-          <div className="max-w-xl">
-            {config.eyebrow ? (
-              <p className="text-sm text-muted-foreground font-light mb-3">{config.eyebrow}</p>
-            ) : null}
-            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-4">
-              {config.title}
-            </h2>
-            {config.description ? (
-              <p className="text-muted-foreground font-light">{config.description}</p>
-            ) : null}
-          </div>
-          <Button variant="cta-outline" asChild>
-            <Link to="/spesialister">
-              {t("specialists.seeAll", {
-                count: totalCount,
-                defaultValue: `Se alle ${totalCount} spesialister`,
-              })}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </Button>
-        </div>
-      </div>
-      <div className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 px-6 md:px-16">
-        {specialists.map((specialist) => (
-          <Link
-            to={`/spesialister/${specialist.slug}`}
-            key={specialist.slug}
-            className="group flex-shrink-0 w-[280px]"
-          >
-            <div className="relative aspect-[3/4] overflow-hidden mb-3 bg-secondary">
-              <AssetImg
-                src={specialist.image}
-                alt={specialist.name}
-                className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="font-normal text-white">{specialist.name}</h3>
-                <p className="text-sm text-white/70 font-light">{specialist.title}</p>
-              </div>
-            </div>
-          </Link>
-        ))}
       </div>
     </section>
   );

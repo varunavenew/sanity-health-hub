@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, Link } from "@/lib/router";
+import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useJobListing } from "@/hooks/useSanity";
 import { departmentLabels, employmentTypeLabels } from "@/data/jobListings";
@@ -23,7 +23,8 @@ interface KarriereDetailProps {
 }
 
 const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: paramSlug } = useParams<{ slug: string }>();
+  const slug = useRouteSlug() || paramSlug || "";
   const { data: sanityJob, isLoading, isError } = useJobListing(slug || "");
 
   const job = sanityJob && !isError ? sanityJob : undefined;

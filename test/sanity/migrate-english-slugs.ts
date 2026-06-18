@@ -40,6 +40,15 @@ const TYPE_TO_SLUG_SOURCE_FIELD: Record<string, string> = {
   jobListing: "title",
   product: "name",
   privacyPolicyPage: "title",
+  aboutPage: "title",
+  contactPage: "title",
+  newsPage: "title",
+  pricingPage: "title",
+  insurancePage: "title",
+  servicesPage: "title",
+  specialistsPage: "title",
+  specialistsListingPage: "heroTitle",
+  clinicsPage: "heroTitle",
 };
 
 function randomKey(): string {

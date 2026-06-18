@@ -97,8 +97,13 @@ async function buildTreatmentFields(source: TreatmentSource) {
   }
 
   const benefits = []
-  for (const b of source.benefits ?? []) {
-    benefits.push(await i18nStringTranslated(b, TRANSLATE_EN))
+  for (let i = 0; i < (source.benefits?.length ?? 0); i++) {
+    const text = source.benefits[i]
+    benefits.push({
+      _type: 'treatmentBenefit',
+      _key: `benefit${i}`,
+      title: await i18nStringTranslated(text, TRANSLATE_EN),
+    })
   }
 
   const relatedSpecialists = (source.relatedSpecialistSlugs ?? []).map((slug) => ({

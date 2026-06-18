@@ -54,6 +54,7 @@ export default {
       name: 'address',
       title: 'Adresse',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
       group: 'contact',
     },
     {
@@ -72,6 +73,7 @@ export default {
       name: 'hours',
       title: 'Åpningstider',
       type: 'internationalizedArrayString',
+      validation: (Rule: any) => Rule.required(),
       group: 'contact',
     },
     {
@@ -195,7 +197,8 @@ export default {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      options: { collapsible: true, collapsed: true },
+      description: 'Meta-tittel og meta-beskrivelse for klinikkens profilside (NO/EN).',
+      options: { collapsible: true, collapsed: false },
       group: 'seo',
     },
   ],

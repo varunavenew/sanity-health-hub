@@ -19,6 +19,7 @@ import {
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
 } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
+import { isPublishableSanitySpecialist, type RawSanitySpecialist } from "@/lib/sanity/specialist-data";
 import { sanityFetchCached } from "@/lib/sanity/sanity-fetch-cached";
 import {
   SANITY_CACHE_TAGS,
@@ -235,12 +236,19 @@ export async function fetchSpecialistSeo(
     ],
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });
-  if (raw == null) return null;
+  if (raw == null || !isPublishableSanitySpecialist(raw as RawSanitySpecialist)) return null;
   const doc = normalizeI18n(raw, lang) as Record<string, unknown>;
   const specialties = doc.specialties;
   const expertise = Array.isArray(specialties)
     ? specialties
-        .map((s) => (typeof s === "string" ? s : ""))
+        .map((entry) => {
+          if (typeof entry === "string") return entry;
+          if (entry && typeof entry === "object" && "label" in entry) {
+            const label = (entry as { label?: unknown }).label;
+            return typeof label === "string" ? label : "";
+          }
+          return "";
+        })
         .filter(Boolean)
     : [];
   return {

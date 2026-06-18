@@ -5,6 +5,7 @@
  *   SANITY_TOKEN=<token> npx tsx test/sanity/migrate-clinics.ts
  */
 import { sanityClient } from "./config";
+import { i18nString, i18nText } from "./lib/category-landing-i18n";
 
 interface StaticClinic {
   id: string;
@@ -175,8 +176,15 @@ async function migrate() {
         answer: faq.answer,
       })),
       seo: {
-        metaTitle: `CMedical ${clinic.label} – Klinikk`,
-        metaDescription: `Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon.`,
+        _type: 'seo' as const,
+        metaTitle: i18nString(
+          `CMedical ${clinic.label} – Klinikk`,
+          `CMedical ${clinic.label} – Clinic`,
+        ),
+        metaDescription: i18nText(
+          `Besøk CMedical ${clinic.label}. ${clinic.address}. Åpningstider, tjenester og kontaktinformasjon.`,
+          `Visit CMedical ${clinic.label}. ${clinic.address}. Opening hours, services and contact information.`,
+        ),
       },
     };
 

@@ -1,4 +1,6 @@
 import { localizeInternalPath } from "@/lib/i18n/nav-paths";
+import { coercePath } from "@/lib/navigation/coerce-path";
+import type { SlugLocaleMap } from "@/lib/routing/slug-locale-map";
 
 export const locales = ["no", "en"] as const;
 export type AppLocale = (typeof locales)[number];
@@ -20,17 +22,24 @@ export function stripLocaleFromPathname(pathname: string): string {
   return pathname.startsWith("/") ? pathname : `/${pathname}`;
 }
 
-export function withLocalePath(locale: AppLocale, to: string): string {
+export function withLocalePath(
+  locale: AppLocale,
+  to: string,
+  cmsMap?: SlugLocaleMap,
+): string {
+  const pathInput = coercePath(to, locale);
+  if (!pathInput) return `/${locale}`;
+
   if (
-    to.startsWith("http://") ||
-    to.startsWith("https://") ||
-    to.startsWith("mailto:") ||
-    to.startsWith("tel:") ||
-    to.startsWith("#")
+    pathInput.startsWith("http://") ||
+    pathInput.startsWith("https://") ||
+    pathInput.startsWith("mailto:") ||
+    pathInput.startsWith("tel:") ||
+    pathInput.startsWith("#")
   ) {
-    return to;
+    return pathInput;
   }
-  const [rawPath, query] = to.split("?");
+  const [rawPath, query] = pathInput.split("?");
   let path = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
 
   const firstSeg = path.split("/").filter(Boolean)[0];
@@ -38,7 +47,7 @@ export function withLocalePath(locale: AppLocale, to: string): string {
     path = stripLocaleFromPathname(path);
   }
 
-  path = localizeInternalPath(path, locale);
+  path = localizeInternalPath(path, locale, cmsMap);
 
   let base: string;
   if (path === "/") base = `/${locale}`;

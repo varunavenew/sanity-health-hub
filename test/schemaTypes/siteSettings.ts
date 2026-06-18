@@ -86,8 +86,23 @@ export default {
               name: 'path',
               title: 'Lenke',
               type: 'internationalizedArrayString',
-              description: 'Intern sti per språk, f.eks. NO: /priser · EN: /pricing',
+              description:
+                'Synkroniseres automatisk fra sidens URL-slug når du publiserer (f.eks. Tjenester, Priser, Kontakt). Du kan fortsatt redigere manuelt; neste publisering av siden overskriver lenken igjen.',
               validation: (Rule: any) => Rule.required(),
+              readOnly: ({ parent }: { parent?: { navId?: string } }) =>
+                Boolean(
+                  parent?.navId &&
+                    [
+                      'services',
+                      'pricing',
+                      'insurance',
+                      'news',
+                      'about',
+                      'clinics',
+                      'contact',
+                      'specialists',
+                    ].includes(parent.navId),
+                ),
             },
             {
               name: 'isServicesDropdown',
@@ -169,8 +184,16 @@ export default {
               name: 'path',
               title: 'Lenke',
               type: 'internationalizedArrayString',
-              description: 'Intern sti per språk, f.eks. NO: /priser · EN: /pricing',
+              description:
+                'Synkroniseres automatisk fra sidens URL-slug ved publisering når Meny-ID er satt.',
               validation: (Rule: any) => Rule.required(),
+              readOnly: ({ parent }: { parent?: { navId?: string } }) =>
+                Boolean(
+                  parent?.navId &&
+                    ['about', 'specialists', 'pricing', 'insurance', 'news'].includes(
+                      parent.navId,
+                    ),
+                ),
             },
           ],
           preview: {

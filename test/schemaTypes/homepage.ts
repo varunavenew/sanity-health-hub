@@ -176,6 +176,22 @@ export default {
       ...pageSectionsField,
       group: 'sections',
     },
+    {
+      name: 'faqSectionTitle',
+      title: 'FAQ-overskrift',
+      description: 'Overskrift over FAQ-seksjonen (f.eks. «Ofte stilte spørsmål»)',
+      type: 'internationalizedArrayString',
+      group: 'sections',
+    },
+    {
+      name: 'faqs',
+      title: 'FAQ',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
+      description:
+        'FAQ-elementer som vises på forsiden. Velg og sorter spørsmål fra FAQ-dokumenter i Sanity.',
+      group: 'sections',
+    },
     // SEO
     {
       name: 'seo',

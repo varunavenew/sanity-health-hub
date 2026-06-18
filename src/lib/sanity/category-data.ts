@@ -1,7 +1,7 @@
 import { TREATMENT_CATEGORY_BY_SLUG_QUERY } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sortBySlug } from "@/lib/sortAlphabetical";
+import { sortBySortOrder } from "@/lib/sortAlphabetical";
 import { sanityClient } from "@/lib/sanityClient";
 import { behandlingerCategorySegment } from "@/lib/sanity/category-keys";
 
@@ -59,7 +59,6 @@ export type CategoryLandingReview = {
 };
 
 export type CategoryLandingPage = {
-  documentTitle?: string;
   srOnlyTitle?: string;
   hero: {
     eyebrow: string;
@@ -70,7 +69,6 @@ export type CategoryLandingPage = {
     primaryCtaLabel: string;
     secondaryCtaLabel: string;
     heroImageAlt: string;
-    secondaryImageAlt: string;
   };
   segmentsSection: {
     eyebrow: string;
@@ -82,6 +80,8 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     description: string;
+    image?: string;
+    imageAlt?: string;
     steps: CategoryLandingStep[];
   };
   audiencesSection: {
@@ -113,11 +113,6 @@ export type CategoryLandingPage = {
     title: string;
     reviews: CategoryLandingReview[];
   };
-  specialistsSection: {
-    title: string;
-    seeAllLabel: string;
-    seeAllHref: string;
-  };
 };
 
 export type CategoryTreatmentLink = {
@@ -132,27 +127,12 @@ export type CategoryStat = {
   sub?: string;
 };
 
-export type TreatmentCategoryBottomCta = {
-  title?: string;
-  subtitle?: string;
-  primaryLabel?: string;
-  secondaryLabel?: string;
-  primaryPath?: string;
-  secondaryPath?: string;
-};
-
 export type TreatmentCategoryData = {
   categoryId: string;
   slug?: string;
   title: string;
-  description: string;
   heroImage?: string;
   categoryNumericId?: number;
-  quickInfoItems?: string[];
-  linkedServicesSectionTitle?: string;
-  processSectionTitle?: string;
-  faqSectionTitle?: string;
-  bottomCta?: TreatmentCategoryBottomCta;
   treatments: CategoryTreatmentLink[];
   stats: CategoryStat[];
   landingPage: CategoryLandingPage | null;
@@ -171,7 +151,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   const servicesSection = (raw.servicesSection as Record<string, unknown>) || {};
   const resultsSection = (raw.resultsSection as Record<string, unknown>) || {};
   const reviewsSection = (raw.reviewsSection as Record<string, unknown>) || {};
-  const specialistsSection = (raw.specialistsSection as Record<string, unknown>) || {};
 
   const segments = ((segmentsSection.segments as unknown[]) || []).map((row, i) => {
     const s = row as Record<string, unknown>;
@@ -228,7 +207,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   }
 
   return {
-    documentTitle: asPlainString(raw.documentTitle) || undefined,
     srOnlyTitle: asPlainString(raw.srOnlyTitle) || undefined,
     hero: {
       eyebrow: asPlainString(hero.eyebrow),
@@ -239,7 +217,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       primaryCtaLabel: asPlainString(hero.primaryCtaLabel),
       secondaryCtaLabel: asPlainString(hero.secondaryCtaLabel),
       heroImageAlt: asPlainString(hero.heroImageAlt),
-      secondaryImageAlt: asPlainString(hero.secondaryImageAlt),
     },
     segmentsSection: {
       eyebrow: asPlainString(segmentsSection.eyebrow),
@@ -251,6 +228,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(whySection.eyebrow),
       title: asPlainString(whySection.title),
       description: asPlainString(whySection.description),
+      image: asPlainString(whySection.image) || undefined,
+      imageAlt: asPlainString(whySection.imageAlt) || undefined,
       steps,
     },
     audiencesSection: {
@@ -282,11 +261,6 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       title: asPlainString(reviewsSection.title),
       reviews,
     },
-    specialistsSection: {
-      title: asPlainString(specialistsSection.title),
-      seeAllLabel: asPlainString(specialistsSection.seeAllLabel),
-      seeAllHref: asPlainString(specialistsSection.seeAllHref) || "/spesialister?kategori=fertilitet",
-    },
   };
 }
 
@@ -297,10 +271,15 @@ export function mapTreatmentCategoryDocument(
   if (!data) return null;
 
   const categoryId = asPlainString(data.categoryId) || asPlainString(data.slug) || "";
-  const treatmentsRaw = (data.treatments as unknown[]) || [];
+  const treatmentsRaw = sortBySortOrder(
+    (data.treatments as unknown[]) || [],
+    (row) => (row as Record<string, unknown>).sortOrder,
+    (row) => (row as Record<string, unknown>).title,
+    lang,
+  );
 
-  const treatments = sortBySlug(
-    treatmentsRaw.map((row) => {
+  const treatments = treatmentsRaw
+    .map((row) => {
       const t = row as Record<string, unknown>;
       const slug = asPlainString(t.slug);
       return {
@@ -311,10 +290,8 @@ export function mapTreatmentCategoryDocument(
           ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
           : "",
       };
-    }),
-    (t) => t.slug || t.title,
-    lang,
-  ).map(({ title, desc, href }) => ({ title, desc, href }));
+    })
+    .map(({ title, desc, href }) => ({ title, desc, href }));
 
   const stats = ((data.stats as unknown[]) || []).map((row) => {
     const s = row as Record<string, unknown>;
@@ -327,32 +304,14 @@ export function mapTreatmentCategoryDocument(
   });
 
   const landingRaw = data.landingPage as Record<string, unknown> | undefined;
-  const bottomCtaRaw = data.bottomCta as Record<string, unknown> | undefined;
-  const quickInfoItems = asStringArray(data.quickInfoItems);
 
   return {
     categoryId,
     slug: asPlainString(data.slug) || undefined,
     title: asPlainString(data.title),
-    description: asPlainString(data.description),
     heroImage: asPlainString(data.heroImage) || undefined,
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
-    quickInfoItems: quickInfoItems.length ? quickInfoItems : undefined,
-    linkedServicesSectionTitle:
-      asPlainString(data.linkedServicesSectionTitle) || undefined,
-    processSectionTitle: asPlainString(data.processSectionTitle) || undefined,
-    faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
-    bottomCta: bottomCtaRaw
-      ? {
-          title: asPlainString(bottomCtaRaw.title) || undefined,
-          subtitle: asPlainString(bottomCtaRaw.subtitle) || undefined,
-          primaryLabel: asPlainString(bottomCtaRaw.primaryLabel) || undefined,
-          secondaryLabel: asPlainString(bottomCtaRaw.secondaryLabel) || undefined,
-          primaryPath: asPlainString(bottomCtaRaw.primaryPath) || undefined,
-          secondaryPath: asPlainString(bottomCtaRaw.secondaryPath) || undefined,
-        }
-      : undefined,
     treatments,
     stats,
     landingPage: mapLandingPage(landingRaw),

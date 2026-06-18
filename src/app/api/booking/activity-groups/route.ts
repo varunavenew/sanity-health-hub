@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+import {
+  fetchProcedurePriceMap,
+  parsePriceFromActivityName,
+} from "@/lib/booking/item-prices";
 import { fetchBookingResource, unwrapList } from "@/lib/booking/upstream";
 
 const GROUPS_URL =
@@ -16,9 +20,7 @@ interface BookingService {
 }
 
 export interface BookingCategory {
-  /** Unique React key / booking step id (from API group label). */
   id: string;
-  /** Id used in clinic `services` arrays for availability badges. */
   clinicServiceId: string;
   label: string;
   apiGroupId: number;
@@ -32,12 +34,13 @@ interface ApiGroup {
 
 interface ApiActivity {
   id?: number;
+  "activity-id"?: number;
+  activityId?: number;
   name?: string;
   "wbactivitygroup-id"?: number;
   wbactivitygroupId?: number;
 }
 
-/** Map API group labels to clinic `services` ids used in clinic data. */
 const GROUP_LABEL_TO_CLINIC_ID: Record<string, string> = {
   fertilitet: "fertilitet",
   saedanalyse: "fertilitet",
@@ -71,18 +74,17 @@ function slugify(input: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-function parsePriceFromName(name: string): string {
-  const match = name.match(/fra\s+kr\s*([\d\s]+)/i) ?? name.match(/kr\s*([\d\s]+)/i);
-  if (match) return match[1].replace(/\s/g, "").trim();
-  return "0";
-}
-
 function cleanActivityName(name: string): string {
   return name.replace(/\s*fra\s+kr\s*[\d\s.,]+-?\s*/gi, "").trim();
 }
 
 function activityGroupId(activity: ApiActivity): number | undefined {
   const raw = activity["wbactivitygroup-id"] ?? activity.wbactivitygroupId;
+  return typeof raw === "number" ? raw : undefined;
+}
+
+function activityProcedureId(activity: ApiActivity): number | undefined {
+  const raw = activity["activity-id"] ?? activity.activityId;
   return typeof raw === "number" ? raw : undefined;
 }
 
@@ -95,13 +97,22 @@ function clinicServiceIdForGroup(label: string): string {
   return GROUP_LABEL_TO_CLINIC_ID[slug] ?? slug;
 }
 
-function normalizeActivity(activity: ApiActivity): BookingService | null {
+function normalizeActivity(
+  activity: ApiActivity,
+  priceMap: Map<number, string>,
+): BookingService | null {
   const rawName = activity.name?.trim();
   if (!rawName) return null;
 
+  const procedureId = activityProcedureId(activity);
+  const price =
+    procedureId !== undefined && priceMap.has(procedureId)
+      ? priceMap.get(procedureId)!
+      : parsePriceFromActivityName(rawName);
+
   return {
     name: cleanActivityName(rawName),
-    price: parsePriceFromName(rawName),
+    price,
     apiActivityId: activity.id,
   };
 }
@@ -127,11 +138,22 @@ export async function GET() {
 
     const groups = unwrapList(groupsPayload) as ApiGroup[];
     const activities = unwrapList(activitiesPayload) as ApiActivity[];
+
+    const procedureIds = [
+      ...new Set(
+        activities
+          .map((a) => activityProcedureId(a))
+          .filter((id): id is number => id !== undefined),
+      ),
+    ];
+
+    const priceMap = await fetchProcedurePriceMap(procedureIds, apiKey);
+
     const servicesByGroupId = new Map<number, BookingService[]>();
     for (const activity of activities) {
       const groupId = activityGroupId(activity);
       if (groupId === undefined) continue;
-      const service = normalizeActivity(activity);
+      const service = normalizeActivity(activity, priceMap);
       if (!service) continue;
       const list = servicesByGroupId.get(groupId) ?? [];
       list.push(service);
@@ -145,12 +167,8 @@ export async function GET() {
         if (!label || apiGroupId === undefined) return null;
 
         const services = servicesByGroupId.get(apiGroupId) ?? [
-          {
-            name: label,
-            price: "0",
-          },
+          { name: label, price: "0" },
         ];
-
         services.sort((a, b) => a.name.localeCompare(b.name, "nb"));
 
         return {
@@ -164,25 +182,10 @@ export async function GET() {
       .filter((item): item is BookingCategory => item !== null)
       .sort(compareCategories);
 
-    console.log("[booking/activity-groups] fetched categories from wbactivities", {
-      categoryCount: categories.length,
-      categories: categories.map((c) => ({
-        id: c.id,
-        clinicServiceId: c.clinicServiceId,
-        apiGroupId: c.apiGroupId,
-        label: c.label,
-        serviceCount: c.services.length,
-        services: c.services.map((s) => ({
-          name: s.name,
-          apiActivityId: s.apiActivityId,
-          price: s.price,
-        })),
-      })),
-    });
-
     return NextResponse.json({ ok: true, categories });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
+    console.error("[booking/activity-groups] error:", message);
     return NextResponse.json({ ok: false, message }, { status: 502 });
   }
 }

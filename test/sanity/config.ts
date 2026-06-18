@@ -16,6 +16,8 @@ import { createClient } from "@sanity/client";
 
 // When run via `npm run …` in test/, cwd is test/
 loadEnv({ path: path.join(process.cwd(), ".env.local") });
+loadEnv({ path: path.join(process.cwd(), "..", ".env.local") });
+loadEnv({ path: path.join(process.cwd(), "..", ".env") });
 
 export const PROJECT_ID = process.env.SANITY_PROJECT_ID || "9jhqpk3a";
 export const DATASET = process.env.SANITY_DATASET || "production";

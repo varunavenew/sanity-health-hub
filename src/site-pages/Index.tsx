@@ -8,12 +8,9 @@ import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { TaglineBanner } from "@/components/homepage/TaglineBanner";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { StatsBar } from "@/components/homepage/StatsBar";
-
-import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useHomepage } from "@/hooks/useSanity";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { HomepageDataProvider } from "@/components/homepage/HomepageDataProvider";
 import type { HomepageData } from "@/lib/sanity/homepage-data";
 import { useTranslation } from "react-i18next";
@@ -52,13 +49,7 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
           <LifePhasesSection />
         </>
       )}
-      {homepageReady &&
-        (pageSections?.length ? (
-          <PageSectionsRenderer sections={pageSections} />
-        ) : (
-          <SpecialistsSection />
-        ))}
-      <BookingCTA />
+      {homepageReady ? <PageSectionsRenderer sections={pageSections} /> : null}
     </PageLayout>
   );
 };

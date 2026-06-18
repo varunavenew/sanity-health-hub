@@ -5,11 +5,12 @@ export default defineCliConfig({
     projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
     dataset: process.env.SANITY_DATASET || 'production'
   },
+  project: {
+    basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
+  },
   deployment: {
-    /**
-     * Enable auto-updates for studios.
-     * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
-     */
+    appId: 'to7hn3scwy01eu1t57n4g49w',
     autoUpdates: true,
-  }
+  },
+  studioHost: 'cmedical-v2',
 })

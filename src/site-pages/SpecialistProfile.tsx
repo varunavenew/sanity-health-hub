@@ -1,17 +1,19 @@
 "use client";
 
-import { useParams, useNavigate } from "@/lib/router";
+import { useParams, useNavigate, useRouteSlug } from "@/lib/router";
 import { useRef } from "react";
-import { Calendar, ArrowRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
-import { SpecialistFAQ } from "@/components/specialist/SpecialistFAQ";
+import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFeaturedService";
+import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
+import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/seo/PageSEO";
 
@@ -20,7 +22,8 @@ interface SpecialistProfileProps {
 }
 
 const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug: paramSlug } = useParams<{ slug: string }>();
+  const slug = useRouteSlug() || paramSlug || "";
   const navigate = useNavigate();
   const bookingRef = useRef<HTMLDivElement>(null);
   const { specialist, isLoading } = useSpecialistBySlug(slug || "");
@@ -51,15 +54,16 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     );
   }
 
-  const relatedSpecialists = byCategory(specialist.category as Specialist["category"])
+  const relatedSection = specialist.relatedSpecialistsSection;
+  const relatedSpecialists = (relatedSection?.specialists?.length
+    ? relatedSection.specialists
+    : byCategory(specialist.category as Specialist["category"])
+  )
     .filter((s) => s.slug !== specialist.slug)
-    .slice(0, 4);
+    .slice(0, relatedSection?.specialists?.length ? 8 : 4);
 
-  const seoTitle =
-    specialist.seo?.metaTitle || `${specialist.name} – ${specialist.title}`;
-  const seoDescription =
-    specialist.seo?.metaDescription ||
-    `Bestill time hos ${specialist.name}, ${specialist.title} hos CMedical. ${specialist.expertise?.join(", ")}. Ingen henvisning nødvendig.`;
+  const seoTitle = specialist.seo?.metaTitle ?? specialist.name;
+  const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
 
   const scrollToBooking = () => {
     bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -92,13 +96,11 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
           url: `https://cmedical.no/spesialister/${specialist.slug}`,
         }}
       />
-      {/* 1. Hero — warm intro with portrait */}
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
-
-      {/* 2. Story — editorial bio with facts strip */}
       <SpecialistBio specialist={specialist} />
+      <SpecialistFeaturedService specialist={specialist} />
+      <SpecialistReviews specialist={specialist} />
 
-      {/* 3. Booking — the conversion point */}
       <section ref={bookingRef} className="py-14 md:py-20 bg-brand-dark scroll-mt-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
@@ -130,13 +132,15 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
         </div>
       </section>
 
-      {/* 4. FAQ — trust & practical info */}
-      <SpecialistFAQ />
+      <RelatedSpecialists
+        specialists={relatedSpecialists}
+        eyebrow={relatedSection?.eyebrow}
+        heading={relatedSection?.heading}
+        ctaLabel={relatedSection?.ctaLabel}
+        ctaPath={relatedSection?.ctaPath}
+      />
+      <SpecialistFAQBlock faqs={specialist.faqs} title={specialist.faqSectionTitle} />
 
-      {/* Related */}
-      <RelatedSpecialists specialists={relatedSpecialists} />
-
-      {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur-md border-t border-border/40 px-4 py-3 safe-area-pb">
         <Button
           onClick={scrollToBooking}

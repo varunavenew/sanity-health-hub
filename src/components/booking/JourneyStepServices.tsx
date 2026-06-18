@@ -2,6 +2,7 @@ import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { buildBookingUrl, slugifyNo } from "@/lib/bookingLinks";
 import { useBookingCategoryServices } from "@/hooks/useBookingCategoryServices";
+import { formatBookingServicePrice } from "@/lib/booking/specialist-booking";
 
 type JourneyStepServicesProps = {
   /** Clinic service id from booking API mapping (e.g. gynekolog). */
@@ -37,7 +38,12 @@ export function JourneyStepServices({
             })}
             className="group flex items-center justify-between gap-3 text-sm font-light text-foreground hover:text-foreground/80 transition-colors"
           >
-            <span className="min-w-0">{service.name}</span>
+            <div className="min-w-0">
+              <span className="block">{service.name}</span>
+              <span className="text-xs text-muted-foreground">
+                {formatBookingServicePrice(service.price)}
+              </span>
+            </div>
             <ArrowRight
               className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"
               aria-hidden
