@@ -38,6 +38,8 @@ export interface SubTreatmentContent {
  heroTitle: ReactNode;
  heroDescription: string;
  heroPoints: { title: string; desc: string }[];
+ /** Optional small line shown above the hero CTA (e.g. "Tilbys på CMedical Bekkestua"). */
+ heroAvailability?: string;
  rating?: string;
  heroPrice?: string; // e.g. "Pris fra 2 200 kr" — shown above CTA
  hideSeePriser?: boolean; // hides the secondary "Se priser" link
@@ -243,9 +245,17 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 {c.heroTitle}
               </h2>
-              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
                 {c.heroDescription}
               </p>
+
+              {c.heroAvailability && (
+                <p className="mb-10 text-sm font-light text-foreground/70">
+                  {c.heroAvailability}
+                </p>
+              )}
+
+
 
               <div className="mb-8 max-w-sm">
                 {c.heroPrice && (
