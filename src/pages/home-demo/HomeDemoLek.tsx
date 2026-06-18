@@ -8,6 +8,7 @@ import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { ResultsStatsSection } from "@/components/shared/ResultsStatsSection";
+import { NewsSplitScreen } from "@/components/homepage/NewsSplitScreen";
 import { HomepageSEO } from "@/components/seo/HomepageSEO";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
@@ -50,6 +51,7 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
         ]}
         footnote="Tall oppdatert per Q1 2026. Resultater varierer individuelt."
       />
+      <NewsSplitScreen />
       <BookingCTA />
     </PageLayout>
   );
