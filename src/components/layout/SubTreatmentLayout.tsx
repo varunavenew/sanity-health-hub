@@ -242,7 +242,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
             <div className="max-w-xl w-full">
 
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+              <h2
+                lang="no"
+                className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+              >
                 {c.heroTitle}
               </h2>
               <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
