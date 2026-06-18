@@ -210,6 +210,13 @@ export const treatmentToSubLayout = ({
         }))
       : [];
 
+  // If every related link is a child of the current canonical path, treat
+  // the section as an intro/overview of treatments included in this service
+  // (e.g. the Hudhelse landing page). Render it as section 2 and rename it
+  // accordingly. Otherwise keep the default "Andre ting vi hjelper med".
+  const relatedAsIntro =
+    related.length > 0 && related.every((r) => r.href.startsWith(canonical + "/"));
+
   const heroTitle: ReactNode = data.title;
 
   return {
@@ -236,8 +243,13 @@ export const treatmentToSubLayout = ({
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
     reasons,
     promises: STANDARD_PROMISES,
-    relatedTitle: related.length > 0 ? "Andre ting vi hjelper med" : undefined,
+    relatedTitle: related.length > 0
+      ? (relatedAsIntro
+          ? `Dette tilbyr vi innen ${data.title.toLowerCase()}`
+          : "Andre ting vi hjelper med")
+      : undefined,
     related,
+    relatedAsIntro,
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
     ctaDescription: `Møt en erfaren ${specialistLabel} hos CMedical — ingen henvisning nødvendig, og kort ventetid.`,
     specialistCategory: (categoryId === "graviditet" || categoryId === "flere-fagomrader"
