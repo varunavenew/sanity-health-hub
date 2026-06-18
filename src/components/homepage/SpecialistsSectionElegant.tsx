@@ -65,7 +65,7 @@ export const SpecialistsSectionElegant = () => {
       {/* Horizontal scroll — cards flush with left edge, larger gap */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
+        className="flex gap-0 overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory pl-[var(--gutter)]"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
