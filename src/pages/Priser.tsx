@@ -344,7 +344,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   );
                                                 })}
                                                 {/* Les mer — nederst i underfane */}
-                                                <div className="pt-4 border-t border-brand-dark/10 mt-2">
+                                                <div className="mt-2 -mx-3 md:-mx-4 -mb-3 md:-mb-4 px-4 md:px-5 py-4 bg-brand-beige/60 border-t border-brand-dark/10 rounded-b-xl">
                                                   <Link
                                                     to={sub.path}
                                                     className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
@@ -364,7 +364,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 </div>
 
                                 {/* Les mer — plassert nederst i åpen boks */}
-                                <div className="mt-6 pt-5 border-t border-brand-dark/10">
+                                <div className="mt-6 -mx-5 md:-mx-6 -mb-6 md:-mb-8 px-5 md:px-6 py-5 bg-brand-beige/60 border-t border-brand-dark/10 rounded-b-2xl">
                                   <Link
                                     to={category.path}
                                     className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
