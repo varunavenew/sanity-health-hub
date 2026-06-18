@@ -9,6 +9,8 @@ export interface PriceItem {
   info?: string;
   /** If true, shows "Krever konsultasjon" instead of a booking button on /priser. */
   requiresConsultation?: boolean;
+  /** Short price qualifier shown below the price (e.g. "per ultralyd") to keep the main row aligned. */
+  priceNote?: string;
 }
 
 export interface PriceSubcategory {
@@ -102,7 +104,7 @@ const rawPriceCategories: PriceCategory[] = [
           { name: "Telefon-/webkonsultasjon med gynekolog", price: "2.100,-", duration: "" },
           { name: "Undersøkelse av livmorhulen (SIS)", price: "2.500,-", duration: "" },
           { name: "Undersøkelse av eggledere (SIS + HyCoSy)", price: "3.600,-", duration: "" },
-          { name: "Lavdose hormonbehandling for stimulering av eggløsning", price: "2.100,- per ultralyd", duration: "" },
+          { name: "Lavdose hormonbehandling for stimulering av eggløsning", price: "2.100,-", priceNote: "per ultralyd", duration: "" },
         ]
       },
       {
