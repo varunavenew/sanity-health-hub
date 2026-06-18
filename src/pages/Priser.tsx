@@ -305,33 +305,27 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                       onClick={() => navigate(href)}
                                                       className="w-full p-4 rounded-xl border bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/35 hover:shadow-[0_4px_12px_rgba(66,51,42,0.1)] transition-all text-left group"
                                                     >
-                                                      <div className="flex items-center justify-between">
-                                                        <div className="flex-1 pr-4 min-w-0">
+                                                      <div className="flex items-center justify-between gap-3">
+                                                        <div className="flex-1 pr-2 min-w-0">
                                                           <span className="block font-normal text-brand-dark">
                                                             {item.name}
                                                           </span>
                                                           <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light flex-wrap">
-                                                            <span className="text-brand-dark/85 tabular-nums">
-                                                              {item.price === "0,-" ? "Gratis" : item.price}
-                                                            </span>
                                                             {item.duration && (
-                                                              <>
-                                                                <span className="text-brand-dark/30">·</span>
-                                                                <span>{item.duration}</span>
-                                                              </>
+                                                              <span>{item.duration}</span>
                                                             )}
                                                             {!bookable && (
                                                               <>
-                                                                <span className="text-brand-dark/30">·</span>
+                                                                {item.duration && <span className="text-brand-dark/30">·</span>}
                                                                 <span className="italic">krever konsultasjon</span>
                                                               </>
                                                             )}
                                                           </div>
                                                         </div>
                                                         <span
-                                                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-dark text-brand-warm text-sm font-light group-hover:scale-105 transition-transform shrink-0"
+                                                          className="inline-flex items-center px-4 py-2 rounded-full bg-brand-dark text-brand-warm text-sm font-normal tabular-nums group-hover:scale-105 transition-transform shrink-0"
                                                         >
-                                                          {bookable ? 'Book time' : 'Les mer'}
+                                                          {item.price === "0,-" ? "Gratis" : item.price}
                                                         </span>
                                                       </div>
                                                       {item.info && (
