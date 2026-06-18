@@ -36,99 +36,79 @@ interface PageProps {
  DATA
  ────────────────────────────────────────────────────────────── */
 
-const lifePhases = [
- {
- n: "01",
- title: "Hud, kropp og vev",
- desc:
- "Hudlege, plastikkirurgi, gastrokirurgi, karkirurgi og åreknutebehandling — for synlige plager og operasjonsbehov.",
- tags: [
-   { label: "Hud", href: "/behandlinger/flere-fagomrader/hudlege" },
-   { label: "Kirurgi", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
-   { label: "Kar", href: "/behandlinger/flere-fagomrader/areknuter" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
- {
- n: "02",
- title: "Helse og balanse",
- desc:
- "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager, langvarige smerter eller hormonforstyrrelser.",
- tags: [
-   { label: "Hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
-   { label: "Ledd", href: "/behandlinger/flere-fagomrader/revmatologi" },
-   { label: "Ernæring", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
- {
- n: "03",
- title: "Sinn og seksualitet",
- desc:
- "Psykolog og sexolog — for deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
- tags: [
-   { label: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
-   { label: "Sexolog", href: "/behandlinger/flere-fagomrader/sexologi" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
- {
- n: "04",
- title: "Tverrfaglige forløp",
- desc:
- "Når det er sammensatt — vi setter sammen team av spesialister og koordinerer hele forløpet for deg.",
- tags: [
-   { label: "Team", href: "/booking?kategori=flere-fagomrader" },
-   { label: "Koordinering", href: "/booking?kategori=flere-fagomrader" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
-];
-
 const expertAreas = [
  {
- title: "Hud og kirurgi",
- desc:
- "Hudlege, plastikkirurgi, gastrokirurgi og karkirurgi — fra moleanalyse til avansert kirurgi.",
+ title: "Hudlege",
+ desc: "Eksem, psoriasis, hudkreft, akne",
  href: "/behandlinger/flere-fagomrader/hudlege",
- image: expertKropp,
+ image: imgHudlege.url,
  },
  {
- title: "Indremedisin og kropp",
- desc:
- "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager og langvarige smerter.",
+ title: "Plastikkirurgi",
+ desc: "Rekonstruksjon og estetisk",
+ href: "/behandlinger/flere-fagomrader/plastikkirurgi",
+ image: imgPlastikkirurgi.url,
+ },
+ {
+ title: "Gastrokirurgi",
+ desc: "Mage, tarm, lever, galleblære",
+ href: "/behandlinger/flere-fagomrader/gastrokirurgi",
+ image: imgGastrokirurgi.url,
+ },
+ {
+ title: "Karkirurgi",
+ desc: "Åreknuter og blodkar",
+ href: "/behandlinger/flere-fagomrader/areknuter",
+ image: imgAreknute.url,
+ },
+ {
+ title: "Åreknutebehandling",
+ desc: "Sklerosering, laser, kirurgi",
+ href: "/behandlinger/flere-fagomrader/areknuter",
+ image: imgAreknute.url,
+ },
+ {
+ title: "Endokrinologi",
+ desc: "Diabetes, skjoldbrusk, hormoner",
  href: "/behandlinger/flere-fagomrader/endokrinologi",
- image: expertHelse,
+ image: imgEndokrinologi.url,
  },
  {
- title: "Psykologi og sexologi",
- desc:
- "Trygge samtaler om angst, depresjon, samliv, seksualitet og identitet — i et tempo som passer deg.",
+ title: "Revmatologi",
+ desc: "Leddgikt, artrose, bindevev",
+ href: "/behandlinger/flere-fagomrader/revmatologi",
+ image: imgRevmatologi.url,
+ },
+ {
+ title: "Ernæringsfysiolog",
+ desc: "Kosthold, vekttap, intoleranser",
+ href: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
+ image: imgErnaering.url,
+ },
+ {
+ title: "Osteopati",
+ desc: "Muskel, skjelett, kroniske smerter",
+ href: "/behandlinger/flere-fagomrader/osteopati",
+ image: imgOsteopati.url,
+ },
+ {
+ title: "Psykologi",
+ desc: "Angst, depresjon, traumer",
  href: "/behandlinger/flere-fagomrader/psykologi",
- image: expertSinn,
+ image: imgPsykologi.url,
  },
  {
- title: "Sammen om hele deg",
- desc:
- "Vi samarbeider på tvers av fagfelt — psykolog med urolog, sexolog med gynekolog, ernæringsfysiolog med endokrinolog.",
- href: "/behandlinger/flere-fagomrader",
- image: expertTverr,
+ title: "Sexologi",
+ desc: "Seksuell helse, samliv, identitet",
+ href: "/behandlinger/flere-fagomrader/sexologi",
+ image: imgSexologi.url,
  },
-];
-
-const allServices = [
- { title: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne", href: "/behandlinger/flere-fagomrader/hudlege" },
- { title: "Plastikkirurgi", desc: "Rekonstruksjon og estetisk", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
- { title: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
- { title: "Karkirurgi", desc: "Åreknuter og blodkar", href: "/behandlinger/flere-fagomrader/areknuter" },
- { title: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgi", href: "/behandlinger/flere-fagomrader/areknuter" },
- { title: "Endokrinologi", desc: "Diabetes, skjoldbrusk, hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
- { title: "Revmatologi", desc: "Leddgikt, artrose, bindevev", href: "/behandlinger/flere-fagomrader/revmatologi" },
- { title: "Ernæringsfysiolog", desc: "Kosthold, vekttap, intoleranser", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
- { title: "Osteopati", desc: "Muskel, skjelett, kroniske smerter", href: "/behandlinger/flere-fagomrader/osteopati" },
- { title: "Psykologi", desc: "Angst, depresjon, traumer", href: "/behandlinger/flere-fagomrader/psykologi" },
- { title: "Sexologi", desc: "Seksuell helse, samliv, identitet", href: "/behandlinger/flere-fagomrader/sexologi" },
- { title: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi", href: "/behandlinger/flere-fagomrader/robotkirurgi" },
+ {
+ title: "Robotassistert kirurgi",
+ desc: "Presis, skånsom kirurgi",
+ href: "/behandlinger/flere-fagomrader/robotkirurgi",
+ image: imgRobot.url,
+ },
 ];
 
 const journey = [
