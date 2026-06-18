@@ -285,13 +285,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             >
                                               <div className="p-3 md:p-4 space-y-1">
                                                 {sub.items.map((item, idx) => {
+                                                  const isConsult = item.requiresConsultation;
                                                   return (
                                                     <div
                                                       key={idx}
                                                       className="py-3 border-b border-brand-dark/5 last:border-b-0"
                                                     >
                                                       <div className="flex items-start justify-between gap-4">
-                                                        <div className="flex-1 min-w-0">
+                                                        <div className="flex-1 min-w-0 max-w-prose">
                                                           <span className="block font-normal text-brand-dark">
                                                             {item.name}
                                                           </span>
@@ -301,7 +302,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             </div>
                                                           )}
                                                           {item.info && (
-                                                            <div className="mt-2 flex items-start gap-2">
+                                                            <div className="mt-2 flex items-start gap-2 max-w-[52ch]">
                                                               <Info className="w-4 h-4 text-brand-dark/50 mt-0.5 shrink-0" strokeWidth={1.5} />
                                                               <p className="text-xs font-light text-brand-dark/70 leading-relaxed">
                                                                 {item.info}
@@ -309,17 +310,27 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             </div>
                                                           )}
                                                         </div>
-                                                        <div className="flex flex-col items-end gap-1 shrink-0">
-                                                          <span className="text-sm font-light text-brand-dark tabular-nums">
+                                                        <div className="flex items-center gap-3 shrink-0">
+                                                          {isConsult ? (
+                                                            <Link
+                                                              to={sub.path}
+                                                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
+                                                            >
+                                                              Les mer
+                                                              <ArrowRight className="w-3 h-3" />
+                                                            </Link>
+                                                          ) : (
+                                                            <Link
+                                                              to={buildBookingUrl({ kategori: category.id })}
+                                                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-normal bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors"
+                                                            >
+                                                              Bestill time
+                                                              <ArrowRight className="w-3 h-3" />
+                                                            </Link>
+                                                          )}
+                                                          <span className="text-sm font-light text-brand-dark tabular-nums min-w-[70px] text-right">
                                                             {item.price === "0,-" ? "Gratis" : item.price}
                                                           </span>
-                                                          <Link
-                                                            to={buildBookingUrl({ kategori: category.id })}
-                                                            className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/80 hover:text-brand-dark hover:gap-1.5 transition-all"
-                                                          >
-                                                            Bestill time
-                                                            <ArrowRight className="w-3 h-3" />
-                                                          </Link>
                                                         </div>
                                                       </div>
                                                     </div>
