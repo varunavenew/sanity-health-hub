@@ -215,8 +215,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                       </div>
                                       <div className="flex items-center gap-5 sm:gap-6 shrink-0">
                                         <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap">
-                                          {item.price === "0,-" ? "Gratis" : `fra ${item.price}`}
+                                          {item.price === "0,-" ? "Gratis" : item.price}
                                         </span>
+
                                         {isConsult ? (
                                           <Link
                                             to={sub.path}
