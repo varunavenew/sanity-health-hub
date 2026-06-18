@@ -124,14 +124,14 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
           <p className="text-sm text-muted-foreground mb-6">{filtered.length} spesialister</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filtered.map((specialist) => (
               <Link
                 key={specialist.slug}
                 to={`/spesialister/${specialist.slug}`}
                 className="group"
               >
-                <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-2 bg-secondary">
+                <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
                   <img
                     src={specialist.image}
                     alt={specialist.name}
