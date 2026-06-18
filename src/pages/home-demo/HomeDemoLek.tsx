@@ -49,7 +49,7 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
           { v: "< 3 dager", k: "Ventetid", sub: "Snitt til første time" },
         ]}
         footnote="Tall oppdatert per Q1 2026. Resultater varierer individuelt."
-        className="!pt-0 !border-t-0"
+        className="!border-t-0"
       />
       <BookingCTA />
     </PageLayout>
