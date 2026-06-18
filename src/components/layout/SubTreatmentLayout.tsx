@@ -57,11 +57,16 @@ export interface SubTreatmentContent {
  heroVideo?: string; // optional video for hero right column; takes precedence over heroImage
  flowLinkLabel?: string;
  flowLinkHref?: string;
- // Section 3 — hvem / symptomer
+  // Section 3 — hvem / symptomer
  reasonsTitle: string;
  reasonsLead?: string;
  reasonsLead2?: string;
  reasons: { n: string; title: string; desc: ReactNode }[];
+ /** How to render the right-side reasons content.
+  *  - "prose": one continuous article with bold subheadings (no accordion). Default.
+  *  - "accordion": click-to-open items for distinct sub-topics.
+  *  - "auto": legacy behavior (accordion when items > 2). */
+ reasonsLayout?: "prose" | "accordion" | "auto";
  // Section 4 — løfter (cards with optional icon and "Les mer" link)
  promises: {
  title: string;
@@ -108,108 +113,132 @@ interface Props {
  content: SubTreatmentContent;
 }
 
+// Titles that should never appear as a section-2 item. They duplicate content
+// shown elsewhere on the page (USPs in hero, specialists section further down)
+// or are empty trust badges with no clinical content.
+const REASONS_BLACKLIST = [
+  "erfarne spesialister",
+  "våre spesialister",
+  "spesialister med dybde",
+  "ingen ventetid",
+  "ingen henvisning",
+  "korte ventetider",
+  "kort ventetid",
+  "alt under samme tak",
+];
+
+const isBlacklisted = (title: string): boolean => {
+  const t = title.trim().toLowerCase();
+  return REASONS_BLACKLIST.some((b) => t === b || t.startsWith(b));
+};
+
 const ReasonsEditorial = ({
-  title,
-  lead,
-  lead2,
-  items,
+   title,
+   lead,
+   lead2,
+   items,
+   layout = "prose",
 }: {
-  title: string;
-  lead?: string;
-  lead2?: string;
-  items: { n: string; title: string; desc: ReactNode }[];
+   title: string;
+   lead?: string;
+   lead2?: string;
+   items: { n: string; title: string; desc: ReactNode }[];
+   layout?: "prose" | "accordion" | "auto";
 }) => {
-  if (!items || items.length === 0) return null;
+   // Filter out blacklisted items and items with no real content.
+   const cleanItems = (items ?? []).filter(
+     (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
+   );
+   if (cleanItems.length === 0) return null;
 
-  // Use accordion when there is enough content that the section would
-  // otherwise become very long. Keep the first item open by default so the
-  // reader immediately sees the primary copy without extra scroll.
-  const useAccordion = items.length > 2;
-  const proseClasses =
-    "text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40";
+   const effectiveLayout: "prose" | "accordion" =
+     layout === "auto" ? (cleanItems.length > 4 ? "accordion" : "prose") : layout;
 
-  return (
-    <section className="py-20 md:py-28 bg-background">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
-          {/* Sticky left intro */}
-          <div className="lg:col-span-5">
-            <div className="lg:sticky lg:top-28">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
-                {title}
-              </h2>
-              {lead && (
-                <p className="text-base font-light text-muted-foreground leading-relaxed mb-3">
-                  {lead}
-                </p>
-              )}
-              {lead2 && (
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  {lead2}
-                </p>
-              )}
-            </div>
-          </div>
+   const proseClasses =
+     "text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_li]:marker:text-foreground/40";
 
-          <div className="lg:col-span-7">
-            {useAccordion ? (
-              <Accordion
-                type="single"
-                collapsible
-                defaultValue={`reason-0`}
-                onValueChange={(val) => {
-                  if (!val) return;
-                  // Wait for the accordion to expand, then bring the trigger into view.
-                  requestAnimationFrame(() => {
-                    setTimeout(() => {
-                      const el = document.getElementById(`acc-${val}`);
-                      if (!el) return;
-                      const headerOffset = 96; // account for sticky header
-                      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
-                      window.scrollTo({ top, behavior: "smooth" });
-                    }, 220);
-                  });
-                }}
-                className="border-t border-border/60"
-              >
-                {items.map((r, i) => (
-                  <AccordionItem
-                    key={r.n}
-                    value={`reason-${i}`}
-                    id={`acc-reason-${i}`}
-                    className="border-b border-border/60 scroll-mt-24"
-                  >
-                    <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
-                      {r.title}
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-8">
-                      <div className={proseClasses}>
-                        {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+   return (
+     <section className="py-20 md:py-28 bg-background">
+       <div className="container mx-auto px-6 md:px-16">
+         <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
+           {/* Sticky left intro */}
+           <div className="lg:col-span-5">
+             <div className="lg:sticky lg:top-28">
+               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+                 {title}
+               </h2>
+               {lead && (
+                 <p className="text-base font-light text-muted-foreground leading-relaxed mb-3">
+                   {lead}
+                 </p>
+               )}
+               {lead2 && (
+                 <p className="text-base font-light text-muted-foreground leading-relaxed">
+                   {lead2}
+                 </p>
+               )}
+             </div>
+           </div>
 
-            ) : (
-              <ol className="divide-y divide-border/60 border-t border-border/60">
-                {items.map((r) => (
-                  <li key={r.n} className="py-8 first:pt-8">
-                    <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
-                      {r.title}
-                    </h3>
-                    <div className={proseClasses}>
-                      {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+           <div className="lg:col-span-7">
+             {effectiveLayout === "accordion" ? (
+               <Accordion
+                 type="single"
+                 collapsible
+                 defaultValue={`reason-0`}
+                 onValueChange={(val) => {
+                   if (!val) return;
+                   requestAnimationFrame(() => {
+                     setTimeout(() => {
+                       const el = document.getElementById(`acc-${val}`);
+                       if (!el) return;
+                       const headerOffset = 96;
+                       const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+                       window.scrollTo({ top, behavior: "smooth" });
+                     }, 220);
+                   });
+                 }}
+                 className="border-t border-border/60"
+               >
+                 {cleanItems.map((r, i) => (
+                   <AccordionItem
+                     key={r.n}
+                     value={`reason-${i}`}
+                     id={`acc-reason-${i}`}
+                     className="border-b border-border/60 scroll-mt-24"
+                   >
+                     <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
+                       {r.title}
+                     </AccordionTrigger>
+                     <AccordionContent className="pb-8">
+                       <div className={proseClasses}>
+                         {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                       </div>
+                     </AccordionContent>
+                   </AccordionItem>
+                 ))}
+               </Accordion>
+             ) : (
+               // FORM A — one continuous article. Subheadings are inline
+               // mid-titles, never click-to-open.
+               <article className="space-y-10">
+                 {cleanItems.map((r, idx) => (
+                   <div key={r.n} className={idx === 0 ? "" : ""}>
+                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
+                       {r.title}
+                     </h3>
+                     <div className={proseClasses}>
+                       {typeof r.desc === "string" ? <p>{r.desc}</p> : r.desc}
+                     </div>
+                   </div>
+                 ))}
+               </article>
+             )}
+           </div>
+         </div>
+       </div>
+     </section>
+   );
 };
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
