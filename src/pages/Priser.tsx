@@ -217,51 +217,64 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 </button>
 
                                 {isOpen && (
-                                  <ul className="divide-y divide-brand-mid/30">
-                                    {sub.items.map((item, idx) => {
-                                      const isConsult = item.requiresConsultation;
-                                      return (
-                                        <li
-                                          key={idx}
-                                          className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
-                                        >
-                                          <div className="flex-1 min-w-0">
-                                            <p className="font-normal text-brand-dark">{item.name}</p>
-                                            {(item.duration || item.priceNote) && (
-                                              <p className="mt-1 text-xs font-light text-brand-dark/60">
-                                                {item.duration}
-                                                {item.duration && item.priceNote ? ' · ' : ''}
-                                                {item.priceNote}
-                                              </p>
-                                            )}
-                                          </div>
-                                          <div className="flex items-center gap-5 sm:gap-6 shrink-0">
-                                            <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap">
-                                              {item.price === "0,-" ? "Gratis" : item.price}
-                                            </span>
+                                  <>
+                                    <ul className="divide-y divide-brand-mid/30">
+                                      {sub.items.map((item, idx) => {
+                                        const isConsult = item.requiresConsultation;
+                                        return (
+                                          <li
+                                            key={idx}
+                                            className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                                          >
+                                            <div className="flex-1 min-w-0">
+                                              <p className="font-normal text-brand-dark">{item.name}</p>
+                                              {(item.duration || item.priceNote) && (
+                                                <p className="mt-1 text-xs font-light text-brand-dark/60">
+                                                  {item.duration}
+                                                  {item.duration && item.priceNote ? ' · ' : ''}
+                                                  {item.priceNote}
+                                                </p>
+                                              )}
+                                            </div>
+                                            <div className="flex items-center gap-5 sm:gap-6 shrink-0">
+                                              <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap">
+                                                {item.price === "0,-" ? "Gratis" : item.price}
+                                              </span>
 
-                                            {isConsult ? (
-                                              <Link
-                                                to={sub.path}
-                                                className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
-                                              >
-                                                Les mer
-                                                <ArrowRight className="w-3 h-3" />
-                                              </Link>
-                                            ) : (
-                                              <Link
-                                                to={buildBookingUrl({ kategori: active.id })}
-                                                className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors whitespace-nowrap"
-                                              >
-                                                Bestill time
-                                                <ArrowRight className="w-3 h-3" />
-                                              </Link>
-                                            )}
-                                          </div>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
+                                              {isConsult ? (
+                                                <Link
+                                                  to={sub.path}
+                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
+                                                >
+                                                  Les mer
+                                                  <ArrowRight className="w-3 h-3" />
+                                                </Link>
+                                              ) : (
+                                                <Link
+                                                  to={buildBookingUrl({ kategori: active.id })}
+                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors whitespace-nowrap"
+                                                >
+                                                  Bestill time
+                                                  <ArrowRight className="w-3 h-3" />
+                                                </Link>
+                                              )}
+                                            </div>
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                    {sub.path && (
+                                      <div className="pt-4 mt-1">
+                                        <Link
+                                          to={sub.path}
+                                          className="inline-flex items-center gap-2 text-xs font-light text-brand-dark hover:gap-3 transition-all"
+                                        >
+                                          Les mer om {sub.label.toLowerCase()}
+                                          <ArrowRight className="w-3.5 h-3.5" />
+                                        </Link>
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </div>
                             );
