@@ -32,7 +32,7 @@ async function migrate() {
   await client.createIfNotExists({
     _id: HOMEPAGE_ID,
     _type: "homepage",
-    title: "CMedical – Forside",
+    title: "CMedical – Hjemmeside",
   });
 
   // Upload hero images

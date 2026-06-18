@@ -1,5 +1,5 @@
 // Schema: Booking flow copy (Bestill time)
-import { Calendar } from 'lucide-react'
+import { CalendarIcon } from './icons'
 import { pickNo } from './i18n'
 
 const i18n = (
@@ -20,7 +20,7 @@ export default {
   name: 'bookingPage',
   title: 'Bestill time',
   type: 'document',
-  icon: Calendar,
+  icon: CalendarIcon,
   groups: [
     { name: 'general', title: 'Generelt', default: true },
     { name: 'step1', title: 'Steg 1 – Tjeneste' },

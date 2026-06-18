@@ -5,7 +5,7 @@ import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'homepage',
-  title: 'Forside',
+  title: 'Hjemmeside',
   type: 'document',
   icon: HomeIcon,
   groups: [
@@ -204,8 +204,8 @@ export default {
     select: { title: 'title' },
     prepare({ title }: any) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Forside')
-        : (title || 'Forside')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Hjemmeside')
+        : (title || 'Hjemmeside')
       return { title: titleStr }
     },
   },

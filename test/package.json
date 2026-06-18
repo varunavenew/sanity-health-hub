@@ -6,9 +6,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "sanity dev",
-    "start": "sanity start",
-    "build": "sanity build",
-    "deploy": "sanity deploy",
+    "start": "npx sanity start",
+    "build": "npx sanity build",
+    "deploy": "npx sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "backfill:en": "tsx sanity/backfill-english-i18n.ts",
     "backfill:en:dry": "DRY_RUN=1 tsx sanity/backfill-english-i18n.ts",

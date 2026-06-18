@@ -1,6 +1,15 @@
 // Schema: Clinic Page
 import { ClinicIcon } from './icons'
-import { i18nFaqItemPreview, i18nSlugFieldFromTitle, pickNo } from './i18n'
+import {
+  i18nFaqItemPreview,
+  i18nSlugFieldFromTitle,
+  pickForLang,
+  pickNo,
+  requiredNoEnI18n,
+  requiredNoEnSeo,
+} from './i18n'
+
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
 
 export default {
   name: 'clinicPage',
@@ -21,21 +30,29 @@ export default {
       name: 'title',
       title: 'Navn',
       type: 'internationalizedArrayString',
-      validation: (Rule: any) => Rule.required(),
+      validation: requiredNoEnI18n('Navn'),
       group: 'overview',
     },
-    { ...i18nSlugFieldFromTitle('title', { title: 'Slug', group: 'overview' }) },
+    {
+      ...i18nSlugFieldFromTitle('title', {
+        title: 'Slug',
+        group: 'overview',
+        requireNoEn: true,
+      }),
+    },
     {
       name: 'primaryImage',
       title: 'Hovedbilde',
       type: 'image',
       options: { hotspot: true },
+      validation: reqStr('Hovedbilde'),
       group: 'overview',
     },
     {
       name: 'description',
       title: 'Beskrivelse',
       type: 'internationalizedArrayText',
+      validation: requiredNoEnI18n('Beskrivelse'),
       group: 'overview',
     },
     {
@@ -54,26 +71,28 @@ export default {
       name: 'address',
       title: 'Adresse',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      validation: reqStr('Adresse'),
       group: 'contact',
     },
     {
       name: 'phone',
       title: 'Telefon',
       type: 'string',
+      validation: reqStr('Telefon'),
       group: 'contact',
     },
     {
       name: 'email',
       title: 'E-post',
       type: 'string',
+      validation: (Rule: any) => Rule.required().email().error('Gyldig e-post er påkrevd'),
       group: 'contact',
     },
     {
       name: 'hours',
       title: 'Åpningstider',
       type: 'internationalizedArrayString',
-      validation: (Rule: any) => Rule.required(),
+      validation: requiredNoEnI18n('Åpningstider'),
       group: 'contact',
     },
     {
@@ -88,9 +107,26 @@ export default {
       type: 'object',
       options: { collapsible: true },
       group: 'contact',
+      validation: (Rule: any) =>
+        Rule.required().custom((value: { lat?: number; lng?: number } | undefined) => {
+          if (value?.lat == null || value?.lng == null) {
+            return 'Breddegrad og lengdegrad er påkrevd'
+          }
+          return true
+        }),
       fields: [
-        { name: 'lat', title: 'Breddegrad', type: 'number' },
-        { name: 'lng', title: 'Lengdegrad', type: 'number' },
+        {
+          name: 'lat',
+          title: 'Breddegrad',
+          type: 'number',
+          validation: reqStr('Breddegrad'),
+        },
+        {
+          name: 'lng',
+          title: 'Lengdegrad',
+          type: 'number',
+          validation: reqStr('Lengdegrad'),
+        },
       ],
     },
     {
@@ -113,6 +149,7 @@ export default {
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Kategori-IDer som denne klinikken tilbyr',
+      validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én tjeneste-ID'),
       group: 'related',
     },
     {
@@ -121,6 +158,7 @@ export default {
       type: 'object',
       options: { collapsible: true },
       group: 'booking',
+      validation: reqStr('Booking'),
       fields: [
         {
           name: 'method',
@@ -135,12 +173,20 @@ export default {
             ],
           },
           initialValue: 'info',
+          validation: reqStr('Bookingmetode'),
         },
         {
           name: 'serviceProviderId',
           title: 'Pasientsky Service Provider ID',
           type: 'string',
           hidden: ({ parent }: any) => parent?.method !== 'pasientsky',
+          validation: (Rule: any) =>
+            Rule.custom((value: string | undefined, context: { parent?: { method?: string } }) => {
+              if (context.parent?.method === 'pasientsky' && !value?.trim()) {
+                return 'Pasientsky Service Provider ID er påkrevd'
+              }
+              return true
+            }),
         },
         {
           name: 'externalBookingUrl',
@@ -153,6 +199,13 @@ export default {
           title: 'Melding når stengt',
           type: 'internationalizedArrayText',
           hidden: ({ parent }: any) => parent?.method !== 'closed',
+          validation: (Rule: any) =>
+            Rule.custom((value: unknown, context: { parent?: { method?: string } }) => {
+              if (context.parent?.method !== 'closed') return true
+              if (!pickNo(value)?.trim()) return 'Melding når stengt (norsk) er påkrevd'
+              if (!pickForLang(value, 'en')?.trim()) return 'Melding når stengt (engelsk) er påkrevd'
+              return true
+            }),
         },
       ],
     },
@@ -162,10 +215,26 @@ export default {
       type: 'object',
       options: { collapsible: true },
       group: 'practical',
+      validation: reqStr('Praktisk informasjon'),
       fields: [
-        { name: 'parking', title: 'Parkering', type: 'internationalizedArrayText' },
-        { name: 'publicTransport', title: 'Kollektivtransport', type: 'internationalizedArrayText' },
-        { name: 'accessibility', title: 'Tilgjengelighet', type: 'internationalizedArrayText' },
+        {
+          name: 'parking',
+          title: 'Parkering',
+          type: 'internationalizedArrayText',
+          validation: requiredNoEnI18n('Parkering'),
+        },
+        {
+          name: 'publicTransport',
+          title: 'Kollektivtransport',
+          type: 'internationalizedArrayText',
+          validation: requiredNoEnI18n('Kollektivtransport'),
+        },
+        {
+          name: 'accessibility',
+          title: 'Tilgjengelighet',
+          type: 'internationalizedArrayText',
+          validation: requiredNoEnI18n('Tilgjengelighet'),
+        },
       ],
     },
     {
@@ -179,8 +248,8 @@ export default {
           name: 'clinicFaq',
           title: 'FAQ',
           fields: [
-            { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
-            { name: 'answer', title: 'Svar', type: 'internationalizedArrayText', validation: (Rule: any) => Rule.required() },
+            { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString', validation: requiredNoEnI18n('Spørsmål') },
+            { name: 'answer', title: 'Svar', type: 'internationalizedArrayText', validation: requiredNoEnI18n('Svar') },
           ],
           preview: i18nFaqItemPreview,
         },
@@ -191,6 +260,7 @@ export default {
       title: 'Sorteringsrekkefølge',
       type: 'number',
       description: 'Lavere tall vises først i klinikkoversikten.',
+      validation: reqStr('Sorteringsrekkefølge'),
       group: 'overview',
     },
     {
@@ -199,6 +269,7 @@ export default {
       type: 'seo',
       description: 'Meta-tittel og meta-beskrivelse for klinikkens profilside (NO/EN).',
       options: { collapsible: true, collapsed: false },
+      validation: requiredNoEnSeo,
       group: 'seo',
     },
   ],

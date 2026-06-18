@@ -51,7 +51,7 @@ async function run() {
     await sanityClient.createIfNotExists({
       _id: HOMEPAGE_ID,
       _type: 'homepage',
-      title: [{ _type: 'internationalizedArrayStringValue', _key: 'no', language: 'no', value: 'Forside' }],
+      title: [{ _type: 'internationalizedArrayStringValue', _key: 'no', language: 'no', value: 'Hjemmeside' }],
     })
     await sanityClient.patch(HOMEPAGE_ID).set(patch).commit({ autoGenerateArrayKeys: true })
   }

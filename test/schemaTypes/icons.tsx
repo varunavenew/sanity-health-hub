@@ -148,3 +148,9 @@ export const SocialIcon = () => (
   </svg>
 )
 
+export const CalendarIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M7 2V4H5C3.9 4 3 4.9 3 6V20C3 21.1 3.9 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4H17V2H15V4H9V2H7ZM5 10H19V20H5V10ZM7 12V14H9V12H7ZM11 12V14H13V12H11ZM15 12V14H17V12H15Z" fill="currentColor"/>
+  </svg>
+)
+
