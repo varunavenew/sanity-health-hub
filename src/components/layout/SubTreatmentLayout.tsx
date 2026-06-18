@@ -400,6 +400,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     lead={c.reasonsLead}
     lead2={c.reasonsLead2}
     items={c.reasons}
+    layout={c.reasonsLayout}
   />
 
   {/* 3. RELATED (as services) — treatments included in this service, shown before flow */}
