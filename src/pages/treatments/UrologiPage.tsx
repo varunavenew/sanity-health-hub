@@ -116,25 +116,50 @@ const expertAreas = [
  },
 ];
 
-const allServices = [
- { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
- { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
- { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
- { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
- { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
- { title: "Nyrer", desc: "Cyster, tumor og nefrektomi", href: "/behandlinger/urologi/nyrer" },
- { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
- { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
- { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
- { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
- { title: "Skjev penis", desc: "Utredning og behandling", href: "/behandlinger/urologi/penis" },
- { title: "Ereksjonsproblemer", desc: "Utredning og oppfølging", href: "/behandlinger/urologi/ereksjon" },
- { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
- { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
- { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },
- { title: "Mannlig infertilitet", desc: "Utredning og behandling", href: "/behandlinger/urologi/infertilitet" },
- { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/urologi/robotkirurgi" },
- { title: "Brokk", desc: "Robotassistert kirurgi", href: "/behandlinger/urologi/brokk" },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+  {
+    label: "Prostata",
+    items: [
+      { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
+      { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
+      { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
+    ],
+  },
+  {
+    label: "Blære, urinveier og nyrer",
+    items: [
+      { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
+      { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
+      { title: "Nyrer", desc: "Cyster, tumor og nefrektomi", href: "/behandlinger/urologi/nyrer" },
+    ],
+  },
+  {
+    label: "Testikler og penis",
+    items: [
+      { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+      { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+      { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
+      { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
+      { title: "Skjev penis", desc: "Utredning og behandling", href: "/behandlinger/urologi/penis" },
+    ],
+  },
+  {
+    label: "Hormoner og fertilitet",
+    items: [
+      { title: "Ereksjonsproblemer", desc: "Utredning og oppfølging", href: "/behandlinger/urologi/ereksjon" },
+      { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
+      { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
+      { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },
+      { title: "Mannlig infertilitet", desc: "Utredning og behandling", href: "/behandlinger/urologi/infertilitet" },
+    ],
+  },
+  {
+    label: "Kirurgi",
+    items: [
+      { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/urologi/robotkirurgi" },
+      { title: "Brokk", desc: "Robotassistert kirurgi", href: "/behandlinger/urologi/brokk" },
+    ],
+  },
 ];
 
 const journey = [
