@@ -344,7 +344,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   );
                                                 })}
                                                 {/* Les mer — nederst i underfane */}
-                                                <div className="pt-4 border-t border-brand-dark/10 mt-2">
+                                                <div className="mt-2 -mx-3 md:-mx-4 -mb-3 md:-mb-4 px-4 md:px-5 py-4 bg-brand-beige/60 border-t border-brand-dark/10 rounded-b-xl">
                                                   <Link
                                                     to={sub.path}
                                                     className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
