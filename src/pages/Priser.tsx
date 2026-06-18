@@ -19,6 +19,7 @@ import pricingHero from "@/assets/hero/pricing-hero.jpg";
 // Price categories live in src/data/priceList.ts so the treatment hero
 // CTAs can derive a "Pris fra" from the same source as this page.
 import { priceCategories } from "@/data/priceList";
+import { buildBookingUrl } from "@/lib/bookingLinks";
 
 interface PageProps { isChatOpen: boolean }
 
@@ -283,14 +284,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               className="overflow-hidden"
                                             >
                                               <div className="p-3 md:p-4 space-y-1">
-                                                {sub.items.map((item, idx) => (
-                                                    <button
+                                                {sub.items.map((item, idx) => {
+                                                  const requiresConsult = item.price === "Pris ved konsultasjon";
+                                                  return (
+                                                    <div
                                                       key={idx}
-                                                      onClick={() => navigate(sub.path)}
-                                                      className="w-full py-3 text-left group"
+                                                      className="py-3 border-b border-brand-dark/5 last:border-b-0"
                                                     >
-                                                      <div className="flex items-center justify-between gap-3">
-                                                        <div className="flex-1 pr-2 min-w-0">
+                                                      <div className="flex items-start justify-between gap-4">
+                                                        <div className="flex-1 min-w-0">
                                                           <span className="block font-normal text-brand-dark">
                                                             {item.name}
                                                           </span>
@@ -299,23 +301,41 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                               <span>{item.duration}</span>
                                                             </div>
                                                           )}
+                                                          {item.info && (
+                                                            <div className="mt-2 flex items-start gap-2">
+                                                              <Info className="w-4 h-4 text-brand-dark/50 mt-0.5 shrink-0" strokeWidth={1.5} />
+                                                              <p className="text-xs font-light text-brand-dark/70 leading-relaxed">
+                                                                {item.info}
+                                                              </p>
+                                                            </div>
+                                                          )}
                                                         </div>
-                                                        <span className="text-sm font-light text-brand-dark tabular-nums shrink-0">
-                                                          {item.price === "0,-" ? "Gratis" : item.price}
-                                                        </span>
+                                                        <div className="flex flex-col items-end gap-1 shrink-0">
+                                                          <span className="text-sm font-light text-brand-dark tabular-nums">
+                                                            {item.price === "0,-" ? "Gratis" : item.price}
+                                                          </span>
+                                                          {requiresConsult ? (
+                                                            <Link
+                                                              to={sub.path}
+                                                              className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/80 hover:text-brand-dark hover:gap-1.5 transition-all"
+                                                            >
+                                                              Les mer
+                                                              <ArrowRight className="w-3 h-3" />
+                                                            </Link>
+                                                          ) : (
+                                                            <Link
+                                                              to={buildBookingUrl({ kategori: category.id })}
+                                                              className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/80 hover:text-brand-dark hover:gap-1.5 transition-all"
+                                                            >
+                                                              Bestill time
+                                                              <ArrowRight className="w-3 h-3" />
+                                                            </Link>
+                                                          )}
+                                                        </div>
                                                       </div>
-                                                      {item.info && (
-                                                        <div className="mt-3 pt-3 border-t border-brand-dark/10">
-                                                          <div className="flex items-start gap-2">
-                                                            <Info className="w-4 h-4 text-brand-dark/50 mt-0.5 shrink-0" strokeWidth={1.5} />
-                                                            <p className="text-xs font-light text-brand-dark/70 leading-relaxed text-left">
-                                                              {item.info}
-                                                            </p>
-                                                          </div>
-                                                        </div>
-                                                      )}
-                                                    </button>
-                                                  ))}
+                                                    </div>
+                                                  );
+                                                })}
                                                 {/* Les mer — nederst i underfane */}
                                                 <div className="pt-4 border-t border-brand-dark/10 mt-2">
                                                   <Link
