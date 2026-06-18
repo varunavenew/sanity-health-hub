@@ -285,7 +285,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             >
                                               <div className="p-3 md:p-4 space-y-1">
                                                 {sub.items.map((item, idx) => {
-                                                  const requiresConsult = item.price === "Pris ved konsultasjon";
+                                                  const requiresConsult = item.requiresConsultation || item.price === "Pris ved konsultasjon";
                                                   return (
                                                     <div
                                                       key={idx}
@@ -315,13 +315,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             {item.price === "0,-" ? "Gratis" : item.price}
                                                           </span>
                                                           {requiresConsult ? (
-                                                            <Link
-                                                              to={sub.path}
-                                                              className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/80 hover:text-brand-dark hover:gap-1.5 transition-all"
-                                                            >
-                                                              Les mer
-                                                              <ArrowRight className="w-3 h-3" />
-                                                            </Link>
+                                                            <span className="text-xs font-light text-brand-dark/70">
+                                                              Krever konsultasjon
+                                                            </span>
                                                           ) : (
                                                             <Link
                                                               to={buildBookingUrl({ kategori: category.id })}
