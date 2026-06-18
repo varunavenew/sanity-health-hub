@@ -46,7 +46,7 @@ export function ServicesListSection({
  <section className={`${bgClass} text-foreground py-14 md:py-20`}>
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+ <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
  <div className="lg:col-span-6">
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
  {title}
