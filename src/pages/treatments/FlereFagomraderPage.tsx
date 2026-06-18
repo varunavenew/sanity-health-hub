@@ -37,12 +37,7 @@ interface PageProps {
  ────────────────────────────────────────────────────────────── */
 
 const expertAreas = [
- {
- title: "Hudlege",
- desc: "Eksem, psoriasis, hudkreft, akne",
- href: "/behandlinger/flere-fagomrader/hudlege",
- image: imgHudlege.url,
- },
+  {
  {
  title: "Plastikkirurgi",
  desc: "Rekonstruksjon og estetisk",
