@@ -124,6 +124,12 @@ const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = 
       { to: "/demoer/spesialister-layout", name: "Spesialister — 1 / 2 / 3 / 4+ layout" },
     ],
   },
+  {
+    title: "Hjemmeside",
+    items: [
+      { to: "/hjem-demo/lek", name: "Hjem — Lekekasse (kopi)" },
+    ],
+  },
 ];
 
 const malPath = (key: string) => `__mal_${key}__`;

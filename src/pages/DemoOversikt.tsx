@@ -52,6 +52,7 @@ const groups = [
  { to: "/hjem-demo/blend", name: "Hjem — Mørk tonal blend" },
  { to: "/hjem-demo/overlap", name: "Hjem — Overlappende kortgrid" },
  { to: "/hjem-demo/kutt", name: "Hjem — Asymmetrisk kutt" },
+ { to: "/hjem-demo/lek", name: "Hjem — Lekekasse (kopi)" },
  ],
  },
 ];
