@@ -322,7 +322,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                           ) : (
                                                             <Link
                                                               to={buildBookingUrl({ kategori: category.id })}
-                                                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-normal bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors"
+                                                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors"
                                                             >
                                                               Bestill time
                                                               <ArrowRight className="w-3 h-3" />
