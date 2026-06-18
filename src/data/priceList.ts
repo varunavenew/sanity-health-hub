@@ -104,7 +104,7 @@ const rawPriceCategories: PriceCategory[] = [
           { name: "Telefon-/webkonsultasjon med gynekolog", price: "2.100,-", duration: "" },
           { name: "Undersøkelse av livmorhulen (SIS)", price: "2.500,-", duration: "" },
           { name: "Undersøkelse av eggledere (SIS + HyCoSy)", price: "3.600,-", duration: "" },
-          { name: "Lavdose hormonbehandling for stimulering av eggløsning", price: "2.100,- per ultralyd", duration: "" },
+          { name: "Lavdose hormonbehandling for stimulering av eggløsning", price: "2.100,-", priceNote: "per ultralyd", duration: "" },
         ]
       },
       {
