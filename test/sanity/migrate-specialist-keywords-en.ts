@@ -77,7 +77,7 @@ function asI18nArray(no: string, en: string): I18nValue[] {
 
 async function run() {
   const specialists = await sanityClient.fetch<SpecialistDoc[]>(
-    `*[_type == "specialist"]{_id, name, role, subtitle, specialties}`,
+    `*[_type == "specialist" && !(_id in path("drafts.**"))]{_id, name, role, subtitle, specialties}`,
   )
 
   if (!specialists.length) {
@@ -95,10 +95,25 @@ async function run() {
       : undefined
 
     const specialties = Array.isArray(doc.specialties)
-      ? doc.specialties.map((entry) => {
-          const noValue = readI18n(entry as string | I18nValue[], 'no')
-          return asI18nArray(noValue, translateKeywords(noValue))
-        })
+      ? doc.specialties
+          .map((entry, index) => {
+            const raw =
+              entry && typeof entry === 'object' && !Array.isArray(entry) && 'label' in entry
+                ? (entry as { label?: string | I18nValue[] }).label
+                : entry
+            const noValue = readI18n(raw as string | I18nValue[], 'no')
+            const translated = asI18nArray(noValue, translateKeywords(noValue))
+            const existing =
+              entry && typeof entry === 'object' && !Array.isArray(entry)
+                ? (entry as { _key?: string })
+                : undefined
+            return {
+              _type: 'specialtyItem',
+              _key: existing?._key || `spec-${index}`,
+              label: translated,
+            }
+          })
+          .filter((item) => Array.isArray(item.label) && item.label.length > 0)
       : undefined
 
     const setPayload: Record<string, unknown> = {}
@@ -114,9 +129,6 @@ async function run() {
     }
 
     await sanityClient.patch(doc._id).set(setPayload).commit()
-    const draftId = doc._id.startsWith('drafts.') ? doc._id : `drafts.${doc._id}`
-    await sanityClient.createIfNotExists({_id: draftId, _type: 'specialist'})
-    await sanityClient.patch(draftId).set(setPayload).commit()
   }
 
   console.log(

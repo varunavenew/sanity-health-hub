@@ -1,3 +1,4 @@
+import React from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };

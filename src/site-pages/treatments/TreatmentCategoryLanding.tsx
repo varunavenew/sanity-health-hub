@@ -1,16 +1,13 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
@@ -18,6 +15,11 @@ import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import type { CategoryLandingAudience } from "@/lib/sanity/category-data";
 import type { CategoryLandingPageProps } from "@/lib/behandlinger/create-category-landing-page";
+import {
+  segmentTileGridClass,
+  statsGridClass,
+  threeCardGridClass,
+} from "@/lib/ui/grid-cols-for-count";
 
 import fertilityHeroFallback from "@/assets/categories/fertilitet-real.jpg";
 import gynekologiHeroFallback from "@/assets/categories/gynekologi.jpg";
@@ -25,7 +27,6 @@ import urologiHeroFallback from "@/assets/categories/urologi.jpg";
 import ortopediHeroFallback from "@/assets/categories/ortopedi.jpg";
 import graviditetHeroFallback from "@/assets/hero/hero-pregnancy.jpg";
 import flereFagomraderHeroFallback from "@/assets/categories/flere-fagomrader.jpg";
-import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import type { ImageRef } from "@/lib/media";
 
@@ -83,13 +84,6 @@ const TreatmentCategoryLanding = ({
   const fallbackHero = CATEGORY_HERO_FALLBACK[categoryId] ?? fertilityHeroFallback;
 
   const heroImage = category?.heroImage || fallbackHero;
-  const documentTitle =
-    landing?.documentTitle ||
-    `${category?.title || categoryId} | CMedical`;
-
-  useEffect(() => {
-    document.title = documentTitle;
-  }, [documentTitle]);
 
   if (isPending) {
     return (
@@ -113,7 +107,7 @@ const TreatmentCategoryLanding = ({
     );
   }
 
-  const { hero, segmentsSection, whySection, audiencesSection, symptomsSection, servicesSection, resultsSection, reviewsSection, specialistsSection } =
+  const { hero, segmentsSection, whySection, audiencesSection, symptomsSection, servicesSection, resultsSection, reviewsSection } =
     landing;
 
   const services =
@@ -211,7 +205,9 @@ const TreatmentCategoryLanding = ({
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+              <div
+                className={`${segmentTileGridClass(segmentsSection.segments.length)} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}
+              >
                 {segmentsSection.segments.map((s) => (
                   <div key={s.id} className="bg-background p-7 flex flex-col">
                     <h3 className="text-lg font-normal mb-4 leading-snug">{s.title}</h3>
@@ -274,12 +270,14 @@ const TreatmentCategoryLanding = ({
             </div>
 
             <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
-              <AssetImg
-                src={heroClinicLounge}
-                alt={hero.secondaryImageAlt || hero.heroImageAlt}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
+              {whySection.image ? (
+                <AssetImg
+                  src={whySection.image}
+                  alt={whySection.imageAlt || hero.heroImageAlt || category?.title || "CMedical"}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : null}
             </div>
           </div>
         </section>
@@ -306,7 +304,7 @@ const TreatmentCategoryLanding = ({
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-6`}>
                 {audiencesSection.audiences.map((a) => {
                   const Icon = AUDIENCE_ICONS[a.icon] || SegmentCoupleIcon;
                   return (
@@ -390,7 +388,7 @@ const TreatmentCategoryLanding = ({
                     {resultsSection.categoryLabel}
                   </p>
                 ) : null}
-                <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
+                <dl className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15`}>
                   {stats.map((row, i) => (
                     <div
                       key={row.label}
@@ -430,7 +428,7 @@ const TreatmentCategoryLanding = ({
                   {reviewsSection.title}
                 </h2>
               </div>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className={`${threeCardGridClass(reviewsSection.reviews.length)} gap-6`}>
                 {reviewsSection.reviews.map((r, i) => (
                   <div
                     key={i}
@@ -462,18 +460,7 @@ const TreatmentCategoryLanding = ({
         </section>
       ) : null}
 
-      {specialistsSection.title ? (
-        <SpecialistsScroller
-          category={categoryId}
-          title={specialistsSection.title}
-          seeAllHref={specialistsSection.seeAllHref}
-          seeAllLabel={specialistsSection.seeAllLabel}
-        />
-      ) : null}
-
       <PageSectionsRenderer sections={category?.pageSections} />
-
-      <BookingCTA />
     </PageLayout>
   );
 };

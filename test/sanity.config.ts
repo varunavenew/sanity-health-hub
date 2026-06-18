@@ -4,6 +4,10 @@ import {visionTool} from '@sanity/vision'
 import {internationalizedArray} from 'sanity-plugin-internationalized-array'
 import {schemaTypes} from './schemaTypes'
 import TranslateToEnglishAction from './sanity/actions/translateToEnglish'
+import {
+  NAV_SYNC_PAGE_TYPES,
+  PublishWithNavSync,
+} from './sanity/actions/publishWithNavSync'
 import {EnglishFlagIcon, NorwegianFlagIcon} from './sanity/components/FlagIcons'
 import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 
@@ -13,9 +17,9 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norsk'},
   {id: 'en', title: 'English'},
 ] as const
-import {SpecialistIcon, PricingIcon, ReviewIcon} from './schemaTypes/icons'
+import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon} from './schemaTypes/icons'
 
-// Default document node with locale-specific preview panes (nb + en)
+// Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   const previewableTypes = [
     'article', 'treatment', 'treatmentCategory', 'specialist',
@@ -26,14 +30,14 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ]
 
   if (previewableTypes.includes(schemaType)) {
-    const PreviewNb = createLocalePreviewPane({locale: 'nb', schemaType})
+    const PreviewNo = createLocalePreviewPane({locale: 'no', schemaType})
     const PreviewEn = createLocalePreviewPane({locale: 'en', schemaType})
 
     return S.document().views([
       S.view.form().title('About'),
       S.view
-        .component(PreviewNb)
-        .id('preview-nb')
+        .component(PreviewNo)
+        .id('preview-no')
         .title('View')
         .icon(NorwegianFlagIcon),
       S.view
@@ -49,11 +53,25 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
   ])
 }
 
-const hiddenTypes = ['specialist', 'specialistsPage', 'pricingPage', 'testimonial', 'googleReview', 'googleReviewSettings']
+const hiddenTypes = [
+  'specialist',
+  'specialistsPage',
+  'specialistsListingPage',
+  'clinicPage',
+  'clinicsPage',
+  'pricingPage',
+  'bookingPage',
+  'testimonial',
+  'googleReview',
+  'googleReviewSettings',
+  'newsPage',
+]
 
 export default defineConfig({
   name: 'default',
   title: 'sanity',
+  // `/` for sanity.studio + sanity.io/@…/studio/… links; `/studio` when embedded in Next.js (see next.config.ts env).
+  basePath: process.env.SANITY_STUDIO_BASEPATH || '/',
 
   projectId: process.env.SANITY_PROJECT_ID || '9jhqpk3a',
   dataset: process.env.SANITY_DATASET || 'production',
@@ -67,6 +85,8 @@ export default defineConfig({
             !hiddenTypes.includes(item.getId() || '') &&
             item.getId() !== 'article' &&
             item.getId() !== 'clinicPage' &&
+            item.getId() !== 'clinicsPage' &&
+            item.getId() !== 'specialistsListingPage' &&
             item.getId() !== 'treatmentCategory' &&
             item.getId() !== 'treatment',
         )
@@ -101,13 +121,32 @@ export default defineConfig({
               ])
           )
 
-        const clinicItem = S.listItem()
-          .title('Klinikk')
-          .schemaType('clinicPage')
+        const clinicsItem = S.listItem()
+          .title('Clinics')
+          .icon(ClinicIcon)
           .child(
-            S.documentTypeList('clinicPage')
-              .title('Klinikk')
-              .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
+            S.list()
+              .title('Clinics')
+              .items([
+                S.listItem()
+                  .title('About our clinics')
+                  .icon(ClinicIcon)
+                  .child(
+                    S.document()
+                      .schemaType('clinicsPage')
+                      .documentId('clinicsPage')
+                  ),
+                S.documentTypeListItem('clinicPage')
+                  .title('Our clinics')
+                  .child(
+                    S.documentTypeList('clinicPage')
+                      .title('Our clinics')
+                      .defaultOrdering([
+                        { field: 'sortOrder', direction: 'asc' },
+                        { field: '_updatedAt', direction: 'desc' },
+                      ])
+                  ),
+              ])
           )
 
         const treatmentCategoryItem = S.listItem()
@@ -143,6 +182,14 @@ export default defineConfig({
                       .schemaType('specialistsPage')
                       .documentId('specialistsPage')
                   ),
+                S.listItem()
+                  .title('Specialists listing')
+                  .icon(SpecialistIcon)
+                  .child(
+                    S.document()
+                      .schemaType('specialistsListingPage')
+                      .documentId('specialistsListingPage')
+                  ),
                 S.documentTypeListItem('specialist')
                   .title('Our specialists')
                   .child(
@@ -151,9 +198,17 @@ export default defineConfig({
                       .defaultOrdering([
                         { field: 'sortOrder', direction: 'asc' },
                         { field: 'name', direction: 'asc' },
-                      ])
+                      ]),
                   ),
               ])
+          )
+
+        const bookingItem = S.listItem()
+          .title('Bestill time')
+          .child(
+            S.document()
+              .schemaType('bookingPage')
+              .documentId('bookingPage'),
           )
 
         const priserItem = S.listItem()
@@ -203,10 +258,11 @@ export default defineConfig({
           .items([
             ...otherItems.slice(0, mid),
             articleItem,
-            clinicItem,
+            clinicsItem,
             treatmentCategoryItem,
             treatmentItem,
             specialistsItem,
+            bookingItem,
             priserItem,
             googleReviewsItem,
             ...otherItems.slice(mid),
@@ -230,15 +286,23 @@ export default defineConfig({
 
   document: {
     actions: (prev, context) => {
+      let actions = prev
+
+      if (NAV_SYNC_PAGE_TYPES.has(context.schemaType)) {
+        actions = actions.map((action) =>
+          action.action === 'publish' ? PublishWithNavSync : action,
+        )
+      }
+
       const i18nTypes = new Set([
         'article', 'aboutPage', 'treatment', 'treatmentCategory',
-        'homepage', 'contactPage', 'clinicPage', 'servicesPage',
-        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage', 'newsPage',
+        'homepage', 'contactPage', 'clinicPage', 'clinicsPage', 'servicesPage',
+        'insurancePage', 'themePage', 'pricingPage', 'specialistsPage', 'specialistsListingPage', 'newsPage',
         'specialist',
         'siteSettings',
       ])
-      if (!i18nTypes.has(context.schemaType)) return prev
-      return [...prev, TranslateToEnglishAction]
+      if (!i18nTypes.has(context.schemaType)) return actions
+      return [...actions, TranslateToEnglishAction]
     },
   },
 })

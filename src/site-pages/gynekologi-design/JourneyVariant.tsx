@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { DemoSpecialistCard } from "./DemoSpecialistCard";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import {
@@ -51,9 +52,11 @@ const JourneyVariant = ({ isChatOpen }: PageProps) => {
     document.title = `${gynekologiContent.title} · Reisen | CMedical`;
   }, []);
 
+  const { specialists } = useSpecialistsData();
+
   const gynSpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "gynekologi").slice(0, 4),
-    []
+    () => specialists.filter((s) => specialistMatchesCategory(s, "gynekologi")).slice(0, 4),
+    [specialists]
   );
 
   const groupsWithServices = useMemo(

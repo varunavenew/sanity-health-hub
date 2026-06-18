@@ -1,6 +1,7 @@
 // Schema: About Page (Om oss)
 // Aligned with migration data: title, subtitle, body (blockContent), seo
 import { GenericIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -15,6 +16,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'subtitle',
       title: 'Undertittel',
@@ -47,16 +49,31 @@ export default {
       ],
     },
     {
-      name: 'clinicImages',
-      title: 'Klinikkbilder',
-      type: 'array',
-      of: [
+      name: 'clinicsSection',
+      title: 'Seksjon — klinikker',
+      description:
+        'Vises på Om oss (og Kontakt). Tom klinikkliste = alle publiserte klinikker.',
+      type: 'object',
+      fields: [
         {
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            { name: 'caption', title: 'Bildetekst', type: 'string' },
-          ],
+          name: 'showSection',
+          title: 'Vis seksjonen',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'title',
+          title: 'Overskrift',
+          type: 'internationalizedArrayString',
+          description: 'F.eks. «Våre klinikker»',
+        },
+        {
+          name: 'clinics',
+          title: 'Klinikker (valgfritt)',
+          type: 'array',
+          of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
+          description:
+            'Velg rekkefølge. La stå tom for å liste alle publiserte klinikker automatisk.',
         },
       ],
     },

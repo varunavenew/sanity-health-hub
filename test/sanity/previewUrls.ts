@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 
-export type PreviewLocale = 'nb' | 'en'
+export type PreviewLocale = 'no' | 'en'
 
 export const PREVIEW_BASE_URL =
   typeof window !== 'undefined' && window.location.hostname === 'localhost'
@@ -46,7 +46,7 @@ async function treatmentPath(doc: SanityPreviewDoc, locale: PreviewLocale): Prom
   return `/behandlinger/${slug}`
 }
 
-type SanityPreviewDoc = {
+export type SanityPreviewDoc = {
   slug?: { current?: string } | Array<{ language?: string; _key?: string; value?: { current?: string } }>
   category?: { _ref?: string }
 }
@@ -89,8 +89,12 @@ async function pathForType(
       return '/tjenester'
     case 'article':
       return slug ? `/aktuelt/${slug}` : '/aktuelt'
+    case 'clinicsPage':
+      return '/klinikker'
     case 'clinicPage':
       return slug ? `/klinikker/${slug}` : '/klinikker'
+    case 'specialistsListingPage':
+      return '/spesialister'
     case 'specialist':
       return slug ? `/spesialister/${slug}` : '/spesialister'
     case 'themePage':

@@ -97,6 +97,7 @@ export async function GET(request: Request) {
       const activityUrl = bookingResourceUrl(BOOKING_URLS.wbactivities, wbactivityId);
       const activityPayload = await fetchBookingResource(activityUrl, apiKey);
       activityTypeId = parseActivityTypeId(activityPayload);
+      console.log('activity-type-id', activityTypeId);
     } catch {
       /* activity type optional until appointment step */
     }

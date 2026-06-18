@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+"use client";
+
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ArrowRight, Phone, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "@/lib/router";
 import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
 import { useInsurancePage } from "@/hooks/useSanity";
-import { PageSEO } from "@/components/seo/PageSEO";
+import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { useTranslation } from "react-i18next";
 
@@ -23,16 +24,9 @@ const Insurance = ({ isChatOpen }: PageProps) => {
   const steps = page?.steps || [];
   const benefits = page?.benefits || [];
 
-  useEffect(() => {
-    document.title = "Forsikring | CMedical - Behandling med forsikring";
-  }, []);
-
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <PageSEO
-        title={page?.seo?.metaTitle || "Helseforsikring – Bruk forsikringen din hos CMedical"}
-        description={page?.seo?.metaDescription || "CMedical har avtale med alle store forsikringsselskaper. Ingen utlegg – vi fakturerer forsikringen direkte. Kort ventetid og ledende spesialister."}
-        canonical="/forsikring"
+      <PageBreadcrumbsJsonLd
         breadcrumbs={[
           { name: t("pricing.breadcrumbHome"), path: "/" },
           { name: t("nav.insurance"), path: "/forsikring" },

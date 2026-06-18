@@ -1,4 +1,4 @@
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SanitySpecialist } from "@/hooks/useSanity";
 
 export type PageSectionSpecialistsConfig = {
@@ -11,8 +11,27 @@ export type PageSectionSpecialistsConfig = {
   specialists?: SanitySpecialist[];
   treatmentCategory?: { categoryId?: string; slug?: string };
   categorySlug?: string;
+  seeAllLabel?: string;
+  seeAllHref?: string;
   limit?: number;
   variant?: "carousel" | "gridDark";
+};
+
+export type BookingCtaQuickInfoItem = {
+  icon?: "clock" | "shield";
+  text?: string;
+};
+
+export type PageSectionBookingCtaConfig = {
+  _type: "pageSectionBookingCta";
+  _key?: string;
+  title?: string;
+  subtitle?: string;
+  primaryLabel?: string;
+  primaryPath?: string;
+  bookingCategory?: { categoryId?: string };
+  secondaryLabel?: string;
+  quickInfoItems?: BookingCtaQuickInfoItem[];
 };
 
 export type PageSectionArticlesConfig = {
@@ -40,7 +59,10 @@ export type PageSectionArticleCard = {
   externalUrl?: string;
 };
 
-export type PageSection = PageSectionSpecialistsConfig | PageSectionArticlesConfig;
+export type PageSection =
+  | PageSectionSpecialistsConfig
+  | PageSectionArticlesConfig
+  | PageSectionBookingCtaConfig;
 
 export function sanitySpecialistToCard(s: SanitySpecialist): Specialist {
   return {
@@ -82,6 +104,8 @@ export function normalizePageSections(raw: unknown): PageSection[] {
             : [],
           treatmentCategory: block.treatmentCategory as PageSectionSpecialistsConfig["treatmentCategory"],
           categorySlug: str(block.categorySlug) || undefined,
+          seeAllLabel: str(block.seeAllLabel) || undefined,
+          seeAllHref: str(block.seeAllHref) || undefined,
           limit: typeof block.limit === "number" ? block.limit : 8,
           variant:
             (block.variant as PageSectionSpecialistsConfig["variant"]) || "carousel",
@@ -121,6 +145,33 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           variant: (block.variant as PageSectionArticlesConfig["variant"]) || "grid",
           ctaLabel: str(block.ctaLabel) || undefined,
           ctaPath: str(block.ctaPath) || "/aktuelt",
+        };
+      }
+
+      if (type === "pageSectionBookingCta") {
+        const quickInfoItems = Array.isArray(block.quickInfoItems)
+          ? block.quickInfoItems
+              .map((row): BookingCtaQuickInfoItem | null => {
+                if (!row || typeof row !== "object") return null;
+                const item = row as Record<string, unknown>;
+                const icon = item.icon === "shield" ? "shield" : "clock";
+                const text = str(item.text);
+                if (!text) return null;
+                return { icon, text };
+              })
+              .filter((x): x is BookingCtaQuickInfoItem => x != null)
+          : [];
+
+        return {
+          _type: "pageSectionBookingCta",
+          _key: block._key as string | undefined,
+          title: str(block.title) || undefined,
+          subtitle: str(block.subtitle) || undefined,
+          primaryLabel: str(block.primaryLabel) || undefined,
+          primaryPath: str(block.primaryPath) || undefined,
+          bookingCategory: block.bookingCategory as PageSectionBookingCtaConfig["bookingCategory"],
+          secondaryLabel: str(block.secondaryLabel) || undefined,
+          quickInfoItems: quickInfoItems.length ? quickInfoItems : undefined,
         };
       }
 

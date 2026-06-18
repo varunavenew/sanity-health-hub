@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "@/lib/router";
 import { ArrowRight, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
 import {
@@ -20,7 +20,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
   const navigate = useNavigate();
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
-    [specialist.bookingCategoryIds, specialist.category],
+    [specialist.bookingCategoryIds],
   );
   const { categories, loading } = useSpecialistMetodikaBooking(bookingCategoryIds);
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);

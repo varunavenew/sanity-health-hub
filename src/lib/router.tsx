@@ -19,6 +19,8 @@ import {
   type ReactNode,
 } from "react";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
+import { coercePath } from "@/lib/navigation/coerce-path";
+import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 
 export function useLocaleParam(): AppLocale {
   const params = useParams<{ locale?: string }>();
@@ -29,17 +31,18 @@ export function useLocaleParam(): AppLocale {
 export function useNavigate() {
   const router = useRouter();
   const locale = useLocaleParam();
+  const { localeMap } = useCmsRouteContext();
   return useCallback(
     (to: string | number, options?: { replace?: boolean; state?: unknown }) => {
       if (typeof to === "number") {
         if (to === -1) router.back();
         return;
       }
-      const href = withLocalePath(locale, to);
+      const href = withLocalePath(locale, coercePath(to, locale), localeMap);
       if (options?.replace) router.replace(href);
       else router.push(href);
     },
-    [router, locale],
+    [router, locale, localeMap],
   );
 }
 
@@ -76,6 +79,47 @@ export function useLocation(): {
 
 export { useParams };
 
+/** Detail slug from `[slug]` or catch-all `[...segments]` routes. */
+export function useRouteSlug(): string {
+  const params = useParams<{ slug?: string; segments?: string | string[] }>();
+  const pathname = usePathname() || "/";
+
+  if (typeof params?.slug === "string" && params.slug) return params.slug;
+  const segments = params?.segments;
+  if (Array.isArray(segments) && segments.length > 0) {
+    return segments[segments.length - 1] ?? "";
+  }
+  if (typeof segments === "string" && segments) return segments;
+
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts[0] === "no" || parts[0] === "en") return parts[parts.length - 1] ?? "";
+  return parts[parts.length - 1] ?? "";
+}
+
+/** Treatment slug from `/behandlinger/:category/:treatment` (legacy `subId` or CMS `segments`). */
+export function useTreatmentSlug(): string {
+  const params = useParams<{ subId?: string; segments?: string | string[] }>();
+  const pathname = usePathname() || "/";
+
+  if (typeof params?.subId === "string" && params.subId) return params.subId;
+
+  const segments = params?.segments;
+  const list = Array.isArray(segments)
+    ? segments
+    : typeof segments === "string"
+      ? [segments]
+      : [];
+
+  if (list[0] === "behandlinger" && list.length >= 3) return list[2] ?? "";
+  if (list.length >= 2) return list[list.length - 1] ?? "";
+
+  const parts = pathname.split("/").filter(Boolean);
+  const start = parts[0] === "no" || parts[0] === "en" ? 1 : 0;
+  const rest = parts.slice(start);
+  if (rest[0] === "behandlinger" && rest.length >= 3) return rest[2] ?? "";
+  return rest[rest.length - 1] ?? "";
+}
+
 type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
   to: string;
   replace?: boolean;
@@ -85,7 +129,8 @@ type LinkProps = Omit<ComponentProps<typeof NextLink>, "href"> & {
 
 export function Link({ to, replace, children, onClick, ...rest }: LinkProps) {
   const locale = useLocaleParam();
-  const href = withLocalePath(locale, to);
+  const { localeMap } = useCmsRouteContext();
+  const href = withLocalePath(locale, coercePath(to, locale), localeMap);
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {

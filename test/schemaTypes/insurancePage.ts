@@ -1,6 +1,7 @@
 // Schema: Insurance Page (Forsikring)
 // Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
 import { InsuranceIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
 
 const pickNo = (v: any) =>
@@ -30,6 +31,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'heroImage',
       title: 'Hero-bilde',

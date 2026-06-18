@@ -8,6 +8,7 @@ import {
   slugifyNo,
 } from "@/lib/bookingLinks";
 import type { BookingCategoryFromApi } from "@/hooks/useBookingCategoryServices";
+import { formatBookingServicePrice } from "@/lib/booking/specialist-booking";
 
 const PRIMARY_CLINIC_IDS = new Set(Object.values(categoryPageToBookingId));
 
@@ -74,7 +75,12 @@ export function JourneyStepMultiCategoryServices() {
                     })}
                     className="group flex items-center justify-between gap-3 text-sm font-light text-foreground hover:text-foreground/80 transition-colors"
                   >
-                    <span className="min-w-0">{service.name}</span>
+                    <div className="min-w-0">
+                      <span className="block">{service.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {formatBookingServicePrice(service.price)}
+                      </span>
+                    </div>
                     <ArrowRight
                       className="w-3.5 h-3.5 flex-shrink-0 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"
                       aria-hidden

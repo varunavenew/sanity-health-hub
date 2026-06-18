@@ -40,7 +40,13 @@ export default {
                 { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
                 { name: 'subheading', title: 'Undertekst', type: 'internationalizedArrayString' },
                 { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },
-                { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
+                {
+                  name: 'ctaLink',
+                  title: 'CTA-lenke',
+                  type: 'internationalizedArrayString',
+                  description:
+                    'Intern sti uten locale. NO: f.eks. /gynekologi — EN: f.eks. /gynecology',
+                },
               ],
               preview: {
                 select: { title: 'heading', subtitle: 'subheading', media: 'image' },
@@ -168,6 +174,22 @@ export default {
     },
     {
       ...pageSectionsField,
+      group: 'sections',
+    },
+    {
+      name: 'faqSectionTitle',
+      title: 'FAQ-overskrift',
+      description: 'Overskrift over FAQ-seksjonen (f.eks. «Ofte stilte spørsmål»)',
+      type: 'internationalizedArrayString',
+      group: 'sections',
+    },
+    {
+      name: 'faqs',
+      title: 'FAQ',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
+      description:
+        'FAQ-elementer som vises på forsiden. Velg og sorter spørsmål fra FAQ-dokumenter i Sanity.',
       group: 'sections',
     },
     // SEO

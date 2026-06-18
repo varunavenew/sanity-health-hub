@@ -1,5 +1,6 @@
 // Schema: Specialists List Page (Om våre spesialister)
 import { SpecialistIcon } from './icons'
+import { i18nSlugFieldFromTitle } from './i18n'
 
 export default {
   name: 'specialistsPage',
@@ -13,6 +14,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'subtitle',
       title: 'Undertekst',
@@ -35,6 +37,7 @@ export default {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      description: 'Meta-tittel (metaTitle) og meta-beskrivelse (metaDescription) for /om-spesialister',
     },
   ],
   preview: {

@@ -4,7 +4,8 @@ import { Link } from "@/lib/router";
 import { ArrowRight, ArrowLeft, Plus, Minus } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { DemoSpecialistCard } from "./DemoSpecialistCard";
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
 import gynekologiReal from "@/assets/categories/gynekologi-real.jpg";
@@ -26,9 +27,11 @@ const ClassicPlusVariant = ({ isChatOpen }: PageProps) => {
     document.title = `${gynekologiContent.title} · Klassisk+ | CMedical`;
   }, []);
 
+  const { specialists } = useSpecialistsData();
+
   const gynSpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "gynekologi").slice(0, 4),
-    []
+    () => specialists.filter((s) => specialistMatchesCategory(s, "gynekologi")).slice(0, 4),
+    [specialists]
   );
 
   const [intro, ...restDescription] = gynekologiContent.description.split("\n\n");

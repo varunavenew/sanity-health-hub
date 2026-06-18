@@ -8,7 +8,8 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { buildBookingUrl } from "@/lib/bookingLinks";
-import { specialists } from "@/data/specialists";
+import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
@@ -131,13 +132,15 @@ const insurance = ["Gjensidige", "If", "Fremtind", "Storebrand", "Tryg", "Vertik
 /* ── PAGE ───────────────────────────────────────────────── */
 
 const Urology = ({ isChatOpen }: PageProps) => {
+  const { specialists } = useSpecialistsData();
+
   useEffect(() => {
     document.title = "Urologi | CMedical — diskret og profesjonell mannehelse";
   }, []);
 
   const urologySpecialists = useMemo(
-    () => specialists.filter((s) => s.category === "urologi").slice(0, 5),
-    []
+    () => specialists.filter((s) => specialistMatchesCategory(s, "urologi")).slice(0, 5),
+    [specialists],
   );
 
   return (

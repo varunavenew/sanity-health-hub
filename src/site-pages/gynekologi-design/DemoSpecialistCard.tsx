@@ -1,7 +1,7 @@
 import { AssetImg } from "@/components/AssetImg";
 import { Link } from "@/lib/router";
 import { MapPin } from "lucide-react";
-import type { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 
 // Shared card mirroring the homepage SpecialistsSection style:
 // 3:4 image with dark overlays + name/title overlay + clinic chip top-left.

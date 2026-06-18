@@ -122,6 +122,21 @@
     "ctaContact": "Contact us",
     "backTo": "Back to"
   },
+  "subTreatment": {
+    "home": "Home",
+    "bookAppointment": "Book appointment",
+    "seePrices": "See prices",
+    "readyWhenYouAre": "Ready when you are",
+    "bookSpecialistThisWeek": "Get {{title}} with a specialist this week.",
+    "relatedEyebrow": "Related areas",
+    "relatedTitle": "You may also be interested in",
+    "readMore": "Read more",
+    "specialistsEyebrow": "The people behind",
+    "specialistsTitle": "The specialists who will support you.",
+    "seeAllSpecialists": "See all specialists",
+    "insurancePartners": "PARTNERS",
+    "insuranceTitle": "We have agreements with the largest insurance companies in Norway."
+  },
   "homeFaq": {
     "referral": {
       "question": "Referral",
@@ -187,6 +202,7 @@
     "subtitle": "Do you have questions? We are happy to help",
     "quickHelp": "Need quick help?",
     "quickHelpDesc": "No referral needed. Call us directly or book an appointment online – we have short waiting times.",
+    "requestCallback": "Request a callback",
     "bookDirect": "Want to book directly?",
     "bookDirectDesc": "Choose service, clinic and practitioner – all in one simple booking.",
     "hasInsurance": "Do you have health insurance?",
@@ -236,6 +252,8 @@
     "seoDescription": "See all CMedical prices. A clear price list for gynecology, fertility, urology, orthopedics and more. Transparent and predictable pricing.",
     "duration": "Duration",
     "disclaimer": "All prices are indicative “from” prices. The final price may vary depending on time of day, weekends, additional services during treatment and other factors.",
+    "loadingPrices": "Loading prices…",
+    "loadError": "Could not load prices. Please try again later.",
     "seePrices": "View prices",
     "closePriceList": "Close price list",
     "openCategory": "Open",

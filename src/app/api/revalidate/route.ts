@@ -15,7 +15,10 @@ import {
  * Recommended GROQ projection on the webhook so `body` includes `_type` and
  * `slug` (and for treatments optionally `parentSlug` / `categorySlug`):
  *
- * `*[_id in ^.ids][0]{ _type, slug, parentSlug, categorySlug }`
+ * `*[_id in ^.ids][0]{ _type, slug, "slugBefore": slug, parentSlug, categorySlug }`
+ *
+ * For slug changes, configure the webhook to also send the previous slug as
+ * `slugBefore` (e.g. via a before/after projection) so old URLs are invalidated.
  *
  * If the body cannot be parsed to a document, all entries tagged `sanity` are invalidated.
  */
@@ -83,7 +86,7 @@ export async function POST(request: Request) {
 
   const doc = extractDocument(body);
   if (doc?._type) {
-    const plan = invalidationPlanFromSanityDoc(doc);
+    const plan = await invalidationPlanFromSanityDoc(doc);
     plan.tags.forEach((t) => tags.add(t));
     plan.paths.forEach((p) => paths.add(p));
   } else if (tags.size === 0) {

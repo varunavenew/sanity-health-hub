@@ -58,10 +58,6 @@ export function buildLandingFromCategoryContent(
   const heroBodyEn = [en.description, en.longDescription].filter(Boolean).join("\n\n");
 
   return {
-    documentTitle: i18nString(
-      `${no.title} | CMedical`,
-      `${en.title} | CMedical`,
-    ),
     srOnlyTitle: i18nString(
       `${no.title} hos CMedical`,
       `${en.title} at CMedical`,
@@ -82,7 +78,6 @@ export function buildLandingFromCategoryContent(
         `${no.title} hos CMedical`,
         `${en.title} at CMedical`,
       ),
-      secondaryImageAlt: i18nString("CMedical klinikk", "CMedical clinic"),
     },
     segmentsSection: {
       eyebrow: i18nString(
@@ -100,6 +95,7 @@ export function buildLandingFromCategoryContent(
         `Ledende spesialister innen ${no.title.toLowerCase()} og korte ventetider.`,
         en.whyDescription,
       ),
+      imageAlt: i18nString("CMedical klinikk", "CMedical clinic"),
       steps,
     },
     audiencesSection: {
@@ -130,17 +126,6 @@ export function buildLandingFromCategoryContent(
       eyebrow: i18nString("", ""),
       title: i18nString("", ""),
       reviews: [],
-    },
-    specialistsSection: {
-      title: i18nString(
-        `Møt våre spesialister innen ${no.title.toLowerCase()}`,
-        en.specialistsTitle,
-      ),
-      seeAllLabel: i18nString(
-        `Se alle spesialister – ${no.title}`,
-        en.specialistsSeeAll,
-      ),
-      seeAllHref: `/spesialister?kategori=${bookingKategori}`,
     },
   };
 }

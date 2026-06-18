@@ -328,7 +328,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         numericId: typeof sanityCategory.categoryNumericId === "number" ? sanityCategory.categoryNumericId : undefined,
         title: sanityCategory.title,
         subtitle: "Kort ventetid • Ingen henvisning",
-        description: sanityCategory.description || staticCategory?.description || "",
+        description: staticCategory?.description || "",
         heroImage: sanityCategory.heroImage || staticCategory?.heroImage || "",
         services: (sanityCategory.services || []).map((s: any) => ({
           name: s.name,

@@ -1,56 +1,53 @@
 import type { TFunction } from "i18next";
-import type { AppLocale } from "@/lib/i18n/routing";
+import type { NavRouteId } from "@/lib/i18n/nav-paths";
 import {
-  NAV_ROUTE_PATHS,
-  PATH_TO_NAV_ID,
-  localizeInternalPath,
-  type NavRouteId,
-} from "@/lib/i18n/nav-paths";
+  resolveNavPath,
+  type NavLinkLike,
+} from "@/lib/navigation/nav-path-utils";
+import type { SlugLocaleMap } from "@/lib/routing/slug-locale-map";
 
-export type NavLinkLike = {
-  label?: string;
-  path?: string;
-  navId?: string;
-};
+export type { NavLinkLike };
 
-function navIdForItem(item: NavLinkLike): NavRouteId | undefined {
+function navIdForItem(
+  item: NavLinkLike,
+  cmsMap?: SlugLocaleMap,
+): NavRouteId | undefined {
   if (item.navId?.trim()) {
-    const id = item.navId.trim() as NavRouteId;
-    return id in NAV_ROUTE_PATHS ? id : undefined;
+    return item.navId.trim() as NavRouteId;
   }
+
   const path = item.path?.split("?")[0]?.split("#")[0];
-  return path ? PATH_TO_NAV_ID[path] : undefined;
+  if (path && cmsMap?.pathToNavId) {
+    return cmsMap.pathToNavId[normalizeNavPath(path)];
+  }
+  return undefined;
+}
+
+function normalizeNavPath(path: string): string {
+  const base = path.split("?")[0]?.split("#")[0]?.trim() || "/";
+  return base.startsWith("/") ? base : `/${base}`;
 }
 
 /**
- * Standard menu items use locale JSON (`nav.*`) so EN/NO switch instantly.
- * Custom CMS-only links use the Sanity label for the active locale.
+ * Prefer Sanity label; fall back to locale JSON (`nav.*`) when navId is set.
  */
 export function resolveNavLabel(
   item: NavLinkLike,
   t: TFunction,
   lng?: "nb" | "en",
+  cmsMap?: SlugLocaleMap,
 ): string {
-  const id = navIdForItem(item);
+  const cms = typeof item.label === "string" ? item.label.trim() : "";
+  if (cms) return cms;
+
+  const id = navIdForItem(item, cmsMap);
   if (id) {
     const key = `nav.${id}`;
     const translated = lng ? t(key, { lng }) : t(key);
     if (translated !== key) return translated;
   }
 
-  const cms = typeof item.label === "string" ? item.label.trim() : "";
-  if (cms) return cms;
-
   return item.path || "";
 }
 
-/** Resolve locale-specific internal path from CMS navId/path or static fallback. */
-export function resolveNavPath(item: NavLinkLike, locale: string): string {
-  const id = navIdForItem(item);
-  if (id) {
-    return NAV_ROUTE_PATHS[id][locale === "en" ? "en" : "nb"];
-  }
-  const path = typeof item.path === "string" ? item.path.trim() : "";
-  if (!path) return path;
-  return localizeInternalPath(path, locale === "en" ? "en" : "no");
-}
+export { resolveNavPath };

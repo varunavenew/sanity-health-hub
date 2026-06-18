@@ -4,6 +4,7 @@ import { useNavigate, useLocaleParam } from "@/lib/router";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
 import { resolveNavLabel, resolveNavPath } from '@/lib/navigation/resolve-nav-label';
+import { useCmsRouteContext } from '@/lib/routing/cms-route-context';
 import { useTranslation } from 'react-i18next';
 
 const BurgerMenu = () => {
@@ -15,17 +16,18 @@ const BurgerMenu = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const { data: siteSettings } = useSiteSettings();
+  const { index: cmsRouteIndex, localeMap } = useCmsRouteContext();
 
   const staticMenuItems = useMemo(
     () => [
-      { navId: 'services', path: '/tjenester' },
-      { navId: 'pricing', path: '/priser' },
-      { navId: 'clinics', path: '/klinikker' },
-      { navId: 'about', path: '/om-oss' },
-      { navId: 'insurance', path: '/forsikring' },
-      { navId: 'news', path: '/aktuelt' },
-      { navId: 'contact', path: '/kontakt' },
-      { navId: 'specialists', path: '/spesialister' },
+      { navId: "services" },
+      { navId: "pricing" },
+      { navId: "clinics" },
+      { navId: "about" },
+      { navId: "insurance" },
+      { navId: "news" },
+      { navId: "contact" },
+      { navId: "specialists" },
     ],
     [],
   );
@@ -35,25 +37,27 @@ const BurgerMenu = () => {
       ? siteSettings.mainNavigation
       : staticMenuItems;
     return raw.map((item: { label?: string; path?: string; navId?: string }) => ({
-      path: resolveNavPath(item, locale),
-      label: resolveNavLabel(item, t, uiLang),
+      path: resolveNavPath(item, locale, cmsRouteIndex),
+      label: resolveNavLabel(item, t, uiLang, localeMap),
     }));
-  }, [siteSettings?.mainNavigation, staticMenuItems, t, locale, uiLang]);
+  }, [siteSettings?.mainNavigation, staticMenuItems, t, locale, uiLang, cmsRouteIndex, localeMap]);
 
   const ctaButton = useMemo(() => {
-    const raw = siteSettings?.ctaButton || { path: '/booking', navId: 'bookAppointment' };
+    const raw = siteSettings?.ctaButton || { navId: "bookAppointment" };
     return {
       path: resolveNavPath(
-        { path: raw.path || '/booking', navId: raw.navId || 'bookAppointment' },
+        { ...raw, navId: raw.navId || "bookAppointment" },
         locale,
+        cmsRouteIndex,
       ),
       label: resolveNavLabel(
         { label: raw.label, path: raw.path, navId: raw.navId || 'bookAppointment' },
         t,
         uiLang,
+        localeMap,
       ),
     };
-  }, [siteSettings?.ctaButton, t, locale, uiLang]);
+  }, [siteSettings?.ctaButton, t, locale, uiLang, cmsRouteIndex, localeMap]);
   const phone = siteSettings?.phone || '22 00 12 34';
   const address = siteSettings?.address || 'Oslo, Bergen, Trondheim';
 
@@ -98,150 +102,79 @@ const BurgerMenu = () => {
 
       <AnimatePresence>
         {isMenuOpen && (
-          <>
-            {/* Desktop Menu */}
-            <motion.div 
-              ref={menuRef}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="hidden md:block absolute right-0 top-full mt-3 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden min-w-[280px]"
-            >
-              <div className="p-5">
-                <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 font-medium">
-                  {t("nav.menu")}
-                </h3>
-                <nav className="space-y-0.5">
-                  {menuItems.map((item) => (
-                    <button 
-                      key={item.path + item.label}
-                      onClick={() => handleNavigate(item.path)} 
-                      className="w-full text-left py-2 px-3 text-foreground/80 hover:text-foreground hover:bg-muted text-sm font-normal transition-colors rounded-lg"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </nav>
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute right-0 top-full mt-3 md:mt-3 max-md:fixed max-md:inset-0 max-md:top-0 max-md:mt-0 bg-white rounded-2xl max-md:rounded-none shadow-2xl z-50 overflow-hidden min-w-[280px] max-md:min-w-0 max-md:overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t("nav.navigationMenu")}
+          >
+            <div className="flex items-center justify-end p-4 border-b border-border md:hidden">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
+                aria-label={t("nav.closeMenu")}
+              >
+                <X className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
 
-                {/* Quick contact */}
-                <div className="mt-5 pt-5 border-t border-border">
-                  <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 font-medium">
-                    {t("nav.quickContact")}
-                  </h3>
-                  <div className="space-y-2">
-                    <a 
-                      href={`tel:${phone.replace(/\s/g, '')}`}
-                      className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
-                    >
-                      <Phone className="h-4 w-4" />
-                      {phone}
-                    </a>
-                    <button 
-                      onClick={() => handleNavigate('/kontakt')}
-                      className="flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
-                    >
-                      <Mail className="h-4 w-4" />
-                      {t("nav.contactForm")}
-                    </button>
-                    <div className="flex items-center gap-2 text-sm text-foreground/70">
-                      <MapPin className="h-4 w-4" />
-                      {address}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA Button */}
-              <div className="px-5 pb-5">
-                <button 
-                  onClick={() => handleNavigate(ctaButton.path)}
-                  className="w-full py-3 text-sm font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
-                >
-                  {ctaButton.label}
-                </button>
-              </div>
-            </motion.div>
-
-            {/* Mobile Menu */}
-            <motion.div 
-              ref={menuRef}
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="md:hidden fixed inset-0 top-0 bg-white z-50 overflow-y-auto"
-              role="dialog"
-              aria-modal="true"
-              aria-label={t("nav.navigationMenu")}
-            >
-              {/* Mobile Header */}
-              <div className="flex items-center justify-end p-4 border-b border-border">
-                <button
-                  onClick={() => setIsMenuOpen(false)}
-                  className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
-                  aria-label={t("nav.closeMenu")}
-                >
-                  <X className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-
-              {/* Mobile Content */}
-              <div className="p-6">
-                <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-4 font-medium">
-                  {t("nav.menu")}
-                </h3>
-                <nav className="space-y-1">
-                  {menuItems.map((item) => (
-                    <button 
-                      key={item.path + item.label}
-                      onClick={() => handleNavigate(item.path)} 
-                      className="w-full text-left py-3 text-foreground/80 hover:text-foreground text-base font-normal transition-colors"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </nav>
-
-                {/* Quick contact */}
-                <div className="mt-8 pt-6 border-t border-border">
-                  <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-4 font-medium">
-                    {t("nav.quickContact")}
-                  </h3>
-                  <div className="space-y-3">
-                    <a 
-                      href={`tel:${phone.replace(/\s/g, '')}`}
-                      className="flex items-center gap-3 text-base text-foreground/70 hover:text-foreground transition-colors"
-                    >
-                      <Phone className="h-5 w-5" />
-                      {phone}
-                    </a>
-                    <button 
-                      onClick={() => handleNavigate('/kontakt')}
-                      className="flex items-center gap-3 text-base text-foreground/70 hover:text-foreground transition-colors"
-                    >
-                      <Mail className="h-5 w-5" />
-                      {t("nav.contactForm")}
-                    </button>
-                    <div className="flex items-center gap-3 text-base text-foreground/70">
-                      <MapPin className="h-5 w-5" />
-                      {address}
-                    </div>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div className="mt-8">
-                  <button 
-                    onClick={() => handleNavigate(ctaButton.path)}
-                    className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
+            <div className="p-5 md:p-5 max-md:p-6">
+              <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 max-md:mb-4 font-medium">
+                {t("nav.menu")}
+              </h3>
+              <nav className="space-y-0.5 max-md:space-y-1">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.path + item.label}
+                    onClick={() => handleNavigate(item.path)}
+                    className="w-full text-left py-2 px-3 max-md:py-3 max-md:px-0 text-foreground/80 hover:text-foreground hover:bg-muted max-md:hover:bg-transparent text-sm max-md:text-base font-normal transition-colors rounded-lg max-md:rounded-none"
                   >
-                    {ctaButton.label}
+                    {item.label}
                   </button>
+                ))}
+              </nav>
+
+              <div className="mt-5 pt-5 max-md:mt-8 max-md:pt-6 border-t border-border">
+                <h3 className="text-foreground/50 text-xs uppercase tracking-wider mb-3 max-md:mb-4 font-medium">
+                  {t("nav.quickContact")}
+                </h3>
+                <div className="space-y-2 max-md:space-y-3">
+                  <a
+                    href={`tel:${phone.replace(/\s/g, "")}`}
+                    className="flex items-center gap-2 max-md:gap-3 text-sm max-md:text-base text-foreground/70 hover:text-foreground transition-colors"
+                  >
+                    <Phone className="h-4 w-4 max-md:h-5 max-md:w-5" />
+                    {phone}
+                  </a>
+                  <button
+                    onClick={() => handleNavigate("/kontakt")}
+                    className="flex items-center gap-2 max-md:gap-3 text-sm max-md:text-base text-foreground/70 hover:text-foreground transition-colors"
+                  >
+                    <Mail className="h-4 w-4 max-md:h-5 max-md:w-5" />
+                    {t("nav.contactForm")}
+                  </button>
+                  <div className="flex items-center gap-2 max-md:gap-3 text-sm max-md:text-base text-foreground/70">
+                    <MapPin className="h-4 w-4 max-md:h-5 max-md:w-5" />
+                    {address}
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          </>
+            </div>
+
+            <div className="px-5 pb-5 max-md:px-6 max-md:pb-8">
+              <button
+                onClick={() => handleNavigate(ctaButton.path)}
+                className="w-full py-3 max-md:py-4 text-sm max-md:text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
+              >
+                {ctaButton.label}
+              </button>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

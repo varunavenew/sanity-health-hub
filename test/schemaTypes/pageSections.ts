@@ -1,5 +1,5 @@
 /**
- * Reusable page sections (specialists, articles) for any singleton or document page.
+ * Reusable page sections (specialists, articles, booking CTA) for any singleton or document page.
  */
 import { pickNo } from './i18n'
 
@@ -81,12 +81,23 @@ export const pageSectionSpecialists = {
         parent?.displayMode !== 'category',
     },
     {
+      name: 'seeAllLabel',
+      title: 'Se alle-tekst',
+      type: 'internationalizedArrayString',
+      description: 'F.eks. «Se alle spesialister – Gynekologi»',
+    },
+    {
+      name: 'seeAllHref',
+      title: 'Se alle-lenke',
+      type: 'string',
+      initialValue: '/spesialister',
+    },
+    {
       name: 'limit',
       title: 'Maks antall',
       type: 'number',
       initialValue: 8,
-      validation: (Rule: { min: (n: number) => unknown; max: (n: number) => unknown }) =>
-        Rule.min(1).max(24),
+      validation: (Rule: any) => Rule.min(1).max(24),
     },
     {
       name: 'variant',
@@ -170,8 +181,7 @@ export const pageSectionArticles = {
       title: 'Maks antall',
       type: 'number',
       initialValue: 6,
-      validation: (Rule: { min: (n: number) => unknown; max: (n: number) => unknown }) =>
-        Rule.min(1).max(12),
+      validation: (Rule: any) => Rule.min(1).max(12),
     },
     {
       name: 'variant',
@@ -209,12 +219,109 @@ export const pageSectionArticles = {
   },
 }
 
+const quickInfoIconOptions = {
+  list: [
+    { title: 'Klokke', value: 'clock' },
+    { title: 'Skjold', value: 'shield' },
+  ],
+  layout: 'radio' as const,
+}
+
+export const pageSectionBookingCta = {
+  name: 'pageSectionBookingCta',
+  title: 'Bestill time (CTA)',
+  type: 'object',
+  fields: [
+    {
+      name: 'title',
+      title: 'Overskrift',
+      type: 'internationalizedArrayString',
+      description: 'F.eks. «Bestill time hos spesialist»',
+    },
+    {
+      name: 'subtitle',
+      title: 'Ingress',
+      type: 'internationalizedArrayText',
+    },
+    {
+      name: 'primaryLabel',
+      title: 'Primærknapp',
+      type: 'internationalizedArrayString',
+      initialValue: [{ _key: 'no', language: 'no', value: 'Bestill time nå' }],
+    },
+    {
+      name: 'primaryPath',
+      title: 'Primær lenke',
+      type: 'string',
+      initialValue: '/booking',
+    },
+    {
+      name: 'bookingCategory',
+      title: 'Booking-kategori (valgfritt)',
+      type: 'reference',
+      to: [{ type: 'treatmentCategory' }],
+      description: 'Legger til ?kategori= på booking-lenken når primær lenke er /booking',
+    },
+    {
+      name: 'secondaryLabel',
+      title: 'Ring oss-tekst',
+      type: 'internationalizedArrayString',
+    },
+    {
+      name: 'quickInfoItems',
+      title: 'Hurtiginfo',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'icon',
+              title: 'Ikon',
+              type: 'string',
+              options: quickInfoIconOptions,
+              initialValue: 'clock',
+            },
+            {
+              name: 'text',
+              title: 'Tekst',
+              type: 'internationalizedArrayString',
+            },
+          ],
+          preview: {
+            select: { text: 'text', icon: 'icon' },
+            prepare({ text, icon }: { text?: unknown; icon?: string }) {
+              return {
+                title: pickNo(text) || 'Hurtiginfo',
+                subtitle: icon === 'shield' ? 'Skjold' : 'Klokke',
+              }
+            },
+          },
+        },
+      ],
+    },
+  ],
+  preview: {
+    select: { title: 'title' },
+    prepare({ title }: { title?: unknown }) {
+      return {
+        title: pickNo(title) || 'Bestill time (CTA)',
+        subtitle: 'Booking-seksjon',
+      }
+    },
+  },
+}
+
 /** Add to any page schema `fields` array */
 export const pageSectionsField = {
   name: 'pageSections',
   title: 'Modulære seksjoner',
   description:
-    'Legg til spesialist- og/eller artikkel-seksjoner. Vises etter sidens hovedinnhold, i rekkefølgen du setter her.',
+    'Legg til spesialist-, artikkel- og/eller booking-CTA-seksjoner. Vises etter sidens hovedinnhold, i rekkefølgen du setter her.',
   type: 'array',
-  of: [{ type: 'pageSectionSpecialists' }, { type: 'pageSectionArticles' }],
+  of: [
+    { type: 'pageSectionSpecialists' },
+    { type: 'pageSectionArticles' },
+    { type: 'pageSectionBookingCta' },
+  ],
 }

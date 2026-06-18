@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { CategoryDataProvider } from "@/components/providers/CategoryDataProvider";
 import { TreatmentHydration } from "@/components/providers/TreatmentHydration";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
+import { createBehandlingerCategoryMetadata } from "@/lib/seo/behandlinger-metadata";
 import TreatmentCategoryLanding from "@/site-pages/treatments/TreatmentCategoryLanding";
 
 export type CategoryLandingPageProps = {
@@ -12,6 +13,11 @@ export type CategoryLandingPageProps = {
 };
 
 type LandingComponent = ComponentType<CategoryLandingPageProps>;
+
+/** Next.js `generateMetadata` for category landing routes (reads `seo` from Sanity). */
+export function createSanityCategoryLandingMetadata(categoryId: string) {
+  return createBehandlingerCategoryMetadata(categoryId);
+}
 
 /** Server page factory for Sanity-driven category landings (gynekologi, urologi, …). */
 export function createSanityCategoryLandingPage(categoryId: string) {

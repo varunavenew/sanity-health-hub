@@ -1,10 +1,12 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { Link } from "@/lib/router";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { useClinics } from "@/hooks/useSanity";
-import { sortBySlug, type SortLocale } from "@/lib/sortAlphabetical";
+import { useClinics, useClinicsPage } from "@/hooks/useSanity";
+import { type SortLocale } from "@/lib/sortAlphabetical";
 import { useTranslation } from "react-i18next";
 import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 import { CTASection } from "@/components/layout/CTASection";
@@ -23,33 +25,74 @@ const clinicImages: Record<string, ImageRef> = {
   moelv: imgMoelv,
 };
 
+const HERO_FALLBACK = {
+  nb: {
+    eyebrow: "{count} klinikker · Ingen henvisning · Kort ventetid",
+    title: "Finn din nærmeste klinikk",
+    description:
+      "Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid.",
+    primaryCta: "Bestill time",
+    secondaryCta: "Kontakt oss",
+    seoTitle: "Våre klinikker | CMedical",
+    seoDescription:
+      "Oversikt over CMedicals fire klinikker i Norge: Oslo Majorstuen, Bekkestua, Moss og Moelv. Adresse, åpningstider, parkering, kollektivtransport og tjenester.",
+  },
+  en: {
+    eyebrow: "{count} clinics · No referral · Short waiting times",
+    title: "Find your nearest clinic",
+    description:
+      "Our clinics in Norway offer specialist care without referral and with short waiting times.",
+    primaryCta: "Book appointment",
+    secondaryCta: "Contact us",
+    seoTitle: "Our clinics | CMedical",
+    seoDescription:
+      "Overview of CMedical's clinics in Norway: Oslo Majorstuen, Bekkestua, Moss and Moelv. Address, opening hours, parking, public transport and services.",
+  },
+} as const;
+
+function formatEyebrow(template: string, count: number): string {
+  return template.replace(/\{count\}/g, String(count));
+}
+
 interface ClinicsProps {
   isChatOpen: boolean;
 }
 
 const Clinics = ({ isChatOpen }: ClinicsProps) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
-  const { data: sanityClinics = [], isLoading } = useClinics();
-  const list: any[] = sortBySlug(
-    sanityClinics.map((c: any) => ({
-      ...c,
-      primaryImage: c.primaryImage || clinicImages[c.slug || c.id],
-      detail: c.detail || {},
-    })),
-    (c) => c.slug || c.label,
-    contentLang,
-  );
+  const fb = HERO_FALLBACK[contentLang === "en" ? "en" : "nb"];
+  const { data: page } = useClinicsPage();
+  const { data: sanityClinics = [] } = useClinics();
+  const list: any[] = sanityClinics.map((c: any) => ({
+    ...c,
+    primaryImage: c.primaryImage || clinicImages[c.slug || c.id],
+    detail: c.detail || {},
+  }));
+
+  const clinicCount = list.length;
+  const heroEyebrow = formatEyebrow(page?.heroEyebrow || fb.eyebrow, clinicCount);
+  const heroTitle = page?.heroTitle || fb.title;
+  const heroDescription = page?.heroDescription || fb.description;
+  const heroImage = page?.heroImage || imgMajorstuen;
+  const primaryCta = {
+    label: page?.primaryCtaLabel || fb.primaryCta,
+    to: page?.primaryCtaPath || "/booking",
+  };
+  const secondaryCta = {
+    label: page?.secondaryCtaLabel || fb.secondaryCta,
+    to: page?.secondaryCtaPath || "/kontakt",
+  };
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title="Våre klinikker | CMedical"
-        description="Oversikt over CMedicals fire klinikker i Norge: Oslo Majorstuen, Bekkestua, Moss og Moelv. Adresse, åpningstider, parkering, kollektivtransport og tjenester."
+        title={page?.seo?.metaTitle || fb.seoTitle}
+        description={page?.seo?.metaDescription || fb.seoDescription}
         canonical="/klinikker"
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Klinikker", path: "/klinikker" },
+          { name: t("pricing.breadcrumbHome", "Hjem"), path: "/" },
+          { name: t("nav.clinics", "Klinikker"), path: "/klinikker" },
         ]}
         jsonLd={{
           "@context": "https://schema.org",
@@ -68,18 +111,16 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         }}
       />
 
-      {/* Hero */}
       <SplitHero
-        eyebrow={`${list.length} klinikker · Ingen henvisning · Kort ventetid`}
-        title="Finn din nærmeste klinikk"
-        description="Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid."
-        image={imgMajorstuen}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        description={heroDescription}
+        image={heroImage}
         imageAlt="CMedical klinikk"
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
-        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
+        primaryCta={primaryCta}
+        secondaryCta={secondaryCta}
       />
 
-      {/* Clinic split-screen rows */}
       <section className="bg-background" aria-labelledby="clinics-heading">
         <h2 id="clinics-heading" className="sr-only">
           Liste over klinikker
@@ -103,7 +144,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                     reverse ? "lg:[&>*:first-child]:order-2" : ""
                   }`}
                 >
-                  {/* Image */}
                   <Link
                     to={detailHref}
                     className="group block overflow-hidden rounded-sm aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5]"
@@ -123,7 +163,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                     )}
                   </Link>
 
-                  {/* Content */}
                   <div className="flex flex-col">
                     <p className="text-xs text-muted-foreground font-light uppercase tracking-[0.15em] mb-3">
                       Klinikk
@@ -140,7 +179,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                       </p>
                     )}
 
-                    {/* Key info */}
                     <ul className="space-y-3 mb-7 border-t border-border/50 pt-6">
                       <li className="flex items-start gap-3 text-sm">
                         <MapPin className="w-3.5 h-3.5 text-brand-dark/50 mt-1 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
@@ -165,7 +203,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                       </li>
                     </ul>
 
-                    {/* Practical chips */}
                     <div className="flex flex-wrap gap-2 mb-8">
                       {clinic.detail?.parking && (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-background/80 border border-border/60 rounded-sm text-[11px] text-muted-foreground font-light">
@@ -193,7 +230,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                       )}
                     </div>
 
-                    {/* CTA row */}
                     <div className="flex items-center gap-6">
                       <Link
                         to={detailHref}

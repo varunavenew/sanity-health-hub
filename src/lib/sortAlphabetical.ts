@@ -28,6 +28,44 @@ export function compareAlphabetical(a: string, b: string, locale: SortLocale = "
   return a.localeCompare(b, collatorLocale(locale), { sensitivity: "base" });
 }
 
+/** Parse Sanity `sortOrder` — null/undefined/empty/NaN are treated as missing. */
+export function parseSortOrder(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return null;
+}
+
+/**
+ * Items with a valid `sortOrder` first (ascending), then items without `sortOrder`
+ * sorted alphabetically by title/name for the active locale.
+ */
+export function sortBySortOrder<T>(
+  items: T[],
+  getSortOrder: (item: T) => unknown,
+  getLabel: (item: T) => unknown,
+  locale: SortLocale = "no",
+): T[] {
+  const withOrder: { item: T; order: number }[] = [];
+  const withoutOrder: T[] = [];
+
+  for (const item of items) {
+    const order = parseSortOrder(getSortOrder(item));
+    if (order === null) {
+      withoutOrder.push(item);
+    } else {
+      withOrder.push({ item, order });
+    }
+  }
+
+  withOrder.sort((a, b) => a.order - b.order);
+  const sortedWithout = sortByLabel(withoutOrder, getLabel, locale);
+
+  return [...withOrder.map((row) => row.item), ...sortedWithout];
+}
+
 export function sortByLabel<T>(
   items: T[],
   getLabel: (item: T) => unknown,

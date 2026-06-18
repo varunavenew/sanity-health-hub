@@ -1,9 +1,71 @@
 // Schema: Treatment Category
 // Covers: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader
 import { CategoryIcon } from './icons'
-import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import {
+  i18nSlugFieldFromTitle,
+  pickNo,
+  requiredNoEnI18n,
+  requiredNoEnSeo,
+} from './i18n'
 import { categoryLandingPageField } from './categoryLanding'
 import { pageSectionsField } from './pageSections'
+
+const reqI18n = requiredNoEnI18n
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
+
+/** Reference picker: only treatments whose Kategori points at this category document. */
+function treatmentRefsForCategoryFilter({
+  document,
+}: {
+  document?: { _id?: string; categoryId?: string }
+}) {
+  if (document?._id) {
+    const publishedId = document._id.replace(/^drafts\./, '')
+    const draftId = document._id.startsWith('drafts.')
+      ? document._id
+      : `drafts.${publishedId}`
+    return {
+      filter: '_type == "treatment" && category._ref in $categoryIds',
+      params: { categoryIds: [publishedId, draftId] },
+    }
+  }
+  if (document?.categoryId) {
+    return {
+      filter: '_type == "treatment" && category->categoryId == $categoryId',
+      params: { categoryId: document.categoryId },
+    }
+  }
+  // Unsaved new category — show nothing until categoryId / _id exists
+  return {
+    filter: '_type == "treatment" && category._ref in $categoryIds',
+    params: { categoryIds: ['__no_category__'] },
+  }
+}
+
+const statItem = {
+  type: 'object',
+  fields: [
+    { name: 'value', title: 'Verdi', type: 'string', validation: reqStr('Verdi') },
+    {
+      name: 'label',
+      title: 'Etikett',
+      type: 'internationalizedArrayString',
+      validation: reqI18n('Etikett'),
+    },
+    {
+      name: 'sub',
+      title: 'Undertekst',
+      type: 'internationalizedArrayString',
+      validation: reqI18n('Undertekst'),
+    },
+  ],
+  preview: {
+    select: { value: 'value', label: 'label' },
+    prepare({ value, label }: { value?: string; label?: unknown }) {
+      return { title: value || 'Statistikk', subtitle: pickNo(label) || undefined }
+    },
+  },
+}
 
 export default {
   name: 'treatmentCategory',
@@ -15,14 +77,15 @@ export default {
       name: 'title',
       title: 'Kategorinavn',
       type: 'internationalizedArrayString',
-      validation: (Rule: any) => Rule.required(),
+      validation: reqI18n('Kategorinavn'),
     },
-    i18nSlugFieldFromTitle('title'),
+    i18nSlugFieldFromTitle('title', { requireNoEn: true }),
     {
       name: 'categoryId',
       title: 'Kategori-key (slug)',
       type: 'string',
-      description: 'Intern nøkkel brukt i app-ruting: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader',
+      description:
+        'Intern nøkkel brukt i app-ruting: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -38,113 +101,38 @@ export default {
       title: 'Hero-bilde',
       type: 'image',
       options: { hotspot: true },
-    },
-    {
-      name: 'heroVideo',
-      title: 'Hero-video (valgfritt)',
-      type: 'file',
-      options: { accept: 'video/*' },
-    },
-    {
-      name: 'description',
-      title: 'Kort beskrivelse',
-      type: 'internationalizedArrayText',
-    },
-    {
-      name: 'longDescription',
-      title: 'Utvidet beskrivelse',
-      type: 'internationalizedArrayBlockContent',
-    },
-    {
-      name: 'icon',
-      title: 'Ikon',
-      type: 'string',
-      description: 'Lucide icon name (f.eks. Heart, Baby, Bone)',
-    },
-    {
-      name: 'color',
-      title: 'Farge',
-      type: 'string',
-      description: 'Accent-farge for kategorien (HSL-verdi)',
+      validation: (Rule: any) => Rule.required().error('Hero-bilde er påkrevd'),
     },
     {
       name: 'treatments',
       title: 'Behandlinger',
+      description:
+        'Behandlinger som vises på kategori-landingssiden (f.eks. «Alt under samme tak»). Kun behandlinger med Kategori = denne kategorien kan velges. Rekkefølgen her styrer visningen.',
       type: 'array',
       of: [
         {
           type: 'reference',
           to: [{ type: 'treatment' }],
+          options: {
+            filter: treatmentRefsForCategoryFilter,
+          },
         },
       ],
+      validation: (Rule: any) => Rule.required().min(1).error('Velg minst én behandling'),
     },
     {
       name: 'stats',
       title: 'Statistikk',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'value', title: 'Verdi', type: 'string' },
-            { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
-            { name: 'sub', title: 'Undertekst', type: 'internationalizedArrayString' },
-          ],
-        },
-      ],
+      of: [statItem],
+      validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én statistikk-rad'),
     },
     {
       name: 'sortOrder',
       title: 'Sorteringsrekkefølge',
       type: 'number',
-      description: 'Lavere tall vises først. La stå tom for alfabetisk.',
-    },
-    {
-      name: 'quickInfoItems',
-      title: 'Hurtiginfo (behandlingssider)',
-      type: 'array',
-      of: [{ type: 'internationalizedArrayString' }],
-      description: 'F.eks. Ingen henvisning, Kort ventetid, Forsikring godkjent',
-    },
-    {
-      name: 'linkedServicesSectionTitle',
-      title: 'Overskrift: koblede tjenester',
-      type: 'internationalizedArrayString',
-    },
-    {
-      name: 'processSectionTitle',
-      title: 'Overskrift: behandlingsprosess',
-      type: 'internationalizedArrayString',
-    },
-    {
-      name: 'faqSectionTitle',
-      title: 'FAQ-overskrift (behandlingssider)',
-      type: 'internationalizedArrayString',
-      description: 'Vises over FAQ-listen på enkeltbehandlinger i kategorien.',
-    },
-    {
-      name: 'bottomCta',
-      title: 'Bunn-CTA (behandlingssider)',
-      type: 'object',
-      description: 'Handlingsboks nederst på behandlingssider i denne kategorien.',
-      fields: [
-        { name: 'title', title: 'Overskrift', type: 'internationalizedArrayString' },
-        { name: 'subtitle', title: 'Ingress', type: 'internationalizedArrayText' },
-        { name: 'primaryLabel', title: 'Primærknapp', type: 'internationalizedArrayString' },
-        { name: 'secondaryLabel', title: 'Sekundærknapp', type: 'internationalizedArrayString' },
-        {
-          name: 'primaryPath',
-          title: 'Primær lenke',
-          type: 'string',
-          description: 'Valgfri. Tom = booking med kategori (f.eks. /booking?kategori=fertilitet).',
-        },
-        {
-          name: 'secondaryPath',
-          title: 'Sekundær lenke',
-          type: 'string',
-          initialValue: '/kontakt',
-        },
-      ],
+      description: 'Lavere tall vises først.',
+      validation: (Rule: any) => Rule.required().error('Sorteringsrekkefølge er påkrevd'),
     },
     categoryLandingPageField,
     pageSectionsField,
@@ -152,6 +140,7 @@ export default {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      validation: requiredNoEnSeo,
     },
   ],
   orderings: [
@@ -160,7 +149,6 @@ export default {
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
-        // title is internationalizedArray — sort by slug (derived from Kategorinavn)
         { field: 'categoryId', direction: 'asc' },
       ],
     },

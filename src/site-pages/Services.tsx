@@ -1,10 +1,12 @@
+"use client";
+
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { ArrowRight, ChevronRight, Search } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFaqs, useServicesPage, useTreatmentCategories } from "@/hooks/useSanity";
-import { PageSEO } from "@/components/seo/PageSEO";
+import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
@@ -127,12 +129,6 @@ const Services = ({ isChatOpen }: PageProps) => {
     [showResults, searchResults, selectedIdx, navigate],
   );
 
-  useEffect(() => {
-    if (page?.seo?.metaTitle || page?.title) {
-      document.title = `${page.seo?.metaTitle || page.title} | CMedical`;
-    }
-  }, [page?.seo?.metaTitle, page?.title, i18n.language]);
-
   if (isPending && !page) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
@@ -177,10 +173,7 @@ const Services = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <PageSEO
-        title={page.seo?.metaTitle || page.title}
-        description={page.seo?.metaDescription || page.introText}
-        canonical="/tjenester"
+      <PageBreadcrumbsJsonLd
         breadcrumbs={[
           { name: page.breadcrumbHome || page.title, path: "/" },
           { name: page.title, path: "/tjenester" },

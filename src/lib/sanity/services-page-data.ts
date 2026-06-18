@@ -5,7 +5,7 @@ import {
 } from "@/lib/sanity/category-keys";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sortBySlug } from "@/lib/sortAlphabetical";
+import { sortBySortOrder } from "@/lib/sortAlphabetical";
 import { sanityClient } from "@/lib/sanityClient";
 
 function asPlainString(value: unknown): string {
@@ -72,18 +72,20 @@ function mapCategoryTreatments(
   const categoryId =
     asPlainString(category.categoryId) || asPlainString(category.slug) || "";
   const treatmentsRaw = (category.treatments as unknown[]) || [];
-  return sortBySlug(
+  return sortBySortOrder(
     treatmentsRaw.map((row) => {
       const t = row as Record<string, unknown>;
       const slug = asPlainString(t.slug);
       return {
         title: asPlainString(t.title),
+        sortOrder: t.sortOrder,
         path: slug
           ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
           : "",
       };
     }),
-    (t) => t.path || t.title,
+    (t) => t.sortOrder,
+    (t) => t.title,
     lang,
   );
 }
@@ -106,22 +108,28 @@ export function mapServicesPageDocument(
       ? (data.featuredCategories as unknown[])
       : ((data.categories as unknown[]) || []).slice(0, 4);
 
-  const featuredCategories: ServicesPageCategoryCard[] = featuredRaw
-    .map((row) => {
-      const c = row as Record<string, unknown>;
-      const categoryId =
-        asPlainString(c.categoryId) || asPlainString(c.slug) || "";
-      if (!categoryId) return null;
-      const card: ServicesPageCategoryCard = {
-        categoryId,
-        title: asPlainString(c.title),
-        path: categoryLandingPath(categoryId, lang),
-      };
-      const heroImage = asPlainString(c.heroImage);
-      if (heroImage) card.heroImage = heroImage;
-      return card;
-    })
-    .filter((c): c is ServicesPageCategoryCard => c !== null);
+  const featuredCategories: ServicesPageCategoryCard[] = sortBySortOrder(
+    featuredRaw
+      .map((row) => {
+        const c = row as Record<string, unknown>;
+        const categoryId =
+          asPlainString(c.categoryId) || asPlainString(c.slug) || "";
+        if (!categoryId) return null;
+        const card: ServicesPageCategoryCard & { sortOrder?: unknown } = {
+          categoryId,
+          title: asPlainString(c.title),
+          path: categoryLandingPath(categoryId, lang),
+          sortOrder: c.sortOrder,
+        };
+        const heroImage = asPlainString(c.heroImage);
+        if (heroImage) card.heroImage = heroImage;
+        return card;
+      })
+      .filter((c): c is ServicesPageCategoryCard & { sortOrder?: unknown } => c !== null),
+    (c) => c.sortOrder,
+    (c) => c.title,
+    lang,
+  ).map(({ sortOrder: _sortOrder, ...card }) => card);
 
   const moreServicesItems: ServicesPageListItem[] = [];
   const moreCategoriesRaw = (data.moreServicesCategories as unknown[]) || [];
@@ -144,10 +152,6 @@ export function mapServicesPageDocument(
       });
     }
   }
-
-  moreServicesItems.sort((a, b) =>
-    a.title.localeCompare(b.title, lang === "en" ? "en" : "nb"),
-  );
 
   const searchItems: ServicesPageListItem[] = [];
   for (const card of featuredCategories) {

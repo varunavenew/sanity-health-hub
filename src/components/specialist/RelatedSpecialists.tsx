@@ -2,17 +2,34 @@ import { AssetImg } from "@/components/AssetImg";
 import { Link, useNavigate } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Specialist } from "@/data/specialists";
+import type { Specialist } from "@/lib/sanity/specialist-types";
 import { motion } from "framer-motion";
 
 interface RelatedSpecialistsProps {
   specialists: Specialist[];
+  eyebrow?: string;
+  heading?: string;
+  ctaLabel?: string;
+  ctaPath?: string;
 }
 
-export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => {
+const DEFAULT_EYEBROW = "Samme fagområde";
+const DEFAULT_HEADING = "Andre spesialister";
+const DEFAULT_CTA_LABEL = "Se alle";
+const DEFAULT_CTA_PATH = "/spesialister";
+
+export const RelatedSpecialists = ({
+  specialists,
+  eyebrow = DEFAULT_EYEBROW,
+  heading = DEFAULT_HEADING,
+  ctaLabel = DEFAULT_CTA_LABEL,
+  ctaPath = DEFAULT_CTA_PATH,
+}: RelatedSpecialistsProps) => {
   const navigate = useNavigate();
 
   if (specialists.length === 0) return null;
+
+  const listingPath = ctaPath.startsWith("/") ? ctaPath : `/${ctaPath}`;
 
   return (
     <section className="py-16 md:py-24 bg-background">
@@ -25,19 +42,21 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
           className="flex items-end justify-between mb-10"
         >
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-2">
-              Samme fagområde
-            </p>
+            {eyebrow ? (
+              <p className="text-sm font-medium text-muted-foreground mb-2">
+                {eyebrow}
+              </p>
+            ) : null}
             <h2 className="text-2xl md:text-3xl font-light text-foreground">
-              Andre spesialister
+              {heading}
             </h2>
           </div>
           <Button
             variant="ghost"
             className="hidden md:flex text-sm font-light text-muted-foreground hover:text-foreground"
-            onClick={() => navigate("/spesialister")}
+            onClick={() => navigate(listingPath)}
           >
-            Se alle
+            {ctaLabel}
             <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden="true" />
           </Button>
         </motion.div>
@@ -76,9 +95,9 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
           <Button
             variant="outline"
             className="rounded-full font-light text-sm"
-            onClick={() => navigate("/spesialister")}
+            onClick={() => navigate(listingPath)}
           >
-            Se alle spesialister
+            {ctaLabel}
             <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
           </Button>
         </div>

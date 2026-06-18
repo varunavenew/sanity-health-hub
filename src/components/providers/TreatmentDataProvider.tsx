@@ -7,6 +7,8 @@ type TreatmentInitial = {
   lang: "no" | "en";
   categorySlug: string;
   treatmentSlug: string;
+  /** Norwegian slug key for static sub-page content (gynekologiSubPages, etc.). */
+  contentSlug?: string;
   data: TreatmentData | null;
 };
 
@@ -16,18 +18,26 @@ export function TreatmentDataProvider({
   lang,
   categorySlug,
   treatmentSlug,
+  contentSlug,
   data,
   children,
 }: {
   lang: "no" | "en";
   categorySlug: string;
   treatmentSlug: string;
+  contentSlug?: string;
   data: TreatmentData | null;
   children: ReactNode;
 }) {
   return (
     <TreatmentDataContext.Provider
-      value={{ lang, categorySlug, treatmentSlug, data: data ?? null }}
+      value={{
+        lang,
+        categorySlug,
+        treatmentSlug,
+        contentSlug: contentSlug || treatmentSlug,
+        data: data ?? null,
+      }}
     >
       {children}
     </TreatmentDataContext.Provider>

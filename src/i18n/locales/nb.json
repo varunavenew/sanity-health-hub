@@ -122,6 +122,21 @@
     "ctaContact": "Kontakt oss",
     "backTo": "Tilbake til"
   },
+  "subTreatment": {
+    "home": "Hjem",
+    "bookAppointment": "Bestill time",
+    "seePrices": "Se priser",
+    "readyWhenYouAre": "Klar når du er",
+    "bookSpecialistThisWeek": "Få {{title}} hos en spesialist denne uken.",
+    "relatedEyebrow": "Relaterte områder",
+    "relatedTitle": "Du er kanskje også interessert i",
+    "readMore": "Les mer",
+    "specialistsEyebrow": "Menneskene bak",
+    "specialistsTitle": "Spesialistene som følger deg.",
+    "seeAllSpecialists": "Se alle spesialister",
+    "insurancePartners": "SAMARBEIDSPARTNERE",
+    "insuranceTitle": "Vi har avtale med de største forsikringsselskapene i Norge."
+  },
   "homeFaq": {
     "referral": {
       "question": "Henvisning",
@@ -187,6 +202,7 @@
     "subtitle": "Har du spørsmål? Vi svarer gjerne på alle henvendelser",
     "quickHelp": "Trenger du rask hjelp?",
     "quickHelpDesc": "Du trenger ingen henvisning. Ring oss direkte eller bestill time online – vi har korte ventetider.",
+    "requestCallback": "Be om å bli kontaktet",
     "bookDirect": "Vil du booke direkte?",
     "bookDirectDesc": "Velg tjeneste, klinikk og behandler – alt i én enkel booking.",
     "hasInsurance": "Har du helseforsikring?",
@@ -236,6 +252,8 @@
     "seoDescription": "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising.",
     "duration": "Varighet",
     "disclaimer": "Alle priser er veiledende og oppgis som «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg, tillegg under behandlingen og andre faktorer.",
+    "loadingPrices": "Henter priser…",
+    "loadError": "Kunne ikke laste priser. Prøv igjen senere.",
     "seePrices": "Se priser",
     "closePriceList": "Lukk prisliste",
     "openCategory": "Åpne",

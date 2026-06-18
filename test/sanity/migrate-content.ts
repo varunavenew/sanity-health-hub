@@ -486,7 +486,11 @@ async function buildSpecialistDocsWithImages(): Promise<Mutation[]> {
         slug: { _type: "slug", current: s.slug },
         role: s.title,
         subtitle: (s as any).subtitle || "",
-        specialties: s.expertise,
+        specialties: s.expertise.map((item: string, index: number) => ({
+          _type: "specialtyItem",
+          _key: `spec-${index}`,
+          label: [{ _key: "no", language: "no", value: item }],
+        })),
         categories: [{ _type: "reference", _ref: categoryRefMap[s.category] || "category-flere-fagomrader", _key: `cat-${s.slug}` }],
         clinics: (s as any).clinics || [],
         shortBio: s.bio || `${s.name} er spesialist i ${s.title.toLowerCase()} hos CMedical.`,
