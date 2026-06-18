@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { ClinicMap } from "@/components/clinic/ClinicMap";
+import { clinicMapsUrl } from "@/lib/maps/clinic-location";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
@@ -241,6 +243,12 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 )}
               </div>
             </div>
+
+            <ClinicMap
+              location={clinic.locationSearch}
+              address={clinic.address}
+              title={label}
+            />
           </div>
         </div>
       </section>
@@ -421,7 +429,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </section>
       )}
 
-      {/* Standardized booking flow */}
       <ClinicBookingBlock
         booking={booking as any}
         clinicLabel={label}

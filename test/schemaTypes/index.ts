@@ -37,6 +37,7 @@ import {
   pageSectionBookingCta,
 } from './pageSections'
 import { subTreatmentLayoutType } from './subTreatmentLayout'
+import { locationSearchType } from './locationSearch'
 
 
 export const schemaTypes = [
@@ -72,6 +73,7 @@ export const schemaTypes = [
   
 
   // Shared types
+  locationSearchType,
   subTreatmentLayoutType,
   pageSectionSpecialists,
   pageSectionArticles,

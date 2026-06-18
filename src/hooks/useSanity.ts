@@ -607,6 +607,9 @@ export const useServicesPage = () => {
 };
 
 // ─── Clinics ─────────────────────────────────────────────────────────
+import type { ClinicLocation } from "@/lib/maps/clinic-location";
+import { clinicMapsUrl } from "@/lib/maps/clinic-location";
+
 export type SanityClinicListRow = {
   id: string;
   slug: string;
@@ -615,6 +618,8 @@ export type SanityClinicListRow = {
   phone?: string;
   hours?: string;
   sortOrder?: number;
+  locationSearch?: ClinicLocation;
+  mapsUrl?: string;
 };
 
 function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
@@ -624,14 +629,18 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
       : typeof c.title === "string"
         ? c.title
         : "";
+  const locationSearch = c.locationSearch as ClinicLocation | undefined;
+  const address = typeof c.address === "string" ? c.address : "";
   return {
     label: label.trim(),
     slug: (c.slug as string) || (c.id as string) || "",
     id: (c.id as string) || (c.slug as string) || "",
-    address: typeof c.address === "string" ? c.address : "",
+    address,
     phone: typeof c.phone === "string" ? c.phone : undefined,
     hours: typeof c.hours === "string" ? c.hours : undefined,
     sortOrder: parseSortOrder(c.sortOrder) ?? undefined,
+    locationSearch,
+    mapsUrl: clinicMapsUrl(locationSearch, address),
   };
 }
 

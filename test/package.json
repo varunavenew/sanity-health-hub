@@ -37,6 +37,8 @@
     "migrate:reviews:en": "tsx sanity/migrate-google-reviews-en.ts",
     "migrate:clinic-hours": "tsx sanity/migrate-clinic-hours-i18n.ts",
     "migrate:clinic-hours:dry": "DRY_RUN=1 tsx sanity/migrate-clinic-hours-i18n.ts",
+    "cleanup:legacy-en": "tsx sanity/cleanup-legacy-en-fields.ts",
+    "cleanup:legacy-en:dry": "cross-env DRY_RUN=1 tsx sanity/cleanup-legacy-en-fields.ts",
     "migrate:specialist-clinics": "tsx sanity/migrate-specialist-clinics.ts",
     "migrate:specialist-clinics:dry": "DRY_RUN=1 tsx sanity/migrate-specialist-clinics.ts",
     "migrate:site-settings": "tsx sanity/migrate-site-settings-i18n.ts",
