@@ -266,19 +266,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 3b. SYMPTOMSJEKK */}
- <SymptomServiceSection
- title="Hva trenger du hjelp med?"
- description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
- items={[
-  { symptom: "Hudplager, føflekker eller akne", service: "Hudlege", href: "/behandlinger/flere-fagomrader/hudlege" },
-  { symptom: "Lavt stoffskifte, diabetes eller hormoner", service: "Endokrinolog", href: "/behandlinger/flere-fagomrader/endokrinologi" },
-  { symptom: "Leddsmerter, stivhet eller hevelse", service: "Revmatolog", href: "/behandlinger/flere-fagomrader/revmatologi" },
-  { symptom: "Angst, nedstemthet eller relasjonsproblemer", service: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
-  { symptom: "Utfordringer i samliv eller seksualitet", service: "Sexolog", href: "/behandlinger/flere-fagomrader/sexologi" },
-  { symptom: "Vekt, kosthold eller matintoleranser", service: "Ernæringsfysiolog", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
- ]}
- />
 
  {/* 4b. STATS */}
  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
