@@ -25,7 +25,7 @@ import audienceSingle from "@/assets/fertility/audience-single.jpg";
 import audienceWaiting from "@/assets/fertility/audience-waiting.jpg";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 const fertilityHeroImg = fertilityHeroAsset.url;
-import fertilityHeroVideo from "@/assets/hero/fertilitet-hero.mp4.asset.json";
+import fertilityHeroVideo from "@/assets/fertilitet-hero.mp4.asset.json";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 import { AnimatedStat } from "@/components/AnimatedStat";
 
