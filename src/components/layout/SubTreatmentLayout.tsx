@@ -157,13 +157,27 @@ const ReasonsEditorial = ({
                 type="single"
                 collapsible
                 defaultValue={`reason-0`}
+                onValueChange={(val) => {
+                  if (!val) return;
+                  // Wait for the accordion to expand, then bring the trigger into view.
+                  requestAnimationFrame(() => {
+                    setTimeout(() => {
+                      const el = document.getElementById(`acc-${val}`);
+                      if (!el) return;
+                      const headerOffset = 96; // account for sticky header
+                      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+                      window.scrollTo({ top, behavior: "smooth" });
+                    }, 220);
+                  });
+                }}
                 className="border-t border-border/60"
               >
                 {items.map((r, i) => (
                   <AccordionItem
                     key={r.n}
                     value={`reason-${i}`}
-                    className="border-b border-border/60"
+                    id={`acc-reason-${i}`}
+                    className="border-b border-border/60 scroll-mt-24"
                   >
                     <AccordionTrigger className="py-6 text-left text-lg md:text-xl font-normal text-foreground hover:no-underline">
                       {r.title}
@@ -176,6 +190,7 @@ const ReasonsEditorial = ({
                   </AccordionItem>
                 ))}
               </Accordion>
+
             ) : (
               <ol className="divide-y divide-border/60 border-t border-border/60">
                 {items.map((r) => (
