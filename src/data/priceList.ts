@@ -38,7 +38,22 @@ const rawPriceCategories: PriceCategory[] = [
         label: 'Konsultasjoner',
         path: '/behandlinger/gynekologi/undersokelse',
         items: [
-          { name: "Konsultasjon 30 minutter", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Generell undersøkelse", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Kontroll / oppfølging", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Kontroll etter fødsel", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Svangerskapsoppfølging", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Tidlig ultralyd", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Fremfall / tyngdefølelse underliv / fødselsskader", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Urinlekkasje", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Hudlidelser vulva", price: "fra 2.100,-", duration: "30 min" },
+          { name: "Digitaltime gynekolog", price: "fra 2.100,-", duration: "20 min" },
+          { name: "Blødningsforstyrrelser / muskelknuter / polypper / hormonelt", price: "fra 3.200,-", duration: "45 min" },
+          { name: "Endometriose / adenomyose", price: "fra 3.200,-", duration: "45 min" },
+          { name: "Overgangsalder", price: "fra 3.200,-", duration: "45 min" },
+          { name: "PCOS / hormonforstyrrelser", price: "fra 3.200,-", duration: "45 min" },
+          { name: "Smerter i underlivet / vulvodyni / vaginisme", price: "fra 3.200,-", duration: "45 min" },
+          { name: "Premenstruelle plager (PMS / PMDD)", price: "fra 3.200,-", duration: "45 min" },
+          { name: "Ammehjelp ved brystbetennelsesproblematikk", price: "fra 3.200,-", duration: "45 min" },
         ]
       },
       {
