@@ -13,15 +13,20 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
-import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
-import { TagList } from "@/components/treatments/TagList";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
-import expertKropp from "@/assets/hero/cmedical-skin-texture.jpg";
-import expertHelse from "@/assets/hero/tverrfaglig-team.jpg";
-import expertSinn from "@/assets/hero/hero-lifestyle-1.jpg";
-import expertTverr from "@/assets/hero/cmedical-hero-1.jpg";
+import imgHudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
+import imgPlastikkirurgi from "@/assets/services/flere-plastikkirurgi.jpg.asset.json";
+import imgGastrokirurgi from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import imgAreknute from "@/assets/services/flere-areknutebehandling.jpg.asset.json";
+import imgEndokrinologi from "@/assets/services/flere-endokrinologi.jpg.asset.json";
+import imgRevmatologi from "@/assets/services/flere-revmatologi.jpg.asset.json";
+import imgErnaering from "@/assets/services/flere-ernaeringsfysologi.jpg.asset.json";
+import imgOsteopati from "@/assets/services/flere-osteopati.jpg.asset.json";
+import imgPsykologi from "@/assets/services/flere-psykologi.jpg.asset.json";
+import imgSexologi from "@/assets/services/flere-sexologi.jpg.asset.json";
+import imgRobot from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
 
 interface PageProps {
  isChatOpen: boolean;
