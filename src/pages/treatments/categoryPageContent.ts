@@ -78,7 +78,7 @@ export const serviceIconKeyMap: Record<string, string> = {
   // Flere fagområder
   "Endokrinologi": "endokrinologi-cl",
   "Ernæringsfysiolog": "ernaringsfysiolog-cl",
-  "Hudlege": "hudlege-cl",
+  // (Hudlege fjernet — alt ligger nå under Hudhelse)
   "Gastrokirurgi": "gastrokirurgi-cl",
   "Overvektskirurgi": "overvektskirurgi-cl",
   "Osteopati": "osteopati-cl",
@@ -423,7 +423,7 @@ const flereFagomrader: CategoryNewContent = {
   serviceLinks: {
     "Endokrinologi": "/behandlinger/flere-fagomrader/endokrinologi",
     "Ernæringsfysiolog": "/behandlinger/flere-fagomrader/ernaringsfysiolog",
-    "Hudlege": "/behandlinger/flere-fagomrader/hudlege",
+    // (Hudlege fjernet — alt ligger nå under Hudhelse)
     "Hudhelse": "/behandlinger/flere-fagomrader/hudhelse",
     "Gastrokirurgi": "/behandlinger/flere-fagomrader/gastrokirurgi",
     "Overvektskirurgi": "/behandlinger/flere-fagomrader/overvektskirurgi",
@@ -436,7 +436,7 @@ const flereFagomrader: CategoryNewContent = {
     "Sexologi": "/behandlinger/flere-fagomrader/sexologi",
   },
   groups: [
-    { label: "Hud, hormoner og ernæring", serviceNames: ["Endokrinologi", "Ernæringsfysiolog", "Hudlege", "Hudhelse"] },
+    { label: "Hud, hormoner og ernæring", serviceNames: ["Endokrinologi", "Ernæringsfysiolog", "Hudhelse"] },
     { label: "Mage og kirurgi", serviceNames: ["Gastrokirurgi", "Overvektskirurgi", "Plastikkirurgi", "Robotassistert kirurgi"] },
     { label: "Kropp og bevegelse", serviceNames: ["Osteopati", "Revmatologi", "Åreknuter"] },
     { label: "Mental helse og samliv", serviceNames: ["Psykologi", "Sexologi"] },

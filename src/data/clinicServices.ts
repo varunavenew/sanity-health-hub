@@ -38,7 +38,7 @@ export const clinics: Clinic[] = [
     services: [
       "fertilitet", "fostermedisiner", "gynekolog", "ernaringsfysiolog",
       "psykolog", "sexolog", "gastrokirurg", "ortoped", "handterapeut",
-      "revmatolog", "urolog", "hudlege", "areknuter", "sprengte-blodkar",
+      "revmatolog", "urolog", "hudhelse", "areknuter", "sprengte-blodkar",
       "fysioterapeut", "uroterapi",
     ],
     detail: {
@@ -57,9 +57,9 @@ export const clinics: Clinic[] = [
     hours: "Man–Fre 08:00–16:00",
     bookingSystem: "metodika",
     mapsUrl: "https://maps.google.com/?q=Gamle+Ringeriksvei+36+1357+Bekkestua",
-    services: ["gynekolog", "hudlege"],
+    services: ["gynekolog", "hudhelse"],
     detail: {
-      description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudlege i moderne og rolige omgivelser.",
+      description: "CMedical Bekkestua ligger sentralt på Bekkestua i Bærum. Klinikken tilbyr gynekologi og hudhelse i moderne og rolige omgivelser.",
       parking: "Gratis parkering tilgjengelig rett utenfor klinikken.",
       publicTransport: "Bekkestua stasjon (Kolsåsbanen) – 2 minutters gange.",
       accessibility: "Trinnfri adkomst til klinikken.",

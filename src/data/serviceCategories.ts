@@ -137,16 +137,6 @@ export const serviceCategories: ServiceCategory[] = [
         ],
       },
       {
-        label: 'Hudlege',
-        path: '/behandlinger/flere-fagomrader/hudlege',
-        items: [
-          { label: 'Føflekksjekk', path: '/behandlinger/flere-fagomrader/hudlege-foflekksjekk' },
-          { label: 'Eksem og psoriasis', path: '/behandlinger/flere-fagomrader/hudlege-eksem' },
-          { label: 'Akne', path: '/behandlinger/flere-fagomrader/hudlege-akne' },
-          { label: 'Hudkreft', path: '/behandlinger/flere-fagomrader/hudlege-hudkreft' },
-        ],
-      },
-      {
         label: 'Hudhelse',
         path: '/behandlinger/flere-fagomrader/hudhelse',
         items: [

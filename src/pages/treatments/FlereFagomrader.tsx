@@ -16,7 +16,7 @@ const clusters = [
  {
  title: "Kropp og vev",
  desc: "Spesialister på hud, kirurgi og karsystemet. For deg med synlige plager, operasjonsbehov eller tilstander som krever kirurgisk vurdering.",
- tags: ["Hudlege", "Plastikkirurgi", "Gastrokirurgi", "Karkirurgi", "Åreknutebehandling"],
+ tags: ["Hudhelse", "Plastikkirurgi", "Gastrokirurgi", "Karkirurgi", "Åreknutebehandling"],
  },
  {
  title: "Helse og balanse",
@@ -31,7 +31,7 @@ const clusters = [
 ];
 
 const allSpecialists = [
- { name: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne, moleanalyse" },
+ { name: "Hudhelse", desc: "Hudbehandlinger, føflekksjekk, pigment, rødhet og hudpleieprodukter — vurdert av hudlege" },
  { name: "Psykologi", desc: "Angst, depresjon, relasjonsproblemer, traumer" },
  { name: "Sexologi", desc: "Seksuell helse, samliv, identitet, funksjonsplager" },
  { name: "Ernæringsfysiolog", desc: "Kosthold, vekttap, matintoleranser, sykdomsernæring" },

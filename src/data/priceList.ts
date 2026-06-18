@@ -385,20 +385,6 @@ const rawPriceCategories: PriceCategory[] = [
     ]
   },
   {
-    id: 'hudlege',
-    label: 'Hudlege',
-    path: '/behandlinger/flere-fagomrader/hudlege',
-    subcategories: [
-      {
-        label: 'Konsultasjon',
-        path: '/behandlinger/flere-fagomrader/hudlege',
-        items: [
-          { name: "Konsultasjon hudlege", price: "2.100,-", duration: "30 min" },
-        ]
-      },
-    ]
-  },
-  {
     id: 'hudhelse',
     label: 'Hudhelse',
     path: '/behandlinger/flere-fagomrader/hudhelse',

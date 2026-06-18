@@ -22,7 +22,7 @@ const categoryToBookingIds: Record<string, string[]> = {
   fertilitet: ["fertilitet"],
   urologi: ["urolog"],
   ortopedi: ["ortoped", "handterapeut"],
-  annet: ["gastrokirurg", "ernaringsfysiolog", "psykolog", "sexolog", "endokrinolog", "revmatolog", "hudlege", "fysioterapeut", "areknuter", "sprengte-blodkar"],
+  annet: ["gastrokirurg", "ernaringsfysiolog", "psykolog", "sexolog", "endokrinolog", "revmatolog", "hudhelse", "fysioterapeut", "areknuter", "sprengte-blodkar"],
 };
 
 const allBookingServices: BookingCategory[] = [
