@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Instagram, Linkedin, Facebook, Youtube, Twitter } from "lucide-react";
 import { AssetImg } from "@/components/AssetImg";
 import { useSiteSettings } from "@/hooks/useSanity";
+import type { SanitySocialPost } from "@/hooks/useSanity";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { ImageRef } from "@/lib/media";
@@ -43,10 +44,11 @@ const fallbackSocial = {
 
 type SoMePost = {
   id: string;
-  platform: "instagram";
+  platform: "instagram" | "linkedin" | "facebook" | "youtube";
   image: ImageRef;
   caption: string;
   permalink: string;
+  alt?: string;
 };
 
 const isUsableRemoteImage = (url: unknown): url is string =>
@@ -57,6 +59,43 @@ const fetchInstagramPosts = async () => {
   if (error) throw error;
   return data?.posts || [];
 };
+
+function defaultPermalinkForPlatform(
+  platform: SoMePost["platform"],
+  social: Record<string, string | undefined>,
+): string {
+  switch (platform) {
+    case "facebook":
+      return social.facebook || fallbackSocial.facebook;
+    case "linkedin":
+      return social.linkedin || fallbackSocial.linkedin;
+    case "youtube":
+      return social.youtube || fallbackSocial.instagram;
+    default:
+      return social.instagram || fallbackSocial.instagram;
+  }
+}
+
+export function sanityPostsToSoMeFeed(
+  posts: SanitySocialPost[] | undefined,
+  social: Record<string, string | undefined>,
+): SoMePost[] {
+  if (!posts?.length) return [];
+
+  return posts
+    .filter((post) => isUsableRemoteImage(post.image))
+    .map((post) => {
+      const platform = (post.platform || "instagram") as SoMePost["platform"];
+      return {
+        id: post._id,
+        platform,
+        image: post.image,
+        caption: post.caption || "",
+        permalink: post.postUrl || defaultPermalinkForPlatform(platform, social),
+        alt: post.alt || post.caption || "",
+      };
+    });
+}
 
 const SoMePostImage = ({
   post,
@@ -72,7 +111,7 @@ const SoMePostImage = ({
   return (
     <AssetImg
       src={src}
-      alt=""
+      alt={post.alt || ""}
       loading="lazy"
       className={className}
       onError={() => setSrc(fallbackImage)}
@@ -83,18 +122,30 @@ const SoMePostImage = ({
 interface SoMeFeedProps {
   maxPosts?: number;
   compact?: boolean;
+  /** CMS posts from Sanity — takes priority over live Instagram feed */
+  posts?: SanitySocialPost[] | null;
+  /** When true, skip Instagram API and only use CMS / fallback images */
+  cmsOnly?: boolean;
 }
 
-export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
+export const SoMeFeed = ({
+  maxPosts,
+  compact,
+  posts: cmsPosts,
+  cmsOnly = false,
+}: SoMeFeedProps = {}) => {
   const { data: settings } = useSiteSettings();
   const social = settings?.socialMedia || fallbackSocial;
 
   const { data: livePosts } = useQuery({
     queryKey: ["instagram-feed"],
     queryFn: fetchInstagramPosts,
-    staleTime: 1000 * 60 * 15, // 15 min cache
+    staleTime: 1000 * 60 * 15,
     retry: 1,
+    enabled: !cmsOnly && !cmsPosts?.length,
   });
+
+  const cmsMapped = sanityPostsToSoMeFeed(cmsPosts || undefined, social);
 
   const instagramPosts: SoMePost[] = (livePosts || [])
     .filter((p: { image?: unknown }) => isUsableRemoteImage(p.image))
@@ -106,7 +157,12 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
       permalink: p.permalink || fallbackSocial.instagram,
     }));
 
-  const posts: SoMePost[] = instagramPosts.length > 0 ? instagramPosts : fallbackPosts;
+  const posts: SoMePost[] =
+    cmsMapped.length > 0
+      ? cmsMapped
+      : instagramPosts.length > 0
+        ? instagramPosts
+        : fallbackPosts;
 
   const socialLinks = [
     social?.instagram && { platform: "Instagram", url: social.instagram, icon: Instagram },
@@ -117,6 +173,8 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
   ].filter(Boolean) as { platform: string; url: string; icon: React.ElementType }[];
 
   const displayPosts = maxPosts ? posts.slice(0, maxPosts) : posts;
+
+  if (!displayPosts.length) return null;
 
   if (compact) {
     return (
@@ -140,9 +198,11 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
                 <PlatformIcon platform={post.platform} />
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <p className="text-white text-xs line-clamp-2 font-light">{post.caption}</p>
-            </div>
+            {post.caption ? (
+              <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <p className="text-white text-xs line-clamp-2 font-light">{post.caption}</p>
+              </div>
+            ) : null}
           </a>
         ))}
       </div>
@@ -180,9 +240,11 @@ export const SoMeFeed = ({ maxPosts, compact }: SoMeFeedProps = {}) => {
                   <PlatformIcon platform={post.platform} />
                 </div>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                <p className="text-white text-xs line-clamp-2 font-light">{post.caption}</p>
-              </div>
+              {post.caption ? (
+                <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-white text-xs line-clamp-2 font-light">{post.caption}</p>
+                </div>
+              ) : null}
             </a>
           ))}
         </div>

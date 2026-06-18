@@ -31,6 +31,7 @@ import product from './product'
 import specialistsPage from './specialistsPage'
 import specialistsListingPage from './specialistsListingPage'
 import testimonial from './testimonial'
+import socialPost from './socialPost'
 import {
   pageSectionSpecialists,
   pageSectionArticles,
@@ -70,8 +71,7 @@ export const schemaTypes = [
   faq,
   product,
   testimonial,
-  
-
+  socialPost,
   // Shared types
   locationSearchType,
   subTreatmentLayoutType,

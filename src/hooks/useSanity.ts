@@ -1060,8 +1060,8 @@ export interface SanitySocialPost {
   image: string;
   caption?: string;
   postUrl?: string;
-  date?: string;
-  likes?: number;
+  alt?: string;
+  sortOrder?: number;
 }
 
 export const useSocialPosts = () => {
