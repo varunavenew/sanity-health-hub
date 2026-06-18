@@ -115,7 +115,20 @@ const Priser = ({ isChatOpen }: PageProps) => {
   };
 
   const toggleSubcategory = (label: string) => {
-    setExpandedSubcategory(expandedSubcategory === label ? null : label);
+    const newLabel = expandedSubcategory === label ? null : label;
+    setExpandedSubcategory(newLabel);
+    if (newLabel) {
+      const scrollToSub = () => {
+        const el = document.getElementById(`sub-${newLabel}`);
+        if (!el) return;
+        const header = document.querySelector('header');
+        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      };
+      requestAnimationFrame(scrollToSub);
+      setTimeout(scrollToSub, 320);
+    }
   };
 
   const toggleFaq = (id: string) => {
@@ -234,7 +247,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                     return (
                                       <div
                                         key={sub.label}
-                                        className={`rounded-xl border transition-all ${
+                                        id={`sub-${sub.label}`}
+                                        className={`scroll-mt-24 rounded-xl border transition-all ${
                                           subOpen
                                             ? 'bg-brand-beige/30 border-brand-dark/15'
                                             : 'bg-white border-brand-dark/20 hover:border-brand-mid/60'
