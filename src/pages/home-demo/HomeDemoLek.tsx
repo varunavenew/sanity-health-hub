@@ -38,7 +38,7 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
       <ValueBadges />
       <PromoBlocks />
       <LifePhasesSection />
-      <SpecialistsSection />
+      <SpecialistsSectionElegant />
       <ResultsStatsSection
         title="Tall som forteller en historie."
         description="Du fortjener åpenhet. Her er noen av tallene som beskriver hverdagen vår — på tvers av spesialiteter, klinikker og pasientmøter."
