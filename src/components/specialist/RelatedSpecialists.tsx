@@ -55,17 +55,16 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
                   <img
                     src={s.image}
                     alt={s.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700 ease-out saturate-[0.7] brightness-[0.95] contrast-[1.05]"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="font-normal text-white text-sm mb-0.5">{s.name}</h3>
-                    <p className="text-white/70 text-xs font-light pr-4">
-                      {s.subtitle || s.title}
-                    </p>
-                  </div>
+                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
                 </div>
+                <h3 className="text-sm font-medium text-foreground mt-3">{s.name}</h3>
+                <p className="text-xs text-muted-foreground font-light">
+                  {s.title}
+                  {s.subtitle && s.subtitle !== s.title && ` · ${s.subtitle}`}
+                </p>
               </Link>
             </motion.div>
           ))}
