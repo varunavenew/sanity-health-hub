@@ -212,39 +212,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>
 
- {/* 2. SEGMENT */}
- <section className="bg-brand-light text-foreground py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="max-w-2xl mb-14">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Vi dekker mer enn du tror — og vi gjør det sammen.
- </h2>
- </div>
-
- <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {lifePhases.map((p) => (
- <div key={p.n} className="bg-background p-7 flex flex-col">
- <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
- {p.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
- {p.desc}
- </p>
- <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
- <Link
- to={p.href}
- className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
- >
- Les mer
- <ArrowRight className="w-3.5 h-3.5" />
- </Link>
- </div>
- ))}
- </div>
- </div>
- </div>
- </section>
 
  {/* 3. EKSPERTER */}
  <section className="bg-secondary/40 py-20 md:py-28">
@@ -364,46 +331,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 4. ALLE BEHANDLINGER */}
- <section className="bg-background text-foreground py-12 md:py-16">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
- <div className="lg:col-span-6">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Vet du allerede hva du trenger?
- </h2>
- </div>
- <div className="lg:col-span-6 lg:pt-3">
- <p className="text-base font-light text-muted-foreground leading-relaxed">
- Klikk og book direkte, eller les mer om den enkelte
- spesialiteten.
- </p>
- </div>
- </div>
-
- <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {allServices.map((s) => (
- <Link
- key={s.title}
- to={s.href}
- className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
- >
- <div>
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {s.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-snug">
- {s.desc}
- </p>
- </div>
- <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
- </Link>
- ))}
- </div>
- </div>
- </div>
- </section>
 
  {/* 5. REVIEWS */}
  <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
