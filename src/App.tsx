@@ -148,6 +148,10 @@ const AppContent = () => {
         <Route path="/behandlinger/hudhelse/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudbehandlinger" replace />} />
         <Route path="/behandlinger/hudhelse/behandlingsutstyr" element={<Navigate to="/behandlinger/flere-fagomrader/behandlingsutstyr" replace />} />
         <Route path="/behandlinger/hudhelse/hudpleieprodukter" element={<Navigate to="/behandlinger/flere-fagomrader/hudpleieprodukter" replace />} />
+        {/* Hudhelse › Hudbehandlinger — samleområde med nested undersider */}
+        <Route path="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" element={<HudbehandlingerPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/:methodId" element={<HudbehandlingerMethodPage isChatOpen={false} />} />
+        <Route path="/behandlinger/flere-fagomrader/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
         {/* Gastrokirurgi — samleområde med nested undersider per metode */}
         <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/:methodId" element={<GastrokirurgiMethodPage isChatOpen={false} />} />
         {/* Old flat URLs → redirect to nested Gastrokirurgi-undersider */}
