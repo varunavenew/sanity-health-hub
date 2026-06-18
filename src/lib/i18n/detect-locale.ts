@@ -21,11 +21,7 @@ export function readLocaleCookie(request: NextRequest): AppLocale | null {
 }
 
 function geoCountry(request: NextRequest): string | undefined {
-  return (
-    request.geo?.country ||
-    request.headers.get("x-vercel-ip-country") ||
-    undefined
-  );
+  return request.headers.get("x-vercel-ip-country") || undefined;
 }
 
 /**
