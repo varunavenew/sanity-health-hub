@@ -229,6 +229,7 @@ export const treatmentToSubLayout = ({
     heroTitle,
     heroDescription: summarize(firstParagraph, 320),
     heroPoints,
+    heroAvailability,
     booking: { kategori: categoryId, tjeneste: subId },
     primaryCtaLabel: "Se ledige tider",
     heroPrice: getFromPriceForTitle(categoryId, data.title) ?? getFromPriceForPath(canonical) ?? undefined,
