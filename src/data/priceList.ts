@@ -9,6 +9,8 @@ export interface PriceItem {
   info?: string;
   /** If true, shows "Krever konsultasjon" instead of a booking button on /priser. */
   requiresConsultation?: boolean;
+  /** Short price qualifier shown below the price (e.g. "per ultralyd") to keep the main row aligned. */
+  priceNote?: string;
 }
 
 export interface PriceSubcategory {
