@@ -112,25 +112,54 @@ const expertAreas = [
  },
 ];
 
-const allServices = [
- { title: "Inneklemming (impingement)", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
- { title: "Kalkavleiringer", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
- { title: "Rotatormansjettskader", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
- { title: "Frossen skulder", desc: "Skulder", href: "/behandlinger/ortopedi/skulder" },
- { title: "Korsbåndruptur", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
- { title: "Meniskskader", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
- { title: "Kneslitasje", desc: "Kne", href: "/behandlinger/ortopedi/kne" },
- { title: "Hofteslitasje", desc: "Hofte", href: "/behandlinger/ortopedi/hofte" },
- { title: "Labrumskade i hofte", desc: "Hofte", href: "/behandlinger/ortopedi/hofte" },
- { title: "Karpaltunnelsyndrom", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
- { title: "Tennisalbue og golfalbue", desc: "Albue", href: "/behandlinger/ortopedi/albue" },
- { title: "Dupuytrens kontraktur", desc: "Hånd", href: "/behandlinger/ortopedi/hand" },
- { title: "Hælspore og hælsmerter", desc: "Fot", href: "/behandlinger/ortopedi/fot" },
- { title: "Ankelbåndskader", desc: "Ankel", href: "/behandlinger/ortopedi/fot" },
- 
- { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
- { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
- { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+  {
+    label: "Skulder",
+    items: [
+      { title: "Inneklemming (impingement)", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Kalkavleiringer", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Rotatormansjettskader", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Frossen skulder", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+    ],
+  },
+  {
+    label: "Kne",
+    items: [
+      { title: "Korsbåndruptur", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
+      { title: "Meniskskader", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
+      { title: "Kneslitasje", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/kne" },
+    ],
+  },
+  {
+    label: "Hofte",
+    items: [
+      { title: "Hofteslitasje", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
+      { title: "Labrumskade i hofte", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
+    ],
+  },
+  {
+    label: "Hånd og albue",
+    items: [
+      { title: "Karpaltunnelsyndrom", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
+      { title: "Tennisalbue og golfalbue", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/albue" },
+      { title: "Dupuytrens kontraktur", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
+    ],
+  },
+  {
+    label: "Fot og ankel",
+    items: [
+      { title: "Hælspore og hælsmerter", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/fot" },
+      { title: "Ankelbåndskader", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/fot" },
+    ],
+  },
+  {
+    label: "Behandling",
+    items: [
+      { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
+      { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
+      { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
+    ],
+  },
 ];
 
 const journey = [
