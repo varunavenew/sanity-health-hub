@@ -76,16 +76,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const cat = priceCategories.find(c => c.id === 'gynekologi');
     return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
   });
-  const [openSubcategories, setOpenSubcategories] = useState<Record<string, boolean>>(() => {
-    // Default: open all subcategories on first load
-    const initial: Record<string, boolean> = {};
-    priceCategories.forEach((cat) => {
-      cat.subcategories.forEach((sub) => {
-        initial[`${cat.id}--${sub.label}`] = false;
-      });
-    });
-    return initial;
-  });
+  const [openSubcategory, setOpenSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
