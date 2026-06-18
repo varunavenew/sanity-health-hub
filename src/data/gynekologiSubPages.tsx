@@ -236,6 +236,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     heroImage: imgUrogynekologiHero,
     heroImageAlt: "Hender som støtter underlivet",
     flowTitle: "Slik utreder og behandler vi",
+    flowImage: imgMajorstuen,
+    flowImageAlt: "Interiør fra CMedical-klinikken",
+    flowLinkLabel: "Les mer om klinikken",
+    flowLinkHref: "/klinikker/majorstuen",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
       { n: "Steg 02", title: "Undersøkelse", desc: "Klinisk undersøkelse av bekkenbunn, vurdering av fremfall, eventuell ultralyd og urinprøve." },
