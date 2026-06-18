@@ -130,6 +130,12 @@ const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = 
       { to: "/hjem-demo/lek", name: "Hjem — Lekekasse (kopi)" },
     ],
   },
+  {
+    title: "Priser",
+    items: [
+      { to: "/demoer/priser-inline-info", name: "Priser — Info under tjenesten (demo)" },
+    ],
+  },
 ];
 
 const malPath = (key: string) => `__mal_${key}__`;
