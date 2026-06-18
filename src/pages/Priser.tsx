@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink, Info } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
@@ -299,14 +299,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                           {item.duration && (
                                                             <div className="flex items-center gap-3 mt-1 text-sm text-brand-dark/70 font-light flex-wrap">
                                                               <span>{item.duration}</span>
-                                                            </div>
-                                                          )}
-                                                          {item.info && (
-                                                            <div className="mt-2 flex items-start gap-2 max-w-[52ch]">
-                                                              <Info className="w-4 h-4 text-brand-dark/50 mt-0.5 shrink-0" strokeWidth={1.5} />
-                                                              <p className="text-xs font-light text-brand-dark/70 leading-relaxed">
-                                                                {item.info}
-                                                              </p>
                                                             </div>
                                                           )}
                                                         </div>
