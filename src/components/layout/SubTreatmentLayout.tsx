@@ -82,9 +82,11 @@ export interface SubTreatmentContent {
  description?: string;
  items: { title: string; desc: string; href: string; image: string }[];
  };
- // Section 5 — relaterte
+  // Section 5 — relaterte
  relatedTitle?: string;
  related: { title: string; desc: string; href: string }[];
+ /** When true, render the related cards right after the hero (as section 2) instead of after the flow. Used for landing pages where the cards represent the actual treatments included in the service. */
+ relatedAsIntro?: boolean;
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
