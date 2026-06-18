@@ -79,17 +79,7 @@ export default {
       media: 'image',
       sortOrder: 'sortOrder',
     },
-    prepare({
-      caption,
-      platform,
-      media,
-      sortOrder,
-    }: {
-      caption?: string
-      platform?: string
-      media?: unknown
-      sortOrder?: number
-    }) {
+    prepare({ caption, platform, media, sortOrder }: any) {
       return {
         title: caption?.trim() || 'Sosialt innlegg',
         subtitle: [platform, typeof sortOrder === 'number' ? `#${sortOrder}` : null]
