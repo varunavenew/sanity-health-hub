@@ -285,7 +285,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             >
                                               <div className="p-3 md:p-4 space-y-1">
                                                 {sub.items.map((item, idx) => {
-                                                  const requiresConsult = item.requiresConsultation || item.price === "Pris ved konsultasjon";
                                                   return (
                                                     <div
                                                       key={idx}
