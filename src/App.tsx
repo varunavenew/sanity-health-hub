@@ -69,6 +69,7 @@ import HomeDemoBlend from "./pages/home-demo/HomeDemoBlend";
 import HomeDemoOverlap from "./pages/home-demo/HomeDemoOverlap";
 import HomeDemoCut from "./pages/home-demo/HomeDemoCut";
 import HomeDemoLek from "./pages/home-demo/HomeDemoLek";
+import PriserInlineInfo from "./pages/demos/PriserInlineInfo";
 import SpecialistDesignHub from "./pages/specialist-design/DesignHub";
 import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
 import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
