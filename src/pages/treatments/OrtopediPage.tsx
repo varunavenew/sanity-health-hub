@@ -114,50 +114,35 @@ const expertAreas = [
 
 const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
   {
-    label: "Skulder",
+    label: "Undersøkelse og utredning",
     items: [
-      { title: "Inneklemming (impingement)", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Kalkavleiringer", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Rotatormansjettskader", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Frossen skulder", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-    ],
-  },
-  {
-    label: "Kne",
-    items: [
-      { title: "Korsbåndruptur", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
-      { title: "Meniskskader", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
-      { title: "Kneslitasje", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/kne" },
-    ],
-  },
-  {
-    label: "Hofte",
-    items: [
-      { title: "Hofteslitasje", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
-      { title: "Labrumskade i hofte", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
-    ],
-  },
-  {
-    label: "Hånd og albue",
-    items: [
-      { title: "Karpaltunnelsyndrom", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
-      { title: "Tennisalbue og golfalbue", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/albue" },
-      { title: "Dupuytrens kontraktur", desc: "Utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
-    ],
-  },
-  {
-    label: "Fot og ankel",
-    items: [
-      { title: "Hælspore og hælsmerter", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/fot" },
-      { title: "Ankelbåndskader", desc: "Utredning og behandling", href: "/behandlinger/ortopedi/fot" },
+      { title: "Inneklemming (impingement)", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Kalkavleiringer", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Rotatormansjettskader", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Frossen skulder", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Kneslitasje", desc: "Kne — utredning og behandling", href: "/behandlinger/ortopedi/kne" },
+      { title: "Hofteslitasje", desc: "Hofte — utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
+      { title: "Labrumskade i hofte", desc: "Hofte — utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
+      { title: "Tennisalbue og golfalbue", desc: "Albue — utredning og behandling", href: "/behandlinger/ortopedi/albue" },
+      { title: "Hælspore og hælsmerter", desc: "Fot — utredning og behandling", href: "/behandlinger/ortopedi/fot" },
+      { title: "Ankelbåndskader", desc: "Fot — utredning og behandling", href: "/behandlinger/ortopedi/fot" },
     ],
   },
   {
     label: "Behandling",
     items: [
-      { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
       { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
       { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
+    ],
+  },
+  {
+    label: "Kirurgi",
+    items: [
+      { title: "Korsbåndruptur", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
+      { title: "Meniskskader", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
+      { title: "Karpaltunnelsyndrom", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
+      { title: "Dupuytrens kontraktur", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
+      { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
     ],
   },
 ];

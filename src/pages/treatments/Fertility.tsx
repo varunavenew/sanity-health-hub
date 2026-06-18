@@ -162,7 +162,7 @@ const expertAreas = [
 
 const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
   {
-    label: "Utredning",
+    label: "Undersøkelse og utredning",
     items: [
       { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
       { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
@@ -176,13 +176,13 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
       { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
       { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
       { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
   },
   {
-    label: "Tilleggstjenester",
+    label: "Kirurgi",
     items: [
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
   },
 ];
