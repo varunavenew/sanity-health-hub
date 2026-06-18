@@ -274,6 +274,7 @@ export const treatmentToSubLayout = ({
     reasonsTitle: data.sections && data.sections.length > 0 ? `Om ${data.title}` : "Når bør du ta kontakt",
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
     reasons,
+    reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`) ? "accordion" : "prose",
     promises: STANDARD_PROMISES,
     relatedTitle: related.length > 0
       ? (relatedIsChildren
