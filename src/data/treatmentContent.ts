@@ -1946,55 +1946,166 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Medisinsk forankrede hudbehandlinger utført av hudlege",
     parentCategory: "Hudhelse",
     heroImage: flereFagImg,
-    description: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse — samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer. Våre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.",
+    description: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege — medisinsk forankret og tilpasset deg.",
     sections: [
       {
-        heading: "Kosmetiske behandlinger",
-        content: "Hos CMedical på Bekkestua tilbyr vi et utvalg kosmetiske behandlinger som utføres av hudlege. Våre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. For mange handler kosmetiske behandlinger ikke om å endre utseendet, men om å behandle hudplager eller oppnå en jevnere og friskere hud. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nVår tilnærming:\n\n- Medisinsk vurdering før behandling\n- Behandling utført av hudlege\n- Naturlige og balanserte resultater\n- Hudhelse på kort og lang sikt",
-      },
-      {
-        heading: "Trygg behandling basert på dokumenterte metoder",
-        content: "Før en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte.\n\nDette er en viktig del av vår faglige tilnærming og skiller behandling hos hudlege fra rene estetiske klinikker.",
-      },
-      {
-        heading: "Behandling av pigmentforandringer og solskader",
-        content: "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles.\n\nVi tilbyr blant annet:\n\n- IPL-behandling av pigmentflekker\n- Behandling av solskadet hud\n- Vurdering av pigmentforandringer\n\nFør behandling vurderer hudlegen alltid flekkene medisinsk.",
-      },
-      {
-        heading: "Rødhet og synlige blodkar",
-        content: "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning.\n\nAktuelle behandlinger:\n\n- IPL-behandling av rødhet, sprengte blodkar og diffus rødhet i ansiktet",
-      },
-      {
-        heading: "Forbedring av hudstruktur",
-        content: "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt.\n\nVi tilbyr blant annet:\n\n- Microneedling\n- Mesoterapi\n- Behandling for jevnere hudtone",
-      },
-      {
-        heading: "Hudhelse og kosmetisk dermatologi",
-        content: "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi. Mange pasienter oppsøker oss for tilstander som:\n\n- Akne\n- Perioral dermatitt\n- Pigmentforandringer\n- Solskadet hud\n- Hudforandringer som bør vurderes av hudlege\n\nKosmetiske behandlinger kan i noen tilfeller være en del av en helhetlig behandling av huden.",
-      },
-      {
-        heading: "Behandling av elastisitet og volum",
-        content: "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur.\n\nAktuelle behandlinger kan inkludere:\n\n- Rynkebehandling\n- Profhilo\n- Radiesse\n- Behandling av slapp hud\n- Skin boosters\n\nBehandlingen tilpasses individuelt etter hudtype, alder og ønsket resultat.",
-      },
-      {
-        heading: "Føflekksjekk",
-        content: "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling. Hos CMedical utfører hudlegen en grundig gjennomgang av hele huden, fra topp til tå.\n\nUnder en føflekksjekk bruker hudlegen et dermatoskop — et spesialisert optisk verktøy som gir forstørret og detaljert innsyn i hudens strukturer. Dette gjør det mulig å vurdere føflekker og andre hudforandringer med langt større nøyaktighet enn ved vanlig øyeundersøkelse.\n\nHudlegen ser etter spesifikke endringer i form, farge, grenser og struktur som kan tyde på malignitet eller andre tilstander som bør følges opp.\n\nAktuelle indikasjoner for føflekksjekk:\n\n- Kontroll av eksisterende føflekker og pigmentforandringer\n- Vurdering av nye eller endrede hudlesjoner\n- Screening ved høy soleksponering eller familiær hudkrefthistorikk",
-      },
-      {
-        heading: "Jevnlig oppfølging for pasienter med mange føflekker",
-        content: "Undersøkelsen er ikke-invasiv og gjennomføres i løpet av konsultasjonen. Dersom hudlegen finner forandringer som bør utredes videre eller fjernes, vil du få råd om neste steg.",
+        id: "om-hudbehandlinger",
+        heading: "Om hudbehandlinger",
+        content: "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer.\n\nVåre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.\n\nVår tilnærming:\n\n- medisinsk vurdering før behandling\n- behandling utført av hudlege\n- naturlige og balanserte resultater\n- hudhelse på kort og lang sikt\n- trygg behandling basert på dokumenterte metoder\n\nFør en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte. Dette skiller behandling hos hudlege fra rene estetiske klinikker.",
       },
     ],
     linkedServices: [
-      { label: "Behandlingsutstyr (IPL)", description: "Mer om vår IPL- og laserbehandling.", path: "/behandlinger/flere-fagomrader/behandlingsutstyr" },
-      { label: "Hudpleieprodukter", description: "Medisinsk hudpleie fra SkinCeuticals.", path: "/behandlinger/flere-fagomrader/hudpleieprodukter" },
-      { label: "Hudlege", description: "Konsultasjon og vurdering hos hudlege.", path: "/behandlinger/flere-fagomrader/hudlege" },
+      { label: "Pigmentforandringer og solskader", description: "Vurdering og behandling av pigmentflekker og solskadet hud — inkludert IPL.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/pigmentforandringer-og-solskader" },
+      { label: "Rødhet og synlige blodkar", description: "Behandling av rosacea-relatert rødhet og sprengte blodkar i ansiktet.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/rodhet-og-synlige-blodkar" },
+      { label: "Forbedring av hudstruktur", description: "Microneedling, mesoterapi og behandlinger som stimulerer hudens egen fornyelse.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/forbedring-av-hudstruktur" },
+      { label: "Hudhelse og kosmetisk dermatologi", description: "Medisinske hudtilstander og kosmetisk dermatologi — vurdert av hudlege.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/kosmetisk-dermatologi" },
+      { label: "Elastisitet og volum", description: "Rynkebehandling, Profhilo, Radiesse og Skin boosters tilpasset deg.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/elastisitet-og-volum" },
+      { label: "Føflekksjekk", description: "Grundig dermatoskopisk vurdering av føflekker og hudforandringer.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/foflekksjekk" },
     ],
     faqs: [
       { question: "Hvor utføres behandlingene?", answer: "Alle hudbehandlinger utføres ved vår klinikk på Bekkestua." },
       { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
       { question: "Vurderes huden alltid medisinsk først?", answer: "Ja. Før en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden." },
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg." },
+    ],
+  },
+
+  // ─── Hudbehandlinger-undersider (egne sider under Hudhelse › Hudbehandlinger) ───
+  "flere-fagomrader/hudbehandlinger/pigmentforandringer-og-solskader": {
+    title: "Pigmentforandringer og solskader",
+    subtitle: "Vurdering og behandling hos hudlege",
+    parentCategory: "Hudbehandlinger",
+    heroImage: flereFagImg,
+    description: "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles.",
+    sections: [
+      {
+        id: "om",
+        heading: "Om behandlingen",
+        content: "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles. Vi tilbyr blant annet:\n\n- IPL-behandling av pigmentflekker\n- behandling av solskadet hud\n- vurdering av pigmentforandringer\n\nFør behandling vurderer hudlegen alltid flekkene medisinsk.",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+      { question: "Vurderes flekkene først?", answer: "Ja, hudlegen vurderer alltid pigmentforandringer medisinsk før behandling." },
+    ],
+  },
+
+  "flere-fagomrader/hudbehandlinger/rodhet-og-synlige-blodkar": {
+    title: "Rødhet og synlige blodkar",
+    subtitle: "Behandling hos hudlege på Bekkestua",
+    parentCategory: "Hudbehandlinger",
+    heroImage: flereFagImg,
+    description: "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning.",
+    sections: [
+      {
+        id: "om",
+        heading: "Om behandlingen",
+        content: "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning. Aktuelle behandlinger:\n\n- IPL-behandling av rødhet\n- behandling av sprengte blodkar\n- behandling av diffus rødhet i ansiktet",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+    ],
+    faqs: [
+      { question: "Hvor utføres behandlingen?", answer: "På CMedical Bekkestua, av hudlege." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille en uforpliktende vurdering direkte." },
+    ],
+  },
+
+  "flere-fagomrader/hudbehandlinger/forbedring-av-hudstruktur": {
+    title: "Forbedring av hudstruktur",
+    subtitle: "Microneedling, mesoterapi og målrettede behandlinger",
+    parentCategory: "Hudbehandlinger",
+    heroImage: flereFagImg,
+    description: "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt.",
+    sections: [
+      {
+        id: "om",
+        heading: "Om behandlingen",
+        content: "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt. Vi tilbyr blant annet:\n\n- microneedling\n- mesoterapi\n- behandling for jevnere hudtone",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte." },
+      { question: "Hvem utfører behandlingen?", answer: "Behandlingen utføres av hudlege ved vår klinikk på Bekkestua." },
+    ],
+  },
+
+  "flere-fagomrader/hudbehandlinger/kosmetisk-dermatologi": {
+    title: "Hudhelse og kosmetisk dermatologi",
+    subtitle: "Medisinske hudtilstander og kosmetisk dermatologi",
+    parentCategory: "Hudbehandlinger",
+    heroImage: flereFagImg,
+    description: "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi.",
+    sections: [
+      {
+        id: "om",
+        heading: "Om behandlingen",
+        content: "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi. Mange pasienter oppsøker oss for tilstander som:\n\n- akne\n- perioral dermatitt\n- pigmentforandringer\n- solskadet hud\n- hudforandringer som bør vurderes av hudlege\n\nKosmetiske behandlinger kan i noen tilfeller være en del av en helhetlig behandling av huden.",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+    ],
+    faqs: [
+      { question: "Hvem behandler meg?", answer: "Du møter hudlege med erfaring innen både medisinsk og kosmetisk dermatologi." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
+    ],
+  },
+
+  "flere-fagomrader/hudbehandlinger/elastisitet-og-volum": {
+    title: "Elastisitet og volum",
+    subtitle: "Individuelt tilpassede behandlinger hos hudlege",
+    parentCategory: "Hudbehandlinger",
+    heroImage: flereFagImg,
+    description: "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur.",
+    sections: [
+      {
+        id: "om",
+        heading: "Om behandlingen",
+        content: "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur. Aktuelle behandlinger kan inkludere:\n\n- rynkebehandling\n- Profhilo\n- Radiesse\n- behandling av slapp hud\n- Skin boosters\n\nBehandlingen tilpasses individuelt etter hudtype, alder og ønsket resultat.",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+    ],
+    faqs: [
+      { question: "Hvem utfører behandlingen?", answer: "Behandlingen utføres av hudlege ved vår klinikk på Bekkestua." },
+      { question: "Tilpasses behandlingen?", answer: "Ja, behandlingen tilpasses individuelt etter hudtype, alder og ønsket resultat." },
+    ],
+  },
+
+  "flere-fagomrader/hudbehandlinger/foflekksjekk": {
+    title: "Føflekksjekk",
+    subtitle: "Grundig dermatoskopisk vurdering hos hudlege",
+    parentCategory: "Hudbehandlinger",
+    heroImage: flereFagImg,
+    description: "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling.",
+    sections: [
+      {
+        id: "om",
+        heading: "Om føflekksjekken",
+        content: "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling. Hos CMedical utfører hudlegen en grundig gjennomgang av hele huden, fra topp til tå.\n\nUnder en føflekksjekk bruker hudlegen et dermatoskop – et spesialisert optisk verktøy som gir forstørret og detaljert innsyn i hudens strukturer. Dette gjør det mulig å vurdere føflekker og andre hudforandringer med langt større nøyaktighet enn ved vanlig øyeundersøkelse.\n\nHudlegen ser etter spesifikke endringer i form, farge, grenser og struktur som kan tyde på malignitet eller andre tilstander som bør følges opp.",
+      },
+      {
+        id: "indikasjoner",
+        heading: "Aktuelle indikasjoner for føflekksjekk",
+        content: "- kontroll av eksisterende føflekker og pigmentforandringer\n- vurdering av nye eller endrede hudlesjoner\n- screening ved høy soleksponering eller familiær hudkrefthistorikk\n- jevnlig oppfølging for pasienter med mange føflekker\n\nUndersøkelsen er ikke-invasiv og gjennomføres i løpet av konsultasjonen. Dersom hudlegen finner forandringer som bør utredes videre eller fjernes, vil du få råd om neste steg.",
+      },
+    ],
+    linkedServices: [
+      { label: "Hudbehandlinger", description: "Tilbake til oversikten over alle hudbehandlinger.", path: "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" },
+    ],
+    faqs: [
+      { question: "Er undersøkelsen invasiv?", answer: "Nei, føflekksjekken er ikke-invasiv og gjennomføres i løpet av konsultasjonen." },
+      { question: "Hva skjer hvis det oppdages noe?", answer: "Dersom hudlegen finner forandringer som bør utredes videre eller fjernes, får du råd om neste steg." },
+      { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte." },
     ],
   },
 
