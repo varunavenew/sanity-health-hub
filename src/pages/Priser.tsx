@@ -185,7 +185,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         <div className="space-y-10">
                           {active.subcategories.map((sub) => {
                             const subKey = `${active.id}--${sub.label}`;
-                            const isOpen = openSubcategories[subKey] ?? false;
+                            const isOpen = openSubcategory === subKey;
                             return (
                               <div key={sub.label}>
                                 <button
