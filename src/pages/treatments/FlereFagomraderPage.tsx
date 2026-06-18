@@ -16,7 +16,7 @@ import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
-import imgHudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
+
 import imgPlastikkirurgi from "@/assets/services/flere-plastikkirurgi.jpg.asset.json";
 import imgGastrokirurgi from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
 import imgAreknute from "@/assets/services/flere-areknutebehandling.jpg.asset.json";
