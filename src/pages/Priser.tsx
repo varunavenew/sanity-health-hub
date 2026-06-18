@@ -312,6 +312,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                         </div>
                                                         <div className="flex flex-col items-end gap-0.5 shrink-0">
                                                           <div className="flex items-center gap-3">
+                                                            <span className="text-sm font-light text-brand-dark tabular-nums min-w-[70px] text-right whitespace-nowrap">
+                                                              {item.price === "0,-" ? "Gratis" : item.price}
+                                                            </span>
                                                             {isConsult ? (
                                                               <Link
                                                                 to={sub.path}
@@ -329,9 +332,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                                 <ArrowRight className="w-3 h-3" />
                                                               </Link>
                                                             )}
-                                                            <span className="text-sm font-light text-brand-dark tabular-nums min-w-[70px] text-right whitespace-nowrap">
-                                                              {item.price === "0,-" ? "Gratis" : item.price}
-                                                            </span>
                                                           </div>
                                                           {item.priceNote && (
                                                             <span className="text-xs text-muted-foreground font-light">
