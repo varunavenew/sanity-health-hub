@@ -130,19 +130,41 @@ export const GoogleReviewsSection = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-16 mt-20 md:mt-24">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 max-w-4xl">
-          <div>
-            <p className="text-brand-dark text-2xl md:text-3xl font-light leading-tight mb-2">{ctaTitle}</p>
-            <p className="text-brand-dark/60 text-base font-light">{ctaSubtitle}</p>
+      <div className="container mx-auto px-6 md:px-16 mt-24 md:mt-32">
+        <div className="max-w-5xl">
+          {/* Timeline marker */}
+          <div className="flex items-center gap-4 mb-8 text-xs font-light text-brand-dark/60">
+            <span>2002</span>
+            <span className="flex-1 h-px bg-brand-dark/20 relative">
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-brand-dark/60" />
+            </span>
+            <span>I dag</span>
           </div>
-          <button
-            onClick={() => navigate('/booking')}
-            className="group inline-flex items-center gap-3 text-brand-dark text-lg font-light border-b border-brand-dark/30 pb-1 hover:border-brand-dark transition-colors self-start md:self-auto"
-          >
-            {t("nav.bookAppointment")}
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
+
+          {/* Editorial composition: huge number + caption + CTA */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
+            <div className="md:col-span-8">
+              <p className="text-[clamp(4rem,14vw,11rem)] font-light text-brand-dark leading-[0.9] tracking-tight">
+                150&thinsp;000<span className="text-brand-dark/40">+</span>
+              </p>
+              <p className="text-brand-dark/70 text-base md:text-lg font-light mt-4 max-w-md">
+                {ctaSubtitle}
+              </p>
+            </div>
+
+            <div className="md:col-span-4 md:pb-3 md:border-l md:border-brand-dark/15 md:pl-8">
+              <p className="text-brand-dark font-light text-lg leading-snug mb-5">
+                {ctaTitle.replace(/Over\s*150\s*000\+?\s*/i, '').replace(/^[a-zæøå]/, (c) => c.toUpperCase()) || 'Fornøyde pasienter siden 2002.'}
+              </p>
+              <button
+                onClick={() => navigate('/booking')}
+                className="group inline-flex items-center gap-3 text-brand-dark text-base font-light border-b border-brand-dark/30 pb-1 hover:border-brand-dark transition-colors"
+              >
+                {t("nav.bookAppointment")}
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
