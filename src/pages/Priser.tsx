@@ -72,64 +72,11 @@ const staticFaqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(() => {
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
     const cat = priceCategories.find(c => c.id === 'gynekologi');
-    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? null);
-  });
-  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(() => {
-    const cat = priceCategories.find(c => c.id === 'gynekologi');
-    return cat?.subcategories[0]?.label ?? null;
+    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
   });
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const { sorted } = useSpecialistsData();
-  const specialists = sorted.slice(0, 8);
-  const { data: sanityPricing } = usePricingPage();
-  const { data: sanityFaqs } = useFaqs("priser");
-  const faqs = sanityFaqs && sanityFaqs.length > 0
-    ? sanityFaqs.map((f: any, i: number) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
-    : staticFaqs;
-  const heroImage = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
-  const pageTitle = sanityPricing?.title || "Prisliste";
-  const pageSubtitle = sanityPricing?.introText || "Oversiktlige priser sortert etter tjeneste";
-
-  useEffect(() => {
-    document.title = "Priser | CMedical";
-  }, []);
-
-  const toggleCategory = (id: string) => {
-    const newId = expandedCategory === id ? null : id;
-    setExpandedCategory(newId);
-    setExpandedSubcategory(null);
-    if (newId) {
-      const scrollToCat = () => {
-        const el = document.getElementById(`kat-${newId}`);
-        if (!el) return;
-        const header = document.querySelector('header');
-        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-      };
-      requestAnimationFrame(scrollToCat);
-      setTimeout(scrollToCat, 320);
-    }
-  };
-
-  const toggleSubcategory = (label: string) => {
-    const newLabel = expandedSubcategory === label ? null : label;
-    setExpandedSubcategory(newLabel);
-    if (newLabel) {
-      const scrollToSub = () => {
-        const el = document.getElementById(`sub-${newLabel}`);
-        if (!el) return;
-        const header = document.querySelector('header');
-        const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
-        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
-      };
-      requestAnimationFrame(scrollToSub);
-      setTimeout(scrollToSub, 320);
-    }
-  };
 
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
