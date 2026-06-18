@@ -444,6 +444,45 @@ const rawPriceCategories: PriceCategory[] = [
   },
 ];
 
+// Auto-enrich "Flere tjenester" categories so they share the same accordion-in-accordion
+// layout as fertilitet. Each sub-treatment from serviceCategories becomes its own
+// expandable subgroup with a "Les mer" entry that links to its landing page.
+const FLERE = serviceCategories.find((c) => c.id === "flere-fagomrader");
+
+const enrichFlereCategory = (cat: PriceCategory): PriceCategory => {
+  if (!FLERE) return cat;
+  const match = FLERE.subcategories.find(
+    (s) => s.label.toLowerCase() === cat.label.toLowerCase(),
+  );
+  if (!match?.items?.length) return cat;
+
+  const consultItems = cat.subcategories.flatMap((s) => s.items);
+  const consultPath = cat.subcategories[0]?.path ?? cat.path;
+  const consultSub: PriceSubcategory | null =
+    consultItems.length > 0
+      ? { label: "Konsultasjon og priser", path: consultPath, items: consultItems }
+      : null;
+
+  const itemSubs: PriceSubcategory[] = match.items.map((it) => ({
+    label: it.label,
+    path: it.path ?? cat.path,
+    items: [
+      {
+        name: it.label,
+        price: "Pris ved konsultasjon",
+        duration: "",
+      },
+    ],
+  }));
+
+  return {
+    ...cat,
+    subcategories: consultSub ? [consultSub, ...itemSubs] : itemSubs,
+  };
+};
+
+export const priceCategories: PriceCategory[] = rawPriceCategories.map(enrichFlereCategory);
+
 /** Parse "fra 20.900,-" or "1.800,-" → 20900. Returns null for "Gratis"/"Ta kontakt"/etc. */
 const parsePrice = (s: string): number | null => {
   const digits = s.replace(/fra\s*/i, "").replace(/[^0-9]/g, "");
