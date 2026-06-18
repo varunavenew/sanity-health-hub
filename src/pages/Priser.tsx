@@ -301,14 +301,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                               <span>{item.duration}</span>
                                                             </div>
                                                           )}
-                                                          {item.info && (
-                                                            <div className="mt-2 flex items-start gap-2 max-w-[52ch]">
-                                                              <Info className="w-4 h-4 text-brand-dark/50 mt-0.5 shrink-0" strokeWidth={1.5} />
-                                                              <p className="text-xs font-light text-brand-dark/70 leading-relaxed">
-                                                                {item.info}
-                                                              </p>
-                                                            </div>
-                                                          )}
                                                         </div>
                                                         <div className="flex flex-col items-end gap-0.5 shrink-0">
                                                           <div className="flex items-center gap-3">
