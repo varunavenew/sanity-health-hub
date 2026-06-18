@@ -247,12 +247,16 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
                                         <button
                                           onClick={() => toggleSubcategory(sub.label)}
-                                          className="w-full flex items-center justify-between py-3 px-3 cursor-pointer text-left"
+                                          className={`w-full flex items-center justify-between py-4 px-4 md:px-5 cursor-pointer text-left transition-colors ${
+                                            subOpen
+                                              ? 'bg-brand-beige/60 rounded-t-xl border-b border-brand-dark/10'
+                                              : ''
+                                          }`}
                                           aria-expanded={subOpen}
                                         >
                                           <span
-                                            className={`text-[15px] font-light transition-colors ${
-                                              subOpen ? 'text-foreground' : 'text-foreground/80'
+                                            className={`text-[15px] md:text-base font-light transition-colors ${
+                                              subOpen ? 'text-brand-dark' : 'text-foreground/80'
                                             }`}
                                           >
                                             {sub.label}
@@ -279,7 +283,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               transition={{ duration: 0.15 }}
                                               className="overflow-hidden"
                                             >
-                                              <div className="p-3 pt-1 space-y-2">
+                                              <div className="p-3 md:p-4 space-y-2">
                                                 {sub.items.map((item, idx) => {
                                                   const bookable = isBookable(item.name, item.duration);
                                                   const href = bookable
