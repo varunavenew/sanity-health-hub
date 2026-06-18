@@ -22,7 +22,9 @@ export interface PriceCategory {
   subcategories: PriceSubcategory[];
 }
 
-export const priceCategories: PriceCategory[] = [
+import { serviceCategories } from "./serviceCategories";
+
+const rawPriceCategories: PriceCategory[] = [
   {
     id: 'gynekologi',
     label: 'Gynekologi',
@@ -386,14 +388,24 @@ export const priceCategories: PriceCategory[] = [
     path: '/behandlinger/flere-fagomrader/hudlege',
     subcategories: [
       {
-        label: 'Dermatologi',
+        label: 'Konsultasjon',
         path: '/behandlinger/flere-fagomrader/hudlege',
         items: [
           { name: "Konsultasjon hudlege", price: "2.100,-", duration: "30 min" },
-          { name: "Føflekksjekk", price: "2.100,-", duration: "30 min" },
-          { name: "Akne-behandling", price: "2.100,-", duration: "30 min" },
-          { name: "Eksem / psoriasis", price: "2.100,-", duration: "30 min" },
-          { name: "Hudkreft – utredning", price: "2.100,-", duration: "30 min" },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'hudhelse',
+    label: 'Hudhelse',
+    path: '/behandlinger/flere-fagomrader/hudhelse',
+    subcategories: [
+      {
+        label: 'Konsultasjon',
+        path: '/behandlinger/flere-fagomrader/hudhelse',
+        items: [
+          { name: "Konsultasjon hudlege (vurdering før behandling)", price: "fra 2.100,-", duration: "30 min" },
         ]
       },
     ]
@@ -431,6 +443,45 @@ export const priceCategories: PriceCategory[] = [
     ]
   },
 ];
+
+// Auto-enrich "Flere tjenester" categories so they share the same accordion-in-accordion
+// layout as fertilitet. Each sub-treatment from serviceCategories becomes its own
+// expandable subgroup with a "Les mer" entry that links to its landing page.
+const FLERE = serviceCategories.find((c) => c.id === "flere-fagomrader");
+
+const enrichFlereCategory = (cat: PriceCategory): PriceCategory => {
+  if (!FLERE) return cat;
+  const match = FLERE.subcategories.find(
+    (s) => s.label.toLowerCase() === cat.label.toLowerCase(),
+  );
+  if (!match?.items?.length) return cat;
+
+  const consultItems = cat.subcategories.flatMap((s) => s.items);
+  const consultPath = cat.subcategories[0]?.path ?? cat.path;
+  const consultSub: PriceSubcategory | null =
+    consultItems.length > 0
+      ? { label: "Konsultasjon og priser", path: consultPath, items: consultItems }
+      : null;
+
+  const itemSubs: PriceSubcategory[] = match.items.map((it) => ({
+    label: it.label,
+    path: it.path ?? cat.path,
+    items: [
+      {
+        name: it.label,
+        price: "Pris ved konsultasjon",
+        duration: "",
+      },
+    ],
+  }));
+
+  return {
+    ...cat,
+    subcategories: consultSub ? [consultSub, ...itemSubs] : itemSubs,
+  };
+};
+
+export const priceCategories: PriceCategory[] = rawPriceCategories.map(enrichFlereCategory);
 
 /** Parse "fra 20.900,-" or "1.800,-" → 20900. Returns null for "Gratis"/"Ta kontakt"/etc. */
 const parsePrice = (s: string): number | null => {
