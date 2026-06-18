@@ -130,20 +130,19 @@ export const GoogleReviewsSection = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-16 mt-16 text-center">
-        <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-sm bg-brand-dark">
-          <div className="text-center sm:text-left">
-            <p className="text-white font-normal mb-1">{ctaTitle}</p>
-            <p className="text-white/70 text-sm font-light">{ctaSubtitle}</p>
+      <div className="container mx-auto px-6 md:px-16 mt-20 md:mt-24">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 max-w-4xl">
+          <div>
+            <p className="text-brand-dark text-2xl md:text-3xl font-light leading-tight mb-2">{ctaTitle}</p>
+            <p className="text-brand-dark/60 text-base font-light">{ctaSubtitle}</p>
           </div>
-          <Button 
-            variant="cta-dark"
-            size="lg"
+          <button
             onClick={() => navigate('/booking')}
+            className="group inline-flex items-center gap-3 text-brand-dark text-lg font-light border-b border-brand-dark/30 pb-1 hover:border-brand-dark transition-colors self-start md:self-auto"
           >
             {t("nav.bookAppointment")}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </button>
         </div>
       </div>
     </section>
