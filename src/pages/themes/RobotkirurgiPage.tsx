@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
-import robotkirurgiHeroVideo from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
+import robotkirurgiHeroVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import { useThemePage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
