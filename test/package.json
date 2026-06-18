@@ -103,6 +103,8 @@
     "migrate:hero-cta-link-i18n:dry": "DRY_RUN=1 tsx sanity/migrate-hero-cta-link-i18n.ts",
     "migrate:hero-cta-link-i18n": "tsx sanity/migrate-hero-cta-link-i18n.ts",
     "migrate:news-page": "tsx sanity/migrate-news-page.ts",
+    "migrate:social-posts:dry": "DRY_RUN=1 tsx sanity/migrate-social-posts.ts",
+    "migrate:social-posts": "tsx sanity/migrate-social-posts.ts",
     "migrate:booking-page": "tsx sanity/migrate-booking-page.ts",
     "migrate:news-featured-articles": "tsx sanity/migrate-news-featured-articles.ts",
     "migrate:insurance-partners-i18n": "tsx sanity/migrate-insurance-partners-i18n.ts",

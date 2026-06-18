@@ -7,7 +7,7 @@ import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { normalizeCategory, type Article } from "@/data/articles";
-import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
+import { useArticles, useNewsPage, useSocialPosts, useSpecialists } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { assetSrc } from "@/lib/media";
 
@@ -126,6 +126,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { data: sanityArticles } = useArticles();
   const { data: newsPage } = useNewsPage();
   const { data: specialists } = useSpecialists();
+  const { data: allSocialPosts } = useSocialPosts();
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
@@ -237,6 +238,20 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       newsPage?.specialistsSeeAllLabel || t("specialists.seeAllShort"),
     socialSectionTitle: newsPage?.socialSectionTitle || t("news.followSocial"),
   };
+
+  const socialPostLimit = newsPage?.socialPostLimit ?? 4;
+  const showSocialSection = newsPage?.showSocialSection !== false;
+  const socialSectionPosts = useMemo(() => {
+    if (!showSocialSection) return [];
+
+    const mode = newsPage?.socialDisplayMode || "latest";
+    if (mode === "manual" && newsPage?.socialPosts?.length) {
+      return newsPage.socialPosts.slice(0, socialPostLimit);
+    }
+
+    return (allSocialPosts || []).slice(0, socialPostLimit);
+  }, [newsPage, allSocialPosts, socialPostLimit, showSocialSection]);
+  const hasCmsSocialPosts = socialSectionPosts.length > 0;
 
   const filterOptions: Array<{ key: FilterKey; label: string }> = [
     { key: "all", label: newsPage?.filterAllLabel || t("news.filterAll") },
@@ -460,17 +475,23 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         </section>
       )}
 
-      {/* SoMe preview — moved down from the top filter */}
-      <section className="bg-background border-t border-border">
-        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-medium text-foreground">
-              {newsUi.socialSectionTitle}
-            </h2>
+      {showSocialSection ? (
+        <section className="bg-background border-t border-border">
+          <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-medium text-foreground">
+                {newsUi.socialSectionTitle}
+              </h2>
+            </div>
+            <SoMeFeed
+              maxPosts={socialPostLimit}
+              compact
+              posts={hasCmsSocialPosts ? socialSectionPosts : undefined}
+              cmsOnly={hasCmsSocialPosts}
+            />
           </div>
-          <SoMeFeed maxPosts={4} compact />
-        </div>
-      </section>
+        </section>
+      ) : null}
     </PageLayout>
   );
 };

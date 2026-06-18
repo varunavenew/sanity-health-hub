@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { defaultLocale, locales } from "@/lib/i18n/routing";
+import { detectLocale } from "@/lib/i18n/detect-locale";
+import { locales } from "@/lib/i18n/routing";
 
 const LOCALE_PREFIX = new Set(locales);
 
@@ -31,9 +32,10 @@ export function middleware(request: NextRequest) {
     });
   }
 
+  const locale = detectLocale(request);
   const url = request.nextUrl.clone();
   url.pathname =
-    pathname === "/" ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`;
+    pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
   return NextResponse.redirect(url);
 }
 

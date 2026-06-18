@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { stripLocaleFromPathname, type AppLocale } from "@/lib/i18n/routing";
+import { writeLocaleCookie } from "@/lib/i18n/detect-locale";
 import { appLocaleToI18n, syncI18nLanguage } from "@/lib/i18n/sync-language";
 import { invalidateSanityLocaleQueries } from "@/lib/sanity/invalidate-locale-queries";
 import { resolveLocaleSwitchPath } from "@/lib/navigation/nav-path-utils";
@@ -38,6 +39,7 @@ export const LanguageSelector = () => {
     } catch {
       /* ignore */
     }
+    writeLocaleCookie(target);
     void invalidateSanityLocaleQueries(queryClient);
     const stripped = stripLocaleFromPathname(pathname);
     const navItems = [

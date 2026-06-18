@@ -481,6 +481,18 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
   ${i18nString("specialistsTitle")},
   ${i18nString("specialistsSeeAllLabel")},
   ${i18nString("socialSectionTitle")},
+  showSocialSection,
+  socialDisplayMode,
+  socialPostLimit,
+  "socialPosts": socialPosts[]->{
+    _id,
+    platform,
+    caption,
+    postUrl,
+    alt,
+    sortOrder,
+    "image": image.asset->url
+  },
   ${i18nString("filterAllLabel")},
   ${i18nString("filterPatientStoriesLabel")},
   ${i18nString("filterMediaLabel")},
@@ -1007,8 +1019,8 @@ export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(_createdAt 
   _id, name, age, rating, text, location, treatment
 }`;
 
-export const SOCIAL_POSTS_QUERY = `*[_type == "socialPost"] | order(sortOrder asc, date desc)[0..5]{
-  _id, platform, caption, postUrl, date, likes,
+export const SOCIAL_POSTS_QUERY = `*[_type == "socialPost" && published != false] | order(sortOrder asc, _createdAt desc)[0..11]{
+  _id, platform, caption, postUrl, alt, sortOrder,
   "image": image.asset->url
 }`;
 

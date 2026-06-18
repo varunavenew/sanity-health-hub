@@ -72,6 +72,43 @@ export default defineType({
       type: 'internationalizedArrayString',
     }),
     defineField({
+      name: 'showSocialSection',
+      title: 'Vis sosiale medier-seksjon',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'socialDisplayMode',
+      title: 'SoMe-innlegg: visning',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Nyeste publiserte', value: 'latest' },
+          { title: 'Velg manuelt', value: 'manual' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'latest',
+      hidden: ({ parent }) => parent?.showSocialSection === false,
+    }),
+    defineField({
+      name: 'socialPosts',
+      title: 'SoMe-innlegg (manuelt valg)',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'socialPost' }] }],
+      description: 'Velg rekkefølge. Brukes når visning er «Velg manuelt».',
+      hidden: ({ parent }) =>
+        parent?.showSocialSection === false || parent?.socialDisplayMode !== 'manual',
+    }),
+    defineField({
+      name: 'socialPostLimit',
+      title: 'Maks antall SoMe-innlegg',
+      type: 'number',
+      initialValue: 4,
+      validation: (Rule) => Rule.min(1).max(12),
+      hidden: ({ parent }) => parent?.showSocialSection === false,
+    }),
+    defineField({
       name: 'featuredArticles',
       title: 'Fremhevede artikler (top 4)',
       description: 'Vises øverst på Aktuelt-siden (når filter = Alle).',
