@@ -270,17 +270,16 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="relative min-h-[420px] lg:min-h-full">
- <video
- src="/videos/kvinnehelse-konsept.mp4"
- poster="/videos/kvinnehelse-konsept-poster.jpg"
- autoPlay
- muted
- loop
- playsInline
- className="absolute inset-0 w-full h-full object-cover"
- />
- </div>
+  <div className="relative min-h-[420px] lg:min-h-full">
+  <video
+  src={kvinnehelseVideo.url}
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="absolute inset-0 w-full h-full object-cover"
+  />
+  </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>
