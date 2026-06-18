@@ -38,6 +38,8 @@ export interface SubTreatmentContent {
  heroTitle: ReactNode;
  heroDescription: string;
  heroPoints: { title: string; desc: string }[];
+ /** Optional small line shown above the hero CTA (e.g. "Tilbys på CMedical Bekkestua"). */
+ heroAvailability?: string;
  rating?: string;
  heroPrice?: string; // e.g. "Pris fra 2 200 kr" — shown above CTA
  hideSeePriser?: boolean; // hides the secondary "Se priser" link
