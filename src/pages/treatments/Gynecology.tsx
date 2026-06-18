@@ -153,24 +153,19 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
    { title: "Prevensjon og rådgivning", desc: "Valg av riktig prevensjon", href: "/behandlinger/gynekologi/undersokelse" },
   ],
  },
- {
-  label: "Behandling",
-  items: [
-   { title: "Hormonbehandling", desc: "Overgangsalder og hormonforstyrrelser", href: "/behandlinger/gynekologi/overgangsalder" },
-   { title: "Botoxbehandling", desc: "Vaginisme og vulvalidelser", href: "/behandlinger/gynekologi/vulvalidelser" },
-   { title: "Konisering", desc: "Behandling av celleforandringer", href: "/behandlinger/gynekologi/celleforandringer" },
-   { title: "6-ukers kontroll etter fødsel", desc: "Oppfølging etter fødsel", href: "/behandlinger/gynekologi/undersokelse" },
-  ],
- },
- {
-  label: "Kirurgi",
-  items: [
-   { title: "Robotassistert kirurgi", desc: "Høy presisjon, rask rehabilitering", href: "/behandlinger/gynekologi/robotkirurgi" },
-   { title: "Gynekologisk kirurgi", desc: "Laparoskopi og åpen kirurgi", href: "/behandlinger/gynekologi/kirurgi" },
-   { title: "Fjerne livmor (hysterektomi)", desc: "Kirurgisk fjerning av livmor", href: "/behandlinger/gynekologi/fjerne-livmor" },
-   { title: "Labiaplastikk", desc: "Kirurgisk inngrep", href: "/behandlinger/gynekologi/labiaplastikk" },
-  ],
- },
+  {
+   label: "Behandling og kirurgi",
+   items: [
+    { title: "Hormonbehandling", desc: "Overgangsalder og hormonforstyrrelser", href: "/behandlinger/gynekologi/overgangsalder" },
+    { title: "Botoxbehandling", desc: "Vaginisme og vulvalidelser", href: "/behandlinger/gynekologi/vulvalidelser" },
+    { title: "Konisering", desc: "Behandling av celleforandringer", href: "/behandlinger/gynekologi/celleforandringer" },
+    { title: "6-ukers kontroll etter fødsel", desc: "Oppfølging etter fødsel", href: "/behandlinger/gynekologi/undersokelse" },
+    { title: "Robotassistert kirurgi", desc: "Høy presisjon, rask rehabilitering", href: "/behandlinger/gynekologi/robotkirurgi" },
+    { title: "Gynekologisk kirurgi", desc: "Laparoskopi og åpen kirurgi", href: "/behandlinger/gynekologi/kirurgi" },
+    { title: "Fjerne livmor (hysterektomi)", desc: "Kirurgisk fjerning av livmor", href: "/behandlinger/gynekologi/fjerne-livmor" },
+    { title: "Labiaplastikk", desc: "Kirurgisk inngrep", href: "/behandlinger/gynekologi/labiaplastikk" },
+   ],
+  },
 ];
 
 const journey = [
