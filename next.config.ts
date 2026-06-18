@@ -78,7 +78,8 @@ const nextConfig: NextConfig = {
       // CMS nav aliases (siteSettings paths that differ from Next.js route folders).
       { source: "/en/prices", destination: "/en/pricing" },
       { source: "/en/current", destination: "/en/news" },
-      { source: "/en/about-us", destination: "/en/about" },
+      // aboutPage EN slug is `about-us` in Sanity; nav/siteSettings may still use `/about`.
+      { source: "/en/about", destination: "/en/about-us" },
 
       // Top-level treatment-category landings (some English folders don't exist yet).
       { source: "/en/orthopedics", destination: "/en/ortopedi" },
