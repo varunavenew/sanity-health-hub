@@ -55,16 +55,7 @@ export function SymptomServiceSection({
                 to={item.href}
                 className="bg-background border border-foreground/10 rounded-sm overflow-hidden flex flex-col hover:border-foreground/30 transition-colors group"
               >
-                {item.image && (
-                  <div className="relative aspect-[16/10] overflow-hidden bg-secondary/40">
-                    <img
-                      src={item.image}
-                      alt={item.imageAlt ?? ""}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
-                    />
-                  </div>
-                )}
+
                 <div className="p-6 md:p-7 flex flex-col justify-between gap-5 flex-1">
                   <h3 className="text-lg md:text-xl font-light leading-snug text-foreground">
                     {item.symptom}
