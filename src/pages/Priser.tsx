@@ -293,7 +293,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               transition={{ duration: 0.15 }}
                                               className="overflow-hidden"
                                             >
-                                              <div className="p-3 md:p-4 space-y-2">
+                                              <div className="p-3 md:p-4 space-y-1">
                                                 {sub.items.map((item, idx) => {
                                                   const bookable = isBookable(item.name, item.duration);
                                                   const href = bookable
@@ -303,7 +303,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                     <button
                                                       key={idx}
                                                       onClick={() => navigate(href)}
-                                                      className="w-full p-4 rounded-xl border bg-white border-brand-dark/20 shadow-[0_1px_4px_rgba(66,51,42,0.06)] hover:border-brand-dark/35 hover:shadow-[0_4px_12px_rgba(66,51,42,0.1)] transition-all text-left group"
+                                                      className="w-full py-3 text-left group"
                                                     >
                                                       <div className="flex items-center justify-between gap-3">
                                                         <div className="flex-1 pr-2 min-w-0">
@@ -322,11 +322,16 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                             )}
                                                           </div>
                                                         </div>
-                                                        <span
-                                                          className="inline-flex items-center px-4 py-2 rounded-full bg-brand-dark text-brand-warm text-sm font-normal tabular-nums group-hover:scale-105 transition-transform shrink-0"
-                                                        >
-                                                          {item.price === "0,-" ? "Gratis" : item.price}
-                                                        </span>
+                                                        {bookable ? (
+                                                          <span className="text-sm font-light text-brand-dark tabular-nums shrink-0">
+                                                            {item.price === "0,-" ? "Gratis" : item.price}
+                                                          </span>
+                                                        ) : (
+                                                          <span className="inline-flex items-center gap-1 text-sm font-light text-brand-dark shrink-0 group-hover:gap-2 transition-all">
+                                                            Les mer
+                                                            <ArrowRight className="w-3.5 h-3.5" />
+                                                          </span>
+                                                        )}
                                                       </div>
                                                       {item.info && (
                                                         <div className="mt-3 pt-3 border-t border-brand-dark/10">
