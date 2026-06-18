@@ -43,11 +43,11 @@ const rawPriceCategories: PriceCategory[] = [
         label: 'Operasjoner og inngrep',
         path: '/behandlinger/gynekologi/operasjoner',
         items: [
-          { name: "TVT operasjon", price: "fra 46.000,-", duration: "" },
-          { name: "Fremfallsoperasjon", price: "fra 44.000,-", duration: "" },
-          { name: "Konisering", price: "fra 9.930,-", duration: "" },
-          { name: "Botox blære", price: "fra 16.000,-", duration: "" },
-          { name: "Labiaplastikk", price: "fra 40.000,-", duration: "" },
+          { name: "TVT operasjon", price: "fra 46.000,-", duration: "", requiresConsultation: true },
+          { name: "Fremfallsoperasjon", price: "fra 44.000,-", duration: "", requiresConsultation: true },
+          { name: "Konisering", price: "fra 9.930,-", duration: "", requiresConsultation: true },
+          { name: "Botox blære", price: "fra 16.000,-", duration: "", requiresConsultation: true },
+          { name: "Labiaplastikk", price: "fra 40.000,-", duration: "", requiresConsultation: true },
         ]
       },
     ]
