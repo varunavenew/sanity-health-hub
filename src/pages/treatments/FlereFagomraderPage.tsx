@@ -13,15 +13,20 @@ import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
-import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
-import { TagList } from "@/components/treatments/TagList";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
-import expertKropp from "@/assets/hero/cmedical-skin-texture.jpg";
-import expertHelse from "@/assets/hero/tverrfaglig-team.jpg";
-import expertSinn from "@/assets/hero/hero-lifestyle-1.jpg";
-import expertTverr from "@/assets/hero/cmedical-hero-1.jpg";
+import imgHudlege from "@/assets/services/flere-hudlege.jpg.asset.json";
+import imgPlastikkirurgi from "@/assets/services/flere-plastikkirurgi.jpg.asset.json";
+import imgGastrokirurgi from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
+import imgAreknute from "@/assets/services/flere-areknutebehandling.jpg.asset.json";
+import imgEndokrinologi from "@/assets/services/flere-endokrinologi.jpg.asset.json";
+import imgRevmatologi from "@/assets/services/flere-revmatologi.jpg.asset.json";
+import imgErnaering from "@/assets/services/flere-ernaeringsfysologi.jpg.asset.json";
+import imgOsteopati from "@/assets/services/flere-osteopati.jpg.asset.json";
+import imgPsykologi from "@/assets/services/flere-psykologi.jpg.asset.json";
+import imgSexologi from "@/assets/services/flere-sexologi.jpg.asset.json";
+import imgRobot from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -31,99 +36,79 @@ interface PageProps {
  DATA
  ────────────────────────────────────────────────────────────── */
 
-const lifePhases = [
- {
- n: "01",
- title: "Hud, kropp og vev",
- desc:
- "Hudlege, plastikkirurgi, gastrokirurgi, karkirurgi og åreknutebehandling — for synlige plager og operasjonsbehov.",
- tags: [
-   { label: "Hud", href: "/behandlinger/flere-fagomrader/hudlege" },
-   { label: "Kirurgi", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
-   { label: "Kar", href: "/behandlinger/flere-fagomrader/areknuter" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
- {
- n: "02",
- title: "Helse og balanse",
- desc:
- "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager, langvarige smerter eller hormonforstyrrelser.",
- tags: [
-   { label: "Hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
-   { label: "Ledd", href: "/behandlinger/flere-fagomrader/revmatologi" },
-   { label: "Ernæring", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
- {
- n: "03",
- title: "Sinn og seksualitet",
- desc:
- "Psykolog og sexolog — for deg som trenger et trygt og kompetent sted å snakke om det som er vanskelig å snakke om.",
- tags: [
-   { label: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
-   { label: "Sexolog", href: "/behandlinger/flere-fagomrader/sexologi" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
- {
- n: "04",
- title: "Tverrfaglige forløp",
- desc:
- "Når det er sammensatt — vi setter sammen team av spesialister og koordinerer hele forløpet for deg.",
- tags: [
-   { label: "Team", href: "/booking?kategori=flere-fagomrader" },
-   { label: "Koordinering", href: "/booking?kategori=flere-fagomrader" },
- ],
- href: "/booking?kategori=flere-fagomrader",
- },
-];
-
 const expertAreas = [
  {
- title: "Hud og kirurgi",
- desc:
- "Hudlege, plastikkirurgi, gastrokirurgi og karkirurgi — fra moleanalyse til avansert kirurgi.",
+ title: "Hudlege",
+ desc: "Eksem, psoriasis, hudkreft, akne",
  href: "/behandlinger/flere-fagomrader/hudlege",
- image: expertKropp,
+ image: imgHudlege.url,
  },
  {
- title: "Indremedisin og kropp",
- desc:
- "Endokrinologi, revmatologi, ernæring og osteopati — for systemiske plager og langvarige smerter.",
+ title: "Plastikkirurgi",
+ desc: "Rekonstruksjon og estetisk",
+ href: "/behandlinger/flere-fagomrader/plastikkirurgi",
+ image: imgPlastikkirurgi.url,
+ },
+ {
+ title: "Gastrokirurgi",
+ desc: "Mage, tarm, lever, galleblære",
+ href: "/behandlinger/flere-fagomrader/gastrokirurgi",
+ image: imgGastrokirurgi.url,
+ },
+ {
+ title: "Karkirurgi",
+ desc: "Åreknuter og blodkar",
+ href: "/behandlinger/flere-fagomrader/areknuter",
+ image: imgAreknute.url,
+ },
+ {
+ title: "Åreknutebehandling",
+ desc: "Sklerosering, laser, kirurgi",
+ href: "/behandlinger/flere-fagomrader/areknuter",
+ image: imgAreknute.url,
+ },
+ {
+ title: "Endokrinologi",
+ desc: "Diabetes, skjoldbrusk, hormoner",
  href: "/behandlinger/flere-fagomrader/endokrinologi",
- image: expertHelse,
+ image: imgEndokrinologi.url,
  },
  {
- title: "Psykologi og sexologi",
- desc:
- "Trygge samtaler om angst, depresjon, samliv, seksualitet og identitet — i et tempo som passer deg.",
+ title: "Revmatologi",
+ desc: "Leddgikt, artrose, bindevev",
+ href: "/behandlinger/flere-fagomrader/revmatologi",
+ image: imgRevmatologi.url,
+ },
+ {
+ title: "Ernæringsfysiolog",
+ desc: "Kosthold, vekttap, intoleranser",
+ href: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
+ image: imgErnaering.url,
+ },
+ {
+ title: "Osteopati",
+ desc: "Muskel, skjelett, kroniske smerter",
+ href: "/behandlinger/flere-fagomrader/osteopati",
+ image: imgOsteopati.url,
+ },
+ {
+ title: "Psykologi",
+ desc: "Angst, depresjon, traumer",
  href: "/behandlinger/flere-fagomrader/psykologi",
- image: expertSinn,
+ image: imgPsykologi.url,
  },
  {
- title: "Sammen om hele deg",
- desc:
- "Vi samarbeider på tvers av fagfelt — psykolog med urolog, sexolog med gynekolog, ernæringsfysiolog med endokrinolog.",
- href: "/behandlinger/flere-fagomrader",
- image: expertTverr,
+ title: "Sexologi",
+ desc: "Seksuell helse, samliv, identitet",
+ href: "/behandlinger/flere-fagomrader/sexologi",
+ image: imgSexologi.url,
  },
-];
-
-const allServices = [
- { title: "Hudlege", desc: "Eksem, psoriasis, hudkreft, akne", href: "/behandlinger/flere-fagomrader/hudlege" },
- { title: "Plastikkirurgi", desc: "Rekonstruksjon og estetisk", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
- { title: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
- { title: "Karkirurgi", desc: "Åreknuter og blodkar", href: "/behandlinger/flere-fagomrader/areknuter" },
- { title: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgi", href: "/behandlinger/flere-fagomrader/areknuter" },
- { title: "Endokrinologi", desc: "Diabetes, skjoldbrusk, hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
- { title: "Revmatologi", desc: "Leddgikt, artrose, bindevev", href: "/behandlinger/flere-fagomrader/revmatologi" },
- { title: "Ernæringsfysiolog", desc: "Kosthold, vekttap, intoleranser", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
- { title: "Osteopati", desc: "Muskel, skjelett, kroniske smerter", href: "/behandlinger/flere-fagomrader/osteopati" },
- { title: "Psykologi", desc: "Angst, depresjon, traumer", href: "/behandlinger/flere-fagomrader/psykologi" },
- { title: "Sexologi", desc: "Seksuell helse, samliv, identitet", href: "/behandlinger/flere-fagomrader/sexologi" },
- { title: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi", href: "/behandlinger/flere-fagomrader/robotkirurgi" },
+ {
+ title: "Robotassistert kirurgi",
+ desc: "Presis, skånsom kirurgi",
+ href: "/behandlinger/flere-fagomrader/robotkirurgi",
+ image: imgRobot.url,
+ },
 ];
 
 const journey = [
@@ -227,39 +212,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
  </header>
 
- {/* 2. SEGMENT */}
- <section className="bg-brand-light text-foreground py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="max-w-2xl mb-14">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Vi dekker mer enn du tror — og vi gjør det sammen.
- </h2>
- </div>
-
- <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {lifePhases.map((p) => (
- <div key={p.n} className="bg-background p-7 flex flex-col">
- <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
- {p.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
- {p.desc}
- </p>
- <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
- <Link
- to={p.href}
- className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
- >
- Les mer
- <ArrowRight className="w-3.5 h-3.5" />
- </Link>
- </div>
- ))}
- </div>
- </div>
- </div>
- </section>
 
  {/* 3. EKSPERTER */}
  <section className="bg-secondary/40 py-20 md:py-28">
@@ -314,19 +266,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 3b. SYMPTOMSJEKK */}
- <SymptomServiceSection
- title="Hva trenger du hjelp med?"
- description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
- items={[
-  { symptom: "Hudplager, føflekker eller akne", service: "Hudlege", href: "/behandlinger/flere-fagomrader/hudlege" },
-  { symptom: "Lavt stoffskifte, diabetes eller hormoner", service: "Endokrinolog", href: "/behandlinger/flere-fagomrader/endokrinologi" },
-  { symptom: "Leddsmerter, stivhet eller hevelse", service: "Revmatolog", href: "/behandlinger/flere-fagomrader/revmatologi" },
-  { symptom: "Angst, nedstemthet eller relasjonsproblemer", service: "Psykolog", href: "/behandlinger/flere-fagomrader/psykologi" },
-  { symptom: "Utfordringer i samliv eller seksualitet", service: "Sexolog", href: "/behandlinger/flere-fagomrader/sexologi" },
-  { symptom: "Vekt, kosthold eller matintoleranser", service: "Ernæringsfysiolog", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
- ]}
- />
 
  {/* 4b. STATS */}
  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
@@ -379,46 +318,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 4. ALLE BEHANDLINGER */}
- <section className="bg-background text-foreground py-12 md:py-16">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
- <div className="lg:col-span-6">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Vet du allerede hva du trenger?
- </h2>
- </div>
- <div className="lg:col-span-6 lg:pt-3">
- <p className="text-base font-light text-muted-foreground leading-relaxed">
- Klikk og book direkte, eller les mer om den enkelte
- spesialiteten.
- </p>
- </div>
- </div>
-
- <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {allServices.map((s) => (
- <Link
- key={s.title}
- to={s.href}
- className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
- >
- <div>
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {s.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-snug">
- {s.desc}
- </p>
- </div>
- <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
- </Link>
- ))}
- </div>
- </div>
- </div>
- </section>
 
  {/* 5. REVIEWS */}
  <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
