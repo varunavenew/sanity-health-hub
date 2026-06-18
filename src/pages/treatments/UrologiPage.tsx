@@ -116,25 +116,50 @@ const expertAreas = [
  },
 ];
 
-const allServices = [
- { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
- { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
- { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
- { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
- { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
- { title: "Nyrer", desc: "Cyster, tumor og nefrektomi", href: "/behandlinger/urologi/nyrer" },
- { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
- { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
- { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
- { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
- { title: "Skjev penis", desc: "Utredning og behandling", href: "/behandlinger/urologi/penis" },
- { title: "Ereksjonsproblemer", desc: "Utredning og oppfølging", href: "/behandlinger/urologi/ereksjon" },
- { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
- { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
- { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },
- { title: "Mannlig infertilitet", desc: "Utredning og behandling", href: "/behandlinger/urologi/infertilitet" },
- { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/urologi/robotkirurgi" },
- { title: "Brokk", desc: "Robotassistert kirurgi", href: "/behandlinger/urologi/brokk" },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+  {
+    label: "Prostata",
+    items: [
+      { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
+      { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
+      { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
+    ],
+  },
+  {
+    label: "Blære, urinveier og nyrer",
+    items: [
+      { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
+      { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
+      { title: "Nyrer", desc: "Cyster, tumor og nefrektomi", href: "/behandlinger/urologi/nyrer" },
+    ],
+  },
+  {
+    label: "Testikler og penis",
+    items: [
+      { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+      { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+      { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
+      { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
+      { title: "Skjev penis", desc: "Utredning og behandling", href: "/behandlinger/urologi/penis" },
+    ],
+  },
+  {
+    label: "Hormoner og fertilitet",
+    items: [
+      { title: "Ereksjonsproblemer", desc: "Utredning og oppfølging", href: "/behandlinger/urologi/ereksjon" },
+      { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
+      { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
+      { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },
+      { title: "Mannlig infertilitet", desc: "Utredning og behandling", href: "/behandlinger/urologi/infertilitet" },
+    ],
+  },
+  {
+    label: "Kirurgi",
+    items: [
+      { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/urologi/robotkirurgi" },
+      { title: "Brokk", desc: "Robotassistert kirurgi", href: "/behandlinger/urologi/brokk" },
+    ],
+  },
 ];
 
 const journey = [
@@ -391,46 +416,56 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
  </section>
 
- {/* 4. ALLE BEHANDLINGER */}
- <section className="bg-background text-foreground py-12 md:py-16">
- <div className="container mx-auto px-6 md:px-16">
- <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
- <div className="lg:col-span-6">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Vet du allerede hva du trenger?
- </h2>
- </div>
- <div className="lg:col-span-6 lg:pt-3">
- <p className="text-base font-light text-muted-foreground leading-relaxed">
- Klikk og book direkte, eller les mer om den enkelte
- urologiske utredningen eller behandlingen.
- </p>
- </div>
- </div>
+  {/* 4. HVA VI TILBYR — gruppert oversikt */}
+  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+   <div className="container mx-auto px-6 md:px-16">
+    <div className="max-w-6xl mx-auto">
+     <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+      <div className="lg:col-span-6">
+       <h2 className="text-3xl md:text-5xl font-light leading-tight">
+        Hva vi tilbyr
+       </h2>
+      </div>
+      <div className="lg:col-span-6 lg:pt-3">
+       <p className="text-base font-light text-muted-foreground leading-relaxed">
+        Dette er utredningene, behandlingene og inngrepene vi utfører.
+        Vet du allerede hva du trenger? Velg fra listen — eller les mer
+        om den enkelte tjenesten.
+       </p>
+      </div>
+     </div>
 
- <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
- {allServices.map((s) => (
- <Link
- key={s.title}
- to={s.href}
- className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
- >
- <div>
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {s.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-snug">
- {s.desc}
- </p>
- </div>
- <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
- </Link>
- ))}
- </div>
- </div>
- </div>
- </section>
+     <div className="space-y-12">
+      {serviceGroups.map((group) => (
+       <div key={group.label}>
+        <p className="text-xs font-light text-foreground/60 mb-4">
+         {group.label}
+        </p>
+        <ul className="border-t border-brand-dark/10">
+         {group.items.map((s) => (
+          <li key={s.title} className="border-b border-brand-dark/10">
+           <Link
+            to={s.href}
+            className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
+           >
+            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+             {s.title}
+            </h3>
+            <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
+             {s.desc}
+            </p>
+            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
+           </Link>
+          </li>
+         ))}
+        </ul>
+       </div>
+      ))}
+     </div>
+    </div>
+   </div>
+  </section>
+
 
  {/* 5. REVIEWS */}
  <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
