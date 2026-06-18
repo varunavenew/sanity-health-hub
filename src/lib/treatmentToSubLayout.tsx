@@ -210,17 +210,18 @@ export const treatmentToSubLayout = ({
         }))
       : [];
 
-  // If the related links represent treatments that are part of this service
-  // (e.g. the Hudhelse landing page where the cards are Hudbehandlinger,
-  // Behandlingsutstyr, Hudpleieprodukter), render the section right after the
-  // hero as an intro/overview. This only applies when the hero alone covers
-  // the description — i.e. there is no separate text/reasons section. If the
-  // page has its own text content (like Hudbehandlinger), the text must be
-  // section 2 and related cards come after it.
-  const relatedAsIntro =
-    reasons.length === 0 &&
-    related.length > 0 &&
-    related.some((r) => r.href.startsWith(canonical + "/"));
+  // Detect whether the linked services represent treatments included in this
+  // service (i.e. children of the canonical path). When they are children, the
+  // section is part of the service story — not a generic "andre ting" footer.
+  const relatedIsChildren =
+    related.length > 0 && related.some((r) => r.href.startsWith(canonical + "/"));
+
+  // Placement:
+  // - No reasons + children → section 2 (intro/overview, right after hero).
+  // - Has reasons + children → section 3 (after the text, before flow).
+  // - Not children → keep as default "Andre ting vi hjelper med" after flow.
+  const relatedAsIntro = relatedIsChildren && reasons.length === 0;
+  const relatedAsServices = relatedIsChildren && reasons.length > 0;
 
   const heroTitle: ReactNode = data.title;
 
@@ -249,12 +250,13 @@ export const treatmentToSubLayout = ({
     reasons,
     promises: STANDARD_PROMISES,
     relatedTitle: related.length > 0
-      ? (relatedAsIntro
-          ? `Dette tilbyr vi innen ${data.title.toLowerCase()}`
+      ? (relatedIsChildren
+          ? `Dette hjelper vi deg med innen ${data.title.toLowerCase()}`
           : "Andre ting vi hjelper med")
       : undefined,
     related,
     relatedAsIntro,
+    relatedAsServices,
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
     ctaDescription: `Møt en erfaren ${specialistLabel} hos CMedical — ingen henvisning nødvendig, og kort ventetid.`,
     specialistCategory: (categoryId === "graviditet" || categoryId === "flere-fagomrader"
