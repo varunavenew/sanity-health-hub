@@ -37,10 +37,11 @@ const lifePhases = [
  title: "Mann med plager i underlivet",
  desc:
  "Prostataproblemer, smerter i testikler, ereksjonsproblemer eller vannlatingsplager — vi hjelper deg finne svar.",
-  tags: [
-    { label: "Prostata", href: "/behandlinger/urologi/prostata" },
-    { label: "Vannlating", href: "/behandlinger/urologi/prostata" },
-  ],
+ tags: [
+   { label: "Prostata", href: "/behandlinger/urologi/prostata" },
+   { label: "Vannlating", href: "/behandlinger/urologi/prostata" },
+   { label: "Ereksjon", href: "/behandlinger/urologi/ereksjon" },
+ ],
  href: "/booking?kategori=urologi",
  cta: "Bestill konsultasjon",
  },
@@ -100,6 +101,13 @@ const expertAreas = [
  image: expertTestikler,
  },
  {
+ title: "Penis, forhud og potens",
+ desc:
+ "Trang forhud, skjev penis, ereksjonsproblemer og lavt testosteron — utredning og behandling i trygge rammer.",
+ href: "/behandlinger/urologi/penis",
+ image: expertPenis,
+ },
+ {
  title: "Robotassistert kirurgi",
  desc:
  "Eneste private aktør i Norge med robotassisterte operasjoner. Mer presis kirurgi og raskere restitusjon.",
@@ -113,9 +121,12 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Undersøkelse og utredning",
     items: [
       { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
+      { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
       { title: "Nyrer", desc: "Cyster, tumor og nefrektomi", href: "/behandlinger/urologi/nyrer" },
       { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
       { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
+      { title: "Skjev penis", desc: "Utredning og behandling", href: "/behandlinger/urologi/penis" },
+      { title: "Ereksjonsproblemer", desc: "Utredning og oppfølging", href: "/behandlinger/urologi/ereksjon" },
       { title: "Mannlig infertilitet", desc: "Utredning og behandling", href: "/behandlinger/urologi/infertilitet" },
     ],
   },
@@ -124,10 +135,14 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     items: [
       { title: "Forstørret prostata", desc: "Medisinsk og kirurgisk", href: "/behandlinger/urologi/prostata" },
       { title: "Prostatakreft", desc: "Diagnose og behandling", href: "/behandlinger/urologi/prostata" },
+      { title: "Urinlekkasje", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/urinlekkasje" },
       { title: "Trang forhud (fimose)", desc: "Konservativ og kirurgisk", href: "/behandlinger/urologi/forhud" },
+      { title: "Lavt testosteron", desc: "Utredning og behandling", href: "/behandlinger/urologi/testosteron" },
+      { title: "Varicocele", desc: "Utredning og kirurgi", href: "/behandlinger/urologi/varicocele" },
       { title: "Sterilisering (vasektomi)", desc: "Trygt og raskt inngrep", href: "/behandlinger/urologi/sterilisering" },
       { title: "Refertilisering", desc: "Mikrokirurgisk inngrep", href: "/behandlinger/urologi/refertilisering" },
       { title: "Robotassistert kirurgi", desc: "Avansert minimalt invasiv", href: "/behandlinger/urologi/robotkirurgi" },
+      { title: "Brokk", desc: "Robotassistert kirurgi", href: "/behandlinger/urologi/brokk" },
     ],
   },
 ];
@@ -329,6 +344,8 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  { symptom: "Svak eller hyppig vannlating", service: "Prostatautredning", href: "/booking?kategori=urologi&tjeneste=prostata" },
  { symptom: "Forhøyet PSA eller mistanke om prostatakreft", service: "Prostatasjekk", href: "/booking?kategori=urologi&tjeneste=prostatasjekk" },
  { symptom: "Smerter, kul eller hevelse i pungen", service: "Testikkelutredning", href: "/booking?kategori=urologi&tjeneste=testikler" },
+ { symptom: "Ereksjonsproblemer eller lavt testosteron", service: "Potens- og hormonutredning", href: "/booking?kategori=urologi&tjeneste=ereksjon" },
+ { symptom: "Urinlekkasje eller blæreplager", service: "Bekkenbunns- og blæreutredning", href: "/booking?kategori=urologi&tjeneste=urinlekkasje" },
  { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/booking?kategori=urologi&tjeneste=sterilisering" },
  ]}
  />

@@ -119,6 +119,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Fertilitetssjekk", desc: "Det naturlige første steget — vi finner årsaken før vi behandler.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
       { title: "IUI — inseminasjon", desc: "En enklere behandling som ofte prøves først ved milde årsaker.", href: "/behandlinger/fertilitet/iui" },
+      { title: "Genetisk testing (PGT)", desc: "Genetisk vurdering av embryoene før overføring — for utvalgte indikasjoner.", href: "/behandlinger/fertilitet/pgt" },
     ],
     ctaTitle: "Bestill IVF-konsultasjon",
     ctaDescription:
@@ -222,6 +223,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "IVF", desc: "Eggdonasjon kombineres alltid med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
       { title: "Nedfrysing av egg", desc: "Hvis du ønsker å bevare egne egg for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donor­forløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Snakk med oss om eggdonasjon",
     ctaDescription:
@@ -283,6 +285,57 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
+  /* ───────────────────────── PGT ───────────────────────── */
+  pgt: {
+    seoTitle: "Genetisk testing (PGT) | CMedical",
+    seoDescription:
+      "Genetisk testing av embryoer (PGT) ved utvalgte indikasjoner. Vi forklarer mulighetene og begrensningene — uten å overselge.",
+    canonical: "/behandlinger/fertilitet/pgt",
+    parent,
+    title: "Genetisk testing (PGT)",
+    heroTitle: <>Trygghet <span className="italic">før</span> overføring</>,
+    heroDescription:
+      "PGT — preimplantasjonsgenetisk testing — undersøker embryoene før de settes tilbake i livmoren. Det er aktuelt ved utvalgte indikasjoner og kan øke sjansen for vellykket graviditet.",
+    heroPoints: [
+      { title: "PGT-A — kromosomtelling", desc: "Sjekk for normalt antall kromosomer i embryoet." },
+      { title: "PGT-M — arvelig sykdom", desc: "For par som vet de bærer en spesifikk genetisk sykdom." },
+      { title: "Internasjonalt samarbeid", desc: "Analysene gjøres ved akkrediterte laboratorier." },
+      { title: "Realistisk rådgivning", desc: "Vi forklarer hva PGT kan — og ikke kan — gjøre for deg." },
+    ],
+    rating: "4,8 — Spesialister på fertilitet",
+    booking: { ...baseBooking, tjeneste: "pgt" },
+    primaryCtaLabel: "Bestill PGT-samtale",
+    flowTitle: "Slik fungerer PGT i et IVF-forløp",
+    flow: [
+      { n: "Steg 01", title: "Genetisk veiledning", desc: "Vi går gjennom indikasjon, hva testen kan svare på og hva den ikke kan." },
+      { n: "Steg 02", title: "IVF-syklus", desc: "Stimulering, egguthenting og befruktning — som ved standard IVF." },
+      { n: "Steg 03", title: "Biopsi og test", desc: "Noen få celler tas fra embryoet på dag 5–6 og sendes til genetisk analyse." },
+      { n: "Steg 04", title: "Resultat", desc: "Vi gjennomgår resultatene sammen — og hvilke embryo som er aktuelle for overføring." },
+      { n: "Steg 05", title: "Embryooverføring", desc: "Det best egnede embryoet settes tilbake i livmoren." },
+    ],
+    reasonsTitle: "Hvem kan PGT være riktig for?",
+    reasonsLead:
+      "PGT er ikke for alle som tar IVF. Det er en tilleggstest med klare indikasjoner — og vi vurderer alltid om det er riktig for deg.",
+    reasons: [
+      { n: "01", title: "Gjentatte spontanaborter", desc: "Tre eller flere uforklarte spontanaborter — kromosom­avvik kan være årsak." },
+      { n: "02", title: "Gjentatte mislykkede IVF-forsøk", desc: "Når flere overføringer av tilsynelatende gode embryo ikke har gitt graviditet." },
+      { n: "03", title: "Kjent arvelig sykdom (PGT-M)", desc: "Når dere bærer en spesifikk genetisk sykdom dere ikke vil overføre." },
+      { n: "04", title: "Høy alder", desc: "Risiko for kromosomavvik øker med kvinnens alder — PGT-A kan være aktuelt." },
+      { n: "05", title: "Strukturelle kromosom­avvik hos foreldre", desc: "Når kjent translokasjon eller annet avvik er påvist." },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "IVF", desc: "PGT gjøres alltid som del av en IVF-behandling.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Fertilitetssjekk", desc: "Først kartlegger vi grunnlaget — så vurderer vi PGT.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Psykisk helsehjelp", desc: "Genetiske spørsmål er tunge. Vi tilbyr samtaler hele veien.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+    ],
+    ctaTitle: "Bestill PGT-samtale",
+    ctaDescription:
+      "Vi tar tid til den genetiske veiledningen — og forklarer hva testen kan og ikke kan svare på.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
 
   /* ───────────────────────── MANNLIG FERTILITET ───────────────────────── */
   "mannlig-fertilitet": {
@@ -335,6 +388,56 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
+  /* ───────────────────────── PSYKISK HELSEHJELP ───────────────────────── */
+  "psykisk-helsehjelp": {
+    seoTitle: "Psykisk helsehjelp i fertilitetsforløp | CMedical",
+    seoDescription:
+      "Samtaler med psykolog gjennom hele fertilitetsforløpet — før, under og etter behandling. Du er ikke alene.",
+    canonical: "/behandlinger/fertilitet/psykisk-helsehjelp",
+    parent,
+    title: "Psykisk helsehjelp",
+    heroTitle: <>Du skal ikke <span className="italic">stå</span> i dette alene</>,
+    heroDescription:
+      "Et fertilitetsforløp tar mye plass — også psykisk. Vi tilbyr samtaler med psykolog som kjenner forløpet, fra første utredning til etter graviditetstest. Det er en del av tilbudet vårt — ikke et tillegg.",
+    heroPoints: [
+      { title: "Psykolog med fertilitetserfaring", desc: "Du møter noen som forstår hva du står i — uten lange forklaringer." },
+      { title: "Samtaler hele veien", desc: "Før, under og etter behandling — så lenge du trenger det." },
+      { title: "For par og enkeltpersoner", desc: "Sammen eller hver for dere — vi tilpasser etter ønsker." },
+      { title: "Trygt rom", desc: "Alt du sier blir værende mellom deg og psykologen." },
+    ],
+    rating: "4,9 — Psykologer som forstår forløpet",
+    booking: { ...baseBooking, tjeneste: "samtale" },
+    primaryCtaLabel: "Bestill samtale",
+    flowTitle: "Slik tilbyr vi psykisk støtte",
+    flow: [
+      { n: "Steg 01", title: "Første samtale", desc: "En åpen, uforpliktende samtale der vi blir kjent og finner ut hva du trenger." },
+      { n: "Steg 02", title: "Plan for oppfølging", desc: "Vi avtaler hyppighet og format basert på dine behov." },
+      { n: "Steg 03", title: "Samtaler i ditt tempo", desc: "Underveis i behandlingen — og etterpå om du ønsker det." },
+      { n: "Steg 04", title: "Tett samspill med behandlerteamet", desc: "Med ditt samtykke samarbeider vi på tvers, slik at du opplever helhet." },
+    ],
+    reasonsTitle: "Du trenger ikke vente på krisen",
+    reasonsLead:
+      "Mange ber om hjelp først når det blir tungt. Vi vil at du skal vite at samtalene står klare hele veien — også når alt 'går greit'.",
+    reasons: [
+      { n: "01", title: "Beslutningstunge valg", desc: "IVF, eggdonasjon, antall forsøk — vi hjelper deg å tenke høyt." },
+      { n: "02", title: "Sorgen etter et negativt svar", desc: "Hver runde kan være et tap. Du fortjener et rom for det." },
+      { n: "03", title: "Etter spontanabort", desc: "Tap er tap — uansett hvor langt på vei du var." },
+      { n: "04", title: "Belastning på parforholdet", desc: "Et fertilitetsforløp setter parforholdet på prøve. Vi snakker sammen, om dere ønsker det." },
+      { n: "05", title: "Etter graviditetstest", desc: "Også positive svar bringer komplekse følelser. Vi er der — også da." },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "IVF", desc: "Psykologisk støtte hører naturlig hjemme i et IVF-forløp.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "Eggdonasjon", desc: "Egne psykologsamtaler er en obligatorisk del av forløpet.", href: "/behandlinger/fertilitet/eggdonasjon" },
+      { title: "Fertilitetssjekk", desc: "Vi snakker også med deg som vurderer om dette er rett for deg.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+    ],
+    ctaTitle: "Bestill en samtale",
+    ctaDescription:
+      "Du trenger ikke å vite hvor du skal begynne. En første samtale er et godt sted å starte.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
 
   /* ───────────────────────── DONORBEHANDLING ───────────────────────── */
   donorbehandling: {
@@ -403,6 +506,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
       { title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/iui" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Snakk med oss om donorbehandling",
     ctaDescription:
