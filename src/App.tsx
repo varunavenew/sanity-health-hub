@@ -107,7 +107,8 @@ const AppContent = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Index isChatOpen={false} />} />
+        <Route path="/" element={<HomeDemoLek isChatOpen={false} />} />
+        <Route path="/hjem-demo/original" element={<Index isChatOpen={false} />} />
         <Route path="/demoer" element={<DemoOversikt isChatOpen={false} />} />
         <Route path="/design-demoer" element={<DemoOversikt isChatOpen={false} />} />
         <Route path="/icon-preview" element={<IconPreview />} />
