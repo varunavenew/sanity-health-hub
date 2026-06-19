@@ -40,7 +40,6 @@ export const PatientTrustSection = () => {
               <span className="text-sm leading-snug font-light text-brand-dark/70">{t("valueBadges.tech")}</span>
             </div>
             <div className="flex items-center gap-4">
-              <FileX className="w-5 h-5 text-brand-dark/50 flex-shrink-0" strokeWidth={1.5} />
               <span className="text-sm leading-snug font-light text-brand-dark/70">Ingen henvisninger</span>
             </div>
             <div className="flex items-center gap-4">
