@@ -294,7 +294,6 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
           { symptom: "Vi trenger donoregg av medisinske grunner", service: "Donoregg-utredning", href: BOOKING, image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
           { symptom: "Vi vurderer donorsæd ved mannlig faktor", service: "Konsultasjon donorsæd", href: BOOKING, image: journeyLab, imageAlt: "Laboratorium" },
           { symptom: "Vi vil reservere donor for søsken", service: "Donorreservasjon", href: BOOKING, image: journeyResult, imageAlt: "Familieplanlegging" },
-          { symptom: "Vi trenger noen å snakke med", service: "Psykisk helsehjelp", href: `${FERT}/psykisk-helsehjelp`, image: audienceCouple, imageAlt: "Samtale" },
         ]}
       />
 
