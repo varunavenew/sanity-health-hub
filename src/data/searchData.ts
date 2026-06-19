@@ -48,12 +48,14 @@ export const searchItems: SearchItem[] = [
 
   // Fertilitet
   { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Fagområde', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
-  { label: 'Infertilitet', path: '/behandlinger/fertilitet/infertilitet', category: 'Fertilitet', keywords: ['barnløshet', 'ufruktbar'] },
-  { label: 'Assistert befruktning', path: '/behandlinger/fertilitet/assistert-befruktning', category: 'Fertilitet', keywords: ['kunstig befruktning', 'ivf', 'icsi', 'inseminasjon'] },
-  { label: 'Assistert befruktning med donor', path: '/behandlinger/fertilitet/donorbehandling', category: 'Fertilitet', keywords: ['donor', 'sæddonor', 'eggdonor'] },
-  { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys', category: 'Fertilitet', keywords: ['fryse egg', 'bevare fertilitet', 'nedfrysning'] },
-  { label: 'Hormonforstyrrelser', path: '/behandlinger/fertilitet/hormonforstyrrelser', category: 'Fertilitet', keywords: ['hormon', 'pcos'] },
-  { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi', category: 'Fertilitet', keywords: ['kikkertundersøkelse', 'livmor'] },
+  { label: 'Fertilitetssjekk', path: '/behandlinger/fertilitet/fertilitetssjekk', category: 'Fertilitet', keywords: ['kartlegging', 'utredning', 'amh'] },
+  { label: 'IVF', path: '/behandlinger/fertilitet/ivf', category: 'Fertilitet', keywords: ['prøverør', 'assistert befruktning', 'icsi'] },
+  { label: 'IUI', path: '/behandlinger/fertilitet/iui', category: 'Fertilitet', keywords: ['inseminasjon'] },
+  { label: 'Nedfrysing', path: '/behandlinger/fertilitet/nedfrysing', category: 'Fertilitet', keywords: ['fryse egg', 'eggfrys', 'nedfrysning', 'sædfrys'] },
+  { label: 'Eggdonasjon', path: '/behandlinger/fertilitet/eggdonasjon', category: 'Fertilitet', keywords: ['donor', 'eggdonor', 'donorbehandling'] },
+  { label: 'Mannlig fertilitet', path: '/behandlinger/fertilitet/mannlig-fertilitet', category: 'Fertilitet', keywords: ['sæd', 'sædanalyse', 'mannlig infertilitet'] },
+  { label: 'Psykisk helsehjelp', path: '/behandlinger/fertilitet/psykisk-helsehjelp', category: 'Fertilitet', keywords: ['psykolog', 'støtte'] },
+  { label: 'PGT', path: '/behandlinger/fertilitet/pgt', category: 'Fertilitet', keywords: ['genetisk testing', 'embryo'] },
 
   // Ortopedi
   { label: 'Ortopedi', path: '/behandlinger/ortopedi', category: 'Fagområde', keywords: ['bein', 'skjelett', 'ledd'] },

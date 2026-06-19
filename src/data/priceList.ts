@@ -160,7 +160,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Sædanalyse og mannlig infertilitet',
-        path: '/behandlinger/fertilitet/saedanalyse',
+        path: '/behandlinger/fertilitet/mannlig-fertilitet',
         items: [
           { name: "Enkel sædanalyse", price: "1.950,-", duration: "", info: "Det anbefales å ha en ejakulasjon 2–5 dager før sædprøven leveres for optimal enkel sædanalyse. Prøven kan medbringes hjemmefra og må leveres CMedical innen 60 min. Prøven må oppbevares kroppstemperert underveis." },
           { name: "Utvidet sædanalyse", price: "5.500,-", duration: "", info: "Det anbefales å ha en ejakulasjon 1–2 dager før sædprøven leveres for optimal utvidet sædanalyse. Prøven må tas på CMedical og timen må bookes i tidsperioden kl 09:00–12:00." },

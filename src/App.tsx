@@ -150,6 +150,14 @@ const AppContent = () => {
         {/* Fertilitet slug aliases */}
         <Route path="/behandlinger/fertilitet/assistert-befruktning-par-single" element={<Navigate to="/behandlinger/fertilitet/par-og-single" replace />} />
         <Route path="/behandlinger/fertilitet/fertilitetsutredning-juli" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning" replace />} />
+        {/* Gamle dublett-sider fjernet — redirect til ny fertilitet-struktur */}
+        <Route path="/behandlinger/fertilitet/infertilitet" element={<Navigate to="/fertilitet" replace />} />
+        <Route path="/behandlinger/fertilitet/assistert-befruktning" element={<Navigate to="/behandlinger/fertilitet/ivf" replace />} />
+        <Route path="/behandlinger/fertilitet/eggfrys" element={<Navigate to="/behandlinger/fertilitet/nedfrysing" replace />} />
+        <Route path="/behandlinger/fertilitet/donorbehandling" element={<Navigate to="/behandlinger/fertilitet/eggdonasjon" replace />} />
+        <Route path="/behandlinger/fertilitet/saedanalyse" element={<Navigate to="/behandlinger/fertilitet/mannlig-fertilitet" replace />} />
+        {/* Spesialist fjernet — redirect til oversikten */}
+        <Route path="/spesialister/line-jacob" element={<Navigate to="/spesialister" replace />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
         <Route path="/behandlinger/urologi/:subId" element={<GenericSubTreatmentPage categoryId="urologi" isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi/:subId" element={<GenericSubTreatmentPage categoryId="ortopedi" isChatOpen={false} />} />

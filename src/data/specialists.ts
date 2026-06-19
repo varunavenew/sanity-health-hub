@@ -40,7 +40,7 @@ import kristianOphaug from '@/assets/specialists/kristian-ophaug.jpg';
 import larsEldarMyrseth from '@/assets/specialists/lars-eldar-myrseth.webp';
 import larsFredrikQvigstad from '@/assets/specialists/lars-fredrik-qvigstad.jpg';
 import lineFusdahlHulleberg from '@/assets/specialists/line-fusdahl-hulleberg.jpg';
-import lineJacob from '@/assets/specialists/line-jacob.jpg';
+
 import linnMyrtveitStensrud from '@/assets/specialists/linn-myrtveit-stensrud.jpg';
 import linneaTorsnes from '@/assets/specialists/linnea-torsnes.jpg';
 import madeleineEngen from '@/assets/specialists/madeleine-engen.jpg';
@@ -494,17 +494,6 @@ export const specialists: Specialist[] = [
     slug: "line-fusdahl-hulleberg",
     bio: "Line Fusdahl Hulleberg har vært sykepleier siden 2008 og har bred erfaring fra Oslo Universitetssykehus. Siden 2017 har hun jobbet med assistert befruktning, først ved Oslo Universitetssykehus og senere hos oss på CMedical. Hun har vært en sentral del av fertilitetsteamet fra oppstarten hos CMedical og er i dag teamleder for fertilitetsteamet. Line var en av de første sykepleierne i Norge som startet med inseminasjonsbehandling, noe som understreker hennes viktige bidrag innen fertilitetsbehandling her i landet.\n\nMed et sterkt engasjement for fertilitetsbehandling har Line fokus på å støtte pasientene gjennom hele prosessen med å oppnå drømmen om barn. Hennes omsorgsfulle og empatiske tilnærming sikrer at pasientene føler seg trygge og godt ivaretatt i en tid som ofte kan være både emosjonelt og fysisk krevende. I tillegg til sin spesialisering innen fertilitet, har hun verdifull erfaring fra andre helsefaglige områder som styrker hennes evne til å tilby helhetlig og pasientsentrert omsorg.",
     clinics: ["Majorstuen"]
-  },
-  {
-    name: "Line Jacob",
-    title: "Gynekolog",
-    subtitle: "Spesialist",
-    expertise: ["Gynekologi", "Reproduksjonsmedisin", "Overgangsalder"],
-    image: lineJacob,
-    category: "gynekologi",
-    slug: "line-jacob",
-    bio: "Dr. Line Jacob er utdannet lege fra Universitetet i Oslo, og har flere års erfaring fra gynekologisk avdeling ved Bærum sykehus, hvor hun spesialiserte seg på fødselshjelp og kvinnesykdommer. Hun har også jobbet ved Rikshospitalet som gynekolog innen reproduksjonsmedisin og infertilitet, og forsker nå på sammenhengen mellom overgangsplager og risiko for demens.\n\nLine er opptatt av at det skal føles trygt og godt å komme til gynekolog. Hun møter hver pasient med ro, omtanke og individuell tilnærming, og legger vekt på å skape en trygg dialog.",
-    clinics: ["Bekkestua"]
   },
   {
     name: "Linn Myrtveit-Stensrud",
