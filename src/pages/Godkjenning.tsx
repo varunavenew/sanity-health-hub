@@ -128,12 +128,18 @@ const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = 
     title: "Hjemmeside",
     items: [
       { to: "/hjem-demo/lek", name: "Hjem — Lekekasse (kopi)" },
+      { to: "/hjem-demo/editorial", name: "Hjem — Editorial (forslag 1)" },
+      { to: "/hjem-demo/kompakt", name: "Hjem — Kompakt (forslag 2)" },
+      { to: "/hjem-demo/fortelling", name: "Hjem — Fortelling (forslag 3)" },
     ],
   },
   {
     title: "Priser",
     items: [
       { to: "/demoer/priser-inline-info", name: "Priser — Info under tjenesten (demo)" },
+      { to: "/demoer/priser-kategorikort", name: "Priser — Kategorikort (forslag 1)" },
+      { to: "/demoer/priser-magasin", name: "Priser — Magasin (forslag 2)" },
+      { to: "/demoer/priser-spotlight", name: "Priser — Spotlight (forslag 3)" },
     ],
   },
 ];
