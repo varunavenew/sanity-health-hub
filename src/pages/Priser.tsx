@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -93,6 +93,28 @@ const Priser = ({ isChatOpen }: PageProps) => {
     document.title = "Priser | CMedical";
   }, []);
 
+  // IntersectionObserver to highlight active category pill as user scrolls
+  useEffect(() => {
+    const sections = priceCategories.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) {
+          const id = visible[0].target.id.replace('cat-', '');
+          setActiveCategory(id);
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    sections.forEach(s => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   const toggleSubcategory = (key: string) => {
     setOpenSubcategory((prev) => (prev === key ? null : key));
   };
@@ -146,16 +168,23 @@ const Priser = ({ isChatOpen }: PageProps) => {
             return (
               <div className="max-w-5xl mx-auto">
                 {/* Top pill nav — anchor scroll */}
-                <nav className="flex flex-wrap gap-2 mb-14 md:mb-20 pb-8 border-b border-brand-mid/20 md:sticky md:top-20 md:bg-background/95 md:backdrop-blur md:z-20 md:py-4">
-                  {ordered.map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => scrollToCat(cat.id)}
-                      className="inline-flex items-center px-4 py-2 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
-                    >
-                      {cat.label}
-                    </button>
-                  ))}
+                <nav className="flex flex-wrap gap-2 mb-14 md:mb-20 pb-8 border-b border-brand-mid/20">
+                  {ordered.map((cat) => {
+                    const isActive = activeCategory === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
+                        className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-light whitespace-nowrap border transition-colors ${
+                          isActive
+                            ? 'bg-brand-dark text-brand-warm border-brand-dark'
+                            : 'bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark'
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    );
+                  })}
                 </nav>
 
                 {/* Magasin flow — all categories stacked */}
