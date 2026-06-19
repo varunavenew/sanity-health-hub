@@ -208,9 +208,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         {cat.subcategories.map((sub) => (
                           <div
                             key={sub.label}
-                            className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10"
+                            className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10 md:items-start"
                           >
-                            <div className="md:sticky md:top-40">
+                            <div className="md:sticky md:top-40 md:self-start">
                               <h3 className="text-sm font-normal text-brand-dark">
                                 {sub.label}
                               </h3>
