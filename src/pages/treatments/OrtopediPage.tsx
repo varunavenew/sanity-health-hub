@@ -92,9 +92,9 @@ const expertAreas = [
  image: expertHand,
  },
  {
- title: "Akutt skade",
+ title: "Akutt og oppfølging",
  desc:
- "Vridd kne, et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
+ "Vridd kne, et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med oppfølging hele veien.",
  href: "/booking?kategori=ortopedi",
  image: expertSecondOpinion,
  },
