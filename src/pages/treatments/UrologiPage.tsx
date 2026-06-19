@@ -330,7 +330,6 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  { symptom: "Forhøyet PSA eller mistanke om prostatakreft", service: "Prostatasjekk", href: "/booking?kategori=urologi&tjeneste=prostatasjekk" },
  { symptom: "Smerter, kul eller hevelse i pungen", service: "Testikkelutredning", href: "/booking?kategori=urologi&tjeneste=testikler" },
  { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/booking?kategori=urologi&tjeneste=sterilisering" },
- { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/booking?kategori=urologi&tjeneste=sterilisering" },
  ]}
  />
 
