@@ -1,4 +1,4 @@
-import { ArrowRight, ShieldCheck, FileX, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
