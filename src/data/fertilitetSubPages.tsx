@@ -403,7 +403,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
       { title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/iui" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Snakk med oss om donorbehandling",
     ctaDescription:
