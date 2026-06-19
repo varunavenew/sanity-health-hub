@@ -14,11 +14,11 @@ export const PatientTrustSection = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
             <div className="space-y-2">
               <div className="flex items-baseline gap-3">
-                <span className="text-6xl md:text-7xl font-light leading-none tracking-tight text-brand-dark">
+                <span className="text-5xl md:text-6xl font-light leading-none tracking-tight text-brand-dark">
                   150&thinsp;000<span className="text-brand-mid font-extralight ml-1">+</span>
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
+              <h2 className="text-lg md:text-xl font-light text-brand-dark leading-tight">
                 Fornøyde pasienter siden 2002.
               </h2>
             </div>
