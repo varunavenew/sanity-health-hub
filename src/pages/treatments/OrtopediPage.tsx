@@ -87,7 +87,7 @@ const expertAreas = [
  {
  title: "Hånd, albue og fot",
  desc:
- "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
+ "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og konservativ behandling.",
  href: "/behandlinger/ortopedi/hand",
  image: expertHand,
  },
