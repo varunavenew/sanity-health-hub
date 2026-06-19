@@ -6,6 +6,7 @@ import { LifePhasesSection } from "@/components/homepage/LifePhasesSection";
 import { ValueBadges } from "@/components/homepage/ValueBadges";
 import { SpecialistsSectionElegant } from "@/components/homepage/SpecialistsSectionElegant";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
+import { PatientTrustSection } from "@/components/homepage/PatientTrustSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { ResultsStatsSection } from "@/components/shared/ResultsStatsSection";
 import { NewsSplitScreen } from "@/components/homepage/NewsSplitScreen";
@@ -34,7 +35,8 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
 
       <HeroBanner />
       <HeroCompact showHeader={false} />
-      <GoogleReviewsSection />
+      <PatientTrustSection />
+      <GoogleReviewsSection showTrustSection={false} />
       <NewsSplitScreen />
       <LifePhasesSection />
       <SpecialistsSectionElegant />
