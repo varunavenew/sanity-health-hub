@@ -1390,24 +1390,30 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "flere-fagomrader/gastrokirurgi": {
-    title: "Gastrokirurgi",
+    title: "Mage- og tarmlidelser (Gastrokirurgi)",
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Avanserte, minimalt invasive inngrep i fordøyelsessystemet — utført av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.",
-    sections: [
-      {
-        id: "om-gastrokirurgi",
-        heading: "Om gastrokirurgi",
-        content: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.\n\nVurderer du Sleeve Gastrektomi? Hos oss får du gratis digital førstekonsultasjon og trygg veiledning gjennom hele prosessen – fra forberedelser til oppfølging. Her kan du bli kjent med behandlingen og hvordan vi kan støtte deg på veien mot en lettere og sunnere hverdag."
-      },
-    ],
+    description: "Mage og tarmkirurgi (gastrokirurgi) omhandler kirurgiske inngrep i fordøyelsessystemet. Hos oss møter du erfarne spesialister innen fagfeltet. Vi tilbyr et helhetlig og tverrfaglig tilbud, der avansert medisinsk teknologi møter tett oppfølging fra kirurger og klinisk ernæringsfysiolog.",
     linkedServices: [
-      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
-      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
-      { label: "Gallestein / kikkhullskirurgi", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi" },
-      { label: "Brokkbehandling", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
-      { label: "Endetarmsplager", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
+      {
+        label: "Overvektskirurgi (slankeoperasjon)",
+        description: "Varig vektreduksjon med robotassistert presisjon.",
+        path: "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi",
+        image: imgGastroOvervekt.url,
+      },
+      {
+        label: "Brokkoperasjon",
+        description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.",
+        path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon",
+        image: imgGastroBrokk.url,
+      },
+      {
+        label: "Hemorroider og endetarmsplager (rektocele)",
+        description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.",
+        path: "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider",
+        image: imgGastroHemorroider.url,
+      },
     ],
     relatedSpecialists: ["andreas-edenberg"],
     faqs: [
