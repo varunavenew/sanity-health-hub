@@ -222,7 +222,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "IVF", desc: "Eggdonasjon kombineres alltid med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
       { title: "Nedfrysing av egg", desc: "Hvis du ønsker å bevare egne egg for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donor­forløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
     ],
     ctaTitle: "Snakk med oss om eggdonasjon",
     ctaDescription:
