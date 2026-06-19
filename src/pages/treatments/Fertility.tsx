@@ -52,7 +52,6 @@ const segments = [
  { label: "AMH", href: `${FERT}/fertilitetssjekk` },
  { label: "Ultralyd", href: `${FERT}/fertilitetssjekk` },
  { label: "Hysteroskopi", href: `${FERT}/fertilitetssjekk` },
- { label: "Rådgivning online", href: `${FERT}/psykisk-helsehjelp` },
  ],
  cta: "Les mer",
  href: `${FERT}/fertilitetssjekk`,
