@@ -77,59 +77,6 @@ const TverrfagligePage = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* SPLIT: heading left, text right */}
-      <section className="bg-brand-light py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
-            <div className="lg:col-span-5">
-              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                {splitSection.heading}
-              </h2>
-            </div>
-            <div className="lg:col-span-7 lg:pt-3 space-y-6">
-              {splitSection.paragraphs.map((p, i) => (
-                <p key={i} className="text-base font-light text-muted-foreground leading-relaxed">
-                  {p}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ANDRE TING VI HJELPER MED */}
-      <section className="bg-secondary/40 py-20 md:py-28">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-              <div className="lg:col-span-6">
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Andre ting vi hjelper med.
-                </h2>
-              </div>
-              <div className="lg:col-span-6 lg:pt-3">
-                <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Tverrfaglighet handler om mer enn fag. Det handler om hvordan du blir møtt, hvor mye du selv styrer, og hvordan vi rigger forløpet rundt deg.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {andreTing.map((item) => (
-                <div
-                  key={item.title}
-                  className="bg-background rounded-sm border border-border/40 p-7 flex flex-col"
-                >
-                  <h3 className="text-xl font-light text-foreground mb-3">{item.title}</h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Content */}
       <section className="py-16 md:py-24 bg-background">
