@@ -57,7 +57,7 @@ const rawPriceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'Operasjoner og inngrep',
+        label: 'Operasjoner og kirurgi',
         path: '/behandlinger/gynekologi/operasjoner',
         items: [
           { name: "TVT operasjon", price: "fra 46.000,-", duration: "", requiresConsultation: true },
