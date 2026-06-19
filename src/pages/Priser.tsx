@@ -240,7 +240,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               {item.path && (
                                                 <Link
                                                   to={item.path}
-                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
+                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
                                                 >
                                                   Les mer
                                                   <ArrowRight className="w-3 h-3" />
@@ -250,7 +250,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                               {!isConsult && (
                                                 <Link
                                                   to={buildBookingUrl({ kategori: active.id })}
-                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
+                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
                                                 >
                                                   Bestill time
                                                   <ArrowRight className="w-3 h-3" />
