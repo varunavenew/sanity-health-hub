@@ -215,39 +215,31 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         return (
                                           <li
                                             key={idx}
-                                            className="py-5 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"
+                                            className="py-5 flex flex-col gap-3"
                                           >
-                                            <div className="flex-1 min-w-0">
-                                              <p className="font-normal text-brand-dark">{item.name}</p>
-                                              {(item.duration || item.priceNote) && (
-                                                <p className="mt-1 text-xs font-light text-brand-dark/60">
-                                                  {item.duration}
-                                                  {item.duration && item.priceNote ? ' · ' : ''}
-                                                  {item.priceNote}
-                                                </p>
-                                              )}
-                                              {item.info && (
-                                                <p className="mt-2 text-xs font-light text-brand-dark/70 leading-relaxed max-w-2xl">
-                                                  {item.info}
-                                                </p>
-                                              )}
-                                            </div>
-                                            <div className="flex items-center gap-3 sm:gap-3 shrink-0">
-                                              <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap">
+                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                              <div className="flex-1 min-w-0">
+                                                <p className="font-normal text-brand-dark">{item.name}</p>
+                                                {(item.duration || item.priceNote) && (
+                                                  <p className="mt-1 text-xs font-light text-brand-dark/60">
+                                                    {item.duration}
+                                                    {item.duration && item.priceNote ? ' · ' : ''}
+                                                    {item.priceNote}
+                                                  </p>
+                                                )}
+                                                {item.info && (
+                                                  <p className="mt-2 text-xs font-light text-brand-dark/70 leading-relaxed max-w-2xl">
+                                                    {item.info}
+                                                  </p>
+                                                )}
+                                              </div>
+                                              <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap shrink-0">
                                                 {item.price === "0,-" ? "Gratis" : item.price}
                                               </span>
+                                            </div>
 
-                                              {item.path && (
-                                                <Link
-                                                  to={item.path}
-                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
-                                                >
-                                                  Les mer
-                                                  <ArrowRight className="w-3 h-3" />
-                                                </Link>
-                                              )}
-
-                                              {!isConsult && (
+                                            <div className="flex items-center gap-3">
+                                              {!isConsult ? (
                                                 <Link
                                                   to={buildBookingUrl({ kategori: active.id })}
                                                   className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
@@ -255,7 +247,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   Bestill time
                                                   <ArrowRight className="w-3 h-3" />
                                                 </Link>
-                                              )}
+                                              ) : item.path ? (
+                                                <Link
+                                                  to={item.path}
+                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                                >
+                                                  Les mer
+                                                  <ArrowRight className="w-3 h-3" />
+                                                </Link>
+                                              ) : null}
                                             </div>
                                           </li>
                                         );
