@@ -92,7 +92,6 @@ const services = [
   { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: `${FERT}/eggdonasjon` },
   { title: "Nedfrysing av egg og sæd", desc: "Bevar mulighetene dine", href: `${FERT}/nedfrysing` },
   { title: "Fertilitetssjekk", desc: "Hormoner, ultralyd, AMH", href: `${FERT}/fertilitetssjekk` },
-  { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av forløpet", href: `${FERT}/psykisk-helsehjelp` },
 ];
 
 const reviews = [
