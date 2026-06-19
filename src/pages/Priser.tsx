@@ -134,144 +134,137 @@ const Priser = ({ isChatOpen }: PageProps) => {
               ...priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
               ...priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb')),
             ];
-            const active = ordered.find(c => c.id === activeCategory) ?? ordered[0];
+
+            const scrollToCat = (id: string) => {
+              const el = document.getElementById(`cat-${id}`);
+              if (!el) return;
+              const header = document.querySelector('header');
+              const offset = (header?.getBoundingClientRect().height ?? 80) + 24;
+              window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+            };
+
             return (
-              <div className="max-w-6xl mx-auto">
+              <div className="max-w-5xl mx-auto">
+                {/* Top pill nav — anchor scroll */}
+                <nav className="flex flex-wrap gap-2 mb-14 md:mb-20 pb-8 border-b border-brand-mid/20 md:sticky md:top-20 md:bg-background/95 md:backdrop-blur md:z-20 md:py-4">
+                  {ordered.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => scrollToCat(cat.id)}
+                      className="inline-flex items-center px-4 py-2 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+                </nav>
 
-                <div className="flex flex-col md:flex-row gap-12 md:gap-20">
-                  {/* Left rail: specialties as pill chips */}
-                  <aside className="w-full md:w-64 shrink-0">
-                    <p className="text-xs text-muted-foreground font-light mb-5">Fagområder</p>
-                    <nav className="flex md:flex-col flex-wrap md:flex-nowrap gap-2 md:sticky md:top-28">
-                      {ordered.map((cat) => {
-                        const isActive = cat.id === active?.id;
-                        return (
-                          <button
-                            key={cat.id}
-                            onClick={() => {
-                              setActiveCategory(cat.id);
-                              const el = document.getElementById('prisliste');
-                              if (el && window.innerWidth < 768) {
-                                const header = document.querySelector('header');
-                                const offset = (header?.getBoundingClientRect().height ?? 80) + 16;
-                                window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
-                              }
-                            }}
-                            className={`inline-flex md:w-fit items-center px-4 py-2 rounded-full text-sm font-light whitespace-nowrap border transition-colors ${
-                              isActive
-                                ? 'bg-brand-dark text-brand-warm border-brand-dark'
-                                : 'bg-white text-brand-dark border-brand-dark/20 hover:border-brand-dark/60'
-                            }`}
-                            aria-current={isActive ? 'page' : undefined}
-                          >
-                            {cat.label}
-                          </button>
-                        );
-                      })}
-                    </nav>
-                  </aside>
-
-                  {/* Right: active category content — magasin flow */}
-                  <main className="flex-1 min-w-0">
-                    {active && (
-                      <section key={active.id}>
-                        <h2 className="text-2xl md:text-3xl font-light text-brand-dark mb-2">
-                          {active.label}
+                {/* Magasin flow — all categories stacked */}
+                <div className="space-y-20 md:space-y-28">
+                  {ordered.map((cat) => (
+                    <section
+                      key={cat.id}
+                      id={`cat-${cat.id}`}
+                      className="scroll-mt-32"
+                    >
+                      <div className="mb-10 pb-4 border-b border-brand-dark/20">
+                        <div className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                          Fagområde
+                        </div>
+                        <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
+                          {cat.label}
                         </h2>
-                        <p className="text-sm font-light text-muted-foreground mb-10">
-                          {active.subcategories.reduce((s, sc) => s + sc.items.length, 0)} tjenester
-                        </p>
+                      </div>
 
-                        <div className="space-y-14">
-                          {active.subcategories.map((sub) => (
-                            <div
-                              key={sub.label}
-                              className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10"
-                            >
-                              <div>
-                                <h3 className="text-sm font-normal text-brand-dark md:sticky md:top-28">
-                                  {sub.label}
-                                </h3>
-                              </div>
+                      <div className="space-y-12">
+                        {cat.subcategories.map((sub) => (
+                          <div
+                            key={sub.label}
+                            className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10"
+                          >
+                            <div>
+                              <h3 className="text-sm font-normal text-brand-dark md:sticky md:top-40">
+                                {sub.label}
+                              </h3>
+                            </div>
 
-                              <div>
-                                <ul className="divide-y divide-brand-mid/30">
-                                  {sub.items.map((item, idx) => {
-                                    const isConsult = item.requiresConsultation;
-                                    return (
-                                      <li key={idx} className="py-5 flex flex-col gap-3">
-                                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                                          <div className="flex-1 min-w-0">
-                                            <p className="font-normal text-brand-dark">{item.name}</p>
-                                            {(item.duration || item.priceNote) && (
-                                              <p className="mt-1 text-xs font-light text-brand-dark/60">
-                                                {item.duration}
-                                                {item.duration && item.priceNote ? ' · ' : ''}
-                                                {item.priceNote}
-                                              </p>
-                                            )}
-                                            {item.info && (
-                                              <p className="mt-2 text-xs font-light text-brand-dark/70 leading-relaxed max-w-2xl">
-                                                {item.info}
-                                              </p>
-                                            )}
-                                          </div>
-                                          <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap shrink-0">
-                                            {item.price === "0,-" ? "Gratis" : item.price}
-                                          </span>
-                                        </div>
-
-                                        <div className="flex items-center gap-3">
-                                          {!isConsult ? (
-                                            <Link
-                                              to={buildBookingUrl({ kategori: active.id })}
-                                              className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
-                                            >
-                                              Bestill time
-                                              <ArrowRight className="w-3 h-3" />
-                                            </Link>
-                                          ) : item.path ? (
+                            <div>
+                              <ul className="divide-y divide-brand-mid/30">
+                                {sub.items.map((item, idx) => {
+                                  const isConsult = item.requiresConsultation;
+                                  return (
+                                    <li key={idx} className="py-5 flex flex-col gap-3">
+                                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                        <div className="flex-1 min-w-0">
+                                          <p className="font-normal text-brand-dark">{item.name}</p>
+                                          {item.path && (
                                             <Link
                                               to={item.path}
-                                              className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                              className="inline-flex items-center gap-1 mt-1 text-xs font-light text-brand-dark/70 hover:text-brand-dark hover:gap-2 transition-all"
                                             >
-                                              Les mer
+                                              Les mer om {item.name.toLowerCase()}
                                               <ArrowRight className="w-3 h-3" />
                                             </Link>
-                                          ) : null}
+                                          )}
+                                          {(item.duration || item.priceNote) && (
+                                            <p className="mt-1 text-xs font-light text-brand-dark/60">
+                                              {item.duration}
+                                              {item.duration && item.priceNote ? ' · ' : ''}
+                                              {item.priceNote}
+                                            </p>
+                                          )}
+                                          {item.info && (
+                                            <p className="mt-2 text-xs font-light text-brand-dark/70 leading-relaxed max-w-2xl">
+                                              {item.info}
+                                            </p>
+                                          )}
                                         </div>
-                                      </li>
-                                    );
-                                  })}
-                                </ul>
-                                {sub.path && (
-                                  <div className="pt-4 mt-1">
-                                    <Link
-                                      to={sub.path}
-                                      className="inline-flex items-center gap-2 text-xs font-light text-brand-dark hover:gap-3 transition-all"
-                                    >
-                                      Les mer om {sub.label.toLowerCase()}
-                                      <ArrowRight className="w-3.5 h-3.5" />
-                                    </Link>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+                                        <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap shrink-0">
+                                          {item.price === "0,-" ? "Gratis" : item.price}
+                                        </span>
+                                      </div>
 
-                        <div className="mt-12 pt-6 border-t border-brand-mid/30">
-                          <Link
-                            to={active.path}
-                            className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
-                          >
-                            Les mer om {active.label.toLowerCase()}
-                            <ArrowRight className="w-4 h-4" />
-                          </Link>
-                        </div>
-                      </section>
-                    )}
-                  </main>
+                                      {!isConsult && (
+                                        <div className="flex items-center gap-3">
+                                          <Link
+                                            to={buildBookingUrl({ kategori: cat.id })}
+                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                          >
+                                            Bestill time
+                                            <ArrowRight className="w-3 h-3" />
+                                          </Link>
+                                        </div>
+                                      )}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                              {sub.path && (
+                                <div className="pt-4 mt-1">
+                                  <Link
+                                    to={sub.path}
+                                    className="inline-flex items-center gap-2 text-xs font-light text-brand-dark hover:gap-3 transition-all"
+                                  >
+                                    Les mer om {sub.label.toLowerCase()}
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                  </Link>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-10 pt-6 border-t border-brand-mid/30">
+                        <Link
+                          to={cat.path}
+                          className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
+                        >
+                          Les mer om {cat.label.toLowerCase()}
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </section>
+                  ))}
                 </div>
               </div>
             );
@@ -289,6 +282,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+
 
 
       {/* Specialists Section - Dark background */}
