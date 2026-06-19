@@ -37,11 +37,10 @@ const lifePhases = [
  title: "Mann med plager i underlivet",
  desc:
  "Prostataproblemer, smerter i testikler, ereksjonsproblemer eller vannlatingsplager — vi hjelper deg finne svar.",
- tags: [
-   { label: "Prostata", href: "/behandlinger/urologi/prostata" },
-   { label: "Vannlating", href: "/behandlinger/urologi/prostata" },
-   { label: "Ereksjon", href: "/behandlinger/urologi/ereksjon" },
- ],
+  tags: [
+    { label: "Prostata", href: "/behandlinger/urologi/prostata" },
+    { label: "Vannlating", href: "/behandlinger/urologi/prostata" },
+  ],
  href: "/booking?kategori=urologi",
  cta: "Bestill konsultasjon",
  },
