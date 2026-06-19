@@ -172,15 +172,21 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" element={<HudbehandlingerPage isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/:methodId" element={<HudbehandlingerMethodPage isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader/hudbehandlinger" element={<Navigate to="/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger" replace />} />
-        {/* Gastrokirurgi — samleområde med nested undersider per metode */}
+        {/* Mage- og tarmlidelser (Gastrokirurgi) — samleområde med nested undersider per metode */}
+        {/* Old gastro subpages → redirect to the new landing or matching subside */}
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider" replace />} />
         <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/:methodId" element={<GastrokirurgiMethodPage isChatOpen={false} />} />
         {/* Old flat URLs → redirect to nested Gastrokirurgi-undersider */}
-        <Route path="/behandlinger/overvektskirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" replace />} />
-        <Route path="/behandlinger/overvektskirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" replace />} />
-        <Route path="/behandlinger/flere-fagomrader/overvektskirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" replace />} />
-        <Route path="/behandlinger/flere-fagomrader/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" replace />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" replace />} />
-        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" replace />} />
+        <Route path="/behandlinger/overvektskirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/overvektskirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/overvektskirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
         {/* Ernæringsfysiolog slug alias */}
         <Route path="/behandlinger/flere-fagomrader/ernaeringsfysiolog" element={<Navigate to="/behandlinger/flere-fagomrader/ernaringsfysiolog" replace />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />

@@ -19,10 +19,18 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
-import promiseSpecialists from "@/assets/promises/spesialiste.webp.asset.json";
-import promiseUnderOneRoof from "@/assets/promises/endokrinologi.jpg.asset.json";
+import promiseUnderOneRoof from "@/assets/hero/hero-clinic-lounge.jpg";
 
-const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
+// Image per promise title. "Spesialister med dybde" intentionally has no
+// image (renders text-only). Anything else falls back to the comfort image.
+const PROMISE_IMAGE_BY_TITLE: Record<string, string> = {
+  "alt under samme tak": promiseUnderOneRoof,
+};
+const getPromiseImage = (title: string): string | undefined => {
+  const t = title.trim().toLowerCase();
+  if (t === "spesialister med dybde") return undefined;
+  return PROMISE_IMAGE_BY_TITLE[t] ?? promiseComfort.url;
+};
 
 export interface SubTreatmentContent {
  // Meta
@@ -641,16 +649,20 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
-            {c.promises.map((p, i) => (
+            {c.promises.map((p) => {
+              const img = getPromiseImage(p.title);
+              return (
               <div key={p.title} className="group flex flex-col">
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
-                  <img
-                    src={promiseImages[i % promiseImages.length]}
-                    alt=""
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                </div>
+                {img && (
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
+                    <img
+                      src={img}
+                      alt=""
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
                   {p.title}
                 </h3>
@@ -667,7 +679,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                   </Link>
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
