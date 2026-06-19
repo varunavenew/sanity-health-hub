@@ -37,7 +37,6 @@ export const PatientTrustSection = () => {
           {/* Trust badges — grid layout with hairline divider */}
           <div className="pt-8 border-t border-brand-dark/10 grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-12">
             <div className="flex items-center gap-4">
-              <ShieldCheck className="w-5 h-5 text-brand-dark/50 flex-shrink-0" strokeWidth={1.5} />
               <span className="text-sm leading-snug font-light text-brand-dark/70">{t("valueBadges.tech")}</span>
             </div>
             <div className="flex items-center gap-4">
