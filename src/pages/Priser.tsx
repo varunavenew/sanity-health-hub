@@ -168,7 +168,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
             return (
               <div className="max-w-5xl mx-auto">
                 {/* Top pill nav — anchor scroll */}
-                <nav className="flex flex-wrap gap-2 mb-14 md:mb-20 pb-8 border-b border-brand-mid/20">
+                <nav className="flex flex-wrap gap-2 mb-14 md:mb-20 pb-8">
                   {ordered.map((cat) => {
                     const isActive = activeCategory === cat.id;
                     return (
