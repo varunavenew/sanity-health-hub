@@ -24,7 +24,7 @@ import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
-import kvinnehelseVideo from "@/assets/kvinnehelse-6.mp4.asset.json";
+import kvinnehelseVideo from "@/assets/kvinnehelse-8.mp4.asset.json";
 
 interface PageProps {
  isChatOpen: boolean;
