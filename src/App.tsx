@@ -16,6 +16,12 @@ import GastrokirurgiMethodPage from "./pages/treatments/GastrokirurgiMethodPage"
 import HudbehandlingerPage from "./pages/treatments/HudbehandlingerPage";
 import HudbehandlingerMethodPage from "./pages/treatments/HudbehandlingerMethodPage";
 import Priser from "./pages/Priser";
+import PriserKategorikort from "./pages/demos/PriserKategorikort";
+import PriserMagasin from "./pages/demos/PriserMagasin";
+import PriserSpotlight from "./pages/demos/PriserSpotlight";
+import HomeDemoEditorial from "./pages/home-demo/HomeDemoEditorial";
+import HomeDemoKompakt from "./pages/home-demo/HomeDemoKompakt";
+import HomeDemoFortelling from "./pages/home-demo/HomeDemoFortelling";
 import Insurance from "./pages/Insurance";
 import BookingDemo from "./pages/BookingDemo";
 import Services from "./pages/Services";
@@ -112,6 +118,9 @@ const AppContent = () => {
         <Route path="/contact" element={<Contact isChatOpen={false} />} />
         <Route path="/priser" element={<Priser isChatOpen={false} />} />
         <Route path="/demoer/priser-inline-info" element={<PriserInlineInfo isChatOpen={false} />} />
+        <Route path="/demoer/priser-kategorikort" element={<PriserKategorikort isChatOpen={false} />} />
+        <Route path="/demoer/priser-magasin" element={<PriserMagasin isChatOpen={false} />} />
+        <Route path="/demoer/priser-spotlight" element={<PriserSpotlight isChatOpen={false} />} />
         <Route path="/tjenester" element={<Services isChatOpen={false} />} />
         <Route path="/tjenester-og-priser" element={<Services isChatOpen={false} />} />
         <Route path="/forsikring" element={<Insurance isChatOpen={false} />} />
@@ -223,6 +232,9 @@ const AppContent = () => {
         <Route path="/hjem-demo/kutt" element={<HomeDemoCut isChatOpen={false} />} />
         <Route path="/hjem-demo/lek" element={<HomeDemoLek isChatOpen={false} />} />
         <Route path="/hjem-demo/ny" element={<HomeDemoNy isChatOpen={false} />} />
+        <Route path="/hjem-demo/editorial" element={<HomeDemoEditorial isChatOpen={false} />} />
+        <Route path="/hjem-demo/kompakt" element={<HomeDemoKompakt isChatOpen={false} />} />
+        <Route path="/hjem-demo/fortelling" element={<HomeDemoFortelling isChatOpen={false} />} />
         {/* Specialist profile design demos */}
         <Route path="/spesialist-design" element={<SpecialistDesignHub isChatOpen={false} />} />
         <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
