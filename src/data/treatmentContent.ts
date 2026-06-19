@@ -10,6 +10,7 @@ import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 import robotkirurgiHeroVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
+import tverrfagligTeamHeroVideo from "@/assets/tverrfaglig-team-hero.mp4.asset.json";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
