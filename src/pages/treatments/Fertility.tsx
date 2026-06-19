@@ -52,7 +52,6 @@ const segments = [
  { label: "AMH", href: `${FERT}/fertilitetssjekk` },
  { label: "Ultralyd", href: `${FERT}/fertilitetssjekk` },
  { label: "Hysteroskopi", href: `${FERT}/fertilitetssjekk` },
- { label: "Rådgivning online", href: `${FERT}/psykisk-helsehjelp` },
  ],
  cta: "Les mer",
  href: `${FERT}/fertilitetssjekk`,
@@ -96,7 +95,6 @@ const segments = [
  tags: [
  { label: "Sædanalyse", href: `${FERT}/mannlig-fertilitet` },
  { label: "Mannlig fertilitet", href: `${FERT}/mannlig-fertilitet` },
- { label: "Rådgivning online", href: `${FERT}/psykisk-helsehjelp` },
  ],
  cta: "Bestill analyse",
  href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
@@ -167,7 +165,6 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     items: [
       { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
       { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
-      { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/pgt" },
     ],
   },
   {
@@ -177,7 +174,6 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
       { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
       { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
       { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
     ],
   },

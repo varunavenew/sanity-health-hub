@@ -92,7 +92,6 @@ const services = [
   { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: `${FERT}/eggdonasjon` },
   { title: "Nedfrysing av egg og sæd", desc: "Bevar mulighetene dine", href: `${FERT}/nedfrysing` },
   { title: "Fertilitetssjekk", desc: "Hormoner, ultralyd, AMH", href: `${FERT}/fertilitetssjekk` },
-  { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av forløpet", href: `${FERT}/psykisk-helsehjelp` },
 ];
 
 const reviews = [
@@ -295,7 +294,6 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
           { symptom: "Vi trenger donoregg av medisinske grunner", service: "Donoregg-utredning", href: BOOKING, image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
           { symptom: "Vi vurderer donorsæd ved mannlig faktor", service: "Konsultasjon donorsæd", href: BOOKING, image: journeyLab, imageAlt: "Laboratorium" },
           { symptom: "Vi vil reservere donor for søsken", service: "Donorreservasjon", href: BOOKING, image: journeyResult, imageAlt: "Familieplanlegging" },
-          { symptom: "Vi trenger noen å snakke med", service: "Psykisk helsehjelp", href: `${FERT}/psykisk-helsehjelp`, image: audienceCouple, imageAlt: "Samtale" },
         ]}
       />
 

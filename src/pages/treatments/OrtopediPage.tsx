@@ -39,7 +39,7 @@ const lifePhases = [
  "Vridd kne, vondt etter et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
  tags: [
    { label: "Akutt", href: "/booking?kategori=ortopedi" },
-   { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
+   { label: "Diagnose", href: "/booking?kategori=ortopedi" },
    { label: "MR", href: "/booking?kategori=ortopedi" },
  ],
  href: "/booking?kategori=ortopedi",
@@ -58,24 +58,12 @@ const lifePhases = [
  },
  {
  n: "03",
- title: "Trenger second opinion",
+ title: "Tverrfaglig oppfølging",
  desc:
- "Har du fått en diagnose du er usikker på? Vi får ofte pasienter med kompliserte caser — og ser dem med nye øyne.",
+ "Vi samarbeider tett med fysioterapeut, manuellterapeut, osteopat og ernæringsfysiolog — for et helhetlig forløp tilpasset deg.",
  tags: [
-   { label: "Second opinion", href: "/behandlinger/ortopedi/second-opinion" },
-   { label: "Vurdering", href: "/behandlinger/ortopedi/second-opinion" },
- ],
- href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
- },
- {
- n: "04",
- title: "Klar for kirurgi eller injeksjon",
- desc:
- "Artroskopi, kortisoninjeksjon, PRP eller hyaluronsyre — vi tilbyr hele bredden av ortopediske behandlinger.",
- tags: [
-   { label: "Kirurgi", href: "/behandlinger/ortopedi/artroskopi" },
-   { label: "PRP", href: "/behandlinger/ortopedi/kne" },
-   { label: "Injeksjon", href: "/behandlinger/ortopedi/kne" },
+   { label: "Fysioterapi", href: "/behandlinger/ortopedi" },
+   { label: "Osteopati", href: "/behandlinger/flere-fagomrader/osteopati" },
  ],
  href: "/booking?kategori=ortopedi",
  },
@@ -92,22 +80,22 @@ const expertAreas = [
  {
  title: "Kne og hofte",
  desc:
- "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og avansert artroskopi.",
+ "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og kirurgisk behandling ved behov.",
  href: "/behandlinger/ortopedi/kne",
  image: expertKne,
  },
  {
  title: "Hånd, albue og fot",
  desc:
- "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
+ "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og konservativ behandling.",
  href: "/behandlinger/ortopedi/hand",
  image: expertHand,
  },
  {
- title: "Andre vurdering",
+ title: "Akutt og oppfølging",
  desc:
- "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
- href: "/behandlinger/ortopedi/second-opinion",
+ "Vridd kne, et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med oppfølging hele veien.",
+ href: "/booking?kategori=ortopedi",
  image: expertSecondOpinion,
  },
 ];
@@ -131,13 +119,10 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   {
     label: "Behandling og kirurgi",
     items: [
-      { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
-      { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
       { title: "Korsbåndruptur", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
       { title: "Meniskskader", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
       { title: "Karpaltunnelsyndrom", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
       { title: "Dupuytrens kontraktur", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
-      { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
     ],
   },
 ];
@@ -152,7 +137,7 @@ const journey = [
 const reviews = [
  { text: "Endelig fikk jeg en klar diagnose og en plan. Ortopeden tok seg tid og forklarte alt grundig.", author: "Knut R.", date: "2 måneder siden" },
  { text: "Operert på kneet og tilbake i trening på 8 uker. Profesjonelt fra start til slutt.", author: "Mari T.", date: "3 måneder siden" },
- { text: "Second opinion som forandret alt. Anbefales på det varmeste.", author: "Lars B.", date: "1 måned siden" },
+ { text: "Grundig undersøkelse og en plan jeg kunne forstå. Anbefales på det varmeste.", author: "Lars B.", date: "1 måned siden" },
 ];
 
 /* ──────────────────────────────────────────────────────────────
@@ -193,10 +178,10 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
  </h2>
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Våre ortopeder er eksperter på skader og sykdommer i muskler,
- bein, ledd og sener. Noen av landets fremste kirurger jobber
- hos oss — også med second opinion.
- </p>
+  Våre ortopeder er eksperter på skader og sykdommer i muskler,
+  bein, ledd og sener. Noen av landets fremste kirurger jobber
+  hos oss.
+  </p>
 
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
@@ -338,7 +323,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  { symptom: "Hofteslitasje eller liesmerter", service: "Hofteutredning", href: "/booking?kategori=ortopedi&tjeneste=hofte" },
  { symptom: "Nummenhet eller stikninger i hånden", service: "Karpaltunnel-utredning", href: "/booking?kategori=ortopedi&tjeneste=hand" },
  { symptom: "Vondt i albuen ved gripe-bevegelser", service: "Tennisalbue-utredning", href: "/booking?kategori=ortopedi&tjeneste=albue" },
- { symptom: "Diagnose du er usikker på", service: "Second opinion", href: "/booking?kategori=ortopedi&tjeneste=second-opinion" },
+ { symptom: "Hælsmerter eller fotplager", service: "Fotutredning", href: "/booking?kategori=ortopedi&tjeneste=fot" },
  ]}
  />
 
@@ -364,7 +349,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {[
  { v: "12 400+", k: "Konsultasjoner", sub: "Per år" },
- { v: "1 800", k: "Inngrep og artroskopier", sub: "I 2024" },
+ { v: "1 800", k: "Inngrep og operasjoner", sub: "I 2024" },
  { v: "96%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
  { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
  ].map((row, i) => (
