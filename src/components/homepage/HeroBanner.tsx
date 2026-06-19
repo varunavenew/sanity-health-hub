@@ -61,7 +61,7 @@ export const HeroBanner = () => {
       label: t("hero.tverrfaglig.label"),
       subtitle: t("hero.tverrfaglig.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/tverrfaglige-team",
+      ctaPath: "/behandlinger/gynekologi/tverrfaglig",
       objectPosition: "center 40%",
     },
   ];
