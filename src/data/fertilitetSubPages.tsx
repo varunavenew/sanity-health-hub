@@ -283,57 +283,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
-  /* ───────────────────────── PGT ───────────────────────── */
-  pgt: {
-    seoTitle: "Genetisk testing (PGT) | CMedical",
-    seoDescription:
-      "Genetisk testing av embryoer (PGT) ved utvalgte indikasjoner. Vi forklarer mulighetene og begrensningene — uten å overselge.",
-    canonical: "/behandlinger/fertilitet/pgt",
-    parent,
-    title: "Genetisk testing (PGT)",
-    heroTitle: <>Trygghet <span className="italic">før</span> overføring</>,
-    heroDescription:
-      "PGT — preimplantasjonsgenetisk testing — undersøker embryoene før de settes tilbake i livmoren. Det er aktuelt ved utvalgte indikasjoner og kan øke sjansen for vellykket graviditet.",
-    heroPoints: [
-      { title: "PGT-A — kromosomtelling", desc: "Sjekk for normalt antall kromosomer i embryoet." },
-      { title: "PGT-M — arvelig sykdom", desc: "For par som vet de bærer en spesifikk genetisk sykdom." },
-      { title: "Internasjonalt samarbeid", desc: "Analysene gjøres ved akkrediterte laboratorier." },
-      { title: "Realistisk rådgivning", desc: "Vi forklarer hva PGT kan — og ikke kan — gjøre for deg." },
-    ],
-    rating: "4,8 — Spesialister på fertilitet",
-    booking: { ...baseBooking, tjeneste: "pgt" },
-    primaryCtaLabel: "Bestill PGT-samtale",
-    flowTitle: "Slik fungerer PGT i et IVF-forløp",
-    flow: [
-      { n: "Steg 01", title: "Genetisk veiledning", desc: "Vi går gjennom indikasjon, hva testen kan svare på og hva den ikke kan." },
-      { n: "Steg 02", title: "IVF-syklus", desc: "Stimulering, egguthenting og befruktning — som ved standard IVF." },
-      { n: "Steg 03", title: "Biopsi og test", desc: "Noen få celler tas fra embryoet på dag 5–6 og sendes til genetisk analyse." },
-      { n: "Steg 04", title: "Resultat", desc: "Vi gjennomgår resultatene sammen — og hvilke embryo som er aktuelle for overføring." },
-      { n: "Steg 05", title: "Embryooverføring", desc: "Det best egnede embryoet settes tilbake i livmoren." },
-    ],
-    reasonsTitle: "Hvem kan PGT være riktig for?",
-    reasonsLead:
-      "PGT er ikke for alle som tar IVF. Det er en tilleggstest med klare indikasjoner — og vi vurderer alltid om det er riktig for deg.",
-    reasons: [
-      { n: "01", title: "Gjentatte spontanaborter", desc: "Tre eller flere uforklarte spontanaborter — kromosom­avvik kan være årsak." },
-      { n: "02", title: "Gjentatte mislykkede IVF-forsøk", desc: "Når flere overføringer av tilsynelatende gode embryo ikke har gitt graviditet." },
-      { n: "03", title: "Kjent arvelig sykdom (PGT-M)", desc: "Når dere bærer en spesifikk genetisk sykdom dere ikke vil overføre." },
-      { n: "04", title: "Høy alder", desc: "Risiko for kromosomavvik øker med kvinnens alder — PGT-A kan være aktuelt." },
-      { n: "05", title: "Strukturelle kromosom­avvik hos foreldre", desc: "Når kjent translokasjon eller annet avvik er påvist." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF", desc: "PGT gjøres alltid som del av en IVF-behandling.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Fertilitetssjekk", desc: "Først kartlegger vi grunnlaget — så vurderer vi PGT.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "Psykisk helsehjelp", desc: "Genetiske spørsmål er tunge. Vi tilbyr samtaler hele veien.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
-    ],
-    ctaTitle: "Bestill PGT-samtale",
-    ctaDescription:
-      "Vi tar tid til den genetiske veiledningen — og forklarer hva testen kan og ikke kan svare på.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
 
   /* ───────────────────────── MANNLIG FERTILITET ───────────────────────── */
   "mannlig-fertilitet": {
