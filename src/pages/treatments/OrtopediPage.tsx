@@ -178,10 +178,10 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
  </h2>
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Våre ortopeder er eksperter på skader og sykdommer i muskler,
- bein, ledd og sener. Noen av landets fremste kirurger jobber
- hos oss — også med second opinion.
- </p>
+  Våre ortopeder er eksperter på skader og sykdommer i muskler,
+  bein, ledd og sener. Noen av landets fremste kirurger jobber
+  hos oss.
+  </p>
 
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
