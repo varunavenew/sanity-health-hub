@@ -230,8 +230,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                 {sub.items.map((item, idx) => {
                                   const isConsult = item.requiresConsultation;
                                   return (
-                                    <li key={idx} className="py-5 flex flex-col gap-3">
-                                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                    <li key={idx} className="py-5">
+                                      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                                         <div className="flex-1 min-w-0">
                                           <p className="font-normal text-brand-dark">{item.name}</p>
                                           {item.path && (
@@ -256,22 +256,24 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             </p>
                                           )}
                                         </div>
-                                        <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap shrink-0">
-                                          {item.price === "0,-" ? "Gratis" : item.price}
-                                        </span>
-                                      </div>
 
-                                      {!isConsult && (
-                                        <div className="flex items-center gap-3">
-                                          <Link
-                                            to={buildBookingUrl({ kategori: cat.id })}
-                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
-                                          >
-                                            Bestill time
-                                            <ArrowRight className="w-3 h-3" />
-                                          </Link>
+                                        <div className="flex items-center gap-4 shrink-0 sm:pt-0.5">
+                                          <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap w-20 text-right">
+                                            {item.price === "0,-" ? "Gratis" : item.price}
+                                          </span>
+                                          {!isConsult ? (
+                                            <Link
+                                              to={buildBookingUrl({ kategori: cat.id })}
+                                              className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
+                                            >
+                                              Bestill time
+                                              <ArrowRight className="w-3 h-3" />
+                                            </Link>
+                                          ) : (
+                                            <span className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light border border-transparent whitespace-nowrap w-28" aria-hidden="true" />
+                                          )}
                                         </div>
-                                      )}
+                                      </div>
                                     </li>
                                   );
                                 })}
