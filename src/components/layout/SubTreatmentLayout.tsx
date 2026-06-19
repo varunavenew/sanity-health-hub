@@ -19,16 +19,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
+import promiseSpecialist from "@/assets/promises/spesialiste.webp.asset.json";
 import promiseUnderOneRoof from "@/assets/hero/hero-clinic-lounge.jpg";
 
-// Image per promise title. "Spesialister med dybde" intentionally has no
-// image (renders text-only). Anything else falls back to the comfort image.
+// Image per promise title. Anything else falls back to the comfort image.
 const PROMISE_IMAGE_BY_TITLE: Record<string, string> = {
+  "spesialister med dybde": promiseSpecialist.url,
   "alt under samme tak": promiseUnderOneRoof,
 };
 const getPromiseImage = (title: string): string | undefined => {
   const t = title.trim().toLowerCase();
-  if (t === "spesialister med dybde") return undefined;
   return PROMISE_IMAGE_BY_TITLE[t] ?? promiseComfort.url;
 };
 
