@@ -9,12 +9,10 @@ import { useTranslation } from "react-i18next";
 import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
-import robotkirurgiVideoAsset from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
 
 const kvinnehelseHero = kvinnehelseHeroAsset.url;
 const fertilityHero = fertilityHeroAsset.url;
-const tverrfagligHero = tverrfagligTeamAsset.url;
-const tverrfagligVideo = robotkirurgiVideoAsset.url;
+const robotkirurgiHero = tverrfagligTeamAsset.url;
 
 interface HeroSlide {
   id: string;
@@ -57,14 +55,13 @@ export const HeroBanner = () => {
       objectPosition: "center 40%",
     },
     {
-      id: "tverrfaglig",
-      image: tverrfagligHero,
-      video: tverrfagligVideo,
-      alt: t("hero.tverrfaglig.label"),
-      label: t("hero.tverrfaglig.label"),
-      subtitle: t("hero.tverrfaglig.subtitle"),
+      id: "robotkirurgi",
+      image: robotkirurgiHero,
+      alt: t("hero.robotkirurgi.label"),
+      label: t("hero.robotkirurgi.label"),
+      subtitle: t("hero.robotkirurgi.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/tverrfaglige-team",
+      ctaPath: "/behandlinger/urologi/robotkirurgi",
       objectPosition: "center 40%",
     },
   ];
