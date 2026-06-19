@@ -137,7 +137,7 @@ const journey = [
 const reviews = [
  { text: "Endelig fikk jeg en klar diagnose og en plan. Ortopeden tok seg tid og forklarte alt grundig.", author: "Knut R.", date: "2 måneder siden" },
  { text: "Operert på kneet og tilbake i trening på 8 uker. Profesjonelt fra start til slutt.", author: "Mari T.", date: "3 måneder siden" },
- { text: "Second opinion som forandret alt. Anbefales på det varmeste.", author: "Lars B.", date: "1 måned siden" },
+ { text: "Grundig undersøkelse og en plan jeg kunne forstå. Anbefales på det varmeste.", author: "Lars B.", date: "1 måned siden" },
 ];
 
 /* ──────────────────────────────────────────────────────────────
