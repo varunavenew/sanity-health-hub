@@ -100,13 +100,6 @@ const expertAreas = [
  image: expertTestikler,
  },
  {
- title: "Penis, forhud og potens",
- desc:
- "Trang forhud, skjev penis, ereksjonsproblemer og lavt testosteron — utredning og behandling i trygge rammer.",
- href: "/behandlinger/urologi/penis",
- image: expertPenis,
- },
- {
  title: "Robotassistert kirurgi",
  desc:
  "Eneste private aktør i Norge med robotassisterte operasjoner. Mer presis kirurgi og raskere restitusjon.",
