@@ -121,7 +121,7 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Undersøkelse og utredning",
     items: [
       { title: "Prostatasjekk", desc: "Utredning og PSA", href: "/behandlinger/urologi/prostata" },
-      { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blare" },
+      { title: "Blære og urinveier", desc: "Utredning og behandling", href: "/behandlinger/urologi/blaere" },
       { title: "Nyrer", desc: "Cyster, tumor og nefrektomi", href: "/behandlinger/urologi/nyrer" },
       { title: "Kul i pungen", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
       { title: "Smerter i testiklene", desc: "Utredning og behandling", href: "/behandlinger/urologi/testikler" },
