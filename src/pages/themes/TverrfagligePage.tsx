@@ -11,41 +11,6 @@ interface PageProps {
   isChatOpen: boolean;
 }
 
-const splitSection = {
-  heading: "Alt på ett sted – gjennom alle livets faser",
-  paragraphs: [
-    "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!",
-    "Vi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss. Vi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander – fra utredning, behandling og oppfølging i etterkant.",
-  ],
-};
-
-const andreTing = [
-  {
-    title: "Slik foregår det",
-    desc: "Du booker time selv – uten henvisning. Spesialisten gjør en grundig vurdering, og ved behov kobles flere fagpersoner inn i et felles forløp.",
-  },
-  {
-    title: "Du bestemmer hva du er komfortabel med",
-    desc: "Du er i førersetet. Vi forklarer alternativene, og du velger tempo, omfang og hvilke fagpersoner du ønsker å møte.",
-  },
-  {
-    title: "Trygge og diskré rammer",
-    desc: "Privatliv, diskresjon og respekt står sentralt – fra venterom til konsultasjon og oppfølging.",
-  },
-  {
-    title: "Koordinert oppfølging",
-    desc: "Vi tar ansvar for samhandlingen mellom spesialistene, slik at du slipper å fortelle historien din på nytt for hver fagperson.",
-  },
-  {
-    title: "Kort ventetid",
-    desc: "Du kommer raskt til – ofte innen en uke. Ingen henvisning nødvendig.",
-  },
-  {
-    title: "Forsikring og refusjon",
-    desc: "Vi samarbeider med de største helseforsikringsselskapene og hjelper deg med det praktiske rundt dekning.",
-  },
-];
-
 const staticSections = [
   {
     heading: "Tverrfaglige team – helhetlig behandling som standard",
@@ -53,6 +18,13 @@ const staticSections = [
       "Hos CMedical er tverrfaglighet en etablert arbeidsform på tvers av fagområder og pasientgrupper. Vi vet at mange helseutfordringer sjelden er isolerte. Fysiske symptomer kan henge sammen med psykiske belastninger, hormonelle forhold, livsstil eller funksjonelle plager. Derfor samarbeider våre spesialister tett – fra første vurdering til oppfølging.",
       "Våre leger arbeider innenfor sine definerte spesialfelt, og ved behov settes det sammen dedikerte ekspertteam rundt pasienten. Teamene kan bestå av osteopat, psykolog, sexolog, ernæringsfysiolog, fysioterapeut og uroterapeut – avhengig av medisinsk problemstilling og individuelle behov.",
       "Denne strukturerte samhandlingen gir mer presise vurderinger, bedre behandlingsforløp og større forutsigbarhet.",
+    ],
+  },
+  {
+    heading: "Samlet kompetanse – under samme tak",
+    paragraphs: [
+      "Vi tilbyr avansert kirurgi, inkludert robotassistert kirurgi, og var den første private aktøren i Norden som samlet IVF-behandling og gynekologisk kirurgi ved én og samme klinikk. Det betyr at utredning, eventuell kirurgi og videre behandling kan gjennomføres uten brudd i forløpet.",
+      "Den samme modellen gjelder også innen behandling av mannlige helseutfordringer, blant annet innen fertilitet, hormonforstyrrelser og seksuell helse. Når medisinske, funksjonelle og psykososiale faktorer vurderes samlet, styrkes kvaliteten på behandlingen.",
     ],
   },
   {
