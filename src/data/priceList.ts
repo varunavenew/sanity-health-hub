@@ -83,7 +83,7 @@ const rawPriceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'Inngrep',
+        label: 'Kirurgi',
         path: '/behandlinger/urologi/inngrep',
         items: [
           { name: "Fimose (trang forhud)", price: "fra 9.100,-", duration: "", requiresConsultation: true },
