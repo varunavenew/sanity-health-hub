@@ -196,9 +196,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       className="scroll-mt-32"
                     >
                       <div className="mb-10 pb-4 border-b border-brand-dark/20">
-                        <div className="text-[10px] tracking-[0.2em] text-muted-foreground uppercase mb-2">
-                          Fagområde
-                        </div>
                         <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
                           {cat.label}
                         </h2>
