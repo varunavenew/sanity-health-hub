@@ -92,10 +92,10 @@ const expertAreas = [
  image: expertHand,
  },
  {
- title: "Andre vurdering",
+ title: "Akutt skade",
  desc:
- "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
- href: "/behandlinger/ortopedi/second-opinion",
+ "Vridd kne, et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
+ href: "/booking?kategori=ortopedi",
  image: expertSecondOpinion,
  },
 ];
@@ -119,13 +119,10 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   {
     label: "Behandling og kirurgi",
     items: [
-      { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
-      { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
       { title: "Korsbåndruptur", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
       { title: "Meniskskader", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
       { title: "Karpaltunnelsyndrom", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
       { title: "Dupuytrens kontraktur", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
-      { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
     ],
   },
 ];
