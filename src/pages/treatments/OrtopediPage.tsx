@@ -323,7 +323,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  { symptom: "Hofteslitasje eller liesmerter", service: "Hofteutredning", href: "/booking?kategori=ortopedi&tjeneste=hofte" },
  { symptom: "Nummenhet eller stikninger i hånden", service: "Karpaltunnel-utredning", href: "/booking?kategori=ortopedi&tjeneste=hand" },
  { symptom: "Vondt i albuen ved gripe-bevegelser", service: "Tennisalbue-utredning", href: "/booking?kategori=ortopedi&tjeneste=albue" },
- { symptom: "Diagnose du er usikker på", service: "Second opinion", href: "/booking?kategori=ortopedi&tjeneste=second-opinion" },
+ { symptom: "Hælsmerter eller fotplager", service: "Fotutredning", href: "/booking?kategori=ortopedi&tjeneste=fot" },
  ]}
  />
 
