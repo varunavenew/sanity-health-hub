@@ -35,7 +35,8 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
 
       <HeroBanner />
       <HeroCompact showHeader={false} />
-      <GoogleReviewsSection />
+      <PatientTrustSection />
+      <GoogleReviewsSection showTrustSection={false} />
       <NewsSplitScreen />
       <LifePhasesSection />
       <SpecialistsSectionElegant />
