@@ -11,6 +11,9 @@ import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 import robotkirurgiHeroVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import tverrfagligTeamHeroVideo from "@/assets/tverrfaglig-team-hero.mp4.asset.json";
+import imgGastroOvervekt from "@/assets/services/flere-overvektskirurgi.jpg.asset.json";
+import imgGastroBrokk from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
+import imgGastroHemorroider from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
