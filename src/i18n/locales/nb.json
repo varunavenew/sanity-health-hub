@@ -32,9 +32,9 @@
       "label": "Ledende miljø\ninnen fertilitet",
       "subtitle": "Fertilitetsteamet"
     },
-    "robotkirurgi": {
-      "label": "Robotassistert\nkirurgi",
-      "subtitle": "Teknologi"
+    "tverrfaglig": {
+      "label": "Tverrfaglig\nteam",
+      "subtitle": "Helhetlig behandling"
     },
     "readMore": "Les mer",
     "goToSlide": "Gå til slide {{num}}",
