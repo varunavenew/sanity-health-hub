@@ -79,16 +79,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
         description: "Individuelt tilpasset kostholdsrådgivning med betydning for hormoner, fertilitet, overgangsalder og generell helse.",
         path: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
       },
-      {
-        label: "Slik foregår det",
-        description: "Du booker time selv – uten henvisning. Spesialisten gjør en grundig vurdering, og ved behov kobles flere fagpersoner inn i et felles, koordinert forløp.",
-        path: "/behandlinger/gynekologi/tverrfaglig#flow",
-      },
-      {
-        label: "Du bestemmer hva du er komfortabel med",
-        description: "Du er i førersetet. Vi forklarer alternativene, og du velger tempo, omfang og hvilke fagpersoner du ønsker å møte.",
-        path: "/behandlinger/gynekologi/tverrfaglig#promises",
-      },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
