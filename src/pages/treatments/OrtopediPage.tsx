@@ -58,24 +58,12 @@ const lifePhases = [
  },
  {
  n: "03",
- title: "Trenger second opinion",
+ title: "Tverrfaglig oppfølging",
  desc:
- "Har du fått en diagnose du er usikker på? Vi får ofte pasienter med kompliserte caser — og ser dem med nye øyne.",
+ "Vi samarbeider tett med fysioterapeut, manuellterapeut, osteopat og ernæringsfysiolog — for et helhetlig forløp tilpasset deg.",
  tags: [
-   { label: "Second opinion", href: "/behandlinger/ortopedi/second-opinion" },
-   { label: "Vurdering", href: "/behandlinger/ortopedi/second-opinion" },
- ],
- href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
- },
- {
- n: "04",
- title: "Klar for kirurgi eller injeksjon",
- desc:
- "Artroskopi, kortisoninjeksjon, PRP eller hyaluronsyre — vi tilbyr hele bredden av ortopediske behandlinger.",
- tags: [
-   { label: "Kirurgi", href: "/behandlinger/ortopedi/artroskopi" },
-   { label: "PRP", href: "/behandlinger/ortopedi/kne" },
-   { label: "Injeksjon", href: "/behandlinger/ortopedi/kne" },
+   { label: "Fysioterapi", href: "/behandlinger/ortopedi" },
+   { label: "Osteopati", href: "/behandlinger/flere-fagomrader/osteopati" },
  ],
  href: "/booking?kategori=ortopedi",
  },
