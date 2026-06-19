@@ -208,9 +208,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         {cat.subcategories.map((sub) => (
                           <div
                             key={sub.label}
-                            className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10"
+                            className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10 md:items-start"
                           >
-                            <div className="md:sticky md:top-40">
+                            <div className="md:sticky md:top-40 md:self-start">
                               <h3 className="text-sm font-normal text-brand-dark">
                                 {sub.label}
                               </h3>
@@ -262,32 +262,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                             {item.price === "0,-" ? "Gratis" : item.price}
                                           </span>
                                           {(() => {
-                                            const consultPath = item.path || (item.price === "Pris ved konsultasjon" ? sub.path : undefined);
-                                            const showLesMer = (isConsult || item.price === "Pris ved konsultasjon") && consultPath;
-                                            if (showLesMer) {
+                                            if (isConsult || item.price === "Pris ved konsultasjon") {
                                               return (
-                                                <Link
-                                                  to={consultPath}
-                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
-                                                >
-                                                  Les mer
-                                                  <ArrowRight className="w-3 h-3" />
-                                                </Link>
-                                              );
-                                            }
-                                            if (!isConsult) {
-                                              return (
-                                                <Link
-                                                  to={buildBookingUrl({ kategori: cat.id })}
-                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
-                                                >
-                                                  Bestill time
-                                                  <ArrowRight className="w-3 h-3" />
-                                                </Link>
+                                                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light border border-transparent whitespace-nowrap w-28" aria-hidden="true" />
                                               );
                                             }
                                             return (
-                                              <span className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light border border-transparent whitespace-nowrap w-28" aria-hidden="true" />
+                                              <Link
+                                                to={buildBookingUrl({ kategori: cat.id })}
+                                                className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
+                                              >
+                                                Bestill time
+                                                <ArrowRight className="w-3 h-3" />
+                                              </Link>
                                             );
                                           })()}
                                         </div>
