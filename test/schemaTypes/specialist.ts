@@ -27,7 +27,7 @@ export default {
       validation: (Rule: any) => Rule.required().error('Navn er påkrevd for publisering'),
       description: 'Personnavn (oversettes ikke)',
     },
-    i18nSlugFieldFromString('name', { requireNoEn: true }),
+    i18nSlugFieldFromString('name'),
     {
       name: 'photo',
       title: 'Profilbilde',

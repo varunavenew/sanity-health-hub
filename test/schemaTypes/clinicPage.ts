@@ -37,7 +37,6 @@ export default {
       ...i18nSlugFieldFromTitle('title', {
         title: 'Slug',
         group: 'overview',
-        requireNoEn: true,
       }),
     },
     {

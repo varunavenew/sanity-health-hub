@@ -24,6 +24,7 @@ import {
   isBookingCaregiver,
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
+import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage } from "@/hooks/useSanity";
@@ -1211,7 +1212,7 @@ const BookingDemo = () => {
               )}
 
               {servicesLoading && (
-                <p className="text-center text-sm text-brand-dark/60 font-light">{copy.step1Loading}</p>
+                <BookingStepLoader message={copy.step1Loading} skeletonCount={4} />
               )}
 
               {!servicesLoading && bookingServices.length === 0 && (
@@ -1223,7 +1224,7 @@ const BookingDemo = () => {
                 />
               )}
 
-              {bookingServices.length > 0 && (
+              {!servicesLoading && bookingServices.length > 0 && (
               <div className="space-y-3">
                 {[...bookingServices]
                   .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
@@ -1370,9 +1371,7 @@ const BookingDemo = () => {
               <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
               {bookingData.service?.apiActivityId && availabilityLoading && (
-                <p className="text-sm text-brand-dark/60 font-light mb-4">
-                  {copy.step2Loading}
-                </p>
+                <BookingStepLoader message={copy.step2Loading} />
               )}
 
               {clinicsAvailabilityReady && availableClinics.length === 0 && (
@@ -1421,9 +1420,7 @@ const BookingDemo = () => {
               </p>
 
               {hasApiActivity && caregiversLoading && (
-                <p className="text-sm text-brand-dark/60 font-light mb-4">
-                  {copy.step3Loading}
-                </p>
+                <BookingStepLoader message={copy.step3Loading} variant="grid" />
               )}
 
               {/* Skip / Any specialist */}

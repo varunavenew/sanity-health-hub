@@ -9,28 +9,6 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTranslation } from "react-i18next";
-import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
-
-const LISTING_FALLBACK = {
-  nb: {
-    heroEyebrow: "Vårt team",
-    heroTitle: "Møt våre spesialister",
-    heroDescription: "Erfaring, spisskompetanse og moderne teknologi – samlet på ett sted.",
-    countLabel: "{count} spesialister",
-    seoTitle: "Våre spesialister – Ledende eksperter samlet på ett sted",
-    seoDescription:
-      "Møt CMedicals spesialister innen gynekologi, fertilitet, urologi og ortopedi. Erfaring, spisskompetanse og moderne teknologi – ingen henvisning nødvendig.",
-  },
-  en: {
-    heroEyebrow: "Our team",
-    heroTitle: "Meet our specialists",
-    heroDescription: "Experience, cutting-edge expertise and modern technology all in one place.",
-    countLabel: "{count} specialists",
-    seoTitle: "Our specialists – Leading experts in one place",
-    seoDescription:
-      "Meet CMedical's specialists in gynecology, fertility, urology and orthopedics. Experience, expertise and modern technology – no referral needed.",
-  },
-} as const;
 
 function formatCountLabel(template: string, count: number): string {
   return template.replace(/\{count\}/g, String(count));
@@ -41,9 +19,7 @@ interface SpecialistsProps {
 }
 
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
-  const { t, i18n } = useTranslation();
-  const contentLang = sanityContentLangFromLocale(i18n.language);
-  const fb = LISTING_FALLBACK[contentLang === "en" ? "en" : "nb"];
+  const { t } = useTranslation();
   const { data: page } = useSpecialistsListingPage();
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
@@ -67,32 +43,43 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
     return categoryMatch && clinicMatch;
   });
 
-  const heroEyebrow = page?.heroEyebrow || fb.heroEyebrow;
-  const heroTitle = page?.heroTitle || fb.heroTitle;
-  const heroDescription = page?.heroDescription || fb.heroDescription;
-  const countText = formatCountLabel(page?.countLabel || fb.countLabel, filtered.length);
+  const heroEyebrow = page?.heroEyebrow?.trim() || "";
+  const heroTitle = page?.heroTitle?.trim() || "";
+  const heroDescription = page?.heroDescription?.trim() || "";
+  const countText = page?.countLabel?.trim()
+    ? formatCountLabel(page.countLabel, filtered.length)
+    : "";
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <PageSEO
-        title={page?.seo?.metaTitle || fb.seoTitle}
-        description={page?.seo?.metaDescription || fb.seoDescription}
-        canonical="/spesialister"
-        breadcrumbs={[
-          { name: t("common.breadcrumbHome", "Hjem"), path: "/" },
-          { name: t("nav.specialists", "Spesialister"), path: "/spesialister" },
-        ]}
-      />
+      {page?.seo?.metaTitle || page?.seo?.metaDescription ? (
+        <PageSEO
+          title={page?.seo?.metaTitle || ""}
+          description={page?.seo?.metaDescription || ""}
+          canonical="/spesialister"
+          breadcrumbs={[
+            { name: t("common.breadcrumbHome", "Hjem"), path: "/" },
+            { name: t("nav.specialists", "Spesialister"), path: "/spesialister" },
+          ]}
+        />
+      ) : null}
+      {(heroEyebrow || heroTitle || heroDescription) ? (
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-2xl">
-            <p className="text-white/60 text-xs mb-2">{heroEyebrow}</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
-              {heroTitle}
-            </h1>
-            <p className="text-white/70 font-light text-base md:text-lg">
-              {heroDescription}
-            </p>
+            {heroEyebrow ? (
+              <p className="text-white/60 text-xs mb-2">{heroEyebrow}</p>
+            ) : null}
+            {heroTitle ? (
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
+                {heroTitle}
+              </h1>
+            ) : null}
+            {heroDescription ? (
+              <p className="text-white/70 font-light text-base md:text-lg">
+                {heroDescription}
+              </p>
+            ) : null}
           </div>
 
           <div className="flex flex-wrap gap-2 mt-6">
@@ -140,10 +127,61 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           </div>
         </div>
       </section>
+      ) : (
+      <section className="bg-brand-dark pt-24 pb-6 md:pt-28">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(categoryLabels).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setActiveFilter(key)}
+                className={`px-4 py-1.5 rounded-sm text-sm font-light transition-colors ${
+                  activeFilter === key
+                    ? "bg-white text-brand-dark"
+                    : "border border-white/30 text-white/70 hover:bg-white/10"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-3">
+            <button
+              onClick={() => setActiveClinic("alle")}
+              className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
+                activeClinic === "alle"
+                  ? "bg-white/20 text-white"
+                  : "border border-white/20 text-white/60 hover:bg-white/10"
+              }`}
+            >
+              <MapPin className="w-3 h-3" />
+              {t("specialists.filters.allClinics")}
+            </button>
+            {clinicNames.map((clinic) => (
+              <button
+                key={clinic}
+                onClick={() => setActiveClinic(clinic)}
+                className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
+                  activeClinic === clinic
+                    ? "bg-white/20 text-white"
+                    : "border border-white/20 text-white/60 hover:bg-white/10"
+                }`}
+              >
+                <MapPin className="w-3 h-3" />
+                {clinic}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+      )}
 
       <section className="bg-background py-10 md:py-14">
         <div className="container mx-auto px-6 md:px-16">
-          <p className="text-sm text-muted-foreground mb-6">{countText}</p>
+          {countText ? (
+            <p className="text-sm text-muted-foreground mb-6">{countText}</p>
+          ) : null}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
             {filtered.map((specialist) => (
               <Link

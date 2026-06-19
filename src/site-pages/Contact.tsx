@@ -18,8 +18,6 @@ import { SplitHero } from "@/components/layout/SplitHero";
 import { coercePath } from "@/lib/navigation/coerce-path";
 import { useTranslation } from "react-i18next";
 
-import contactHero from "@/assets/hero/contact-hero.jpg";
-
 interface ContactProps {
   isChatOpen: boolean;
 }
@@ -32,6 +30,10 @@ const Contact = ({ isChatOpen }: ContactProps) => {
   const clinics = sanityClinics || [];
   const ctaCards = contactPage?.ctaCards ?? [];
   const pageSections = contactPage?.pageSections;
+  const heroTitle = contactPage?.title?.trim() || "";
+  const heroDescription = contactPage?.introText?.trim() || "";
+  const heroImage = contactPage?.heroImage;
+  const hasHeroContent = Boolean(heroTitle || heroDescription || heroImage);
   const { toast } = useToast();
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -54,15 +56,37 @@ const Contact = ({ isChatOpen }: ContactProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <SplitHero
-        eyebrow={contactPage?.title || t("contact.title")}
-        title={contactPage?.title || t("contact.title")}
-        description={contactPage?.introText || t("contact.subtitle")}
-        image={contactPage?.heroImage || contactHero}
-        imageAlt="Kontakt CMedical"
-        primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
-        secondaryCta={{ label: t("nav.clinics"), to: "/klinikker" }}
-      />
+      {hasHeroContent ? (
+        <SplitHero
+          eyebrow={heroTitle || undefined}
+          title={heroTitle || undefined}
+          description={heroDescription || undefined}
+          image={heroImage}
+          imageAlt="Kontakt CMedical"
+          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+          secondaryCta={
+            contactPage?.secondaryCtaLabel && contactPage?.secondaryCtaPath
+              ? {
+                  label: contactPage.secondaryCtaLabel,
+                  to: contactPage.secondaryCtaPath,
+                }
+              : undefined
+          }
+        />
+      ) : (
+        <div className="bg-brand-warm pt-20 pb-8">
+          <div className="container mx-auto px-6 md:px-16">
+            <Button
+              variant="cta"
+              size="lg"
+              onClick={() => navigate("/booking")}
+            >
+              {t("nav.bookAppointment")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      )}
 
       <ClinicGrid />
 
@@ -216,13 +240,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         </div>
       </section>
 
-      <CTASection
-        title={t("cta.title")}
-        subtitle={t("cta.subtitle")}
-        primaryCTA={t("cta.bookNow")}
-        secondaryCTA={t("cta.seePricing")}
-        secondaryLink="/priser"
-      />
+      <CTASection />
 
       <ContactRequestDialog open={contactDialogOpen} onOpenChange={setContactDialogOpen} />
     </PageLayout>

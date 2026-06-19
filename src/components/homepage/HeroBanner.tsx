@@ -33,8 +33,8 @@ export const HeroBanner = () => {
       alt: s.label || "",
       label: s.label,
       subtitle: s.subtitle || "",
-      cta: s.cta || t("hero.readMore"),
-      ctaPath: s.ctaPath || "/",
+      cta: s.cta?.trim() || "",
+      ctaPath: s.ctaPath?.trim() || "",
       objectPosition: s.objectPosition || "center center",
     }));
 
@@ -110,7 +110,9 @@ export const HeroBanner = () => {
           exit="exit"
           transition={{ duration: 0.35, ease: "easeInOut" }}
           className="absolute inset-0 cursor-pointer group"
-          onClick={() => { if (!dragging.current) navigate(slide.ctaPath); }}
+          onClick={() => {
+            if (!dragging.current && slide.ctaPath) navigate(slide.ctaPath);
+          }}
         >
           <AssetImg
             src={slide.image}
@@ -133,13 +135,18 @@ export const HeroBanner = () => {
               <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
                 {slide.label}
               </p>
-              <span
-                className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
-                onClick={(e) => { e.stopPropagation(); navigate(slide.ctaPath); }}
-              >
-                {slide.cta}
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
-              </span>
+              {slide.cta && slide.ctaPath ? (
+                <span
+                  className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(slide.ctaPath);
+                  }}
+                >
+                  {slide.cta}
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
+                </span>
+              ) : null}
             </motion.div>
           </div>
         </motion.div>

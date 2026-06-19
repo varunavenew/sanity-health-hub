@@ -118,17 +118,6 @@ export default defineConfig({
                         { field: 'publishedAt', direction: 'desc' },
                       ])
                   ),
-                S.listItem()
-                  .title('Social media posts')
-                  .schemaType('socialPost')
-                  .child(
-                    S.documentTypeList('socialPost')
-                      .title('Social media posts')
-                      .defaultOrdering([
-                        { field: 'sortOrder', direction: 'asc' },
-                        { field: '_createdAt', direction: 'desc' },
-                      ])
-                  ),
               ])
           )
 

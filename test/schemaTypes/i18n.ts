@@ -168,7 +168,6 @@ type SlugFieldOverrides = {
   title?: string
   group?: string
   description?: string
-  requireNoEn?: boolean
 }
 
 /**
@@ -193,9 +192,7 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
       },
       maxLength: 96,
     },
-    validation: overrides.requireNoEn
-      ? requiredNoEnSlug()
-      : (Rule: any) => Rule.required(),
+    validation: requiredNoEnSlug(),
   }
 }
 
@@ -218,8 +215,6 @@ export function i18nSlugFieldFromString(sourceField: string, overrides: SlugFiel
       },
       maxLength: 96,
     },
-    validation: overrides.requireNoEn
-      ? requiredNoEnSlug()
-      : (Rule: any) => Rule.required(),
+    validation: requiredNoEnSlug(),
   }
 }

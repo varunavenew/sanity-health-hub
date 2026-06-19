@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
-import { useFaqs, useHomepage } from "@/hooks/useSanity";
+import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { FaqSection } from "@/components/layout/FaqSection";
 
@@ -10,30 +10,24 @@ export const LifePhasesSection = () => {
   const { t } = useTranslation();
   const { data: homepage } = useHomepage();
   const homepageFaqs = homepage?.faqs ?? [];
-  const useHomepageFaqs = homepageFaqs.length > 0;
-  const { data: categoryFaqs } = useFaqs("generelt", !useHomepageFaqs);
 
   const faqs = useMemo(() => {
-    const source = useHomepageFaqs
-      ? homepageFaqs
-      : (categoryFaqs ?? []).filter(
-          (f) => typeof f.question === "string" && f.question.trim().length > 0,
-        );
-    return source.map((f, i) => ({
-      id: `faq-${i}`,
-      question: f.question,
-      answer: f.answer,
-    }));
-  }, [useHomepageFaqs, homepageFaqs, categoryFaqs]);
+    return homepageFaqs
+      .filter((f) => typeof f.question === "string" && f.question.trim().length > 0)
+      .map((f, i) => ({
+        id: `faq-${i}`,
+        question: f.question,
+        answer: f.answer,
+      }));
+  }, [homepageFaqs]);
 
   if (faqs.length === 0) return null;
 
+  const faqTitle = homepage?.faqSectionTitle?.trim() || "";
+
   return (
     <section id="life-phases" className="bg-background">
-      <FaqSection
-        faqs={faqs}
-        title={homepage?.faqSectionTitle || t("faq.title")}
-      />
+      <FaqSection faqs={faqs} title={faqTitle} />
 
       {/* Simple CTA below */}
       <div className="container mx-auto px-4 md:px-8">

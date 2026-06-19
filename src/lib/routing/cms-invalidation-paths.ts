@@ -134,29 +134,37 @@ export function cmsInvalidationPaths(
 
     case "article": {
       const listing = listingSlugPair(listings, "newsPage");
-      for (const pair of pairs) addDetailPaths(paths, listing, pair);
-      addPairPaths(paths, listing);
+      if (listing) {
+        for (const pair of pairs) addDetailPaths(paths, listing, pair);
+        addPairPaths(paths, listing);
+      }
       break;
     }
 
     case "clinicPage": {
       const listing = listingSlugPair(listings, "clinicsPage");
-      for (const pair of pairs) addDetailPaths(paths, listing, pair);
-      addPairPaths(paths, listing);
+      if (listing) {
+        for (const pair of pairs) addDetailPaths(paths, listing, pair);
+        addPairPaths(paths, listing);
+      }
       break;
     }
 
     case "specialist": {
       const listing = listingSlugPair(listings, "specialistsListingPage");
-      for (const pair of pairs) addDetailPaths(paths, listing, pair);
-      addPairPaths(paths, listing);
+      if (listing) {
+        for (const pair of pairs) addDetailPaths(paths, listing, pair);
+        addPairPaths(paths, listing);
+      }
       break;
     }
 
     case "jobListing": {
       const listing = listingSlugPair(listings, "careersPage");
-      for (const pair of pairs) addDetailPaths(paths, listing, pair);
-      addPairPaths(paths, listing);
+      if (listing) {
+        for (const pair of pairs) addDetailPaths(paths, listing, pair);
+        addPairPaths(paths, listing);
+      }
       break;
     }
 

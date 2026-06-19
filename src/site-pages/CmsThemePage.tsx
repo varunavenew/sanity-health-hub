@@ -8,7 +8,7 @@ import { VideoPlayer } from "@/components/ui/video-player";
 import { useThemePage } from "@/hooks/useSanity";
 import { useNavigate } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
-import kvinnehelseHero from "@/assets/hero/kvinnehelse-hero.jpg";
+import { getImageUrl } from "@/lib/sanityClient";
 
 type Props = {
   isChatOpen: boolean;
@@ -21,37 +21,45 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
   const navigate = useNavigate();
   const { data: page } = useThemePage(themeSlug);
 
-  const title = page?.title || themeSlug;
-  const heroImage = page?.heroImage || kvinnehelseHero;
-  const introTexts = page?.introTexts || [];
+  const title = page?.title?.trim() || "";
+  const heroImage = page?.heroImage ? getImageUrl(page.heroImage) : "";
+  const introTexts = (page?.introTexts || []).filter((text) => text?.trim());
   const sections = page?.sections || [];
   const lifePhases = page?.lifePhases || [];
-  const ctaText = page?.ctaText;
-  const ctaLink = page?.ctaLink;
+  const ctaText = page?.ctaText?.trim();
+  const ctaLink = page?.ctaLink?.trim();
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <PageSEO
-        title={page?.seo?.metaTitle || title}
-        description={page?.seo?.metaDescription || title}
-        canonical={`/${themeSlug}`}
-        ogImage={typeof page?.seo?.ogImage === "string" ? page.seo.ogImage : undefined}
-        noIndex={page?.seo?.noIndex}
-      />
+      {page?.seo?.metaTitle || page?.seo?.metaDescription ? (
+        <PageSEO
+          title={page?.seo?.metaTitle || title}
+          description={page?.seo?.metaDescription || ""}
+          canonical={`/${themeSlug}`}
+          ogImage={typeof page?.seo?.ogImage === "string" ? page.seo.ogImage : undefined}
+          noIndex={page?.seo?.noIndex}
+        />
+      ) : null}
       <div className="bg-brand-warm">
         {heroImage ? (
           <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
             <img
-              src={typeof heroImage === "string" ? heroImage : heroImage.src}
+              src={heroImage}
               alt={title}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-              <div className="container mx-auto">
-                <h1 className="text-3xl md:text-5xl font-light text-white">{title}</h1>
+            {title ? (
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+                <div className="container mx-auto">
+                  <h1 className="text-3xl md:text-5xl font-light text-white">{title}</h1>
+                </div>
               </div>
-            </div>
+            ) : null}
+          </div>
+        ) : title ? (
+          <div className="container mx-auto px-6 md:px-16 pt-20 pb-8">
+            <h1 className="text-3xl md:text-5xl font-light text-brand-dark">{title}</h1>
           </div>
         ) : null}
 

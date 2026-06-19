@@ -27,7 +27,7 @@ export default {
       type: 'internationalizedArrayString',
       validation: reqI18n('Behandlingsnavn'),
     },
-    i18nSlugFieldFromTitle('title', { requireNoEn: true }),
+    i18nSlugFieldFromTitle('title'),
     {
       name: 'category',
       title: 'Kategori',

@@ -7,7 +7,7 @@ import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { normalizeCategory, type Article } from "@/data/articles";
-import { useArticles, useNewsPage, useSocialPosts, useSpecialists } from "@/hooks/useSanity";
+import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 import { assetSrc } from "@/lib/media";
 
@@ -126,7 +126,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { data: sanityArticles } = useArticles();
   const { data: newsPage } = useNewsPage();
   const { data: specialists } = useSpecialists();
-  const { data: allSocialPosts } = useSocialPosts();
   const [activeFilter, setActiveFilter] = useState<FilterKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(ARTICLES_PER_PAGE);
@@ -242,15 +241,28 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const socialPostLimit = newsPage?.socialPostLimit ?? 4;
   const showSocialSection = newsPage?.showSocialSection !== false;
   const socialSectionPosts = useMemo(() => {
-    if (!showSocialSection) return [];
+    if (!showSocialSection || !Array.isArray(newsPage?.socialPosts)) return [];
 
-    const mode = newsPage?.socialDisplayMode || "latest";
-    if (mode === "manual" && newsPage?.socialPosts?.length) {
-      return newsPage.socialPosts.slice(0, socialPostLimit);
-    }
-
-    return (allSocialPosts || []).slice(0, socialPostLimit);
-  }, [newsPage, allSocialPosts, socialPostLimit, showSocialSection]);
+    return newsPage.socialPosts
+      .slice(0, socialPostLimit)
+      .map((post: {
+        _key?: string;
+        platform?: string;
+        caption?: string;
+        postUrl?: string;
+        alt?: string;
+        image?: string;
+        imageUrl?: string;
+      }) => ({
+        _id: post._key || post.caption || "social",
+        platform: (post.platform || "instagram") as "instagram",
+        image: post.imageUrl || post.image || "",
+        caption: post.caption,
+        postUrl: post.postUrl,
+        alt: post.alt,
+      }))
+      .filter((post) => Boolean(post.image));
+  }, [newsPage?.socialPosts, socialPostLimit, showSocialSection]);
   const hasCmsSocialPosts = socialSectionPosts.length > 0;
 
   const filterOptions: Array<{ key: FilterKey; label: string }> = [

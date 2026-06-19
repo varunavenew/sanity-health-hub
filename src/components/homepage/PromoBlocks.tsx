@@ -1,28 +1,25 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";
-import { useTranslation } from "react-i18next";
 import { useHomepage } from "@/hooks/useSanity";
 
 export const PromoBlocks = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const { data: homepage } = useHomepage();
 
-  const sectionTitle =
-    homepage?.promoBlocksTitle?.trim() || t("promoBlocks.title");
-
+  const sectionTitle = homepage?.promoBlocksTitle?.trim() || "";
   const blocks = (homepage?.promoBlocks || []).filter((b: any) => b?.image && b?.title);
   if (blocks.length === 0) return null;
 
   return (
     <section className="bg-secondary/30 pt-10 md:pt-14 pb-4 md:pb-6">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section heading */}
-        <div className="max-w-6xl mx-auto mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-light text-foreground">
-            {sectionTitle}
-          </h2>
-        </div>
+        {sectionTitle ? (
+          <div className="max-w-6xl mx-auto mb-6 md:mb-8">
+            <h2 className="text-xl md:text-2xl font-light text-foreground">
+              {sectionTitle}
+            </h2>
+          </div>
+        ) : null}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-6xl mx-auto">
           {blocks.map((block: any) => (
