@@ -329,8 +329,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  { symptom: "Svak eller hyppig vannlating", service: "Prostatautredning", href: "/booking?kategori=urologi&tjeneste=prostata" },
  { symptom: "Forhøyet PSA eller mistanke om prostatakreft", service: "Prostatasjekk", href: "/booking?kategori=urologi&tjeneste=prostatasjekk" },
  { symptom: "Smerter, kul eller hevelse i pungen", service: "Testikkelutredning", href: "/booking?kategori=urologi&tjeneste=testikler" },
- { symptom: "Ereksjonsproblemer eller lavt testosteron", service: "Potens- og hormonutredning", href: "/booking?kategori=urologi&tjeneste=ereksjon" },
- { symptom: "Urinlekkasje eller blæreplager", service: "Bekkenbunns- og blæreutredning", href: "/booking?kategori=urologi&tjeneste=urinlekkasje" },
+ { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/booking?kategori=urologi&tjeneste=sterilisering" },
  { symptom: "Vurderer sterilisering (vasektomi)", service: "Sterilisering", href: "/booking?kategori=urologi&tjeneste=sterilisering" },
  ]}
  />
