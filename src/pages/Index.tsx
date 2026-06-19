@@ -32,7 +32,6 @@ const Index = ({ isChatOpen }: IndexProps) => {
       <HeroBanner />
       <HeroCompact />
       <GoogleReviewsSection />
-      <ValueBadges />
       <PromoBlocks />
       <LifePhasesSection />
       <SpecialistsSection />
