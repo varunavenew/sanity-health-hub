@@ -50,6 +50,14 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
     description: "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!\n\nVi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss.\n\nVi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander - fra utredning, behandling og oppfølging i etterkant.",
+    sections: [
+      {
+        id: "alt-pa-ett-sted",
+        heading: "Alt på ett sted – gjennom alle livets faser",
+        content:
+          "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!\n\nVi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss. Vi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander – fra utredning, behandling og oppfølging i etterkant.",
+      },
+    ],
     linkedServices: [
       {
         label: "Osteopat",
@@ -70,6 +78,16 @@ export const treatmentContent: Record<string, TreatmentData> = {
         label: "Ernæringsfysiolog",
         description: "Individuelt tilpasset kostholdsrådgivning med betydning for hormoner, fertilitet, overgangsalder og generell helse.",
         path: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
+      },
+      {
+        label: "Slik foregår det",
+        description: "Du booker time selv – uten henvisning. Spesialisten gjør en grundig vurdering, og ved behov kobles flere fagpersoner inn i et felles, koordinert forløp.",
+        path: "/behandlinger/gynekologi/tverrfaglig#flow",
+      },
+      {
+        label: "Du bestemmer hva du er komfortabel med",
+        description: "Du er i førersetet. Vi forklarer alternativene, og du velger tempo, omfang og hvilke fagpersoner du ønsker å møte.",
+        path: "/behandlinger/gynekologi/tverrfaglig#promises",
       },
     ],
     faqs: [
