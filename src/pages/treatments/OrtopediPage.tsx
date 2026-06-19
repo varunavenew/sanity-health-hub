@@ -39,7 +39,7 @@ const lifePhases = [
  "Vridd kne, vondt etter et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
  tags: [
    { label: "Akutt", href: "/booking?kategori=ortopedi" },
-   { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
+   { label: "Diagnose", href: "/booking?kategori=ortopedi" },
    { label: "MR", href: "/booking?kategori=ortopedi" },
  ],
  href: "/booking?kategori=ortopedi",
