@@ -473,19 +473,31 @@ const GraviditetEtterMaster = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
-              {allServices.map((s) => (
-                <Link
-                  key={s.title}
-                  to={s.href}
-                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
-                >
-                  <div>
-                    <h3 className="text-base font-normal text-foreground mb-1.5">{s.title}</h3>
-                    <p className="text-sm font-light text-muted-foreground leading-snug">{s.desc}</p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
-                </Link>
+            <div className="space-y-12">
+              {serviceGroups.map((group) => (
+                <div key={group.label}>
+                  <p className="text-xs font-light text-foreground/60 mb-4">
+                    {group.label}
+                  </p>
+                  <ul className="border-t border-brand-dark/10">
+                    {group.items.map((s) => (
+                      <li key={s.title} className="border-b border-brand-dark/10">
+                        <Link
+                          to={s.href}
+                          className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
+                        >
+                          <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+                            {s.title}
+                          </h3>
+                          <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
+                            {s.desc}
+                          </p>
+                          <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
           </div>
