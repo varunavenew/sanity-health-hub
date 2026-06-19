@@ -57,7 +57,7 @@ const rawPriceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'Operasjoner og inngrep',
+        label: 'Operasjoner og kirurgi',
         path: '/behandlinger/gynekologi/operasjoner',
         items: [
           { name: "TVT operasjon", price: "fra 46.000,-", duration: "", requiresConsultation: true },
@@ -83,7 +83,7 @@ const rawPriceCategories: PriceCategory[] = [
         ]
       },
       {
-        label: 'Inngrep',
+        label: 'Kirurgi',
         path: '/behandlinger/urologi/inngrep',
         items: [
           { name: "Fimose (trang forhud)", price: "fra 9.100,-", duration: "", requiresConsultation: true },
