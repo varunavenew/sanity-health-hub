@@ -133,16 +133,31 @@ const expertAreas = [
   },
 ];
 
-const allServices = [
-  { title: "Svangerskapskontroll", desc: "30 min hos jordmor eller lege", href: `${GRAV}/svangerskapskontroll` },
-  { title: "Tidlig ultralyd", desc: "Hjerteslag, termin og plassering", href: `${GRAV}/ultralyd` },
-  { title: "Tidlig ultralyd + NIPT", desc: "Trygg og rask avklaring", href: `${GRAV}/nipt` },
-  { title: "Organrettet ultralyd + NIPT", desc: "Uke 12–14", href: `${GRAV}/fosterdiagnostikk` },
-  { title: "Organrettet ultralyd", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
-  { title: "Svangerskapsteam", desc: "Fast jordmor og lege", href: `${GRAV}/svangerskapsteam` },
-  { title: "Fødselsforberedende samtale", desc: "45 min med jordmor", href: `${GRAV}/fodselsforberedelse` },
-  { title: "Konsultasjon fødselsangst", desc: "Trygge verktøy før fødsel", href: `${GRAV}/fodselsforberedelse` },
-  { title: "Samtale etter tap", desc: "Abort, dødfødsel, traumatisk fødsel", href: `${GRAV}/fodselsforberedelse` },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+  {
+    label: "Kontroll og oppfølging",
+    items: [
+      { title: "Svangerskapskontroll", desc: "30 min hos jordmor eller lege", href: `${GRAV}/svangerskapskontroll` },
+      { title: "Svangerskapsteam", desc: "Fast jordmor og lege", href: `${GRAV}/svangerskapsteam` },
+    ],
+  },
+  {
+    label: "Ultralyd og fosterdiagnostikk",
+    items: [
+      { title: "Tidlig ultralyd", desc: "Hjerteslag, termin og plassering", href: `${GRAV}/ultralyd` },
+      { title: "Tidlig ultralyd + NIPT", desc: "Trygg og rask avklaring", href: `${GRAV}/nipt` },
+      { title: "Organrettet ultralyd", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
+      { title: "Organrettet ultralyd + NIPT", desc: "Uke 12–14", href: `${GRAV}/fosterdiagnostikk` },
+    ],
+  },
+  {
+    label: "Fødselsforberedelse og samtale",
+    items: [
+      { title: "Fødselsforberedende samtale", desc: "45 min med jordmor", href: `${GRAV}/fodselsforberedelse` },
+      { title: "Konsultasjon fødselsangst", desc: "Trygge verktøy før fødsel", href: `${GRAV}/fodselsforberedelse` },
+      { title: "Samtale etter tap", desc: "Abort, dødfødsel, traumatisk fødsel", href: `${GRAV}/fodselsforberedelse` },
+    ],
+  },
 ];
 
 const journey = [
