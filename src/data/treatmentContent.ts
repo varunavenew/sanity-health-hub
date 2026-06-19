@@ -22,6 +22,8 @@ export interface LinkedService {
   label: string;
   description: string;
   path: string;
+  /** Optional explicit card image URL — overrides automatic lookup based on path. */
+  image?: string;
 }
 
 export interface TreatmentData {
