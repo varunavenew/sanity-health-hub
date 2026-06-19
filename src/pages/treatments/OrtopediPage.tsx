@@ -349,7 +349,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {[
  { v: "12 400+", k: "Konsultasjoner", sub: "Per år" },
- { v: "1 800", k: "Inngrep og artroskopier", sub: "I 2024" },
+ { v: "1 800", k: "Inngrep og operasjoner", sub: "I 2024" },
  { v: "96%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
  { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
  ].map((row, i) => (
