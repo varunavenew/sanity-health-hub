@@ -119,7 +119,6 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Fertilitetssjekk", desc: "Det naturlige første steget — vi finner årsaken før vi behandler.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
       { title: "IUI — inseminasjon", desc: "En enklere behandling som ofte prøves først ved milde årsaker.", href: "/behandlinger/fertilitet/iui" },
-      { title: "Genetisk testing (PGT)", desc: "Genetisk vurdering av embryoene før overføring — for utvalgte indikasjoner.", href: "/behandlinger/fertilitet/pgt" },
     ],
     ctaTitle: "Bestill IVF-konsultasjon",
     ctaDescription:
