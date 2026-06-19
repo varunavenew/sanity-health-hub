@@ -95,7 +95,6 @@ const segments = [
  tags: [
  { label: "Sædanalyse", href: `${FERT}/mannlig-fertilitet` },
  { label: "Mannlig fertilitet", href: `${FERT}/mannlig-fertilitet` },
- { label: "Rådgivning online", href: `${FERT}/psykisk-helsehjelp` },
  ],
  cta: "Bestill analyse",
  href: "/booking?kategori=fertilitet&tjeneste=sedanalyse",
