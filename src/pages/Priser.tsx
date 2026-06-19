@@ -187,10 +187,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             const subKey = `${active.id}--${sub.label}`;
                             const isOpen = openSubcategory === subKey;
                             return (
-                              <div key={sub.label} className={isOpen ? 'relative' : ''}>
-                                {isOpen && (
-                                  <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-brand-dark/40" aria-hidden="true" />
-                                )}
+                              <div key={sub.label}>
                                 <button
                                   onClick={() => toggleSubcategory(subKey)}
                                   className="w-full flex items-center justify-between mb-5 pb-2 border-b border-brand-mid/40 text-left group"
@@ -218,7 +215,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                         return (
                                           <li
                                             key={idx}
-                                            className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                                            className="py-5 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"
                                           >
                                             <div className="flex-1 min-w-0">
                                               <p className="font-normal text-brand-dark">{item.name}</p>
@@ -227,6 +224,11 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                   {item.duration}
                                                   {item.duration && item.priceNote ? ' · ' : ''}
                                                   {item.priceNote}
+                                                </p>
+                                              )}
+                                              {item.info && (
+                                                <p className="mt-2 text-xs font-light text-brand-dark/70 leading-relaxed max-w-2xl">
+                                                  {item.info}
                                                 </p>
                                               )}
                                             </div>
