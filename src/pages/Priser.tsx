@@ -214,6 +214,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
                               <h3 className="text-sm font-normal text-brand-dark md:sticky md:top-40">
                                 {sub.label}
                               </h3>
+                              {sub.path && (
+                                <Link
+                                  to={sub.path}
+                                  className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 hover:text-brand-dark hover:gap-2 transition-all"
+                                >
+                                  Les mer om {sub.label.toLowerCase()}
+                                  <ArrowRight className="w-3 h-3" />
+                                </Link>
+                              )}
                             </div>
 
                             <div>
