@@ -7,20 +7,20 @@ export const PatientTrustSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">
+    <section className="py-6 md:py-10 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16 relative">
         <div className="max-w-5xl">
           {/* Editorial composition: restrained number + heading + CTA */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-            <div className="space-y-2">
-              <div className="flex items-baseline gap-3">
-                <span className="text-5xl md:text-6xl font-light leading-none tracking-tight text-brand-dark">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-1">
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl md:text-5xl font-light leading-none tracking-tight text-brand-dark">
                   150&thinsp;000<span className="text-brand-mid font-extralight ml-1">+</span>
                 </span>
               </div>
-              <h2 className="text-lg md:text-xl font-light text-brand-dark leading-tight">
+              <p className="text-base md:text-lg font-light text-brand-dark leading-tight">
                 Fornøyde pasienter siden 2002.
-              </h2>
+              </p>
             </div>
 
             <div className="pb-1">
