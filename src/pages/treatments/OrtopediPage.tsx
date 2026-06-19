@@ -80,7 +80,7 @@ const expertAreas = [
  {
  title: "Kne og hofte",
  desc:
- "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og avansert artroskopi.",
+ "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og kirurgisk behandling ved behov.",
  href: "/behandlinger/ortopedi/kne",
  image: expertKne,
  },
