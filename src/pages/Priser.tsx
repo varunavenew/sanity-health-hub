@@ -232,23 +232,25 @@ const Priser = ({ isChatOpen }: PageProps) => {
                                                 </p>
                                               )}
                                             </div>
-                                            <div className="flex items-center gap-5 sm:gap-6 shrink-0">
+                                            <div className="flex items-center gap-3 sm:gap-3 shrink-0">
                                               <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap">
                                                 {item.price === "0,-" ? "Gratis" : item.price}
                                               </span>
 
-                                              {isConsult ? (
+                                              {item.path && (
                                                 <Link
-                                                  to={sub.path}
+                                                  to={item.path}
                                                   className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
                                                 >
                                                   Les mer
                                                   <ArrowRight className="w-3 h-3" />
                                                 </Link>
-                                              ) : (
+                                              )}
+
+                                              {!isConsult && (
                                                 <Link
                                                   to={buildBookingUrl({ kategori: active.id })}
-                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light bg-brand-dark text-white hover:bg-brand-dark/90 transition-colors whitespace-nowrap"
+                                                  className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:bg-brand-dark hover:text-white transition-colors whitespace-nowrap"
                                                 >
                                                   Bestill time
                                                   <ArrowRight className="w-3 h-3" />
