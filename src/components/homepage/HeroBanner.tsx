@@ -9,10 +9,12 @@ import { useTranslation } from "react-i18next";
 import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
+import robotkirurgiVideoAsset from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
 
 const kvinnehelseHero = kvinnehelseHeroAsset.url;
 const fertilityHero = fertilityHeroAsset.url;
-const robotkirurgiHero = tverrfagligTeamAsset.url;
+const tverrfagligHero = tverrfagligTeamAsset.url;
+const tverrfagligVideo = robotkirurgiVideoAsset.url;
 
 interface HeroSlide {
   id: string;
