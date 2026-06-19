@@ -71,7 +71,11 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
   );
 };
 
-export const GoogleReviewsSection = () => {
+interface GoogleReviewsSectionProps {
+  showTrustSection?: boolean;
+}
+
+export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsSectionProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data: sanityReviews } = useGoogleReviews();
