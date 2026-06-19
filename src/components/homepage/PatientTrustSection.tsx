@@ -23,7 +23,7 @@ export const PatientTrustSection = () => {
                   150&thinsp;000<span className="text-brand-beige/70 font-extralight ml-1">+</span>
                 </span>
               </div>
-              <p className="text-base md:text-lg font-light text-brand-light leading-tight">
+              <p className="text-base md:text-lg font-light text-brand-beige leading-tight">
                 Fornøyde pasienter siden 2002.
               </p>
             </div>
@@ -31,7 +31,7 @@ export const PatientTrustSection = () => {
             <div className="pb-1">
               <button
                 onClick={() => navigate('/tjenester')}
-                className="group inline-flex items-center gap-3 text-sm font-light text-brand-light border-b border-brand-light/60 pb-2 hover:border-brand-light transition-colors"
+                className="group inline-flex items-center gap-3 text-sm font-light text-brand-beige border-b border-brand-beige/60 pb-2 hover:border-brand-beige transition-colors"
               >
                 Se våre tjenester
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
