@@ -237,7 +237,7 @@ export const treatmentToSubLayout = ({
           title: ls.label,
           desc: ls.description,
           href: ls.path,
-          image: imageForPath(ls.path),
+          image: ls.image ?? imageForPath(ls.path),
         }))
       : [];
 
