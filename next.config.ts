@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
    * same project/dataset as `test/sanity` when only `SANITY_PROJECT_ID` is set.
    */
   env: {
+    // Embedded Studio lives at /studio — must match sanity.config basePath (see test/sanity.config.ts).
+    SANITY_STUDIO_BASEPATH: "/studio",
     // Never bake "" at build time — Vercel previews without env vars would break client fetches.
     NEXT_PUBLIC_SANITY_PROJECT_ID:
       process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||

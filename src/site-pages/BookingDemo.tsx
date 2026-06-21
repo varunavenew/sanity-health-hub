@@ -17,17 +17,27 @@ import { categoryNumericIdToPageId, findBookingCategoryForPage, slugifyNo } from
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
 import {
   apiLocationToClinic,
-  type BookingApiClinic,
+  isExternalClinic,
+  isPasientskyClinic,
+  isSanityManagedClinic,
+  type BookingClinic,
+  type BookingMetodikaClinic,
   type CategoryClinicTag,
 } from "@/lib/booking/mapApiLocation";
+import {
+  findSanityManagedClinicBySlug,
+  sanityManagedClinicsForCategory,
+} from "@/lib/booking/sanityBookingClinic";
 import {
   isBookingCaregiver,
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
 import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
+import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
+import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { assetSrc } from "@/lib/media";
-import { useBookingPage } from "@/hooks/useSanity";
+import { useBookingPage, useClinics } from "@/hooks/useSanity";
 import {
   DEFAULT_BOOKING_PAGE_COPY,
   fillBookingTemplate,
@@ -159,7 +169,7 @@ interface BookingData {
   category?: string;
   categoryId?: string;
   service?: BookingServiceItem;
-  clinic?: BookingApiClinic;
+  clinic?: BookingClinic;
   specialistChosen?: boolean; // true once user has passed the specialist step
   date?: Date;
   time?: string;
@@ -186,6 +196,7 @@ const BookingDemo = () => {
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
   const { data: copy = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
+  const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
   const [categoryClinicsById, setCategoryClinicsById] = useState<
@@ -297,7 +308,7 @@ const BookingDemo = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [apiFreeTimeSlots, setApiFreeTimeSlots] = useState<ApiFreeTimeSlot[]>([]);
-  const [apiBookingClinics, setApiBookingClinics] = useState<BookingApiClinic[]>([]);
+  const [apiBookingClinics, setApiBookingClinics] = useState<BookingMetodikaClinic[]>([]);
   const [availabilityFromApi, setAvailabilityFromApi] = useState(false);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   /** True after clinic availability has been checked for the current service. */
@@ -326,9 +337,29 @@ const BookingDemo = () => {
   const stepProgressLabel = (step: number) =>
     fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
 
-  const currentStep = useMemo(() => 
-    !bookingData.service ? 1 : !bookingData.clinic ? 2 : !bookingData.specialistChosen ? 3 : !bookingData.time ? 4 : 5
-  , [bookingData.service, bookingData.clinic, bookingData.specialistChosen, bookingData.time]);
+  const isSanityManagedBooking =
+    bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
+
+  const isPasientskyBooking =
+    bookingData.clinic != null && isPasientskyClinic(bookingData.clinic);
+
+  const isExternalBooking =
+    bookingData.clinic != null && isExternalClinic(bookingData.clinic);
+
+  const currentStep = useMemo(() => {
+    if (isSanityManagedBooking) return 2;
+    if (!bookingData.service) return 1;
+    if (!bookingData.clinic) return 2;
+    if (!bookingData.specialistChosen) return 3;
+    if (!bookingData.time) return 4;
+    return 5;
+  }, [
+    bookingData.service,
+    bookingData.clinic,
+    bookingData.specialistChosen,
+    bookingData.time,
+    isSanityManagedBooking,
+  ]);
   const progressAriaLabels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
 
   // Scroll to top when step changes
@@ -594,7 +625,16 @@ const BookingDemo = () => {
 
   useEffect(() => {
     const klinikk = pendingKlinikkRef.current;
-    if (!klinikk || bookingData.clinic || !bookingData.service?.apiActivityId) return;
+    if (!klinikk || bookingData.clinic) return;
+
+    const sanityMatch = findSanityManagedClinicBySlug(sanityClinics, klinikk);
+    if (sanityMatch) {
+      setBookingData((prev) => ({ ...prev, clinic: sanityMatch }));
+      pendingKlinikkRef.current = null;
+      return;
+    }
+
+    if (!bookingData.service?.apiActivityId) return;
     if (!availabilityFromApi || apiBookingClinics.length === 0) return;
 
     const byId = apiBookingClinics.find((c) => c.id === klinikk || c.id === `location-${klinikk}`);
@@ -611,7 +651,19 @@ const BookingDemo = () => {
     apiBookingClinics,
     bookingData.clinic,
     bookingData.service?.apiActivityId,
+    sanityClinics,
   ]);
+
+  // Direct Sanity-managed deep link: /booking?klinikk=moelv|moss (no Metodika service required)
+  useEffect(() => {
+    const klinikk = searchParams.get("klinikk");
+    if (!klinikk || bookingData.clinic || bookingData.service) return;
+
+    const sanityMatch = findSanityManagedClinicBySlug(sanityClinics, klinikk);
+    if (sanityMatch) {
+      setBookingData({ clinic: sanityMatch });
+    }
+  }, [searchParams, sanityClinics, bookingData.clinic, bookingData.service]);
 
   const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
 
@@ -848,29 +900,41 @@ const BookingDemo = () => {
     });
   };
 
-  // Step 2: only clinics returned by the booking availability API (no static fallback)
-  const availableClinics: BookingApiClinic[] = useMemo(() => {
-    if (!bookingData.service?.apiActivityId) return [];
-    return apiBookingClinics;
-  }, [bookingData.service?.apiActivityId, apiBookingClinics]);
+  const sanityManagedClinicOptions = useMemo(
+    () => sanityManagedClinicsForCategory(sanityClinics, bookingData.categoryId),
+    [sanityClinics, bookingData.categoryId],
+  );
 
-  // Auto-select when API returns exactly one location (once per service; not after "Tilbake")
+  // Step 2: Metodika locations + Sanity-managed clinics (Pasientsky / external)
+  const availableClinics: BookingClinic[] = useMemo(() => {
+    const metodika = bookingData.service?.apiActivityId ? apiBookingClinics : [];
+    return [...metodika, ...sanityManagedClinicOptions];
+  }, [bookingData.service?.apiActivityId, apiBookingClinics, sanityManagedClinicOptions]);
+
+  const step2Ready =
+    sanityManagedClinicOptions.length > 0 ||
+    !bookingData.service?.apiActivityId ||
+    clinicsAvailabilityReady;
+
+  // Auto-select when API returns exactly one Metodika location (once per service; not after "Tilbake")
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
-    if (!availabilityFromApi || availableClinics.length !== 1) return;
+    if (sanityManagedClinicOptions.length > 0) return;
+    if (!availabilityFromApi || apiBookingClinics.length !== 1) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;
 
     autoSelectedClinicActivityRef.current = activityId;
-    setBookingData((prev) => ({ ...prev, clinic: availableClinics[0] }));
+    setBookingData((prev) => ({ ...prev, clinic: apiBookingClinics[0] }));
   }, [
     bookingData.service?.apiActivityId,
     bookingData.clinic,
     availabilityFromApi,
-    availableClinics,
+    apiBookingClinics,
+    sanityManagedClinicOptions.length,
   ]);
 
-  const handleSelectClinic = (clinic: BookingApiClinic) => {
+  const handleSelectClinic = (clinic: BookingClinic) => {
     setBookingData({
       ...bookingData,
       clinic,
@@ -1076,9 +1140,11 @@ const BookingDemo = () => {
     );
   }
 
-  const progressBackTarget = (["category", "clinic", "specialist", "time"] as const)[
-    currentStep - 2
-  ];
+  const progressBackTarget = isSanityManagedBooking
+    ? bookingData.service
+      ? ("clinic" as const)
+      : ("category" as const)
+    : (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
 
   return (
     <div className="min-h-screen bg-white">
@@ -1175,10 +1241,46 @@ const BookingDemo = () => {
             </div>
           </div>
         )}
+        {isSanityManagedBooking && !bookingData.service && bookingData.clinic && (
+          <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
+            <div>
+              <span className="text-brand-dark/60 text-xs">{copy.summaryClinicLabel} </span>
+              <span className="font-normal text-brand-dark">{bookingData.clinic.label}</span>
+            </div>
+          </div>
+        )}
 
         <AnimatePresence mode="wait">
-          {/* Step 1: Select Service */}
-          {!bookingData.service ? (
+          {isPasientskyBooking && bookingData.clinic && isPasientskyClinic(bookingData.clinic) ? (
+            <motion.div
+              key="pasientsky"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="-mx-4"
+            >
+              <PatientskyIframe
+                serviceProviderId={bookingData.clinic.serviceProviderId}
+                calendarId={bookingData.clinic.calendarId}
+              />
+            </motion.div>
+          ) : isExternalBooking &&
+            bookingData.clinic &&
+            isExternalClinic(bookingData.clinic) ? (
+            <motion.div
+              key="external"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ExternalBookingHandoff
+                clinicLabel={bookingData.clinic.label}
+                externalBookingUrl={bookingData.clinic.externalBookingUrl}
+              />
+            </motion.div>
+          ) : !bookingData.service ? (
             <motion.div
               key="step1"
               initial={{ opacity: 0, y: 20 }}
@@ -1370,11 +1472,11 @@ const BookingDemo = () => {
             >
               <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
-              {bookingData.service?.apiActivityId && availabilityLoading && (
+              {bookingData.service?.apiActivityId && availabilityLoading && sanityManagedClinicOptions.length === 0 && (
                 <BookingStepLoader message={copy.step2Loading} />
               )}
 
-              {clinicsAvailabilityReady && availableClinics.length === 0 && (
+              {step2Ready && availableClinics.length === 0 && (
                 <FriendlyEmpty
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
@@ -1383,7 +1485,7 @@ const BookingDemo = () => {
                 />
               )}
 
-              {clinicsAvailabilityReady && availableClinics.length > 0 && (
+              {step2Ready && availableClinics.length > 0 && (
                 <div className="space-y-3">
                   {availableClinics.map((clinic) => (
                     <button

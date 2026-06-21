@@ -52,19 +52,12 @@ export const ClinicBookingBlock = ({
               <Button asChild className="rounded-sm">
                 <a
                   href={
-                    booking?.serviceProviderId
-                      ? `https://booking.pasientsky.no/?serviceProviderId=${booking.serviceProviderId}`
-                      : clinicId
-                        ? `/booking?klinikk=${clinicId}`
-                        : "/booking"
+                    clinicId
+                      ? `/booking?klinikk=${encodeURIComponent(clinicId)}`
+                      : "/booking"
                   }
-                  target={booking?.serviceProviderId ? "_blank" : undefined}
-                  rel={booking?.serviceProviderId ? "noopener noreferrer" : undefined}
                 >
                   Book time nå
-                  {booking?.serviceProviderId && (
-                    <ExternalLink className="w-3.5 h-3.5 ml-1.5" aria-hidden="true" />
-                  )}
                 </a>
               </Button>
             </div>
@@ -73,9 +66,17 @@ export const ClinicBookingBlock = ({
           {method === "info" && (
             <div className="border border-border/40 rounded-sm p-6">
               <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
-                Bestill time ved å ringe oss eller sende en e-post. Vi hjelper deg med å finne
-                riktig spesialist og tidspunkt.
+                {booking?.externalBookingUrl
+                  ? "Bestill time direkte hos vår bookingpartner. Du velger spesialist, dato og tidspunkt som passer for deg."
+                  : "Bestill time ved å ringe oss eller sende en e-post. Vi hjelper deg med å finne riktig spesialist og tidspunkt."}
               </p>
+              {booking?.externalBookingUrl && clinicId ? (
+                <Button asChild className="rounded-sm mb-5">
+                  <a href={`/booking?klinikk=${encodeURIComponent(clinicId)}`}>
+                    Book time nå
+                  </a>
+                </Button>
+              ) : null}
               <div className="space-y-3">
                 {phone && (
                   <a
