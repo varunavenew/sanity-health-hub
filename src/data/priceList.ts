@@ -52,7 +52,7 @@ const rawPriceCategories: PriceCategory[] = [
           { name: "Blødningsforstyrrelser / muskelknuter / polypper / hormonelt", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/blodningsforstyrrelser" },
           { name: "Endometriose / adenomyose", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/endometriose" },
           { name: "Overgangsalder", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/overgangsalder" },
-          { name: "PCOS / hormonforstyrrelser", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/pmos" },
+          { name: "PCOS / hormonforstyrrelser", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/pcos" },
           { name: "Smerter i underlivet / vulvodyni / vaginisme", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/vulvalidelser" },
           { name: "Premenstruelle plager (PMS / PMDD)", price: "fra 3.200,-", duration: "45 min", path: "/behandlinger/gynekologi/pms-pmdd" },
           { name: "Ammehjelp ved brystbetennelsesproblematikk", price: "fra 3.200,-", duration: "45 min" },
