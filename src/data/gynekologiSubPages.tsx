@@ -110,6 +110,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
     ],
+    prose: {
+      title: "Om gynekologisk undersøkelse",
+      body: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger - fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best.\n\nHos oss kan du bestille rutinesjekk eller konsultasjon til annen gynekologisk utredning.",
+    },
     ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
       "Ingen ventetid. Ingen fastlege nødvendig. Du bestiller direkte — og vi sørger for at du møter riktig spesialist.",
@@ -361,6 +365,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { title: "PMS og PMDD", desc: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", href: "/behandlinger/gynekologi/pms-pmdd" },
     ],
+    prose: {
+      title: "Om PCOS",
+      body: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PCOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
+    },
     ctaTitle: "Få en grundig PCOS-utredning",
     ctaDescription:
       "PCOS påvirker hele deg — derfor utreder vi hele deg. Bestill time for en samtale som tar utgangspunkt i din situasjon.",
@@ -508,6 +516,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Overgangsalder", desc: "PMDD kan endre karakter mot perimenopausen — og kreve ny tilnærming.", href: "/behandlinger/gynekologi/overgangsalder" },
       { title: "Endometriose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
     ],
+    prose: {
+      title: "Om PMS og PMDD",
+      body: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75% av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse) rammer 3-8%. De vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene. Årsaken er relatert til svingende hormoner. Det er mulig å få god hjelp - du skal slippe å lide hver måned.\n\nFor spørsmål ta kontakt med oss eller bestill time.",
+    },
     ctaTitle: "Få en grundig PMS/PMDD-utredning",
     ctaDescription:
       "Du skal ikke føle at du mister deg selv hver måned. Vi har verktøyene som hjelper.",
@@ -946,6 +958,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
       { title: "Fødselsskader", desc: "Vurdering og oppfølging etter fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
+    prose: {
+      title: "Om fostermedisin",
+      body: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.\n\n**Tidlig ultralyd**\n\nVi skiller mellom tidlig ultralyd uke 6-10, uke 11-14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6-10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg.\n\n**Fosterdiagnostikk**\n\nDr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+    },
     ctaTitle: "Bestill fostermedisinsk vurdering",
     ctaDescription: "Trygghet og tid — hos spesialister som ser mye.",
   },
@@ -1087,6 +1103,10 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
       { title: "Gynekologisk undersøkelse", desc: "Ofte første møte med gynekolog.", href: "/behandlinger/gynekologi/undersokelse" },
     ],
+    prose: {
+      title: "Om NIPT",
+      body: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\nDr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.\n\n**Hva undersøker NIPT?**\n\nVed hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik.\n\n**Er NIPT trygt?**\n\nDa vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n**Fosterdiagnostikk hos spesialist**\n\nDr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+    },
     ctaTitle: "Bestill NIPT",
     ctaDescription: "Tidlig trygghet — uten risiko for fosteret.",
   },
