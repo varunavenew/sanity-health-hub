@@ -611,7 +611,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               )}
               <div className="prose prose-neutral max-w-none font-light text-base text-foreground/80 [&_h3]:text-xl [&_h3]:font-light [&_h3]:text-foreground [&_h3]:mt-10 [&_h3]:mb-3 [&_p]:leading-relaxed [&_p]:mb-5 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_ul]:mb-5">
                 {(() => {
-                  const blocks: React.ReactNode[] = [];
+                  const blocks: ReactNode[] = [];
                   const lines = c.prose.body.split("\n");
                   let i = 0; let key = 0;
                   while (i < lines.length) {

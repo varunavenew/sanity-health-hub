@@ -71,3 +71,7 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## Content ownership
+
+Brødteksten på behandlingssidene er CMedicals eget innhold, levert av klinikken og brukt med samtykke fra rettighetshaver. Originaltekster fra cmedical.no skal gjengis ordrett der det er angitt — ikke parafrasert eller forkortet — fordi de er medisinsk og redaksjonelt godkjent.
