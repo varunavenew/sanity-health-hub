@@ -104,6 +104,8 @@ export interface SubTreatmentContent {
  relatedAsIntro?: boolean;
  /** When true, render the related cards between the reasons text and the flow (as section 3). Used when the page has its own text content but the cards still represent treatments included in this service. */
  relatedAsServices?: boolean;
+ /** Optional long-form prose section (verbatim klinikk-tekst). Rendered under the expert/flow blocks. Supports paragraphs split by \n\n, **bold** subheadings, and "- " bullet lists. */
+ prose?: { title?: string; body: string };
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
