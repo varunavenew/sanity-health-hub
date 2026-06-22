@@ -104,6 +104,8 @@ export interface SubTreatmentContent {
  relatedAsIntro?: boolean;
  /** When true, render the related cards between the reasons text and the flow (as section 3). Used when the page has its own text content but the cards still represent treatments included in this service. */
  relatedAsServices?: boolean;
+ /** Optional long-form prose section (verbatim klinikk-tekst). Rendered under the expert/flow blocks. Supports paragraphs split by \n\n, **bold** subheadings, and "- " bullet lists. */
+ prose?: { title?: string; body: string };
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
@@ -596,6 +598,54 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </section>
  )}
+
+      {/* 3c. PROSE — ordrett klinikk-tekst (optional) */}
+      {c.prose && c.prose.body.trim() && (
+        <section className="bg-background py-20 md:py-28">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-3xl">
+              {c.prose.title && (
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-10">
+                  {c.prose.title}
+                </h2>
+              )}
+              <div className="prose prose-neutral max-w-none font-light text-base text-foreground/80 [&_h3]:text-xl [&_h3]:font-light [&_h3]:text-foreground [&_h3]:mt-10 [&_h3]:mb-3 [&_p]:leading-relaxed [&_p]:mb-5 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_ul]:mb-5">
+                {(() => {
+                  const blocks: ReactNode[] = [];
+                  const lines = c.prose.body.split("\n");
+                  let i = 0; let key = 0;
+                  while (i < lines.length) {
+                    const line = lines[i];
+                    if (!line.trim()) { i++; continue; }
+                    const boldOnly = line.trim().match(/^\*\*(.+)\*\*$/);
+                    if (boldOnly) {
+                      blocks.push(<h3 key={`h-${key++}`}>{boldOnly[1]}</h3>);
+                      i++;
+                      continue;
+                    }
+                    if (line.trim().startsWith("- ")) {
+                      const items: string[] = [];
+                      while (i < lines.length && lines[i].trim().startsWith("- ")) {
+                        items.push(lines[i].trim().slice(2));
+                        i++;
+                      }
+                      blocks.push(<ul key={`l-${key++}`}>{items.map((it, idx) => <li key={idx}>{it}</li>)}</ul>);
+                      continue;
+                    }
+                    const para: string[] = [];
+                    while (i < lines.length && lines[i].trim() && !lines[i].trim().startsWith("- ") && !lines[i].trim().match(/^\*\*(.+)\*\*$/)) {
+                      para.push(lines[i].trim());
+                      i++;
+                    }
+                    blocks.push(<p key={`p-${key++}`}>{para.join(" ")}</p>);
+                  }
+                  return blocks;
+                })()}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 4. RELATED — moved above promises so methods/subsider stands first */}
       {!c.relatedAsIntro && !c.relatedAsServices && c.related.length > 0 && (
