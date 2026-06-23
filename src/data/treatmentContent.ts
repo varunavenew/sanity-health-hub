@@ -488,13 +488,13 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "gynekologi/robotkirurgi": {
-    title: "Robotkirurgi – Gynekologi",
+    title: "Robotassistert kirurgi – Gynekologi",
     subtitle: "Nordens mest erfarne team innen robotassistert gynekologisk kirurgi.",
     parentCategory: "Gynekologi",
     heroImage: heroTech,
-    description: "CMedical er den eneste private aktøren i Norge som tilbyr robotassistert kirurgi innen gynekologi. Med da Vinci-systemet utfører vi avanserte inngrep med minimalt invasiv teknikk.\n\nRobotkirurgi gir bedre presisjon, mindre blødning, kortere sykehusopphold og raskere rekonvalesens sammenlignet med tradisjonell åpen kirurgi.",
+    description: "CMedical er den eneste private aktøren i Norge som tilbyr robotassistert kirurgi innen gynekologi. Med da Vinci-systemet utfører vi avanserte inngrep med minimalt invasiv teknikk.\n\nRobotassistert kirurgi gir bedre presisjon, mindre blødning, kortere sykehusopphold og raskere rekonvalesens sammenlignet med tradisjonell åpen kirurgi.",
     benefits: [
-      "Eneste private tilbyder av robotkirurgi i gynekologi i Norge",
+      "Eneste private tilbyder av robotassistert kirurgi i gynekologi i Norge",
       "da Vinci-systemet for maksimal presisjon",
       "Behandling av muskelknuter, dyp endometriose og hysterektomi",
       "Mindre smerter og kortere rekonvalesens",
@@ -502,15 +502,20 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
     sections: [
       {
-        id: "robotkirurgi",
+        id: "robotassistert-kirurgi",
         heading: "Robotassistert kirurgi",
-        content: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde. Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning. Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner. De fleste pasientene kan reise hjem innen ett døgn. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ. Vi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP). Rask rehabilitering: Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling. En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Kortere sykemelding: Avhengig av jobb og inngrep kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen. Presisjon som merkes: Med høyoppløselig 3D-kamera og avanserte instrumenter har kirurgen svært god kontroll. I bekkenet finnes ømfintlig vev som lett kan skades under kirurgi (f.eks. ved nervesparende operasjoner ved dyp endometriose eller fjerning av prostata). Robotkirurgi gir bedre kontroll og lavere risiko ved slik nervedisseksjon. Ergonomi: Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling, noe som bidrar til økt konsentrasjon og mindre utmattelse.",
+        content: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde. Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning. Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner. De fleste pasientene kan reise hjem innen ett døgn. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ. Vi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP). Rask rehabilitering: Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling. En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Kortere sykemelding: Avhengig av jobb og inngrep kan du forvente en sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient). Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen. Presisjon som merkes: Med høyoppløselig 3D-kamera og avanserte instrumenter har kirurgen svært god kontroll. I bekkenet finnes ømfintlig vev som lett kan skades under kirurgi (f.eks. ved nervesparende operasjoner ved dyp endometriose eller fjerning av prostata). Robotassistert kirurgi gir bedre kontroll og lavere risiko ved slik nervedisseksjon. Ergonomi: Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling, noe som bidrar til økt konsentrasjon og mindre utmattelse.",
+      },
+      {
+        id: "safe-histology-surgery",
+        heading: "Safe Histology Surgery (UTKAST – til godkjenning)",
+        content: "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling.",
       },
     ],
     relatedSpecialists: ["thomas-fredrik-thaulow"],
     faqs: [
       { question: "Hvilke inngrep utføres med robot?", answer: "Vi bruker robot til fjerning av muskelknuter, dyp endometriose, hysterektomi og enkelte andre komplekse inngrep." },
-      { question: "Er robotkirurgi trygt?", answer: "Ja, robotkirurgi er vel dokumentert internasjonalt og gir ofte bedre resultater enn tradisjonelle metoder." },
+      { question: "Er robotassistert kirurgi trygt?", answer: "Ja, robotassistert kirurgi er vel dokumentert internasjonalt og gir ofte bedre resultater enn tradisjonelle metoder." },
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
@@ -662,7 +667,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
     heroImage: urologiImg,
-    description: "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robot-teknologi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep.",
+    description: "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robotassistert kirurgi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep – inkludert nefrektomi (fjerning av nyre).",
     sections: [
       {
         id: "nyrecyster",
@@ -675,14 +680,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
         content: "En nyretumor er en unormal vekst av celler i nyrene. De kan være enten godartede eller ondartede. Ondartede nyretumorer, som nyrekreft eller nyrekarsinom, utgjør en alvorlig helsefare. Nyretumorer kan utvikle seg i en eller begge nyrer og oppdages vanligvis ved bildeundersøkelser som røntgen eller ultralyd.\n\nBehandlingen av nyretumorer avhenger av flere faktorer, inkludert tumorstørrelse, type og utbredelse. Vanlige behandlingsalternativer inkluderer kirurgisk fjerning av tumoren, strålebehandling, kjemoterapi, målrettet terapi og immunterapi.\n\nDet er viktig å kontakte lege ved mistanke om en nyretumor for å få riktig diagnose og behandlingsplan. Tidlig påvisning og behandling kan være avgjørende for prognosen.",
       },
       {
-        id: "robotkirurgi-nyrekreft",
-        heading: "Robotkirurgi for nyrekreft",
-        content: "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotkirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotkirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene. Det er viktig å merke seg at ikke alle pasienter er kandidater for robotkirurgi, og kirurgen vil vurdere den beste tilnærmingen basert på pasientens individuelle forhold.\n\nRobotkirurgi har blitt en verdifull behandlingsmetode for nyrekreft som gir gode resultater og forbedret livskvalitet for pasientene.\n\nHar du spørsmål knyttet til dette kan du kontakte oss på telefon.",
+        id: "nefrektomi",
+        heading: "Nefrektomi – fjerning av nyre",
+        content: "Nefrektomi betyr kirurgisk fjerning av hele eller deler av en nyre. Inngrepet er ikke nødvendigvis knyttet til nyrekreft – det kan også være aktuelt ved blant annet store eller symptomgivende nyrecyster, alvorlig skade på nyren, gjentatte infeksjoner, hydronefrose med tap av nyrefunksjon, eller godartede tumorer som krever fjerning.\n\nHos oss utføres nefrektomi i hovedsak med robotassistert kirurgi. Det gir presisjon, små snitt, mindre blødning og raskere rekonvalesens enn tradisjonell åpen kirurgi. Ved enkelte tilfeller kan kirurgen velge å bevare så mye friskt nyrevev som mulig (partiell nefrektomi).\n\nHar du spørsmål rundt nefrektomi eller ønsker en vurdering, ta kontakt med oss.",
       },
       {
-        id: "nyrestein",
-        heading: "Nyrestein",
-        content: "Nyrestein, også kjent som nefrolithiasis, er små, faste formasjoner som dannes i nyrene når mineraler og salter i urinen krystalliserer. Disse steinene kan forårsake betydelig smerte når de beveger seg gjennom urinveiene.\n\nSymptomer på nyrestein kan være intense ryggsmerter, smerte i siden eller magen, hyppig vannlating, blod i urinen, og kvalme. De fleste nyresteiner er små nok til å passere naturlig, men i noen tilfeller kan de kreve medisinsk behandling.\n\nBehandlingen av nyrestein kan omfatte smertestillende medisiner, endringer i kostholdet, økt væskeinntak for å hjelpe steinene å passere, eller medisinske prosedyrer som knusing av steinene med sjokkbølger (ekstrakorporeal sjokkbølgeterapi) eller kirurgisk inngrep for å fjerne større steiner. Hvis du opplever symptomer på nyrestein, bør du søke medisinsk hjelp for riktig diagnose og behandlingsplan.",
+        id: "robotassistert-kirurgi-nyrekreft",
+        heading: "Robotassistert kirurgi for nyrekreft",
+        content: "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotassistert kirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotassistert kirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene. Det er viktig å merke seg at ikke alle pasienter er kandidater for robotassistert kirurgi, og kirurgen vil vurdere den beste tilnærmingen basert på pasientens individuelle forhold.\n\nHar du spørsmål knyttet til dette kan du kontakte oss på telefon.",
+      },
+      {
+        id: "blaerestein",
+        heading: "Blærestein",
+        content: "CMedical behandler ikke nyrestein, men vi tilbyr utredning og behandling av blærestein. Blærestein er harde formasjoner som dannes i urinblæren, ofte som følge av at urin blir stående og at avfallsstoffer krystalliseres. Tilstanden ses oftere hos menn, og henger gjerne sammen med forstørret prostata, dårlig blæretømming eller gjentatte urinveisinfeksjoner.\n\nVanlige symptomer kan være smerter eller svie ved vannlating, hyppig vannlating, plutselig avbrutt urinstråle, blod i urinen og smerter nederst i magen.\n\nUtredning gjøres med urinprøve, ultralyd og eventuelt cystoskopi (kikkertundersøkelse av blæren). Behandlingen avhenger av størrelse og årsak – små steiner kan av og til passere av seg selv, mens større steiner fjernes ved et kirurgisk inngrep gjennom urinrøret. Samtidig er det viktig å behandle den underliggende årsaken, for eksempel forstørret prostata, for å unngå nye steiner.\n\nMistenker du blærestein, ta kontakt med oss for en vurdering hos urolog.",
       },
     ],
     relatedSpecialists: ["nabeel-yousaf-khan"],
@@ -769,12 +779,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "om-robotassistert-kirurgi",
         heading: "Slik fungerer robotassistert kirurgi",
-        content: "Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nRobotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.\n\nRobotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)\n\nHos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.\n\nLurer du på om robotkirurgi er riktig for deg? Vi hjelper deg gjerne, kontakt oss på telefon 22 60 00 50.",
+        content: "Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nRobotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.\n\nRobotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)\n\nHos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.\n\nLurer du på om robotassistert kirurgi er riktig for deg? Vi hjelper deg gjerne, kontakt oss på telefon 22 60 00 50.",
       },
       {
         id: "rask-rehabilitering",
         heading: "Rask rehabilitering",
-        content: "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.",
+        content: "Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.",
       },
       {
         id: "raskere-restitusjon",
@@ -784,17 +794,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "kortere-sykemelding",
         heading: "Kortere sykemelding – raskere tilbake til hverdagen",
-        content: "Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen. Noen studier indikerer også mindre smerter etter robotkirurgi sammenlignet med vanlig kikkehullskirurgi (laparoskopi).",
+        content: "Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–6 uker. Kirurgen spesifiserer perioden per pasient. Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen. Noen studier indikerer også mindre smerter etter robotassistert kirurgi sammenlignet med vanlig kikkehullskirurgi (laparoskopi).",
       },
       {
         id: "presisjon",
         heading: "Presisjon som merkes",
-        content: "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata. Nerveskader i bekkenet kan gi seksuelle dysfunksjoner og problemer med blæretømming, både hos kvinner og menn. Robotkirurgi gir bedre kontroll og er et effektivt verktøy for å gjennomføre slik nervedisseksjon med lavere risiko.",
+        content: "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata. Nerveskader i bekkenet kan gi seksuelle dysfunksjoner og problemer med blæretømming, både hos kvinner og menn. Robotassistert kirurgi gir bedre kontroll og er et effektivt verktøy for å gjennomføre slik nervedisseksjon med lavere risiko.",
       },
       {
         id: "ergonomi",
         heading: "Ergonomi – også for kirurgen",
-        content: "Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.",
+        content: "Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.",
+      },
+      {
+        id: "safe-histology-surgery",
+        heading: "Safe Histology Surgery (UTKAST – til godkjenning)",
+        content: "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling.",
       },
     ],
 
@@ -1478,22 +1493,28 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "rask-rehabilitering",
         heading: "Rask rehabilitering",
-        content: "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen."
+        content: "Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–6 uker. Kirurgen spesifiserer perioden per pasient. Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen."
       },
       {
         id: "presisjon",
         heading: "Presisjon som merkes",
-        content: "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata.\n\n**Ergonomi – også for kirurgen:** Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.\n\n**Erfarne spesialister – trygg behandling:** Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen."
+        content: "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata.\n\n**Ergonomi – også for kirurgen:** Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.\n\n**Erfarne spesialister – trygg behandling:** Robotassistert kirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen."
+      },
+      {
+        id: "safe-histology-surgery",
+        heading: "Safe Histology Surgery (UTKAST – til godkjenning)",
+        content: "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling.",
       },
     ],
     benefits: [
-      "Eneste private aktør med robotkirurgi i Norge",
+      "Eneste private aktør med robotassistert kirurgi i Norge",
       "da Vinci-systemet for maksimal presisjon",
       "Brukes innen gynekologi, urologi og gastrokirurgi",
       "Kortere sykehusopphold – hjem innen ett døgn",
-      "Sykemeldingsperiode på kun 2–3 uker",
+      "Sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient)",
       "Erfarne kirurger med høyt volum",
     ],
+    relatedSpecialists: ["bjorn-brennhovd", "nicolai-wessel", "thomas-fredrik-thaulow"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
       { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
