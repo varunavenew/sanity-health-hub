@@ -216,12 +216,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Vaginalt fremfall, også kjent som prolaps, er en tilstand der organer som livmoren, blæren eller endetarmen faller ned fra deres vanlige posisjon og presser inn i skjeden. Dette skjer vanligvis på grunn av svekkelse av bekkenbunnsmuskulaturen og støttevev, som kan være forårsaket av faktorer som graviditet, fødsel, aldring eller kirurgiske inngrep.",
+    description: "Vaginalt fremfall, også kjent som prolaps, innebærer at skjedens fremre eller bakre vegg, eller livmor/livmorhals, buker ned i skjeden eller ut av skjedeinngangen. Dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
     sections: [
       {
         id: "behandling",
         heading: "Behandling",
-        content: "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.\n\nHos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
+        content: "Behandlingen avhenger av alvorlighetsgraden og symptomene, og kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering hvis man opplever symptomer på vaginalt fremfall. Hos oss møter du noen av Nordens fremste eksperter på fremfall.",
       },
     ],
     relatedSpecialists: ["madeleine-engen"],
@@ -499,6 +499,13 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Behandling av muskelknuter, dyp endometriose og hysterektomi",
       "Mindre smerter og kortere rekonvalesens",
       "Høyt volum – erfarne kirurger med dokumentert kvalitet",
+    ],
+    sections: [
+      {
+        id: "robotkirurgi",
+        heading: "Robotassistert kirurgi",
+        content: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde. Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning. Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner. De fleste pasientene kan reise hjem innen ett døgn. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ. Vi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP). Rask rehabilitering: Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling. En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Kortere sykemelding: Avhengig av jobb og inngrep kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen. Presisjon som merkes: Med høyoppløselig 3D-kamera og avanserte instrumenter har kirurgen svært god kontroll. I bekkenet finnes ømfintlig vev som lett kan skades under kirurgi (f.eks. ved nervesparende operasjoner ved dyp endometriose eller fjerning av prostata). Robotkirurgi gir bedre kontroll og lavere risiko ved slik nervedisseksjon. Ergonomi: Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling, noe som bidrar til økt konsentrasjon og mindre utmattelse.",
+      },
     ],
     relatedSpecialists: ["thomas-fredrik-thaulow"],
     faqs: [
