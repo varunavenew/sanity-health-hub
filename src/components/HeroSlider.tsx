@@ -10,7 +10,7 @@ const slides = [
  {
  id: 1,
  image: heroImage1,
- title: "Skandinavias ledende helhetskonsept",
+ title: "Nordens ledende helhetskonsept",
  subtitle: "Innen gynekologi, fertilitet og urologi",
  description: "Ledende spesialister · Kort ventetid · Ingen henvisning",
  },

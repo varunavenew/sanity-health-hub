@@ -80,7 +80,7 @@ export const TreatmentShowcase = () => {
             Våre spesialområder
           </h2>
           <p className="text-sm text-muted-foreground font-light leading-relaxed">
-            CMedical er Skandinavias ledende helhetskonsept innen gynekologi, fertilitet og urologi. 
+            CMedical er Nordens ledende helhetskonsept innen gynekologi, fertilitet og urologi. 
             Vi kombinerer medisinsk ekspertise med omsorgsfull behandling.
           </p>
         </div>

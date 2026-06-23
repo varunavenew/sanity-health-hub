@@ -48,7 +48,7 @@ export const ExpertiseSection = () => {
                 Ekspertise du kan stole på
               </h2>
               <p className="text-base text-muted-foreground font-light leading-relaxed">
-                CMedical er Skandinavias største private aktør innen gynekologi, fertilitet og urologi. 
+                CMedical er Nordens største private aktør innen gynekologi, fertilitet og urologi. 
                 Siden oppstarten har vi hjulpet over 25 000 pasienter med høy kvalitet og personlig omsorg.
               </p>
             </div>
