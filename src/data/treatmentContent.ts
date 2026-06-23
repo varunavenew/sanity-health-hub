@@ -1813,8 +1813,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
     linkedServices: [
       { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
-      { label: "IVF", description: "Vår hovedside om assistert befruktning og IVF.", path: "/behandlinger/fertilitet/ivf" },
-      { label: "Nedfrysing", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/nedfrysing" },
+      { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+      { label: "Eggfrys", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/eggfrys" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
