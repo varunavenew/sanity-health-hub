@@ -39,7 +39,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
 
   // Always keep the curated 6-card list and motif selection on the homepage.
   // Sanity titles/paths still override per-slug, but the image + order are locked.
-  const overrideById = new Map(
+  const overrideById = new Map<string, any>(
     (homepage?.categoryCards || []).map((c: any) => [c.id, c])
   );
   const serviceCategories = staticCategories.map((c) => {
