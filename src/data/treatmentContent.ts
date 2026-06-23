@@ -949,53 +949,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  "fertilitet/ivf": {
-    title: "IVF - Utredning og behandlingsprosess",
-    subtitle: "Uten henvisning • Ingen ventetid",
-    parentCategory: "Fertilitet",
-    heroImage: fertilitetImg,
-    description: "IVF står for in vitro-fertilisering, også kalt prøverørsbehandling. IVF er en form for assistert befruktning der egget blir befruktet utenfor kroppen.\n\nDet er mange som synes dette virker komplisert og vanskelig. Derfor har vi lav terskel for at du kan ta kontakt og få svar på dine spørsmål. Hos oss vil du alltid få grundig informasjon og oppfølging.",
-    sections: [
-      {
-        id: "forste-motet",
-        heading: "Det første møtet",
-        content: "Hos oss skal du føle deg trygg og godt ivaretatt fra første møte. Vi vil skape rom for en god samtale om dine tanker og ønsker for behandlingen. Etter den første samtalen, er neste steg en grundig fertilitetssjekk av deg, og/eller din partner.\n\n**Fertilitetssjekk i tre steg:**\n- **Kvinner:** Grundig gynekologisk undersøkelse med innvendig ultralyd. Vi sjekker at alt ser bra ut i livmoren og eggstokkene.\n- **Menn:** Sædanalyse der vi sjekker antall spermier, konsentrasjon og bevegelighet.\n- **Blodprøver:** Vi tar blodprøver for å avdekke sykdommer som hepatitt B og C, syfilis og HIV/AIDS. For kvinner kan vi også måle hormoner og eggreserver.",
-      },
-      {
-        id: "hvem-kan-benytte",
-        heading: "Hvem kan benytte IVF?",
-        content: "Heterofile, lesbiske par og enslige kvinner kan benytte IVF-behandling. IVF kan tilbys både når det er problemer med kvinnelig og/eller mannlig infertilitet. Vi har ikke en absolutt øvre aldersgrense for mannen, dette vurderes individuelt.\n\nØvre aldersgrense for kvinnen ved inseminasjon eller innsetting av befruktet egg er satt av Bioteknologiloven, og kan ikke være eldre enn fylte 46 år.",
-      },
-      {
-        id: "hvordan-foregaar",
-        heading: "Hvordan foregår IVF?",
-        content: "IVF-behandling gjøres med en regulering av hormoner, samt en stimuleringsprosess for å modne flere egg.\n\n**I hovedtrekk kan vi dele IVF-behandling inn i åtte ulike faser:**\n1. Fertilitetssjekk\n2. Hormonstimulering\n3. Ultralyd\n4. Egguthenting\n5. Prøverørsbefruktning\n6. Tilbakesetting\n7. Ventetiden mellom innsett og graviditetstest\n8. Graviditetstest",
-      },
-      {
-        id: "forste-faser",
-        heading: "De første fasene ved IVF-behandling",
-        content: "Neste steg i IVF-behandlingen er hormonstimulering. Ved hormonstimulering vil flere egg modne i løpet av en syklus, slik at sjansen for å bli gravid økes. Eggene hentes ut ved et lite inngrep som gjøres med lokalbedøvelse.\n\nNår stimuleringen nærmer seg ferdig, vil du få time til en innvendig ultralyd. Her vil vi undersøke om slimhinnen i livmoren samt antall og størrelsen av folliklene er slik vi ønsker.",
-      },
-      {
-        id: "egguthenting",
-        heading: "Egguthenting",
-        content: "Når det er tid for å gjøre en egguthenting vil vi ta dere godt imot, og gi dere all den informasjonen dere trenger for resten av dagen. Dere vil også få tildelt et eget rom hvor dere kan hvile både før og etter egguttak. Et egguttak vil normalt sett ta 15–25 minutter.\n\nVi ringer dere med resultatene av befruktningen dagen etter uttaket og avtaler time for innsett dersom det er mulig.",
-      },
-      {
-        id: "emosjonell-prosess",
-        heading: "En emosjonell prosess",
-        content: "Vi har stor forståelse for at det er mange følelser som spiller inn, og vi ønsker å være en støttespiller for deg og dere. Å starte en IVF-behandling kan for noen oppleves som tøft, mens for andre kan det oppfattes som en lettelse over at noe endelig skjer.\n\nSom et ledd i arbeidet med at du skal føle deg trygg og ivaretatt vil vi etterstrebe at du får møte en fast sykepleier og fertilitetslege ved dine besøk hos oss.",
-      },
-    ],
-    relatedSpecialists: ["kristian-ophaug"],
-    faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
+  // "fertilitet/ivf" fjernet — IVF er nå et avsnitt inne på "Assistert befruktning".
   "fertilitet/eggfrys": {
     title: "Eggfrys",
     subtitle: "Uten henvisning • Ingen ventetid",
@@ -1859,8 +1813,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
     linkedServices: [
       { label: "Fertilitetsutredning", description: "Grundig kartlegging av fertiliteten — et trygt første steg.", path: "/behandlinger/fertilitet/fertilitetsutredning" },
-      { label: "IVF", description: "Vår hovedside om assistert befruktning og IVF.", path: "/behandlinger/fertilitet/ivf" },
-      { label: "Nedfrysing", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/nedfrysing" },
+      { label: "Assistert befruktning", description: "IVF, ICSI og IUI — vår hovedside om assistert befruktning.", path: "/behandlinger/fertilitet/assistert-befruktning" },
+      { label: "Eggfrys", description: "Bevar muligheten for graviditet senere i livet.", path: "/behandlinger/fertilitet/eggfrys" },
     ],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
