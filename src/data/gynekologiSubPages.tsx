@@ -1125,7 +1125,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Hysteroskopi", desc: "Aktuelt som del av utredning ved gjentatte spontanaborter.", href: "/behandlinger/gynekologi/hysteroskopi" },
-      { title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig-team" },
+      { title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig" },
       { title: "Graviditet", desc: "Tett oppfølging i neste svangerskap.", href: "/behandlinger/gynekologi/graviditet" },
     ],
     ctaTitle: "Bestill oppfølging",
