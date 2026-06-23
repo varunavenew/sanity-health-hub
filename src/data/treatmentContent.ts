@@ -1196,7 +1196,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
     description: "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to — i såkalte «to-spann» — slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
-    relatedSpecialists: ["jan-ragnar-haugstvedt", "istvan-zoltan-rigo", "endre-soreide", "sondre-hassellund", "lars-eldar-myrseth"],
+    // Hånd/albue-spesialister: navn ikke bekreftet ennå – «Vår spesialist»-boks står klar uten navn.
+    relatedSpecialists: [],
     sections: [
       {
         id: "tennisalbue",

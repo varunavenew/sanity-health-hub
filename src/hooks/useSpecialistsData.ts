@@ -16,22 +16,29 @@ export type { Specialist };
 export const useSpecialistsData = () => {
   const { data: sanityData, isLoading, isError } = useSpecialists();
 
-  const specialists: Specialist[] =
-    sanityData && sanityData.length > 0
-      ? sanityData.map((s) => ({
-          name: s.name,
-          title: s.title,
-          subtitle: s.subtitle,
-          expertise: s.expertise,
-          image: s.image,
-          category: s.category as Specialist["category"],
-          slug: s.slug,
-          bio: s.bio,
-          education: s.education,
-          languages: s.languages,
-          clinics: s.clinics,
-        }))
-      : staticSpecialists;
+  // Only use Sanity specialists if they actually have categories populated.
+  // Otherwise the filter (category + clinic) gets matched against empty values
+  // and the result is "all" or "none" depending on the active filter — never correct.
+  const sanityUsable =
+    sanityData &&
+    sanityData.length > 0 &&
+    sanityData.some((s) => typeof s.category === "string" && s.category.trim() !== "");
+
+  const specialists: Specialist[] = sanityUsable
+    ? sanityData!.map((s) => ({
+        name: s.name,
+        title: s.title,
+        subtitle: s.subtitle,
+        expertise: s.expertise,
+        image: s.image,
+        category: s.category as Specialist["category"],
+        slug: s.slug,
+        bio: s.bio,
+        education: s.education,
+        languages: s.languages,
+        clinics: s.clinics,
+      }))
+    : staticSpecialists;
 
   const sorted = [...specialists].sort((a, b) =>
     a.name.toLowerCase().localeCompare(b.name.toLowerCase(), "nb")
@@ -58,7 +65,7 @@ export const useSpecialistsData = () => {
     findBySlug,
     isLoading,
     isError,
-    isSanity: !!(sanityData && sanityData.length > 0),
+    isSanity: !!sanityUsable,
   };
 };
 
