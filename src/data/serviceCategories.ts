@@ -153,7 +153,7 @@ export const serviceCategories: ServiceCategory[] = [
         label: 'Gastrokirurgi',
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
-          { label: 'Bariatrisk kirurgi', path: '/behandlinger/flere-fagomrader/overvektskirurgi' },
+          { label: 'Bariatrisk kirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi' },
           { label: 'Sleeve gastrektomi', path: '/behandlinger/flere-fagomrader/sleeve-gastrektomi' },
         ],
       },
