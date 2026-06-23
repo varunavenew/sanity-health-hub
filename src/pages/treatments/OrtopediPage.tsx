@@ -16,6 +16,7 @@ import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { TagList } from "@/components/treatments/TagList";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 import expertSkulder from "@/assets/hero/hero-treatment.jpg";
