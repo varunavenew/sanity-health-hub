@@ -85,7 +85,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Trygg og grundig undersøkelse hos erfarne gynekologer.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "En gynekologisk undersøkelse er en viktig del av kvinners forebyggende helsearbeid. Hos CMedical utfører vi grundige undersøkelser i trygge omgivelser med erfarne gynekologer.\n\nVi anbefaler regelmessige gynekologiske kontroller for å forebygge og oppdage eventuelle tilstander tidlig. Undersøkelsen tilpasses dine behov og bekymringer.",
+    description: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger – fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best. Hos oss kan du bestille rutinesjekk eller konsultasjon til annen gynekologisk utredning.",
     benefits: [
       "Erfarne gynekologer med lang klinisk erfaring",
       "Moderne utstyr og fasiliteter",
