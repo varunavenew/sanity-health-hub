@@ -206,15 +206,55 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Nedfrysing og lagring", desc: "Eggene fryses ned med vitrifikasjon og lagres trygt på klinikken." },
       { n: "Steg 05", title: "Bruk når du er klar", desc: "Når du ønsker å bli gravid, tiner vi eggene og gjennomfører IVF." },
     ],
-    reasonsTitle: "Hvem velger å fryse ned egg?",
+    reasonsTitle: "Nedfrysning av egg",
     reasonsLead:
-      "Det finnes mange gode grunner til å fryse ned egg. Det viktigste er at du tar valget basert på riktig informasjon — ikke press.",
+      "Dersom du ønsker å utsette graviditet, kan nedfrysning av egg være et alternativ. Ved å fryse ned egg mens fertiliteten er god, bevarer du muligheten til å bruke disse senere. Eggene hentes ut og fryses ned ubefruktet ved vitrifisering. De kan senere tines, befruktes (ICSI) med sæd fra partner eller donor, og dyrkes til blastocyst. Nedfrysning er ingen garanti for fremtidig graviditet, men kan øke muligheten for å få barn senere.",
+    reasonsLayout: "accordion",
     reasons: [
-      { n: "01", title: "Du er ikke klar for barn ennå", desc: "Karriere, livssituasjon eller partner — ulike grunner, samme behov for tid." },
-      { n: "02", title: "Lav eggstokkreserve i ung alder", desc: "Hvis sjekken viser at fertilitetsvinduet er kortere enn forventet." },
-      { n: "03", title: "Før kreftbehandling", desc: "Cellegift kan redusere fruktbarhet — nedfrysing før behandling beskytter mulighetene." },
-      { n: "04", title: "Genetiske eller medisinske årsaker", desc: "Tilstander som tidlig overgangsalder eller endometriose." },
-      { n: "05", title: "Som del av en IVF-behandling", desc: "Overskuddsembryo og sæd lagres ofte for senere bruk." },
+      {
+        n: "01",
+        title: "Hvem kan fryse ned egg?",
+        desc: (
+          <>
+            <p>Mange velger det fordi de ønsker å utsette graviditet (livssituasjon, mangel på partner, utdanning, karriere m.m.). Det kan også være aktuelt av medisinske årsaker, for eksempel:</p>
+            <ul>
+              <li>endometriose</li>
+              <li>planlagt behandling med cellegift eller strålebehandling</li>
+              <li>genetiske tilstander som kan gi tidlig redusert eggstokkfunksjon</li>
+              <li>andre medisinske tilstander som kan påvirke fertiliteten</li>
+            </ul>
+            <p>Om behandlingen er aktuell vurderes individuelt etter en fertilitetsutredning.</p>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Når er det best å fryse ned egg?",
+        desc: "Alder er den viktigste faktoren. Både antall og kvalitet på eggene reduseres med alderen, og de beste resultatene oppnås før fertiliteten avtar betydelig – for mange før 35–37-årsalderen. Vi gjør alltid en individuell vurdering basert på alder, eggstokkreserve og øvrige forhold.",
+      },
+      {
+        n: "03",
+        title: "Slik foregår behandlingen",
+        desc: (
+          <>
+            <p>Nedfrysning følger de samme første stegene som IVF:</p>
+            <ul>
+              <li>hormonstimulering med daglige sprøyter i omtrent 10–12 dager</li>
+              <li>ultralydkontroller for å følge utviklingen av folliklene</li>
+              <li>eggløsningssprøyte når eggene er modne</li>
+              <li>egguttak gjennom skjeden i lokalbedøvelse</li>
+              <li>vurdering av eggene i laboratoriet</li>
+              <li>modne egg fryses ned ved vitrifisering</li>
+            </ul>
+            <p>Eggene kan oppbevares i henhold til norsk lovgivning inntil kvinnen er 46 år.</p>
+          </>
+        ),
+      },
+      {
+        n: "04",
+        title: "Hvor mange egg bør fryses ned?",
+        desc: "Antallet varierer og avhenger særlig av alder ved nedfrysning. Generelt gir flere nedfryste egg større sannsynlighet for graviditet og fødsel senere. Under konsultasjonen gir vi en individuell vurdering ut fra alder og eggstokkreserve.",
+      },
     ],
     promises: standardPromises,
     related: [
@@ -260,15 +300,62 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Eventuell videre utredning", desc: "Ultralyd, hormonprøver eller henvisning til urolog ved behov." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Vi vurderer alt fra livsstilsendringer til IVF/ICSI eller mikro-TESE." },
     ],
-    reasonsTitle: "Når er det lurt å ta en sjekk?",
+    reasonsTitle: "Sædanalyse",
     reasonsLead:
-      "En sædanalyse er enkel, rask og gir konkrete svar. Det burde være en selvfølge når et par utreder fertilitet — ikke noe som kommer som siste utvei.",
+      "En sædanalyse er en enkel og viktig undersøkelse som gir informasjon om mannens fertilitet (antall sædceller, bevegelighet og form), og er ofte en del av den første fertilitetsutredningen. Prøven tas ved utløsning og analyseres i laboratoriet. Sædanalyse kan også være aktuelt dersom du ønsker å fryse ned sæd for fremtidig bruk.",
+    reasonsLayout: "accordion",
     reasons: [
-      { n: "01", title: "Dere har prøvd uten å bli gravide", desc: "Etter 6–12 måneder bør begge utredes — samtidig." },
-      { n: "02", title: "Du har hatt kvise, infeksjon eller skade", desc: "Tidligere testikkelproblemer kan påvirke fruktbarheten." },
-      { n: "03", title: "Du planlegger å bli forelder senere", desc: "En sjekk gir oversikt — og mulighet for nedfrysing om aktuelt." },
-      { n: "04", title: "Hormonelle symptomer", desc: "Lav energi, redusert libido eller endring i kroppen kan henge sammen." },
-      { n: "05", title: "Før kreftbehandling", desc: "Nedfrysing av sæd før cellegift eller stråling beskytter mulighetene dine." },
+      {
+        n: "01",
+        title: "Enkel sædanalyse",
+        desc: (
+          <>
+            <p>Gir en grunnleggende vurdering av sædkvaliteten, blant annet:</p>
+            <ul>
+              <li>sædvolum</li>
+              <li>konsentrasjon av sædceller</li>
+              <li>totalt antall sædceller</li>
+              <li>bevegelighet</li>
+              <li>morfologi (sædcellenes form)</li>
+            </ul>
+            <p>Sædkvaliteten kan variere over tid; ved enkelte funn kan det være aktuelt å gjenta undersøkelsen.</p>
+            <p><strong>Forberedelser:</strong></p>
+            <ul>
+              <li>omtrent 2 dagers seksuell avholdenhet før prøvetaking</li>
+              <li>vask penis med såpe og vann kvelden før</li>
+              <li>vask penis med vann på prøvedagen</li>
+              <li>unngå kremer, oljer, glidemiddel og spytt ved prøvetaking</li>
+            </ul>
+            <p>Prøven kan tas på klinikken eller hjemme. Tas den hjemme, må den leveres innen én time og oppbevares nær kroppstemperatur under transport.</p>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Utvidet sædanalyse",
+        desc: (
+          <>
+            <p>Gir mer detaljert informasjon om sædkvaliteten. Kan være aktuelt ved vedvarende redusert sædkvalitet, ved gjentatte mislykkede fertilitetsbehandlinger, ved gjentatte spontanaborter, eller ved behov for nærmere utredning av mannlig infertilitet.</p>
+            <p><strong>Forberedelser:</strong> samme hygienerutiner som ved vanlig sædanalyse. Prøven tas på klinikken og må avtales på forhånd.</p>
+          </>
+        ),
+      },
+      {
+        n: "03",
+        title: "Sædanalyse etter vasektomi eller refertilisering",
+        desc: "Etter vasektomi eller refertilisering anbefales kontrollprøve for å dokumentere resultatet, vanligvis omtrent tre måneder etter inngrepet. Er inngrepet utført hos CMedical, er kontrollprøven kostnadsfri.",
+      },
+      {
+        n: "04",
+        title: "Nedfrysning av sæd",
+        desc: (
+          <>
+            <p>Sæd kan fryses ned og oppbevares for fremtidig bruk, for eksempel før kreftbehandling eller annen medisinsk behandling som kan påvirke fertiliteten, før sterilisering, i forbindelse med kjønnsbekreftende behandling, eller ved andre forhold som kan påvirke fremtidig fertilitet.</p>
+            <p><strong>Forberedelser:</strong> Før nedfrysning tas blodprøver (HIV, Hepatitt B, Hepatitt C, Syfilis). Du får rekvisisjon og informasjon fra klinikken. Vanligvis 1–2 dagers seksuell avholdenhet før prøvetaking. Prøven tas på klinikken, og timen må avtales på forhånd.</p>
+            <p>Skal sædcellene brukes for å oppnå graviditet, må paret godkjennes for assistert befruktning og kvinnen gjennomgå IVF-behandling.</p>
+          </>
+        ),
+      },
     ],
     promises: standardPromises,
     related: [
@@ -315,15 +402,43 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Behandling", desc: "Inseminasjon, IVF eller partnerdonasjon — avhengig av hva som passer best." },
       { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
     ],
-    reasonsTitle: "Hvem passer donorbehandling for?",
+    reasonsTitle: "Donorbehandling",
     reasonsLead:
-      "Donorbehandling kan være riktig løsning når egne egg eller sæd ikke er et alternativ — eller når det er en sosial eller medisinsk grunn til å bruke donor.",
+      "Behandling med donor: For noen er behandling med donorsæd, donoregg eller partnerdonasjon en nødvendig del av veien til å få barn. Vi tilbyr behandling i henhold til norsk lovgivning og gir grundig informasjon og veiledning gjennom hele prosessen. Det norske regelverket kan oppleves komplisert – er du usikker, er du velkommen til å kontakte oss.",
+    reasonsLayout: "accordion",
     reasons: [
-      { n: "01", title: "Likekjønnede par", desc: "Partnerdonasjon eller IUI/IVF med donorsæd — dere velger sammen hva som passer best." },
-      { n: "02", title: "Single som ønsker barn", desc: "IUI med donorsæd er ofte det enkleste første steget når du ønsker barn på egen hånd." },
-      { n: "03", title: "Eggmangel eller redusert eggkvalitet", desc: "Donoregg kan være aktuelt når egne egg ikke gir resultat." },
-      { n: "04", title: "Nedsatt sædkvalitet eller azoospermi", desc: "Donorsæd kan brukes ved IUI eller IVF når partnerens sæd ikke er et alternativ." },
-      { n: "05", title: "Genetiske årsaker", desc: "Når dere ikke ønsker å overføre en arvelig sykdom." },
+      {
+        n: "01",
+        title: "Viktig å vite",
+        desc: "Norsk lov tillater behandling med enten donerte egg eller donorsæd. Samtidig bruk av både donerte egg og donorsæd (dobbeltdonasjon) er ikke tillatt. Dette innebærer blant annet at single kvinner ikke kan motta behandling med donoregg i Norge.",
+      },
+      {
+        n: "02",
+        title: "Partnerdonasjon",
+        desc: "Kan være aktuelt for kvinnelige par. Egg hentes fra den ene kvinnen, befruktes med donorsæd, dyrkes til blastocyst og fryses ned. Det befruktede egget kan senere settes inn i den andre kvinnens livmor. Partnerdonasjon ble tillatt i Norge fra 2021 og kan gjennomføres både på medisinsk og sosial indikasjon. Kun aktuelt for kvinner som er gift eller samboere i et stabilt parforhold.",
+      },
+      {
+        n: "03",
+        title: "Donorsæd",
+        desc: "Vi tilbyr behandling med donorsæd fra vår egen sædbank samt Cryos og European Sperm Bank. I Norge benyttes kun ikke-anonyme sæddonorer: donoren er anonym for mottakerne, men barnet har rett til opplysninger om donorens identitet fra fylte 15 år. Ved ønske om flere barn fra samme donor kan det være mulig å reservere sæd til framtidige søskenforsøk. Valg av donor gjennomgås med lege og sykepleier før behandlingsstart, og donorsæden må være mottatt ved klinikken før oppstart.",
+      },
+      {
+        n: "04",
+        title: "Donoregg",
+        desc: (
+          <>
+            <p>Eggdonasjon kan være aktuelt når graviditet med egne egg ikke er mulig eller sannsynligheten er svært lav. Vanlige årsaker:</p>
+            <ul>
+              <li>tidlig overgangsalder</li>
+              <li>svært redusert eggstokkreserve</li>
+              <li>manglende eggproduksjon</li>
+              <li>gjentatte IVF-forsøk uten tilfredsstillende resultat</li>
+              <li>arvelige tilstander som ikke ønskes videreført</li>
+            </ul>
+            <p>Ved eggdonasjon kommer eggene fra en donor, mens sædcellene kommer fra partner eller medmor. Barnet vil ikke være genetisk beslektet med kvinnen som mottar behandlingen, men hun gjennomgår selv graviditet og fødsel. I Norge kan eggdonasjon tilbys heterofile par, i tråd med bioteknologiloven og etter individuell vurdering.</p>
+          </>
+        ),
+      },
     ],
     promises: standardPromises,
     expertAreas: {
