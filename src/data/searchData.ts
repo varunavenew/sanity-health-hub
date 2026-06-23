@@ -31,12 +31,8 @@ export const searchItems: SearchItem[] = [
   { label: 'Graviditet og fostermedisin', path: '/behandlinger/graviditet', category: 'Fagområde', keywords: ['gravid', 'foster', 'svangerskap'] },
   { label: 'Ultralyd', path: '/behandlinger/graviditet/ultralyd', category: 'Graviditet', keywords: ['ultralyd', 'scanning'] },
   { label: 'NIPT', path: '/behandlinger/graviditet/nipt', category: 'Graviditet', keywords: ['nipt', 'fosterdiagnostikk', 'blodprøve'] },
-  { label: '6-ukerskontroll etter fødsel', path: '/behandlinger/graviditet/6-ukerskontroll', category: 'Graviditet', keywords: ['etterkontroll', 'barsel', 'fødsel'] },
-  { label: 'Traumatisk fødsel', path: '/behandlinger/graviditet/traumatisk-fodsel', category: 'Graviditet', keywords: ['fødselstrauma', 'fødsel'] },
-  { label: 'Fødselsangst', path: '/behandlinger/graviditet/fodselsangst', category: 'Graviditet', keywords: ['angst', 'fødsel', 'tokofob'] },
-  { label: 'For partnere', path: '/behandlinger/graviditet/for-partnere', category: 'Graviditet', keywords: ['partner', 'far', 'medforelder'] },
-  { label: 'Fostermedisin', path: '/behandlinger/graviditet/fostermedisin', category: 'Graviditet', keywords: ['foster', 'fosterdiagnostikk'] },
-  { label: 'Spontanabort', path: '/behandlinger/graviditet/spontanabort', category: 'Graviditet', keywords: ['abort', 'tidlig graviditet'] },
+  { label: 'Fostermedisin', path: '/behandlinger/graviditet/fosterdiagnostikk', category: 'Graviditet', keywords: ['foster', 'fosterdiagnostikk'] },
+  { label: 'Spontanabort', path: '/behandlinger/gynekologi/spontanabort', category: 'Gynekologi', keywords: ['abort', 'tidlig graviditet'] },
 
   // Urologi
   { label: 'Urologi', path: '/behandlinger/urologi', category: 'Fagområde', keywords: ['mann', 'urin', 'blære'] },
