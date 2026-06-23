@@ -1254,19 +1254,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
     description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
     sections: [
       {
-        id: "korsband",
-        heading: "Korsbåndskader",
-        content: "Korsbåndskader er en av de vanligste alvorlige idrettsskadene i kneet. Fremre korsbånd (ACL) skades ofte ved vridning av kneet under aktivitet — typisk i fotball, håndball og alpint. Skaden gir akutt smerte, hevelse og opplevelse av at kneet «svikter».\n\n**Utredning:** Klinisk undersøkelse kombinert med MR gir oss et godt grunnlag for å vurdere skaden og eventuelle tilleggsskader (menisk, leddbrusk, sidebånd).\n\n**Behandling:** For aktive pasienter og pasienter med ustabilt kne er rekonstruksjon av korsbåndet ofte aktuelt. Inngrepet gjøres som artroskopi (kikkhullskirurgi), der det skadede båndet erstattes med et seneautograft. Vi tilbyr også behandling av komplekse skader med rekonstruksjon av flere leddbånd."
+        id: "om-knebehandling",
+        heading: "Om knebehandling hos CMedical",
+        content: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid."
       },
       {
-        id: "menisk",
-        heading: "Meniskskader",
-        content: "Menisken er en støtdempende bruskskive mellom lårben og leggben. Skader oppstår ved vridning, fall eller gradvis slitasje. Symptomene er smerter ved bøy og vridning, hevelse, og av og til en låsende eller knepende følelse i kneet.\n\n**Behandling:** Der det er mulig forsøker vi alltid å reparere menisken fremfor å fjerne vev — særlig hos yngre pasienter. Reparasjonen gjøres artroskopisk. Ved skader som ikke kan repareres fjernes kun det skadede vevet, slik at mest mulig av menisken bevares.\n\nMålet er å bevare leddet og redusere risikoen for senere slitasje."
+        id: "bruskskader",
+        heading: "Bruskskader i kneet",
+        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet. Artrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50-åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd."
       },
       {
-        id: "andre-knetilstander",
-        heading: "Andre knetilstander vi behandler",
-        content: "I tillegg til korsbånd og menisk behandler vi blant annet sidebåndskader, patellaluksasjon, fokale bruskskader og frie legemer i kneet. Vi tilbyr ikke protesekirurgi — pasienter med langtkommen artrose henvises videre ved behov."
+        id: "symptomer",
+        heading: "Symptomer og problemer",
+        content: "Sliter du med bruskskader i kneet? Symptomer inkluderer smerter ved aktivitet, hevelse og stivhet (dette skyldes ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
       },
     ],
     relatedSpecialists: ["marc-jacob-strauss"],
