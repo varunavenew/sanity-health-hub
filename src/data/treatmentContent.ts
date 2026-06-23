@@ -1200,14 +1200,9 @@ export const treatmentContent: Record<string, TreatmentData> = {
     description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
     sections: [
       {
-        id: "avanserte-inngrep",
-        heading: "Avanserte hofteinngrep",
-        content: "I tillegg til vanlig hofteartroskopi tilbyr vi mer avanserte prosedyrer for pasienter med komplekse plager. Dette inkluderer blant annet:\n\n- **Tenodese av iliopsoas-/psoassenen** ved snapping hip og senerelaterte smerter\n- **Reinsertering og reparasjon av leddleppen (labrum)**\n- **Behandling av FAI (femoroacetabulær impingement)** med rekonturering av lårhalsen\n- **Bruskbehandling** ved fokale skader i hofteleddet\n\nValg av metode tilpasses individuelt etter grundig utredning og bildediagnostikk."
-      },
-      {
-        id: "for-aktive-pasienter",
-        heading: "For yngre, aktive pasienter",
-        content: "Pasientgruppen vår på hofte er i hovedsak yngre og aktive — ofte idrettsutøvere på mosjonist- og elitenivå som har fått idrettsskader i hoften. Målet med behandlingen er å bevare leddet, redusere smerte og få deg trygt tilbake til den aktiviteten du driver med."
+        id: "hofteskopi",
+        heading: "Hofteskopi — kikkhullsoperasjon av hofteleddet",
+        content: "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfelle repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. Mindre skader kan også føre til behov for hofteprotese på sikt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker."
       },
     ],
     relatedSpecialists: ["kristian-marstrand-warholm"],
@@ -1259,19 +1254,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
     description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
     sections: [
       {
-        id: "korsband",
-        heading: "Korsbåndskader",
-        content: "Korsbåndskader er en av de vanligste alvorlige idrettsskadene i kneet. Fremre korsbånd (ACL) skades ofte ved vridning av kneet under aktivitet — typisk i fotball, håndball og alpint. Skaden gir akutt smerte, hevelse og opplevelse av at kneet «svikter».\n\n**Utredning:** Klinisk undersøkelse kombinert med MR gir oss et godt grunnlag for å vurdere skaden og eventuelle tilleggsskader (menisk, leddbrusk, sidebånd).\n\n**Behandling:** For aktive pasienter og pasienter med ustabilt kne er rekonstruksjon av korsbåndet ofte aktuelt. Inngrepet gjøres som artroskopi (kikkhullskirurgi), der det skadede båndet erstattes med et seneautograft. Vi tilbyr også behandling av komplekse skader med rekonstruksjon av flere leddbånd."
+        id: "om-knebehandling",
+        heading: "Om knebehandling hos CMedical",
+        content: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid."
       },
       {
-        id: "menisk",
-        heading: "Meniskskader",
-        content: "Menisken er en støtdempende bruskskive mellom lårben og leggben. Skader oppstår ved vridning, fall eller gradvis slitasje. Symptomene er smerter ved bøy og vridning, hevelse, og av og til en låsende eller knepende følelse i kneet.\n\n**Behandling:** Der det er mulig forsøker vi alltid å reparere menisken fremfor å fjerne vev — særlig hos yngre pasienter. Reparasjonen gjøres artroskopisk. Ved skader som ikke kan repareres fjernes kun det skadede vevet, slik at mest mulig av menisken bevares.\n\nMålet er å bevare leddet og redusere risikoen for senere slitasje."
+        id: "bruskskader",
+        heading: "Bruskskader i kneet",
+        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet. Artrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50-åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd."
       },
       {
-        id: "andre-knetilstander",
-        heading: "Andre knetilstander vi behandler",
-        content: "I tillegg til korsbånd og menisk behandler vi blant annet sidebåndskader, patellaluksasjon, fokale bruskskader og frie legemer i kneet. Vi tilbyr ikke protesekirurgi — pasienter med langtkommen artrose henvises videre ved behov."
+        id: "symptomer",
+        heading: "Symptomer og problemer",
+        content: "Sliter du med bruskskader i kneet? Symptomer inkluderer smerter ved aktivitet, hevelse og stivhet (dette skyldes ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
       },
     ],
     relatedSpecialists: ["marc-jacob-strauss"],
@@ -1292,18 +1287,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     sections: [
       {
         id: "kalkskulder",
-        heading: "Kalkskulder",
-        content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen.\n\nOfte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig, dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
+        heading: "Skulderperitendinitt eller kalkskulder",
+        content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen. Ofte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig, hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
       },
       {
         id: "slap",
-        heading: "SLAP",
-        content: "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomy)."
+        heading: "Hva er SLAP-lesjon og SLAP-skader?",
+        content: "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer på SLAP-lesjon og skader:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon av SLAP-lesjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomi)."
       },
       {
         id: "frozen-shoulder",
         heading: "Frozen shoulder",
-        content: "Frozen shoulder er en betennelse i leddhinnen i skulderleddet. Det er en smertefull tilstand hvor man opplever smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten gjennom å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
+        content: "En betennelse i leddhinnen i skulderleddet. En smertefull tilstand med smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet, og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten ved å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
       },
     ],
     relatedSpecialists: ["tom-henry-sundoen"],
