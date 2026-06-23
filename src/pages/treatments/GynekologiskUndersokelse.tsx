@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 interface PageProps {
  isChatOpen: boolean;
