@@ -175,7 +175,7 @@ const SUB_ALIAS: Record<string, string> = {
   "flere-fagomrader/hudpleieprodukter": "hudhelse",
   "flere-fagomrader/sleeve-gastrektomi": "overvektskirurgi",
   // fertilitet
-  "fertilitet/par-og-single": "assistert-befruktning",
+  "fertilitet/assistert-befruktning-for-par-og-single": "assistert-befruktning",
   "fertilitet/assistert-befruktning-par-single": "assistert-befruktning",
 };
 
