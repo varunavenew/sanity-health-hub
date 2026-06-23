@@ -310,6 +310,8 @@ const RelatedBlock = ({
     </>
   );
 };
+
+export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
  document.title = `${c.title} | CMedical`;
  }, [c.title]);
