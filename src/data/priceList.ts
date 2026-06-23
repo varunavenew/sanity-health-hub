@@ -126,7 +126,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Assistert befruktning',
-        path: '/behandlinger/fertilitet/ivf',
+        path: '/behandlinger/fertilitet/assistert-befruktning',
         items: [
           { name: "IVF 1 forsøk", price: "46.000,-", duration: "", info: "Inkluderer alle relevante ultralydundersøkelser, embryodyrkning til blastocyst i embryoscop og første graviditetsultralyd. Dersom ikke befruktning og/eller ingen tilbakesetting av embryo er prisen som en IVF-behandling. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen.", requiresConsultation: true },
           { name: "IVF-pakke 3 forsøk, under 39 år", price: "92.000,-", duration: "", info: "Betaling må skje før første behandling igangsettes. Forventet normal eggstokkrespons ved igangsetting. Inkluderer inntil 3 egguthentingsforsøk, alle relevante ultralydundersøkelser og embryodyrkning i embryoscop. ICSI (mikroinjeksjon), nedfrysing av blastocyst og TESA/PESA inngår ikke i pakkeavtalen.", requiresConsultation: true },
@@ -160,7 +160,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Sædanalyse og mannlig infertilitet',
-        path: '/behandlinger/fertilitet/mannlig-fertilitet',
+        path: '/behandlinger/fertilitet/saedanalyse',
         items: [
           { name: "Enkel sædanalyse", price: "1.950,-", duration: "", info: "Det anbefales å ha en ejakulasjon 2–5 dager før sædprøven leveres for optimal enkel sædanalyse. Prøven kan medbringes hjemmefra og må leveres CMedical innen 60 min. Prøven må oppbevares kroppstemperert underveis." },
           { name: "Utvidet sædanalyse", price: "5.500,-", duration: "", info: "Det anbefales å ha en ejakulasjon 1–2 dager før sædprøven leveres for optimal utvidet sædanalyse. Prøven må tas på CMedical og timen må bookes i tidsperioden kl 09:00–12:00." },
@@ -187,7 +187,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Nedfrysing og oppbevaring av egne egg',
-        path: '/behandlinger/fertilitet/eggfrysing',
+        path: '/behandlinger/fertilitet/eggfrys',
         items: [
           { name: "Konsultasjon/utredning", price: "2.850,-", duration: "" },
           { name: "Nedfrysning av eggceller uten medisinsk indikasjon", price: "30.500,-", duration: "", info: "Inkluderer monitorering med ultralyd under stimulering, egguthenting og nedfrysing av egg, samt ett års lagring fra frysedato.", requiresConsultation: true },

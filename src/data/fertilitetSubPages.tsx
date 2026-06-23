@@ -63,9 +63,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "IUI — inseminasjon", desc: "Et enklere første steg når årsaken er mild — eller når du ønsker donor.", href: "/behandlinger/fertilitet/iui" },
-      { title: "Nedfrysing av egg", desc: "Gir deg tid. Vi forklarer når det er riktig — og hva det innebærer.", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "IUI — inseminasjon", desc: "Et enklere første steg når årsaken er mild — eller når du ønsker donor.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Nedfrysing av egg", desc: "Gir deg tid. Vi forklarer når det er riktig — og hva det innebærer.", href: "/behandlinger/fertilitet/eggfrys" },
     ],
     ctaTitle: "Klar til å finne ut hvor du står?",
     ctaDescription:
@@ -75,172 +75,117 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
-  /* ───────────────────────── IVF ───────────────────────── */
-  ivf: {
-    seoTitle: "IVF — prøverørsbehandling | CMedical",
+  /* ───────────────────────── INFERTILITET ───────────────────────── */
+  infertilitet: {
+    seoTitle: "Infertilitet | CMedical — utredning og veien videre",
     seoDescription:
-      "IVF og ICSI ved Norges eldste private fertilitetsklinikk. Trygt, moderne laboratorium og spesialister som følger deg gjennom hele forløpet.",
-    canonical: "/behandlinger/fertilitet/ivf",
+      "Infertilitet rammer omtrent 1 av 6. Grundig utredning, tydelige svar og en plan tilpasset deg — uten henvisning og uten ventetid.",
+    canonical: "/behandlinger/fertilitet/infertilitet",
     parent,
-    title: "IVF",
-    heroTitle: <>Når kroppen trenger litt <span className="italic">hjelp</span> på veien</>,
+    title: "Infertilitet",
+    heroTitle: <>Ufrivillig <span className="italic">barnløshet</span></>,
     heroDescription:
-      "IVF — prøverørsbehandling — er den mest effektive fertilitetsbehandlingen som finnes. Vi har gjort det siden 1989 og fulgt over 3 800 barn inn i verden. Du møter samme team gjennom hele forløpet.",
+      "Mange opplever at det tar lengre tid enn forventet å bli gravid. Verdens helseorganisasjon (WHO) anslår at omtrent 1 av 6 mennesker vil oppleve infertilitet i løpet av livet. Du er ikke alene — og det finnes hjelp.",
     heroPoints: [
-      { title: "Klinikk og laboratorium under samme tak", desc: "Ingen transport av egg eller embryo — alt skjer hos oss." },
-      { title: "ICSI når det trengs", desc: "Mikroinjeksjon ved nedsatt sædkvalitet eller tidligere mislykkede forsøk." },
-      { title: "Erfaring siden 1989", desc: "Norges eldste private fertilitetsklinikk." },
-      { title: "Tett oppfølging hele veien", desc: "Du møter samme team — fra første samtale til graviditetstest." },
+      { title: "12 måneders regelen", desc: "Infertilitet defineres vanligvis som manglende graviditet etter 12 måneder med regelmessig samleie uten prevensjon." },
+      { title: "Tidligere utredning fra 35 år", desc: "For kvinner over 35 år anbefales utredning etter 6 måneder, ettersom fertiliteten naturlig avtar med alderen." },
+      { title: "Rammer både kvinner og menn", desc: "Mannlig faktor alene eller i kombinasjon bidrar hos omtrent 40–50 % av par som utredes." },
+      { title: "En vanlig medisinsk tilstand", desc: "Ufrivillig barnløshet er ikke noe galt med deg. Vi behandler infertilitet hver dag." },
     ],
-    rating: "42% suksessrate IVF — kvinner under 35 år",
-    booking: { ...baseBooking, tjeneste: "ivf" },
-    primaryCtaLabel: "Bestill IVF-konsultasjon",
-    flowTitle: "Slik gjennomføres en IVF-syklus",
+    rating: "1 av 6 opplever infertilitet — du er ikke alene",
+    booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
+    primaryCtaLabel: "Bestill fertilitetsutredning",
+    flowTitle: "Når bør du kontakte en fertilitetsklinikk?",
     flow: [
-      { n: "Steg 01", title: "Konsultasjon og plan", desc: "Vi går gjennom utredningen, legger en behandlingsplan og forklarer hva du kan forvente." },
-      { n: "Steg 02", title: "Hormonstimulering", desc: "Du tar daglige sprøyter i ca. 10–14 dager. Vi følger med på utviklingen via ultralyd og blodprøver." },
-      { n: "Steg 03", title: "Egguthenting", desc: "Et kort dagkirurgisk inngrep i lett narkose. Du er hjemme samme dag." },
-      { n: "Steg 04", title: "Befruktning og kultur", desc: "Embryologene befrukter eggene — IVF eller ICSI — og dyrker embryoene i laboratoriet i 3–5 dager." },
-      { n: "Steg 05", title: "Embryooverføring", desc: "Det beste embryoet settes tilbake i livmoren. Et enkelt og smertefritt inngrep." },
-      { n: "Steg 06", title: "Venting og test", desc: "To ukers venting før graviditetstest. Vi følger deg tett gjennom hele perioden." },
+      { n: "≤ 35 år", title: "Etter 12 måneder uten graviditet", desc: "Vurder fertilitetsutredning dersom du ikke har oppnådd graviditet etter 12 måneder med regelmessige forsøk." },
+      { n: "≤ 35 år", title: "Uregelmessig menstruasjon", desc: "Sjeldne eller uregelmessige menstruasjoner kan tyde på eggløsningsforstyrrelser." },
+      { n: "≤ 35 år", title: "Kjente medisinske forhold", desc: "Endometriose, tidligere underlivsinfeksjoner eller andre forhold som kan påvirke fertiliteten." },
+      { n: "> 35 år", title: "Etter 6 måneder uten graviditet", desc: "Kontakt fertilitetsklinikk eller gynekolog dersom du ikke har oppnådd graviditet etter 6 måneder med regelmessige forsøk." },
+      { n: "> 35 år", title: "Kjente forhold som kan påvirke fertiliteten", desc: "Ta tidlig kontakt dersom du har kjente forhold som kan påvirke fertiliteten." },
     ],
-    reasonsTitle: "Hvem passer IVF for?",
+    reasonsTitle: "Hva kan være årsaken til infertilitet?",
     reasonsLead:
-      "IVF er ikke alltid første steg, men det er ofte det mest effektive. Behandlingen passer for mange — og vi vurderer alltid det enkleste alternativet først.",
+      "Årsakene er ofte sammensatte. Hos noen finner man én tydelig årsak, mens flere faktorer kan bidra samtidig. Utfordringene deles vanligvis inn i fire hovedgrupper — og infertilitet rammer kvinner og menn omtrent like ofte.",
+    reasons: [
+      { n: "01", title: "Kvinnelige årsaker", desc: "Kvinner fødes med et begrenset antall egg. Antallet og kvaliteten reduseres gradvis gjennom livet, særlig etter 35-årsalderen. Vanlige årsaker: eggløsningsforstyrrelser, PCOS, endometriose, skader eller blokkeringer i egglederne, muskelknuter (myomer) eller adenomyose, tidligere kirurgi i underlivet, cellegift, og økende alder." },
+      { n: "02", title: "Mannlige årsaker", desc: "Menn produserer sædceller kontinuerlig, men antall, kvalitet og funksjon kan påvirkes. Vanlige årsaker: nedsatt eller manglende sædproduksjon, genetiske tilstander, hormonelle forstyrrelser, blokkeringer i sædveiene, tidligere infeksjoner eller operasjoner, problemer med ereksjon eller utløsning, legemidler eller anabole steroider, og testikkelsykdommer (inkludert tidligere testikkelkreft)." },
+      { n: "03", title: "Kombinerte årsaker", desc: "Hos mange par finner vi bidrag fra begge parter. Begge bør derfor utredes samtidig — det gir det fulle bildet." },
+      { n: "04", title: "Uforklarlig infertilitet", desc: "Hos omtrent 20–30 % av par finner man ingen tydelig medisinsk forklaring. Selv om alle undersøkelser ser normale ut, kan det finnes biologiske forhold dagens tester ikke fanger opp." },
+      { n: "05", title: "Livsstilsfaktorer", desc: "Røyking reduserer fertiliteten hos både kvinner og menn. Høyt alkoholforbruk og overvekt kan påvirke fruktbarheten negativt. Enkelte legemidler kan påvirke eggløsning, sædkvalitet eller muligheten for graviditet — faste medisiner bør vurderes som del av utredningen." },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "Fertilitetsutredning", desc: "Det naturlige første steget — vi finner årsaken før vi behandler.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
+      { title: "Assistert befruktning", desc: "IVF, ICSI og inseminasjon — vi forklarer hva som passer for deg.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Sædanalyse", desc: "En enkel sædprøve gir konkrete svar om mannlig faktor.", href: "/behandlinger/fertilitet/saedanalyse" },
+    ],
+    ctaTitle: "Du er ikke alene — vi hjelper deg videre",
+    ctaDescription:
+      "Bestill fertilitetsutredning direkte, eller ta en uforpliktende prat med oss. Ingen henvisning, ingen ventetid.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
+
+  /* ───────────────────────── ASSISTERT BEFRUKTNING ───────────────────────── */
+  "assistert-befruktning": {
+    seoTitle: "Assistert befruktning | CMedical — IVF, ICSI og inseminasjon",
+    seoDescription:
+      "Vi tilbyr IVF, ICSI og inseminasjon (IUI) — også med donor. Behandlingsplanen tilpasses din situasjon etter grundig fertilitetsutredning.",
+    canonical: "/behandlinger/fertilitet/assistert-befruktning",
+    parent,
+    title: "Assistert befruktning",
+    heroTitle: <>Behandling tilpasset <span className="italic">din</span> situasjon</>,
+    heroDescription:
+      "Det finnes flere ulike behandlingsmetoder ved assistert befruktning. Hvilken som anbefales avhenger av årsaken til fertilitetsutfordringene, alder, tidligere sykehistorie og individuelle ønsker og behov. Før oppstart gjennomfører vi en grundig fertilitetsutredning og lager en behandlingsplan tilpasset deg.",
+    heroPoints: [
+      { title: "IVF — prøverørsbehandling", desc: "Den vanligste formen for assistert befruktning." },
+      { title: "ICSI ved nedsatt sædkvalitet", desc: "Mikroinjeksjon av én sædcelle direkte inn i egget." },
+      { title: "Inseminasjon (IUI)", desc: "Enklere behandling med partnersæd eller donorsæd." },
+      { title: "Behandling med donor", desc: "Donorsæd og eggdonasjon i henhold til norsk lovgivning." },
+    ],
+    rating: "Norges eldste private fertilitetsklinikk",
+    booking: { ...baseBooking, tjeneste: "ivf" },
+    primaryCtaLabel: "Bestill konsultasjon",
+    flowTitle: "Behandlingsmetoder ved assistert befruktning",
+    flow: [
+      { n: "Metode", title: "IVF — In vitro-fertilisering", desc: "IVF («prøverørsbehandling») er den vanligste formen for assistert befruktning. Eggstokkene stimuleres med hormoner slik at flere egg modnes samtidig. Eggene hentes ut ved et mindre inngrep, vanligvis i lokalbedøvelse, befruktes i laboratoriet, og ett embryo settes tilbake i livmoren noen dager senere. Overskuddsembryoer av god kvalitet kan fryses ned for senere bruk." },
+      { n: "Metode", title: "ICSI — Intracytoplasmatisk spermieinjeksjon", desc: "ICSI er en videreutvikling av IVF og brukes ofte ved nedsatt sædkvalitet eller tidligere befruktningsproblemer. Embryologen injiserer én sædcelle direkte inn i egget. For kvinnen er forløpet det samme som ved IVF; forskjellen ligger i hvordan befruktningen gjennomføres i laboratoriet." },
+      { n: "Metode", title: "Inseminasjon (IUI)", desc: "Intrauterin inseminasjon er en enklere form for behandling der sædceller (partners sæd eller donorsæd) føres gjennom et tynt kateter inn i livmoren ved eggløsning. Kan være aktuelt ved enkelte former for infertilitet, ved bruk av donorsæd, eller når det ikke er behov for IVF." },
+      { n: "Metode", title: "Assistert befruktning med donor", desc: "For noen er bruk av donor en nødvendig del av veien til å få barn. Vi tilbyr behandling med donorsæd og eggdonasjon i henhold til norsk lovgivning. Donorbehandling kan være aktuelt for single kvinner, likekjønnede par eller par der egne egg/sædceller ikke kan benyttes. Vi gir grundig informasjon og veiledning gjennom hele prosessen." },
+    ],
+    reasonsTitle: "Hvilken metode passer for deg?",
+    reasonsLead:
+      "Behandlingsmetoden velges sammen med deg etter en grundig fertilitetsutredning. Vi vurderer alltid det enkleste alternativet først, og forklarer fordeler og forutsetninger for hver metode.",
     reasons: [
       { n: "01", title: "Tette eller skadede eggledere", desc: "Når egget ikke kan møte sæden naturlig, er IVF løsningen." },
       { n: "02", title: "Nedsatt sædkvalitet", desc: "Kombinert med ICSI gir IVF gode muligheter også ved få og lite bevegelige sædceller." },
-      { n: "03", title: "Endometriose eller PCOS", desc: "Tilstander som påvirker eggløsning eller livmorhelse." },
-      { n: "04", title: "Uforklart infertilitet", desc: "Når utredning ikke viser klar årsak, er IVF ofte veien videre." },
-      { n: "05", title: "Tidligere mislykkede behandlinger", desc: "Hvis IUI eller andre behandlinger ikke har gitt resultat." },
-      { n: "06", title: "Aleneforeldre eller likekjønnede par", desc: "IVF med donorsæd eller donoregg." },
+      { n: "03", title: "Mild årsak eller donorsæd", desc: "IUI er ofte førstevalget når egglederne er åpne — og et naturlig steg ved bruk av donorsæd." },
+      { n: "04", title: "Egne egg eller sæd ikke et alternativ", desc: "Behandling med donoregg eller donorsæd kan være riktig vei videre." },
+      { n: "05", title: "Single eller likekjønnede par", desc: "Vi følger deg trygt fra første samtale til graviditetstest." },
     ],
     promises: standardPromises,
     related: [
-      { title: "Fertilitetssjekk", desc: "Det naturlige første steget — vi finner årsaken før vi behandler.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "IUI — inseminasjon", desc: "En enklere behandling som ofte prøves først ved milde årsaker.", href: "/behandlinger/fertilitet/iui" },
-      { title: "Genetisk testing (PGT)", desc: "Genetisk vurdering av embryoene før overføring — for utvalgte indikasjoner.", href: "/behandlinger/fertilitet/pgt" },
+      { title: "Infertilitet", desc: "Forstå årsakene og når du bør ta kontakt.", href: "/behandlinger/fertilitet/infertilitet" },
+      { title: "Donorbehandling", desc: "Donorsæd, donoregg og partnerdonasjon — etter norsk lov.", href: "/behandlinger/fertilitet/donorbehandling" },
+      { title: "Nedfrysning av egg", desc: "Overskuddsembryo og egg kan fryses ned for senere bruk.", href: "/behandlinger/fertilitet/eggfrys" },
     ],
-    ctaTitle: "Bestill IVF-konsultasjon",
+    ctaTitle: "Bestill konsultasjon",
     ctaDescription:
-      "Vi tar deg gjennom alle alternativer — uten henvisning og uten ventetid. Du betaler ikke for samtalen før du vet om IVF er riktig for deg.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
-
-  /* ───────────────────────── IUI ───────────────────────── */
-  iui: {
-    seoTitle: "IUI — inseminasjon | CMedical",
-    seoDescription:
-      "Inseminasjon (IUI) med partner eller donor. En skånsom og enkel fertilitetsbehandling — ofte det første steget.",
-    canonical: "/behandlinger/fertilitet/iui",
-    parent,
-    title: "IUI — inseminasjon",
-    heroTitle: <>Den <span className="italic">enkleste</span> veien — når den passer</>,
-    heroDescription:
-      "Inseminasjon (IUI) er en skånsom fertilitetsbehandling der bearbeidet sæd plasseres direkte i livmoren rundt eggløsning. Det er ofte det første steget — og passer mange par, single og likekjønnede par.",
-    heroPoints: [
-      { title: "Ingen narkose, ingen kirurgi", desc: "En kort, smertefri prosedyre på klinikken." },
-      { title: "Med partnersæd eller donor", desc: "Vi har egen sædbank med kvalitetssikret donor­sæd." },
-      { title: "Skånsom hormonstimulering", desc: "Mild stimulering for å øke sjansen — eller naturlig syklus." },
-      { title: "Rask og enkel oppfølging", desc: "Få besøk på klinikken — og vi følger deg tett underveis." },
-    ],
-    rating: "4,7 — Norges eldste private fertilitetsklinikk",
-    booking: { ...baseBooking, tjeneste: "iui" },
-    primaryCtaLabel: "Bestill IUI-samtale",
-    flowTitle: "Slik foregår en IUI-behandling",
-    flow: [
-      { n: "Steg 01", title: "Konsultasjon", desc: "Vi går gjennom utredning, sykluskontroll og om IUI er rett behandling for deg." },
-      { n: "Steg 02", title: "Mild stimulering", desc: "Tabletter eller lave doser hormoner for å støtte eggløsningen — etter vurdering." },
-      { n: "Steg 03", title: "Eggløsningskontroll", desc: "Ultralyd for å bekrefte at egget er klart for befruktning." },
-      { n: "Steg 04", title: "Inseminasjon", desc: "Bearbeidet sæd plasseres direkte i livmoren — en kort, smertefri prosedyre." },
-      { n: "Steg 05", title: "Oppfølging", desc: "Graviditetstest etter ca. to uker — vi følger deg tett gjennom ventetiden." },
-    ],
-    reasonsTitle: "Hvem passer IUI for?",
-    reasonsLead:
-      "IUI er ofte det første behandlingssteget når årsaken til ufrivillig barnløshet er mild — og når egglederne er åpne.",
-    reasons: [
-      { n: "01", title: "Mild nedsatt sædkvalitet", desc: "Når det er nok bevegelig sæd til at IUI gir god sjanse." },
-      { n: "02", title: "Single som ønsker barn", desc: "IUI med donorsæd er ofte det enkleste første steget." },
-      { n: "03", title: "Likekjønnede kvinnelige par", desc: "Donorinseminasjon — vi følger dere trygt fra første samtale." },
-      { n: "04", title: "Eggløsningsforstyrrelser", desc: "Mild stimulering kombinert med IUI kan gi god effekt." },
-      { n: "05", title: "Uforklart infertilitet", desc: "Som første behandlingsforsøk før vi vurderer IVF." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF", desc: "Hvis IUI ikke gir resultat, er IVF det neste naturlige steget.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Eggdonasjon", desc: "Hvis dine egne egg ikke er et alternativ.", href: "/behandlinger/fertilitet/eggdonasjon" },
-      { title: "Fertilitetssjekk", desc: "Forstå hvor du står før du velger behandling.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-    ],
-    ctaTitle: "Bestill IUI-samtale",
-    ctaDescription:
-      "Du trenger ikke henvisning. Vi tar oss tid til å forklare alt — og vurderer alltid det enkleste alternativet først.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
-
-  /* ───────────────────────── EGGDONASJON ───────────────────────── */
-  eggdonasjon: {
-    seoTitle: "Eggdonasjon | CMedical — Norges nyeste eggbank",
-    seoDescription:
-      "Eggdonasjon ved CMedical — Norges nyeste eggbank. Trygg, åpen og regulert prosess med tett oppfølging hele veien.",
-    canonical: "/behandlinger/fertilitet/eggdonasjon",
-    parent,
-    title: "Eggdonasjon",
-    heroTitle: <>Når svaret ligger i en <span className="italic">annen</span> celle</>,
-    heroDescription:
-      "Eggdonasjon er en trygg og regulert behandling — og for mange den eneste muligheten til å bli gravid. Vi har Norges nyeste eggbank, og du møter et team som har gjort dette siden ordningen ble lovlig.",
-    heroPoints: [
-      { title: "Norges nyeste eggbank", desc: "Et bredt utvalg av kvalitetssikrede donorer." },
-      { title: "Trygg og regulert prosess", desc: "Behandlingen følger norsk lov og våre etiske retningslinjer." },
-      { title: "Spesialister med erfaring", desc: "Vi har gjennomført eggdonasjon siden ordningen ble innført i Norge." },
-      { title: "Psykologisk støtte hele veien", desc: "Egne samtaler er en del av forløpet — for deg og din partner." },
-    ],
-    rating: "4,8 — Trygt og åpent",
-    booking: { ...baseBooking, tjeneste: "eggdonasjon" },
-    primaryCtaLabel: "Bestill samtale om eggdonasjon",
-    flowTitle: "Slik foregår eggdonasjon hos oss",
-    flow: [
-      { n: "Steg 01", title: "Førstegangssamtale", desc: "Vi forklarer hele prosessen, hva loven sier og hva som er aktuelt for dere." },
-      { n: "Steg 02", title: "Medisinsk utredning", desc: "Vi sikrer at livmoren og kroppen er klar for graviditet." },
-      { n: "Steg 03", title: "Donorvalg", desc: "Du får tilgang til et utvalg av donorer — vi hjelper deg gjennom valget." },
-      { n: "Steg 04", title: "Behandling og overføring", desc: "Donoregg befruktes med partner- eller donorsæd. Embryoet overføres til livmoren." },
-      { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
-    ],
-    reasonsTitle: "Hvem passer eggdonasjon for?",
-    reasonsLead:
-      "Eggdonasjon kan være riktig løsning når egne egg ikke gir resultat — eller ikke er et alternativ. Vi tar alle samtaler trygt og uten press.",
-    reasons: [
-      { n: "01", title: "Lav eggstokkreserve", desc: "Når AMH og AFC er lave, og IVF med egne egg ikke har gitt resultat." },
-      { n: "02", title: "Tidlig overgangsalder", desc: "Når menstruasjonen har stoppet før normal alder." },
-      { n: "03", title: "Genetiske årsaker", desc: "Når man bærer en arvelig sykdom man ikke ønsker å gi videre." },
-      { n: "04", title: "Gjentatte mislykkede IVF-forsøk", desc: "Når flere IVF-runder med egne egg ikke har lyktes." },
-      { n: "05", title: "Etter kreftbehandling", desc: "Når cellegift eller stråling har redusert eggreserven." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF", desc: "Eggdonasjon kombineres alltid med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Nedfrysing av egg", desc: "Hvis du ønsker å bevare egne egg for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donor­forløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
-    ],
-    ctaTitle: "Snakk med oss om eggdonasjon",
-    ctaDescription:
-      "Det er en stor avgjørelse. Vi tar oss tiden som trengs — og du er aldri alene i prosessen.",
+      "Vi tar deg gjennom alle alternativer — uten henvisning og uten ventetid. Du betaler ikke for samtalen før du vet hva som er riktig for deg.",
     specialistCategory: "fertilitet",
     specialistCtaLabel: "Se alle fertilitetsspesialister",
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
   /* ───────────────────────── NEDFRYSING ───────────────────────── */
-  nedfrysing: {
-    seoTitle: "Nedfrysing av egg, sæd og embryo | CMedical",
+  eggfrys: {
+    seoTitle: "Nedfrysning av egg | CMedical",
     seoDescription:
-      "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
-    canonical: "/behandlinger/fertilitet/nedfrysing",
+      "Nedfrysning av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
+    canonical: "/behandlinger/fertilitet/eggfrys",
     parent,
-    title: "Nedfrysing av egg",
+    title: "Nedfrysning av egg",
     heroTitle: <>Litt mer <span className="italic">tid</span> når du trenger det</>,
     heroDescription:
       "Nedfrysing av egg lar deg ta vare på fertiliteten din nå — uten å måtte ta valget om barn i dag. Vi tilbyr også nedfrysing av sæd og embryo, som del av eller utenfor en IVF-behandling.",
@@ -274,8 +219,8 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Fertilitetssjekk", desc: "Sjekken viser om du er i et godt vindu for nedfrysing.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "IVF", desc: "Når du vil bruke eggene dine, går de inn i en IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Mannlig fertilitet", desc: "Vi fryser også ned sæd — før kreftbehandling eller annen indikasjon.", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
+      { title: "IVF", desc: "Når du vil bruke eggene dine, går de inn i en IVF-prosess.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Mannlig fertilitet", desc: "Vi fryser også ned sæd — før kreftbehandling eller annen indikasjon.", href: "/behandlinger/fertilitet/saedanalyse" },
     ],
     ctaTitle: "Snakk med oss om nedfrysing",
     ctaDescription:
@@ -285,66 +230,17 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
-  /* ───────────────────────── PGT ───────────────────────── */
-  pgt: {
-    seoTitle: "Genetisk testing (PGT) | CMedical",
-    seoDescription:
-      "Genetisk testing av embryoer (PGT) ved utvalgte indikasjoner. Vi forklarer mulighetene og begrensningene — uten å overselge.",
-    canonical: "/behandlinger/fertilitet/pgt",
-    parent,
-    title: "Genetisk testing (PGT)",
-    heroTitle: <>Trygghet <span className="italic">før</span> overføring</>,
-    heroDescription:
-      "PGT — preimplantasjonsgenetisk testing — undersøker embryoene før de settes tilbake i livmoren. Det er aktuelt ved utvalgte indikasjoner og kan øke sjansen for vellykket graviditet.",
-    heroPoints: [
-      { title: "PGT-A — kromosomtelling", desc: "Sjekk for normalt antall kromosomer i embryoet." },
-      { title: "PGT-M — arvelig sykdom", desc: "For par som vet de bærer en spesifikk genetisk sykdom." },
-      { title: "Internasjonalt samarbeid", desc: "Analysene gjøres ved akkrediterte laboratorier." },
-      { title: "Realistisk rådgivning", desc: "Vi forklarer hva PGT kan — og ikke kan — gjøre for deg." },
-    ],
-    rating: "4,8 — Spesialister på fertilitet",
-    booking: { ...baseBooking, tjeneste: "pgt" },
-    primaryCtaLabel: "Bestill PGT-samtale",
-    flowTitle: "Slik fungerer PGT i et IVF-forløp",
-    flow: [
-      { n: "Steg 01", title: "Genetisk veiledning", desc: "Vi går gjennom indikasjon, hva testen kan svare på og hva den ikke kan." },
-      { n: "Steg 02", title: "IVF-syklus", desc: "Stimulering, egguthenting og befruktning — som ved standard IVF." },
-      { n: "Steg 03", title: "Biopsi og test", desc: "Noen få celler tas fra embryoet på dag 5–6 og sendes til genetisk analyse." },
-      { n: "Steg 04", title: "Resultat", desc: "Vi gjennomgår resultatene sammen — og hvilke embryo som er aktuelle for overføring." },
-      { n: "Steg 05", title: "Embryooverføring", desc: "Det best egnede embryoet settes tilbake i livmoren." },
-    ],
-    reasonsTitle: "Hvem kan PGT være riktig for?",
-    reasonsLead:
-      "PGT er ikke for alle som tar IVF. Det er en tilleggstest med klare indikasjoner — og vi vurderer alltid om det er riktig for deg.",
-    reasons: [
-      { n: "01", title: "Gjentatte spontanaborter", desc: "Tre eller flere uforklarte spontanaborter — kromosom­avvik kan være årsak." },
-      { n: "02", title: "Gjentatte mislykkede IVF-forsøk", desc: "Når flere overføringer av tilsynelatende gode embryo ikke har gitt graviditet." },
-      { n: "03", title: "Kjent arvelig sykdom (PGT-M)", desc: "Når dere bærer en spesifikk genetisk sykdom dere ikke vil overføre." },
-      { n: "04", title: "Høy alder", desc: "Risiko for kromosomavvik øker med kvinnens alder — PGT-A kan være aktuelt." },
-      { n: "05", title: "Strukturelle kromosom­avvik hos foreldre", desc: "Når kjent translokasjon eller annet avvik er påvist." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF", desc: "PGT gjøres alltid som del av en IVF-behandling.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Fertilitetssjekk", desc: "Først kartlegger vi grunnlaget — så vurderer vi PGT.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "Psykisk helsehjelp", desc: "Genetiske spørsmål er tunge. Vi tilbyr samtaler hele veien.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
-    ],
-    ctaTitle: "Bestill PGT-samtale",
-    ctaDescription:
-      "Vi tar tid til den genetiske veiledningen — og forklarer hva testen kan og ikke kan svare på.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
+  /* (PGT-side fjernet — innholdet håndteres under Assistert befruktning / individuell vurdering) */
 
-  /* ───────────────────────── MANNLIG FERTILITET ───────────────────────── */
-  "mannlig-fertilitet": {
-    seoTitle: "Mannlig fertilitet — sædanalyse og mikro-TESE | CMedical",
+
+  /* ───────────────────────── SÆDANALYSE ───────────────────────── */
+  saedanalyse: {
+    seoTitle: "Sædanalyse | CMedical — mannlig fertilitet",
     seoDescription:
       "Halvparten av forklaringen ligger ofte hos mannen. Sædanalyse, hormonprøver og mikro-TESE hos spesialister — diskret og raskt.",
-    canonical: "/behandlinger/fertilitet/mannlig-fertilitet",
+    canonical: "/behandlinger/fertilitet/saedanalyse",
     parent,
-    title: "Mannlig fertilitet",
+    title: "Sædanalyse",
     heroTitle: <>Halvparten av <span className="italic">svaret</span> ligger ofte her</>,
     heroDescription:
       "Når et par ikke blir gravide, er årsaken hos mannen i omtrent halvparten av tilfellene. En enkel sædanalyse gir deg svar — og er det naturlige første steget.",
@@ -376,8 +272,8 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "IVF med ICSI", desc: "Ved nedsatt sædkvalitet er IVF med ICSI ofte løsningen.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Nedfrysing av sæd", desc: "Frys ned sæd før behandling eller for fremtiden.", href: "/behandlinger/fertilitet/nedfrysing" },
+      { title: "IVF med ICSI", desc: "Ved nedsatt sædkvalitet er IVF med ICSI ofte løsningen.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Nedfrysing av sæd", desc: "Frys ned sæd før behandling eller for fremtiden.", href: "/behandlinger/fertilitet/eggfrys" },
       { title: "Fertilitetssjekk (par)", desc: "Vi anbefaler at begge tar en sjekk samtidig.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
     ],
     ctaTitle: "Bestill sædanalyse",
@@ -388,56 +284,8 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
-  /* ───────────────────────── PSYKISK HELSEHJELP ───────────────────────── */
-  "psykisk-helsehjelp": {
-    seoTitle: "Psykisk helsehjelp i fertilitetsforløp | CMedical",
-    seoDescription:
-      "Samtaler med psykolog gjennom hele fertilitetsforløpet — før, under og etter behandling. Du er ikke alene.",
-    canonical: "/behandlinger/fertilitet/psykisk-helsehjelp",
-    parent,
-    title: "Psykisk helsehjelp",
-    heroTitle: <>Du skal ikke <span className="italic">stå</span> i dette alene</>,
-    heroDescription:
-      "Et fertilitetsforløp tar mye plass — også psykisk. Vi tilbyr samtaler med psykolog som kjenner forløpet, fra første utredning til etter graviditetstest. Det er en del av tilbudet vårt — ikke et tillegg.",
-    heroPoints: [
-      { title: "Psykolog med fertilitetserfaring", desc: "Du møter noen som forstår hva du står i — uten lange forklaringer." },
-      { title: "Samtaler hele veien", desc: "Før, under og etter behandling — så lenge du trenger det." },
-      { title: "For par og enkeltpersoner", desc: "Sammen eller hver for dere — vi tilpasser etter ønsker." },
-      { title: "Trygt rom", desc: "Alt du sier blir værende mellom deg og psykologen." },
-    ],
-    rating: "4,9 — Psykologer som forstår forløpet",
-    booking: { ...baseBooking, tjeneste: "samtale" },
-    primaryCtaLabel: "Bestill samtale",
-    flowTitle: "Slik tilbyr vi psykisk støtte",
-    flow: [
-      { n: "Steg 01", title: "Første samtale", desc: "En åpen, uforpliktende samtale der vi blir kjent og finner ut hva du trenger." },
-      { n: "Steg 02", title: "Plan for oppfølging", desc: "Vi avtaler hyppighet og format basert på dine behov." },
-      { n: "Steg 03", title: "Samtaler i ditt tempo", desc: "Underveis i behandlingen — og etterpå om du ønsker det." },
-      { n: "Steg 04", title: "Tett samspill med behandlerteamet", desc: "Med ditt samtykke samarbeider vi på tvers, slik at du opplever helhet." },
-    ],
-    reasonsTitle: "Du trenger ikke vente på krisen",
-    reasonsLead:
-      "Mange ber om hjelp først når det blir tungt. Vi vil at du skal vite at samtalene står klare hele veien — også når alt 'går greit'.",
-    reasons: [
-      { n: "01", title: "Beslutningstunge valg", desc: "IVF, eggdonasjon, antall forsøk — vi hjelper deg å tenke høyt." },
-      { n: "02", title: "Sorgen etter et negativt svar", desc: "Hver runde kan være et tap. Du fortjener et rom for det." },
-      { n: "03", title: "Etter spontanabort", desc: "Tap er tap — uansett hvor langt på vei du var." },
-      { n: "04", title: "Belastning på parforholdet", desc: "Et fertilitetsforløp setter parforholdet på prøve. Vi snakker sammen, om dere ønsker det." },
-      { n: "05", title: "Etter graviditetstest", desc: "Også positive svar bringer komplekse følelser. Vi er der — også da." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF", desc: "Psykologisk støtte hører naturlig hjemme i et IVF-forløp.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "Eggdonasjon", desc: "Egne psykologsamtaler er en obligatorisk del av forløpet.", href: "/behandlinger/fertilitet/eggdonasjon" },
-      { title: "Fertilitetssjekk", desc: "Vi snakker også med deg som vurderer om dette er rett for deg.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-    ],
-    ctaTitle: "Bestill en samtale",
-    ctaDescription:
-      "Du trenger ikke å vite hvor du skal begynne. En første samtale er et godt sted å starte.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
+  /* (Psykisk helsehjelp-side fjernet — psykologstøtte tilbys som del av forløpet) */
+
 
   /* ───────────────────────── DONORBEHANDLING ───────────────────────── */
   donorbehandling: {
@@ -504,9 +352,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       ],
     },
     related: [
-      { title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/iui" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+      { title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/infertilitet" },
     ],
     ctaTitle: "Snakk med oss om donorbehandling",
     ctaDescription:
@@ -557,7 +405,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Fertilitetssjekk", desc: "Hysteroskopi kan være neste steg etter en grundig fertilitetssjekk.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "IVF", desc: "Optimalisering av livmorhulen før IVF gir bedre odds for innfesting.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "IVF", desc: "Optimalisering av livmorhulen før IVF gir bedre odds for innfesting.", href: "/behandlinger/fertilitet/assistert-befruktning" },
       { title: "Fertilitetssjekk", desc: "Strukturelle årsaker i livmoren er én av flere ting vi utreder.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
     ],
     ctaTitle: "Bestill vurdering for hysteroskopi",
@@ -727,8 +575,8 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Fertilitetssjekk", desc: "Den raske kartleggingen av hvor du står — uten henvisning.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "IVF", desc: "Når utredningen viser at dere trenger hjelp på veien.", href: "/behandlinger/fertilitet/ivf" },
-      { title: "IVF — prøverørsbehandling", desc: "Den mest effektive fertilitetsbehandlingen som finnes.", href: "/behandlinger/fertilitet/ivf" },
+      { title: "IVF", desc: "Når utredningen viser at dere trenger hjelp på veien.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "IVF — prøverørsbehandling", desc: "Den mest effektive fertilitetsbehandlingen som finnes.", href: "/behandlinger/fertilitet/assistert-befruktning" },
     ],
     ctaTitle: "Klar for å ta det første steget?",
     ctaDescription:

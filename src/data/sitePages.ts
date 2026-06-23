@@ -54,13 +54,12 @@ export const sitePages: SitePage[] = [
 
   // Fertilitet underbehandlinger
   { path: "/behandlinger/fertilitet/fertilitetssjekk", name: "Fertilitetssjekk", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/ivf", name: "IVF", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/iui", name: "IUI", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/nedfrysing", name: "Nedfrysing", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/eggdonasjon", name: "Eggdonasjon", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/mannlig-fertilitet", name: "Mannlig fertilitet", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/psykisk-helsehjelp", name: "Psykisk helsehjelp", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/pgt", name: "PGT", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/infertilitet", name: "Infertilitet", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/assistert-befruktning", name: "Assistert befruktning", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/eggfrys", name: "Nedfrysning av egg", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/donorbehandling", name: "Donorbehandling", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/saedanalyse", name: "Sædanalyse", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/hysteroskopi", name: "Hysteroskopi", category: "Fertilitet – underbehandlinger" },
 
   // Urologi underbehandlinger
   { path: "/behandlinger/urologi/blaere", name: "Blære og urinveier", category: "Urologi – underbehandlinger" },
