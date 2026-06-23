@@ -11,7 +11,7 @@ const treatmentSteps = [
   },
   {
     number: "2",
-    title: "Book en konsultasjon",
+    title: "Bestill en konsultasjon",
     description: "Velg mellom våre spesialister og finn en tid som passer deg.",
     icon: Clock,
   },
@@ -92,7 +92,7 @@ export const TreatmentInfoSection = () => {
             Klar til å ta det første steget?
           </h3>
           <p className="text-[hsl(30,15%,65%)] mb-8 max-w-2xl mx-auto">
-            Book en konsultasjon i dag og få profesjonell veiledning tilpasset dine behov.
+            Bestill en konsultasjon i dag og få profesjonell veiledning tilpasset dine behov.
             Vi tar oss tid til å lytte og finne den beste løsningen for deg.
           </p>
           <Button 
@@ -100,7 +100,7 @@ export const TreatmentInfoSection = () => {
             className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-8 py-6 text-lg"
             onClick={() => navigate('/booking')}
           >
-            Book time nå
+            Bestill time
           </Button>
         </div>
       </div>

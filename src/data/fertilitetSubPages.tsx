@@ -706,7 +706,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     primaryCtaLabel: "Bestill fertilitetsutredning",
     flowTitle: "Slik kommer du i gang i juli",
     flow: [
-      { n: "Steg 01", title: "Ta kontakt", desc: "Book en tid på nett eller ring oss — vi finner en time som passer i juli." },
+      { n: "Steg 01", title: "Ta kontakt", desc: "Bestill en tid på nett eller ring oss — vi finner en time som passer i juli." },
       { n: "Steg 02", title: "Konsultasjon", desc: "Fysisk på klinikken eller på telefon, alene eller sammen som par." },
       { n: "Steg 03", title: "Veien videre", desc: "Vi legger en plan tilpasset deg eller dere — i ditt tempo." },
     ],

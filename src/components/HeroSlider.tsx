@@ -10,7 +10,7 @@ const slides = [
  {
  id: 1,
  image: heroImage1,
- title: "Skandinavias ledende helhetskonsept",
+ title: "Nordens ledende helhetskonsept",
  subtitle: "Innen gynekologi, fertilitet og urologi",
  description: "Ledende spesialister · Kort ventetid · Ingen henvisning",
  },
@@ -98,7 +98,7 @@ export const HeroSlider = () => {
  size="lg"
  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-normal px-10 h-12 rounded-sm"
  >
- Book time
+ Bestill time
  </Button>
  </div>
  </div>

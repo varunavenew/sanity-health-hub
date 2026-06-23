@@ -5,7 +5,7 @@ import { getImageUrl } from "@/lib/sanityClient";
 // Static fallback values per language
 const DEFAULTS = {
   nb: {
-    title: "CMedical – Skandinavias ledende helhetskonsept",
+    title: "CMedical – Nordens ledende helhetskonsept",
     description:
       "Nordens mest komplette private tilbud innen gynekologi, fertilitet og urologi. Ledende spesialister, kort ventetid, ingen henvisning nødvendig.",
   },

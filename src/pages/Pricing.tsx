@@ -309,7 +309,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                                   }}
                                 >
                                   <Calendar className="w-4 h-4 mr-2" strokeWidth={1.5} />
-                                  Book time
+                                  Bestill time
                                 </Button>
                               </div>
                             </div>
@@ -400,7 +400,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
       <CTASection
         title="Ta vare på livet og underlivet"
         subtitle="Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging"
-        primaryCTA="Book time nå"
+        primaryCTA="Bestill time"
         secondaryCTA="Kontakt oss"
         secondaryLink="/contact"
       />

@@ -7,7 +7,7 @@ const steps = [
   {
     icon: Calendar,
     number: "01",
-    title: "Book konsultasjon",
+    title: "Bestill konsultasjon",
     description: "Bestill time med våre spesialister når det passer deg",
   },
   {

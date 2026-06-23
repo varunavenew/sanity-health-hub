@@ -17,7 +17,7 @@ const trustPoints = [
     icon: FileCheck,
     value: "Nei",
     label: "Ingen henvisning",
-    sublabel: "Book direkte",
+    sublabel: "Bestill direkte",
   },
   {
     icon: Shield,

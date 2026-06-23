@@ -143,7 +143,7 @@ const About = ({ isChatOpen }: AboutProps) => {
                 className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
                 onClick={() => navigate('/booking')}
               >
-                Book konsultasjon
+                Bestill konsultasjon
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
@@ -158,7 +158,7 @@ const About = ({ isChatOpen }: AboutProps) => {
       <CTASection
         title="Ta vare på livet og underlivet"
         subtitle="Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging"
-        primaryCTA="Book time nå"
+        primaryCTA="Bestill time"
         secondaryCTA="Kontakt oss"
         secondaryLink="/contact"
       />

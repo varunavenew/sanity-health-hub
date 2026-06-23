@@ -146,14 +146,14 @@ const Guide = ({ isChatOpen }: GuideProps) => {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl font-light mb-6 text-foreground">Klar til å starte?</h2>
             <p className="text-lg text-muted-foreground font-light mb-8 leading-relaxed">
-              Book en time hos våre spesialister i dag. Ingen henvisning nødvendig.
+              Bestill en time hos våre spesialister i dag. Ingen henvisning nødvendig.
             </p>
             <Button
               size="lg"
               className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-12 py-6 text-lg"
               onClick={() => navigate('/booking')}
             >
-              Book time nå
+              Bestill time
             </Button>
           </div>
         </div>
