@@ -264,6 +264,7 @@ export const treatmentToSubLayout = ({
     title: data.title,
     heroTitle,
     heroDescription: summarize(firstParagraph, 320),
+    heroThemes: data.themes,
     heroPoints,
     heroAvailability,
     booking: { kategori: categoryId, tjeneste: subId },
