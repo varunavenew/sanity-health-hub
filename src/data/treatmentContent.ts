@@ -1838,7 +1838,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "For par, to kvinner, single kvinner og menn",
     parentCategory: "Fertilitet",
     heroImage: fertilitetImg,
-    description: "Hos oss er det plass til ulike veier til det samme ønsket — å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, kvinner som ønsker å bli mor på egen hånd, og menn som ønsker innsikt i egen fertilitet. Uansett livssituasjon møter du oss med respekt, trygghet og forståelse.",
+    description: "Hos oss er det plass til ulike veier til det samme ønsket – å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, og kvinner som ønsker å bli mor på egen hånd nå eller bevare mulighetene for å bli gravid i fremtiden. Uansett livssituasjon møter vi deg eller dere med respekt, trygghet og forståelse.",
     sections: [
       {
         heading: "Hvem kan få hjelp hos oss?",
