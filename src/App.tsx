@@ -150,12 +150,14 @@ const AppContent = () => {
         {/* Fertilitet slug aliases */}
         <Route path="/behandlinger/fertilitet/assistert-befruktning-par-single" element={<Navigate to="/behandlinger/fertilitet/par-og-single" replace />} />
         <Route path="/behandlinger/fertilitet/fertilitetsutredning-juli" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning" replace />} />
-        {/* Gamle dublett-sider fjernet — redirect til ny fertilitet-struktur */}
-        <Route path="/behandlinger/fertilitet/infertilitet" element={<Navigate to="/fertilitet" replace />} />
-        <Route path="/behandlinger/fertilitet/assistert-befruktning" element={<Navigate to="/behandlinger/fertilitet/ivf" replace />} />
-        <Route path="/behandlinger/fertilitet/eggfrys" element={<Navigate to="/behandlinger/fertilitet/nedfrysing" replace />} />
-        <Route path="/behandlinger/fertilitet/donorbehandling" element={<Navigate to="/behandlinger/fertilitet/eggdonasjon" replace />} />
-        <Route path="/behandlinger/fertilitet/saedanalyse" element={<Navigate to="/behandlinger/fertilitet/mannlig-fertilitet" replace />} />
+        {/* Fjernede sider — redirect til riktig samleside i ny fertilitet-struktur */}
+        <Route path="/behandlinger/fertilitet/ivf" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
+        <Route path="/behandlinger/fertilitet/iui" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
+        <Route path="/behandlinger/fertilitet/pgt" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
+        <Route path="/behandlinger/fertilitet/psykisk-helsehjelp" element={<Navigate to="/behandlinger/fertilitet/infertilitet" replace />} />
+        <Route path="/behandlinger/fertilitet/nedfrysing" element={<Navigate to="/behandlinger/fertilitet/eggfrys" replace />} />
+        <Route path="/behandlinger/fertilitet/eggdonasjon" element={<Navigate to="/behandlinger/fertilitet/donorbehandling" replace />} />
+        <Route path="/behandlinger/fertilitet/mannlig-fertilitet" element={<Navigate to="/behandlinger/fertilitet/saedanalyse" replace />} />
         {/* Spesialist fjernet — redirect til oversikten */}
         <Route path="/spesialister/line-jacob" element={<Navigate to="/spesialister" replace />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
