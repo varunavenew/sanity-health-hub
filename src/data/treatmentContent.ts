@@ -216,12 +216,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Vaginalt fremfall, også kjent som prolaps, er en tilstand der organer som livmoren, blæren eller endetarmen faller ned fra deres vanlige posisjon og presser inn i skjeden. Dette skjer vanligvis på grunn av svekkelse av bekkenbunnsmuskulaturen og støttevev, som kan være forårsaket av faktorer som graviditet, fødsel, aldring eller kirurgiske inngrep.",
+    description: "Vaginalt fremfall, også kjent som prolaps, innebærer at skjedens fremre eller bakre vegg, eller livmor/livmorhals, buker ned i skjeden eller ut av skjedeinngangen. Dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
     sections: [
       {
         id: "behandling",
         heading: "Behandling",
-        content: "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.\n\nHos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
+        content: "Behandlingen avhenger av alvorlighetsgraden og symptomene, og kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering hvis man opplever symptomer på vaginalt fremfall. Hos oss møter du noen av Nordens fremste eksperter på fremfall.",
       },
     ],
     relatedSpecialists: ["madeleine-engen"],
