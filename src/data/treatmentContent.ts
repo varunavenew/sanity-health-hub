@@ -95,9 +95,31 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-  // NOTE: "gynekologi/undersokelse" intentionally not in treatmentContent —
-  // the curated layout in src/data/gynekologiSubPages.tsx (with heroPoints,
-  // expertAreas, prose) is the source of truth for this page.
+  "gynekologi/undersokelse": {
+    title: "Gynekologisk undersøkelse",
+    subtitle: "Trygg og grundig undersøkelse hos erfarne gynekologer.",
+    parentCategory: "Gynekologi",
+    heroImage: gynekologiImg,
+    description: "En gynekologisk undersøkelse er en viktig del av kvinners forebyggende helsearbeid. Hos CMedical utfører vi grundige undersøkelser i trygge omgivelser med erfarne gynekologer.\n\nVi anbefaler regelmessige gynekologiske kontroller for å forebygge og oppdage eventuelle tilstander tidlig. Undersøkelsen tilpasses dine behov og bekymringer.",
+    benefits: [
+      "Erfarne gynekologer med lang klinisk erfaring",
+      "Moderne utstyr og fasiliteter",
+      "Tid til grundig samtale og undersøkelse",
+      "Rask oppfølging ved eventuelle funn",
+      "Kort ventetid – de fleste får time innen 1-3 dager",
+    ],
+    process: [
+      { title: "Samtale", description: "Vi starter med en grundig samtale om din helse, eventuelle symptomer og bekymringer." },
+      { title: "Undersøkelse", description: "Gynekologisk undersøkelse tilpasset dine behov, inkludert ultralyd ved behov." },
+      { title: "Vurdering og plan", description: "Din gynekolog gjennomgår funnene med deg og lager en eventuell videre plan." },
+    ],
+    faqs: [
+      { question: "Hva koster en gynekologisk undersøkelse?", answer: "En standard gynekologisk undersøkelse koster fra 2100,-. Se vår prisliste for fullstendig oversikt." },
+      { question: "Hvor lang tid tar undersøkelsen?", answer: "En vanlig undersøkelse tar 30-45 minutter, inkludert samtale." },
+      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
   "gynekologi/urinlekkasje": {
     title: "Urinlekkasje",
     subtitle: "Ingen ventetid • Ingen henvisning",
@@ -209,7 +231,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "Vaginalt fremfall, også kjent som prolaps innebærer at skjedens fremre eller bakre vegg, eller livmor eller bare livmorhals buker ned i skjeden eller ut av skjedeinngangen, dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
+    description: "Vaginalt fremfall, også kjent som prolaps, er en tilstand der organer som livmoren, blæren eller endetarmen faller ned fra deres vanlige posisjon og presser inn i skjeden. Dette skjer vanligvis på grunn av svekkelse av bekkenbunnsmuskulaturen og støttevev, som kan være forårsaket av faktorer som graviditet, fødsel, aldring eller kirurgiske inngrep.",
     sections: [
       {
         id: "behandling",
@@ -481,42 +503,17 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "gynekologi/robotkirurgi": {
-    title: "Robotassistert kirurgi",
+    title: "Robotkirurgi – Gynekologi",
     subtitle: "Nordens mest erfarne team innen robotassistert gynekologisk kirurgi.",
     parentCategory: "Gynekologi",
     heroImage: heroTech,
-    description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nRobotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.\n\nRobotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotkirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)\n\nHos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.",
-    sections: [
-      {
-        id: "rask-rehabilitering",
-        heading: "Rask rehabilitering",
-        content: "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet.",
-      },
-      {
-        id: "raskere-restitusjon",
-        heading: "En raskere vei til restitusjon",
-        content: "Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Det gir en roligere og mer forutsigbar opplevelse etter operasjonen.",
-      },
-      {
-        id: "kortere-sykemelding",
-        heading: "Kortere sykemelding – raskere tilbake til hverdagen",
-        content: "Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen. Noen studier indikerer også mindre smerter etter robotkirurgi sammenlignet med vanlig kikkehullskirurgi (laparoskopi).",
-      },
-      {
-        id: "presisjon",
-        heading: "Presisjon som merkes",
-        content: "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata. Nerveskader i bekkenet kan gi seksuelle dysfunksjoner og problemer med blæretømming, både hos kvinner og menn. Robotkirurgi gir bedre kontroll og er et effektivt verktøy for å gjennomføre slik nervedisseksjon med lavere risiko.",
-      },
-      {
-        id: "ergonomi",
-        heading: "Ergonomi – også for kirurgen",
-        content: "Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.",
-      },
-      {
-        id: "erfarne-spesialister",
-        heading: "Erfarne spesialister – trygg behandling",
-        content: "Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen.",
-      },
+    description: "CMedical er den eneste private aktøren i Norge som tilbyr robotassistert kirurgi innen gynekologi. Med da Vinci-systemet utfører vi avanserte inngrep med minimalt invasiv teknikk.\n\nRobotkirurgi gir bedre presisjon, mindre blødning, kortere sykehusopphold og raskere rekonvalesens sammenlignet med tradisjonell åpen kirurgi.",
+    benefits: [
+      "Eneste private tilbyder av robotkirurgi i gynekologi i Norge",
+      "da Vinci-systemet for maksimal presisjon",
+      "Behandling av muskelknuter, dyp endometriose og hysterektomi",
+      "Mindre smerter og kortere rekonvalesens",
+      "Høyt volum – erfarne kirurger med dokumentert kvalitet",
     ],
     relatedSpecialists: ["thomas-fredrik-thaulow"],
     faqs: [
@@ -583,157 +580,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
-
-  "gynekologi/undersokelse": {
-    title: "Gynekologisk undersøkelse",
-    subtitle: "Ingen ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
-    heroImage: gynekologiImg,
-    description: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger - fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best.",
-    sections: [
-      {
-        id: "om-undersokelse",
-        heading: "Om gynekologisk undersøkelse",
-        content: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger - fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best.\n\nHos oss kan du bestille rutinesjekk eller konsultasjon til annen gynekologisk utredning.",
-      },
-    ],
-    linkedServices: [
-      { label: "Endometriose", description: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette.", path: "/behandlinger/gynekologi/endometriose" },
-      { label: "Blødningsforstyrrelser", description: "Kraftige, langvarige eller uregelmessige blødninger kan ha mange årsaker — vi finner den.", path: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { label: "PCOS", description: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", path: "/behandlinger/gynekologi/pcos" },
-    ],
-    faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
-
-  "gynekologi/pcos": {
-    title: "PCOS",
-    subtitle: "Ingen ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
-    heroImage: gynekologiImg,
-    description: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PCOS), men endret diagnosenavn 12. mai 2026.",
-    sections: [
-      {
-        id: "om-pcos",
-        heading: "Om PCOS",
-        content: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PCOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
-      },
-    ],
-    linkedServices: [
-      { label: "Fertilitetsutredning", description: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PCOS.", path: "/behandlinger/fertilitet" },
-      { label: "Blødningsforstyrrelser", description: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", path: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { label: "PMS og PMDD", description: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", path: "/behandlinger/gynekologi/pms-pmdd" },
-    ],
-    faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
-
-  "gynekologi/pms-pmdd": {
-    title: "PMS og PMDD",
-    subtitle: "Ingen ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
-    heroImage: gynekologiImg,
-    description: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen).",
-    sections: [
-      {
-        id: "om-pms-pmdd",
-        heading: "Om PMS og PMDD",
-        content: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75% av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse) rammer 3-8%. De vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene. Årsaken er relatert til svingende hormoner. Det er mulig å få god hjelp - du skal slippe å lide hver måned.\n\nFor spørsmål ta kontakt med oss eller bestill time.",
-      },
-    ],
-    linkedServices: [
-      { label: "PCOS", description: "Hormonell ubalanse kan forsterke premenstruelle plager.", path: "/behandlinger/gynekologi/pcos" },
-      { label: "Endometriose", description: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", path: "/behandlinger/gynekologi/endometriose" },
-    ],
-    faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
-
-  "gynekologi/fostermedisin": {
-    title: "Fostermedisin",
-    subtitle: "Ingen ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
-    heroImage: gynekologiImg,
-    description: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet.",
-    sections: [
-      {
-        id: "om-fostermedisin",
-        heading: "Om fostermedisin",
-        content: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.\n\n**Tidlig ultralyd**\n\nVi skiller mellom tidlig ultralyd uke 6-10, uke 11-14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6-10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg.\n\n**Fosterdiagnostikk**\n\nDr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
-      },
-    ],
-    linkedServices: [
-      { label: "NIPT", description: "Trygg, tidlig vurdering av kromosomavvik.", path: "/behandlinger/gynekologi/nipt" },
-      { label: "Graviditet", description: "Oppfølging gjennom hele svangerskapet.", path: "/behandlinger/gynekologi/graviditet" },
-      { label: "Fødselsskader", description: "Vurdering og oppfølging etter fødsel.", path: "/behandlinger/gynekologi/fodselsskader" },
-    ],
-    faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
-
-  "gynekologi/nipt": {
-    title: "NIPT",
-    subtitle: "Ingen ventetid • Ingen henvisning",
-    parentCategory: "Gynekologi",
-    heroImage: gynekologiImg,
-    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test.",
-    sections: [
-      {
-        id: "om-nipt",
-        heading: "Om NIPT",
-        content: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\nDr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
-      },
-      {
-        id: "hva-undersoker-nipt",
-        heading: "Hva undersøker NIPT?",
-        content: "Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik.",
-      },
-      {
-        id: "er-nipt-trygt",
-        heading: "Er NIPT trygt?",
-        content: "Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.",
-      },
-      {
-        id: "fosterdiagnostikk-spesialist",
-        heading: "Fosterdiagnostikk hos spesialist",
-        content: "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
-      },
-    ],
-    linkedServices: [
-      { label: "Fostermedisin", description: "Avansert ultralyd og fosterdiagnostikk.", path: "/behandlinger/gynekologi/fostermedisin" },
-      { label: "Graviditet", description: "Oppfølging gjennom hele svangerskapet.", path: "/behandlinger/gynekologi/graviditet" },
-      { label: "Gynekologisk undersøkelse", description: "Ofte første møte med gynekolog.", path: "/behandlinger/gynekologi/undersokelse" },
-    ],
-    faqs: [
-      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
-      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
-      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
-    ],
-  },
-
-
 
   // ==========================================
   // UROLOGI
@@ -1366,7 +1212,19 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Behandling av skader i selve hofteleddet kan med morderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfelle repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. Mindre skader kan også føre til behov for hofteprotese på sikt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1-2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1-2 timer.\n\nKontrolltime på poliklinikken avtales ca. 6-8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4-6 uker.",
+    description: "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
+    sections: [
+      {
+        id: "avanserte-inngrep",
+        heading: "Avanserte hofteinngrep",
+        content: "I tillegg til vanlig hofteartroskopi tilbyr vi mer avanserte prosedyrer for pasienter med komplekse plager. Dette inkluderer blant annet:\n\n- **Tenodese av iliopsoas-/psoassenen** ved snapping hip og senerelaterte smerter\n- **Reinsertering og reparasjon av leddleppen (labrum)**\n- **Behandling av FAI (femoroacetabulær impingement)** med rekonturering av lårhalsen\n- **Bruskbehandling** ved fokale skader i hofteleddet\n\nValg av metode tilpasses individuelt etter grundig utredning og bildediagnostikk."
+      },
+      {
+        id: "for-aktive-pasienter",
+        heading: "For yngre, aktive pasienter",
+        content: "Pasientgruppen vår på hofte er i hovedsak yngre og aktive — ofte idrettsutøvere på mosjonist- og elitenivå som har fått idrettsskader i hoften. Målet med behandlingen er å bevare leddet, redusere smerte og få deg trygt tilbake til den aktiviteten du driver med."
+      },
+    ],
     relatedSpecialists: ["kristian-marstrand-warholm"],
     faqs: [
       { question: "Trenger jeg henvisning?", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
@@ -1413,17 +1271,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Ortopedi",
     heroImage: ortopediImg,
-    description: "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    description: "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
     sections: [
       {
-        id: "bruskskader",
-        heading: "Bruskskader i kneet",
-        content: "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet.\n\nArtrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40-50 åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd.",
+        id: "korsband",
+        heading: "Korsbåndskader",
+        content: "Korsbåndskader er en av de vanligste alvorlige idrettsskadene i kneet. Fremre korsbånd (ACL) skades ofte ved vridning av kneet under aktivitet — typisk i fotball, håndball og alpint. Skaden gir akutt smerte, hevelse og opplevelse av at kneet «svikter».\n\n**Utredning:** Klinisk undersøkelse kombinert med MR gir oss et godt grunnlag for å vurdere skaden og eventuelle tilleggsskader (menisk, leddbrusk, sidebånd).\n\n**Behandling:** For aktive pasienter og pasienter med ustabilt kne er rekonstruksjon av korsbåndet ofte aktuelt. Inngrepet gjøres som artroskopi (kikkhullskirurgi), der det skadede båndet erstattes med et seneautograft. Vi tilbyr også behandling av komplekse skader med rekonstruksjon av flere leddbånd."
       },
       {
-        id: "symptomer",
-        heading: "Symptomer og problemer",
-        content: "Sliter du med bruskskader i kneet? Symptomer inkluderer smerter ved aktivitet, hevelse og stivhet (dette skyldes ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene.",
+        id: "menisk",
+        heading: "Meniskskader",
+        content: "Menisken er en støtdempende bruskskive mellom lårben og leggben. Skader oppstår ved vridning, fall eller gradvis slitasje. Symptomene er smerter ved bøy og vridning, hevelse, og av og til en låsende eller knepende følelse i kneet.\n\n**Behandling:** Der det er mulig forsøker vi alltid å reparere menisken fremfor å fjerne vev — særlig hos yngre pasienter. Reparasjonen gjøres artroskopisk. Ved skader som ikke kan repareres fjernes kun det skadede vevet, slik at mest mulig av menisken bevares.\n\nMålet er å bevare leddet og redusere risikoen for senere slitasje."
+      },
+      {
+        id: "andre-knetilstander",
+        heading: "Andre knetilstander vi behandler",
+        content: "I tillegg til korsbånd og menisk behandler vi blant annet sidebåndskader, patellaluksasjon, fokale bruskskader og frie legemer i kneet. Vi tilbyr ikke protesekirurgi — pasienter med langtkommen artrose henvises videre ved behov."
       },
     ],
     relatedSpecialists: ["marc-jacob-strauss"],

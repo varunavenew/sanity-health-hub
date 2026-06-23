@@ -1,72 +1,68 @@
 ## Mål
 
-Bytte ut omskrevet brødtekst på 15 behandlingssider med originalteksten fra cmedical.no (klinikkens egen tekst), uten å endre design, layout eller komponenter. Hero-seksjonene beholdes som i dag.
+Alle ~60 undertjenester skal følge Fertilitet-malen (samme strukturelle sections: hero → segments → flow → reasons → promises → related → CTA), med modulære sections som brukes der det gir mening. Innholdet hentes fra `CMedical_innhold_Lovable-7.md`, bildene fra Dropbox-mappen.
 
-Eierskap dokumenteres som notat i `README.md` (Alternativ 1) før innholdet skrives inn, slik at det er tydelig at klinikken eier og leverer originalen.
+## Infrastruktur som allerede finnes
 
-## Omfang per side
+- `SubTreatmentLayout.tsx` — rik master-layout med flow, reasons, promises, expertAreas, textSection, related, CTA, specialists, insurance, FAQ. Brukes allerede av gynekologi/undersokelse og driver alle generiske undersider via `GenericSubTreatmentPage`.
+- `treatmentToSubLayout.tsx` — adapter fra `TreatmentData` → `SubTreatmentContent`.
+- `treatmentContent.ts` — sentralt datalager (~1700 linjer) som allerede dekker mange undersider, men med tynt innhold.
 
-### A) Hopp over (allerede ~identiske med originalen)
-- `/behandlinger/urologi/blaere`
-- `/behandlinger/urologi/prostata`
+**Beslutning:** Behold dataarkitekturen. Jeg fyller `treatmentContent.ts` med rikt innhold fra dokumentet og kobler på riktige bilder per slug. Bespoke `.tsx`-sider (Sleeve, Ernæringsfysiolog) beholdes som de er — resten kjøres via den generiske ruten med rikere data. Resultat: alle 60 sider får master-layouten, men hver side er unik på innhold/bilder.
 
-### B) Erstatt brødtekst ordrett (behold dagens hero/intro)
-Disse ligger allerede i `src/data/treatmentContent.ts` med `sections[]`. Jeg bytter ut innholdet i hver `sections[i].content` (og evt. `description` hvis den brukes som lang prose under hero) mot originalteksten — distinkte fete tilstander legges som egne accordion-seksjoner der siden allerede bruker accordion.
+## Runde 1 — Fundament (denne meldingen)
 
-- `/behandlinger/gynekologi/celleforandringer`
-- `/behandlinger/gynekologi/robotkirurgi`
-- `/behandlinger/gynekologi/undersokelse` *(merk: ligger i `gynekologiSubPages.tsx` i dag — se C)*
-- `/behandlinger/gynekologi/vaginale-fremfall`
-- `/behandlinger/gynekologi/cyster`
-- `/behandlinger/ortopedi/hofte`
-- `/behandlinger/ortopedi/kne`
-- `/behandlinger/ortopedi/skulder`
-- `/behandlinger/flere-fagomrader/areknuter`
-- `/behandlinger/flere-fagomrader/endokrinologi`
-- `/behandlinger/flere-fagomrader/plastikkirurgi`
-- `/behandlinger/flere-fagomrader/revmatologi`
+1. Last opp alle 63 Dropbox-bilder som Lovable Assets (én `.asset.json` per bilde under `src/assets/services/`).
+2. Bygg `src/data/serviceImages.ts` — en `Record<slug, { url, alt }>` som mapper hver tjenesteslug til sitt bilde. Inkluderer både kategori-hero (Hero_*.jpg) og undertjeneste-bilder.
+3. Utvid `treatmentToSubLayout.tsx` til å plukke `heroImage` fra `serviceImages` når `data.heroImage` mangler — så all bildelogikk er sentralisert.
+4. Verifiser med eksisterende ruter (Urologi → Prostata, Gynekologi → Endometriose) at bildene kommer fram.
 
-### C) Migrer fra `gynekologiSubPages.tsx` → `treatmentContent.ts`
-Disse bruker i dag `heroDescription` + `reasons[]`-kort og har ikke felt for lang prose. Jeg flytter dem til samme struktur som de øvrige gynekologi-oppføringene i `treatmentContent.ts` (med `description` + `sections[]`), beholder hero/ingress-teksten som `description`/hero, og legger originalteksten som prose i `sections[]`. `GynekologiSubPage.tsx` har allerede fallback-rekkefølge `treatmentContent` → `gynekologiSubPages`, så ingen routing-endring trengs.
+Leverer: bilde-manifest + bilder synlige på eksisterende generiske sider.
 
-- `/behandlinger/gynekologi/pcos`
-- `/behandlinger/gynekologi/pms-pmdd`
-- `/behandlinger/gynekologi/fostermedisin`
-- `/behandlinger/gynekologi/nipt`
-- `/behandlinger/gynekologi/undersokelse` *(samme migrering)*
+## Runde 2 — Innhold per kategori (etter godkjenning)
 
-Når en oppføring finnes i `treatmentContent`, fjernes den tilsvarende oppføringen fra `gynekologiSubPages.tsx` for å unngå duplikat-vedlikehold.
+Bygg ut `treatmentContent.ts` med rik tekst fra dokumentet, én kategori om gangen. For hver undertjeneste fylles:
 
-### D) Tverrfaglig team — samleområde
-`/behandlinger/gynekologi/tverrfaglig` finnes allerede i `treatmentContent.ts` med riktig struktur.
+- `description` — brødtekst fra dokumentet
+- `sections` — H4/H5-blokker (Symptomer, Diagnose, Behandling, Etter behandling)
+- `process` — tre steg når relevant (kirurgi/utredning)
+- `benefits` — bullet-liste fra dokumentet
+- `faqs` — egne FAQ-er der dokumentet har dem, ellers standard CMedical-FAQ
+- `relatedSpecialists` — slugs basert på spesialist-koblingene i dokumentet
+- `linkedServices` — søsken-tjenester i samme kategori
 
-- `sections[0].content` (`alt-pa-ett-sted`) erstattes med originalens «Om»-tekst (ordrett).
-- Medlemmene (Osteopat, Sexolog, Psykolog, Ernæringsfysiolog) vises som bilde-kort som lenker videre. `linkedServices` har dem allerede som lenker uten bilde — jeg utvider de fire oppføringene med `image`-feltet (eksisterende `LinkedService.image` støtter dette), slik at de rendres som bilde-kort i samme «Flere fagområder»-stil. Bildene hentes fra eksisterende spesialist-/kategori-assets; ingen nye bilder genereres med mindre passende ikke finnes.
+Rekkefølge (én runde per kategori, godkjenn mellom):
 
-## Tekniske detaljer
+1. **Urologi** (9): Blære og urinveier, Forhud, Mannlig infertilitet, Nyrer, Prostata, Refertilisering, Robotassistert kirurgi, Sterilisering, Testikler og pung
+2. **Gynekologi** (18): Blødningsforstyrrelser, Celleforandringer, Cyster, Endometriose, Fjerne livmor, Fødselsskader, Fostermedisin, Graviditet, Gynekologisk kirurgi, Hysteroskopi, Labiaplastikk, NIPT, Overgangsalder, PCOS, PMS/PMDD, Robotassistert, Spontanabort, Urinlekkasje, Vaginale fremfall, Vulvalidelser *(de eksisterende «godkjent copy»-sidene rører jeg ikke)*
+3. **Fertilitet** (9): IVF, IUI, Eggdonasjon, Nedfrysing, PGT, Mannlig fertilitet, Psykisk helsehjelp, Fertilitetssjekk, Donorbehandling
+4. **Ortopedi** (5): Fot/ankel, Hånd/albue, Hofte, Kne, Skulder
+5. **Flere fagområder** (12): Åreknute, Endokrinologi, Gastrokirurgi, Hudlege, Osteopati, Plastikkirurgi, Psykologi, Revmatologi, Sexologi, Bariatrisk-klyngen (Sleeve+Ernæring finnes alt)
 
-- Filer som endres:
-  - `src/data/treatmentContent.ts` — innholds-erstatninger + nye oppføringer for `gynekologi/pcos`, `pms-pmdd`, `fostermedisin`, `nipt`, `undersokelse`.
-  - `src/data/gynekologiSubPages.tsx` — fjern de fem nevnte oppføringene.
-  - `README.md` — kort eierskaps-notat (Alternativ 1).
-- Ingen endringer i komponenter, ruter, priser, lenker eller menyer.
-- Markdown-konvensjonen som allerede brukes i `ContentSection.content` (`**bold**`, `\n\n` mellom avsnitt, `- ` for lister) gjenbrukes for originalteksten.
-- Fete underoverskrifter i originalen som er distinkte tilstander (f.eks. «Blod i urinen», «Vannlatningsproblemer» osv.) splittes ut som egne `sections[]` slik at de havner i accordion der siden allerede bruker accordion.
-- Hero-intro endres ikke. Hvis originalens første avsnitt allerede står i hero, utelates det fra brødteksten for å unngå dobling.
+## Runde 3 — Polish
 
-## Leveranse / kjøreplan
+- Kategori-landingssider (UrologiPage, OrtopediPage, etc.) får oppdatert hero-bilder fra Hero_*.jpg.
+- Sjekke at related-cards mellom søsken-tjenester i samme kategori peker riktig.
+- SEO-titles, meta-descriptions og JSON-LD per side.
 
-Jeg gjør én side om gangen i denne rekkefølgen for å holde diff-ene oversiktlige:
-1. README-notat
-2. Tverrfaglig team (D) — minst tekst, validerer bilde-kort-flyten
-3. Migrering C (undersokelse, pcos, pms-pmdd, fostermedisin, nipt)
-4. Gynekologi B (celleforandringer, robotkirurgi, vaginale-fremfall, cyster)
-5. Ortopedi B (hofte, kne, skulder)
-6. Flere fagområder B (areknuter, endokrinologi, plastikkirurgi, revmatologi)
+## Hva jeg IKKE rører
 
-Etter hver gruppe verifiserer jeg build.
+- Eksisterende «godkjent copy»-sider: `/behandlinger/gynekologi`, `/behandlinger/fertilitet`, `/behandlinger/fertilitet/fertilitetssjekk`, `/behandlinger/gynekologi/undersokelse` (kun bilde-bytte hvis du ber om det).
+- Sleeve-siden og Ernæringsfysiolog-siden (bygget bespoke i forrige runde).
+- Spesialistdata (DEL 2 av dokumentet) — egen runde senere hvis du vil.
 
-## Spørsmål før jeg starter
+## Teknisk
 
-1. **Bilder for Tverrfaglig team-kortene** — skal jeg bruke eksisterende spesialist-portrettbilder for hver disiplin (hvis tilgjengelig), generiske kategori-bilder, eller generere nye?
-2. **`/behandlinger/gynekologi/undersokelse`** — denne har i dag en rik, kuratert layout (heroPoints, flow, promises) i `gynekologiSubPages.tsx`. Ved migrering til `treatmentContent`-strukturen mister vi den layouten. Vil du heller at jeg her *kun* legger originalteksten inn som ny prose-seksjon i den eksisterende fila (f.eks. via et nytt `prose`-felt på `SubTreatmentContent`) og lar resten stå?
+```text
+src/
+  assets/services/
+    urologi-prostata.jpg.asset.json         (63 stk totalt)
+    ...
+  data/
+    serviceImages.ts        ← NY: slug → { url, alt }
+    treatmentContent.ts     ← UTVIDET med rik tekst
+  lib/
+    treatmentToSubLayout.tsx ← liten fallback til serviceImages
+```
+
+Si JA så starter jeg Runde 1 nå.
