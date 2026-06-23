@@ -6,8 +6,8 @@ import { useToast } from "@/hooks/use-toast";
 
 // ---- REDIGER INNHOLD HER ----
 const POPUP_CONFIG = {
-  triggerLabel: "Book gratis konsultasjon",
-  title: "Book gratis fertilitets­konsultasjon",
+  triggerLabel: "Bestill gratis konsultasjon",
+  title: "Bestill gratis fertilitetskonsultasjon",
   ingress:
     "Ønsker du å vite mer om dine muligheter? Fyll inn kontaktinfo så tar en av våre spesialister kontakt med deg.",
   inputLabel: "E-post eller telefon",

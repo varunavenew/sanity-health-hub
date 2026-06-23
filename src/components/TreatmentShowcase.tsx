@@ -135,7 +135,7 @@ export const TreatmentShowcase = () => {
                     className="font-light"
                     onClick={() => window.location.href = '/booking'}
                   >
-                    Book time
+                    Bestill time
                   </Button>
                   <Button
                     variant="outline"

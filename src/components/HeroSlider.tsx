@@ -98,7 +98,7 @@ export const HeroSlider = () => {
  size="lg"
  className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-normal px-10 h-12 rounded-sm"
  >
- Book time
+ Bestill time
  </Button>
  </div>
  </div>

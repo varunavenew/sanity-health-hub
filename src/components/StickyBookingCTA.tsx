@@ -35,12 +35,12 @@ export const StickyBookingCTA = () => {
       className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-2xl px-5 py-3 bg-accent text-accent-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-accent/90 ${
         hidden ? "pointer-events-none translate-y-4 opacity-0" : "opacity-100"
       }`}
-      aria-label="Book gratis konsultasjon"
+      aria-label="Bestill gratis konsultasjon"
       aria-hidden={hidden}
     >
       <Calendar className="w-4 h-4" strokeWidth={1.5} />
       <span className="text-sm font-medium whitespace-nowrap">
-        Book gratis konsultasjon
+        Bestill gratis konsultasjon
       </span>
     </button>
   );
