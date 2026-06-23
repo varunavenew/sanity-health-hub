@@ -40,7 +40,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Forhud', path: '/behandlinger/urologi/forhud', category: 'Urologi', keywords: ['omskjæring', 'fimose'] },
   { label: 'Mannlig infertilitet', path: '/behandlinger/urologi/infertilitet', category: 'Urologi', keywords: ['barnløshet', 'sæd', 'fertilitet'] },
   { label: 'Nyrer', path: '/behandlinger/urologi/nyrer', category: 'Urologi', keywords: ['nyre', 'nyrestein', 'nyrecyster'] },
-  { label: 'Prevensjon', path: '/behandlinger/urologi/prevensjon', category: 'Urologi', keywords: ['prevensjon', 'sterilisering'] },
+  { label: 'Sterilisering', path: '/behandlinger/urologi/sterilisering', category: 'Urologi', keywords: ['prevensjon', 'sterilisering', 'vasektomi'] },
 
   // Fertilitet
   { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Fagområde', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
