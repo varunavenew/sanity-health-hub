@@ -85,7 +85,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Trygg og grundig undersøkelse hos erfarne gynekologer.",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    description: "En gynekologisk undersøkelse er en viktig del av kvinners forebyggende helsearbeid. Hos CMedical utfører vi grundige undersøkelser i trygge omgivelser med erfarne gynekologer.\n\nVi anbefaler regelmessige gynekologiske kontroller for å forebygge og oppdage eventuelle tilstander tidlig. Undersøkelsen tilpasses dine behov og bekymringer.",
+    description: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger – fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best. Hos oss kan du bestille rutinesjekk eller konsultasjon til annen gynekologisk utredning.",
     benefits: [
       "Erfarne gynekologer med lang klinisk erfaring",
       "Moderne utstyr og fasiliteter",
@@ -278,7 +278,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "konisering",
         heading: "Konisering",
-        content: "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft.\n\nHos vår klinikk på Bekkestua tilbyr vi konisering i lokalbedøvelse. Inngrepet tar vanligvis rundt 15 minutter, og du blir godt ivaretatt i rolige og trygge omgivelser.\n\nVi vet at dette kan oppleves som en sårbar situasjon, derfor legger vi stor vekt på å møte deg med trygghet og omsorg gjennom hele prosessen. Inngrepet blir utført i narkose om du er veldig engstelig.",
+        content: "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft.\n\nHos vår klinikk på Bekkestua tilbyr vi konisering i lokalbedøvelse, utført av vår erfarne gynekolog Birgitte Aspenes. Inngrepet tar vanligvis rundt 15 minutter, og du blir godt ivaretatt i rolige og trygge omgivelser. Inngrepet blir utført i narkose om du er veldig engstelig.",
       },
     ],
     relatedSpecialists: ["birgitte-aspenes", "ane-gerda-z-eriksson", "siri-klokstad"],
@@ -309,7 +309,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "behandling",
         heading: "Behandling",
-        content: "Cyster på eggstokkene av en viss størrelse, som ikke blir borte av seg selv og som gir plager, er det anbefalt å operere bort. Dette gjøres vanligvis ved hjelp av en kikkehullsoperasjon. Da får man narkose og kirurgen fjerner cysten gjennom 3-4 hull i magen din. Inngrepet tar omtrent 45 minutter, men dette avhenger blant annet av hvor store cystene er. Ønsker du å snakke med en spesialist på dette, bestill time.",
+        content: "Cyster av en viss størrelse, som ikke blir borte av seg selv og som gir plager, anbefales operert bort. Dette gjøres vanligvis ved en kikkhullsoperasjon: du får narkose og kirurgen fjerner cysten gjennom 3–4 hull i magen. Inngrepet tar omtrent 45 minutter, avhengig av størrelsen.",
       },
     ],
     relatedSpecialists: ["ane-gerda-z-eriksson", "birgitte-aspenes", "henrik-michelsen-wahl"],
@@ -428,12 +428,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "pcos",
         heading: "PCOS",
-        content: "Polycystisk ovariesyndrom (PCOS) kjennetegnes ved at kjønnshormonene er i ubalanse. Dette kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PCOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPCOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. I dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur mot PCOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
+        content: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere omtalt som Polycystisk ovariesyndrom (PCOS).)\n\nDiagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir, noe som igjen kan føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon, eller 2–4 ganger i året ta tabletter som gir blødning, for å unngå risiko for celleforandringer i livmorslimhinnen som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens og har økt risiko for å utvikle diabetes mellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ingen spesiell test som gir diagnosen. Pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur, men det finnes medisiner og behandling som kan gjøre tilstanden bedre.",
       },
       {
         id: "pms-pmdd",
         heading: "PMS og PMDD",
-        content: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75 % av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse) rammer 3-8 %.\n\nDe vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene.\n\nÅrsaken er relatert til svingende hormoner. Det er mulig å få god hjelp – du skal slippe å lide hver måned.\n\nFor spørsmål ta kontakt med oss eller bestill time.",
+        content: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75 % av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse), rammer 3–8 %.\n\nDe vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene.\n\nÅrsaken er relatert til svingende hormoner. Det er mulig å få god hjelp – du skal slippe å lide hver måned.",
       },
     ],
     relatedSpecialists: ["birgitte-mitlid-mork", "birgitte-aspenes", "siri-klokstad"],
