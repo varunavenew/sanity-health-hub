@@ -93,9 +93,9 @@
     "subtitle": "Spørsmål & svar"
   },
   "booking": {
-    "badge": "Rask og enkel booking",
+    "badge": "Rask og enkel bestilling",
     "title": "Bestill time hos spesialist",
-    "subtitle": "Velg tjeneste, klinikk og behandler – alt i én enkel booking.",
+    "subtitle": "Velg tjeneste, klinikk og behandler – alt i én enkel bestilling.",
     "bookNow": "Bestill time nå",
     "callUs": "Ring oss",
     "selectClinic": "Velg klinikk",
@@ -106,8 +106,8 @@
   "cta": {
     "title": "Ta vare på livet og underlivet",
     "subtitle": "Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging",
-    "bookNow": "Book time nå",
-    "bookConsultation": "Book konsultasjon",
+    "bookNow": "Bestill time",
+    "bookConsultation": "Bestill konsultasjon",
     "contactUs": "Kontakt oss",
     "seePricing": "Se prisliste"
   },
@@ -132,7 +132,7 @@
     "quickHelp": "Trenger du rask hjelp?",
     "quickHelpDesc": "Du trenger ingen henvisning. Ring oss direkte eller bestill time online – vi har korte ventetider.",
     "bookDirect": "Vil du booke direkte?",
-    "bookDirectDesc": "Velg tjeneste, klinikk og behandler – alt i én enkel booking.",
+    "bookDirectDesc": "Velg tjeneste, klinikk og behandler – alt i én enkel bestilling.",
     "hasInsurance": "Har du helseforsikring?",
     "hasInsuranceDesc": "De fleste av våre behandlinger dekkes av helseforsikring. Sjekk med ditt selskap.",
     "readAboutInsurance": "Les om forsikring",
@@ -181,7 +181,7 @@
   "news": {
     "title": "Aktuelt",
     "subtitle": "Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical.",
-    "label": "Nyheter & Fagartikler",
+    "label": "Nyheter og fagartikler",
     "searchPlaceholder": "Søk i artikler...",
     "moreArticles": "Flere artikler",
     "noArticles": "Ingen artikler funnet for dette filteret.",
@@ -195,5 +195,5 @@
     "comfort": "Behagelige lokaler",
     "price": "Tilgjengelig pris"
   },
-  "h1": "CMedical – Skandinavias ledende klinikk for gynekologi, fertilitet og urologi"
+  "h1": "CMedical – Nordens ledende klinikk for gynekologi, fertilitet og urologi"
 }

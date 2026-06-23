@@ -1125,7 +1125,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Hysteroskopi", desc: "Aktuelt som del av utredning ved gjentatte spontanaborter.", href: "/behandlinger/gynekologi/hysteroskopi" },
-      { title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig-team" },
+      { title: "Tverrfaglig team", desc: "Psykolog og samtaler som del av oppfølging.", href: "/behandlinger/gynekologi/tverrfaglig" },
       { title: "Graviditet", desc: "Tett oppfølging i neste svangerskap.", href: "/behandlinger/gynekologi/graviditet" },
     ],
     ctaTitle: "Bestill oppfølging",
@@ -1133,11 +1133,11 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
   },
 
   /* ───────────────────────── TVERRFAGLIG TEAM ───────────────────────── */
-  "tverrfaglig-team": {
+  "tverrfaglig": {
     seoTitle: "Tverrfaglig team | CMedical — osteopat, sexolog, psykolog, ernæring",
     seoDescription:
       "Vårt tverrfaglige team støtter gynekologisk behandling — osteopat, sexolog, psykolog og ernæringsfysiolog under samme tak.",
-    canonical: "/behandlinger/gynekologi/tverrfaglig-team",
+    canonical: "/behandlinger/gynekologi/tverrfaglig",
     parent,
     title: "Tverrfaglig team",
     heroTitle: <>Kvinnehelse er <span className="italic">mer</span> enn én spesialitet</>,

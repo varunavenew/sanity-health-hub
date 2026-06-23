@@ -11,7 +11,7 @@ export const searchItems: SearchItem[] = [
   // Gynekologi
   { label: 'Gynekologi', path: '/behandlinger/gynekologi', category: 'Tjeneste', keywords: ['gyn', 'kvinne', 'underlivsplager'] },
   { label: 'Gynekologisk undersøkelse', path: '/behandlinger/gynekologi/undersokelse', category: 'Gynekologi', keywords: ['undersøkelse', 'kontroll'] },
-  { label: 'Urogynekologi', path: '/behandlinger/gynekologi/urogynekologi', category: 'Gynekologi', keywords: ['urogynekologi', 'fremfall', 'prolaps', 'inkontinens', 'lekkasje', 'bekkenbunn', 'urinlekkasje'] },
+  { label: 'Urogynekologi', path: '/behandlinger/gynekologi/vaginale-fremfall', category: 'Gynekologi', keywords: ['urogynekologi', 'fremfall', 'prolaps', 'inkontinens', 'lekkasje', 'bekkenbunn', 'urinlekkasje'] },
   { label: 'Urinlekkasje', path: '/behandlinger/gynekologi/urinlekkasje', category: 'Gynekologi', keywords: ['inkontinens', 'lekkasje'] },
   { label: 'Endometriose', path: '/behandlinger/gynekologi/endometriose', category: 'Gynekologi', keywords: ['smerter', 'underlivssmerter', 'adenomyose', 'magesmerter', 'menssmerter', 'vondt'] },
   { label: 'Overgangsalder', path: '/behandlinger/gynekologi/overgangsalder', category: 'Gynekologi', keywords: ['menopause', 'klimakteriet', 'hormoner', 'hetetokter', 'svette', 'humør'] },
@@ -22,7 +22,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Fjerne livmor', path: '/behandlinger/gynekologi/fjerne-livmor', category: 'Gynekologi', keywords: ['hysterektomi', 'livmor'] },
   { label: 'PMS og PMDD', path: '/behandlinger/gynekologi/pms-pmdd', category: 'Gynekologi', keywords: ['premenstruell', 'humørsvingninger', 'pms'] },
   { label: 'Labiaplastikk', path: '/behandlinger/gynekologi/labiaplastikk', category: 'Gynekologi', keywords: ['labia', 'intimkirurgi', 'kjønnslepper'] },
-  { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/vaginal-torrhet', category: 'Gynekologi', keywords: ['tørrhet', 'vaginal', 'intimhelse'] },
+  { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/overgangsalder', category: 'Gynekologi', keywords: ['tørrhet', 'vaginal', 'intimhelse'] },
   { label: 'Vulvalidelser', path: '/behandlinger/gynekologi/vulvalidelser', category: 'Gynekologi', keywords: ['vulva', 'vaginisme', 'vulvodyni', 'botox'] },
   { label: 'Gynekologisk kirurgi', path: '/behandlinger/gynekologi/kirurgi', category: 'Gynekologi', keywords: ['operasjon', 'kirurgi'] },
   { label: 'Robotassistert kirurgi', path: '/behandlinger/gynekologi/robotkirurgi', category: 'Gynekologi', keywords: ['robot', 'da vinci'] },
@@ -31,12 +31,8 @@ export const searchItems: SearchItem[] = [
   { label: 'Graviditet og fostermedisin', path: '/behandlinger/graviditet', category: 'Fagområde', keywords: ['gravid', 'foster', 'svangerskap'] },
   { label: 'Ultralyd', path: '/behandlinger/graviditet/ultralyd', category: 'Graviditet', keywords: ['ultralyd', 'scanning'] },
   { label: 'NIPT', path: '/behandlinger/graviditet/nipt', category: 'Graviditet', keywords: ['nipt', 'fosterdiagnostikk', 'blodprøve'] },
-  { label: '6-ukerskontroll etter fødsel', path: '/behandlinger/graviditet/6-ukerskontroll', category: 'Graviditet', keywords: ['etterkontroll', 'barsel', 'fødsel'] },
-  { label: 'Traumatisk fødsel', path: '/behandlinger/graviditet/traumatisk-fodsel', category: 'Graviditet', keywords: ['fødselstrauma', 'fødsel'] },
-  { label: 'Fødselsangst', path: '/behandlinger/graviditet/fodselsangst', category: 'Graviditet', keywords: ['angst', 'fødsel', 'tokofob'] },
-  { label: 'For partnere', path: '/behandlinger/graviditet/for-partnere', category: 'Graviditet', keywords: ['partner', 'far', 'medforelder'] },
-  { label: 'Fostermedisin', path: '/behandlinger/graviditet/fostermedisin', category: 'Graviditet', keywords: ['foster', 'fosterdiagnostikk'] },
-  { label: 'Spontanabort', path: '/behandlinger/graviditet/spontanabort', category: 'Graviditet', keywords: ['abort', 'tidlig graviditet'] },
+  { label: 'Fostermedisin', path: '/behandlinger/graviditet/fosterdiagnostikk', category: 'Graviditet', keywords: ['foster', 'fosterdiagnostikk'] },
+  { label: 'Spontanabort', path: '/behandlinger/gynekologi/spontanabort', category: 'Gynekologi', keywords: ['abort', 'tidlig graviditet'] },
 
   // Urologi
   { label: 'Urologi', path: '/behandlinger/urologi', category: 'Fagområde', keywords: ['mann', 'urin', 'blære'] },
@@ -44,7 +40,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Forhud', path: '/behandlinger/urologi/forhud', category: 'Urologi', keywords: ['omskjæring', 'fimose'] },
   { label: 'Mannlig infertilitet', path: '/behandlinger/urologi/infertilitet', category: 'Urologi', keywords: ['barnløshet', 'sæd', 'fertilitet'] },
   { label: 'Nyrer', path: '/behandlinger/urologi/nyrer', category: 'Urologi', keywords: ['nyre', 'nyrestein', 'nyrecyster'] },
-  { label: 'Prevensjon', path: '/behandlinger/urologi/prevensjon', category: 'Urologi', keywords: ['prevensjon', 'sterilisering'] },
+  { label: 'Sterilisering', path: '/behandlinger/urologi/sterilisering', category: 'Urologi', keywords: ['prevensjon', 'sterilisering', 'vasektomi'] },
 
   // Fertilitet
   { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Fagområde', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
@@ -73,8 +69,8 @@ export const searchItems: SearchItem[] = [
   { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati', category: 'Andre', keywords: ['manuell behandling', 'muskel'] },
   { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi', category: 'Andre', keywords: ['psykolog', 'terapi', 'mental helse'] },
   { label: 'Sexologi', path: '/behandlinger/flere-fagomrader/sexologi', category: 'Andre', keywords: ['seksualitet', 'parterapi', 'intimitet'] },
-  { label: 'Kvinnehelse', path: '/behandlinger/flere-fagomrader/kvinnehelse', category: 'Andre', keywords: ['kvinne', 'tverrfaglig'] },
-  { label: 'Tverrfaglig team', path: '/behandlinger/flere-fagomrader/tverrfaglig', category: 'Andre', keywords: ['tverrfaglig', 'team'] },
+  { label: 'Kvinnehelse', path: '/kvinnehelse', category: 'Tema', keywords: ['kvinne', 'tverrfaglig'] },
+  { label: 'Tverrfaglig team', path: '/tverrfaglige-team', category: 'Tema', keywords: ['tverrfaglig', 'team'] },
 
   // Sider
   { label: 'Priser', path: '/priser', category: 'Side', keywords: ['pris', 'kostnad', 'hva koster'] },
