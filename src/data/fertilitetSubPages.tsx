@@ -179,13 +179,13 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
   },
 
   /* ───────────────────────── NEDFRYSING ───────────────────────── */
-  nedfrysing: {
-    seoTitle: "Nedfrysing av egg, sæd og embryo | CMedical",
+  eggfrys: {
+    seoTitle: "Nedfrysning av egg | CMedical",
     seoDescription:
-      "Nedfrysing av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
+      "Nedfrysning av egg gir deg tid. Vi forklarer hva det innebærer, hva det koster og når det er riktig for deg.",
     canonical: "/behandlinger/fertilitet/eggfrys",
     parent,
-    title: "Nedfrysing av egg",
+    title: "Nedfrysning av egg",
     heroTitle: <>Litt mer <span className="italic">tid</span> når du trenger det</>,
     heroDescription:
       "Nedfrysing av egg lar deg ta vare på fertiliteten din nå — uten å måtte ta valget om barn i dag. Vi tilbyr også nedfrysing av sæd og embryo, som del av eller utenfor en IVF-behandling.",
