@@ -22,7 +22,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Fjerne livmor', path: '/behandlinger/gynekologi/fjerne-livmor', category: 'Gynekologi', keywords: ['hysterektomi', 'livmor'] },
   { label: 'PMS og PMDD', path: '/behandlinger/gynekologi/pms-pmdd', category: 'Gynekologi', keywords: ['premenstruell', 'humørsvingninger', 'pms'] },
   { label: 'Labiaplastikk', path: '/behandlinger/gynekologi/labiaplastikk', category: 'Gynekologi', keywords: ['labia', 'intimkirurgi', 'kjønnslepper'] },
-  { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/vaginal-torrhet', category: 'Gynekologi', keywords: ['tørrhet', 'vaginal', 'intimhelse'] },
+  { label: 'Vaginal tørrhet', path: '/behandlinger/gynekologi/overgangsalder', category: 'Gynekologi', keywords: ['tørrhet', 'vaginal', 'intimhelse'] },
   { label: 'Vulvalidelser', path: '/behandlinger/gynekologi/vulvalidelser', category: 'Gynekologi', keywords: ['vulva', 'vaginisme', 'vulvodyni', 'botox'] },
   { label: 'Gynekologisk kirurgi', path: '/behandlinger/gynekologi/kirurgi', category: 'Gynekologi', keywords: ['operasjon', 'kirurgi'] },
   { label: 'Robotassistert kirurgi', path: '/behandlinger/gynekologi/robotkirurgi', category: 'Gynekologi', keywords: ['robot', 'da vinci'] },
