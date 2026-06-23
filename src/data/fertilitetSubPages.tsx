@@ -300,15 +300,62 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 03", title: "Eventuell videre utredning", desc: "Ultralyd, hormonprøver eller henvisning til urolog ved behov." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Vi vurderer alt fra livsstilsendringer til IVF/ICSI eller mikro-TESE." },
     ],
-    reasonsTitle: "Når er det lurt å ta en sjekk?",
+    reasonsTitle: "Sædanalyse",
     reasonsLead:
-      "En sædanalyse er enkel, rask og gir konkrete svar. Det burde være en selvfølge når et par utreder fertilitet — ikke noe som kommer som siste utvei.",
+      "En sædanalyse er en enkel og viktig undersøkelse som gir informasjon om mannens fertilitet (antall sædceller, bevegelighet og form), og er ofte en del av den første fertilitetsutredningen. Prøven tas ved utløsning og analyseres i laboratoriet. Sædanalyse kan også være aktuelt dersom du ønsker å fryse ned sæd for fremtidig bruk.",
+    reasonsLayout: "accordion",
     reasons: [
-      { n: "01", title: "Dere har prøvd uten å bli gravide", desc: "Etter 6–12 måneder bør begge utredes — samtidig." },
-      { n: "02", title: "Du har hatt kvise, infeksjon eller skade", desc: "Tidligere testikkelproblemer kan påvirke fruktbarheten." },
-      { n: "03", title: "Du planlegger å bli forelder senere", desc: "En sjekk gir oversikt — og mulighet for nedfrysing om aktuelt." },
-      { n: "04", title: "Hormonelle symptomer", desc: "Lav energi, redusert libido eller endring i kroppen kan henge sammen." },
-      { n: "05", title: "Før kreftbehandling", desc: "Nedfrysing av sæd før cellegift eller stråling beskytter mulighetene dine." },
+      {
+        n: "01",
+        title: "Enkel sædanalyse",
+        desc: (
+          <>
+            <p>Gir en grunnleggende vurdering av sædkvaliteten, blant annet:</p>
+            <ul>
+              <li>sædvolum</li>
+              <li>konsentrasjon av sædceller</li>
+              <li>totalt antall sædceller</li>
+              <li>bevegelighet</li>
+              <li>morfologi (sædcellenes form)</li>
+            </ul>
+            <p>Sædkvaliteten kan variere over tid; ved enkelte funn kan det være aktuelt å gjenta undersøkelsen.</p>
+            <p><strong>Forberedelser:</strong></p>
+            <ul>
+              <li>omtrent 2 dagers seksuell avholdenhet før prøvetaking</li>
+              <li>vask penis med såpe og vann kvelden før</li>
+              <li>vask penis med vann på prøvedagen</li>
+              <li>unngå kremer, oljer, glidemiddel og spytt ved prøvetaking</li>
+            </ul>
+            <p>Prøven kan tas på klinikken eller hjemme. Tas den hjemme, må den leveres innen én time og oppbevares nær kroppstemperatur under transport.</p>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Utvidet sædanalyse",
+        desc: (
+          <>
+            <p>Gir mer detaljert informasjon om sædkvaliteten. Kan være aktuelt ved vedvarende redusert sædkvalitet, ved gjentatte mislykkede fertilitetsbehandlinger, ved gjentatte spontanaborter, eller ved behov for nærmere utredning av mannlig infertilitet.</p>
+            <p><strong>Forberedelser:</strong> samme hygienerutiner som ved vanlig sædanalyse. Prøven tas på klinikken og må avtales på forhånd.</p>
+          </>
+        ),
+      },
+      {
+        n: "03",
+        title: "Sædanalyse etter vasektomi eller refertilisering",
+        desc: "Etter vasektomi eller refertilisering anbefales kontrollprøve for å dokumentere resultatet, vanligvis omtrent tre måneder etter inngrepet. Er inngrepet utført hos CMedical, er kontrollprøven kostnadsfri.",
+      },
+      {
+        n: "04",
+        title: "Nedfrysning av sæd",
+        desc: (
+          <>
+            <p>Sæd kan fryses ned og oppbevares for fremtidig bruk, for eksempel før kreftbehandling eller annen medisinsk behandling som kan påvirke fertiliteten, før sterilisering, i forbindelse med kjønnsbekreftende behandling, eller ved andre forhold som kan påvirke fremtidig fertilitet.</p>
+            <p><strong>Forberedelser:</strong> Før nedfrysning tas blodprøver (HIV, Hepatitt B, Hepatitt C, Syfilis). Du får rekvisisjon og informasjon fra klinikken. Vanligvis 1–2 dagers seksuell avholdenhet før prøvetaking. Prøven tas på klinikken, og timen må avtales på forhånd.</p>
+            <p>Skal sædcellene brukes for å oppnå graviditet, må paret godkjennes for assistert befruktning og kvinnen gjennomgå IVF-behandling.</p>
+          </>
+        ),
+      },
     ],
     promises: standardPromises,
     related: [
