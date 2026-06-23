@@ -233,14 +233,14 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
   /* (PGT-side fjernet — innholdet håndteres under Assistert befruktning / individuell vurdering) */
 
 
-  /* ───────────────────────── MANNLIG FERTILITET ───────────────────────── */
-  "mannlig-fertilitet": {
-    seoTitle: "Mannlig fertilitet — sædanalyse og mikro-TESE | CMedical",
+  /* ───────────────────────── SÆDANALYSE ───────────────────────── */
+  saedanalyse: {
+    seoTitle: "Sædanalyse | CMedical — mannlig fertilitet",
     seoDescription:
       "Halvparten av forklaringen ligger ofte hos mannen. Sædanalyse, hormonprøver og mikro-TESE hos spesialister — diskret og raskt.",
     canonical: "/behandlinger/fertilitet/saedanalyse",
     parent,
-    title: "Mannlig fertilitet",
+    title: "Sædanalyse",
     heroTitle: <>Halvparten av <span className="italic">svaret</span> ligger ofte her</>,
     heroDescription:
       "Når et par ikke blir gravide, er årsaken hos mannen i omtrent halvparten av tilfellene. En enkel sædanalyse gir deg svar — og er det naturlige første steget.",
