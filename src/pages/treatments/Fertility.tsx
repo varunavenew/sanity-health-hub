@@ -135,28 +135,28 @@ const expertAreas = [
     title: "IVF — prøverørsbehandling",
     desc:
       "Vårt mest etablerte fagfelt. Vi har gjennomført IVF siden 1989 og kombinerer erfaring med oppdaterte protokoller.",
-    href: "/behandlinger/fertilitet/ivf",
+    href: "/behandlinger/fertilitet/assistert-befruktning",
     image: journeyLab,
   },
   {
     title: "Eggdonasjon",
     desc:
       "Norges nyeste eggbank. Vi følger dere trygt gjennom hele forløpet — fra første samtale til oppfølging.",
-    href: "/behandlinger/fertilitet/eggdonasjon",
+    href: "/behandlinger/fertilitet/donorbehandling",
     image: journeyResult,
   },
   {
     title: "Nedfrysing av egg",
     desc:
       "For deg som vil bevare mulighetene dine. Vi forklarer hva som er realistisk å forvente — og hva som ikke er det.",
-    href: "/behandlinger/fertilitet/nedfrysing",
+    href: "/behandlinger/fertilitet/eggfrys",
     image: audienceWaiting,
   },
   {
     title: "Mannlig fertilitet",
     desc:
       "Sædanalyse, utredning og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
-    href: "/behandlinger/fertilitet/mannlig-fertilitet",
+    href: "/behandlinger/fertilitet/saedanalyse",
     image: audienceCouple,
   },
 ];
@@ -166,18 +166,18 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Undersøkelse og utredning",
     items: [
       { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/mannlig-fertilitet" },
-      { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/pgt" },
+      { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
+      { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/assistert-befruktning" },
     ],
   },
   {
     label: "Behandling og kirurgi",
     items: [
-      { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/ivf" },
-      { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/iui" },
-      { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/eggdonasjon" },
-      { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/nedfrysing" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/psykisk-helsehjelp" },
+      { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/donorbehandling" },
+      { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/eggfrys" },
+      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/infertilitet" },
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
     ],
   },

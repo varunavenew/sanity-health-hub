@@ -54,13 +54,13 @@ export const sitePages: SitePage[] = [
 
   // Fertilitet underbehandlinger
   { path: "/behandlinger/fertilitet/fertilitetssjekk", name: "Fertilitetssjekk", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/ivf", name: "IVF", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/iui", name: "IUI", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/nedfrysing", name: "Nedfrysing", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/eggdonasjon", name: "Eggdonasjon", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/mannlig-fertilitet", name: "Mannlig fertilitet", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/psykisk-helsehjelp", name: "Psykisk helsehjelp", category: "Fertilitet – underbehandlinger" },
-  { path: "/behandlinger/fertilitet/pgt", name: "PGT", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/assistert-befruktning", name: "IVF", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/assistert-befruktning", name: "IUI", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/eggfrys", name: "Nedfrysing", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/donorbehandling", name: "Eggdonasjon", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/saedanalyse", name: "Mannlig fertilitet", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/infertilitet", name: "Psykisk helsehjelp", category: "Fertilitet – underbehandlinger" },
+  { path: "/behandlinger/fertilitet/assistert-befruktning", name: "PGT", category: "Fertilitet – underbehandlinger" },
 
   // Urologi underbehandlinger
   { path: "/behandlinger/urologi/blaere", name: "Blære og urinveier", category: "Urologi – underbehandlinger" },
