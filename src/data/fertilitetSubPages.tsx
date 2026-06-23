@@ -402,15 +402,43 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Behandling", desc: "Inseminasjon, IVF eller partnerdonasjon — avhengig av hva som passer best." },
       { n: "Steg 05", title: "Oppfølging", desc: "Tett medisinsk og psykologisk oppfølging gjennom hele forløpet — også etter graviditetstest." },
     ],
-    reasonsTitle: "Hvem passer donorbehandling for?",
+    reasonsTitle: "Donorbehandling",
     reasonsLead:
-      "Donorbehandling kan være riktig løsning når egne egg eller sæd ikke er et alternativ — eller når det er en sosial eller medisinsk grunn til å bruke donor.",
+      "Behandling med donor: For noen er behandling med donorsæd, donoregg eller partnerdonasjon en nødvendig del av veien til å få barn. Vi tilbyr behandling i henhold til norsk lovgivning og gir grundig informasjon og veiledning gjennom hele prosessen. Det norske regelverket kan oppleves komplisert – er du usikker, er du velkommen til å kontakte oss.",
+    reasonsLayout: "accordion",
     reasons: [
-      { n: "01", title: "Likekjønnede par", desc: "Partnerdonasjon eller IUI/IVF med donorsæd — dere velger sammen hva som passer best." },
-      { n: "02", title: "Single som ønsker barn", desc: "IUI med donorsæd er ofte det enkleste første steget når du ønsker barn på egen hånd." },
-      { n: "03", title: "Eggmangel eller redusert eggkvalitet", desc: "Donoregg kan være aktuelt når egne egg ikke gir resultat." },
-      { n: "04", title: "Nedsatt sædkvalitet eller azoospermi", desc: "Donorsæd kan brukes ved IUI eller IVF når partnerens sæd ikke er et alternativ." },
-      { n: "05", title: "Genetiske årsaker", desc: "Når dere ikke ønsker å overføre en arvelig sykdom." },
+      {
+        n: "01",
+        title: "Viktig å vite",
+        desc: "Norsk lov tillater behandling med enten donerte egg eller donorsæd. Samtidig bruk av både donerte egg og donorsæd (dobbeltdonasjon) er ikke tillatt. Dette innebærer blant annet at single kvinner ikke kan motta behandling med donoregg i Norge.",
+      },
+      {
+        n: "02",
+        title: "Partnerdonasjon",
+        desc: "Kan være aktuelt for kvinnelige par. Egg hentes fra den ene kvinnen, befruktes med donorsæd, dyrkes til blastocyst og fryses ned. Det befruktede egget kan senere settes inn i den andre kvinnens livmor. Partnerdonasjon ble tillatt i Norge fra 2021 og kan gjennomføres både på medisinsk og sosial indikasjon. Kun aktuelt for kvinner som er gift eller samboere i et stabilt parforhold.",
+      },
+      {
+        n: "03",
+        title: "Donorsæd",
+        desc: "Vi tilbyr behandling med donorsæd fra vår egen sædbank samt Cryos og European Sperm Bank. I Norge benyttes kun ikke-anonyme sæddonorer: donoren er anonym for mottakerne, men barnet har rett til opplysninger om donorens identitet fra fylte 15 år. Ved ønske om flere barn fra samme donor kan det være mulig å reservere sæd til framtidige søskenforsøk. Valg av donor gjennomgås med lege og sykepleier før behandlingsstart, og donorsæden må være mottatt ved klinikken før oppstart.",
+      },
+      {
+        n: "04",
+        title: "Donoregg",
+        desc: (
+          <>
+            <p>Eggdonasjon kan være aktuelt når graviditet med egne egg ikke er mulig eller sannsynligheten er svært lav. Vanlige årsaker:</p>
+            <ul>
+              <li>tidlig overgangsalder</li>
+              <li>svært redusert eggstokkreserve</li>
+              <li>manglende eggproduksjon</li>
+              <li>gjentatte IVF-forsøk uten tilfredsstillende resultat</li>
+              <li>arvelige tilstander som ikke ønskes videreført</li>
+            </ul>
+            <p>Ved eggdonasjon kommer eggene fra en donor, mens sædcellene kommer fra partner eller medmor. Barnet vil ikke være genetisk beslektet med kvinnen som mottar behandlingen, men hun gjennomgår selv graviditet og fødsel. I Norge kan eggdonasjon tilbys heterofile par, i tråd med bioteknologiloven og etter individuell vurdering.</p>
+          </>
+        ),
+      },
     ],
     promises: standardPromises,
     expertAreas: {
