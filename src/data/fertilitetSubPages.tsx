@@ -506,16 +506,35 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose. Vanligvis 15–30 minutter." },
       { n: "04", title: "Veien videre", desc: "Funn og prøvesvar gjennomgås — og kobles til neste steg i fertilitetsplanen." },
     ],
-    reasonsTitle: "Når brukes hysteroskopi i et fertilitetsforløp?",
+    reasonsTitle: "Hysteroskopi",
     reasonsLead:
-      "Tilstanden i livmorhulen har direkte betydning for at et embryo skal kunne feste seg. Hysteroskopi gir oss et tydelig bilde — og en mulighet til å rette opp i ting samtidig.",
+      "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne. Fordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre.",
+    reasonsLayout: "prose",
     reasons: [
-      { n: "01", title: "Polypper i livmoren", desc: "Polypper kan hindre innfesting og fjernes enkelt." },
-      { n: "02", title: "Myomer i livmorhulen", desc: "Submukøse myomer kan reduseres uten åpen kirurgi." },
-      { n: "03", title: "Sammenvoksinger", desc: "Asherman syndrom og andre intrauterine sammenvoksinger." },
-      { n: "04", title: "Gjentatte mislykkede IVF-forsøk", desc: "Vurdering av livmorhulen før nytt behandlingsforsøk." },
-      { n: "05", title: "Gjentatte spontanaborter", desc: "Kartlegging av strukturelle årsaker i livmoren." },
-      { n: "06", title: "Uavklarte funn på ultralyd", desc: "Når noe ikke ser normalt ut og bør avklares før behandling." },
+      {
+        n: "01",
+        title: "Hva kan hysteroskopi kartlegge?",
+        desc: (
+          <>
+            <p>Hysteroskopi er et effektivt verktøy for å kartlegge:</p>
+            <ul>
+              <li>uregelmessige blødninger</li>
+              <li>mistanke om polypper eller muskelknuter i livmoren</li>
+              <li>vanskeligheter med å bli gravid</li>
+            </ul>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Forandringer i livmorslimhinnen",
+        desc: "Gjennom moderne teknologi og skånsomt utviklede instrumenter legger vi vekt på å gi deg en trygg opplevelse med minst mulig ubehag under undersøkelsen.",
+      },
+      {
+        n: "03",
+        title: "Office-hysteroskopi",
+        desc: "Vi tilbyr også office-hysteroskopi som kan gjennomføres uten narkose eller bedøvelse, og umiddelbart ved besøk hos gynekolog.",
+      },
     ],
     promises: standardPromises,
     related: [
