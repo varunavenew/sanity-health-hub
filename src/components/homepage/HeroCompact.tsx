@@ -37,10 +37,15 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
   const { data: homepage } = useHomepage();
   const { t } = useTranslation();
 
-  const serviceCategories =
-    homepage?.categoryCards && homepage.categoryCards.length > 0
-      ? homepage.categoryCards
-      : staticCategories;
+  // Always keep the curated 6-card list and motif selection on the homepage.
+  // Sanity titles/paths still override per-slug, but the image + order are locked.
+  const overrideById = new Map<string, any>(
+    (homepage?.categoryCards || []).map((c: any) => [c.id, c])
+  );
+  const serviceCategories = staticCategories.map((c) => {
+    const o = overrideById.get(c.id);
+    return o ? { ...c, title: o.title || c.title, path: o.path || c.path } : c;
+  });
 
   return (
     <section className={`bg-background pb-4 md:pb-6 ${showHeader ? "pt-10 md:pt-14" : ""}`}>
