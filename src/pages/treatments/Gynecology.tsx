@@ -118,28 +118,28 @@ const expertAreas = [
  desc:
  "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
  href: "/behandlinger/gynekologi/endometriose",
- image: expertEndometriose,
+ image: getServiceImageFromHref("/behandlinger/gynekologi/endometriose") ?? expertEndometriose,
  },
  {
  title: "Fødselsskader og bekkenbunnshelse",
  desc:
  "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
  href: "/behandlinger/gynekologi/urinlekkasje",
- image: expertBekkenbunn,
+ image: getServiceImageFromHref("/behandlinger/gynekologi/urinlekkasje") ?? expertBekkenbunn,
  },
  {
  title: "Overgangsalder",
  desc:
  "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
  href: "/behandlinger/gynekologi/overgangsalder",
- image: expertOvergangsalder,
+ image: getServiceImageFromHref("/behandlinger/gynekologi/overgangsalder") ?? expertOvergangsalder,
  },
  {
  title: "Vulvasmerter",
  desc:
  "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
  href: "/behandlinger/gynekologi/vulvalidelser",
- image: expertVulva,
+ image: getServiceImageFromHref("/behandlinger/gynekologi/vulvalidelser") ?? expertVulva,
  },
 ];
 
