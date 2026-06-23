@@ -413,45 +413,30 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
       </div>
      </div>
 
-     <div className="space-y-16">
+     <div className="space-y-12">
       {serviceGroups.map((group) => (
        <div key={group.label}>
-        <p className="text-xs font-light text-foreground/60 mb-6">
+        <p className="text-xs font-light text-foreground/60 mb-4">
          {group.label}
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-         {group.items.map((s) => {
-          const img = getServiceImageFromHref(s.href) ?? ortopediHero;
-          return (
+        <ul className="border-t border-brand-dark/10">
+         {group.items.map((s) => (
+          <li key={s.title} className="border-b border-brand-dark/10">
            <Link
-            key={s.title}
             to={s.href}
-            className="group block bg-white overflow-hidden border border-brand-dark/10 hover:border-brand-dark/30 transition-colors"
+            className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
            >
-            <div className="aspect-[16/10] overflow-hidden bg-brand-warm">
-             <img
-              src={img}
-              alt={s.title}
-              loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-             />
-            </div>
-            <div className="p-6">
-             <h3 className="text-lg font-normal text-foreground mb-2 group-hover:text-foreground/70 transition-colors">
-              {s.title}
-             </h3>
-             <p className="text-sm font-light text-muted-foreground leading-snug mb-4">
-              {s.desc}
-             </p>
-             <span className="inline-flex items-center gap-2 text-sm font-light text-foreground">
-              Les mer
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-             </span>
-            </div>
+            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+             {s.title}
+            </h3>
+            <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
+             {s.desc}
+            </p>
+            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
            </Link>
-          );
-         })}
-        </div>
+          </li>
+         ))}
+        </ul>
        </div>
       ))}
      </div>
