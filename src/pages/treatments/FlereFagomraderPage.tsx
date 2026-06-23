@@ -14,19 +14,9 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import spotlightImg from "@/assets/hero/hero-clinic-lounge.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import flereHero from "@/assets/categories/flere-fagomrader.jpg";
-
-import imgPlastikkirurgi from "@/assets/services/flere-plastikkirurgi.jpg.asset.json";
-import imgGastrokirurgi from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
-import imgAreknute from "@/assets/services/flere-areknutebehandling.jpg.asset.json";
-import imgEndokrinologi from "@/assets/services/flere-endokrinologi.jpg.asset.json";
-import imgRevmatologi from "@/assets/services/flere-revmatologi.jpg.asset.json";
-import imgErnaering from "@/assets/services/flere-ernaeringsfysologi.jpg.asset.json";
-import imgOsteopati from "@/assets/services/flere-osteopati.jpg.asset.json";
-import imgPsykologi from "@/assets/services/flere-psykologi.jpg.asset.json";
-import imgSexologi from "@/assets/services/flere-sexologi.jpg.asset.json";
-import imgRobot from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -36,74 +26,24 @@ interface PageProps {
  DATA
  ────────────────────────────────────────────────────────────── */
 
-const expertAreas = [
-  {
- title: "Plastikkirurgi",
- desc: "Rekonstruksjon og estetisk",
- href: "/behandlinger/flere-fagomrader/plastikkirurgi",
- image: imgPlastikkirurgi.url,
- },
- {
- title: "Gastrokirurgi",
- desc: "Mage, tarm, lever, galleblære",
- href: "/behandlinger/flere-fagomrader/gastrokirurgi",
- image: imgGastrokirurgi.url,
- },
- {
- title: "Karkirurgi",
- desc: "Åreknuter og blodkar",
- href: "/behandlinger/flere-fagomrader/areknuter",
- image: imgAreknute.url,
- },
- {
- title: "Åreknutebehandling",
- desc: "Sklerosering, laser, kirurgi",
- href: "/behandlinger/flere-fagomrader/areknuter",
- image: imgAreknute.url,
- },
- {
- title: "Endokrinologi",
- desc: "Diabetes, skjoldbrusk, hormoner",
- href: "/behandlinger/flere-fagomrader/endokrinologi",
- image: imgEndokrinologi.url,
- },
- {
- title: "Revmatologi",
- desc: "Leddgikt, artrose, bindevev",
- href: "/behandlinger/flere-fagomrader/revmatologi",
- image: imgRevmatologi.url,
- },
- {
- title: "Ernæringsfysiolog",
- desc: "Kosthold, vekttap, intoleranser",
- href: "/behandlinger/flere-fagomrader/ernaringsfysiolog",
- image: imgErnaering.url,
- },
- {
- title: "Osteopati",
- desc: "Muskel, skjelett, kroniske smerter",
- href: "/behandlinger/flere-fagomrader/osteopati",
- image: imgOsteopati.url,
- },
- {
- title: "Psykologi",
- desc: "Angst, depresjon, traumer",
- href: "/behandlinger/flere-fagomrader/psykologi",
- image: imgPsykologi.url,
- },
- {
- title: "Sexologi",
- desc: "Seksuell helse, samliv, identitet",
- href: "/behandlinger/flere-fagomrader/sexologi",
- image: imgSexologi.url,
- },
- {
- title: "Robotassistert kirurgi",
- desc: "Presis, skånsom kirurgi",
- href: "/behandlinger/flere-fagomrader/robotkirurgi",
- image: imgRobot.url,
- },
+const expertAreasRaw: { title: string; desc: string; href: string }[] = [
+  { title: "Plastikkirurgi", desc: "Rekonstruksjon og estetisk", href: "/behandlinger/flere-fagomrader/plastikkirurgi" },
+  { title: "Gastrokirurgi", desc: "Mage, tarm, lever, galleblære", href: "/behandlinger/flere-fagomrader/gastrokirurgi" },
+  { title: "Karkirurgi", desc: "Åreknuter og blodkar", href: "/behandlinger/flere-fagomrader/areknuter" },
+  { title: "Åreknutebehandling", desc: "Sklerosering, laser, kirurgi", href: "/behandlinger/flere-fagomrader/areknuter" },
+  { title: "Endokrinologi", desc: "Diabetes, skjoldbrusk, hormoner", href: "/behandlinger/flere-fagomrader/endokrinologi" },
+  { title: "Revmatologi", desc: "Leddgikt, artrose, bindevev", href: "/behandlinger/flere-fagomrader/revmatologi" },
+  { title: "Ernæringsfysiolog", desc: "Kosthold, vekttap, intoleranser", href: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
+  { title: "Osteopati", desc: "Muskel, skjelett, kroniske smerter", href: "/behandlinger/flere-fagomrader/osteopati" },
+  { title: "Psykologi", desc: "Angst, depresjon, traumer", href: "/behandlinger/flere-fagomrader/psykologi" },
+  { title: "Sexologi", desc: "Seksuell helse, samliv, identitet", href: "/behandlinger/flere-fagomrader/sexologi" },
+  { title: "Robotassistert kirurgi", desc: "Presis, skånsom kirurgi", href: "/behandlinger/flere-fagomrader/robotkirurgi" },
 ];
+
+const expertAreas = expertAreasRaw.map((a) => ({
+  ...a,
+  image: getServiceImageFromHref(a.href) ?? flereHero,
+}));
 
 const journey = [
  { n: "01", title: "Bestill når det passer deg", desc: "Online booking døgnet rundt. Usikker på hvem du trenger? Ring oss — vi hjelper deg finne riktig spesialist." },

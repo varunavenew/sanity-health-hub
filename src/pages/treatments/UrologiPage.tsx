@@ -16,6 +16,7 @@ import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { TagList } from "@/components/treatments/TagList";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import urologiHero from "@/assets/categories/urologi-real.jpg";
 import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
@@ -91,28 +92,28 @@ const expertAreas = [
  desc:
  "Prostatasjekk, forstørret prostata, prostatakreft, blære- og nyreutredning. Vi har Norges fremste urologer.",
  href: "/behandlinger/urologi/prostata",
- image: expertProstata,
+ image: getServiceImageFromHref("/behandlinger/urologi/prostata") ?? expertProstata,
  },
  {
  title: "Testikler og pung",
  desc:
  "Kul, hevelse, smerter eller varicocele — grundig undersøkelse og behandling med spesialister du kan stole på.",
  href: "/behandlinger/urologi/testikler",
- image: expertTestikler,
+ image: getServiceImageFromHref("/behandlinger/urologi/testikler") ?? expertTestikler,
  },
  {
  title: "Penis, forhud og potens",
  desc:
  "Trang forhud, skjev penis, ereksjonsproblemer og lavt testosteron — utredning og behandling i trygge rammer.",
  href: "/behandlinger/urologi/penis",
- image: expertPenis,
+ image: getServiceImageFromHref("/behandlinger/urologi/penis") ?? expertPenis,
  },
  {
  title: "Robotassistert kirurgi",
  desc:
  "Eneste private aktør i Norge med robotassisterte operasjoner. Mer presis kirurgi og raskere restitusjon.",
  href: "/behandlinger/urologi/robotkirurgi",
- image: expertProstata,
+ image: getServiceImageFromHref("/behandlinger/urologi/robotkirurgi") ?? expertProstata,
  },
 ];
 

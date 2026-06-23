@@ -16,6 +16,7 @@ import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { TagList } from "@/components/treatments/TagList";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 import expertSkulder from "@/assets/hero/hero-treatment.jpg";
@@ -87,28 +88,28 @@ const expertAreas = [
  desc:
  "Inneklemming, kalkavleiringer, rotatormansjettskader, frossen og ustabil skulder — utredet og behandlet av spesialister.",
  href: "/behandlinger/ortopedi/skulder",
- image: expertSkulder,
+ image: getServiceImageFromHref("/behandlinger/ortopedi/skulder") ?? expertSkulder,
  },
  {
  title: "Kne og hofte",
  desc:
  "Korsbånd, menisk, slitasje og labrumskader. Vi tilbyr både konservativ behandling og avansert artroskopi.",
  href: "/behandlinger/ortopedi/kne",
- image: expertKne,
+ image: getServiceImageFromHref("/behandlinger/ortopedi/kne") ?? expertKne,
  },
  {
  title: "Hånd, albue og fot",
  desc:
  "Karpaltunnel, tennisalbue, Dupuytren, hælspore — presisjonskirurgi og injeksjonsbehandling.",
- href: "/behandlinger/ortopedi/hand",
- image: expertHand,
+ href: "/behandlinger/ortopedi/hand-albue",
+ image: getServiceImageFromHref("/behandlinger/ortopedi/hand-albue") ?? expertHand,
  },
  {
  title: "Andre vurdering",
  desc:
  "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
  href: "/behandlinger/ortopedi/second-opinion",
- image: expertSecondOpinion,
+ image: getServiceImageFromHref("/behandlinger/ortopedi/second-opinion") ?? expertSecondOpinion,
  },
 ];
 
