@@ -123,7 +123,7 @@ const AppContent = () => {
         <Route path="/urology" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/urologi" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/ortopedi" element={<OrtopediPage isChatOpen={false} />} />
-        <Route path="/graviditet" element={<GraviditetEtterMaster isChatOpen={false} />} />
+        <Route path="/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
         <Route path="/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Norwegian slugs */}
         <Route path="/behandlinger/gynekologi" element={<Gynecology isChatOpen={false} />} />
