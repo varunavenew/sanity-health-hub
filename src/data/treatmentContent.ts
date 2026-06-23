@@ -309,7 +309,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "behandling",
         heading: "Behandling",
-        content: "Cyster på eggstokkene av en viss størrelse, som ikke blir borte av seg selv og som gir plager, er det anbefalt å operere bort. Dette gjøres vanligvis ved hjelp av en kikkehullsoperasjon. Da får man narkose og kirurgen fjerner cysten gjennom 3-4 hull i magen din. Inngrepet tar omtrent 45 minutter, men dette avhenger blant annet av hvor store cystene er. Ønsker du å snakke med en spesialist på dette, bestill time.",
+        content: "Cyster av en viss størrelse, som ikke blir borte av seg selv og som gir plager, anbefales operert bort. Dette gjøres vanligvis ved en kikkhullsoperasjon: du får narkose og kirurgen fjerner cysten gjennom 3–4 hull i magen. Inngrepet tar omtrent 45 minutter, avhengig av størrelsen.",
       },
     ],
     relatedSpecialists: ["ane-gerda-z-eriksson", "birgitte-aspenes", "henrik-michelsen-wahl"],
