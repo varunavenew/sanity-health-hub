@@ -20,7 +20,6 @@ const bodyParts = [
  { title: "Hofte", desc: "Hofteslitasje, labrumskade, fotballbrokk" },
  { title: "Hånd og albue", desc: "Karpaltunnel, tennisalbue, Dupuytren, springfinger" },
  { title: "Fot og ankel", desc: "Hælspore, fotslitasje, ankelbåndskader" },
- { title: "Rygg og nakke", desc: "Skiveprolaps, spinalstenose, nakkeplager" },
  { title: "Injeksjoner", desc: "Kortison, hyaluronsyre, blodspinningsteknikk (PRP)" },
  { title: "Second opinion", desc: "Har du fått en diagnose du er usikker på?" },
 ];
