@@ -2,7 +2,7 @@ import { Calendar, ExternalLink, Phone, Mail, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface ClinicBookingData {
-  method?: "info" | "pasientsky" | "closed";
+  method?: "info" | "pasientsky" | "metodika" | "closed";
   serviceProviderId?: string;
   externalBookingUrl?: string;
   closedMessage?: string;
@@ -43,11 +43,12 @@ export const ClinicBookingBlock = ({
             Bestill time ved CMedical {clinicLabel}
           </h2>
 
-          {method === "pasientsky" && (
+          {(method === "pasientsky" || method === "metodika") && (
             <div className="border border-border/40 rounded-sm p-6 bg-brand-warm/30">
               <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
-                Bestill time direkte i vårt bookingsystem. Du velger spesialist, dato og tidspunkt
-                som passer for deg.
+                {method === "metodika"
+                  ? "Bestill time i Metodika-bookingsystemet. Du velger tjeneste, klinikk, dato og tidspunkt."
+                  : "Bestill time direkte i vårt bookingsystem. Du velger spesialist, dato og tidspunkt som passer for deg."}
               </p>
               <Button asChild className="rounded-sm">
                 <a

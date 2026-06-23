@@ -611,7 +611,7 @@ import type { ClinicLocation } from "@/lib/maps/clinic-location";
 import { clinicMapsUrl } from "@/lib/maps/clinic-location";
 
 export type SanityClinicBooking = {
-  method?: "info" | "pasientsky" | "closed";
+  method?: "info" | "pasientsky" | "metodika" | "closed";
   serviceProviderId?: string;
   externalBookingUrl?: string;
 };

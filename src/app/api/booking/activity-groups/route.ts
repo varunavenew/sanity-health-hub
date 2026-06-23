@@ -3,7 +3,7 @@ import {
   fetchProcedurePriceMap,
   parsePriceFromActivityName,
 } from "@/lib/booking/item-prices";
-import { fetchBookingResource, unwrapList } from "@/lib/booking/upstream";
+import { fetchBookingResourceCached, unwrapList } from "@/lib/booking/upstream";
 
 const GROUPS_URL =
   process.env.BOOKING_ACTIVITY_GROUPS_URL ||
@@ -121,7 +121,7 @@ function compareCategories(a: BookingCategory, b: BookingCategory): number {
   return a.label.localeCompare(b.label, "nb");
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   const apiKey = process.env.BOOKING_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
@@ -130,24 +130,30 @@ export async function GET() {
     );
   }
 
+  const includePrices =
+    new URL(request.url).searchParams.get("prices") === "1";
+
   try {
     const [groupsPayload, activitiesPayload] = await Promise.all([
-      fetchBookingResource(GROUPS_URL, apiKey),
-      fetchBookingResource(ACTIVITIES_URL, apiKey),
+      fetchBookingResourceCached(GROUPS_URL, apiKey),
+      fetchBookingResourceCached(ACTIVITIES_URL, apiKey),
     ]);
 
     const groups = unwrapList(groupsPayload) as ApiGroup[];
     const activities = unwrapList(activitiesPayload) as ApiActivity[];
 
-    const procedureIds = [
-      ...new Set(
-        activities
-          .map((a) => activityProcedureId(a))
-          .filter((id): id is number => id !== undefined),
-      ),
-    ];
-
-    const priceMap = await fetchProcedurePriceMap(procedureIds, apiKey);
+    const priceMap = includePrices
+      ? await fetchProcedurePriceMap(
+          [
+            ...new Set(
+              activities
+                .map((a) => activityProcedureId(a))
+                .filter((id): id is number => id !== undefined),
+            ),
+          ],
+          apiKey,
+        )
+      : new Map<number, string>();
 
     const servicesByGroupId = new Map<number, BookingService[]>();
     for (const activity of activities) {
@@ -182,7 +188,14 @@ export async function GET() {
       .filter((item): item is BookingCategory => item !== null)
       .sort(compareCategories);
 
-    return NextResponse.json({ ok: true, categories });
+    return NextResponse.json(
+      { ok: true, categories },
+      {
+        headers: {
+          "Cache-Control": "private, max-age=300, stale-while-revalidate=600",
+        },
+      },
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
     console.error("[booking/activity-groups] error:", message);

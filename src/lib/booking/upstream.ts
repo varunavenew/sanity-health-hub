@@ -18,6 +18,25 @@ export const BOOKING_URLS = {
     `${BOOKING_API_BASE}/itemprices`,
 };
 
+const CACHE_TTL_MS = Number(process.env.BOOKING_CACHE_TTL_MS || 5 * 60 * 1000);
+const MAX_RETRIES = Number(process.env.BOOKING_FETCH_MAX_RETRIES || 3);
+const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
+
+const responseCache = new Map<string, { expiresAt: number; data: unknown }>();
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function retryDelayMs(response: Response, attempt: number): number {
+  const retryAfter = response.headers.get("retry-after");
+  if (retryAfter) {
+    const seconds = Number(retryAfter);
+    if (Number.isFinite(seconds) && seconds > 0) return seconds * 1000;
+  }
+  return Math.min(500 * 2 ** attempt, 8000);
+}
+
 export function unwrapList(payload: unknown): unknown[] {
   if (Array.isArray(payload)) return payload;
   if (!payload || typeof payload !== "object") return [];
@@ -35,20 +54,60 @@ export function unwrapList(payload: unknown): unknown[] {
   return [];
 }
 
+async function fetchBookingResponse(
+  url: string,
+  apiKey: string,
+  init?: RequestInit,
+): Promise<Response> {
+  let lastResponse: Response | undefined;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const response = await fetch(url, {
+      ...init,
+      headers: {
+        "X-API-KEY": apiKey,
+        Accept: "application/json",
+        ...init?.headers,
+      },
+      cache: "no-store",
+    });
+
+    if (response.ok || !RETRYABLE_STATUSES.has(response.status) || attempt === MAX_RETRIES) {
+      return response;
+    }
+
+    lastResponse = response;
+    await sleep(retryDelayMs(response, attempt));
+  }
+
+  return lastResponse!;
+}
+
 export async function fetchBookingResource(
   url: string,
   apiKey: string,
 ): Promise<unknown> {
-  const response = await fetch(url, {
-    headers: { "X-API-KEY": apiKey, Accept: "application/json" },
-    cache: "no-store",
-  });
+  const response = await fetchBookingResponse(url, apiKey);
 
   if (!response.ok) {
     throw new Error(`Upstream booking API failed (${response.status}) for ${url}`);
   }
 
   return response.json();
+}
+
+/** Cached fetch for relatively static catalog endpoints (groups, activities). */
+export async function fetchBookingResourceCached(
+  url: string,
+  apiKey: string,
+): Promise<unknown> {
+  const cacheKey = `${url}::${apiKey}`;
+  const hit = responseCache.get(cacheKey);
+  if (hit && hit.expiresAt > Date.now()) return hit.data;
+
+  const data = await fetchBookingResource(url, apiKey);
+  responseCache.set(cacheKey, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+  return data;
 }
 
 export function bookingResourceUrl(base: string, id: number | string): string {
@@ -61,15 +120,10 @@ export async function postBookingResource(
   apiKey: string,
   body: Record<string, unknown>,
 ): Promise<unknown> {
-  const response = await fetch(url, {
+  const response = await fetchBookingResponse(url, apiKey, {
     method: "POST",
-    headers: {
-      "X-API-KEY": apiKey,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
-    cache: "no-store",
   });
 
   const payload: unknown = await response.json().catch(() => null);

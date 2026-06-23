@@ -13,7 +13,12 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-import { categoryNumericIdToPageId, findBookingCategoryForPage, slugifyNo } from "@/lib/bookingLinks";
+import {
+  categoryNumericIdToPageId,
+  findBookingCategoryByApiGroupId,
+  findBookingCategoryForPage,
+  slugifyNo,
+} from "@/lib/bookingLinks";
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
 import {
   apiLocationToClinic,
@@ -22,10 +27,11 @@ import {
   isSanityManagedClinic,
   type BookingClinic,
   type BookingMetodikaClinic,
-  type CategoryClinicTag,
+  // type CategoryClinicTag,
 } from "@/lib/booking/mapApiLocation";
 import {
   findSanityManagedClinicBySlug,
+  mergeMetodikaAndSanityClinics,
   sanityManagedClinicsForCategory,
 } from "@/lib/booking/sanityBookingClinic";
 import {
@@ -62,10 +68,9 @@ function dayKey(date: Date): string {
   return d.toISOString();
 }
 
-/** Short label for step 1 clinic badges (from booking API location names). */
-function clinicBadgeLabel(locationName: string): string {
-  return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
-}
+// function clinicBadgeLabel(locationName: string): string {
+//   return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
+// }
 
 function LinkedTemplateText({
   template,
@@ -168,6 +173,8 @@ type DisplayTimeSlot = {
 interface BookingData {
   category?: string;
   categoryId?: string;
+  /** activity-groups category slug (may differ from categoryId / clinicServiceId). */
+  categoryApiSlug?: string;
   service?: BookingServiceItem;
   clinic?: BookingClinic;
   specialistChosen?: boolean; // true once user has passed the specialist step
@@ -199,29 +206,22 @@ const BookingDemo = () => {
   const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
-  const [categoryClinicsById, setCategoryClinicsById] = useState<
-    Record<string, CategoryClinicTag[]>
-  >({});
-  const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
+  // Clinic badges disabled — category-clinics is slow (one wbfreetimes call per activity).
+  // const [categoryClinicsById, setCategoryClinicsById] = useState<
+  //   Record<string, CategoryClinicTag[]>
+  // >({});
+  // const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadBookingCatalog() {
+    async function loadServices() {
+      setServicesLoading(true);
       try {
-        const [groupsRes, clinicsRes] = await Promise.all([
-          fetch("/api/booking/activity-groups"),
-          fetch("/api/booking/category-clinics"),
-        ]);
-
+        const groupsRes = await fetch("/api/booking/activity-groups");
         const groupsJson = (await groupsRes.json()) as {
           ok?: boolean;
           categories?: BookingServiceCategory[];
-        };
-        const clinicsJson = (await clinicsRes.json()) as {
-          ok?: boolean;
-          byCategoryId?: Record<string, CategoryClinicTag[]>;
-          allLocations?: CategoryClinicTag[];
         };
 
         if (cancelled) return;
@@ -253,26 +253,39 @@ const BookingDemo = () => {
         } else {
           setBookingServices([]);
         }
-
-        if (clinicsRes.ok && clinicsJson.ok) {
-          setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
-          setAllBookingLocations(clinicsJson.allLocations ?? []);
-        } else {
-          setCategoryClinicsById({});
-          setAllBookingLocations([]);
-        }
       } catch {
-        if (!cancelled) {
-          setBookingServices([]);
-          setCategoryClinicsById({});
-          setAllBookingLocations([]);
-        }
+        if (!cancelled) setBookingServices([]);
       } finally {
         if (!cancelled) setServicesLoading(false);
       }
     }
 
-    loadBookingCatalog();
+    // async function loadCategoryClinics() {
+    //   try {
+    //     const clinicsRes = await fetch("/api/booking/category-clinics");
+    //     const clinicsJson = (await clinicsRes.json()) as {
+    //       ok?: boolean;
+    //       byCategoryId?: Record<string, CategoryClinicTag[]>;
+    //       allLocations?: CategoryClinicTag[];
+    //     };
+    //
+    //     if (cancelled) return;
+    //
+    //     if (clinicsRes.ok && clinicsJson.ok) {
+    //       setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
+    //       setAllBookingLocations(clinicsJson.allLocations ?? []);
+    //     }
+    //   } catch {
+    //     if (!cancelled) {
+    //       setCategoryClinicsById({});
+    //       setAllBookingLocations([]);
+    //     }
+    //   }
+    // }
+
+    loadServices();
+    // loadCategoryClinics();
+
     return () => {
       cancelled = true;
     };
@@ -386,21 +399,25 @@ const BookingDemo = () => {
         : undefined;
     const effectiveKategori = kategori || kategoriFromNumericId;
 
-    if (!effectiveKategori && !tjeneste && !spesialistSlug && !klinikkId) return;
+    if (!effectiveKategori && !kategoriIdRaw && !tjeneste && !spesialistSlug && !klinikkId) return;
 
     // 1. Resolve category
     let resolvedCategoryListId: string | undefined;
     let resolvedCategoryClinicId: string | undefined;
     let resolvedCategoryLabel: string | undefined;
-    let matchingCategory: ReturnType<typeof findBookingCategoryForPage>;
+    let matchingCategory: BookingServiceCategory | undefined;
+
+    const applyResolvedCategory = (cat: BookingServiceCategory) => {
+      resolvedCategoryListId = cat.id;
+      resolvedCategoryClinicId = clinicIdForCategory(cat);
+      resolvedCategoryLabel = cat.label;
+      setExpandedCategory(cat.id);
+      setFilterToCategoryId(cat.id);
+    };
     if (effectiveKategori && effectiveKategori !== "flere-fagomrader") {
       matchingCategory = findBookingCategoryForPage(effectiveKategori, bookingServices);
       if (matchingCategory) {
-        resolvedCategoryListId = matchingCategory.id;
-        resolvedCategoryClinicId = clinicIdForCategory(matchingCategory);
-        resolvedCategoryLabel = matchingCategory.label;
-        setExpandedCategory(matchingCategory.id);
-        setFilterToCategoryId(matchingCategory.id);
+        applyResolvedCategory(matchingCategory);
         if (typeof window !== "undefined") {
           console.log("[booking/category] matched category for URL prefill", {
             effectiveKategori,
@@ -413,19 +430,27 @@ const BookingDemo = () => {
       }
     }
 
+    if (!matchingCategory && Number.isFinite(kategoriId) && kategoriId > 0) {
+      matchingCategory = findBookingCategoryByApiGroupId(bookingServices, kategoriId);
+      if (matchingCategory) {
+        applyResolvedCategory(matchingCategory);
+      }
+    }
+
     // If specialist is given but no category, derive from the specialist's category
     let resolvedSpecialist: Specialist | undefined;
     if (spesialistSlug) {
       resolvedSpecialist = specialists.find((s) => s.slug === spesialistSlug);
-      if (resolvedSpecialist && !resolvedCategoryListId) {
+      if (
+        resolvedSpecialist &&
+        !resolvedCategoryListId &&
+        !Number.isFinite(kategoriId)
+      ) {
         const derivedPageId = resolvedSpecialist.category;
         const derivedCat = findBookingCategoryForPage(derivedPageId, bookingServices);
         if (derivedCat) {
-          resolvedCategoryListId = derivedCat.id;
-          resolvedCategoryClinicId = clinicIdForCategory(derivedCat);
-          resolvedCategoryLabel = derivedCat.label;
-          setExpandedCategory(derivedCat.id);
-          setFilterToCategoryId(derivedCat.id);
+          matchingCategory = derivedCat;
+          applyResolvedCategory(derivedCat);
         }
       }
     }
@@ -447,6 +472,7 @@ const BookingDemo = () => {
     if (resolvedService || resolvedSpecialist) {
       const next: BookingData = {};
       if (resolvedCategoryClinicId) next.categoryId = resolvedCategoryClinicId;
+      if (resolvedCategoryListId) next.categoryApiSlug = resolvedCategoryListId;
       if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
       if (resolvedService) next.service = resolvedService;
       if (resolvedSpecialist) {
@@ -881,12 +907,14 @@ const BookingDemo = () => {
     categoryId: string,
     categoryLabel: string,
     service: BookingServiceItem,
+    categoryApiSlug?: string,
   ) => {
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
 
     setBookingData({
       categoryId,
+      categoryApiSlug,
       category: categoryLabel,
       service,
       clinic: undefined,
@@ -901,14 +929,19 @@ const BookingDemo = () => {
   };
 
   const sanityManagedClinicOptions = useMemo(
-    () => sanityManagedClinicsForCategory(sanityClinics, bookingData.categoryId),
-    [sanityClinics, bookingData.categoryId],
+    () =>
+      sanityManagedClinicsForCategory(
+        sanityClinics,
+        bookingData.categoryId,
+        bookingData.categoryApiSlug,
+      ),
+    [sanityClinics, bookingData.categoryId, bookingData.categoryApiSlug],
   );
 
-  // Step 2: Metodika locations + Sanity-managed clinics (Pasientsky / external)
+  // Step 2: Metodika locations + Sanity-managed clinics (Pasientsky / external partner)
   const availableClinics: BookingClinic[] = useMemo(() => {
     const metodika = bookingData.service?.apiActivityId ? apiBookingClinics : [];
-    return [...metodika, ...sanityManagedClinicOptions];
+    return mergeMetodikaAndSanityClinics(metodika, sanityManagedClinicOptions);
   }, [bookingData.service?.apiActivityId, apiBookingClinics, sanityManagedClinicOptions]);
 
   const step2Ready =
@@ -1332,11 +1365,11 @@ const BookingDemo = () => {
                   .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
                   .sort(sortBookingCategories)
                   .map((category) => {
-                    const clinicsForCategory = categoryClinicsById[category.id] ?? [];
-                    const showAlleKlinikker =
-                      clinicsForCategory.length > 0 &&
-                      allBookingLocations.length > 0 &&
-                      clinicsForCategory.length === allBookingLocations.length;
+                    // const clinicsForCategory = categoryClinicsById[category.id] ?? [];
+                    // const showAlleKlinikker =
+                    //   clinicsForCategory.length > 0 &&
+                    //   allBookingLocations.length > 0 &&
+                    //   clinicsForCategory.length === allBookingLocations.length;
                     const isExpanded = expandedCategory === category.id;
 
                     return (
@@ -1354,6 +1387,13 @@ const BookingDemo = () => {
                           )}
                         >
                           <span className="font-normal text-brand-dark min-w-0">{category.label}</span>
+                          <ChevronDown
+                            className={cn(
+                              "w-5 h-5 text-brand-dark/45 transition-transform duration-300 flex-shrink-0 ml-auto",
+                              isExpanded && "rotate-180",
+                            )}
+                          />
+                          {/* Clinic badges disabled (category-clinics API).
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
                               {showAlleKlinikker ? (
@@ -1378,6 +1418,7 @@ const BookingDemo = () => {
                               )}
                             />
                           </div>
+                          */}
                         </button>
 
                         <AnimatePresence initial={false}>
@@ -1410,6 +1451,7 @@ const BookingDemo = () => {
                                           clinicIdForCategory(category),
                                           category.label,
                                           service,
+                                          category.id,
                                         )
                                       }
                                       className={cn(

@@ -93,6 +93,14 @@ export function findBookingCategoryForPage(
   );
 }
 
+/** Resolve a Metodika wbactivitygroup id (e.g. 36 → Håndterapeut) from loaded categories. */
+export function findBookingCategoryByApiGroupId(
+  categories: (BookingCategoryMatch & { apiGroupId?: number })[],
+  apiGroupId: number,
+): (BookingCategoryMatch & { apiGroupId?: number }) | undefined {
+  return categories.find((c) => c.apiGroupId === apiGroupId);
+}
+
 /** Metodika clinicServiceId for a category page slug (gynekologi → gynekolog). */
 export function clinicServiceIdForCategoryPage(categoryPageId: string): string {
   const fromConfig = categoryPageBookingConfig[categoryPageId]?.clinicServiceId;
