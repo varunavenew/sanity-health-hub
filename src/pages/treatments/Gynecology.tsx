@@ -17,6 +17,7 @@ import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 import gynekologiHeroImg from "@/assets/categories/gynekologi-real.jpg";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
