@@ -284,56 +284,8 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
 
-  /* ───────────────────────── PSYKISK HELSEHJELP ───────────────────────── */
-  "psykisk-helsehjelp": {
-    seoTitle: "Psykisk helsehjelp i fertilitetsforløp | CMedical",
-    seoDescription:
-      "Samtaler med psykolog gjennom hele fertilitetsforløpet — før, under og etter behandling. Du er ikke alene.",
-    canonical: "/behandlinger/fertilitet/infertilitet",
-    parent,
-    title: "Psykisk helsehjelp",
-    heroTitle: <>Du skal ikke <span className="italic">stå</span> i dette alene</>,
-    heroDescription:
-      "Et fertilitetsforløp tar mye plass — også psykisk. Vi tilbyr samtaler med psykolog som kjenner forløpet, fra første utredning til etter graviditetstest. Det er en del av tilbudet vårt — ikke et tillegg.",
-    heroPoints: [
-      { title: "Psykolog med fertilitetserfaring", desc: "Du møter noen som forstår hva du står i — uten lange forklaringer." },
-      { title: "Samtaler hele veien", desc: "Før, under og etter behandling — så lenge du trenger det." },
-      { title: "For par og enkeltpersoner", desc: "Sammen eller hver for dere — vi tilpasser etter ønsker." },
-      { title: "Trygt rom", desc: "Alt du sier blir værende mellom deg og psykologen." },
-    ],
-    rating: "4,9 — Psykologer som forstår forløpet",
-    booking: { ...baseBooking, tjeneste: "samtale" },
-    primaryCtaLabel: "Bestill samtale",
-    flowTitle: "Slik tilbyr vi psykisk støtte",
-    flow: [
-      { n: "Steg 01", title: "Første samtale", desc: "En åpen, uforpliktende samtale der vi blir kjent og finner ut hva du trenger." },
-      { n: "Steg 02", title: "Plan for oppfølging", desc: "Vi avtaler hyppighet og format basert på dine behov." },
-      { n: "Steg 03", title: "Samtaler i ditt tempo", desc: "Underveis i behandlingen — og etterpå om du ønsker det." },
-      { n: "Steg 04", title: "Tett samspill med behandlerteamet", desc: "Med ditt samtykke samarbeider vi på tvers, slik at du opplever helhet." },
-    ],
-    reasonsTitle: "Du trenger ikke vente på krisen",
-    reasonsLead:
-      "Mange ber om hjelp først når det blir tungt. Vi vil at du skal vite at samtalene står klare hele veien — også når alt 'går greit'.",
-    reasons: [
-      { n: "01", title: "Beslutningstunge valg", desc: "IVF, eggdonasjon, antall forsøk — vi hjelper deg å tenke høyt." },
-      { n: "02", title: "Sorgen etter et negativt svar", desc: "Hver runde kan være et tap. Du fortjener et rom for det." },
-      { n: "03", title: "Etter spontanabort", desc: "Tap er tap — uansett hvor langt på vei du var." },
-      { n: "04", title: "Belastning på parforholdet", desc: "Et fertilitetsforløp setter parforholdet på prøve. Vi snakker sammen, om dere ønsker det." },
-      { n: "05", title: "Etter graviditetstest", desc: "Også positive svar bringer komplekse følelser. Vi er der — også da." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF", desc: "Psykologisk støtte hører naturlig hjemme i et IVF-forløp.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "Eggdonasjon", desc: "Egne psykologsamtaler er en obligatorisk del av forløpet.", href: "/behandlinger/fertilitet/donorbehandling" },
-      { title: "Fertilitetssjekk", desc: "Vi snakker også med deg som vurderer om dette er rett for deg.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-    ],
-    ctaTitle: "Bestill en samtale",
-    ctaDescription:
-      "Du trenger ikke å vite hvor du skal begynne. En første samtale er et godt sted å starte.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
+  /* (Psykisk helsehjelp-side fjernet — psykologstøtte tilbys som del av forløpet) */
+
 
   /* ───────────────────────── DONORBEHANDLING ───────────────────────── */
   donorbehandling: {
