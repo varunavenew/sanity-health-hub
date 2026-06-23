@@ -243,3 +243,14 @@ export function getDedicatedServiceImage(categoryId: string, subId?: string): st
 export function getCategoryHeroImage(categoryId: string): string | undefined {
   return serviceImageBySlug[`${ALIAS[categoryId] ?? categoryId}-hero`];
 }
+
+/**
+ * Single source of truth for subpage hero images, resolved from a
+ * /behandlinger/<category>/<sub> href. Use on landing pages so service cards
+ * show exactly the same image as the subpage hero.
+ */
+export function getServiceImageFromHref(href: string): string | undefined {
+  const m = href.match(/^\/behandlinger\/([^/?#]+)(?:\/([^/?#]+))?/);
+  if (!m) return undefined;
+  return getServiceImage(m[1], m[2]);
+}
