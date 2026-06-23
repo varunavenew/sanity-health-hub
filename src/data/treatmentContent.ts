@@ -1491,13 +1491,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Revmatologi er en spesialitet innen medisin som handler om å forstå og behandle problemer med ledd, muskler og bindevev i kroppen. Revmatologer utreder, behandler og følger opp pasienter med revmatisme. For å finne ut om du har revmatisme starter vi med grundig konsultasjon og undersøkelse, som ofte innebærer ultralyd og blodprøver. Har du plager, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon. Diagnoser: Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus. Revmatologer (spesialleger) bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten. Vi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme.",
-    sections: [
-      {
-        id: "utredning",
-        heading: "Utredning",
-        content: "**Diagnoser:** Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus.\n\nRevmatologer, som er spesialleger, bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten deres.\n\nVi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme."
-      },
-    ],
     benefits: [
       "Erfarne revmatologer med spesialkompetanse",
       "Grundig utredning med ultralyd og blodprøver",
@@ -1583,18 +1576,6 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Åreknuter er veldig vanlig, og nesten 30 % av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner. Risikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina. Åreknuter oppstår i de overfladiske venene grunnet svikt i klaffene. Synlige åreknuter på forsiden og på innsiden av leggen/låret tyder på at årsaken kommer fra lysken (70 %). Åreknuter foran og/eller bak på leggen tyder på at årsaken kommer fra knehasen (20 %). I tillegg finnes det flere årsaker til utvikling av åreknuter (10 %). Noen få har flere årsaker eller en kombinasjon. Det vanligste er å ha åreknuter i bare ett bein, men 1/3 av alle med åreknuter har det i begge beina. En god undersøkelse med ultralyd vil avdekke årsakene, og du vil få tilpasset en moderne og effektiv behandling.\n\nSymptomer: Symptomer varierer fra person til person. Mange andre tilstander kan gi tilsvarende symptomer, og derfor er det vanskelig å garantere at alle symptomer forsvinner etter behandling. De vanligste symptomene er: smerter, tunge eller trøtte bein, prikkende ubehag, kløe, nattekramper i leggene. Hevelse: Lindres symptomene dine ved bruk av støttestrømper, gir det en bedre prognose for lindring. Hvis du ikke ønsker behandling etter konsultasjon, anbefaler vi støttestrømper – men disse vil kun lindre symptomer, aldri fjerne åreknutene. Støttestrømper (klasse 2) kjøpes hos ulike apotek, men vi anbefaler personlig oppmøte hos bandagist.",
-    sections: [
-      {
-        id: "symptomer",
-        heading: "Symptomer",
-        content: "Symptomer varierer fra person til person. De vanligste symptomene på åreknuter er:\n\n- Smerter\n- Tunge eller trøtte bein\n- Prikkende ubehag\n- Kløe\n- Nattekramper i leggene\n- Hevelse\n\nLindres symptomene dine ved bruk av støttestrømper, så gir det en bedre prognose med tanke på lindring av symptomer. Hvis du ikke ønsker behandling for dine åreknuter etter konsultasjon, anbefaler vi bruk av støttestrømper, men disse vil kun lindre symptomer og aldri fjerne åreknutene."
-      },
-      {
-        id: "spesialist",
-        heading: "Vår karkirurg",
-        content: "Dr. Einar André Brevik er en av Norges mest erfarne kar- og åreknutekirurger. Han tilbyr fullverdig karkirurgisk vurdering og utredning for åreknuter, venøs insuffisiens ved lymfødem og lipødem, claudicatio (røykebein), Raynauds syndrom, aortaaneurismer og second opinion innen karkirurgi.\n\nDr. Brevik har vært aktiv i det karkirurgiske miljøet gjennom Norsk karkirurgisk forening som leder, nestleder og styremedlem fra 2014 til 2019. Siden 2020 har han jobbet ved karkirurgisk avdeling på Haukeland universitetssykehus.\n\nTotalt har Dr. Brevik operert over 2000 pasienter med åreknuter med de mest moderne og skånsomme metoder."
-      },
-    ],
     benefits: [
       "En av Norges mest erfarne kar- og åreknutekirurger",
       "Over 2000 pasienter operert",
