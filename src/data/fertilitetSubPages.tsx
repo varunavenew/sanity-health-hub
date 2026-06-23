@@ -206,15 +206,55 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 04", title: "Nedfrysing og lagring", desc: "Eggene fryses ned med vitrifikasjon og lagres trygt på klinikken." },
       { n: "Steg 05", title: "Bruk når du er klar", desc: "Når du ønsker å bli gravid, tiner vi eggene og gjennomfører IVF." },
     ],
-    reasonsTitle: "Hvem velger å fryse ned egg?",
+    reasonsTitle: "Nedfrysning av egg",
     reasonsLead:
-      "Det finnes mange gode grunner til å fryse ned egg. Det viktigste er at du tar valget basert på riktig informasjon — ikke press.",
+      "Dersom du ønsker å utsette graviditet, kan nedfrysning av egg være et alternativ. Ved å fryse ned egg mens fertiliteten er god, bevarer du muligheten til å bruke disse senere. Eggene hentes ut og fryses ned ubefruktet ved vitrifisering. De kan senere tines, befruktes (ICSI) med sæd fra partner eller donor, og dyrkes til blastocyst. Nedfrysning er ingen garanti for fremtidig graviditet, men kan øke muligheten for å få barn senere.",
+    reasonsLayout: "accordion",
     reasons: [
-      { n: "01", title: "Du er ikke klar for barn ennå", desc: "Karriere, livssituasjon eller partner — ulike grunner, samme behov for tid." },
-      { n: "02", title: "Lav eggstokkreserve i ung alder", desc: "Hvis sjekken viser at fertilitetsvinduet er kortere enn forventet." },
-      { n: "03", title: "Før kreftbehandling", desc: "Cellegift kan redusere fruktbarhet — nedfrysing før behandling beskytter mulighetene." },
-      { n: "04", title: "Genetiske eller medisinske årsaker", desc: "Tilstander som tidlig overgangsalder eller endometriose." },
-      { n: "05", title: "Som del av en IVF-behandling", desc: "Overskuddsembryo og sæd lagres ofte for senere bruk." },
+      {
+        n: "01",
+        title: "Hvem kan fryse ned egg?",
+        desc: (
+          <>
+            <p>Mange velger det fordi de ønsker å utsette graviditet (livssituasjon, mangel på partner, utdanning, karriere m.m.). Det kan også være aktuelt av medisinske årsaker, for eksempel:</p>
+            <ul>
+              <li>endometriose</li>
+              <li>planlagt behandling med cellegift eller strålebehandling</li>
+              <li>genetiske tilstander som kan gi tidlig redusert eggstokkfunksjon</li>
+              <li>andre medisinske tilstander som kan påvirke fertiliteten</li>
+            </ul>
+            <p>Om behandlingen er aktuell vurderes individuelt etter en fertilitetsutredning.</p>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Når er det best å fryse ned egg?",
+        desc: "Alder er den viktigste faktoren. Både antall og kvalitet på eggene reduseres med alderen, og de beste resultatene oppnås før fertiliteten avtar betydelig – for mange før 35–37-årsalderen. Vi gjør alltid en individuell vurdering basert på alder, eggstokkreserve og øvrige forhold.",
+      },
+      {
+        n: "03",
+        title: "Slik foregår behandlingen",
+        desc: (
+          <>
+            <p>Nedfrysning følger de samme første stegene som IVF:</p>
+            <ul>
+              <li>hormonstimulering med daglige sprøyter i omtrent 10–12 dager</li>
+              <li>ultralydkontroller for å følge utviklingen av folliklene</li>
+              <li>eggløsningssprøyte når eggene er modne</li>
+              <li>egguttak gjennom skjeden i lokalbedøvelse</li>
+              <li>vurdering av eggene i laboratoriet</li>
+              <li>modne egg fryses ned ved vitrifisering</li>
+            </ul>
+            <p>Eggene kan oppbevares i henhold til norsk lovgivning inntil kvinnen er 46 år.</p>
+          </>
+        ),
+      },
+      {
+        n: "04",
+        title: "Hvor mange egg bør fryses ned?",
+        desc: "Antallet varierer og avhenger særlig av alder ved nedfrysning. Generelt gir flere nedfryste egg større sannsynlighet for graviditet og fødsel senere. Under konsultasjonen gir vi en individuell vurdering ut fra alder og eggstokkreserve.",
+      },
     ],
     promises: standardPromises,
     related: [
