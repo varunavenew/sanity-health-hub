@@ -136,28 +136,28 @@ const expertAreas = [
     desc:
       "IVF, ICSI og inseminasjon — også med donor. Norges eldste private fertilitetsklinikk, med erfaring siden 1989.",
     href: "/behandlinger/fertilitet/assistert-befruktning",
-    image: journeyLab,
+    image: getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? journeyLab,
   },
   {
     title: "Donorbehandling",
     desc:
       "Donorsæd, donoregg og partnerdonasjon — vi følger dere trygt gjennom hele forløpet, etter norsk lov.",
     href: "/behandlinger/fertilitet/donorbehandling",
-    image: journeyResult,
+    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
   },
   {
     title: "Nedfrysning av egg",
     desc:
       "For deg som vil bevare mulighetene dine. Vi forklarer hva som er realistisk å forvente — og hva som ikke er det.",
     href: "/behandlinger/fertilitet/eggfrys",
-    image: audienceWaiting,
+    image: getServiceImageFromHref("/behandlinger/fertilitet/eggfrys") ?? audienceWaiting,
   },
   {
     title: "Sædanalyse",
     desc:
       "Sædprøve, hormonprøver og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
     href: "/behandlinger/fertilitet/saedanalyse",
-    image: audienceCouple,
+    image: getServiceImageFromHref("/behandlinger/fertilitet/saedanalyse") ?? audienceCouple,
   },
 ];
 
