@@ -719,6 +719,62 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     specialistCtaLabel: "Se alle fertilitetsspesialister",
     specialistCtaHref: "/spesialister?kategori=fertilitet",
   },
+
+  /* ───────────────────────── FERTILITETSUTREDNING I JULI ───────────────────────── */
+  "fertilitetsutredning-i-juli": {
+    seoTitle: "Fertilitetsutredning i juli | CMedical",
+    seoDescription:
+      "CMedical Fertilitet holder åpent for fertilitetsutredning i juli — fysisk utredning for enkeltpersoner og par, eller telefonsamtale.",
+    canonical: "/behandlinger/fertilitet/fertilitetsutredning-i-juli",
+    parent,
+    title: "Fertilitetsutredning i juli",
+    heroTitle: <>Fertilitetsutredning <span className="italic">i juli</span></>,
+    heroDescription:
+      "CMedical Fertilitet holder åpent for fertilitetsutredning i juli. Vi er tilgjengelig for fysisk utredning for enkeltpersoner og par, eller ved telefonsamtale.",
+    heroPoints: [
+      { title: "Åpent i juli", desc: "Vi tar imot for utredning gjennom hele sommeren." },
+      { title: "Enkeltpersoner og par", desc: "Fysisk konsultasjon på klinikken." },
+      { title: "Telefonsamtale", desc: "Alternativ til oppmøte når det passer best for deg." },
+    ],
+    rating: "4,8 — Norges eldste private fertilitetsklinikk",
+    booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
+    primaryCtaLabel: "Bestill fertilitetsutredning",
+    flowTitle: "Slik kommer du i gang i juli",
+    flow: [
+      { n: "Steg 01", title: "Ta kontakt", desc: "Book en tid på nett eller ring oss — vi finner en time som passer i juli." },
+      { n: "Steg 02", title: "Konsultasjon", desc: "Fysisk på klinikken eller på telefon, alene eller sammen som par." },
+      { n: "Steg 03", title: "Veien videre", desc: "Vi legger en plan tilpasset deg eller dere — i ditt tempo." },
+    ],
+    reasonsTitle: "Fertilitetsutredning i juli",
+    reasonsLead:
+      "CMedical Fertilitet holder åpent for fertilitetsutredning i juli. Vi er tilgjengelig for fysisk utredning for enkeltpersoner og par, eller ved telefonsamtale.",
+    reasonsLayout: "prose",
+    reasons: [
+      {
+        n: "01",
+        title: "Les mer om vår fertilitetsutredning",
+        desc: (
+          <p>
+            <Link to="/behandlinger/fertilitet/fertilitetsutredning" className="underline">
+              Les mer om vår fertilitetsutredning.
+            </Link>
+          </p>
+        ),
+      },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "Fertilitetsutredning", desc: "Grundig kartlegging av fertiliteten — et trygt første steg.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
+      { title: "Assistert befruktning", desc: "IVF, ICSI og IUI — også med donor.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Sædanalyse", desc: "Et enkelt og viktig steg i utredningen.", href: "/behandlinger/fertilitet/saedanalyse" },
+    ],
+    ctaTitle: "Bestill fertilitetsutredning i juli",
+    ctaDescription:
+      "Vi tar imot deg eller dere på klinikken eller på telefon — fortell oss hva som passer best.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
 };
 
 
