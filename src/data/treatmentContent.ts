@@ -37,6 +37,8 @@ export interface TreatmentData {
   faqs?: { question: string; answer: string }[];
   linkedServices?: LinkedService[];
   relatedSpecialists?: string[]; // slugs referencing specialists
+  /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
+  themes?: string[];
 }
 
 // Key: "categoryId/subId" matching the route /behandlinger/:categoryId/:subId
