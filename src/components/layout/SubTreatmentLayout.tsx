@@ -300,10 +300,27 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </p>
 
               {c.heroAvailability && (
-                <p className="mb-10 text-sm font-light text-foreground/70">
+                <p className="mb-6 text-sm font-light text-foreground/70">
                   {c.heroAvailability}
                 </p>
               )}
+
+              {c.heroThemes && c.heroThemes.length > 0 && (
+                <div className="mb-8">
+                  <p className="text-sm font-light text-foreground/70 mb-2">Vi behandler blant annet:</p>
+                  <ul className="flex flex-wrap gap-1.5" aria-label="Temaer vi behandler">
+                    {c.heroThemes.map((t) => (
+                      <li
+                        key={t}
+                        className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-full"
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
 
 
 
