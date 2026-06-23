@@ -45,19 +45,7 @@ import JourneyVariant from "./pages/gynekologi-design/JourneyVariant";
 import AtelierVariant from "./pages/gynekologi-design/AtelierVariant";
 import IndexVariant from "./pages/gynekologi-design/IndexVariant";
 import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
-import FertilitetDesignHub from "./pages/fertilitet-design/DesignHub";
-import FertilitetEditorial from "./pages/fertilitet-design/FertilitetEditorial";
-import FertilitetJourney from "./pages/fertilitet-design/FertilitetJourney";
-import SjekkEditorial from "./pages/fertilitet-design/SjekkEditorial";
-import SjekkJourney from "./pages/fertilitet-design/SjekkJourney";
-import FertilitetAtelier from "./pages/fertilitet-design/FertilitetAtelier";
-import SjekkAtelier from "./pages/fertilitet-design/SjekkAtelier";
-import FertilitetDialog from "./pages/fertilitet-design/FertilitetDialog";
-import FertilitetMagasin from "./pages/fertilitet-design/FertilitetMagasin";
-import FertilitetKlinikk from "./pages/fertilitet-design/FertilitetKlinikk";
-import SjekkDialog from "./pages/fertilitet-design/SjekkDialog";
-import SjekkMagasin from "./pages/fertilitet-design/SjekkMagasin";
-import SjekkKlinikk from "./pages/fertilitet-design/SjekkKlinikk";
+// Removed: /fertilitet-design experiment pages (deleted).
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import GraviditetEtterMaster from "./pages/demos/GraviditetEtterMaster";
 import UrologiPage from "./pages/treatments/UrologiPage";
@@ -218,19 +206,9 @@ const AppContent = () => {
         <Route path="/gynekologi-design/index" element={<IndexVariant isChatOpen={false} />} />
         <Route path="/gynekologi-design/klassisk-plus" element={<ClassicPlusVariant isChatOpen={false} />} />
         {/* Fertilitet design demos */}
-        <Route path="/fertilitet-design" element={<FertilitetDesignHub isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitet/editorial" element={<FertilitetEditorial isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitet/journey" element={<FertilitetJourney isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitetssjekk/editorial" element={<SjekkEditorial isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitetssjekk/journey" element={<SjekkJourney isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitet/atelier" element={<FertilitetAtelier isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitetssjekk/atelier" element={<SjekkAtelier isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitet/dialog" element={<FertilitetDialog isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitet/magasin" element={<FertilitetMagasin isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitet/klinikk" element={<FertilitetKlinikk isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitetssjekk/dialog" element={<SjekkDialog isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitetssjekk/magasin" element={<SjekkMagasin isChatOpen={false} />} />
-        <Route path="/fertilitet-design/fertilitetssjekk/klinikk" element={<SjekkKlinikk isChatOpen={false} />} />
+        {/* Eksperiment-sider slettet — alle /fertilitet-design/* peker tilbake til fertilitet-landingen */}
+        <Route path="/fertilitet-design" element={<Navigate to="/behandlinger/fertilitet" replace />} />
+        <Route path="/fertilitet-design/*" element={<Navigate to="/behandlinger/fertilitet" replace />} />
         {/* Clinic pages */}
         <Route path="/klinikker" element={<Clinics isChatOpen={false} />} />
         <Route path="/klinikker/:slug" element={<ClinicDetailPage isChatOpen={false} />} />

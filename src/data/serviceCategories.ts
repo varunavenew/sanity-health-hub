@@ -79,7 +79,6 @@ export const serviceCategories: ServiceCategory[] = [
       { label: 'Eggfrys', path: '/behandlinger/fertilitet/eggfrys' },
       { label: 'Donorbehandling', path: '/behandlinger/fertilitet/donorbehandling' },
       { label: 'Assistert befruktning for par og single', path: '/behandlinger/fertilitet/assistert-befruktning-for-par-og-single' },
-      { label: 'Fertilitetsutredning i juli', path: '/behandlinger/fertilitet/fertilitetsutredning-i-juli' },
       { label: 'Hysteroskopi', path: '/behandlinger/fertilitet/hysteroskopi' },
       { label: 'Sædanalyse', path: '/behandlinger/fertilitet/saedanalyse' },
     ],
