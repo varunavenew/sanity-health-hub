@@ -55,13 +55,13 @@ export const HeroBanner = () => {
       objectPosition: "center 40%",
     },
     {
-      id: "tverrfaglig",
+      id: "robotkirurgi",
       image: robotkirurgiHero,
-      alt: t("hero.tverrfaglig.label"),
-      label: t("hero.tverrfaglig.label"),
-      subtitle: t("hero.tverrfaglig.subtitle"),
+      alt: t("hero.robotkirurgi.label"),
+      label: t("hero.robotkirurgi.label"),
+      subtitle: t("hero.robotkirurgi.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/behandlinger/gynekologi/tverrfaglig",
+      ctaPath: "/behandlinger/urologi/robotkirurgi",
       objectPosition: "center 40%",
     },
   ];

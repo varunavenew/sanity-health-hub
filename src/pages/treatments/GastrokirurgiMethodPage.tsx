@@ -18,10 +18,13 @@ interface Props {
  * flat data keys; placeholders for nye metoder ligger på
  * "flere-fagomrader/gastrokirurgi/<slug>".
  */
-const METHOD_DATA_KEY: Record<string, string> = {};
+const METHOD_DATA_KEY: Record<string, string> = {
+  "sleeve-gastrektomi": "flere-fagomrader/sleeve-gastrektomi",
+  "bariatrisk-kirurgi": "flere-fagomrader/overvektskirurgi",
+};
 
 const GASTRO_PARENT = {
-  name: "Mage- og tarmlidelser (Gastrokirurgi)",
+  name: "Gastrokirurgi",
   path: "/behandlinger/flere-fagomrader/gastrokirurgi",
 };
 

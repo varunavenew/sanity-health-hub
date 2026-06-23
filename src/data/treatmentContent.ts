@@ -10,10 +10,6 @@ import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
 import robotkirurgiHeroVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
-import tverrfagligTeamHeroVideo from "@/assets/tverrfaglig-team-hero.mp4.asset.json";
-import imgGastroOvervekt from "@/assets/services/flere-overvektskirurgi.jpg.asset.json";
-import imgGastroBrokk from "@/assets/services/flere-robotkirurgi.jpg.asset.json";
-import imgGastroHemorroider from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
@@ -25,8 +21,6 @@ export interface LinkedService {
   label: string;
   description: string;
   path: string;
-  /** Optional explicit card image URL — overrides automatic lookup based on path. */
-  image?: string;
 }
 
 export interface TreatmentData {
@@ -55,16 +49,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Gynekologi",
     heroImage: gynekologiImg,
-    heroVideo: tverrfagligTeamHeroVideo.url,
     description: "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!\n\nVi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss.\n\nVi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander - fra utredning, behandling og oppfølging i etterkant.",
-    sections: [
-      {
-        id: "alt-pa-ett-sted",
-        heading: "Alt på ett sted – gjennom alle livets faser",
-        content:
-          "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!\n\nVi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss. Vi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander – fra utredning, behandling og oppfølging i etterkant.",
-      },
-    ],
     linkedServices: [
       {
         label: "Osteopat",
@@ -1390,30 +1375,24 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "flere-fagomrader/gastrokirurgi": {
-    title: "Mage- og tarmlidelser (Gastrokirurgi)",
+    title: "Gastrokirurgi",
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Mage og tarmkirurgi (gastrokirurgi) omhandler kirurgiske inngrep i fordøyelsessystemet. Hos oss møter du erfarne spesialister innen fagfeltet. Vi tilbyr et helhetlig og tverrfaglig tilbud, der avansert medisinsk teknologi møter tett oppfølging fra kirurger og klinisk ernæringsfysiolog.",
+    description: "Avanserte, minimalt invasive inngrep i fordøyelsessystemet — utført av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.",
+    sections: [
+      {
+        id: "om-gastrokirurgi",
+        heading: "Om gastrokirurgi",
+        content: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.\n\nVurderer du Sleeve Gastrektomi? Hos oss får du gratis digital førstekonsultasjon og trygg veiledning gjennom hele prosessen – fra forberedelser til oppfølging. Her kan du bli kjent med behandlingen og hvordan vi kan støtte deg på veien mot en lettere og sunnere hverdag."
+      },
+    ],
     linkedServices: [
-      {
-        label: "Overvektskirurgi (slankeoperasjon)",
-        description: "Varig vektreduksjon med robotassistert presisjon.",
-        path: "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi",
-        image: imgGastroOvervekt.url,
-      },
-      {
-        label: "Brokkoperasjon",
-        description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.",
-        path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon",
-        image: imgGastroBrokk.url,
-      },
-      {
-        label: "Hemorroider og endetarmsplager (rektocele)",
-        description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.",
-        path: "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider",
-        image: imgGastroHemorroider.url,
-      },
+      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
+      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
+      { label: "Gallestein / kikkhullskirurgi", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi" },
+      { label: "Brokkbehandling", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
+      { label: "Endetarmsplager", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
     ],
     relatedSpecialists: ["andreas-edenberg"],
     faqs: [
@@ -2175,118 +2154,64 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
 
-  // ─── Mage- og tarmlidelser (Gastrokirurgi) — undersider ───
-  "flere-fagomrader/gastrokirurgi/overvektskirurgi": {
-    title: "Overvektskirurgi (slankeoperasjon)",
-    subtitle: "Presisjon, trygghet og varige resultater • Ingen henvisning",
-    parentCategory: "Mage- og tarmlidelser (Gastrokirurgi)",
-    heroImage: imgGastroOvervekt.url,
-    description: "Som den eneste private aktøren i Norden tilbyr vi robotassistert overvektskirurgi med høyeste presisjon og skånsomhet. Med avansert 3D-visualisering og mikrobevegelser styrt av erfarne kirurger, får du en trygg behandling som kan gi mindre smerter og raskere restitusjon.\n\nEtter ett år kan pasienter forvente et vekttap på 20–25 % av total kroppsvekt, samt en varig forbedring av helserelatert livskvalitet.",
+  // ─── Gastrokirurgi-undersider (placeholdere — Synnøve fyller med tekst) ───
+  "flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi": {
+    title: "Gallestein / kikkhullskirurgi",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om gallesteinsbehandling og kikkhullskirurgi hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
     sections: [
       {
-        id: "operasjonsmetoder",
-        heading: "Våre operasjonsmetoder",
-        content: "Vi tilbyr to ulike typer robotassistert overvektskirurgi.\n\n**1. Robotassistert Sleeve-gastrektomi (rSG)**\n\nDette er en moderne form for kikkhullskirurgi der 60–80 % av magesekken fjernes. Den gjenværende delen formes til en bananformet \"sleeve\" (slange) som begrenser matinntaket. Dette gir mindre sultfølelse og fører til betydelig vektreduksjon, uten å gå på kompromiss med kroppens evne til å ta opp næringsstoffer.\n\n**2. SASI – Robotassistert Sleeve Bypass**\n\nSASI står for Single Anastomosis Sleeve Ileal Bypass. Her formes også magesekken til en \"sleeve\", men i tillegg lages det en kobling direkte til den nedre delen av tynntarmen, uten at tarmen deles. Maten kan dermed følge to ulike løp ut av magesekken. At deler av maten følger den normale veien utgjør en stor fordel sammenlignet med en standard gastric bypass.\n\n**Viktig å understreke:** Det er ikke en robot som opererer deg selvstendig. Hele prosedyren styres av en erfaren kirurg som sitter ved en konsoll med høyoppløselig 3D-bilde. Den nyeste teknologien oversetter kirurgens håndbevegelser til mikrobevegelser i instrumentene, noe som gir enestående kontroll og nøyaktighet.",
-      },
-      {
-        id: "fordeler",
-        heading: "Fordeler med robotassistert kirurgi",
-        content: "- Mindre smerter og kortere restitusjonstid enn ved tradisjonell kirurgi.\n- Redusert blodtap og færre komplikasjoner.\n- Bedre kosmetisk resultat gjennom små, skånsomme snitt i bukveggen.\n- Raskere tilbake i hverdagen – mange reiser hjem allerede dagen etter operasjonen.\n- Kortere sykemelding – cirka fire uker (men for noen kortere)",
-      },
-      {
-        id: "veien-gjennom",
-        heading: "Veien gjennom behandlingen: Forberedelser og oppfølging",
-        content: "Godt forarbeid og tett oppfølging gir de beste resultatene. Hos oss handler det ikke bare om selve inngrepet, men om å gi deg de riktige verktøyene for å oppnå et stabilt, sunt og varig vekttap.\n\n**Før operasjonen:** Du møter vårt erfarne, tverrfaglige team for en grundig poliklinisk samtale. For å gjøre inngrepet så trygt og enkelt som mulig, følger du en medisinsk lavkaloridiett i tre uker før operasjonsdagen.\n\n**Selve operasjonsdagen:** Inngrepet gjøres skånsomt via kikkhullskirurgi og tar ca. 30–60 minutter. Du tilbringer én natt hos oss til observasjon og reiser hjem neste formiddag.\n\n**Etter operasjonen:** Du får tett oppfølging og støtte for å lykkes med dine varige livsstilsendringer. Inkludert i operasjonsprisen er en omfattende oppfølgingspakke på ett år med 4 konsultasjoner hos klinisk ernæringsfysiolog.",
-      },
-      {
-        id: "trygg-behandling",
-        heading: "Trygg behandling hos erfarne spesialister",
-        content: "Vi har lang erfaring med robotassisterte inngrep, og våre kirurger kombinerer høy faglig presisjon med tett, personlig oppfølging.\n\n- [Dr. Jan Roland Lambrecht](/spesialister/jan-roland-lambrecht): Over 25 års erfaring fra Norge og Danmark. En anerkjent ekspert innen overvektskirurgi, brokkirurgi og robotassistert kirurgi, som også utdanner neste generasjons kirurger.\n- [Dr. Andreas Edenberg](/spesialister/andreas-edenberg): Spesialist i generell- og gastrokirurgi med særlig kompetanse på fedmebehandling og avansert endoskopi. Følger deg tett for en individuell plan mot bedre helse.",
-      },
-      {
-        id: "ta-det-forste-steget",
-        heading: "Ta det første steget",
-        content: "Vil du vite mer om hvordan en slankeoperasjon kan hjelpe deg mot en enklere hverdag og økt livskvalitet? Hos oss får du en uforpliktende samtale med en av våre erfarne kirurger hvor du får svar på dine spørsmål, realistiske forventninger og en plan tilpasset akkurat deg.",
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om gallesteinsbehandling og kikkhullskirurgi. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
       },
     ],
-    relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
+    relatedSpecialists: ["andreas-edenberg"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
       { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
-      { question: "Sykemelding", answer: "Sykemelding er normalt ca. fire uker, men for noen kortere." },
-      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
 
-  "flere-fagomrader/gastrokirurgi/brokkoperasjon": {
-    title: "Brokkoperasjon",
-    subtitle: "Skånsom behandling av lyskebrokk med kikkhull/robot • Ingen henvisning",
-    parentCategory: "Mage- og tarmlidelser (Gastrokirurgi)",
-    heroImage: imgGastroBrokk.url,
-    description: "Lyskebrokk er en svært vanlig tilstand som skyldes en medfødt svakhet i bukveggen der sædlederen hos menn og det runde livmorsbåndet hos kvinner går gjennom bukveggen i lyskekanalen. Svakheten kan innebære at man utvikler et indirekte brokk der tarminnhold vandrer inn i lyskekanalen og noen ganger ned i pungen, eller et direkte brokk der tarminnhold lager seg en lomme ved siden av lyskekanalen. En sjelden gang kan også brokket ligge under lyskebåndet og ned mot øvre del av låret og kalles da for et lårbrokk.\n\nHos CMedical opererer vi lyskebrokk med den nyeste og mest avanserte robotteknologien, noe som sikrer maksimal trygghet og et skånsomt forløp for deg.",
+  "flere-fagomrader/gastrokirurgi/brokkbehandling": {
+    title: "Brokkbehandling",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om brokkbehandling hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
     sections: [
       {
-        id: "fordeler",
-        heading: "Fordeler med robotassistert brokkoperasjon",
-        content: "Robotkirurger kan utføre ekstremt presise bevegelser gjennom kun tre små hull i magen. For deg som pasient gir denne moderne kikkhullsteknikken store fordeler:\n\n- Minimal skade på omkringliggende vev, nerver og organer.\n- Mindre smerter og ubehag etter inngrepet.\n- Raskere restitusjon og kortere sykemeldingsperiode (som regel 4 uker).\n- Penere kosmetisk resultat sammenlignet med tradisjonell, åpen kirurgi.",
-      },
-      {
-        id: "hvordan-foregar",
-        heading: "Hvordan foregår operasjonen?",
-        content: "Inngrepet gjøres i full narkose og tar cirka 60–90 minutter. Kirurgen trekker brokksekken forsiktig tilbake på plass og legger et forsterkende nett over svakheten i bukveggen for å forhindre at brokket kommer tilbake. Det settes lokalbedøvelse i de små sårene under operasjonen, noe som bidrar til lite smerter etter at du våkner.",
-      },
-      {
-        id: "veien-gjennom",
-        heading: "Veien gjennom behandlingen: Enkelt og forutsigbart",
-        content: "Vi har lagt til rette for et trygt og effektivt behandlingsforløp fra start til slutt:\n\n**Før operasjonen:** Før operasjonsdagen ber vi deg lese gjennom tilsendt informasjon om anestesi. Siden inngrepet gjøres via små snitt på magen, er en grundig vask av navlen på operasjonsdagen en viktig del av forberedelsene for å unngå infeksjon.\n\n**Utskrivelse og hjemreise:** Etter operasjonen ligger du til observasjon på vår postoperative avdeling. Før du reiser hjem samme dag, kommer kirurgen innom for en kort samtale om hvordan inngrepet gikk. Siden du har vært i narkose, kan du ikke kjøre bil selv, og du må ha en voksen person sammen med deg det første døgnet.\n\n**Tiden etterpå:** De første dagene er det helt normalt å kjenne seg litt oppblåst eller ha ubehag i skuldrene på grunn av gassen som brukes under inngrepet – dette lindres enkelt med vanlige smertestillende og rolige gåturer. Du bør unngå tunge løft over 10 kilo de første 6 ukene.",
-      },
-      {
-        id: "trygg-behandling",
-        heading: "Trygg behandling hos landets fremste spesialister",
-        content: "Hos CMedical blir du operert av erfarne eksperter som kombinerer høy medisinsk presisjon med personlig oppfølging.\n\n- [Dr. Jan Roland Lambrecht](/spesialister/jan-roland-lambrecht): Fagansvarlig gastrokirurg hos oss med over 25 års klinisk erfaring fra Norge og Danmark, og en doktorgrad fra UiO. Jan er en internasjonalt anerkjent ekspert innen robotassistert kirurgi, brokk- og bukveggskirurgi. Han har bakgrunn fra blant annet Oslo universitetssykehus (Ullevål) og er en drivkraft innen skånsom, minimalt invasiv kirurgi.\n- [Dr. Andreas Edenberg](/spesialister/andreas-edenberg): Spesialist i generell- og gastroenterologisk kirurgi med europeisk spesialistgodkjenning. Andreas har bred erfaring som overlege fra blant annet Oslo Universitetssykehus (Ullevål). Han er ekspert på avansert endoskopi og fedmebehandling, og hans omfattende faglige engasjement gjør ham til en ledende aktør innen sitt felt.",
-      },
-      {
-        id: "ta-det-forste-steget",
-        heading: "Ta det første steget",
-        content: "Ønsker du å bli kvitt plagene dine og få en vurdering av ditt brokk?",
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om utredning og kirurgisk behandling av brokk. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
       },
     ],
-    relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
+    relatedSpecialists: ["andreas-edenberg"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
       { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
-      { question: "Sykemelding", answer: "Som regel 4 uker etter robotassistert brokkoperasjon." },
     ],
   },
 
-  "flere-fagomrader/gastrokirurgi/hemorroider": {
-    title: "Hemorroider og endetarmsplager (rektocele)",
-    subtitle: "Spesialistkompetanse på plager i endetarm og bekkenbunn • Ingen henvisning",
-    parentCategory: "Mage- og tarmlidelser (Gastrokirurgi)",
-    heroImage: imgGastroHemorroider.url,
-    description: "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer.\n\nDette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
+  "flere-fagomrader/gastrokirurgi/endetarmsplager": {
+    title: "Endetarmsplager",
+    subtitle: "Kommer snart • Ingen henvisning",
+    parentCategory: "Gastrokirurgi",
+    heroImage: flereFagImg,
+    description: "Informasjon om utredning og behandling av endetarmsplager hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
     sections: [
       {
-        id: "veien-gjennom",
-        heading: "Veien gjennom behandlingen: Enkelt og forutsigbart",
-        content: "Hos CMedical sørger våre erfarne gastrokirurger for at du blir trygt ivaretatt i et profesjonelt og diskret miljø.\n\n**Før operasjonen:** Før operasjonsdagen ber vi deg lese gjennom tilsendt informasjon om anestesi. Siden inngrepet gjøres i endetarmen, må du tømme tarmen med et Klyx (120 ml, kjøpes reseptfritt på apoteket) to timer før oppmøte hos oss.\n\n**Utskrivelse og hjemreise:** Inngrepet gjøres i narkose. Etterpå ligger du til observasjon på vår postoperative avdeling. Før du reiser hjem samme dag, kommer kirurgen innom for en samtale om hvordan operasjonen gikk. Siden du har vært i narkose, kan du ikke kjøre bil selv, og du må ha en voksen person sammen med deg det første døgnet.\n\n**Oppfølging:** Du blir automatisk satt opp til en kontroll hos din kirurg 6–8 uker etter inngrepet for å sikre at alt har grodd fint.",
-      },
-      {
-        id: "gode-rad",
-        heading: "Gode råd og forholdsregler etter hjemkomst",
-        content: "Det er helt vanlig med smerter i tiden rett etter operasjonen, særlig i forbindelse med avføring de første ukene. Med riktig egenpleie lindrer du ubehaget best mulig:\n\n- **Smertelindring:** Det er forventet at du trenger smertestillende medisiner i flere dager. Vi anbefaler å ha Paracetamol og Ibux klart hjemme. Skulle du trenge sterkere medisiner, skriver kirurgen ut en resept til deg ved utskrivelse.\n- **Skånsom sårpleie:** Etter avføring anbefales det å bruke en lunken hånddusj fremfor tørt papir. Du kan også bruke våtservietter eller dytte et mykt toalettpapir forsiktig mot sårflaten uten å gni.\n- **Bruk av innlegg:** Det er normalt med litt blødning fra sårene de første dagene, så vi anbefaler å bruke et truseinnlegg eller bind.\n- **Ingen sting som skal fjernes:** Hvis det blir satt små sting under operasjonen, løsner og forsvinner disse helt av seg selv etter kort tid.\n- **Aktivitet og mage:** Det er viktig å holde avføringen myk ved å drikke godt og eventuelt bruke Movicol eller andre bløtgjørende midler. Behovet for sykemelding vurderes individuelt ut fra yrket ditt.",
-      },
-      {
-        id: "trygghet",
-        heading: "Trygghet og ekspertise i sentrum",
-        content: "Kirurgisk fjerning av hemorroider har lav risiko for komplikasjoner. Hos CMedical blir du operert av [Dr. Marian Bale](/spesialister/marian-bale), som har bred erfaring med denne typen inngrep. Du er i de aller tryggeste hender.",
+        id: "kommer-snart",
+        heading: "Innhold under utarbeidelse",
+        content: "Vi jobber med å publisere mer informasjon om utredning og behandling av endetarmsplager. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
       },
     ],
-    relatedSpecialists: ["marian-bale"],
+    relatedSpecialists: ["andreas-edenberg"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
       { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
-      { question: "Sykemelding", answer: "Behovet for sykemelding vurderes individuelt ut fra yrket ditt." },
     ],
   },
 

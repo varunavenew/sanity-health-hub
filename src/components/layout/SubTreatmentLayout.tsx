@@ -19,18 +19,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
-import promiseSpecialist from "@/assets/promises/spesialiste.webp.asset.json";
-import promiseUnderOneRoof from "@/assets/hero/hero-clinic-lounge.jpg";
+import promiseSpecialists from "@/assets/promises/spesialiste.webp.asset.json";
+import promiseUnderOneRoof from "@/assets/promises/endokrinologi.jpg.asset.json";
 
-// Image per promise title. Anything else falls back to the comfort image.
-const PROMISE_IMAGE_BY_TITLE: Record<string, string> = {
-  "spesialister med dybde": promiseSpecialist.url,
-  "alt under samme tak": promiseUnderOneRoof,
-};
-const getPromiseImage = (title: string): string | undefined => {
-  const t = title.trim().toLowerCase();
-  return PROMISE_IMAGE_BY_TITLE[t] ?? promiseComfort.url;
-};
+const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
 
 export interface SubTreatmentContent {
  // Meta
@@ -97,9 +89,9 @@ export interface SubTreatmentContent {
  description?: string;
  items: { title: string; desc: string; href: string; image: string }[];
  };
-   // Section 5 — relaterte
+  // Section 5 — relaterte
  relatedTitle?: string;
- related: { title: string; desc: string; href: string; image?: string }[];
+ related: { title: string; desc: string; href: string }[];
  /** When true, render the related cards right after the hero (as section 2) instead of after the flow. Used for landing pages where the cards represent the actual treatments included in the service. */
  relatedAsIntro?: boolean;
  /** When true, render the related cards between the reasons text and the flow (as section 3). Used when the page has its own text content but the cards still represent treatments included in this service. */
@@ -381,31 +373,19 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               {c.relatedTitle ?? "Dette inngår i tjenesten"}
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {c.related.map((a) => (
               <Link
                 key={a.title}
                 to={a.href}
-                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
               >
-                {a.image && (
-                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-                    <img
-                      src={a.image}
-                      alt={a.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                )}
-                <div className="p-7 flex flex-col flex-1">
-                  <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
+                <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+                <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                  Les mer
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
               </Link>
             ))}
           </div>
@@ -433,31 +413,19 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               {c.relatedTitle ?? "Dette hjelper vi deg med"}
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {c.related.map((a) => (
               <Link
                 key={a.title}
                 to={a.href}
-                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
               >
-                {a.image && (
-                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-                    <img
-                      src={a.image}
-                      alt={a.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                )}
-                <div className="p-7 flex flex-col flex-1">
-                  <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
+                <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+                <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                  Les mer
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
               </Link>
             ))}
           </div>
@@ -608,35 +576,23 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 </h2>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-3 gap-6">
                 {c.related.map((a) => (
                   <Link
                     key={a.title}
                     to={a.href}
-                    className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                    className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
                   >
-                    {a.image && (
-                      <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-                        <img
-                          src={a.image}
-                          alt={a.title}
-                          loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                        />
-                      </div>
-                    )}
-                    <div className="p-7 flex flex-col flex-1">
-                      <h3 className="text-lg font-normal text-foreground mb-3">
-                        {a.title}
-                      </h3>
-                      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-                        {a.desc}
-                      </p>
-                      <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                        Les mer
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
+                    <h3 className="text-lg font-normal text-foreground mb-3">
+                      {a.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                      {a.desc}
+                    </p>
+                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                      Les mer
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -649,20 +605,16 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
-            {c.promises.map((p) => {
-              const img = getPromiseImage(p.title);
-              return (
+            {c.promises.map((p, i) => (
               <div key={p.title} className="group flex flex-col">
-                {img && (
-                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
-                    <img
-                      src={img}
-                      alt=""
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  </div>
-                )}
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
+                  <img
+                    src={promiseImages[i % promiseImages.length]}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
                   {p.title}
                 </h3>
@@ -679,8 +631,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                   </Link>
                 )}
               </div>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
@@ -739,9 +690,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
  <div className="max-w-3xl">
-            <h2 className="text-2xl md:text-3xl font-light leading-tight">
-              Bestill time hos en spesialist
-            </h2>
+ <h2 className="text-2xl md:text-3xl font-light leading-tight">
+ Få {c.title.toLowerCase()} hos en spesialist denne{"\u00A0"}uken.
+ </h2>
  </div>
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
         <Button

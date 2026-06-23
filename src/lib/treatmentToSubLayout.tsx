@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
-import { getServiceImage, getDedicatedServiceImage } from "@/data/serviceImages";
+import { getServiceImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
@@ -226,18 +226,12 @@ export const treatmentToSubLayout = ({
 
 
   // ── Related: from linkedServices.
-  const imageForPath = (p: string): string | undefined => {
-    const m = p.match(/^\/behandlinger\/([^/#?]+)\/([^/#?]+)/);
-    if (!m) return undefined;
-    return getDedicatedServiceImage(m[1], m[2]);
-  };
   const related =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => ({
           title: ls.label,
           desc: ls.description,
           href: ls.path,
-          image: ls.image ?? imageForPath(ls.path),
         }))
       : [];
 
@@ -256,27 +250,6 @@ export const treatmentToSubLayout = ({
 
   const heroTitle: ReactNode = data.title;
 
-  // ── Per-page overrides for titles/flow that don't fit the generic templates.
-  const slug = `${categoryId}/${subId}`;
-  const isTverrfaglig = slug === "gynekologi/tverrfaglig";
-
-  const flowTitle = isTverrfaglig ? "Slik jobber teamet rundt deg" : "Slik foregår det";
-  const flowFinal = isTverrfaglig
-    ? [
-        { n: "Trinn 1", title: "Vi vurderer behovet sammen", desc: "Gynekologen din ser helheten og vurderer om flere spesialister bør inn i forløpet — alt ut fra hva du trenger." },
-        { n: "Trinn 2", title: "Vi setter sammen ditt team", desc: "Du møter de spesialistene som er relevante for nettopp din situasjon, samlet under samme tak hos oss." },
-        { n: "Trinn 3", title: "Koordinert oppfølging hele veien", desc: "Spesialistene snakker sammen og koordinerer behandlingen, slik at du slipper å være mellomledd." },
-      ]
-    : flow;
-
-  const relatedTitle = related.length > 0
-    ? (isTverrfaglig
-        ? "Spesialistene i det tverrfaglige teamet"
-        : (relatedIsChildren
-            ? `Dette hjelper vi deg med innen ${data.title.toLowerCase()}`
-            : "Andre ting vi hjelper med"))
-    : undefined;
-
   return {
     seoTitle: `${data.title} | CMedical`,
     seoDescription: summarize(data.description, 160),
@@ -291,8 +264,8 @@ export const treatmentToSubLayout = ({
     booking: { kategori: categoryId, tjeneste: subId },
     primaryCtaLabel: "Se ledige tider",
     heroPrice: getFromPriceForTitle(categoryId, data.title) ?? getFromPriceForPath(canonical) ?? undefined,
-    flowTitle,
-    flow: flowFinal,
+    flowTitle: "Slik foregår det",
+    flow,
     flowImage: pickClinicImage(`${categoryId}/${subId}`),
     flowImageAlt: `CMedical klinikk — ${data.title}`,
     heroImage: heroImage ?? getServiceImage(categoryId, subId),
@@ -303,7 +276,11 @@ export const treatmentToSubLayout = ({
     reasons,
     reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`) ? "accordion" : "prose",
     promises: STANDARD_PROMISES,
-    relatedTitle,
+    relatedTitle: related.length > 0
+      ? (relatedIsChildren
+          ? `Dette hjelper vi deg med innen ${data.title.toLowerCase()}`
+          : "Andre ting vi hjelper med")
+      : undefined,
     related,
     relatedAsIntro,
     relatedAsServices,
