@@ -1418,7 +1418,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     linkedServices: [
       { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
       { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
-      { label: "Gallestein / kikkhullskirurgi", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi" },
+      
       { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
       { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
     ],
@@ -2141,26 +2141,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
 
-  // ─── Gastrokirurgi-undersider (placeholdere — Synnøve fyller med tekst) ───
-  "flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi": {
-    title: "Gallestein / kikkhullskirurgi",
-    subtitle: "Kommer snart • Ingen henvisning",
-    parentCategory: "Gastrokirurgi",
-    heroImage: flereFagImg,
-    description: "Informasjon om gallesteinsbehandling og kikkhullskirurgi hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
-    sections: [
-      {
-        id: "kommer-snart",
-        heading: "Innhold under utarbeidelse",
-        content: "Vi jobber med å publisere mer informasjon om gallesteinsbehandling og kikkhullskirurgi. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
-      },
-    ],
-    relatedSpecialists: ["andreas-edenberg"],
-    faqs: [
-      { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
-      { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
-    ],
-  },
+  // ─── Gastrokirurgi-undersider ───
 
   "flere-fagomrader/gastrokirurgi/brokkbehandling": {
     title: "Brokkoperasjon",

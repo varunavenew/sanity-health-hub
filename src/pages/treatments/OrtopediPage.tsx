@@ -115,30 +115,13 @@ const expertAreas = [
 
 const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
   {
-    label: "Undersøkelse og utredning",
+    label: "Behandlingsområder",
     items: [
-      { title: "Inneklemming (impingement)", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Kalkavleiringer", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Rotatormansjettskader", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Frossen skulder", desc: "Skulder — utredning og behandling", href: "/behandlinger/ortopedi/skulder" },
-      { title: "Kneslitasje", desc: "Kne — utredning og behandling", href: "/behandlinger/ortopedi/kne" },
-      { title: "Hofteslitasje", desc: "Hofte — utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
-      { title: "Labrumskade i hofte", desc: "Hofte — utredning og behandling", href: "/behandlinger/ortopedi/hofte" },
-      { title: "Tennisalbue og golfalbue", desc: "Albue — utredning og behandling", href: "/behandlinger/ortopedi/albue" },
-      { title: "Hælspore og hælsmerter", desc: "Fot — utredning og behandling", href: "/behandlinger/ortopedi/fot" },
-      { title: "Ankelbåndskader", desc: "Fot — utredning og behandling", href: "/behandlinger/ortopedi/fot" },
-    ],
-  },
-  {
-    label: "Behandling og kirurgi",
-    items: [
-      { title: "Kortisoninjeksjoner", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/injeksjon" },
-      { title: "Blodspinningsteknikk (PRP)", desc: "Injeksjonsbehandling", href: "/behandlinger/ortopedi/prp" },
-      { title: "Korsbåndruptur", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
-      { title: "Meniskskader", desc: "Kne — utredning og kirurgi", href: "/behandlinger/ortopedi/kne" },
-      { title: "Karpaltunnelsyndrom", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
-      { title: "Dupuytrens kontraktur", desc: "Hånd — utredning og kirurgi", href: "/behandlinger/ortopedi/hand" },
-      { title: "Artroskopi", desc: "Kirurgisk behandling", href: "/behandlinger/ortopedi/artroskopi" },
+      { title: "Skulder", desc: "Inneklemming, kalkavleiringer, rotatormansjettskader og frossen skulder.", href: "/behandlinger/ortopedi/skulder" },
+      { title: "Kne", desc: "Kneslitasje, korsbåndruptur, meniskskader og artroskopi.", href: "/behandlinger/ortopedi/kne" },
+      { title: "Hofte", desc: "Hofteslitasje, labrumskade og hoftekirurgi.", href: "/behandlinger/ortopedi/hofte" },
+      { title: "Hånd og albue", desc: "Karpaltunnelsyndrom, Dupuytrens kontraktur, tennis- og golfalbue.", href: "/behandlinger/ortopedi/hand-albue" },
+      { title: "Fot og ankel", desc: "Hælspore, hælsmerter og ankelbåndskader.", href: "/behandlinger/ortopedi/fot-ankel" },
     ],
   },
 ];

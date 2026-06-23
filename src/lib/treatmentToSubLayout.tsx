@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
-import { getServiceImage, getServiceImageFromHref, getCategoryHeroImage } from "@/data/serviceImages";
+import { getServiceImage, getDedicatedServiceImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
@@ -225,20 +225,30 @@ export const treatmentToSubLayout = ({
   const heroAvailability = (data.benefits ?? []).find((b) => /^tilbys\s+(p[åa]|kun)/i.test(b.trim()));
 
 
-  // ── Related: from linkedServices. Always attach a card image so every
-  // service card matches the "Flere tjenester" image-top design.
-  const related =
+  // ── Related: from linkedServices. Attach a UNIQUE image only when the
+  // service has its own dedicated hero image. Items without a dedicated
+  // image render as list rows in the layout (no shared fallback).
+  // Additionally, if two related items resolve to the same image URL,
+  // strip the image from both so we never show two cards with the same
+  // photo on the same page.
+  const rawRelated =
     data.linkedServices && data.linkedServices.length > 0
-      ? data.linkedServices.slice(0, 6).map((ls) => ({
-          title: ls.label,
-          desc: ls.description,
-          href: ls.path,
-          image:
-            getServiceImageFromHref(ls.path) ??
-            getCategoryHeroImage(categoryId) ??
-            heroImage,
-        }))
+      ? data.linkedServices.slice(0, 6).map((ls) => {
+          const m = ls.path.match(/^\/behandlinger\/([^/?#]+)(?:\/([^/?#]+))?/);
+          const cat = m?.[1];
+          const sub = m?.[2];
+          const img = cat && sub ? getDedicatedServiceImage(cat, sub) : undefined;
+          return { title: ls.label, desc: ls.description, href: ls.path, image: img };
+        })
       : [];
+  const imgCounts = rawRelated.reduce<Record<string, number>>((acc, r) => {
+    if (r.image) acc[r.image] = (acc[r.image] ?? 0) + 1;
+    return acc;
+  }, {});
+  const related = rawRelated.map((r) => ({
+    ...r,
+    image: r.image && imgCounts[r.image] === 1 ? r.image : undefined,
+  }));
 
   // Detect whether the linked services represent treatments included in this
   // service (i.e. children of the canonical path). When they are children, the
