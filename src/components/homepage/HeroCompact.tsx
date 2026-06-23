@@ -4,21 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
-// Static fallback images
-import urologiImg from "@/assets/categories/urologi-real.jpg";
+// Static fallback images — use the same hero images as the corresponding subpages
+// (portrait-friendly crops; object-position tuned per card so the subject stays visible).
+import urologiAsset from "@/assets/services/urologi-hero.jpg.asset.json";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
-import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
-import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
-import flereImg from "@/assets/categories/flere-fagomrader.jpg";
+import ortopediAsset from "@/assets/services/ortopedi-hero.jpg.asset.json";
+import graviditetAsset from "@/assets/services/graviditet-hero.jpg.asset.json";
+import flereImg from "@/assets/hero/cmedical-family.jpg";
 
 const staticCategories = [
-  { id: 'urologi', title: 'Urologi', image: urologiImg, path: '/urologi' },
-  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetImg, path: '/fertilitet' },
-  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiImg, path: '/gynekologi' },
-  { id: 'graviditet', title: 'Graviditet', image: graviditetImg, path: '/graviditet' },
-  { id: 'ortopedi', title: 'Ortopedi', image: ortopediImg, path: '/ortopedi' },
-  { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader' },
+  // Urologi: portrait of male patient (man with glasses) – hero of /urologi
+  { id: 'urologi', title: 'Urologi', image: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
+  // Fertilitet: confirmed correct by clinic – keep current image
+  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetImg, path: '/fertilitet', objectPosition: 'center' },
+  // Gynekologi: confirmed correct by clinic – keep current image
+  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiImg, path: '/gynekologi', objectPosition: 'center' },
+  // Graviditet: pregnant belly visible (matches Figma) – hero of /graviditet
+  { id: 'graviditet', title: 'Graviditet', image: graviditetAsset.url, path: '/graviditet', objectPosition: 'center' },
+  // Ortopedi: x-ray motif (matches Figma) – hero of /ortopedi
+  { id: 'ortopedi', title: 'Ortopedi', image: ortopediAsset.url, path: '/ortopedi', objectPosition: 'center' },
+  // Flere tjenester: family/par together (closest available match in project)
+  { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader', objectPosition: 'center' },
 ];
 
 interface HeroCompactProps {
