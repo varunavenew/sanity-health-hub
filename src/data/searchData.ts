@@ -69,8 +69,8 @@ export const searchItems: SearchItem[] = [
   { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati', category: 'Andre', keywords: ['manuell behandling', 'muskel'] },
   { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi', category: 'Andre', keywords: ['psykolog', 'terapi', 'mental helse'] },
   { label: 'Sexologi', path: '/behandlinger/flere-fagomrader/sexologi', category: 'Andre', keywords: ['seksualitet', 'parterapi', 'intimitet'] },
-  { label: 'Kvinnehelse', path: '/behandlinger/flere-fagomrader/kvinnehelse', category: 'Andre', keywords: ['kvinne', 'tverrfaglig'] },
-  { label: 'Tverrfaglig team', path: '/behandlinger/flere-fagomrader/tverrfaglig', category: 'Andre', keywords: ['tverrfaglig', 'team'] },
+  { label: 'Kvinnehelse', path: '/kvinnehelse', category: 'Tema', keywords: ['kvinne', 'tverrfaglig'] },
+  { label: 'Tverrfaglig team', path: '/tverrfaglige-team', category: 'Tema', keywords: ['tverrfaglig', 'team'] },
 
   // Sider
   { label: 'Priser', path: '/priser', category: 'Side', keywords: ['pris', 'kostnad', 'hva koster'] },
