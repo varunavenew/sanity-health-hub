@@ -132,30 +132,30 @@ const audiences = [
 
 const expertAreas = [
   {
-    title: "IVF — prøverørsbehandling",
+    title: "Assistert befruktning",
     desc:
-      "Vårt mest etablerte fagfelt. Vi har gjennomført IVF siden 1989 og kombinerer erfaring med oppdaterte protokoller.",
+      "IVF, ICSI og inseminasjon — også med donor. Norges eldste private fertilitetsklinikk, med erfaring siden 1989.",
     href: "/behandlinger/fertilitet/assistert-befruktning",
     image: journeyLab,
   },
   {
-    title: "Eggdonasjon",
+    title: "Donorbehandling",
     desc:
-      "Norges nyeste eggbank. Vi følger dere trygt gjennom hele forløpet — fra første samtale til oppfølging.",
+      "Donorsæd, donoregg og partnerdonasjon — vi følger dere trygt gjennom hele forløpet, etter norsk lov.",
     href: "/behandlinger/fertilitet/donorbehandling",
     image: journeyResult,
   },
   {
-    title: "Nedfrysing av egg",
+    title: "Nedfrysning av egg",
     desc:
       "For deg som vil bevare mulighetene dine. Vi forklarer hva som er realistisk å forvente — og hva som ikke er det.",
     href: "/behandlinger/fertilitet/eggfrys",
     image: audienceWaiting,
   },
   {
-    title: "Mannlig fertilitet",
+    title: "Sædanalyse",
     desc:
-      "Sædanalyse, utredning og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
+      "Sædprøve, hormonprøver og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
     href: "/behandlinger/fertilitet/saedanalyse",
     image: audienceCouple,
   },
@@ -165,23 +165,24 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   {
     label: "Undersøkelse og utredning",
     items: [
-      { title: "Fertilitetssjekk og utredning", desc: "Hormoner, ultralyd, sædanalyse", href: "/behandlinger/fertilitet/fertilitetssjekk" },
-      { title: "Mannlig fertilitet", desc: "Sædanalyse og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
-      { title: "Genetisk testing (PGT)", desc: "For utvalgte indikasjoner", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Fertilitetsutredning", desc: "Blodprøver, ultralyd og sædanalyse", href: "/behandlinger/fertilitet/fertilitetsutredning" },
+      { title: "Fertilitetssjekk", desc: "Hormoner, ultralyd, AMH og AFC", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Infertilitet", desc: "Forstå årsaker og veien videre", href: "/behandlinger/fertilitet/infertilitet" },
+      { title: "Sædanalyse", desc: "Mannlig fertilitet og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
+      { title: "Hysteroskopi", desc: "Skånsom vurdering av livmorhulen", href: "/behandlinger/fertilitet/hysteroskopi" },
     ],
   },
   {
-    label: "Behandling og kirurgi",
+    label: "Behandling",
     items: [
-      { title: "IVF — prøverørsbehandling", desc: "Inkludert ICSI ved behov", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "IUI — inseminasjon", desc: "Med partner eller donor", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: "/behandlinger/fertilitet/donorbehandling" },
-      { title: "Nedfrysing av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/eggfrys" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler gjennom hele forløpet", href: "/behandlinger/fertilitet/infertilitet" },
+      { title: "Assistert befruktning", desc: "IVF, ICSI og inseminasjon (IUI)", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Donorbehandling", desc: "Donorsæd, donoregg og partnerdonasjon", href: "/behandlinger/fertilitet/donorbehandling" },
+      { title: "Nedfrysning av egg", desc: "Egg, sæd og embryo", href: "/behandlinger/fertilitet/eggfrys" },
       { title: "Gynekologi og kirurgi", desc: "Polypper, endometriose, myomer", href: "/behandlinger/gynekologi" },
     ],
   },
 ];
+
 
 const reviews = [
  { text: "Vi følte oss trygge fra første møte. De tok seg virkelig tid til å bli kjent med oss og vårt utgangspunkt — og det betød alt.", author: "Hilde", date: "IVF-forløp 2024" },
