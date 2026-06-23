@@ -1287,18 +1287,18 @@ export const treatmentContent: Record<string, TreatmentData> = {
     sections: [
       {
         id: "kalkskulder",
-        heading: "Kalkskulder",
-        content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen.\n\nOfte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig, dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
+        heading: "Skulderperitendinitt eller kalkskulder",
+        content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen. Ofte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig, hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
       },
       {
         id: "slap",
-        heading: "SLAP",
-        content: "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomy)."
+        heading: "Hva er SLAP-lesjon og SLAP-skader?",
+        content: "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer på SLAP-lesjon og skader:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon av SLAP-lesjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomi)."
       },
       {
         id: "frozen-shoulder",
         heading: "Frozen shoulder",
-        content: "Frozen shoulder er en betennelse i leddhinnen i skulderleddet. Det er en smertefull tilstand hvor man opplever smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten gjennom å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
+        content: "En betennelse i leddhinnen i skulderleddet. En smertefull tilstand med smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet, og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten ved å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
       },
     ],
     relatedSpecialists: ["tom-henry-sundoen"],
