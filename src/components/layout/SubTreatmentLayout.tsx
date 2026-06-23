@@ -38,6 +38,8 @@ export interface SubTreatmentContent {
  // Hero
  heroTitle: ReactNode;
  heroDescription: string;
+ /** Optional non-clickable theme chips shown in the hero (e.g. "Vi behandler blant annet: ..."). */
+ heroThemes?: string[];
  heroPoints: { title: string; desc: string }[];
  /** Optional small line shown above the hero CTA (e.g. "Tilbys på CMedical Bekkestua"). */
  heroAvailability?: string;
