@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/data/treatmentContent";
-import { getServiceImage } from "@/data/serviceImages";
+import { getServiceImage, getServiceImageFromHref, getCategoryHeroImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
@@ -225,13 +225,18 @@ export const treatmentToSubLayout = ({
   const heroAvailability = (data.benefits ?? []).find((b) => /^tilbys\s+(p[åa]|kun)/i.test(b.trim()));
 
 
-  // ── Related: from linkedServices.
+  // ── Related: from linkedServices. Always attach a card image so every
+  // service card matches the "Flere tjenester" image-top design.
   const related =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => ({
           title: ls.label,
           desc: ls.description,
           href: ls.path,
+          image:
+            getServiceImageFromHref(ls.path) ??
+            getCategoryHeroImage(categoryId) ??
+            heroImage,
         }))
       : [];
 

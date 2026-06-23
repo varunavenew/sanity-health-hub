@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 
 interface PageProps {
  isChatOpen: boolean;
@@ -331,12 +332,25 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  </div>
 
  <div className="grid md:grid-cols-3 gap-6">
- {relatedAreas.map((a) => (
+ {relatedAreas.map((a) => {
+ const img = getServiceImageFromHref(a.href);
+ return (
  <Link
  key={a.title}
  to={a.href}
- className="bg-background p-7 rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors"
+ className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
  >
+ {img && (
+ <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+ <img
+ src={img}
+ alt={a.title}
+ loading="lazy"
+ className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+ />
+ </div>
+ )}
+ <div className="p-7 flex flex-col flex-1">
  <h3 className="text-lg font-normal text-foreground mb-3">
  {a.title}
  </h3>
@@ -347,8 +361,10 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  Les mer om {a.title.toLowerCase()}
  <ArrowRight className="w-3.5 h-3.5" />
  </span>
+ </div>
  </Link>
- ))}
+ );
+ })}
  </div>
  </div>
  </div>
