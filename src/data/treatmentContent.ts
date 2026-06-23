@@ -1833,7 +1833,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
   // ==========================================
   // FERTILITET — Assistert befruktning for par og single (Prompt 2)
   // ==========================================
-  "fertilitet/par-og-single": {
+  "fertilitet/assistert-befruktning-for-par-og-single": {
     title: "Assistert befruktning for par og single",
     subtitle: "For par, to kvinner, single kvinner og menn",
     parentCategory: "Fertilitet",
