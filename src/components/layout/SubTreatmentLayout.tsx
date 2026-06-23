@@ -607,14 +607,16 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
             {c.promises.map((p, i) => (
               <div key={p.title} className="group flex flex-col">
-                <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
-                  <img
-                    src={promiseImages[i % promiseImages.length]}
-                    alt=""
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                </div>
+                {promiseImages[i] && (
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
+                    <img
+                      src={promiseImages[i]}
+                      alt=""
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
                   {p.title}
                 </h3>
