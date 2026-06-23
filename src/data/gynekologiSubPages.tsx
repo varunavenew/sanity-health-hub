@@ -1133,11 +1133,11 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
   },
 
   /* ───────────────────────── TVERRFAGLIG TEAM ───────────────────────── */
-  "tverrfaglig-team": {
+  "tverrfaglig": {
     seoTitle: "Tverrfaglig team | CMedical — osteopat, sexolog, psykolog, ernæring",
     seoDescription:
       "Vårt tverrfaglige team støtter gynekologisk behandling — osteopat, sexolog, psykolog og ernæringsfysiolog under samme tak.",
-    canonical: "/behandlinger/gynekologi/tverrfaglig-team",
+    canonical: "/behandlinger/gynekologi/tverrfaglig",
     parent,
     title: "Tverrfaglig team",
     heroTitle: <>Kvinnehelse er <span className="italic">mer</span> enn én spesialitet</>,
