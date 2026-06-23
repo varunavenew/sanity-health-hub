@@ -92,7 +92,7 @@ export interface SubTreatmentContent {
  };
   // Section 5 — relaterte
  relatedTitle?: string;
- related: { title: string; desc: string; href: string }[];
+ related: { title: string; desc: string; href: string; image?: string }[];
  /** When true, render the related cards right after the hero (as section 2) instead of after the flow. Used for landing pages where the cards represent the actual treatments included in the service. */
  relatedAsIntro?: boolean;
  /** When true, render the related cards between the reasons text and the flow (as section 3). Used when the page has its own text content but the cards still represent treatments included in this service. */
