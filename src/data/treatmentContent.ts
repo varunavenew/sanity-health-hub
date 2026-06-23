@@ -1418,7 +1418,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     linkedServices: [
       { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
       { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
-      { label: "Gallestein / kikkhullskirurgi", description: "Kommer snart — innhold under utarbeidelse.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/gallestein-kikkhullskirurgi" },
+      
       { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
       { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
     ],
