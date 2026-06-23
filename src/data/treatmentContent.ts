@@ -584,6 +584,157 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
 
+  "gynekologi/undersokelse": {
+    title: "Gynekologisk undersøkelse",
+    subtitle: "Ingen ventetid • Ingen henvisning",
+    parentCategory: "Gynekologi",
+    heroImage: gynekologiImg,
+    description: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger - fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best.",
+    sections: [
+      {
+        id: "om-undersokelse",
+        heading: "Om gynekologisk undersøkelse",
+        content: "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger - fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best.\n\nHos oss kan du bestille rutinesjekk eller konsultasjon til annen gynekologisk utredning.",
+      },
+    ],
+    linkedServices: [
+      { label: "Endometriose", description: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette.", path: "/behandlinger/gynekologi/endometriose" },
+      { label: "Blødningsforstyrrelser", description: "Kraftige, langvarige eller uregelmessige blødninger kan ha mange årsaker — vi finner den.", path: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { label: "PCOS", description: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", path: "/behandlinger/gynekologi/pcos" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
+
+  "gynekologi/pcos": {
+    title: "PCOS",
+    subtitle: "Ingen ventetid • Ingen henvisning",
+    parentCategory: "Gynekologi",
+    heroImage: gynekologiImg,
+    description: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PCOS), men endret diagnosenavn 12. mai 2026.",
+    sections: [
+      {
+        id: "om-pcos",
+        heading: "Om PCOS",
+        content: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PCOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
+      },
+    ],
+    linkedServices: [
+      { label: "Fertilitetsutredning", description: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PCOS.", path: "/behandlinger/fertilitet" },
+      { label: "Blødningsforstyrrelser", description: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", path: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { label: "PMS og PMDD", description: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", path: "/behandlinger/gynekologi/pms-pmdd" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
+
+  "gynekologi/pms-pmdd": {
+    title: "PMS og PMDD",
+    subtitle: "Ingen ventetid • Ingen henvisning",
+    parentCategory: "Gynekologi",
+    heroImage: gynekologiImg,
+    description: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen).",
+    sections: [
+      {
+        id: "om-pms-pmdd",
+        heading: "Om PMS og PMDD",
+        content: "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75% av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse) rammer 3-8%. De vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene. Årsaken er relatert til svingende hormoner. Det er mulig å få god hjelp - du skal slippe å lide hver måned.\n\nFor spørsmål ta kontakt med oss eller bestill time.",
+      },
+    ],
+    linkedServices: [
+      { label: "PCOS", description: "Hormonell ubalanse kan forsterke premenstruelle plager.", path: "/behandlinger/gynekologi/pcos" },
+      { label: "Endometriose", description: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", path: "/behandlinger/gynekologi/endometriose" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
+
+  "gynekologi/fostermedisin": {
+    title: "Fostermedisin",
+    subtitle: "Ingen ventetid • Ingen henvisning",
+    parentCategory: "Gynekologi",
+    heroImage: gynekologiImg,
+    description: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet.",
+    sections: [
+      {
+        id: "om-fostermedisin",
+        heading: "Om fostermedisin",
+        content: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.\n\n**Tidlig ultralyd**\n\nVi skiller mellom tidlig ultralyd uke 6-10, uke 11-14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6-10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg.\n\n**Fosterdiagnostikk**\n\nDr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+      },
+    ],
+    linkedServices: [
+      { label: "NIPT", description: "Trygg, tidlig vurdering av kromosomavvik.", path: "/behandlinger/gynekologi/nipt" },
+      { label: "Graviditet", description: "Oppfølging gjennom hele svangerskapet.", path: "/behandlinger/gynekologi/graviditet" },
+      { label: "Fødselsskader", description: "Vurdering og oppfølging etter fødsel.", path: "/behandlinger/gynekologi/fodselsskader" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
+
+  "gynekologi/nipt": {
+    title: "NIPT",
+    subtitle: "Ingen ventetid • Ingen henvisning",
+    parentCategory: "Gynekologi",
+    heroImage: gynekologiImg,
+    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test.",
+    sections: [
+      {
+        id: "om-nipt",
+        heading: "Om NIPT",
+        content: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\nDr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+      },
+      {
+        id: "hva-undersoker-nipt",
+        heading: "Hva undersøker NIPT?",
+        content: "Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik.",
+      },
+      {
+        id: "er-nipt-trygt",
+        heading: "Er NIPT trygt?",
+        content: "Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.",
+      },
+      {
+        id: "fosterdiagnostikk-spesialist",
+        heading: "Fosterdiagnostikk hos spesialist",
+        content: "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+      },
+    ],
+    linkedServices: [
+      { label: "Fostermedisin", description: "Avansert ultralyd og fosterdiagnostikk.", path: "/behandlinger/gynekologi/fostermedisin" },
+      { label: "Graviditet", description: "Oppfølging gjennom hele svangerskapet.", path: "/behandlinger/gynekologi/graviditet" },
+      { label: "Gynekologisk undersøkelse", description: "Ofte første møte med gynekolog.", path: "/behandlinger/gynekologi/undersokelse" },
+    ],
+    faqs: [
+      { question: "Trenger jeg henvisning?", answer: "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
+      { question: "Hvor lang er ventetiden?", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
+      { question: "Kan dere skrive ut sykemelding?", answer: "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer." },
+      { question: "Hva innebærer en utredning?", answer: "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
+    ],
+  },
+
+
+
   // ==========================================
   // UROLOGI
   // ==========================================
