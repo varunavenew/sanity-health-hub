@@ -225,13 +225,18 @@ export const treatmentToSubLayout = ({
   const heroAvailability = (data.benefits ?? []).find((b) => /^tilbys\s+(p[åa]|kun)/i.test(b.trim()));
 
 
-  // ── Related: from linkedServices.
+  // ── Related: from linkedServices. Always attach a card image so every
+  // service card matches the "Flere tjenester" image-top design.
   const related =
     data.linkedServices && data.linkedServices.length > 0
       ? data.linkedServices.slice(0, 6).map((ls) => ({
           title: ls.label,
           desc: ls.description,
           href: ls.path,
+          image:
+            getServiceImageFromHref(ls.path) ??
+            getCategoryHeroImage(categoryId) ??
+            heroImage,
         }))
       : [];
 
