@@ -19,10 +19,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
-import promiseSpecialists from "@/assets/promises/spesialiste.webp.asset.json";
-import promiseUnderOneRoof from "@/assets/promises/endokrinologi.jpg.asset.json";
+import promiseUnderOneRoof from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 
-const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
+// Index 1 (Spesialister med dybde) intentionally has no image — bildet er fjernet
+// per klinikkens ønske. Komponenten skjuler bildeboksen når url er null.
+const promiseImages: (string | null)[] = [promiseComfort.url, null, promiseUnderOneRoof.url];
 
 export interface SubTreatmentContent {
  // Meta
