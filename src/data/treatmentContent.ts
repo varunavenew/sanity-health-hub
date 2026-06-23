@@ -2176,42 +2176,86 @@ export const treatmentContent: Record<string, TreatmentData> = {
   },
 
   "flere-fagomrader/gastrokirurgi/brokkbehandling": {
-    title: "Brokkbehandling",
-    subtitle: "Kommer snart • Ingen henvisning",
+    title: "Brokkoperasjon",
+    subtitle: "Skånsom behandling av lyskebrokk med kikkhull/robot",
     parentCategory: "Gastrokirurgi",
     heroImage: flereFagImg,
-    description: "Informasjon om brokkbehandling hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    description: "Lyskebrokk er en svært vanlig tilstand som skyldes en medfødt svakhet i bukveggen der sædlederen hos menn og det runde livmorsbåndet hos kvinner går gjennom bukveggen i lyskekanalen. Svakheten kan innebære at man utvikler et indirekte brokk der tarminnhold vandrer inn i lyskekanalen og noen ganger ned i pungen, eller et direkte brokk der tarminnhold lager seg en lomme ved siden av lyskekanalen. En sjelden gang kan også brokket ligge under lyskebåndet og ned mot øvre del av låret og kalles da for et lårbrokk. Hos CMedical opererer vi lyskebrokk med den nyeste og mest avanserte robotteknologien, noe som sikrer maksimal trygghet og et skånsomt forløp for deg.",
     sections: [
       {
-        id: "kommer-snart",
-        heading: "Innhold under utarbeidelse",
-        content: "Vi jobber med å publisere mer informasjon om utredning og kirurgisk behandling av brokk. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+        id: "fordeler",
+        heading: "Fordeler med robotassistert brokkoperasjon",
+        content: "Robotkirurger kan utføre ekstremt presise bevegelser gjennom kun tre små hull i magen. For deg som pasient gir denne moderne kikkhullsteknikken store fordeler:\n\n- Minimal skade på omkringliggende vev, nerver og organer.\n- Mindre smerter og ubehag etter inngrepet.\n- Raskere restitusjon og kortere sykemeldingsperiode (som regel 4 uker).\n- Penere kosmetisk resultat sammenlignet med tradisjonell, åpen kirurgi.",
+      },
+      {
+        id: "hvordan-foregar",
+        heading: "Hvordan foregår operasjonen?",
+        content: "Inngrepet gjøres i full narkose og tar cirka 60–90 minutter. Kirurgen trekker brokksekken forsiktig tilbake på plass og legger et forsterkende nett over svakheten i bukveggen for å forhindre at brokket kommer tilbake. Det settes lokalbedøvelse i de små sårene under operasjonen, noe som bidrar til lite smerter etter at du våkner.",
+      },
+      {
+        id: "spesialister",
+        heading: "Trygg behandling hos landets fremste spesialister",
+        content: "Dr. Jan Roland Lambrecht: Fagansvarlig gastrokirurg hos oss med over 25 års klinisk erfaring fra Norge og Danmark, og en doktorgrad fra UiO. Internasjonalt anerkjent ekspert innen robotassistert kirurgi, brokk- og bukveggskirurgi. Bakgrunn fra bl.a. Oslo universitetssykehus (Ullevål).\n\nDr. Andreas Edenberg: Spesialist i generell- og gastroenterologisk kirurgi med europeisk spesialistgodkjenning. Bred erfaring som overlege fra bl.a. Oslo Universitetssykehus (Ullevål). Ekspert på avansert endoskopi og fedmebehandling.",
+      },
+      {
+        id: "ta-forste-steget",
+        heading: "Ta det første steget",
+        content: "Ønsker du å bli kvitt plagene dine og få en vurdering av ditt brokk? Bestill en uforpliktende konsultasjon med våre kirurger.",
       },
     ],
-    relatedSpecialists: ["andreas-edenberg"],
+    process: [
+      { title: "Før operasjonen", description: "Før operasjonsdagen ber vi deg lese gjennom tilsendt informasjon om anestesi. Siden inngrepet gjøres via små snitt på magen, er en grundig vask av navlen på operasjonsdagen en viktig del av forberedelsene for å unngå infeksjon." },
+      { title: "Utskrivelse og hjemreise", description: "Etter operasjonen ligger du til observasjon på vår postoperative avdeling. Før du reiser hjem samme dag, kommer kirurgen innom for en kort samtale om hvordan inngrepet gikk. Siden du har vært i narkose, kan du ikke kjøre bil selv, og du må ha en voksen person sammen med deg det første døgnet." },
+      { title: "Tiden etterpå", description: "De første dagene er det helt normalt å kjenne seg litt oppblåst eller ha ubehag i skuldrene på grunn av gassen som brukes under inngrepet – dette lindres enkelt med vanlige smertestillende og rolige gåturer. Du bør unngå tunge løft over 10 kilo de første 6 ukene." },
+    ],
+    relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
       { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+      { question: "Sykemelding", answer: "Som regel er sykemeldingsperioden 4 uker etter brokkoperasjon." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
 
   "flere-fagomrader/gastrokirurgi/endetarmsplager": {
-    title: "Endetarmsplager",
-    subtitle: "Kommer snart • Ingen henvisning",
+    title: "Hemorroider og endetarmsplager (rektocele)",
+    subtitle: "Spesialistkompetanse på plager i endetarm og bekkenbunn",
     parentCategory: "Gastrokirurgi",
     heroImage: flereFagImg,
-    description: "Informasjon om utredning og behandling av endetarmsplager hos CMedical kommer snart. Ta gjerne kontakt for en uforpliktende samtale i mellomtiden.",
+    description: "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
     sections: [
       {
-        id: "kommer-snart",
-        heading: "Innhold under utarbeidelse",
-        content: "Vi jobber med å publisere mer informasjon om utredning og behandling av endetarmsplager. Ønsker du en vurdering eller har spørsmål, er du velkommen til å bestille en konsultasjon eller kontakte oss direkte.",
+        id: "behandling",
+        heading: "Behandling av hemorroider og marisker",
+        content: "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
+      },
+      {
+        id: "gode-rad",
+        heading: "Gode råd og forholdsregler etter hjemkomst",
+        content: "Det er helt vanlig med smerter i tiden rett etter operasjonen, særlig ved avføring de første ukene:\n\n- Smertelindring: Forvent behov for smertestillende i flere dager. Ha Paracetamol og Ibux klart hjemme. Ved behov for sterkere medisiner skriver kirurgen ut resept ved utskrivelse.\n- Skånsom sårpleie: Etter avføring, bruk en lunken hånddusj fremfor tørt papir. Våtservietter eller mykt toalettpapir forsiktig mot sårflaten uten å gni.\n- Bruk av innlegg: Normalt med litt blødning de første dagene – bruk truseinnlegg eller bind.\n- Ingen sting som skal fjernes: Eventuelle små sting løsner og forsvinner av seg selv.\n- Aktivitet og mage: Hold avføringen myk ved å drikke godt og evt. bruke Movicol eller andre bløtgjørende midler. Behov for sykemelding vurderes individuelt ut fra yrket ditt.",
+      },
+      {
+        id: "trygghet",
+        heading: "Trygghet og ekspertise i sentrum",
+        content: "Kirurgisk fjerning av hemorroider har lav risiko for komplikasjoner. Hos CMedical blir du operert av Dr. Marian Bale, som har bred erfaring med denne typen inngrep.",
+      },
+      {
+        id: "bestill",
+        heading: "Bestill en uforpliktende konsultasjon",
+        content: "Ønsker du å bli kvitt plagene dine? Ta kontakt med oss for en uforpliktende konsultasjon.",
       },
     ],
-    relatedSpecialists: ["andreas-edenberg"],
+    process: [
+      { title: "Før operasjonen", description: "Les gjennom tilsendt informasjon om anestesi. Siden inngrepet gjøres i endetarmen, må du tømme tarmen med et Klyx (120 ml, kjøpes reseptfritt på apoteket) to timer før oppmøte hos oss." },
+      { title: "Utskrivelse og hjemreise", description: "Inngrepet gjøres i narkose. Etterpå ligger du til observasjon på vår postoperative avdeling. Før hjemreise samme dag kommer kirurgen innom for en samtale. Siden du har vært i narkose, kan du ikke kjøre bil selv, og du må ha en voksen person med deg det første døgnet." },
+      { title: "Oppfølging", description: "Du settes automatisk opp til kontroll hos din kirurg 6–8 uker etter inngrepet for å sikre at alt har grodd fint." },
+    ],
+    relatedSpecialists: ["marian-bale"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig." },
       { question: "Ventetid", answer: "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg." },
+      { question: "Sykemelding", answer: "Behov for sykemelding vurderes individuelt ut fra yrket ditt." },
+      { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
 
