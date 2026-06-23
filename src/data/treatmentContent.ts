@@ -37,6 +37,8 @@ export interface TreatmentData {
   faqs?: { question: string; answer: string }[];
   linkedServices?: LinkedService[];
   relatedSpecialists?: string[]; // slugs referencing specialists
+  /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
+  themes?: string[];
 }
 
 // Key: "categoryId/subId" matching the route /behandlinger/:categoryId/:subId
@@ -1349,6 +1351,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Endokrinologi er en medisinsk spesialitet som handler om hormonsystemet og sykdommer knyttet til kjertler som produserer hormoner, som for eksempel skjoldbruskkjertelen, binyrene, hypofysen og biskjoldkjertlene. Endokrinologer utreder, behandler og følger opp pasienter med hormonelle forstyrrelser. For å finne ut om du har en hormonell sykdom starter vi med en grundig konsultasjon og undersøkelse, som ofte inkluderer blodprøver og eventuelt bildeundersøkelser. Har du plager knyttet til hormoner, stoffskifte, diabetes eller andre endokrine tilstander, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
+    themes: ["Stoffskifte", "Diabetes", "Binyrer og hormoner"],
     benefits: [
       "Erfarne endokrinologer med spisskompetanse",
       "Grundig hormonutredning med blodprøver og bildeundersøkelser",
@@ -1370,6 +1373,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Ernæringsfysiologi er et felt som ser på hvordan mat påvirker kroppen og helsen. Ernæringsfysiologer studerer næringsstoffer i mat, vurderer ernæringsbehov, og gir råd for å oppmuntre til en sunn livsstil.\n\nVår kliniske ernæringsfysiolog gir deg veiledning innen kosthold og livsstil, skreddersydd til deg og dine behov.",
+    themes: ["Vekt og kosthold", "Matintoleranser", "Sykdomsernæring"],
     sections: [
       {
         id: "formalet",
@@ -1433,6 +1437,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Osteopati er en manuell behandlingsform som betyr at hendene er osteopatens viktigste verktøy for diagnostisering og behandling. Osteopati komplementerer medisinsk utredning og behandling.\n\nOsteopatene er autorisert helsepersonell og følger lov for helsepersonell.",
+    themes: ["Nakke og rygg", "Kroniske smerter", "Bekkenrelaterte plager"],
     sections: [
       {
         id: "kvinnehelse",
@@ -1471,6 +1476,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Plastisk kirurgi kan hjelpe til med å gjenopprette kroppens form og funksjon etter for eksempel kreftsykdom, brannskader, graviditet og fødsel. Dette inkluderer inngrep som bukplastikk, brystkirurgi og andre rekonstruktive behandlinger. Vår plastiske kirurg har lang erfaring med løsninger godt tilpasset den enkelte pasient. Med avanserte teknikker og et trygt medisinsk miljø er du i de beste hender. Bestill en konsultasjon for en personlig vurdering og profesjonell veiledning.",
+    themes: ["Bryst", "Kropp", "Ansikt", "Rekonstruksjon"],
     benefits: [
       "Bukplastikk og brystkirurgi",
       "Rekonstruktive behandlinger etter kreftsykdom",
@@ -1492,6 +1498,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Du trenger ikke å ha en psykisk lidelse eller diagnose for å gå til psykolog. Mange ønsker å ha en nøytral samtalepartner over kortere eller lengre tid for å sortere tanker og følelser, eller motta støtte gjennom en utfordrende periode med f.eks. endometriose-, vulvodyni- eller fertilitetsbehandling. Hos oss jobber våre spesialister i unike tverrfaglige team for å hjelpe deg best mulig.",
+    themes: ["Angst og depresjon", "Traumer", "Parterapi og relasjoner"],
     sections: [
       {
         id: "hva-kan-vi-hjelpe-med",
@@ -1520,6 +1527,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Revmatologi er en spesialitet innen medisin som handler om å forstå og behandle problemer med ledd, muskler og bindevev i kroppen. Revmatologer utreder, behandler og følger opp pasienter med revmatisme. For å finne ut om du har revmatisme starter vi med grundig konsultasjon og undersøkelse, som ofte innebærer ultralyd og blodprøver. Har du plager, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon. Diagnoser: Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus. Revmatologer (spesialleger) bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten. Vi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme.",
+    themes: ["Leddgikt", "Artrose", "Bindevevssykdommer"],
     benefits: [
       "Erfarne revmatologer med spesialkompetanse",
       "Grundig utredning med ultralyd og blodprøver",
@@ -1542,6 +1550,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: heroTech,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)",
+    themes: ["Gynekologisk robotkirurgi", "Urologisk robotkirurgi", "Gastrokirurgisk robotkirurgi"],
     sections: [
       {
         id: "rask-rehabilitering",
@@ -1583,6 +1592,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Når man rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
+    themes: ["Samliv og relasjoner", "Seksuelle funksjonsplager", "Identitet og legning"],
     sections: [
       {
         id: "skreddersydd-veiledning",
@@ -1611,6 +1621,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Åreknuter er veldig vanlig, og nesten 30 % av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner. Risikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina. Åreknuter oppstår i de overfladiske venene grunnet svikt i klaffene. Synlige åreknuter på forsiden og på innsiden av leggen/låret tyder på at årsaken kommer fra lysken (70 %). Åreknuter foran og/eller bak på leggen tyder på at årsaken kommer fra knehasen (20 %). I tillegg finnes det flere årsaker til utvikling av åreknuter (10 %). Noen få har flere årsaker eller en kombinasjon. Det vanligste er å ha åreknuter i bare ett bein, men 1/3 av alle med åreknuter har det i begge beina. En god undersøkelse med ultralyd vil avdekke årsakene, og du vil få tilpasset en moderne og effektiv behandling.\n\nSymptomer: Symptomer varierer fra person til person. Mange andre tilstander kan gi tilsvarende symptomer, og derfor er det vanskelig å garantere at alle symptomer forsvinner etter behandling. De vanligste symptomene er: smerter, tunge eller trøtte bein, prikkende ubehag, kløe, nattekramper i leggene. Hevelse: Lindres symptomene dine ved bruk av støttestrømper, gir det en bedre prognose for lindring. Hvis du ikke ønsker behandling etter konsultasjon, anbefaler vi støttestrømper – men disse vil kun lindre symptomer, aldri fjerne åreknutene. Støttestrømper (klasse 2) kjøpes hos ulike apotek, men vi anbefaler personlig oppmøte hos bandagist.",
+    themes: ["Sklerosering", "Laserbehandling", "Kirurgisk fjerning"],
     benefits: [
       "En av Norges mest erfarne kar- og åreknutekirurger",
       "Over 2000 pasienter operert",
@@ -1770,6 +1781,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
     description: "Robotassistert overvektskirurgi med høyeste presisjon og skånsomhet — for varige resultater og en lettere hverdag.",
+    themes: ["Sleeve-gastrektomi", "Gastrisk bypass", "Oppfølging etter overvektskirurgi"],
     sections: [
       {
         id: "om-overvektskirurgi",
