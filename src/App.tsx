@@ -149,7 +149,8 @@ const AppContent = () => {
         
         {/* Fertilitet slug aliases */}
         <Route path="/behandlinger/fertilitet/assistert-befruktning-par-single" element={<Navigate to="/behandlinger/fertilitet/par-og-single" replace />} />
-        <Route path="/behandlinger/fertilitet/fertilitetsutredning-juli" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning" replace />} />
+        <Route path="/behandlinger/fertilitet/fertilitetsutredning-juli" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning-i-juli" replace />} />
+        <Route path="/behandlinger/fertilitet/teamet" element={<Navigate to="/spesialister?kategori=fertilitet" replace />} />
         {/* Fjernede sider — redirect til riktig samleside i ny fertilitet-struktur */}
         <Route path="/behandlinger/fertilitet/ivf" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
         <Route path="/behandlinger/fertilitet/iui" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />

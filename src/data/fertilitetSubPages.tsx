@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 
 const parent = { name: "Fertilitet", path: "/fertilitet" };
@@ -506,16 +507,35 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       { n: "03", title: "Inngrepet", desc: "Hysteroskopi i lokalbedøvelse eller kort narkose. Vanligvis 15–30 minutter." },
       { n: "04", title: "Veien videre", desc: "Funn og prøvesvar gjennomgås — og kobles til neste steg i fertilitetsplanen." },
     ],
-    reasonsTitle: "Når brukes hysteroskopi i et fertilitetsforløp?",
+    reasonsTitle: "Hysteroskopi",
     reasonsLead:
-      "Tilstanden i livmorhulen har direkte betydning for at et embryo skal kunne feste seg. Hysteroskopi gir oss et tydelig bilde — og en mulighet til å rette opp i ting samtidig.",
+      "Hysteroskopi er en skånsom gynekologisk undersøkelse der vi bruker et tynt instrument med kamera for å se inn i livmorhulen gjennom livmorhalsen. Undersøkelsen gir en grundig oversikt og gjør det mulig å oppdage årsaker til plager som ellers kan være vanskelig å finne. Fordelen for deg som pasient er at vi ofte kan stille diagnose og eventuelt behandle i samme prosedyre.",
+    reasonsLayout: "prose",
     reasons: [
-      { n: "01", title: "Polypper i livmoren", desc: "Polypper kan hindre innfesting og fjernes enkelt." },
-      { n: "02", title: "Myomer i livmorhulen", desc: "Submukøse myomer kan reduseres uten åpen kirurgi." },
-      { n: "03", title: "Sammenvoksinger", desc: "Asherman syndrom og andre intrauterine sammenvoksinger." },
-      { n: "04", title: "Gjentatte mislykkede IVF-forsøk", desc: "Vurdering av livmorhulen før nytt behandlingsforsøk." },
-      { n: "05", title: "Gjentatte spontanaborter", desc: "Kartlegging av strukturelle årsaker i livmoren." },
-      { n: "06", title: "Uavklarte funn på ultralyd", desc: "Når noe ikke ser normalt ut og bør avklares før behandling." },
+      {
+        n: "01",
+        title: "Hva kan hysteroskopi kartlegge?",
+        desc: (
+          <>
+            <p>Hysteroskopi er et effektivt verktøy for å kartlegge:</p>
+            <ul>
+              <li>uregelmessige blødninger</li>
+              <li>mistanke om polypper eller muskelknuter i livmoren</li>
+              <li>vanskeligheter med å bli gravid</li>
+            </ul>
+          </>
+        ),
+      },
+      {
+        n: "02",
+        title: "Forandringer i livmorslimhinnen",
+        desc: "Gjennom moderne teknologi og skånsomt utviklede instrumenter legger vi vekt på å gi deg en trygg opplevelse med minst mulig ubehag under undersøkelsen.",
+      },
+      {
+        n: "03",
+        title: "Office-hysteroskopi",
+        desc: "Vi tilbyr også office-hysteroskopi som kan gjennomføres uten narkose eller bedøvelse, og umiddelbart ved besøk hos gynekolog.",
+      },
     ],
     promises: standardPromises,
     related: [
@@ -696,6 +716,62 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ctaTitle: "Klar for å ta det første steget?",
     ctaDescription:
       "Bestill en fertilitetsutredning eller en uforpliktende samtale — vi tilpasser tempoet etter deg, og du bestemmer veien videre.",
+    specialistCategory: "fertilitet",
+    specialistCtaLabel: "Se alle fertilitetsspesialister",
+    specialistCtaHref: "/spesialister?kategori=fertilitet",
+  },
+
+  /* ───────────────────────── FERTILITETSUTREDNING I JULI ───────────────────────── */
+  "fertilitetsutredning-i-juli": {
+    seoTitle: "Fertilitetsutredning i juli | CMedical",
+    seoDescription:
+      "CMedical Fertilitet holder åpent for fertilitetsutredning i juli — fysisk utredning for enkeltpersoner og par, eller telefonsamtale.",
+    canonical: "/behandlinger/fertilitet/fertilitetsutredning-i-juli",
+    parent,
+    title: "Fertilitetsutredning i juli",
+    heroTitle: <>Fertilitetsutredning <span className="italic">i juli</span></>,
+    heroDescription:
+      "CMedical Fertilitet holder åpent for fertilitetsutredning i juli. Vi er tilgjengelig for fysisk utredning for enkeltpersoner og par, eller ved telefonsamtale.",
+    heroPoints: [
+      { title: "Åpent i juli", desc: "Vi tar imot for utredning gjennom hele sommeren." },
+      { title: "Enkeltpersoner og par", desc: "Fysisk konsultasjon på klinikken." },
+      { title: "Telefonsamtale", desc: "Alternativ til oppmøte når det passer best for deg." },
+    ],
+    rating: "4,8 — Norges eldste private fertilitetsklinikk",
+    booking: { ...baseBooking, tjeneste: "fertilitetsutredning" },
+    primaryCtaLabel: "Bestill fertilitetsutredning",
+    flowTitle: "Slik kommer du i gang i juli",
+    flow: [
+      { n: "Steg 01", title: "Ta kontakt", desc: "Book en tid på nett eller ring oss — vi finner en time som passer i juli." },
+      { n: "Steg 02", title: "Konsultasjon", desc: "Fysisk på klinikken eller på telefon, alene eller sammen som par." },
+      { n: "Steg 03", title: "Veien videre", desc: "Vi legger en plan tilpasset deg eller dere — i ditt tempo." },
+    ],
+    reasonsTitle: "Fertilitetsutredning i juli",
+    reasonsLead:
+      "CMedical Fertilitet holder åpent for fertilitetsutredning i juli. Vi er tilgjengelig for fysisk utredning for enkeltpersoner og par, eller ved telefonsamtale.",
+    reasonsLayout: "prose",
+    reasons: [
+      {
+        n: "01",
+        title: "Les mer om vår fertilitetsutredning",
+        desc: (
+          <p>
+            <Link to="/behandlinger/fertilitet/fertilitetsutredning" className="underline">
+              Les mer om vår fertilitetsutredning.
+            </Link>
+          </p>
+        ),
+      },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "Fertilitetsutredning", desc: "Grundig kartlegging av fertiliteten — et trygt første steg.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
+      { title: "Assistert befruktning", desc: "IVF, ICSI og IUI — også med donor.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Sædanalyse", desc: "Et enkelt og viktig steg i utredningen.", href: "/behandlinger/fertilitet/saedanalyse" },
+    ],
+    ctaTitle: "Bestill fertilitetsutredning i juli",
+    ctaDescription:
+      "Vi tar imot deg eller dere på klinikken eller på telefon — fortell oss hva som passer best.",
     specialistCategory: "fertilitet",
     specialistCtaLabel: "Se alle fertilitetsspesialister",
     specialistCtaHref: "/spesialister?kategori=fertilitet",
