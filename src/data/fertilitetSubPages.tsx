@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 
 const parent = { name: "Fertilitet", path: "/fertilitet" };
