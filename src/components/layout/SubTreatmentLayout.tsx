@@ -19,11 +19,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
-import promiseUnderOneRoof from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
+import promiseSpecialists from "@/assets/promises/spesialiste.webp.asset.json";
+import promiseUnderOneRoof from "@/assets/promises/endokrinologi.jpg.asset.json";
 
-// Index 1 (Spesialister med dybde) intentionally has no image — bildet er fjernet
-// per klinikkens ønske. Komponenten skjuler bildeboksen når url er null.
-const promiseImages: (string | null)[] = [promiseComfort.url, null, promiseUnderOneRoof.url];
+const promiseImages = [promiseComfort.url, promiseSpecialists.url, promiseUnderOneRoof.url];
 
 export interface SubTreatmentContent {
  // Meta
@@ -608,16 +607,14 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
             {c.promises.map((p, i) => (
               <div key={p.title} className="group flex flex-col">
-                {promiseImages[i % promiseImages.length] && (
-                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
-                    <img
-                      src={promiseImages[i % promiseImages.length] as string}
-                      alt=""
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  </div>
-                )}
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
+                  <img
+                    src={promiseImages[i % promiseImages.length]}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <h3 className="text-xl md:text-2xl font-light leading-[1.2] text-foreground mb-4 max-w-[28ch]">
                   {p.title}
                 </h3>
