@@ -326,6 +326,110 @@ const getSeeAllLink = (canonical: string): { href: string; label: string } | nul
   return { href: parentPath, label: `Se alle ${label}` };
 };
 
+const RelatedServicesCarousel = ({
+  items,
+  seeAll,
+}: {
+  items: { title: string; desc: string; href: string; image?: string }[];
+  seeAll: { href: string; label: string } | null;
+}) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const resolved = items.map((a) => ({
+    ...a,
+    image: a.image ?? getServiceImageFromHref(a.href),
+  }));
+  const showArrows = resolved.length > 2;
+
+  const scroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const card = scrollRef.current.querySelector<HTMLElement>("[data-related-card]");
+    const step = card ? card.offsetWidth + 24 : 320;
+    scrollRef.current.scrollBy({ left: dir === "left" ? -step : step, behavior: "smooth" });
+  };
+
+  return (
+    <section className="bg-background py-20 md:py-28 overflow-hidden">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+              Relaterte tjenester
+            </h2>
+          </div>
+          {showArrows && (
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
+                aria-label="Scroll venstre"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-secondary transition-colors text-foreground"
+                aria-label="Scroll høyre"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="container mx-auto pl-6 md:pl-16 pr-0">
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pr-6 md:pr-16"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+        >
+          {resolved.map((a) => (
+            <Link
+              key={a.title}
+              data-related-card
+              to={a.href}
+              className="flex-shrink-0 w-[78vw] sm:w-[360px] md:w-[400px] snap-start bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+            >
+              <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                {a.image && (
+                  <img
+                    src={a.image}
+                    alt={a.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                )}
+              </div>
+              <div className="p-7 flex flex-col flex-1">
+                <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+                <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                  Les mer
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {seeAll && (
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="mt-10 flex justify-center">
+            <Link
+              to={seeAll.href}
+              className="inline-flex items-center text-sm font-light text-foreground gap-2 hover:gap-2.5 transition-all border-b border-foreground/30 pb-1"
+            >
+              {seeAll.label}
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
+
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
  document.title = `${c.title} | CMedical`;
