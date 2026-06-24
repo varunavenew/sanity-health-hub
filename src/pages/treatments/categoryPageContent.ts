@@ -41,6 +41,7 @@ export const serviceIconKeyMap: Record<string, string> = {
   "Robotassistert kirurgi": "robotkirurgi-gyn-cl",
   // Fertilitet
   "Infertilitet": "infertilitet-cl",
+  "Fertilitetsutredning": "infertilitet-cl",
   "Assistert befruktning": "assistert-befruktning-cl",
   "Assistert befruktning med donor": "donorbehandling-cl",
   "Eggfrys": "eggfrys-cl",
