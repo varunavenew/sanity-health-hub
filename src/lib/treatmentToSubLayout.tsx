@@ -304,6 +304,7 @@ export const treatmentToSubLayout = ({
     relatedLead: data.relatedLead,
     relatedAsIntro,
     relatedAsServices,
+    siblingServices: computeSiblingServices(canonical),
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
     ctaDescription: `Møt en erfaren ${specialistLabel} hos CMedical — ingen henvisning nødvendig, og kort ventetid.`,
     specialistCategory: (categoryId === "graviditet" || categoryId === "flere-fagomrader"
