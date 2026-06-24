@@ -12,6 +12,7 @@ import heroTech from "@/assets/hero/hero-technology.jpg";
 import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
+import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
