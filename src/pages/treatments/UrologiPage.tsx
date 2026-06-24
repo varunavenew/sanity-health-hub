@@ -235,7 +235,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
 
  <div className="relative min-h-[420px] lg:min-h-full">
  <img
- src={urologiHero}
+ src={urologiHero.url}
  alt="Urologi hos CMedical"
  className="absolute inset-0 w-full h-full object-cover"
  />
