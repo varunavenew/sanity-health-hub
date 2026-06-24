@@ -134,6 +134,7 @@ const AppContent = () => {
         <Route path="/behandlinger/graviditet" element={<Graviditet isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Sub-treatment routes */}
+        <Route path="/behandlinger/gynekologi/nipt" element={<Navigate to="/behandlinger/graviditet/nipt" replace />} />
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
         
         {/* Fertilitet slug aliases */}
