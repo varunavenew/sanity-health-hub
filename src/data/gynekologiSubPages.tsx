@@ -939,7 +939,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "NIPT", desc: "Trygg, tidlig vurdering av kromosomavvik.", href: "/behandlinger/gynekologi/nipt" },
       { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
       { title: "Fødselsskader", desc: "Vurdering og oppfølging etter fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
@@ -1034,7 +1033,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Fostermedisin", desc: "Ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
-      { title: "NIPT", desc: "Tidlig vurdering av kromosomavvik.", href: "/behandlinger/gynekologi/nipt" },
       { title: "Fødselsskader", desc: "Hvis du har plager etter en tidligere fødsel.", href: "/behandlinger/gynekologi/fodselsskader" },
     ],
     ctaTitle: "Bestill svangerskapsoppfølging",
