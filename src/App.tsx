@@ -179,7 +179,7 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
-        <Route path="/tverrfaglige-team" element={<TverrfagligePage isChatOpen={false} />} />
+        <Route path="/tverrfaglige-team" element={<Navigate to="/behandlinger/gynekologi/tverrfaglig" replace />} />
         <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
         {/* Fastlegeveiledning */}
         <Route path="/fastlegeveiledning-overgangsalder" element={<FastlegeveiledningOvergangsalder isChatOpen={false} />} />
