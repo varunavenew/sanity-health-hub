@@ -632,6 +632,14 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  9. SPESIALISTER — menneskene bak
  ============================================================ */}
+      <FeatureSpotlight
+        title={<>Begynn med en <span className="italic">gynekologisk undersøkelse</span></>}
+        text="En grundig helsesjekk med samtale, klinisk undersøkelse og ultralyd. Du møter en spesialist som tar seg tid til å forstå hele bildet — og legger en plan tilpasset deg."
+        ctaLabel="Les mer om gynekologisk undersøkelse"
+        ctaHref="/behandlinger/gynekologi/undersokelse"
+        image={spotlightImg}
+        imageAlt="Konsultasjon hos gynekolog hos CMedical"
+      />
 
       <SpecialistsScroller
  category="gynekologi"
@@ -639,55 +647,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  seeAllHref="/spesialister?kategori=gynekologi"
  seeAllLabel="Se alle gynekologer"
  />
-
- {/* ============================================================
- 6. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING — split
- ============================================================ */}
- <section className="bg-background">
- <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
- <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
- <div className="lg:col-span-5">
- <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
- Fra første kontakt til riktig behandling.
- </h2>
- <p className="text-base font-light text-muted-foreground leading-relaxed mb-10 max-w-md">
- Du tar kontakt — vi tar over. Slik ser et vanlig forløp ut hos
- oss, fra du booker time til du er ferdig behandlet.
- </p>
- <Button
- asChild
- variant="cta"
- size="lg"
- className="px-8"
- >
- <Link to={buildBookingUrl({ kategori: "gynekologi" })}>
- Bestill time
- </Link>
- </Button>
- </div>
-
- <div className="lg:col-span-7">
- <div className="divide-y divide-border/60 border-t border-border/60">
- {journey.map((step) => (
- <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
- <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
- {step.n}
- </div>
- <div className="col-span-10 md:col-span-11">
- <h3 className="text-base font-normal text-foreground mb-1.5">
- {step.title}
- </h3>
- <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
- {step.desc}
- </p>
- </div>
- </div>
- ))}
- </div>
- </div>
- </div>
- </div>
- </section>
 
  {/* ============================================================
  10. UNIFIED PRE-FOOTER CTA — samme som hjem
