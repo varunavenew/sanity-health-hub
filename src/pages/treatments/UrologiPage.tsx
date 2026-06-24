@@ -170,11 +170,10 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  title="Urologi | CMedical — Spesialister du kan stole på"
  description="Spesialisturologi hos CMedical. Prostata, blære, testikler, ereksjon og robotkirurgi — uten henvisning, uten ventetid."
  canonical="/urologi"
- breadcrumbs={[
- { name: "Hjem", path: "/" },
- { name: "Tjenester", path: "/tjenester" },
- { name: "Urologi", path: "/urologi" },
- ]}
+  breadcrumbs={[
+  { name: "Hjem", path: "/" },
+  { name: "Urologi", path: "/urologi" },
+  ]}
  jsonLd={{
  "@context": "https://schema.org",
  "@type": "MedicalSpecialty",

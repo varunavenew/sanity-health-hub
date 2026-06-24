@@ -154,11 +154,10 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  title="Ortopedi | CMedical — Når det gjør vondt"
  description="Spesialistortopedi hos CMedical. Skulder, kne, hofte, hånd og fot — diagnose og plan på første konsultasjon. Ingen henvisning, ingen ventetid."
  canonical="/ortopedi"
- breadcrumbs={[
- { name: "Hjem", path: "/" },
- { name: "Tjenester", path: "/tjenester" },
- { name: "Ortopedi", path: "/ortopedi" },
- ]}
+  breadcrumbs={[
+  { name: "Hjem", path: "/" },
+  { name: "Ortopedi", path: "/ortopedi" },
+  ]}
  jsonLd={{
  "@context": "https://schema.org",
  "@type": "MedicalSpecialty",

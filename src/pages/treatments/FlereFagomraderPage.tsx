@@ -73,11 +73,10 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  title="Flere fagområder | CMedical — Tverrfaglige spesialister"
  description="Hud, psykologi, sexologi, ernæring, kirurgi og mer — Nordens fremste spesialister, ofte i tverrfaglige team. Kort ventetid, ingen henvisning."
  canonical="/flere-fagomrader"
- breadcrumbs={[
- { name: "Hjem", path: "/" },
- { name: "Tjenester", path: "/tjenester" },
- { name: "Flere fagområder", path: "/flere-fagomrader" },
- ]}
+  breadcrumbs={[
+  { name: "Hjem", path: "/" },
+  { name: "Flere fagområder", path: "/flere-fagomrader" },
+  ]}
  jsonLd={{
  "@context": "https://schema.org",
  "@type": "MedicalClinic",
