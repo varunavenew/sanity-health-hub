@@ -29,7 +29,7 @@ import SpecialistProfile from "./pages/SpecialistProfile";
 import Specialists from "./pages/Specialists";
 import AboutSpecialists from "./pages/AboutSpecialists";
 import KvinnehelsePage from "./pages/themes/KvinnehelsePage";
-import TverrfagligePage from "./pages/themes/TverrfagligePage";
+
 import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
 import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
