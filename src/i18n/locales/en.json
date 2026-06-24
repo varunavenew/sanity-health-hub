@@ -32,9 +32,9 @@
       "label": "Leading experts\nin fertility",
       "subtitle": "Fertility Team"
     },
-    "robotkirurgi": {
-      "label": "Robot-assisted\nsurgery",
-      "subtitle": "Technology"
+    "tverrfaglig": {
+      "label": "Multidisciplinary\nteam",
+      "subtitle": "Multidisciplinary"
     },
     "readMore": "Read more",
     "goToSlide": "Go to slide {{num}}",
