@@ -23,6 +23,8 @@ export interface LinkedService {
   label: string;
   description: string;
   path: string;
+  /** Optional override image. When provided, used as the card image instead of the dedicated service image lookup. */
+  image?: string;
 }
 
 export interface TreatmentData {
@@ -38,6 +40,8 @@ export interface TreatmentData {
   process?: { title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
   linkedServices?: LinkedService[];
+  /** Override the auto-generated heading for the related/linked services section. */
+  relatedTitleOverride?: string;
   relatedSpecialists?: string[]; // slugs referencing specialists
   /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
   themes?: string[];
