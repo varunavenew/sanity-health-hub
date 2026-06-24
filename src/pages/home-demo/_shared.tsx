@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import urologiImg from "@/assets/categories/urologi-real.jpg";
+import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
+const urologiImg = urologiHeroAsset.url;
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
