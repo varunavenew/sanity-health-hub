@@ -16,7 +16,8 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 
 // Static fallback images
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
-import urologiImg from "@/assets/categories/urologi-real.jpg";
+import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
+const urologiImg = urologiHeroAsset.url;
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import ortopediImg from "@/assets/categories/ortopedi-real.jpg";
 import graviditetImg from "@/assets/hero/hero-pregnancy.jpg";
