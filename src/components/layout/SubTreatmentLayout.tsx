@@ -303,6 +303,28 @@ const RelatedBlock = ({
   );
 };
 
+const SEE_ALL_LABELS: Record<string, string> = {
+  gynekologi: "gynekologi-tjenester",
+  fertilitet: "fertilitet-tjenester",
+  urologi: "urologi-tjenester",
+  ortopedi: "ortopedi-tjenester",
+  graviditet: "graviditet-tjenester",
+  gastrokirurgi: "gastrokirurgi-tjenester",
+  hudbehandlinger: "hudbehandlinger",
+};
+
+const getSeeAllLink = (canonical: string): { href: string; label: string } | null => {
+  const path = canonical.replace(/\/+$/, "");
+  const lastSlash = path.lastIndexOf("/");
+  if (lastSlash <= 0) return null;
+  const parentPath = path.slice(0, lastSlash);
+  if (parentPath === "/behandlinger/flere-fagomrader") {
+    return { href: parentPath, label: "Se alle behandlinger" };
+  }
+  const lastSegment = parentPath.split("/").pop() ?? "";
+  const label = SEE_ALL_LABELS[lastSegment] ?? `${lastSegment.toLowerCase()}-tjenester`;
+  return { href: parentPath, label: `Se alle ${label}` };
+};
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
@@ -779,20 +801,35 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       <InsurancePartners />
 
       {/* RELATERTE TJENESTER — søsken-tjenester for å hoppe mellom relaterte sider */}
-      {c.siblingServices && c.siblingServices.length > 0 && (
-        <section className="bg-background py-20 md:py-28">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="max-w-2xl mb-12">
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Relaterte tjenester
-                </h2>
+      {c.siblingServices && c.siblingServices.length > 0 && (() => {
+        const seeAll = getSeeAllLink(c.canonical);
+        const displayItems = c.siblingServices.slice(0, 4);
+        return (
+          <section className="bg-background py-20 md:py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <div className="max-w-6xl mx-auto">
+                <div className="max-w-2xl mb-12">
+                  <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                    Relaterte tjenester
+                  </h2>
+                </div>
+                <RelatedBlock items={displayItems} />
+                {seeAll && (
+                  <div className="mt-10 flex justify-center">
+                    <Link
+                      to={seeAll.href}
+                      className="inline-flex items-center text-sm font-light text-foreground gap-2 hover:gap-2.5 transition-all border-b border-foreground/30 pb-1"
+                    >
+                      {seeAll.label}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                )}
               </div>
-              <RelatedBlock items={c.siblingServices} />
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        );
+      })()}
 
       {/* BESTILL TIME — unified pre-footer CTA */}
       <BookingCTA />
