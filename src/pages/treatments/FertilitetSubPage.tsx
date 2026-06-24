@@ -65,6 +65,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       heroImageAlt: base.heroImageAlt ?? base.title,
       flowImage,
       flowImageAlt: base.flowImageAlt ?? "CMedical klinikk",
+      conversationCtaTitle: base.conversationCtaTitle ?? getConversationCtaTitle(`/behandlinger/fertilitet/${resolvedId}`),
       siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
     };
 
