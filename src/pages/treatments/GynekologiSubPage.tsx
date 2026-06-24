@@ -4,6 +4,7 @@ import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
 import { computeSiblingServices } from "@/lib/siblingServices";
+import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
 import NotFound from "@/pages/NotFound";
 
 interface Props {
