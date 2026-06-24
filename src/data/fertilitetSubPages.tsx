@@ -203,7 +203,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "Fertilitetssjekk", desc: "Sjekken viser om du er i et godt vindu for nedfrysing.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Fertilitetsutredning", desc: "Sjekken viser om du er i et godt vindu for nedfrysing.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "IVF", desc: "Når du vil bruke eggene dine, går de inn i en IVF-prosess.", href: "/behandlinger/fertilitet/assistert-befruktning" },
       { title: "Mannlig fertilitet", desc: "Vi fryser også ned sæd — før kreftbehandling eller annen indikasjon.", href: "/behandlinger/fertilitet/saedanalyse" },
     ],
@@ -306,7 +306,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "IVF med ICSI", desc: "Ved nedsatt sædkvalitet er IVF med ICSI ofte løsningen.", href: "/behandlinger/fertilitet/assistert-befruktning" },
       { title: "Nedfrysing av sæd", desc: "Frys ned sæd før behandling eller for fremtiden.", href: "/behandlinger/fertilitet/eggfrys" },
-      { title: "Fertilitetssjekk (par)", desc: "Vi anbefaler at begge tar en sjekk samtidig.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Fertilitetsutredning (par)", desc: "Vi anbefaler at begge tar en sjekk samtidig.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
     ],
     ctaTitle: "Bestill sædanalyse",
     ctaDescription:
@@ -483,9 +483,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "Fertilitetssjekk", desc: "Hysteroskopi kan være neste steg etter en grundig fertilitetssjekk.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Fertilitetsutredning", desc: "Hysteroskopi kan være neste steg etter en grundig fertilitetssjekk.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "IVF", desc: "Optimalisering av livmorhulen før IVF gir bedre odds for innfesting.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "Fertilitetssjekk", desc: "Strukturelle årsaker i livmoren er én av flere ting vi utreder.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Fertilitetsutredning", desc: "Strukturelle årsaker i livmoren er én av flere ting vi utreder.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
     ],
     ctaTitle: "Bestill vurdering for hysteroskopi",
     ctaDescription:
@@ -617,7 +617,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "Fertilitetssjekk", desc: "Den raske kartleggingen av hvor du står — uten henvisning.", href: "/behandlinger/fertilitet/fertilitetssjekk" },
+      { title: "Fertilitetsutredning", desc: "Den raske kartleggingen av hvor du står — uten henvisning.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
       { title: "IVF", desc: "Når utredningen viser at dere trenger hjelp på veien.", href: "/behandlinger/fertilitet/assistert-befruktning" },
       { title: "IVF — prøverørsbehandling", desc: "Den mest effektive fertilitetsbehandlingen som finnes.", href: "/behandlinger/fertilitet/assistert-befruktning" },
     ],
