@@ -43,6 +43,10 @@ export interface TreatmentData {
   linkedServices?: LinkedService[];
   /** Override the auto-generated heading for the related/linked services section. */
   relatedTitleOverride?: string;
+  /** Optional ingress/lead paragraph rendered next to the related-section heading. */
+  relatedLead?: string;
+  /** Force the related/linked services section to render as section 2 (right under hero). */
+  relatedAsIntroOverride?: boolean;
   relatedSpecialists?: string[]; // slugs referencing specialists
   /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
   themes?: string[];
