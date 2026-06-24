@@ -104,11 +104,11 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
 
         <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
           <div className="max-w-5xl mx-auto">
-            <VideoPlayer
-              thumbnailUrl={heroImg}
-              videoUrl={robotkirurgiHeroVideo.url}
-              title="Robotassistert kirurgi"
-              className="w-full aspect-video"
+            <img
+              src={heroImg}
+              alt={title}
+              className="w-full aspect-video object-cover rounded-sm"
+              loading="lazy"
             />
           </div>
         </div>
