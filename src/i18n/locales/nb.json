@@ -39,11 +39,7 @@
     "readMore": "Les mer",
     "goToSlide": "Gå til slide {{num}}",
     "prevSlide": "Forrige slide",
-    "nextSlide": "Neste slide",
-    "tverrfaglige": {
-      "label": "Tverrfaglige team\nfor hele deg",
-      "subtitle": "Tverrfaglig team"
-    }
+    "nextSlide": "Neste slide"
   },
   "tagline": "Faglig trygghet og personlig omsorg – for din helse",
   "stats": {

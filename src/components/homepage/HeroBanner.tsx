@@ -5,22 +5,14 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
-// Hero carousel images (large format)
+// Static fallback images
 import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
-import fertilityHeroAsset from "@/assets/hero/fertilitet-hero-v2.jpg.asset.json";
-import tverrfagligHeroAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
-
-// Hero videos
-import kvinnehelseVideoAsset from "@/assets/kvinnehelse-8.mp4.asset.json";
-import fertilitetVideoAsset from "@/assets/fertilitet-hero-v2.mp4.asset.json";
-import tverrfagligVideoAsset from "@/assets/tverrfaglig-team-4.mp4.asset.json";
+import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
+import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
 
 const kvinnehelseHero = kvinnehelseHeroAsset.url;
 const fertilityHero = fertilityHeroAsset.url;
-const tverrfagligHero = tverrfagligHeroAsset.url;
-const kvinnehelseVideo = kvinnehelseVideoAsset.url;
-const fertilitetVideo = fertilitetVideoAsset.url;
-const tverrfagligVideo = tverrfagligVideoAsset.url;
+const robotkirurgiHero = tverrfagligTeamAsset.url;
 
 interface HeroSlide {
   id: string;
@@ -45,7 +37,6 @@ export const HeroBanner = () => {
     {
       id: "kvinnehelse",
       image: kvinnehelseHero,
-      video: kvinnehelseVideo,
       alt: t("hero.kvinnehelse.label"),
       label: t("hero.kvinnehelse.label"),
       subtitle: t("hero.kvinnehelse.subtitle"),
@@ -56,7 +47,6 @@ export const HeroBanner = () => {
     {
       id: "fertilitet",
       image: fertilityHero,
-      video: fertilitetVideo,
       alt: t("hero.fertilitet.label"),
       label: t("hero.fertilitet.label"),
       subtitle: t("hero.fertilitet.subtitle"),
@@ -65,14 +55,13 @@ export const HeroBanner = () => {
       objectPosition: "center 40%",
     },
     {
-      id: "tverrfaglige",
-      image: tverrfagligHero,
-      video: tverrfagligVideo,
-      alt: t("hero.tverrfaglige.label"),
-      label: t("hero.tverrfaglige.label"),
-      subtitle: t("hero.tverrfaglige.subtitle"),
+      id: "robotkirurgi",
+      image: robotkirurgiHero,
+      alt: t("hero.robotkirurgi.label"),
+      label: t("hero.robotkirurgi.label"),
+      subtitle: t("hero.robotkirurgi.subtitle"),
       cta: t("hero.readMore"),
-      ctaPath: "/tverrfaglige-team",
+      ctaPath: "/behandlinger/urologi/robotkirurgi",
       objectPosition: "center 40%",
     },
   ];

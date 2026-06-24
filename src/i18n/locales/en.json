@@ -39,11 +39,7 @@
     "readMore": "Read more",
     "goToSlide": "Go to slide {{num}}",
     "prevSlide": "Previous slide",
-    "nextSlide": "Next slide",
-    "tverrfaglige": {
-      "label": "Multidisciplinary\nteams for you",
-      "subtitle": "Multidisciplinary team"
-    }
+    "nextSlide": "Next slide"
   },
   "tagline": "Clinical expertise and personal care – for your health",
   "stats": {
