@@ -219,13 +219,13 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
   urogynekologi: {
     seoTitle: "Urogynekologi | CMedical — fremfall og urinlekkasje",
     seoDescription:
-      "Urogynekologi samler fremfall (prolaps) og urinlekkasje på ett sted. Utredning og behandling — konservativt og kirurgisk — uavhengig av alder eller fødselshistorikk.",
+      "Urogynekologi samler fremfall (prolaps) og urinlekkasje på ett sted. Utredning og behandling — konservativt og kirurgisk — av vårt uro-gynekologiske team.",
     canonical: "/behandlinger/gynekologi/urogynekologi",
     parent,
     title: "Urogynekologi",
     heroTitle: <>Fremfall og urinlekkasje hører <span className="italic">sammen</span></>,
     heroDescription:
-      "Urogynekologi er fagfeltet for bekkenbunn, fremfall (prolaps) og urinlekkasje. Plagene kan oppstå uavhengig av fødsel eller alder — og de henger ofte sammen. Her samler vi utredning og behandling på ett sted.",
+      "Urogynekologi handler om plager i bekkenbunnen – særlig vaginale fremfall (prolaps) og urinlekkasje. Hos oss møter du noen av Nordens fremste eksperter, og tilstandene utredes og behandles samlet av vårt uro-gynekologiske team.",
     heroPoints: [
       { title: "Samlet kompetanse", desc: "Fremfall og lekkasje vurderes sammen — ikke i hver sin silo." },
       { title: "Hele spekteret", desc: "Fra bekkenbunnstrening og pessar til moderne kirurgi, inkludert robotassistert." },
@@ -246,18 +246,53 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
       { n: "Steg 02", title: "Undersøkelse", desc: "Klinisk undersøkelse av bekkenbunn, vurdering av fremfall, eventuell ultralyd og urinprøve." },
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
-      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall." },
+      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først." },
     ],
-    reasonsTitle: "Når bør du ta kontakt?",
+    textSection: {
+      title: "Vaginale fremfall (prolaps)",
+      lead:
+        "Vaginalt fremfall, også kjent som prolaps innebærer at skjedens fremre eller bakre vegg, eller livmor eller bare livmorhals buker ned i skjeden eller ut av skjedeinngangen, dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
+      points: [
+        {
+          n: "Behandling",
+          title: "Tilpasset alvorlighetsgrad",
+          desc:
+            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.",
+        },
+        {
+          n: "Eksperter",
+          title: "Nordens fremste på fremfall",
+          desc:
+            "Hos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon.",
+        },
+      ],
+      image: imgUrogynekologiHero,
+      imageAlt: "Urogynekologi hos CMedical",
+    },
+    reasonsTitle: "Urinlekkasje (inkontinens)",
     reasonsLead:
-      "Urogynekologiske plager rammer både kvinner som har født og kvinner som ikke har det, både unge og eldre. Felles for alle er at det finnes hjelp — og at det sjelden blir bedre av seg selv.",
+      "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
+    reasonsLead2:
+      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
     reasons: [
-      { n: "01", title: "Tyngdefølelse eller utbuling i underlivet", desc: "Klassisk tegn på fremfall (prolaps) — av livmor, blære eller endetarm." },
-      { n: "02", title: "Lekkasje ved hoste, nys eller trening", desc: "Stresslekkasje responderer ofte godt på bekkenbunnstrening eller kirurgi." },
-      { n: "03", title: "Plutselig og sterk urintrang", desc: "Urge-lekkasje gir akutt trang med lite varsel og krever annen behandling enn stresslekkasje." },
-      { n: "04", title: "Hyppig vannlating, også om natten", desc: "Kan henge sammen med både bekkenbunn, blære og hormoner — vi vurderer helheten." },
-      { n: "05", title: "Følelse av at noe «faller ned»", desc: "Mange beskriver det som om noe ligger an mot underlivet — det er en grunn til å bli undersøkt." },
-      { n: "06", title: "Plager ved samleie", desc: "Fremfall og bekkenbunnsdysfunksjon kan gi smerter eller ubehag som påvirker sexlivet." },
+      {
+        n: "01",
+        title: "Stressinkontinens",
+        desc:
+          "Urinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.",
+      },
+      {
+        n: "02",
+        title: "Tranginkontinens",
+        desc:
+          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Man er ofte plaget av hyppig toalettbesøk, hvor man ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
+      },
+      {
+        n: "03",
+        title: "Blandingsinkontinens",
+        desc:
+          "Kombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person. Er du plaget med dette anbefaler vi deg å ta kontakt med oss.",
+      },
     ],
     promises: standardPromises,
     related: [
@@ -265,10 +300,11 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Vaginale fremfall", desc: "Utdypende side om prolaps av livmor, blære og endetarm.", href: "/behandlinger/gynekologi/vaginale-fremfall" },
       { title: "Robotassistert kirurgi", desc: "Avansert kirurgi for komplekse fremfall og inkontinensplager.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
-    ctaTitle: "Bestill urogynekologisk utredning",
+    ctaTitle: "Bestill en uforpliktende konsultasjon her",
     ctaDescription:
       "Du trenger ikke leve med fremfall eller lekkasje. Vi gir deg en grundig vurdering og en konkret plan tilpasset deg.",
   },
+
 
   /* ───────────────────────── URINLEKKASJE ───────────────────────── */
   urinlekkasje: {

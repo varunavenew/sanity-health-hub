@@ -183,6 +183,7 @@ const gynekologi: CategoryNewContent = {
     "Endometriose": "/behandlinger/gynekologi/endometriose",
     "Overgangsalder": "/behandlinger/gynekologi/overgangsalder",
     "Vaginale fremfall": "/behandlinger/gynekologi/vaginale-fremfall",
+    "Urogynekologi": "/behandlinger/gynekologi/urogynekologi",
     "Blødningsforstyrrelser": "/behandlinger/gynekologi/blodningsforstyrrelser",
     "Celleforandringer": "/behandlinger/gynekologi/celleforandringer",
     "Cyster på eggstokkene": "/behandlinger/gynekologi/cyster",
@@ -204,7 +205,7 @@ const gynekologi: CategoryNewContent = {
     },
     {
       label: "Livet skifter form",
-      serviceNames: ["Urinlekkasje", "Overgangsalder", "Vaginale fremfall"],
+      serviceNames: ["Urogynekologi", "Urinlekkasje", "Overgangsalder", "Vaginale fremfall"],
     },
     {
       label: "Når kirurgi er svaret",
