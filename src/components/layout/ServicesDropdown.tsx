@@ -125,8 +125,8 @@ export const ServicesDropdown = () => {
  </nav>
  </div>
 
- {/* Column 2 - Subcategories */}
- <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-auto border-r border-white/10 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.55)_rgba(255,255,255,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/50 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/70">
+  {/* Column 2 - Subcategories */}
+  <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll border-r border-white/10 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full">
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeCategoryData.label}
  </h3>
@@ -174,7 +174,7 @@ export const ServicesDropdown = () => {
  transition={{ duration: 0.15 }}
  className="overflow-hidden"
  >
- <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.55)_rgba(255,255,255,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/50 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/70">
+ <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full">
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeSubcategoryData.label}
  </h3>
