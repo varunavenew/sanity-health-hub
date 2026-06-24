@@ -20,62 +20,6 @@ const standardPromises = [
 ];
 
 export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
-  /* ───────────────────────── FERTILITETSSJEKK ───────────────────────── */
-  fertilitetssjekk: {
-    seoTitle: "Fertilitetssjekk | CMedical — forstå fruktbarheten din",
-    seoDescription:
-      "Fertilitetssjekk uten henvisning. Hormoner, ultralyd og sædanalyse — du får et klart bilde av hvor du står på under en uke.",
-    canonical: "/behandlinger/fertilitet/fertilitetssjekk",
-    parent,
-    title: "Fertilitetssjekk",
-    heroTitle: <>Forstå <span className="italic">fruktbarheten</span> din</>,
-    heroDescription:
-      "En fertilitetssjekk gir deg et klart bilde av hvor du står. Ikke fordi noe nødvendigvis er galt — men fordi du fortjener gode svar. Vi tar blodprøver, ultralyd og en grundig samtale med spesialist.",
-    heroPoints: [
-      { title: "Antall follikler (AFC)", desc: "Ultralyd som teller dine egganlegg — eggstokkreserven." },
-      { title: "AMH — eggstokkreserven", desc: "Blodprøve som sier noe om din fertilitetsprofil." },
-      { title: "Hormonstatus", desc: "FSH, LH, østrogen og andre relevante hormoner." },
-      { title: "Vurdering av livmor og eggstokker", desc: "Gjennomgang for å avdekke struktur og sykdom." },
-      { title: "Samtale med fertilitetsspesialist", desc: "Gjennomgang av funn og veien videre." },
-    ],
-    rating: "4,8 — Norges eldste private fertilitetsklinikk",
-    booking: { ...baseBooking, tjeneste: "fertilitetssjekk" },
-    primaryCtaLabel: "Bestill fertilitetssjekk",
-    flowTitle: "Det vi kartlegger — og hva det betyr for deg",
-    flow: [
-      { n: "01", title: "Eggstokkreserve (AMH)", desc: "AMH er et hormon som sier noe om hvor mange egganlegg du har igjen — en indikator på fruktbarhetsvinduet ditt." },
-      { n: "02", title: "Antall follikler (AFC)", desc: "Med ultralyd teller vi antall småfollikler — sammen med AMH gir dette et godt bilde av eggstokkreserven." },
-      { n: "03", title: "Hormonstatus", desc: "Vi tar blodprøver for FSH, LH, østrogen og andre relevante hormoner som påvirker eggløsning og graviditet." },
-      { n: "04", title: "Anatomisk vurdering", desc: "Vi ser på livmorens form og størrelse via ultralyd og fanger opp polypper eller myomer som kan påvirke fruktbarheten." },
-      { n: "05", title: "Samtale med spesialist", desc: "Du møter en fertilitetsspesialist som gjennomgår alle funn med deg — og legger en plan om noe bør følges opp." },
-      { n: "06", title: "Individuell plan", desc: "Basert på funnene setter vi opp det som er aktuelt: 'vil følge opp' eller 'her er neste behandling'." },
-    ],
-    reasonsTitle: "En sjekk gir deg svar — ikke nødvendigvis problemer",
-    reasonsLead:
-      "Mange tror en fertilitetssjekk er noe man gjør først når man har prøvd lenge og noe er galt. Slik er det ikke. En sjekk er rett og slett en kartlegging av fruktbarheten din — slik at du vet hva du har å forholde deg til.",
-    reasonsLead2:
-      "Vi ser på eggstokkreserven din (AMH), teller egganlegg via ultralyd (AFC) og tar en rekke hormoner. Etter konsultasjonen sitter du igjen med konkret informasjon — og en spesialist som forklarer hva det betyr for deg.",
-    reasons: [
-      { n: "01", title: "Planlegger å få barn — men ikke i dag", desc: "Du vil vite hva du har å forholde deg til før du tar valget." },
-      { n: "02", title: "Har prøvd 6–12 måneder uten å bli gravid", desc: "En sjekk er det naturlige neste steget for å finne årsak." },
-      { n: "03", title: "Vurderer å fryse eggene dine", desc: "Sjekken viser om du er i et godt vindu for nedfrysing." },
-      { n: "04", title: "Har uregelmessig syklus eller hormonell ubalanse", desc: "PCOS, endometriose og andre tilstander påvirker fruktbarheten." },
-      { n: "05", title: "Er mann og vil sjekke din del av bildet", desc: "Vi tilbyr sædanalyse — en enkel og rask test." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "IVF — prøverørsbehandling", desc: "Hvis du har behov for hjelp på veien, er IVF den vanligste behandlingen vi tilbyr.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "IUI — inseminasjon", desc: "Et enklere første steg når årsaken er mild — eller når du ønsker donor.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "Nedfrysing av egg", desc: "Gir deg tid. Vi forklarer når det er riktig — og hva det innebærer.", href: "/behandlinger/fertilitet/eggfrys" },
-    ],
-    ctaTitle: "Klar til å finne ut hvor du står?",
-    ctaDescription:
-      "Bestill fertilitetssjekk direkte — ingen ventetid, ingen henvisning. Eller ta en gratis og uforpliktende prat med sykepleier om du er usikker på hva du trenger.",
-    specialistCategory: "fertilitet",
-    specialistCtaLabel: "Se alle fertilitetsspesialister",
-    specialistCtaHref: "/spesialister?kategori=fertilitet",
-  },
-
   /* ───────────────────────── INFERTILITET ───────────────────────── */
   infertilitet: {
     seoTitle: "Infertilitet | CMedical — utredning og veien videre",
