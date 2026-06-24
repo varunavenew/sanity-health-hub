@@ -129,13 +129,13 @@ export const serviceCategories: ServiceCategory[] = [
           { label: 'Hudpleieprodukter', path: '/behandlinger/flere-fagomrader/hudpleieprodukter' },
         ],
       },
-      { label: 'Overvektskirurgi', path: '/behandlinger/flere-fagomrader/overvektskirurgi' },
       {
-        label: 'Gastrokirurgi',
+        label: 'Mage- og tarmlidelser (Gastrokirurgi)',
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
-          { label: 'Bariatrisk kirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi' },
-          { label: 'Sleeve gastrektomi', path: '/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi' },
+          { label: 'Overvektskirurgi (slankeoperasjon)', path: '/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi' },
+          { label: 'Brokkoperasjon', path: '/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling' },
+          { label: 'Hemorroider og endetarmsplager (rektocele)', path: '/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager' },
         ],
       },
       { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },
