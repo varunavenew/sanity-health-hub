@@ -18,7 +18,7 @@ import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { TagList } from "@/components/treatments/TagList";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 
-import urologiHero from "@/assets/categories/urologi-real.jpg";
+import urologiHero from "@/assets/services/urologi-hero.jpg.asset.json";
 import expertProstata from "@/assets/hero/robotkirurgi-hero.jpg";
 import expertTestikler from "@/assets/hero/urology-hero.jpg";
 import expertPenis from "@/assets/hero/cmedical-hero-2.jpg";
@@ -235,7 +235,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
 
  <div className="relative min-h-[420px] lg:min-h-full">
  <img
- src={urologiHero}
+ src={urologiHero.url}
  alt="Urologi hos CMedical"
  className="absolute inset-0 w-full h-full object-cover"
  />
