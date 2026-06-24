@@ -43,6 +43,10 @@ export interface TreatmentData {
   linkedServices?: LinkedService[];
   /** Override the auto-generated heading for the related/linked services section. */
   relatedTitleOverride?: string;
+  /** Optional ingress/lead paragraph rendered next to the related-section heading. */
+  relatedLead?: string;
+  /** Force the related/linked services section to render as section 2 (right under hero). */
+  relatedAsIntroOverride?: boolean;
   relatedSpecialists?: string[]; // slugs referencing specialists
   /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
   themes?: string[];
@@ -60,6 +64,9 @@ export const treatmentContent: Record<string, TreatmentData> = {
     heroImage: gynekologiImg,
     heroVideo: tverrfagligTeamVideo.url,
     description: "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!\n\nVi tilbyr alt innen gynekologisk kirurgi, og vi er den første private aktøren som tilbyr robotkirurgi. Vår klinikk er den første private klinikken i Norden med IVF-behandling og kirurgi samlet under samme tak. Dette gir deg som gjennomgår fertilitetsbehandling en ro og trygghet om at vi kan løse de fleste utfordringer på et sted, her hos oss.\n\nVi har et svangerskapsteam som følger deg trygt igjennom graviditeten helt til fødsel, og våre eksperter på barsel står klare til å veilede deg videre på «6 ukers kontrollen». Dersom du skulle oppleve plager senere i livet er vi her for å hjelpe deg. Vi har kompetanse på alle gynekologiske tilstander - fra utredning, behandling og oppfølging i etterkant.",
+    relatedTitleOverride: "Vårt tverrfaglige team",
+    relatedLead: "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!",
+    relatedAsIntroOverride: true,
     linkedServices: [
       {
         label: "Osteopat",

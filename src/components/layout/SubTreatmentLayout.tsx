@@ -93,8 +93,10 @@ export interface SubTreatmentContent {
  description?: string;
  items: { title: string; desc: string; href: string; image: string }[];
  };
-  // Section 5 — relaterte
+   // Section 5 — relaterte
  relatedTitle?: string;
+ /** Optional ingress/lead paragraph rendered next to the related-section heading (Flere fagområder-style header). */
+ relatedLead?: string;
  related: { title: string; desc: string; href: string; image?: string }[];
  /** When true, render the related cards right after the hero (as section 2) instead of after the flow. Used for landing pages where the cards represent the actual treatments included in the service. */
  relatedAsIntro?: boolean;
@@ -254,16 +256,19 @@ const ReasonsEditorial = ({
  */
 const RelatedBlock = ({
   items,
+  columns = 3,
 }: {
   items: { title: string; desc: string; href: string; image?: string }[];
+  columns?: 2 | 3;
 }) => {
   if (items.length === 0) return null;
   const resolved = items.map((a) => ({
     ...a,
     image: a.image ?? getServiceImageFromHref(a.href),
   }));
+  const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
-    <div className="grid md:grid-cols-3 gap-6">
+    <div className={`grid ${gridCols} gap-6`}>
       {resolved.map((a) => (
         <Link
           key={a.title}
@@ -439,12 +444,27 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     <section className="bg-secondary/40 py-20 md:py-28">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-2xl mb-12">
-            <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-              {c.relatedTitle ?? "Dette inngår i tjenesten"}
-            </h2>
-          </div>
-          <RelatedBlock items={c.related} />
+          {c.relatedLead ? (
+            <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+              <div className="lg:col-span-6">
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  {c.relatedTitle ?? "Dette inngår i tjenesten"}
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  {c.relatedLead}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="max-w-2xl mb-12">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                {c.relatedTitle ?? "Dette inngår i tjenesten"}
+              </h2>
+            </div>
+          )}
+          <RelatedBlock items={c.related} columns={c.relatedLead ? 2 : 3} />
         </div>
       </div>
     </section>
