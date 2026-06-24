@@ -412,9 +412,9 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
       ],
     },
     related: [
-      { title: "IVF", desc: "Donorbehandling kombineres ofte med IVF-prosess.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "IUI — inseminasjon", desc: "IUI med donorsæd er ofte det enkleste første steget.", href: "/behandlinger/fertilitet/assistert-befruktning" },
-      { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av et donorforløp.", href: "/behandlinger/fertilitet/infertilitet" },
+      { title: "Assistert befruktning", desc: "Donorbehandling kombineres ofte med IVF eller IUI.", href: "/behandlinger/fertilitet/assistert-befruktning" },
+      { title: "Fertilitetsutredning", desc: "Grundig kartlegging før vi legger en plan sammen.", href: "/behandlinger/fertilitet/fertilitetsutredning" },
+      { title: "Nedfrysning av egg", desc: "Bevar mulighetene dine for senere bruk.", href: "/behandlinger/fertilitet/eggfrys" },
     ],
     ctaTitle: "Snakk med oss om donorbehandling",
     ctaDescription:

@@ -133,6 +133,13 @@ const audiences = [
 
 const expertAreas = [
   {
+    title: "Infertilitet",
+    desc:
+      "Årsaker til ufrivillig barnløshet hos kvinner og menn – og når du bør søke hjelp.",
+    href: "/behandlinger/fertilitet/infertilitet",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/infertilitet") ?? journeyConsultation,
+  },
+  {
     title: "Assistert befruktning",
     desc:
       "IVF, ICSI og inseminasjon — også med donor. Norges eldste private fertilitetsklinikk, med erfaring siden 1989.",
@@ -140,11 +147,11 @@ const expertAreas = [
     image: getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? journeyLab,
   },
   {
-    title: "Donorbehandling",
+    title: "Fertilitetsutredning",
     desc:
-      "Donorsæd, donoregg og partnerdonasjon — vi følger dere trygt gjennom hele forløpet, etter norsk lov.",
-    href: "/behandlinger/fertilitet/donorbehandling",
-    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
+      "Grundig kartlegging som gir svar og en plan tilpasset deg.",
+    href: "/behandlinger/fertilitet/fertilitetsutredning",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/fertilitetsutredning") ?? journeyConsultation,
   },
   {
     title: "Nedfrysning av egg",
@@ -154,6 +161,13 @@ const expertAreas = [
     image: getServiceImageFromHref("/behandlinger/fertilitet/eggfrys") ?? audienceWaiting,
   },
   {
+    title: "Donorbehandling",
+    desc:
+      "Donorsæd, donoregg og partnerdonasjon — vi følger dere trygt gjennom hele forløpet, etter norsk lov.",
+    href: "/behandlinger/fertilitet/donorbehandling",
+    image: getServiceImageFromHref("/behandlinger/fertilitet/donorbehandling") ?? journeyResult,
+  },
+  {
     title: "Sædanalyse",
     desc:
       "Sædprøve, hormonprøver og avanserte teknikker som mikro-TESE. Halvparten av forklaringen ligger ofte hos mannen.",
@@ -161,6 +175,7 @@ const expertAreas = [
     image: getServiceImageFromHref("/behandlinger/fertilitet/saedanalyse") ?? audienceCouple,
   },
 ];
+
 
 const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
   {
