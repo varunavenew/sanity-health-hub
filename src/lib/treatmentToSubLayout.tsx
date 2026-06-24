@@ -237,8 +237,8 @@ export const treatmentToSubLayout = ({
           const m = ls.path.match(/^\/behandlinger\/([^/?#]+)(?:\/([^/?#]+))?/);
           const cat = m?.[1];
           const sub = m?.[2];
-          const img = cat && sub ? getDedicatedServiceImage(cat, sub) : undefined;
-          return { title: ls.label, desc: ls.description, href: ls.path, image: img };
+          const img = ls.image ?? (cat && sub ? getDedicatedServiceImage(cat, sub) : undefined);
+          return { title: ls.label, desc: ls.description, href: ls.path, image: img, _explicit: Boolean(ls.image) };
         })
       : [];
   const imgCounts = rawRelated.reduce<Record<string, number>>((acc, r) => {
@@ -246,8 +246,10 @@ export const treatmentToSubLayout = ({
     return acc;
   }, {});
   const related = rawRelated.map((r) => ({
-    ...r,
-    image: r.image && imgCounts[r.image] === 1 ? r.image : undefined,
+    title: r.title,
+    desc: r.desc,
+    href: r.href,
+    image: r.image && (r._explicit || imgCounts[r.image] === 1) ? r.image : undefined,
   }));
 
   // Detect whether the linked services represent treatments included in this
