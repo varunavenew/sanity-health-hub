@@ -256,7 +256,7 @@ const ReasonsEditorial = ({
  */
 const RelatedBlock = ({
   items,
-  columns = 3,
+  columns = 2,
 }: {
   items: { title: string; desc: string; href: string; image?: string }[];
   columns?: 2 | 3;
