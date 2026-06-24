@@ -82,7 +82,7 @@ const audiences = [
     Icon: Users,
     desc:
       "Når egne egg eller sæd ikke er et alternativ, kan donorbehandling være veien videre. Vi gjør en grundig vurdering først.",
-    href: "/booking?kategori=fertilitet",
+    href: "/behandlinger/fertilitet/fertilitetsutredning",
   },
 ];
 

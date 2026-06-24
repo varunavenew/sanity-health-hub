@@ -42,7 +42,7 @@ const lifePhases = [
  desc:
  "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
  tags: [
- { label: "Prevensjonsveiledning", href: "/booking?kategori=gynekologi" },
+ { label: "Prevensjonsveiledning", href: "/behandlinger/gynekologi/undersokelse" },
  { label: "PCOS & POI", href: "/behandlinger/gynekologi/pcos" },
  { label: "Hormonforstyrrelser", href: "/behandlinger/gynekologi/pcos" },
  { label: "PMS / PMDD", href: "/behandlinger/gynekologi/pms-pmdd" },
@@ -73,15 +73,15 @@ const lifePhases = [
  desc:
  "Svangerskapskontroll, ultralyd, etterkontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
   tags: [
-  { label: "Tidlig ultralyd", href: "/booking?kategori=gynekologi" },
-  { label: "NIPT", href: "/booking?kategori=gynekologi" },
-  { label: "Graviditetsoppfølging", href: "/booking?kategori=gynekologi" },
-  { label: "6-ukerskontroll etter fødsel", href: "/booking?kategori=gynekologi" },
-  { label: "Spontanabort", href: "/booking?kategori=gynekologi" },
-  { label: "Abort", href: "/booking?kategori=gynekologi" },
+  { label: "Tidlig ultralyd", href: "/behandlinger/graviditet/nipt" },
+  { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
+  { label: "Graviditetsoppfølging", href: "/graviditet" },
+  { label: "6-ukerskontroll etter fødsel", href: "/graviditet" },
+  { label: "Spontanabort", href: "/graviditet" },
+  { label: "Abort", href: "/graviditet" },
   { label: "Fødselsskader", href: "/behandlinger/gynekologi/vaginale-fremfall" },
   ],
-  href: "/booking?kategori=gynekologi",
+  href: "/graviditet",
   },
   {
   n: "04",
@@ -156,14 +156,14 @@ const audiences = [
   Icon: User,
   desc:
    "Det første møtet skal være trygt og forklart. Vi tar oss tid — uansett om det er prevensjon, syklus eller bare et spørsmål du har båret på lenge.",
-  href: "/booking?kategori=gynekologi&tjeneste=undersokelse",
- },
- {
-  title: "Gravid eller nylig forløst",
-  Icon: Users,
-  desc:
-   "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
-  href: "/booking?kategori=gynekologi",
+   href: "/behandlinger/gynekologi/undersokelse",
+  },
+  {
+   title: "Gravid eller nylig forløst",
+   Icon: Users,
+   desc:
+    "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
+   href: "/graviditet",
  },
  {
   title: "Midt i livet og videre",
