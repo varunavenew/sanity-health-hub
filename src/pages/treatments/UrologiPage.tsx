@@ -41,7 +41,7 @@ const lifePhases = [
  tags: [
    { label: "Prostata", href: "/behandlinger/urologi/prostata" },
    { label: "Vannlating", href: "/behandlinger/urologi/prostata" },
-   { label: "Ereksjon", href: "/behandlinger/urologi/ereksjon" },
+   { label: "Ereksjon", href: "/behandlinger/urologi/prostata" },
  ],
  href: "/booking?kategori=urologi",
  cta: "Bestill konsultasjon",
