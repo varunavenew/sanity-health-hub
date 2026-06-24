@@ -47,58 +47,52 @@ const GRAV = "/behandlinger/graviditet";
 
 const segments = [
   {
-    id: "trygg-oppfolging",
-    title: "Jeg er gravid og vil ha trygg oppfølging",
+    id: "tidlig-ultralyd",
+    title: "Jeg vil ta tidlig ultralyd",
     desc:
-      "Faste kontroller hos den samme jordmoren og legen gjennom hele svangerskapet — så du slipper å fortelle historien din på nytt hver gang.",
+      "Trygghet tidlig i svangerskapet — vi sjekker hjerteslag, plassering og termin, og tar oss god tid til spørsmålene dine.",
     tags: [
-      { label: "Svangerskapskontroll", href: `${GRAV}/svangerskapskontroll` },
-      { label: "Jordmor", href: `${GRAV}/svangerskapsteam` },
       { label: "Tidlig ultralyd", href: `${GRAV}/ultralyd` },
-      { label: "Kontroll etter fødsel", href: `${GRAV}/svangerskapskontroll` },
+      { label: "Termin og plassering", href: `${GRAV}/ultralyd` },
     ],
     cta: "Les mer",
-    href: `${GRAV}/svangerskapskontroll`,
+    href: `${GRAV}/ultralyd`,
   },
   {
-    id: "ultralyd-nipt",
-    title: "Jeg vil ta tidlig ultralyd og NIPT",
+    id: "nipt",
+    title: "Jeg vil ta NIPT",
     desc:
-      "Tidlig svar, tydelig forklaring. Vi tilbyr NIPT-test, organrettet ultralyd og fosterdiagnostikk uten henvisning.",
+      "Den nyeste, ikke-invasive blodprøven for å avdekke kromosomavvik — kombinert med tidlig ultralyd hos erfaren spesialist.",
     tags: [
       { label: "NIPT", href: `${GRAV}/nipt` },
-      { label: "Tidlig ultralyd", href: `${GRAV}/ultralyd` },
+      { label: "Tidlig ultralyd + NIPT", href: `${GRAV}/nipt` },
+    ],
+    cta: "Les mer",
+    href: `${GRAV}/nipt`,
+  },
+  {
+    id: "fosterdiagnostikk",
+    title: "Jeg vil ha fosterdiagnostikk i uke 12–14",
+    desc:
+      "Grundig organrettet undersøkelse i et viktig vindu i svangerskapet. Du møter en spesialist i fostermedisin.",
+    tags: [
       { label: "Fosterdiagnostikk", href: `${GRAV}/fosterdiagnostikk` },
       { label: "Organrettet ultralyd", href: `${GRAV}/fosterdiagnostikk` },
     ],
-    cta: "Bestill ultralyd",
-    href: "/booking?kategori=graviditet&tjeneste=tidlig-ultralyd-nipt",
+    cta: "Les mer",
+    href: `${GRAV}/fosterdiagnostikk`,
   },
   {
-    id: "forberedelse",
-    title: "Jeg trenger fødselsforberedelse",
+    id: "team",
+    title: "Jeg vil ha fast jordmor og lege",
     desc:
-      "Snakk med en jordmor eller psykolog før fødselen. Vi gir deg verktøy, ro og en plan — tilpasset akkurat ditt utgangspunkt.",
+      "Tett, personlig oppfølging gjennom hele svangerskapet — i ro og uten ventetid. Du møter de samme folkene hver gang.",
     tags: [
-      { label: "Fødselsforberedende samtale", href: `${GRAV}/fodselsforberedelse` },
-      { label: "Fødselsangst", href: `${GRAV}/fodselsforberedelse` },
+      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
       { label: "Jordmor", href: `${GRAV}/svangerskapsteam` },
     ],
-    cta: "Snakk med oss",
-    href: "/booking?kategori=graviditet&tjeneste=fodselsforberedende-samtale",
-  },
-  {
-    id: "tap-traume",
-    title: "Jeg har opplevd tap, abort eller en vanskelig fødsel",
-    desc:
-      "Du skal slippe å stå i det alene. Vi tilbyr trygge samtaler etter spontanabort, dødfødsel eller en traumatisk fødsel.",
-    tags: [
-      { label: "Samtale etter abort", href: `${GRAV}/fodselsforberedelse` },
-      { label: "Traumatisk fødsel", href: `${GRAV}/fodselsforberedelse` },
-      { label: "Psykolog", href: `${GRAV}/fodselsforberedelse` },
-    ],
-    cta: "Bestill samtale",
-    href: "/booking?kategori=graviditet&tjeneste=konsultasjon-etter-abort-eller-dodfodsel",
+    cta: "Les mer",
+    href: `${GRAV}/svangerskapsteam`,
   },
 ];
 
@@ -111,9 +105,9 @@ const expertAreas = [
     image: ultralydImg,
   },
   {
-    title: "NIPT og fosterdiagnostikk",
+    title: "NIPT",
     desc:
-      "Den nyeste, ikke-invasive blodprøven for å avdekke kromosomavvik — kombinert med organrettet ultralyd hos erfaren spesialist.",
+      "Den nyeste, ikke-invasive blodprøven for å avdekke kromosomavvik — kombinert med tidlig ultralyd hos erfaren spesialist.",
     href: `${GRAV}/nipt`,
     image: niptImg,
   },
@@ -134,15 +128,12 @@ const expertAreas = [
 ];
 
 const allServices = [
-  { title: "Svangerskapskontroll", desc: "30 min hos jordmor eller lege", href: `${GRAV}/svangerskapskontroll` },
   { title: "Tidlig ultralyd", desc: "Hjerteslag, termin og plassering", href: `${GRAV}/ultralyd` },
-  { title: "Tidlig ultralyd + NIPT", desc: "Trygg og rask avklaring", href: `${GRAV}/nipt` },
-  { title: "Organrettet ultralyd + NIPT", desc: "Uke 12–14", href: `${GRAV}/fosterdiagnostikk` },
-  { title: "Organrettet ultralyd", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
+  { title: "NIPT", desc: "Trygg og rask avklaring", href: `${GRAV}/nipt` },
+  { title: "Tidlig ultralyd + NIPT", desc: "Kombinert tilbud", href: `${GRAV}/nipt` },
+  { title: "Fosterdiagnostikk", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
+  { title: "Organrettet ultralyd uke 12–14", desc: "Spesialist i fostermedisin", href: `${GRAV}/fosterdiagnostikk` },
   { title: "Svangerskapsteam", desc: "Fast jordmor og lege", href: `${GRAV}/svangerskapsteam` },
-  { title: "Fødselsforberedende samtale", desc: "45 min med jordmor", href: `${GRAV}/fodselsforberedelse` },
-  { title: "Konsultasjon fødselsangst", desc: "Trygge verktøy før fødsel", href: `${GRAV}/fodselsforberedelse` },
-  { title: "Samtale etter tap", desc: "Abort, dødfødsel, traumatisk fødsel", href: `${GRAV}/fodselsforberedelse` },
 ];
 
 const journey = [
