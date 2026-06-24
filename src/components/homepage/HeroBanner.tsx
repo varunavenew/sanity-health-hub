@@ -5,18 +5,19 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
-// Cover images — same as the service category cards on the homepage so the
-// hero poster matches the rest of the site experience.
-import gynekologiCover from "@/assets/categories/gynekologi-real.jpg";
-import fertilitetCover from "@/assets/categories/fertilitet-real.jpg";
-import tverrfagligCoverAsset from "@/assets/services/tverrfaglig-team-cover.jpg.asset.json";
+// Hero carousel images (large format)
+import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
+import fertilityHeroAsset from "@/assets/hero/fertilitet-hero-v2.jpg.asset.json";
+import tverrfagligHeroAsset from "@/assets/hero/tverrfaglig-team-hero.jpg.asset.json";
 
 // Hero videos
 import kvinnehelseVideoAsset from "@/assets/kvinnehelse-8.mp4.asset.json";
 import fertilitetVideoAsset from "@/assets/fertilitet-hero-v2.mp4.asset.json";
 import tverrfagligVideoAsset from "@/assets/tverrfaglig-team-4.mp4.asset.json";
 
-const tverrfagligCover = tverrfagligCoverAsset.url;
+const kvinnehelseHero = kvinnehelseHeroAsset.url;
+const fertilityHero = fertilityHeroAsset.url;
+const tverrfagligHero = tverrfagligHeroAsset.url;
 const kvinnehelseVideo = kvinnehelseVideoAsset.url;
 const fertilitetVideo = fertilitetVideoAsset.url;
 const tverrfagligVideo = tverrfagligVideoAsset.url;
@@ -43,18 +44,18 @@ export const HeroBanner = () => {
   const staticSlides: HeroSlide[] = [
     {
       id: "kvinnehelse",
-      image: gynekologiCover,
+      image: kvinnehelseHero,
       video: kvinnehelseVideo,
       alt: t("hero.kvinnehelse.label"),
       label: t("hero.kvinnehelse.label"),
       subtitle: t("hero.kvinnehelse.subtitle"),
       cta: t("hero.readMore"),
       ctaPath: "/gynekologi",
-      objectPosition: "center 30%",
+      objectPosition: "center 20%",
     },
     {
       id: "fertilitet",
-      image: fertilitetCover,
+      image: fertilityHero,
       video: fertilitetVideo,
       alt: t("hero.fertilitet.label"),
       label: t("hero.fertilitet.label"),
@@ -65,14 +66,14 @@ export const HeroBanner = () => {
     },
     {
       id: "tverrfaglige",
-      image: tverrfagligCover,
+      image: tverrfagligHero,
       video: tverrfagligVideo,
       alt: t("hero.tverrfaglige.label"),
       label: t("hero.tverrfaglige.label"),
       subtitle: t("hero.tverrfaglige.subtitle"),
       cta: t("hero.readMore"),
       ctaPath: "/tverrfaglige-team",
-      objectPosition: "center 30%",
+      objectPosition: "center 40%",
     },
   ];
 
