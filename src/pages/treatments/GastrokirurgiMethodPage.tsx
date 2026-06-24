@@ -23,7 +23,7 @@ const METHOD_DATA_KEY: Record<string, string> = {
 };
 
 const GASTRO_PARENT = {
-  name: "Gastrokirurgi",
+  name: "Mage- og tarmlidelser (Gastrokirurgi)",
   path: "/behandlinger/flere-fagomrader/gastrokirurgi",
 };
 
