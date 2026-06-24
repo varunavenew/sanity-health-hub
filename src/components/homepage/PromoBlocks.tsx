@@ -18,7 +18,7 @@ const staticBlocks = [
     title: "Livio Oslo blir en del av CMedical og tilbudet til pasientene styrkes",
     image: tverrfagligTeam,
     cta: "Les mer",
-    path: "/tverrfaglige-team",
+    path: "/behandlinger/gynekologi/tverrfaglig",
   },
 ];
 
