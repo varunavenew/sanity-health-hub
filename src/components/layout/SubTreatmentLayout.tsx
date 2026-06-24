@@ -645,21 +645,6 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
         </section>
       )}
 
-      {/* 4a. RELATERTE TJENESTER — søsken-tjenester for å hoppe mellom relaterte sider */}
-      {c.siblingServices && c.siblingServices.length > 0 && (
-        <section className="bg-background py-20 md:py-28">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="max-w-2xl mb-12">
-                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-                  Relaterte tjenester
-                </h2>
-              </div>
-              <RelatedBlock items={c.siblingServices} />
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* 4b. PROMISES — three image cards (swapped above reviews) */}
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
