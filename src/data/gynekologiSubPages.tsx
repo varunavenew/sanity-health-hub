@@ -9,6 +9,7 @@ import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 import urogynekologiHero from "@/assets/urogynekologi-hero.jpg.asset.json";
 const imgUrogynekologiHero = urogynekologiHero.url;
 import robotkirurgiHeroVideo from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
+import tverrfagligHeroVideo from "@/assets/hero/tverrfaglig-hero.mp4.asset.json";
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
@@ -1107,7 +1108,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "tverrfaglig" },
     primaryCtaLabel: "Bestill konsultasjon",
-    heroVideo: robotkirurgiHeroVideo.url,
+    heroVideo: tverrfagligHeroVideo.url,
     flowTitle: "Slik jobber vi tverrfaglig",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi starter med en grundig samtale om plager og mål." },
