@@ -34,6 +34,7 @@ const GynekologiSubPage = ({ isChatOpen }: Props) => {
       specialistCtaLabel: "Se alle gynekologer",
       specialistCtaHref: "/spesialister?kategori=gynekologi",
       ...base,
+      conversationCtaTitle: base.conversationCtaTitle ?? getConversationCtaTitle(`/behandlinger/gynekologi/${subId}`),
       siblingServices: computeSiblingServices(`/behandlinger/gynekologi/${subId}`),
     };
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
