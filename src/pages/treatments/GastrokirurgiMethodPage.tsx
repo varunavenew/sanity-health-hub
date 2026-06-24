@@ -19,12 +19,11 @@ interface Props {
  * "flere-fagomrader/gastrokirurgi/<slug>".
  */
 const METHOD_DATA_KEY: Record<string, string> = {
-  "sleeve-gastrektomi": "flere-fagomrader/sleeve-gastrektomi",
-  "bariatrisk-kirurgi": "flere-fagomrader/overvektskirurgi",
+  "overvektskirurgi": "flere-fagomrader/overvektskirurgi",
 };
 
 const GASTRO_PARENT = {
-  name: "Gastrokirurgi",
+  name: "Mage- og tarmlidelser (Gastrokirurgi)",
   path: "/behandlinger/flere-fagomrader/gastrokirurgi",
 };
 
