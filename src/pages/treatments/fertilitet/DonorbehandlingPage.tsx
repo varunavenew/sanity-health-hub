@@ -87,12 +87,11 @@ const audiences = [
 ];
 
 const services = [
-  { title: "Inseminasjon (IUI) med donor", desc: "Skånsom og enkel — ofte første steg", href: `${FERT}/iui` },
-  { title: "IVF med donorsæd", desc: "Når IUI ikke fører frem", href: `${FERT}/ivf` },
-  { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: `${FERT}/eggdonasjon` },
-  { title: "Nedfrysing av egg og sæd", desc: "Bevar mulighetene dine", href: `${FERT}/nedfrysing` },
+  { title: "Inseminasjon (IUI) med donor", desc: "Skånsom og enkel — ofte første steg", href: `${FERT}/assistert-befruktning` },
+  { title: "IVF med donorsæd", desc: "Når IUI ikke fører frem", href: `${FERT}/assistert-befruktning` },
+  { title: "Eggdonasjon", desc: "Norges nyeste eggbank", href: `${FERT}/donorbehandling` },
+  { title: "Nedfrysning av egg og sæd", desc: "Bevar mulighetene dine", href: `${FERT}/eggfrys` },
   { title: "Fertilitetsutredning", desc: "Hormoner, ultralyd, AMH", href: `${FERT}/fertilitetsutredning` },
-  { title: "Psykisk helsehjelp", desc: "Samtaler er en viktig del av forløpet", href: `${FERT}/psykisk-helsehjelp` },
 ];
 
 const reviews = [
@@ -291,11 +290,10 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
         description="Velg situasjonen som ligner mest — så foreslår vi en god start."
         items={[
           { symptom: "Vi er to kvinner og vil bli foreldre sammen", service: "Partnerdonasjon", href: BOOKING, image: audienceSingle, imageAlt: "Likekjønnet par" },
-          { symptom: "Jeg er singel og vil ha barn", service: "IUI med donorsæd", href: `${FERT}/iui`, image: audienceWaiting, imageAlt: "Stille refleksjon" },
+          { symptom: "Jeg er singel og vil ha barn", service: "IUI med donorsæd", href: `${FERT}/assistert-befruktning`, image: audienceWaiting, imageAlt: "Stille refleksjon" },
           { symptom: "Vi trenger donoregg av medisinske grunner", service: "Donoregg-utredning", href: BOOKING, image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
           { symptom: "Vi vurderer donorsæd ved mannlig faktor", service: "Konsultasjon donorsæd", href: BOOKING, image: journeyLab, imageAlt: "Laboratorium" },
           { symptom: "Vi vil reservere donor for søsken", service: "Donorreservasjon", href: BOOKING, image: journeyResult, imageAlt: "Familieplanlegging" },
-          { symptom: "Vi trenger noen å snakke med", service: "Psykisk helsehjelp", href: `${FERT}/psykisk-helsehjelp`, image: audienceCouple, imageAlt: "Samtale" },
         ]}
       />
 

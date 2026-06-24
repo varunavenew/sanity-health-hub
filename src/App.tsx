@@ -145,8 +145,8 @@ const AppContent = () => {
         {/* Fjernede sider — redirect til riktig samleside i ny fertilitet-struktur */}
         <Route path="/behandlinger/fertilitet/ivf" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
         <Route path="/behandlinger/fertilitet/iui" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
-        <Route path="/behandlinger/fertilitet/pgt" element={<Navigate to="/behandlinger/fertilitet/assistert-befruktning" replace />} />
-        <Route path="/behandlinger/fertilitet/psykisk-helsehjelp" element={<Navigate to="/behandlinger/fertilitet/infertilitet" replace />} />
+        <Route path="/behandlinger/fertilitet/pgt" element={<Navigate to="/behandlinger/fertilitet" replace />} />
+        <Route path="/behandlinger/fertilitet/psykisk-helsehjelp" element={<Navigate to="/behandlinger/fertilitet" replace />} />
         <Route path="/behandlinger/fertilitet/nedfrysing" element={<Navigate to="/behandlinger/fertilitet/eggfrys" replace />} />
         <Route path="/behandlinger/fertilitet/eggdonasjon" element={<Navigate to="/behandlinger/fertilitet/donorbehandling" replace />} />
         <Route path="/behandlinger/fertilitet/mannlig-fertilitet" element={<Navigate to="/behandlinger/fertilitet/saedanalyse" replace />} />
