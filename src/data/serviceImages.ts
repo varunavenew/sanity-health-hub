@@ -151,6 +151,7 @@ const SUB_ALIAS: Record<string, string> = {
   "gynekologi/undersokelse": "gynekologisk-undersokelse",
   "gynekologi/kirurgi": "gynekologisk-kirurgi",
   "gynekologi/vaginale-fremfall": "vaginalt-fremfall",
+  "gynekologi/urogynekologi": "vaginalt-fremfall",
   "gynekologi/cyster": "cyster-pa-eggstokkene",
   "gynekologi/hysteroskopi": "gynekologisk-kirurgi", // no dedicated image
   // NIPT lives in graviditet image set

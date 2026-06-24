@@ -135,11 +135,18 @@ const expertAreas = [
  image: getServiceImageFromHref("/behandlinger/gynekologi/overgangsalder") ?? expertOvergangsalder,
  },
  {
- title: "Vulvasmerter",
- desc:
- "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
- href: "/behandlinger/gynekologi/vulvalidelser",
- image: getServiceImageFromHref("/behandlinger/gynekologi/vulvalidelser") ?? expertVulva,
+  title: "Vulvasmerter",
+  desc:
+   "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
+  href: "/behandlinger/gynekologi/vulvalidelser",
+  image: getServiceImageFromHref("/behandlinger/gynekologi/vulvalidelser") ?? expertVulva,
+ },
+ {
+  title: "Urogynekologi",
+  desc:
+   "Fremfall (prolaps) og urinlekkasje samlet – utredning og behandling.",
+  href: "/behandlinger/gynekologi/urogynekologi",
+  image: getServiceImageFromHref("/behandlinger/gynekologi/urogynekologi") ?? expertBekkenbunn,
  },
 ];
 

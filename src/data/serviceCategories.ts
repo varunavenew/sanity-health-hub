@@ -38,6 +38,7 @@ export const serviceCategories: ServiceCategory[] = [
       { label: 'Endometriose', path: '/behandlinger/gynekologi/endometriose' },
       { label: 'Overgangsalder', path: '/behandlinger/gynekologi/overgangsalder' },
       { label: 'Vaginale fremfall', path: '/behandlinger/gynekologi/vaginale-fremfall' },
+      { label: 'Urogynekologi', path: '/behandlinger/gynekologi/urogynekologi' },
       { label: 'Blødningsforstyrrelser', path: '/behandlinger/gynekologi/blodningsforstyrrelser' },
       { label: 'Celleforandringer', path: '/behandlinger/gynekologi/celleforandringer' },
       { label: 'Cyster på eggstokkene', path: '/behandlinger/gynekologi/cyster' },
