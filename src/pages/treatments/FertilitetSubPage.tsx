@@ -6,6 +6,7 @@ import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
 import NotFound from "@/pages/NotFound";
 import { computeSiblingServices } from "@/lib/siblingServices";
+import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
@@ -64,6 +65,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       heroImageAlt: base.heroImageAlt ?? base.title,
       flowImage,
       flowImageAlt: base.flowImageAlt ?? "CMedical klinikk",
+      conversationCtaTitle: base.conversationCtaTitle ?? getConversationCtaTitle(`/behandlinger/fertilitet/${resolvedId}`),
       siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
     };
 

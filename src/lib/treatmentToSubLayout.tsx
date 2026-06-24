@@ -4,6 +4,7 @@ import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage, getDedicatedServiceImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
 import { computeSiblingServices } from "@/lib/siblingServices";
+import { getConversationCtaTitle } from "@/lib/conversationCtaTitle";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
@@ -306,6 +307,7 @@ export const treatmentToSubLayout = ({
     relatedAsServices,
     siblingServices: computeSiblingServices(canonical),
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
+    conversationCtaTitle: getConversationCtaTitle(canonical),
     ctaDescription: `Møt en erfaren ${specialistLabel} hos CMedical — ingen henvisning nødvendig, og kort ventetid.`,
     specialistCategory: (categoryId === "graviditet" || categoryId === "flere-fagomrader"
       ? "annet"
