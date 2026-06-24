@@ -12,7 +12,8 @@ import { specialists } from "@/data/specialists";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
 
-import urologyHero from "@/assets/categories/urologi-real.jpg";
+import urologyHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
+const urologyHero = urologyHeroAsset.url;
 
 interface PageProps { isChatOpen: boolean }
 

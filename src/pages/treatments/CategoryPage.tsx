@@ -17,7 +17,8 @@ import { SectionRenderer } from "@/components/sections/SectionRenderer";
 import { getServiceIcon } from "./categoryPageContent";
 
 // Static fallback images
-import urologiImg from "@/assets/categories/urologi.jpg";
+import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
+const urologiImg = urologiHeroAsset.url;
 import fertilitetAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 const fertilitetImg = fertilitetAsset.url;
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
