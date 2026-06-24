@@ -517,12 +517,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  title="Hva kjenner du på?"
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
  items={[
- { symptom: "Vondt under samleie", service: "Gynekologisk undersøkelse", href: "/booking?kategori=gynekologi&tjeneste=undersokelse" },
- { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/booking?kategori=gynekologi&tjeneste=endometriose" },
- { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/booking?kategori=gynekologi&tjeneste=urinlekkasje" },
- { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/booking?kategori=gynekologi&tjeneste=overgangsalder" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PCOS-utredning", href: "/booking?kategori=gynekologi&tjeneste=pcos" },
- { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/booking?kategori=gynekologi&tjeneste=vulvalidelser" },
+ { symptom: "Vondt under samleie", service: "Gynekologisk undersøkelse", href: "/behandlinger/gynekologi/undersokelse" },
+ { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/behandlinger/gynekologi/endometriose" },
+ { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/behandlinger/gynekologi/urinlekkasje" },
+ { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/behandlinger/gynekologi/overgangsalder" },
+ { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PCOS-utredning", href: "/behandlinger/gynekologi/pcos" },
+ { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/behandlinger/gynekologi/vulvalidelser" },
  ]}
  />
 
