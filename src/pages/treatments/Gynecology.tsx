@@ -156,14 +156,14 @@ const audiences = [
   Icon: User,
   desc:
    "Det første møtet skal være trygt og forklart. Vi tar oss tid — uansett om det er prevensjon, syklus eller bare et spørsmål du har båret på lenge.",
-  href: "/booking?kategori=gynekologi&tjeneste=undersokelse",
- },
- {
-  title: "Gravid eller nylig forløst",
-  Icon: Users,
-  desc:
-   "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
-  href: "/booking?kategori=gynekologi",
+   href: "/behandlinger/gynekologi/undersokelse",
+  },
+  {
+   title: "Gravid eller nylig forløst",
+   Icon: Users,
+   desc:
+    "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
+   href: "/graviditet",
  },
  {
   title: "Midt i livet og videre",
