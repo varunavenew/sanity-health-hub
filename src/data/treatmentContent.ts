@@ -12,6 +12,7 @@ import heroTech from "@/assets/hero/hero-technology.jpg";
 import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
+import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";
 
 export interface ContentSection {
   id?: string; // anchor id for scroll-to
@@ -23,6 +24,8 @@ export interface LinkedService {
   label: string;
   description: string;
   path: string;
+  /** Optional override image. When provided, used as the card image instead of the dedicated service image lookup. */
+  image?: string;
 }
 
 export interface TreatmentData {
@@ -38,6 +41,8 @@ export interface TreatmentData {
   process?: { title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
   linkedServices?: LinkedService[];
+  /** Override the auto-generated heading for the related/linked services section. */
+  relatedTitleOverride?: string;
   relatedSpecialists?: string[]; // slugs referencing specialists
   /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
   themes?: string[];
@@ -1576,6 +1581,27 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Kortere sykehusopphold – hjem innen ett døgn",
       "Sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient)",
       "Erfarne kirurger med høyt volum",
+    ],
+    relatedTitleOverride: "Vi behandler blant annet:",
+    linkedServices: [
+      {
+        label: "Gynekologisk robotkirurgi",
+        description: "Brukes blant annet ved muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), og enkelte krefttilfeller som kreft i livmor.",
+        path: "/behandlinger/gynekologi/robotkirurgi",
+        image: gynekologiImg,
+      },
+      {
+        label: "Urologisk robotkirurgi",
+        description: "Brukes blant annet ved godartet forstørret prostata (RASP), prostatakreft (RALP), og nyrekirurgi (f.eks. nefrektomi).",
+        path: "/behandlinger/urologi/robotkirurgi",
+        image: urologiImg,
+      },
+      {
+        label: "Gastrokirurgisk robotkirurgi",
+        description: "Brukes blant annet ved overvektskirurgi (slankeoperasjon med rSG og SASI) og brokkoperasjon (bl.a. lyskebrokk).",
+        path: "/behandlinger/flere-fagomrader/gastrokirurgi",
+        image: gastrokirurgiCardImg.url,
+      },
     ],
     relatedSpecialists: ["bjorn-brennhovd", "nicolai-wessel", "thomas-fredrik-thaulow"],
     faqs: [
