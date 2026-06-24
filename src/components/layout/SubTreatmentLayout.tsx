@@ -388,25 +388,22 @@ const RelatedServicesCarousel = ({
               key={a.title}
               data-related-card
               to={a.href}
-              className="flex-shrink-0 w-[78vw] sm:w-[360px] md:w-[400px] snap-start bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+              className="relative flex-shrink-0 w-[78vw] sm:w-[360px] md:w-[400px] aspect-[4/5] snap-start rounded-sm overflow-hidden group bg-secondary"
             >
-              <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-                {a.image && (
-                  <img
-                    src={a.image}
-                    alt={a.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                )}
-              </div>
-              <div className="p-7 flex flex-col flex-1">
-                <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                  Les mer
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+              {a.image && (
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between gap-3">
+                <h3 className="text-lg md:text-xl font-normal text-white leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+                  {a.title}
+                </h3>
+                <ArrowRight className="w-4 h-4 text-white flex-shrink-0 mb-1 transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </Link>
           ))}
