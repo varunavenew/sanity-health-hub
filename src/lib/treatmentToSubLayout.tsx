@@ -294,11 +294,11 @@ export const treatmentToSubLayout = ({
     reasons,
     reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`) ? "accordion" : "prose",
     promises: STANDARD_PROMISES,
-    relatedTitle: related.length > 0
+    relatedTitle: data.relatedTitleOverride ?? (related.length > 0
       ? (relatedIsChildren
           ? `Dette hjelper vi deg med innen ${data.title.toLowerCase()}`
           : "Andre ting vi hjelper med")
-      : undefined,
+      : undefined),
     related,
     relatedAsIntro,
     relatedAsServices,
