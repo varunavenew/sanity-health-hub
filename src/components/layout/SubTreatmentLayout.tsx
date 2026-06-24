@@ -12,6 +12,7 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 import {
   Accordion,
   AccordionContent,
