@@ -9,7 +9,7 @@ import heroFamily from "@/assets/hero/hero-family.jpg";
 import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
 import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
 import heroTech from "@/assets/hero/hero-technology.jpg";
-import robotkirurgiHeroVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
+import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
 
@@ -828,8 +828,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     title: "Robotassistert kirurgi",
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Urologi",
-    heroImage: heroTech,
-    heroVideo: robotkirurgiHeroVideo.url,
+    heroImage: robotkirurgiHeroImg.url,
     description: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden.",
     sections: [
       {
