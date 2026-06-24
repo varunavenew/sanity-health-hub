@@ -11,8 +11,9 @@ import {
   slugPairFromDoc,
 } from "@/lib/routing/cms-route-types";
 import {
-  DEFAULT_LISTING_SLUGS,
+  LISTING_PAGE_KEYS,
   listingSlugPair,
+  type ListingPageKey,
 } from "@/lib/routing/listing-default-slugs";
 import {
   categoryRouteSegmentMatches,
@@ -22,10 +23,11 @@ import {
 
 function listingSlug(
   listings: ListingSlugs,
-  key: keyof ListingSlugs,
+  key: ListingPageKey,
   locale: string,
 ): string {
-  return slugForLocale(listingSlugPair(listings, key), locale);
+  const pair = listingSlugPair(listings, key);
+  return pair ? slugForLocale(pair, locale) : "";
 }
 
 /** Match listing prefix for active locale or alternate locale (e.g. /en/spesialister/…). */
@@ -223,9 +225,9 @@ export function resolveCmsRoute(
     }
 
     // Listing pages (news, clinics, specialists, careers)
-    for (const listingType of Object.keys(DEFAULT_LISTING_SLUGS) as (keyof ListingSlugs)[]) {
+    for (const listingType of LISTING_PAGE_KEYS) {
       const pair = listingSlugPair(listings, listingType);
-      if (matchesListingPrefix(segment, pair, lang)) {
+      if (pair && matchesListingPrefix(segment, pair, lang)) {
         return buildRoute("listing", listingType, segment, normalized, pair, {
           listingType,
         });
@@ -273,8 +275,10 @@ export function staticParamsFromRouteIndex(
       }
     }
 
-    for (const listingType of Object.keys(DEFAULT_LISTING_SLUGS) as (keyof ListingSlugs)[]) {
-      const slug = slugForLocale(listingSlugPair(index.listings, listingType), lang);
+    for (const listingType of LISTING_PAGE_KEYS) {
+      const pair = listingSlugPair(index.listings, listingType);
+      if (!pair) continue;
+      const slug = slugForLocale(pair, lang);
       if (slug) push(locale, [slug]);
     }
 

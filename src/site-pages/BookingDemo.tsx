@@ -13,20 +13,37 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
-import { categoryNumericIdToPageId, findBookingCategoryForPage, slugifyNo } from "@/lib/bookingLinks";
+import {
+  categoryNumericIdToPageId,
+  findBookingCategoryByApiGroupId,
+  findBookingCategoryForPage,
+  slugifyNo,
+} from "@/lib/bookingLinks";
 import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/duration";
 import {
   apiLocationToClinic,
-  type BookingApiClinic,
-  type CategoryClinicTag,
+  isExternalClinic,
+  isPasientskyClinic,
+  isSanityManagedClinic,
+  type BookingClinic,
+  type BookingMetodikaClinic,
+  // type CategoryClinicTag,
 } from "@/lib/booking/mapApiLocation";
+import {
+  findSanityManagedClinicBySlug,
+  mergeMetodikaAndSanityClinics,
+  sanityManagedClinicsForCategory,
+} from "@/lib/booking/sanityBookingClinic";
 import {
   isBookingCaregiver,
   type BookingCaregiver,
 } from "@/lib/booking/bookingCaregiver";
+import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
+import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
+import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { assetSrc } from "@/lib/media";
-import { useBookingPage } from "@/hooks/useSanity";
+import { useBookingPage, useClinics } from "@/hooks/useSanity";
 import {
   DEFAULT_BOOKING_PAGE_COPY,
   fillBookingTemplate,
@@ -51,10 +68,9 @@ function dayKey(date: Date): string {
   return d.toISOString();
 }
 
-/** Short label for step 1 clinic badges (from booking API location names). */
-function clinicBadgeLabel(locationName: string): string {
-  return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
-}
+// function clinicBadgeLabel(locationName: string): string {
+//   return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
+// }
 
 function LinkedTemplateText({
   template,
@@ -157,8 +173,10 @@ type DisplayTimeSlot = {
 interface BookingData {
   category?: string;
   categoryId?: string;
+  /** activity-groups category slug (may differ from categoryId / clinicServiceId). */
+  categoryApiSlug?: string;
   service?: BookingServiceItem;
-  clinic?: BookingApiClinic;
+  clinic?: BookingClinic;
   specialistChosen?: boolean; // true once user has passed the specialist step
   date?: Date;
   time?: string;
@@ -185,31 +203,25 @@ const BookingDemo = () => {
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
   const { data: copy = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
+  const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
-  const [categoryClinicsById, setCategoryClinicsById] = useState<
-    Record<string, CategoryClinicTag[]>
-  >({});
-  const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
+  // Clinic badges disabled — category-clinics is slow (one wbfreetimes call per activity).
+  // const [categoryClinicsById, setCategoryClinicsById] = useState<
+  //   Record<string, CategoryClinicTag[]>
+  // >({});
+  // const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadBookingCatalog() {
+    async function loadServices() {
+      setServicesLoading(true);
       try {
-        const [groupsRes, clinicsRes] = await Promise.all([
-          fetch("/api/booking/activity-groups"),
-          fetch("/api/booking/category-clinics"),
-        ]);
-
+        const groupsRes = await fetch("/api/booking/activity-groups");
         const groupsJson = (await groupsRes.json()) as {
           ok?: boolean;
           categories?: BookingServiceCategory[];
-        };
-        const clinicsJson = (await clinicsRes.json()) as {
-          ok?: boolean;
-          byCategoryId?: Record<string, CategoryClinicTag[]>;
-          allLocations?: CategoryClinicTag[];
         };
 
         if (cancelled) return;
@@ -241,26 +253,39 @@ const BookingDemo = () => {
         } else {
           setBookingServices([]);
         }
-
-        if (clinicsRes.ok && clinicsJson.ok) {
-          setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
-          setAllBookingLocations(clinicsJson.allLocations ?? []);
-        } else {
-          setCategoryClinicsById({});
-          setAllBookingLocations([]);
-        }
       } catch {
-        if (!cancelled) {
-          setBookingServices([]);
-          setCategoryClinicsById({});
-          setAllBookingLocations([]);
-        }
+        if (!cancelled) setBookingServices([]);
       } finally {
         if (!cancelled) setServicesLoading(false);
       }
     }
 
-    loadBookingCatalog();
+    // async function loadCategoryClinics() {
+    //   try {
+    //     const clinicsRes = await fetch("/api/booking/category-clinics");
+    //     const clinicsJson = (await clinicsRes.json()) as {
+    //       ok?: boolean;
+    //       byCategoryId?: Record<string, CategoryClinicTag[]>;
+    //       allLocations?: CategoryClinicTag[];
+    //     };
+    //
+    //     if (cancelled) return;
+    //
+    //     if (clinicsRes.ok && clinicsJson.ok) {
+    //       setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
+    //       setAllBookingLocations(clinicsJson.allLocations ?? []);
+    //     }
+    //   } catch {
+    //     if (!cancelled) {
+    //       setCategoryClinicsById({});
+    //       setAllBookingLocations([]);
+    //     }
+    //   }
+    // }
+
+    loadServices();
+    // loadCategoryClinics();
+
     return () => {
       cancelled = true;
     };
@@ -296,7 +321,7 @@ const BookingDemo = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [apiFreeTimeSlots, setApiFreeTimeSlots] = useState<ApiFreeTimeSlot[]>([]);
-  const [apiBookingClinics, setApiBookingClinics] = useState<BookingApiClinic[]>([]);
+  const [apiBookingClinics, setApiBookingClinics] = useState<BookingMetodikaClinic[]>([]);
   const [availabilityFromApi, setAvailabilityFromApi] = useState(false);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   /** True after clinic availability has been checked for the current service. */
@@ -325,9 +350,29 @@ const BookingDemo = () => {
   const stepProgressLabel = (step: number) =>
     fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
 
-  const currentStep = useMemo(() => 
-    !bookingData.service ? 1 : !bookingData.clinic ? 2 : !bookingData.specialistChosen ? 3 : !bookingData.time ? 4 : 5
-  , [bookingData.service, bookingData.clinic, bookingData.specialistChosen, bookingData.time]);
+  const isSanityManagedBooking =
+    bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
+
+  const isPasientskyBooking =
+    bookingData.clinic != null && isPasientskyClinic(bookingData.clinic);
+
+  const isExternalBooking =
+    bookingData.clinic != null && isExternalClinic(bookingData.clinic);
+
+  const currentStep = useMemo(() => {
+    if (isSanityManagedBooking) return 2;
+    if (!bookingData.service) return 1;
+    if (!bookingData.clinic) return 2;
+    if (!bookingData.specialistChosen) return 3;
+    if (!bookingData.time) return 4;
+    return 5;
+  }, [
+    bookingData.service,
+    bookingData.clinic,
+    bookingData.specialistChosen,
+    bookingData.time,
+    isSanityManagedBooking,
+  ]);
   const progressAriaLabels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
 
   // Scroll to top when step changes
@@ -354,21 +399,25 @@ const BookingDemo = () => {
         : undefined;
     const effectiveKategori = kategori || kategoriFromNumericId;
 
-    if (!effectiveKategori && !tjeneste && !spesialistSlug && !klinikkId) return;
+    if (!effectiveKategori && !kategoriIdRaw && !tjeneste && !spesialistSlug && !klinikkId) return;
 
     // 1. Resolve category
     let resolvedCategoryListId: string | undefined;
     let resolvedCategoryClinicId: string | undefined;
     let resolvedCategoryLabel: string | undefined;
-    let matchingCategory: ReturnType<typeof findBookingCategoryForPage>;
+    let matchingCategory: BookingServiceCategory | undefined;
+
+    const applyResolvedCategory = (cat: BookingServiceCategory) => {
+      resolvedCategoryListId = cat.id;
+      resolvedCategoryClinicId = clinicIdForCategory(cat);
+      resolvedCategoryLabel = cat.label;
+      setExpandedCategory(cat.id);
+      setFilterToCategoryId(cat.id);
+    };
     if (effectiveKategori && effectiveKategori !== "flere-fagomrader") {
       matchingCategory = findBookingCategoryForPage(effectiveKategori, bookingServices);
       if (matchingCategory) {
-        resolvedCategoryListId = matchingCategory.id;
-        resolvedCategoryClinicId = clinicIdForCategory(matchingCategory);
-        resolvedCategoryLabel = matchingCategory.label;
-        setExpandedCategory(matchingCategory.id);
-        setFilterToCategoryId(matchingCategory.id);
+        applyResolvedCategory(matchingCategory);
         if (typeof window !== "undefined") {
           console.log("[booking/category] matched category for URL prefill", {
             effectiveKategori,
@@ -381,19 +430,27 @@ const BookingDemo = () => {
       }
     }
 
+    if (!matchingCategory && Number.isFinite(kategoriId) && kategoriId > 0) {
+      matchingCategory = findBookingCategoryByApiGroupId(bookingServices, kategoriId);
+      if (matchingCategory) {
+        applyResolvedCategory(matchingCategory);
+      }
+    }
+
     // If specialist is given but no category, derive from the specialist's category
     let resolvedSpecialist: Specialist | undefined;
     if (spesialistSlug) {
       resolvedSpecialist = specialists.find((s) => s.slug === spesialistSlug);
-      if (resolvedSpecialist && !resolvedCategoryListId) {
+      if (
+        resolvedSpecialist &&
+        !resolvedCategoryListId &&
+        !Number.isFinite(kategoriId)
+      ) {
         const derivedPageId = resolvedSpecialist.category;
         const derivedCat = findBookingCategoryForPage(derivedPageId, bookingServices);
         if (derivedCat) {
-          resolvedCategoryListId = derivedCat.id;
-          resolvedCategoryClinicId = clinicIdForCategory(derivedCat);
-          resolvedCategoryLabel = derivedCat.label;
-          setExpandedCategory(derivedCat.id);
-          setFilterToCategoryId(derivedCat.id);
+          matchingCategory = derivedCat;
+          applyResolvedCategory(derivedCat);
         }
       }
     }
@@ -415,6 +472,7 @@ const BookingDemo = () => {
     if (resolvedService || resolvedSpecialist) {
       const next: BookingData = {};
       if (resolvedCategoryClinicId) next.categoryId = resolvedCategoryClinicId;
+      if (resolvedCategoryListId) next.categoryApiSlug = resolvedCategoryListId;
       if (resolvedCategoryLabel) next.category = resolvedCategoryLabel;
       if (resolvedService) next.service = resolvedService;
       if (resolvedSpecialist) {
@@ -593,7 +651,16 @@ const BookingDemo = () => {
 
   useEffect(() => {
     const klinikk = pendingKlinikkRef.current;
-    if (!klinikk || bookingData.clinic || !bookingData.service?.apiActivityId) return;
+    if (!klinikk || bookingData.clinic) return;
+
+    const sanityMatch = findSanityManagedClinicBySlug(sanityClinics, klinikk);
+    if (sanityMatch) {
+      setBookingData((prev) => ({ ...prev, clinic: sanityMatch }));
+      pendingKlinikkRef.current = null;
+      return;
+    }
+
+    if (!bookingData.service?.apiActivityId) return;
     if (!availabilityFromApi || apiBookingClinics.length === 0) return;
 
     const byId = apiBookingClinics.find((c) => c.id === klinikk || c.id === `location-${klinikk}`);
@@ -610,7 +677,19 @@ const BookingDemo = () => {
     apiBookingClinics,
     bookingData.clinic,
     bookingData.service?.apiActivityId,
+    sanityClinics,
   ]);
+
+  // Direct Sanity-managed deep link: /booking?klinikk=moelv|moss (no Metodika service required)
+  useEffect(() => {
+    const klinikk = searchParams.get("klinikk");
+    if (!klinikk || bookingData.clinic || bookingData.service) return;
+
+    const sanityMatch = findSanityManagedClinicBySlug(sanityClinics, klinikk);
+    if (sanityMatch) {
+      setBookingData({ clinic: sanityMatch });
+    }
+  }, [searchParams, sanityClinics, bookingData.clinic, bookingData.service]);
 
   const hasApiActivity = Boolean(bookingData.service?.apiActivityId);
 
@@ -828,12 +907,14 @@ const BookingDemo = () => {
     categoryId: string,
     categoryLabel: string,
     service: BookingServiceItem,
+    categoryApiSlug?: string,
   ) => {
     autoSelectedClinicActivityRef.current = null;
     setClinicsAvailabilityReady(false);
 
     setBookingData({
       categoryId,
+      categoryApiSlug,
       category: categoryLabel,
       service,
       clinic: undefined,
@@ -847,29 +928,46 @@ const BookingDemo = () => {
     });
   };
 
-  // Step 2: only clinics returned by the booking availability API (no static fallback)
-  const availableClinics: BookingApiClinic[] = useMemo(() => {
-    if (!bookingData.service?.apiActivityId) return [];
-    return apiBookingClinics;
-  }, [bookingData.service?.apiActivityId, apiBookingClinics]);
+  const sanityManagedClinicOptions = useMemo(
+    () =>
+      sanityManagedClinicsForCategory(
+        sanityClinics,
+        bookingData.categoryId,
+        bookingData.categoryApiSlug,
+      ),
+    [sanityClinics, bookingData.categoryId, bookingData.categoryApiSlug],
+  );
 
-  // Auto-select when API returns exactly one location (once per service; not after "Tilbake")
+  // Step 2: Metodika locations + Sanity-managed clinics (Pasientsky / external partner)
+  const availableClinics: BookingClinic[] = useMemo(() => {
+    const metodika = bookingData.service?.apiActivityId ? apiBookingClinics : [];
+    return mergeMetodikaAndSanityClinics(metodika, sanityManagedClinicOptions);
+  }, [bookingData.service?.apiActivityId, apiBookingClinics, sanityManagedClinicOptions]);
+
+  const step2Ready =
+    sanityManagedClinicOptions.length > 0 ||
+    !bookingData.service?.apiActivityId ||
+    clinicsAvailabilityReady;
+
+  // Auto-select when API returns exactly one Metodika location (once per service; not after "Tilbake")
   useEffect(() => {
     const activityId = bookingData.service?.apiActivityId;
     if (!activityId || bookingData.clinic) return;
-    if (!availabilityFromApi || availableClinics.length !== 1) return;
+    if (sanityManagedClinicOptions.length > 0) return;
+    if (!availabilityFromApi || apiBookingClinics.length !== 1) return;
     if (autoSelectedClinicActivityRef.current === activityId) return;
 
     autoSelectedClinicActivityRef.current = activityId;
-    setBookingData((prev) => ({ ...prev, clinic: availableClinics[0] }));
+    setBookingData((prev) => ({ ...prev, clinic: apiBookingClinics[0] }));
   }, [
     bookingData.service?.apiActivityId,
     bookingData.clinic,
     availabilityFromApi,
-    availableClinics,
+    apiBookingClinics,
+    sanityManagedClinicOptions.length,
   ]);
 
-  const handleSelectClinic = (clinic: BookingApiClinic) => {
+  const handleSelectClinic = (clinic: BookingClinic) => {
     setBookingData({
       ...bookingData,
       clinic,
@@ -1075,9 +1173,11 @@ const BookingDemo = () => {
     );
   }
 
-  const progressBackTarget = (["category", "clinic", "specialist", "time"] as const)[
-    currentStep - 2
-  ];
+  const progressBackTarget = isSanityManagedBooking
+    ? bookingData.service
+      ? ("clinic" as const)
+      : ("category" as const)
+    : (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
 
   return (
     <div className="min-h-screen bg-white">
@@ -1174,10 +1274,46 @@ const BookingDemo = () => {
             </div>
           </div>
         )}
+        {isSanityManagedBooking && !bookingData.service && bookingData.clinic && (
+          <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
+            <div>
+              <span className="text-brand-dark/60 text-xs">{copy.summaryClinicLabel} </span>
+              <span className="font-normal text-brand-dark">{bookingData.clinic.label}</span>
+            </div>
+          </div>
+        )}
 
         <AnimatePresence mode="wait">
-          {/* Step 1: Select Service */}
-          {!bookingData.service ? (
+          {isPasientskyBooking && bookingData.clinic && isPasientskyClinic(bookingData.clinic) ? (
+            <motion.div
+              key="pasientsky"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="-mx-4"
+            >
+              <PatientskyIframe
+                serviceProviderId={bookingData.clinic.serviceProviderId}
+                calendarId={bookingData.clinic.calendarId}
+              />
+            </motion.div>
+          ) : isExternalBooking &&
+            bookingData.clinic &&
+            isExternalClinic(bookingData.clinic) ? (
+            <motion.div
+              key="external"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ExternalBookingHandoff
+                clinicLabel={bookingData.clinic.label}
+                externalBookingUrl={bookingData.clinic.externalBookingUrl}
+              />
+            </motion.div>
+          ) : !bookingData.service ? (
             <motion.div
               key="step1"
               initial={{ opacity: 0, y: 20 }}
@@ -1211,7 +1347,7 @@ const BookingDemo = () => {
               )}
 
               {servicesLoading && (
-                <p className="text-center text-sm text-brand-dark/60 font-light">{copy.step1Loading}</p>
+                <BookingStepLoader message={copy.step1Loading} skeletonCount={4} />
               )}
 
               {!servicesLoading && bookingServices.length === 0 && (
@@ -1223,17 +1359,17 @@ const BookingDemo = () => {
                 />
               )}
 
-              {bookingServices.length > 0 && (
+              {!servicesLoading && bookingServices.length > 0 && (
               <div className="space-y-3">
                 {[...bookingServices]
                   .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
                   .sort(sortBookingCategories)
                   .map((category) => {
-                    const clinicsForCategory = categoryClinicsById[category.id] ?? [];
-                    const showAlleKlinikker =
-                      clinicsForCategory.length > 0 &&
-                      allBookingLocations.length > 0 &&
-                      clinicsForCategory.length === allBookingLocations.length;
+                    // const clinicsForCategory = categoryClinicsById[category.id] ?? [];
+                    // const showAlleKlinikker =
+                    //   clinicsForCategory.length > 0 &&
+                    //   allBookingLocations.length > 0 &&
+                    //   clinicsForCategory.length === allBookingLocations.length;
                     const isExpanded = expandedCategory === category.id;
 
                     return (
@@ -1251,6 +1387,13 @@ const BookingDemo = () => {
                           )}
                         >
                           <span className="font-normal text-brand-dark min-w-0">{category.label}</span>
+                          <ChevronDown
+                            className={cn(
+                              "w-5 h-5 text-brand-dark/45 transition-transform duration-300 flex-shrink-0 ml-auto",
+                              isExpanded && "rotate-180",
+                            )}
+                          />
+                          {/* Clinic badges disabled (category-clinics API).
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
                               {showAlleKlinikker ? (
@@ -1275,6 +1418,7 @@ const BookingDemo = () => {
                               )}
                             />
                           </div>
+                          */}
                         </button>
 
                         <AnimatePresence initial={false}>
@@ -1307,6 +1451,7 @@ const BookingDemo = () => {
                                           clinicIdForCategory(category),
                                           category.label,
                                           service,
+                                          category.id,
                                         )
                                       }
                                       className={cn(
@@ -1369,13 +1514,11 @@ const BookingDemo = () => {
             >
               <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
-              {bookingData.service?.apiActivityId && availabilityLoading && (
-                <p className="text-sm text-brand-dark/60 font-light mb-4">
-                  {copy.step2Loading}
-                </p>
+              {bookingData.service?.apiActivityId && availabilityLoading && sanityManagedClinicOptions.length === 0 && (
+                <BookingStepLoader message={copy.step2Loading} />
               )}
 
-              {clinicsAvailabilityReady && availableClinics.length === 0 && (
+              {step2Ready && availableClinics.length === 0 && (
                 <FriendlyEmpty
                   title={copy.step2EmptyTitle}
                   message={copy.step2EmptyMessage}
@@ -1384,7 +1527,7 @@ const BookingDemo = () => {
                 />
               )}
 
-              {clinicsAvailabilityReady && availableClinics.length > 0 && (
+              {step2Ready && availableClinics.length > 0 && (
                 <div className="space-y-3">
                   {availableClinics.map((clinic) => (
                     <button
@@ -1421,9 +1564,7 @@ const BookingDemo = () => {
               </p>
 
               {hasApiActivity && caregiversLoading && (
-                <p className="text-sm text-brand-dark/60 font-light mb-4">
-                  {copy.step3Loading}
-                </p>
+                <BookingStepLoader message={copy.step3Loading} variant="grid" />
               )}
 
               {/* Skip / Any specialist */}

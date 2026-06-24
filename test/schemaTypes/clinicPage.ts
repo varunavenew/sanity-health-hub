@@ -37,7 +37,6 @@ export default {
       ...i18nSlugFieldFromTitle('title', {
         title: 'Slug',
         group: 'overview',
-        requireNoEn: true,
       }),
     },
     {
@@ -156,54 +155,57 @@ export default {
       name: 'booking',
       title: 'Booking',
       type: 'object',
-      options: { collapsible: true },
+      options: { collapsible: true, collapsed: false },
       group: 'booking',
       validation: reqStr('Booking'),
       fields: [
         {
           name: 'method',
-          title: 'Bookingmetode',
+          title: 'Method',
           type: 'string',
           options: {
             layout: 'radio',
             list: [
-              { title: 'Vis kontaktinfo', value: 'info' },
-              { title: 'Pasientsky-skjema', value: 'pasientsky' },
-              { title: 'Stengt for booking', value: 'closed' },
+              { title: 'Show screen with contact info', value: 'info' },
+              { title: 'Show Pasientsky form', value: 'pasientsky' },
+              { title: 'Show Metodika form', value: 'metodika' },
+              { title: 'Closed for booking', value: 'closed' },
             ],
           },
           initialValue: 'info',
-          validation: reqStr('Bookingmetode'),
+          validation: reqStr('Method'),
         },
         {
           name: 'serviceProviderId',
-          title: 'Pasientsky Service Provider ID',
+          title: 'Service Provider Id',
+          description: 'Pasientsky Service Provider ID',
           type: 'string',
           hidden: ({ parent }: any) => parent?.method !== 'pasientsky',
           validation: (Rule: any) =>
             Rule.custom((value: string | undefined, context: { parent?: { method?: string } }) => {
               if (context.parent?.method === 'pasientsky' && !value?.trim()) {
-                return 'Pasientsky Service Provider ID er påkrevd'
+                return 'Pasientsky Service Provider ID is required'
               }
               return true
             }),
         },
         {
           name: 'externalBookingUrl',
-          title: 'Ekstern bookinglenke',
+          title: 'External booking URL',
           type: 'url',
+          description: 'Used with "Show screen with contact info" when booking is via an external partner.',
           hidden: ({ parent }: any) => parent?.method !== 'info',
         },
         {
           name: 'closedMessage',
-          title: 'Melding når stengt',
+          title: 'Message when closed',
           type: 'internationalizedArrayText',
           hidden: ({ parent }: any) => parent?.method !== 'closed',
           validation: (Rule: any) =>
             Rule.custom((value: unknown, context: { parent?: { method?: string } }) => {
               if (context.parent?.method !== 'closed') return true
-              if (!pickNo(value)?.trim()) return 'Melding når stengt (norsk) er påkrevd'
-              if (!pickForLang(value, 'en')?.trim()) return 'Melding når stengt (engelsk) er påkrevd'
+              if (!pickNo(value)?.trim()) return 'Message when closed (Norwegian) is required'
+              if (!pickForLang(value, 'en')?.trim()) return 'Message when closed (English) is required'
               return true
             }),
         },

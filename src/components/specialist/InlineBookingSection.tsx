@@ -46,11 +46,16 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     );
   }
 
-  const handleSelectService = (apiGroupId: number, serviceName: string) => {
+  const handleSelectService = (
+    apiGroupId: number,
+    categorySlug: string,
+    serviceName: string,
+  ) => {
     navigate(
       bookingUrlForSpecialistContext({
         specialistSlug: specialist.slug,
         apiGroupId,
+        kategori: categorySlug,
         tjeneste: serviceName,
       }),
     );
@@ -105,7 +110,13 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
                       <button
                         key={service.apiActivityId ?? service.name}
                         type="button"
-                        onClick={() => handleSelectService(category.apiGroupId, service.name)}
+                        onClick={() =>
+                          handleSelectService(
+                            category.apiGroupId,
+                            category.id,
+                            service.name,
+                          )
+                        }
                         className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-white/15 transition-colors border-b border-white/5 last:border-b-0 group"
                       >
                         <div className="flex-1 min-w-0">
@@ -137,7 +148,9 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
           onClick={() =>
             navigate(
               buildBookingUrl({
-                kategori: categoryNumericIdToPageId[firstCategoryId],
+                kategori:
+                  categories.find((c) => c.apiGroupId === firstCategoryId)?.id ??
+                  categoryNumericIdToPageId[firstCategoryId],
                 kategoriId: firstCategoryId,
                 spesialist: specialist.slug,
               }),

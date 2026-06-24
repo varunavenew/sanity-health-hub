@@ -21,23 +21,7 @@ import {
   threeCardGridClass,
 } from "@/lib/ui/grid-cols-for-count";
 
-import fertilityHeroFallback from "@/assets/categories/fertilitet-real.jpg";
-import gynekologiHeroFallback from "@/assets/categories/gynekologi.jpg";
-import urologiHeroFallback from "@/assets/categories/urologi.jpg";
-import ortopediHeroFallback from "@/assets/categories/ortopedi.jpg";
-import graviditetHeroFallback from "@/assets/hero/hero-pregnancy.jpg";
-import flereFagomraderHeroFallback from "@/assets/categories/flere-fagomrader.jpg";
 import { AnimatedStat } from "@/components/AnimatedStat";
-import type { ImageRef } from "@/lib/media";
-
-const CATEGORY_HERO_FALLBACK: Record<string, ImageRef> = {
-  fertilitet: fertilityHeroFallback,
-  gynekologi: gynekologiHeroFallback,
-  urologi: urologiHeroFallback,
-  ortopedi: ortopediHeroFallback,
-  graviditet: graviditetHeroFallback,
-  "flere-fagomrader": flereFagomraderHeroFallback,
-};
 
 export type TreatmentCategoryLandingProps = CategoryLandingPageProps & {
   categoryId: string;
@@ -81,9 +65,7 @@ const TreatmentCategoryLanding = ({
   const { t } = useTranslation();
   const { data: category, isPending } = useTreatmentCategory(categoryId);
   const landing = category?.landingPage;
-  const fallbackHero = CATEGORY_HERO_FALLBACK[categoryId] ?? fertilityHeroFallback;
-
-  const heroImage = category?.heroImage || fallbackHero;
+  const heroImage = category?.heroImage;
 
   if (isPending) {
     return (
@@ -126,7 +108,7 @@ const TreatmentCategoryLanding = ({
       <h1 className="sr-only">{landing.srOnlyTitle || hero.heading}</h1>
 
       <header className="bg-brand-light pt-24 lg:pt-0">
-        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+        <div className={`grid ${heroImage ? "lg:grid-cols-2" : ""} min-h-[640px] lg:min-h-[720px]`}>
           <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
             <div className="max-w-xl w-full">
               {hero.eyebrow ? (
@@ -176,6 +158,7 @@ const TreatmentCategoryLanding = ({
             </div>
           </div>
 
+          {heroImage ? (
           <div className="relative min-h-[420px] lg:min-h-full">
             <AssetImg
               src={heroImage}
@@ -183,6 +166,7 @@ const TreatmentCategoryLanding = ({
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
+          ) : null}
         </div>
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       </header>

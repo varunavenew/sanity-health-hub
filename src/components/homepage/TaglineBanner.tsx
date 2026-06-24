@@ -1,11 +1,8 @@
 import { useHomepage } from "@/hooks/useSanity";
-import { useTranslation } from "react-i18next";
 
 export const TaglineBanner = () => {
-  const { data: homepage, isFetched } = useHomepage();
-  const { t } = useTranslation();
-  const tagline =
-    homepage?.tagline?.trim() || (isFetched ? t("tagline") : "");
+  const { data: homepage } = useHomepage();
+  const tagline = homepage?.tagline?.trim() || "";
 
   if (!tagline) return null;
 

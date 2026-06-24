@@ -78,27 +78,54 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
-      name: 'socialDisplayMode',
-      title: 'SoMe-innlegg: visning',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Nyeste publiserte', value: 'latest' },
-          { title: 'Velg manuelt', value: 'manual' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'latest',
-      hidden: ({ parent }) => parent?.showSocialSection === false,
-    }),
-    defineField({
       name: 'socialPosts',
-      title: 'SoMe-innlegg (manuelt valg)',
+      title: 'SoMe-innlegg',
+      description: 'Bilder som vises i «Følg oss på sosiale medier»-seksjonen. Rekkefølgen her er visningsrekkefølgen.',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'socialPost' }] }],
-      description: 'Velg rekkefølge. Brukes når visning er «Velg manuelt».',
-      hidden: ({ parent }) =>
-        parent?.showSocialSection === false || parent?.socialDisplayMode !== 'manual',
+      of: [
+        {
+          type: 'object',
+          name: 'newsSocialPost',
+          fields: [
+            {
+              name: 'imageUrl',
+              title: 'Bilde-URL',
+              type: 'url',
+              description: 'Last opp bilde under Media og lim inn URL, eller bruk migreringsscript.',
+              validation: (Rule: any) => Rule.required(),
+            },
+            { name: 'alt', title: 'Alt-tekst', type: 'string' },
+            {
+              name: 'platform',
+              title: 'Plattform',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Instagram', value: 'instagram' },
+                  { title: 'Facebook', value: 'facebook' },
+                  { title: 'LinkedIn', value: 'linkedin' },
+                  { title: 'YouTube', value: 'youtube' },
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'instagram',
+            },
+            { name: 'caption', title: 'Bildetekst', type: 'text', rows: 2 },
+            { name: 'postUrl', title: 'Lenke', type: 'url' },
+          ],
+          preview: {
+            select: { title: 'caption', subtitle: 'platform' },
+            prepare({ title, subtitle }: any) {
+              return {
+                title: title?.trim() || 'SoMe-innlegg',
+                subtitle: subtitle || 'instagram',
+              }
+            },
+          },
+        },
+      ],
+      validation: (Rule) => Rule.max(12),
+      hidden: ({ parent }) => parent?.showSocialSection === false,
     }),
     defineField({
       name: 'socialPostLimit',

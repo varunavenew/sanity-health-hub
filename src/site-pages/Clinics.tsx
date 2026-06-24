@@ -1,54 +1,15 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { Link } from "@/lib/router";
+import { Link, useNavigate } from "@/lib/router";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics, useClinicsPage } from "@/hooks/useSanity";
-import { type SortLocale } from "@/lib/sortAlphabetical";
 import { useTranslation } from "react-i18next";
-import { sanityContentLangFromLocale } from "@/lib/sanity/normalize-i18n";
 import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
-import type { ImageRef } from "@/lib/media";
-
-import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
-import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
-import imgMoss from "@/assets/clinics/moss.jpg";
-import imgMoelv from "@/assets/clinics/moelv.jpg";
-
-const clinicImages: Record<string, ImageRef> = {
-  majorstuen: imgMajorstuen,
-  bekkestua: imgBekkestua,
-  moss: imgMoss,
-  moelv: imgMoelv,
-};
-
-const HERO_FALLBACK = {
-  nb: {
-    eyebrow: "{count} klinikker · Ingen henvisning · Kort ventetid",
-    title: "Finn din nærmeste klinikk",
-    description:
-      "Våre klinikker i Norge tilbyr spesialisthjelp uten henvisning og med kort ventetid.",
-    primaryCta: "Bestill time",
-    secondaryCta: "Kontakt oss",
-    seoTitle: "Våre klinikker | CMedical",
-    seoDescription:
-      "Oversikt over CMedicals fire klinikker i Norge: Oslo Majorstuen, Bekkestua, Moss og Moelv. Adresse, åpningstider, parkering, kollektivtransport og tjenester.",
-  },
-  en: {
-    eyebrow: "{count} clinics · No referral · Short waiting times",
-    title: "Find your nearest clinic",
-    description:
-      "Our clinics in Norway offer specialist care without referral and with short waiting times.",
-    primaryCta: "Book appointment",
-    secondaryCta: "Contact us",
-    seoTitle: "Our clinics | CMedical",
-    seoDescription:
-      "Overview of CMedical's clinics in Norway: Oslo Majorstuen, Bekkestua, Moss and Moelv. Address, opening hours, parking, public transport and services.",
-  },
-} as const;
+import { Button } from "@/components/ui/button";
 
 function formatEyebrow(template: string, count: number): string {
   return template.replace(/\{count\}/g, String(count));
@@ -59,67 +20,84 @@ interface ClinicsProps {
 }
 
 const Clinics = ({ isChatOpen }: ClinicsProps) => {
-  const { t, i18n } = useTranslation();
-  const contentLang: SortLocale = sanityContentLangFromLocale(i18n.language);
-  const fb = HERO_FALLBACK[contentLang === "en" ? "en" : "nb"];
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
   const list: any[] = sanityClinics.map((c: any) => ({
     ...c,
-    primaryImage: c.primaryImage || clinicImages[c.slug || c.id],
     detail: c.detail || {},
   }));
 
   const clinicCount = list.length;
-  const heroEyebrow = formatEyebrow(page?.heroEyebrow || fb.eyebrow, clinicCount);
-  const heroTitle = page?.heroTitle || fb.title;
-  const heroDescription = page?.heroDescription || fb.description;
-  const heroImage = page?.heroImage || imgMajorstuen;
+  const heroEyebrow = page?.heroEyebrow?.trim()
+    ? formatEyebrow(page.heroEyebrow, clinicCount)
+    : "";
+  const heroTitle = page?.heroTitle?.trim() || "";
+  const heroDescription = page?.heroDescription?.trim() || "";
+  const heroImage = page?.heroImage;
+  const hasHeroContent = Boolean(heroEyebrow || heroTitle || heroDescription || heroImage);
   const primaryCta = {
-    label: page?.primaryCtaLabel || fb.primaryCta,
-    to: page?.primaryCtaPath || "/booking",
+    label: page?.primaryCtaLabel?.trim() || t("nav.bookAppointment"),
+    to: page?.primaryCtaPath?.trim() || "/booking",
   };
-  const secondaryCta = {
-    label: page?.secondaryCtaLabel || fb.secondaryCta,
-    to: page?.secondaryCtaPath || "/kontakt",
-  };
+  const secondaryCta =
+    page?.secondaryCtaLabel?.trim() && page?.secondaryCtaPath?.trim()
+      ? {
+          label: page.secondaryCtaLabel.trim(),
+          to: page.secondaryCtaPath.trim(),
+        }
+      : undefined;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <PageSEO
-        title={page?.seo?.metaTitle || fb.seoTitle}
-        description={page?.seo?.metaDescription || fb.seoDescription}
-        canonical="/klinikker"
-        breadcrumbs={[
-          { name: t("pricing.breadcrumbHome", "Hjem"), path: "/" },
-          { name: t("nav.clinics", "Klinikker"), path: "/klinikker" },
-        ]}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: list.map((c, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            item: {
-              "@type": "MedicalClinic",
-              name: `CMedical ${c.label}`,
-              address: { "@type": "PostalAddress", streetAddress: c.address, addressCountry: "NO" },
-              telephone: c.phone ? `+47 ${c.phone}` : undefined,
-              url: `https://cmedical.no/klinikker/${c.slug}`,
-            },
-          })),
-        }}
-      />
+      {page?.seo?.metaTitle || page?.seo?.metaDescription ? (
+        <PageSEO
+          title={page?.seo?.metaTitle || ""}
+          description={page?.seo?.metaDescription || ""}
+          canonical="/klinikker"
+          breadcrumbs={[
+            { name: t("pricing.breadcrumbHome", "Hjem"), path: "/" },
+            { name: t("nav.clinics", "Klinikker"), path: "/klinikker" },
+          ]}
+          jsonLd={{
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            itemListElement: list.map((c, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              item: {
+                "@type": "MedicalClinic",
+                name: `CMedical ${c.label}`,
+                address: { "@type": "PostalAddress", streetAddress: c.address, addressCountry: "NO" },
+                telephone: c.phone ? `+47 ${c.phone}` : undefined,
+                url: `https://cmedical.no/klinikker/${c.slug}`,
+              },
+            })),
+          }}
+        />
+      ) : null}
 
-      <SplitHero
-        eyebrow={heroEyebrow}
-        title={heroTitle}
-        description={heroDescription}
-        image={heroImage}
-        imageAlt="CMedical klinikk"
-        primaryCta={primaryCta}
-        secondaryCta={secondaryCta}
-      />
+      {hasHeroContent ? (
+        <SplitHero
+          eyebrow={heroEyebrow || undefined}
+          title={heroTitle || undefined}
+          description={heroDescription || undefined}
+          image={heroImage}
+          imageAlt="CMedical klinikk"
+          primaryCta={primaryCta}
+          secondaryCta={secondaryCta}
+        />
+      ) : (
+        <div className="bg-brand-warm pt-20 pb-8">
+          <div className="container mx-auto px-6 md:px-16">
+            <Button variant="cta" size="lg" onClick={() => navigate("/booking")}>
+              {t("nav.bookAppointment")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      )}
 
       <section className="bg-background" aria-labelledby="clinics-heading">
         <h2 id="clinics-heading" className="sr-only">
@@ -129,7 +107,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         {list.map((clinic: (typeof list)[number], idx: number) => {
           const detailHref = `/klinikker/${clinic.slug}`;
           const serviceCount = clinic.services?.length || 0;
-          const image = (clinic as any).primaryImage || clinicImages[clinic.slug];
+          const image = clinic.primaryImage;
           const reverse = idx % 2 === 1;
           const altBg = idx % 2 === 1 ? "bg-brand-warm/40" : "bg-background";
 
@@ -257,13 +235,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         })}
       </section>
 
-      <CTASection
-        title="Usikker på hvilken klinikk som passer best?"
-        subtitle="Kontakt oss, så hjelper vi deg å finne riktig sted og spesialist."
-        primaryCTA="Bestill time"
-        secondaryCTA="Kontakt oss"
-        secondaryLink="/kontakt"
-      />
+      <CTASection />
     </PageLayout>
   );
 };

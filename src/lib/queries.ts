@@ -482,16 +482,14 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
   ${i18nString("specialistsSeeAllLabel")},
   ${i18nString("socialSectionTitle")},
   showSocialSection,
-  socialDisplayMode,
   socialPostLimit,
-  "socialPosts": socialPosts[]->{
-    _id,
+  socialPosts[]{
+    _key,
     platform,
     caption,
     postUrl,
     alt,
-    sortOrder,
-    "image": image.asset->url
+    imageUrl,
   },
   ${i18nString("filterAllLabel")},
   ${i18nString("filterPatientStoriesLabel")},

@@ -1,11 +1,31 @@
-import { createClient } from '@sanity/client'
-import { config } from './config'
+import { randomBytes } from 'crypto'
+import { sanityClient } from './config'
 
-const client = createClient({
-  ...config,
-  useCdn: false,
-  token: process.env.SANITY_TOKEN,
-})
+function slugKey(): string {
+  return randomBytes(8).toString('hex')
+}
+
+function toSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
+
+function buildSlugArray(name: string) {
+  const slug = toSlug(name)
+  return [
+    {
+      _key: slugKey(),
+      _type: 'internationalizedArraySlugValue',
+      language: 'no',
+      value: { _type: 'slug', current: slug },
+    },
+    {
+      _key: slugKey(),
+      _type: 'internationalizedArraySlugValue',
+      language: 'en',
+      value: { _type: 'slug', current: slug },
+    },
+  ]
+}
 
 const products = [
   {
@@ -150,13 +170,11 @@ async function migrateProducts() {
   console.log('Starting product migration...')
 
   for (const product of products) {
-    const slug = product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-    
-    const doc: any = {
+    const doc: Record<string, unknown> = {
       _type: 'product',
       _id: `product-${product.id}`,
       name: product.name,
-      slug: { _type: 'slug', current: slug },
+      slug: buildSlugArray(product.name),
       category: product.category,
       price: product.price,
       rating: product.rating,
@@ -172,7 +190,7 @@ async function migrateProducts() {
     if (product.isSeasonal) doc.isSeasonal = true
     if (product.seasonalOrder) doc.seasonalOrder = product.seasonalOrder
 
-    await client.createOrReplace(doc)
+    await sanityClient.createOrReplace(doc)
     console.log(`  ✓ ${product.name}`)
   }
 

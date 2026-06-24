@@ -4,7 +4,6 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { ArrowRight, Phone, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "@/lib/router";
-import insuranceHero from "@/assets/hero/insurance-woman-phone.webp";
 import { useInsurancePage } from "@/hooks/useSanity";
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { SplitHero } from "@/components/layout/SplitHero";
@@ -17,12 +16,13 @@ const Insurance = ({ isChatOpen }: PageProps) => {
   const { t } = useTranslation();
   const { data: page } = useInsurancePage();
 
-  const title = page?.title || t("insurance.title");
-  const subtitle = page?.subtitle || t("insurance.subtitle");
-  const heroImage = page?.heroImage || insuranceHero;
+  const title = page?.title?.trim() || "";
+  const subtitle = page?.subtitle?.trim() || "";
+  const heroImage = page?.heroImage;
   const companies = page?.companies || [];
   const steps = page?.steps || [];
   const benefits = page?.benefits || [];
+  const hasHeroContent = Boolean(title || subtitle || heroImage);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -32,16 +32,30 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           { name: t("nav.insurance"), path: "/forsikring" },
         ]}
       />
-      <SplitHero
-        eyebrow={t("insurance.subtitle")}
-        title={title}
-        description={subtitle}
-        image={heroImage}
-        imageAlt="Forsikring hos CMedical"
-        primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
-        secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
-      />
+      {hasHeroContent ? (
+        <SplitHero
+          title={title || undefined}
+          description={subtitle || undefined}
+          image={heroImage}
+          imageAlt="Forsikring hos CMedical"
+          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+        />
+      ) : (
+        <div className="bg-brand-warm pt-20 pb-8">
+          <div className="container mx-auto px-6 md:px-16">
+            <Button
+              variant="cta"
+              size="lg"
+              onClick={() => navigate("/booking")}
+            >
+              {t("nav.bookAppointment")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      )}
 
+      {companies.length > 0 ? (
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto">
@@ -73,7 +87,9 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      ) : null}
 
+      {steps.length > 0 ? (
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-4xl mx-auto">
@@ -93,6 +109,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      ) : null}
 
       {benefits.length > 0 && (
       <section className="py-16 md:py-24 bg-brand-dark">

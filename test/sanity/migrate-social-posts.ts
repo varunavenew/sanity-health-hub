@@ -1,50 +1,54 @@
 #!/usr/bin/env npx tsx
 /**
- * Seed socialPost documents and wire the first four onto newsPage.
+ * Seed inline social posts on newsPage (Aktuelt).
  *
  * Run:
  *   cd test && npx tsx sanity/migrate-social-posts.ts
  *
  * ENV:
- *   DRY_RUN=1 — preview only
+ *   DRY_RUN=1 — preview only (no writes)
  */
 import * as fs from 'fs'
 import * as path from 'path'
-import { sanityClient } from './config'
+import { randomBytes } from 'crypto'
+import { sanityClient, PROJECT_ID, DATASET } from './config'
 
 const DRY_RUN = process.env.DRY_RUN === '1'
 
 const POSTS = [
   {
-    _id: 'social-post-1',
-    sortOrder: 1,
+    _key: 'social-post-1',
     image: '../../src/assets/social/social-post-1.jpg',
-    alt: 'Anatomisk modell av hjerne',
-    caption: 'Faglig innsikt og moderne medisin — hver dag hos CMedical.',
+    fallbackImage: '../../src/assets/hero/cmedical-hero-1.jpg',
+    alt: 'CMedical team ready to help patients',
+    caption:
+      'Vårt team er klare for en ny uke med å hjelpe pasienter! 💛 #CMedical #Kvinnehelse',
     postUrl: 'https://www.instagram.com/cmedical.no',
   },
   {
-    _id: 'social-post-2',
-    sortOrder: 2,
+    _key: 'social-post-2',
     image: '../../src/assets/social/social-post-2.jpg',
-    alt: 'Helsepersonell i samtale med pasient',
-    caption: 'Omsorgsfull oppfølging fra første time.',
+    fallbackImage: '../../src/assets/hero/hero-technology.jpg',
+    alt: 'Robot-assisted surgery at CMedical',
+    caption: 'Vi er stolte av å annonsere vår nye robotassisterte kirurgienhet.',
     postUrl: 'https://www.instagram.com/cmedical.no',
   },
   {
-    _id: 'social-post-3',
-    sortOrder: 3,
+    _key: 'social-post-3',
     image: '../../src/assets/social/social-post-3.jpg',
-    alt: 'Lege ved datamaskin med stetoskop',
-    caption: 'Trygg og effektiv journalføring — alltid med pasienten i fokus.',
+    fallbackImage: '../../src/assets/hero/hero-family.jpg',
+    alt: 'Nurse consultation about fertility',
+    caption:
+      'Visste du at vi tilbyr uforpliktende telefonsamtaler med sykepleier om fertilitet? 🤍',
     postUrl: 'https://www.instagram.com/cmedical.no',
   },
   {
-    _id: 'social-post-4',
-    sortOrder: 4,
+    _key: 'social-post-4',
     image: '../../src/assets/social/social-post-4.jpg',
-    alt: 'Smilende lege i hvitt kitel',
-    caption: 'Møt spesialistene som følger deg gjennom hele forløpet.',
+    fallbackImage: '../../src/assets/hero/hero-clinic-lounge.jpg',
+    alt: 'Gynecologist specialising in endometriosis',
+    caption:
+      'Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen! 🩺',
     postUrl: 'https://www.instagram.com/cmedical.no',
   },
 ]
@@ -76,64 +80,73 @@ async function uploadImage(filePath: string): Promise<string> {
     filename: path.basename(absolutePath),
     contentType,
   })
-  uploadCache.set(absolutePath, asset._id)
-  return asset._id
+  const ref = asset._id.replace(/^image-/, '')
+  const format = ext === 'png' ? 'png' : ext === 'webp' ? 'webp' : 'jpg'
+  const url =
+    (asset as { url?: string }).url ||
+    `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${ref}-${asset.metadata?.dimensions?.width || 1200}x${asset.metadata?.dimensions?.height || 1200}.${format}`
+  uploadCache.set(absolutePath, url)
+  return url
+}
+
+function itemKey(seed: string): string {
+  return seed || randomBytes(4).toString('hex')
 }
 
 async function run() {
-  const postRefs: { _type: 'reference'; _ref: string; _key: string }[] = []
+  const socialPosts: Record<string, unknown>[] = []
 
   for (const post of POSTS) {
-    const assetId = await uploadImage(post.image)
-    if (!assetId) {
-      console.warn(`  ⚠ Skipping ${post._id} — no image`)
+    const imageUrl = await uploadImage(post.image) || (post.fallbackImage ? await uploadImage(post.fallbackImage) : '')
+    if (!imageUrl) {
+      console.warn(`  ⚠ Skipping ${post._key} — no image`)
       continue
     }
 
-    const doc = {
-      _id: post._id,
-      _type: 'socialPost',
+    socialPosts.push({
+      _key: itemKey(post._key),
+      _type: 'newsSocialPost',
       platform: 'instagram',
       caption: post.caption,
       alt: post.alt,
       postUrl: post.postUrl,
-      sortOrder: post.sortOrder,
-      published: true,
-      image: {
-        _type: 'image',
-        asset: { _type: 'reference', _ref: assetId },
-      },
-    }
-
-    if (DRY_RUN) {
-      console.log(`  [dry] Would upsert ${post._id}`)
-    } else {
-      await sanityClient.createOrReplace(doc)
-      console.log(`  ✓ ${post._id}`)
-    }
-
-    postRefs.push({
-      _type: 'reference',
-      _ref: post._id,
-      _key: post._id,
+      imageUrl,
     })
   }
 
-  const newsPatch = {
+  const patch = {
     showSocialSection: true,
-    socialDisplayMode: 'latest',
     socialPostLimit: 4,
-    socialPosts: postRefs,
+    socialPosts,
+    socialSectionTitle: [
+      {
+        _type: 'internationalizedArrayStringValue',
+        _key: 'no',
+        language: 'no',
+        value: 'Følg oss på sosiale medier',
+      },
+      {
+        _type: 'internationalizedArrayStringValue',
+        _key: 'en',
+        language: 'en',
+        value: 'Follow us on social media',
+      },
+    ],
   }
 
   if (DRY_RUN) {
-    console.log('\n[dry] Would patch newsPage:', newsPatch)
+    console.log('\n[dry] Would patch newsPage with', socialPosts.length, 'inline posts')
     return
   }
 
-  await sanityClient.patch('newsPage').set(newsPatch).commit()
-  await sanityClient.patch('drafts.newsPage').set(newsPatch).commit()
-  console.log('\n✅ socialPost documents seeded and newsPage updated')
+  await sanityClient.patch('newsPage').set(patch).commit()
+  try {
+    await sanityClient.patch('drafts.newsPage').set(patch).commit()
+  } catch {
+    console.log('  ℹ drafts.newsPage not patched (may not exist)')
+  }
+
+  console.log(`\n✅ Migrated ${socialPosts.length} social posts onto newsPage`)
 }
 
 run().catch((err) => {

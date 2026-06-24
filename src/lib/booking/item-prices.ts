@@ -1,4 +1,7 @@
 import { BOOKING_URLS, fetchBookingResource, unwrapList } from "@/lib/booking/upstream";
+import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
+
+const PRICE_FETCH_CONCURRENCY = Number(process.env.BOOKING_PRICE_FETCH_CONCURRENCY || 4);
 
 interface ApiItemPrice {
   price?: number;
@@ -29,22 +32,20 @@ export async function fetchProcedurePrice(
   return normalizePriceAmount(prices[0]?.price ?? prices[0]?.amount);
 }
 
-/** Batch-fetch prices for many procedure ids (parallel, skips failures). */
+/** Batch-fetch prices for many procedure ids (concurrency-limited, skips failures). */
 export async function fetchProcedurePriceMap(
   procedureIds: number[],
   apiKey: string,
 ): Promise<Map<number, string>> {
   const unique = [...new Set(procedureIds)];
-  const entries = await Promise.all(
-    unique.map(async (procedureId) => {
-      try {
-        const price = await fetchProcedurePrice(procedureId, apiKey);
-        return [procedureId, price] as const;
-      } catch {
-        return [procedureId, null] as const;
-      }
-    }),
-  );
+  const entries = await mapWithConcurrency(unique, PRICE_FETCH_CONCURRENCY, async (procedureId) => {
+    try {
+      const price = await fetchProcedurePrice(procedureId, apiKey);
+      return [procedureId, price] as const;
+    } catch {
+      return [procedureId, null] as const;
+    }
+  });
 
   return new Map(
     entries.filter((entry): entry is [number, string] => entry[1] !== null),

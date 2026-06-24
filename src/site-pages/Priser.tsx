@@ -94,7 +94,7 @@ function useBookingPriceCategories(): {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/booking/activity-groups")
+    fetch("/api/booking/activity-groups?prices=1")
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();

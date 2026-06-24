@@ -19,11 +19,14 @@ export function bookingUrlForSpecialistContext(params: {
   specialistSlug?: string;
   apiGroupId?: number;
   kategoriId?: number;
+  /** Metodika category slug from activity-groups (e.g. handterapeut). */
+  kategori?: string;
   tjeneste?: string;
 }): string {
   const kategoriId = params.kategoriId ?? params.apiGroupId;
   const kategori =
-    kategoriId != null ? categoryNumericIdToPageId[kategoriId] : undefined;
+    params.kategori ??
+    (kategoriId != null ? categoryNumericIdToPageId[kategoriId] : undefined);
   return buildBookingUrl({
     kategori,
     kategoriId,

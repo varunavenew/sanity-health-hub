@@ -17,6 +17,7 @@ export type BookingPageCopy = {
   step1HeadingFiltered: string;
   step1ShowAllServices: string;
   step1Loading: string;
+  step1LoadingClinics: string;
   step1AllClinicsBadge: string;
   step1EmptyTitle: string;
   step1EmptyMessage: string;
@@ -116,6 +117,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step1HeadingFiltered: "Velg tjeneste innen {{category}}",
   step1ShowAllServices: "Vis alle tjenester",
   step1Loading: "Henter tjenester…",
+  step1LoadingClinics: "Henter klinikker…",
   step1AllClinicsBadge: "Alle klinikker",
   step1EmptyTitle: "Kunne ikke laste tjenester",
   step1EmptyMessage:
