@@ -8,6 +8,7 @@ import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 import urogynekologiHero from "@/assets/urogynekologi-hero.jpg.asset.json";
 const imgUrogynekologiHero = urogynekologiHero.url;
+import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-4.mp4.asset.json";
 
 const parent = { name: "Gynekologi", path: "/gynekologi" };
 const baseBooking = { kategori: "gynekologi" as const };
