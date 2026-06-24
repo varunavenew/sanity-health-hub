@@ -107,6 +107,8 @@ export interface SubTreatmentContent {
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
+ /** Warm, fagområde-specific heading for the mid-page conversion band ("Snakk med en av våre …"). */
+ conversationCtaTitle?: string;
  // Specialists section
  specialistCategory?: Specialist["category"];
  specialistSlugs?: string[]; // optional whitelist of who does this service
