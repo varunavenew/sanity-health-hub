@@ -126,7 +126,7 @@ export const ServicesDropdown = () => {
  </div>
 
   {/* Column 2 - Subcategories */}
-  <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll border-r border-white/10 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full">
+  <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll border-r border-white/10 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding">
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeCategoryData.label}
  </h3>
