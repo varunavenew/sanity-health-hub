@@ -65,7 +65,9 @@ export const searchItems: SearchItem[] = [
   
   { label: 'Ernæringsfysiolog', path: '/behandlinger/flere-fagomrader/ernaringsfysiolog', category: 'Andre', keywords: ['ernæring', 'kosthold', 'diett'] },
   { label: 'Gastrokirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi', category: 'Andre', keywords: ['mage', 'tarm', 'bariatrisk'] },
-  { label: 'Overvektskirurgi', path: '/behandlinger/flere-fagomrader/overvektskirurgi', category: 'Andre', keywords: ['fedmekirurgi', 'sleeve', 'gastrektomi', 'overvekt'] },
+  { label: 'Overvektskirurgi', path: '/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi', category: 'Andre', keywords: ['fedmekirurgi', 'sleeve', 'gastrektomi', 'overvekt'] },
+  { label: 'Brokkoperasjon', path: '/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon', category: 'Andre', keywords: ['brokk', 'lyskebrokk'] },
+  { label: 'Hemorroider og endetarmsplager', path: '/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager', category: 'Andre', keywords: ['hemorroider', 'rektocele', 'endetarm'] },
   { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati', category: 'Andre', keywords: ['manuell behandling', 'muskel'] },
   { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi', category: 'Andre', keywords: ['psykolog', 'terapi', 'mental helse'] },
   { label: 'Sexologi', path: '/behandlinger/flere-fagomrader/sexologi', category: 'Andre', keywords: ['seksualitet', 'parterapi', 'intimitet'] },
