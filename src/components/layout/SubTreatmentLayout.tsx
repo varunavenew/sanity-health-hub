@@ -441,12 +441,27 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     <section className="bg-secondary/40 py-20 md:py-28">
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-2xl mb-12">
-            <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-              {c.relatedTitle ?? "Dette inngår i tjenesten"}
-            </h2>
-          </div>
-          <RelatedBlock items={c.related} />
+          {c.relatedLead ? (
+            <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+              <div className="lg:col-span-6">
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  {c.relatedTitle ?? "Dette inngår i tjenesten"}
+                </h2>
+              </div>
+              <div className="lg:col-span-6 lg:pt-3">
+                <p className="text-base font-light text-muted-foreground leading-relaxed">
+                  {c.relatedLead}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="max-w-2xl mb-12">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                {c.relatedTitle ?? "Dette inngår i tjenesten"}
+              </h2>
+            </div>
+          )}
+          <RelatedBlock items={c.related} columns={c.relatedLead ? 2 : 3} />
         </div>
       </div>
     </section>
