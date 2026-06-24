@@ -70,7 +70,7 @@ export const searchItems: SearchItem[] = [
   { label: 'Psykologi', path: '/behandlinger/flere-fagomrader/psykologi', category: 'Andre', keywords: ['psykolog', 'terapi', 'mental helse'] },
   { label: 'Sexologi', path: '/behandlinger/flere-fagomrader/sexologi', category: 'Andre', keywords: ['seksualitet', 'parterapi', 'intimitet'] },
   { label: 'Kvinnehelse', path: '/kvinnehelse', category: 'Tema', keywords: ['kvinne', 'tverrfaglig'] },
-  { label: 'Tverrfaglig team', path: '/tverrfaglige-team', category: 'Tema', keywords: ['tverrfaglig', 'team'] },
+  { label: 'Tverrfaglig team', path: '/behandlinger/gynekologi/tverrfaglig', category: 'Tema', keywords: ['tverrfaglig', 'team'] },
 
   // Sider
   { label: 'Priser', path: '/priser', category: 'Side', keywords: ['pris', 'kostnad', 'hva koster'] },

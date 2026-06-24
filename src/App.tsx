@@ -29,7 +29,7 @@ import SpecialistProfile from "./pages/SpecialistProfile";
 import Specialists from "./pages/Specialists";
 import AboutSpecialists from "./pages/AboutSpecialists";
 import KvinnehelsePage from "./pages/themes/KvinnehelsePage";
-import TverrfagligePage from "./pages/themes/TverrfagligePage";
+
 import RobotkirurgiPage from "./pages/themes/RobotkirurgiPage";
 import Aktuelt from "./pages/Aktuelt";
 import ArticlePage from "./pages/ArticlePage";
@@ -179,7 +179,7 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
         {/* Theme pages */}
         <Route path="/kvinnehelse" element={<KvinnehelsePage isChatOpen={false} />} />
-        <Route path="/tverrfaglige-team" element={<TverrfagligePage isChatOpen={false} />} />
+        <Route path="/tverrfaglige-team" element={<Navigate to="/behandlinger/gynekologi/tverrfaglig" replace />} />
         <Route path="/robotassistert-kirurgi" element={<RobotkirurgiPage isChatOpen={false} />} />
         {/* Fastlegeveiledning */}
         <Route path="/fastlegeveiledning-overgangsalder" element={<FastlegeveiledningOvergangsalder isChatOpen={false} />} />

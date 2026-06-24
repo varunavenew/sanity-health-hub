@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import robotkirurgiHero from "@/assets/hero/robotkirurgi-hero.jpg";
-import robotkirurgiHeroVideo from "@/assets/tverrfaglig-team-4.mp4.asset.json";
 import { useThemePage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { VideoPlayer } from "@/components/ui/video-player";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -106,11 +104,11 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
 
         <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
           <div className="max-w-5xl mx-auto">
-            <VideoPlayer
-              thumbnailUrl={heroImg}
-              videoUrl={robotkirurgiHeroVideo.url}
-              title="Robotassistert kirurgi"
-              className="w-full aspect-video"
+            <img
+              src={heroImg}
+              alt={title}
+              className="w-full aspect-video object-cover rounded-sm"
+              loading="lazy"
             />
           </div>
         </div>
