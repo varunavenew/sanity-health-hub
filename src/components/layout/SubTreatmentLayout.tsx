@@ -256,7 +256,7 @@ const ReasonsEditorial = ({
  */
 const RelatedBlock = ({
   items,
-  columns = 3,
+  columns = 2,
 }: {
   items: { title: string; desc: string; href: string; image?: string }[];
   columns?: 2 | 3;
@@ -464,7 +464,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </h2>
             </div>
           )}
-          <RelatedBlock items={c.related} columns={c.relatedLead ? 2 : 3} />
+          <RelatedBlock items={c.related} columns={2} />
         </div>
       </div>
     </section>
