@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -13,6 +13,69 @@ const hasTreatmentPage = (path: string): boolean => {
   if (!match) return true; // non-sub-treatment paths are assumed valid
   const [, categoryId, subId] = match;
   return Boolean(treatmentContent[`${categoryId}/${subId}`]);
+};
+
+type ScrollableMenuColumnProps = {
+ children: ReactNode;
+ className: string;
+ scrollbarClassName?: string;
+ scrollKey: string;
+};
+
+const ScrollableMenuColumn = ({ children, className, scrollbarClassName = '', scrollKey }: ScrollableMenuColumnProps) => {
+ const scrollRef = useRef<HTMLDivElement | null>(null);
+ const [scrollbar, setScrollbar] = useState({ visible: false, height: 0, top: 0 });
+
+ const updateScrollbar = () => {
+ const element = scrollRef.current;
+ if (!element) return;
+
+ const { clientHeight, scrollHeight, scrollTop } = element;
+ const visible = scrollHeight > clientHeight + 1;
+ if (!visible) {
+ setScrollbar({ visible: false, height: 0, top: 0 });
+ return;
+ }
+
+ const trackHeight = clientHeight - 16;
+ const height = Math.max(48, (clientHeight / scrollHeight) * trackHeight);
+ const maxTop = trackHeight - height;
+ const top = 8 + (scrollTop / (scrollHeight - clientHeight)) * maxTop;
+
+ setScrollbar({ visible: true, height, top });
+ };
+
+ useEffect(() => {
+ const element = scrollRef.current;
+ if (!element) return;
+
+ element.scrollTop = 0;
+ const frame = requestAnimationFrame(updateScrollbar);
+ window.addEventListener('resize', updateScrollbar);
+
+ return () => {
+ cancelAnimationFrame(frame);
+ window.removeEventListener('resize', updateScrollbar);
+ };
+ }, [scrollKey]);
+
+ return (
+ <div className={`relative ${scrollbarClassName}`}>
+ <div ref={scrollRef} onScroll={updateScrollbar} className={className}>
+ {children}
+ </div>
+ {scrollbar.visible && (
+ <div className="pointer-events-none absolute right-1 top-0 bottom-0 w-2.5 py-2">
+ <div className="relative h-full w-full rounded-full bg-white/[0.15]">
+ <div
+ className="absolute left-0.5 right-0.5 rounded-full bg-white/70"
+ style={{ height: `${scrollbar.height}px`, transform: `translateY(${scrollbar.top - 8}px)` }}
+ />
+ </div>
+ </div>
+ )}
+ </div>
+ );
 };
 
 export const ServicesDropdown = () => {
@@ -126,7 +189,11 @@ export const ServicesDropdown = () => {
  </div>
 
   {/* Column 2 - Subcategories */}
-  <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll border-r border-white/10 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding">
+  <ScrollableMenuColumn
+ scrollKey={activeCategoryData.id}
+ scrollbarClassName="border-r border-white/10"
+ className="w-[220px] p-4 pr-6 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding"
+ >
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeCategoryData.label}
  </h3>
@@ -161,7 +228,7 @@ export const ServicesDropdown = () => {
  </nav>
  </motion.div>
  </AnimatePresence>
- </div>
+ </ScrollableMenuColumn>
 
  {/* Column 3 - Sub-items */}
  <AnimatePresence>
@@ -174,7 +241,10 @@ export const ServicesDropdown = () => {
  transition={{ duration: 0.15 }}
  className="overflow-hidden"
  >
- <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding">
+ <ScrollableMenuColumn
+ scrollKey={activeSubcategoryData.label}
+ className="w-[200px] p-4 pr-6 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding"
+ >
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeSubcategoryData.label}
  </h3>
@@ -198,7 +268,7 @@ export const ServicesDropdown = () => {
  </button>
  ))}
  </nav>
- </div>
+ </ScrollableMenuColumn>
  </motion.div>
  )}
  </AnimatePresence>
