@@ -248,6 +248,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* Left — copy + CTA */}
   <div className="flex items-center page-edge-text-left py-16 lg:py-24">
   <div className="max-w-xl w-full">
+  <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+    <Link to="/" className="hover:text-foreground">Hjem</Link>
+    <span aria-hidden="true">›</span>
+    <span className="text-foreground/80">Fertilitet</span>
+  </nav>
   <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
   Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
   </h2>

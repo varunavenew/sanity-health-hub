@@ -172,9 +172,14 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
- Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
- </h2>
+  <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+    <Link to="/" className="hover:text-foreground">Hjem</Link>
+    <span aria-hidden="true">›</span>
+    <span className="text-foreground/80">Ortopedi</span>
+  </nav>
+  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+  Det gjør vondt. <span className="block italic">La oss finne ut hvorfor.</span>
+  </h2>
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
  Våre ortopeder er eksperter på skader og sykdommer i muskler,
  bein, ledd og sener. Noen av landets fremste kirurger jobber
