@@ -120,7 +120,7 @@ const audiences = [
     Icon: Clock,
     desc:
       "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
-    href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
+    href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
   },
   {
     title: "Singel",
@@ -167,7 +167,6 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Undersøkelse og utredning",
     items: [
       { title: "Fertilitetsutredning", desc: "Blodprøver, ultralyd og sædanalyse", href: "/behandlinger/fertilitet/fertilitetsutredning" },
-      { title: "Fertilitetssjekk", desc: "Hormoner, ultralyd, AMH og AFC", href: "/behandlinger/fertilitet/fertilitetssjekk" },
       { title: "Infertilitet", desc: "Forstå årsaker og veien videre", href: "/behandlinger/fertilitet/infertilitet" },
       { title: "Sædanalyse", desc: "Mannlig fertilitet og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
       { title: "Hysteroskopi", desc: "Skånsom vurdering av livmorhulen", href: "/behandlinger/fertilitet/hysteroskopi" },
