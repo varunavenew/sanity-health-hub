@@ -1,7 +1,7 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
+import { ArrowRight, Check, Star, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -170,12 +170,6 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   },
 ];
 
-const journey = [
- { n: "01", title: "Bestill time", desc: "Du ringer eller booker direkte. Ingen henvisning, ingen ventetid — vi finner et tidspunkt som passer." },
- { n: "02", title: "Første konsultasjon og undersøkelse", desc: "Du møter spesialisten din. Vi tar oss tid til samtalen, før vi gjør en grundig undersøkelse." },
- { n: "03", title: "Utredning og plan", desc: "Vi forklarer hva vi finner og legger en plan sammen med deg — i ditt tempo." },
- { n: "04", title: "Behandling og oppfølging", desc: "Konservativ, medikamentell eller kirurgisk — du blir fulgt opp gjennom hele forløpet." },
-];
 
 const reviews = [
  { text: "Trygg og god konsultasjon. Endelig en gynekolog som tok seg tid og forsto plagene mine.", author: "Anne K.", date: "2 måneder siden" },
