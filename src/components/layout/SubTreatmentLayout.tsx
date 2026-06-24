@@ -776,6 +776,22 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       {/* SAMARBEIDSPARTNERE / FORSIKRING — før booking CTA */}
       <InsurancePartners />
 
+      {/* RELATERTE TJENESTER — søsken-tjenester for å hoppe mellom relaterte sider */}
+      {c.siblingServices && c.siblingServices.length > 0 && (
+        <section className="bg-background py-20 md:py-28">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-6xl mx-auto">
+              <div className="max-w-2xl mb-12">
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Relaterte tjenester
+                </h2>
+              </div>
+              <RelatedBlock items={c.siblingServices} />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* BESTILL TIME — unified pre-footer CTA */}
       <BookingCTA />
  </PageLayout>
