@@ -127,13 +127,28 @@ const expertAreas = [
   },
 ];
 
-const allServices = [
-  { title: "Tidlig ultralyd", desc: "Hjerteslag, termin og plassering", href: `${GRAV}/ultralyd` },
-  { title: "NIPT", desc: "Trygg og rask avklaring", href: `${GRAV}/nipt` },
-  { title: "Tidlig ultralyd + NIPT", desc: "Kombinert tilbud", href: `${GRAV}/nipt` },
-  { title: "Fosterdiagnostikk", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
-  { title: "Organrettet ultralyd uke 12–14", desc: "Spesialist i fostermedisin", href: `${GRAV}/fosterdiagnostikk` },
-  { title: "Svangerskapsteam", desc: "Fast jordmor og lege", href: `${GRAV}/svangerskapsteam` },
+const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
+  {
+    label: "Tidlig i svangerskapet",
+    items: [
+      { title: "Tidlig ultralyd", desc: "Hjerteslag, termin og plassering", href: `${GRAV}/ultralyd` },
+      { title: "NIPT", desc: "Trygg og rask avklaring av kromosomavvik", href: `${GRAV}/nipt` },
+      { title: "Tidlig ultralyd + NIPT", desc: "Kombinert tilbud i én konsultasjon", href: `${GRAV}/nipt` },
+    ],
+  },
+  {
+    label: "Fostermedisin og diagnostikk",
+    items: [
+      { title: "Fosterdiagnostikk", desc: "Detaljert vurdering av fosteret", href: `${GRAV}/fosterdiagnostikk` },
+      { title: "Organrettet ultralyd uke 12–14", desc: "Spesialist i fostermedisin", href: `${GRAV}/fosterdiagnostikk` },
+    ],
+  },
+  {
+    label: "Oppfølging gjennom svangerskapet",
+    items: [
+      { title: "Svangerskapsteam", desc: "Fast jordmor og lege hele veien", href: `${GRAV}/svangerskapsteam` },
+    ],
+  },
 ];
 
 const journey = [
@@ -430,36 +445,50 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
         ]}
       />
 
-      {/* 6. VET DU ALLEREDE HVA DU TRENGER */}
-      <section className="bg-background text-foreground py-20 md:py-28">
+      {/* 6. HVA VI TILBYR — gruppert oversikt */}
+      <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+            <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                  Vet du allerede hva du trenger?
+                  Hva vi tilbyr
                 </h2>
               </div>
               <div className="lg:col-span-6 lg:pt-3">
                 <p className="text-base font-light text-muted-foreground leading-relaxed">
-                  Klikk og book direkte, eller les mer om den enkelte undersøkelsen eller samtalen.
+                  Fra tidlig ultralyd til fast jordmor — hele svangerskapstilbudet
+                  vårt finner du her. Trenger du hjelp til å velge, ring oss
+                  for en uforpliktende prat.
                 </p>
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
-              {allServices.map((s) => (
-                <Link
-                  key={s.title}
-                  to={s.href}
-                  className="bg-background p-6 flex items-start justify-between gap-4 hover:bg-brand-light transition-colors group"
-                >
-                  <div>
-                    <h3 className="text-base font-normal text-foreground mb-1.5">{s.title}</h3>
-                    <p className="text-sm font-light text-muted-foreground leading-snug">{s.desc}</p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-foreground/40 mt-1 flex-shrink-0 group-hover:text-foreground transition-colors" />
-                </Link>
+            <div className="space-y-12">
+              {serviceGroups.map((group) => (
+                <div key={group.label}>
+                  <p className="text-xs font-light text-foreground/60 mb-4">
+                    {group.label}
+                  </p>
+                  <ul className="border-t border-brand-dark/10">
+                    {group.items.map((s) => (
+                      <li key={s.title} className="border-b border-brand-dark/10">
+                        <Link
+                          to={s.href}
+                          className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
+                        >
+                          <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
+                            {s.title}
+                          </h3>
+                          <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
+                            {s.desc}
+                          </p>
+                          <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
           </div>
