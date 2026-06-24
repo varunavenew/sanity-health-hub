@@ -62,7 +62,12 @@ const ScrollableMenuColumn = ({ children, className, scrollbarClassName = '', sc
 
   return (
     <div className={`relative ${scrollbarClassName}`}>
-      <div ref={scrollRef} onScroll={updateScrollbar} className={className}>
+      <div
+        ref={scrollRef}
+        onScroll={updateScrollbar}
+        className={`${className} ${showCustomScrollbar ? '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden' : ''}`}
+      >
+
         {children}
       </div>
       {showCustomScrollbar && scrollbar.visible && (
