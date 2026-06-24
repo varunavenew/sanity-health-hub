@@ -215,8 +215,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  1. HERO — split screen 50/50, bilde kant-i-kant
  ============================================================ */}
  <header className="bg-brand-light pt-24 lg:pt-0">
- <div className="grid lg:grid-cols-2 min-h-screen">
- <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+ <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+ <div className="flex items-center page-edge-text-left py-16 lg:py-24">
  <div className="max-w-xl w-full">
  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Kvinnehelse <span className="block italic">for livet</span>
@@ -288,8 +288,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. MØRK SEGMENT-SEKSJON — Livsfaser
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16">
- <div className="container mx-auto px-6 md:px-16">
+ <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
  <h2 className="text-3xl md:text-5xl font-light leading-tight">
@@ -330,7 +330,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
  <section className="bg-background">
  <div className="grid lg:grid-cols-12">
- <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28">
+ <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
  <div className="max-w-xl">
   <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
  Det beste fra to klinikker — samlet på ett sted.
@@ -375,11 +375,19 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  ))}
- </div>
+  </div>
+
+  <Link
+   to="/om-oss"
+   className="inline-flex items-center gap-2 mt-10 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
+  >
+   Les mer om klinikken
+   <ArrowRight className="w-3.5 h-3.5" />
+  </Link>
  </div>
  </div>
 
- <div className="lg:col-span-5 lg:self-center relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-[520px] overflow-hidden">
+ <div className="lg:col-span-5 relative bg-secondary/40 h-[320px] md:h-[420px] lg:h-full overflow-hidden">
  <img
  src={heroClinicLounge}
  alt="CMedical kvinnehelseklinikk i Sandvika"
@@ -394,7 +402,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
  ============================================================ */}
  <section className="bg-secondary/40 py-20 md:py-28">
- <div className="container mx-auto px-6 md:px-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
  <div className="lg:col-span-6">
@@ -447,6 +455,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
 
  {/* 5. SYMPTOMSJEKK — fra symptom til tjeneste */}
  <SymptomServiceSection
+ background="background"
  title="Hva kjenner du på?"
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
  items={[
@@ -463,7 +472,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  6. HVA VI TILBYR — gruppert oversikt
  ============================================================ */}
  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
-  <div className="container mx-auto px-6 md:px-16">
+  <div className="page-shell">
    <div className="max-w-6xl mx-auto">
      <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
       <div className="lg:col-span-6">
@@ -515,8 +524,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
- <section className="bg-brand-light text-foreground py-12 md:py-16 border-t border-brand-dark/5">
- <div className="container mx-auto px-6 md:px-16">
+ <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
  <div className="lg:col-span-5">
@@ -532,7 +541,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="border-t border-brand-dark/5 py-8 md:py-10">
+ <div className="border-t border-brand-dark/15 py-8 md:py-10">
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {[
  { v: "9 600+", k: "Konsultasjoner", sub: "Per år" },
@@ -568,8 +577,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  8. PASIENTSITATER — sosial bevis
  ============================================================ */}
- <section className="bg-brand-warm pt-12 md:pt-16 pb-20 md:pb-24">
- <div className="container mx-auto px-6 md:px-16">
+ <section className="bg-brand-warm pt-10 md:pt-12 pb-14 md:pb-16">
+ <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
