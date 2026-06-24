@@ -425,7 +425,6 @@ const flereFagomrader: CategoryNewContent = {
     // (Hudlege fjernet — alt ligger nå under Hudhelse)
     "Hudhelse": "/behandlinger/flere-fagomrader/hudhelse",
     "Gastrokirurgi": "/behandlinger/flere-fagomrader/gastrokirurgi",
-    "Overvektskirurgi": "/behandlinger/flere-fagomrader/overvektskirurgi",
     "Plastikkirurgi": "/behandlinger/flere-fagomrader/plastikkirurgi",
     "Robotassistert kirurgi": "/behandlinger/flere-fagomrader/robotkirurgi",
     "Åreknuter": "/behandlinger/flere-fagomrader/areknuter",
@@ -436,7 +435,7 @@ const flereFagomrader: CategoryNewContent = {
   },
   groups: [
     { label: "Hud, hormoner og ernæring", serviceNames: ["Endokrinologi", "Ernæringsfysiolog", "Hudhelse"] },
-    { label: "Mage og kirurgi", serviceNames: ["Gastrokirurgi", "Overvektskirurgi", "Plastikkirurgi", "Robotassistert kirurgi"] },
+    { label: "Mage og kirurgi", serviceNames: ["Gastrokirurgi", "Plastikkirurgi", "Robotassistert kirurgi"] },
     { label: "Kropp og bevegelse", serviceNames: ["Osteopati", "Revmatologi", "Åreknuter"] },
     { label: "Mental helse og samliv", serviceNames: ["Psykologi", "Sexologi"] },
   ],
