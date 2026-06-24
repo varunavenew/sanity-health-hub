@@ -12,6 +12,7 @@ import { type Specialist } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 import {
   Accordion,
   AccordionContent,
@@ -245,12 +246,11 @@ const ReasonsEditorial = ({
 };
 
 /**
- * Render a related-services block. ALL-OR-NOTHING rule per section:
- * - If every item has its own unique image → render the whole section as
- *   image-cards (top image + title + desc + "Les mer").
- * - If any item is missing a unique image → render the whole section as a
- *   simple list of rows (title + desc + arrow), no images anywhere.
- * Never mix image-cards and list rows in the same section.
+ * Render a related-services block — ALWAYS as the global "Flere fagområder"
+ * image-card layout (image on top, title, short description, "Les mer →").
+ * If an item is missing its own image, fall back to the service's dedicated
+ * hero via the route href, then to the category hero. We never render a
+ * text-only list or a card without an image.
  */
 const RelatedBlock = ({
   items,
@@ -258,56 +258,39 @@ const RelatedBlock = ({
   items: { title: string; desc: string; href: string; image?: string }[];
 }) => {
   if (items.length === 0) return null;
-  const allHaveImage = items.every((a) => !!a.image);
-  if (allHaveImage) {
-    return (
-      <div className="grid md:grid-cols-3 gap-6">
-        {items.map((a) => (
-          <Link
-            key={a.title}
-            to={a.href}
-            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
-          >
-            <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+  const resolved = items.map((a) => ({
+    ...a,
+    image: a.image ?? getServiceImageFromHref(a.href),
+  }));
+  return (
+    <div className="grid md:grid-cols-3 gap-6">
+      {resolved.map((a) => (
+        <Link
+          key={a.title}
+          to={a.href}
+          className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+        >
+          <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+            {a.image && (
               <img
                 src={a.image}
                 alt={a.title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
-            </div>
-            <div className="p-7 flex flex-col flex-1">
-              <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                Les mer
-                <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-    );
-  }
-  return (
-    <ul className="border-t border-brand-dark/10">
-      {items.map((a) => (
-        <li key={a.title} className="border-b border-brand-dark/10">
-          <Link
-            to={a.href}
-            className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"
-          >
-            <h3 className="text-base font-normal text-foreground group-hover:text-foreground/70 transition-colors">
-              {a.title}
-            </h3>
-            <p className="hidden sm:block text-sm font-light text-muted-foreground leading-snug">
-              {a.desc}
-            </p>
-            <ArrowRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground transition-colors" />
-          </Link>
-        </li>
+            )}
+          </div>
+          <div className="p-7 flex flex-col flex-1">
+            <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+            <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+            <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+              Les mer
+              <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
+        </Link>
       ))}
-    </ul>
+    </div>
   );
 };
 
