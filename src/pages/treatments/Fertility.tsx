@@ -114,21 +114,21 @@ const audiences = [
     Icon: Users,
     desc:
       "Dere har prøvd en stund og lurer på om noe er galt. Vi starter med utredning av begge — ingen henvisning, ingen ventetid.",
-    href: "/booking?kategori=fertilitet",
+    href: "/behandlinger/fertilitet/infertilitet",
   },
   {
     title: "De ventende",
     Icon: Clock,
     desc:
       "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
-    href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
+    href: "/behandlinger/fertilitet/fertilitetsutredning",
   },
   {
     title: "Singel",
     Icon: User,
     desc:
       "Du har bestemt deg for å få barn på egen hånd. Vi følger deg trygt fra første samtale til graviditetstest.",
-    href: "/booking?kategori=fertilitet",
+    href: "/behandlinger/fertilitet/donorbehandling",
   },
 ];
 
