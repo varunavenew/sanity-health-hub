@@ -73,15 +73,15 @@ const lifePhases = [
  desc:
  "Svangerskapskontroll, ultralyd, etterkontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
   tags: [
-  { label: "Tidlig ultralyd", href: "/booking?kategori=gynekologi" },
-  { label: "NIPT", href: "/booking?kategori=gynekologi" },
-  { label: "Graviditetsoppfølging", href: "/booking?kategori=gynekologi" },
-  { label: "6-ukerskontroll etter fødsel", href: "/booking?kategori=gynekologi" },
-  { label: "Spontanabort", href: "/booking?kategori=gynekologi" },
-  { label: "Abort", href: "/booking?kategori=gynekologi" },
+  { label: "Tidlig ultralyd", href: "/behandlinger/graviditet/nipt" },
+  { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
+  { label: "Graviditetsoppfølging", href: "/graviditet" },
+  { label: "6-ukerskontroll etter fødsel", href: "/graviditet" },
+  { label: "Spontanabort", href: "/graviditet" },
+  { label: "Abort", href: "/graviditet" },
   { label: "Fødselsskader", href: "/behandlinger/gynekologi/vaginale-fremfall" },
   ],
-  href: "/booking?kategori=gynekologi",
+  href: "/graviditet",
   },
   {
   n: "04",
