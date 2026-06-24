@@ -423,12 +423,10 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
         title="Hva kjenner du på?"
         description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
         items={[
-          { symptom: "Jeg er nettopp blitt gravid og vil ha en tidlig sjekk", service: "Tidlig ultralyd", href: "/booking?kategori=graviditet&tjeneste=tidlig-ultralyd-enkel" },
-          { symptom: "Jeg ønsker NIPT for å avklare kromosomavvik", service: "Tidlig ultralyd + NIPT", href: "/booking?kategori=graviditet&tjeneste=tidlig-ultralyd-nipt" },
-          { symptom: "Jeg vil ha fast jordmor gjennom svangerskapet", service: "Svangerskapsteam", href: "/booking?kategori=graviditet&tjeneste=svangerskapskontroll" },
-          { symptom: "Jeg gruer meg veldig til fødselen", service: "Konsultasjon fødselsangst", href: "/booking?kategori=graviditet&tjeneste=konsultasjon-fodselsangst" },
-          { symptom: "Vi har opplevd spontanabort eller dødfødsel", service: "Samtale etter tap", href: "/booking?kategori=graviditet&tjeneste=konsultasjon-etter-abort-eller-dodfodsel" },
-          { symptom: "Jeg har vondt eller bekymringer etter fødsel", service: "Kontroll etter fødsel", href: "/booking?kategori=graviditet&tjeneste=kontroll-etter-fodsel" },
+          { symptom: "Jeg er nettopp blitt gravid og vil ha en tidlig sjekk", service: "Tidlig ultralyd", href: "/behandlinger/graviditet/ultralyd" },
+          { symptom: "Jeg ønsker NIPT for å avklare kromosomavvik", service: "NIPT", href: "/behandlinger/graviditet/nipt" },
+          { symptom: "Jeg vil ha en grundig organrettet undersøkelse uke 12–14", service: "Fosterdiagnostikk", href: "/behandlinger/graviditet/fosterdiagnostikk" },
+          { symptom: "Jeg vil ha fast jordmor gjennom svangerskapet", service: "Svangerskapsteam", href: "/behandlinger/graviditet/svangerskapsteam" },
         ]}
       />
 

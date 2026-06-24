@@ -317,12 +317,12 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  title="Hva kjenner du på?"
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
  items={[
- { symptom: "Smerter i skulderen ved løft", service: "Skulderutredning", href: "/booking?kategori=ortopedi&tjeneste=skulder" },
- { symptom: "Vondt eller ustabilt kne", service: "Kneutredning", href: "/booking?kategori=ortopedi&tjeneste=kne" },
- { symptom: "Hofteslitasje eller liesmerter", service: "Hofteutredning", href: "/booking?kategori=ortopedi&tjeneste=hofte" },
- { symptom: "Nummenhet eller stikninger i hånden", service: "Karpaltunnel-utredning", href: "/booking?kategori=ortopedi&tjeneste=hand" },
- { symptom: "Vondt i albuen ved gripe-bevegelser", service: "Tennisalbue-utredning", href: "/booking?kategori=ortopedi&tjeneste=albue" },
- { symptom: "Diagnose du er usikker på", service: "Second opinion", href: "/booking?kategori=ortopedi&tjeneste=second-opinion" },
+ { symptom: "Smerter i skulderen ved løft", service: "Skulderutredning", href: "/behandlinger/ortopedi/skulder" },
+ { symptom: "Vondt eller ustabilt kne", service: "Kneutredning", href: "/behandlinger/ortopedi/kne" },
+ { symptom: "Hofteslitasje eller liesmerter", service: "Hofteutredning", href: "/behandlinger/ortopedi/hofte" },
+ { symptom: "Nummenhet eller stikninger i hånden", service: "Karpaltunnel-utredning", href: "/behandlinger/ortopedi/hand-albue" },
+ { symptom: "Vondt i albuen ved gripe-bevegelser", service: "Tennisalbue-utredning", href: "/behandlinger/ortopedi/hand-albue" },
+ { symptom: "Smerter eller skader i fot og ankel", service: "Fot- og ankelutredning", href: "/behandlinger/ortopedi/fot-ankel" },
  ]}
  />
 
