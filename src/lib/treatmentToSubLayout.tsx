@@ -3,6 +3,7 @@ import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout
 import type { TreatmentData } from "@/data/treatmentContent";
 import { getServiceImage, getDedicatedServiceImage } from "@/data/serviceImages";
 import { getFromPriceForPath, getFromPriceForTitle } from "@/data/priceList";
+import { computeSiblingServices } from "@/lib/siblingServices";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
