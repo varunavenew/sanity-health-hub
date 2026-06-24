@@ -33,6 +33,7 @@ const GynekologiSubPage = ({ isChatOpen }: Props) => {
       specialistCtaLabel: "Se alle gynekologer",
       specialistCtaHref: "/spesialister?kategori=gynekologi",
       ...base,
+      siblingServices: computeSiblingServices(`/behandlinger/gynekologi/${subId}`),
     };
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }
