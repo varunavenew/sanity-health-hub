@@ -411,6 +411,48 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </section>
 
  {/* ============================================================
+ 3b. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
+ ============================================================ */}
+ <section className="bg-secondary/40 py-14 md:py-20">
+  <div className="page-shell">
+   <div className="max-w-6xl mx-auto">
+    <div className="max-w-2xl mb-14">
+     <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+      Alle er velkomne
+      <br />
+      <span className="text-foreground/70">— uansett livsfase.</span>
+     </h2>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-6">
+     {audiences.map((a) => (
+      <div
+       key={a.title}
+       className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
+      >
+       <div className="mb-6 text-foreground/80">
+        <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+       </div>
+       <h3 className="text-lg font-normal text-foreground mb-3">
+        {a.title}
+       </h3>
+       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+        {a.desc}
+       </p>
+       <Link
+        to={a.href}
+        className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
+       >
+        Les mer
+        <ArrowRight className="w-3.5 h-3.5" />
+       </Link>
+      </div>
+     ))}
+    </div>
+   </div>
+  </div>
+
+ {/* ============================================================
  4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
  ============================================================ */}
  <section className="bg-secondary/40 py-20 md:py-28">
