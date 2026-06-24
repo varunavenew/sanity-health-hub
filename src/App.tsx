@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
+import GastrokirurgiPage from "./pages/treatments/GastrokirurgiPage";
 import GastrokirurgiMethodPage from "./pages/treatments/GastrokirurgiMethodPage";
 import HudbehandlingerPage from "./pages/treatments/HudbehandlingerPage";
 import HudbehandlingerMethodPage from "./pages/treatments/HudbehandlingerMethodPage";
