@@ -3,6 +3,7 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { gynekologiSubPages } from "@/data/gynekologiSubPages";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
+import { computeSiblingServices } from "@/lib/siblingServices";
 import NotFound from "@/pages/NotFound";
 
 interface Props {
@@ -32,6 +33,7 @@ const GynekologiSubPage = ({ isChatOpen }: Props) => {
       specialistCtaLabel: "Se alle gynekologer",
       specialistCtaHref: "/spesialister?kategori=gynekologi",
       ...base,
+      siblingServices: computeSiblingServices(`/behandlinger/gynekologi/${subId}`),
     };
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
   }

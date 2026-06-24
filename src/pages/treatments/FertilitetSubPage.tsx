@@ -5,6 +5,7 @@ import { getServiceImage } from "@/data/serviceImages";
 import { treatmentContent } from "@/data/treatmentContent";
 import { treatmentToSubLayout } from "@/lib/treatmentToSubLayout";
 import NotFound from "@/pages/NotFound";
+import { computeSiblingServices } from "@/lib/siblingServices";
 import clinicKorridor from "@/assets/clinics/majorstuen/korridor.asset.json";
 import clinicSittegruppe from "@/assets/clinics/majorstuen/korridor-sittegruppe.asset.json";
 import clinicVenterom from "@/assets/clinics/majorstuen/venterom-detalj.asset.json";
@@ -63,6 +64,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       heroImageAlt: base.heroImageAlt ?? base.title,
       flowImage,
       flowImageAlt: base.flowImageAlt ?? "CMedical klinikk",
+      siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
     };
 
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;

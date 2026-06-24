@@ -97,11 +97,13 @@ export interface SubTreatmentContent {
  relatedTitle?: string;
  /** Optional ingress/lead paragraph rendered next to the related-section heading (Flere fagområder-style header). */
  relatedLead?: string;
- related: { title: string; desc: string; href: string; image?: string }[];
- /** When true, render the related cards right after the hero (as section 2) instead of after the flow. Used for landing pages where the cards represent the actual treatments included in the service. */
- relatedAsIntro?: boolean;
- /** When true, render the related cards between the reasons text and the flow (as section 3). Used when the page has its own text content but the cards still represent treatments included in this service. */
- relatedAsServices?: boolean;
+  related: { title: string; desc: string; href: string; image?: string }[];
+  /** When true, render the related cards right after the hero (as section 2) instead of after the flow. Used for landing pages where the cards represent the actual treatments included in the service. */
+  relatedAsIntro?: boolean;
+  /** When true, render the related cards between the reasons text and the flow (as section 3). Used when the page has its own text content but the cards still represent treatments included in this service. */
+  relatedAsServices?: boolean;
+  /** Sibling services in the same navigation group — rendered as "Relaterte tjenester" before the promises section. */
+  siblingServices?: { title: string; desc: string; href: string; image?: string }[];
  // Final CTA
  ctaTitle: string;
  ctaDescription: string;
@@ -638,6 +640,22 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </div>
 
               <RelatedBlock items={c.related} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 4a. RELATERTE TJENESTER — søsken-tjenester for å hoppe mellom relaterte sider */}
+      {c.siblingServices && c.siblingServices.length > 0 && (
+        <section className="bg-background py-20 md:py-28">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-6xl mx-auto">
+              <div className="max-w-2xl mb-12">
+                <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                  Relaterte tjenester
+                </h2>
+              </div>
+              <RelatedBlock items={c.siblingServices} />
             </div>
           </div>
         </section>
