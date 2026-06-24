@@ -108,8 +108,8 @@ const expertAreas = [
  title: "Andre vurdering",
  desc:
  "Kompliserte skader eller diagnoser du er usikker på? Noen av landets fremste ortopeder ser på det med nye øyne.",
- href: "/behandlinger/ortopedi/second-opinion",
- image: getServiceImageFromHref("/behandlinger/ortopedi/second-opinion") ?? expertSecondOpinion,
+ href: "/spesialister?kategori=ortopedi",
+ image: expertSecondOpinion,
  },
 ];
 
