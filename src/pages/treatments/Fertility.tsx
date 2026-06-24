@@ -7,6 +7,7 @@ import { VideoPlayer } from "@/components/ui/video-player";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
