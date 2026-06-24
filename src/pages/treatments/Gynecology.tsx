@@ -1,7 +1,7 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote } from "lucide-react";
+import { ArrowRight, Check, Star, Quote, Users, Clock, User } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -143,6 +143,30 @@ const expertAreas = [
  },
 ];
 
+const audiences = [
+ {
+  title: "Første gynekologtime",
+  Icon: User,
+  desc:
+   "Det første møtet skal være trygt og forklart. Vi tar oss tid — uansett om det er prevensjon, syklus eller bare et spørsmål du har båret på lenge.",
+  href: "/booking?kategori=gynekologi&tjeneste=undersokelse",
+ },
+ {
+  title: "Gravid eller nylig forløst",
+  Icon: Users,
+  desc:
+   "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
+  href: "/booking?kategori=gynekologi",
+ },
+ {
+  title: "Midt i livet og videre",
+  Icon: Clock,
+  desc:
+   "Overgangsalder, hormoner, urinlekkasje eller fremfall — vi hjelper deg å forstå kroppen og finne riktig behandling på dine premisser.",
+  href: "/behandlinger/gynekologi/overgangsalder",
+ },
+];
+
 const serviceGroups: { label: string; items: { title: string; desc: string; href: string }[] }[] = [
  {
   label: "Undersøkelse og utredning",
@@ -248,20 +272,14 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
 
- <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
- <li className="flex items-center gap-2">
- <Check className="w-4 h-4" aria-hidden="true" />
- Ingen henvisning
- </li>
- <li className="flex items-center gap-2">
- <Check className="w-4 h-4" aria-hidden="true" />
- Korte ventetider
- </li>
- <li className="flex items-center gap-2">
- <Check className="w-4 h-4" aria-hidden="true" />
- Erfarne spesialister
- </li>
- </ul>
+  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+  {["Ingen henvisning", "Korte ventetider", "Erfarne spesialister"].map((u) => (
+   <li key={u} className="inline-flex items-center gap-2">
+    <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
+    <span>{u}</span>
+   </li>
+  ))}
+  </ul>
  </div>
  </div>
 
@@ -391,6 +409,52 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
+
+ {/* ============================================================
+ 3b. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
+ ============================================================ */}
+ <section className="bg-secondary/40 py-14 md:py-20">
+  <div className="page-shell">
+   <div className="max-w-6xl mx-auto">
+    <div className="max-w-2xl mb-14">
+     <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+      Alle er velkomne
+      <br />
+      <span className="text-foreground/70">— uansett livsfase.</span>
+     </h2>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-6">
+     {audiences.map((a) => (
+      <div
+       key={a.title}
+       className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
+      >
+       <div className="mb-6 text-foreground/80">
+        <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+       </div>
+       <h3 className="text-lg font-normal text-foreground mb-3">
+        {a.title}
+       </h3>
+       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+        {a.desc}
+       </p>
+       <Link
+        to={a.href}
+        className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
+       >
+        Les mer
+        <ArrowRight className="w-3.5 h-3.5" />
+       </Link>
+      </div>
+     ))}
+     </div>
+    </div>
+   </div>
+  </section>
+
+
+
 
  {/* ============================================================
  4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
