@@ -40,8 +40,8 @@ const lifePhases = [
  "Vridd kne, vondt etter et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
   tags: [
     { label: "Akutt", href: "/behandlinger/ortopedi/kne" },
-    { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
-    { label: "MR", href: "/behandlinger/ortopedi/second-opinion" },
+    { label: "Diagnose", href: "/behandlinger/ortopedi/skulder" },
+    { label: "MR", href: "/behandlinger/ortopedi/kne" },
   ],
  href: "/behandlinger/ortopedi/kne",
  },
@@ -63,10 +63,10 @@ const lifePhases = [
  desc:
  "Har du fått en diagnose du er usikker på? Vi får ofte pasienter med kompliserte caser — og ser dem med nye øyne.",
  tags: [
-   { label: "Second opinion", href: "/behandlinger/ortopedi/second-opinion" },
-   { label: "Vurdering", href: "/behandlinger/ortopedi/second-opinion" },
+   { label: "Second opinion", href: "/spesialister?kategori=ortopedi" },
+   { label: "Vurdering", href: "/spesialister?kategori=ortopedi" },
  ],
- href: "/behandlinger/ortopedi/second-opinion",
+ href: "/spesialister?kategori=ortopedi",
  },
  {
  n: "04",
@@ -74,11 +74,11 @@ const lifePhases = [
  desc:
  "Artroskopi, kortisoninjeksjon, PRP eller hyaluronsyre — vi tilbyr hele bredden av ortopediske behandlinger.",
  tags: [
-   { label: "Kirurgi", href: "/behandlinger/ortopedi/artroskopi" },
+   { label: "Kirurgi", href: "/behandlinger/ortopedi/kne" },
    { label: "PRP", href: "/behandlinger/ortopedi/kne" },
    { label: "Injeksjon", href: "/behandlinger/ortopedi/kne" },
  ],
- href: "/behandlinger/ortopedi/artroskopi",
+ href: "/behandlinger/ortopedi/kne",
  },
 ];
 
