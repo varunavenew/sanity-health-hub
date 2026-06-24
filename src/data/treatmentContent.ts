@@ -1404,26 +1404,24 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
   "flere-fagomrader/gastrokirurgi": {
-    title: "Gastrokirurgi",
+    title: "Mage- og tarmlidelser (Gastrokirurgi)",
     subtitle: "Ingen ventetid • Ingen henvisning",
     parentCategory: "Flere fagområder",
     heroImage: flereFagImg,
-    description: "Avanserte, minimalt invasive inngrep i fordøyelsessystemet — utført av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.",
+    description: "Mage og tarmkirurgi (gastrokirurgi) omhandler kirurgiske inngrep i fordøyelsessystemet. Hos oss møter du erfarne spesialister innen fagfeltet. Vi tilbyr et helhetlig og tverrfaglig tilbud, der avansert medisinsk teknologi møter tett oppfølging fra kirurger og klinisk ernæringsfysiolog.",
     sections: [
       {
-        id: "om-gastrokirurgi",
-        heading: "Om gastrokirurgi",
-        content: "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister. Bestill en konsultasjon og få rask hjelp.\n\nVurderer du Sleeve Gastrektomi? Hos oss får du gratis digital førstekonsultasjon og trygg veiledning gjennom hele prosessen – fra forberedelser til oppfølging. Her kan du bli kjent med behandlingen og hvordan vi kan støtte deg på veien mot en lettere og sunnere hverdag."
+        id: "hva-vi-behandler",
+        heading: "Hva vi behandler hos oss",
+        content: "**Overvektskirurgi (slankeoperasjon):** Varig vektreduksjon med robotassistert presisjon.\n\n**Brokkoperasjon:** Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.\n\n**Hemorroider og endetarmsplager (rektocele):** Spesialistkompetanse på plager i endetarm og bekkenbunn."
       },
     ],
     linkedServices: [
-      { label: "Sleeve gastrektomi", description: "Robotassistert sleeve gastrektomi (rSG) med tett tverrfaglig oppfølging.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" },
-      { label: "Bariatrisk kirurgi (overvektskirurgi)", description: "Trygge og varige løsninger for vektreduksjon med robotassistert teknologi.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" },
-      
-      { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
+      { label: "Overvektskirurgi (slankeoperasjon)", description: "Varig vektreduksjon med robotassistert presisjon.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" },
+      { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
       { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
     ],
-    relatedSpecialists: ["andreas-edenberg"],
+    relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
       { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!" },
@@ -1432,6 +1430,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
     ],
   },
+
   "flere-fagomrader/osteopati": {
     title: "Osteopati",
     subtitle: "Kort ventetid • Ingen henvisning",
