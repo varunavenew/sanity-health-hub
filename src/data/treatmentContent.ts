@@ -1418,8 +1418,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
     linkedServices: [
       { label: "Overvektskirurgi (slankeoperasjon)", description: "Varig vektreduksjon med robotassistert presisjon.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" },
-      { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
-      { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
+      { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" },
+      { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" },
     ],
     relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
     faqs: [
@@ -1810,8 +1810,8 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
     linkedServices: [
       { label: "Mage- og tarmlidelser (Gastrokirurgi)", description: "Bredere oversikt over kirurgi i fordøyelsessystemet.", path: "/behandlinger/flere-fagomrader/gastrokirurgi" },
-      { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" },
-      { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" },
+      { label: "Brokkoperasjon", description: "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" },
+      { label: "Hemorroider og endetarmsplager (rektocele)", description: "Spesialistkompetanse på plager i endetarm og bekkenbunn.", path: "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" },
       { label: "Ernæringsfysiolog", description: "Tverrfaglig kostholdsoppfølging før og etter operasjon.", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
     ],
     relatedSpecialists: ["jan-roland-lambrecht", "andreas-edenberg"],
@@ -2100,7 +2100,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
 
   // ─── Gastrokirurgi-undersider ───
 
-  "flere-fagomrader/gastrokirurgi/brokkbehandling": {
+  "flere-fagomrader/gastrokirurgi/brokkoperasjon": {
     title: "Brokkoperasjon",
     subtitle: "Skånsom behandling av lyskebrokk med kikkhull/robot",
     parentCategory: "Gastrokirurgi",
@@ -2142,7 +2142,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     ],
   },
 
-  "flere-fagomrader/gastrokirurgi/endetarmsplager": {
+  "flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager": {
     title: "Hemorroider og endetarmsplager (rektocele)",
     subtitle: "Spesialistkompetanse på plager i endetarm og bekkenbunn",
     parentCategory: "Gastrokirurgi",

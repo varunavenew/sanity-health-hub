@@ -134,8 +134,8 @@ export const serviceCategories: ServiceCategory[] = [
         path: '/behandlinger/flere-fagomrader/gastrokirurgi',
         items: [
           { label: 'Overvektskirurgi (slankeoperasjon)', path: '/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi' },
-          { label: 'Brokkoperasjon', path: '/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling' },
-          { label: 'Hemorroider og endetarmsplager (rektocele)', path: '/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager' },
+          { label: 'Brokkoperasjon', path: '/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon' },
+          { label: 'Hemorroider og endetarmsplager (rektocele)', path: '/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager' },
         ],
       },
       { label: 'Osteopati', path: '/behandlinger/flere-fagomrader/osteopati' },
