@@ -48,6 +48,7 @@ import ClassicPlusVariant from "./pages/gynekologi-design/ClassicPlusVariant";
 // Removed: /fertilitet-design experiment pages (deleted).
 import CategoryPageNew from "./pages/treatments/CategoryPageNew";
 import GraviditetEtterMaster from "./pages/demos/GraviditetEtterMaster";
+import Graviditet from "./pages/treatments/Graviditet";
 import UrologiPage from "./pages/treatments/UrologiPage";
 import OrtopediPage from "./pages/treatments/OrtopediPage";
 import FlereFagomraderPage from "./pages/treatments/FlereFagomraderPage";
@@ -123,14 +124,14 @@ const AppContent = () => {
         <Route path="/urology" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/urologi" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/ortopedi" element={<OrtopediPage isChatOpen={false} />} />
-        <Route path="/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
+        <Route path="/graviditet" element={<Graviditet isChatOpen={false} />} />
         <Route path="/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Norwegian slugs */}
         <Route path="/behandlinger/gynekologi" element={<Gynecology isChatOpen={false} />} />
         <Route path="/behandlinger/fertilitet" element={<Fertility isChatOpen={false} />} />
         <Route path="/behandlinger/urologi" element={<UrologiPage isChatOpen={false} />} />
         <Route path="/behandlinger/ortopedi" element={<OrtopediPage isChatOpen={false} />} />
-        <Route path="/behandlinger/graviditet" element={<CategoryPageNew categoryId="graviditet" isChatOpen={false} />} />
+        <Route path="/behandlinger/graviditet" element={<Graviditet isChatOpen={false} />} />
         <Route path="/behandlinger/flere-fagomrader" element={<FlereFagomraderPage isChatOpen={false} />} />
         {/* Sub-treatment routes */}
         <Route path="/behandlinger/gynekologi/:subId" element={<GynekologiSubPage isChatOpen={false} />} />
