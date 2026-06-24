@@ -256,16 +256,19 @@ const ReasonsEditorial = ({
  */
 const RelatedBlock = ({
   items,
+  columns = 3,
 }: {
   items: { title: string; desc: string; href: string; image?: string }[];
+  columns?: 2 | 3;
 }) => {
   if (items.length === 0) return null;
   const resolved = items.map((a) => ({
     ...a,
     image: a.image ?? getServiceImageFromHref(a.href),
   }));
+  const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
-    <div className="grid md:grid-cols-3 gap-6">
+    <div className={`grid ${gridCols} gap-6`}>
       {resolved.map((a) => (
         <Link
           key={a.title}
