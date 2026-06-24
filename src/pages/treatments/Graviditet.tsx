@@ -433,17 +433,6 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* 5. SYMPTOMSJEKK */}
-      <SymptomServiceSection
-        title="Hva kjenner du på?"
-        description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
-        items={[
-          { symptom: "Jeg er nettopp blitt gravid og vil ha en tidlig sjekk", service: "Tidlig ultralyd", href: "/behandlinger/graviditet/ultralyd" },
-          { symptom: "Jeg ønsker NIPT for å avklare kromosomavvik", service: "NIPT", href: "/behandlinger/graviditet/nipt" },
-          { symptom: "Jeg vil ha en grundig organrettet undersøkelse uke 12–14", service: "Fosterdiagnostikk", href: "/behandlinger/graviditet/fosterdiagnostikk" },
-          { symptom: "Jeg vil ha fast jordmor gjennom svangerskapet", service: "Svangerskapsteam", href: "/behandlinger/graviditet/svangerskapsteam" },
-        ]}
-      />
 
       {/* 6. HVA VI TILBYR — gruppert oversikt */}
       <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
