@@ -176,6 +176,10 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader/bariatrisk-kirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
         <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/sleeve-gastrektomi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
         <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/bariatrisk-kirurgi" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/brokkbehandling" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi/endetarmsplager" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/brokkoperasjon" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" replace />} />
+        <Route path="/behandlinger/flere-fagomrader/hemorroider" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" replace />} />
 
         {/* Ernæringsfysiolog slug alias */}
         <Route path="/behandlinger/flere-fagomrader/ernaeringsfysiolog" element={<Navigate to="/behandlinger/flere-fagomrader/ernaringsfysiolog" replace />} />
