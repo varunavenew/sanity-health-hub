@@ -38,12 +38,12 @@ const lifePhases = [
  title: "Akutt skade eller smerte",
  desc:
  "Vridd kne, vondt etter et fall, akutt skulder- eller hoftesmerte — vi ser deg raskt og legger en plan med en gang.",
- tags: [
-   { label: "Akutt", href: "/booking?kategori=ortopedi" },
-   { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
-   { label: "MR", href: "/booking?kategori=ortopedi" },
- ],
- href: "/booking?kategori=ortopedi",
+  tags: [
+    { label: "Akutt", href: "/behandlinger/ortopedi/kne" },
+    { label: "Diagnose", href: "/behandlinger/ortopedi/second-opinion" },
+    { label: "MR", href: "/behandlinger/ortopedi/second-opinion" },
+  ],
+ href: "/behandlinger/ortopedi/kne",
  },
  {
  n: "02",
@@ -55,7 +55,7 @@ const lifePhases = [
    { label: "Smerte", href: "/behandlinger/ortopedi/skulder" },
    { label: "Bevegelse", href: "/behandlinger/ortopedi/hofte" },
  ],
- href: "/booking?kategori=ortopedi",
+ href: "/behandlinger/ortopedi/hofte",
  },
  {
  n: "03",
@@ -66,7 +66,7 @@ const lifePhases = [
    { label: "Second opinion", href: "/behandlinger/ortopedi/second-opinion" },
    { label: "Vurdering", href: "/behandlinger/ortopedi/second-opinion" },
  ],
- href: "/booking?kategori=ortopedi&tjeneste=second-opinion",
+ href: "/behandlinger/ortopedi/second-opinion",
  },
  {
  n: "04",
@@ -78,7 +78,7 @@ const lifePhases = [
    { label: "PRP", href: "/behandlinger/ortopedi/kne" },
    { label: "Injeksjon", href: "/behandlinger/ortopedi/kne" },
  ],
- href: "/booking?kategori=ortopedi",
+ href: "/behandlinger/ortopedi/artroskopi",
  },
 ];
 
