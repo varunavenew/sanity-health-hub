@@ -262,8 +262,8 @@ export const treatmentToSubLayout = ({
   // - No reasons + children → section 2 (intro/overview, right after hero).
   // - Has reasons + children → section 3 (after the text, before flow).
   // - Not children → keep as default "Andre ting vi hjelper med" after flow.
-  const relatedAsIntro = relatedIsChildren && reasons.length === 0;
-  const relatedAsServices = relatedIsChildren && reasons.length > 0;
+  const relatedAsIntro = data.relatedAsIntroOverride === true ? true : (relatedIsChildren && reasons.length === 0);
+  const relatedAsServices = data.relatedAsIntroOverride === true ? false : (relatedIsChildren && reasons.length > 0);
 
   const heroTitle: ReactNode = data.title;
 
