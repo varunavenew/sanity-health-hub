@@ -150,6 +150,7 @@ const AppContent = () => {
         <Route path="/behandlinger/fertilitet/nedfrysing" element={<Navigate to="/behandlinger/fertilitet/eggfrys" replace />} />
         <Route path="/behandlinger/fertilitet/eggdonasjon" element={<Navigate to="/behandlinger/fertilitet/donorbehandling" replace />} />
         <Route path="/behandlinger/fertilitet/mannlig-fertilitet" element={<Navigate to="/behandlinger/fertilitet/saedanalyse" replace />} />
+        <Route path="/behandlinger/fertilitet/fertilitetssjekk" element={<Navigate to="/behandlinger/fertilitet/fertilitetsutredning" replace />} />
         {/* Spesialist fjernet — redirect til oversikten */}
         <Route path="/spesialister/line-jacob" element={<Navigate to="/spesialister" replace />} />
         <Route path="/behandlinger/fertilitet/:subId" element={<FertilitetSubPage isChatOpen={false} />} />
