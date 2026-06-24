@@ -1593,7 +1593,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Erfarne kirurger med høyt volum",
     ],
     relatedTitleOverride: "Vi behandler blant annet:",
-    relatedAsIntroOverride: true,
+    relatedAsServicesOverride: true,
     linkedServices: [
       {
         label: "Gynekologisk robotkirurgi",
