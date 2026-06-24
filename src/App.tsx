@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/treatments/CategoryPage";
 import GenericSubTreatmentPage from "./pages/treatments/GenericSubTreatmentPage";
+import GastrokirurgiPage from "./pages/treatments/GastrokirurgiPage";
 import GastrokirurgiMethodPage from "./pages/treatments/GastrokirurgiMethodPage";
 import HudbehandlingerPage from "./pages/treatments/HudbehandlingerPage";
 import HudbehandlingerMethodPage from "./pages/treatments/HudbehandlingerMethodPage";
@@ -183,6 +184,8 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader/brokkoperasjon" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" replace />} />
         <Route path="/behandlinger/flere-fagomrader/hemorroider" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" replace />} />
 
+        {/* Gastrokirurgi landing — custom layout (skip redundant prose intro) */}
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi" element={<GastrokirurgiPage isChatOpen={false} />} />
         {/* Ernæringsfysiolog slug alias */}
         <Route path="/behandlinger/flere-fagomrader/ernaeringsfysiolog" element={<Navigate to="/behandlinger/flere-fagomrader/ernaringsfysiolog" replace />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
