@@ -84,9 +84,8 @@ const staticCategoryData: Record<string, CategoryData> = {
  servicesHeading: "Fertilitetsspesialister",
  servicesIntro: "Hos CMedical fertilitet jobber vi i et tverrfagelig team. IVF teamet består av gynekologer med subspesialisering innen fertilitet, IVF sykepleiere og embryologer. Våre embryologer har internasjonal erfaring fra store IVF klinikker i verden samt forskningserfaring og ESHRE sertifisering. Våre gynekologer har lang erfaring fra Reproduksjonsmedisinsk avdeling Oslo Universitetssykehus. Øvrig samarbeider gynekolog, urolog, ernæringsfysiolog, osteopat og fertilitetscoach for å kunne gi deg en trygg og helhetlig behandling. Som pasienten ved CMedical er du i trygge hender.",
  heroImage: fertilitetImg,
-  services: [
-  { name: "Fertilitetssjekk", path: "/behandlinger/fertilitet/fertilitetssjekk" },
-  { name: "Infertilitet", path: "/behandlinger/fertilitet/infertilitet" },
+   services: [
+   { name: "Infertilitet", path: "/behandlinger/fertilitet/infertilitet" },
   { name: "Assistert befruktning", path: "/behandlinger/fertilitet/assistert-befruktning" },
   { name: "Nedfrysning av egg", path: "/behandlinger/fertilitet/eggfrys" },
   { name: "Donorbehandling", path: "/behandlinger/fertilitet/donorbehandling" },

@@ -44,7 +44,6 @@ export const searchItems: SearchItem[] = [
 
   // Fertilitet
   { label: 'Fertilitet', path: '/behandlinger/fertilitet', category: 'Fagområde', keywords: ['barn', 'graviditet', 'befruktning', 'ivf'] },
-  { label: 'Fertilitetssjekk', path: '/behandlinger/fertilitet/fertilitetssjekk', category: 'Fertilitet', keywords: ['kartlegging', 'utredning', 'amh'] },
   { label: 'Infertilitet', path: '/behandlinger/fertilitet/infertilitet', category: 'Fertilitet', keywords: ['ufrivillig barnløshet', 'barnløshet'] },
   { label: 'Assistert befruktning', path: '/behandlinger/fertilitet/assistert-befruktning', category: 'Fertilitet', keywords: ['ivf', 'icsi', 'iui', 'inseminasjon', 'prøverør'] },
   { label: 'Nedfrysning av egg', path: '/behandlinger/fertilitet/eggfrys', category: 'Fertilitet', keywords: ['fryse egg', 'eggfrys', 'nedfrysning', 'sædfrys'] },
