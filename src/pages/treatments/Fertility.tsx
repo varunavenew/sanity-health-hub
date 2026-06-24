@@ -506,8 +506,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
   items={[
    { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/behandlinger/fertilitet/fertilitetsutredning", image: audienceCouple, imageAlt: "Par i samtale" },
-   { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/behandlinger/fertilitet/fertilitetssjekk", image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
-   { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/behandlinger/fertilitet/fertilitetssjekk", image: audienceWaiting, imageAlt: "Stille refleksjon" },
+   { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/behandlinger/fertilitet/fertilitetsutredning", image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
+   { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/behandlinger/fertilitet/fertilitetsutredning", image: audienceWaiting, imageAlt: "Stille refleksjon" },
    { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/behandlinger/fertilitet/eggfrys", image: journeyLab, imageAlt: "Laboratorium for nedfrysing" },
    { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/behandlinger/fertilitet/saedanalyse", image: fertilityHeroImg, imageAlt: "Mannlig fertilitetsutredning" },
    { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Donorbehandling", href: "/behandlinger/fertilitet/donorbehandling", image: audienceSingle, imageAlt: "Vei mot foreldreskap" },
