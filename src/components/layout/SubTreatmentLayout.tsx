@@ -464,7 +464,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </h2>
             </div>
           )}
-          <RelatedBlock items={c.related} columns={c.relatedLead ? 2 : 3} />
+          <RelatedBlock items={c.related} columns={2} />
         </div>
       </div>
     </section>
