@@ -450,7 +450,11 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
      ))}
     </div>
    </div>
+   </div>
   </div>
+ </section>
+
+
 
  {/* ============================================================
  4. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
