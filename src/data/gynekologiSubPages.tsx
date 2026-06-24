@@ -1153,6 +1153,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "tverrfaglig" },
     primaryCtaLabel: "Bestill konsultasjon",
+    heroVideo: tverrfagligTeamVideo.url,
     flowTitle: "Slik jobber vi tverrfaglig",
     flow: [
       { n: "Steg 01", title: "Kartlegging", desc: "Vi starter med en grundig samtale om plager og mål." },
