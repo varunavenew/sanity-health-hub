@@ -2,7 +2,7 @@ import { useEffect, useRef, ReactNode, ComponentType, SVGProps } from "react";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
