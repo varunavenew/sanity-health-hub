@@ -510,7 +510,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
       {
         id: "safe-histology-surgery",
-        heading: "Safe Histology Surgery (UTKAST – til godkjenning)",
+        heading: "Safe Histology Surgery",
         content: "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling.",
       },
     ],
@@ -862,7 +862,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
       {
         id: "safe-histology-surgery",
-        heading: "Safe Histology Surgery (UTKAST – til godkjenning)",
+        heading: "Safe Histology Surgery",
         content: "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling.",
       },
     ],
@@ -1564,7 +1564,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
       {
         id: "safe-histology-surgery",
-        heading: "Safe Histology Surgery (UTKAST – til godkjenning)",
+        heading: "Safe Histology Surgery",
         content: "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling.",
       },
     ],
