@@ -48,6 +48,8 @@ export interface TreatmentData {
   relatedLead?: string;
   /** Force the related/linked services section to render as section 2 (right under hero). */
   relatedAsIntroOverride?: boolean;
+  /** Force the related/linked services section to render as section 3 (after reasons, before flow). */
+  relatedAsServicesOverride?: boolean;
   relatedSpecialists?: string[]; // slugs referencing specialists
   /** Non-clickable theme chips shown on the category page (e.g. "Vi behandler blant annet: ..."). Use for sub-topics that are NOT real pages. */
   themes?: string[];
@@ -1591,7 +1593,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Erfarne kirurger med høyt volum",
     ],
     relatedTitleOverride: "Vi behandler blant annet:",
-    relatedAsIntroOverride: true,
+    relatedAsServicesOverride: true,
     linkedServices: [
       {
         label: "Gynekologisk robotkirurgi",
