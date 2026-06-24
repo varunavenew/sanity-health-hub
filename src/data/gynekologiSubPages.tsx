@@ -1039,50 +1039,6 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ctaDescription: "Trygghet, tid og kontinuitet — gjennom hele svangerskapet.",
   },
 
-  /* ───────────────────────── NIPT ───────────────────────── */
-  nipt: {
-    seoTitle: "NIPT | CMedical — trygg, tidlig fosterdiagnostikk",
-    seoDescription:
-      "NIPT er en enkel blodprøve som tidlig vurderer risiko for kromosomavvik. Trygg, treffsikker og uten risiko for fosteret.",
-    canonical: "/behandlinger/gynekologi/nipt",
-    parent,
-    title: "NIPT",
-    heroTitle: <>En <span className="italic">enkel</span> blodprøve — tidlige svar</>,
-    heroDescription:
-      "NIPT (non-invasive prenatal test) er en blodprøve som vurderer risiko for kromosomavvik fra uke 10. Treffsikker og uten risiko for fosteret.",
-    heroPoints: [
-      { title: "Fra uke 10", desc: "Tidlig svar uten å vente på rutineultralyd." },
-      { title: "Bare en blodprøve", desc: "Ingen risiko for fosteret — kun en vanlig blodprøve fra deg." },
-      { title: "Høy treffsikkerhet", desc: "Spesielt for trisomi 13, 18 og 21." },
-      { title: "Samtale før og etter", desc: "Du får god informasjon før prøven og når svaret kommer." },
-    ],
-    rating: "4,8 — Spesialister på kvinnehelse",
-    booking: { ...baseBooking, tjeneste: "nipt" },
-    primaryCtaLabel: "Bestill NIPT",
-    flowTitle: "Slik foregår NIPT",
-    flow: [
-      { n: "Steg 01", title: "Konsultasjon", desc: "Samtale om hva prøven kan og ikke kan vise." },
-      { n: "Steg 02", title: "Ultralyd", desc: "Kort ultralyd for å bekrefte uke og levedyktig svangerskap." },
-      { n: "Steg 03", title: "Blodprøve", desc: "Enkel blodprøve som sendes til analyse." },
-      { n: "Steg 04", title: "Svar", desc: "Svar foreligger vanligvis innen 1–2 uker, med oppfølgende samtale." },
-    ],
-    reasonsTitle: "Om NIPT",
-    reasonsLead: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21 (kromosomavvik). Siden vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det kan være ved morkakeprøve eller fostervannsprøve. NIPT er en del av vårt tilbud innen fostermedisin.",
-    reasonsLayout: "accordion",
-    reasons: [
-      { n: "01", title: "Hva undersøker NIPT?", desc: "Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik." },
-      { n: "02", title: "Er NIPT trygt?", desc: "Siden vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve." },
-      { n: "03", title: "Fosterdiagnostikk hos spesialist", desc: "Dr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp." },
-    ],
-    promises: standardPromises,
-    related: [
-      { title: "Fostermedisin", desc: "Avansert ultralyd og fosterdiagnostikk.", href: "/behandlinger/gynekologi/fostermedisin" },
-      { title: "Graviditet", desc: "Oppfølging gjennom hele svangerskapet.", href: "/behandlinger/gynekologi/graviditet" },
-      { title: "Gynekologisk undersøkelse", desc: "Ofte første møte med gynekolog.", href: "/behandlinger/gynekologi/undersokelse" },
-    ],
-    ctaTitle: "Bestill NIPT",
-    ctaDescription: "Tidlig trygghet — uten risiko for fosteret.",
-  },
 
   /* ───────────────────────── SPONTANABORT ───────────────────────── */
   spontanabort: {

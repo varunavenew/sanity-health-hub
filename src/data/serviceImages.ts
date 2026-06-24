@@ -185,7 +185,6 @@ const SUB_ALIAS: Record<string, string> = {
  * Value is the full image slug (e.g. "graviditet-nipt").
  */
 const CROSS_CATEGORY_ALIAS: Record<string, string> = {
-  "gynekologi/nipt": "graviditet-nipt",
   "gynekologi/fostermedisin": "graviditet-fosterdiagnostikk",
   "gynekologi/fodselsskader": "graviditet-svangerskapsteam",
 };
