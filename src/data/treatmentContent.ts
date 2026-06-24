@@ -1582,6 +1582,27 @@ export const treatmentContent: Record<string, TreatmentData> = {
       "Sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient)",
       "Erfarne kirurger med høyt volum",
     ],
+    relatedTitleOverride: "Vi behandler blant annet:",
+    linkedServices: [
+      {
+        label: "Gynekologisk robotkirurgi",
+        description: "Brukes blant annet ved muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), og enkelte krefttilfeller som kreft i livmor.",
+        path: "/behandlinger/gynekologi/robotkirurgi",
+        image: gynekologiImg,
+      },
+      {
+        label: "Urologisk robotkirurgi",
+        description: "Brukes blant annet ved godartet forstørret prostata (RASP), prostatakreft (RALP), og nyrekirurgi (f.eks. nefrektomi).",
+        path: "/behandlinger/urologi/robotkirurgi",
+        image: urologiImg,
+      },
+      {
+        label: "Gastrokirurgisk robotkirurgi",
+        description: "Brukes blant annet ved overvektskirurgi (slankeoperasjon med rSG og SASI) og brokkoperasjon (bl.a. lyskebrokk).",
+        path: "/behandlinger/flere-fagomrader/gastrokirurgi",
+        image: gastrokirurgiCardImg.url,
+      },
+    ],
     relatedSpecialists: ["bjorn-brennhovd", "nicolai-wessel", "thomas-fredrik-thaulow"],
     faqs: [
       { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
