@@ -64,6 +64,7 @@ const FertilitetSubPage = ({ isChatOpen }: Props) => {
       heroImageAlt: base.heroImageAlt ?? base.title,
       flowImage,
       flowImageAlt: base.flowImageAlt ?? "CMedical klinikk",
+      siblingServices: computeSiblingServices(`/behandlinger/fertilitet/${resolvedId}`),
     };
 
     return <SubTreatmentLayout isChatOpen={isChatOpen} content={content} />;
