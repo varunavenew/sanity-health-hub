@@ -7,6 +7,7 @@ import { VideoPlayer } from "@/components/ui/video-player";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { PageSEO } from "@/components/seo/PageSEO";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
@@ -225,10 +226,19 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
- <h1 className="sr-only">
- Fertilitetsbehandling hos CMedical — IVF, inseminasjon og rådgivning
- </h1>
+  <PageLayout isChatOpen={isChatOpen}>
+  <PageSEO
+  title="Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap"
+  description="Fertilitetsbehandling hos CMedical. IVF, inseminasjon, eggfrys, fertilitetsutredning og donorbehandling — uten henvisning, uten ventetid."
+  canonical="/fertilitet"
+  breadcrumbs={[
+  { name: "Hjem", path: "/" },
+  { name: "Fertilitet", path: "/fertilitet" },
+  ]}
+  />
+  <h1 className="sr-only">
+  Fertilitetsbehandling hos CMedical — IVF, inseminasjon og rådgivning
+  </h1>
 
   {/* ============================================================
   1. HERO — split screen 50/50, autoplay video kant-i-kant
@@ -238,6 +248,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   {/* Left — copy + CTA */}
   <div className="flex items-center page-edge-text-left py-16 lg:py-24">
   <div className="max-w-xl w-full">
+  <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+    <Link to="/" className="hover:text-foreground">Hjem</Link>
+    <span aria-hidden="true">›</span>
+    <span className="text-foreground/80">Fertilitet</span>
+  </nav>
   <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
   Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
   </h2>
