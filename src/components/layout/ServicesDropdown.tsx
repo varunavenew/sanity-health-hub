@@ -174,7 +174,7 @@ export const ServicesDropdown = () => {
  transition={{ duration: 0.15 }}
  className="overflow-hidden"
  >
- <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.35)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/30 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/50">
+ <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-auto [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.55)_rgba(255,255,255,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-white/[0.06] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/50 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/70">
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeSubcategoryData.label}
  </h3>
