@@ -1,4 +1,4 @@
-import { useEffect, ReactNode, ComponentType, SVGProps } from "react";
+import { useEffect, useRef, ReactNode, ComponentType, SVGProps } from "react";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
