@@ -184,6 +184,8 @@ const AppContent = () => {
         <Route path="/behandlinger/flere-fagomrader/brokkoperasjon" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon" replace />} />
         <Route path="/behandlinger/flere-fagomrader/hemorroider" element={<Navigate to="/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager" replace />} />
 
+        {/* Gastrokirurgi landing — custom layout (skip redundant prose intro) */}
+        <Route path="/behandlinger/flere-fagomrader/gastrokirurgi" element={<GastrokirurgiPage isChatOpen={false} />} />
         {/* Ernæringsfysiolog slug alias */}
         <Route path="/behandlinger/flere-fagomrader/ernaeringsfysiolog" element={<Navigate to="/behandlinger/flere-fagomrader/ernaringsfysiolog" replace />} />
         <Route path="/behandlinger/flere-fagomrader/:subId" element={<GenericSubTreatmentPage categoryId="flere-fagomrader" isChatOpen={false} />} />
