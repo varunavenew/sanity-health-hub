@@ -303,6 +303,28 @@ const RelatedBlock = ({
   );
 };
 
+const SEE_ALL_LABELS: Record<string, string> = {
+  gynekologi: "gynekologi-tjenester",
+  fertilitet: "fertilitet-tjenester",
+  urologi: "urologi-tjenester",
+  ortopedi: "ortopedi-tjenester",
+  graviditet: "graviditet-tjenester",
+  gastrokirurgi: "gastrokirurgi-tjenester",
+  hudbehandlinger: "hudbehandlinger",
+};
+
+const getSeeAllLink = (canonical: string): { href: string; label: string } | null => {
+  const path = canonical.replace(/\/+$/, "");
+  const lastSlash = path.lastIndexOf("/");
+  if (lastSlash <= 0) return null;
+  const parentPath = path.slice(0, lastSlash);
+  if (parentPath === "/behandlinger/flere-fagomrader") {
+    return { href: parentPath, label: "Se alle behandlinger" };
+  }
+  const lastSegment = parentPath.split("/").pop() ?? "";
+  const label = SEE_ALL_LABELS[lastSegment] ?? `${lastSegment.toLowerCase()}-tjenester`;
+  return { href: parentPath, label: `Se alle ${label}` };
+};
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  useEffect(() => {
