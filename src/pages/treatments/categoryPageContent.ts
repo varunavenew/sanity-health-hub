@@ -41,6 +41,7 @@ export const serviceIconKeyMap: Record<string, string> = {
   "Robotassistert kirurgi": "robotkirurgi-gyn-cl",
   // Fertilitet
   "Infertilitet": "infertilitet-cl",
+  "Fertilitetsutredning": "infertilitet-cl",
   "Assistert befruktning": "assistert-befruktning-cl",
   "Assistert befruktning med donor": "donorbehandling-cl",
   "Eggfrys": "eggfrys-cl",
@@ -290,7 +291,7 @@ const fertilitet: CategoryNewContent = {
     "Hos CMedical fertilitet jobber vi i et tverrfaglig team. IVF-teamet består av gynekologer med subspesialisering innen fertilitet, IVF-sykepleiere og embryologer. Som pasient ved CMedical er du i trygge hender.",
   heroImage: fertilitetImg,
   serviceLinks: {
-    "Fertilitetssjekk": "/behandlinger/fertilitet/fertilitetssjekk",
+    "Fertilitetsutredning": "/behandlinger/fertilitet/fertilitetsutredning",
     "Infertilitet": "/behandlinger/fertilitet/infertilitet",
     "Assistert befruktning": "/behandlinger/fertilitet/assistert-befruktning",
     "Nedfrysning av egg": "/behandlinger/fertilitet/eggfrys",
@@ -299,7 +300,7 @@ const fertilitet: CategoryNewContent = {
     "Hysteroskopi": "/behandlinger/fertilitet/hysteroskopi",
   },
   groups: [
-    { label: "Kartlegging", serviceNames: ["Fertilitetssjekk", "Infertilitet", "Sædanalyse"] },
+    { label: "Kartlegging", serviceNames: ["Fertilitetsutredning", "Infertilitet", "Sædanalyse"] },
     { label: "Behandling", serviceNames: ["Assistert befruktning", "Donorbehandling", "Hysteroskopi"] },
     { label: "For fremtiden", serviceNames: ["Nedfrysning av egg"] },
   ],

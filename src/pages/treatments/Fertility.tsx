@@ -47,16 +47,16 @@ const segments = [
  title: "Jeg vil forstå fruktbarheten min",
  desc:
  "Vi gjør en grundig fertilitetssjekk — hormoner, eggstokkreserve og ultralyd — så du får tydelige svar i stedet for usikkerhet.",
- tags: [
- { label: "Fertilitetssjekk", href: `${FERT}/fertilitetssjekk` },
- { label: "Hormoner", href: `${FERT}/fertilitetssjekk` },
- { label: "AMH", href: `${FERT}/fertilitetssjekk` },
- { label: "Ultralyd", href: `${FERT}/fertilitetssjekk` },
- { label: "Hysteroskopi", href: `${FERT}/fertilitetssjekk` },
- { label: "Rådgivning online", href: `${FERT}/infertilitet` },
- ],
- cta: "Les mer",
- href: `${FERT}/fertilitetssjekk`,
+  tags: [
+  { label: "Fertilitetsutredning", href: `${FERT}/fertilitetsutredning` },
+  { label: "Hormoner", href: `${FERT}/fertilitetsutredning` },
+  { label: "AMH", href: `${FERT}/fertilitetsutredning` },
+  { label: "Ultralyd", href: `${FERT}/fertilitetsutredning` },
+  { label: "Hysteroskopi", href: `${FERT}/fertilitetsutredning` },
+  { label: "Rådgivning online", href: `${FERT}/infertilitet` },
+  ],
+  cta: "Les mer",
+  href: `${FERT}/fertilitetsutredning`,
  },
  {
  id: "gravid",
@@ -64,13 +64,13 @@ const segments = [
  desc:
  "Har du prøvd i 6–12 måneder uten å lykkes? Vi finner årsaken og legger en plan — fra inseminasjon til IVF.",
  tags: [
- { label: "IVF", href: `${FERT}/assistert-befruktning` },
- { label: "Inseminasjon", href: `${FERT}/assistert-befruktning` },
- { label: "Utredning", href: `${FERT}/fertilitetssjekk` },
- { label: "Assistert befruktning", href: `${FERT}/assistert-befruktning` },
- { label: "Donor-IVF", href: `${FERT}/donorbehandling` },
- { label: "Eggløsningsstimulering", href: `${FERT}/assistert-befruktning` },
- { label: "Second opinion", href: `${FERT}/fertilitetssjekk` },
+  { label: "IVF", href: `${FERT}/assistert-befruktning` },
+  { label: "Inseminasjon", href: `${FERT}/assistert-befruktning` },
+  { label: "Utredning", href: `${FERT}/fertilitetsutredning` },
+  { label: "Assistert befruktning", href: `${FERT}/assistert-befruktning` },
+  { label: "Donor-IVF", href: `${FERT}/donorbehandling` },
+  { label: "Eggløsningsstimulering", href: `${FERT}/assistert-befruktning` },
+  { label: "Second opinion", href: `${FERT}/fertilitetsutredning` },
  ],
  cta: "Bestill utredning",
  href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
@@ -120,7 +120,7 @@ const audiences = [
     Icon: Clock,
     desc:
       "Dere er ikke klare ennå, men vil vite hvor dere står. En fertilitetssjekk gir oversikt — og ro.",
-    href: "/booking?kategori=fertilitet&tjeneste=fertilitetssjekk",
+    href: "/booking?kategori=fertilitet&tjeneste=fertilitetsutredning",
   },
   {
     title: "Singel",
@@ -167,7 +167,6 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
     label: "Undersøkelse og utredning",
     items: [
       { title: "Fertilitetsutredning", desc: "Blodprøver, ultralyd og sædanalyse", href: "/behandlinger/fertilitet/fertilitetsutredning" },
-      { title: "Fertilitetssjekk", desc: "Hormoner, ultralyd, AMH og AFC", href: "/behandlinger/fertilitet/fertilitetssjekk" },
       { title: "Infertilitet", desc: "Forstå årsaker og veien videre", href: "/behandlinger/fertilitet/infertilitet" },
       { title: "Sædanalyse", desc: "Mannlig fertilitet og mikro-TESE", href: "/behandlinger/fertilitet/saedanalyse" },
       { title: "Hysteroskopi", desc: "Skånsom vurdering av livmorhulen", href: "/behandlinger/fertilitet/hysteroskopi" },
@@ -507,8 +506,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  description="Velg det som ligner mest på din situasjon — så foreslår vi en god start."
   items={[
    { symptom: "Vi har prøvd i over et år uten å lykkes", service: "Fertilitetsutredning", href: "/behandlinger/fertilitet/fertilitetsutredning", image: audienceCouple, imageAlt: "Par i samtale" },
-   { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/behandlinger/fertilitet/fertilitetssjekk", image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
-   { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/behandlinger/fertilitet/fertilitetssjekk", image: audienceWaiting, imageAlt: "Stille refleksjon" },
+   { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "Hormonutredning", href: "/behandlinger/fertilitet/fertilitetsutredning", image: journeyConsultation, imageAlt: "Konsultasjon med spesialist" },
+   { symptom: "Jeg vil vite hvor mye tid jeg har", service: "AMH og eggstokkreserve", href: "/behandlinger/fertilitet/fertilitetsutredning", image: audienceWaiting, imageAlt: "Stille refleksjon" },
    { symptom: "Vi vurderer nedfrysing av egg", service: "Konsultasjon eggfrys", href: "/behandlinger/fertilitet/eggfrys", image: journeyLab, imageAlt: "Laboratorium for nedfrysing" },
    { symptom: "Partneren vil sjekke fruktbarheten", service: "Sædanalyse", href: "/behandlinger/fertilitet/saedanalyse", image: fertilityHeroImg, imageAlt: "Mannlig fertilitetsutredning" },
    { symptom: "Vi ønsker å bli foreldre som likekjønnet par", service: "Donorbehandling", href: "/behandlinger/fertilitet/donorbehandling", image: audienceSingle, imageAlt: "Vei mot foreldreskap" },
@@ -681,10 +680,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
   <FeatureSpotlight
         
-        title={<>Begynn med en <span className="italic">fertilitetssjekk</span></>}
+        title={<>Begynn med en <span className="italic">fertilitetsutredning</span></>}
         text="En grundig kartlegging av eggstokkreserve, hormoner og anatomi — slik at du vet hvor du står. Du møter en spesialist som går gjennom funnene og legger en plan tilpasset deg og din partner."
-        ctaLabel="Les mer om fertilitetssjekk"
-        ctaHref="/behandlinger/fertilitet/fertilitetssjekk"
+        ctaLabel="Les mer om fertilitetsutredning"
+        ctaHref="/behandlinger/fertilitet/fertilitetsutredning"
         image={fertilityHeroImg}
         imageAlt="Konsultasjon med fertilitetsspesialist hos CMedical"
       />

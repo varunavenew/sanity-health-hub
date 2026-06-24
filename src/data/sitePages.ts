@@ -53,7 +53,6 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/gynekologi/vulvalidelser", name: "Vulvalidelser", category: "Gynekologi – underbehandlinger" },
 
   // Fertilitet underbehandlinger
-  { path: "/behandlinger/fertilitet/fertilitetssjekk", name: "Fertilitetssjekk", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/infertilitet", name: "Infertilitet", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/assistert-befruktning", name: "Assistert befruktning", category: "Fertilitet – underbehandlinger" },
   { path: "/behandlinger/fertilitet/eggfrys", name: "Nedfrysning av egg", category: "Fertilitet – underbehandlinger" },
