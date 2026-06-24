@@ -105,8 +105,8 @@ const expertAreas = [
  title: "Penis, forhud og potens",
  desc:
  "Trang forhud, skjev penis, ereksjonsproblemer og lavt testosteron — utredning og behandling i trygge rammer.",
- href: "/behandlinger/urologi/penis",
- image: getServiceImageFromHref("/behandlinger/urologi/penis") ?? expertPenis,
+ href: "/behandlinger/urologi/forhud",
+ image: getServiceImageFromHref("/behandlinger/urologi/forhud") ?? expertPenis,
  },
  {
  title: "Robotassistert kirurgi",
