@@ -1,6 +1,7 @@
 // Hero images - using existing assets
 import gynekologiImg from "@/assets/categories/gynekologi.jpg";
-import urologiImg from "@/assets/categories/urologi.jpg";
+import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
+const urologiImg = urologiHeroAsset.url;
 import fertilitetImg from "@/assets/categories/fertilitet.jpg";
 import ortopediImg from "@/assets/categories/ortopedi.jpg";
 import flereFagImg from "@/assets/categories/flere-fagomrader.jpg";
