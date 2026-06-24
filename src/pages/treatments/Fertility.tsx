@@ -226,10 +226,19 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
- <h1 className="sr-only">
- Fertilitetsbehandling hos CMedical — IVF, inseminasjon og rådgivning
- </h1>
+  <PageLayout isChatOpen={isChatOpen}>
+  <PageSEO
+  title="Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap"
+  description="Fertilitetsbehandling hos CMedical. IVF, inseminasjon, eggfrys, fertilitetsutredning og donorbehandling — uten henvisning, uten ventetid."
+  canonical="/fertilitet"
+  breadcrumbs={[
+  { name: "Hjem", path: "/" },
+  { name: "Fertilitet", path: "/fertilitet" },
+  ]}
+  />
+  <h1 className="sr-only">
+  Fertilitetsbehandling hos CMedical — IVF, inseminasjon og rådgivning
+  </h1>
 
   {/* ============================================================
   1. HERO — split screen 50/50, autoplay video kant-i-kant
