@@ -300,6 +300,7 @@ export const treatmentToSubLayout = ({
           : "Andre ting vi hjelper med")
       : undefined),
     related,
+    relatedLead: data.relatedLead,
     relatedAsIntro,
     relatedAsServices,
     ctaTitle: `Bestill time for ${data.title.toLowerCase()}`,
