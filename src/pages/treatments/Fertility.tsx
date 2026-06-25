@@ -596,10 +596,73 @@ const Fertility = ({ isChatOpen }: PageProps) => {
      </div>
     </div>
    </div>
-  </section>
+   </section>
 
 
- {/* ============================================================
+      {/* ============================================================
+      6b. STØTTE GJENNOM FERTILITETSPROSESSEN
+      ============================================================ */}
+      <section className="bg-brand-light py-14 md:py-20">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-2xl mb-10">
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
+                Støtte gjennom fertilitetsprosessen
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Link
+                to="/behandlinger/flere-fagomrader/psykologi"
+                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+              >
+                <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                  <img
+                    src={imgPsykologi.url}
+                    alt="Psykisk hjelp under fertilitetsprosess"
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div className="p-7 flex flex-col flex-1">
+                  <h3 className="text-xl font-light text-foreground mb-3">Psykisk hjelp under fertilitetsprosess</h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                    Rådgivning og støtte fra psykolog for deg som står i en fertilitetsprosess.
+                  </p>
+                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                    Les mer
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </Link>
+              <Link
+                to="/behandlinger/flere-fagomrader/sexologi"
+                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+              >
+                <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                  <img
+                    src={imgSexologi.url}
+                    alt="Intimitet i parforhold under fertilitetsprosess"
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div className="p-7 flex flex-col flex-1">
+                  <h3 className="text-xl font-light text-foreground mb-3">Intimitet i parforhold under fertilitetsprosess</h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                    Veiledning fra sexolog om intimitet og parforhold gjennom fertilitetsforløpet.
+                  </p>
+                  <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                    Les mer
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  {/* ============================================================
  7. RESULTATER — bevis etter at tilbudet er presentert
  ============================================================ */}
  <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
