@@ -9,8 +9,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useClinic } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicMap } from "@/components/clinic/ClinicMap";
-import { clinicMapsUrl } from "@/lib/maps/clinic-location";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
+import { clinicMapsEmbedUrl } from "@/lib/maps/clinic-location";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
 
@@ -112,7 +112,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         ),
       }
     : undefined;
-  const mapsUrl = clinic.mapsUrl || (clinic.address ? `https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}` : undefined);
+  const mapsUrl = clinic.mapsUrl;
+  const mapsEmbedUrl = clinicMapsEmbedUrl(clinic.locationSearch, clinic.address);
   const seoTitle = plainMetaString(
     clinic.seo?.metaTitle,
     `CMedical ${label} – Klinikk`,
@@ -204,7 +205,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 </div>
                 <div className="flex items-start gap-3">
                   <Clock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
-                  <div>
+                  <div>                  
                     <p className="text-sm font-normal text-foreground">Åpningstider</p>
                     {hours ? (
                       <p className="text-sm text-muted-foreground font-light">{hours}</p>
@@ -243,12 +244,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 )}
               </div>
             </div>
-
-            <ClinicMap
-              location={clinic.locationSearch}
-              address={clinic.address}
-              title={label}
-            />
           </div>
         </div>
       </section>
@@ -318,26 +313,21 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </div>
       </section>
 
-      {/* Google Maps embed */}
-      <section className="bg-background py-10 md:py-14">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
-            <div className="rounded-sm overflow-hidden border border-border/40">
-              <iframe
-                title={`Kart over CMedical ${label}`}
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(clinic.address)}&output=embed`}
-                width="100%"
-                height="350"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+      {mapsEmbedUrl ? (
+        <section className="bg-background py-10 md:py-14">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-lg font-normal text-foreground mb-6">Finn oss</h2>
+              <ClinicMap
+                location={clinic.locationSearch}
+                address={clinic.address}
+                title={label}
+                className="h-[350px] md:h-[350px]"
               />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* FAQ */}
       {faqs.length > 0 && (

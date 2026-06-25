@@ -698,7 +698,11 @@ export const useClinic = (slug: string) => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "clinic", slug, lang],
-    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang),
+    queryFn: async (): Promise<any> => {
+      const data = await fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang);
+      if (!data) return null;
+      return { ...data, ...normalizeClinicRow(data as Record<string, unknown>) };
+    },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });

@@ -945,9 +945,7 @@ const BookingDemo = () => {
   }, [bookingData.service?.apiActivityId, apiBookingClinics, sanityManagedClinicOptions]);
 
   const step2Ready =
-    sanityManagedClinicOptions.length > 0 ||
-    !bookingData.service?.apiActivityId ||
-    clinicsAvailabilityReady;
+    !bookingData.service?.apiActivityId || clinicsAvailabilityReady;
 
   // Auto-select when API returns exactly one Metodika location (once per service; not after "Tilbake")
   useEffect(() => {
@@ -1514,7 +1512,7 @@ const BookingDemo = () => {
             >
               <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
-              {bookingData.service?.apiActivityId && availabilityLoading && sanityManagedClinicOptions.length === 0 && (
+              {bookingData.service?.apiActivityId && !clinicsAvailabilityReady && (
                 <BookingStepLoader message={copy.step2Loading} />
               )}
 
