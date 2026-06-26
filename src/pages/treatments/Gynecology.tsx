@@ -219,6 +219,13 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  return specialists.filter((s) => s.category === "gynekologi").slice(0, 5);
  }, []);
 
+ const lifePhasesRef = useRef<HTMLDivElement>(null);
+ const audiencesRef = useRef<HTMLDivElement>(null);
+ const expertAreasRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
+
+
  useEffect(() => {
  document.title = "Gynekologi | CMedical — Kvinnehelse for livet";
  }, []);
