@@ -1,4 +1,5 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
