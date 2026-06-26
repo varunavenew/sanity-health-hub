@@ -143,9 +143,9 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="max-w-2xl mb-14">
  <h2 className="text-3xl md:text-5xl font-light leading-tight">Finn fagfeltet som passer deg.</h2>
  </div>
- <div className="grid md:grid-cols-3 gap-6">
+ <div className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {clusters.map((c) => (
- <div key={c.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col">
+ <div key={c.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
  <h3 className="text-lg font-normal text-foreground mb-3">{c.title}</h3>
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{c.desc}</p>
  <div className="flex flex-wrap gap-2">

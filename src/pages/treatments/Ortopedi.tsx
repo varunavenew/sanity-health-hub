@@ -185,9 +185,9 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  Du trenger ikke en diagnose for å bestille.
  </h3>
  </div>
- <div className="grid md:grid-cols-2 gap-6">
+ <div className="flex md:grid md:grid-cols-2 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {segments.map((s) => (
- <div key={s.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col">
+ <div key={s.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
  <h3 className="text-lg font-normal text-foreground mb-3">{s.title}</h3>
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{s.desc}</p>
  <Link to={s.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all">

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Menu, X, Phone, Mail, MapPin, ChevronRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSiteSettings } from '@/hooks/useSanity';
 import { useTranslation } from 'react-i18next';
+import { serviceCategories } from '@/data/serviceCategories';
 
 const BurgerMenu = () => {
  const { t } = useTranslation();
