@@ -466,7 +466,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     const heroImg = c.heroImage ?? c.flowImage;
     return (
       <header className="bg-brand-light pt-24 lg:pt-0">
-        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
@@ -640,7 +640,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
- <div className="grid lg:grid-cols-2 items-stretch min-h-[640px] lg:min-h-screen">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
  <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
  <img
  src={c.flowImage}
@@ -827,7 +827,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
   {c.textSection && (
   <section className="bg-background">
-  <div className="grid lg:grid-cols-12 lg:items-stretch">
+  <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-stretch">
   <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 h-full flex flex-col justify-center">
   <div className="max-w-xl">
   <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
