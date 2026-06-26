@@ -73,7 +73,8 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
     const card = cardRefs.current[i];
     const el = swiperRef.current;
     if (!card || !el) return;
-    el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
+    const left = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
+    el.scrollTo({ left, behavior: 'smooth' });
   };
 
   return (
@@ -90,7 +91,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
       <div className="md:hidden">
         <div
           ref={swiperRef}
-          className="flex overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
+          className="flex gap-3 overflow-x-auto pb-2 px-4 snap-x snap-mandatory scrollbar-hide"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           role="region"
           aria-label={t("services.title")}
@@ -100,7 +101,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               key={category.id}
               ref={(el) => { cardRefs.current[index] = el; }}
               onClick={() => navigate(category.path)}
-              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-start shrink-0 w-[92vw] rounded-sm"
+              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-center shrink-0 w-[78vw] rounded-sm"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img

@@ -79,16 +79,16 @@ const BurgerMenu = () => {
 
  return (
  <div className="relative">
- <button
- ref={buttonRef}
- className="p-2.5 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-white/90 transition-all border border-border/30 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
- onClick={() => setIsMenuOpen(!isMenuOpen)}
- aria-label={isMenuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
- aria-expanded={isMenuOpen}
- aria-haspopup="true"
- >
- {isMenuOpen ? <X className="h-5 w-5 text-foreground" aria-hidden="true" /> : <Menu className="h-5 w-5 text-foreground" aria-hidden="true" />}
- </button>
+      <button
+        ref={buttonRef}
+        className="hidden md:inline-flex p-2.5 bg-white rounded-full shadow-md hover:shadow-lg hover:bg-white/90 transition-all border border-border/30 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label={isMenuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
+        aria-expanded={isMenuOpen}
+        aria-haspopup="true"
+      >
+        {isMenuOpen ? <X className="h-5 w-5 text-foreground" aria-hidden="true" /> : <Menu className="h-5 w-5 text-foreground" aria-hidden="true" />}
+      </button>
 
  <AnimatePresence>
  {isMenuOpen && (

@@ -321,12 +321,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
+ <div className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {lifePhases.map((p, i) => {
   // 3 + 2 layout: first three cards span 2/6, last two span 3/6
   const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
   return (
-  <div key={p.n} className={`bg-background p-7 flex flex-col ${span}`}>
+  <div key={p.n} className={`bg-background p-7 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center rounded-sm md:rounded-none ${span}`}>
   <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
   {p.title}
   </h3>
@@ -436,12 +436,12 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
      </h2>
     </div>
 
-    <div className="grid md:grid-cols-3 gap-6">
-     {audiences.map((a) => (
-      <div
-       key={a.title}
-       className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
-      >
+     <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+      {audiences.map((a) => (
+       <div
+        key={a.title}
+        className="bg-background rounded-sm border border-border/40 flex flex-col p-7 shrink-0 w-[78vw] md:w-auto snap-center"
+       >
        <div className="mb-6 text-foreground/80">
         <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
        </div>
