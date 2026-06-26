@@ -330,7 +330,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <div className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={lifePhasesRef} className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {lifePhases.map((p, i) => {
   // 3 + 2 layout: first three cards span 2/6, last two span 3/6
   const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
