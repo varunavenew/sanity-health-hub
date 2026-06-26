@@ -125,34 +125,40 @@ export const SpecialistsScroller = ({
           <SpecialistFeature sp={filtered[0]} />
         </div>
       ) : useScroller ? (
-        <div
-          ref={scrollRef}
-          className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            WebkitOverflowScrolling: "touch",
-          }}
-        >
-          {filtered.map((sp) => (
-            <div key={sp.slug} className="flex-shrink-0 w-[280px] snap-start">
-              <SpecialistCard sp={sp} />
-            </div>
-          ))}
-          <Link
-            to={seeAllHref}
-            className="flex-shrink-0 w-[280px] snap-start"
-            aria-label={computedSeeAllLabel}
+        <div className="relative">
+          <div
+            ref={scrollRef}
+            className="flex gap-0 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch",
+            }}
           >
-            <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
-              <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
-                <ArrowRight className="w-6 h-6 text-foreground" />
+            {filtered.map((sp) => (
+              <div key={sp.slug} className="flex-shrink-0 w-[280px] snap-start">
+                <SpecialistCard sp={sp} />
               </div>
-              <p className="text-foreground font-normal mb-1">Se alle</p>
-              <p className="text-muted-foreground text-sm font-light">{filtered.length} spesialister</p>
-            </div>
-          </Link>
+            ))}
+            <Link
+              to={seeAllHref}
+              className="flex-shrink-0 w-[280px] snap-start"
+              aria-label={computedSeeAllLabel}
+            >
+              <div className="aspect-[3/4] bg-secondary border border-border flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/80 transition-colors">
+                <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mb-4">
+                  <ArrowRight className="w-6 h-6 text-foreground" />
+                </div>
+                <p className="text-foreground font-normal mb-1">Se alle</p>
+                <p className="text-muted-foreground text-sm font-light">{filtered.length} spesialister</p>
+              </div>
+            </Link>
+          </div>
+          <div className="md:hidden">
+            <ScrollArrows scrollRef={scrollRef} />
+          </div>
         </div>
+
 
       ) : (
         <div className="container mx-auto px-6 md:px-16">
