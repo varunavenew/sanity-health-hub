@@ -18,6 +18,8 @@ import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSec
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getServiceImageFromHref } from "@/data/serviceImages";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
