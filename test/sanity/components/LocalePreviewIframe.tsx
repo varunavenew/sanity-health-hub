@@ -11,10 +11,10 @@ export function createLocalePreviewPane({ locale, schemaType }: LocalePreviewOpt
   function LocalePreviewPane(props: IframeProps) {
     return (
       <Iframe
+        key={`preview-iframe-${schemaType}-${locale}`}
         document={props.document}
         options={{
-          // Required when multiple iframe panes exist (see sanity-plugin-iframe-pane)
-          key: `preview-${locale}`,
+          key: `preview-${schemaType}-${locale}`,
           url: (doc) =>
             buildPreviewUrl(schemaType, (doc as SanityPreviewDoc | undefined) ?? undefined, locale),
           reload: { button: true },

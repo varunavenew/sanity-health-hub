@@ -388,33 +388,63 @@ const BookingDemo = () => {
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
   >({});
 
-  const totalSteps = 5;
-  const stepNameByIndex = useMemo(
-    () =>
-      [
-        null,
-        copy.stepLabelService,
-        copy.stepLabelClinic,
-        copy.stepLabelSpecialist,
-        copy.stepLabelTime,
-        copy.stepLabelConfirm,
-      ] as const,
-    [copy],
-  );
-  const stepProgressLabel = (step: number) =>
-    fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
-
-  const isSanityManagedBooking =
-    bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
-
   const isPasientskyBooking =
     bookingData.clinic != null && isPasientskyClinic(bookingData.clinic);
 
   const isExternalBooking =
     bookingData.clinic != null && isExternalClinic(bookingData.clinic);
 
+  const selectedClinicId = bookingData.clinic?.id;
+  const selectedSanityClinic = useMemo(
+    () =>
+      selectedClinicId
+        ? sanityClinics.find((clinic) => clinic.id === selectedClinicId)
+        : undefined,
+    [selectedClinicId, sanityClinics],
+  );
+
+  const isSanityManagedBooking =
+    bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
+
+  /** Pasientsky (e.g. Moelv): 3 steps with service, 2 steps for direct ?klinikk= links. */
+  const pasientskyTotalSteps = bookingData.service ? 3 : 2;
+
+  const totalSteps = isPasientskyBooking ? pasientskyTotalSteps : 5;
+
+  const stepNameByIndex = useMemo(() => {
+    const pasientskyBookLabel = "Bestill";
+    if (isPasientskyBooking) {
+      if (bookingData.service) {
+        return [
+          null,
+          copy.stepLabelService,
+          copy.stepLabelClinic,
+          pasientskyBookLabel,
+        ] as const;
+      }
+      return [null, copy.stepLabelClinic, pasientskyBookLabel] as const;
+    }
+    return [
+      null,
+      copy.stepLabelService,
+      copy.stepLabelClinic,
+      copy.stepLabelSpecialist,
+      copy.stepLabelTime,
+      copy.stepLabelConfirm,
+    ] as const;
+  }, [copy, isPasientskyBooking, bookingData.service]);
+
+  const stepProgressLabel = (step: number) =>
+    fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
+
   const currentStep = useMemo(() => {
-    if (isSanityManagedBooking) return 2;
+    if (isPasientskyBooking) {
+      if (bookingData.service) {
+        if (!bookingData.clinic) return 2;
+        return 3;
+      }
+      return 2;
+    }
     if (!bookingData.service) return 1;
     if (!bookingData.clinic) return 2;
     if (!bookingData.specialistChosen) return 3;
@@ -425,9 +455,22 @@ const BookingDemo = () => {
     bookingData.clinic,
     bookingData.specialistChosen,
     bookingData.time,
-    isSanityManagedBooking,
+    isPasientskyBooking,
   ]);
-  const progressAriaLabels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
+
+  const progressAriaLabels = useMemo(() => {
+    if (isPasientskyBooking) {
+      return bookingData.service
+        ? (["tjeneste", "klinikk", "bestill"] as const)
+        : (["klinikk", "bestill"] as const);
+    }
+    return ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
+  }, [isPasientskyBooking, bookingData.service]);
+
+  const progressStepNumbers = useMemo(
+    () => Array.from({ length: totalSteps }, (_, i) => i + 1),
+    [totalSteps],
+  );
 
   // Scroll to top when step changes
   useEffect(() => {
@@ -1225,11 +1268,15 @@ const BookingDemo = () => {
     );
   }
 
-  const progressBackTarget = isSanityManagedBooking
-    ? bookingData.service
+  const progressBackTarget = isPasientskyBooking
+    ? bookingData.clinic
       ? ("clinic" as const)
       : ("category" as const)
-    : (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
+    : isSanityManagedBooking
+      ? bookingData.service
+        ? ("clinic" as const)
+        : ("category" as const)
+      : (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
 
   return (
     <div className="min-h-screen bg-white">
@@ -1250,59 +1297,65 @@ const BookingDemo = () => {
 
       <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
         {/* Step Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2 px-1">
-            {currentStep > 1 ? (
-              <button
-                type="button"
-                onClick={() => progressBackTarget && resetStep(progressBackTarget)}
-                className="flex items-center gap-1 text-xs font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
-              >
-                <ArrowLeft className="w-3 h-3" />
-                <span className="underline">{copy.backLabel}</span>
-                <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(currentStep)}</span>
-              </button>
-            ) : (
-              <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
-            )}
-            <span className="text-xs font-normal text-brand-dark">
-              {stepNameByIndex[currentStep]}
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            {[1, 2, 3, 4, 5].map((step) => {
-              const canNavigate = currentStep > step;
-              const isActive = currentStep === step;
-              const isDone = currentStep > step;
-              const labels = progressAriaLabels;
-              return (
+        {!isExternalBooking && (
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2 px-1">
+              {currentStep > 1 ? (
                 <button
-                  key={step}
                   type="button"
-                  onClick={() => {
-                    if (canNavigate) {
+                  onClick={() => progressBackTarget && resetStep(progressBackTarget)}
+                  className="flex items-center gap-1 text-xs font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
+                >
+                  <ArrowLeft className="w-3 h-3" />
+                  <span className="underline">{copy.backLabel}</span>
+                  <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(currentStep)}</span>
+                </button>
+              ) : (
+                <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
+              )}
+              <span className="text-xs font-normal text-brand-dark">
+                {stepNameByIndex[currentStep]}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              {progressStepNumbers.map((step) => {
+                const canNavigate = currentStep > step;
+                const isActive = currentStep === step;
+                const isDone = currentStep > step;
+                const labels = progressAriaLabels;
+                return (
+                  <button
+                    key={step}
+                    type="button"
+                    onClick={() => {
+                      if (!canNavigate) return;
+                      if (isPasientskyBooking) {
+                        if (step === 1) resetStep("category");
+                        else if (step === 2) resetStep("clinic");
+                        return;
+                      }
                       if (step === 1) resetStep("category");
                       else if (step === 2) resetStep("clinic");
                       else if (step === 3) resetStep("specialist");
                       else if (step === 4) resetStep("time");
-                    }
-                  }}
-                  disabled={!canNavigate && !isActive}
-                  aria-label={`Steg ${step}: ${labels[step - 1]}`}
-                  aria-current={isActive ? "step" : undefined}
-                  className={cn(
-                    "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
-                    isActive && "bg-brand-dark",
-                    isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
-                    !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed",
-                  )}
-                />
-              );
-            })}
+                    }}
+                    disabled={!canNavigate && !isActive}
+                    aria-label={`Steg ${step}: ${labels[step - 1]}`}
+                    aria-current={isActive ? "step" : undefined}
+                    className={cn(
+                      "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
+                      isActive && "bg-brand-dark",
+                      isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
+                      !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed",
+                    )}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
         {/* Persistent Summary Banner */}
-        {bookingData.service && (
+        {bookingData.service && !isExternalBooking && (
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
@@ -1326,7 +1379,7 @@ const BookingDemo = () => {
             </div>
           </div>
         )}
-        {isSanityManagedBooking && !bookingData.service && bookingData.clinic && (
+        {isSanityManagedBooking && !isExternalBooking && !bookingData.service && bookingData.clinic && (
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div>
               <span className="text-brand-dark/60 text-xs">{copy.summaryClinicLabel} </span>
@@ -1363,6 +1416,9 @@ const BookingDemo = () => {
               <ExternalBookingHandoff
                 clinicLabel={bookingData.clinic.label}
                 externalBookingUrl={bookingData.clinic.externalBookingUrl}
+                address={selectedSanityClinic?.address}
+                phone={selectedSanityClinic?.phone}
+                hours={selectedSanityClinic?.hours}
               />
             </motion.div>
           ) : !bookingData.service ? (

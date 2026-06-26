@@ -37,6 +37,8 @@
     "migrate:reviews:en": "tsx sanity/migrate-google-reviews-en.ts",
     "migrate:clinic-hours": "tsx sanity/migrate-clinic-hours-i18n.ts",
     "migrate:clinic-hours:dry": "DRY_RUN=1 tsx sanity/migrate-clinic-hours-i18n.ts",
+    "migrate:clinic-page-studio-fix:dry": "DRY_RUN=1 tsx sanity/migrate-clinic-page-studio-fix.ts",
+    "migrate:clinic-page-studio-fix": "tsx sanity/migrate-clinic-page-studio-fix.ts",
     "cleanup:legacy-en": "tsx sanity/cleanup-legacy-en-fields.ts",
     "cleanup:legacy-en:dry": "cross-env DRY_RUN=1 tsx sanity/cleanup-legacy-en-fields.ts",
     "delete:drafts": "tsx sanity/delete-all-drafts.ts",
@@ -153,7 +155,7 @@
     "react": "^19.2.2",
     "react-dom": "^19.2.2",
     "sanity": "^5.31.1",
-    "sanity-plugin-iframe-pane": "^5.0.11",
+    "sanity-plugin-iframe-pane": "^5.0.13",
     "sanity-plugin-internationalized-array": "^5.1.1",
     "styled-components": "^6.1.18",
     "vercel": "^54.11.1"

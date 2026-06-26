@@ -1,5 +1,6 @@
 import { Calendar, ExternalLink, Phone, Mail, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 
 export interface ClinicBookingData {
   method?: "info" | "pasientsky" | "metodika" | "closed";
@@ -45,22 +46,34 @@ export const ClinicBookingBlock = ({
 
           {(method === "pasientsky" || method === "metodika") && (
             <div className="border border-border/40 rounded-sm p-6 bg-brand-warm/30">
-              <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
-                {method === "metodika"
-                  ? "Bestill time i Metodika-bookingsystemet. Du velger tjeneste, klinikk, dato og tidspunkt."
-                  : "Bestill time direkte i vårt bookingsystem. Du velger spesialist, dato og tidspunkt som passer for deg."}
-              </p>
-              <Button asChild className="rounded-sm">
-                <a
-                  href={
-                    clinicId
-                      ? `/booking?klinikk=${encodeURIComponent(clinicId)}`
-                      : "/booking"
-                  }
-                >
-                  Book time nå
-                </a>
-              </Button>
+              {method === "pasientsky" && booking?.serviceProviderId ? (
+                <>
+                  <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
+                    Bestill time direkte i vårt bookingsystem. Du velger spesialist, dato og
+                    tidspunkt som passer for deg.
+                  </p>
+                  <PatientskyIframe serviceProviderId={booking.serviceProviderId} />
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
+                    {method === "metodika"
+                      ? "Bestill time i Metodika-bookingsystemet. Du velger tjeneste, klinikk, dato og tidspunkt."
+                      : "Bestill time direkte i vårt bookingsystem. Du velger spesialist, dato og tidspunkt som passer for deg."}
+                  </p>
+                  <Button asChild className="rounded-sm">
+                    <a
+                      href={
+                        clinicId
+                          ? `/booking?klinikk=${encodeURIComponent(clinicId)}`
+                          : "/booking"
+                      }
+                    >
+                      Book time nå
+                    </a>
+                  </Button>
+                </>
+              )}
             </div>
           )}
 

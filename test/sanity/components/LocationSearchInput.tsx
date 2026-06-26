@@ -221,6 +221,11 @@ export function LocationSearchInput(props: ObjectInputProps) {
 
     return () => {
       cancelled = true
+      mapRef.current = null
+      markerRef.current = null
+      if (mapContainerRef.current) {
+        mapContainerRef.current.replaceChildren()
+      }
     }
   }, [placeMarker, updateLocation])
 
