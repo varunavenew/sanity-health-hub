@@ -451,31 +451,31 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {audiences.map((a) => (
-              <div
-                key={a.title}
-                className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
-              >
-                <div className="mb-6 text-foreground/80">
-                  <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
-                </div>
-                <h3 className="text-lg font-normal text-foreground mb-3">
-                  {a.title}
-                </h3>
-                <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-                  {a.desc}
-                </p>
-                <Link
-                  to={a.href}
-                  className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
-                >
-                  Les mer
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            ))}
-          </div>
+           <div className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+             {audiences.map((a) => (
+               <div
+                 key={a.title}
+                 className="bg-background rounded-sm border border-border/40 flex flex-col p-7 shrink-0 w-[78vw] md:w-auto snap-center"
+               >
+                 <div className="mb-6 text-foreground/80">
+                   <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+                 </div>
+                 <h3 className="text-lg font-normal text-foreground mb-3">
+                   {a.title}
+                 </h3>
+                 <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+                   {a.desc}
+                 </p>
+                 <Link
+                   to={a.href}
+                   className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
+                 >
+                   Les mer
+                   <ArrowRight className="w-3.5 h-3.5" />
+                 </Link>
+               </div>
+             ))}
+           </div>
  </div>
  </div>
  </section>
