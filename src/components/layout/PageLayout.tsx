@@ -68,6 +68,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSearchOpen]);
 
+  // Listen for global "open search" events from mobile bottom nav
+  useEffect(() => {
+    const open = () => setIsSearchOpen(true);
+    window.addEventListener("cm:openSearch", open);
+    return () => window.removeEventListener("cm:openSearch", open);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
