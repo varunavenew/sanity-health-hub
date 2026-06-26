@@ -354,6 +354,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
   );
  })}
  </div>
+ <ScrollArrows scrollRef={lifePhasesRef} />
+
  </div>
  </div>
  </section>
