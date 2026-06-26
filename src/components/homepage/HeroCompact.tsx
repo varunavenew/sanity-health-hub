@@ -90,7 +90,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
       <div className="md:hidden">
         <div
           ref={swiperRef}
-          className="flex gap-3 overflow-x-auto px-4 pb-2 snap-x snap-mandatory scrollbar-hide"
+          className="flex overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           role="region"
           aria-label={t("services.title")}
@@ -100,7 +100,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               key={category.id}
               ref={(el) => { cardRefs.current[index] = el; }}
               onClick={() => navigate(category.path)}
-              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-center shrink-0 w-[82vw] rounded-sm"
+              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-start shrink-0 w-[92vw] rounded-sm"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
