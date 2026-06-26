@@ -459,7 +459,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-           <div className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+           <div ref={audiencesRef} className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
              {audiences.map((a) => (
                <div
                  key={a.title}
