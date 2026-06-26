@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,8 +11,26 @@ const BurgerMenu = () => {
  const [isMenuOpen, setIsMenuOpen] = useState(false);
  const navigate = useNavigate();
  const menuRef = useRef<HTMLDivElement | null>(null);
+ const mobileMenuRef = useRef<HTMLDivElement | null>(null);
  const buttonRef = useRef<HTMLButtonElement | null>(null);
  const { data: siteSettings } = useSiteSettings();
+
+ // Allow external triggers (e.g. mobile bottom-nav) to open the menu.
+ useEffect(() => {
+   const open = () => setIsMenuOpen(true);
+   window.addEventListener('cm:openMenu', open);
+   return () => window.removeEventListener('cm:openMenu', open);
+ }, []);
+
+ // Lock body scroll while mobile drawer is open.
+ useEffect(() => {
+   if (!isMenuOpen) return;
+   if (typeof window === 'undefined') return;
+   if (window.matchMedia('(min-width: 768px)').matches) return;
+   const prev = document.body.style.overflow;
+   document.body.style.overflow = 'hidden';
+   return () => { document.body.style.overflow = prev; };
+ }, [isMenuOpen]);
 
  const staticMenuItems = [
  { label: t('nav.services'), path: '/tjenester' },
