@@ -192,7 +192,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  Du trenger ikke en diagnose for å bestille.
  </h3>
  </div>
- <div className="flex md:grid md:grid-cols-2 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={segmentsRef} className="flex md:grid md:grid-cols-2 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {segments.map((s) => (
  <div key={s.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
  <h3 className="text-lg font-normal text-foreground mb-3">{s.title}</h3>
@@ -204,6 +204,8 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={segmentsRef} />
+
 
  {/* Second opinion dark stripe */}
  <div className="mt-14 bg-brand-dark text-white rounded-sm p-8 md:p-10">
