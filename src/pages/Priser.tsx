@@ -104,6 +104,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
 
   const navScrollerRef = useRef<HTMLDivElement | null>(null);
   const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const navWrapperRef = useRef<HTMLDivElement | null>(null);
+  const [navTop, setNavTop] = useState(80);
 
   // IntersectionObserver to highlight active category pill as user scrolls
   useEffect(() => {
@@ -144,13 +146,33 @@ const Priser = ({ isChatOpen }: PageProps) => {
     }
   }, [activeCategory]);
 
+  // Sync sticky nav top offset to follow the auto-hiding header
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (!header) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const bottom = header.getBoundingClientRect().bottom;
+          setNavTop(Math.max(0, bottom));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const scrollToCat = (id: string) => {
     const el = document.getElementById(`cat-${id}`);
     if (!el) return;
     const header = document.querySelector('header');
-    const headerH = header?.getBoundingClientRect().height ?? 80;
-    const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 56;
-    const offset = headerH + navH + 16;
+    const headerBottom = header?.getBoundingClientRect().bottom ?? 80;
+    const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
+    const offset = headerBottom + navH + 16;
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
   };
 
@@ -197,10 +219,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
             </div>
 
             {/* Sticky horizontal category nav — all categories visible, horizontal scroll */}
-            <div className="sticky top-[80px] md:top-[88px] z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10">
+            <div
+              ref={navWrapperRef}
+              className="sticky z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10"
+              style={{ top: `${navTop}px` }}
+            >
               <div
                 ref={navScrollerRef}
-                className="flex gap-2 overflow-x-auto px-4 md:px-8 py-3 scrollbar-hide [scroll-behavior:smooth]"
+                className="flex gap-2 overflow-x-auto px-4 md:px-8 py-2 scrollbar-hide [scroll-behavior:smooth]"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {ordered.map((cat) => {
@@ -210,7 +236,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                       key={cat.id}
                       ref={(el) => { pillRefs.current[cat.id] = el; }}
                       onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
-                      className={`inline-flex items-center justify-center px-5 min-h-[48px] rounded-full text-sm font-light whitespace-nowrap border transition-colors shrink-0 ${
+                      className={`inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-1 min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
                         isActive
                           ? 'bg-brand-dark text-brand-warm border-brand-dark'
                           : 'bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark'
