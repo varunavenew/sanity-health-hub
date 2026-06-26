@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
