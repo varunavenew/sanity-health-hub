@@ -267,6 +267,7 @@ const RelatedBlock = ({
   items: { title: string; desc: string; href: string; image?: string }[];
   columns?: 2 | 3;
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   if (items.length === 0) return null;
   const resolved = items.map((a) => ({
     ...a,
@@ -274,34 +275,37 @@ const RelatedBlock = ({
   }));
   const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
-    <div className={`grid ${gridCols} gap-6`}>
-      {resolved.map((a) => (
-        <Link
-          key={a.title}
-          to={a.href}
-          className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
-        >
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-            {a.image && (
-              <img
-                src={a.image}
-                alt={a.title}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-            )}
-          </div>
-          <div className="p-7 flex flex-col flex-1">
-            <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-            <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-            <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-              Les mer
-              <ArrowRight className="w-3.5 h-3.5" />
-            </span>
-          </div>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div ref={ref} className={`flex md:grid ${gridCols} gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide`} style={{ scrollbarWidth: 'none' }}>
+        {resolved.map((a) => (
+          <Link
+            key={a.title}
+            to={a.href}
+            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
+          >
+            <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+              {a.image && (
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              )}
+            </div>
+            <div className="p-7 flex flex-col flex-1">
+              <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                Les mer
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+      <ScrollArrows scrollRef={ref} />
+    </>
   );
 };
 
