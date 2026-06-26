@@ -8,8 +8,8 @@ import { useTranslation } from "react-i18next";
 // Static fallback images — use the same hero images as the corresponding subpages
 // (portrait-friendly crops; object-position tuned per card so the subject stays visible).
 import urologiAsset from "@/assets/services/urologi-hero.jpg.asset.json";
-import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
-import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
+import fertilitetHeroAsset from "@/assets/services/fertilitet-hero.jpg.asset.json";
+import gynekologiHeroAsset from "@/assets/services/gynekologi-hero.jpg.asset.json";
 import ortopediAsset from "@/assets/services/ortopedi-hero.jpg.asset.json";
 import graviditetAsset from "@/assets/services/graviditet-hero.jpg.asset.json";
 import flereImg from "@/assets/hero/cmedical-family.jpg";
