@@ -439,6 +439,8 @@ const RelatedServicesCarousel = ({
 };
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
+ const expertAreasRef = useRef<HTMLDivElement>(null);
+ const promisesRef = useRef<HTMLDivElement>(null);
  useEffect(() => {
  document.title = `${c.title} | CMedical`;
  }, [c.title]);
