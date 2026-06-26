@@ -49,7 +49,7 @@ export const ScrollArrows = ({
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
-  // Hide entirely if nothing to scroll
+  // Hide entirely only when there is nothing to scroll at all
   if (!canPrev && !canNext) return null;
 
   const vis =
@@ -61,24 +61,24 @@ export const ScrollArrows = ({
   const justify = align === "center" ? "justify-center" : "justify-end";
 
   return (
-    <div className={`${vis} items-center ${justify} gap-2 mt-4 px-4 md:px-0 ${className}`}>
+    <div className={`${vis} items-center ${justify} gap-3 mt-4 px-4 md:px-0 ${className}`}>
       <button
         type="button"
         aria-label="Scroll venstre"
         onClick={() => scrollBy(-1)}
         disabled={!canPrev}
-        className="h-11 w-11 rounded-full border border-brand-dark/25 bg-background flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-sm"
+        className="h-12 w-12 rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md"
       >
-        <ChevronLeft className="w-5 h-5 text-brand-dark" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
       <button
         type="button"
         aria-label="Scroll høyre"
         onClick={() => scrollBy(1)}
         disabled={!canNext}
-        className="h-11 w-11 rounded-full border border-brand-dark/25 bg-background flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-sm"
+        className="h-12 w-12 rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md"
       >
-        <ChevronRight className="w-5 h-5 text-brand-dark" />
+        <ChevronRight className="w-6 h-6" />
       </button>
     </div>
   );
