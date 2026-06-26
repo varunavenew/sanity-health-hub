@@ -16,8 +16,8 @@ import flereImg from "@/assets/hero/cmedical-family.jpg";
 
 const staticCategories = [
   { id: 'urologi', title: 'Urologi', image: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
-  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetImg, path: '/fertilitet', objectPosition: 'center' },
-  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiImg, path: '/gynekologi', objectPosition: 'center' },
+  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetHeroAsset.url, path: '/fertilitet', objectPosition: 'center' },
+  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiHeroAsset.url, path: '/gynekologi', objectPosition: 'center' },
   { id: 'graviditet', title: 'Graviditet', image: graviditetAsset.url, path: '/graviditet', objectPosition: 'center' },
   { id: 'ortopedi', title: 'Ortopedi', image: ortopediAsset.url, path: '/ortopedi', objectPosition: 'center' },
   { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader', objectPosition: 'center' },
