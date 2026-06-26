@@ -238,17 +238,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
               <h2 className="text-3xl md:text-4xl font-light text-brand-dark">Vår meny</h2>
             </div>
 
-            {/* Sticky horizontal category nav — all categories visible, horizontal scroll */}
-            <div
-              ref={navWrapperRef}
-              className="sticky z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10"
-              style={{ top: `${navTop}px` }}
-            >
-              <div
-                ref={navScrollerRef}
-                className="flex gap-2 overflow-x-auto px-4 md:px-8 py-2 scrollbar-hide [scroll-behavior:smooth]"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
             {/* Full category overview — visible at top, condenses to sticky pill bar on scroll */}
             <div ref={overviewRef} className="mb-10 md:mb-14">
               <p className="text-xs font-light text-brand-dark/60 mb-4">Velg en kategori for å hoppe direkte:</p>
