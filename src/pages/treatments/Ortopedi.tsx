@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Phone, Quote, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import {
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 
