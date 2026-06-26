@@ -298,9 +298,9 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </Link>
  </div>
  </div>
- <div className={`grid grid-cols-2 gap-0 ${ortoSpecialists.length === 5 ? "md:grid-cols-5" : `md:grid-cols-${ortoSpecialists.length}`}`}>
+ <div ref={specialistsRef} className={`flex md:grid gap-3 md:gap-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide ${ortoSpecialists.length === 5 ? "md:grid-cols-5" : `md:grid-cols-${ortoSpecialists.length}`}`} style={{ scrollbarWidth: 'none' }}>
  {ortoSpecialists.map((sp) => (
- <Link key={sp.slug} to={`/spesialister/${sp.slug}`} className="group relative block">
+ <Link key={sp.slug} to={`/spesialister/${sp.slug}`} className="group relative block shrink-0 w-[78vw] md:w-auto snap-center">
  <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
  <img src={sp.image} alt={sp.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10" />
@@ -312,6 +312,8 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </Link>
  ))}
  </div>
+ <ScrollArrows scrollRef={specialistsRef} />
+
  </section>
  )}
 
