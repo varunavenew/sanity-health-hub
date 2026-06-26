@@ -466,7 +466,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     const heroImg = c.heroImage ?? c.flowImage;
     return (
       <header className="bg-brand-light pt-24 lg:pt-0">
-        <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
             <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
@@ -640,7 +640,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
- <div className="grid lg:grid-cols-2 items-stretch min-h-[640px] lg:min-h-screen">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
  <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
  <img
  src={c.flowImage}

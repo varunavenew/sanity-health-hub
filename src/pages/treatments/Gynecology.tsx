@@ -249,7 +249,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  1. HERO — split screen 50/50, bilde kant-i-kant
  ============================================================ */}
  <header className="bg-brand-light pt-24 lg:pt-0">
- <div className="grid lg:grid-cols-2 min-h-[640px] lg:min-h-[720px]">
+ <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
  <div className="flex items-center page-edge-text-left py-16 lg:py-24">
  <div className="max-w-xl w-full">
             <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
