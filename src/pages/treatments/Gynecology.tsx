@@ -712,6 +712,8 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={reviewsRef} />
+
  </div>
  </div>
  </section>
