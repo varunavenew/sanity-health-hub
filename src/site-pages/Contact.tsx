@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { ClinicGrid } from "@/components/ClinicGrid";
-import { CTASection } from "@/components/layout/CTASection";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
@@ -138,8 +137,6 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         </section>
       )}
 
-      {pageSections?.length ? <PageSectionsRenderer sections={pageSections} /> : null}
-
       {/* Contact Form Section */}
       <section className="py-16 md:py-24 bg-brand-warm">
         <div className="container mx-auto px-6 md:px-16">
@@ -240,7 +237,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
         </div>
       </section>
 
-      <CTASection />
+      {pageSections?.length ? <PageSectionsRenderer sections={pageSections} /> : null}
 
       <ContactRequestDialog open={contactDialogOpen} onOpenChange={setContactDialogOpen} />
     </PageLayout>

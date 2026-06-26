@@ -57,6 +57,8 @@ import {
   PRODUCT_BY_SLUG_QUERY,
   SPECIALISTS_PAGE_QUERY,
   SPECIALISTS_LISTING_PAGE_QUERY,
+  CAREERS_PAGE_QUERY,
+  GUIDE_PAGE_QUERY,
   CLINICS_PAGE_QUERY,
   SOCIAL_POSTS_QUERY,
   CMS_ROUTE_INDEX_QUERY,
@@ -64,7 +66,7 @@ import {
 } from "@/lib/queries";
 import type { CmsRouteIndex } from "@/lib/routing/cms-route-types";
 import { enrichRouteIndexWithNavPaths } from "@/lib/routing/enrich-route-index";
-import { normalizePageSections } from "@/lib/sanity/page-sections";
+import { normalizePageSections, withPageSections, type PageSection } from "@/lib/sanity/page-sections";
 import {
   behandlingerCategorySegment,
   categoryLandingPath,
@@ -476,6 +478,7 @@ export const usePrivacyPolicyPage = () => {
         title?: string;
         body?: unknown[];
         cookiebotKey?: string;
+        pageSections?: unknown;
       }>(PRIVACY_POLICY_PAGE_QUERY, { lang }, lang);
       if (!data) return null;
       const title = typeof data.title === "string" ? data.title : "";
@@ -488,7 +491,7 @@ export const usePrivacyPolicyPage = () => {
           : Array.isArray(data.body)
             ? data.body
             : [];
-      return { ...data, title, body };
+      return { ...data, title, body, pageSections: normalizePageSections(data.pageSections) };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -530,7 +533,10 @@ export const useNewsPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "newsPage", lang],
-    queryFn: () => fetchSanity<any>(NEWS_PAGE_QUERY, undefined, lang),
+    queryFn: async () => {
+      const data = await fetchSanity<any>(NEWS_PAGE_QUERY, undefined, lang);
+      return withPageSections(data);
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -540,7 +546,10 @@ export const usePricingPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "pricingPage", lang],
-    queryFn: () => fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang),
+    queryFn: async () => {
+      const data = await fetchSanity<any>(PRICING_PAGE_QUERY, undefined, lang);
+      return withPageSections(data);
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -586,6 +595,7 @@ export const useInsurancePage = () => {
           title: b.title,
           desc: b.description,
         })),
+        pageSections: normalizePageSections(data.pageSections),
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -698,7 +708,11 @@ export const useClinic = (slug: string) => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "clinic", slug, lang],
-    queryFn: () => fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang),
+    queryFn: async (): Promise<any> => {
+      const data = await fetchSanity<any>(CLINIC_BY_SLUG_QUERY, { slug }, lang);
+      if (!data) return null;
+      return { ...data, ...normalizeClinicRow(data as Record<string, unknown>), pageSections: normalizePageSections(data.pageSections) };
+    },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });
@@ -758,6 +772,7 @@ export interface SanityArticle {
   pinned?: boolean;
   featured?: boolean;
   body?: any[];
+  pageSections?: PageSection[];
   videoUrl?: string;
   videoThumbnail?: string;
   videoCaption?: string;
@@ -796,6 +811,7 @@ export const useArticle = (slug: string) => {
         image: data.image || "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
+        pageSections: normalizePageSections(data.pageSections),
       } as SanityArticle;
     },
     enabled: !!slug,
@@ -826,7 +842,7 @@ export const useJobListing = (slug: string) => {
     queryFn: async () => {
       const data = await fetchSanity<any>(JOB_LISTING_BY_SLUG_QUERY, { slug }, lang);
       if (!data) return null;
-      return { ...data, id: data._id };
+      return { ...data, id: data._id, pageSections: normalizePageSections(data.pageSections) };
     },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
@@ -918,18 +934,19 @@ export const useServiceCategoriesFromSanity = () => {
           (t: any) => t.title || t.slug,
           lang,
         ).map((t: any) => ({
+          id: t.slug,
           label: textForSort(t.title, lang) || t.slug,
           path: `/behandlinger/${behandlingerCategorySegment(
             cat.categoryId || cat.slug,
             lang,
           )}/${t.slug}`,
-          items: sortByLabel(t.subItems || [], (item: any) => item.label).map(
-            (item: any) => ({
-              label: item.label,
+          items: sortByLabel(t.subItems || [], (item: any) => item.label)
+            .map((item: any) => ({
+              label: typeof item.label === "string" ? item.label.trim() : "",
               anchor: item.anchor || undefined,
               path: item.path || undefined,
-            }),
-          ),
+            }))
+            .filter((item) => item.label.length > 0),
         })),
       }));
     },
@@ -942,8 +959,8 @@ export const useClinicsPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "clinicsPage", lang],
-    queryFn: () =>
-      fetchSanity<{
+    queryFn: async () => {
+      const data = await fetchSanity<{
         heroEyebrow?: string;
         heroTitle?: string;
         heroDescription?: string;
@@ -953,7 +970,48 @@ export const useClinicsPage = () => {
         secondaryCtaLabel?: string;
         secondaryCtaPath?: string;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
-      }>(CLINICS_PAGE_QUERY, undefined, lang),
+        pageSections?: unknown;
+      }>(CLINICS_PAGE_QUERY, undefined, lang);
+      return withPageSections(data);
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useGuidePage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "guidePage", lang],
+    queryFn: async () => {
+      const data = await fetchSanity<{
+        heroTitle?: string;
+        heroSubtitle?: string;
+        showCategorySections?: boolean;
+        ctaTitle?: string;
+        ctaSubtitle?: string;
+        ctaButtonLabel?: string;
+        ctaButtonPath?: string;
+        categories?: Array<{
+          title?: string;
+          slug?: string;
+          description?: string;
+          heroImage?: string;
+          treatments?: Array<{ title?: string }>;
+        }>;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+        pageSections?: unknown;
+      }>(GUIDE_PAGE_QUERY, undefined, lang);
+      return withPageSections(data);
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useCareersPage = () => {
+  const lang = useSanityLang();
+  return useQuery({
+    queryKey: ["sanity", "careersPage", lang],
+    queryFn: async () => withPageSections(await fetchSanity<any>(CAREERS_PAGE_QUERY, undefined, lang)),
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -963,14 +1021,17 @@ export const useSpecialistsListingPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "specialistsListingPage", lang],
-    queryFn: () =>
-      fetchSanity<{
-        heroEyebrow?: string;
-        heroTitle?: string;
-        heroDescription?: string;
-        countLabel?: string;
-        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
-      }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang),
+    queryFn: async () =>
+      withPageSections(
+        await fetchSanity<{
+          heroEyebrow?: string;
+          heroTitle?: string;
+          heroDescription?: string;
+          countLabel?: string;
+          seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+          pageSections?: unknown;
+        }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang),
+      ),
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -980,13 +1041,16 @@ export const useSpecialistsPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "specialistsPage", lang],
-    queryFn: () =>
-      fetchSanity<{
-        title?: string;
-        subtitle?: string;
-        body?: any;
-        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
-      }>(SPECIALISTS_PAGE_QUERY, undefined, lang),
+    queryFn: async () =>
+      withPageSections(
+        await fetchSanity<{
+          title?: string;
+          subtitle?: string;
+          body?: any;
+          seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
+          pageSections?: unknown;
+        }>(SPECIALISTS_PAGE_QUERY, undefined, lang),
+      ),
     staleTime: 5 * 60 * 1000,
   });
 };

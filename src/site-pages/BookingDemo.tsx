@@ -27,12 +27,14 @@ import {
   isSanityManagedClinic,
   type BookingClinic,
   type BookingMetodikaClinic,
-  // type CategoryClinicTag,
+  type CategoryClinicTag,
 } from "@/lib/booking/mapApiLocation";
 import {
   findSanityManagedClinicBySlug,
+  mergeCategoryClinicDisplayTags,
   mergeMetodikaAndSanityClinics,
   sanityManagedClinicsForCategory,
+  type SanityManagedBookingClinic,
 } from "@/lib/booking/sanityBookingClinic";
 import {
   isBookingCaregiver,
@@ -42,6 +44,7 @@ import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
+import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
 import {
@@ -68,9 +71,9 @@ function dayKey(date: Date): string {
   return d.toISOString();
 }
 
-// function clinicBadgeLabel(locationName: string): string {
-//   return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
-// }
+function clinicBadgeLabel(locationName: string): string {
+  return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
+}
 
 function LinkedTemplateText({
   template,
@@ -206,11 +209,11 @@ const BookingDemo = () => {
   const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
-  // Clinic badges disabled — category-clinics is slow (one wbfreetimes call per activity).
-  // const [categoryClinicsById, setCategoryClinicsById] = useState<
-  //   Record<string, CategoryClinicTag[]>
-  // >({});
-  // const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
+  const [categoryClinicsById, setCategoryClinicsById] = useState<
+    Record<string, CategoryClinicTag[]>
+  >({});
+  const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
+  const [categoryClinicsLoading, setCategoryClinicsLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -260,36 +263,87 @@ const BookingDemo = () => {
       }
     }
 
-    // async function loadCategoryClinics() {
-    //   try {
-    //     const clinicsRes = await fetch("/api/booking/category-clinics");
-    //     const clinicsJson = (await clinicsRes.json()) as {
-    //       ok?: boolean;
-    //       byCategoryId?: Record<string, CategoryClinicTag[]>;
-    //       allLocations?: CategoryClinicTag[];
-    //     };
-    //
-    //     if (cancelled) return;
-    //
-    //     if (clinicsRes.ok && clinicsJson.ok) {
-    //       setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
-    //       setAllBookingLocations(clinicsJson.allLocations ?? []);
-    //     }
-    //   } catch {
-    //     if (!cancelled) {
-    //       setCategoryClinicsById({});
-    //       setAllBookingLocations([]);
-    //     }
-    //   }
-    // }
-
     loadServices();
-    // loadCategoryClinics();
 
     return () => {
       cancelled = true;
     };
   }, []);
+
+  /** Load clinic tags for all categories in one request; reveal tags together when ready. */
+  useEffect(() => {
+    if (servicesLoading || bookingServices.length === 0) return;
+
+    let cancelled = false;
+
+    async function loadAllCategoryClinics() {
+      setCategoryClinicsLoading(true);
+      try {
+        const res = await fetch("/api/booking/category-clinics");
+        const json = (await res.json()) as {
+          ok?: boolean;
+          byCategoryId?: Record<string, CategoryClinicTag[]>;
+          allLocations?: CategoryClinicTag[];
+        };
+
+        if (cancelled) return;
+
+        if (res.ok && json.ok) {
+          setCategoryClinicsById(json.byCategoryId ?? {});
+          setAllBookingLocations(json.allLocations ?? []);
+        } else {
+          setCategoryClinicsById({});
+          setAllBookingLocations([]);
+        }
+      } catch {
+        if (!cancelled) {
+          setCategoryClinicsById({});
+          setAllBookingLocations([]);
+        }
+      } finally {
+        if (!cancelled) setCategoryClinicsLoading(false);
+      }
+    }
+
+    void loadAllCategoryClinics();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [servicesLoading, bookingServices]);
+
+  const globalSanityManagedClinics = useMemo(() => {
+    const seen = new Map<string, SanityManagedBookingClinic>();
+    for (const category of bookingServices) {
+      for (const clinic of sanityManagedClinicsForCategory(
+        sanityClinics,
+        category.id,
+        category.clinicServiceId,
+      )) {
+        seen.set(clinic.id, clinic);
+      }
+    }
+    return [...seen.values()];
+  }, [bookingServices, sanityClinics]);
+
+  const step1ClinicTagsByCategoryId = useMemo(() => {
+    const result: Record<string, { tagKey: string; name: string }[]> = {};
+    for (const category of bookingServices) {
+      const apiTags = categoryClinicsById[category.id] ?? [];
+      const sanityManaged = sanityManagedClinicsForCategory(
+        sanityClinics,
+        category.id,
+        category.clinicServiceId,
+      );
+      result[category.id] = mergeCategoryClinicDisplayTags(apiTags, sanityManaged);
+    }
+    return result;
+  }, [bookingServices, categoryClinicsById, sanityClinics]);
+
+  const allStep1ClinicTags = useMemo(
+    () => mergeCategoryClinicDisplayTags(allBookingLocations, globalSanityManagedClinics),
+    [allBookingLocations, globalSanityManagedClinics],
+  );
 
   const today = useMemo(() => {
     const date = new Date();
@@ -334,33 +388,63 @@ const BookingDemo = () => {
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
   >({});
 
-  const totalSteps = 5;
-  const stepNameByIndex = useMemo(
-    () =>
-      [
-        null,
-        copy.stepLabelService,
-        copy.stepLabelClinic,
-        copy.stepLabelSpecialist,
-        copy.stepLabelTime,
-        copy.stepLabelConfirm,
-      ] as const,
-    [copy],
-  );
-  const stepProgressLabel = (step: number) =>
-    fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
-
-  const isSanityManagedBooking =
-    bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
-
   const isPasientskyBooking =
     bookingData.clinic != null && isPasientskyClinic(bookingData.clinic);
 
   const isExternalBooking =
     bookingData.clinic != null && isExternalClinic(bookingData.clinic);
 
+  const selectedClinicId = bookingData.clinic?.id;
+  const selectedSanityClinic = useMemo(
+    () =>
+      selectedClinicId
+        ? sanityClinics.find((clinic) => clinic.id === selectedClinicId)
+        : undefined,
+    [selectedClinicId, sanityClinics],
+  );
+
+  const isSanityManagedBooking =
+    bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
+
+  /** Pasientsky (e.g. Moelv): 3 steps with service, 2 steps for direct ?klinikk= links. */
+  const pasientskyTotalSteps = bookingData.service ? 3 : 2;
+
+  const totalSteps = isPasientskyBooking ? pasientskyTotalSteps : 5;
+
+  const stepNameByIndex = useMemo(() => {
+    const pasientskyBookLabel = "Bestill";
+    if (isPasientskyBooking) {
+      if (bookingData.service) {
+        return [
+          null,
+          copy.stepLabelService,
+          copy.stepLabelClinic,
+          pasientskyBookLabel,
+        ] as const;
+      }
+      return [null, copy.stepLabelClinic, pasientskyBookLabel] as const;
+    }
+    return [
+      null,
+      copy.stepLabelService,
+      copy.stepLabelClinic,
+      copy.stepLabelSpecialist,
+      copy.stepLabelTime,
+      copy.stepLabelConfirm,
+    ] as const;
+  }, [copy, isPasientskyBooking, bookingData.service]);
+
+  const stepProgressLabel = (step: number) =>
+    fillBookingTemplate(copy.stepProgressTemplate, { step, total: totalSteps });
+
   const currentStep = useMemo(() => {
-    if (isSanityManagedBooking) return 2;
+    if (isPasientskyBooking) {
+      if (bookingData.service) {
+        if (!bookingData.clinic) return 2;
+        return 3;
+      }
+      return 2;
+    }
     if (!bookingData.service) return 1;
     if (!bookingData.clinic) return 2;
     if (!bookingData.specialistChosen) return 3;
@@ -371,9 +455,22 @@ const BookingDemo = () => {
     bookingData.clinic,
     bookingData.specialistChosen,
     bookingData.time,
-    isSanityManagedBooking,
+    isPasientskyBooking,
   ]);
-  const progressAriaLabels = ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
+
+  const progressAriaLabels = useMemo(() => {
+    if (isPasientskyBooking) {
+      return bookingData.service
+        ? (["tjeneste", "klinikk", "bestill"] as const)
+        : (["klinikk", "bestill"] as const);
+    }
+    return ["tjeneste", "klinikk", "behandler", "tid", "bekreft"] as const;
+  }, [isPasientskyBooking, bookingData.service]);
+
+  const progressStepNumbers = useMemo(
+    () => Array.from({ length: totalSteps }, (_, i) => i + 1),
+    [totalSteps],
+  );
 
   // Scroll to top when step changes
   useEffect(() => {
@@ -945,9 +1042,7 @@ const BookingDemo = () => {
   }, [bookingData.service?.apiActivityId, apiBookingClinics, sanityManagedClinicOptions]);
 
   const step2Ready =
-    sanityManagedClinicOptions.length > 0 ||
-    !bookingData.service?.apiActivityId ||
-    clinicsAvailabilityReady;
+    !bookingData.service?.apiActivityId || clinicsAvailabilityReady;
 
   // Auto-select when API returns exactly one Metodika location (once per service; not after "Tilbake")
   useEffect(() => {
@@ -1173,11 +1268,15 @@ const BookingDemo = () => {
     );
   }
 
-  const progressBackTarget = isSanityManagedBooking
-    ? bookingData.service
+  const progressBackTarget = isPasientskyBooking
+    ? bookingData.clinic
       ? ("clinic" as const)
       : ("category" as const)
-    : (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
+    : isSanityManagedBooking
+      ? bookingData.service
+        ? ("clinic" as const)
+        : ("category" as const)
+      : (["category", "clinic", "specialist", "time"] as const)[currentStep - 2];
 
   return (
     <div className="min-h-screen bg-white">
@@ -1198,59 +1297,65 @@ const BookingDemo = () => {
 
       <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
         {/* Step Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2 px-1">
-            {currentStep > 1 ? (
-              <button
-                type="button"
-                onClick={() => progressBackTarget && resetStep(progressBackTarget)}
-                className="flex items-center gap-1 text-xs font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
-              >
-                <ArrowLeft className="w-3 h-3" />
-                <span className="underline">{copy.backLabel}</span>
-                <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(currentStep)}</span>
-              </button>
-            ) : (
-              <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
-            )}
-            <span className="text-xs font-normal text-brand-dark">
-              {stepNameByIndex[currentStep]}
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            {[1, 2, 3, 4, 5].map((step) => {
-              const canNavigate = currentStep > step;
-              const isActive = currentStep === step;
-              const isDone = currentStep > step;
-              const labels = progressAriaLabels;
-              return (
+        {!isExternalBooking && (
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2 px-1">
+              {currentStep > 1 ? (
                 <button
-                  key={step}
                   type="button"
-                  onClick={() => {
-                    if (canNavigate) {
+                  onClick={() => progressBackTarget && resetStep(progressBackTarget)}
+                  className="flex items-center gap-1 text-xs font-light text-brand-dark hover:text-brand-dark/70 transition-colors"
+                >
+                  <ArrowLeft className="w-3 h-3" />
+                  <span className="underline">{copy.backLabel}</span>
+                  <span className="text-brand-dark/60 ml-2">· {stepProgressLabel(currentStep)}</span>
+                </button>
+              ) : (
+                <span className="text-xs font-light text-brand-dark/60">{stepProgressLabel(currentStep)}</span>
+              )}
+              <span className="text-xs font-normal text-brand-dark">
+                {stepNameByIndex[currentStep]}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              {progressStepNumbers.map((step) => {
+                const canNavigate = currentStep > step;
+                const isActive = currentStep === step;
+                const isDone = currentStep > step;
+                const labels = progressAriaLabels;
+                return (
+                  <button
+                    key={step}
+                    type="button"
+                    onClick={() => {
+                      if (!canNavigate) return;
+                      if (isPasientskyBooking) {
+                        if (step === 1) resetStep("category");
+                        else if (step === 2) resetStep("clinic");
+                        return;
+                      }
                       if (step === 1) resetStep("category");
                       else if (step === 2) resetStep("clinic");
                       else if (step === 3) resetStep("specialist");
                       else if (step === 4) resetStep("time");
-                    }
-                  }}
-                  disabled={!canNavigate && !isActive}
-                  aria-label={`Steg ${step}: ${labels[step - 1]}`}
-                  aria-current={isActive ? "step" : undefined}
-                  className={cn(
-                    "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
-                    isActive && "bg-brand-dark",
-                    isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
-                    !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed",
-                  )}
-                />
-              );
-            })}
+                    }}
+                    disabled={!canNavigate && !isActive}
+                    aria-label={`Steg ${step}: ${labels[step - 1]}`}
+                    aria-current={isActive ? "step" : undefined}
+                    className={cn(
+                      "flex-1 h-1 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2",
+                      isActive && "bg-brand-dark",
+                      isDone && "bg-brand-dark/40 hover:bg-brand-dark/60 cursor-pointer",
+                      !isActive && !isDone && "bg-brand-dark/10 cursor-not-allowed",
+                    )}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
         {/* Persistent Summary Banner */}
-        {bookingData.service && (
+        {bookingData.service && !isExternalBooking && (
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               {bookingData.service && (
@@ -1274,7 +1379,7 @@ const BookingDemo = () => {
             </div>
           </div>
         )}
-        {isSanityManagedBooking && !bookingData.service && bookingData.clinic && (
+        {isSanityManagedBooking && !isExternalBooking && !bookingData.service && bookingData.clinic && (
           <div className="bg-brand-beige/30 border border-brand-dark/10 rounded-2xl p-4 mb-6 text-sm">
             <div>
               <span className="text-brand-dark/60 text-xs">{copy.summaryClinicLabel} </span>
@@ -1311,6 +1416,9 @@ const BookingDemo = () => {
               <ExternalBookingHandoff
                 clinicLabel={bookingData.clinic.label}
                 externalBookingUrl={bookingData.clinic.externalBookingUrl}
+                address={selectedSanityClinic?.address}
+                phone={selectedSanityClinic?.phone}
+                hours={selectedSanityClinic?.hours}
               />
             </motion.div>
           ) : !bookingData.service ? (
@@ -1365,11 +1473,13 @@ const BookingDemo = () => {
                   .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
                   .sort(sortBookingCategories)
                   .map((category) => {
-                    // const clinicsForCategory = categoryClinicsById[category.id] ?? [];
-                    // const showAlleKlinikker =
-                    //   clinicsForCategory.length > 0 &&
-                    //   allBookingLocations.length > 0 &&
-                    //   clinicsForCategory.length === allBookingLocations.length;
+                    const clinicsForCategory = step1ClinicTagsByCategoryId[category.id] ?? [];
+                    const clinicsLoading = categoryClinicsLoading;
+                    const showAlleKlinikker =
+                      !clinicsLoading &&
+                      clinicsForCategory.length > 0 &&
+                      allStep1ClinicTags.length > 0 &&
+                      clinicsForCategory.length === allStep1ClinicTags.length;
                     const isExpanded = expandedCategory === category.id;
 
                     return (
@@ -1387,29 +1497,31 @@ const BookingDemo = () => {
                           )}
                         >
                           <span className="font-normal text-brand-dark min-w-0">{category.label}</span>
-                          <ChevronDown
-                            className={cn(
-                              "w-5 h-5 text-brand-dark/45 transition-transform duration-300 flex-shrink-0 ml-auto",
-                              isExpanded && "rotate-180",
-                            )}
-                          />
-                          {/* Clinic badges disabled (category-clinics API).
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
-                              {showAlleKlinikker ? (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
-                                  {copy.step1AllClinicsBadge}
-                                </span>
-                              ) : (
-                                clinicsForCategory.map((clinic) => (
-                                  <span
-                                    key={clinic.locationId}
-                                    className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
-                                  >
-                                    {clinicBadgeLabel(clinic.name)}
+                              {!isExpanded &&
+                                (clinicsLoading ? (
+                                  <span className="inline-flex items-center gap-1.5 text-xs text-brand-dark/55 font-light">
+                                    <span
+                                      className="w-3.5 h-3.5 rounded-full border-2 border-brand-dark/15 border-t-brand-dark/60 animate-spin"
+                                      aria-hidden="true"
+                                    />
+                                    {copy.step1LoadingClinics}
                                   </span>
-                                ))
-                              )}
+                                ) : showAlleKlinikker ? (
+                                  <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
+                                    {copy.step1AllClinicsBadge}
+                                  </span>
+                                ) : (
+                                  clinicsForCategory.map((clinic) => (
+                                    <span
+                                      key={clinic.tagKey}
+                                      className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
+                                    >
+                                      {clinicBadgeLabel(clinic.name)}
+                                    </span>
+                                  ))
+                                ))}
                             </div>
                             <ChevronDown
                               className={cn(
@@ -1418,7 +1530,6 @@ const BookingDemo = () => {
                               )}
                             />
                           </div>
-                          */}
                         </button>
 
                         <AnimatePresence initial={false}>
@@ -1514,7 +1625,7 @@ const BookingDemo = () => {
             >
               <h2 className="text-2xl font-light text-brand-dark mb-4">{copy.step2Heading}</h2>
 
-              {bookingData.service?.apiActivityId && availabilityLoading && sanityManagedClinicOptions.length === 0 && (
+              {bookingData.service?.apiActivityId && !clinicsAvailabilityReady && (
                 <BookingStepLoader message={copy.step2Loading} />
               )}
 
@@ -1639,7 +1750,7 @@ const BookingDemo = () => {
                       >
                         <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                           <AssetImg
-                            src={spec.image}
+                            src={resolveBookingSpecialistImage(spec.image)}
                             alt={spec.name}
                             className="w-full h-full object-cover object-top"
                           />
@@ -1958,7 +2069,10 @@ const BookingDemo = () => {
                 {bookingData.specialist && (
                   <div className="flex items-center gap-3 mt-5 pt-4 border-t border-brand-dark/10">
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={assetSrc(bookingData.specialist.image)} alt={bookingData.specialist.name} />
+                      <AvatarImage
+                        src={assetSrc(resolveBookingSpecialistImage(bookingData.specialist.image))}
+                        alt={bookingData.specialist.name}
+                      />
                       <AvatarFallback>{bookingData.specialist.name.slice(0, 2)}</AvatarFallback>
                     </Avatar>
                     <div>
@@ -2166,7 +2280,7 @@ const BookingDemo = () => {
                   <div className="flex-shrink-0">
                     <div className="h-28 w-28 rounded-full overflow-hidden ring-4 ring-white shadow-xl">
                       <AssetImg 
-                        src={selectedSpecialistInfo.image} 
+                        src={resolveBookingSpecialistImage(selectedSpecialistInfo.image)} 
                         alt={selectedSpecialistInfo.name} 
                         className="h-full w-full object-cover object-top"
                       />

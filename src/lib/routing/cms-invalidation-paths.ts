@@ -121,6 +121,7 @@ export function cmsInvalidationPaths(
     case "insurancePage":
     case "servicesPage":
     case "specialistsPage":
+    case "guidePage":
     case "themePage":
       for (const pair of pairs) addPairPaths(paths, pair);
       break;

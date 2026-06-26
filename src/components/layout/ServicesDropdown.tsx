@@ -64,7 +64,9 @@ export const ServicesDropdown = () => {
 
   const activeSubcategoryData =
     activeCategoryData && activeSubcategory
-      ? activeCategoryData.subcategories.find((s) => s.label === activeSubcategory)
+      ? activeCategoryData.subcategories.find(
+          (s) => s.id === activeSubcategory || s.label === activeSubcategory,
+        )
       : null;
 
   // Keep active category in sync when Sanity data loads or locale changes ids
@@ -77,6 +79,11 @@ export const ServicesDropdown = () => {
       setActiveSubcategory(null);
     }
   }, [serviceCategories, activeCategory, currentCategory?.id]);
+
+  // Reset subcategory when locale/data changes (labels and ids stay slug-based)
+  useEffect(() => {
+    setActiveSubcategory(null);
+  }, [locale, serviceCategories]);
 
   return (
     <div 
@@ -154,11 +161,11 @@ export const ServicesDropdown = () => {
                       <nav className="grid grid-cols-1 gap-0">
                         {(activeCategoryData.subcategories ?? []).map((sub) => (
                           <button 
-                            key={sub.label}
-                            onMouseEnter={() => setActiveSubcategory(sub.label)}
+                            key={sub.id ?? sub.label}
+                            onMouseEnter={() => setActiveSubcategory(sub.id ?? sub.label)}
                             onClick={() => handleNavigate(sub.path)} 
                             className={`w-full flex items-center justify-between text-left py-2 px-2 text-[13px] font-light transition-colors rounded group ${
-                              activeSubcategory === sub.label
+                              activeSubcategory === (sub.id ?? sub.label)
                                 ? 'bg-white/10 text-white'
                                 : 'text-white/70 hover:text-white hover:bg-white/10'
                             }`}
@@ -166,7 +173,7 @@ export const ServicesDropdown = () => {
                             <span>{sub.label}</span>
                             {sub.items && sub.items.length > 0 && (
                               <ChevronRight className={`h-3.5 w-3.5 transition-all ${
-                                activeSubcategory === sub.label ? 'opacity-100 translate-x-1' : 'opacity-50'
+                                activeSubcategory === (sub.id ?? sub.label) ? 'opacity-100 translate-x-1' : 'opacity-50'
                               }`} />
                             )}
                           </button>
@@ -192,9 +199,9 @@ export const ServicesDropdown = () => {
                           {activeSubcategoryData.label}
                         </h3>
                         <nav className="grid grid-cols-1 gap-0">
-                          {activeSubcategoryData.items.map((item) => (
+                          {activeSubcategoryData.items.map((item, index) => (
                             <button 
-                              key={item.label}
+                              key={`${item.label}-${item.anchor ?? index}`}
                               onClick={() => {
                                 if (item.path) {
                                   handleNavigate(item.path);

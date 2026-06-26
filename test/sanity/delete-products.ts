@@ -1,6 +1,6 @@
 /**
  * Delete product documents to reduce dataset attribute path count.
- * Products are optional catalog items; site falls back to mockData.
+ * Products are optional catalog items loaded from Sanity only.
  *
  * Run:
  *   cd test && npx cross-env DRY_RUN=1 tsx sanity/delete-products.ts

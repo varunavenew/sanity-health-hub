@@ -3,7 +3,6 @@
 import { AssetImg } from "@/components/AssetImg";
 import { useNavigate } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { CTASection } from "@/components/layout/CTASection";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAboutPage } from "@/hooks/useSanity";
@@ -109,8 +108,6 @@ const About = ({ isChatOpen }: AboutProps) => {
       ) : null}
 
       {pageSections?.length ? <PageSectionsRenderer sections={pageSections} /> : null}
-
-      <CTASection />
     </PageLayout>
   );
 };

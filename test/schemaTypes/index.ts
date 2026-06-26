@@ -21,6 +21,7 @@ import clinicPage from './clinicPage'
 import clinicsPage from './clinicsPage'
 import careersPage from './careersPage'
 import bookingPage from './bookingPage'
+import guidePage from './guidePage'
 
 import article from './article'
 import jobListing from './jobListing'
@@ -53,6 +54,7 @@ export const schemaTypes = [
   clinicsPage,
   careersPage,
   bookingPage,
+  guidePage,
 
   themePage,
   specialistsPage,

@@ -6,8 +6,8 @@ import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscop
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useClinics, useClinicsPage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useTranslation } from "react-i18next";
-import { CTASection } from "@/components/layout/CTASection";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { Button } from "@/components/ui/button";
 
@@ -235,7 +235,7 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         })}
       </section>
 
-      <CTASection />
+      <PageSectionsRenderer sections={page?.pageSections} />
     </PageLayout>
   );
 };

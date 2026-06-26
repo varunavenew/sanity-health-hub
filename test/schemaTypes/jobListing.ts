@@ -2,6 +2,7 @@
 // Stillingsannonser for karrieresiden
 import { JobIcon } from './icons'
 import { i18nSlugFieldFromString } from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'jobListing',
@@ -104,6 +105,7 @@ export default {
       initialValue: true,
       description: 'Deaktiver for å skjule stillingen uten å slette den.',
     },
+    pageSectionsField,
   ],
   orderings: [
     {

@@ -65,6 +65,7 @@ export const SINGLETON_PAGE_TYPES = [
   "clinicsPage",
   "privacyPolicyPage",
   "careersPage",
+  "guidePage",
 ] as const;
 
 export type SingletonPageType = (typeof SINGLETON_PAGE_TYPES)[number];

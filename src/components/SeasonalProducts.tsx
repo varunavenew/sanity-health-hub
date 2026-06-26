@@ -3,19 +3,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSeasonalProducts } from "@/hooks/useSanity";
-import { allProducts } from "@/data/mockData";
 import { Link } from "@/lib/router";
 
 export const SeasonalProducts = () => {
-  const { data: sanityProducts } = useSeasonalProducts();
+  const { data: products } = useSeasonalProducts();
+  const seasonalProducts = products ?? [];
 
-  const seasonalProducts = sanityProducts && sanityProducts.length > 0
-    ? sanityProducts
-    : [
-        allProducts.find(p => p.id === "5"),
-        allProducts.find(p => p.id === "1"),
-        allProducts.find(p => p.id === "9"),
-      ].filter(Boolean);
+  if (seasonalProducts.length === 0) return null;
 
   return (
     <section className="py-20" style={{ backgroundColor: 'hsl(40, 35%, 92%)' }}>
@@ -32,22 +26,23 @@ export const SeasonalProducts = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {seasonalProducts.map((product: any, index: number) => {
-            const productLink = product?.slug
-              ? `/product/${product.slug}`
-              : `/product/${product?.id}`;
+          {seasonalProducts.map((product, index) => {
+            if (!product.slug) return null;
+            const productLink = `/product/${product.slug}`;
 
             return (
-              <Link key={product?._id || product?.id} to={productLink}>
+              <Link key={product._id} to={productLink}>
                 <Card className="group hover:shadow-2xl transition-all duration-300 overflow-hidden bg-white border-2 hover:border-primary/30 hover:-translate-y-2">
                   <div className="relative overflow-hidden">
                     <div className="aspect-[4/5]">
-                      <img
-                        src={product?.image}
-                        alt={product?.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                      />
+                      {product.image ? (
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                      ) : null}
                     </div>
                     <div className="absolute top-4 left-4">
                       <Badge className="bg-primary text-white shadow-lg">
@@ -59,15 +54,15 @@ export const SeasonalProducts = () => {
                   <div className="p-6 space-y-4">
                     <div>
                       <h3 className="font-bold text-xl mb-3 group-hover:text-primary transition-colors">
-                        {product?.name}
+                        {product.name}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        {product?.description}
+                        {product.description}
                       </p>
                     </div>
 
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {product?.tags?.slice(0, 3).map((tag: string) => (
+                      {product.tags?.slice(0, 3).map((tag: string) => (
                         <Badge key={tag} variant="secondary" className="text-xs">
                           {tag}
                         </Badge>
@@ -75,7 +70,7 @@ export const SeasonalProducts = () => {
                     </div>
 
                     <div className="flex items-center justify-between pt-4 border-t">
-                      <span className="text-2xl font-bold text-primary">{product?.price}</span>
+                      <span className="text-2xl font-bold text-primary">{product.price}</span>
                       <Button className="rounded-full">
                         Legg i kurv
                       </Button>

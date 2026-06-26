@@ -27,6 +27,7 @@ import SpecialistProfile from "@/site-pages/SpecialistProfile";
 import Specialists from "@/site-pages/Specialists";
 import TreatmentCategoryLanding from "@/site-pages/treatments/TreatmentCategoryLanding";
 import TreatmentPage from "@/site-pages/treatments/TreatmentPage";
+import Guide from "@/site-pages/Guide";
 import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
 import {
@@ -41,6 +42,7 @@ import {
   buildSpecialistsAboutMetadata,
   buildSpecialistsListingMetadata,
   buildKarriereListingMetadata,
+  buildGuideMetadata,
 } from "@/lib/seo/route-metadata";
 import {
   buildArticleMetadata,
@@ -67,6 +69,7 @@ const SINGLETON_HANDLERS: Record<
   clinicsPage: { Component: Clinics, buildMetadata: buildClinicsListingMetadata },
   privacyPolicyPage: { Component: Personvern, buildMetadata: buildPrivacyMetadata },
   careersPage: { Component: Karriere, buildMetadata: buildKarriereListingMetadata },
+  guidePage: { Component: Guide, buildMetadata: buildGuideMetadata },
 };
 
 const TREATMENT_COMPONENTS: Record<string, React.ComponentType<{ isChatOpen: boolean; sanityLang?: "no" | "en"; initialTreatment?: unknown }>> = {

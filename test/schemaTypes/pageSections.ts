@@ -1,6 +1,7 @@
 /**
  * Reusable page sections (specialists, articles, booking CTA) for any singleton or document page.
  */
+import { defineField } from 'sanity'
 import { pickNo } from './i18n'
 
 const displayModeSpecialists = {
@@ -105,8 +106,9 @@ export const pageSectionSpecialists = {
       type: 'string',
       options: {
         list: [
-          { title: 'Horisontal karusell (forside)', value: 'carousel' },
-          { title: 'Mørkt rutenett (Om oss)', value: 'gridDark' },
+          { title: 'Horisontal karusell', value: 'carousel' },
+          { title: 'Mørkt rutenett', value: 'gridDark' },
+          { title: 'Lyst rutenett', value: 'gridLight' },
         ],
         layout: 'radio',
       },
@@ -244,6 +246,34 @@ export const pageSectionBookingCta = {
       type: 'internationalizedArrayText',
     },
     {
+      name: 'image',
+      title: 'Bilde (valgfritt)',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Vises ved siden av teksten når «Med bilde»-variant er valgt',
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alt-tekst',
+          type: 'internationalizedArrayString',
+        },
+      ],
+    },
+    {
+      name: 'variant',
+      title: 'Utseende',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Mørk (standard)', value: 'dark' },
+          { title: 'Varm bakgrunn', value: 'warm' },
+          { title: 'Med bilde', value: 'withImage' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'dark',
+    },
+    {
       name: 'primaryLabel',
       title: 'Primærknapp',
       type: 'internationalizedArrayString',
@@ -254,6 +284,7 @@ export const pageSectionBookingCta = {
       title: 'Primær lenke',
       type: 'string',
       initialValue: '/booking',
+      description: 'Intern sti (f.eks. /booking) eller full URL',
     },
     {
       name: 'bookingCategory',
@@ -263,9 +294,26 @@ export const pageSectionBookingCta = {
       description: 'Legger til ?kategori= på booking-lenken når primær lenke er /booking',
     },
     {
+      name: 'showSecondaryButton',
+      title: 'Vis «Ring oss»-knapp',
+      type: 'boolean',
+      initialValue: true,
+    },
+    {
       name: 'secondaryLabel',
-      title: 'Ring oss-tekst',
+      title: 'Sekundærknapp-tekst',
       type: 'internationalizedArrayString',
+      hidden: ({ parent }: { parent?: { showSecondaryButton?: boolean } }) =>
+        parent?.showSecondaryButton === false,
+    },
+    {
+      name: 'secondaryPath',
+      title: 'Sekundær lenke (valgfritt)',
+      type: 'string',
+      description:
+        'Intern sti (f.eks. /kontakt). Når satt brukes lenkeknapp i stedet for «Ring oss»-velger.',
+      hidden: ({ parent }: { parent?: { showSecondaryButton?: boolean } }) =>
+        parent?.showSecondaryButton === false,
     },
     {
       name: 'quickInfoItems',
@@ -312,16 +360,29 @@ export const pageSectionBookingCta = {
   },
 }
 
-/** Add to any page schema `fields` array */
-export const pageSectionsField = {
+/** Reusable page-builder field — add to any document schema `fields` array. */
+export const pageSectionsField = defineField({
   name: 'pageSections',
   title: 'Modulære seksjoner',
   description:
-    'Legg til spesialist-, artikkel- og/eller booking-CTA-seksjoner. Vises etter sidens hovedinnhold, i rekkefølgen du setter her.',
+    'Page builder: legg til, fjern og sorter spesialist-, artikkel- og booking-CTA-blokker. Vises etter sidens hovedinnhold.',
   type: 'array',
   of: [
     { type: 'pageSectionSpecialists' },
     { type: 'pageSectionArticles' },
     { type: 'pageSectionBookingCta' },
   ],
+  options: {
+    insertMenu: {
+      filter: true,
+      views: [
+        { name: 'list' },
+      ],
+    },
+  },
+})
+
+/** Same as pageSectionsField with an optional Sanity field group. */
+export function pageSectionsFieldForGroup(group?: string) {
+  return group ? { ...pageSectionsField, group } : pageSectionsField
 }

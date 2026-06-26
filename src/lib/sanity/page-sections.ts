@@ -14,7 +14,7 @@ export type PageSectionSpecialistsConfig = {
   seeAllLabel?: string;
   seeAllHref?: string;
   limit?: number;
-  variant?: "carousel" | "gridDark";
+  variant?: "carousel" | "gridDark" | "gridLight";
 };
 
 export type BookingCtaQuickInfoItem = {
@@ -27,10 +27,15 @@ export type PageSectionBookingCtaConfig = {
   _key?: string;
   title?: string;
   subtitle?: string;
+  image?: string;
+  imageAlt?: string;
+  variant?: "dark" | "warm" | "withImage";
   primaryLabel?: string;
   primaryPath?: string;
   bookingCategory?: { categoryId?: string };
+  showSecondaryButton?: boolean;
   secondaryLabel?: string;
+  secondaryPath?: string;
   quickInfoItems?: BookingCtaQuickInfoItem[];
 };
 
@@ -63,6 +68,17 @@ export type PageSection =
   | PageSectionSpecialistsConfig
   | PageSectionArticlesConfig
   | PageSectionBookingCtaConfig;
+
+/** Attach normalized page sections to any Sanity page document. */
+export function withPageSections<T extends Record<string, unknown>>(
+  data: T | null | undefined,
+): (T & { pageSections: PageSection[] }) | null {
+  if (!data) return null;
+  return {
+    ...data,
+    pageSections: normalizePageSections(data.pageSections),
+  };
+}
 
 export function sanitySpecialistToCard(s: SanitySpecialist): Specialist {
   return {
@@ -160,18 +176,26 @@ export function normalizePageSections(raw: unknown): PageSection[] {
                 return { icon, text };
               })
               .filter((x): x is BookingCtaQuickInfoItem => x != null)
-          : [];
+          : undefined;
 
         return {
           _type: "pageSectionBookingCta",
           _key: block._key as string | undefined,
           title: str(block.title) || undefined,
           subtitle: str(block.subtitle) || undefined,
+          image: str(block.image) || undefined,
+          imageAlt: str(block.imageAlt) || undefined,
+          variant:
+            block.variant === "warm" || block.variant === "withImage"
+              ? block.variant
+              : "dark",
           primaryLabel: str(block.primaryLabel) || undefined,
           primaryPath: str(block.primaryPath) || undefined,
           bookingCategory: block.bookingCategory as PageSectionBookingCtaConfig["bookingCategory"],
+          showSecondaryButton: block.showSecondaryButton !== false,
           secondaryLabel: str(block.secondaryLabel) || undefined,
-          quickInfoItems: quickInfoItems.length ? quickInfoItems : undefined,
+          secondaryPath: str(block.secondaryPath) || undefined,
+          quickInfoItems,
         };
       }
 

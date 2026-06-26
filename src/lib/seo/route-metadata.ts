@@ -13,6 +13,8 @@ import {
   fetchServicesPageDocument,
   fetchSpecialistsListingPageDocument,
   fetchSpecialistsPageDocument,
+  fetchGuidePageDocument,
+  fetchCareersPageDocument,
 } from "@/lib/seo/fetch-sanity-seo";
 import type { LocalizedPaths } from "@/lib/seo/metadata-builders";
 import { plainMetaString, resolveMetaStrings } from "@/lib/seo/seo-fields";
@@ -411,29 +413,75 @@ export async function buildClinicsListingMetadata(
   });
 }
 
-const KARRIERE_LISTING_FALLBACK = {
+const GUIDE_FALLBACK = {
   nb: {
-    title: "Karriere – Bli en del av CMedical",
+    title: "Våre Behandlinger | CMedical",
     description:
-      "Se ledige stillinger hos CMedical. Vi søker dyktige fagfolk som brenner for god pasientbehandling. Konkurransedyktige betingelser og godt fagmiljø.",
+      "Spesialiserte behandlinger for kvinnen og mannens underliv. Gynekologi, fertilitet og urologi hos CMedical.",
   },
   en: {
-    title: "Careers – Join CMedical",
+    title: "Our Treatments | CMedical",
     description:
-      "See open positions at CMedical. We are looking for skilled professionals passionate about patient care. Competitive terms and a strong professional environment.",
+      "Specialized treatments for women's and men's intimate health. Gynecology, fertility and urology at CMedical.",
   },
 } as const;
+
+export async function buildGuideMetadata(locale: string): Promise<Metadata> {
+  const lang = appLocaleFromParam(locale);
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchGuidePageDocument(sanityLang);
+  const seo = data?.seo;
+  const { title, description } = resolveMetaStrings(seo, lang, GUIDE_FALLBACK);
+  const resolvedTitle = plainMetaString(
+    seo?.metaTitle,
+    data?.heroTitle?.trim() || title,
+    sanityLang,
+  );
+  const resolvedDescription = plainMetaString(
+    seo?.metaDescription,
+    data?.heroSubtitle?.trim().slice(0, 160) || description,
+    sanityLang,
+  );
+
+  let paths = { nbPath: "/no/guide", enPath: "/en/guide" };
+  try {
+    paths = await fetchSingletonLocalizedPaths("guidePage");
+  } catch {
+    // guidePage slug not yet in CMS
+  }
+
+  return buildPageMetadata({
+    locale,
+    paths,
+    title: resolvedTitle,
+    description: resolvedDescription,
+    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage) : undefined,
+    noIndex: !!seo?.noIndex,
+    type: "website",
+  });
+}
 
 export async function buildKarriereListingMetadata(
   locale: string,
 ): Promise<Metadata> {
-  const lang = appLocaleFromParam(locale);
-  const { title, description } = KARRIERE_LISTING_FALLBACK[lang];
-  let paths = { nbPath: "/no/karriere", enPath: "/en/karriere" };
+  const sanityLang = sanityContentLangFromLocale(locale);
+  const data = await fetchCareersPageDocument(sanityLang);
+  if (!data) return {};
+
+  const seo = data.seo;
+  const title = plainMetaString(seo?.metaTitle, data.title?.trim() || "", sanityLang);
+  const description = plainMetaString(
+    seo?.metaDescription,
+    data.heroSubtitle?.trim().slice(0, 160) || data.introText?.trim().slice(0, 160) || "",
+    sanityLang,
+  );
+  if (!title && !description) return {};
+
+  let paths: { nbPath: string; enPath: string };
   try {
     paths = await fetchSingletonLocalizedPaths("careersPage");
   } catch {
-    // careersPage slug not yet in CMS
+    return {};
   }
 
   return buildPageMetadata({
@@ -441,6 +489,8 @@ export async function buildKarriereListingMetadata(
     paths,
     title,
     description,
+    ogImage: seo?.ogImage ? getImageUrl(seo.ogImage) : undefined,
+    noIndex: !!seo?.noIndex,
     type: "website",
   });
 }

@@ -4,8 +4,7 @@ import { ArrowLeft, ShoppingBag, Star, Check, Search, User, Heart } from "lucide
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useProduct, useProducts } from "@/hooks/useSanity";
-import { allProducts } from "@/data/mockData";
+import { useProduct } from "@/hooks/useSanity";
 
 interface ProductDetailProps {
   isChatOpen: boolean;
@@ -21,14 +20,7 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
         : "";
   const navigate = useNavigate();
 
-  // Try fetching from Sanity by slug
-  const { data: sanityProduct, isLoading } = useProduct(id || "");
-  const { data: allSanityProducts } = useProducts();
-
-  // Fallback: try matching by slug first, then by id in static data
-  const product = sanityProduct
-    || allSanityProducts?.find(p => p.slug === id)
-    || allProducts.find(p => p.id === id);
+  const { data: product, isLoading } = useProduct(id || "");
 
   if (isLoading) {
     return (

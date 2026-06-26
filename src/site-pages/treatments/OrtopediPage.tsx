@@ -6,14 +6,12 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { JourneyStepServicesForPage } from "@/components/booking/JourneyStepServicesForPage";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 
@@ -500,14 +498,6 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* 6. SPESIALISTER */}
-      <SpecialistsScroller
-        category="ortopedi"
-        title="Ortopedene som følger deg."
-        seeAllHref="/spesialister?kategori=ortopedi"
-        seeAllLabel="Se alle ortopeder"
-      />
-
       {/* 7. PASIENTREISEN */}
       <section className="bg-background">
         <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
@@ -555,9 +545,6 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
-
-      {/* UNIFIED PRE-FOOTER CTA — samme som hjem */}
-      <BookingCTA />
 
       <LeadPopup />
     </PageLayout>

@@ -8,6 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useTranslation } from "react-i18next";
 import { assetSrc } from "@/lib/media";
 
@@ -487,7 +488,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
         </section>
       )}
 
-      {showSocialSection ? (
+      {showSocialSection && hasCmsSocialPosts ? (
         <section className="bg-background border-t border-border">
           <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
             <div className="flex items-center justify-between mb-6">
@@ -498,12 +499,13 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             <SoMeFeed
               maxPosts={socialPostLimit}
               compact
-              posts={hasCmsSocialPosts ? socialSectionPosts : undefined}
-              cmsOnly={hasCmsSocialPosts}
+              posts={socialSectionPosts}
+              cmsOnly
             />
           </div>
         </section>
       ) : null}
+      <PageSectionsRenderer sections={newsPage?.pageSections} />
     </PageLayout>
   );
 };

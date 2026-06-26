@@ -3,15 +3,15 @@
  * Seed inline social posts on newsPage (Aktuelt).
  *
  * Run:
- *   cd test && npx tsx sanity/migrate-social-posts.ts
- *
- * ENV:
- *   DRY_RUN=1 — preview only (no writes)
+ *   cd test && npm run migrate:social-posts:dry
+ *   cd test && npm run migrate:social-posts
  */
 import * as fs from 'fs'
 import * as path from 'path'
 import { randomBytes } from 'crypto'
-import { sanityClient, PROJECT_ID, DATASET } from './config'
+import { sanityClient } from './config'
+import { patchSingletonFields } from './lib/patch-singleton'
+import { i18nString } from './lib/category-landing-i18n'
 
 const DRY_RUN = process.env.DRY_RUN === '1'
 
@@ -55,13 +55,13 @@ const POSTS = [
 
 const uploadCache = new Map<string, string>()
 
-async function uploadImage(filePath: string): Promise<string> {
+async function uploadImage(filePath: string): Promise<string | null> {
   const absolutePath = path.resolve(__dirname, filePath)
   if (uploadCache.has(absolutePath)) return uploadCache.get(absolutePath)!
 
   if (!fs.existsSync(absolutePath)) {
     console.warn(`  ⚠ Image not found: ${absolutePath}`)
-    return ''
+    return null
   }
 
   const buffer = fs.readFileSync(absolutePath)
@@ -80,13 +80,8 @@ async function uploadImage(filePath: string): Promise<string> {
     filename: path.basename(absolutePath),
     contentType,
   })
-  const ref = asset._id.replace(/^image-/, '')
-  const format = ext === 'png' ? 'png' : ext === 'webp' ? 'webp' : 'jpg'
-  const url =
-    (asset as { url?: string }).url ||
-    `https://cdn.sanity.io/images/${PROJECT_ID}/${DATASET}/${ref}-${asset.metadata?.dimensions?.width || 1200}x${asset.metadata?.dimensions?.height || 1200}.${format}`
-  uploadCache.set(absolutePath, url)
-  return url
+  uploadCache.set(absolutePath, asset._id)
+  return asset._id
 }
 
 function itemKey(seed: string): string {
@@ -97,8 +92,10 @@ async function run() {
   const socialPosts: Record<string, unknown>[] = []
 
   for (const post of POSTS) {
-    const imageUrl = await uploadImage(post.image) || (post.fallbackImage ? await uploadImage(post.fallbackImage) : '')
-    if (!imageUrl) {
+    const assetId =
+      (await uploadImage(post.image)) ||
+      (post.fallbackImage ? await uploadImage(post.fallbackImage) : null)
+    if (!assetId) {
       console.warn(`  ⚠ Skipping ${post._key} — no image`)
       continue
     }
@@ -110,7 +107,10 @@ async function run() {
       caption: post.caption,
       alt: post.alt,
       postUrl: post.postUrl,
-      imageUrl,
+      image: {
+        _type: 'image',
+        asset: { _type: 'reference', _ref: assetId },
+      },
     })
   }
 
@@ -118,20 +118,7 @@ async function run() {
     showSocialSection: true,
     socialPostLimit: 4,
     socialPosts,
-    socialSectionTitle: [
-      {
-        _type: 'internationalizedArrayStringValue',
-        _key: 'no',
-        language: 'no',
-        value: 'Følg oss på sosiale medier',
-      },
-      {
-        _type: 'internationalizedArrayStringValue',
-        _key: 'en',
-        language: 'en',
-        value: 'Follow us on social media',
-      },
-    ],
+    socialSectionTitle: i18nString('Følg oss på sosiale medier', 'Follow us on social media'),
   }
 
   if (DRY_RUN) {
@@ -139,13 +126,7 @@ async function run() {
     return
   }
 
-  await sanityClient.patch('newsPage').set(patch).commit()
-  try {
-    await sanityClient.patch('drafts.newsPage').set(patch).commit()
-  } catch {
-    console.log('  ℹ drafts.newsPage not patched (may not exist)')
-  }
-
+  await patchSingletonFields('newsPage', patch, 'newsPage')
   console.log(`\n✅ Migrated ${socialPosts.length} social posts onto newsPage`)
 }
 

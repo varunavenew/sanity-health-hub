@@ -9,6 +9,7 @@ import { Link, useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { usePricingPage, useFaqs } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
@@ -83,6 +84,52 @@ function resolveDisplayDuration(
   return { label: item.duration || null, loading: false };
 }
 
+function mapApiCategoryToPriceCategory(cat: BookingCategory): PriceCategory {
+  return {
+    id: cat.clinicServiceId,
+    label: cat.label,
+    path: `/${cat.clinicServiceId}`,
+    subcategories: [
+      {
+        label: cat.label,
+        path: `/${cat.clinicServiceId}`,
+        items: cat.services.map((svc) => ({
+          name: svc.name,
+          price: svc.price === "0" ? "Gratis" : `${svc.price},-`,
+          duration: "",
+          apiActivityId: svc.apiActivityId,
+        })),
+      },
+    ],
+  };
+}
+
+/** API groups like «Sædanalyse» share clinicServiceId with «Fertilitet» — merge for one accordion. */
+function mergePriceCategoriesByClinicServiceId(
+  apiCategories: BookingCategory[],
+): PriceCategory[] {
+  const merged = new Map<string, PriceCategory>();
+
+  for (const cat of apiCategories) {
+    const mapped = mapApiCategoryToPriceCategory(cat);
+    const existing = merged.get(mapped.id);
+
+    if (!existing) {
+      merged.set(mapped.id, mapped);
+      continue;
+    }
+
+    existing.subcategories.push(...mapped.subcategories);
+
+    // Prefer the label whose API slug matches the shared clinic service id.
+    if (cat.id === cat.clinicServiceId) {
+      existing.label = mapped.label;
+    }
+  }
+
+  return Array.from(merged.values());
+}
+
 // ─── Hook: fetch booking categories + prices ─────────────────────────────────
 function useBookingPriceCategories(): {
   categories: PriceCategory[];
@@ -102,24 +149,7 @@ function useBookingPriceCategories(): {
       .then((data: { ok: boolean; categories?: BookingCategory[]; message?: string }) => {
         if (!data.ok || !data.categories) throw new Error(data.message ?? "Unknown error");
 
-        const mapped: PriceCategory[] = data.categories.map((cat) => ({
-          id: cat.clinicServiceId,
-          label: cat.label,
-          path: `/${cat.clinicServiceId}`,
-          subcategories: [
-            {
-              label: cat.label,
-              path: `/${cat.clinicServiceId}`,
-              items: cat.services.map((svc) => ({
-                name:          svc.name,
-                price:         svc.price === "0" ? "Gratis" : `${svc.price},-`,
-                duration:      "",
-                apiActivityId: svc.apiActivityId,
-              })),
-            },
-          ],
-        }));
-        setCategories(mapped);
+        setCategories(mergePriceCategoriesByClinicServiceId(data.categories));
       })
       .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false));
@@ -370,7 +400,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                         <div className="px-5 md:px-6 pb-6 md:pb-8 space-y-3">
                           {category.subcategories.map((sub) => (
                             <div
-                              key={sub.label}
+                              key={`${category.id}-${sub.label}`}
                               className={`rounded-lg transition-all border ${
                                 expandedSubcategory === sub.label
                                   ? "bg-secondary/60 border-border/50"
@@ -612,28 +642,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 md:py-28 bg-brand-dark">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-white mb-6">
-              {t("cta.title")}
-            </h2>
-            <p className="text-base md:text-[17px] font-light text-white/70 mb-10 max-w-xl mx-auto">
-              {t("cta.subtitle")}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="cta-dark" size="lg" className="px-8" onClick={() => navigate("/booking")}>
-                {t("nav.bookAppointment")}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-              <Button variant="cta-outline-dark" size="lg" asChild>
-                <Link to="/kontakt">{t("cta.contactUs")}</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageSectionsRenderer sections={sanityPricing?.pageSections} />
     </PageLayout>
   );
 };

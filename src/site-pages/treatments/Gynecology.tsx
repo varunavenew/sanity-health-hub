@@ -6,14 +6,12 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Phone, Quote } from "lucide-react";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";
-import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
@@ -602,16 +600,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* ============================================================
-          9. SPESIALISTER — menneskene bak
-      ============================================================ */}
-      <SpecialistsScroller
-        category="gynekologi"
-        title="Gynekologene som følger deg."
-        seeAllHref="/spesialister?kategori=gynekologi"
-        seeAllLabel="Se alle gynekologer"
-      />
-
-      {/* ============================================================
           6. FRA FØRSTE KONTAKT TIL RIKTIG BEHANDLING — split
       ============================================================ */}
       <section className="bg-background">
@@ -665,11 +653,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
-
-      {/* ============================================================
-          10. UNIFIED PRE-FOOTER CTA — samme som hjem
-      ============================================================ */}
-      <BookingCTA />
     </PageLayout>
   );
 };

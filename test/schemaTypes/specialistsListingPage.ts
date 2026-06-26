@@ -1,6 +1,7 @@
 // Schema: Specialists directory (/spesialister) — hero + SEO (singleton)
 import { SpecialistIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'specialistsListingPage',
@@ -41,6 +42,7 @@ export default {
       type: 'seo',
       description: 'Meta-tittel (metaTitle) og meta-beskrivelse (metaDescription) for /spesialister',
     },
+    pageSectionsField,
   ],
   preview: {
     select: { title: 'heroTitle' },

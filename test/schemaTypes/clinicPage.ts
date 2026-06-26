@@ -8,8 +8,17 @@ import {
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import { pageSectionsFieldForGroup } from './pageSections'
 
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
+
+/** Avoid Studio GroupSelect crashes: skip validation when booking method does not apply. */
+function whenBookingMethod(method: string, validate: (rule: any) => any) {
+  return (rule: any, context: { parent?: { method?: string }; hidden?: boolean }) => {
+    if (context?.hidden || context?.parent?.method !== method) return rule.skip()
+    return validate(rule)
+  }
+}
 
 export default {
   name: 'clinicPage',
@@ -17,13 +26,10 @@ export default {
   type: 'document',
   icon: ClinicIcon,
   groups: [
-    { name: 'overview', title: 'Oversikt', default: true },
-    { name: 'contact', title: 'Kontakt & adresse' },
-    { name: 'practical', title: 'Praktisk info' },
-    { name: 'related', title: 'Behandlinger & spesialister' },
+    { name: 'main', title: 'Innhold', default: true },
     { name: 'booking', title: 'Booking' },
-    { name: 'faq', title: 'FAQ' },
-    { name: 'seo', title: 'SEO & meta' },
+    { name: 'extras', title: 'FAQ & seksjoner' },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     {
@@ -31,12 +37,12 @@ export default {
       title: 'Navn',
       type: 'internationalizedArrayString',
       validation: requiredNoEnI18n('Navn'),
-      group: 'overview',
+      group: 'main',
     },
     {
       ...i18nSlugFieldFromTitle('title', {
         title: 'Slug',
-        group: 'overview',
+        group: 'main',
       }),
     },
     {
@@ -45,21 +51,30 @@ export default {
       type: 'image',
       options: { hotspot: true },
       validation: reqStr('Hovedbilde'),
-      group: 'overview',
+      group: 'main',
     },
     {
       name: 'description',
       title: 'Beskrivelse',
       type: 'internationalizedArrayText',
       validation: requiredNoEnI18n('Beskrivelse'),
-      group: 'overview',
+      group: 'main',
+    },
+    {
+      name: 'sortOrder',
+      title: 'Sorteringsrekkefølge',
+      type: 'number',
+      description: 'Lavere tall vises først i klinikkoversikten.',
+      initialValue: 0,
+      validation: (Rule: any) => Rule.integer().min(0).error('Må være 0 eller høyere'),
+      group: 'main',
     },
     {
       name: 'valueProposition',
       title: 'Verdiforslag',
       type: 'object',
       options: { collapsible: true },
-      group: 'overview',
+      group: 'main',
       fields: [
         { name: 'valueProposition1', title: 'Verdiforslag 1', type: 'internationalizedArrayString' },
         { name: 'valueProposition2', title: 'Åpningstider', type: 'string', placeholder: '08:00–16:00' },
@@ -71,41 +86,41 @@ export default {
       title: 'Adresse',
       type: 'string',
       validation: reqStr('Adresse'),
-      group: 'contact',
+      group: 'main',
     },
     {
       name: 'phone',
       title: 'Telefon',
       type: 'string',
       validation: reqStr('Telefon'),
-      group: 'contact',
+      group: 'main',
     },
     {
       name: 'email',
       title: 'E-post',
       type: 'string',
       validation: (Rule: any) => Rule.required().email().error('Gyldig e-post er påkrevd'),
-      group: 'contact',
+      group: 'main',
     },
     {
       name: 'hours',
       title: 'Åpningstider',
       type: 'internationalizedArrayString',
       validation: requiredNoEnI18n('Åpningstider'),
-      group: 'contact',
+      group: 'main',
     },
     {
       name: 'contactDescription',
       title: 'Kontaktbeskrivelse',
       type: 'internationalizedArrayText',
-      group: 'contact',
+      group: 'main',
     },
     {
       name: 'locationSearch',
       title: 'Koordinater',
       type: 'object',
       options: { collapsible: true },
-      group: 'contact',
+      group: 'main',
       validation: (Rule: any) =>
         Rule.required().custom((value: { lat?: number; lng?: number } | undefined) => {
           if (value?.lat == null || value?.lng == null) {
@@ -133,14 +148,14 @@ export default {
       title: 'Behandlinger',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
-      group: 'related',
+      group: 'main',
     },
     {
       name: 'specialists',
       title: 'Spesialister',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
-      group: 'related',
+      group: 'main',
     },
     {
       name: 'services',
@@ -149,75 +164,14 @@ export default {
       of: [{ type: 'string' }],
       description: 'Kategori-IDer som denne klinikken tilbyr',
       validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én tjeneste-ID'),
-      group: 'related',
-    },
-    {
-      name: 'booking',
-      title: 'Booking',
-      type: 'object',
-      options: { collapsible: true, collapsed: false },
-      group: 'booking',
-      validation: reqStr('Booking'),
-      fields: [
-        {
-          name: 'method',
-          title: 'Method',
-          type: 'string',
-          options: {
-            layout: 'radio',
-            list: [
-              { title: 'Show screen with contact info', value: 'info' },
-              { title: 'Show Pasientsky form', value: 'pasientsky' },
-              { title: 'Show Metodika form', value: 'metodika' },
-              { title: 'Closed for booking', value: 'closed' },
-            ],
-          },
-          initialValue: 'info',
-          validation: reqStr('Method'),
-        },
-        {
-          name: 'serviceProviderId',
-          title: 'Service Provider Id',
-          description: 'Pasientsky Service Provider ID',
-          type: 'string',
-          hidden: ({ parent }: any) => parent?.method !== 'pasientsky',
-          validation: (Rule: any) =>
-            Rule.custom((value: string | undefined, context: { parent?: { method?: string } }) => {
-              if (context.parent?.method === 'pasientsky' && !value?.trim()) {
-                return 'Pasientsky Service Provider ID is required'
-              }
-              return true
-            }),
-        },
-        {
-          name: 'externalBookingUrl',
-          title: 'External booking URL',
-          type: 'url',
-          description: 'Used with "Show screen with contact info" when booking is via an external partner.',
-          hidden: ({ parent }: any) => parent?.method !== 'info',
-        },
-        {
-          name: 'closedMessage',
-          title: 'Message when closed',
-          type: 'internationalizedArrayText',
-          hidden: ({ parent }: any) => parent?.method !== 'closed',
-          validation: (Rule: any) =>
-            Rule.custom((value: unknown, context: { parent?: { method?: string } }) => {
-              if (context.parent?.method !== 'closed') return true
-              if (!pickNo(value)?.trim()) return 'Message when closed (Norwegian) is required'
-              if (!pickForLang(value, 'en')?.trim()) return 'Message when closed (English) is required'
-              return true
-            }),
-        },
-      ],
+      group: 'main',
     },
     {
       name: 'detail',
       title: 'Praktisk informasjon',
       type: 'object',
       options: { collapsible: true },
-      group: 'practical',
-      validation: reqStr('Praktisk informasjon'),
+      group: 'main',
       fields: [
         {
           name: 'parking',
@@ -240,10 +194,67 @@ export default {
       ],
     },
     {
+      name: 'booking',
+      title: 'Booking',
+      type: 'object',
+      options: { collapsible: true, collapsed: false },
+      group: 'booking',
+      fields: [
+        {
+          name: 'method',
+          title: 'Method',
+          type: 'string',
+          options: {
+            layout: 'radio',
+            list: [
+              { title: 'Show screen with contact info', value: 'info' },
+              { title: 'Show Pasientsky form', value: 'pasientsky' },
+              { title: 'Show Metodika form', value: 'metodika' },
+              { title: 'Closed for booking', value: 'closed' },
+            ],
+          },
+          initialValue: 'info',
+          validation: reqStr('Method'),
+        },
+        {
+          name: 'serviceProviderId',
+          title: 'Service Provider Id',
+          description: 'Pasientsky Service Provider ID (kun når Method = Pasientsky)',
+          type: 'string',
+          validation: whenBookingMethod('pasientsky', (rule) =>
+            rule.custom((value: string | undefined) =>
+              value?.trim() ? true : 'Pasientsky Service Provider ID is required',
+            ),
+          ),
+        },
+        {
+          name: 'externalBookingUrl',
+          title: 'External booking URL',
+          type: 'url',
+          description:
+            'Kun når Method = contact info og booking går via ekstern partner.',
+          validation: whenBookingMethod('info', (rule) => rule),
+        },
+        {
+          name: 'closedMessage',
+          title: 'Message when closed',
+          type: 'internationalizedArrayText',
+          description: 'Kun når Method = Closed for booking',
+          validation: whenBookingMethod('closed', (rule) =>
+            rule.custom((value: unknown) => {
+              if (!pickNo(value)?.trim()) return 'Message when closed (Norwegian) is required'
+              if (!pickForLang(value, 'en')?.trim()) return 'Message when closed (English) is required'
+              return true
+            }),
+          ),
+        },
+      ],
+    },
+    {
       name: 'faqs',
       title: 'FAQ',
       type: 'array',
-      group: 'faq',
+      group: 'extras',
       of: [
         {
           type: 'object',
@@ -258,14 +269,6 @@ export default {
       ],
     },
     {
-      name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
-      type: 'number',
-      description: 'Lavere tall vises først i klinikkoversikten.',
-      validation: reqStr('Sorteringsrekkefølge'),
-      group: 'overview',
-    },
-    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
@@ -274,16 +277,13 @@ export default {
       validation: requiredNoEnSeo,
       group: 'seo',
     },
+    pageSectionsFieldForGroup('extras'),
   ],
   orderings: [
     {
       title: 'Manuell rekkefølge',
       name: 'sortOrderAsc',
-      by: [
-        { field: 'sortOrder', direction: 'asc' },
-        // title is internationalizedArray — sort by slug (derived from Navn)
-        { field: 'sortOrder', direction: 'asc' },
-      ],
+      by: [{ field: 'sortOrder', direction: 'asc' }],
     },
     {
       title: 'Navn (A–Å)',

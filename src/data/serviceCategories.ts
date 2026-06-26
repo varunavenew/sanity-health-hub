@@ -5,6 +5,8 @@ export interface SubItem {
 }
 
 export interface SubCategory {
+  /** Treatment slug — used for stable hover state across locales */
+  id?: string;
   label: string;
   path: string;
   items?: SubItem[];

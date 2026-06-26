@@ -88,6 +88,7 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
     );
   }
 
+  const isDark = variant === "gridDark";
   const eyebrow = config.eyebrow || t("specialists.subtitle", { defaultValue: "Vårt team" });
   const title = config.title || t("specialists.title", { defaultValue: "Møt våre spesialister" });
   const description =
@@ -97,6 +98,43 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
     });
 
   if (specialists.length === 0) return null;
+
+  if (!isDark) {
+    return (
+      <section className="py-16 md:py-24 bg-background border-t border-border/40">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="mb-10">
+            {eyebrow ? <p className="text-muted-foreground text-xs mb-3 uppercase tracking-wide">{eyebrow}</p> : null}
+            <h2 className="text-2xl md:text-3xl font-light text-foreground mb-3">{title}</h2>
+            {description ? <p className="text-muted-foreground font-light max-w-xl">{description}</p> : null}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {specialists.map((specialist) => (
+              <Link to={`/spesialister/${specialist.slug}`} key={specialist.slug} className="group">
+                <div className="relative aspect-[3/4] rounded-sm overflow-hidden bg-secondary">
+                  <AssetImg
+                    src={specialist.image}
+                    alt={specialist.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                </div>
+                <h3 className="mt-3 text-sm font-medium text-foreground">{specialist.name}</h3>
+                <p className="text-xs text-muted-foreground font-light">{specialist.title}</p>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-10">
+            <Button variant="outline" className="rounded-sm font-light" asChild>
+              <Link to={seeAllHref}>
+                {seeAllLabel}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-brand-dark py-16 md:py-24">

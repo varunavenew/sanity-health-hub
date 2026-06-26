@@ -17,7 +17,7 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norsk'},
   {id: 'en', title: 'English'},
 ] as const
-import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon} from './schemaTypes/icons'
+import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon, JobIcon} from './schemaTypes/icons'
 
 // Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
@@ -27,6 +27,8 @@ const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
     'pricingPage', 'insurancePage', 'servicesPage', 'clinicPage', 'jobListing',
     'newsPage',
     'privacyPolicyPage',
+    'guidePage',
+    'careersPage',
   ]
 
   if (previewableTypes.includes(schemaType)) {
@@ -65,6 +67,9 @@ const hiddenTypes = [
   'googleReview',
   'googleReviewSettings',
   'newsPage',
+  'guidePage',
+  'careersPage',
+  'jobListing',
 ]
 
 export default defineConfig({
@@ -88,7 +93,9 @@ export default defineConfig({
             item.getId() !== 'clinicsPage' &&
             item.getId() !== 'specialistsListingPage' &&
             item.getId() !== 'treatmentCategory' &&
-            item.getId() !== 'treatment',
+            item.getId() !== 'treatment' &&
+            item.getId() !== 'jobListing' &&
+            item.getId() !== 'careersPage',
         )
         const mid = Math.floor(otherItems.length / 2)
 
@@ -211,6 +218,42 @@ export default defineConfig({
               .documentId('bookingPage'),
           )
 
+        const guideItem = S.listItem()
+          .title('Guide')
+          .child(
+            S.document()
+              .schemaType('guidePage')
+              .documentId('guidePage'),
+          )
+
+        const karriereItem = S.listItem()
+          .title('Karriere')
+          .icon(JobIcon)
+          .child(
+            S.list()
+              .title('Karriere')
+              .items([
+                S.listItem()
+                  .title('Karriere-side')
+                  .icon(JobIcon)
+                  .child(
+                    S.document()
+                      .schemaType('careersPage')
+                      .documentId('careersPage'),
+                  ),
+                S.documentTypeListItem('jobListing')
+                  .title('Stillingsannonser')
+                  .icon(JobIcon)
+                  .child(
+                    S.documentTypeList('jobListing')
+                      .title('Stillingsannonser')
+                      .defaultOrdering([
+                        { field: 'publishedAt', direction: 'desc' },
+                      ]),
+                  ),
+              ]),
+          )
+
         const priserItem = S.listItem()
           .title('Priser')
           .icon(PricingIcon)
@@ -263,6 +306,8 @@ export default defineConfig({
             treatmentItem,
             specialistsItem,
             bookingItem,
+            guideItem,
+            karriereItem,
             priserItem,
             googleReviewsItem,
             ...otherItems.slice(mid),
@@ -300,6 +345,8 @@ export default defineConfig({
         'insurancePage', 'themePage', 'pricingPage', 'specialistsPage', 'specialistsListingPage', 'newsPage',
         'specialist',
         'siteSettings',
+        'guidePage',
+        'careersPage',
       ])
       if (!i18nTypes.has(context.schemaType)) return actions
       return [...actions, TranslateToEnglishAction]

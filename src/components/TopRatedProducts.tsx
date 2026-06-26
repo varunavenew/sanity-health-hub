@@ -2,17 +2,13 @@ import { Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTopRatedProducts } from "@/hooks/useSanity";
-import { allProducts } from "@/data/mockData";
 import { Link } from "@/lib/router";
 
 export const TopRatedProducts = () => {
-  const { data: sanityProducts } = useTopRatedProducts();
+  const { data: products } = useTopRatedProducts();
+  const topRated = products ?? [];
 
-  const topRated = sanityProducts && sanityProducts.length > 0
-    ? sanityProducts
-    : allProducts
-        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-        .slice(0, 4);
+  if (topRated.length === 0) return null;
 
   return (
     <section className="py-20 bg-gradient-to-b from-background to-muted/20">
@@ -29,21 +25,22 @@ export const TopRatedProducts = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {topRated.map((product: any) => {
-            const productLink = product.slug
-              ? `/product/${product.slug}`
-              : `/product/${product.id}`;
+          {topRated.map((product) => {
+            if (!product.slug) return null;
+            const productLink = `/product/${product.slug}`;
 
             return (
-              <Link key={product._id || product.id} to={productLink}>
+              <Link key={product._id} to={productLink}>
                 <Card className="group hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 hover:border-primary/20 hover:-translate-y-2">
                   <div className="relative overflow-hidden aspect-square">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                    />
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    ) : null}
                     <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-full shadow-lg flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                       <span className="font-bold text-sm">{product.rating}</span>

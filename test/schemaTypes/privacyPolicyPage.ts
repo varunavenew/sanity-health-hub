@@ -1,5 +1,6 @@
 import { PrivacyIcon } from './icons'
 import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'privacyPolicyPage',
@@ -24,6 +25,7 @@ export default {
       title: 'Cookiebot Key',
       type: 'string',
     },
+    pageSectionsField,
   ],
   preview: {
     select: { title: 'title' },
