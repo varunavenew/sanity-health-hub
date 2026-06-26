@@ -502,13 +502,14 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div className="grid md:grid-cols-2 gap-6">
+ <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {expertAreas.map((a) => (
  <Link
  key={a.title}
  to={a.href}
- className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+ className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
  >
+
  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
  <img
  src={a.image}
