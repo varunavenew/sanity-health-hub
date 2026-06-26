@@ -673,6 +673,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </div>
               </Link>
             </div>
+            <ScrollArrows scrollRef={stotteRef} />
+
           </div>
         </div>
       </section>
