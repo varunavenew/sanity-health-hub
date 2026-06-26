@@ -8,16 +8,16 @@ import { useTranslation } from "react-i18next";
 // Static fallback images — use the same hero images as the corresponding subpages
 // (portrait-friendly crops; object-position tuned per card so the subject stays visible).
 import urologiAsset from "@/assets/services/urologi-hero.jpg.asset.json";
-import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
-import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
+import fertilitetHeroAsset from "@/assets/services/fertilitet-hero.jpg.asset.json";
+import gynekologiHeroAsset from "@/assets/services/gynekologi-hero.jpg.asset.json";
 import ortopediAsset from "@/assets/services/ortopedi-hero.jpg.asset.json";
 import graviditetAsset from "@/assets/services/graviditet-hero.jpg.asset.json";
 import flereImg from "@/assets/hero/cmedical-family.jpg";
 
 const staticCategories = [
   { id: 'urologi', title: 'Urologi', image: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
-  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetImg, path: '/fertilitet', objectPosition: 'center' },
-  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiImg, path: '/gynekologi', objectPosition: 'center' },
+  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetHeroAsset.url, path: '/fertilitet', objectPosition: 'center' },
+  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiHeroAsset.url, path: '/gynekologi', objectPosition: 'center' },
   { id: 'graviditet', title: 'Graviditet', image: graviditetAsset.url, path: '/graviditet', objectPosition: 'center' },
   { id: 'ortopedi', title: 'Ortopedi', image: ortopediAsset.url, path: '/ortopedi', objectPosition: 'center' },
   { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader', objectPosition: 'center' },
@@ -73,7 +73,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
     const card = cardRefs.current[i];
     const el = swiperRef.current;
     if (!card || !el) return;
-    el.scrollTo({ left: card.offsetLeft - 16, behavior: 'smooth' });
+    el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
   };
 
   return (
@@ -90,7 +90,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
       <div className="md:hidden">
         <div
           ref={swiperRef}
-          className="flex gap-3 overflow-x-auto px-4 pb-2 snap-x snap-mandatory scrollbar-hide"
+          className="flex overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           role="region"
           aria-label={t("services.title")}
@@ -100,7 +100,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               key={category.id}
               ref={(el) => { cardRefs.current[index] = el; }}
               onClick={() => navigate(category.path)}
-              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-center shrink-0 w-[82vw] rounded-sm"
+              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-start shrink-0 w-[92vw] rounded-sm"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
