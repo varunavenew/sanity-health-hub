@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Phone, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -73,6 +75,10 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  document.title = "Flere fagområder | CMedical — hud, psykologi, sexologi og mer";
  }, []);
 
+ const clustersRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
+
  return (
  <PageLayout isChatOpen={isChatOpen}>
  <h1 className="sr-only">Flere fagområder hos CMedical</h1>
@@ -143,7 +149,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="max-w-2xl mb-14">
  <h2 className="text-3xl md:text-5xl font-light leading-tight">Finn fagfeltet som passer deg.</h2>
  </div>
- <div className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={clustersRef} className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {clusters.map((c) => (
  <div key={c.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
  <h3 className="text-lg font-normal text-foreground mb-3">{c.title}</h3>
@@ -156,6 +162,8 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={clustersRef} />
+
  </div>
  </div>
  </section>
@@ -217,9 +225,10 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <div className="max-w-xl mb-10">
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">Hva pasientene sier</h2>
  </div>
- <div className="grid md:grid-cols-3 gap-6">
+ 
+ <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {reviews.map((r, i) => (
- <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10">
+ <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10 shrink-0 w-[78vw] md:w-auto snap-center">
  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
@@ -234,8 +243,10 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={reviewsRef} />
  </div>
  </div>
+
  </section>
 
  {/* FAQ */}

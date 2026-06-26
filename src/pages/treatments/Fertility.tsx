@@ -1,5 +1,5 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Quote, Users, Clock, User } from "lucide-react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -18,6 +18,8 @@ import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSec
 import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getServiceImageFromHref } from "@/data/serviceImages";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 
 import journeyConsultation from "@/assets/fertility/journey-01-consultation.jpg";
 import journeyLab from "@/assets/fertility/journey-02-lab.jpg";
@@ -221,6 +223,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  const list = madeleine ? [madeleine, ...withoutMadeleine] : fertility;
  return list.slice(0, 5);
  }, []);
+
+ const audiencesRef = useRef<HTMLDivElement>(null);
+ const expertAreasRef = useRef<HTMLDivElement>(null);
+ const stotteRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
 
  useEffect(() => {
  document.title =
@@ -451,7 +459,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-           <div className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+           <div ref={audiencesRef} className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
              {audiences.map((a) => (
                <div
                  key={a.title}
@@ -476,6 +484,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                </div>
              ))}
            </div>
+           <ScrollArrows scrollRef={audiencesRef} />
+
  </div>
  </div>
  </section>
@@ -501,13 +511,14 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
               {expertAreas.map((a) => (
                 <Link
                   key={a.title}
                   to={a.href}
-                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
                 >
+
                   <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
                     <img
                       src={a.image}
@@ -527,6 +538,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </Link>
               ))}
             </div>
+            <ScrollArrows scrollRef={expertAreasRef} />
+
           </div>
         </div>
       </section>
@@ -610,11 +623,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Støtte gjennom fertilitetsprosessen
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div ref={stotteRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
               <Link
                 to="/behandlinger/flere-fagomrader/psykologi"
-                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
               >
+
                 <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
                   <img
                     src={imgPsykologi.url}
@@ -636,8 +650,9 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </Link>
               <Link
                 to="/behandlinger/flere-fagomrader/sexologi"
-                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
               >
+
                 <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
                   <img
                     src={imgSexologi.url}
@@ -658,6 +673,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 </div>
               </Link>
             </div>
+            <ScrollArrows scrollRef={stotteRef} />
+
           </div>
         </div>
       </section>
@@ -726,12 +743,13 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  Tilbakemeldinger fra ekte pasienter
  </h2>
  </div>
- <div className="grid md:grid-cols-3 gap-6">
+ <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {reviews.map((r, i) => (
  <div
  key={i}
- className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300"
+ className="group relative p-8 rounded-sm bg-white border border-brand-dark/10 hover:border-brand-dark/20 hover:shadow-lg transition-all duration-300 shrink-0 w-[78vw] md:w-auto snap-center"
  >
+
  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
@@ -766,6 +784,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={reviewsRef} />
+
  </div>
  </div>
  </section>

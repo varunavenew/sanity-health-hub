@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Phone, Quote, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import {
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { AnimatedStatsSection } from "@/components/treatments/AnimatedStatsSection";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 
 import ortopediHero from "@/assets/categories/ortopedi-real.jpg";
 
@@ -92,6 +94,11 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  () => specialists.filter((s) => s.category === "ortopedi").slice(0, 5),
  []
  );
+
+ const segmentsRef = useRef<HTMLDivElement>(null);
+ const specialistsRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
 
  return (
  <PageLayout isChatOpen={isChatOpen}>
@@ -185,7 +192,7 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  Du trenger ikke en diagnose for å bestille.
  </h3>
  </div>
- <div className="flex md:grid md:grid-cols-2 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={segmentsRef} className="flex md:grid md:grid-cols-2 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {segments.map((s) => (
  <div key={s.title} className="bg-background p-7 rounded-sm border border-border/40 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
  <h3 className="text-lg font-normal text-foreground mb-3">{s.title}</h3>
@@ -197,6 +204,8 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={segmentsRef} />
+
 
  {/* Second opinion dark stripe */}
  <div className="mt-14 bg-brand-dark text-white rounded-sm p-8 md:p-10">
@@ -289,9 +298,9 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </Link>
  </div>
  </div>
- <div className={`grid grid-cols-2 gap-0 ${ortoSpecialists.length === 5 ? "md:grid-cols-5" : `md:grid-cols-${ortoSpecialists.length}`}`}>
+ <div ref={specialistsRef} className={`flex md:grid gap-3 md:gap-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide ${ortoSpecialists.length === 5 ? "md:grid-cols-5" : `md:grid-cols-${ortoSpecialists.length}`}`} style={{ scrollbarWidth: 'none' }}>
  {ortoSpecialists.map((sp) => (
- <Link key={sp.slug} to={`/spesialister/${sp.slug}`} className="group relative block">
+ <Link key={sp.slug} to={`/spesialister/${sp.slug}`} className="group relative block shrink-0 w-[78vw] md:w-auto snap-center">
  <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
  <img src={sp.image} alt={sp.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10" />
@@ -303,6 +312,8 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </Link>
  ))}
  </div>
+ <ScrollArrows scrollRef={specialistsRef} />
+
  </section>
  )}
 
@@ -313,9 +324,9 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  <div className="max-w-xl mb-10">
  <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">Hva pasientene sier om ortopedi</h2>
  </div>
- <div className="grid md:grid-cols-3 gap-6">
+ <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {reviews.map((r, i) => (
- <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10">
+ <div key={i} className="relative p-8 rounded-sm bg-white border border-brand-dark/10 shrink-0 w-[78vw] md:w-auto snap-center">
  <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-dark/10 rotate-180" />
  <div className="flex mb-4">
  {[0, 1, 2, 3, 4].map((s) => (
@@ -330,7 +341,9 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  </div>
  ))}
  </div>
+ <ScrollArrows scrollRef={reviewsRef} />
  </div>
+
  </div>
  </section>
 
