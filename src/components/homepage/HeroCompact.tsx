@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
+
 
 // Static fallback images — use the same hero images as the corresponding subpages
 // (portrait-friendly crops; object-position tuned per card so the subject stays visible).
