@@ -105,7 +105,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const navScrollerRef = useRef<HTMLDivElement | null>(null);
   const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const navWrapperRef = useRef<HTMLDivElement | null>(null);
+  const overviewRef = useRef<HTMLDivElement | null>(null);
   const [navTop, setNavTop] = useState(80);
+  const [showStickyNav, setShowStickyNav] = useState(false);
 
   // IntersectionObserver to highlight active category pill as user scrolls
   useEffect(() => {
@@ -166,6 +168,24 @@ const Priser = ({ isChatOpen }: PageProps) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Toggle sticky pill bar based on whether the full overview is scrolled past
+  useEffect(() => {
+    const el = overviewRef.current;
+    if (!el) return;
+    const check = () => {
+      const rect = el.getBoundingClientRect();
+      // Show sticky bar once the full overview's bottom has scrolled above the header
+      setShowStickyNav(rect.bottom < navTop + 8);
+    };
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    return () => {
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
+  }, [navTop]);
+
   const scrollToCat = (id: string) => {
     const el = document.getElementById(`cat-${id}`);
     if (!el) return;
@@ -218,11 +238,30 @@ const Priser = ({ isChatOpen }: PageProps) => {
               <h2 className="text-3xl md:text-4xl font-light text-brand-dark">Vår meny</h2>
             </div>
 
-            {/* Sticky horizontal category nav — all categories visible, horizontal scroll */}
+            {/* Full category overview — visible at top, condenses to sticky pill bar on scroll */}
+            <div ref={overviewRef} className="mb-10 md:mb-14">
+              <p className="text-xs font-light text-brand-dark/60 mb-4">Velg en kategori for å hoppe direkte:</p>
+              <div className="flex flex-wrap gap-2 md:gap-3">
+                {ordered.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Sticky horizontal category nav — appears once full overview has scrolled past */}
             <div
               ref={navWrapperRef}
-              className="sticky z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10"
+              className={`sticky z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10 transition-opacity duration-200 ${
+                showStickyNav ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
               style={{ top: `${navTop}px` }}
+              aria-hidden={!showStickyNav}
             >
               <div
                 ref={navScrollerRef}
