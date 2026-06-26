@@ -410,7 +410,12 @@ const RelatedServicesCarousel = ({
             </Link>
           ))}
         </div>
+        <div className="md:hidden px-6">
+          <ScrollArrows scrollRef={scrollRef} />
+        </div>
       </div>
+
+
 
       {seeAll && (
         <div className="container mx-auto px-6 md:px-16">
