@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link, useNavigate } from "react-router-dom";
 import { LeadPopup } from "@/components/LeadPopup";
-import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import {
  ArrowRight, ChevronRight, ChevronLeft, Plus, Minus, Phone, MapPin, ShieldCheck,
  Play, Coins, CreditCard
@@ -371,7 +370,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  ]}
  />
  <SectionRenderer sections={sanitySections} />
- <StickyBookingCTA />
  </PageLayout>
  );
  }
