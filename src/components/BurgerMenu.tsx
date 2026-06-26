@@ -151,14 +151,15 @@ const BurgerMenu = () => {
  </div>
  </motion.div>
 
- {/* Mobile Menu */}
+ {/* Mobile Menu — portaled to body to escape transformed ancestors (fixed positioning) */}
+ {createPortal(
  <motion.div 
- ref={menuRef}
+ ref={mobileMenuRef}
  initial={{ opacity: 0, x: '100%' }}
  animate={{ opacity: 1, x: 0 }}
  exit={{ opacity: 0, x: '100%' }}
  transition={{ duration: 0.3, ease: 'easeOut' }}
- className="md:hidden fixed inset-0 top-0 bg-white z-50 overflow-y-auto"
+ className="md:hidden fixed inset-0 bg-white z-[100] overflow-y-auto"
  role="dialog"
  aria-modal="true"
  aria-label={t("nav.navigationMenu")}
@@ -175,7 +176,7 @@ const BurgerMenu = () => {
  </div>
 
  {/* Mobile Content */}
- <div className="p-6">
+ <div className="p-6 pb-[calc(96px+env(safe-area-inset-bottom))]">
  <nav className="space-y-1">
  {menuItems.map((item) => (
  <button 
@@ -222,7 +223,9 @@ const BurgerMenu = () => {
  </button>
  </div>
  </div>
- </motion.div>
+ </motion.div>,
+ document.body
+ )}
  </>
  )}
  </AnimatePresence>
