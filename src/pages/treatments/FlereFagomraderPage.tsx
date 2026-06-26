@@ -64,6 +64,7 @@ const reviews = [
  ────────────────────────────────────────────────────────────── */
 
 const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
+ const expertAreasRef = useRef<HTMLDivElement>(null);
  useEffect(() => {
  document.title = "Flere fagområder | CMedical — Tverrfaglige spesialister";
  }, []);
