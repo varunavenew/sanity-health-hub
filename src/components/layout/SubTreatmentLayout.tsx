@@ -739,12 +739,12 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
  </div>
 
-  <div className="grid md:grid-cols-2 gap-6">
+  <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
   {c.expertAreas.items.map((a) => (
   <Link
   key={a.title}
   to={a.href}
-  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
   >
   <div className="p-7 flex flex-col flex-1">
   <h3 className="text-xl font-light text-foreground mb-3">
@@ -761,6 +761,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   </Link>
   ))}
   </div>
+  <ScrollArrows scrollRef={expertAreasRef} />
  </div>
  </div>
  </section>
