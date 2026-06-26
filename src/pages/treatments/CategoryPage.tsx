@@ -370,7 +370,6 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  ]}
  />
  <SectionRenderer sections={sanitySections} />
- <StickyBookingCTA />
  </PageLayout>
  );
  }
