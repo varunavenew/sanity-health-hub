@@ -161,6 +161,7 @@ const reviews = [
  ────────────────────────────────────────────────────────────── */
 
 const UrologiPage = ({ isChatOpen }: PageProps) => {
+ const expertAreasRef = useRef<HTMLDivElement>(null);
  useEffect(() => {
  document.title = "Urologi | CMedical — Spesialister du kan stole på";
  }, []);
