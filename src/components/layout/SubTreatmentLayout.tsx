@@ -4,6 +4,8 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
