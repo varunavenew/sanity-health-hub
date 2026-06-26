@@ -267,6 +267,7 @@ const RelatedBlock = ({
   items: { title: string; desc: string; href: string; image?: string }[];
   columns?: 2 | 3;
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   if (items.length === 0) return null;
   const resolved = items.map((a) => ({
     ...a,
@@ -274,34 +275,37 @@ const RelatedBlock = ({
   }));
   const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
-    <div className={`grid ${gridCols} gap-6`}>
-      {resolved.map((a) => (
-        <Link
-          key={a.title}
-          to={a.href}
-          className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
-        >
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-            {a.image && (
-              <img
-                src={a.image}
-                alt={a.title}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-            )}
-          </div>
-          <div className="p-7 flex flex-col flex-1">
-            <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-            <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-            <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-              Les mer
-              <ArrowRight className="w-3.5 h-3.5" />
-            </span>
-          </div>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div ref={ref} className={`flex md:grid ${gridCols} gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide`} style={{ scrollbarWidth: 'none' }}>
+        {resolved.map((a) => (
+          <Link
+            key={a.title}
+            to={a.href}
+            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
+          >
+            <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+              {a.image && (
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              )}
+            </div>
+            <div className="p-7 flex flex-col flex-1">
+              <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+              <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                Les mer
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+      <ScrollArrows scrollRef={ref} />
+    </>
   );
 };
 
@@ -435,6 +439,8 @@ const RelatedServicesCarousel = ({
 };
 
 export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
+ const expertAreasRef = useRef<HTMLDivElement>(null);
+ const promisesRef = useRef<HTMLDivElement>(null);
  useEffect(() => {
  document.title = `${c.title} | CMedical`;
  }, [c.title]);
@@ -733,12 +739,12 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  )}
  </div>
 
-  <div className="grid md:grid-cols-2 gap-6">
+  <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
   {c.expertAreas.items.map((a) => (
   <Link
   key={a.title}
   to={a.href}
-  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
   >
   <div className="p-7 flex flex-col flex-1">
   <h3 className="text-xl font-light text-foreground mb-3">
@@ -755,6 +761,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   </Link>
   ))}
   </div>
+  <ScrollArrows scrollRef={expertAreasRef} />
  </div>
  </div>
  </section>
@@ -781,9 +788,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       {/* 4b. PROMISES — three image cards (swapped above reviews) */}
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
+          <div className="max-w-6xl mx-auto">
+          <div ref={promisesRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
             {c.promises.map((p, i) => (
-              <div key={p.title} className="group flex flex-col">
+              <div key={p.title} className="group flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
                 <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
                   <img
                     src={promiseImages[i]}
@@ -809,6 +817,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 )}
               </div>
             ))}
+          </div>
+          <ScrollArrows scrollRef={promisesRef} />
           </div>
         </div>
       </section>
