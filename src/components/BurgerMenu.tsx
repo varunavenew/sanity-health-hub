@@ -60,7 +60,7 @@ const BurgerMenu = () => {
  const target = e.target as Node | null;
  if (!target) return;
 
- const clickedInsideMenu = !!menuRef.current?.contains(target);
+ const clickedInsideMenu = !!menuRef.current?.contains(target) || !!mobileMenuRef.current?.contains(target);
  const clickedOnButton = !!buttonRef.current?.contains(target);
  if (!clickedInsideMenu && !clickedOnButton) close();
  };
