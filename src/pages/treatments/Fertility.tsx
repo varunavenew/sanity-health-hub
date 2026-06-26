@@ -224,6 +224,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  return list.slice(0, 5);
  }, []);
 
+ const audiencesRef = useRef<HTMLDivElement>(null);
+ const expertAreasRef = useRef<HTMLDivElement>(null);
+ const stotteRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
+
  useEffect(() => {
  document.title =
  "Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap";
