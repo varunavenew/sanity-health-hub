@@ -176,19 +176,68 @@ const BurgerMenu = () => {
  </button>
  </div>
 
- {/* Mobile Content */}
+  {/* Mobile Content */}
  <div className="p-6 pb-[calc(96px+env(safe-area-inset-bottom))]">
- <nav className="space-y-1">
- {menuItems.map((item) => (
- <button 
+ {/* Alle tjenester gruppert etter fagområde */}
+ <nav aria-label="Alle tjenester" className="space-y-8">
+ {serviceCategories.map((cat) => (
+ <section key={cat.id}>
+ <button
+ onClick={() => handleNavigate(cat.path)}
+ className="w-full text-left flex items-center justify-between pb-2 mb-2 border-b border-border"
+ >
+ <span className="text-base font-medium text-foreground">{cat.label}</span>
+ <ChevronRight className="h-4 w-4 text-foreground/50" aria-hidden="true" />
+ </button>
+ <ul className="space-y-0.5">
+ {cat.subcategories.map((sub) => (
+ <li key={sub.path}>
+ <button
+ onClick={() => handleNavigate(sub.path)}
+ className="w-full text-left py-3 text-[15px] text-foreground/75 hover:text-foreground transition-colors min-h-[44px]"
+ >
+ {sub.label}
+ </button>
+ {sub.items && sub.items.length > 0 && (
+ <ul className="pl-4 space-y-0.5 pb-1">
+ {sub.items.map((it) => (
+ <li key={(it.path || '') + it.label}>
+ {it.path ? (
+ <button
+ onClick={() => handleNavigate(it.path!)}
+ className="w-full text-left py-2.5 text-sm text-foreground/60 hover:text-foreground transition-colors min-h-[40px]"
+ >
+ {it.label}
+ </button>
+ ) : (
+ <span className="block py-2.5 text-sm text-foreground/60">{it.label}</span>
+ )}
+ </li>
+ ))}
+ </ul>
+ )}
+ </li>
+ ))}
+ </ul>
+ </section>
+ ))}
+ </nav>
+
+ {/* Øvrige sider */}
+ <div className="mt-10 pt-6 border-t border-border">
+ <h3 className="text-xs uppercase tracking-normal text-foreground/50 mb-2">Mer</h3>
+ <nav className="space-y-0.5">
+ {menuItems.filter((m) => m.path !== '/tjenester').map((item) => (
+ <button
  key={item.path + item.label}
- onClick={() => handleNavigate(item.path)} 
- className="w-full text-left py-3 text-foreground/80 hover:text-foreground text-base font-normal transition-colors"
+ onClick={() => handleNavigate(item.path)}
+ className="w-full text-left py-3 text-base text-foreground/80 hover:text-foreground transition-colors min-h-[44px]"
  >
  {item.label}
  </button>
  ))}
  </nav>
+ </div>
 
  {/* Quick contact */}
  <div className="mt-8 pt-6 border-t border-border">
