@@ -1,6 +1,7 @@
 /**
  * Reusable page sections (specialists, articles, booking CTA) for any singleton or document page.
  */
+import { defineField } from 'sanity'
 import { pickNo } from './i18n'
 
 const displayModeSpecialists = {
@@ -360,7 +361,7 @@ export const pageSectionBookingCta = {
 }
 
 /** Reusable page-builder field — add to any document schema `fields` array. */
-export const pageSectionsField = {
+export const pageSectionsField = defineField({
   name: 'pageSections',
   title: 'Modulære seksjoner',
   description:
@@ -375,11 +376,11 @@ export const pageSectionsField = {
     insertMenu: {
       filter: true,
       views: [
-        { name: 'list', previewImageUrl: () => '' },
+        { name: 'list' },
       ],
     },
   },
-}
+})
 
 /** Same as pageSectionsField with an optional Sanity field group. */
 export function pageSectionsFieldForGroup(group?: string) {
