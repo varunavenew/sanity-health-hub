@@ -95,6 +95,11 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  []
  );
 
+ const segmentsRef = useRef<HTMLDivElement>(null);
+ const specialistsRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
+
  return (
  <PageLayout isChatOpen={isChatOpen}>
  <h1 className="sr-only">Ortopedi hos CMedical — skulder, kne, hofte, hånd og fot</h1>
