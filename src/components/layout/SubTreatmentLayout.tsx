@@ -788,9 +788,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       {/* 4b. PROMISES — three image cards (swapped above reviews) */}
       <section className="bg-secondary/40 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 md:gap-10">
+          <div className="max-w-6xl mx-auto">
+          <div ref={promisesRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
             {c.promises.map((p, i) => (
-              <div key={p.title} className="group flex flex-col">
+              <div key={p.title} className="group flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
                 <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
                   <img
                     src={promiseImages[i]}
@@ -816,6 +817,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                 )}
               </div>
             ))}
+          </div>
+          <ScrollArrows scrollRef={promisesRef} />
           </div>
         </div>
       </section>
