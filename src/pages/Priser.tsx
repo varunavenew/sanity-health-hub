@@ -105,7 +105,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const navScrollerRef = useRef<HTMLDivElement | null>(null);
   const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const navWrapperRef = useRef<HTMLDivElement | null>(null);
+  const overviewRef = useRef<HTMLDivElement | null>(null);
   const [navTop, setNavTop] = useState(80);
+  const [showStickyNav, setShowStickyNav] = useState(false);
 
   // IntersectionObserver to highlight active category pill as user scrolls
   useEffect(() => {
