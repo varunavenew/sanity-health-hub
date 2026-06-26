@@ -180,19 +180,19 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           <div className="flex items-center gap-1.5">
             {/* Language Selector */}
             <LanguageSelector />
-            {/* Search Toggle */}
+            {/* Search Toggle - hidden on mobile (in bottom nav) */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 rounded-full transition-all hover:bg-white/10 text-white"
+              className="hidden md:block p-2 rounded-full transition-all hover:bg-white/10 text-white"
               aria-label={t("nav.search")}
             >
               {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
 
-            {/* CTA Button */}
+            {/* CTA Button - hidden on mobile (in bottom nav) */}
             <Button 
               size="sm" 
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-4 md:px-6 text-sm"
+              className="hidden md:inline-flex bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-4 md:px-6 text-sm"
               onClick={() => navigate(ctaButton.path)}
             >
               {ctaButton.label}
