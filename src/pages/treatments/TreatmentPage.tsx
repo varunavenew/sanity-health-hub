@@ -7,7 +7,6 @@ import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
 import { Specialist } from "@/data/specialists";
 import { useTreatment, useFaqsByTreatmentCategory, useSpecialists, SanitySpecialist } from "@/hooks/useSanity";
-import { StickyBookingCTA } from "@/components/StickyBookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { treatmentToSubLayout, type CategoryId } from "@/lib/treatmentToSubLayout";
 import { getDedicatedServiceImage } from "@/data/serviceImages";
