@@ -13,14 +13,17 @@ import gynekologiHeroAsset from "@/assets/services/gynekologi-hero.jpg.asset.jso
 import ortopediAsset from "@/assets/services/ortopedi-hero.jpg.asset.json";
 import graviditetAsset from "@/assets/services/graviditet-hero.jpg.asset.json";
 import flereImg from "@/assets/hero/cmedical-family.jpg";
+import mobilGynekologiAsset from "@/assets/services/mobil-gynekologi-hero.jpg.asset.json";
+import mobilFertilitetAsset from "@/assets/services/mobil-fertilitet-hero.jpg.asset.json";
+import mobilFlereAsset from "@/assets/services/mobil-flere-hero.jpg.asset.json";
 
 const staticCategories = [
-  { id: 'urologi', title: 'Urologi', image: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
-  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetHeroAsset.url, path: '/fertilitet', objectPosition: 'center' },
-  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiHeroAsset.url, path: '/gynekologi', objectPosition: 'center' },
-  { id: 'graviditet', title: 'Graviditet', image: graviditetAsset.url, path: '/graviditet', objectPosition: 'center' },
-  { id: 'ortopedi', title: 'Ortopedi', image: ortopediAsset.url, path: '/ortopedi', objectPosition: 'center' },
-  { id: 'flere', title: 'Flere tjenester', image: flereImg, path: '/flere-fagomrader', objectPosition: 'center' },
+  { id: 'urologi', title: 'Urologi', image: urologiAsset.url, mobileImage: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
+  { id: 'fertilitet', title: 'Fertilitet', image: fertilitetHeroAsset.url, mobileImage: mobilFertilitetAsset.url, path: '/fertilitet', objectPosition: 'center' },
+  { id: 'gynekologi', title: 'Gynekologi', image: gynekologiHeroAsset.url, mobileImage: mobilGynekologiAsset.url, path: '/gynekologi', objectPosition: 'center' },
+  { id: 'graviditet', title: 'Graviditet', image: graviditetAsset.url, mobileImage: graviditetAsset.url, path: '/graviditet', objectPosition: 'center' },
+  { id: 'ortopedi', title: 'Ortopedi', image: ortopediAsset.url, mobileImage: ortopediAsset.url, path: '/ortopedi', objectPosition: 'center' },
+  { id: 'flere', title: 'Flere tjenester', image: flereImg, mobileImage: mobilFlereAsset.url, path: '/flere-fagomrader', objectPosition: 'center' },
 ];
 
 interface HeroCompactProps {
