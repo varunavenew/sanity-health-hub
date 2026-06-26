@@ -26,6 +26,7 @@ const SINGLETON_SLUGS: Record<string, SlugPair> = {
   clinicsPage: { no: "klinikker", en: "clinics" },
   privacyPolicyPage: { no: "personvern", en: "personvern" },
   careersPage: { no: "karriere", en: "careers" },
+  guidePage: { no: "guide", en: "guide" },
 };
 
 const THEME_SLUGS: Record<string, SlugPair> = {

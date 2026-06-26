@@ -5,7 +5,6 @@ import { getIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { CTASection } from "@/components/layout/CTASection";
 import { RelatedServices, allServices } from "@/components/layout/RelatedServices";
 import { Link } from "@/lib/router";
 import { usePricingPage } from "@/hooks/useSanity";
@@ -396,14 +395,6 @@ const Pricing = ({ isChatOpen }: PageProps) => {
       <RelatedServices 
         services={allServices} 
         currentPath="/pricing"
-      />
-
-      <CTASection
-        title="Ta vare på livet og underlivet"
-        subtitle="Bli tatt på alvor – med faglig trygghet, respekt og helhetlig oppfølging"
-        primaryCTA="Book time nå"
-        secondaryCTA="Kontakt oss"
-        secondaryLink="/contact"
       />
     </PageLayout>
   );

@@ -27,12 +27,14 @@ import {
   isSanityManagedClinic,
   type BookingClinic,
   type BookingMetodikaClinic,
-  // type CategoryClinicTag,
+  type CategoryClinicTag,
 } from "@/lib/booking/mapApiLocation";
 import {
   findSanityManagedClinicBySlug,
+  mergeCategoryClinicDisplayTags,
   mergeMetodikaAndSanityClinics,
   sanityManagedClinicsForCategory,
+  type SanityManagedBookingClinic,
 } from "@/lib/booking/sanityBookingClinic";
 import {
   isBookingCaregiver,
@@ -42,6 +44,7 @@ import { BookingStepLoader } from "@/components/booking/BookingStepLoader";
 import { PatientskyIframe } from "@/components/booking/PatientskyIframe";
 import { ExternalBookingHandoff } from "@/components/booking/ExternalBookingHandoff";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
+import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
 import {
@@ -68,9 +71,9 @@ function dayKey(date: Date): string {
   return d.toISOString();
 }
 
-// function clinicBadgeLabel(locationName: string): string {
-//   return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
-// }
+function clinicBadgeLabel(locationName: string): string {
+  return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
+}
 
 function LinkedTemplateText({
   template,
@@ -206,11 +209,11 @@ const BookingDemo = () => {
   const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
-  // Clinic badges disabled — category-clinics is slow (one wbfreetimes call per activity).
-  // const [categoryClinicsById, setCategoryClinicsById] = useState<
-  //   Record<string, CategoryClinicTag[]>
-  // >({});
-  // const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
+  const [categoryClinicsById, setCategoryClinicsById] = useState<
+    Record<string, CategoryClinicTag[]>
+  >({});
+  const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
+  const [categoryClinicsLoading, setCategoryClinicsLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -260,36 +263,87 @@ const BookingDemo = () => {
       }
     }
 
-    // async function loadCategoryClinics() {
-    //   try {
-    //     const clinicsRes = await fetch("/api/booking/category-clinics");
-    //     const clinicsJson = (await clinicsRes.json()) as {
-    //       ok?: boolean;
-    //       byCategoryId?: Record<string, CategoryClinicTag[]>;
-    //       allLocations?: CategoryClinicTag[];
-    //     };
-    //
-    //     if (cancelled) return;
-    //
-    //     if (clinicsRes.ok && clinicsJson.ok) {
-    //       setCategoryClinicsById(clinicsJson.byCategoryId ?? {});
-    //       setAllBookingLocations(clinicsJson.allLocations ?? []);
-    //     }
-    //   } catch {
-    //     if (!cancelled) {
-    //       setCategoryClinicsById({});
-    //       setAllBookingLocations([]);
-    //     }
-    //   }
-    // }
-
     loadServices();
-    // loadCategoryClinics();
 
     return () => {
       cancelled = true;
     };
   }, []);
+
+  /** Load clinic tags for all categories in one request; reveal tags together when ready. */
+  useEffect(() => {
+    if (servicesLoading || bookingServices.length === 0) return;
+
+    let cancelled = false;
+
+    async function loadAllCategoryClinics() {
+      setCategoryClinicsLoading(true);
+      try {
+        const res = await fetch("/api/booking/category-clinics");
+        const json = (await res.json()) as {
+          ok?: boolean;
+          byCategoryId?: Record<string, CategoryClinicTag[]>;
+          allLocations?: CategoryClinicTag[];
+        };
+
+        if (cancelled) return;
+
+        if (res.ok && json.ok) {
+          setCategoryClinicsById(json.byCategoryId ?? {});
+          setAllBookingLocations(json.allLocations ?? []);
+        } else {
+          setCategoryClinicsById({});
+          setAllBookingLocations([]);
+        }
+      } catch {
+        if (!cancelled) {
+          setCategoryClinicsById({});
+          setAllBookingLocations([]);
+        }
+      } finally {
+        if (!cancelled) setCategoryClinicsLoading(false);
+      }
+    }
+
+    void loadAllCategoryClinics();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [servicesLoading, bookingServices]);
+
+  const globalSanityManagedClinics = useMemo(() => {
+    const seen = new Map<string, SanityManagedBookingClinic>();
+    for (const category of bookingServices) {
+      for (const clinic of sanityManagedClinicsForCategory(
+        sanityClinics,
+        category.id,
+        category.clinicServiceId,
+      )) {
+        seen.set(clinic.id, clinic);
+      }
+    }
+    return [...seen.values()];
+  }, [bookingServices, sanityClinics]);
+
+  const step1ClinicTagsByCategoryId = useMemo(() => {
+    const result: Record<string, { tagKey: string; name: string }[]> = {};
+    for (const category of bookingServices) {
+      const apiTags = categoryClinicsById[category.id] ?? [];
+      const sanityManaged = sanityManagedClinicsForCategory(
+        sanityClinics,
+        category.id,
+        category.clinicServiceId,
+      );
+      result[category.id] = mergeCategoryClinicDisplayTags(apiTags, sanityManaged);
+    }
+    return result;
+  }, [bookingServices, categoryClinicsById, sanityClinics]);
+
+  const allStep1ClinicTags = useMemo(
+    () => mergeCategoryClinicDisplayTags(allBookingLocations, globalSanityManagedClinics),
+    [allBookingLocations, globalSanityManagedClinics],
+  );
 
   const today = useMemo(() => {
     const date = new Date();
@@ -1363,11 +1417,13 @@ const BookingDemo = () => {
                   .filter((c) => !filterToCategoryId || c.id === filterToCategoryId)
                   .sort(sortBookingCategories)
                   .map((category) => {
-                    // const clinicsForCategory = categoryClinicsById[category.id] ?? [];
-                    // const showAlleKlinikker =
-                    //   clinicsForCategory.length > 0 &&
-                    //   allBookingLocations.length > 0 &&
-                    //   clinicsForCategory.length === allBookingLocations.length;
+                    const clinicsForCategory = step1ClinicTagsByCategoryId[category.id] ?? [];
+                    const clinicsLoading = categoryClinicsLoading;
+                    const showAlleKlinikker =
+                      !clinicsLoading &&
+                      clinicsForCategory.length > 0 &&
+                      allStep1ClinicTags.length > 0 &&
+                      clinicsForCategory.length === allStep1ClinicTags.length;
                     const isExpanded = expandedCategory === category.id;
 
                     return (
@@ -1385,29 +1441,31 @@ const BookingDemo = () => {
                           )}
                         >
                           <span className="font-normal text-brand-dark min-w-0">{category.label}</span>
-                          <ChevronDown
-                            className={cn(
-                              "w-5 h-5 text-brand-dark/45 transition-transform duration-300 flex-shrink-0 ml-auto",
-                              isExpanded && "rotate-180",
-                            )}
-                          />
-                          {/* Clinic badges disabled (category-clinics API).
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
-                              {showAlleKlinikker ? (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
-                                  {copy.step1AllClinicsBadge}
-                                </span>
-                              ) : (
-                                clinicsForCategory.map((clinic) => (
-                                  <span
-                                    key={clinic.locationId}
-                                    className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
-                                  >
-                                    {clinicBadgeLabel(clinic.name)}
+                              {!isExpanded &&
+                                (clinicsLoading ? (
+                                  <span className="inline-flex items-center gap-1.5 text-xs text-brand-dark/55 font-light">
+                                    <span
+                                      className="w-3.5 h-3.5 rounded-full border-2 border-brand-dark/15 border-t-brand-dark/60 animate-spin"
+                                      aria-hidden="true"
+                                    />
+                                    {copy.step1LoadingClinics}
                                   </span>
-                                ))
-                              )}
+                                ) : showAlleKlinikker ? (
+                                  <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
+                                    {copy.step1AllClinicsBadge}
+                                  </span>
+                                ) : (
+                                  clinicsForCategory.map((clinic) => (
+                                    <span
+                                      key={clinic.tagKey}
+                                      className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
+                                    >
+                                      {clinicBadgeLabel(clinic.name)}
+                                    </span>
+                                  ))
+                                ))}
                             </div>
                             <ChevronDown
                               className={cn(
@@ -1416,7 +1474,6 @@ const BookingDemo = () => {
                               )}
                             />
                           </div>
-                          */}
                         </button>
 
                         <AnimatePresence initial={false}>
@@ -1637,7 +1694,7 @@ const BookingDemo = () => {
                       >
                         <div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-1 ring-brand-dark/10">
                           <AssetImg
-                            src={spec.image}
+                            src={resolveBookingSpecialistImage(spec.image)}
                             alt={spec.name}
                             className="w-full h-full object-cover object-top"
                           />
@@ -1956,7 +2013,10 @@ const BookingDemo = () => {
                 {bookingData.specialist && (
                   <div className="flex items-center gap-3 mt-5 pt-4 border-t border-brand-dark/10">
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={assetSrc(bookingData.specialist.image)} alt={bookingData.specialist.name} />
+                      <AvatarImage
+                        src={assetSrc(resolveBookingSpecialistImage(bookingData.specialist.image))}
+                        alt={bookingData.specialist.name}
+                      />
                       <AvatarFallback>{bookingData.specialist.name.slice(0, 2)}</AvatarFallback>
                     </Avatar>
                     <div>
@@ -2164,7 +2224,7 @@ const BookingDemo = () => {
                   <div className="flex-shrink-0">
                     <div className="h-28 w-28 rounded-full overflow-hidden ring-4 ring-white shadow-xl">
                       <AssetImg 
-                        src={selectedSpecialistInfo.image} 
+                        src={resolveBookingSpecialistImage(selectedSpecialistInfo.image)} 
                         alt={selectedSpecialistInfo.name} 
                         className="h-full w-full object-cover object-top"
                       />

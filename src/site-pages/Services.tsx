@@ -7,7 +7,6 @@ import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFaqs, useServicesPage, useTreatmentCategories } from "@/hooks/useSanity";
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
@@ -315,8 +314,6 @@ const Services = ({ isChatOpen }: PageProps) => {
       ) : null}
 
       <PageSectionsRenderer sections={page.pageSections} />
-
-      <BookingCTA />
     </PageLayout>
   );
 };

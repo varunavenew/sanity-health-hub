@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsPage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PortableText } from "@portabletext/react";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
@@ -95,6 +96,7 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
           </motion.div>
         </div>
       </section>
+      <PageSectionsRenderer sections={pageData?.pageSections} />
     </PageLayout>
   );
 };

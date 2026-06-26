@@ -11,6 +11,7 @@ import {
   fetchArticleSeo,
   fetchClinicSeo,
   fetchJobListingSeo,
+  fetchCareersPageDocument,
   fetchSpecialistSeo,
   fetchThemePageSeo,
   fetchTreatmentCategorySeo,
@@ -252,21 +253,29 @@ export async function buildJobListingMetadata(
   locale: string,
   slug: string,
 ): Promise<Metadata> {
-  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
-  const doc = await fetchJobListingSeo(slug, sanityLang);
-  const jobTitle = doc?.title?.trim() || slug;
-  const paths = await pathsForDetailBySlug("jobs", "careersPage", slug, sanityLang);
+  const [doc, careersPage] = await Promise.all([
+    fetchJobListingSeo(slug, sanityLang),
+    fetchCareersPageDocument(sanityLang),
+  ]);
+  const jobTitle = doc?.title?.trim();
+  if (!jobTitle) return {};
+
+  const suffix = careersPage?.jobSeoTitleSuffix?.trim() || "";
+  const description = doc?.excerpt?.trim() || "";
+
+  let paths: { nbPath: string; enPath: string };
+  try {
+    paths = await pathsForDetailBySlug("jobs", "careersPage", slug, sanityLang);
+  } catch {
+    return {};
+  }
 
   return buildPageMetadata({
     locale,
     paths,
-    title: `${jobTitle} – Karriere hos CMedical`,
-    description:
-      doc?.excerpt?.trim() ||
-      (lang === "en"
-        ? `Apply for the ${jobTitle} position at CMedical.`
-        : `Søk på stillingen ${jobTitle} hos CMedical.`),
+    title: `${jobTitle}${suffix}`,
+    description,
     type: "website",
   });
 }

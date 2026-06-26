@@ -6,6 +6,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 import { urlFor } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { usePrivacyPolicyPage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 import { useTranslation } from "react-i18next";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
@@ -260,6 +261,7 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
           )}
         </div>
       </div>
+      <PageSectionsRenderer sections={sanityData?.pageSections} />
     </PageLayout>
   );
 };

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { BookingAvailabilityLocation } from "@/app/api/booking/availability/route";
-import { BOOKING_URLS, fetchBookingResourceCached, unwrapList } from "@/lib/booking/upstream";
+import { fetchBookingResourceCached, unwrapList } from "@/lib/booking/upstream";
 import {
   createLocationResolveCaches,
   mapWithConcurrency,
@@ -18,7 +18,7 @@ const ACTIVITIES_URL =
   process.env.BOOKING_ACTIVITIES_URL ||
   "http://13.50.107.42/api/v1/resources/wbactivities";
 
-const CONCURRENCY = Number(process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY || 3);
+const DEFAULT_CONCURRENCY = Number(process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY || 3);
 
 interface ApiGroup {
   id?: number;
@@ -65,11 +65,12 @@ function mergeLocations(
 
 /**
  * GET — locations per booking category (from wbfreetimes → rooms → locations).
- * Response: { ok, byCategoryId: { [categoryId]: CategoryClinicTag[] }, allLocations }
+ * Query: `categoryId` — only resolve clinics for one category (serial activity calls).
+ * Query: `serial=1` — resolve activities one-by-one (default when categoryId is set).
  *
- * Used by booking step 1 for per-category clinic badges.
+ * Response: { ok, byCategoryId, allLocations }
  */
-export async function GET() {
+export async function GET(request: Request) {
   const apiKey = process.env.BOOKING_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
@@ -77,6 +78,14 @@ export async function GET() {
       { status: 500 },
     );
   }
+
+  const { searchParams } = new URL(request.url);
+  const filterCategoryId = searchParams.get("categoryId")?.trim() || undefined;
+  const serial =
+    searchParams.get("serial") === "1" ||
+    filterCategoryId != null ||
+    process.env.BOOKING_CATEGORY_CLINICS_SERIAL === "1";
+  const concurrency = serial ? 1 : DEFAULT_CONCURRENCY;
 
   try {
     const [groupsPayload, activitiesPayload] = await Promise.all([
@@ -103,12 +112,18 @@ export async function GET() {
       activitiesById.set(activityId, groupId);
     }
 
-    const activityIds = [...activitiesById.keys()];
+    const activityIds = [...activitiesById.keys()].filter((activityId) => {
+      if (!filterCategoryId) return true;
+      const groupId = activitiesById.get(activityId);
+      if (groupId === undefined) return false;
+      const categoryId = categoryIdByGroupId.get(groupId);
+      return categoryId === filterCategoryId;
+    });
     const caches = createLocationResolveCaches();
 
     const activityLocationsList = await mapWithConcurrency(
       activityIds,
-      CONCURRENCY,
+      concurrency,
       async (activityId) => {
         const locations = await resolveLocationsForActivity(activityId, apiKey, caches);
         return { activityId, locations };

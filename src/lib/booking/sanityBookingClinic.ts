@@ -2,6 +2,7 @@ import type {
   BookingExternalClinic,
   BookingPasientskyClinic,
 } from "@/lib/booking/mapApiLocation";
+import type { CategoryClinicTag } from "@/lib/booking/mapApiLocation";
 import type { SanityClinicListRow } from "@/hooks/useSanity";
 import {
   bookingIdToCategoryPage,
@@ -9,6 +10,44 @@ import {
 } from "@/lib/bookingLinks";
 
 export type SanityManagedBookingClinic = BookingPasientskyClinic | BookingExternalClinic;
+
+/** Clinic tag for booking step 1 category rows (Metodika + Sanity-managed). */
+export type CategoryClinicDisplayTag = {
+  tagKey: string;
+  name: string;
+};
+
+function normalizeClinicLabelForCompare(label: string): string {
+  return label
+    .toLowerCase()
+    .replace(/^cmedical\s+/i, "")
+    .replace(/^oslo\s+/i, "")
+    .trim();
+}
+
+/** Merge Metodika location tags with Sanity-managed clinics (e.g. Moss, Moelv). */
+export function mergeCategoryClinicDisplayTags(
+  apiTags: CategoryClinicTag[],
+  sanityClinics: SanityManagedBookingClinic[],
+): CategoryClinicDisplayTag[] {
+  const apiNames = new Set(apiTags.map((t) => normalizeClinicLabelForCompare(t.name)));
+  const merged: CategoryClinicDisplayTag[] = apiTags.map((t) => ({
+    tagKey: `loc-${t.locationId}`,
+    name: t.name,
+  }));
+
+  for (const clinic of sanityClinics) {
+    const normalized = normalizeClinicLabelForCompare(clinic.label);
+    const duplicate = [...apiNames].some(
+      (apiName) => apiName.includes(normalized) || normalized.includes(apiName),
+    );
+    if (!duplicate) {
+      merged.push({ tagKey: `sanity-${clinic.id}`, name: clinic.label });
+    }
+  }
+
+  return merged.sort((a, b) => a.name.localeCompare(b.name, "nb"));
+}
 
 /** All ids that may identify a booking category in clinic.services or activity-groups. */
 export function resolveBookingCategoryKeys(

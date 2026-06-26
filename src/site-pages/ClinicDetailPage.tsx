@@ -7,6 +7,7 @@ import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLin
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useClinic } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { ClinicMap } from "@/components/clinic/ClinicMap";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
@@ -426,6 +427,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         phone={clinic.phone}
         email={(clinic as any).email}
       />
+      <PageSectionsRenderer sections={clinic.pageSections} />
     </PageLayout>
   );
 };

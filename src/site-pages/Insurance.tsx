@@ -5,6 +5,7 @@ import { ArrowRight, Phone, Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "@/lib/router";
 import { useInsurancePage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { useTranslation } from "react-i18next";
@@ -152,6 +153,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      <PageSectionsRenderer sections={page?.pageSections} />
     </PageLayout>
   );
 };

@@ -8,6 +8,7 @@ import {
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import { pageSectionsFieldForGroup } from './pageSections'
 
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
 
@@ -23,6 +24,7 @@ export default {
     { name: 'related', title: 'Behandlinger & spesialister' },
     { name: 'booking', title: 'Booking' },
     { name: 'faq', title: 'FAQ' },
+    { name: 'pageBuilder', title: 'Modulære seksjoner' },
     { name: 'seo', title: 'SEO & meta' },
   ],
   fields: [
@@ -274,6 +276,7 @@ export default {
       validation: requiredNoEnSeo,
       group: 'seo',
     },
+    pageSectionsFieldForGroup('pageBuilder'),
   ],
   orderings: [
     {

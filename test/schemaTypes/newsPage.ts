@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {i18nSlugFieldFromTitle} from './i18n'
+import { pageSectionsField } from './pageSections'
 
 export default defineType({
   name: 'newsPage',
@@ -88,11 +89,18 @@ export default defineType({
           name: 'newsSocialPost',
           fields: [
             {
-              name: 'imageUrl',
-              title: 'Bilde-URL',
-              type: 'url',
-              description: 'Last opp bilde under Media og lim inn URL, eller bruk migreringsscript.',
+              name: 'image',
+              title: 'Bilde',
+              type: 'image',
+              options: { hotspot: true },
               validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'imageUrl',
+              title: 'Bilde-URL (legacy)',
+              type: 'url',
+              description: 'Kun for eldre innlegg — bruk bildefeltet over.',
+              hidden: true,
             },
             { name: 'alt', title: 'Alt-tekst', type: 'string' },
             {
@@ -173,6 +181,7 @@ export default defineType({
       title: 'SEO',
       type: 'seo',
     }),
+    defineField(pageSectionsField),
   ],
   preview: {
     select: {

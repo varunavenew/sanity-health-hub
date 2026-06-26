@@ -122,8 +122,12 @@ export const PAGE_SECTIONS_GROQ = `
     seeAllHref,
     ${i18nPageSectionString("primaryLabel")},
     ${i18nPageSectionString("secondaryLabel")},
+    secondaryPath,
     primaryPath,
     ${i18nPageSectionText("subtitle")},
+    showSecondaryButton,
+    "image": image.asset->url,
+    "imageAlt": coalesce(image.alt[language == $lang][0].value, image.alt[_key == $lang][0].value, image.alt[language == "no"][0].value, image.alt[_key == "no"][0].value, image.alt),
     "bookingCategory": bookingCategory->{ categoryId },
     quickInfoItems[]{
       icon,
@@ -134,7 +138,8 @@ export const PAGE_SECTIONS_GROQ = `
       _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
       "clinics": clinics[]->title,
       ${localizedSlug},
-      "categories": categories[]->{ _id, title, ${localizedSlug} }
+      "image": photo.asset->url,
+      "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId }
     },
     "articles": articles[]->{
       _id,
@@ -424,7 +429,8 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
 export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
   ${i18nString('title')},
   ${i18nBlockContent('body')},
-  cookiebotKey
+  cookiebotKey,
+  ${PAGE_SECTIONS_GROQ}
 }`;
 
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
@@ -490,6 +496,7 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
     postUrl,
     alt,
     imageUrl,
+    "image": coalesce(image.asset->url, imageUrl),
   },
   ${i18nString("filterAllLabel")},
   ${i18nString("filterPatientStoriesLabel")},
@@ -507,6 +514,7 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
     pinned,
     featured
   },
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -732,6 +740,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   faqs[]{${localizedFaqRow}},
   specialists[]->{ name, ${localizedSlug}, "image": photo.asset->url, role },
   treatments[]->{ title, ${localizedSlug}, ${localizedRefSlugField("category", "categorySlug")}, "categoryLabel": parentCategoryLabel },
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -745,7 +754,7 @@ export const CMS_ROUTE_INDEX_QUERY = `{
   "singletons": *[_type in [
     "aboutPage", "contactPage", "newsPage", "pricingPage", "insurancePage",
     "servicesPage", "specialistsPage", "specialistsListingPage", "clinicsPage",
-    "privacyPolicyPage", "careersPage"
+    "privacyPolicyPage", "careersPage", "guidePage"
   ]]{
     _type,
     ${localizedSlugBoth}
@@ -897,6 +906,7 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${slugMatchesParam
   videoUrl,
   videoCaption,
   "videoThumbnail": videoThumbnail.asset->url,
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -942,6 +952,7 @@ export const JOB_LISTING_BY_SLUG_QUERY = `*[_type == "jobListing" && ${slugMatch
   contactPhone,
   applyUrl,
   body,
+  ${PAGE_SECTIONS_GROQ}
 }`;
 
 export const FAQS_QUERY = `*[_type == "faq"] | order(sortOrder asc) { ${localizedFaqRow}, category }`;
@@ -962,15 +973,53 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
 }`;
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{
-  _id, title, sortOrder, categoryId, ${localizedSlug},
+  _id, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{
-    _id, title, sortOrder, ${localizedSlug},
-    subItems[]{label, anchor, path}
+    _id, ${i18nString("title")}, sortOrder, ${localizedSlug},
+    subItems[]{
+      ${i18nString("label")},
+      anchor,
+      path
+    }
   }
+}`;
+
+export const CAREERS_PAGE_QUERY = `*[_type == "careersPage"][0]{
+  ${i18nString("breadcrumbHome")},
+  ${i18nString("title")},
+  ${i18nText("heroSubtitle")},
+  ${i18nString("jobsSectionTitle")},
+  ${i18nText("introText")},
+  ${i18nString("searchPlaceholder")},
+  ${i18nString("filterAllLabel")},
+  ${i18nString("emptyResultsMessage")},
+  ${i18nString("emptyResultsResetHint")},
+  ${i18nString("emptyResultsResetLabel")},
+  ${i18nString("deadlineLabel")},
+  ${i18nString("ongoingLabel")},
+  ${i18nString("ongoingDeadlineLabel")},
+  ${i18nString("spontaneousTitle")},
+  ${i18nText("spontaneousText")},
+  ${i18nString("spontaneousButtonLabel")},
+  spontaneousEmail,
+  departmentOptions[]{ value, ${i18nString("label")} },
+  employmentTypeOptions[]{ value, ${i18nString("label")} },
+  ${i18nString("notFoundTitle")},
+  ${i18nText("notFoundDescription")},
+  ${i18nString("backToJobsLabel")},
+  ${i18nString("backLinkLabel")},
+  ${i18nString("applyCardTitle")},
+  ${i18nString("applyExternalLabel")},
+  ${i18nString("applyEmailLabel")},
+  ${i18nString("contactCardTitle")},
+  ${i18nString("jobSeoTitleSuffix")},
+  ${PAGE_SECTIONS_GROQ},
+  ${localizedSeoObject}
 }`;
 
 export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
   title, subtitle, body,
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -979,6 +1028,7 @@ export const SPECIALISTS_LISTING_PAGE_QUERY = `*[_type == "specialistsListingPag
   ${i18nString("heroTitle")},
   ${i18nText("heroDescription")},
   ${i18nString("countLabel")},
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 
@@ -991,6 +1041,36 @@ export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage"][0]{
   primaryCtaPath,
   ${i18nString("secondaryCtaLabel")},
   secondaryCtaPath,
+  ${PAGE_SECTIONS_GROQ},
+  ${localizedSeoObject}
+}`;
+
+const GUIDE_CATEGORY_ROW = `
+  _id, title, sortOrder, ${localizedSlug}, categoryId,
+  "heroImage": heroImage.asset->url,
+  "description": coalesce(
+    landingPage.hero.body[language == $lang][0].value,
+    landingPage.hero.body[_key == $lang][0].value,
+    landingPage.whySection.description[language == $lang][0].value,
+    landingPage.whySection.description[_key == $lang][0].value
+  ),
+  ${CATEGORY_TREATMENTS_GROQ}
+`;
+
+export const GUIDE_PAGE_QUERY = `*[_type == "guidePage"][0]{
+  ${i18nString("heroTitle")},
+  ${i18nText("heroSubtitle")},
+  showCategorySections,
+  ${i18nString("ctaTitle")},
+  ${i18nText("ctaSubtitle")},
+  ${i18nString("ctaButtonLabel")},
+  ctaButtonPath,
+  "categories": select(
+    showCategorySections != false && count(featuredCategories) > 0 => featuredCategories[]->{${GUIDE_CATEGORY_ROW}},
+    showCategorySections != false => *[_type == "treatmentCategory"] | order(sortOrder asc){${GUIDE_CATEGORY_ROW}},
+    []
+  ),
+  ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
 

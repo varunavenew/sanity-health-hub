@@ -7,6 +7,7 @@ import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTranslation } from "react-i18next";
 
@@ -213,6 +214,7 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           </div>
         </div>
       </section>
+      <PageSectionsRenderer sections={page?.pageSections} />
     </PageLayout>
   );
 };

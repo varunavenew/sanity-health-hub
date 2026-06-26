@@ -1,6 +1,5 @@
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, useState, useRef } from "react";
-import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link, useNavigate } from "@/lib/router";
 import { LeadPopup } from "@/components/LeadPopup";
 import { StickyBookingCTA } from "@/components/StickyBookingCTA";
@@ -607,9 +606,8 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
         </div>
       </section>
 
-      {/* ── 8. Final CTA — unified pre-footer ── */}
+      {/* ── 8. Final CTA — CMS page sections ── */}
       <PageSectionsRenderer sections={sanityCategory?.pageSections} />
-      <BookingCTA />
 
       <LeadPopup />
     </PageLayout>

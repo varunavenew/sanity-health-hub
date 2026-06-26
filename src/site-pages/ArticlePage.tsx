@@ -7,6 +7,7 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import type { ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
+import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { urlFor } from "@/lib/sanityClient";
 import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
@@ -293,6 +294,7 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           </div>
         </section>
       )}
+      <PageSectionsRenderer sections={sanityArticle?.pageSections} />
     </PageLayout>
   );
 };

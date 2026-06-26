@@ -17,6 +17,8 @@ import {
   THEME_PAGE_QUERY,
   TREATMENT_BY_SLUG_QUERY,
   TREATMENT_CATEGORY_BY_SLUG_QUERY,
+  CAREERS_PAGE_QUERY,
+  GUIDE_PAGE_QUERY,
 } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { isPublishableSanitySpecialist, type RawSanitySpecialist } from "@/lib/sanity/specialist-data";
@@ -387,4 +389,44 @@ export async function fetchThemePageSeo(
   });
   if (raw == null) return null;
   return normalizeI18n(raw, lang) as DocWithSeo & { title?: string };
+}
+
+export type GuidePageDocument = DocWithSeo & {
+  heroTitle?: string;
+  heroSubtitle?: string;
+};
+
+export type CareersPageDocument = DocWithSeo & {
+  title?: string;
+  heroSubtitle?: string;
+  introText?: string;
+  jobSeoTitleSuffix?: string;
+};
+
+export async function fetchCareersPageDocument(
+  lang: "no" | "en",
+): Promise<CareersPageDocument | null> {
+  const raw = await sanityFetchCached({
+    query: CAREERS_PAGE_QUERY,
+    params: { lang },
+    key: ["sanity", "careersPage", lang, CAREERS_PAGE_QUERY],
+    tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.type("careersPage")],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+  if (raw == null) return null;
+  return normalizeI18n(raw, lang) as CareersPageDocument;
+}
+
+export async function fetchGuidePageDocument(
+  lang: "no" | "en",
+): Promise<GuidePageDocument | null> {
+  const raw = await sanityFetchCached({
+    query: GUIDE_PAGE_QUERY,
+    params: { lang },
+    key: ["sanity", "guidePage", lang, GUIDE_PAGE_QUERY],
+    tags: [SANITY_CACHE_TAGS.all, SANITY_CACHE_TAGS.type("guidePage")],
+    revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
+  });
+  if (raw == null) return null;
+  return normalizeI18n(raw, lang) as GuidePageDocument;
 }

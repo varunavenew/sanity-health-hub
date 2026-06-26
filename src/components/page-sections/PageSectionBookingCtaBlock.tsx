@@ -12,10 +12,15 @@ export function PageSectionBookingCtaBlock({ config }: Props) {
     <BookingCTA
       title={config.title}
       subtitle={config.subtitle}
+      image={config.image}
+      imageAlt={config.imageAlt}
+      variant={config.variant}
       primaryLabel={config.primaryLabel}
       primaryPath={config.primaryPath}
       bookingCategoryId={config.bookingCategory?.categoryId}
+      showSecondaryButton={config.showSecondaryButton}
       secondaryLabel={config.secondaryLabel}
+      secondaryPath={config.secondaryPath}
       quickInfoItems={config.quickInfoItems}
     />
   );
