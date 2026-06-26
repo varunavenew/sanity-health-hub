@@ -323,3 +323,14 @@
   0%, 100% { transform: translate(-50%, -50%) translateY(0); }
   50% { transform: translate(-50%, -50%) translateY(-8px); }
 }
+/* ===== Mobile finpuss: image-first + tightened heading→content spacing ===== */
+@media (max-width: 767px) {
+  /* Reduce big vertical gaps between section heading wrappers and their content on mobile */
+  .mb-14 { margin-bottom: 1.5rem; }
+  .mb-12 { margin-bottom: 1.25rem; }
+  .mb-10 { margin-bottom: 1rem; }
+
+  /* Image-first ordering inside grid sections that combine a text column and an image column.
+     When the lg:grid collapses to one column on mobile, put the image above the text. */
+  .mobile-image-first { display: flex; flex-direction: column-reverse; }
+}
