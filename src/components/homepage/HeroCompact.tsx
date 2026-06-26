@@ -127,21 +127,25 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
             </button>
           ))}
         </div>
-        {/* Dots indicator */}
-        <div className="flex items-center justify-center gap-2 mt-3" role="tablist" aria-label="Kategori-indikator">
-          {serviceCategories.map((c: any, i: number) => (
-            <button
-              key={c.id}
-              onClick={() => goTo(i)}
-              aria-label={`Gå til ${c.title}`}
-              aria-selected={i === activeIdx}
-              role="tab"
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === activeIdx ? 'w-6 bg-brand-dark' : 'w-1.5 bg-brand-dark/25'
-              }`}
-            />
-          ))}
+        {/* Arrows + dots indicator */}
+        <div className="flex items-center justify-between gap-3 mt-3 px-4">
+          <div className="flex items-center gap-2" role="tablist" aria-label="Kategori-indikator">
+            {serviceCategories.map((c: any, i: number) => (
+              <button
+                key={c.id}
+                onClick={() => goTo(i)}
+                aria-label={`Gå til ${c.title}`}
+                aria-selected={i === activeIdx}
+                role="tab"
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === activeIdx ? 'w-6 bg-brand-dark' : 'w-1.5 bg-brand-dark/25'
+                }`}
+              />
+            ))}
+          </div>
+          <ScrollArrows scrollRef={swiperRef} visibility="mobile" className="mt-0 px-0" />
         </div>
+
       </div>
 
       {/* Desktop/tablet: original grid (unchanged) */}
