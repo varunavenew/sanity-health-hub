@@ -168,6 +168,24 @@ const Priser = ({ isChatOpen }: PageProps) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Toggle sticky pill bar based on whether the full overview is scrolled past
+  useEffect(() => {
+    const el = overviewRef.current;
+    if (!el) return;
+    const check = () => {
+      const rect = el.getBoundingClientRect();
+      // Show sticky bar once the full overview's bottom has scrolled above the header
+      setShowStickyNav(rect.bottom < navTop + 8);
+    };
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    return () => {
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
+  }, [navTop]);
+
   const scrollToCat = (id: string) => {
     const el = document.getElementById(`cat-${id}`);
     if (!el) return;
