@@ -52,6 +52,8 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   const reviews = getRelevantReviews(categoryId);
   const duplicated = [...reviews, ...reviews];
   const legelistenRating = 4.8;
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+
 
   return (
     <section className="py-14 md:py-20 bg-brand-warm relative overflow-hidden">
