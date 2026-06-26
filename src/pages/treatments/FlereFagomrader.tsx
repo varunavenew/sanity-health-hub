@@ -75,6 +75,10 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  document.title = "Flere fagområder | CMedical — hud, psykologi, sexologi og mer";
  }, []);
 
+ const clustersRef = useRef<HTMLDivElement>(null);
+ const reviewsRef = useRef<HTMLDivElement>(null);
+
+
  return (
  <PageLayout isChatOpen={isChatOpen}>
  <h1 className="sr-only">Flere fagområder hos CMedical</h1>
