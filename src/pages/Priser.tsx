@@ -249,6 +249,36 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 className="flex gap-2 overflow-x-auto px-4 md:px-8 py-2 scrollbar-hide [scroll-behavior:smooth]"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
+            {/* Full category overview — visible at top, condenses to sticky pill bar on scroll */}
+            <div ref={overviewRef} className="mb-10 md:mb-14">
+              <p className="text-xs font-light text-brand-dark/60 mb-4">Velg en kategori for å hoppe direkte:</p>
+              <div className="flex flex-wrap gap-2 md:gap-3">
+                {ordered.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Sticky horizontal category nav — appears once full overview has scrolled past */}
+            <div
+              ref={navWrapperRef}
+              className={`sticky z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10 transition-opacity duration-200 ${
+                showStickyNav ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+              style={{ top: `${navTop}px` }}
+              aria-hidden={!showStickyNav}
+            >
+              <div
+                ref={navScrollerRef}
+                className="flex gap-2 overflow-x-auto px-4 md:px-8 py-2 scrollbar-hide [scroll-behavior:smooth]"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
                 {ordered.map((cat) => {
                   const isActive = activeCategory === cat.id;
                   return (
