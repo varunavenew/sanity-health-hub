@@ -145,6 +145,7 @@ const reviews = [
  ────────────────────────────────────────────────────────────── */
 
 const OrtopediPage = ({ isChatOpen }: PageProps) => {
+ const expertAreasRef = useRef<HTMLDivElement>(null);
  useEffect(() => {
  document.title = "Ortopedi | CMedical — Når det gjør vondt";
  }, []);
