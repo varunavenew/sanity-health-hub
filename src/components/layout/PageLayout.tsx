@@ -11,6 +11,7 @@ import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
 interface PageLayoutProps {
@@ -66,6 +67,13 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isSearchOpen]);
+
+  // Listen for global "open search" events from mobile bottom nav
+  useEffect(() => {
+    const open = () => setIsSearchOpen(true);
+    window.addEventListener("cm:openSearch", open);
+    return () => window.removeEventListener("cm:openSearch", open);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -287,10 +295,15 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {children}
           </main>
 
-          {/* Footer */}
-          <Footer />
+          {/* Footer — pad bottom on mobile so it isn't hidden by the bottom nav */}
+          <div className="pb-[calc(72px+env(safe-area-inset-bottom))] md:pb-0">
+            <Footer />
+          </div>
         </div>
       </div>
+
+      {/* App-style bottom navigation (mobile only) */}
+      <MobileBottomNav />
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,8 +11,26 @@ const BurgerMenu = () => {
  const [isMenuOpen, setIsMenuOpen] = useState(false);
  const navigate = useNavigate();
  const menuRef = useRef<HTMLDivElement | null>(null);
+ const mobileMenuRef = useRef<HTMLDivElement | null>(null);
  const buttonRef = useRef<HTMLButtonElement | null>(null);
  const { data: siteSettings } = useSiteSettings();
+
+ // Allow external triggers (e.g. mobile bottom-nav) to open the menu.
+ useEffect(() => {
+   const open = () => setIsMenuOpen(true);
+   window.addEventListener('cm:openMenu', open);
+   return () => window.removeEventListener('cm:openMenu', open);
+ }, []);
+
+ // Lock body scroll while mobile drawer is open.
+ useEffect(() => {
+   if (!isMenuOpen) return;
+   if (typeof window === 'undefined') return;
+   if (window.matchMedia('(min-width: 768px)').matches) return;
+   const prev = document.body.style.overflow;
+   document.body.style.overflow = 'hidden';
+   return () => { document.body.style.overflow = prev; };
+ }, [isMenuOpen]);
 
  const staticMenuItems = [
  { label: t('nav.services'), path: '/tjenester' },
@@ -41,7 +60,7 @@ const BurgerMenu = () => {
  const target = e.target as Node | null;
  if (!target) return;
 
- const clickedInsideMenu = !!menuRef.current?.contains(target);
+ const clickedInsideMenu = !!menuRef.current?.contains(target) || !!mobileMenuRef.current?.contains(target);
  const clickedOnButton = !!buttonRef.current?.contains(target);
  if (!clickedInsideMenu && !clickedOnButton) close();
  };
@@ -132,14 +151,15 @@ const BurgerMenu = () => {
  </div>
  </motion.div>
 
- {/* Mobile Menu */}
+ {/* Mobile Menu — portaled to body to escape transformed ancestors (fixed positioning) */}
+ {createPortal(
  <motion.div 
- ref={menuRef}
+ ref={mobileMenuRef}
  initial={{ opacity: 0, x: '100%' }}
  animate={{ opacity: 1, x: 0 }}
  exit={{ opacity: 0, x: '100%' }}
  transition={{ duration: 0.3, ease: 'easeOut' }}
- className="md:hidden fixed inset-0 top-0 bg-white z-50 overflow-y-auto"
+ className="md:hidden fixed inset-0 bg-white z-[100] overflow-y-auto"
  role="dialog"
  aria-modal="true"
  aria-label={t("nav.navigationMenu")}
@@ -156,7 +176,7 @@ const BurgerMenu = () => {
  </div>
 
  {/* Mobile Content */}
- <div className="p-6">
+ <div className="p-6 pb-[calc(96px+env(safe-area-inset-bottom))]">
  <nav className="space-y-1">
  {menuItems.map((item) => (
  <button 
@@ -203,7 +223,9 @@ const BurgerMenu = () => {
  </button>
  </div>
  </div>
- </motion.div>
+ </motion.div>,
+ document.body
+ )}
  </>
  )}
  </AnimatePresence>
