@@ -94,9 +94,20 @@ const Priser = ({ isChatOpen }: PageProps) => {
     document.title = "Priser | CMedical";
   }, []);
 
+  const ordered = useMemo(() => {
+    const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
+    return [
+      ...priceCategories.filter(c => prioritized.includes(c.id)).sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
+      ...priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb')),
+    ];
+  }, []);
+
+  const navScrollerRef = useRef<HTMLDivElement | null>(null);
+  const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
   // IntersectionObserver to highlight active category pill as user scrolls
   useEffect(() => {
-    const sections = priceCategories.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
+    const sections = ordered.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
     if (sections.length === 0) return;
 
     const observer = new IntersectionObserver(
@@ -109,12 +120,40 @@ const Priser = ({ isChatOpen }: PageProps) => {
           setActiveCategory(id);
         }
       },
-      { rootMargin: '-20% 0px -60% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+      { rootMargin: '-25% 0px -65% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
     );
 
     sections.forEach(s => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [ordered]);
+
+  // Auto-scroll the active pill into view within the horizontal nav
+  useEffect(() => {
+    const scroller = navScrollerRef.current;
+    const pill = pillRefs.current[activeCategory];
+    if (!scroller || !pill) return;
+    const sLeft = scroller.scrollLeft;
+    const sWidth = scroller.clientWidth;
+    const pLeft = pill.offsetLeft;
+    const pRight = pLeft + pill.offsetWidth;
+    const margin = 24;
+    if (pLeft < sLeft + margin) {
+      scroller.scrollTo({ left: Math.max(0, pLeft - margin), behavior: 'smooth' });
+    } else if (pRight > sLeft + sWidth - margin) {
+      scroller.scrollTo({ left: pRight - sWidth + margin, behavior: 'smooth' });
+    }
+  }, [activeCategory]);
+
+  const scrollToCat = (id: string) => {
+    const el = document.getElementById(`cat-${id}`);
+    if (!el) return;
+    const header = document.querySelector('header');
+    const headerH = header?.getBoundingClientRect().height ?? 80;
+    const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 56;
+    const offset = headerH + navH + 16;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+  };
+
 
   const toggleSubcategory = (key: string) => {
     setOpenSubcategory((prev) => (prev === key ? null : key));
