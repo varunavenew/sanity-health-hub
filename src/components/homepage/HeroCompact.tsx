@@ -73,7 +73,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
     const card = cardRefs.current[i];
     const el = swiperRef.current;
     if (!card || !el) return;
-    el.scrollTo({ left: card.offsetLeft - 16, behavior: 'smooth' });
+    el.scrollTo({ left: card.offsetLeft, behavior: 'smooth' });
   };
 
   return (
