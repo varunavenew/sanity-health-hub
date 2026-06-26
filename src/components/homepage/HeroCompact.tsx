@@ -108,7 +108,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
-                src={category.image}
+                src={category.mobileImage ?? category.image}
                 alt=""
                 style={{ objectPosition: category.objectPosition ?? 'center' }}
                 className="w-full h-full object-cover"
