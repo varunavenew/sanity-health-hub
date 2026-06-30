@@ -293,7 +293,7 @@ const BookingDemo = () => {
  const canGoPrev = viewMonth.getTime() > currentMonthStart.getTime();
 
  // Horisontal dato-stripe — kun ledige hverdager
- const VISIBLE_DAYS = 7;
+ const VISIBLE_DAYS = isMobile ? 8 : 7;
  const [dateOffset, setDateOffset] = useState(0);
  const [dateDirection, setDateDirection] = useState<1 | -1>(1);
  const [bookingData, setBookingData] = useState<BookingData>({});

@@ -201,7 +201,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
         description={pageSubtitle}
         image={heroImage}
         imageAlt={pageTitle}
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
         secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
         bottomNote="Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen."
       />
@@ -269,9 +268,9 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                           {sub.path && (
                             <Link
                               to={sub.path}
-                              className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 hover:text-brand-dark hover:gap-2 transition-all"
+                              className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 underline underline-offset-4 decoration-brand-dark/40 hover:text-brand-dark hover:decoration-brand-dark transition-all"
                             >
-                              Les mer om {sub.label.toLowerCase()}
+                              Les mer
                               <ArrowRight className="w-3 h-3" />
                             </Link>
                           )}
@@ -324,9 +323,9 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     {item.path && (
                                       <Link
                                         to={item.path}
-                                        className="inline-flex items-center gap-1 text-xs font-medium text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
+                                        className="inline-flex items-center gap-1 text-xs font-normal text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
                                       >
-                                        Les mer om {item.name.toLowerCase()}
+                                        Les mer
                                         <ArrowRight className="w-3 h-3" />
                                       </Link>
                                     )}
@@ -365,9 +364,9 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                             <div className="pt-4 mt-1">
                               <Link
                                 to={sub.path}
-                                className="inline-flex items-center gap-2 text-xs font-medium text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-all"
+                                className="inline-flex items-center gap-2 text-xs font-normal text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-all"
                               >
-                                Les mer om {sub.label.toLowerCase()}
+                                Les mer
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </Link>
                             </div>

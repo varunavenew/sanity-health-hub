@@ -11,7 +11,7 @@ import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
-import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.svg";
 
 interface PageLayoutProps {
@@ -325,8 +325,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         </div>
       </div>
 
-      {/* App-style bottom navigation (mobile only) */}
-      <MobileBottomNav />
+      {/* Mobile bottom CTA bar removed per client request — booking lives in the top header */}
     </>
   );
 };
