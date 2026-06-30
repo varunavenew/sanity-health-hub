@@ -470,11 +470,11 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
-           <div ref={audiencesRef} className="flex md:grid md:grid-cols-3 gap-3 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
              {audiences.map((a) => (
                <div
                  key={a.title}
-                 className="bg-background rounded-sm border border-border/40 flex flex-col p-7 shrink-0 w-[78vw] md:w-auto snap-center"
+                 className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
                >
                  <div className="mb-6 text-foreground/80">
                    <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
@@ -495,7 +495,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                </div>
              ))}
            </div>
-           <ScrollArrows scrollRef={audiencesRef} />
+
 
  </div>
  </div>
