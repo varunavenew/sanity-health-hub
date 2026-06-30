@@ -64,6 +64,7 @@ const staticTestimonials = [
 export const TestimonialSection = () => {
   const { data: sanityTestimonials } = useTestimonials();
   const mobileScrollRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(mobileScrollRef);
 
 
   const testimonials = sanityTestimonials && sanityTestimonials.length > 0
