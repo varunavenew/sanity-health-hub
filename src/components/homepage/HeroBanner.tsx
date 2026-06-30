@@ -23,6 +23,7 @@ const mobilTverrfaglig = mobilFlereAsset.url;
 interface HeroSlide {
   id: string;
   image: string;
+  mobileImage?: string;
   video?: string;
   alt: string;
   label: string;
