@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { clinics as staticClinics, getClinicsForService as staticGetClinicsForService, Clinic } from "@/data/clinicServices";
 import { useClinics } from "@/hooks/useSanity";
 import { categoryPageToBookingId, slugifyNo } from "@/lib/bookingLinks";
+import { buildGoogleCalendarUrl, downloadICS, combineDateAndTime, parseDurationToMinutes } from "@/lib/calendarLinks";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 
 // Booking services data based on CMedical's actual structure
@@ -171,20 +172,56 @@ const bookingServices = [
  },
 ];
 
-// Generate mock available times for a date
-const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
- const baseSlots = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
- const dayOfWeek = date.getDay();
- 
- if (dayOfWeek === 0 || dayOfWeek === 6) return [];
- 
- const slots = baseSlots.slice(0, 6 + Math.floor(Math.random() * 6)).map(time => ({
- time,
- specialist: specialistList[Math.floor(Math.random() * specialistList.length)]
- }));
- 
- return slots;
+// Deterministic mock availability — same inputs always produce the same slots,
+// so a "fully booked" day stays visibly fully booked while the user navigates.
+// Each specialist has their own weekly pattern (one weekday off, occasional full days).
+const hashString = (s: string): number => {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
 };
+
+const dateKey = (date: Date): string =>
+  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+// Per-specialist recurring busy weekday + occasional fully booked days.
+const isSpecialistAvailable = (specialistId: string, date: Date): boolean => {
+  const dow = date.getDay();
+  if (dow === 0 || dow === 6) return false;
+  const seed = hashString(specialistId);
+  // Each specialist has one weekday off (1-5 = Mon-Fri).
+  const dayOff = (seed % 5) + 1;
+  if (dow === dayOff) return false;
+  // Roughly 1 in 4 working days is "fully booked".
+  const h = hashString(`${specialistId}:${dateKey(date)}`);
+  if (h % 4 === 0) return false;
+  return true;
+};
+
+const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
+  const baseSlots = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
+  const dayOfWeek = date.getDay();
+  if (dayOfWeek === 0 || dayOfWeek === 6) return [];
+
+  const availablePool = specialistList.filter((s) => isSpecialistAvailable(s.slug ?? s.name, date));
+  if (availablePool.length === 0) return [];
+
+  const key = dateKey(date);
+  const slots: { time: string; specialist: Specialist }[] = [];
+  baseSlots.forEach((time, i) => {
+    const h = hashString(`${key}:${time}:${availablePool.map((s) => s.slug ?? s.name).join(",")}`);
+    // ~70% of base slots are open on an available day.
+    if (h % 10 < 7) {
+      const spec = availablePool[h % availablePool.length];
+      slots.push({ time, specialist: spec });
+    }
+  });
+  return slots;
+};
+
 
 // Find first bookable weekday (skips weekends + days with no slots).
 const getFirstAvailableDate = (fromDate: Date, specialistList: Specialist[]): Date => {
@@ -494,57 +531,168 @@ const BookingDemo = () => {
  }
  };
 
- // Confirmation screen
- if (isSubmitted) {
- return (
- <div className="min-h-screen bg-[#f5f4f0] flex items-center justify-center p-6">
- <div className="max-w-lg w-full text-center">
- <div className="w-20 h-20 rounded-full bg-foreground flex items-center justify-center mx-auto mb-6">
- <Check className="w-10 h-10 text-background" />
- </div>
- 
- <h1 className="text-3xl font-light text-foreground mb-2">
- Bestilling bekreftet
- </h1>
- <p className="text-muted-foreground mb-8 font-light">
- Du vil motta en bekreftelse på SMS{formData.email ? " og e-post" : ""}.
- </p>
- 
- <div className="bg-white rounded-lg p-6 text-left mb-6">
- <div className="space-y-4 text-sm">
- <div className="flex justify-between py-2 border-b border-border/30">
- <span className="text-muted-foreground">Behandling</span>
- <span className="font-medium">{bookingData.service?.name}</span>
- </div>
- <div className="flex justify-between py-2 border-b border-border/30">
- <span className="text-muted-foreground">Klinikk</span>
- <span className="font-medium">CMedical – {bookingData.clinic?.label}</span>
- </div>
- <div className="flex justify-between py-2 border-b border-border/30">
- <span className="text-muted-foreground">Adresse</span>
- <span className="font-medium">{bookingData.clinic?.address}</span>
- </div>
- <div className="flex justify-between py-2 border-b border-border/30">
- <span className="text-muted-foreground">Dato og tid</span>
- <span className="font-medium">{bookingData.date && format(bookingData.date, "d. MMM yyyy", { locale: nb })} kl. {bookingData.time}</span>
- </div>
- <div className="flex justify-between py-2">
- <span className="text-muted-foreground">Behandler</span>
- <span className="font-medium">{bookingData.specialist?.name}</span>
- </div>
- </div>
- </div>
- 
- <Button
- onClick={() => navigate("/")} 
- className="bg-foreground text-background hover:bg-foreground/90 px-8 py-3 rounded-lg font-normal"
- >
- Tilbake til forsiden
- </Button>
- </div>
- </div>
- );
- }
+  // Confirmation screen
+  if (isSubmitted) {
+    const startDateTime = bookingData.date && bookingData.time
+      ? combineDateAndTime(bookingData.date, bookingData.time)
+      : null;
+    const duration = parseDurationToMinutes(bookingData.service?.duration);
+    const eventTitle = `${bookingData.service?.name ?? "Time"} – CMedical`;
+    const eventLocation = bookingData.clinic
+      ? `CMedical ${bookingData.clinic.label}, ${bookingData.clinic.address}`
+      : "CMedical";
+    const eventDescription = [
+      `Behandling: ${bookingData.service?.name ?? ""}`,
+      bookingData.specialist?.name ? `Behandler: ${bookingData.specialist.name}` : "",
+      bookingData.clinic?.phone ? `Telefon: +47 ${bookingData.clinic.phone}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const calendarInput = startDateTime
+      ? {
+          title: eventTitle,
+          description: eventDescription,
+          location: eventLocation,
+          start: startDateTime,
+          durationMinutes: duration,
+        }
+      : null;
+    const gcalUrl = calendarInput ? buildGoogleCalendarUrl(calendarInput) : "#";
+
+    return (
+      <div className="min-h-screen bg-[#f5f4f0] flex items-center justify-center p-4 sm:p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="max-w-xl w-full"
+        >
+          <div className="text-center mb-8">
+            <motion.div
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.15, type: "spring", stiffness: 200, damping: 18 }}
+              className="w-16 h-16 rounded-full bg-brand-dark flex items-center justify-center mx-auto mb-5 shadow-sm"
+            >
+              <Check className="w-8 h-8 text-brand-warm" strokeWidth={2.5} />
+            </motion.div>
+            <h1 className="text-3xl md:text-4xl font-light text-brand-dark mb-2">
+              Timen din er bekreftet
+            </h1>
+            <p className="text-brand-dark/60 font-light">
+              Vi sender bekreftelse på SMS{formData.email ? " og e-post" : ""}.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-brand-dark/5 mb-5">
+            <div className="flex items-start gap-4 pb-5 mb-5 border-b border-brand-dark/10">
+              {bookingData.specialist?.image && (
+                <img
+                  src={bookingData.specialist.image}
+                  alt={bookingData.specialist.name}
+                  className="w-14 h-14 rounded-full object-cover ring-2 ring-brand-beige flex-shrink-0"
+                />
+              )}
+              <div className="min-w-0">
+                <p className="text-xs uppercase text-brand-dark/50 font-medium mb-1">Behandling</p>
+                <p className="text-lg font-medium text-brand-dark leading-snug">
+                  {bookingData.service?.name}
+                </p>
+                {bookingData.specialist?.name && (
+                  <p className="text-sm text-brand-dark/70 font-light mt-1">
+                    hos {bookingData.specialist.name}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-5">
+              <div className="flex items-start gap-3">
+                <Calendar className="w-5 h-5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <div>
+                  <p className="text-xs uppercase text-brand-dark/50 font-medium mb-1">Dato</p>
+                  <p className="text-sm text-brand-dark font-light capitalize">
+                    {bookingData.date && format(bookingData.date, "EEEE d. MMMM yyyy", { locale: nb })}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Clock className="w-5 h-5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <div>
+                  <p className="text-xs uppercase text-brand-dark/50 font-medium mb-1">Tid</p>
+                  <p className="text-sm text-brand-dark font-light">
+                    kl. {bookingData.time}
+                    {bookingData.service?.duration && (
+                      <span className="text-brand-dark/60"> · {bookingData.service.duration}</span>
+                    )}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 sm:col-span-2">
+                <MapPin className="w-5 h-5 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                <div>
+                  <p className="text-xs uppercase text-brand-dark/50 font-medium mb-1">Sted</p>
+                  <p className="text-sm text-brand-dark font-light">
+                    CMedical – {bookingData.clinic?.label}
+                  </p>
+                  {bookingData.clinic?.address && (
+                    <p className="text-sm text-brand-dark/60 font-light">{bookingData.clinic.address}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {calendarInput && (
+            <div className="bg-brand-beige/30 rounded-2xl p-5 mb-5 border border-brand-dark/5">
+              <p className="text-sm text-brand-dark font-medium mb-3 flex items-center gap-2">
+                <Calendar className="w-4 h-4" strokeWidth={1.5} />
+                Legg i kalenderen
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <a
+                  href={gcalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-white text-brand-dark text-sm font-light border border-brand-dark/15 hover:border-brand-dark/40 transition-colors flex-1"
+                >
+                  Google Kalender
+                </a>
+                <button
+                  type="button"
+                  onClick={() => downloadICS(calendarInput)}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-white text-brand-dark text-sm font-light border border-brand-dark/15 hover:border-brand-dark/40 transition-colors flex-1"
+                >
+                  Apple / Outlook (.ics)
+                </button>
+              </div>
+              <p className="text-xs text-brand-dark/50 font-light mt-3">
+                .ics-filen åpner kalenderen din automatisk på mobil.
+              </p>
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button
+              onClick={() => navigate("/")}
+              className="bg-brand-dark text-brand-warm hover:bg-brand-dark/90 rounded-2xl flex-1 h-11 font-normal"
+            >
+              Tilbake til forsiden
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/kontakt")}
+              className="rounded-2xl flex-1 h-11 font-light border-brand-dark/20 text-brand-dark"
+            >
+              Kontakt klinikken
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
 
  // External clinic view (e.g., Moss → Colosseum Faust)
  if (externalClinic) {
@@ -1112,12 +1260,15 @@ const BookingDemo = () => {
  )}>
  {format(date, "d", { locale: nb })}
  </span>
- <span className={cn(
- "text-xs font-light",
- isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
- )}>
- {isToday ? "I dag" : format(date, "MMM", { locale: nb })}
- </span>
+  <span className={cn(
+  "text-[10px] font-light leading-none",
+  isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/40" : "text-brand-dark/60"
+  )}>
+  {isDisabled ? "Opptatt" : isToday ? "I dag" : format(date, "MMM", { locale: nb })}
+  </span>
+  {isDisabled && (
+    <span className="absolute inset-x-3 top-1/2 h-px bg-brand-dark/15 -rotate-12" aria-hidden />
+  )}
  </button>
  );
  })}
