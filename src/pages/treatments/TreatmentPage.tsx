@@ -85,7 +85,7 @@ const QuickInfoBar = () => (
     ].map(({ icon: Icon, label }) => (
       <div
         key={label}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-secondary/50 border border-border/50"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-secondary/50 border border-border/50"
       >
         <Icon className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={1.5} />
         <span className="text-xs md:text-sm text-foreground/70 font-light">{label}</span>
@@ -176,7 +176,7 @@ const SpecialistCarouselSection = ({
                   <div className="px-5 pb-3">
                     <div className="flex flex-wrap gap-1.5">
                       {spec.expertise.slice(0, 4).map((tag) => (
-                        <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground font-light">{tag}</span>
+                        <span key={tag} className="text-xs px-2.5 py-1 rounded-2xl bg-secondary text-muted-foreground font-light">{tag}</span>
                       ))}
                     </div>
                   </div>
@@ -185,7 +185,7 @@ const SpecialistCarouselSection = ({
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-xs rounded-full font-light flex-1"
+                    className="text-xs rounded-2xl font-light flex-1"
                     onClick={() => navigate(`/spesialister/${spec.slug}`)}
                   >
                     Les mer om {spec.name.split(' ')[0]}
@@ -193,7 +193,7 @@ const SpecialistCarouselSection = ({
                   </Button>
                   <Button
                     size="sm"
-                    className="text-xs rounded-full font-light flex-1 bg-brand-dark text-white hover:bg-brand-dark/90"
+                    className="text-xs rounded-2xl font-light flex-1 bg-brand-dark text-white hover:bg-brand-dark/90"
                     onClick={() => navigate(`/booking?kategori=${categoryId}`)}
                   >
                     <Calendar className="mr-1.5 w-3 h-3" aria-hidden="true" />
@@ -415,7 +415,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                         if (trimmed.startsWith("- ")) {
                           return (
                             <div key={j} className="flex items-start gap-3 pl-1">
-                              <div className="w-1.5 h-1.5 rounded-full bg-foreground/40 mt-2.5 flex-shrink-0" />
+                              <div className="w-1.5 h-1.5 rounded-2xl bg-foreground/40 mt-2.5 flex-shrink-0" />
                               <p className="text-foreground/80 font-light leading-[1.8]" dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(trimmed.slice(2)) }} />
                             </div>
                           );
@@ -597,7 +597,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button
                   size="lg"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8 font-normal"
+                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl px-8 font-normal"
                   onClick={() => navigate(`/booking?kategori=${categoryId}`)}
                 >
                   Bestill time hos en {specialistLabel}
@@ -606,7 +606,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
                 <Button
                   size="lg"
                   variant="ghost"
-                  className="border border-white/20 text-white bg-transparent hover:bg-white/10 rounded-full px-8 font-normal"
+                  className="border border-white/20 text-white bg-transparent hover:bg-white/10 rounded-2xl px-8 font-normal"
                   onClick={() => navigate("/kontakt")}
                 >
                   <Phone className="mr-2 w-4 h-4" />

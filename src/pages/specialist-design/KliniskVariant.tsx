@@ -50,7 +50,7 @@ const Variant2 = ({ isChatOpen = false }: Props) => {
               {specialist.expertise?.length ? (
                 <div className="flex flex-wrap gap-2 mb-8">
                   {specialist.expertise.slice(0, 8).map((e) => (
-                    <span key={e} className="inline-flex items-center px-3.5 py-1.5 text-xs font-light text-brand-dark border border-brand-dark/20 rounded-full">
+                    <span key={e} className="inline-flex items-center px-3.5 py-1.5 text-xs font-light text-brand-dark border border-brand-dark/20 rounded-2xl">
                       {e}
                     </span>
                   ))}

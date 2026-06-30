@@ -164,14 +164,14 @@ export const FremdriftsplanPanel = () => {
           underveis.
         </p>
         <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
-          <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full border bg-indigo-50 text-indigo-900 border-indigo-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" /> Byrå
+          <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-2xl border bg-indigo-50 text-indigo-900 border-indigo-200">
+            <span className="w-1.5 h-1.5 rounded-2xl bg-indigo-500" /> Byrå
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full border bg-amber-50 text-amber-900 border-amber-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> CMedical
+          <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-2xl border bg-amber-50 text-amber-900 border-amber-200">
+            <span className="w-1.5 h-1.5 rounded-2xl bg-amber-500" /> CMedical
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full border bg-emerald-50 text-emerald-900 border-emerald-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Begge
+          <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-2xl border bg-emerald-50 text-emerald-900 border-emerald-200">
+            <span className="w-1.5 h-1.5 rounded-2xl bg-emerald-500" /> Begge
           </span>
         </div>
       </div>
@@ -200,7 +200,7 @@ export const FremdriftsplanPanel = () => {
             <div className="flex items-baseline justify-between gap-3 flex-wrap">
               <p className="text-[11px] text-muted-foreground">{p.dates}</p>
               <span
-                className={`inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-full border ${ownerStyle[p.owner]}`}
+                className={`inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 rounded-2xl border ${ownerStyle[p.owner]}`}
               >
                 {p.owner}
               </span>

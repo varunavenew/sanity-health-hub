@@ -65,7 +65,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 left-3">
-          <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-full">
+          <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl">
             {article.category}
           </span>
         </div>
@@ -100,7 +100,7 @@ const FeaturedCard = ({ article }: { article: Article }) => {
       <MediaBadge type={article.mediaType} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-xs px-2.5 py-0.5 rounded-full mb-2">
+        <span className="inline-block bg-white/15 backdrop-blur-md text-white text-xs px-2.5 py-0.5 rounded-2xl mb-2">
           {article.category}
         </span>
         <h3 className="text-base md:text-lg font-medium text-white leading-snug mb-2 line-clamp-2">

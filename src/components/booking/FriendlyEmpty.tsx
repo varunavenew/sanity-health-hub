@@ -30,7 +30,7 @@ export const FriendlyEmpty = ({
       </div>
       <a
         href={telHref}
-        className="inline-flex items-center gap-2 px-4 py-2.5 bg-foreground text-background rounded-full text-sm hover:bg-foreground/90 transition-colors"
+        className="inline-flex items-center gap-2 px-4 py-2.5 bg-foreground text-background rounded-2xl text-sm hover:bg-foreground/90 transition-colors"
       >
         <Phone className="w-4 h-4" aria-hidden="true" />
         <span>{phoneLabel} · {phone}</span>

@@ -129,7 +129,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           <ul className="space-y-2 mb-6">
             {(sanityData?.sections?.[0]?.bulletPoints || staticContent.bulletPoints).map((item: string) => (
               <li key={item} className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-dark mt-2 flex-shrink-0" />
+                <div className="w-1.5 h-1.5 rounded-2xl bg-brand-dark mt-2 flex-shrink-0" />
                 <span className="text-sm text-muted-foreground font-light">{item}</span>
               </li>
             ))}
@@ -161,7 +161,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           {/* CTA */}
           <Button
             onClick={() => navigate("/booking")}
-            className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-full font-light"
+            className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light"
           >
             Bestill time
             <ArrowRight className="ml-2 w-4 h-4" />
