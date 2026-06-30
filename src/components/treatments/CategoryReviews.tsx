@@ -166,10 +166,8 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
             );
           })}
         </div>
-        <div className="container mx-auto px-6">
-          <ScrollArrows scrollRef={mobileScrollRef} align="center" />
-        </div>
       </div>
+
     </section>
   );
 };
