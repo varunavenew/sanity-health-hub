@@ -164,7 +164,7 @@ const Services = ({ isChatOpen }: PageProps) => {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4">Tjenester</h1>
           <p className="text-base md:text-lg text-muted-foreground font-light max-w-md mx-auto mb-4">Finn behandlingen som passer for deg</p>
           <div className="flex items-center justify-center gap-3 mb-8">
-            <span className="inline-flex items-center px-4 py-1.5 rounded-2xl border border-border text-sm font-light text-foreground/70">Ingen henvisning</span>
+            <span className="inline-flex items-center px-4 py-1.5 rounded-2xl md:rounded-full border border-border text-sm font-light text-foreground/70">Ingen henvisning</span>
             <span className="inline-flex items-center px-4 py-1.5 rounded-2xl border border-border text-sm font-light text-foreground/70">Ingen ventetid</span>
           </div>
 

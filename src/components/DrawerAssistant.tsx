@@ -42,7 +42,7 @@ export const DrawerAssistant = () => {
                 onClick={() => setIsOpen(false)}
                 variant="ghost"
                 size="icon"
-                className="rounded-2xl"
+                className="rounded-2xl md:rounded-full"
               >
                 <ChevronDown className="w-5 h-5" />
               </Button>
@@ -56,28 +56,28 @@ export const DrawerAssistant = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-2xl border-primary/30 hover:bg-primary/10"
+                  className="rounded-2xl md:rounded-full border-primary/30 hover:bg-primary/10"
                 >
                   🛍️ Produkter
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-2xl border-primary/30 hover:bg-primary/10"
+                  className="rounded-2xl md:rounded-full border-primary/30 hover:bg-primary/10"
                 >
                   📋 Tjenester
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-2xl border-primary/30 hover:bg-primary/10"
+                  className="rounded-2xl md:rounded-full border-primary/30 hover:bg-primary/10"
                 >
                   📚 Informasjon
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="rounded-2xl border-primary/30 hover:bg-primary/10"
+                  className="rounded-2xl md:rounded-full border-primary/30 hover:bg-primary/10"
                 >
                   🎧 Podcaster
                 </Button>

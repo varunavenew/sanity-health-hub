@@ -168,7 +168,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   <Link
                     key={item._key}
                     to={item.path}
-                    className="px-3 py-1.5 text-sm font-light rounded-2xl transition-all hover:bg-white/10"
+                    className="px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10"
                   >
                     {item.label}
                   </Link>
@@ -183,7 +183,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {/* Search Toggle - always visible (mobile + desktop) */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 rounded-2xl transition-all hover:bg-white/10 text-white"
+              className="p-2 rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white"
               aria-label={t("nav.search")}
               type="button"
             >
@@ -230,7 +230,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   type="submit" 
                   size="sm" 
                   variant="ghost"
-                  className="rounded-2xl hover:bg-white/10 text-white"
+                  className="rounded-2xl md:rounded-full hover:bg-white/10 text-white"
                 >
                   {isAiLoading ? "Tenker…" : t("nav.search")}
                 </Button>
@@ -292,7 +292,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                     <button
                       key={term}
                       onClick={() => setSearchQuery(term)}
-                      className="px-3 py-1 text-xs rounded-2xl transition-all bg-white/10 hover:bg-white/20 text-white"
+                      className="px-3 py-1 text-xs rounded-2xl md:rounded-full transition-all bg-white/10 hover:bg-white/20 text-white"
                     >
                       {term}
                     </button>

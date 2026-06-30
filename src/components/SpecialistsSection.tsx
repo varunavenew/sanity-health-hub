@@ -22,7 +22,7 @@ export const SpecialistsSection = () => {
             </p>
             <Button 
               size="lg" 
-              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-8"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl md:rounded-full px-8"
               onClick={() => navigate('/booking')}
             >
               Bestill konsultasjon

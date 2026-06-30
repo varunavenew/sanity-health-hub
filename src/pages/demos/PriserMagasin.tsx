@@ -37,7 +37,7 @@ const PriserMagasin = ({ isChatOpen }: PageProps) => {
               <a
                 key={cat.id}
                 href={`#${cat.id}`}
-                className="text-xs font-light text-brand-dark px-3 py-1.5 rounded-2xl border border-brand-mid/30 hover:bg-brand-light/50"
+                className="text-xs font-light text-brand-dark px-3 py-1.5 rounded-2xl md:rounded-full border border-brand-mid/30 hover:bg-brand-light/50"
               >
                 {cat.label}
               </a>

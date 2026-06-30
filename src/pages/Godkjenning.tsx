@@ -518,14 +518,14 @@ const Godkjenning = () => {
                                 {page.name}
                                 <ArrowUpRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground" strokeWidth={1.5} />
                               </Link>
-                              <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-2xl border ${STATUS_META[status].bg}`}>
+                              <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full border ${STATUS_META[status].bg}`}>
                                 <span className={`w-1.5 h-1.5 rounded-2xl ${STATUS_META[status].dot}`} />
                                 {STATUS_META[status].label}
                               </span>
                               {reqs && reqs.open > 0 && (
                                 <button
                                   onClick={() => { setTab("innboks"); }}
-                                  className="text-[11px] px-2 py-0.5 rounded-2xl bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
+                                  className="text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
                                 >
                                   {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
                                 </button>
@@ -641,7 +641,7 @@ const MasterTemplatesPanel = ({
                   <h3 className="text-base font-light text-foreground">{t.title}</h3>
                   <p className="text-[11px] text-muted-foreground mt-0.5">Eksempel: {t.exampleLabel}</p>
                 </div>
-                <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-2xl border ${STATUS_META[status].bg}`}>
+                <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full border ${STATUS_META[status].bg}`}>
                   <span className={`w-1.5 h-1.5 rounded-2xl ${STATUS_META[status].dot}`} />
                   {STATUS_META[status].label}
                 </span>
@@ -652,7 +652,7 @@ const MasterTemplatesPanel = ({
               {reqs && reqs.open > 0 && (
                 <button
                   onClick={onJumpToInbox}
-                  className="mt-3 text-[11px] px-2 py-0.5 rounded-2xl bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
+                  className="mt-3 text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
                 >
                   {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
                 </button>

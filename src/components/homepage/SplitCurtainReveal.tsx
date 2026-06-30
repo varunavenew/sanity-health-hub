@@ -118,7 +118,7 @@ export const SplitCurtainReveal = ({ onComplete }: SplitCurtainRevealProps) => {
  {/* Skip button */}
  <motion.button
  onClick={handleSkip}
- className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[102] px-6 py-2 text-sm text-white/70 hover:text-white border border-white/30 hover:border-white/60 rounded-2xl backdrop-blur-sm transition-colors duration-300"
+ className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[102] px-6 py-2 text-sm text-white/70 hover:text-white border border-white/30 hover:border-white/60 rounded-2xl md:rounded-full backdrop-blur-sm transition-colors duration-300"
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
  exit={{ opacity: 0 }}

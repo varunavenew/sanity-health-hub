@@ -156,7 +156,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
  <ul className="space-y-2 mb-8">
  {section.bulletPoints.map((item) => (
  <li key={item} className="flex items-start gap-3">
- <div className="w-1.5 h-1.5 rounded-2xl bg-brand-dark mt-2 flex-shrink-0" />
+ <div className="w-1.5 h-1.5 rounded-2xl md:rounded-full bg-brand-dark mt-2 flex-shrink-0" />
  <span className="text-sm text-muted-foreground font-light">{item}</span>
  </li>
  ))}
@@ -183,7 +183,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
 
  <Button
  onClick={() => navigate(ctaLink)}
- className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl font-light"
+ className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl md:rounded-full font-light"
  >
  {ctaText}
  <ArrowRight className="ml-2 w-4 h-4" />

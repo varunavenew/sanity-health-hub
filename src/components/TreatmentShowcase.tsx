@@ -123,7 +123,7 @@ export const TreatmentShowcase = () => {
                 <div className="space-y-3 pt-4">
                   {treatment.features.map((feature, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-2xl bg-primary mt-2 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-2xl md:rounded-full bg-primary mt-2 flex-shrink-0" />
                       <span className="text-sm text-muted-foreground font-light">{feature}</span>
                     </div>
                   ))}
@@ -139,7 +139,7 @@ export const TreatmentShowcase = () => {
                   </Button>
                   <Button
                     variant="outline"
-                    className="group border-primary/20 hover:border-primary hover:bg-primary/5 rounded-2xl"
+                    className="group border-primary/20 hover:border-primary hover:bg-primary/5 rounded-2xl md:rounded-full"
                     onClick={() => window.location.href = `/${treatment.id}`}
                   >
                     <span className="text-sm font-light">Les mer</span>

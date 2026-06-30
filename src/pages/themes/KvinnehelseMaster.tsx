@@ -163,7 +163,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  "Tverrfaglig støtte innen ernæring, psykisk helse og livsstil",
  ].map((item) => (
  <li key={item} className="flex items-start gap-3">
- <div className="w-1.5 h-1.5 rounded-2xl bg-brand-dark mt-2 flex-shrink-0" />
+ <div className="w-1.5 h-1.5 rounded-2xl md:rounded-full bg-brand-dark mt-2 flex-shrink-0" />
  <span className="text-sm text-muted-foreground font-light">{item}</span>
  </li>
  ))}

@@ -29,7 +29,7 @@ export const RecommendedProductCard = ({ product }: RecommendedProductCardProps)
           <Sparkles className="w-5 h-5" />
           <span className="font-semibold">Idas Personlige Anbefaling</span>
         </div>
-        <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-2xl">
+        <div className="flex items-center gap-1 bg-white/20 px-3 py-1 rounded-2xl md:rounded-full">
           <Star className="w-4 h-4 fill-white" />
           <span className="font-bold">{product.rating}</span>
         </div>
@@ -50,7 +50,7 @@ export const RecommendedProductCard = ({ product }: RecommendedProductCardProps)
         {/* Product Details */}
         <div className="flex flex-col justify-between space-y-4">
           <div>
-            <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-2xl mb-3">
+            <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-2xl md:rounded-full mb-3">
               {product.category}
             </div>
             
@@ -77,7 +77,7 @@ export const RecommendedProductCard = ({ product }: RecommendedProductCardProps)
               {product.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-3 py-1 rounded-2xl bg-muted text-muted-foreground font-medium"
+                  className="text-xs px-3 py-1 rounded-2xl md:rounded-full bg-muted text-muted-foreground font-medium"
                 >
                   {tag}
                 </span>
@@ -94,7 +94,7 @@ export const RecommendedProductCard = ({ product }: RecommendedProductCardProps)
             <div className="flex gap-3">
               <Button
                 size="lg"
-                className="flex-1 rounded-2xl h-12 text-base shadow-lg hover:shadow-xl transition-shadow"
+                className="flex-1 rounded-2xl md:rounded-full h-12 text-base shadow-lg hover:shadow-xl transition-shadow"
               >
                 <ShoppingBag className="w-5 h-5 mr-2" />
                 Kjøp Nå
@@ -102,7 +102,7 @@ export const RecommendedProductCard = ({ product }: RecommendedProductCardProps)
               <Button
                 variant="outline"
                 size="lg"
-                className="rounded-2xl h-12 px-6"
+                className="rounded-2xl md:rounded-full h-12 px-6"
                 onClick={() => navigate(`/product/${product.id}`)}
               >
                 Les Mer

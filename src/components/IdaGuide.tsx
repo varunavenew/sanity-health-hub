@@ -60,7 +60,7 @@ export const IdaGuide = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/10 border border-primary/20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl md:rounded-full bg-primary/10 border border-primary/20">
             <Sparkles className="w-4 h-4 text-primary animate-pulse" />
             <span className="text-sm font-medium text-primary">
               Prøv Ida nå - helt gratis!

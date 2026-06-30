@@ -72,9 +72,9 @@ const ScrollableMenuColumn = ({ children, className, scrollbarClassName = '', sc
       </div>
       {showCustomScrollbar && scrollbar.visible && (
         <div className="pointer-events-none absolute right-1 top-0 bottom-0 w-2.5 py-2">
-          <div className="relative h-full w-full rounded-2xl bg-white/[0.15]">
+          <div className="relative h-full w-full rounded-2xl md:rounded-full bg-white/[0.15]">
             <div
-              className="absolute left-0.5 right-0.5 rounded-2xl bg-white/70"
+              className="absolute left-0.5 right-0.5 rounded-2xl md:rounded-full bg-white/70"
               style={{ height: `${scrollbar.height}px`, transform: `translateY(${scrollbar.top - 8}px)` }}
             />
           </div>
@@ -148,7 +148,7 @@ export const ServicesDropdown = () => {
  setIsOpen(false);
  }, 200);
  }}
- className="px-3 py-1.5 text-sm font-light rounded-2xl transition-all hover:bg-white/10 text-white flex items-center gap-1"
+ className="px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
  aria-expanded={isOpen}
  aria-haspopup="true"
  >
@@ -199,7 +199,7 @@ export const ServicesDropdown = () => {
             scrollKey={activeCategoryData.id}
             showCustomScrollbar={activeCategoryData.id === 'gynekologi'}
             scrollbarClassName="border-r border-white/10"
-            className="w-[220px] p-4 pr-6 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-2xl [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding"
+            className="w-[220px] p-4 pr-6 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-2xl md:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-2xl md:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding"
           >
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeCategoryData.label}
@@ -250,7 +250,7 @@ export const ServicesDropdown = () => {
  >
  <ScrollableMenuColumn
  scrollKey={activeSubcategoryData.label}
- className="w-[200px] p-4 pr-6 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-2xl [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding"
+ className="w-[200px] p-4 pr-6 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-scroll [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.70)_rgba(255,255,255,0.15)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar]:[-webkit-appearance:none] [&::-webkit-scrollbar]:bg-white/[0.15] [&::-webkit-scrollbar-track]:bg-white/[0.15] [&::-webkit-scrollbar-track]:rounded-2xl md:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/70 [&::-webkit-scrollbar-thumb]:rounded-2xl md:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding"
  >
  <h3 className="text-white/50 text-sm mb-2 font-light px-2">
  {activeSubcategoryData.label}

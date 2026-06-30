@@ -151,10 +151,10 @@ const Pricing = ({ isChatOpen }: PageProps) => {
         <div className="lg:w-1/2 h-1/2 lg:h-full bg-brand-warm flex flex-col justify-center px-8 py-8 lg:px-16 lg:py-0">
           {/* Trust badges - Outline pill design */}
           <div className="flex flex-wrap gap-3 mb-12">
-            <span className="px-4 py-2 rounded-2xl border border-brand-dark/30 text-sm text-brand-dark/80">
+            <span className="px-4 py-2 rounded-2xl md:rounded-full border border-brand-dark/30 text-sm text-brand-dark/80">
               Ingen henvisning
             </span>
-            <span className="px-4 py-2 rounded-2xl border border-brand-dark/30 text-sm text-brand-dark/80">
+            <span className="px-4 py-2 rounded-2xl md:rounded-full border border-brand-dark/30 text-sm text-brand-dark/80">
               Kort ventetid
             </span>
           </div>
@@ -238,7 +238,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                   placeholder="Søk etter behandling..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-12 h-11 rounded-2xl bg-white border-brand-dark/30 text-brand-dark placeholder:text-brand-dark/60"
+                  className="pl-12 h-11 rounded-2xl md:rounded-full bg-white border-brand-dark/30 text-brand-dark placeholder:text-brand-dark/60"
                 />
               </div>
             </div>
@@ -302,7 +302,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                                   </div>
                                 )}
                                 <Button 
-                                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl px-6"
+                                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-2xl md:rounded-full px-6"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     // Book appointment action
@@ -326,7 +326,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
             <div className="flex justify-center mt-8 pt-6 border-t border-brand-dark/10">
               <Button 
                 variant="outline" 
-                className="rounded-2xl border-brand-dark text-brand-dark bg-white hover:bg-brand-dark hover:text-white transition-colors" 
+                className="rounded-2xl md:rounded-full border-brand-dark text-brand-dark bg-white hover:bg-brand-dark hover:text-white transition-colors" 
                 asChild
               >
                 <Link to={currentTab.link}>

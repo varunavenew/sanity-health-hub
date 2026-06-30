@@ -47,7 +47,7 @@ export const PageHero = ({
             <div className="flex flex-col sm:flex-row gap-3">
               <Button 
                 size="lg"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl px-8 font-normal w-full sm:w-auto"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl md:rounded-full px-8 font-normal w-full sm:w-auto"
                 onClick={() => window.location.href = ctaLink}
               >
                 {ctaText}
