@@ -179,6 +179,7 @@ export const TestimonialSection = () => {
         <div className="container mx-auto px-6 mt-3">
           <ScrollArrows scrollRef={mobileScrollRef} align="center" />
         </div>
+      </div>
     </section>
   );
 };
