@@ -79,6 +79,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
   });
   const [openSubcategory, setOpenSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+  const toggleItem = (key: string) => setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
   const { data: sanityPricing } = usePricingPage();
