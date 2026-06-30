@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Star } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { useTestimonials } from "@/hooks/useSanity";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 const staticTestimonials = [
   {
