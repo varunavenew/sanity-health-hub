@@ -126,13 +126,54 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
         </div>
       </div>
 
-      <div className="relative mt-8">
+      {/* Desktop: infinite marquee */}
+      <div className="relative mt-8 hidden md:block">
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-brand-warm to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-brand-warm to-transparent z-10 pointer-events-none" />
         <div className="flex gap-6 animate-scroll-left hover:[animation-play-state:paused]">
           {duplicatedReviews.map((review, index) => (
             <ReviewCard key={`${review.id}-${index}`} review={review} />
           ))}
+        </div>
+      </div>
+
+      {/* Mobile: manual swipe with arrows */}
+      <div className="md:hidden mt-4">
+        <div
+          ref={mobileScrollRef}
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 pb-2"
+          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
+        >
+          {googleReviewsList.map((review) => {
+            const isAnonymous = review.name === "Anonym";
+            return (
+              <div
+                key={review.id}
+                className="flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 snap-center"
+              >
+                <Quote className="w-7 h-7 text-brand-dark/10 rotate-180 mb-3" />
+                <div className="mb-3">
+                  <PartialStars rating={review.rating || 5} />
+                </div>
+                <p className="text-brand-dark font-light leading-relaxed text-sm mb-3">
+                  "{review.text.length > 140 ? review.text.slice(0, 140) + '...' : review.text}"
+                </p>
+                <div className="pt-3 border-t border-brand-dark/10 flex items-center justify-between">
+                  <div>
+                    <p className={`text-sm text-brand-dark ${isAnonymous ? 'italic text-brand-dark/60 font-light' : 'font-normal'} flex items-center gap-2`}>
+                      {isAnonymous && <User className="w-3.5 h-3.5" />}
+                      {review.name}
+                    </p>
+                    <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
+                  </div>
+                  <SourceBadge source={review.source} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="container mx-auto px-6">
+          <ScrollArrows scrollRef={mobileScrollRef} align="center" />
         </div>
       </div>
 
