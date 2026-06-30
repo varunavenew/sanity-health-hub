@@ -44,6 +44,7 @@ export const HeroBanner = () => {
     {
       id: "kvinnehelse",
       image: kvinnehelseHero,
+      mobileImage: mobilKvinnehelse,
       alt: t("hero.kvinnehelse.label"),
       label: t("hero.kvinnehelse.label"),
       subtitle: t("hero.kvinnehelse.subtitle"),
@@ -54,6 +55,7 @@ export const HeroBanner = () => {
     {
       id: "fertilitet",
       image: fertilityHero,
+      mobileImage: mobilFertilitet,
       alt: t("hero.fertilitet.label"),
       label: t("hero.fertilitet.label"),
       subtitle: t("hero.fertilitet.subtitle"),
@@ -64,6 +66,7 @@ export const HeroBanner = () => {
     {
       id: "tverrfaglig",
       image: robotkirurgiHero,
+      mobileImage: mobilTverrfaglig,
       alt: t("hero.tverrfaglig.label"),
       label: t("hero.tverrfaglig.label"),
       subtitle: t("hero.tverrfaglig.subtitle"),
