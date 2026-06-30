@@ -562,6 +562,79 @@ const BookingDemo = () => {
       : null;
     const gcalUrl = calendarInput ? buildGoogleCalendarUrl(calendarInput) : "#";
 
+    // Desktop: keep the original simple confirmation layout (pre-mobile redesign).
+    if (!isMobile) {
+      return (
+        <div className="min-h-screen bg-[#f5f4f0] flex items-center justify-center p-6">
+          <div className="max-w-lg w-full text-center">
+            <div className="w-20 h-20 rounded-full bg-foreground flex items-center justify-center mx-auto mb-6">
+              <Check className="w-10 h-10 text-background" />
+            </div>
+
+            <h1 className="text-3xl font-light text-foreground mb-2">
+              Bestilling bekreftet
+            </h1>
+            <p className="text-muted-foreground mb-8 font-light">
+              Du vil motta en bekreftelse på SMS{formData.email ? " og e-post" : ""}.
+            </p>
+
+            <div className="bg-white rounded-lg p-6 text-left mb-6">
+              <div className="space-y-4 text-sm">
+                <div className="flex justify-between py-2 border-b border-border/30">
+                  <span className="text-muted-foreground">Behandling</span>
+                  <span className="font-medium">{bookingData.service?.name}</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-border/30">
+                  <span className="text-muted-foreground">Klinikk</span>
+                  <span className="font-medium">CMedical – {bookingData.clinic?.label}</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-border/30">
+                  <span className="text-muted-foreground">Adresse</span>
+                  <span className="font-medium">{bookingData.clinic?.address}</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-border/30">
+                  <span className="text-muted-foreground">Dato og tid</span>
+                  <span className="font-medium">{bookingData.date && format(bookingData.date, "d. MMM yyyy", { locale: nb })} kl. {bookingData.time}</span>
+                </div>
+                <div className="flex justify-between py-2">
+                  <span className="text-muted-foreground">Behandler</span>
+                  <span className="font-medium">{bookingData.specialist?.name}</span>
+                </div>
+              </div>
+            </div>
+
+            {calendarInput && (
+              <div className="flex flex-col sm:flex-row gap-2 mb-4">
+                <a
+                  href={gcalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-white text-foreground text-sm font-light border border-border hover:border-foreground/40 transition-colors flex-1"
+                >
+                  Legg i Google Kalender
+                </a>
+                <button
+                  type="button"
+                  onClick={() => downloadICS(calendarInput)}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-white text-foreground text-sm font-light border border-border hover:border-foreground/40 transition-colors flex-1"
+                >
+                  Last ned .ics (Apple/Outlook)
+                </button>
+              </div>
+            )}
+
+            <Button
+              onClick={() => navigate("/")}
+              className="bg-foreground text-background hover:bg-foreground/90 px-8 py-3 rounded-lg font-normal"
+            >
+              Tilbake til forsiden
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    // Mobile: redesigned confirmation per customer feedback.
     return (
       <div className="min-h-screen bg-[#f5f4f0] flex items-center justify-center p-4 sm:p-6">
         <motion.div
