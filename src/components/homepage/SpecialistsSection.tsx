@@ -55,6 +55,7 @@ export const SpecialistsSection = () => {
             <Button 
               variant="cta-outline"
               asChild
+              className="hidden md:inline-flex"
             >
               <Link to="/spesialister">
                 {t("specialists.seeAll", { count: specialists.length })}
