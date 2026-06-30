@@ -65,12 +65,11 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               className="group text-left flex flex-col gap-2"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
-              <div className="relative overflow-hidden aspect-[4/3] rounded-md bg-secondary/40">
+              <div className="relative overflow-hidden aspect-[5/4] rounded-md bg-secondary/40">
                 <img
                   src={category.mobileImage ?? category.image}
                   alt=""
-                  style={{ objectPosition: category.objectPosition ?? 'center' }}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
