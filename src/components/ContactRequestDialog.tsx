@@ -99,12 +99,12 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
     onOpenChange(false);
   };
 
-  if (!copy && !isLoading) return null;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto bg-background">
-        {copy ? (
+        {isLoading ? (
+          <p className="py-8 text-center text-sm text-muted-foreground">…</p>
+        ) : !copy ? null : (
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl font-light text-foreground">
@@ -257,8 +257,6 @@ export const ContactRequestDialog = ({ open, onOpenChange }: ContactRequestDialo
               </p>
             </form>
           </>
-        ) : (
-          <div className="py-12 text-center text-muted-foreground font-light">…</div>
         )}
       </DialogContent>
     </Dialog>

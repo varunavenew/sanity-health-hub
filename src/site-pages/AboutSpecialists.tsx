@@ -5,7 +5,6 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useSpecialistsPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
@@ -68,7 +67,6 @@ const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
             <p className="text-white/70 font-light text-base md:text-lg leading-relaxed">
               {subtitle}
             </p>
-            <GeoAnswerSnippet text={pageData?.geoSummary} className="mt-4 text-white/85 border-white/25" />
           </motion.div>
         </div>
       </section>

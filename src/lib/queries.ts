@@ -210,6 +210,19 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
     sortOrder,
     ${localizedFaqRow}
   },
+  ${i18nString("reviewsSubheading")},
+  ${i18nString("reviewsHeading")},
+  reviewsGoogleRating,
+  reviewsLegelistenRating,
+  ${i18nString("reviewsCtaTitle")},
+  ${i18nString("reviewsCtaSubtitle")},
+  "googleReviews": googleReviews[]->{
+    _id,
+    author,
+    rating,
+    ${i18nText("text")},
+    date
+  },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}

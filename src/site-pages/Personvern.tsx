@@ -5,7 +5,6 @@ import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
 import { urlFor } from "@/lib/sanityClient";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { usePrivacyPolicyPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
@@ -103,8 +102,6 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
       />
       <div className="container mx-auto px-6 md:px-16 py-20 max-w-3xl">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">{title}</h1>
-        <GeoAnswerSnippet text={sanityData?.geoSummary} className="mb-10" />
-
         <div className="prose prose-lg max-w-none text-foreground/80 space-y-6">
           {loading ? (
             <p className="text-muted-foreground">{isEn ? "Loading…" : "Laster innhold…"}</p>

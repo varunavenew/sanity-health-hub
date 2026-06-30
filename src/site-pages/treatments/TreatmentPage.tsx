@@ -15,7 +15,6 @@ import {
 } from "@/hooks/useSanity";
 import { bookingUrlForTreatment, resolveCategoryNumericId } from "@/lib/bookingLinks";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import {
   combineGeoJsonLd,
   faqPageJsonLd,
@@ -307,8 +306,6 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
                 })}
               </div>
             )}
-
-            <GeoAnswerSnippet text={treatment.geoSummary} className="mb-8" />
 
             {treatment.description && (
               <div className="mb-14">

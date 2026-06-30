@@ -9,7 +9,6 @@ import type { ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
 import { urlFor } from "@/lib/sanityClient";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
@@ -236,7 +235,6 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       <article className="bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto py-10 md:py-16">
-            <GeoAnswerSnippet text={article.geoSummary} className="mb-8" />
 
             <div className="rounded-sm overflow-hidden mb-10 -mt-0">
               <img

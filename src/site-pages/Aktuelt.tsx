@@ -6,7 +6,6 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
@@ -347,7 +346,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
             <p className="text-white/60 font-light text-sm">
               {newsUi.subtitle}
             </p>
-            <GeoAnswerSnippet text={newsPage?.geoSummary} className="mt-4 text-white/85 border-white/25" />
           </div>
         </div>
       </section>

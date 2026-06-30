@@ -100,6 +100,8 @@
     "migrate:pricing-testimonials": "tsx sanity/migrate-pricing-page-testimonials.ts",
     "migrate:contact-request-dialog:dry": "DRY_RUN=1 tsx sanity/migrate-contact-request-dialog.ts",
     "migrate:contact-request-dialog": "tsx sanity/migrate-contact-request-dialog.ts",
+    "migrate:homepage-reviews:dry": "DRY_RUN=1 tsx sanity/migrate-homepage-reviews.ts",
+    "migrate:homepage-reviews": "tsx sanity/migrate-homepage-reviews.ts",
     "migrate:insurance-page-seo:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-seo.ts",
     "migrate:insurance-page-seo": "FORCE=1 tsx sanity/migrate-insurance-page-seo.ts",
     "migrate:insurance-page-content:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-content.ts",

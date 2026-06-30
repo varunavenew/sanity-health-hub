@@ -11,7 +11,6 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { usePricingPage, useFaqs } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
@@ -323,10 +322,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
         primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
         secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
       />
-
-      <div className="container mx-auto px-4 md:px-8 pt-8 max-w-5xl">
-        <GeoAnswerSnippet text={sanityPricing?.geoSummary} className="mb-6" />
-      </div>
 
       {/* Price List Section */}
       <section id="prisliste" className="py-10 md:py-14 bg-background">

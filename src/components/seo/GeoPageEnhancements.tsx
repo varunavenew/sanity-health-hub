@@ -11,11 +11,11 @@ type GeoPageEnhancementsProps = {
   locale?: string;
   faqs?: GeoFaqItem[];
   className?: string;
-  /** When true, only emit JSON-LD (PageSEO handles head tags). */
-  jsonLdOnly?: boolean;
+  /** When false, also render a visible direct-answer block (default: JSON-LD only). */
+  showVisibleSnippet?: boolean;
 };
 
-/** Visible GEO snippet + MedicalWebPage JSON-LD for singleton/listing pages. */
+/** MedicalWebPage JSON-LD for GEO; optional visible snippet when `showVisibleSnippet` is set. */
 export function GeoPageEnhancements({
   name,
   geoSummary,
@@ -24,7 +24,7 @@ export function GeoPageEnhancements({
   locale,
   faqs,
   className,
-  jsonLdOnly = false,
+  showVisibleSnippet = false,
 }: GeoPageEnhancementsProps) {
   const jsonLd = buildMedicalWebPageGeoJsonLd({
     name,
@@ -37,7 +37,9 @@ export function GeoPageEnhancements({
 
   return (
     <>
-      {!jsonLdOnly ? <GeoAnswerSnippet text={geoSummary} className={className} /> : null}
+      {showVisibleSnippet ? (
+        <GeoAnswerSnippet text={geoSummary} className={className} />
+      ) : null}
       <JsonLd data={jsonLd} />
     </>
   );

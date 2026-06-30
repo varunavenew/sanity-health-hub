@@ -10,7 +10,6 @@ import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { combineGeoJsonLd, faqPageJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { ClinicMap } from "@/components/clinic/ClinicMap";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
@@ -185,8 +184,6 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 CMedical {label}
               </h1>
             </header>
-
-            <GeoAnswerSnippet text={geoSummary} className="mb-6" />
 
             {description ? (
               <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">

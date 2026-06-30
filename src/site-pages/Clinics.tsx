@@ -5,8 +5,7 @@ import { Link, useNavigate } from "@/lib/router";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
-import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useClinics, useClinicsPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
@@ -96,7 +95,9 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           ]}
           jsonLd={geoJsonLd}
         />
-      ) : null}
+      ) : (
+        <JsonLd data={geoJsonLd} />
+      )}
 
       {hasHeroContent ? (
         <SplitHero
@@ -111,18 +112,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
       ) : (
         <div className="bg-brand-warm pt-20 pb-8">
           <div className="container mx-auto px-6 md:px-16">
-            {!hasSeo ? (
-              <GeoPageEnhancements
-                name={geoName}
-                geoSummary={page?.geoSummary}
-                fallbackDescription={geoFallback}
-                path={clinicsPath}
-                locale={locale}
-                className="mb-6 max-w-3xl"
-              />
-            ) : (
-              <GeoAnswerSnippet text={page?.geoSummary} className="mb-6 max-w-3xl" />
-            )}
             <Button variant="cta" size="lg" onClick={() => navigate("/booking")}>
               {t("nav.bookAppointment")}
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -130,23 +119,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           </div>
         </div>
       )}
-
-      {hasHeroContent ? (
-        <div className="container mx-auto px-6 md:px-16 py-6">
-          {hasSeo ? (
-            <GeoAnswerSnippet text={page?.geoSummary} className="max-w-3xl" />
-          ) : (
-            <GeoPageEnhancements
-              name={geoName}
-              geoSummary={page?.geoSummary}
-              fallbackDescription={geoFallback}
-              path={clinicsPath}
-              locale={locale}
-              className="max-w-3xl"
-            />
-          )}
-        </div>
-      ) : null}
 
       <section className="bg-background" aria-labelledby="clinics-heading">
         <h2 id="clinics-heading" className="sr-only">

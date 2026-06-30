@@ -21,7 +21,6 @@ import {
 } from "@/components/specialist/SpecialistProfileUiContext";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { siteUrl } from "@/lib/env";
 import type { Specialist } from "@/lib/sanity/specialist-types";
@@ -153,9 +152,6 @@ function SpecialistProfileBody({
         jsonLd={profileJsonLd}
       />
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
-      <div className="container mx-auto px-6 md:px-16 pt-6 max-w-3xl">
-        <GeoAnswerSnippet text={specialist.geoSummary} className="mb-6" />
-      </div>
       <SpecialistBio specialist={specialist} />
       <SpecialistFeaturedService specialist={specialist} />
       <SpecialistReviews specialist={specialist} />

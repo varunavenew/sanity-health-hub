@@ -2,7 +2,6 @@
 
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { Button } from "@/components/ui/button";
@@ -82,7 +81,6 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
         ) : null}
 
         <div className="container mx-auto px-6 md:px-16 py-12 md:py-16 space-y-12">
-          <GeoAnswerSnippet text={page?.geoSummary} className="max-w-3xl" />
 
           {introTexts.map((text, i) => (
             <p key={i} className="text-lg text-brand-dark/80 font-light max-w-3xl">

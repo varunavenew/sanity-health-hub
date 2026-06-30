@@ -13,7 +13,6 @@ import { useHomepage } from "@/hooks/useSanity";
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { HomepageDataProvider } from "@/components/homepage/HomepageDataProvider";
 import type { HomepageData } from "@/lib/sanity/homepage-data";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { useTranslation } from "react-i18next";
 
 interface IndexProps {
@@ -36,9 +35,6 @@ const IndexContent = ({ isChatOpen }: { isChatOpen: boolean }) => {
 
       {homepageReady && (
         <>
-          <div className="container mx-auto px-6 md:px-16 pt-6 max-w-3xl">
-            <GeoAnswerSnippet text={homepage?.geoSummary} className="mb-6" />
-          </div>
           <HeroBanner />
           <TaglineBanner />
           <StatsBar />

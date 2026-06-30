@@ -7,7 +7,6 @@ import { ArrowRight, Check, Star, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { categoryLandingPath } from "@/lib/sanity/category-keys";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
@@ -143,8 +142,6 @@ const TreatmentCategoryLanding = ({
                   <span className="block italic">{hero.headingEmphasis}</span>
                 ) : null}
               </h2>
-
-              <GeoAnswerSnippet text={category?.geoSummary} className="mb-8" />
 
               {hero.body ? (
                 <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">
