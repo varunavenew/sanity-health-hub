@@ -21,7 +21,7 @@ export const SeasonalProducts = () => {
     <section className="py-20" style={{ backgroundColor: 'hsl(40, 35%, 92%)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-2xl border border-primary/20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-2xl md:rounded-full border border-primary/20">
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-primary">Sesongens Beste</span>
           </div>
@@ -76,7 +76,7 @@ export const SeasonalProducts = () => {
 
                     <div className="flex items-center justify-between pt-4 border-t">
                       <span className="text-2xl font-bold text-primary">{product?.price}</span>
-                      <Button className="rounded-2xl">
+                      <Button className="rounded-2xl md:rounded-full">
                         Legg i kurv
                       </Button>
                     </div>

@@ -59,7 +59,7 @@ export const BeforeAfterSection = () => {
     <section className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-2xl">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-2xl md:rounded-full">
             <CheckCircle className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-primary">Verifiserte Resultater</span>
           </div>
@@ -79,7 +79,7 @@ export const BeforeAfterSection = () => {
                   alt={showAfter ? "After" : "Before"}
                   className="w-full h-full object-cover transition-all duration-500"
                 />
-                <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-2xl font-medium">
+                <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-2xl md:rounded-full font-medium">
                   {showAfter ? "ETTER" : "FØR"}
                 </div>
                 
@@ -110,7 +110,7 @@ export const BeforeAfterSection = () => {
                     <div className="space-y-2">
                       {currentTransformation.products.map((product, index) => (
                         <div key={index} className="flex items-center gap-2 text-sm">
-                          <div className="w-1.5 h-1.5 rounded-2xl bg-primary" />
+                          <div className="w-1.5 h-1.5 rounded-2xl md:rounded-full bg-primary" />
                           <span>{product}</span>
                         </div>
                       ))}
@@ -132,7 +132,7 @@ export const BeforeAfterSection = () => {
 
                 <Button 
                   size="lg" 
-                  className="w-full mt-4 rounded-2xl"
+                  className="w-full mt-4 rounded-2xl md:rounded-full"
                   onClick={() => setShowAfter(!showAfter)}
                 >
                   {showAfter ? "Se Før Bilde" : "Se Etter Bilde"}
@@ -146,7 +146,7 @@ export const BeforeAfterSection = () => {
                 variant="outline"
                 size="icon"
                 onClick={goToPrevious}
-                className="rounded-2xl"
+                className="rounded-2xl md:rounded-full"
               >
                 <ChevronLeft className="w-5 h-5" />
               </Button>
@@ -172,7 +172,7 @@ export const BeforeAfterSection = () => {
                 variant="outline"
                 size="icon"
                 onClick={goToNext}
-                className="rounded-2xl"
+                className="rounded-2xl md:rounded-full"
               >
                 <ChevronRight className="w-5 h-5" />
               </Button>

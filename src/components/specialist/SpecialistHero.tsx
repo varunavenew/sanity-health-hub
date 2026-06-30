@@ -77,7 +77,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                       <Link
                         key={clinic}
                         to={`/klinikker/${slugify(clinic)}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
                       >
                         <MapPin className="w-3 h-3" aria-hidden="true" />
                         {clinic}
@@ -91,7 +91,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                       <Link
                         key={tag}
                         to={`${servicePath}?omrade=${encodeURIComponent(tag.toLowerCase())}`}
-                        className="inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+                        className="inline-flex items-center text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
                       >
                         {tag}
                       </Link>

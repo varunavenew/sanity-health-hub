@@ -531,7 +531,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
                     {c.heroThemes.map((t) => (
                       <li
                         key={t}
-                        className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-2xl"
+                        className="text-xs font-light text-foreground/70 border border-foreground/15 px-2 py-1 rounded-2xl md:rounded-full"
                       >
                         {t}
                       </li>

@@ -87,7 +87,7 @@ export const BundlePackages = () => {
     <section className="py-20 bg-gradient-to-b from-background via-muted/30 to-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-2xl">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-2xl md:rounded-full">
             <Package className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-primary">Spar med Ferdigpakker</span>
           </div>
@@ -133,7 +133,7 @@ export const BundlePackages = () => {
                 <div className="space-y-3 py-4">
                   {bundle.products.map((product, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <div className="mt-0.5 rounded-2xl bg-primary/20 p-1">
+                      <div className="mt-0.5 rounded-2xl md:rounded-full bg-primary/20 p-1">
                         <Check className="w-4 h-4 text-primary" />
                       </div>
                       <span className="text-sm">{product}</span>
@@ -153,7 +153,7 @@ export const BundlePackages = () => {
                   
                   <Button 
                     size="lg" 
-                    className="w-full rounded-2xl text-base h-12 group-hover:scale-105 transition-transform"
+                    className="w-full rounded-2xl md:rounded-full text-base h-12 group-hover:scale-105 transition-transform"
                   >
                     Kjøp Pakke
                   </Button>

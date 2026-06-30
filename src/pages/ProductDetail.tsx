@@ -120,7 +120,7 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-2xl flex items-center gap-2">
+                <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-2xl md:rounded-full flex items-center gap-2">
                   <Star className="w-4 h-4 fill-primary text-primary" />
                   <span className="font-semibold">{product.rating}</span>
                 </div>
@@ -146,7 +146,7 @@ export default function ProductDetail({ isChatOpen }: ProductDetailProps) {
                   {product.tags.map((tag: string) => (
                     <span
                       key={tag}
-                      className="px-3 py-1.5 rounded-2xl bg-primary/10 text-primary font-medium text-sm"
+                      className="px-3 py-1.5 rounded-2xl md:rounded-full bg-primary/10 text-primary font-medium text-sm"
                     >
                       {tag}
                     </span>

@@ -50,7 +50,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-light text-foreground mb-4">Spesialist ikke funnet</h1>
-            <Button onClick={() => navigate(-1)} variant="outline" className="rounded-2xl">
+            <Button onClick={() => navigate(-1)} variant="outline" className="rounded-2xl md:rounded-full">
               Gå tilbake
             </Button>
           </div>

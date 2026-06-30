@@ -333,7 +333,7 @@ const TipsEditorialVariant = () => {
             <Link to={lead.href} className="group lg:col-span-7 block">
               <div className="relative aspect-[4/3] overflow-hidden rounded-sm mb-4">
                 <img src={lead.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute top-4 left-4 inline-flex items-center gap-2 bg-brand-light/95 px-3 py-1.5 rounded-2xl text-xs font-light text-foreground">
+                <div className="absolute top-4 left-4 inline-flex items-center gap-2 bg-brand-light/95 px-3 py-1.5 rounded-2xl md:rounded-full text-xs font-light text-foreground">
                   <LeadIcon className="w-3.5 h-3.5" strokeWidth={1.5} fill={lead.format === "video" ? "currentColor" : "none"} />
                   {leadLabel}
                 </div>
@@ -400,7 +400,7 @@ const TipsScrollerVariant = () => (
                 <div className="relative aspect-[4/5] overflow-hidden rounded-sm mb-3">
                   <img src={item.image} alt="" loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent" />
-                  <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-brand-light/95 px-2.5 py-1 rounded-2xl text-xs font-light text-foreground">
+                  <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-brand-light/95 px-2.5 py-1 rounded-2xl md:rounded-full text-xs font-light text-foreground">
                     <Icon className="w-3 h-3" strokeWidth={1.5} fill={item.format === "video" ? "currentColor" : "none"} />
                     {label}
                   </div>

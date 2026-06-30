@@ -83,7 +83,7 @@ export const PatientJourneySection = () => {
         <div className="text-center">
           <Button
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-normal px-12 h-14 rounded-2xl hover:scale-105 transition-transform duration-300"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-normal px-12 h-14 rounded-2xl md:rounded-full hover:scale-105 transition-transform duration-300"
             onClick={() => navigate('/booking')}
           >
             Kom i gang i dag

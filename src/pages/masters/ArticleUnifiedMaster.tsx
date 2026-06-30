@@ -345,7 +345,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                   <Link
                     key={t}
                     to={`/aktuelt?tag=${encodeURIComponent(t)}`}
-                    className="text-xs font-light px-3 py-1 rounded-2xl border border-border text-foreground/70 hover:border-brand-dark hover:text-foreground transition-colors"
+                    className="text-xs font-light px-3 py-1 rounded-2xl md:rounded-full border border-border text-foreground/70 hover:border-brand-dark hover:text-foreground transition-colors"
                   >
                     {t}
                   </Link>
@@ -499,7 +499,7 @@ const ArticleUnifiedMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl">
+                    <span className="bg-brand-dark/80 backdrop-blur-sm text-white text-xs px-2.5 py-0.5 rounded-2xl md:rounded-full">
                       {a.c}
                     </span>
                   </div>

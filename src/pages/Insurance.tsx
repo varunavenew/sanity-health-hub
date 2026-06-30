@@ -67,7 +67,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/30 rounded-2xl mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/30 rounded-2xl md:rounded-full mb-6">
                 <Shield className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground font-light">Våre samarbeidspartnere</span>
               </div>
@@ -75,7 +75,7 @@ const Insurance = ({ isChatOpen }: PageProps) => {
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {companies.map((company: any) => (
-                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-2xl border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
+                <div key={company.name} className="px-5 py-3 bg-muted/30 rounded-2xl md:rounded-full border border-border text-foreground font-light hover:border-foreground/30 transition-colors">{company.name}</div>
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-muted-foreground font-light">
