@@ -98,16 +98,44 @@ export const searchItems: SearchItem[] = [
 
   // ─────────────── Tema-/landingssider ───────────────
   { label: 'Kvinnehelse', path: '/kvinnehelse', category: 'Tema', keywords: ['kvinne', 'tverrfaglig', 'helse'] },
+  { label: 'Robotassistert kirurgi', path: '/robotassistert-kirurgi', category: 'Tema', keywords: ['robot', 'da vinci', 'kikkertkirurgi', 'minimal invasiv'] },
 
   // ─────────────── Sider ───────────────
-  { label: 'Priser', path: '/priser', category: 'Side', keywords: ['pris', 'kostnad', 'hva koster', 'prisliste', 'meny'] },
-  { label: 'Om oss', path: '/om-oss', category: 'Side', keywords: ['om', 'hvem', 'klinikk', 'historie'] },
-  { label: 'Kontakt', path: '/kontakt', category: 'Side', keywords: ['kontakt', 'telefon', 'epost', 'adresse'] },
-  { label: 'Forsikring', path: '/forsikring', category: 'Side', keywords: ['forsikring', 'helseforsikring', 'dekning', 'storebrand', 'if', 'fremtind'] },
-  { label: 'Tjenester', path: '/tjenester', category: 'Side', keywords: ['tjenester', 'fagområder', 'oversikt'] },
-  { label: 'Spesialister', path: '/spesialister', category: 'Side', keywords: ['lege', 'spesialist', 'behandler', 'team'] },
-  { label: 'Bestill time', path: '/booking', category: 'Side', keywords: ['bestill', 'time', 'avtale', 'booking', 'timebestilling'] },
+  { label: 'Priser', path: '/priser', category: 'Side', keywords: ['pris', 'kostnad', 'hva koster', 'prisliste', 'meny', 'prislista', 'pricelist'] },
+  { label: 'Om oss', path: '/om-oss', category: 'Side', keywords: ['om', 'hvem', 'klinikk', 'historie', 'cmedical', 'about'] },
+  { label: 'Kontakt', path: '/kontakt', category: 'Side', keywords: ['kontakt', 'telefon', 'epost', 'adresse', 'ring', 'contact'] },
+  { label: 'Forsikring', path: '/forsikring', category: 'Side', keywords: ['forsikring', 'helseforsikring', 'dekning', 'storebrand', 'if', 'fremtind', 'gjensidige', 'tryg'] },
+  { label: 'Tjenester', path: '/tjenester', category: 'Side', keywords: ['tjenester', 'fagområder', 'oversikt', 'behandlinger'] },
+  { label: 'Spesialister', path: '/spesialister', category: 'Side', keywords: ['lege', 'spesialist', 'behandler', 'team', 'leger', 'doktor'] },
+  { label: 'Klinikker', path: '/klinikker', category: 'Side', keywords: ['klinikk', 'klinikker', 'beliggenhet', 'lokasjon', 'avdeling', 'sted'] },
+  { label: 'Aktuelt', path: '/aktuelt', category: 'Side', keywords: ['nyheter', 'artikler', 'blogg', 'aktuelt', 'news'] },
+  { label: 'Karriere', path: '/karriere', category: 'Side', keywords: ['jobb', 'karriere', 'ledig stilling', 'work', 'ansettelse'] },
+  { label: 'Personvern', path: '/personvern', category: 'Side', keywords: ['personvern', 'gdpr', 'cookies', 'privacy', 'vilkår'] },
+  { label: 'Bestill time', path: '/booking', category: 'Side', keywords: ['bestill', 'time', 'avtale', 'booking', 'timebestilling', 'bestille', 'book'] },
+
+  // ─────────────── Klinikker ───────────────
+  { label: 'CMedical Oslo Majorstuen', path: '/klinikker/majorstuen', category: 'Klinikk', keywords: ['oslo', 'majorstuen', 'kirkeveien', 'hovedklinikk'] },
+  { label: 'CMedical Bekkestua', path: '/klinikker/bekkestua', category: 'Klinikk', keywords: ['bekkestua', 'bærum', 'baerum'] },
+  { label: 'CMedical Moss', path: '/klinikker/moss', category: 'Klinikk', keywords: ['moss', 'østfold', 'ostfold'] },
+  { label: 'CMedical Moelv', path: '/klinikker/moelv', category: 'Klinikk', keywords: ['moelv', 'innlandet', 'hedmark'] },
 ];
+
+// ─────────────── Dynamic: specialists ───────────────
+import { specialists } from "./specialists";
+for (const s of specialists) {
+  searchItems.push({
+    label: s.name,
+    path: `/spesialister/${s.slug}`,
+    category: `Spesialist · ${s.title}`,
+    keywords: [
+      s.title,
+      ...(s.expertise || []),
+      ...(s.clinics || []),
+      s.category,
+      'lege', 'spesialist', 'behandler', 'doktor',
+    ],
+  });
+}
 
 import Fuse from "fuse.js";
 import { expandQuery } from "./searchSynonyms";
