@@ -8,13 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { serviceCategories } from '@/data/serviceCategories';
 
 const BurgerMenu = () => {
- const { t } = useTranslation();
- const [isMenuOpen, setIsMenuOpen] = useState(false);
- const navigate = useNavigate();
- const menuRef = useRef<HTMLDivElement | null>(null);
- const mobileMenuRef = useRef<HTMLDivElement | null>(null);
- const buttonRef = useRef<HTMLButtonElement | null>(null);
- const { data: siteSettings } = useSiteSettings();
+  const { t } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const { data: siteSettings } = useSiteSettings();
 
  // Allow external triggers (e.g. mobile bottom-nav) to open the menu.
  useEffect(() => {
