@@ -325,8 +325,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         </div>
       </div>
 
-      {/* App-style bottom navigation (mobile only) */}
-      <MobileBottomNav />
+      {/* Mobile bottom CTA bar removed per client request — booking lives in the top header */}
     </>
   );
 };
