@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Quote, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 
 const categoryKeywords: Record<string, string[]> = {
@@ -53,6 +53,7 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   const duplicated = [...reviews, ...reviews];
   const legelistenRating = 4.8;
   const mobileScrollRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(mobileScrollRef);
 
 
   return (
@@ -165,10 +166,8 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
             );
           })}
         </div>
-        <div className="container mx-auto px-6">
-          <ScrollArrows scrollRef={mobileScrollRef} align="center" />
-        </div>
       </div>
+
     </section>
   );
 };

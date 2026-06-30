@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 
 
 
@@ -83,21 +83,48 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
     el.scrollTo({ left, behavior: 'smooth' });
   };
 
+  const scrollByDir = (dir: 1 | -1) => {
+    const el = swiperRef.current;
+    if (!el) return;
+    const first = el.firstElementChild as HTMLElement | null;
+    const step = first ? first.offsetWidth : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
+
   return (
     <section className={`bg-background pb-4 md:pb-6 ${showHeader ? "pt-10 md:pt-14" : ""}`}>
       {showHeader && (
-        <div className="page-shell mb-6 md:mb-8">
+        <div className="page-shell mb-4 md:mb-8 flex items-end justify-between gap-4">
           <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground text-left">
             {t("services.title")}
           </h2>
+          {/* Mobile-only arrows on header row */}
+          <div className="md:hidden flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => scrollByDir(-1)}
+              aria-label="Scroll venstre"
+              className="h-9 w-9 rounded-full bg-brand-dark text-background flex items-center justify-center shadow-md active:scale-95"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByDir(1)}
+              aria-label="Scroll høyre"
+              className="h-9 w-9 rounded-full bg-brand-dark text-background flex items-center justify-center shadow-md active:scale-95"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Mobile: horizontal snap carousel with peek + dots */}
+      {/* Mobile: full-bleed, flush horizontal strip — no gap, no rounded corners */}
       <div className="md:hidden">
         <div
           ref={swiperRef}
-          className="flex gap-3 overflow-x-auto pb-2 px-4 snap-x snap-mandatory scrollbar-hide"
+          className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           role="region"
           aria-label={t("services.title")}
@@ -107,7 +134,7 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               key={category.id}
               ref={(el) => { cardRefs.current[index] = el; }}
               onClick={() => navigate(category.path)}
-              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-center shrink-0 w-[78vw] rounded-sm"
+              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-center shrink-0 w-[85vw]"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
               <img
@@ -127,8 +154,8 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
             </button>
           ))}
         </div>
-        {/* Arrows + dots indicator */}
-        <div className="flex items-center justify-between gap-3 mt-3 px-4">
+        {/* Dots indicator (no arrows here — they are at top) */}
+        <div className="flex items-center justify-center mt-3 px-4">
           <div className="flex items-center gap-2" role="tablist" aria-label="Kategori-indikator">
             {serviceCategories.map((c: any, i: number) => (
               <button
@@ -143,10 +170,10 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               />
             ))}
           </div>
-          <ScrollArrows scrollRef={swiperRef} visibility="mobile" className="mt-0 px-0" />
         </div>
 
       </div>
+
 
       {/* Desktop/tablet: original grid (unchanged) */}
       <motion.div

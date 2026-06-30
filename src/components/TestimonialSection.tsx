@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Star } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { useTestimonials } from "@/hooks/useSanity";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 const staticTestimonials = [
   {
@@ -64,6 +64,7 @@ const staticTestimonials = [
 export const TestimonialSection = () => {
   const { data: sanityTestimonials } = useTestimonials();
   const mobileScrollRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(mobileScrollRef);
 
 
   const testimonials = sanityTestimonials && sanityTestimonials.length > 0
@@ -176,10 +177,8 @@ export const TestimonialSection = () => {
             </div>
           ))}
         </div>
-        <div className="container mx-auto px-6 mt-3">
-          <ScrollArrows scrollRef={mobileScrollRef} align="center" />
         </div>
-      </div>
+
     </section>
   );
 };
