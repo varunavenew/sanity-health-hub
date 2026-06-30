@@ -325,12 +325,21 @@
 }
 /* ===== Mobile finpuss: image-first + tightened heading→content spacing ===== */
 @media (max-width: 767px) {
-  /* Reduce big vertical gaps between section heading wrappers and their content on mobile */
-  .mb-14 { margin-bottom: 1.5rem; }
-  .mb-12 { margin-bottom: 1.25rem; }
-  .mb-10 { margin-bottom: 1rem; }
+  /* Reduce big vertical gaps between section heading wrappers and their content on mobile.
+     Many sections use mb-8..mb-16 between heading blocks and content; tighten consistently. */
+  .mb-16 { margin-bottom: 1.5rem; }
+  .mb-14 { margin-bottom: 1.25rem; }
+  .mb-12 { margin-bottom: 1rem; }
+  .mb-10 { margin-bottom: 0.875rem; }
+  .mb-8  { margin-bottom: 0.75rem; }
+
+  /* Section vertical padding — keep breathing room but trim heavy desktop py values */
+  .py-24 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-20 { padding-top: 2.25rem; padding-bottom: 2.25rem; }
+  .py-16 { padding-top: 2rem; padding-bottom: 2rem; }
 
   /* Image-first ordering inside grid sections that combine a text column and an image column.
      When the lg:grid collapses to one column on mobile, put the image above the text. */
   .mobile-image-first { display: flex; flex-direction: column-reverse; }
 }
+
