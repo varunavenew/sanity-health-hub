@@ -261,6 +261,27 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                 </div>
               )}
 
+              {/* No-results fallback */}
+              {searchQuery.trim().length >= 2 && suggestions.length === 0 && !isAiLoading && (
+                <div className="mt-3 pt-3 border-t border-white/20">
+                  <p className="text-xs text-white/70 mb-2">
+                    Fant ingen treff for «{searchQuery}». Prøv heller:
+                  </p>
+                  <nav role="listbox" aria-label="Forslag" className="space-y-1">
+                    {emptyStateSuggestions().map((item) => (
+                      <button
+                        key={item.path}
+                        onClick={() => handleNavigate(item.path)}
+                        className="w-full flex items-center justify-between py-2 px-3 rounded-lg text-left text-sm text-white/80 hover:bg-white/10 hover:text-white transition-all"
+                      >
+                        <span>{item.label}</span>
+                        <span className="text-xs text-white/50">{item.category}</span>
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              )}
+
               {/* Quick Links - show when no query */}
               {!searchQuery && (
                 <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-white/20">
