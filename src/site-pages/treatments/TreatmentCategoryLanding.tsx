@@ -6,6 +6,10 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
+import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
+import { categoryLandingPath } from "@/lib/sanity/category-keys";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
@@ -61,6 +65,7 @@ const AUDIENCE_ICONS: Record<
 const TreatmentCategoryLanding = ({
   isChatOpen,
   categoryId,
+  sanityLang = "no",
 }: TreatmentCategoryLandingProps) => {
   const { t } = useTranslation();
   const { data: category, isPending } = useTreatmentCategory(categoryId);
@@ -103,8 +108,25 @@ const TreatmentCategoryLanding = ({
 
   const stats = category?.stats?.length ? category.stats : [];
 
+  const locale = sanityLang === "en" ? "en" : "nb";
+  const categoryPath = categoryLandingPath(categoryId, sanityLang);
+  const summaryText =
+    category?.geoSummary?.trim() ||
+    hero.body?.split("\n")[0]?.trim() ||
+    category?.title ||
+    "";
+  const geoJsonLd = combineGeoJsonLd(
+    medicalWebPageJsonLd({
+      name: hero.heading || category?.title || categoryId,
+      description: summaryText.slice(0, 320),
+      url: categoryPath,
+      inLanguage: locale === "en" ? "en" : "nb-NO",
+    }),
+  );
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <JsonLd data={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd} />
       <h1 className="sr-only">{landing.srOnlyTitle || hero.heading}</h1>
 
       <header className="bg-brand-light pt-24 lg:pt-0">
@@ -121,6 +143,8 @@ const TreatmentCategoryLanding = ({
                   <span className="block italic">{hero.headingEmphasis}</span>
                 ) : null}
               </h2>
+
+              <GeoAnswerSnippet text={category?.geoSummary} className="mb-8" />
 
               {hero.body ? (
                 <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">

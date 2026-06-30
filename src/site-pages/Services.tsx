@@ -7,10 +7,13 @@ import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFaqs, useServicesPage, useTreatmentCategories } from "@/hooks/useSanity";
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useTranslation } from "react-i18next";
+import { useParams } from "@/lib/router";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useSanityContentLang } from "@/lib/sanity/content-lang";
 import {
   buildMoreServicesFromCategories,
@@ -34,6 +37,9 @@ function filterSearchItems(
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
+  const servicesPath = useNavCmsPath("services") || (locale === "en" ? "/services" : "/tjenester");
   const contentLang = useSanityContentLang();
   const { data: page, isPending } = useServicesPage();
   const { data: treatmentCategories } = useTreatmentCategories();
@@ -175,12 +181,21 @@ const Services = ({ isChatOpen }: PageProps) => {
       <PageBreadcrumbsJsonLd
         breadcrumbs={[
           { name: page.breadcrumbHome || page.title, path: "/" },
-          { name: page.title, path: "/tjenester" },
+          { name: page.title, path: servicesPath },
         ]}
       />
 
       <section className="bg-background pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="container mx-auto px-6 md:px-16 text-center">
+          <GeoPageEnhancements
+            name={page.title}
+            geoSummary={page.geoSummary}
+            fallbackDescription={page.introText}
+            path={servicesPath}
+            locale={locale}
+            faqs={faqs.map((f) => ({ question: f.question, answer: f.answer }))}
+            className="mb-6 max-w-3xl mx-auto text-left"
+          />
           {page.eyebrow ? (
             <p className="text-sm text-muted-foreground font-light mb-2">{page.eyebrow}</p>
           ) : null}

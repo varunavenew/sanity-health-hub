@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { useGuidePage } from "@/hooks/useSanity";
+import { useParams } from "@/lib/router";
 
 interface GuideProps {
   isChatOpen: boolean;
@@ -69,6 +71,8 @@ const CategorySection = ({
 
 const Guide = ({ isChatOpen }: GuideProps) => {
   const navigate = useNavigate();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const { data: page, isLoading } = useGuidePage();
 
   const heroTitle = page?.heroTitle?.trim() || "";
@@ -110,10 +114,27 @@ const Guide = ({ isChatOpen }: GuideProps) => {
                   {heroSubtitle}
                 </p>
               ) : null}
+              <GeoPageEnhancements
+                name={heroTitle || "Guide"}
+                geoSummary={page?.geoSummary}
+                fallbackDescription={heroSubtitle || page?.seo?.metaDescription}
+                path="/guide"
+                locale={locale}
+                className="mt-6 text-left"
+              />
             </div>
           </div>
         </section>
-      ) : null}
+      ) : (
+        <GeoPageEnhancements
+          name="Guide"
+          geoSummary={page?.geoSummary}
+          fallbackDescription={page?.seo?.metaDescription}
+          path="/guide"
+          locale={locale}
+          className="container mx-auto px-4 pt-32 max-w-3xl"
+        />
+      )}
 
       {showCategories ? (
         isLoading ? (

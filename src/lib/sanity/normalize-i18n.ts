@@ -38,8 +38,15 @@ const pickI18nValue = (arr: unknown[], lang: "no" | "en"): unknown => {
     const o = e as { language?: string; _key?: string };
     return (o.language || o._key) === lang;
   });
-  if (match) return entryValue(match);
-  if (lang === "en") return "";
+  if (match) {
+    const value = entryValue(match);
+    const isEmpty =
+      value === "" ||
+      value === null ||
+      value === undefined ||
+      (Array.isArray(value) && value.length === 0);
+    if (!isEmpty) return value;
+  }
   const fallback =
     arr.find((e) => {
       const o = e as { language?: string; _key?: string };

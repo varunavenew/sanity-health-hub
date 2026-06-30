@@ -24,6 +24,10 @@ const SPECIALIST_EN_KEYWORD_MAP: Array<[string, string]> = [
   ["Ortoped", "Orthopedic surgeon"],
   ["Gynekologi", "Gynecology"],
   ["Gynekolog", "Gynecologist"],
+  ["Spesialist", "Specialist"],
+  ["Kirurg", "Surgeon"],
+  ["Fertilitet", "Fertility"],
+  ["Endoskopi", "Endoscopy"],
   ["Androlog", "Andrologist"],
   ["Seksolog", "Sexologist"],
 ];
@@ -98,6 +102,7 @@ export type RawSanitySpecialist = {
     ogImage?: unknown;
     noIndex?: boolean;
   };
+  geoSummary?: unknown;
 };
 
 function pickNo(value: unknown): string {
@@ -117,7 +122,10 @@ function pickNo(value: unknown): string {
 }
 
 function readLocalizedString(value: unknown, lang: SanityLang): string {
-  if (typeof value === "string") return value.trim();
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return lang === "en" ? translateSpecialistKeywordsForEn(trimmed, lang) : trimmed;
+  }
   if (!Array.isArray(value)) return "";
   const entries = value as I18nValueItem[];
   const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
@@ -332,6 +340,7 @@ export function mapSanitySpecialistRow(
     faqs: mapSpecialistFaqs(raw.faqs),
     patientReviews: mapPatientReviews(raw.patientReviews, lang),
     relatedSpecialistsSection: mapRelatedSpecialistsSection(raw.relatedSpecialistsSection, lang),
+    geoSummary: readLocalizedString(raw.geoSummary, lang) || undefined,
     seo:
       seoTitle && seoDescription
         ? {

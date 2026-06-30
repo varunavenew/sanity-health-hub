@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "@/lib/router";
 import { ArrowRight, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistMetodikaBooking } from "@/hooks/useBookingCategoryServices";
@@ -17,6 +18,7 @@ interface InlineBookingSectionProps {
 }
 
 export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) => {
+  const ui = useSpecialistProfileUi();
   const navigate = useNavigate();
   const bookingCategoryIds = useMemo(
     () => resolveSpecialistBookingCategoryIds(specialist),
@@ -33,7 +35,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
     return (
       <div className="flex items-center justify-center gap-2 py-8 text-white/60">
         <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
-        <span className="text-sm font-light">Henter tjenester…</span>
+        <span className="text-sm font-light">{ui.bookingLoadingLabel}</span>
       </div>
     );
   }
@@ -41,7 +43,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
   if (categories.length === 0) {
     return (
       <p className="text-sm text-white/60 font-light py-4">
-        Ingen bookbare tjenester er tilgjengelig akkurat nå. Prøv booking-siden for full oversikt.
+        {ui.bookingEmptyMessage}
       </p>
     );
   }
@@ -157,7 +159,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
             )
           }
         >
-          Se alle tjenester og priser
+          {ui.bookingViewAllLabel}
           <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
         </Button>
       </div>

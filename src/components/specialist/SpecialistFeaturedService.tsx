@@ -2,10 +2,16 @@ import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { AssetImg } from "@/components/AssetImg";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
+import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
-function featuredServiceHref(categoryId: string, slug: string): string {
-  if (categoryId === "flere-fagomrader") return "/tjenester";
+function featuredServiceHref(
+  categoryId: string,
+  slug: string,
+  servicesPath: string,
+): string {
+  if (categoryId === "flere-fagomrader") return servicesPath;
   return `/behandlinger/${slug}`;
 }
 
@@ -14,10 +20,12 @@ interface SpecialistFeaturedServiceProps {
 }
 
 export const SpecialistFeaturedService = ({ specialist }: SpecialistFeaturedServiceProps) => {
+  const ui = useSpecialistProfileUi();
+  const servicesPath = useNavCmsPath("services");
   const category = specialist.sanityCategories?.[0];
   if (!category?.title) return null;
 
-  const href = featuredServiceHref(category.categoryId, category.slug);
+  const href = featuredServiceHref(category.categoryId, category.slug, servicesPath);
   const hasContent = Boolean(category.title) && Boolean(category.heroImage);
   if (!hasContent) return null;
 
@@ -38,7 +46,7 @@ export const SpecialistFeaturedService = ({ specialist }: SpecialistFeaturedServ
               to={href}
               className="inline-flex items-center gap-2 text-sm font-normal text-foreground border-b border-foreground pb-1 hover:gap-3 transition-all"
             >
-              Se hele tjenesten
+              {ui.featuredServiceCtaLabel}
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </motion.div>

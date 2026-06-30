@@ -1,5 +1,6 @@
 // Schema: Booking flow copy (Bestill time)
 import { CalendarIcon } from './icons'
+import { geoSummaryField } from './geoSummary'
 import { pickNo } from './i18n'
 
 const i18n = (
@@ -161,6 +162,7 @@ export default {
       type: 'seo',
       group: 'seo',
     },
+    { ...geoSummaryField, group: 'seo' },
   ],
   preview: {
     select: { title: 'pageTitle' },

@@ -15,6 +15,12 @@ import {
 } from "@/hooks/useSanity";
 import { bookingUrlForTreatment, resolveCategoryNumericId } from "@/lib/bookingLinks";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
+import {
+  combineGeoJsonLd,
+  faqPageJsonLd,
+  medicalWebPageJsonLd,
+} from "@/lib/seo/geo-jsonld";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvider";
 import type { TreatmentData } from "@/lib/sanity/treatment-data";
@@ -202,26 +208,41 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
     treatment.parentCategory || sanityCategory?.title || categoryId;
   const showBottomCta = Boolean(pageUi.ctaTitle);
   const benefitsTitle = (treatment.benefitsTitle ?? "").trim();
+  const treatmentPath = `/behandlinger/${behandlingerSegment}/${treatmentSlug}`;
+  const summaryText =
+    treatment.geoSummary?.trim() ||
+    (treatment.description || "").split("\n")[0].trim();
+  const geoJsonLd = combineGeoJsonLd(
+    medicalWebPageJsonLd({
+      name: treatment.title,
+      description: summaryText.slice(0, 320),
+      url: treatmentPath,
+      inLanguage: locale === "en" ? "en" : "nb-NO",
+      about: parentCategory,
+    }),
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalProcedure",
+      name: treatment.title,
+      description: summaryText.slice(0, 320) || "",
+      howPerformed: treatment.subtitle || undefined,
+      provider: { "@type": "MedicalClinic", name: "CMedical" },
+    },
+    faqPageJsonLd(faqs),
+  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={`${treatment.title} – ${parentCategory}`}
         description={(treatment.description || "").split("\n")[0].slice(0, 155)}
-        canonical={`/behandlinger/${behandlingerSegment}/${treatmentSlug}`}
+        canonical={treatmentPath}
         breadcrumbs={[
           ...(breadcrumbHome ? [{ name: breadcrumbHome, path: "/" }] : []),
           { name: parentCategory, path: categoryPath },
-          { name: treatment.title, path: `/behandlinger/${behandlingerSegment}/${treatmentSlug}` },
+          { name: treatment.title, path: treatmentPath },
         ]}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "MedicalProcedure",
-          name: treatment.title,
-          description: (treatment.description || "").split("\n")[0] || "",
-          howPerformed: treatment.subtitle || undefined,
-          provider: { "@type": "MedicalClinic", name: "CMedical" },
-        }}
+        jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
       />
 
       <header className="relative h-[32vh] md:h-[38vh] overflow-hidden">
@@ -286,6 +307,8 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
                 })}
               </div>
             )}
+
+            <GeoAnswerSnippet text={treatment.geoSummary} className="mb-8" />
 
             {treatment.description && (
               <div className="mb-14">

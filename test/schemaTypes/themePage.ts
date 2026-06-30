@@ -3,6 +3,7 @@
 import { ThemeIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
+import { geoSummaryField } from './geoSummary'
 
 export default {
   name: 'themePage',
@@ -106,6 +107,7 @@ export default {
       title: 'SEO',
       type: 'seo',
     },
+    geoSummaryField,
   ],
   preview: {
     select: {

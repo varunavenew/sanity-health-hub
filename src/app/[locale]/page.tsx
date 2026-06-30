@@ -4,6 +4,8 @@ import Index from "@/site-pages/Index";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { HomepageHydration } from "@/components/providers/HomepageHydration";
 import { homeBreadcrumbJsonLd, medicalClinicJsonLd } from "@/lib/seo/home-jsonld";
+import { medicalOrganizationJsonLd } from "@/lib/seo/geo-jsonld";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { buildHomeMetadata } from "@/lib/seo/route-metadata";
 import { fetchHomepageData } from "@/lib/sanity/homepage-data";
 
@@ -23,13 +25,32 @@ export default async function HomePage({ params }: Props) {
   const lang = locale === "en" ? "en" : "nb";
   const sanityLang = locale === "en" ? "en" : "no";
   const initialHomepage = await fetchHomepageData(sanityLang);
+  const homePath = locale === "en" ? "/en" : "/nb";
+  const medicalWebPageJsonLd = buildMedicalWebPageGeoJsonLd({
+    name: "CMedical",
+    geoSummary: initialHomepage?.geoSummary,
+    fallbackDescription:
+      initialHomepage?.tagline?.trim() || initialHomepage?.seo?.metaDescription,
+    url: homePath,
+    locale: lang,
+  });
+  const medicalWebPageBlocks = Array.isArray(medicalWebPageJsonLd)
+    ? medicalWebPageJsonLd
+    : [medicalWebPageJsonLd];
 
   const queryClient = new QueryClient();
   queryClient.setQueryData(["sanity", "homepage", sanityLang], initialHomepage);
 
   return (
     <>
-      <JsonLd data={[medicalClinicJsonLd(lang), homeBreadcrumbJsonLd(lang)]} />
+      <JsonLd
+        data={[
+          medicalClinicJsonLd(lang),
+          medicalOrganizationJsonLd(lang),
+          homeBreadcrumbJsonLd(lang),
+          ...medicalWebPageBlocks,
+        ]}
+      />
       <HomepageHydration state={dehydrate(queryClient)}>
         <Index
           key={sanityLang}

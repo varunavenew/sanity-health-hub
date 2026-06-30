@@ -1,6 +1,7 @@
 // Schema: Homepage
 // Sanity document type for the main landing page
 import { HomeIcon } from './icons'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -199,6 +200,7 @@ export default {
       type: 'seo',
       group: 'seo',
     },
+    { ...geoSummaryField, group: 'seo' },
   ],
   preview: {
     select: { title: 'title' },

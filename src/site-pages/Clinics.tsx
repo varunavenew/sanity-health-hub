@@ -5,8 +5,12 @@ import { Link, useNavigate } from "@/lib/router";
 import { MapPin, Phone, Clock, ArrowRight, Car, Train, Accessibility, Stethoscope } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useClinics, useClinicsPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { Button } from "@/components/ui/button";
@@ -21,6 +25,8 @@ interface ClinicsProps {
 
 const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const { t } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const navigate = useNavigate();
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
@@ -49,32 +55,46 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         }
       : undefined;
 
+  const hasSeo = Boolean(page?.seo?.metaTitle || page?.seo?.metaDescription);
+  const clinicsPath = "/klinikker";
+  const geoName = heroTitle || page?.seo?.metaTitle || t("nav.clinics", "Klinikker");
+  const geoFallback = heroDescription || page?.seo?.metaDescription;
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: list.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "MedicalClinic",
+        name: `CMedical ${c.label}`,
+        address: { "@type": "PostalAddress", streetAddress: c.address, addressCountry: "NO" },
+        telephone: c.phone ? `+47 ${c.phone}` : undefined,
+        url: `https://cmedical.no/klinikker/${c.slug}`,
+      },
+    })),
+  };
+  const geoJsonLd = buildMedicalWebPageGeoJsonLd({
+    name: geoName,
+    geoSummary: page?.geoSummary,
+    fallbackDescription: geoFallback,
+    url: clinicsPath,
+    locale,
+    extra: [itemListJsonLd],
+  });
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {page?.seo?.metaTitle || page?.seo?.metaDescription ? (
+      {hasSeo ? (
         <PageSEO
           title={page?.seo?.metaTitle || ""}
           description={page?.seo?.metaDescription || ""}
-          canonical="/klinikker"
+          canonical={clinicsPath}
           breadcrumbs={[
             { name: t("pricing.breadcrumbHome", "Hjem"), path: "/" },
-            { name: t("nav.clinics", "Klinikker"), path: "/klinikker" },
+            { name: t("nav.clinics", "Klinikker"), path: clinicsPath },
           ]}
-          jsonLd={{
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            itemListElement: list.map((c, i) => ({
-              "@type": "ListItem",
-              position: i + 1,
-              item: {
-                "@type": "MedicalClinic",
-                name: `CMedical ${c.label}`,
-                address: { "@type": "PostalAddress", streetAddress: c.address, addressCountry: "NO" },
-                telephone: c.phone ? `+47 ${c.phone}` : undefined,
-                url: `https://cmedical.no/klinikker/${c.slug}`,
-              },
-            })),
-          }}
+          jsonLd={geoJsonLd}
         />
       ) : null}
 
@@ -91,6 +111,18 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
       ) : (
         <div className="bg-brand-warm pt-20 pb-8">
           <div className="container mx-auto px-6 md:px-16">
+            {!hasSeo ? (
+              <GeoPageEnhancements
+                name={geoName}
+                geoSummary={page?.geoSummary}
+                fallbackDescription={geoFallback}
+                path={clinicsPath}
+                locale={locale}
+                className="mb-6 max-w-3xl"
+              />
+            ) : (
+              <GeoAnswerSnippet text={page?.geoSummary} className="mb-6 max-w-3xl" />
+            )}
             <Button variant="cta" size="lg" onClick={() => navigate("/booking")}>
               {t("nav.bookAppointment")}
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -98,6 +130,23 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
           </div>
         </div>
       )}
+
+      {hasHeroContent ? (
+        <div className="container mx-auto px-6 md:px-16 py-6">
+          {hasSeo ? (
+            <GeoAnswerSnippet text={page?.geoSummary} className="max-w-3xl" />
+          ) : (
+            <GeoPageEnhancements
+              name={geoName}
+              geoSummary={page?.geoSummary}
+              fallbackDescription={geoFallback}
+              path={clinicsPath}
+              locale={locale}
+              className="max-w-3xl"
+            />
+          )}
+        </div>
+      ) : null}
 
       <section className="bg-background" aria-labelledby="clinics-heading">
         <h2 id="clinics-heading" className="sr-only">

@@ -7,7 +7,9 @@ import { Link, useNavigate } from "@/lib/router";
 import { useInsurancePage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
 interface PageProps { isChatOpen: boolean }
@@ -15,6 +17,8 @@ interface PageProps { isChatOpen: boolean }
 const Insurance = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const { data: page } = useInsurancePage();
 
   const title = page?.title?.trim() || "";
@@ -55,6 +59,17 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       )}
+
+      <div className="container mx-auto px-6 md:px-16 py-6">
+        <GeoPageEnhancements
+          name={title || t("nav.insurance", "Forsikring")}
+          geoSummary={page?.geoSummary}
+          fallbackDescription={subtitle}
+          path="/forsikring"
+          locale={locale}
+          className="max-w-3xl"
+        />
+      </div>
 
       {companies.length > 0 ? (
       <section className="py-16 md:py-24 bg-background">

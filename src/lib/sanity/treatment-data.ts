@@ -100,6 +100,7 @@ export type TreatmentData = {
   pageSections: ReturnType<typeof normalizePageSections>;
   /** Locale-specific slug from CMS (for canonical redirects). */
   canonicalSlug?: string;
+  geoSummary?: string;
   seo?: Record<string, unknown>;
 };
 
@@ -134,6 +135,7 @@ export function mapTreatmentDocument(
     title: asPlainString(data.title),
     subtitle: asPlainString(data.subtitle) || undefined,
     description: asPlainString(data.description),
+    geoSummary: asPlainString(data.geoSummary) || undefined,
     heroImage: asPlainString(data.heroImage) || undefined,
     parentCategory: asPlainString(data.parentCategory) || undefined,
     parentSlug: asPlainString(data.parentSlug) || undefined,

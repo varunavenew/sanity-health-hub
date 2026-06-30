@@ -11,6 +11,7 @@ import {
   requiredNoEnSeo,
 } from './i18n'
 import { pageSectionsField } from './pageSections'
+import { geoSummaryField } from './geoSummary'
 
 const reqI18n = requiredNoEnI18n
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
@@ -377,6 +378,7 @@ export default {
       type: 'seo',
       validation: requiredNoEnSeo,
     },
+    geoSummaryField,
   ],
   orderings: [
     {

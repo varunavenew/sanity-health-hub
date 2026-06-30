@@ -62,6 +62,7 @@ export type ServicesPageData = {
     metaTitle?: string;
     metaDescription?: string;
   };
+  geoSummary?: string;
   searchItems: ServicesPageListItem[];
 };
 
@@ -199,6 +200,7 @@ export function mapServicesPageDocument(
           metaDescription: asPlainString(seoRaw.metaDescription) || undefined,
         }
       : undefined,
+    geoSummary: asPlainString(data.geoSummary) || undefined,
     searchItems,
   };
 }

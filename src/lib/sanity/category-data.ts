@@ -131,6 +131,7 @@ export type TreatmentCategoryData = {
   categoryId: string;
   slug?: string;
   title: string;
+  geoSummary?: string;
   heroImage?: string;
   categoryNumericId?: number;
   treatments: CategoryTreatmentLink[];
@@ -309,6 +310,7 @@ export function mapTreatmentCategoryDocument(
     categoryId,
     slug: asPlainString(data.slug) || undefined,
     title: asPlainString(data.title),
+    geoSummary: asPlainString(data.geoSummary) || undefined,
     heroImage: asPlainString(data.heroImage) || undefined,
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,

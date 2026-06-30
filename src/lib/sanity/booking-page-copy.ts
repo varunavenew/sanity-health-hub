@@ -1,5 +1,6 @@
 export type BookingPageCopy = {
   pageTitle: string;
+  geoSummary?: string;
   closeAriaLabel: string;
   backLabel: string;
   stepProgressTemplate: string;

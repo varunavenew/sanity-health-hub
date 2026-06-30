@@ -9,6 +9,8 @@ import type { ContentBlock } from "@/data/articleContent";
 import { useArticle, useArticles } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
+import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
 import { urlFor } from "@/lib/sanityClient";
 import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
@@ -124,8 +126,9 @@ const renderBlock = (block: ContentBlock, index: number) => {
 };
 
 const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
-  const { slug: paramSlug } = useParams<{ slug: string }>();
+  const { slug: paramSlug, locale: paramLocale } = useParams<{ slug: string; locale?: string }>();
   const slug = useRouteSlug() || paramSlug || "";
+  const locale = paramLocale === "en" ? "en" : "nb";
   const { data: sanityArticle, isLoading } = useArticle(slug || "");
   const { data: sanityArticles } = useArticles();
 
@@ -177,19 +180,33 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
     );
   }
 
+  const articlePath = `/aktuelt/${article.slug}`;
+  const summaryText = article.geoSummary?.trim() || article.excerpt || "";
+  const geoJsonLd = combineGeoJsonLd(
+    articleJsonLd({
+      headline: article.title,
+      description: summaryText.slice(0, 320),
+      url: articlePath,
+      datePublished: article.date,
+      image: article.image || undefined,
+      inLanguage: locale === "en" ? "en" : "nb-NO",
+    }),
+  );
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={article.title}
         description={article.excerpt || `Les om ${article.title} hos CMedical.`}
-        canonical={`/aktuelt/${article.slug}`}
+        canonical={articlePath}
         type="article"
         publishedAt={article.date}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Aktuelt", path: "/aktuelt" },
-          { name: article.title, path: `/aktuelt/${article.slug}` },
+          { name: article.title, path: articlePath },
         ]}
+        jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
       />
       {/* Header */}
       <div className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
@@ -220,6 +237,8 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
       <article className="bg-background">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-3xl mx-auto py-10 md:py-16">
+            <GeoAnswerSnippet text={article.geoSummary} className="mb-8" />
+
             {/* Featured video or image */}
             {sanityArticle?.videoUrl ? (
               <figure className="mb-10">

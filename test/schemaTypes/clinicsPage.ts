@@ -1,6 +1,7 @@
 // Schema: Clinics listing page (/klinikker) — hero + SEO (singleton)
 import { ClinicIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -64,6 +65,7 @@ export default {
       type: 'seo',
       description: 'Meta-tittel og meta-beskrivelse for klinikkoversikten (/klinikker)',
     },
+    geoSummaryField,
     pageSectionsField,
   ],
   preview: {

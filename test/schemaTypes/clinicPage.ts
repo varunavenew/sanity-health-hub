@@ -9,6 +9,7 @@ import {
   requiredNoEnSeo,
 } from './i18n'
 import { pageSectionsFieldForGroup } from './pageSections'
+import { geoSummaryField } from './geoSummary'
 
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
 
@@ -277,6 +278,7 @@ export default {
       validation: requiredNoEnSeo,
       group: 'seo',
     },
+    { ...geoSummaryField, group: 'seo' },
     pageSectionsFieldForGroup('extras'),
   ],
   orderings: [

@@ -1,43 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams, Link, useRouteSlug } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users } from "lucide-react";
+import { MapPin, Phone, Clock, Car, Train, Accessibility, ArrowLeft, ExternalLink, Stethoscope, ArrowRight, Users, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useClinic } from "@/hooks/useSanity";
+import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
+import { combineGeoJsonLd, faqPageJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { ClinicMap } from "@/components/clinic/ClinicMap";
 import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { clinicMapsEmbedUrl } from "@/lib/maps/clinic-location";
+import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
-
-// Lookup: service-ID → display label + optional link
-const SERVICE_LABELS: Record<string, { label: string; path?: string }> = {
-  fertilitet: { label: "Fertilitet", path: "/behandlinger/fertilitet" },
-  fostermedisiner: { label: "Fostermedisin" },
-  gynekolog: { label: "Gynekologi", path: "/behandlinger/gynekologi" },
-  ernaringsfysiolog: { label: "Ernæringsfysiolog", path: "/behandlinger/flere-fagomrader/ernaringsfysiolog" },
-  psykolog: { label: "Psykolog", path: "/behandlinger/flere-fagomrader/psykologi" },
-  sexolog: { label: "Sexolog", path: "/behandlinger/flere-fagomrader/sexologi" },
-  gastrokirurg: { label: "Gastrokirurgi" },
-  ortoped: { label: "Ortopedi", path: "/behandlinger/ortopedi" },
-  handterapeut: { label: "Håndterapeut" },
-  revmatolog: { label: "Revmatolog" },
-  urolog: { label: "Urologi", path: "/behandlinger/urologi" },
-  hudlege: { label: "Hudlege" },
-  areknuter: { label: "Åreknuter" },
-  "sprengte-blodkar": { label: "Sprengte blodkar" },
-  fysioterapeut: { label: "Fysioterapeut" },
-  uroterapi: { label: "Uroterapi" },
-  plastikkirurgi: { label: "Plastikkirurgi" },
-  karkirurgi: { label: "Karkirurgi" },
-  hjertespesialist: { label: "Hjertespesialist" },
-  almennlege: { label: "Allmennlege" },
-};
 
 interface ClinicDetailPageProps {
   isChatOpen: boolean;
@@ -48,6 +28,14 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const slug = useRouteSlug() || paramSlug || "";
   const { i18n } = useTranslation();
   const sanityLang = (i18n.language || "nb").startsWith("en") ? "en" : "no";
+  const clinicsPath = useNavCmsPath("clinics");
+  const specialistsPath = useNavCmsPath("specialists");
+  const aboutPath = useNavCmsPath("about");
+  const { data: treatmentCategories } = useTreatmentCategories();
+  const serviceLinks = useMemo(
+    () => buildClinicServiceLinks(treatmentCategories, sanityLang),
+    [treatmentCategories, sanityLang],
+  );
   const { data: clinic, isLoading } = useClinic(slug || "");
 
   useEffect(() => {
@@ -80,7 +68,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
           <div className="container mx-auto px-6 md:px-16 text-center">
             <h1 className="text-2xl font-light text-brand-dark mb-4">Klinikken ble ikke funnet</h1>
             <Button asChild variant="outline" className="rounded-sm">
-              <Link to="/om-oss">Tilbake til Om oss</Link>
+              <Link to={aboutPath}>Tilbake til Om oss</Link>
             </Button>
           </div>
         </div>
@@ -92,6 +80,19 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
   const label = plainMetaString(clinic.label ?? clinic.title, "Klinikk", sanityLang);
   const description = plainMetaString(clinic.description, "", sanityLang);
   const hours = plainMetaString(clinic.hours, "", sanityLang);
+  const email =
+    typeof (clinic as { email?: unknown }).email === "string"
+      ? (clinic as { email: string }).email.trim()
+      : "";
+  const contactDescription = plainMetaString(
+    (clinic as { contactDescription?: unknown }).contactDescription,
+    "",
+    sanityLang,
+  );
+  const rawValueProposition = (clinic as { valueProposition?: Record<string, unknown> })
+    .valueProposition;
+  const valueProposition1 = plainMetaString(rawValueProposition?.valueProposition1, "", sanityLang);
+  const socialProof = plainMetaString(rawValueProposition?.socialProof, "", sanityLang);
   const detail = {
     parking: plainMetaString(rawDetail.parking, "", sanityLang),
     publicTransport: plainMetaString(rawDetail.publicTransport, "", sanityLang),
@@ -125,36 +126,55 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
     `Besøk CMedical ${label}. ${clinic.address || ""}. Åpningstider, tjenester og kontaktinformasjon for vår klinikk.`,
     sanityLang,
   );
+  const geoSummary = plainMetaString(
+    (clinic as { geoSummary?: unknown }).geoSummary,
+    "",
+    sanityLang,
+  );
+  const clinicPath = `${clinicsPath}/${clinic.slug}`;
+  const locale = sanityLang === "en" ? "en" : "nb";
+  const summaryText = geoSummary || description.split("\n")[0].trim() || seoDescription;
+  const geoJsonLd = combineGeoJsonLd(
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalClinic",
+      name: `CMedical ${label}`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: clinic.address,
+        addressCountry: "NO",
+      },
+      telephone: clinic.phone ? `+47 ${clinic.phone}` : undefined,
+      email: email || undefined,
+      url: `https://cmedical.no${clinicPath}`,
+    },
+    medicalWebPageJsonLd({
+      name: `CMedical ${label}`,
+      description: summaryText.slice(0, 320),
+      url: clinicPath,
+      inLanguage: locale === "en" ? "en" : "nb-NO",
+    }),
+    faqPageJsonLd(faqs),
+  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={seoTitle}
         description={seoDescription}
-        canonical={`/klinikker/${clinic.slug}`}
+        canonical={clinicPath}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
-          { name: "Om oss", path: "/om-oss" },
-          { name: `CMedical ${label}`, path: `/klinikker/${clinic.slug}` },
+          { name: "Om oss", path: aboutPath },
+          { name: `CMedical ${label}`, path: clinicPath },
         ]}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "MedicalClinic",
-          name: `CMedical ${label}`,
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: clinic.address,
-            addressCountry: "NO",
-          },
-          telephone: clinic.phone ? `+47 ${clinic.phone}` : undefined,
-          url: `https://cmedical.no/klinikker/${clinic.slug}`,
-        }}
+        jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
       />
       {/* Header */}
       <div className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
-            <Link to="/klinikker" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
+            <Link to={clinicsPath} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
               <ArrowLeft className="w-3 h-3" />
               Alle klinikker
             </Link>
@@ -166,11 +186,28 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               </h1>
             </header>
 
+            <GeoAnswerSnippet text={geoSummary} className="mb-6" />
+
             {description ? (
               <p className="text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
                 {description}
               </p>
             ) : null}
+
+            {(valueProposition1 || socialProof) && (
+              <div className="mt-6 space-y-2 pt-6 border-t border-brand-dark/10">
+                {valueProposition1 ? (
+                  <p className="text-base text-brand-dark font-normal leading-snug">
+                    {valueProposition1}
+                  </p>
+                ) : null}
+                {socialProof ? (
+                  <p className="text-sm text-muted-foreground font-light leading-relaxed">
+                    {socialProof}
+                  </p>
+                ) : null}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -204,6 +241,17 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                     </a>
                   </div>
                 </div>
+                {email ? (
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-normal text-foreground">E-post</p>
+                      <a href={`mailto:${email}`} className="text-sm text-muted-foreground font-light hover:underline">
+                        {email}
+                      </a>
+                    </div>
+                  </div>
+                ) : null}
                 <div className="flex items-start gap-3">
                   <Clock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" />
                   <div>                  
@@ -245,6 +293,12 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
                 )}
               </div>
             </div>
+
+            {contactDescription ? (
+              <p className="mt-8 text-sm text-muted-foreground font-light leading-[1.8] border-t border-border/40 pt-6">
+                {contactDescription}
+              </p>
+            ) : null}
           </div>
         </div>
       </section>
@@ -265,7 +319,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 border-t border-brand-dark/10">
                 {clinic.services.map((id: string) => {
-                  const svc = SERVICE_LABELS[id] || { label: id };
+                  const svc = serviceLinks[id] || { label: id };
                   const content = (
                     <span className="flex items-center justify-between py-3 border-b border-brand-dark/10 text-sm text-foreground font-light group-hover:text-brand-dark transition-colors">
                       <span>{svc.label}</span>
@@ -366,7 +420,7 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
               <ul className="grid grid-cols-2 sm:grid-cols-3 gap-6">
                 {(clinic as any).specialists.map((s: any) => (
                   <li key={s.slug}>
-                    <Link to={`/spesialister/${s.slug}`} className="group block">
+                    <Link to={`${specialistsPath}/${s.slug}`} className="group block">
                       <div className="aspect-[3/4] bg-brand-mid/20 overflow-hidden rounded-sm mb-2">
                         {s.image && (
                           <img

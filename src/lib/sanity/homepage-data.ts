@@ -60,6 +60,7 @@ export type HomepageData = {
   }[];
   pageSections: ReturnType<typeof normalizePageSections>;
   seo?: SanitySeoFields;
+  geoSummary?: string;
 };
 
 function mapHomepageFaqs(value: unknown): HomepageFaq[] {
@@ -153,6 +154,7 @@ export function mapHomepageDocument(
     }),
     pageSections: normalizePageSections(data.pageSections),
     seo: data.seo as SanitySeoFields | undefined,
+    geoSummary: asPlainString(data.geoSummary) || undefined,
   };
 }
 

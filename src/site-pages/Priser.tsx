@@ -11,8 +11,11 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { usePricingPage, useFaqs } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
@@ -167,6 +170,8 @@ const TESTIMONIAL_NAMES  = ["Maria S.", "Anders L.", "Sofie H."] as const;
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
 
   const [expandedCategory,    setExpandedCategory]    = useState<string | null>(null);
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
@@ -304,6 +309,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
           { name: t("pricing.breadcrumbHome"), path: "/" },
           { name: t("nav.pricing"), path: "/priser" },
         ]}
+        jsonLd={buildMedicalWebPageGeoJsonLd({
+          name: pageTitle,
+          geoSummary: sanityPricing?.geoSummary,
+          fallbackDescription: pageSubtitle,
+          url: "/priser",
+          locale,
+          faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
+        })}
       />
       <SplitHero
         eyebrow={t("pricing.heroEyebrow")}
@@ -314,6 +327,10 @@ const Priser = ({ isChatOpen }: PageProps) => {
         primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
         secondaryCta={{ label: t("cta.contactUs"), to: "/kontakt" }}
       />
+
+      <div className="container mx-auto px-4 md:px-8 pt-8 max-w-5xl">
+        <GeoAnswerSnippet text={sanityPricing?.geoSummary} className="mb-6" />
+      </div>
 
       {/* Price List Section */}
       <section id="prisliste" className="py-10 md:py-14 bg-background">

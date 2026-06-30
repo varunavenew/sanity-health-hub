@@ -2,6 +2,7 @@
 // Aligned with migration data: title, introText, phone, email, address, openingHours, seo
 import { ContactIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -127,6 +128,7 @@ export default {
       title: 'SEO',
       type: 'seo',
     },
+    geoSummaryField,
   ],
   preview: {
     select: { title: 'title' },

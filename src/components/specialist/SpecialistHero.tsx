@@ -4,6 +4,8 @@ import { MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AssetImg } from "@/components/AssetImg";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
+import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import type { Specialist, SpecialistClinicRef } from "@/lib/sanity/specialist-types";
 
 interface SpecialistHeroProps {
@@ -11,10 +13,13 @@ interface SpecialistHeroProps {
   onScrollToBooking: () => void;
 }
 
-function categoryServicePath(specialist: Specialist): string {
+function categoryServicePath(
+  specialist: Specialist,
+  servicesPath: string,
+): string {
   const primary = specialist.sanityCategories?.[0];
-  if (!primary?.slug) return "/tjenester";
-  if (primary.categoryId === "flere-fagomrader") return "/tjenester";
+  if (!primary?.slug) return servicesPath;
+  if (primary.categoryId === "flere-fagomrader") return servicesPath;
   return `/behandlinger/${primary.slug}`;
 }
 
@@ -24,8 +29,10 @@ function clinicLinks(specialist: Specialist): SpecialistClinicRef[] {
 }
 
 export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHeroProps) => {
-  const firstName = specialist.name.split(" ")[0];
-  const servicePath = categoryServicePath(specialist);
+  const ui = useSpecialistProfileUi();
+  const clinicsPath = useNavCmsPath("clinics");
+  const servicesPath = useNavCmsPath("services");
+  const servicePath = categoryServicePath(specialist, servicesPath);
   const clinics = clinicLinks(specialist);
 
   return (
@@ -69,7 +76,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                     {clinics.map((clinic) => (
                       <Link
                         key={`${clinic.slug}-${clinic.label}`}
-                        to={`/klinikker/${clinic.slug}`}
+                        to={`${clinicsPath}/${clinic.slug}`}
                         className="inline-flex items-center gap-1.5 text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
                       >
                         <MapPin className="w-3 h-3" aria-hidden="true" />
@@ -107,9 +114,9 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 onClick={onScrollToBooking}
               >
                 <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-                Bestill time hos {firstName}
+                {ui.bookingCtaLabel}
               </Button>
-              <CallUsClinicPicker variant="light" label="Ring oss" />
+              <CallUsClinicPicker variant="light" label={ui.heroCallUsLabel} />
             </motion.div>
           </div>
         </div>

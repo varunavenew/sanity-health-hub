@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+"use client";
+
+import CmsThemePage from "@/site-pages/CmsThemePage";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -6,17 +8,58 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { useNavigate } from "@/lib/router";
 import { useThemePage } from "@/hooks/useSanity";
 
+const THEME_SLUG = "fastlegeveiledning-overgangsalder";
+
 interface PageProps {
   isChatOpen: boolean;
 }
 
-const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
-  const { data: sanityData } = useThemePage("fastlegeveiledning-overgangsalder");
-  const navigate = useNavigate();
+function themePageHasBody(
+  data: {
+    introTexts?: string[];
+    sections?: Array<{
+      heading?: string;
+      paragraphs?: string[];
+      bulletPoints?: string[];
+    }>;
+  } | null | undefined,
+): boolean {
+  if (!data) return false;
+  if ((data.introTexts?.length ?? 0) > 0) return true;
+  return (data.sections ?? []).some(
+    (section) =>
+      Boolean(section.heading?.trim()) ||
+      (section.paragraphs?.length ?? 0) > 0 ||
+      (section.bulletPoints?.length ?? 0) > 0,
+  );
+}
 
-  useEffect(() => {
-    document.title = sanityData?.title ? `${sanityData.title} | CMedical` : "Fastlegeveiledning overgangsalder | CMedical";
-  }, [sanityData]);
+/** Live route: CMS theme page when populated, otherwise legacy static article. */
+export default function FastlegeveiledningOvergangsalder({ isChatOpen }: PageProps) {
+  const { data, isLoading } = useThemePage(THEME_SLUG);
+
+  if (isLoading) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-[40vh] flex items-center justify-center">
+          <p className="text-muted-foreground font-light">Laster…</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if (themePageHasBody(data)) {
+    return <CmsThemePage isChatOpen={isChatOpen} themeSlug={THEME_SLUG} />;
+  }
+
+  return <FastlegeveiledningOvergangsalderStatic isChatOpen={isChatOpen} cmsTitle={data?.title} />;
+}
+
+function FastlegeveiledningOvergangsalderStatic({
+  isChatOpen,
+  cmsTitle,
+}: PageProps & { cmsTitle?: string }) {
+  const navigate = useNavigate();
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -42,7 +85,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
             Tilbake til overgangsalder
           </button>
           <h1 className="text-3xl md:text-4xl font-normal text-white mb-4">
-            {sanityData?.title || "Fastlegeveiledning overgangsalder"}
+            {cmsTitle || "Fastlegeveiledning overgangsalder"}
           </h1>
           <p className="text-white/70 font-light">
             Veileder for fastleger – Forenklet utredning og behandling av peri- og menopause
@@ -348,7 +391,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
       </article>
     </PageLayout>
   );
-};
+}
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="mb-12">
@@ -359,4 +402,3 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
   </section>
 );
 
-export default FastlegeveiledningOvergangsalder;

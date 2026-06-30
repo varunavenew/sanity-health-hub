@@ -2,6 +2,7 @@ import {defineField, defineType} from 'sanity'
 import { ArticleIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
 import { pageSectionsField } from './pageSections'
+import { geoSummaryField } from './geoSummary'
 
 export default defineType({
   name: 'article',
@@ -112,6 +113,7 @@ export default defineType({
       title: 'SEO',
       type: 'seo',
     }),
+    defineField({ ...geoSummaryField }),
     defineField(pageSectionsField),
   ],
   orderings: [
