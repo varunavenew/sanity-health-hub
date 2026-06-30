@@ -1,6 +1,7 @@
 // Schema: Careers listing page (Karriere)
 import { GenericIcon } from './icons'
 import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 const i18nString = {
@@ -229,6 +230,7 @@ export default {
       type: 'seo',
       group: 'seo',
     },
+    { ...geoSummaryField, group: 'seo' },
   ],
   preview: {
     select: { title: 'title' },

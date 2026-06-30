@@ -2,6 +2,7 @@
 // Aligned with migration data: title, subtitle, body (blockContent), seo
 import { GenericIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -83,6 +84,7 @@ export default {
       title: 'SEO',
       type: 'seo',
     },
+    geoSummaryField,
   ],
   preview: {
     select: { title: 'title', media: 'heroImage' },

@@ -5,8 +5,6 @@ export interface Article {
   image: string;
   date: string;
   category: string;
-  featured?: boolean;
-  pinned?: boolean;
   externalUrl?: string;
 }
 
@@ -32,8 +30,6 @@ export const articles: Article[] = [
       "https://cdn.sanity.io/images/bk8rw7yi/production/1a6b5c045dd900b09dd7dd5e0c2e9683d2d12643-4284x5712.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2026-03-10",
     category: "Pasienthistorier",
-    pinned: true,
-    featured: true,
   },
   {
     slug: "overgangsalderen-er-en-ny-fase-ikke-slutten-pa-noe",
@@ -84,8 +80,6 @@ export const articles: Article[] = [
       "https://cdn.sanity.io/images/bk8rw7yi/production/11f45ca6a82256cd2bfc61fc0d267d302975a09f-3519x4000.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2026-01-28",
     category: "Nytt fra oss",
-    pinned: true,
-    featured: true,
   },
   {
     slug: "fra-operasjonsbordet-til-sydpolen-pa-14-maneder",
@@ -106,8 +100,6 @@ export const articles: Article[] = [
       "https://cdn.sanity.io/images/bk8rw7yi/production/32d26b009155315ee9079e632d50526ed728d822-4853x5037.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-12-18",
     category: "Nytt fra oss",
-    pinned: true,
-    featured: true,
   },
   {
     slug: "historiene-ingen-snakker-om-etter-fodsel",
@@ -118,8 +110,6 @@ export const articles: Article[] = [
       "https://cdn.sanity.io/images/bk8rw7yi/production/d31e037d4dbce186dfade4ab6bca8a970aff5284-6000x4000.jpg?q=75&fit=clip&auto=format&w=800",
     date: "2025-12-05",
     category: "Oss i media",
-    pinned: true,
-    featured: true,
   },
   {
     slug: "jeg-matte-grate-pa-telefonen-for-a-bli-tatt-pa-alvor",

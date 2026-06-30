@@ -5,37 +5,50 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useSpecialistsPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PortableText } from "@portabletext/react";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
+import { useParams } from "@/lib/router";
 
 interface AboutSpecialistsProps {
   isChatOpen: boolean;
 }
 
 const AboutSpecialists = ({ isChatOpen }: AboutSpecialistsProps) => {
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const { data: pageData } = useSpecialistsPage();
 
   const title = pageData?.title || "Om våre spesialister";
   const subtitle =
     pageData?.subtitle ||
     "Hos CMedical møter du Nordens fremste spesialister innen gynekologi, fertilitet, urologi og ortopedi. Våre leger kombinerer lang erfaring med moderne teknologi for å gi deg trygg og presis behandling.";
+  const aboutSpecialistsPath = "/om-spesialister";
+  const seoTitle = pageData?.seo?.metaTitle || "Om våre spesialister – Erfaring og spisskompetanse";
+  const seoDescription =
+    pageData?.seo?.metaDescription ||
+    "Les om CMedicals spesialistteam. Ledende eksperter innen gynekologi, fertilitet, urologi og ortopedi – samlet på ett sted.";
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={pageData?.seo?.metaTitle || "Om våre spesialister – Erfaring og spisskompetanse"}
-        description={
-          pageData?.seo?.metaDescription ||
-          "Les om CMedicals spesialistteam. Ledende eksperter innen gynekologi, fertilitet, urologi og ortopedi – samlet på ett sted."
-        }
-        canonical="/om-spesialister"
+        title={seoTitle}
+        description={seoDescription}
+        canonical={aboutSpecialistsPath}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
           { name: "Spesialister", path: "/spesialister" },
-          { name: "Om våre spesialister", path: "/om-spesialister" },
+          { name: "Om våre spesialister", path: aboutSpecialistsPath },
         ]}
+        jsonLd={buildMedicalWebPageGeoJsonLd({
+          name: title,
+          geoSummary: pageData?.geoSummary,
+          fallbackDescription: subtitle,
+          url: aboutSpecialistsPath,
+          locale,
+        })}
       />
 
       {/* Hero */}

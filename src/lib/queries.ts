@@ -20,6 +20,35 @@ const i18nString = (field: string) =>
 const i18nText = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value, ${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field})`;
 
+const GEO_SUMMARY = i18nText("geoSummary");
+
+const i18nNestedString = (parent: string, field: string) =>
+  `"${field}": coalesce(${parent}.${field}[language == $lang][0].value, ${parent}.${field}[_key == $lang][0].value, ${parent}.${field}[language == "no"][0].value, ${parent}.${field}[_key == "no"][0].value, ${parent}.${field})`;
+
+const i18nNestedText = (parent: string, field: string) =>
+  `"${field}": coalesce(${parent}.${field}[language == $lang][0].value, ${parent}.${field}[_key == $lang][0].value, ${parent}.${field}[language == "no"][0].value, ${parent}.${field}[_key == "no"][0].value, ${parent}.${field})`;
+
+const SPECIALIST_PROFILE_UI_GROQ = `
+  "profileUi": profileUi {
+    ${i18nNestedString("profileUi", "loadingLabel")},
+    ${i18nNestedString("profileUi", "notFoundTitle")},
+    ${i18nNestedString("profileUi", "notFoundBackLabel")},
+    ${i18nNestedString("profileUi", "breadcrumbHomeLabel")},
+    ${i18nNestedString("profileUi", "breadcrumbSpecialistsLabel")},
+    ${i18nNestedString("profileUi", "bookingCtaLabel")},
+    ${i18nNestedString("profileUi", "bookingSectionTitle")},
+    ${i18nNestedText("profileUi", "bookingSectionDescription")},
+    ${i18nNestedString("profileUi", "heroCallUsLabel")},
+    ${i18nNestedString("profileUi", "bioSectionTitle")},
+    ${i18nNestedString("profileUi", "reviewsSectionTitle")},
+    ${i18nNestedString("profileUi", "featuredServiceCtaLabel")},
+    ${i18nNestedString("profileUi", "bookingLoadingLabel")},
+    ${i18nNestedText("profileUi", "bookingEmptyMessage")},
+    ${i18nNestedString("profileUi", "bookingViewAllLabel")},
+    ${i18nNestedString("profileUi", "anonymousReviewLabel")}
+  }
+`;
+
 /** Active locale only — use with `?? t("key")` fallback when EN is not in CMS yet. */
 const i18nStringLocale = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
@@ -181,7 +210,21 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
     sortOrder,
     ${localizedFaqRow}
   },
+  ${i18nString("reviewsSubheading")},
+  ${i18nString("reviewsHeading")},
+  reviewsGoogleRating,
+  reviewsLegelistenRating,
+  ${i18nString("reviewsCtaTitle")},
+  ${i18nString("reviewsCtaSubtitle")},
+  "googleReviews": googleReviews[]->{
+    _id,
+    author,
+    rating,
+    ${i18nText("text")},
+    date
+  },
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -192,6 +235,7 @@ export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("draf
   ${localizedSlug},
   "image": photo.asset->url,
   "categories": categories[]->{ _id, title, ${localizedSlug}, categoryId, categoryNumericId },
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -233,6 +277,7 @@ export const SPECIALIST_BY_SLUG_QUERY = `*[_type == "specialist" && !(_id in pat
       ${localizedSeoObject}
     }
   },
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -354,6 +399,7 @@ const CATEGORY_LANDING_GROQ = `
 
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
+  ${i18nText('geoSummary')},
   "heroImage": heroImage.asset->url,
   stats[]{
     value,
@@ -383,6 +429,7 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${i18nString('title')},
   ${i18nString('subtitle')},
   ${i18nText('description')},
+  ${i18nText('geoSummary')},
   ${i18nString('benefitsTitle')},
   ${i18nStringLocale('linkedServicesSectionTitle')},
   ${i18nStringLocale('processSectionTitle')},
@@ -430,7 +477,9 @@ export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
   ${i18nString('title')},
   ${i18nBlockContent('body')},
   cookiebotKey,
-  ${PAGE_SECTIONS_GROQ}
+  ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
+  ${localizedSeoObject}
 }`;
 
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
@@ -447,8 +496,53 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
     }
   },
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
+
+const CONTACT_REQUEST_DIALOG_I18N_FIELDS = [
+  "dialogTitle",
+  "dialogDescription",
+  "nameLabel",
+  "namePlaceholder",
+  "phoneLabel",
+  "phonePlaceholder",
+  "clinicLabel",
+  "clinicPlaceholder",
+  "categoryLabel",
+  "categoryPlaceholder",
+  "categoryOtherLabel",
+  "timingLabel",
+  "timingAsapLabel",
+  "timingSpecificLabel",
+  "dayLabel",
+  "timeOfDayLabel",
+  "timeOfDayPlaceholder",
+  "timeMorningLabel",
+  "timeAfternoonLabel",
+  "timeEveningLabel",
+  "detailsLabel",
+  "detailsOptionalSuffix",
+  "detailsPlaceholder",
+  "cancelButton",
+  "submitButton",
+  "submittingButton",
+  "privacyNote",
+  "toastValidationTitle",
+  "toastValidationDescription",
+  "validationNameRequired",
+  "validationPhoneRequired",
+  "validationClinicRequired",
+  "validationCategoryRequired",
+  "toastSuccessTitle",
+  "toastSuccessDescription",
+].map((field) =>
+  field === "dialogDescription" ||
+  field === "privacyNote" ||
+  field === "toastSuccessDescription"
+    ? i18nText(field)
+    : i18nString(field),
+);
 
 export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   ${i18nString("title")},
@@ -470,7 +564,9 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
     ctaLink,
     variant
   },
+  ${CONTACT_REQUEST_DIALOG_I18N_FIELDS.join(",\n  ")},
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -511,10 +607,9 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
     "image": primaryImage.asset->url,
     "date": publishedAt,
     category,
-    pinned,
-    featured
   },
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -623,6 +718,7 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage"][0]{
   ${BOOKING_PAGE_I18N_FIELDS.join(",\n  ")},
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -630,6 +726,8 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
   ${i18nText("insuranceNote")},
+  ${i18nString("testimonialsTitle")},
+  ${i18nString("faqTitle")},
   "heroImage": heroImage.asset->url,
   priceCategories[]{
     ${i18nString("categoryName")},
@@ -641,7 +739,15 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
       ${i18nString("note")}
     }
   },
+  testimonials[]->{
+    _id,
+    name,
+    rating,
+    text,
+    treatment
+  },
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -662,6 +768,7 @@ export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
     ${i18nText("description")}
   },
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -712,6 +819,7 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
     "heroImage": heroImage.asset->url
   },
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -719,6 +827,7 @@ export const CLINICS_QUERY = `*[_type == "clinicPage" && ${publishedClinicFilter
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
   description, email, contactDescription,
+  ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
   "primaryImage": primaryImage.asset->url,
@@ -732,6 +841,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   ${CLINIC_LIST_ROW_PROJECTION},
   services,
   description, email, contactDescription,
+  ${i18nText('geoSummary')},
   valueProposition,
   locationSearch,
   "primaryImage": primaryImage.asset->url,
@@ -880,7 +990,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
 // matches $lang and fall back to the Norwegian entry. Legacy un-migrated
 // docs may still hold plain strings — we coalesce both shapes and let the
 // frontend hook normalize.
-export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publishedAt desc){
+export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
   _id,
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
@@ -889,8 +999,6 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publis
   "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
-  pinned,
-  featured,
 }`;
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${slugMatchesParam("slug")}][0]{
@@ -898,14 +1006,12 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${slugMatchesParam
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
   "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+  ${i18nText('geoSummary')},
   "image": primaryImage.asset->url,
   "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
   "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
-  videoUrl,
-  videoCaption,
-  "videoThumbnail": videoThumbnail.asset->url,
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;
@@ -965,6 +1071,7 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   "heroImage": heroImage.asset->url,
   introTexts,
+  ${i18nText('geoSummary')},
   sections[]{heading, paragraphs, bulletPoints},
   lifePhases[]{title, text},
   ctaText, ctaLink,
@@ -1014,12 +1121,14 @@ export const CAREERS_PAGE_QUERY = `*[_type == "careersPage"][0]{
   ${i18nString("contactCardTitle")},
   ${i18nString("jobSeoTitleSuffix")},
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
 export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
   title, subtitle, body,
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -1028,7 +1137,9 @@ export const SPECIALISTS_LISTING_PAGE_QUERY = `*[_type == "specialistsListingPag
   ${i18nString("heroTitle")},
   ${i18nText("heroDescription")},
   ${i18nString("countLabel")},
+  ${SPECIALIST_PROFILE_UI_GROQ},
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -1042,6 +1153,7 @@ export const CLINICS_PAGE_QUERY = `*[_type == "clinicsPage"][0]{
   ${i18nString("secondaryCtaLabel")},
   secondaryCtaPath,
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 
@@ -1071,6 +1183,7 @@ export const GUIDE_PAGE_QUERY = `*[_type == "guidePage"][0]{
     []
   ),
   ${PAGE_SECTIONS_GROQ},
+  ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;
 

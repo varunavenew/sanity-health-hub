@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 
 interface RelatedSpecialistsProps {
   specialists: Specialist[];
+  specialistsPath: string;
   eyebrow?: string;
   heading?: string;
   ctaLabel?: string;
@@ -15,6 +16,7 @@ interface RelatedSpecialistsProps {
 
 export const RelatedSpecialists = ({
   specialists,
+  specialistsPath,
   eyebrow,
   heading,
   ctaLabel,
@@ -74,7 +76,7 @@ export const RelatedSpecialists = ({
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
             >
-              <Link to={`/spesialister/${s.slug}`} className="group block">
+              <Link to={`${specialistsPath}/${s.slug}`} className="group block">
                 <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
                   <AssetImg
                     src={s.image}

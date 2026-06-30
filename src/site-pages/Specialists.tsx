@@ -6,9 +6,13 @@ import { Link } from "@/lib/router";
 import { MapPin } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { useSpecialistsListingPage } from "@/hooks/useSanity";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
 function formatCountLabel(template: string, count: number): string {
@@ -21,6 +25,9 @@ interface SpecialistsProps {
 
 const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const { t } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
+  const specialistsPath = useNavCmsPath("specialists") || "/spesialister";
   const { data: page } = useSpecialistsListingPage();
   const [activeFilter, setActiveFilter] = useState("alle");
   const [activeClinic, setActiveClinic] = useState("alle");
@@ -50,20 +57,33 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
   const countText = page?.countLabel?.trim()
     ? formatCountLabel(page.countLabel, filtered.length)
     : "";
+  const hasSeo = Boolean(page?.seo?.metaTitle || page?.seo?.metaDescription);
+  const geoName = heroTitle || page?.seo?.metaTitle || t("nav.specialists", "Spesialister");
+  const geoFallback = heroDescription || page?.seo?.metaDescription;
+  const geoJsonLd = buildMedicalWebPageGeoJsonLd({
+    name: geoName,
+    geoSummary: page?.geoSummary,
+    fallbackDescription: geoFallback,
+    url: specialistsPath,
+    locale,
+  });
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {page?.seo?.metaTitle || page?.seo?.metaDescription ? (
+      {hasSeo ? (
         <PageSEO
           title={page?.seo?.metaTitle || ""}
           description={page?.seo?.metaDescription || ""}
-          canonical="/spesialister"
+          canonical={specialistsPath}
           breadcrumbs={[
             { name: t("common.breadcrumbHome", "Hjem"), path: "/" },
-            { name: t("nav.specialists", "Spesialister"), path: "/spesialister" },
+            { name: t("nav.specialists", "Spesialister"), path: specialistsPath },
           ]}
+          jsonLd={geoJsonLd}
         />
-      ) : null}
+      ) : (
+        <JsonLd data={geoJsonLd} />
+      )}
       {(heroEyebrow || heroTitle || heroDescription) ? (
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
         <div className="container mx-auto px-6 md:px-16">

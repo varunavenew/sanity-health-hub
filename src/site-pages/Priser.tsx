@@ -11,15 +11,23 @@ import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { usePricingPage, useFaqs } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
 
-import pricingHero from "@/assets/hero/pricing-hero.jpg";
-
 interface PageProps { isChatOpen: boolean }
+
+interface PricingTestimonial {
+  _id: string;
+  name: string;
+  rating: number;
+  text: string;
+  treatment?: string;
+}
 
 interface PriceItem {
   name: string;
@@ -158,15 +166,12 @@ function useBookingPriceCategories(): {
   return { categories, loading, error };
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-const FAQ_FALLBACK_KEYS  = ["referral", "payment", "insurance", "cancellation"] as const;
-const TESTIMONIAL_KEYS   = ["one", "two", "three"] as const;
-const TESTIMONIAL_NAMES  = ["Maria S.", "Anders L.", "Sofie H."] as const;
-
 // ─── Component ────────────────────────────────────────────────────────────────
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
 
   const [expandedCategory,    setExpandedCategory]    = useState<string | null>(null);
   const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
@@ -187,34 +192,29 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const hasApiPrices =
     !bookingLoading && !bookingError && bookingCategories.length > 0;
 
-  // FAQs
-  const staticFaqs = FAQ_FALLBACK_KEYS.map((key) => ({
-    id: key,
-    question: t(`pricing.faqs.${key}.question`),
-    answer:   t(`pricing.faqs.${key}.answer`),
-  }));
-  const faqs =
-    sanityFaqs && sanityFaqs.length > 0
-      ? sanityFaqs.map((f, i) => ({ id: `faq-${i}`, question: f.question, answer: f.answer }))
-      : staticFaqs;
-
-  // Testimonials
-  const testimonials = TESTIMONIAL_KEYS.map((key, i) => ({
-    id:        i + 1,
-    name:      TESTIMONIAL_NAMES[i],
-    rating:    5,
-    text:      t(`pricing.testimonials.${key}.text`),
-    treatment: t(`pricing.testimonials.${key}.treatment`),
+  const faqs = (sanityFaqs ?? []).map((f, i) => ({
+    id: `faq-${i}`,
+    question: f.question,
+    answer: f.answer,
   }));
 
-  const heroImage    = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : pricingHero;
-  const pageTitle    = sanityPricing?.title?.trim()     || t("pricing.title");
-  const pageSubtitle = sanityPricing?.introText?.trim() || t("pricing.subtitle");
+  const testimonials: PricingTestimonial[] = (sanityPricing?.testimonials ?? []).filter(
+    (item): item is PricingTestimonial =>
+      Boolean(item?._id && item?.name && item?.text && typeof item.rating === "number"),
+  );
+
+  const heroImage    = sanityPricing?.heroImage ? getImageUrl(sanityPricing.heroImage) : undefined;
+  const pageTitle    = sanityPricing?.title?.trim() ?? "";
+  const pageSubtitle = sanityPricing?.introText?.trim() ?? "";
+  const seoTitle     = sanityPricing?.seo?.metaTitle?.trim() ?? pageTitle;
+  const seoDescription = sanityPricing?.seo?.metaDescription?.trim() ?? pageSubtitle;
+  const testimonialsTitle = sanityPricing?.testimonialsTitle?.trim() ?? "";
+  const faqTitle = sanityPricing?.faqTitle?.trim() ?? "";
   const sortLocale   = i18n.language?.startsWith("en") ? "en" : "nb";
 
   useEffect(() => {
-    document.title = `${t("nav.pricing")} | CMedical`;
-  }, [t, i18n.language]);
+    if (seoTitle) document.title = `${seoTitle} | CMedical`;
+  }, [seoTitle]);
 
   // ─── Load durations from freetimes when a category is expanded ─────────────
   // Exact same pattern as BookingDemo's expandedCategory effect
@@ -297,13 +297,21 @@ const Priser = ({ isChatOpen }: PageProps) => {
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={sanityPricing?.seo?.metaTitle?.trim() || t("pricing.seoTitle")}
-        description={sanityPricing?.seo?.metaDescription?.trim() || t("pricing.seoDescription")}
+        title={seoTitle}
+        description={seoDescription}
         canonical="/priser"
         breadcrumbs={[
           { name: t("pricing.breadcrumbHome"), path: "/" },
-          { name: t("nav.pricing"), path: "/priser" },
+          { name: pageTitle || t("nav.pricing"), path: "/priser" },
         ]}
+        jsonLd={buildMedicalWebPageGeoJsonLd({
+          name: pageTitle,
+          geoSummary: sanityPricing?.geoSummary,
+          fallbackDescription: pageSubtitle,
+          url: "/priser",
+          locale,
+          faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
+        })}
       />
       <SplitHero
         eyebrow={t("pricing.heroEyebrow")}
@@ -558,6 +566,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
       </section>
 
       {/* Testimonials Section */}
+      {testimonials.length > 0 && (
       <section className="py-16 md:py-24 bg-brand-warm">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
@@ -570,13 +579,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 ))}
               </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-normal text-brand-dark">
-              {t("pricing.testimonialsTitle")}
-            </h2>
+            {testimonialsTitle ? (
+              <h2 className="text-3xl md:text-4xl font-normal text-brand-dark">
+                {testimonialsTitle}
+              </h2>
+            ) : null}
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-white rounded-2xl p-6 shadow-sm">
+              <div key={testimonial._id} className="bg-white rounded-2xl p-6 shadow-sm">
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-foreground text-foreground" />
@@ -587,21 +598,27 @@ const Priser = ({ isChatOpen }: PageProps) => {
                 </p>
                 <div className="flex items-center justify-between">
                   <p className="font-normal text-foreground">{testimonial.name}</p>
-                  <span className="text-xs text-muted-foreground">{testimonial.treatment}</span>
+                  {testimonial.treatment ? (
+                    <span className="text-xs text-muted-foreground">{testimonial.treatment}</span>
+                  ) : null}
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+      )}
 
       {/* FAQ Section */}
+      {faqs.length > 0 && (
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-normal text-foreground mb-8">
-              {t("pricing.faqTitle")}
-            </h3>
+            {faqTitle ? (
+              <h3 className="text-2xl md:text-3xl font-normal text-foreground mb-8">
+                {faqTitle}
+              </h3>
+            ) : null}
             <div className="space-y-0">
               {faqs.map((faq, index) => (
                 <div key={faq.id} className={index !== 0 ? "border-t border-border" : ""}>
@@ -641,6 +658,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
+      )}
 
       <PageSectionsRenderer sections={sanityPricing?.pageSections} />
     </PageLayout>

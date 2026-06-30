@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
@@ -43,18 +42,16 @@ export function NextProviders({
   );
 
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <CmsRouteIndexProvider initialIndex={cmsRouteIndex}>
-          <TooltipProvider>
-            <LocaleSync />
-            <ScrollToTop />
-            <Toaster />
-            <Sonner />
-            {content}
-          </TooltipProvider>
-        </CmsRouteIndexProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <CmsRouteIndexProvider initialIndex={cmsRouteIndex}>
+        <TooltipProvider>
+          <LocaleSync />
+          <ScrollToTop />
+          <Toaster />
+          <Sonner />
+          {content}
+        </TooltipProvider>
+      </CmsRouteIndexProvider>
+    </QueryClientProvider>
   );
 }

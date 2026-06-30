@@ -14,7 +14,9 @@ import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { useClinics, useContactPage } from "@/hooks/useSanity";
 import { SplitHero } from "@/components/layout/SplitHero";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { coercePath } from "@/lib/navigation/coerce-path";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
 interface ContactProps {
@@ -24,6 +26,8 @@ interface ContactProps {
 const Contact = ({ isChatOpen }: ContactProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const { data: sanityClinics } = useClinics();
   const { data: contactPage } = useContactPage();
   const clinics = sanityClinics || [];
@@ -86,6 +90,17 @@ const Contact = ({ isChatOpen }: ContactProps) => {
           </div>
         </div>
       )}
+
+      <div className="container mx-auto px-6 md:px-16 py-6">
+        <GeoPageEnhancements
+          name={heroTitle || t("nav.contact", "Kontakt")}
+          geoSummary={contactPage?.geoSummary}
+          fallbackDescription={heroDescription}
+          path="/kontakt"
+          locale={locale}
+          className="max-w-3xl"
+        />
+      </div>
 
       <ClinicGrid />
 

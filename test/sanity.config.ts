@@ -120,10 +120,7 @@ export default defineConfig({
                   .child(
                     S.documentTypeList('article')
                       .title('Our Articles')
-                      .defaultOrdering([
-                        { field: 'pinned', direction: 'desc' },
-                        { field: 'publishedAt', direction: 'desc' },
-                      ])
+                      .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
                   ),
               ])
           )

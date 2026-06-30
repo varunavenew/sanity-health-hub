@@ -1,6 +1,7 @@
 // Schema: Services Page (Tjenester)
 import { TreatmentIcon } from "./icons";
 import { i18nFaqItemPreview, i18nSlugFieldFromTitle, pickNo } from "./i18n";
+import { geoSummaryField } from "./geoSummary";
 import { pageSectionsField } from "./pageSections";
 
 const i18nString = {
@@ -240,6 +241,7 @@ export default {
       title: "SEO",
       type: "seo",
     },
+    geoSummaryField,
   ],
   preview: {
     select: { title: "title" },

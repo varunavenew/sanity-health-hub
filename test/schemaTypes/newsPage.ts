@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import { geoSummaryField } from './geoSummary'
 import {i18nSlugFieldFromTitle} from './i18n'
 import { pageSectionsField } from './pageSections'
 
@@ -181,6 +182,7 @@ export default defineType({
       title: 'SEO',
       type: 'seo',
     }),
+    defineField({ ...geoSummaryField }),
     defineField(pageSectionsField),
   ],
   preview: {

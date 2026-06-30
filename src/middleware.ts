@@ -15,6 +15,7 @@ export function middleware(request: NextRequest) {
     pathname === "/favicon.ico" ||
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
+    pathname === "/llms.txt" ||
     /\.(ico|png|jpg|jpeg|gif|webp|svg|txt|xml|woff2?|otf|ttf)$/i.test(pathname)
   ) {
     return NextResponse.next();

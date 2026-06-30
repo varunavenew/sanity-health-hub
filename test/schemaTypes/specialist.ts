@@ -12,6 +12,7 @@ import {
   requiredNoEnI18n,
   requiredNoEnSeo,
 } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { BOOKING_ACTIVITY_GROUP_IDS } from './bookingActivityGroups'
 
 export default {
@@ -311,6 +312,7 @@ export default {
       description: 'Meta-tittel og meta-beskrivelse for spesialistens profilside',
       validation: requiredNoEnSeo,
     },
+    geoSummaryField,
   ],
   validation: (Rule: any) =>
     Rule.custom((document: Record<string, unknown> | undefined) => {

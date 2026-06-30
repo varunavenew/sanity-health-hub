@@ -5,8 +5,6 @@ type ArticlePick = {
   _id: string
   slug?: string
   title?: string
-  pinned?: boolean
-  featured?: boolean
   publishedAt?: string
 }
 
@@ -14,12 +12,10 @@ const NEWS_PAGE_IDS = ['newsPage', 'drafts.newsPage']
 
 async function run() {
   const articles = await sanityClient.fetch<ArticlePick[]>(
-    `*[_type == "article"] | order(pinned desc, publishedAt desc){
+    `*[_type == "article"] | order(publishedAt desc){
       _id,
       "slug": coalesce(slug[language == "no"][0].value.current, slug[0].value.current, slug.current),
       "title": coalesce(title[language == "no"][0].value, title[0].value, title),
-      pinned,
-      featured,
       publishedAt
     }`,
   )
@@ -29,12 +25,7 @@ async function run() {
     return
   }
 
-  // Match current site behavior on Aktuelt when "featuredArticles" is empty:
-  // prefer `featured == true`, otherwise fallback to first 4 sorted entries.
-  const explicitlyFeatured = articles.filter((a) => Boolean(a.featured)).slice(0, 4)
-  const selected = (explicitlyFeatured.length > 0 ? explicitlyFeatured : articles.slice(0, 4)).filter(
-    (a) => a?._id,
-  )
+  const selected = articles.slice(0, 4).filter((a) => a?._id)
 
   if (!selected.length) {
     console.log('Could not resolve any candidate article IDs.')

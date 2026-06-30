@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Link } from "@/lib/router";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageHero } from "@/components/layout/PageHero";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { useJobListings, useCareersPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { optionLabel, optionLabelMap } from "@/lib/sanity/option-labels";
@@ -13,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { useParams } from "@/lib/router";
 import { useCareersListingPath } from "@/lib/routing/careers-listing-path";
 
 interface KarriereProps {
@@ -21,7 +23,10 @@ interface KarriereProps {
 
 const Karriere = ({ isChatOpen = false }: KarriereProps) => {
   const { i18n } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const listingPath = useCareersListingPath();
+  const careersGeoPath = listingPath || "/karriere";
   const { data: sanityJobs } = useJobListings();
   const { data: page } = useCareersPage();
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,6 +65,15 @@ const Karriere = ({ isChatOpen = false }: KarriereProps) => {
       {hasHero ? (
         <PageHero title={heroTitle} subtitle={heroSubtitle} showCTA={false} />
       ) : null}
+
+      <GeoPageEnhancements
+        name={heroTitle || page?.title?.trim() || "Karriere"}
+        geoSummary={page?.geoSummary}
+        fallbackDescription={heroSubtitle || page?.introText?.trim()}
+        path={careersGeoPath}
+        locale={locale}
+        className="container mx-auto px-6 md:px-16 pt-8 max-w-3xl"
+      />
 
       <section className="container mx-auto px-6 md:px-16 py-16">
         {(page?.jobsSectionTitle?.trim() || page?.introText?.trim()) && (

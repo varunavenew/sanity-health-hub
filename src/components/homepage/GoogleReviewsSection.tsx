@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Star, Quote, ArrowRight, User } from "lucide-react";
+import { Quote, ArrowRight, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
-import type { GoogleReview } from "@/data/googleReviews";
-import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
+import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
+import type { HomepageReview } from "@/lib/sanity/homepage-data";
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,14 +24,14 @@ const LegelistenIcon = () => (
   </svg>
 );
 
-const SourceBadge = ({ source }: { source: 'google' | 'legelisten' }) => (
+const SourceBadge = () => (
   <div className="flex items-center gap-1.5 text-xs text-brand-dark/50">
-    {source === 'google' ? <GoogleIcon /> : <LegelistenIcon />}
-    <span>{source === 'google' ? 'Google' : 'Legelisten'}</span>
+    <GoogleIcon />
+    <span>Google</span>
   </div>
 );
 
-const ReviewCard = ({ review }: { review: GoogleReview }) => {
+const ReviewCard = ({ review }: { review: HomepageReview }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
   const maxLength = 120;
@@ -65,7 +65,7 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
           </p>
           <p className="text-xs text-brand-dark/60 font-light">{review.date}</p>
         </div>
-        <SourceBadge source={review.source} />
+        <SourceBadge />
       </div>
     </div>
   );
@@ -74,36 +74,24 @@ const ReviewCard = ({ review }: { review: GoogleReview }) => {
 export const GoogleReviewsSection = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data: sanityReviews } = useGoogleReviews();
-  const { data: settings } = useGoogleReviewSettings();
-  const googleReviewsList: GoogleReview[] = (sanityReviews || []).map((r, i) => ({
-    id: i,
-    name: r.name,
-    rating: r.rating,
-    text: r.text,
-    date: r.date,
-    source: "google" as const,
-  }));
-  const averageRating = settings?.googleAverageRating ?? 4.6;
-  const legelistenRating = settings?.legelistenAverageRating ?? 4.8;
-  const heading = settings?.heading?.trim() || t("reviews.heading");
-  const subheading = settings?.subheading?.trim() || t("reviews.subheading");
-  const ctaTitle = settings?.ctaTitle?.trim() || t("reviews.ctaTitle");
-  const ctaSubtitle = settings?.ctaSubtitle?.trim() || t("reviews.ctaSubtitle");
-  const googleLabel = t("reviews.googleLabel");
-  const legelistenLabel = t("reviews.legelistenLabel");
+  const { data: homepage } = useHomepage();
+  const section = homepage?.reviewsSection;
 
-  const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
+  if (!section?.reviews.length) return null;
 
-  if (googleReviewsList.length === 0) return null;
+  const duplicatedReviews = [...section.reviews, ...section.reviews];
 
   return (
     <section className="py-24 md:py-32 bg-brand-warm relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-16 relative">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-12">
           <div className="max-w-xl">
-            <p className="text-sm text-brand-dark/60 font-light mb-3">{subheading}</p>
-            <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{heading}</h2>
+            {section.subheading ? (
+              <p className="text-sm text-brand-dark/60 font-light mb-3">{section.subheading}</p>
+            ) : null}
+            {section.heading ? (
+              <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">{section.heading}</h2>
+            ) : null}
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
@@ -111,18 +99,18 @@ export const GoogleReviewsSection = () => {
               <div>
                 <p className="text-xs text-brand-dark/60 font-light">Google Reviews</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{averageRating}</span>
-                  <div className="flex"><PartialStars rating={averageRating} /></div>
+                  <span className="text-2xl font-normal text-brand-dark">{section.googleAverageRating}</span>
+                  <div className="flex"><PartialStars rating={section.googleAverageRating} /></div>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-4 p-5 rounded-sm bg-white border border-brand-dark/10">
               <LegelistenIcon />
               <div>
-                <p className="text-xs text-brand-dark/60 font-light">{legelistenLabel}</p>
+                <p className="text-xs text-brand-dark/60 font-light">{t("reviews.legelistenLabel")}</p>
                 <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-2xl font-normal text-brand-dark">{legelistenRating}</span>
-                  <div className="flex"><PartialStars rating={legelistenRating} /></div>
+                  <span className="text-2xl font-normal text-brand-dark">{section.legelistenAverageRating}</span>
+                  <div className="flex"><PartialStars rating={section.legelistenAverageRating} /></div>
                 </div>
               </div>
             </div>
@@ -140,22 +128,28 @@ export const GoogleReviewsSection = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-16 mt-16 text-center">
-        <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-sm bg-brand-dark">
-          <div className="text-center sm:text-left">
-            <p className="text-white font-normal mb-1">{ctaTitle}</p>
-            <p className="text-white/70 text-sm font-light">{ctaSubtitle}</p>
+      {(section.ctaTitle || section.ctaSubtitle) && (
+        <div className="container mx-auto px-6 md:px-16 mt-16 text-center">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-sm bg-brand-dark">
+            <div className="text-center sm:text-left">
+              {section.ctaTitle ? (
+                <p className="text-white font-normal mb-1">{section.ctaTitle}</p>
+              ) : null}
+              {section.ctaSubtitle ? (
+                <p className="text-white/70 text-sm font-light">{section.ctaSubtitle}</p>
+              ) : null}
+            </div>
+            <Button 
+              variant="cta-dark"
+              size="lg"
+              onClick={() => navigate('/booking')}
+            >
+              {t("nav.bookAppointment")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
           </div>
-          <Button 
-            variant="cta-dark"
-            size="lg"
-            onClick={() => navigate('/booking')}
-          >
-            {t("nav.bookAppointment")}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
         </div>
-      </div>
+      )}
     </section>
   );
 };

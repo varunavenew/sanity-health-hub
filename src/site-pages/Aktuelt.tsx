@@ -6,9 +6,11 @@ import { Link } from "@/lib/router";
 import { ArrowRight, Calendar, Search, Loader2 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { normalizeCategory, type Article } from "@/data/articles";
 import { useArticles, useNewsPage, useSpecialists } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { assetSrc } from "@/lib/media";
 
@@ -124,6 +126,8 @@ const FeaturedCard = ({
 
 const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   const { t } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const { data: sanityArticles } = useArticles();
   const { data: newsPage } = useNewsPage();
   const { data: specialists } = useSpecialists();
@@ -141,8 +145,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       image: a.image,
       date: a.date,
       category: a.category,
-      pinned: a.pinned,
-      featured: a.featured,
     }));
     return source.map((a) => ({ ...a, category: normalizeCategory(a.category) }));
   }, [sanityArticles]);
@@ -169,25 +171,18 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     return matchesFilter && matchesSearch;
   });
 
-  // Pinned first, then by date
-  const sortedArticles = [...filteredArticles].sort((a, b) => {
-    if (a.pinned && !b.pinned) return -1;
-    if (!a.pinned && b.pinned) return 1;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  const sortedArticles = [...filteredArticles].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 
-  // Top featured: editor-controlled via the `featured` flag in Sanity.
-  // Falls back to pinned/most-recent when no articles are explicitly flagged.
+  // Top grid: editor picks on newsPage, otherwise latest four articles.
   const manualFeatured = ((newsPage?.featuredArticles || []) as Article[])
     .map((a) => ({ ...a, category: normalizeCategory(a.category || "") }))
     .filter((a) => a?.slug);
-  const explicitlyFeatured = sortedArticles.filter((a) => a.featured).slice(0, 4);
   const featuredTop =
     activeFilter === "all" && manualFeatured.length > 0
       ? manualFeatured.slice(0, 4)
-      : explicitlyFeatured.length > 0
-        ? explicitlyFeatured
-        : sortedArticles.slice(0, 4);
+      : sortedArticles.slice(0, 4);
   const featuredSlugs = new Set(featuredTop.map((a) => a.slug));
   const restArticles = sortedArticles.filter((a) => !featuredSlugs.has(a.slug));
   const visibleRest = restArticles.slice(0, visibleCount);
@@ -318,19 +313,29 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     return () => observer.disconnect();
   }, [loadMore]);
 
+  const seoTitle = newsPage?.seo?.metaTitle || "Aktuelt – Nyheter og fagartikler";
+  const seoDescription =
+    newsPage?.seo?.metaDescription ||
+    "Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical. Fagartikler, nyheter og innsikt fra våre spesialister.";
+  const aktueltPath = "/aktuelt";
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={newsPage?.seo?.metaTitle || "Aktuelt – Nyheter og fagartikler"}
-        description={
-          newsPage?.seo?.metaDescription ||
-          "Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical. Fagartikler, nyheter og innsikt fra våre spesialister."
-        }
-        canonical="/aktuelt"
+        title={seoTitle}
+        description={seoDescription}
+        canonical={aktueltPath}
         breadcrumbs={[
           { name: "Hjem", path: "/" },
-          { name: "Aktuelt", path: "/aktuelt" },
+          { name: "Aktuelt", path: aktueltPath },
         ]}
+        jsonLd={buildMedicalWebPageGeoJsonLd({
+          name: newsUi.title,
+          geoSummary: newsPage?.geoSummary,
+          fallbackDescription: newsUi.subtitle || seoDescription,
+          url: aktueltPath,
+          locale,
+        })}
       />
       {/* Hero */}
       <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">

@@ -7,6 +7,8 @@ export default {
   title: 'Google Review-innstillinger',
   type: 'document',
   icon: ReviewIcon,
+  description:
+    'Gjennomsnittsvurderinger for behandlingskategorier. Forsidens anmeldelses-seksjon redigeres under Hjemmeside → Pasientanmeldelser.',
   fields: [
     {
       name: 'heading',

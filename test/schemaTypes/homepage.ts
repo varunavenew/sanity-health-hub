@@ -1,6 +1,7 @@
 // Schema: Homepage
 // Sanity document type for the main landing page
 import { HomeIcon } from './icons'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -11,6 +12,7 @@ export default {
   groups: [
     { name: 'hero', title: 'Hero & tagline', default: true },
     { name: 'sections', title: 'Seksjoner' },
+    { name: 'reviews', title: 'Pasientanmeldelser' },
     { name: 'seo', title: 'SEO & meta' },
   ],
   fields: [
@@ -192,6 +194,55 @@ export default {
         'FAQ-elementer som vises på forsiden. Velg og sorter spørsmål fra FAQ-dokumenter i Sanity.',
       group: 'sections',
     },
+    {
+      name: 'reviewsSubheading',
+      title: 'Anmeldelser – undertekst',
+      description: 'F.eks. «Våre pasienter forteller»',
+      type: 'internationalizedArrayString',
+      group: 'reviews',
+    },
+    {
+      name: 'reviewsHeading',
+      title: 'Anmeldelser – overskrift',
+      type: 'internationalizedArrayString',
+      group: 'reviews',
+    },
+    {
+      name: 'reviewsGoogleRating',
+      title: 'Google gjennomsnittsvurdering',
+      type: 'number',
+      group: 'reviews',
+      validation: (Rule: any) => Rule.min(1).max(5).precision(1),
+      initialValue: 4.6,
+    },
+    {
+      name: 'reviewsLegelistenRating',
+      title: 'Legelisten gjennomsnittsvurdering',
+      type: 'number',
+      group: 'reviews',
+      validation: (Rule: any) => Rule.min(1).max(5).precision(1),
+      initialValue: 4.8,
+    },
+    {
+      name: 'reviewsCtaTitle',
+      title: 'Anmeldelser – CTA tittel',
+      type: 'internationalizedArrayString',
+      group: 'reviews',
+    },
+    {
+      name: 'reviewsCtaSubtitle',
+      title: 'Anmeldelser – CTA undertekst',
+      type: 'internationalizedArrayString',
+      group: 'reviews',
+    },
+    {
+      name: 'googleReviews',
+      title: 'Google-anmeldelser på forsiden',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
+      description: 'Velg og sorter anmeldelser som vises i karusellen på forsiden.',
+      group: 'reviews',
+    },
     // SEO
     {
       name: 'seo',
@@ -199,6 +250,7 @@ export default {
       type: 'seo',
       group: 'seo',
     },
+    { ...geoSummaryField, group: 'seo' },
   ],
   preview: {
     select: { title: 'title' },

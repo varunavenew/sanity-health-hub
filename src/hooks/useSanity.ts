@@ -19,6 +19,10 @@ import {
   resolveBookingPageCopy,
   type BookingPageCopy,
 } from "@/lib/sanity/booking-page-copy";
+import {
+  resolveContactRequestDialogCopy,
+  type ContactRequestDialogCopy,
+} from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
 import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
@@ -67,6 +71,10 @@ import {
 import type { CmsRouteIndex } from "@/lib/routing/cms-route-types";
 import { enrichRouteIndexWithNavPaths } from "@/lib/routing/enrich-route-index";
 import { normalizePageSections, withPageSections, type PageSection } from "@/lib/sanity/page-sections";
+import {
+  parseSpecialistProfileUi,
+  type SpecialistProfileUi,
+} from "@/lib/sanity/specialist-profile-ui";
 import {
   behandlingerCategorySegment,
   categoryLandingPath,
@@ -182,10 +190,12 @@ const SPECIALIST_EN_KEYWORD_MAP: Array<[string, string]> = [
   ["Ortoped", "Orthopedic surgeon"],
   ["Gynekologi", "Gynecology"],
   ["Gynekolog", "Gynecologist"],
-  ["Androlog", "Andrologist"],
-  ["Seksolog", "Sexologist"],
   ["Spesialist", "Specialist"],
   ["Kirurg", "Surgeon"],
+  ["Fertilitet", "Fertility"],
+  ["Endoskopi", "Endoscopy"],
+  ["Androlog", "Andrologist"],
+  ["Seksolog", "Sexologist"],
 ];
 
 function escapeRegExp(value: string): string {
@@ -203,7 +213,10 @@ function translateSpecialistKeywordsForEn(value: string, lang: "no" | "en"): str
 }
 
 function readLocalizedString(value: unknown, lang: "no" | "en"): string {
-  if (typeof value === "string") return value;
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return lang === "en" ? translateSpecialistKeywordsForEn(trimmed, lang) : trimmed;
+  }
   if (!Array.isArray(value)) return "";
   const entries = value as I18nValueItem[];
   const matchLang = entries.find((v) => (v.language || v._key) === lang)?.value;
@@ -477,6 +490,7 @@ export const usePrivacyPolicyPage = () => {
       const data = await fetchSanity<{
         title?: string;
         body?: unknown[];
+        geoSummary?: string;
         cookiebotKey?: string;
         pageSections?: unknown;
       }>(PRIVACY_POLICY_PAGE_QUERY, { lang }, lang);
@@ -523,10 +537,21 @@ export const useContactPage = () => {
         subtitle: str(data.introText),
         ctaCards,
         pageSections: normalizePageSections(data.pageSections),
+        contactRequestDialog: resolveContactRequestDialogCopy(
+          data as Partial<ContactRequestDialogCopy>,
+        ),
       };
     },
     staleTime: 5 * 60 * 1000,
   });
+};
+
+export const useContactRequestDialogCopy = () => {
+  const { data, isLoading } = useContactPage();
+  return {
+    copy: data?.contactRequestDialog ?? null,
+    isLoading,
+  };
 };
 
 export const useNewsPage = () => {
@@ -559,12 +584,16 @@ export const useBookingPage = () => {
   return useQuery({
     queryKey: ["sanity", "bookingPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<Partial<BookingPageCopy> | null>(
+      const data = await fetchSanity<Partial<BookingPageCopy> & { geoSummary?: string } | null>(
         BOOKING_PAGE_QUERY,
         undefined,
         lang,
       );
-      return resolveBookingPageCopy(data);
+      return {
+        ...resolveBookingPageCopy(data),
+        geoSummary:
+          typeof data?.geoSummary === "string" ? data.geoSummary.trim() : undefined,
+      } as BookingPageCopy & { geoSummary?: string };
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -766,16 +795,12 @@ export interface SanityArticle {
   slug: string;
   title: string;
   excerpt: string;
+  geoSummary?: string;
   image: string;
   date: string;
   category: string;
-  pinned?: boolean;
-  featured?: boolean;
   body?: any[];
   pageSections?: PageSection[];
-  videoUrl?: string;
-  videoThumbnail?: string;
-  videoCaption?: string;
 }
 
 export const useArticles = () => {
@@ -808,6 +833,7 @@ export const useArticle = (slug: string) => {
         ...data,
         title: typeof data.title === "string" ? data.title : (data.title?.[0]?.value ?? ""),
         excerpt: typeof data.excerpt === "string" ? data.excerpt : (data.excerpt?.[0]?.value ?? ""),
+        geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
         image: data.image || "",
         date: data.date || "",
         category: data.category || "Nytt fra oss",
@@ -888,6 +914,7 @@ export const useThemePage = (slug: string) => {
     queryFn: async () => {
       const data = await fetchSanity<{
         title: string;
+        geoSummary?: string;
         heroImage?: string;
         introTexts?: string[];
         sections?: { heading: string; paragraphs?: string[]; bulletPoints?: string[] }[];
@@ -898,8 +925,52 @@ export const useThemePage = (slug: string) => {
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
       }>(THEME_PAGE_QUERY, { slug }, lang);
       if (!data) return null;
+
+      const introTexts = Array.isArray(data.introTexts)
+        ? data.introTexts
+            .map((text) => (typeof text === "string" ? text.trim() : ""))
+            .filter(Boolean)
+        : [];
+
+      const sections = Array.isArray(data.sections)
+        ? data.sections
+            .map((section) => ({
+              heading: typeof section.heading === "string" ? section.heading.trim() : "",
+              paragraphs: Array.isArray(section.paragraphs)
+                ? section.paragraphs
+                    .map((p) => (typeof p === "string" ? p.trim() : ""))
+                    .filter(Boolean)
+                : [],
+              bulletPoints: Array.isArray(section.bulletPoints)
+                ? section.bulletPoints
+                    .map((p) => (typeof p === "string" ? p.trim() : ""))
+                    .filter(Boolean)
+                : [],
+            }))
+            .filter(
+              (section) =>
+                section.heading || section.paragraphs.length > 0 || section.bulletPoints.length > 0,
+            )
+        : [];
+
+      const lifePhases = Array.isArray(data.lifePhases)
+        ? data.lifePhases
+            .map((phase) => ({
+              title: typeof phase.title === "string" ? phase.title.trim() : "",
+              text: typeof phase.text === "string" ? phase.text.trim() : "",
+            }))
+            .filter((phase) => phase.title && phase.text)
+        : [];
+
       return {
         ...data,
+        title: typeof data.title === "string" ? data.title.trim() : "",
+        geoSummary: typeof data.geoSummary === "string" ? data.geoSummary.trim() : "",
+        introTexts,
+        sections,
+        lifePhases,
+        ctaText: typeof data.ctaText === "string" ? data.ctaText.trim() : "",
+        ctaLink: typeof data.ctaLink === "string" ? data.ctaLink.trim() : "",
         pageSections: normalizePageSections(data.pageSections),
       };
     },
@@ -970,6 +1041,7 @@ export const useClinicsPage = () => {
         secondaryCtaLabel?: string;
         secondaryCtaPath?: string;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+        geoSummary?: string;
         pageSections?: unknown;
       }>(CLINICS_PAGE_QUERY, undefined, lang);
       return withPageSections(data);
@@ -999,6 +1071,7 @@ export const useGuidePage = () => {
           treatments?: Array<{ title?: string }>;
         }>;
         seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+        geoSummary?: string;
         pageSections?: unknown;
       }>(GUIDE_PAGE_QUERY, undefined, lang);
       return withPageSections(data);
@@ -1021,17 +1094,22 @@ export const useSpecialistsListingPage = () => {
   const lang = useSanityLang();
   return useQuery({
     queryKey: ["sanity", "specialistsListingPage", lang],
-    queryFn: async () =>
-      withPageSections(
-        await fetchSanity<{
-          heroEyebrow?: string;
-          heroTitle?: string;
-          heroDescription?: string;
-          countLabel?: string;
-          seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
-          pageSections?: unknown;
-        }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang),
-      ),
+    queryFn: async () => {
+      const raw = await fetchSanity<{
+        heroEyebrow?: string;
+        heroTitle?: string;
+        heroDescription?: string;
+        countLabel?: string;
+        geoSummary?: string;
+        profileUi?: Partial<SpecialistProfileUi>;
+        seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean };
+        pageSections?: unknown;
+      }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang);
+      return withPageSections({
+        ...raw,
+        profileUi: parseSpecialistProfileUi(raw.profileUi),
+      });
+    },
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -1046,6 +1124,7 @@ export const useSpecialistsPage = () => {
         await fetchSanity<{
           title?: string;
           subtitle?: string;
+          geoSummary?: string;
           body?: any;
           seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };
           pageSections?: unknown;

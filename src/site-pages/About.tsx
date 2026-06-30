@@ -9,6 +9,9 @@ import { useAboutPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { ClinicGrid } from "@/components/ClinicGrid";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
+import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 
 interface AboutProps {
@@ -18,6 +21,9 @@ interface AboutProps {
 const About = ({ isChatOpen }: AboutProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
+  const aboutPath = useNavCmsPath("about") || "/om-oss";
   const { data: sanityData } = useAboutPage();
   const pageSections = sanityData?.pageSections;
 
@@ -32,6 +38,14 @@ const About = ({ isChatOpen }: AboutProps) => {
       <article className="bg-brand-warm pt-20">
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
+            <GeoPageEnhancements
+              name={title || "Om CMedical"}
+              geoSummary={sanityData?.geoSummary}
+              fallbackDescription={sanityData?.subtitle?.trim() || aboutParagraphs[0]}
+              path={aboutPath}
+              locale={locale}
+              className="mb-6"
+            />
             {title ? (
               <header className="mb-8 pb-6 border-b border-brand-dark/10">
                 <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>

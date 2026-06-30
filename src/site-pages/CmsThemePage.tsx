@@ -2,11 +2,12 @@
 
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { Button } from "@/components/ui/button";
 import { VideoPlayer } from "@/components/ui/video-player";
 import { useThemePage } from "@/hooks/useSanity";
-import { useNavigate } from "@/lib/router";
+import { useNavigate, useParams } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
 import { getImageUrl } from "@/lib/sanityClient";
 
@@ -19,6 +20,8 @@ type Props = {
 /** Generic theme page renderer — content from Sanity, no hardcoded route slug. */
 export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
   const navigate = useNavigate();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const { data: page } = useThemePage(themeSlug);
 
   const title = page?.title?.trim() || "";
@@ -28,16 +31,30 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
   const lifePhases = page?.lifePhases || [];
   const ctaText = page?.ctaText?.trim();
   const ctaLink = page?.ctaLink?.trim();
+  const seoTitle = page?.seo?.metaTitle?.trim() || title;
+  const seoDescription = page?.seo?.metaDescription?.trim() || "";
+  const pagePath = `/${themeSlug}`;
+  const summaryText =
+    page?.geoSummary?.trim() || introTexts[0] || seoDescription;
+  const geoJsonLd = combineGeoJsonLd(
+    medicalWebPageJsonLd({
+      name: title,
+      description: summaryText.slice(0, 320),
+      url: pagePath,
+      inLanguage: locale === "en" ? "en" : "nb-NO",
+    }),
+  );
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      {page?.seo?.metaTitle || page?.seo?.metaDescription ? (
+      {seoTitle || seoDescription ? (
         <PageSEO
-          title={page?.seo?.metaTitle || title}
-          description={page?.seo?.metaDescription || ""}
-          canonical={`/${themeSlug}`}
+          title={seoTitle}
+          description={seoDescription}
+          canonical={pagePath}
           ogImage={typeof page?.seo?.ogImage === "string" ? page.seo.ogImage : undefined}
           noIndex={page?.seo?.noIndex}
+          jsonLd={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd}
         />
       ) : null}
       <div className="bg-brand-warm">
@@ -64,6 +81,7 @@ export default function CmsThemePage({ isChatOpen, themeSlug }: Props) {
         ) : null}
 
         <div className="container mx-auto px-6 md:px-16 py-12 md:py-16 space-y-12">
+
           {introTexts.map((text, i) => (
             <p key={i} className="text-lg text-brand-dark/80 font-light max-w-3xl">
               {text}

@@ -86,4 +86,5 @@ export interface Specialist {
     ogImage?: unknown;
     noIndex?: boolean;
   };
+  geoSummary?: string;
 }

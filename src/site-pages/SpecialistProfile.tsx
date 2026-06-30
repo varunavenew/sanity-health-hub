@@ -5,8 +5,9 @@ import { useRef } from "react";
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { useSpecialistBySlug, useSpecialistsData } from "@/hooks/useSpecialistsData";
-import type { Specialist } from "@/lib/sanity/specialist-types";
+import { useSpecialistBySlug } from "@/hooks/useSpecialistsData";
+import { useSpecialistsListingPage } from "@/hooks/useSanity";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { InlineBookingSection } from "@/components/specialist/InlineBookingSection";
 import { SpecialistHero } from "@/components/specialist/SpecialistHero";
 import { SpecialistBio } from "@/components/specialist/SpecialistBio";
@@ -14,8 +15,16 @@ import { SpecialistFeaturedService } from "@/components/specialist/SpecialistFea
 import { SpecialistReviews } from "@/components/specialist/SpecialistReviews";
 import { RelatedSpecialists } from "@/components/specialist/RelatedSpecialists";
 import { SpecialistFAQBlock } from "@/components/specialist/SpecialistFAQBlock";
+import {
+  SpecialistProfileUiProvider,
+  useSpecialistProfileUi,
+} from "@/components/specialist/SpecialistProfileUiContext";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
+import { siteUrl } from "@/lib/env";
+import type { Specialist } from "@/lib/sanity/specialist-types";
+import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
@@ -25,16 +34,28 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const { slug: paramSlug } = useParams<{ slug: string }>();
   const slug = useRouteSlug() || paramSlug || "";
   const navigate = useNavigate();
-  const bookingRef = useRef<HTMLDivElement>(null);
-  const { specialist, isLoading } = useSpecialistBySlug(slug || "");
-  const { byCategory } = useSpecialistsData();
+  const { specialist, isLoading: specialistLoading } = useSpecialistBySlug(slug || "");
+  const { data: listingPage, isLoading: listingLoading } = useSpecialistsListingPage();
+  const profileUi = listingPage?.profileUi;
+
+  const isLoading = specialistLoading || listingLoading;
 
   if (isLoading) {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[60vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">Laster…</p>
+          <p className="text-muted-foreground font-light">
+            {profileUi?.loadingLabel ?? ""}
+          </p>
         </div>
+      </PageLayout>
+    );
+  }
+
+  if (!profileUi) {
+    return (
+      <PageLayout isChatOpen={isChatOpen}>
+        <div className="min-h-[60vh] flex items-center justify-center" />
       </PageLayout>
     );
   }
@@ -44,9 +65,11 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-light text-foreground mb-4">Spesialist ikke funnet</h1>
+            <h1 className="text-2xl font-light text-foreground mb-4">
+              {profileUi.notFoundTitle}
+            </h1>
             <Button onClick={() => navigate(-1)} variant="outline" className="rounded-full">
-              Gå tilbake
+              {profileUi.notFoundBackLabel}
             </Button>
           </div>
         </div>
@@ -54,47 +77,79 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     );
   }
 
+  const firstName = specialist.name.split(" ")[0];
+
+  return (
+    <SpecialistProfileUiProvider firstName={firstName} profileUi={profileUi}>
+      <SpecialistProfileBody
+        isChatOpen={isChatOpen}
+        specialist={specialist}
+        profileUi={profileUi}
+      />
+    </SpecialistProfileUiProvider>
+  );
+};
+
+function SpecialistProfileBody({
+  isChatOpen,
+  specialist,
+  profileUi,
+}: {
+  isChatOpen: boolean;
+  specialist: Specialist;
+  profileUi: SpecialistProfileUi;
+}) {
+  const bookingRef = useRef<HTMLDivElement>(null);
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
+  const specialistsPath = useNavCmsPath("specialists");
+  const ui = useSpecialistProfileUi();
+
   const relatedSection = specialist.relatedSpecialistsSection;
-  const relatedSpecialists = (relatedSection?.specialists?.length
-    ? relatedSection.specialists
-    : byCategory(specialist.category as Specialist["category"])
-  )
-    .filter((s) => s.slug !== specialist.slug)
-    .slice(0, relatedSection?.specialists?.length ? 8 : 4);
+  const relatedSpecialists = relatedSection?.specialists ?? [];
 
   const seoTitle = specialist.seo?.metaTitle ?? specialist.name;
   const seoDescription = specialist.seo?.metaDescription ?? specialist.bio ?? "";
+  const profilePath = `${specialistsPath}/${specialist.slug}`;
 
   const scrollToBooking = () => {
     bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const firstName = specialist.name.split(" ")[0];
+  const physicianJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    name: specialist.name,
+    jobTitle: specialist.title,
+    medicalSpecialty: specialist.expertise || [],
+    worksFor: {
+      "@type": "MedicalClinic",
+      name: "CMedical",
+    },
+    url: `${siteUrl()}${profilePath}`,
+  };
+  const profileJsonLd = buildMedicalWebPageGeoJsonLd({
+    name: specialist.name,
+    geoSummary: specialist.geoSummary,
+    fallbackDescription: specialist.bio,
+    url: profilePath,
+    locale,
+    extra: [physicianJsonLd],
+  });
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
         title={seoTitle}
         description={seoDescription}
-        canonical={`/spesialister/${specialist.slug}`}
+        canonical={profilePath}
         type="profile"
         breadcrumbs={[
-          { name: "Hjem", path: "/" },
-          { name: "Spesialister", path: "/spesialister" },
-          { name: specialist.name, path: `/spesialister/${specialist.slug}` },
+          { name: profileUi.breadcrumbHomeLabel, path: "/" },
+          { name: profileUi.breadcrumbSpecialistsLabel, path: specialistsPath },
+          { name: specialist.name, path: profilePath },
         ]}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Physician",
-          name: specialist.name,
-          jobTitle: specialist.title,
-          medicalSpecialty: specialist.expertise || [],
-          worksFor: {
-            "@type": "MedicalClinic",
-            name: "CMedical",
-          },
-          url: `https://cmedical.no/spesialister/${specialist.slug}`,
-        }}
+        jsonLd={profileJsonLd}
       />
       <SpecialistHero specialist={specialist} onScrollToBooking={scrollToBooking} />
       <SpecialistBio specialist={specialist} />
@@ -112,10 +167,10 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
               className="md:col-span-4"
             >
               <h2 className="text-2xl md:text-3xl font-light text-white mb-3">
-                Bestill time hos {firstName}
+                {ui.bookingSectionTitle}
               </h2>
               <p className="text-sm text-white/60 font-light leading-relaxed max-w-sm">
-                Velg tjeneste og finn en tid som passer. Ingen henvisning nødvendig.
+                {ui.bookingSectionDescription}
               </p>
             </motion.div>
 
@@ -134,6 +189,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
 
       <RelatedSpecialists
         specialists={relatedSpecialists}
+        specialistsPath={specialistsPath}
         eyebrow={relatedSection?.eyebrow}
         heading={relatedSection?.heading}
         ctaLabel={relatedSection?.ctaLabel}
@@ -147,11 +203,11 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
           className="w-full rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90"
         >
           <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
-          Bestill time hos {firstName}
+          {ui.bookingCtaLabel}
         </Button>
       </div>
     </PageLayout>
   );
-};
+}
 
 export default SpecialistProfile;

@@ -1,6 +1,7 @@
 // Schema: Guide page (/guide) — hero, category list, CTA (singleton)
 import { GenericIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -66,6 +67,7 @@ export default {
       title: 'SEO',
       type: 'seo',
     },
+    geoSummaryField,
     pageSectionsField,
   ],
   preview: {

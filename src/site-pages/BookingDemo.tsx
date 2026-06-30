@@ -47,6 +47,8 @@ import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 import { resolveBookingSpecialistImage } from "@/lib/booking/caregiverPlaceholders";
 import { assetSrc } from "@/lib/media";
 import { useBookingPage, useClinics } from "@/hooks/useSanity";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
+import { useParams } from "@/lib/router";
 import {
   DEFAULT_BOOKING_PAGE_COPY,
   fillBookingTemplate,
@@ -203,9 +205,13 @@ interface FormData {
 
 const BookingDemo = () => {
   const navigate = useNavigate();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "no";
   const [searchParams] = useSearchParams();
   const { specialists } = useSpecialistsData();
-  const { data: copy = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
+  const { data: bookingPageData = DEFAULT_BOOKING_PAGE_COPY } = useBookingPage();
+  const copy = bookingPageData;
+  const bookingGeoSummary = bookingPageData.geoSummary;
   const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
@@ -1296,6 +1302,14 @@ const BookingDemo = () => {
       </header>
 
       <main className="container mx-auto px-4 pt-8 pb-16 md:pb-20 max-w-2xl">
+        <GeoPageEnhancements
+          name={copy.pageTitle}
+          geoSummary={bookingGeoSummary}
+          fallbackDescription={copy.step1Heading}
+          path="/booking"
+          locale={locale}
+          className="mb-6"
+        />
         {/* Step Indicator */}
         {!isExternalBooking && (
           <div className="mb-8">

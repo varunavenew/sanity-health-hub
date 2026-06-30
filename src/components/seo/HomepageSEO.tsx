@@ -1,8 +1,11 @@
-import { Helmet } from "react-helmet-async";
+"use client";
+
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { useClientDocumentHead } from "@/hooks/use-client-document-head";
 import { getImageUrl } from "@/lib/sanityClient";
 
-// Static fallback values per language
 const DEFAULTS = {
   nb: {
     title: "CMedical – Skandinavias ledende helhetskonsept",
@@ -81,7 +84,7 @@ interface HomepageSEOProps {
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
-    ogImage?: any;
+    ogImage?: unknown;
     noIndex?: boolean;
   } | null;
 }
@@ -90,35 +93,28 @@ export const HomepageSEO = ({ seo }: HomepageSEOProps) => {
   const { i18n } = useTranslation();
   const lang: "nb" | "en" = (i18n.language || "nb").startsWith("en") ? "en" : "nb";
   const ogLocale = lang === "en" ? "en_US" : "nb_NO";
-  const htmlLang = lang === "en" ? "en" : "nb-NO";
 
   const title = seo?.metaTitle || DEFAULTS[lang].title;
   const description = seo?.metaDescription || DEFAULTS[lang].description;
   const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
 
-  return (
-    <Helmet>
-      <html lang={htmlLang} />
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={URL} />
-      <link rel="alternate" hrefLang="nb-NO" href={URL} />
-      <link rel="alternate" hrefLang="en" href={URL} />
-      <link rel="alternate" hrefLang="x-default" href={URL} />
-      {seo?.noIndex && <meta name="robots" content="noindex, nofollow" />}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={URL} />
-      <meta property="og:type" content="website" />
-      <meta property="og:locale" content={ogLocale} />
-      <meta property="og:locale:alternate" content={lang === "en" ? "nb_NO" : "en_US"} />
-      {ogImage && <meta property="og:image" content={ogImage} />}
-      <script type="application/ld+json">{JSON.stringify(buildJsonLd(lang))}</script>
-      <script type="application/ld+json">
-        {JSON.stringify(buildBreadcrumb(lang))}
-      </script>
-    </Helmet>
+  const headSpec = useMemo(
+    () => ({
+      title,
+      description,
+      canonical: URL,
+      noIndex: seo?.noIndex,
+      ogTitle: title,
+      ogDescription: description,
+      ogType: "website" as const,
+      ogLocale,
+      ogLocaleAlternate: lang === "en" ? "nb_NO" : "en_US",
+      ogImage,
+    }),
+    [title, description, seo?.noIndex, ogLocale, lang, ogImage],
   );
-};
-                 
 
+  useClientDocumentHead(headSpec);
+
+  return <JsonLd data={[buildJsonLd(lang), buildBreadcrumb(lang)]} />;
+};

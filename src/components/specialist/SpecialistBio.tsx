@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
+import { useSpecialistProfileUi } from "@/components/specialist/SpecialistProfileUiContext";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { specialistBioPortableTextComponents } from "@/components/specialist/specialist-bio-portable-text";
 
@@ -9,7 +10,7 @@ interface SpecialistBioProps {
 }
 
 export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
-  const firstName = specialist.name.split(" ")[0];
+  const ui = useSpecialistProfileUi();
   const hasBioBody = Array.isArray(specialist.bioBody) && specialist.bioBody.length > 0;
   const shortBioParagraphs = specialist.bio?.split("\n\n").filter(Boolean) ?? [];
   const hasShortBio = shortBioParagraphs.length > 0;
@@ -27,7 +28,7 @@ export const SpecialistBio = ({ specialist }: SpecialistBioProps) => {
           className="max-w-3xl space-y-6"
         >
           <h2 className="text-2xl md:text-3xl font-light text-foreground mb-2">
-            Om {firstName}
+            {ui.bioSectionTitle}
           </h2>
 
           {hasBioBody ? (

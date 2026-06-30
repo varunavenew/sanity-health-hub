@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { RelatedServices, allServices } from "@/components/layout/RelatedServices";
+import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { Link } from "@/lib/router";
+import { useParams } from "@/lib/router";
 import { usePricingPage } from "@/hooks/useSanity";
 import { getImageUrl } from "@/lib/sanityClient";
 import pricingHero from "@/assets/hero/pricing-hero.jpg";
@@ -27,6 +29,8 @@ interface PriceCategory {
 }
 
 const Pricing = ({ isChatOpen }: PageProps) => {
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale === "en" ? "en" : "nb";
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("gynecology");
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
@@ -128,6 +132,14 @@ const Pricing = ({ isChatOpen }: PageProps) => {
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
+      <GeoPageEnhancements
+        name={sanityPricing?.title?.trim() || "Prisliste"}
+        geoSummary={sanityPricing?.geoSummary}
+        fallbackDescription={sanityPricing?.introText?.trim()}
+        path="/pricing"
+        locale={locale}
+        className="container mx-auto px-6 md:px-16 pt-24 max-w-3xl"
+      />
       {/* Hero Section - Split Layout */}
       <header className="h-[calc(100vh-80px)] flex flex-col lg:flex-row">
         {/* Left - Image */}

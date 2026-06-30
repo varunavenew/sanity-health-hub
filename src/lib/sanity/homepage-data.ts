@@ -1,7 +1,7 @@
 import { HOMEPAGE_QUERY } from "@/lib/queries";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sortBySortOrder, type SortLocale } from "@/lib/sortAlphabetical";
+import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityClient } from "@/lib/sanityClient";
 
@@ -41,11 +41,30 @@ export type HomepageFaq = {
   answer: string;
 };
 
+export type HomepageReview = {
+  id: string;
+  name: string;
+  rating: number;
+  text: string;
+  date: string;
+};
+
+export type HomepageReviewsSection = {
+  subheading: string;
+  heading: string;
+  googleAverageRating: number;
+  legelistenAverageRating: number;
+  ctaTitle: string;
+  ctaSubtitle: string;
+  reviews: HomepageReview[];
+};
+
 export type HomepageData = {
   tagline?: string;
   promoBlocksTitle: string;
   faqSectionTitle?: string;
   faqs: HomepageFaq[];
+  reviewsSection: HomepageReviewsSection | null;
   statsBar: { value: string; label: string }[];
   heroSlides: HomepageHeroSlide[];
   categoryCards: HomepageCategoryCard[];
@@ -60,6 +79,7 @@ export type HomepageData = {
   }[];
   pageSections: ReturnType<typeof normalizePageSections>;
   seo?: SanitySeoFields;
+  geoSummary?: string;
 };
 
 function mapHomepageFaqs(value: unknown): HomepageFaq[] {
@@ -76,6 +96,71 @@ function mapHomepageFaqs(value: unknown): HomepageFaq[] {
     .filter((faq) => faq.question && faq.answer)
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .map(({ question, answer }) => ({ question, answer }));
+}
+
+function formatReviewDate(value: unknown, lang: SortLocale): string {
+  if (typeof value === "string" && value.trim()) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toLocaleDateString(lang === "en" ? "en-GB" : "nb-NO", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+    return value;
+  }
+  return "";
+}
+
+function mapHomepageReviews(
+  rows: unknown,
+  lang: SortLocale,
+  googleAverageRating: unknown,
+  legelistenAverageRating: unknown,
+  subheading: unknown,
+  heading: unknown,
+  ctaTitle: unknown,
+  ctaSubtitle: unknown,
+): HomepageReviewsSection | null {
+  if (!Array.isArray(rows)) return null;
+
+  const reviews = rows
+    .map((row) => {
+      const review = row as {
+        _id?: string;
+        author?: string;
+        rating?: number;
+        text?: unknown;
+        date?: unknown;
+      } | null;
+      if (!review?._id) return null;
+      const text = asPlainString(review.text);
+      const name = typeof review.author === "string" ? review.author.trim() : "";
+      if (!name || !text) return null;
+      return {
+        id: review._id,
+        name,
+        rating: typeof review.rating === "number" ? review.rating : 5,
+        text,
+        date: formatReviewDate(review.date, lang),
+      };
+    })
+    .filter((review): review is HomepageReview => Boolean(review));
+
+  if (reviews.length === 0) return null;
+
+  return {
+    subheading: asPlainString(subheading),
+    heading: asPlainString(heading),
+    googleAverageRating:
+      typeof googleAverageRating === "number" ? googleAverageRating : 4.6,
+    legelistenAverageRating:
+      typeof legelistenAverageRating === "number" ? legelistenAverageRating : 4.8,
+    ctaTitle: asPlainString(ctaTitle),
+    ctaSubtitle: asPlainString(ctaSubtitle),
+    reviews,
+  };
 }
 
 export function mapHomepageDocument(
@@ -96,6 +181,16 @@ export function mapHomepageDocument(
       typeof data.promoBlocksTitle === "string" ? data.promoBlocksTitle : "",
     faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
     faqs: mapHomepageFaqs(data.faqs),
+    reviewsSection: mapHomepageReviews(
+      data.googleReviews,
+      lang,
+      data.reviewsGoogleRating,
+      data.reviewsLegelistenRating,
+      data.reviewsSubheading,
+      data.reviewsHeading,
+      data.reviewsCtaTitle,
+      data.reviewsCtaSubtitle,
+    ),
     statsBar: statsBar.map((s) => {
       const row = s as { value?: string; label?: string };
       return { value: row.value || "", label: row.label || "" };
@@ -114,27 +209,22 @@ export function mapHomepageDocument(
         };
       })
       .filter((s) => s.image && s.label),
-    categoryCards: sortBySortOrder(
-      serviceCategories
-        .map((c) => {
-          const row = c as Record<string, unknown>;
-          const categoryId = asPlainString(row.categoryId);
-          const slug = asPlainString(row.slug);
-          const routeKey = categoryId || slug;
-          return {
-            id: routeKey,
-            title: asPlainString(row.title),
-            sortOrder: row.sortOrder,
-            // Routes use Norwegian categoryId paths (/fertilitet), not EN marketing slugs (/fertility).
-            path: routeKey ? `/${routeKey}` : "",
-            image: asPlainString(row.heroImage),
-          };
-        })
-        .filter((c) => c.id && c.title && c.image),
-      (c) => c.sortOrder,
-      (c) => c.title,
-      lang,
-    ).map(({ sortOrder: _sortOrder, ...card }) => card),
+    categoryCards: serviceCategories
+      .map((c) => {
+        const row = c as Record<string, unknown> | null;
+        if (!row) return null;
+        const categoryId = asPlainString(row.categoryId);
+        const slug = asPlainString(row.slug);
+        const routeKey = categoryId || slug;
+        return {
+          id: routeKey,
+          title: asPlainString(row.title),
+          // Preserve homepage.serviceCategories array order (Studio drag-and-drop).
+          path: routeKey ? `/${routeKey}` : "",
+          image: asPlainString(row.heroImage),
+        };
+      })
+      .filter((c): c is HomepageCategoryCard => Boolean(c?.id && c?.title && c?.image)),
     valueBadges: valueBadges.map((v) => {
       if (typeof v === "string") return v;
       const row = v as { label?: string };
@@ -153,6 +243,7 @@ export function mapHomepageDocument(
     }),
     pageSections: normalizePageSections(data.pageSections),
     seo: data.seo as SanitySeoFields | undefined,
+    geoSummary: asPlainString(data.geoSummary) || undefined,
   };
 }
 

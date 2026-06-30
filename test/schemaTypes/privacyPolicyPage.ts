@@ -1,5 +1,6 @@
 import { PrivacyIcon } from './icons'
 import { i18nSlugFieldFromTitle, pickNo } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 export default {
@@ -26,6 +27,12 @@ export default {
       type: 'string',
     },
     pageSectionsField,
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
+    geoSummaryField,
   ],
   preview: {
     select: { title: 'title' },

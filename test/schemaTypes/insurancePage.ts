@@ -2,6 +2,7 @@
 // Aligned with migration data: title, introText, partners[], steps[], benefits[], seo
 import { InsuranceIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
+import { geoSummaryField } from './geoSummary'
 import { pageSectionsField } from './pageSections'
 
 const pickNo = (v: any) =>
@@ -104,6 +105,7 @@ export default {
       title: 'SEO',
       type: 'seo',
     },
+    geoSummaryField,
   ],
   preview: {
     select: { title: 'title', media: 'heroImage' },
