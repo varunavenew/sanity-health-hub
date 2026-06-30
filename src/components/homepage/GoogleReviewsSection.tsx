@@ -79,6 +79,7 @@ interface GoogleReviewsSectionProps {
 export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsSectionProps) => {
   const navigate = useNavigate();
   const mobileScrollRef = useRef<HTMLDivElement>(null);
+  useAutoScroll(mobileScrollRef);
   const { t } = useTranslation();
   const { data: sanityReviews } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
