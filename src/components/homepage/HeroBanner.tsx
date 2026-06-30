@@ -140,13 +140,24 @@ export const HeroBanner = () => {
               style={{ objectPosition: slide.objectPosition }}
             />
           ) : (
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
-              loading={current === 0 ? "eager" : "lazy"}
-            />
+            <>
+              {slide.mobileImage && (
+                <img
+                  src={slide.mobileImage}
+                  alt={slide.alt}
+                  className="md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  style={{ objectPosition: "center" }}
+                  loading={current === 0 ? "eager" : "lazy"}
+                />
+              )}
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                className={`${slide.mobileImage ? "hidden md:block" : ""} w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]`}
+                style={{ objectPosition: slide.objectPosition }}
+                loading={current === 0 ? "eager" : "lazy"}
+              />
+            </>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 pb-20 md:pb-24">
