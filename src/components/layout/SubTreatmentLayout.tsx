@@ -466,10 +466,32 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     const heroImg = c.heroImage ?? c.flowImage;
     return (
       <header className="bg-brand-light pt-24 lg:pt-0">
+        {/* Mobile-only: breadcrumb + title above the image (hybrid order) */}
+        <div className="lg:hidden page-edge-text-left pb-4">
+          <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
+            <Link to="/" className="hover:text-foreground">Hjem</Link>
+            <span>›</span>
+            {c.grandparent && (
+              <>
+                <Link to={c.grandparent.path} className="hover:text-foreground">{c.grandparent.name}</Link>
+                <span>›</span>
+              </>
+            )}
+            <Link to={c.parent.path} className="hover:text-foreground">{c.parent.name}</Link>
+            <span>›</span>
+            <span className="text-foreground/80">{c.title}</span>
+          </nav>
+          <h2
+            lang="no"
+            className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+          >
+            {c.heroTitle}
+          </h2>
+        </div>
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
-            <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+            <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
               <Link to="/" className="hover:text-foreground">Hjem</Link>
               <span>›</span>
               {c.grandparent && (
@@ -487,10 +509,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
               <h2
                 lang="no"
-                className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+                className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
               >
                 {c.heroTitle}
               </h2>
+
               <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
                 {c.heroDescription}
               </p>
