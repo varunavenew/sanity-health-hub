@@ -109,7 +109,7 @@ export const SpecialistsScroller = ({
               </div>
             )}
             {showSeeAllButton && (
-              <Button variant="cta-outline" asChild>
+              <Button variant="cta-outline" asChild className="hidden md:inline-flex">
                 <Link to={seeAllHref}>
                   {computedSeeAllLabel}
                   <ArrowRight className="ml-2 w-4 h-4" />
