@@ -202,7 +202,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
         image={heroImage}
         imageAlt={pageTitle}
         secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
-        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
         bottomNote="Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen."
       />
 
