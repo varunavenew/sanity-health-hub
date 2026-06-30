@@ -1107,7 +1107,7 @@ export const useSpecialistsListingPage = () => {
       }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang);
       return withPageSections({
         ...raw,
-        profileUi: parseSpecialistProfileUi(raw.profileUi),
+        profileUi: parseSpecialistProfileUi(raw.profileUi, lang),
       });
     },
     staleTime: 5 * 60 * 1000,
