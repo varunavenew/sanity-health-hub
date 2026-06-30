@@ -110,9 +110,14 @@ export async function fetchServicesPageDocument(
   };
 }
 
+export type PricingPageDocument = DocWithSeo & {
+  title?: string;
+  introText?: string;
+};
+
 export async function fetchPricingPageDocument(
   lang: "no" | "en",
-): Promise<DocWithSeo | null> {
+): Promise<PricingPageDocument | null> {
   const raw = await sanityFetchCached({
     query: PRICING_PAGE_QUERY,
     params: { lang },
@@ -121,7 +126,7 @@ export async function fetchPricingPageDocument(
     revalidate: SANITY_DATA_REVALIDATE_SEC.singletonPage,
   });
   if (raw == null) return null;
-  return normalizeI18n(raw, lang) as DocWithSeo;
+  return normalizeI18n(raw, lang) as PricingPageDocument;
 }
 
 export type ClinicsPageDocument = DocWithSeo & {

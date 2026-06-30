@@ -19,6 +19,10 @@ import {
   resolveBookingPageCopy,
   type BookingPageCopy,
 } from "@/lib/sanity/booking-page-copy";
+import {
+  resolveContactRequestDialogCopy,
+  type ContactRequestDialogCopy,
+} from "@/lib/sanity/contact-request-dialog-copy";
 import { fetchTreatmentData } from "@/lib/sanity/treatment-data";
 import { useCategoryInitialData } from "@/components/providers/CategoryDataProvider";
 import { useTreatmentInitialData } from "@/components/providers/TreatmentDataProvider";
@@ -533,10 +537,21 @@ export const useContactPage = () => {
         subtitle: str(data.introText),
         ctaCards,
         pageSections: normalizePageSections(data.pageSections),
+        contactRequestDialog: resolveContactRequestDialogCopy(
+          data as Partial<ContactRequestDialogCopy>,
+        ),
       };
     },
     staleTime: 5 * 60 * 1000,
   });
+};
+
+export const useContactRequestDialogCopy = () => {
+  const { data, isLoading } = useContactPage();
+  return {
+    copy: data?.contactRequestDialog ?? null,
+    isLoading,
+  };
 };
 
 export const useNewsPage = () => {
@@ -784,13 +799,8 @@ export interface SanityArticle {
   image: string;
   date: string;
   category: string;
-  pinned?: boolean;
-  featured?: boolean;
   body?: any[];
   pageSections?: PageSection[];
-  videoUrl?: string;
-  videoThumbnail?: string;
-  videoCaption?: string;
 }
 
 export const useArticles = () => {

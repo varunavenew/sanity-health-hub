@@ -128,8 +128,6 @@ export function PageSectionArticlesBlock({ config }: Props) {
       image: a.image,
       date: a.date,
       category: normalizeCategory(a.category),
-      featured: a.featured,
-      pinned: a.pinned,
     }));
     return resolveArticles(config, mapped);
   }, [config, allArticles]);

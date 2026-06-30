@@ -309,7 +309,14 @@ function buildTreatmentDocs(): Mutation[] {
       parentCategoryLabel: t.parentCategory,
       description: t.description,
       benefitsTitle: "Hvorfor velge oss",
-      benefits: t.benefits || [],
+      benefits: (t.benefits || []).map((text: string, i: number) => ({
+        _type: "treatmentBenefit",
+        _key: `benefit${i}`,
+        title: [
+          { _type: "internationalizedArrayStringValue", _key: "no", language: "no", value: text },
+          { _type: "internationalizedArrayStringValue", _key: "en", language: "en", value: text },
+        ],
+      })),
     };
     if (t.process) {
       doc.process = t.process.map((p: any, i: number) => ({

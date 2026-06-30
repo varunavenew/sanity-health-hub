@@ -12,7 +12,6 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { GeoAnswerSnippet } from "@/components/seo/GeoAnswerSnippet";
 import { articleJsonLd, combineGeoJsonLd } from "@/lib/seo/geo-jsonld";
 import { urlFor } from "@/lib/sanityClient";
-import { VideoPlayer, VideoEmbed } from "@/components/ui/video-player";
 import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-type";
 
 interface ArticlePageProps {
@@ -239,36 +238,13 @@ const ArticlePage = ({ isChatOpen }: ArticlePageProps) => {
           <div className="max-w-3xl mx-auto py-10 md:py-16">
             <GeoAnswerSnippet text={article.geoSummary} className="mb-8" />
 
-            {/* Featured video or image */}
-            {sanityArticle?.videoUrl ? (
-              <figure className="mb-10">
-                {sanityArticle.videoUrl.endsWith(".mp4") ? (
-                  <VideoPlayer
-                    videoUrl={sanityArticle.videoUrl}
-                    thumbnailUrl={sanityArticle.videoThumbnail || article.image}
-                    title={sanityArticle.videoCaption || article.title}
-                  />
-                ) : (
-                  <VideoEmbed
-                    embedUrl={sanityArticle.videoUrl}
-                    title={sanityArticle.videoCaption || article.title}
-                  />
-                )}
-                {sanityArticle.videoCaption && (
-                  <figcaption className="text-sm text-muted-foreground mt-2">
-                    {sanityArticle.videoCaption}
-                  </figcaption>
-                )}
-              </figure>
-            ) : (
-              <div className="rounded-sm overflow-hidden mb-10 -mt-0">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full rounded-sm"
-                />
-              </div>
-            )}
+            <div className="rounded-sm overflow-hidden mb-10 -mt-0">
+              <img
+                src={article.image}
+                alt={article.title}
+                className="w-full rounded-sm"
+              />
+            </div>
 
             {sanityArticle?.body && sanityArticle.body.length > 0 ? (
               <div><PortableText value={sanityArticle.body} components={portableTextComponents} /></div>

@@ -487,6 +487,50 @@ export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
   ${localizedSeoObject}
 }`;
 
+const CONTACT_REQUEST_DIALOG_I18N_FIELDS = [
+  "dialogTitle",
+  "dialogDescription",
+  "nameLabel",
+  "namePlaceholder",
+  "phoneLabel",
+  "phonePlaceholder",
+  "clinicLabel",
+  "clinicPlaceholder",
+  "categoryLabel",
+  "categoryPlaceholder",
+  "categoryOtherLabel",
+  "timingLabel",
+  "timingAsapLabel",
+  "timingSpecificLabel",
+  "dayLabel",
+  "timeOfDayLabel",
+  "timeOfDayPlaceholder",
+  "timeMorningLabel",
+  "timeAfternoonLabel",
+  "timeEveningLabel",
+  "detailsLabel",
+  "detailsOptionalSuffix",
+  "detailsPlaceholder",
+  "cancelButton",
+  "submitButton",
+  "submittingButton",
+  "privacyNote",
+  "toastValidationTitle",
+  "toastValidationDescription",
+  "validationNameRequired",
+  "validationPhoneRequired",
+  "validationClinicRequired",
+  "validationCategoryRequired",
+  "toastSuccessTitle",
+  "toastSuccessDescription",
+].map((field) =>
+  field === "dialogDescription" ||
+  field === "privacyNote" ||
+  field === "toastSuccessDescription"
+    ? i18nText(field)
+    : i18nString(field),
+);
+
 export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
@@ -507,6 +551,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
     ctaLink,
     variant
   },
+  ${CONTACT_REQUEST_DIALOG_I18N_FIELDS.join(",\n  ")},
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}
@@ -549,8 +594,6 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
     "image": primaryImage.asset->url,
     "date": publishedAt,
     category,
-    pinned,
-    featured
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -670,6 +713,8 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
   ${i18nString("title")},
   ${i18nText("introText")},
   ${i18nText("insuranceNote")},
+  ${i18nString("testimonialsTitle")},
+  ${i18nString("faqTitle")},
   "heroImage": heroImage.asset->url,
   priceCategories[]{
     ${i18nString("categoryName")},
@@ -680,6 +725,13 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
       ${i18nString("priceLabel")},
       ${i18nString("note")}
     }
+  },
+  testimonials[]->{
+    _id,
+    name,
+    rating,
+    text,
+    treatment
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -925,7 +977,7 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
 // matches $lang and fall back to the Norwegian entry. Legacy un-migrated
 // docs may still hold plain strings — we coalesce both shapes and let the
 // frontend hook normalize.
-export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publishedAt desc){
+export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
   _id,
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
   ${localizedSlug},
@@ -934,8 +986,6 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(pinned desc, publis
   "imageAlt": coalesce(primaryImage.alt[language == $lang][0].value, primaryImage.alt[_key == $lang][0].value, primaryImage.alt[language == "no"][0].value, primaryImage.alt[_key == "no"][0].value, primaryImage.alt),
   "date": publishedAt,
   category,
-  pinned,
-  featured,
 }`;
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${slugMatchesParam("slug")}][0]{
@@ -949,9 +999,6 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && ${slugMatchesParam
   "date": publishedAt,
   category,
   "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
-  videoUrl,
-  videoCaption,
-  "videoThumbnail": videoThumbnail.asset->url,
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;

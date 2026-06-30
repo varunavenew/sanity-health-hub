@@ -146,8 +146,6 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
       image: a.image,
       date: a.date,
       category: a.category,
-      pinned: a.pinned,
-      featured: a.featured,
     }));
     return source.map((a) => ({ ...a, category: normalizeCategory(a.category) }));
   }, [sanityArticles]);
@@ -174,25 +172,18 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
     return matchesFilter && matchesSearch;
   });
 
-  // Pinned first, then by date
-  const sortedArticles = [...filteredArticles].sort((a, b) => {
-    if (a.pinned && !b.pinned) return -1;
-    if (!a.pinned && b.pinned) return 1;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  const sortedArticles = [...filteredArticles].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 
-  // Top featured: editor-controlled via the `featured` flag in Sanity.
-  // Falls back to pinned/most-recent when no articles are explicitly flagged.
+  // Top grid: editor picks on newsPage, otherwise latest four articles.
   const manualFeatured = ((newsPage?.featuredArticles || []) as Article[])
     .map((a) => ({ ...a, category: normalizeCategory(a.category || "") }))
     .filter((a) => a?.slug);
-  const explicitlyFeatured = sortedArticles.filter((a) => a.featured).slice(0, 4);
   const featuredTop =
     activeFilter === "all" && manualFeatured.length > 0
       ? manualFeatured.slice(0, 4)
-      : explicitlyFeatured.length > 0
-        ? explicitlyFeatured
-        : sortedArticles.slice(0, 4);
+      : sortedArticles.slice(0, 4);
   const featuredSlugs = new Set(featuredTop.map((a) => a.slug));
   const restArticles = sortedArticles.filter((a) => !featuredSlugs.has(a.slug));
   const visibleRest = restArticles.slice(0, visibleCount);

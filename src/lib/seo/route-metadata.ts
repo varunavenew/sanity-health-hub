@@ -300,16 +300,8 @@ export async function buildServicesMetadata(locale: string): Promise<Metadata> {
 }
 
 const PRICING_FALLBACK = {
-  nb: {
-    title: "Priser – Oversiktlig prisliste sortert etter tjeneste",
-    description:
-      "Se alle priser hos CMedical. Oversiktlig prisliste for gynekologi, fertilitet, urologi, ortopedi og flere tjenester. Transparent og forutsigbar prising.",
-  },
-  en: {
-    title: "Pricing – Complete price list by service",
-    description:
-      "See all CMedical prices. A clear price list for gynecology, fertility, urology, orthopedics and more. Transparent and predictable pricing.",
-  },
+  nb: { title: "", description: "" },
+  en: { title: "", description: "" },
 } as const;
 
 export async function buildPricingMetadata(locale: string): Promise<Metadata> {
@@ -317,13 +309,17 @@ export async function buildPricingMetadata(locale: string): Promise<Metadata> {
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchPricingPageDocument(sanityLang);
   const seo = data?.seo;
+  const pageTitle = typeof data?.title === "string" ? data.title.trim() : "";
+  const pageIntro = typeof data?.introText === "string" ? data.introText.trim() : "";
   const { title, description } = resolveMetaStrings(seo, lang, PRICING_FALLBACK);
+  const resolvedTitle = title || pageTitle;
+  const resolvedDescription = description || pageIntro;
 
   return buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("pricingPage"),
-    title,
-    description,
+    title: resolvedTitle,
+    description: resolvedDescription,
     ogImage: (() => {
       const u = seo?.ogImage ? getImageUrl(seo.ogImage) : "";
       return u || undefined;

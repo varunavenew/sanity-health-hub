@@ -1,16 +1,1 @@
-{
-  "projectId": "prj_XG3NTOtzIyBVNVED2eufXUpuiaA1",
-  "orgId": "team_MQkLyr4ZoH4T2PNqFeyzNCY6",
-  "projectName": "sanity",
-  "settings": {
-    "createdAt": 1775627288084,
-    "framework": null,
-    "devCommand": null,
-    "installCommand": null,
-    "buildCommand": "sanity build",
-    "outputDirectory": "dist",
-    "rootDirectory": null,
-    "directoryListing": false,
-    "nodeVersion": "24.x"
-  }
-}
+{"projectId":"prj_XG3NTOtzIyBVNVED2eufXUpuiaA1","orgId":"team_Rlzhh4rUOHL8sjPu3MyTaoVy","projectName":"sanity"}

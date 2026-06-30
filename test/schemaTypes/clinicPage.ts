@@ -234,7 +234,7 @@ export default {
           type: 'url',
           description:
             'Kun når Method = contact info og booking går via ekstern partner.',
-          validation: whenBookingMethod('info', (rule) => rule),
+          hidden: ({ parent }: { parent?: { method?: string } }) => parent?.method !== 'info',
         },
         {
           name: 'closedMessage',

@@ -93,6 +93,16 @@ export default {
       description: 'Velg tilbakemeldinger som skal vises på prissiden',
     },
     {
+      name: 'testimonialsTitle',
+      title: 'Overskrift tilbakemeldinger',
+      type: 'internationalizedArrayString',
+    },
+    {
+      name: 'faqTitle',
+      title: 'Overskrift FAQ',
+      type: 'internationalizedArrayString',
+    },
+    {
       name: 'insuranceNote',
       title: 'Forsikringsinformasjon',
       type: 'internationalizedArrayText',
