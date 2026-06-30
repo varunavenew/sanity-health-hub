@@ -1,7 +1,5 @@
-import { useEffect, useRef, useState, useMemo } from "react";
-import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useEffect, useState, useMemo } from "react";
+import { ArrowRight, Plus, Minus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
@@ -73,12 +71,10 @@ const staticFaqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState<string>(() => {
-    const cat = priceCategories.find(c => c.id === 'gynekologi');
-    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
-  });
   const [openSubcategory, setOpenSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+  const toggleItem = (key: string) => setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
   const { sorted } = useSpecialistsData();
   const specialists = sorted.slice(0, 8);
   const { data: sanityPricing } = usePricingPage();
@@ -102,111 +98,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
     ];
   }, []);
 
-  const navScrollerRef = useRef<HTMLDivElement | null>(null);
-  const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const navWrapperRef = useRef<HTMLDivElement | null>(null);
-  const overviewRef = useRef<HTMLDivElement | null>(null);
-  const [navTop, setNavTop] = useState(80);
-  const [showStickyNav, setShowStickyNav] = useState(false);
-  // Wolt-style: when user clicks a pill we trigger a smooth scroll; we then
-  // suspend scroll-spy briefly so the IntersectionObserver doesn't fight the
-  // programmatic scroll and flicker the active state.
-  const suspendSpyUntil = useRef<number>(0);
-
-  // IntersectionObserver to highlight active category pill as user scrolls (Wolt scroll-spy)
-  useEffect(() => {
-    const sections = ordered.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (Date.now() < suspendSpyUntil.current) return;
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          const id = visible[0].target.id.replace('cat-', '');
-          setActiveCategory(id);
-        }
-      },
-      // Active when the section sits in the top ~40% of viewport (under the sticky bar)
-      { rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
-    );
-
-    sections.forEach(s => observer.observe(s));
-    return () => observer.disconnect();
-  }, [ordered]);
-
-  // Auto-scroll the active pill into view within the horizontal nav (Wolt behavior)
-  useEffect(() => {
-    const scroller = navScrollerRef.current;
-    const pill = pillRefs.current[activeCategory];
-    if (!scroller || !pill) return;
-    const sLeft = scroller.scrollLeft;
-    const sWidth = scroller.clientWidth;
-    const pLeft = pill.offsetLeft;
-    const pRight = pLeft + pill.offsetWidth;
-    const margin = 24;
-    if (pLeft < sLeft + margin) {
-      scroller.scrollTo({ left: Math.max(0, pLeft - margin), behavior: 'smooth' });
-    } else if (pRight > sLeft + sWidth - margin) {
-      scroller.scrollTo({ left: pRight - sWidth + margin, behavior: 'smooth' });
-    }
-  }, [activeCategory]);
-
-  // Sync sticky nav top offset to follow the auto-hiding header
-  useEffect(() => {
-    const header = document.querySelector('header');
-    if (!header) return;
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const bottom = header.getBoundingClientRect().bottom;
-          setNavTop(Math.max(0, bottom));
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Toggle sticky pill bar based on whether the full overview is scrolled past
-  useEffect(() => {
-    const el = overviewRef.current;
-    if (!el) return;
-    const check = () => {
-      const rect = el.getBoundingClientRect();
-      // Show sticky bar once the full overview's bottom has scrolled above the header
-      setShowStickyNav(rect.bottom < navTop + 8);
-    };
-    check();
-    window.addEventListener('scroll', check, { passive: true });
-    window.addEventListener('resize', check);
-    return () => {
-      window.removeEventListener('scroll', check);
-      window.removeEventListener('resize', check);
-    };
-  }, [navTop]);
-
-  const scrollToCat = (id: string) => {
-    const el = document.getElementById(`cat-${id}`);
-    if (!el) return;
-    const header = document.querySelector('header');
-    const headerBottom = header?.getBoundingClientRect().bottom ?? 80;
-    const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
-    const offset = headerBottom + navH + 16;
-    // Suspend scroll-spy for the duration of the smooth scroll so the active
-    // pill doesn't flicker as we pass through other sections.
-    suspendSpyUntil.current = Date.now() + 900;
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
-  };
-
-
-
   const toggleSubcategory = (key: string) => {
     setOpenSubcategory((prev) => (prev === key ? null : key));
   };
@@ -214,6 +105,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
   };
+
 
 
 
@@ -243,61 +135,8 @@ const Priser = ({ isChatOpen }: PageProps) => {
       <section id="prisliste" className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-5xl mx-auto">
-            {/* Heading */}
-            <div className="mb-6 md:mb-8">
-              <h2 className="text-3xl md:text-4xl font-light text-brand-dark">Vår meny</h2>
-            </div>
+            {/* Direct to prices — no tag-nav, no "Vår meny" header. */}
 
-            {/* Full category overview — visible at top, condenses to sticky pill bar on scroll */}
-            <div ref={overviewRef} className="mb-10 md:mb-14">
-              <p className="text-xs font-light text-brand-dark/60 mb-4">Velg en kategori for å hoppe direkte:</p>
-              <div className="flex flex-wrap gap-2 md:gap-3">
-                {ordered.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
-                    className="inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
-                  >
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Sticky horizontal category nav — appears once full overview has scrolled past */}
-            <div
-              ref={navWrapperRef}
-              className={`sticky z-30 -mx-4 md:-mx-8 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-brand-dark/10 transition-opacity duration-200 ${
-                showStickyNav ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              }`}
-              style={{ top: `${navTop}px` }}
-              aria-hidden={!showStickyNav}
-            >
-              <div
-                ref={navScrollerRef}
-                className="flex gap-2 overflow-x-auto px-4 md:px-8 py-2 scrollbar-hide [scroll-behavior:smooth]"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-              >
-                {ordered.map((cat) => {
-                  const isActive = activeCategory === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      ref={(el) => { pillRefs.current[cat.id] = el; }}
-                      onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
-                      className={`inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-1 min-h-[48px] md:min-h-[36px] rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
-                        isActive
-                          ? 'bg-brand-dark text-brand-warm border-brand-dark'
-                          : 'bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark'
-                      }`}
-                      aria-current={isActive ? 'true' : undefined}
-                    >
-                      {cat.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
 
             {/* Magasin flow — all categories stacked */}
             <div className="space-y-20 md:space-y-28">
@@ -338,56 +177,84 @@ const Priser = ({ isChatOpen }: PageProps) => {
                           <ul className="divide-y divide-brand-mid/30">
                             {sub.items.map((item, idx) => {
                               const isConsult = item.requiresConsultation;
+                              const itemKey = `${cat.id}-${sub.label}-${idx}`;
+                              const isOpen = !!openItems[itemKey];
+                              const priceLabel = item.price === "0,-" ? "Gratis" : item.price;
                               return (
-                                <li key={idx} className="py-5">
-                                  <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                                <li key={idx} className="py-3 md:py-4">
+                                  {/* Name (wraps) + price (top-right, no wrap) on the same row */}
+                                  <div className="flex items-start gap-4">
                                     <div className="flex-1 min-w-0">
-                                      <p className="font-normal text-brand-dark">{item.name}</p>
-                                      {item.path && (
-                                        <Link
-                                          to={item.path}
-                                          className="inline-flex items-center gap-1 mt-1 text-xs font-light text-brand-dark/70 hover:text-brand-dark hover:gap-2 transition-all"
-                                        >
-                                          Les mer om {item.name.toLowerCase()}
-                                          <ArrowRight className="w-3 h-3" />
-                                        </Link>
-                                      )}
-                                      {(item.duration || item.priceNote) && (
-                                        <p className="mt-1 text-xs font-light text-brand-dark/60">
-                                          {item.duration}
-                                          {item.duration && item.priceNote ? ' · ' : ''}
-                                          {item.priceNote}
-                                        </p>
-                                      )}
-                                      {item.info && (
-                                        <p className="mt-2 text-xs font-light text-brand-dark/70 leading-relaxed max-w-2xl">
+                                      <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
+                                        {item.name}
+                                      </p>
+                                    </div>
+                                    <span className="shrink-0 text-[15px] md:text-base font-medium text-brand-dark tabular-nums whitespace-nowrap leading-snug">
+                                      {priceLabel}
+                                    </span>
+                                  </div>
+
+                                  {/* Compact meta row (duration / priceNote) — only if present */}
+                                  {(item.duration || item.priceNote) && (
+                                    <p className="mt-1 text-xs font-light text-brand-dark/60">
+                                      {item.duration}
+                                      {item.duration && item.priceNote ? ' · ' : ''}
+                                      {item.priceNote}
+                                    </p>
+                                  )}
+
+                                  {/* Actions row: "+" info toggle, Les mer link, Bestill time */}
+                                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
+                                    {item.info && (
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleItem(itemKey)}
+                                        className="inline-flex items-center gap-1.5 text-xs font-light text-brand-dark hover:text-brand-dark/80 transition-colors"
+                                        aria-expanded={isOpen}
+                                        aria-controls={`info-${itemKey}`}
+                                      >
+                                        <span className="inline-flex items-center justify-center w-5 h-5 rounded-2xl border border-brand-dark/30 text-brand-dark">
+                                          {isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                                        </span>
+                                        {isOpen ? 'Skjul beskrivelse' : 'Les beskrivelse'}
+                                      </button>
+                                    )}
+                                    {item.path && (
+                                      <Link
+                                        to={item.path}
+                                        className="inline-flex items-center gap-1 text-xs font-medium text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
+                                      >
+                                        Les mer om {item.name.toLowerCase()}
+                                        <ArrowRight className="w-3 h-3" />
+                                      </Link>
+                                    )}
+                                    {!(isConsult || item.price === "Pris ved konsultasjon") && (
+                                      <Link
+                                        to={buildBookingUrl({ kategori: cat.id })}
+                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                      >
+                                        Bestill time
+                                        <ArrowRight className="w-3 h-3" />
+                                      </Link>
+                                    )}
+                                  </div>
+
+                                  <AnimatePresence initial={false}>
+                                    {isOpen && item.info && (
+                                      <motion.div
+                                        id={`info-${itemKey}`}
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="overflow-hidden"
+                                      >
+                                        <p className="mt-3 text-xs md:text-sm font-light text-brand-dark/75 leading-relaxed max-w-2xl">
                                           {item.info}
                                         </p>
-                                      )}
-                                    </div>
-
-                                    <div className="flex items-center gap-4 shrink-0 sm:pt-0.5">
-                                      <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap w-20 text-right">
-                                        {item.price === "0,-" ? "Gratis" : item.price}
-                                      </span>
-                                      {(() => {
-                                        if (isConsult || item.price === "Pris ved konsultasjon") {
-                                          return (
-                                            <span className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light border border-transparent whitespace-nowrap w-28" aria-hidden="true" />
-                                          );
-                                        }
-                                        return (
-                                          <Link
-                                            to={buildBookingUrl({ kategori: cat.id })}
-                                            className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
-                                          >
-                                            Bestill time
-                                            <ArrowRight className="w-3 h-3" />
-                                          </Link>
-                                        );
-                                      })()}
-                                    </div>
-                                  </div>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
                                 </li>
                               );
                             })}
@@ -396,7 +263,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
                             <div className="pt-4 mt-1">
                               <Link
                                 to={sub.path}
-                                className="inline-flex items-center gap-2 text-xs font-light text-brand-dark hover:gap-3 transition-all"
+                                className="inline-flex items-center gap-2 text-xs font-medium text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-all"
                               >
                                 Les mer om {sub.label.toLowerCase()}
                                 <ArrowRight className="w-3.5 h-3.5" />
@@ -427,7 +294,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           <div className="mt-20 md:mt-24 text-center">
             <button
               onClick={() => navigate('/booking')}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
             >
               Bestill time
               <ArrowRight className="w-4 h-4" />
