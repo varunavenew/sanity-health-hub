@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
 import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
 import { LanguageSelector } from "@/components/layout/LanguageSelector";
-import { searchSuggestions, SearchItem } from "@/data/searchData";
+import { searchSuggestions, SearchItem, emptyStateSuggestions } from "@/data/searchData";
 import { useSmartSearch } from "@/hooks/useSmartSearch";
 import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
@@ -252,6 +252,27 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                             ? 'bg-white/20 text-white' 
                             : 'text-white/80 hover:bg-white/10 hover:text-white'
                         }`}
+                      >
+                        <span>{item.label}</span>
+                        <span className="text-xs text-white/50">{item.category}</span>
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              )}
+
+              {/* No-results fallback */}
+              {searchQuery.trim().length >= 2 && suggestions.length === 0 && !isAiLoading && (
+                <div className="mt-3 pt-3 border-t border-white/20">
+                  <p className="text-xs text-white/70 mb-2">
+                    Fant ingen treff for «{searchQuery}». Prøv heller:
+                  </p>
+                  <nav role="listbox" aria-label="Forslag" className="space-y-1">
+                    {emptyStateSuggestions().map((item) => (
+                      <button
+                        key={item.path}
+                        onClick={() => handleNavigate(item.path)}
+                        className="w-full flex items-center justify-between py-2 px-3 rounded-lg text-left text-sm text-white/80 hover:bg-white/10 hover:text-white transition-all"
                       >
                         <span>{item.label}</span>
                         <span className="text-xs text-white/50">{item.category}</span>
