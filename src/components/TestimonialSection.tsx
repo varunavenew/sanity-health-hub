@@ -63,6 +63,8 @@ const staticTestimonials = [
 
 export const TestimonialSection = () => {
   const { data: sanityTestimonials } = useTestimonials();
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+
 
   const testimonials = sanityTestimonials && sanityTestimonials.length > 0
     ? sanityTestimonials.map((t, i) => ({
