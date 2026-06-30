@@ -60,16 +60,13 @@ const Insurance = ({ isChatOpen }: PageProps) => {
         </div>
       )}
 
-      <div className="container mx-auto px-6 md:px-16 py-6">
-        <GeoPageEnhancements
-          name={title || t("nav.insurance", "Forsikring")}
-          geoSummary={page?.geoSummary}
-          fallbackDescription={subtitle}
-          path="/forsikring"
-          locale={locale}
-          className="max-w-3xl"
-        />
-      </div>
+      <GeoPageEnhancements
+        name={title || t("nav.insurance", "Forsikring")}
+        geoSummary={page?.geoSummary}
+        fallbackDescription={subtitle}
+        path="/forsikring"
+        locale={locale}
+      />
 
       {companies.length > 0 ? (
       <section className="py-16 md:py-24 bg-background">

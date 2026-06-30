@@ -108,6 +108,8 @@
     "migrate:insurance-page-content": "tsx sanity/migrate-insurance-page-content.ts",
     "migrate:insurance-page-restore:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-restore.ts",
     "migrate:insurance-page-restore": "tsx sanity/migrate-insurance-page-restore.ts",
+    "migrate:insurance-page-hero:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-hero.ts",
+    "migrate:insurance-page-hero": "tsx sanity/migrate-insurance-page-hero.ts",
     "migrate:about-clinics-section:dry": "DRY_RUN=1 tsx sanity/migrate-about-clinics-section.ts",
     "migrate:about-clinics-section": "tsx sanity/migrate-about-clinics-section.ts",
     "migrate:clinics-page:dry": "DRY_RUN=1 tsx sanity/migrate-clinics-page.ts",

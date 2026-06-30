@@ -2,7 +2,7 @@ import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@/lib/router";
 import { AssetImg } from "@/components/AssetImg";
-import type { ImageRef } from "@/lib/media";
+import { assetSrc, type ImageRef } from "@/lib/media";
 
 interface SplitHeroProps {
   eyebrow?: string;
@@ -30,11 +30,17 @@ export const SplitHero = ({
   const navigate = useNavigate();
 
   const hasText = Boolean(eyebrow?.trim() || title?.trim() || description?.trim());
+  const imageSrc = image ? assetSrc(image) : "";
+  const hasImage = Boolean(imageSrc);
 
   return (
     <header className="bg-brand-warm pt-16">
       <div
-        className={`grid ${image ? "md:grid-cols-2" : ""} min-h-[420px] md:min-h-[520px]`}
+        className={
+          hasImage
+            ? "grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]"
+            : "flex flex-col"
+        }
       >
         {/* Left: text */}
         <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
@@ -72,17 +78,17 @@ export const SplitHero = ({
           </div>
         </div>
         {/* Right: image */}
-        {image ? (
+        {hasImage ? (
           <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
             <AssetImg
-              src={image}
+              src={imageSrc}
               alt={imageAlt || title || ""}
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
         ) : null}
       </div>
-      {!hasText && !image ? null : (
+      {!hasText && !hasImage ? null : (
         <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
       )}
     </header>
