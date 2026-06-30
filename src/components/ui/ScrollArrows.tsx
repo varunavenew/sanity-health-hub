@@ -6,8 +6,10 @@ interface ScrollArrowsProps {
   /** Where the arrows are visible. Default: mobile only. */
   visibility?: "mobile" | "all" | "desktop";
   className?: string;
-  /** Justify-end (default) or center. */
-  align?: "end" | "center";
+  /** Justify-end (default), center, or start. */
+  align?: "end" | "center" | "start";
+  /** Visual size. compact = smaller, used inline with headings. */
+  size?: "default" | "compact";
 }
 
 /**
@@ -19,6 +21,7 @@ export const ScrollArrows = ({
   visibility = "mobile",
   className = "",
   align = "end",
+  size = "default",
 }: ScrollArrowsProps) => {
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
@@ -49,7 +52,6 @@ export const ScrollArrows = ({
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
-  // Hide entirely only when there is nothing to scroll at all
   if (!canPrev && !canNext) return null;
 
   const vis =
@@ -58,27 +60,34 @@ export const ScrollArrows = ({
       : visibility === "desktop"
       ? "hidden md:flex"
       : "flex";
-  const justify = align === "center" ? "justify-center" : "justify-end";
+  const justify =
+    align === "center" ? "justify-center" : align === "start" ? "justify-start" : "justify-end";
+
+  const btn =
+    size === "compact"
+      ? "h-9 w-9"
+      : "h-12 w-12";
+  const icon = size === "compact" ? "w-4 h-4" : "w-6 h-6";
 
   return (
-    <div className={`${vis} items-center ${justify} gap-3 mt-4 px-4 md:px-0 ${className}`}>
+    <div className={`${vis} items-center ${justify} gap-2 ${className}`}>
       <button
         type="button"
         aria-label="Scroll venstre"
         onClick={() => scrollBy(-1)}
         disabled={!canPrev}
-        className="h-12 w-12 rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md"
+        className={`${btn} rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md`}
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className={icon} />
       </button>
       <button
         type="button"
         aria-label="Scroll høyre"
         onClick={() => scrollBy(1)}
         disabled={!canNext}
-        className="h-12 w-12 rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md"
+        className={`${btn} rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md`}
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className={icon} />
       </button>
     </div>
   );
