@@ -404,7 +404,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           <div className="mt-20 md:mt-24 text-center">
             <button
               onClick={() => navigate('/booking')}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
             >
               Bestill time
               <ArrowRight className="w-4 h-4" />
