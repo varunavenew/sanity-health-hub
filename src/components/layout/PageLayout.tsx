@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
 import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
 import { LanguageSelector } from "@/components/layout/LanguageSelector";
-import { searchSuggestions, SearchItem } from "@/data/searchData";
+import { searchSuggestions, SearchItem, emptyStateSuggestions } from "@/data/searchData";
 import { useSmartSearch } from "@/hooks/useSmartSearch";
 import { useSiteSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
