@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
 import { useGoogleReviews, useGoogleReviewSettings } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+import { useAutoScroll } from "@/hooks/useAutoScroll";
 
 const GoogleIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
