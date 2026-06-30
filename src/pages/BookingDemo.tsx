@@ -17,6 +17,7 @@ import { useClinics } from "@/hooks/useSanity";
 import { categoryPageToBookingId, slugifyNo } from "@/lib/bookingLinks";
 import { buildGoogleCalendarUrl, downloadICS, combineDateAndTime, parseDurationToMinutes } from "@/lib/calendarLinks";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Booking services data based on CMedical's actual structure
 const bookingServices = [
