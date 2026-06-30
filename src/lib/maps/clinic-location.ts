@@ -28,13 +28,13 @@ export function clinicMapsEmbedUrl(
   address?: string,
 ): string | undefined {
   if (location?.lat != null && location?.lng != null) {
-    return `https://maps.google.com/maps?q=${location.lat},${location.lng}&z=15&output=embed`
+    return `https://www.google.com/maps?q=${location.lat},${location.lng}&z=15&output=embed`
   }
   if (location?.placeId) {
-    return `https://maps.google.com/maps?q=place_id:${encodeURIComponent(location.placeId)}&z=15&output=embed`
+    return `https://www.google.com/maps?q=place_id:${encodeURIComponent(location.placeId)}&z=15&output=embed`
   }
   if (address) {
-    return `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
+    return `https://www.google.com/maps?q=${encodeURIComponent(address)}&z=15&output=embed`
   }
   return undefined
 }
