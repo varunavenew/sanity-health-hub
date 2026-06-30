@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { ArrowRight, Plus, Minus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -90,6 +90,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
     document.title = "Priser | CMedical";
   }, []);
 
+
   const ordered = useMemo(() => {
     const prioritized = ['gynekologi', 'urologi', 'fertilitet', 'ortopedi'];
     return [
@@ -97,6 +98,80 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
       ...priceCategories.filter(c => !prioritized.includes(c.id)).sort((a, b) => a.label.localeCompare(b.label, 'nb')),
     ];
   }, []);
+
+  const [activeCategory, setActiveCategory] = useState<string>('gynekologi');
+  const navScrollerRef = useRef<HTMLDivElement | null>(null);
+  const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const suspendSpyUntil = useRef<number>(0);
+  const [navTop, setNavTop] = useState(64);
+
+  // IntersectionObserver scroll-spy
+  useEffect(() => {
+    const sections = ordered.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
+    if (sections.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (Date.now() < suspendSpyUntil.current) return;
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) {
+          const id = visible[0].target.id.replace('cat-', '');
+          setActiveCategory(id);
+        }
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+    );
+    sections.forEach(s => observer.observe(s));
+    return () => observer.disconnect();
+  }, [ordered]);
+
+  // Auto-scroll active pill into view
+  useEffect(() => {
+    const scroller = navScrollerRef.current;
+    const pill = pillRefs.current[activeCategory];
+    if (!scroller || !pill) return;
+    const sLeft = scroller.scrollLeft;
+    const sWidth = scroller.clientWidth;
+    const pLeft = pill.offsetLeft;
+    const pRight = pLeft + pill.offsetWidth;
+    const margin = 24;
+    if (pLeft < sLeft + margin) {
+      scroller.scrollTo({ left: Math.max(0, pLeft - margin), behavior: 'smooth' });
+    } else if (pRight > sLeft + sWidth - margin) {
+      scroller.scrollTo({ left: pRight - sWidth + margin, behavior: 'smooth' });
+    }
+  }, [activeCategory]);
+
+  // Sync sticky nav top offset with auto-hiding header
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (!header) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setNavTop(Math.max(0, header.getBoundingClientRect().bottom));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollToCat = (id: string) => {
+    const el = document.getElementById(`cat-${id}`);
+    if (!el) return;
+    const header = document.querySelector('header');
+    const headerBottom = header?.getBoundingClientRect().bottom ?? 64;
+    const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
+    const offset = headerBottom + navH + 16;
+    suspendSpyUntil.current = Date.now() + 900;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+  };
 
   const toggleSubcategory = (key: string) => {
     setOpenSubcategory((prev) => (prev === key ? null : key));
@@ -135,7 +210,36 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
       <section id="prisliste" className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-5xl mx-auto">
-            {/* Direct to prices — no tag-nav, no "Vår meny" header. */}
+            {/* Sticky horizontal category filter bar (Wolt-style) */}
+            <div
+              className="sticky z-30 -mx-4 bg-brand-light border-b border-brand-mid/30"
+              style={{ top: `${navTop}px` }}
+            >
+              <div
+                ref={navScrollerRef}
+                className="flex gap-2 overflow-x-auto px-4 py-2 scrollbar-hide [scroll-behavior:smooth]"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {ordered.map((cat) => {
+                  const isActive = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      ref={(el) => { pillRefs.current[cat.id] = el; }}
+                      onClick={() => { setActiveCategory(cat.id); scrollToCat(cat.id); }}
+                      className={`inline-flex items-center justify-center px-3 py-1.5 min-h-[36px] rounded-2xl text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
+                        isActive
+                          ? 'bg-brand-dark text-brand-warm border-brand-dark'
+                          : 'bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark'
+                      }`}
+                      aria-current={isActive ? 'true' : undefined}
+                    >
+                      {cat.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
 
             {/* Magasin flow — all categories stacked */}
@@ -183,13 +287,11 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                               return (
                                 <li key={idx} className="py-3 md:py-4">
                                   {/* Name (wraps) + price (top-right, no wrap) on the same row */}
-                                  <div className="flex items-start gap-4">
-                                    <div className="flex-1 min-w-0">
-                                      <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
-                                        {item.name}
-                                      </p>
-                                    </div>
-                                    <span className="shrink-0 text-[15px] md:text-base font-medium text-brand-dark tabular-nums whitespace-nowrap leading-snug">
+                                  <div className="grid grid-cols-[1fr_120px] gap-3 items-start">
+                                    <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
+                                      {item.name}
+                                    </p>
+                                    <span className="text-[15px] md:text-base font-normal text-brand-dark tabular-nums text-right whitespace-normal leading-snug">
                                       {priceLabel}
                                     </span>
                                   </div>

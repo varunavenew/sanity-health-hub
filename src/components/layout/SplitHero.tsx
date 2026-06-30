@@ -40,7 +40,7 @@ export const SplitHero = ({
  {description}
  </p>
  )}
- <div className="flex flex-wrap gap-3">
+ <div className="flex flex-row gap-3">
  {primaryCta && (
  <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
  {primaryCta.label}
