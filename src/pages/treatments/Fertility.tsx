@@ -254,18 +254,29 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   1. HERO — split screen 50/50, autoplay video kant-i-kant
   ============================================================ */}
   <header className="bg-brand-light pt-24 lg:pt-0">
+  <div className="lg:hidden page-edge-text-left pb-4">
+    <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
+      <Link to="/" className="hover:text-foreground">Hjem</Link>
+      <span aria-hidden="true">›</span>
+      <span className="text-foreground/80">Fertilitet</span>
+    </nav>
+    <h2 className="text-4xl font-light text-foreground leading-[1.05]">
+      Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
+    </h2>
+  </div>
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
   {/* Left — copy + CTA */}
   <div className="flex items-center page-edge-text-left py-16 lg:py-24">
   <div className="max-w-xl w-full">
-  <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+  <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
     <Link to="/" className="hover:text-foreground">Hjem</Link>
     <span aria-hidden="true">›</span>
     <span className="text-foreground/80">Fertilitet</span>
   </nav>
-  <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+  <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
   Noen ganger trenger kroppen <span className="block italic">litt hjelp på veien</span>
   </h2>
+
 
   <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
   Å ville bli foreldre er noe av det sterkeste man kan kjenne på.

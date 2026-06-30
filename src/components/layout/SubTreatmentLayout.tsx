@@ -466,10 +466,32 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
     const heroImg = c.heroImage ?? c.flowImage;
     return (
       <header className="bg-brand-light pt-24 lg:pt-0">
+        {/* Mobile-only: breadcrumb + title above the image (hybrid order) */}
+        <div className="lg:hidden page-edge-text-left pb-4">
+          <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4 flex-wrap">
+            <Link to="/" className="hover:text-foreground">Hjem</Link>
+            <span>›</span>
+            {c.grandparent && (
+              <>
+                <Link to={c.grandparent.path} className="hover:text-foreground">{c.grandparent.name}</Link>
+                <span>›</span>
+              </>
+            )}
+            <Link to={c.parent.path} className="hover:text-foreground">{c.parent.name}</Link>
+            <span>›</span>
+            <span className="text-foreground/80">{c.title}</span>
+          </nav>
+          <h2
+            lang="no"
+            className="text-4xl font-light text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+          >
+            {c.heroTitle}
+          </h2>
+        </div>
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
           {/* Left — breadcrumb + copy + CTA */}
           <div className="flex flex-col justify-center page-edge-text-left py-12 lg:py-20">
-            <nav className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-8 lg:mb-10">
+            <nav className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
               <Link to="/" className="hover:text-foreground">Hjem</Link>
               <span>›</span>
               {c.grandparent && (
@@ -487,10 +509,11 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
               <h2
                 lang="no"
-                className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
+                className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05] hyphens-auto [overflow-wrap:anywhere]"
               >
                 {c.heroTitle}
               </h2>
+
               <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
                 {c.heroDescription}
               </p>
@@ -640,6 +663,9 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
   {c.flowImage ? (
  <section className="bg-brand-light text-foreground">
+ <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-12 pt-12 pb-4">
+ {c.flowTitle}
+ </h2>
  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
  <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden order-1 lg:order-none">
  <img
@@ -651,9 +677,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center order-2 lg:order-none">
   <div className="max-w-lg">
- <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
+ <h2 className="hidden lg:block text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
  {c.flowTitle}
  </h2>
+
 
  <ol className="divide-y divide-border/40 border-t border-border/40">
  {c.flow.map((step) => (
@@ -827,12 +854,16 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
   {c.textSection && (
   <section className="bg-background">
+  <h2 className="lg:hidden text-3xl font-light leading-[1.1] text-foreground px-6 md:px-16 pt-16 pb-4">
+  {c.textSection.title}
+  </h2>
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-stretch">
   <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 h-full flex flex-col justify-center">
   <div className="max-w-xl">
-  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+  <h2 className="hidden lg:block text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
   {c.textSection.title}
   </h2>
+
   {c.textSection.lead && (
   <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
   {c.textSection.lead}

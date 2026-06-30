@@ -106,12 +106,18 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
 
  {/* HERO */}
  <header className="bg-brand-light pt-24 lg:pt-0">
+ <div className="lg:hidden px-6 md:px-16 pb-4">
+   <h2 className="text-4xl font-light text-foreground leading-[1.05]">
+     Ortopedi
+   </h2>
+ </div>
  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
  <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
  <div className="max-w-xl w-full">
- <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+ <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
  Ortopedi
  </h2>
+
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
  Det gjør vondt. La oss finne ut hvorfor — og hva vi kan gjøre med det.
  Våre ortopeder er eksperter på skader og sykdommer i muskler, bein, ledd
