@@ -1260,12 +1260,15 @@ const BookingDemo = () => {
  )}>
  {format(date, "d", { locale: nb })}
  </span>
- <span className={cn(
- "text-xs font-light",
- isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/25" : "text-brand-dark/60"
- )}>
- {isToday ? "I dag" : format(date, "MMM", { locale: nb })}
- </span>
+  <span className={cn(
+  "text-[10px] font-light leading-none",
+  isSelected ? "text-brand-warm/80" : isDisabled ? "text-brand-dark/40" : "text-brand-dark/60"
+  )}>
+  {isDisabled ? "Opptatt" : isToday ? "I dag" : format(date, "MMM", { locale: nb })}
+  </span>
+  {isDisabled && (
+    <span className="absolute inset-x-3 top-1/2 h-px bg-brand-dark/15 -rotate-12" aria-hidden />
+  )}
  </button>
  );
  })}
