@@ -108,14 +108,19 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const overviewRef = useRef<HTMLDivElement | null>(null);
   const [navTop, setNavTop] = useState(80);
   const [showStickyNav, setShowStickyNav] = useState(false);
+  // Wolt-style: when user clicks a pill we trigger a smooth scroll; we then
+  // suspend scroll-spy briefly so the IntersectionObserver doesn't fight the
+  // programmatic scroll and flicker the active state.
+  const suspendSpyUntil = useRef<number>(0);
 
-  // IntersectionObserver to highlight active category pill as user scrolls
+  // IntersectionObserver to highlight active category pill as user scrolls (Wolt scroll-spy)
   useEffect(() => {
     const sections = ordered.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
     if (sections.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (Date.now() < suspendSpyUntil.current) return;
         const visible = entries
           .filter(e => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -124,14 +129,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
           setActiveCategory(id);
         }
       },
-      { rootMargin: '-25% 0px -65% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+      // Active when the section sits in the top ~40% of viewport (under the sticky bar)
+      { rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
     );
 
     sections.forEach(s => observer.observe(s));
     return () => observer.disconnect();
   }, [ordered]);
 
-  // Auto-scroll the active pill into view within the horizontal nav
+  // Auto-scroll the active pill into view within the horizontal nav (Wolt behavior)
   useEffect(() => {
     const scroller = navScrollerRef.current;
     const pill = pillRefs.current[activeCategory];
@@ -193,8 +199,12 @@ const Priser = ({ isChatOpen }: PageProps) => {
     const headerBottom = header?.getBoundingClientRect().bottom ?? 80;
     const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
     const offset = headerBottom + navH + 16;
+    // Suspend scroll-spy for the duration of the smooth scroll so the active
+    // pill doesn't flicker as we pass through other sections.
+    suspendSpyUntil.current = Date.now() + 900;
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
   };
+
 
 
   const toggleSubcategory = (key: string) => {
