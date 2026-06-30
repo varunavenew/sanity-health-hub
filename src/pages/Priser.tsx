@@ -73,10 +73,6 @@ const staticFaqs = [
 
 const Priser = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState<string>(() => {
-    const cat = priceCategories.find(c => c.id === 'gynekologi');
-    return cat ? 'gynekologi' : (priceCategories[0]?.id ?? '');
-  });
   const [openSubcategory, setOpenSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
@@ -104,111 +100,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
     ];
   }, []);
 
-  const navScrollerRef = useRef<HTMLDivElement | null>(null);
-  const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const navWrapperRef = useRef<HTMLDivElement | null>(null);
-  const overviewRef = useRef<HTMLDivElement | null>(null);
-  const [navTop, setNavTop] = useState(80);
-  const [showStickyNav, setShowStickyNav] = useState(false);
-  // Wolt-style: when user clicks a pill we trigger a smooth scroll; we then
-  // suspend scroll-spy briefly so the IntersectionObserver doesn't fight the
-  // programmatic scroll and flicker the active state.
-  const suspendSpyUntil = useRef<number>(0);
-
-  // IntersectionObserver to highlight active category pill as user scrolls (Wolt scroll-spy)
-  useEffect(() => {
-    const sections = ordered.map(c => document.getElementById(`cat-${c.id}`)).filter(Boolean) as HTMLElement[];
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (Date.now() < suspendSpyUntil.current) return;
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          const id = visible[0].target.id.replace('cat-', '');
-          setActiveCategory(id);
-        }
-      },
-      // Active when the section sits in the top ~40% of viewport (under the sticky bar)
-      { rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
-    );
-
-    sections.forEach(s => observer.observe(s));
-    return () => observer.disconnect();
-  }, [ordered]);
-
-  // Auto-scroll the active pill into view within the horizontal nav (Wolt behavior)
-  useEffect(() => {
-    const scroller = navScrollerRef.current;
-    const pill = pillRefs.current[activeCategory];
-    if (!scroller || !pill) return;
-    const sLeft = scroller.scrollLeft;
-    const sWidth = scroller.clientWidth;
-    const pLeft = pill.offsetLeft;
-    const pRight = pLeft + pill.offsetWidth;
-    const margin = 24;
-    if (pLeft < sLeft + margin) {
-      scroller.scrollTo({ left: Math.max(0, pLeft - margin), behavior: 'smooth' });
-    } else if (pRight > sLeft + sWidth - margin) {
-      scroller.scrollTo({ left: pRight - sWidth + margin, behavior: 'smooth' });
-    }
-  }, [activeCategory]);
-
-  // Sync sticky nav top offset to follow the auto-hiding header
-  useEffect(() => {
-    const header = document.querySelector('header');
-    if (!header) return;
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const bottom = header.getBoundingClientRect().bottom;
-          setNavTop(Math.max(0, bottom));
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Toggle sticky pill bar based on whether the full overview is scrolled past
-  useEffect(() => {
-    const el = overviewRef.current;
-    if (!el) return;
-    const check = () => {
-      const rect = el.getBoundingClientRect();
-      // Show sticky bar once the full overview's bottom has scrolled above the header
-      setShowStickyNav(rect.bottom < navTop + 8);
-    };
-    check();
-    window.addEventListener('scroll', check, { passive: true });
-    window.addEventListener('resize', check);
-    return () => {
-      window.removeEventListener('scroll', check);
-      window.removeEventListener('resize', check);
-    };
-  }, [navTop]);
-
-  const scrollToCat = (id: string) => {
-    const el = document.getElementById(`cat-${id}`);
-    if (!el) return;
-    const header = document.querySelector('header');
-    const headerBottom = header?.getBoundingClientRect().bottom ?? 80;
-    const navH = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
-    const offset = headerBottom + navH + 16;
-    // Suspend scroll-spy for the duration of the smooth scroll so the active
-    // pill doesn't flicker as we pass through other sections.
-    suspendSpyUntil.current = Date.now() + 900;
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
-  };
-
-
-
   const toggleSubcategory = (key: string) => {
     setOpenSubcategory((prev) => (prev === key ? null : key));
   };
@@ -216,6 +107,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
   };
+
 
 
 
