@@ -201,7 +201,7 @@ export const InlineBookingSection = ({ specialist }: InlineBookingSectionProps) 
       <div className="mt-6 text-center">
         <Button
           variant="outline"
-          className="rounded-full font-light text-sm bg-brand-mid text-brand-dark border-brand-mid hover:bg-brand-mid/80"
+          className="rounded-2xl font-light text-sm bg-brand-mid text-brand-dark border-brand-mid hover:bg-brand-mid/80"
           onClick={() => {
             const kategori = categoryBookingMap[specialist.category] || specialist.category;
             const spesialist = specialist.slug ? `&spesialist=${specialist.slug}` : "";

@@ -350,7 +350,7 @@ const Priser = ({ isChatOpen }: PageProps) => {
           <div className="mt-10 text-center">
             <Button
               variant="ghost"
-              className="rounded-full border border-white text-white bg-transparent hover:bg-white hover:text-brand-dark"
+              className="rounded-2xl border border-white text-white bg-transparent hover:bg-white hover:text-brand-dark"
               asChild
             >
               <Link to="/om-oss">

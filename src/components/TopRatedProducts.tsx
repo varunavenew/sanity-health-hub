@@ -18,7 +18,7 @@ export const TopRatedProducts = () => {
     <section className="py-20 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-2xl">
             <Star className="w-4 h-4 text-primary fill-primary" />
             <span className="text-sm font-medium text-primary">Best Vurdert</span>
           </div>
@@ -44,7 +44,7 @@ export const TopRatedProducts = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-full shadow-lg flex items-center gap-1">
+                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-2xl shadow-lg flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                       <span className="font-bold text-sm">{product.rating}</span>
                     </div>
@@ -62,7 +62,7 @@ export const TopRatedProducts = () => {
 
                     <div className="flex items-center justify-between pt-2">
                       <span className="text-2xl font-bold text-primary">{product.price}</span>
-                      <Button size="sm" className="rounded-full">
+                      <Button size="sm" className="rounded-2xl">
                         Kjøp nå
                       </Button>
                     </div>

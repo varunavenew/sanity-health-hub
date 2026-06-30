@@ -55,7 +55,7 @@ const KarriereDetail = ({ isChatOpen = false }: KarriereDetailProps) => {
             Denne stillingen finnes ikke lenger eller lenken er feil.
           </p>
           <Link to="/karriere">
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-2xl">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Tilbake til ledige stillinger
             </Button>

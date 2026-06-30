@@ -73,7 +73,7 @@ export const RelatedSpecialists = ({ specialists }: RelatedSpecialistsProps) => 
         <div className="mt-8 text-center md:hidden">
           <Button
             variant="outline"
-            className="rounded-full font-light text-sm"
+            className="rounded-2xl font-light text-sm"
             onClick={() => navigate("/spesialister")}
           >
             Se alle spesialister

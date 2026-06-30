@@ -97,7 +97,7 @@ export const TreatmentInfoSection = () => {
           </p>
           <Button 
             size="lg"
-            className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-full px-8 py-6 text-lg"
+            className="bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-8 py-6 text-lg"
             onClick={() => navigate('/booking')}
           >
             Bestill time

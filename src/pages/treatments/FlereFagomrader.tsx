@@ -156,7 +156,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{c.desc}</p>
  <div className="flex flex-wrap gap-2">
  {c.tags.map((t) => (
- <span key={t} className="text-xs font-light bg-secondary text-foreground/80 px-3 py-1 rounded-full">{t}</span>
+ <span key={t} className="text-xs font-light bg-secondary text-foreground/80 px-3 py-1 rounded-2xl">{t}</span>
  ))}
  </div>
  </div>

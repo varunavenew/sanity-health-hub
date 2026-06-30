@@ -140,7 +140,7 @@ export const WhyCMedicalSection = () => {
  <Button
  variant="ghost"
  size="lg"
- className="rounded-full px-8 border border-white text-white hover:bg-white hover:text-brand-dark bg-transparent"
+ className="rounded-2xl px-8 border border-white text-white hover:bg-white hover:text-brand-dark bg-transparent"
  onClick={() => (window.location.href = "/om-oss")}
  >
  Les mer om oss
@@ -148,7 +148,7 @@ export const WhyCMedicalSection = () => {
  </Button>
  <Button
  size="lg"
- className="rounded-full px-8 bg-white text-brand-dark hover:bg-white/90"
+ className="rounded-2xl px-8 bg-white text-brand-dark hover:bg-white/90"
  onClick={() => (window.location.href = "/booking")}
  >
  Bestill time

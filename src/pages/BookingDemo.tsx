@@ -562,7 +562,7 @@ const BookingDemo = () => {
  <h1 className="text-sm text-background/90">CMedical {externalClinic.label}</h1>
  <button 
  onClick={handleClose}
- className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
+ className="p-2 -mr-2 hover:bg-white/10 rounded-2xl transition-colors"
  aria-label="Lukk"
  >
  <X className="w-5 h-5 text-background" />
@@ -636,7 +636,7 @@ const BookingDemo = () => {
    <h1 className="text-sm text-brand-dark">Bestill time</h1>
    <button 
    onClick={handleClose} 
-   className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-full transition-colors"
+   className="p-2 -mr-2 hover:bg-brand-dark/5 rounded-2xl transition-colors"
    aria-label="Lukk bestilling og gå til forsiden"
    >
    <X className="w-5 h-5 text-brand-dark" aria-hidden="true" />
@@ -784,7 +784,7 @@ const BookingDemo = () => {
  <div className="flex items-center gap-3 ml-auto mr-4">
  <div className="flex items-center gap-1.5">
  {availableClinicsForCategory.length === clinics.length ? (
- <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
+ <span className="text-xs px-2 py-0.5 rounded-2xl bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
  Alle klinikker
  </span>
  ) : availableClinicsForCategory.length > 0 ? (
@@ -797,7 +797,7 @@ const BookingDemo = () => {
  return (
  <span
  key={clinic.id}
- className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light"
+ className="text-xs px-2 py-0.5 rounded-2xl bg-white border border-brand-dark/10 text-brand-dark/70 font-light"
  >
  {clinicName}
  </span>
@@ -1436,7 +1436,7 @@ const BookingDemo = () => {
  {selectedSpecialistInfo.expertise.map((exp, idx) => (
  <span 
  key={idx} 
- className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-full"
+ className="px-3 py-1 text-sm font-light bg-white/60 text-foreground/80 rounded-2xl"
  >
  {exp}
  </span>

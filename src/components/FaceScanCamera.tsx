@@ -150,7 +150,7 @@ export const FaceScanCamera = ({ isOpen, onClose, onCapture }: FaceScanCameraPro
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {/* Top instruction */}
         <div className="absolute top-8 left-0 right-0 text-center z-10">
-          <p className="text-white text-lg font-medium bg-black/50 backdrop-blur-sm px-6 py-3 rounded-full inline-block">
+          <p className="text-white text-lg font-medium bg-black/50 backdrop-blur-sm px-6 py-3 rounded-2xl inline-block">
             {instruction}
           </p>
         </div>
@@ -261,7 +261,7 @@ export const FaceScanCamera = ({ isOpen, onClose, onCapture }: FaceScanCameraPro
           variant="ghost"
           size="icon"
           onClick={onClose}
-          className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full"
+          className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-2xl"
         >
           <X className="w-6 h-6" />
         </Button>
