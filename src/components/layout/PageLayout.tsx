@@ -180,14 +180,16 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           <div className="flex items-center gap-1.5">
             {/* Language Selector */}
             <LanguageSelector />
-            {/* Search Toggle - hidden on mobile (in bottom nav) */}
+            {/* Search Toggle - always visible (mobile + desktop) */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="hidden md:block p-2 rounded-full transition-all hover:bg-white/10 text-white"
+              className="p-2 rounded-full transition-all hover:bg-white/10 text-white"
               aria-label={t("nav.search")}
+              type="button"
             >
-              {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+              {isSearchOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Search className="h-5 w-5" aria-hidden="true" />}
             </button>
+
 
             {/* CTA Button - hidden on mobile (in bottom nav) */}
             <Button 
