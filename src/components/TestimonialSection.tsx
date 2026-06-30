@@ -99,7 +99,8 @@ export const TestimonialSection = () => {
           <p className="text-muted-foreground font-light">Gjennomsnittsvurdering på Google fra over 1000 fornøyde pasienter</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {/* Desktop grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {testimonials.map((testimonial) => (
             <div 
               key={testimonial.id} 
@@ -134,6 +135,50 @@ export const TestimonialSection = () => {
           ))}
         </div>
       </div>
+
+      {/* Mobile horizontal swipe */}
+      <div className="md:hidden">
+        <div
+          ref={mobileScrollRef}
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 pb-2"
+          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
+        >
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              className="flex-shrink-0 w-[78vw] bg-[hsl(30,20%,96%)] rounded-xl p-6 snap-center"
+            >
+              <div className="flex gap-1 mb-3">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                ))}
+              </div>
+              <p className="text-foreground mb-4 leading-relaxed font-light text-sm">
+                "{testimonial.text}"
+              </p>
+              <div className="flex items-center justify-between pt-3 border-t border-muted">
+                <div>
+                  <p className="font-light text-sm">{testimonial.name}{testimonial.age ? `, ${testimonial.age}` : ''}</p>
+                  <p className="text-xs text-muted-foreground">{testimonial.location}</p>
+                </div>
+                {testimonial.treatment && (
+                  <div className={`text-xs px-3 py-1 rounded-full ${
+                    testimonial.treatment === 'Gynekologi' 
+                      ? 'bg-pink-100 text-pink-700' 
+                      : testimonial.treatment === 'Fertilitet'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : 'bg-blue-100 text-blue-700'
+                  }`}>
+                    {testimonial.treatment}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="container mx-auto px-6 mt-3">
+          <ScrollArrows scrollRef={mobileScrollRef} align="center" />
+        </div>
     </section>
   );
 };
