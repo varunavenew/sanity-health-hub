@@ -201,7 +201,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
         description={pageSubtitle}
         image={heroImage}
         imageAlt={pageTitle}
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
+        secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
         secondaryCta={{ label: "Kontakt oss", to: "/kontakt" }}
         bottomNote="Alle priser er veiledende «fra»-priser. Endelig pris kan påvirkes av tid på døgnet, helg og tillegg under behandlingen."
       />
