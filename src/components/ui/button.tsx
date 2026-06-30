@@ -21,11 +21,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "rounded-2xl bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground",
-        destructive: "rounded-2xl bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "rounded-2xl border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent",
-        secondary: "rounded-2xl bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground",
-        ghost: "rounded-2xl hover:bg-accent hover:text-accent-foreground",
+        default: "rounded-2xl md:rounded-md bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground",
+        destructive: "rounded-2xl md:rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "rounded-2xl md:rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent",
+        secondary: "rounded-2xl md:rounded-md bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground",
+        ghost: "rounded-2xl md:rounded-md hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline hover:text-accent",
         // ── CTA variants (standardised across the entire site) ──
         cta: "rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90",
@@ -35,7 +35,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-2xl px-3",
+        sm: "h-9 rounded-2xl md:rounded-md px-3",
         lg: "h-12 px-8",
         icon: "h-10 w-10",
       },
