@@ -171,20 +171,56 @@ const bookingServices = [
  },
 ];
 
-// Generate mock available times for a date
-const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
- const baseSlots = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
- const dayOfWeek = date.getDay();
- 
- if (dayOfWeek === 0 || dayOfWeek === 6) return [];
- 
- const slots = baseSlots.slice(0, 6 + Math.floor(Math.random() * 6)).map(time => ({
- time,
- specialist: specialistList[Math.floor(Math.random() * specialistList.length)]
- }));
- 
- return slots;
+// Deterministic mock availability — same inputs always produce the same slots,
+// so a "fully booked" day stays visibly fully booked while the user navigates.
+// Each specialist has their own weekly pattern (one weekday off, occasional full days).
+const hashString = (s: string): number => {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
 };
+
+const dateKey = (date: Date): string =>
+  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+// Per-specialist recurring busy weekday + occasional fully booked days.
+const isSpecialistAvailable = (specialistId: string, date: Date): boolean => {
+  const dow = date.getDay();
+  if (dow === 0 || dow === 6) return false;
+  const seed = hashString(specialistId);
+  // Each specialist has one weekday off (1-5 = Mon-Fri).
+  const dayOff = (seed % 5) + 1;
+  if (dow === dayOff) return false;
+  // Roughly 1 in 4 working days is "fully booked".
+  const h = hashString(`${specialistId}:${dateKey(date)}`);
+  if (h % 4 === 0) return false;
+  return true;
+};
+
+const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
+  const baseSlots = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30"];
+  const dayOfWeek = date.getDay();
+  if (dayOfWeek === 0 || dayOfWeek === 6) return [];
+
+  const availablePool = specialistList.filter((s) => isSpecialistAvailable(s.id ?? s.slug ?? s.name, date));
+  if (availablePool.length === 0) return [];
+
+  const key = dateKey(date);
+  const slots: { time: string; specialist: Specialist }[] = [];
+  baseSlots.forEach((time, i) => {
+    const h = hashString(`${key}:${time}:${availablePool.map((s) => s.id ?? s.slug ?? s.name).join(",")}`);
+    // ~70% of base slots are open on an available day.
+    if (h % 10 < 7) {
+      const spec = availablePool[h % availablePool.length];
+      slots.push({ time, specialist: spec });
+    }
+  });
+  return slots;
+};
+
 
 // Find first bookable weekday (skips weekends + days with no slots).
 const getFirstAvailableDate = (fromDate: Date, specialistList: Specialist[]): Date => {
