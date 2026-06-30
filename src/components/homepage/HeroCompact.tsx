@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useHomepage } from "@/hooks/useSanity";
@@ -46,133 +45,47 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
     return o ? { ...c, title: o.title || c.title, path: o.path || c.path } : c;
   });
 
-  // Mobile swipe carousel — track active card via scroll position
-  const swiperRef = useRef<HTMLDivElement | null>(null);
-  const cardRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  useEffect(() => {
-    const el = swiperRef.current;
-    if (!el) return;
-    let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const center = el.scrollLeft + el.clientWidth / 2;
-        let bestIdx = 0;
-        let bestDist = Infinity;
-        cardRefs.current.forEach((c, i) => {
-          if (!c) return;
-          const cardCenter = c.offsetLeft + c.offsetWidth / 2;
-          const d = Math.abs(cardCenter - center);
-          if (d < bestDist) { bestDist = d; bestIdx = i; }
-        });
-        setActiveIdx(bestIdx);
-      });
-    };
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => el.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const goTo = (i: number) => {
-    const card = cardRefs.current[i];
-    const el = swiperRef.current;
-    if (!card || !el) return;
-    const left = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
-    el.scrollTo({ left, behavior: 'smooth' });
-  };
-
-  const scrollByDir = (dir: 1 | -1) => {
-    const el = swiperRef.current;
-    if (!el) return;
-    const first = el.firstElementChild as HTMLElement | null;
-    const step = first ? first.offsetWidth : el.clientWidth * 0.8;
-    el.scrollBy({ left: dir * step, behavior: 'smooth' });
-  };
-
   return (
     <section className={`bg-background pb-4 md:pb-6 ${showHeader ? "pt-10 md:pt-14" : ""}`}>
       {showHeader && (
-        <div className="page-shell mb-4 md:mb-8 flex items-end justify-between gap-4">
+        <div className="page-shell mb-4 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-light leading-tight text-foreground text-left">
             {t("services.title")}
           </h2>
-          {/* Mobile-only arrows on header row */}
-          <div className="md:hidden flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => scrollByDir(-1)}
-              aria-label="Scroll venstre"
-              className="h-9 w-9 rounded-full bg-brand-dark text-background flex items-center justify-center shadow-md active:scale-95"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollByDir(1)}
-              aria-label="Scroll høyre"
-              className="h-9 w-9 rounded-full bg-brand-dark text-background flex items-center justify-center shadow-md active:scale-95"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
         </div>
       )}
 
-      {/* Mobile: full-bleed, flush horizontal strip — no gap, no rounded corners */}
-      <div className="md:hidden">
-        <div
-          ref={swiperRef}
-          className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          role="region"
-          aria-label={t("services.title")}
-        >
+      {/* Mobile: compact 2-per-row grid with small images + title */}
+      <div className="md:hidden page-shell">
+        <div className="grid grid-cols-2 gap-3" role="list" aria-label={t("services.title")}>
           {serviceCategories.map((category: any, index: number) => (
             <button
               key={category.id}
-              ref={(el) => { cardRefs.current[index] = el; }}
               onClick={() => navigate(category.path)}
-              className="group relative overflow-hidden aspect-[3/4] cursor-pointer text-left snap-center shrink-0 w-[85vw]"
+              className="group text-left flex flex-col gap-2"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
-              <img
-                src={category.mobileImage ?? category.image}
-                alt=""
-                style={{ objectPosition: category.objectPosition ?? 'center' }}
-                className="w-full h-full object-cover"
-                loading={index === 0 ? "eager" : "lazy"}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent" aria-hidden="true" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-white text-base font-light">{category.title}</h3>
-                  <ArrowRight className="w-4 h-4 text-white/70" aria-hidden="true" />
-                </div>
+              <div className="relative overflow-hidden aspect-[4/3] rounded-md bg-secondary/40">
+                <img
+                  src={category.mobileImage ?? category.image}
+                  alt=""
+                  style={{ objectPosition: category.objectPosition ?? 'center' }}
+                  className="w-full h-full object-cover"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+              <div className="flex items-center justify-between gap-2 px-0.5">
+                <h3 className="text-sm font-light text-foreground leading-tight">
+                  {category.title}
+                </h3>
+                <ArrowRight className="w-3.5 h-3.5 text-foreground/60 shrink-0" aria-hidden="true" />
               </div>
             </button>
           ))}
         </div>
-        {/* Dots indicator (no arrows here — they are at top) */}
-        <div className="flex items-center justify-center mt-3 px-4">
-          <div className="flex items-center gap-2" role="tablist" aria-label="Kategori-indikator">
-            {serviceCategories.map((c: any, i: number) => (
-              <button
-                key={c.id}
-                onClick={() => goTo(i)}
-                aria-label={`Gå til ${c.title}`}
-                aria-selected={i === activeIdx}
-                role="tab"
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === activeIdx ? 'w-6 bg-brand-dark' : 'w-1.5 bg-brand-dark/25'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-
       </div>
+
+
 
 
       {/* Desktop/tablet: original grid (unchanged) */}
