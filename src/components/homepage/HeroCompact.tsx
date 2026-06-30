@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useHomepage } from "@/hooks/useSanity";
 import { useTranslation } from "react-i18next";
-import { ScrollArrows } from "@/components/ui/ScrollArrows";
+
 
 
 
