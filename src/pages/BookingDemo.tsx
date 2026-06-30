@@ -205,13 +205,13 @@ const generateTimeSlots = (date: Date, specialistList: Specialist[]) => {
   const dayOfWeek = date.getDay();
   if (dayOfWeek === 0 || dayOfWeek === 6) return [];
 
-  const availablePool = specialistList.filter((s) => isSpecialistAvailable(s.id ?? s.slug ?? s.name, date));
+  const availablePool = specialistList.filter((s) => isSpecialistAvailable(s.slug ?? s.name, date));
   if (availablePool.length === 0) return [];
 
   const key = dateKey(date);
   const slots: { time: string; specialist: Specialist }[] = [];
   baseSlots.forEach((time, i) => {
-    const h = hashString(`${key}:${time}:${availablePool.map((s) => s.id ?? s.slug ?? s.name).join(",")}`);
+    const h = hashString(`${key}:${time}:${availablePool.map((s) => s.slug ?? s.name).join(",")}`);
     // ~70% of base slots are open on an available day.
     if (h % 10 < 7) {
       const spec = availablePool[h % availablePool.length];
