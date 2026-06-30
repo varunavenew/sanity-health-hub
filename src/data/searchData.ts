@@ -201,9 +201,13 @@ export function searchSuggestions(query: string, limit = 8): SearchItem[] {
 
   const expanded = expandQuery(raw);
   const normalizedRaw = normalize(raw);
+
+  // Tokens fra expanded — tillat 1-tegn for korte spørringer (f.eks. "if" forsikring),
+  // men når brukeren har skrevet >=2 tegn, krev minst 2-tegns tokens for kvalitet.
+  const minTok = normalizedRaw.length >= 2 ? 2 : 1;
   const tokens = normalize(expanded)
     .split(/\s+/)
-    .filter((t) => t.length >= 2);
+    .filter((t) => t.length >= minTok);
 
   if (tokens.length === 0) return [];
 
@@ -215,6 +219,8 @@ export function searchSuggestions(query: string, limit = 8): SearchItem[] {
 
       // Eksakt label-match → stort løft
       if (item._label === normalizedRaw) score += 400;
+      // Hel label starter med hele raw-query → også sterkt
+      else if (item._label.startsWith(normalizedRaw)) score += 180;
 
       for (const token of tokens) {
         let tokenScore = 0;
@@ -226,7 +232,8 @@ export function searchSuggestions(query: string, limit = 8): SearchItem[] {
 
         // Eksakt keyword-match veier mer enn delvis
         if (item._keywordList.includes(token)) tokenScore += 45;
-        else if (item._keywords.includes(token)) tokenScore += 25;
+        else if (item._keywordList.some((k) => k.startsWith(token))) tokenScore += 30;
+        else if (item._keywords.includes(token)) tokenScore += 20;
 
         if (item._category.includes(token)) tokenScore += 10;
 
@@ -242,24 +249,30 @@ export function searchSuggestions(query: string, limit = 8): SearchItem[] {
       }
 
       // Løft topp-nivå sider litt slik at brede søk treffer landingssiden først
-      if (TOP_LEVEL_CATEGORIES.has(item.category)) score += 8;
+      if (TOP_LEVEL_CATEGORIES.has(item.category)) score += 12;
+      // Dempes for spesialister når søket ikke er navnelignende — de skal ikke
+      // dominere brede søk som "gyn"
+      if (item.category.startsWith("Spesialist") && !item._label.includes(normalizedRaw)) {
+        score -= 20;
+      }
 
       return { item, score, allMatched };
     })
     .filter((r) => r.allMatched && r.score > 0)
     .sort((a, b) => b.score - a.score);
 
-  if (scored.length >= 3) {
-    return scored.slice(0, limit).map((r) => r.item);
-  }
-
-  // Fuzzy fallback: typo-toleranse via Fuse
+  // Kjør alltid fuzzy (typo-toleranse) og slå sammen — strict først, fuzzy fyller på
   const fuzzy = fuse.search(normalizedRaw, { limit: limit * 2 });
 
-  // Slå sammen strict + fuzzy, dedupliser på path
-  const seen = new Set(scored.map((r) => r.item.path));
-  const merged: SearchItem[] = scored.map((r) => r.item);
-
+  const seen = new Set<string>();
+  const merged: SearchItem[] = [];
+  for (const r of scored) {
+    if (!seen.has(r.item.path)) {
+      seen.add(r.item.path);
+      merged.push(r.item);
+      if (merged.length >= limit) return merged;
+    }
+  }
   for (const f of fuzzy) {
     if (!seen.has(f.item.path)) {
       seen.add(f.item.path);
@@ -270,3 +283,22 @@ export function searchSuggestions(query: string, limit = 8): SearchItem[] {
 
   return merged.slice(0, limit);
 }
+
+/**
+ * Hjelpsomme fallback-forslag når søket ikke gir noen treff.
+ * Brukes i UI til "Fant ingen treff – prøv heller:"
+ */
+export function emptyStateSuggestions(): SearchItem[] {
+  const wanted = [
+    '/booking',
+    '/kontakt',
+    '/priser',
+    '/behandlinger/gynekologi',
+    '/behandlinger/fertilitet',
+    '/spesialister',
+  ];
+  return wanted
+    .map((p) => searchItems.find((i) => i.path === p))
+    .filter((i): i is SearchItem => Boolean(i));
+}
+
