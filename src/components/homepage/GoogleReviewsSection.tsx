@@ -173,10 +173,8 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
             );
           })}
         </div>
-        <div className="container mx-auto px-6">
-          <ScrollArrows scrollRef={mobileScrollRef} align="center" />
-        </div>
       </div>
+
 
       {showTrustSection && (
         <div className="container mx-auto px-6 md:px-16 mt-10 md:mt-14">
