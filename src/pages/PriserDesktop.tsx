@@ -71,7 +71,7 @@ const staticFaqs = [
   },
 ];
 
-const Priser = ({ isChatOpen }: PageProps) => {
+const PriserDesktop = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<string>(() => {
     const cat = priceCategories.find(c => c.id === 'gynekologi');
@@ -635,4 +635,4 @@ const Priser = ({ isChatOpen }: PageProps) => {
   );
 };
 
-export default Priser;
+export default PriserDesktop;

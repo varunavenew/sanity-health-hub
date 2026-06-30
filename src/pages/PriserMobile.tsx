@@ -69,7 +69,7 @@ const staticFaqs = [
   },
 ];
 
-const Priser = ({ isChatOpen }: PageProps) => {
+const PriserMobile = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
   const [openSubcategory, setOpenSubcategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
@@ -500,4 +500,4 @@ const Priser = ({ isChatOpen }: PageProps) => {
   );
 };
 
-export default Priser;
+export default PriserMobile;
