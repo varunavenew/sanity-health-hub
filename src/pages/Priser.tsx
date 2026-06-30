@@ -1,7 +1,5 @@
-import { useEffect, useRef, useState, useMemo } from "react";
-import { ArrowRight, ChevronDown, ChevronRight, Plus, Minus, Clock, Star, ExternalLink } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useEffect, useState, useMemo } from "react";
+import { ArrowRight, Plus, Minus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "react-router-dom";
