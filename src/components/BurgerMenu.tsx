@@ -178,51 +178,62 @@ const BurgerMenu = () => {
  </div>
 
   {/* Mobile Content */}
- <div className="p-6 pb-[calc(96px+env(safe-area-inset-bottom))]">
- {/* Alle tjenester gruppert etter fagområde */}
- <nav aria-label="Alle tjenester" className="space-y-8">
- {serviceCategories.map((cat) => (
- <section key={cat.id}>
- <button
- onClick={() => handleNavigate(cat.path)}
- className="w-full text-left flex items-center justify-between pb-2 mb-2 border-b border-border"
- >
- <span className="text-base font-medium text-foreground">{cat.label}</span>
- <ChevronRight className="h-4 w-4 text-foreground/50" aria-hidden="true" />
- </button>
- <ul className="space-y-0.5">
- {cat.subcategories.map((sub) => (
- <li key={sub.path}>
- <button
- onClick={() => handleNavigate(sub.path)}
- className="w-full text-left py-3 text-[15px] text-foreground/75 hover:text-foreground transition-colors min-h-[44px]"
- >
- {sub.label}
- </button>
- {sub.items && sub.items.length > 0 && (
- <ul className="pl-4 space-y-0.5 pb-1">
- {sub.items.map((it) => (
- <li key={(it.path || '') + it.label}>
- {it.path ? (
- <button
- onClick={() => handleNavigate(it.path!)}
- className="w-full text-left py-2.5 text-sm text-foreground/60 hover:text-foreground transition-colors min-h-[40px]"
- >
- {it.label}
- </button>
- ) : (
- <span className="block py-2.5 text-sm text-foreground/60">{it.label}</span>
- )}
- </li>
- ))}
- </ul>
- )}
- </li>
- ))}
- </ul>
- </section>
- ))}
- </nav>
+  <div className="p-5 pb-[calc(96px+env(safe-area-inset-bottom))]">
+    {/* Tjenester – accordion (Priser pill style) */}
+    <div className="mb-6">
+      <h3 className="text-xs uppercase text-foreground/50 mb-3 px-1">Tjenester</h3>
+      <nav aria-label="Alle tjenester" className="space-y-2">
+        {serviceCategories.map((cat) => {
+          const isOpen = openCategory === cat.id;
+          return (
+            <div key={cat.id} className="rounded-2xl border border-brand-dark/15 bg-white overflow-hidden">
+              <div className="flex items-stretch">
+                <button
+                  onClick={() => handleNavigate(cat.path)}
+                  className="flex-1 text-left px-4 py-3 text-[15px] font-normal text-brand-dark min-h-[48px]"
+                >
+                  {cat.label}
+                </button>
+                <button
+                  onClick={() => setOpenCategory(isOpen ? null : cat.id)}
+                  className={`px-4 flex items-center justify-center min-h-[48px] border-l border-brand-dark/10 transition-colors ${
+                    isOpen ? 'bg-brand-dark text-brand-warm' : 'bg-transparent text-brand-dark/60 hover:bg-brand-dark/5'
+                  }`}
+                  aria-expanded={isOpen}
+                  aria-label={isOpen ? `Lukk ${cat.label}` : `Vis ${cat.label}`}
+                >
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+                </button>
+              </div>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.ul
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="overflow-hidden border-t border-brand-dark/10 bg-brand-warm/40"
+                  >
+                    {cat.subcategories.map((sub) => (
+                      <li key={sub.path} className="border-b border-brand-dark/5 last:border-b-0">
+                        <button
+                          onClick={() => handleNavigate(sub.path)}
+                          className="w-full text-left px-5 py-3 text-sm text-brand-dark/85 hover:text-brand-dark hover:bg-brand-dark/5 transition-colors min-h-[44px] flex items-center justify-between"
+                        >
+                          <span>{sub.label}</span>
+                          <ChevronRight className="h-3.5 w-3.5 text-brand-dark/40" aria-hidden="true" />
+                        </button>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </nav>
+    </div>
+
 
  {/* Øvrige sider */}
  <div className="mt-10 pt-6 border-t border-border">
