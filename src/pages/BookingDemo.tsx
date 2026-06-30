@@ -262,6 +262,7 @@ interface FormData {
 
 const BookingDemo = () => {
  const navigate = useNavigate();
+ const isMobile = useIsMobile();
  const [searchParams] = useSearchParams();
  const { specialists } = useSpecialistsData();
  const { data: sanityClinics } = useClinics();
