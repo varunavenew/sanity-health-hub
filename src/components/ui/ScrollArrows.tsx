@@ -1,71 +1,103 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { RefObject, useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface ScrollArrowsProps {
   scrollRef: RefObject<HTMLElement>;
-  /** Where the arrows are visible. Default: mobile only. */
+  /** Where the indicator is visible. Default: mobile only. */
   visibility?: "mobile" | "all" | "desktop";
   className?: string;
-  /** Justify-end (default), center, or start. (Used in inline mode only.) */
+  /** Legacy props — kept for backwards compat, no longer used. */
   align?: "end" | "center" | "start";
-  /** Visual size. compact = smaller. */
   size?: "default" | "compact";
-  /**
-   * Placement strategy:
-   *  - "above" (default): portaled to <body> and positioned absolutely just above
-   *    the scroll container's top-right corner, following it on scroll/resize.
-   *    Lets every existing call site automatically render arrows above the
-   *    carousel without restructuring the page.
-   *  - "inline": render in place (legacy behavior).
-   */
-  placement?: "above" | "inline";
+  placement?: "above" | "inline" | "below";
 }
 
 /**
- * Touch-friendly left/right scroll arrows for any horizontal scroller.
- * Default: floats above the scroller's top-right on mobile so the arrows sit
- * next to the section heading instead of below the cards.
+ * Mobile pagination dots for any horizontal scroller.
+ *
+ * Kunde-ønske: dots i stedet for prev/next-piler på kort-karuseller —
+ * samme stil som under hero/«tjenester»-seksjonen. Komponentnavnet beholdes
+ * (ScrollArrows) for å unngå brede refactors; alle eksisterende
+ * `<ScrollArrows scrollRef={ref} />` rendrer nå dots automatisk.
+ *
+ * Hvordan det fungerer:
+ *  - Hver direkte child i scroll-containeren regnes som ett "kort"/slide.
+ *  - Aktiv prikk = kortet hvis senter er nærmest viewportens senter.
+ *  - Klikk på en prikk scroller til tilsvarende kort (snap-friendly).
+ *  - Plasseres i en portal rett under scrolleren, sentrert, så
+ *    eksisterende call sites ikke trenger layout-endringer.
  */
 export const ScrollArrows = ({
   scrollRef,
   visibility = "mobile",
   className = "",
-  align = "end",
-  size = "compact",
-  placement = "above",
 }: ScrollArrowsProps) => {
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(false);
+  const [count, setCount] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [overflowing, setOverflowing] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
 
+  // Observe scroller: child count, active slide, overflow state
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const update = () => {
-      setCanPrev(el.scrollLeft > 4);
-      setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+
+    const computeActive = () => {
+      const center = el.scrollLeft + el.clientWidth / 2;
+      const kids = Array.from(el.children) as HTMLElement[];
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      kids.forEach((c, i) => {
+        const cardCenter = c.offsetLeft + c.offsetWidth / 2;
+        const d = Math.abs(cardCenter - center);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      });
+      setActiveIdx(bestIdx);
     };
+
+    const update = () => {
+      setCount(el.children.length);
+      setOverflowing(el.scrollWidth - el.clientWidth > 4);
+      computeActive();
+    };
+
     update();
-    el.addEventListener("scroll", update, { passive: true });
+
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        computeActive();
+      });
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+
     const ro = new ResizeObserver(update);
     ro.observe(el);
     Array.from(el.children).forEach((c) => ro.observe(c));
+
+    const mo = new MutationObserver(update);
+    mo.observe(el, { childList: true });
+
     return () => {
-      el.removeEventListener("scroll", update);
+      el.removeEventListener("scroll", onScroll);
       ro.disconnect();
+      mo.disconnect();
     };
   }, [scrollRef]);
 
-  // Track scroller position for "above" placement
+  // Track scroller position for portal placement (just below the carousel)
   useLayoutEffect(() => {
-    if (placement !== "above") return;
     const el = scrollRef.current;
     if (!el) return;
     const update = () => {
       const r = el.getBoundingClientRect();
       setPos({
-        top: r.top + window.scrollY - 44, // 44px above the scroller
+        top: r.bottom + window.scrollY + 8, // 8px below scroller
         left: r.left + window.scrollX,
         width: r.width,
       });
@@ -80,17 +112,18 @@ export const ScrollArrows = ({
       window.removeEventListener("resize", update);
       ro.disconnect();
     };
-  }, [scrollRef, placement]);
+  }, [scrollRef]);
 
-  const scrollBy = (dir: 1 | -1) => {
+  const goTo = (i: number) => {
     const el = scrollRef.current;
     if (!el) return;
-    const first = el.firstElementChild as HTMLElement | null;
-    const step = first ? first.offsetWidth + 16 : el.clientWidth * 0.85;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
+    const card = el.children[i] as HTMLElement | undefined;
+    if (!card) return;
+    const left = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2;
+    el.scrollTo({ left, behavior: "smooth" });
   };
 
-  if (!canPrev && !canNext) return null;
+  if (!overflowing || count <= 1 || !pos || typeof document === "undefined") return null;
 
   const vis =
     visibility === "mobile"
@@ -99,55 +132,35 @@ export const ScrollArrows = ({
       ? "hidden md:flex"
       : "flex";
 
-  const btn = size === "compact" ? "h-9 w-9" : "h-12 w-12";
-  const icon = size === "compact" ? "w-4 h-4" : "w-6 h-6";
-
-  const buttons = (
-    <>
-      <button
-        type="button"
-        aria-label="Scroll venstre"
-        onClick={() => scrollBy(-1)}
-        disabled={!canPrev}
-        className={`${btn} rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md`}
-      >
-        <ChevronLeft className={icon} />
-      </button>
-      <button
-        type="button"
-        aria-label="Scroll høyre"
-        onClick={() => scrollBy(1)}
-        disabled={!canNext}
-        className={`${btn} rounded-full bg-brand-dark text-background flex items-center justify-center disabled:opacity-25 disabled:cursor-not-allowed transition-opacity active:scale-95 shadow-md`}
-      >
-        <ChevronRight className={icon} />
-      </button>
-    </>
-  );
-
-  if (placement === "above") {
-    if (!pos || typeof document === "undefined") return null;
-    return createPortal(
+  return createPortal(
+    <div
+      className={`${vis} items-center justify-center absolute z-20 pointer-events-none ${className}`}
+      style={{
+        top: pos.top,
+        left: pos.left,
+        width: pos.width,
+      }}
+    >
       <div
-        className={`${vis} items-center justify-end gap-2 absolute z-30 pointer-events-none`}
-        style={{
-          top: pos.top,
-          left: pos.left,
-          width: pos.width,
-          paddingRight: 16,
-        }}
+        className="flex items-center gap-2 pointer-events-auto"
+        role="tablist"
+        aria-label="Karusell-indikator"
       >
-        <div className="flex gap-2 pointer-events-auto">{buttons}</div>
-      </div>,
-      document.body,
-    );
-  }
-
-  const justify =
-    align === "center" ? "justify-center" : align === "start" ? "justify-start" : "justify-end";
-  return (
-    <div className={`${vis} items-center ${justify} gap-2 ${className}`}>
-      {buttons}
-    </div>
+        {Array.from({ length: count }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => goTo(i)}
+            aria-label={`Gå til kort ${i + 1}`}
+            aria-selected={i === activeIdx}
+            role="tab"
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === activeIdx ? "w-6 bg-brand-dark" : "w-1.5 bg-brand-dark/25"
+            }`}
+          />
+        ))}
+      </div>
+    </div>,
+    document.body,
   );
 };
