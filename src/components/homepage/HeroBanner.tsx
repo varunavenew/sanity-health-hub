@@ -9,14 +9,21 @@ import { useTranslation } from "react-i18next";
 import kvinnehelseHeroAsset from "@/assets/hero/kvinnehelse-hero-v2.jpg.asset.json";
 import fertilityHeroAsset from "@/assets/hero-fertilitet.jpg.asset.json";
 import tverrfagligTeamAsset from "@/assets/hero/tverrfaglig-team-hero-v2.jpg.asset.json";
+import mobilGynekologiAsset from "@/assets/services/mobil-gynekologi-hero-v2.jpg.asset.json";
+import mobilFertilitetAsset from "@/assets/services/mobil-fertilitet-hero.jpg.asset.json";
+import mobilFlereAsset from "@/assets/services/mobil-flere-hero.jpg.asset.json";
 
 const kvinnehelseHero = kvinnehelseHeroAsset.url;
 const fertilityHero = fertilityHeroAsset.url;
 const robotkirurgiHero = tverrfagligTeamAsset.url;
+const mobilKvinnehelse = mobilGynekologiAsset.url;
+const mobilFertilitet = mobilFertilitetAsset.url;
+const mobilTverrfaglig = mobilFlereAsset.url;
 
 interface HeroSlide {
   id: string;
   image: string;
+  mobileImage?: string;
   video?: string;
   alt: string;
   label: string;
@@ -37,6 +44,7 @@ export const HeroBanner = () => {
     {
       id: "kvinnehelse",
       image: kvinnehelseHero,
+      mobileImage: mobilKvinnehelse,
       alt: t("hero.kvinnehelse.label"),
       label: t("hero.kvinnehelse.label"),
       subtitle: t("hero.kvinnehelse.subtitle"),
@@ -47,6 +55,7 @@ export const HeroBanner = () => {
     {
       id: "fertilitet",
       image: fertilityHero,
+      mobileImage: mobilFertilitet,
       alt: t("hero.fertilitet.label"),
       label: t("hero.fertilitet.label"),
       subtitle: t("hero.fertilitet.subtitle"),
@@ -57,6 +66,7 @@ export const HeroBanner = () => {
     {
       id: "tverrfaglig",
       image: robotkirurgiHero,
+      mobileImage: mobilTverrfaglig,
       alt: t("hero.tverrfaglig.label"),
       label: t("hero.tverrfaglig.label"),
       subtitle: t("hero.tverrfaglig.subtitle"),
@@ -130,13 +140,24 @@ export const HeroBanner = () => {
               style={{ objectPosition: slide.objectPosition }}
             />
           ) : (
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
-              loading={current === 0 ? "eager" : "lazy"}
-            />
+            <>
+              {slide.mobileImage && (
+                <img
+                  src={slide.mobileImage}
+                  alt={slide.alt}
+                  className="md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  style={{ objectPosition: "center" }}
+                  loading={current === 0 ? "eager" : "lazy"}
+                />
+              )}
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                className={`${slide.mobileImage ? "hidden md:block" : ""} w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]`}
+                style={{ objectPosition: slide.objectPosition }}
+                loading={current === 0 ? "eager" : "lazy"}
+              />
+            </>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 pb-20 md:pb-24">
