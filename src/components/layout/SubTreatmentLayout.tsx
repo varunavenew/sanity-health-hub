@@ -22,11 +22,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import promiseComfort from "@/assets/promises/familie-komfort.webp.asset.json";
-import promiseUnderOneRoof from "@/assets/promises/endokrinologi.jpg.asset.json";
+import promiseUnderOneRoof from "@/assets/promises/alt-under-samme-tak.jpg.asset.json";
 import promiseSpecialist from "@/assets/promises/spesialister-med-dybde.jpg.asset.json";
-import cmInitials from "@/assets/cm-initials.png.asset.json";
 
-const promiseImages = [promiseComfort.url, promiseSpecialist.url, cmInitials.url];
+const promiseImages = [promiseComfort.url, promiseSpecialist.url, promiseUnderOneRoof.url];
 
 export interface SubTreatmentContent {
  // Meta
