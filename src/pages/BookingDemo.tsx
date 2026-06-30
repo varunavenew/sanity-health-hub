@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { clinics as staticClinics, getClinicsForService as staticGetClinicsForService, Clinic } from "@/data/clinicServices";
 import { useClinics } from "@/hooks/useSanity";
 import { categoryPageToBookingId, slugifyNo } from "@/lib/bookingLinks";
+import { buildGoogleCalendarUrl, downloadICS, combineDateAndTime, parseDurationToMinutes } from "@/lib/calendarLinks";
 import { FriendlyEmpty } from "@/components/booking/FriendlyEmpty";
 
 // Booking services data based on CMedical's actual structure
