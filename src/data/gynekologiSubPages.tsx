@@ -399,7 +399,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { title: "PMS og PMDD", desc: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", href: "/behandlinger/gynekologi/pms-pmdd" },
     ],
-    ctaTitle: "Få en grundig PCOS-utredning",
+    ctaTitle: "Få en grundig PMOS-utredning",
     ctaDescription:
       "PCOS påvirker hele deg — derfor utreder vi hele deg. Bestill time for en samtale som tar utgangspunkt i din situasjon.",
   },
