@@ -347,15 +347,6 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
                                   <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                                     <div className="flex-1 min-w-0">
                                       <p className="font-normal text-brand-dark">{item.name}</p>
-                                      {item.path && (
-                                        <Link
-                                          to={item.path}
-                                          className="inline-flex items-center gap-1 mt-1 text-xs font-light text-brand-dark/70 hover:text-brand-dark hover:gap-2 transition-all"
-                                        >
-                                          Les mer om {item.name.toLowerCase()}
-                                          <ArrowRight className="w-3 h-3" />
-                                        </Link>
-                                      )}
                                       {(item.duration || item.priceNote) && (
                                         <p className="mt-1 text-xs font-light text-brand-dark/60">
                                           {item.duration}
@@ -417,7 +408,7 @@ const PriserDesktop = ({ isChatOpen }: PageProps) => {
                       to={cat.path}
                       className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
                     >
-                      Les mer om {cat.label.toLowerCase()}
+                      Se alle {cat.label.toLowerCase()}tjenester
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
