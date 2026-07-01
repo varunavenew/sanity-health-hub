@@ -3,6 +3,7 @@ import { Quote, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { googleReviews as staticReviews, googleRatingData, type GoogleReview } from "@/data/googleReviews";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 
 const categoryKeywords: Record<string, string[]> = {
