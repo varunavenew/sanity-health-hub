@@ -168,21 +168,31 @@ const BurgerMenu = () => {
  aria-label={t("nav.navigationMenu")}
  >
  {/* Mobile Header */}
- <div className="flex items-center justify-end p-4 border-b border-border">
- <button
- onClick={() => setIsMenuOpen(false)}
- className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
- aria-label={t("nav.closeMenu")}
- >
- <X className="h-6 w-6" aria-hidden="true" />
- </button>
+ <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+   <span className="text-xs uppercase text-foreground/50">Meny</span>
+   <button
+     onClick={() => setIsMenuOpen(false)}
+     className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
+     aria-label={t("nav.closeMenu")}
+   >
+     <X className="h-6 w-6" aria-hidden="true" />
+   </button>
  </div>
 
   {/* Mobile Content */}
   <div className="p-5 pb-[calc(96px+env(safe-area-inset-bottom))]">
     {/* Tjenester – accordion (Priser pill style) */}
     <div className="mb-6">
-      <h3 className="text-xs uppercase text-foreground/50 mb-3 px-1">Tjenester</h3>
+      <div className="flex items-center justify-between mb-3 px-1">
+        <h3 className="text-xs uppercase text-foreground/50">Tjenester</h3>
+        <button
+          onClick={() => handleNavigate('/tjenester')}
+          className="inline-flex items-center gap-1 text-xs text-brand-dark/80 hover:text-brand-dark"
+        >
+          Alle tjenester
+          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
+      </div>
       <nav aria-label="Alle tjenester" className="space-y-2">
         {serviceCategories.map((cat) => {
           const isOpen = openCategory === cat.id;
