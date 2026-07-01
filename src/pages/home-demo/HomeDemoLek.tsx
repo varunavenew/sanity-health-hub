@@ -8,6 +8,7 @@ import { SpecialistsSectionElegant } from "@/components/homepage/SpecialistsSect
 import { GoogleReviewsSection } from "@/components/homepage/GoogleReviewsSection";
 import { PatientTrustSection } from "@/components/homepage/PatientTrustSection";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
+import { HomeStickyBar } from "@/components/homepage/HomeStickyBar";
 import { ResultsStatsSection } from "@/components/shared/ResultsStatsSection";
 import { NewsSplitScreen } from "@/components/homepage/NewsSplitScreen";
 import { HomepageSEO } from "@/components/seo/HomepageSEO";
