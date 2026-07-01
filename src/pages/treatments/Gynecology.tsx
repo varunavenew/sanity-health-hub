@@ -59,7 +59,6 @@ const lifePhases = [
  href: "/behandlinger/gynekologi/blodningsforstyrrelser",
  },
  {
- n: "02",
  title: "Smerter eller ubehag i underlivet og livmoren",
  desc:
  "Vondt under samleie, vedvarende underlivsplager eller funn som bør undersøkes — vi tar oss tid til å forstå hva som skjer.",
