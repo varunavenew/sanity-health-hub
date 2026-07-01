@@ -156,28 +156,28 @@ const BurgerMenu = () => {
 
  {/* Mobile Menu — portaled to body to escape transformed ancestors (fixed positioning) */}
  {createPortal(
- <motion.div 
- ref={mobileMenuRef}
- initial={{ opacity: 0, x: '100%' }}
- animate={{ opacity: 1, x: 0 }}
- exit={{ opacity: 0, x: '100%' }}
- transition={{ duration: 0.3, ease: 'easeOut' }}
- className="md:hidden fixed inset-0 bg-white z-[100] overflow-y-auto"
- role="dialog"
- aria-modal="true"
- aria-label={t("nav.navigationMenu")}
- >
- {/* Mobile Header */}
- <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-   <span className="text-xs uppercase text-foreground/50">Meny</span>
-   <button
-     onClick={() => setIsMenuOpen(false)}
-     className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
-     aria-label={t("nav.closeMenu")}
-   >
-     <X className="h-6 w-6" aria-hidden="true" />
-   </button>
- </div>
+  <motion.div 
+  ref={mobileMenuRef}
+  initial={{ opacity: 0, x: '100%' }}
+  animate={{ opacity: 1, x: 0 }}
+  exit={{ opacity: 0, x: '100%' }}
+  transition={{ duration: 0.3, ease: 'easeOut' }}
+  className="md:hidden fixed inset-0 bg-background z-[100] overflow-y-auto"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t("nav.navigationMenu")}
+  >
+  {/* Mobile Header */}
+  <div className="flex items-center justify-between px-5 py-4 border-b border-brand-mid/20">
+    <span className="text-xs uppercase text-foreground/50">Meny</span>
+    <button
+      onClick={() => setIsMenuOpen(false)}
+      className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
+      aria-label={t("nav.closeMenu")}
+    >
+      <X className="h-6 w-6" aria-hidden="true" />
+    </button>
+  </div>
 
   {/* Mobile Content */}
   <div className="p-5 pb-[calc(96px+env(safe-area-inset-bottom))]">
@@ -197,7 +197,7 @@ const BurgerMenu = () => {
         {serviceCategories.map((cat) => {
           const isOpen = openCategory === cat.id;
           return (
-            <div key={cat.id} className="rounded-2xl border border-brand-dark/15 bg-white overflow-hidden">
+            <div key={cat.id} className="rounded-2xl border border-brand-mid/30 bg-white overflow-hidden">
               <div className="flex items-stretch">
                 <button
                   onClick={() => handleNavigate(cat.path)}
@@ -247,7 +247,7 @@ const BurgerMenu = () => {
 
 
  {/* Øvrige sider */}
- <div className="mt-10 pt-6 border-t border-border">
+ <div className="mt-10 pt-6 border-t border-brand-mid/20">
  <h3 className="text-xs uppercase tracking-normal text-foreground/50 mb-2">Mer</h3>
  <nav className="space-y-0.5">
  {menuItems.filter((m) => m.path !== '/tjenester').map((item) => (
@@ -263,7 +263,7 @@ const BurgerMenu = () => {
  </div>
 
  {/* Quick contact */}
- <div className="mt-8 pt-6 border-t border-border">
+ <div className="mt-8 pt-6 border-t border-brand-mid/20">
  <div className="space-y-3">
  <a 
  href={`tel:${phone.replace(/\s/g, '')}`}
