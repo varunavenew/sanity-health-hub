@@ -210,7 +210,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
           <div className="max-w-5xl mx-auto">
             {/* Sticky horizontal category filter bar (Wolt-style) */}
             <div
-              className="sticky z-30 -mx-4 my-4 bg-brand-light border-y border-brand-mid/30 shadow-sm"
+              className="sticky z-30 -mx-4 my-4 bg-background border-y border-brand-mid/30 shadow-sm"
               style={{ top: `${navTop}px` }}
             >
               <div
