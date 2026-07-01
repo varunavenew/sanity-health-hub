@@ -10,8 +10,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
 
-import pricingHeroAsset from "@/assets/hero/pricing-hero-family.jpg.asset.json";
-const pricingHero = pricingHeroAsset.url;
+import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
 // Note: The page uses Sanity data via usePricingPage() when available,
 // falling back to the static priceCategories below.
@@ -211,7 +210,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
           <div className="max-w-5xl mx-auto">
             {/* Sticky horizontal category filter bar (Wolt-style) */}
             <div
-              className="sticky z-30 -mx-4 bg-brand-light border-b border-brand-mid/30"
+              className="sticky z-30 -mx-4 my-4 bg-brand-light border-y border-brand-mid/30 shadow-sm"
               style={{ top: `${navTop}px` }}
             >
               <div
@@ -268,9 +267,10 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                            {sub.path && (
                              <Link
                                to={sub.path}
-                               className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 underline underline-offset-4 decoration-brand-dark/40 hover:text-brand-dark hover:decoration-brand-dark transition-all"
+                               aria-label={`Les mer om ${sub.label}`}
+                               className="inline-flex items-center justify-center w-8 h-8 mt-2 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
                              >
-                               Les mer
+                               <ArrowRight className="w-4 h-4" />
                              </Link>
                            )}
                         </div>
@@ -322,15 +322,16 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     {item.path && (
                                       <Link
                                         to={item.path}
-                                        className="inline-flex items-center gap-1 text-xs font-light text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
+                                        aria-label={`Les mer om ${item.name}`}
+                                        className="inline-flex items-center justify-center w-8 h-8 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
                                       >
-                                        Les mer
+                                        <ArrowRight className="w-4 h-4" />
                                       </Link>
                                     )}
                                     {!(isConsult || item.price === "Pris ved konsultasjon") && (
                                       <Link
                                         to={buildBookingUrl({ kategori: cat.id })}
-                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                        className="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
                                       >
                                         Bestill time
                                         <ArrowRight className="w-3 h-3" />
@@ -366,9 +367,10 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                   <div className="mt-10 pt-6 border-t border-brand-mid/30">
                     <Link
                       to={cat.path}
-                      className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
+                      aria-label={`Les mer om ${cat.label.toLowerCase()}`}
+                      className="inline-flex items-center justify-center w-10 h-10 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
                     >
-                      Les mer om {cat.label.toLowerCase()}
+                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </section>
