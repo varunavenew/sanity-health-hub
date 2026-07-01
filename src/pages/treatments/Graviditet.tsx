@@ -153,10 +153,50 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
 ];
 
 const journey = [
-  { n: "01", title: "Bestill time", desc: "Du booker direkte — ingen henvisning, ingen ventetid. Vi finner et tidspunkt som passer ditt svangerskap." },
-  { n: "02", title: "Første konsultasjon", desc: "Du møter jordmoren eller spesialisten din. Vi tar oss tid til samtalen før vi gjør en grundig vurdering." },
-  { n: "03", title: "Plan og oppfølging", desc: "Sammen legger vi en plan for resten av svangerskapet, tilpasset deg og din historikk." },
-  { n: "04", title: "Etter fødsel", desc: "Vi følger deg også etter fødsel — med kontroll, ammehjelp og samtaler om det som var." },
+  {
+    n: "01",
+    title: "Bestill time",
+    desc: "Du booker direkte — ingen henvisning, ingen ventetid. Vi finner et tidspunkt som passer ditt svangerskap.",
+    tags: [
+      { label: "Ingen henvisning", href: `${GRAV}/ultralyd` },
+      { label: "Direkte booking", href: `${GRAV}/ultralyd` },
+      "Kort ventetid",
+      "Graviditet",
+    ],
+  },
+  {
+    n: "02",
+    title: "Første konsultasjon",
+    desc: "Du møter jordmoren eller spesialisten din. Vi tar oss tid til samtalen før vi gjør en grundig vurdering.",
+    tags: [
+      { label: "Tidlig ultralyd", href: `${GRAV}/ultralyd` },
+      { label: "NIPT", href: `${GRAV}/nipt` },
+      "Jordmor",
+      "Spesialist",
+    ],
+  },
+  {
+    n: "03",
+    title: "Plan og oppfølging",
+    desc: "Sammen legger vi en plan for resten av svangerskapet, tilpasset deg og din historikk.",
+    tags: [
+      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
+      { label: "Fosterdiagnostikk", href: `${GRAV}/fosterdiagnostikk` },
+      "Fast jordmor",
+      "Personlig plan",
+    ],
+  },
+  {
+    n: "04",
+    title: "Etter fødsel",
+    desc: "Vi følger deg også etter fødsel — med kontroll, ammehjelp og samtaler om det som var.",
+    tags: [
+      "Kontroll etter fødsel",
+      "Ammehjelp",
+      "Samtale",
+      "Oppfølging",
+    ],
+  },
 ];
 
 const reviews = [
