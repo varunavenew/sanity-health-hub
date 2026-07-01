@@ -40,7 +40,7 @@ export const SplitHero = ({
  {description}
  </p>
  )}
- <div className="flex flex-row gap-3">
+ <div className="flex flex-col md:flex-row gap-3">
  {primaryCta && (
  <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
  {primaryCta.label}
@@ -58,12 +58,12 @@ export const SplitHero = ({
  {secondaryCta.label}
  </Button>
  )}
-  {bottomNote && (
-  <p className="mt-6 text-xs text-brand-dark/60 font-light max-w-md leading-relaxed">
-  {bottomNote}
-  </p>
-  )}
-  </div>
+ </div>
+ {bottomNote && (
+ <p className="mt-4 md:mt-6 text-xs text-brand-dark/60 font-light max-w-md leading-relaxed">
+ {bottomNote}
+ </p>
+ )}
   </div>
   {/* Right: image */}
  <div className="relative order-1 md:order-2 min-h-[260px] md:min-h-0">
