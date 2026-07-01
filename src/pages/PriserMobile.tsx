@@ -278,19 +278,9 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                 <li key={idx} className="py-3 md:py-4">
                                   {/* Name (wraps) + price (top-right, no wrap) on the same row */}
                                   <div className="grid grid-cols-[1fr_120px] gap-3 items-start">
-                                    {item.path ? (
-                                      <Link
-                                        to={item.path}
-                                        className="text-[15px] md:text-base font-normal text-brand-dark leading-snug hover:underline"
-                                      >
-                                        {item.name}
-                                        <ArrowRight className="inline w-3.5 h-3.5 text-brand-dark/60 align-[-0.125em] ml-0.5" />
-                                      </Link>
-                                    ) : (
-                                      <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
-                                        {item.name}
-                                      </p>
-                                    )}
+                                    <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
+                                      {item.name}
+                                    </p>
                                     <span className="text-[15px] md:text-base font-normal text-brand-dark tabular-nums text-right whitespace-normal leading-snug">
                                       {priceLabel}
                                     </span>
