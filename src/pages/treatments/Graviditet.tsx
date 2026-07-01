@@ -685,12 +685,13 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
 
             <div>
               <div className="divide-y divide-border/60 border-t border-border/60">
-                {journey.map((step) => (
+              {journey.map((step) => (
                   <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
                     <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">{step.n}</div>
                     <div className="col-span-10 md:col-span-11">
                       <h3 className="text-base font-normal text-foreground mb-1.5">{step.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">{step.desc}</p>
+                      {step.tags && <TagList tags={step.tags} className="mt-3" initialVisible={5} />}
                     </div>
                   </div>
                 ))}
