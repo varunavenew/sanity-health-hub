@@ -54,9 +54,7 @@ const segments = [
       "Trygghet tidlig i svangerskapet — vi sjekker hjerteslag, plassering og termin, og tar oss god tid til spørsmålene dine.",
     tags: [
       { label: "Tidlig ultralyd", href: `${GRAV}/ultralyd` },
-      { label: "NIPT", href: `${GRAV}/nipt` },
-      { label: "Fosterdiagnostikk", href: `${GRAV}/fosterdiagnostikk` },
-      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
+      { label: "Termin og plassering", href: `${GRAV}/ultralyd` },
     ],
     cta: "Les mer",
     href: `${GRAV}/ultralyd`,
@@ -315,33 +313,17 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-dark/10 rounded-sm overflow-hidden">
-              {segments.map((s) => {
-                // De-dupe buttons by href so we don't show two buttons that lead to the same page
-                const seen = new Set<string>();
-                const buttons = (s.tags ?? []).filter((t) => {
-                  if (seen.has(t.href)) return false;
-                  seen.add(t.href);
-                  return true;
-                });
-                return (
-                  <div key={s.id} className="bg-background p-7 flex flex-col">
-                    <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">{s.title}</h3>
-                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{s.desc}</p>
-                    <div className="flex flex-col gap-2">
-                      {buttons.map((b) => (
-                        <Link
-                          key={b.href + b.label}
-                          to={b.href}
-                          className="inline-flex items-center justify-between gap-3 px-4 py-3 rounded-2xl border border-foreground/15 bg-background text-sm font-normal text-foreground hover:bg-foreground/5 hover:border-foreground/30 transition-colors"
-                        >
-                          <span>{b.label}</span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-60" />
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
+              {segments.map((s) => (
+                <div key={s.id} className="bg-background p-7 flex flex-col">
+                  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">{s.title}</h3>
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{s.desc}</p>
+                  <TagList tags={s.tags ?? []} initialVisible={3} className="mb-5" />
+                  <Link to={s.href} className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all">
+                    {s.cta}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         </div>
