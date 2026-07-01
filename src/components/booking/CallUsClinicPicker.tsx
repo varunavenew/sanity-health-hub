@@ -39,14 +39,14 @@ export const CallUsClinicPicker = ({
   const callable = clinics.map((c) => ({ label: c.label, phone: c.phone }));
 
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative w-full sm:w-auto" ref={ref}>
       <Button
         variant={variant === "dark" ? "cta-outline-dark" : "cta-outline"}
         size={size}
         onClick={() => setOpen((o) => !o)}
-        className={className}
+        className={`w-full sm:w-auto max-sm:bg-white ${className ?? ""}`}
       >
-        <Phone className="mr-2 w-5 h-5" />
+        <Phone className="mr-2 w-5 h-5 hidden sm:inline-block" />
         {label ?? t("booking.callUs")}
         <ChevronDown
           className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
