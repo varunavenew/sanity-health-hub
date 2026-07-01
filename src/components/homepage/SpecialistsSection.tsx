@@ -127,16 +127,11 @@ export const SpecialistsSection = () => {
         </div>
       </div>
 
-      {/* Mobile scroll hint + see all CTA */}
-      <div className="md:hidden flex flex-col items-center mt-4 gap-4 container mx-auto px-6">
+      {/* Mobile scroll hint */}
+      <div className="md:hidden flex justify-center mt-4">
         <span className="text-xs text-muted-foreground">{t("specialists.swipeHint")}</span>
-        <Button variant="cta-outline" asChild>
-          <Link to="/spesialister">
-            {t("specialists.seeAll", { count: specialists.length })}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        </Button>
       </div>
+
     </section>
   );
 };
