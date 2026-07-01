@@ -10,8 +10,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { getImageUrl } from "@/lib/sanityClient";
 import { SplitHero } from "@/components/layout/SplitHero";
 
-import pricingHeroAsset from "@/assets/hero/pricing-hero-family.jpg.asset.json";
-const pricingHero = pricingHeroAsset.url;
+import pricingHero from "@/assets/hero/pricing-hero.jpg";
 
 // Note: The page uses Sanity data via usePricingPage() when available,
 // falling back to the static priceCategories below.
