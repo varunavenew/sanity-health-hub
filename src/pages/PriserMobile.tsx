@@ -318,7 +318,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                         <span className="inline-flex items-center justify-center w-5 h-5 rounded-2xl border border-brand-dark/30 text-brand-dark">
                                           {isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
                                         </span>
-                                        {isOpen ? 'Skjul beskrivelse' : 'Les beskrivelse'}
+                                        {isOpen ? 'Skjul beskrivelse' : 'Om tjenesten'}
                                       </button>
                                     )}
                                     {!(isConsult || item.price === "Pris ved konsultasjon") && (
