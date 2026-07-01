@@ -15,7 +15,7 @@ import gynekologiHeroAsset from "@/assets/services/gynekologi-hero.jpg.asset.jso
 import ortopediAsset from "@/assets/services/ortopedi-hero.jpg.asset.json";
 import graviditetAsset from "@/assets/services/graviditet-hero.jpg.asset.json";
 import flereImg from "@/assets/hero/cmedical-family.jpg";
-import mobilGynekologiAsset from "@/assets/services/mobil-gynekologi-hero-v2.jpg.asset.json";
+import mobilGynekologiAsset from "@/assets/services/mobil-gynekologi-hero.jpg.asset.json";
 import mobilFertilitetAsset from "@/assets/services/mobil-fertilitet-hero.jpg.asset.json";
 import mobilFlereAsset from "@/assets/services/mobil-flere-hero.jpg.asset.json";
 
