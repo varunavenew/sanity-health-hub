@@ -72,12 +72,15 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
                 className="absolute inset-0 w-full h-full object-cover"
                 loading={index === 0 ? "eager" : "lazy"}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent" aria-hidden="true" />
-              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 px-3 py-3">
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/30 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-2 p-3">
                 <h3 className="text-sm font-light text-white leading-tight">
                   {category.title}
                 </h3>
-                <ArrowRight className="w-3.5 h-3.5 text-white/80 shrink-0" aria-hidden="true" />
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1.5 text-xs font-normal text-accent-foreground">
+                  Les mer
+                  <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                </span>
               </div>
             </button>
           ))}
