@@ -1,60 +1,34 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { ChevronRight, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation, useLocaleParam } from "@/lib/router";
-import { pathForNavId } from "@/lib/routing/nav-cms-paths";
-import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
-import { useServiceCategories } from '@/hooks/useServiceCategories';
-import { useTranslation } from 'react-i18next';
+import { useServiceCategories } from "@/hooks/useServiceCategories";
+import { useTranslation } from "react-i18next";
+import {
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { siteNavMenuTriggerStyle } from "@/lib/navigation/site-nav-trigger-style";
+import { cn } from "@/lib/utils";
 
-export const ServicesDropdown = () => {
+export const ServicesNavMenuItem = () => {
   const { categories: serviceCategories } = useServiceCategories();
   const { t } = useTranslation();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
   const locale = useLocaleParam();
-  const { index: cmsRouteIndex } = useCmsRouteContext();
 
-  // Find the category that matches the current route (longest matching path wins)
   const currentCategory = serviceCategories
-    .filter((c) => c.path && (location.pathname === c.path || location.pathname.startsWith(c.path + '/')))
+    .filter((c) => c.path && (location.pathname === c.path || location.pathname.startsWith(c.path + "/")))
     .sort((a, b) => b.path.length - a.path.length)[0];
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    if (!activeCategory && serviceCategories.length > 0) {
-      setActiveCategory(currentCategory?.id ?? serviceCategories[0].id);
-    }
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-      setActiveCategory(null);
-      setActiveSubcategory(null);
-    }, 150);
-  };
 
   const handleNavigate = (path: string) => {
     navigate(path);
-    setIsOpen(false);
-    setActiveCategory(null);
-    setActiveSubcategory(null);
-  };
-
-  const handleNavigateServices = () => {
-    const servicesPath = cmsRouteIndex
-      ? pathForNavId(cmsRouteIndex, "services", locale)
-      : "";
-    if (servicesPath) navigate(servicesPath);
-    setIsOpen(false);
     setActiveCategory(null);
     setActiveSubcategory(null);
   };
@@ -69,7 +43,6 @@ export const ServicesDropdown = () => {
         )
       : null;
 
-  // Keep active category in sync when Sanity data loads or locale changes ids
   useEffect(() => {
     if (serviceCategories.length === 0) return;
     const valid =
@@ -80,151 +53,156 @@ export const ServicesDropdown = () => {
     }
   }, [serviceCategories, activeCategory, currentCategory?.id]);
 
-  // Reset subcategory when locale/data changes (labels and ids stay slug-based)
   useEffect(() => {
     setActiveSubcategory(null);
   }, [locale, serviceCategories]);
 
-  return (
-    <div 
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button 
-        onClick={handleNavigateServices}
-        onFocus={handleMouseEnter}
-        onBlur={() => {
-          timeoutRef.current = setTimeout(() => {
-            setIsOpen(false);
-          }, 200);
-        }}
-        className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-      >
-        {t("nav.services")}
-        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
-      </button>
+  if (serviceCategories.length === 0) {
+    return (
+      <NavigationMenuItem>
+        <NavigationMenuTrigger className={siteNavMenuTriggerStyle()}>
+          {t("nav.services")}
+        </NavigationMenuTrigger>
+        <NavigationMenuContent />
+      </NavigationMenuItem>
+    );
+  }
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.15 }}
-            className="absolute left-0 top-full pt-2 z-50"
-          >
-            <div className="bg-brand-dark rounded-2xl shadow-2xl overflow-hidden border border-white/10">
-              <div className="flex">
-                {/* Column 1 - Main Categories */}
-                <div className="w-[180px] p-4 border-r border-white/10">
-                  <h3 className="text-white/50 text-sm tracking-wider mb-2 font-light px-2">
-                    {t("nav.services")}
-                  </h3>
-                  <nav className="space-y-0">
-                    {serviceCategories.map((category) => (
-                      <button 
-                        key={category.id}
-                        onMouseEnter={() => {
-                          setActiveCategory(category.id);
-                          setActiveSubcategory(null);
-                        }}
-                        onClick={() => handleNavigate(category.path)} 
-                        className={`w-full flex items-center justify-between py-2 px-2 rounded-md text-left text-[13px] font-light transition-all ${
-                          activeCategory === category.id 
-                            ? 'bg-white/10 text-white' 
-                            : 'text-white/70 hover:text-white hover:bg-white/5'
-                        }`}
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuTrigger className={siteNavMenuTriggerStyle()}>
+        {t("nav.services")}
+      </NavigationMenuTrigger>
+      <NavigationMenuContent className="p-0">
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-brand-dark shadow-2xl">
+          <div className="flex">
+            <div className="w-[180px] border-r border-white/10 p-4">
+              <h3 className="mb-2 px-2 text-sm font-light tracking-wider text-white/50">
+                {t("nav.services")}
+              </h3>
+              <nav className="space-y-0">
+                {serviceCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onMouseEnter={() => {
+                      setActiveCategory(category.id);
+                      setActiveSubcategory(null);
+                    }}
+                    onClick={() => handleNavigate(category.path)}
+                    className={cn(
+                      "flex w-full items-center justify-between rounded-md px-2 py-2 text-left text-[13px] font-light transition-all",
+                      activeCategory === category.id
+                        ? "bg-white/10 text-white"
+                        : "text-white/70 hover:bg-white/5 hover:text-white",
+                    )}
+                  >
+                    {category.label}
+                    <ChevronRight
+                      className={cn(
+                        "h-3.5 w-3.5 transition-transform",
+                        activeCategory === category.id && "translate-x-1",
+                      )}
+                    />
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            <div className="max-h-[calc(100vh-140px)] w-[220px] overflow-y-auto border-r border-white/10 bg-white/5 p-4">
+              <h3 className="mb-2 px-2 text-sm font-light tracking-wider text-white/50">
+                {activeCategoryData.label}
+              </h3>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategoryData.id}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.12 }}
+                >
+                  <nav className="grid grid-cols-1 gap-0">
+                    {(activeCategoryData.subcategories ?? []).map((sub) => (
+                      <button
+                        key={sub.id ?? sub.label}
+                        type="button"
+                        onMouseEnter={() => setActiveSubcategory(sub.id ?? sub.label)}
+                        onClick={() => handleNavigate(sub.path)}
+                        className={cn(
+                          "group flex w-full items-center justify-between rounded px-2 py-2 text-left text-[13px] font-light transition-colors",
+                          activeSubcategory === (sub.id ?? sub.label)
+                            ? "bg-white/10 text-white"
+                            : "text-white/70 hover:bg-white/10 hover:text-white",
+                        )}
                       >
-                        {category.label}
-                        <ChevronRight className={`h-3.5 w-3.5 transition-transform ${activeCategory === category.id ? 'translate-x-1' : ''}`} />
+                        <span>{sub.label}</span>
+                        {sub.items && sub.items.length > 0 && (
+                          <ChevronRight
+                            className={cn(
+                              "h-3.5 w-3.5 transition-all",
+                              activeSubcategory === (sub.id ?? sub.label)
+                                ? "translate-x-1 opacity-100"
+                                : "opacity-50",
+                            )}
+                          />
+                        )}
                       </button>
                     ))}
                   </nav>
-                </div>
-
-                {/* Column 2 - Subcategories */}
-                <div className="w-[220px] p-4 bg-white/5 max-h-[calc(100vh-140px)] overflow-y-auto border-r border-white/10">
-                  <h3 className="text-white/50 text-sm tracking-wider mb-2 font-light px-2">
-                    {activeCategoryData.label}
-                  </h3>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeCategoryData.id}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.12 }}
-                    >
-                      <nav className="grid grid-cols-1 gap-0">
-                        {(activeCategoryData.subcategories ?? []).map((sub) => (
-                          <button 
-                            key={sub.id ?? sub.label}
-                            onMouseEnter={() => setActiveSubcategory(sub.id ?? sub.label)}
-                            onClick={() => handleNavigate(sub.path)} 
-                            className={`w-full flex items-center justify-between text-left py-2 px-2 text-[13px] font-light transition-colors rounded group ${
-                              activeSubcategory === (sub.id ?? sub.label)
-                                ? 'bg-white/10 text-white'
-                                : 'text-white/70 hover:text-white hover:bg-white/10'
-                            }`}
-                          >
-                            <span>{sub.label}</span>
-                            {sub.items && sub.items.length > 0 && (
-                              <ChevronRight className={`h-3.5 w-3.5 transition-all ${
-                                activeSubcategory === (sub.id ?? sub.label) ? 'opacity-100 translate-x-1' : 'opacity-50'
-                              }`} />
-                            )}
-                          </button>
-                        ))}
-                      </nav>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-
-                {/* Column 3 - Sub-items */}
-                <AnimatePresence>
-                  {activeSubcategoryData && activeSubcategoryData.items && activeSubcategoryData.items.length > 0 && (
-                    <motion.div
-                      key="third-column"
-                      initial={{ opacity: 0, width: 0 }}
-                      animate={{ opacity: 1, width: 200 }}
-                      exit={{ opacity: 0, width: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="w-[200px] p-4 bg-white/[0.03] max-h-[calc(100vh-140px)] overflow-y-auto">
-                        <h3 className="text-white/50 text-sm tracking-wider mb-2 font-light px-2">
-                          {activeSubcategoryData.label}
-                        </h3>
-                        <nav className="grid grid-cols-1 gap-0">
-                          {activeSubcategoryData.items.map((item, index) => (
-                            <button 
-                              key={`${item.label}-${item.anchor ?? index}`}
-                              onClick={() => {
-                                if (item.path) {
-                                  handleNavigate(item.path);
-                                } else {
-                                  const anchor = item.anchor || item.label.toLowerCase().replace(/\s+/g, '-').replace(/[æ]/g, 'ae').replace(/[ø]/g, 'o').replace(/[å]/g, 'a');
-                                  handleNavigate(`${activeSubcategoryData.path}#${anchor}`);
-                                }
-                              }}
-                              className="w-full text-left py-1.5 px-2 text-[12px] font-light transition-colors rounded text-white/60 hover:text-white hover:bg-white/10"
-                            >
-                              {item.label}
-                            </button>
-                          ))}
-                        </nav>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+
+            <AnimatePresence>
+              {activeSubcategoryData?.items && activeSubcategoryData.items.length > 0 && (
+                <motion.div
+                  key="third-column"
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 200 }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="overflow-hidden"
+                >
+                  <div className="max-h-[calc(100vh-140px)] w-[200px] overflow-y-auto bg-white/[0.03] p-4">
+                    <h3 className="mb-2 px-2 text-sm font-light tracking-wider text-white/50">
+                      {activeSubcategoryData.label}
+                    </h3>
+                    <nav className="grid grid-cols-1 gap-0">
+                      {activeSubcategoryData.items.map((item, index) => (
+                        <button
+                          key={`${item.label}-${item.anchor ?? index}`}
+                          type="button"
+                          onClick={() => {
+                            if (item.path) {
+                              handleNavigate(item.path);
+                            } else {
+                              const anchor =
+                                item.anchor ||
+                                item.label
+                                  .toLowerCase()
+                                  .replace(/\s+/g, "-")
+                                  .replace(/[æ]/g, "ae")
+                                  .replace(/[ø]/g, "o")
+                                  .replace(/[å]/g, "a");
+                              handleNavigate(`${activeSubcategoryData.path}#${anchor}`);
+                            }
+                          }}
+                          className="w-full rounded px-2 py-1.5 text-left text-[12px] font-light text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </nav>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
   );
 };
+
+/** @deprecated Use ServicesNavMenuItem inside NavigationMenu */
+export const ServicesDropdown = ServicesNavMenuItem;

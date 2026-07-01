@@ -21,7 +21,13 @@
     "closeMenu": "Close menu",
     "skipToContent": "Skip to main content",
     "selectLanguage": "Select language",
-    "navigationMenu": "Navigation menu"
+    "navigationMenu": "Navigation menu",
+    "quickActions": "Quick actions",
+    "ring": "Call",
+    "callPhone": "Call {{phone}}",
+    "more": "More",
+    "allServices": "All services",
+    "expandCategory": "Show {{category}}"
   },
   "hero": {
     "kvinnehelse": {

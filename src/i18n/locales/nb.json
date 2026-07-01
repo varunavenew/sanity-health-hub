@@ -21,7 +21,13 @@
     "closeMenu": "Lukk meny",
     "skipToContent": "Hopp til hovedinnhold",
     "selectLanguage": "Velg språk",
-    "navigationMenu": "Navigasjonsmeny"
+    "navigationMenu": "Navigasjonsmeny",
+    "quickActions": "Hurtighandlinger",
+    "ring": "Ring",
+    "callPhone": "Ring {{phone}}",
+    "more": "Mer",
+    "allServices": "Alle tjenester",
+    "expandCategory": "Vis {{category}}"
   },
   "hero": {
     "kvinnehelse": {
