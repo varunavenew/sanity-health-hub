@@ -158,7 +158,7 @@ export const SpecialistsScroller = ({
             <ScrollArrows scrollRef={scrollRef} />
           </div>
           {showSeeAllButton && (
-            <div className="md:hidden container mx-auto px-6 mt-6 flex justify-center">
+            <div className="hidden md:flex container mx-auto px-6 mt-6 justify-center">
               <Button variant="cta-outline" asChild>
                 <Link to={seeAllHref}>
                   {computedSeeAllLabel}
@@ -167,6 +167,7 @@ export const SpecialistsScroller = ({
               </Button>
             </div>
           )}
+
         </div>
 
 
