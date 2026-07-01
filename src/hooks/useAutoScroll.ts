@@ -1,24 +1,34 @@
 import { RefObject, useEffect } from "react";
 
 /**
- * Slow continuous horizontal auto-scroll for marquee-style mobile carousels.
- * Pauses while user interacts (touch / pointer down / wheel) and resumes after a
- * short idle delay. Loops back to the start when reaching the end.
+ * Continuous horizontal auto-scroll for mobile marquee-style carousels.
  *
- * pxPerSecond defaults to ~25 — same calm pace as the desktop marquee.
+ * - `seamless: true` expects the caller to render items TWICE in the DOM.
+ *   The scroll position wraps at half the scrollWidth for a truly seamless loop.
+ * - Pauses briefly on user interaction (touch / pointer / wheel) then resumes.
+ * - Respects `prefers-reduced-motion`.
  */
 export function useAutoScroll(
   ref: RefObject<HTMLElement>,
-  options: { pxPerSecond?: number; enabled?: boolean; resumeDelayMs?: number } = {},
+  options: {
+    pxPerSecond?: number;
+    enabled?: boolean;
+    resumeDelayMs?: number;
+    seamless?: boolean;
+  } = {},
 ) {
-  const { pxPerSecond = 25, enabled = true, resumeDelayMs = 2500 } = options;
+  const {
+    pxPerSecond = 25,
+    enabled = true,
+    resumeDelayMs = 2500,
+    seamless = false,
+  } = options;
 
   useEffect(() => {
     if (!enabled) return;
     const el = ref.current;
     if (!el) return;
     if (typeof window === "undefined") return;
-    // Respect reduced motion
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
 
@@ -32,11 +42,12 @@ export function useAutoScroll(
       last = t;
       if (!paused && el.scrollWidth > el.clientWidth + 1) {
         const next = el.scrollLeft + pxPerSecond * dt;
-        const max = el.scrollWidth - el.clientWidth;
-        if (next >= max - 0.5) {
-          el.scrollLeft = 0;
+        if (seamless) {
+          const half = el.scrollWidth / 2;
+          el.scrollLeft = next >= half ? next - half : next;
         } else {
-          el.scrollLeft = next;
+          const max = el.scrollWidth - el.clientWidth;
+          el.scrollLeft = next >= max - 0.5 ? 0 : next;
         }
       }
       raf = requestAnimationFrame(step);
@@ -47,6 +58,7 @@ export function useAutoScroll(
       if (resumeTimer) window.clearTimeout(resumeTimer);
       resumeTimer = window.setTimeout(() => {
         paused = false;
+        last = performance.now();
       }, resumeDelayMs);
     };
 
@@ -62,5 +74,5 @@ export function useAutoScroll(
       el.removeEventListener("touchstart", pause);
       el.removeEventListener("wheel", pause);
     };
-  }, [ref, pxPerSecond, enabled, resumeDelayMs]);
+  }, [ref, pxPerSecond, enabled, resumeDelayMs, seamless]);
 }
