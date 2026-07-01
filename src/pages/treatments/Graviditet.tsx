@@ -54,7 +54,9 @@ const segments = [
       "Trygghet tidlig i svangerskapet — vi sjekker hjerteslag, plassering og termin, og tar oss god tid til spørsmålene dine.",
     tags: [
       { label: "Tidlig ultralyd", href: `${GRAV}/ultralyd` },
-      { label: "Termin og plassering", href: `${GRAV}/ultralyd` },
+      { label: "NIPT", href: `${GRAV}/nipt` },
+      { label: "Fosterdiagnostikk", href: `${GRAV}/fosterdiagnostikk` },
+      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
     ],
     cta: "Les mer",
     href: `${GRAV}/ultralyd`,
