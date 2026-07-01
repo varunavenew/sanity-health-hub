@@ -185,7 +185,7 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
    { title: "Ultralyd", desc: "Gynekologisk og tidlig graviditet", href: "/behandlinger/gynekologi/undersokelse" },
    { title: "Hysteroskopi", desc: "Undersøkelse av livmorhulen", href: "/behandlinger/gynekologi/kirurgi" },
    { title: "Office-hysteroskopi", desc: "Poliklinisk inngrep uten narkose", href: "/behandlinger/gynekologi/kirurgi" },
-   { title: "NIPT", desc: "Fosterdiagnostikk", href: "/behandlinger/gynekologi/undersokelse" },
+   { title: "NIPT", desc: "Fosterdiagnostikk", href: "/behandlinger/graviditet/nipt" },
    { title: "Prevensjon og rådgivning", desc: "Valg av riktig prevensjon", href: "/behandlinger/gynekologi/undersokelse" },
   ],
  },
@@ -570,7 +570,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/behandlinger/gynekologi/endometriose" },
  { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/behandlinger/gynekologi/urinlekkasje" },
  { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/behandlinger/gynekologi/overgangsalder" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PCOS-utredning", href: "/behandlinger/gynekologi/pcos" },
+ { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PMOS-utredning", href: "/behandlinger/gynekologi/pcos" },
  { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/behandlinger/gynekologi/vulvalidelser" },
  ]}
  />
