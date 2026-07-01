@@ -287,10 +287,10 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     {item.path ? (
                                       <Link
                                         to={item.path}
-                                        className="text-[15px] md:text-base font-normal text-brand-dark leading-snug inline-flex items-center gap-1 hover:underline"
+                                        className="text-[15px] md:text-base font-normal text-brand-dark leading-snug hover:underline"
                                       >
                                         {item.name}
-                                        <ArrowRight className="w-3.5 h-3.5 text-brand-dark/60 shrink-0" />
+                                        <ArrowRight className="inline w-3.5 h-3.5 text-brand-dark/60 align-[-0.125em] ml-0.5" />
                                       </Link>
                                     ) : (
                                       <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
