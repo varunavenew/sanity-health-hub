@@ -53,7 +53,9 @@ export const CategoryReviews = ({ categoryId, categoryTitle }: CategoryReviewsPr
   const duplicated = [...reviews, ...reviews];
   const legelistenRating = 4.8;
   const mobileScrollRef = useRef<HTMLDivElement>(null);
-  useAutoScroll(mobileScrollRef);
+  const mobileLoop = reviews.length > 3;
+  const mobileList = mobileLoop ? duplicated : reviews;
+  useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
 
 
   return (
