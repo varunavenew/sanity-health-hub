@@ -287,16 +287,16 @@ const BurgerMenu = () => {
  </div>
  </div>
 
- {/* CTA */}
- <div className="mt-8">
- <button 
- onClick={() => handleNavigate(ctaButton.path)}
- className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
- >
- {ctaButton.label}
- </button>
- </div>
- </div>
+  </div>
+  {/* Bottom beige stripe with CTA */}
+  <div className="bg-brand-warm border-t border-brand-mid/20 px-5 py-4 pb-[calc(16px+env(safe-area-inset-bottom))]">
+  <button 
+  onClick={() => handleNavigate(ctaButton.path)}
+  className="w-full py-4 text-base font-normal bg-accent text-accent-foreground hover:bg-accent/90 rounded-2xl transition-colors"
+  >
+  {ctaButton.label}
+  </button>
+  </div>
  </motion.div>,
  document.body
  )}
