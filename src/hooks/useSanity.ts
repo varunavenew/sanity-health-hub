@@ -819,6 +819,7 @@ export interface SanityArticle {
   image: string;
   date: string;
   category: string;
+  externalUrl?: string;
   body?: any[];
   pageSections?: PageSection[];
 }
