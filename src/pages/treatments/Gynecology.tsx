@@ -15,7 +15,7 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import spotlightImg from "@/assets/hero/gynecology-hero.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
-import { TagList } from "@/components/treatments/TagList";
+
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getServiceImageFromHref } from "@/data/serviceImages";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
@@ -341,31 +341,42 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <div ref={lifePhasesRef} className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
- {lifePhases.map((p, i) => {
-  // 3 + 2 layout: first three cards span 2/6, last two span 3/6
-  const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
-  return (
-  <div key={p.n} className={`bg-background p-7 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center rounded-sm md:rounded-none ${span}`}>
-  <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
-  {p.title}
-  </h3>
-  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-  {p.desc}
-  </p>
-  <TagList tags={p.tags ?? []} initialVisible={3} className="mb-5" />
-  <Link
-  to={p.href}
-  className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
-  >
-  Les mer
-  <ArrowRight className="w-3.5 h-3.5" />
-  </Link>
+  <div ref={lifePhasesRef} className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+  {lifePhases.map((p, i) => {
+   // 3 + 2 layout: first three cards span 2/6, last two span 3/6
+   const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
+   return (
+   <div key={p.n} className={`bg-background p-7 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center rounded-sm md:rounded-none ${span}`}>
+   <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
+   {p.title}
+   </h3>
+   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+   {p.desc}
+   </p>
+   <div className="divide-y divide-foreground/10 mb-5">
+   {(p.tags ?? []).slice(0, 4).map((tag) => (
+    <Link
+     key={tag.label}
+     to={tag.href}
+     className="flex items-center justify-between py-3 text-sm font-light text-foreground hover:text-foreground/70 transition-colors group"
+    >
+     <span>{tag.label}</span>
+     <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground transition-colors shrink-0 ml-3" />
+    </Link>
+   ))}
+   </div>
+   <Link
+   to={p.href}
+   className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
+   >
+   Les mer
+   <ArrowRight className="w-3.5 h-3.5" />
+   </Link>
+   </div>
+   );
+  })}
   </div>
-  );
- })}
- </div>
- <ScrollArrows scrollRef={lifePhasesRef} />
+  <ScrollArrows scrollRef={lifePhasesRef} />
 
  </div>
  </div>
