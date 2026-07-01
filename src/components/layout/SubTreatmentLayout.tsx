@@ -903,26 +903,27 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
 
  {/* 4b. MID-PAGE CONVERSION BAND */}
- <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
+ <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
  <div className="container mx-auto px-6 md:px-16">
  <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
  <div className="max-w-3xl">
- <h2 className="text-2xl md:text-3xl font-light leading-tight">
+ <h2 className="text-xl md:text-3xl font-light leading-tight">
  {c.conversationCtaTitle ?? "Snakk med en av våre spesialister"}
  </h2>
  </div>
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+      <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center w-full md:w-auto">
         <Button
  variant="cta"
  size="lg"
- className="px-6"
+ className="px-6 w-full md:w-auto h-14 md:h-12"
  onClick={() => (window.location.href = buildBookingUrl(c.booking))}
  >
  Se ledige tider og book
  </Button>
- <CallUsClinicPicker variant="light" label="Ring oss" />
-
- </div>
+        <div className="w-full md:w-auto">
+          <CallUsClinicPicker variant="light" label="Ring oss" className="w-full h-14 md:h-12" />
+        </div>
+      </div>
  </div>
  </div>
  </section>
