@@ -263,7 +263,7 @@ const BurgerMenu = () => {
  </div>
 
  {/* Quick contact */}
- <div className="mt-8 pt-6 border-t border-border">
+ <div className="mt-8 pt-6 border-t border-brand-mid/20">
  <div className="space-y-3">
  <a 
  href={`tel:${phone.replace(/\s/g, '')}`}
