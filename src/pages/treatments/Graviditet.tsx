@@ -317,7 +317,30 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                 <div key={s.id} className="bg-background p-7 flex flex-col">
                   <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">{s.title}</h3>
                   <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{s.desc}</p>
-                  <TagList tags={s.tags ?? []} initialVisible={3} className="mb-5" />
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {s.tags?.map((t) => {
+                      const label = typeof t === "string" ? t : t.label;
+                      const href = typeof t === "string" ? undefined : t.href;
+                      const key = `${s.id}-${label}`;
+                      if (href) {
+                        return (
+                          <Link
+                            key={key}
+                            to={href}
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center text-xs font-normal text-foreground border border-foreground/25 rounded-full px-3 py-1.5 hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+                          >
+                            {label}
+                          </Link>
+                        );
+                      }
+                      return (
+                        <span key={key} className="inline-flex items-center text-xs font-light text-foreground/70 border border-foreground/15 rounded-full px-3 py-1.5">
+                          {label}
+                        </span>
+                      );
+                    })}
+                  </div>
                   <Link to={s.href} className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all">
                     {s.cta}
                     <ArrowRight className="w-3.5 h-3.5" />
