@@ -275,12 +275,12 @@ const RelatedBlock = ({
   const gridCols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
     <>
-      <div ref={ref} className={`flex md:grid ${gridCols} gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide`} style={{ scrollbarWidth: 'none' }}>
+      <div ref={ref} className={`grid grid-cols-1 ${gridCols} gap-4 md:gap-6`}>
         {resolved.map((a) => (
           <Link
             key={a.title}
             to={a.href}
-            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
+            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
           >
             <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
               {a.image && (
@@ -607,7 +607,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           {c.relatedLead ? (
-            <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+            <div className="grid lg:grid-cols-12 gap-6 md:gap-14 lg:gap-24 mb-10 md:mb-14">
               <div className="lg:col-span-6">
                 <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                   {c.relatedTitle ?? "Dette inngår i tjenesten"}
@@ -620,7 +620,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
               </div>
             </div>
           ) : (
-            <div className="max-w-2xl mb-12">
+            <div className="max-w-2xl mb-8 md:mb-12">
               <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
                 {c.relatedTitle ?? "Dette inngår i tjenesten"}
               </h2>
