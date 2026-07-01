@@ -37,6 +37,7 @@ export const ScrollArrows = ({
   scrollRef,
   visibility = "mobile",
   className = "",
+  slideCount,
 }: ScrollArrowsProps) => {
   const [count, setCount] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
