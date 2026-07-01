@@ -6,6 +6,12 @@ interface ScrollArrowsProps {
   /** Where the indicator is visible. Default: mobile only. */
   visibility?: "mobile" | "all" | "desktop";
   className?: string;
+  /**
+   * For seamless/looping carousels that duplicate children, pass the
+   * original slide count so the dot bar shows N dots (not 2N) and
+   * active index wraps via modulo.
+   */
+  slideCount?: number;
   /** Legacy props — kept for backwards compat, no longer used. */
   align?: "end" | "center" | "start";
   size?: "default" | "compact";
