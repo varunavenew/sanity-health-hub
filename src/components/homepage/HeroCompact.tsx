@@ -74,13 +74,10 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/30 to-transparent" aria-hidden="true" />
               <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 p-3">
-                <h3 className="text-sm font-light text-white leading-tight">
+                <h3 className="text-sm font-light text-white leading-tight inline-flex items-center gap-1.5">
                   {category.title}
-                </h3>
-                <span className="inline-flex items-center gap-1 text-xs font-normal text-white/80">
-                  Les mer
                   <ArrowRight className="w-3 h-3" aria-hidden="true" />
-                </span>
+                </h3>
               </div>
             </button>
           ))}
