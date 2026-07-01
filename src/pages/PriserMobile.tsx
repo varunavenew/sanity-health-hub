@@ -262,18 +262,17 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                         className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10 md:items-start"
                       >
                         <div className="md:sticky md:top-48 md:self-start">
-                          <h3 className="text-sm font-normal text-brand-dark">
-                            {sub.label}
-                          </h3>
-                          {sub.path && (
-                            <Link
-                              to={sub.path}
-                              className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 underline underline-offset-4 decoration-brand-dark/40 hover:text-brand-dark hover:decoration-brand-dark transition-all"
-                            >
-                              Les mer
-                              <ArrowRight className="w-3 h-3" />
-                            </Link>
-                          )}
+                           <h3 className="text-lg font-normal text-brand-dark">
+                             {sub.label}
+                           </h3>
+                           {sub.path && (
+                             <Link
+                               to={sub.path}
+                               className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 underline underline-offset-4 decoration-brand-dark/40 hover:text-brand-dark hover:decoration-brand-dark transition-all"
+                             >
+                               Les mer
+                             </Link>
+                           )}
                         </div>
 
                         <div>
@@ -323,10 +322,9 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     {item.path && (
                                       <Link
                                         to={item.path}
-                                        className="inline-flex items-center gap-1 text-xs font-normal text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
+                                        className="inline-flex items-center gap-1 text-xs font-light text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
                                       >
                                         Les mer
-                                        <ArrowRight className="w-3 h-3" />
                                       </Link>
                                     )}
                                     {!(isConsult || item.price === "Pris ved konsultasjon") && (
@@ -360,17 +358,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                               );
                             })}
                           </ul>
-                          {sub.path && (
-                            <div className="pt-4 mt-1">
-                              <Link
-                                to={sub.path}
-                                className="inline-flex items-center gap-2 text-xs font-normal text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-all"
-                              >
-                                Les mer
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </Link>
-                            </div>
-                          )}
                         </div>
                       </div>
                     ))}
@@ -382,7 +369,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                       className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
                     >
                       Les mer om {cat.label.toLowerCase()}
-                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </section>
