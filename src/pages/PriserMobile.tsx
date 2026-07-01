@@ -267,9 +267,10 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                            {sub.path && (
                              <Link
                                to={sub.path}
-                               className="inline-flex items-center gap-1 mt-2 text-xs font-light text-brand-dark/70 underline underline-offset-4 decoration-brand-dark/40 hover:text-brand-dark hover:decoration-brand-dark transition-all"
+                               aria-label={`Les mer om ${sub.label}`}
+                               className="inline-flex items-center justify-center w-8 h-8 mt-2 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
                              >
-                               Les mer
+                               <ArrowRight className="w-4 h-4" />
                              </Link>
                            )}
                         </div>
