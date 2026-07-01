@@ -570,7 +570,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/behandlinger/gynekologi/endometriose" },
  { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/behandlinger/gynekologi/urinlekkasje" },
  { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/behandlinger/gynekologi/overgangsalder" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PCOS-utredning", href: "/behandlinger/gynekologi/pcos" },
+ { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PMOS-utredning", href: "/behandlinger/gynekologi/pcos" },
  { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/behandlinger/gynekologi/vulvalidelser" },
  ]}
  />
