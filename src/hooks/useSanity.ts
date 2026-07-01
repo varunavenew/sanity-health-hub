@@ -19,6 +19,7 @@ import {
   resolveBookingPageCopy,
   type BookingPageCopy,
 } from "@/lib/sanity/booking-page-copy";
+import { mapStep1CategoryClinicBadges } from "@/lib/sanity/booking-page-step1-clinics";
 import {
   resolveContactRequestDialogCopy,
   type ContactRequestDialogCopy,
@@ -584,13 +585,21 @@ export const useBookingPage = () => {
   return useQuery({
     queryKey: ["sanity", "bookingPage", lang],
     queryFn: async () => {
-      const data = await fetchSanity<Partial<BookingPageCopy> & { geoSummary?: string } | null>(
+      const data = await fetchSanity<
+        Partial<BookingPageCopy> & {
+          geoSummary?: string;
+          step1CategoryClinicBadges?: unknown;
+        } | null
+      >(
         BOOKING_PAGE_QUERY,
         undefined,
         lang,
       );
       return {
         ...resolveBookingPageCopy(data),
+        step1CategoryClinicBadges: mapStep1CategoryClinicBadges(
+          data?.step1CategoryClinicBadges as Parameters<typeof mapStep1CategoryClinicBadges>[0],
+        ),
         geoSummary:
           typeof data?.geoSummary === "string" ? data.geoSummary.trim() : undefined,
       } as BookingPageCopy & { geoSummary?: string };
@@ -652,6 +661,7 @@ import { clinicMapsUrl } from "@/lib/maps/clinic-location";
 export type SanityClinicBooking = {
   method?: "info" | "pasientsky" | "metodika" | "closed";
   serviceProviderId?: string;
+  metodikaLocationId?: number;
   externalBookingUrl?: string;
 };
 
@@ -663,6 +673,7 @@ export type SanityClinicListRow = {
   phone?: string;
   hours?: string;
   sortOrder?: number;
+  primaryImage?: string;
   locationSearch?: ClinicLocation;
   mapsUrl?: string;
   services?: string[];
@@ -687,6 +698,10 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
             typeof bookingRaw.serviceProviderId === "string"
               ? bookingRaw.serviceProviderId
               : undefined,
+          metodikaLocationId:
+            typeof bookingRaw.metodikaLocationId === "number"
+              ? bookingRaw.metodikaLocationId
+              : undefined,
           externalBookingUrl:
             typeof bookingRaw.externalBookingUrl === "string"
               ? bookingRaw.externalBookingUrl
@@ -696,6 +711,10 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
   const services = Array.isArray(c.services)
     ? c.services.filter((item): item is string => typeof item === "string")
     : undefined;
+  const primaryImage =
+    typeof c.primaryImage === "string" && c.primaryImage.trim()
+      ? c.primaryImage.trim()
+      : undefined;
   return {
     label: label.trim(),
     slug: (c.slug as string) || (c.id as string) || "",
@@ -704,6 +723,7 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
     phone: typeof c.phone === "string" ? c.phone : undefined,
     hours: typeof c.hours === "string" ? c.hours : undefined,
     sortOrder: parseSortOrder(c.sortOrder) ?? undefined,
+    primaryImage,
     locationSearch,
     mapsUrl: clinicMapsUrl(locationSearch, address),
     services,
@@ -799,6 +819,7 @@ export interface SanityArticle {
   image: string;
   date: string;
   category: string;
+  externalUrl?: string;
   body?: any[];
   pageSections?: PageSection[];
 }
@@ -1107,7 +1128,7 @@ export const useSpecialistsListingPage = () => {
       }>(SPECIALISTS_LISTING_PAGE_QUERY, undefined, lang);
       return withPageSections({
         ...raw,
-        profileUi: parseSpecialistProfileUi(raw.profileUi),
+        profileUi: parseSpecialistProfileUi(raw.profileUi, lang),
       });
     },
     staleTime: 5 * 60 * 1000,

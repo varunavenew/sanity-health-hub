@@ -4,6 +4,7 @@ import type { BookingRoom } from "@/app/api/booking/rooms/route";
 import {
   BOOKING_URLS,
   bookingResourceUrl,
+  fetchBookingFreetimesList,
   fetchBookingResource,
   unwrapList,
 } from "@/lib/booking/upstream";
@@ -56,9 +57,7 @@ export async function resolveLocationsForActivity(
   apiKey: string,
   caches: LocationResolveCaches = createLocationResolveCaches(),
 ): Promise<BookingAvailabilityLocation[]> {
-  const freetimesUrl = `${BOOKING_URLS.freetimes}?wbactivity-id=${encodeURIComponent(String(wbactivityId))}`;
-  const freetimesPayload = await fetchBookingResource(freetimesUrl, apiKey);
-  const rawSlots = unwrapList(freetimesPayload) as ApiFreeTime[];
+  const rawSlots = (await fetchBookingFreetimesList(wbactivityId, apiKey)) as ApiFreeTime[];
 
   const roomIds = [
     ...new Set(

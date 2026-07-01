@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { parseDurationMinutes } from "@/lib/booking/duration";
-import { BOOKING_URLS, fetchBookingResource, unwrapList } from "@/lib/booking/upstream";
+import { mapWithConcurrency } from "@/lib/booking/resolveActivityLocations";
+import { fetchBookingFreetimesList } from "@/lib/booking/upstream";
 
 export interface BookingFreeTimeSlot {
   startDateTime: string;
@@ -19,12 +20,23 @@ interface ApiFreeTime {
   roomId?: number;
 }
 
+const BATCH_CONCURRENCY = Number(process.env.BOOKING_FREETIMES_BATCH_CONCURRENCY || 2);
+
 function formatTime(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return "";
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
+}
+
+function normalizeSlots(rawSlots: unknown[]): BookingFreeTimeSlot[] {
+  return rawSlots
+    .map((entry) => normalizeSlot(entry as ApiFreeTime))
+    .filter((item): item is BookingFreeTimeSlot => item !== null)
+    .sort(
+      (a, b) => new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
+    );
 }
 
 function normalizeSlot(entry: ApiFreeTime): BookingFreeTimeSlot | null {
@@ -45,6 +57,30 @@ function normalizeSlot(entry: ApiFreeTime): BookingFreeTimeSlot | null {
   };
 }
 
+function parseActivityIds(searchParams: URLSearchParams): string[] {
+  const batch = searchParams.get("wbactivityIds") ?? searchParams.get("wbactivity-ids");
+  if (batch) {
+    return [...new Set(batch.split(",").map((id) => id.trim()).filter(Boolean))];
+  }
+
+  const single = searchParams.get("wbactivityId") ?? searchParams.get("wbactivity-id");
+  return single ? [single] : [];
+}
+
+async function slotsForActivity(
+  wbactivityId: string,
+  apiKey: string,
+): Promise<BookingFreeTimeSlot[]> {
+  try {
+    const rawSlots = await fetchBookingFreetimesList(wbactivityId, apiKey);
+    return normalizeSlots(rawSlots);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
+    console.warn(`[booking/freetimes] wbactivityId=${wbactivityId}:`, message);
+    return [];
+  }
+}
+
 export async function GET(request: Request) {
   const apiKey = process.env.BOOKING_API_KEY;
   if (!apiKey) {
@@ -55,41 +91,40 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const wbactivityId = searchParams.get("wbactivityId") ?? searchParams.get("wbactivity-id");
-  if (!wbactivityId) {
+  const activityIds = parseActivityIds(searchParams);
+
+  if (activityIds.length === 0) {
     return NextResponse.json(
-      { ok: false, message: "Missing wbactivityId query parameter." },
+      { ok: false, message: "Missing wbactivityId or wbactivityIds query parameter." },
       { status: 400 },
     );
   }
 
-  const url = `${BOOKING_URLS.freetimes}?wbactivity-id=${encodeURIComponent(wbactivityId)}`;
-
-  try {
-    const response = await fetch(url, {
-      headers: { "X-API-KEY": apiKey, Accept: "application/json" },
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { ok: false, message: `Upstream booking API failed (${response.status}).` },
-        { status: 502 },
-      );
-    }
-
-    const payload: unknown = await response.json();
-    const slots = unwrapList(payload)
-      .map((entry) => normalizeSlot(entry as ApiFreeTime))
-      .filter((item): item is BookingFreeTimeSlot => item !== null)
-      .sort(
-        (a, b) =>
-          new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime(),
-      );
-
-    return NextResponse.json({ ok: true, slots });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unexpected booking proxy error.";
-    return NextResponse.json({ ok: false, message }, { status: 502 });
+  if (activityIds.length === 1) {
+    const slots = await slotsForActivity(activityIds[0]!, apiKey);
+    return NextResponse.json(
+      { ok: true, slots },
+      {
+        headers: {
+          "Cache-Control": "private, max-age=60, stale-while-revalidate=120",
+        },
+      },
+    );
   }
+
+  const entries = await mapWithConcurrency(activityIds, BATCH_CONCURRENCY, async (id) => {
+    const slots = await slotsForActivity(id, apiKey);
+    return [id, slots] as const;
+  });
+
+  const byActivityId = Object.fromEntries(entries);
+
+  return NextResponse.json(
+    { ok: true, byActivityId },
+    {
+      headers: {
+        "Cache-Control": "private, max-age=60, stale-while-revalidate=120",
+      },
+    },
+  );
 }

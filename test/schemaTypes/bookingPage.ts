@@ -76,6 +76,107 @@ export default {
     i18n('step1PriceFree', 'Gratis-pris', 'step1'),
     i18n('step1PriceFrom', 'Pris fra (mal)', 'step1', 'Bruk {{price}}. F.eks. «Fra kr {{price}},-»'),
     i18n('step1LoadingDuration', 'Laster varighet', 'step1'),
+    {
+      name: 'step1CategoryClinicBadges',
+      title: 'Klinikkmerker per kategori',
+      type: 'array',
+      group: 'step1',
+      description:
+        'Vises som små merker ved hver tjenestekategori i steg 1 (f.eks. «Majorstuen 10A», «Moss»). Bruk aktivitetsgruppe-slugs som kategori-nøkler.',
+      of: [
+        {
+          type: 'object',
+          name: 'step1CategoryClinicBadgeGroup',
+          fields: [
+            {
+              name: 'categoryKeys',
+              title: 'Kategori-nøkler',
+              type: 'array',
+              of: [{ type: 'string' }],
+              validation: (Rule) => Rule.required().min(1),
+              description:
+                'Slugs fra booking-API, f.eks. fertilitet, gynekolog, fysioterapeut-osteopat',
+            },
+            {
+              name: 'badges',
+              title: 'Klinikkmerker',
+              type: 'array',
+              validation: (Rule) => Rule.required().min(1),
+              of: [
+                {
+                  type: 'object',
+                  name: 'step1ClinicBadge',
+                  fields: [
+                    {
+                      name: 'badgeKey',
+                      title: 'Nøkkel',
+                      type: 'string',
+                      validation: (Rule) => Rule.required(),
+                    },
+                    {
+                      name: 'label',
+                      title: 'Merketekst',
+                      type: 'internationalizedArrayString',
+                      validation: (Rule) => Rule.required(),
+                    },
+                    {
+                      name: 'sortOrder',
+                      title: 'Sortering',
+                      type: 'number',
+                      initialValue: 10,
+                    },
+                    {
+                      name: 'clinic',
+                      title: 'Klinikk (valgfritt)',
+                      type: 'reference',
+                      to: [{ type: 'clinicPage' }],
+                    },
+                    {
+                      name: 'metodikaLocationId',
+                      title: 'Metodika location-id (valgfritt)',
+                      type: 'number',
+                      description: 'Kobler merket til riktig Metodika-lokasjon i steg 2',
+                    },
+                    {
+                      name: 'badgeImage',
+                      title: 'Bilde (valgfritt)',
+                      type: 'image',
+                      options: { hotspot: true },
+                    },
+                  ],
+                  preview: {
+                    select: { title: 'label', subtitle: 'badgeKey' },
+                    prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
+                      return {
+                        title: pickNo(title) || subtitle || 'Klinikkmerke',
+                        subtitle,
+                      }
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: { keys: 'categoryKeys', badges: 'badges' },
+            prepare({
+              keys,
+              badges,
+            }: {
+              keys?: string[]
+              badges?: { badgeKey?: string }[]
+            }) {
+              const keyList = (keys ?? []).slice(0, 3).join(', ')
+              const badgeCount = badges?.length ?? 0
+              return {
+                title: keyList || 'Kategori',
+                subtitle: `${badgeCount} merke${badgeCount === 1 ? '' : 'r'}`,
+              }
+            },
+          },
+        },
+      ],
+    },
 
     i18n('step2Heading', 'Overskrift', 'step2'),
     i18n('step2Loading', 'Laster tekst', 'step2'),

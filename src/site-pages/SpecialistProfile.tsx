@@ -25,18 +25,21 @@ import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
 import { siteUrl } from "@/lib/env";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import type { SpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
+import { defaultSpecialistProfileUi } from "@/lib/sanity/specialist-profile-ui";
 
 interface SpecialistProfileProps {
   isChatOpen: boolean;
 }
 
 const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
-  const { slug: paramSlug } = useParams<{ slug: string }>();
-  const slug = useRouteSlug() || paramSlug || "";
+  const params = useParams<{ locale?: string; slug: string }>();
+  const slug = useRouteSlug() || params.slug || "";
   const navigate = useNavigate();
   const { specialist, isLoading: specialistLoading } = useSpecialistBySlug(slug || "");
   const { data: listingPage, isLoading: listingLoading } = useSpecialistsListingPage();
-  const profileUi = listingPage?.profileUi;
+  const profileUi = listingPage?.profileUi ?? defaultSpecialistProfileUi(
+    params?.locale === "en" ? "en" : "no",
+  );
 
   const isLoading = specialistLoading || listingLoading;
 
@@ -44,18 +47,8 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[60vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">
-            {profileUi?.loadingLabel ?? ""}
-          </p>
+          <p className="text-muted-foreground font-light">{profileUi.loadingLabel}</p>
         </div>
-      </PageLayout>
-    );
-  }
-
-  if (!profileUi) {
-    return (
-      <PageLayout isChatOpen={isChatOpen}>
-        <div className="min-h-[60vh] flex items-center justify-center" />
       </PageLayout>
     );
   }

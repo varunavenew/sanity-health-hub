@@ -1,3 +1,5 @@
+import type { BookingStep1CategoryClinicBadges } from "@/lib/sanity/booking-page-step1-clinics";
+
 export type BookingPageCopy = {
   pageTitle: string;
   geoSummary?: string;
@@ -25,6 +27,7 @@ export type BookingPageCopy = {
   step1PriceFree: string;
   step1PriceFrom: string;
   step1LoadingDuration: string;
+  step1CategoryClinicBadges: BookingStep1CategoryClinicBadges[];
   step2Heading: string;
   step2Loading: string;
   step2EmptyTitle: string;
@@ -126,6 +129,7 @@ export const DEFAULT_BOOKING_PAGE_COPY: BookingPageCopy = {
   step1PriceFree: "Gratis",
   step1PriceFrom: "Fra kr {{price}},-",
   step1LoadingDuration: "Henter varighet…",
+  step1CategoryClinicBadges: [],
   step2Heading: "Velg klinikk",
   step2Loading: "Henter klinikker fra booking-systemet…",
   step2EmptyTitle: "Ingen klinikker tilgjengelig akkurat nå",
@@ -236,6 +240,7 @@ export function resolveBookingPageCopy(
   if (!cms) return merged;
 
   for (const key of Object.keys(DEFAULT_BOOKING_PAGE_COPY) as (keyof BookingPageCopy)[]) {
+    if (key === "step1CategoryClinicBadges") continue;
     const value = cms[key];
     if (typeof value === "string" && value.trim()) {
       merged[key] = value.trim();

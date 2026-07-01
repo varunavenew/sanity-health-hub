@@ -28,6 +28,7 @@ export default {
           warm: "hsl(var(--brand-warm))",
           mid: "hsl(var(--brand-mid))",
           beige: "hsl(var(--brand-beige))",
+          terracotta: "hsl(var(--brand-terracotta))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

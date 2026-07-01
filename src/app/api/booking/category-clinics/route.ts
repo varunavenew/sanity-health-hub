@@ -18,7 +18,7 @@ const ACTIVITIES_URL =
   process.env.BOOKING_ACTIVITIES_URL ||
   "http://13.50.107.42/api/v1/resources/wbactivities";
 
-const DEFAULT_CONCURRENCY = Number(process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY || 3);
+const DEFAULT_CONCURRENCY = Number(process.env.BOOKING_CATEGORY_CLINICS_CONCURRENCY || 2);
 
 interface ApiGroup {
   id?: number;

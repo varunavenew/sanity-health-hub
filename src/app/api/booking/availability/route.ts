@@ -4,6 +4,7 @@ import { parseActivityTypeId } from "@/lib/booking/parseActivityTypeId";
 import {
   BOOKING_URLS,
   bookingResourceUrl,
+  fetchBookingFreetimesList,
   fetchBookingResource,
   unwrapList,
 } from "@/lib/booking/upstream";
@@ -102,9 +103,7 @@ export async function GET(request: Request) {
       /* activity type optional until appointment step */
     }
 
-    const freetimesUrl = `${BOOKING_URLS.freetimes}?wbactivity-id=${encodeURIComponent(wbactivityId)}`;
-    const freetimesPayload = await fetchBookingResource(freetimesUrl, apiKey);
-    const rawSlots = unwrapList(freetimesPayload) as ApiFreeTime[];
+    const rawSlots = (await fetchBookingFreetimesList(wbactivityId, apiKey)) as ApiFreeTime[];
 
     const roomIds = [
       ...new Set(
