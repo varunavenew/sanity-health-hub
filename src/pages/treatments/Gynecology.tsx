@@ -337,57 +337,54 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. MØRK SEGMENT-SEKSJON — Livsfaser
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
- <div className="page-shell">
- <div className="max-w-6xl mx-auto">
- <div className="max-w-2xl mb-14">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Kroppen endrer seg gjennom livet — vi er her i alle fasene.
- </h2>
- </div>
+  <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+  <div className="page-shell">
+  <div className="max-w-3xl mx-auto">
+  <div className="max-w-2xl mb-10">
+  <h2 className="text-3xl md:text-5xl font-light leading-tight">
+  Kroppen endrer seg gjennom livet — vi er her i alle fasene.
+  </h2>
+  </div>
 
-   <div ref={lifePhasesRef} className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
-   {lifePhases.map((p, i) => {
-    // 3 + 2 layout: first three cards span 2/6, last two span 3/6
-    const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
-    return (
-    <div key={p.n} className={`bg-background p-7 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center rounded-sm md:rounded-none ${span} relative`}>
-    <span className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[hsl(25,24%,74%)]/60 to-transparent opacity-60" />
-    <span className="text-4xl font-light text-muted-foreground/25 leading-none mb-3 select-none">{p.n}</span>
-    <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
-    {p.title}
-    </h3>
-    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5 flex-1">
-    {p.desc}
-    </p>
-     <div className="mb-5">
-     {(p.tags ?? []).slice(0, 4).map((tag) => (
-      <Link
-       key={tag.label}
-       to={tag.href}
-       className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
-      >
-       <span>{tag.label}</span>
-       <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
-      </Link>
-     ))}
-     </div>
-     <Link
-     to={p.href}
-     className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
-     >
-     Les mer
-     <ArrowRight className="w-3.5 h-3.5" />
-     </Link>
-    </div>
-    );
-   })}
-   </div>
-   <ScrollArrows scrollRef={lifePhasesRef} />
+  <Accordion type="single" collapsible className="w-full">
+    {lifePhases.map((p) => (
+      <AccordionItem key={p.title} value={p.title} className="border-b border-border/30">
+        <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+          <span className="pr-4">{p.title}</span>
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="pb-2">
+            <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
+              {p.desc}
+            </p>
+            <div className="mb-5">
+              {(p.tags ?? []).map((tag) => (
+                <Link
+                  key={tag.label}
+                  to={tag.href}
+                  className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
+                >
+                  <span>{tag.label}</span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
+                </Link>
+              ))}
+            </div>
+            <Link
+              to={p.href}
+              className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
+            >
+              Les mer
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    ))}
+  </Accordion>
 
- </div>
- </div>
- </section>
+  </div>
+  </div>
+  </section>
 
  {/* ============================================================
  3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
