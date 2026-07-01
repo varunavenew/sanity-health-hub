@@ -79,7 +79,6 @@ interface GoogleReviewsSectionProps {
 export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsSectionProps) => {
   const navigate = useNavigate();
   const mobileScrollRef = useRef<HTMLDivElement>(null);
-  useAutoScroll(mobileScrollRef);
   const { t } = useTranslation();
   const { data: sanityReviews } = useGoogleReviews();
   const { data: settings } = useGoogleReviewSettings();
@@ -92,8 +91,10 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
   const subheading = settings?.subheading ?? t("reviews.subheading");
   const ctaTitle = settings?.ctaTitle ?? t("reviews.ctaTitle");
   const ctaSubtitle = settings?.ctaSubtitle ?? t("reviews.ctaSubtitle");
-
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
+  const mobileLoop = googleReviewsList.length > 3;
+  const mobileList = mobileLoop ? duplicatedReviews : googleReviewsList;
+  useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
 
   return (
     <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">
@@ -138,19 +139,19 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
         </div>
       </div>
 
-      {/* Mobile: manual swipe with arrows */}
+      {/* Mobile: seamless auto-scroll marquee (>3 items), still manually swipeable */}
       <div className="md:hidden mt-4">
         <div
           ref={mobileScrollRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 pb-2"
+          className={`flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-2 ${mobileLoop ? "" : "snap-x snap-proximity"}`}
           style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
         >
-          {googleReviewsList.map((review) => {
+          {mobileList.map((review, idx) => {
             const isAnonymous = review.name === "Anonym";
             return (
               <div
-                key={review.id}
-                className="flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 snap-center"
+                key={`${review.id}-${idx}`}
+                className={`flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 ${mobileLoop ? "" : "snap-center"}`}
               >
                 <Quote className="w-7 h-7 text-brand-dark/10 rotate-180 mb-3" />
                 <div className="mb-3">
