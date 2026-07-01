@@ -185,7 +185,7 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
    { title: "Ultralyd", desc: "Gynekologisk og tidlig graviditet", href: "/behandlinger/gynekologi/undersokelse" },
    { title: "Hysteroskopi", desc: "Undersøkelse av livmorhulen", href: "/behandlinger/gynekologi/kirurgi" },
    { title: "Office-hysteroskopi", desc: "Poliklinisk inngrep uten narkose", href: "/behandlinger/gynekologi/kirurgi" },
-   { title: "NIPT", desc: "Fosterdiagnostikk", href: "/behandlinger/gynekologi/undersokelse" },
+   { title: "NIPT", desc: "Fosterdiagnostikk", href: "/behandlinger/graviditet/nipt" },
    { title: "Prevensjon og rådgivning", desc: "Valg av riktig prevensjon", href: "/behandlinger/gynekologi/undersokelse" },
   ],
  },
