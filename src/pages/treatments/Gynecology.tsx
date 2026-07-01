@@ -89,7 +89,6 @@ const lifePhases = [
     href: "/behandlinger/graviditet",
     },
   {
-  n: "04",
   title: "Urogynekologi — fremfall og lekkasje",
   desc:
   "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
