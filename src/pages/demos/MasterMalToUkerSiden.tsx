@@ -412,7 +412,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/booking?kategori=gynekologi&tjeneste=endometriose" },
  { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/booking?kategori=gynekologi&tjeneste=urinlekkasje" },
  { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/booking?kategori=gynekologi&tjeneste=overgangsalder" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PCOS-utredning", href: "/booking?kategori=gynekologi&tjeneste=pcos" },
+ { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PMOS-utredning", href: "/booking?kategori=gynekologi&tjeneste=pcos" },
  { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/booking?kategori=gynekologi&tjeneste=vulvalidelser" },
  ]}
  />
