@@ -183,12 +183,12 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={expertAreasRef} className="flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-6">
  {expertAreas.map((a) => (
  <Link
  key={a.title}
  to={a.href}
- className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
+ className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden w-full"
  >
  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
  <img
@@ -198,7 +198,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
  />
  </div>
- <div className="p-7 flex flex-col flex-1">
+ <div className="p-6 md:p-7 flex flex-col flex-1">
  <h3 className="text-xl font-light text-foreground mb-3">
  {a.title}
  </h3>
@@ -213,7 +213,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  </Link>
  ))}
  </div>
- <ScrollArrows scrollRef={expertAreasRef} />
  </div>
  </div>
  </section>
