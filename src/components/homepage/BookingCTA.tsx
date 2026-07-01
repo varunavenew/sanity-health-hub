@@ -45,7 +45,6 @@ export const BookingCTA = () => {
               size="lg"
               onClick={() => navigate("/booking")}
             >
-              <Calendar className="mr-2 w-5 h-5" />
               {t("booking.bookNow")}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
@@ -57,7 +56,6 @@ export const BookingCTA = () => {
                 size="lg"
                 onClick={() => setShowClinicPicker(!showClinicPicker)}
               >
-                <Phone className="mr-2 w-5 h-5" />
                 {t("booking.callUs")}
                 <ChevronDown className={`ml-2 w-4 h-4 transition-transform ${showClinicPicker ? 'rotate-180' : ''}`} />
               </Button>

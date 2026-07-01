@@ -77,7 +77,7 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                       <Link
                         key={clinic}
                         to={`/klinikker/${slugify(clinic)}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-foreground/[0.02] hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-normal text-foreground border border-foreground/30 px-2.5 py-1 rounded-2xl md:rounded-full bg-brand-warm hover:bg-foreground hover:text-background hover:border-foreground transition-colors"
                       >
                         <MapPin className="w-3 h-3" aria-hidden="true" />
                         {clinic}
@@ -114,7 +114,6 @@ export const SpecialistHero = ({ specialist, onScrollToBooking }: SpecialistHero
                 className="px-7 w-full sm:w-auto"
                 onClick={onScrollToBooking}
               >
-                <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                 Bestill time hos {firstName}
               </Button>
               <CallUsClinicPicker

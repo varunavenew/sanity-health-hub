@@ -196,7 +196,7 @@ const SpecialistCarouselSection = ({
                     className="text-xs rounded-2xl md:rounded-full font-light flex-1 bg-brand-dark text-white hover:bg-brand-dark/90"
                     onClick={() => navigate(`/booking?kategori=${categoryId}`)}
                   >
-                    <Calendar className="mr-1.5 w-3 h-3" aria-hidden="true" />
+                    
                     Bestill time
                   </Button>
                 </div>

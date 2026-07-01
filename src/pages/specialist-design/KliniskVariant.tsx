@@ -60,7 +60,6 @@ const Variant2 = ({ isChatOpen = false }: Props) => {
               <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                 <Button asChild variant="cta" size="lg">
                   <Link to={`/spesialister/${specialist.slug}`}>
-                    <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                     Bestill time hos {firstName}
                   </Link>
                 </Button>
@@ -191,7 +190,6 @@ const Variant2 = ({ isChatOpen = false }: Props) => {
           </div>
           <Button asChild size="lg" className="rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90 shrink-0">
             <Link to={`/spesialister/${specialist.slug}`}>
-              <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
               Bestill time
             </Link>
           </Button>

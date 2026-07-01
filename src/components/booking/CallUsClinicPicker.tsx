@@ -46,7 +46,6 @@ export const CallUsClinicPicker = ({
         onClick={() => setOpen((o) => !o)}
         className={`w-full sm:w-auto max-sm:bg-white ${className ?? ""}`}
       >
-        <Phone className="mr-2 w-5 h-5 hidden sm:inline-block" />
         {label ?? t("booking.callUs")}
         <ChevronDown
           className={`ml-2 w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}

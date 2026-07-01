@@ -1,4 +1,3 @@
-import { Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -38,7 +37,6 @@ export const StickyBookingCTA = () => {
       aria-label="Bestill gratis konsultasjon"
       aria-hidden={hidden}
     >
-      <Calendar className="w-4 h-4" strokeWidth={1.5} />
       <span className="text-sm font-medium whitespace-nowrap">
         Bestill gratis konsultasjon
       </span>
