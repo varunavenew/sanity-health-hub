@@ -197,7 +197,7 @@ const BurgerMenu = () => {
         {serviceCategories.map((cat) => {
           const isOpen = openCategory === cat.id;
           return (
-            <div key={cat.id} className="rounded-2xl border border-brand-dark/15 bg-white overflow-hidden">
+            <div key={cat.id} className="rounded-2xl border border-brand-mid/30 bg-white overflow-hidden">
               <div className="flex items-stretch">
                 <button
                   onClick={() => handleNavigate(cat.path)}
