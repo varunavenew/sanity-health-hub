@@ -49,25 +49,6 @@ interface PriceCategory {
   subcategories: PriceSubcategory[];
 }
 
-// ─── Same concurrency helper as BookingDemo ───────────────────────────────────
-async function mapWithConcurrency<T, R>(
-  items: T[],
-  limit: number,
-  fn: (item: T) => Promise<R>,
-): Promise<R[]> {
-  if (items.length === 0) return [];
-  const results = new Array<R>(items.length);
-  let nextIndex = 0;
-  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (nextIndex < items.length) {
-      const i = nextIndex++;
-      results[i] = await fn(items[i]);
-    }
-  });
-  await Promise.all(workers);
-  return results;
-}
-
 // ─── Same duration state shape as BookingDemo ─────────────────────────────────
 type DurationState =
   | { status: "loading" }
@@ -149,7 +130,7 @@ function useBookingPriceCategories(): {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/booking/activity-groups?prices=1")
+    fetch("/api/booking/activity-groups")
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -233,47 +214,76 @@ const Priser = ({ isChatOpen }: PageProps) => {
     if (activityIds.length === 0) return;
 
     let cancelled = false;
+    let idsToFetch: number[] = [];
 
-    // Mark all as loading first
     setDurationByActivityId((prev) => {
+      idsToFetch = activityIds.filter((id) => {
+        const cached = prev[id];
+        return cached?.status !== "ready" && cached?.status !== "none";
+      });
+      if (idsToFetch.length === 0) return prev;
+
       const next = { ...prev };
-      for (const id of activityIds) next[id] = { status: "loading" };
+      for (const id of idsToFetch) next[id] = { status: "loading" };
       return next;
     });
 
+    if (idsToFetch.length === 0) return;
+
     async function loadDurations() {
-      const results = await mapWithConcurrency(activityIds, 3, async (id) => {
-        try {
-          const res  = await fetch(`/api/booking/freetimes?wbactivityId=${id}`);
-          const json = (await res.json()) as {
-            ok?: boolean;
-            slots?: { durationMinutes?: number }[];
-          };
-          const slots = res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [];
-          const mins  = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
+      try {
+        const res = await fetch(
+          `/api/booking/freetimes?wbactivityIds=${idsToFetch.join(",")}`,
+        );
+        const json = (await res.json()) as {
+          ok?: boolean;
+          byActivityId?: Record<string, { durationMinutes?: number }[]>;
+        };
+
+        if (cancelled) return;
+
+        const results = idsToFetch.map((id) => {
+          const slots = json.byActivityId?.[String(id)] ?? [];
+          const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
           if (mins == null) return { id, status: "none" as const };
           return { id, status: "ready" as const, label: formatDurationMinutes(mins) };
-        } catch {
-          return { id, status: "none" as const };
-        }
-      });
+        });
 
-      if (cancelled) return;
-
-      setDurationByActivityId((prev) => {
-        const next = { ...prev };
-        for (const result of results) {
-          next[result.id] =
-            result.status === "ready"
-              ? { status: "ready", label: result.label }
-              : { status: "none" };
-        }
-        return next;
-      });
+        setDurationByActivityId((prev) => {
+          const next = { ...prev };
+          for (const result of results) {
+            next[result.id] =
+              result.status === "ready"
+                ? { status: "ready", label: result.label }
+                : { status: "none" };
+          }
+          return next;
+        });
+      } catch {
+        if (cancelled) return;
+        setDurationByActivityId((prev) => {
+          const next = { ...prev };
+          for (const id of idsToFetch) next[id] = { status: "none" };
+          return next;
+        });
+      }
     }
 
     loadDurations();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      setDurationByActivityId((prev) => {
+        const next = { ...prev };
+        let changed = false;
+        for (const id of idsToFetch) {
+          if (next[id]?.status === "loading") {
+            delete next[id];
+            changed = true;
+          }
+        }
+        return changed ? next : prev;
+      });
+    };
   }, [expandedCategory, bookingCategories]);
 
   const toggleCategory = (id: string) => {

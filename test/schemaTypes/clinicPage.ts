@@ -229,6 +229,14 @@ export default {
           ),
         },
         {
+          name: 'metodikaLocationId',
+          title: 'Metodika location ID',
+          description:
+            'Metodika `location-id` for denne klinikken (kun når Method = Metodika). Anbefales for korrekt kobling i booking steg 2.',
+          type: 'number',
+          hidden: ({ parent }: { parent?: { method?: string } }) => parent?.method !== 'metodika',
+        },
+        {
           name: 'externalBookingUrl',
           title: 'External booking URL',
           type: 'url',

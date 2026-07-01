@@ -196,6 +196,30 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
   },
   "serviceCategories": serviceCategories[]->{ _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug}, "heroImage": heroImage.asset->url },
   valueBadges[]{icon, ${i18nString("label")}},
+  patientTrustBanner{
+    value,
+    ${i18nString("label")},
+    ${i18nString("ctaText")},
+    ctaLink,
+    "backgroundImage": backgroundImage.asset->url
+  },
+  newsSplitSection{
+    ${i18nString("heading")},
+    ${i18nText("description")},
+    ${i18nString("ctaLabel")},
+    ctaPath
+  },
+  resultsStatsSection{
+    ${i18nString("title")},
+    ${i18nText("description")},
+    ${i18nString("category")},
+    ${i18nString("footnote")},
+    stats[]{
+      value,
+      ${i18nString("label")},
+      ${i18nString("sub")}
+    }
+  },
   statsBar[]{value, ${i18nString("label")}},
   ${i18nString("promoBlocksTitle")},
   promoBlocks[]{
@@ -718,6 +742,22 @@ export const BOOKING_PAGE_QUERY = `*[_type == "bookingPage"][0]{
   ${BOOKING_PAGE_I18N_FIELDS.join(",\n  ")},
   ${BOOKING_PAGE_I18N_TEXT_FIELDS.join(",\n  ")},
   supportPhone,
+  step1CategoryClinicBadges[]{
+    categoryKeys,
+    badges[]{
+      badgeKey,
+      label,
+      sortOrder,
+      metodikaLocationId,
+      "clinicId": coalesce(
+        clinic->slug[language == $lang][0].value.current,
+        clinic->slug[language == "no"][0].value.current,
+        clinic->slug[0].value.current,
+        clinic->slug.current
+      ),
+      "image": coalesce(badgeImage.asset->url, clinic->primaryImage.asset->url)
+    }
+  },
   ${GEO_SUMMARY},
   ${localizedSeoObject}
 }`;

@@ -18,7 +18,7 @@ export const HeroCompact = () => {
   if (serviceCategories.length === 0) return null;
 
   return (
-    <section className="bg-background pt-10 md:pt-14 pb-4 md:pb-6">
+    <section className="pb-4 md:pb-6">
 
       <motion.div
         initial={{ opacity: 0 }}

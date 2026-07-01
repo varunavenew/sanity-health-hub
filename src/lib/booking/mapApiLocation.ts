@@ -12,6 +12,9 @@ export type BookingMetodikaClinic = {
   label: string;
   apiLocationId: number;
   bookingSystem: "metodika";
+  /** Sanity clinic slug/id when matched from CMS (for display + deep links). */
+  sanityClinicId?: string;
+  sanityImage?: string;
 };
 
 /** Clinic option from Sanity CMS with Pasientsky booking enabled. */

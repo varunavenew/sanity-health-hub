@@ -86,6 +86,97 @@ export default {
         },
       ],
     },
+    {
+      name: 'patientTrustBanner',
+      title: 'Pasienttillit-banner',
+      description:
+        'Terrakotta banner under hero med stort tall og lenke (f.eks. «150 000 +» / «Se våre tjenester»)',
+      type: 'object',
+      group: 'sections',
+      fields: [
+        {
+          name: 'backgroundImage',
+          title: 'Bakgrunnsbilde',
+          type: 'image',
+          options: { hotspot: true },
+          description: 'Valgfritt teksturert bakgrunnsbilde (f.eks. blur-skin). Terrakotta brukes som fallback.',
+        },
+        {
+          name: 'value',
+          title: 'Tall / verdi',
+          type: 'string',
+          description: 'F.eks. «150 000 +»',
+        },
+        { name: 'label', title: 'Undertekst', type: 'internationalizedArrayString' },
+        { name: 'ctaText', title: 'Lenketekst', type: 'internationalizedArrayString' },
+        {
+          name: 'ctaLink',
+          title: 'Lenke',
+          type: 'string',
+          description: 'Intern sti uten locale, f.eks. /tjenester',
+        },
+      ],
+    },
+    {
+      name: 'newsSplitSection',
+      title: 'Nyheter – splitscreen',
+      description: 'Venstre kolonne i «Nyheter og artikler»-seksjonen',
+      type: 'object',
+      group: 'sections',
+      fields: [
+        { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+        { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+        { name: 'ctaLabel', title: 'Lenketekst', type: 'internationalizedArrayString' },
+        {
+          name: 'ctaPath',
+          title: 'Lenke',
+          type: 'string',
+          description: 'Intern sti uten locale, f.eks. /aktuelt',
+        },
+      ],
+    },
+    {
+      name: 'resultsStatsSection',
+      title: 'Resultatstatistikk',
+      description: '«Tall som forteller en historie»-seksjonen',
+      type: 'object',
+      group: 'sections',
+      fields: [
+        { name: 'title', title: 'Overskrift', type: 'internationalizedArrayString' },
+        { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+        {
+          name: 'category',
+          title: 'Kategori-etikett (valgfritt)',
+          type: 'internationalizedArrayString',
+        },
+        { name: 'footnote', title: 'Fotnote', type: 'internationalizedArrayString' },
+        {
+          name: 'stats',
+          title: 'Statistikkrader',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'value', title: 'Verdi', type: 'string' },
+                { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
+                { name: 'sub', title: 'Undertekst', type: 'internationalizedArrayString' },
+              ],
+              preview: {
+                select: { title: 'value', subtitle: 'label' },
+                prepare({ title, subtitle }: any) {
+                  const pick = (v: any) =>
+                    Array.isArray(v)
+                      ? (v.find((x: any) => (x.language || x._key) === 'no')?.value || v[0]?.value || '')
+                      : (v || '')
+                  return { title: title || '', subtitle: pick(subtitle) }
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
     // Stats Bar
     {
       name: 'statsBar',

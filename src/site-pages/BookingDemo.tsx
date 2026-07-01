@@ -1,7 +1,7 @@
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "@/lib/router";
-import { ArrowLeft, X, Calendar, MapPin, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
+import { ArrowLeft, X, Calendar, MapPin, Phone, Clock, Check, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, Info, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSpecialistsData, Specialist } from "@/hooks/useSpecialistsData";
 import { format, addDays, isSameDay, parseISO } from "date-fns";
@@ -23,19 +23,26 @@ import { formatDurationMinutes, minutesToLengthTime } from "@/lib/booking/durati
 import {
   apiLocationToClinic,
   isExternalClinic,
+  isMetodikaClinic,
   isPasientskyClinic,
   isSanityManagedClinic,
   type BookingClinic,
   type BookingMetodikaClinic,
-  type CategoryClinicTag,
 } from "@/lib/booking/mapApiLocation";
 import {
+  auditSanityMetodikaClinicMappings,
+  enrichMetodikaClinicWithSanity,
+  findSanityClinicForMetodikaLocation,
+  findSanityClinicBySlugOrId,
   findSanityManagedClinicBySlug,
-  mergeCategoryClinicDisplayTags,
+  logSanityMetodikaMappingAudit,
   mergeMetodikaAndSanityClinics,
   sanityManagedClinicsForCategory,
-  type SanityManagedBookingClinic,
 } from "@/lib/booking/sanityBookingClinic";
+import {
+  allStep1ClinicDisplayTags,
+  step1ClinicDisplayTagsForCategory,
+} from "@/lib/sanity/booking-page-step1-clinics";
 import {
   isBookingCaregiver,
   type BookingCaregiver,
@@ -73,10 +80,6 @@ function dayKey(date: Date): string {
   return d.toISOString();
 }
 
-function clinicBadgeLabel(locationName: string): string {
-  return locationName.replace(/^CMedical\s+/i, "").replace(/^Oslo\s+/i, "").trim() || locationName;
-}
-
 function LinkedTemplateText({
   template,
   token,
@@ -100,24 +103,6 @@ function LinkedTemplateText({
       {after}
     </>
   );
-}
-
-async function mapWithConcurrency<T, R>(
-  items: T[],
-  limit: number,
-  fn: (item: T) => Promise<R>,
-): Promise<R[]> {
-  if (items.length === 0) return [];
-  const results = new Array<R>(items.length);
-  let nextIndex = 0;
-  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (nextIndex < items.length) {
-      const i = nextIndex++;
-      results[i] = await fn(items[i]);
-    }
-  });
-  await Promise.all(workers);
-  return results;
 }
 
 type BookingServiceItem = {
@@ -215,11 +200,6 @@ const BookingDemo = () => {
   const { data: sanityClinics = [] } = useClinics();
   const [bookingServices, setBookingServices] = useState<BookingServiceCategory[]>([]);
   const [servicesLoading, setServicesLoading] = useState(true);
-  const [categoryClinicsById, setCategoryClinicsById] = useState<
-    Record<string, CategoryClinicTag[]>
-  >({});
-  const [allBookingLocations, setAllBookingLocations] = useState<CategoryClinicTag[]>([]);
-  const [categoryClinicsLoading, setCategoryClinicsLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -276,79 +256,22 @@ const BookingDemo = () => {
     };
   }, []);
 
-  /** Load clinic tags for all categories in one request; reveal tags together when ready. */
-  useEffect(() => {
-    if (servicesLoading || bookingServices.length === 0) return;
-
-    let cancelled = false;
-
-    async function loadAllCategoryClinics() {
-      setCategoryClinicsLoading(true);
-      try {
-        const res = await fetch("/api/booking/category-clinics");
-        const json = (await res.json()) as {
-          ok?: boolean;
-          byCategoryId?: Record<string, CategoryClinicTag[]>;
-          allLocations?: CategoryClinicTag[];
-        };
-
-        if (cancelled) return;
-
-        if (res.ok && json.ok) {
-          setCategoryClinicsById(json.byCategoryId ?? {});
-          setAllBookingLocations(json.allLocations ?? []);
-        } else {
-          setCategoryClinicsById({});
-          setAllBookingLocations([]);
-        }
-      } catch {
-        if (!cancelled) {
-          setCategoryClinicsById({});
-          setAllBookingLocations([]);
-        }
-      } finally {
-        if (!cancelled) setCategoryClinicsLoading(false);
-      }
-    }
-
-    void loadAllCategoryClinics();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [servicesLoading, bookingServices]);
-
-  const globalSanityManagedClinics = useMemo(() => {
-    const seen = new Map<string, SanityManagedBookingClinic>();
-    for (const category of bookingServices) {
-      for (const clinic of sanityManagedClinicsForCategory(
-        sanityClinics,
-        category.id,
-        category.clinicServiceId,
-      )) {
-        seen.set(clinic.id, clinic);
-      }
-    }
-    return [...seen.values()];
-  }, [bookingServices, sanityClinics]);
-
   const step1ClinicTagsByCategoryId = useMemo(() => {
-    const result: Record<string, { tagKey: string; name: string }[]> = {};
+    const result: Record<string, ReturnType<typeof step1ClinicDisplayTagsForCategory>> = {};
     for (const category of bookingServices) {
-      const apiTags = categoryClinicsById[category.id] ?? [];
-      const sanityManaged = sanityManagedClinicsForCategory(
+      result[category.id] = step1ClinicDisplayTagsForCategory(
+        bookingPageData.step1CategoryClinicBadges,
         sanityClinics,
         category.id,
         category.clinicServiceId,
       );
-      result[category.id] = mergeCategoryClinicDisplayTags(apiTags, sanityManaged);
     }
     return result;
-  }, [bookingServices, categoryClinicsById, sanityClinics]);
+  }, [bookingServices, bookingPageData.step1CategoryClinicBadges, sanityClinics]);
 
   const allStep1ClinicTags = useMemo(
-    () => mergeCategoryClinicDisplayTags(allBookingLocations, globalSanityManagedClinics),
-    [allBookingLocations, globalSanityManagedClinics],
+    () => allStep1ClinicDisplayTags(bookingPageData.step1CategoryClinicBadges, sanityClinics),
+    [bookingPageData.step1CategoryClinicBadges, sanityClinics],
   );
 
   const today = useMemo(() => {
@@ -393,6 +316,27 @@ const BookingDemo = () => {
   const [durationByActivityId, setDurationByActivityId] = useState<
     Record<number, { status: "loading" } | { status: "ready"; label: string } | { status: "none" }>
   >({});
+  const durationByActivityIdRef = useRef(durationByActivityId);
+  durationByActivityIdRef.current = durationByActivityId;
+
+  const enrichedMetodikaClinics = useMemo(
+    () =>
+      apiBookingClinics.map((metodika) => {
+        const sanity = findSanityClinicForMetodikaLocation(
+          sanityClinics,
+          metodika.apiLocationId,
+          metodika.label,
+        );
+        return enrichMetodikaClinicWithSanity(metodika, sanity);
+      }),
+    [apiBookingClinics, sanityClinics],
+  );
+
+  useEffect(() => {
+    if (!apiBookingClinics.length || !sanityClinics.length) return;
+    const audit = auditSanityMetodikaClinicMappings(sanityClinics, apiBookingClinics);
+    logSanityMetodikaMappingAudit(audit);
+  }, [apiBookingClinics, sanityClinics]);
 
   const isPasientskyBooking =
     bookingData.clinic != null && isPasientskyClinic(bookingData.clinic);
@@ -400,14 +344,14 @@ const BookingDemo = () => {
   const isExternalBooking =
     bookingData.clinic != null && isExternalClinic(bookingData.clinic);
 
-  const selectedClinicId = bookingData.clinic?.id;
-  const selectedSanityClinic = useMemo(
-    () =>
-      selectedClinicId
-        ? sanityClinics.find((clinic) => clinic.id === selectedClinicId)
-        : undefined,
-    [selectedClinicId, sanityClinics],
-  );
+  const selectedSanityClinic = useMemo(() => {
+    const clinic = bookingData.clinic;
+    if (!clinic) return undefined;
+    if (isMetodikaClinic(clinic) && clinic.sanityClinicId) {
+      return sanityClinics.find((row) => row.id === clinic.sanityClinicId);
+    }
+    return sanityClinics.find((row) => row.id === clinic.id);
+  }, [bookingData.clinic, sanityClinics]);
 
   const isSanityManagedBooking =
     bookingData.clinic != null && isSanityManagedClinic(bookingData.clinic);
@@ -616,7 +560,7 @@ const BookingDemo = () => {
     }
   }, [filterToCategoryId, expandedCategory, bookingServices, servicesLoading]);
 
-  // Step 1: load duration from wbfreetimes when a category is expanded
+  // Step 1: load duration from wbfreetimes when a category is expanded (cached per activity)
   useEffect(() => {
     if (!expandedCategory) return;
 
@@ -629,23 +573,38 @@ const BookingDemo = () => {
 
     if (activityIds.length === 0) return;
 
+    const idsToFetch = activityIds.filter((id) => {
+      const cached = durationByActivityIdRef.current[id];
+      return cached?.status !== "ready" && cached?.status !== "none";
+    });
+
+    if (idsToFetch.length === 0) return;
+
     let cancelled = false;
 
     setDurationByActivityId((prev) => {
       const next = { ...prev };
-      for (const id of activityIds) next[id] = { status: "loading" };
+      for (const id of idsToFetch) next[id] = { status: "loading" };
       return next;
     });
 
     async function loadDurationsForCategory() {
-      const results = await mapWithConcurrency(activityIds, 3, async (id) => {
-        try {
-          const res = await fetch(`/api/booking/freetimes?wbactivityId=${id}`);
-          const json = (await res.json()) as {
-            ok?: boolean;
-            slots?: ApiFreeTimeSlot[];
-          };
-          const slots = res.ok && json.ok && Array.isArray(json.slots) ? json.slots : [];
+      try {
+        const res = await fetch(
+          `/api/booking/freetimes?wbactivityIds=${idsToFetch.join(",")}`,
+        );
+        const json = (await res.json()) as {
+          ok?: boolean;
+          byActivityId?: Record<string, ApiFreeTimeSlot[]>;
+          slots?: ApiFreeTimeSlot[];
+        };
+
+        if (cancelled) return;
+
+        const results = idsToFetch.map((id) => {
+          const slots =
+            json.byActivityId?.[String(id)] ??
+            (idsToFetch.length === 1 && Array.isArray(json.slots) ? json.slots : []);
           const mins = slots.find((s) => s.durationMinutes != null)?.durationMinutes;
           if (mins == null) return { id, status: "none" as const };
           return {
@@ -653,29 +612,43 @@ const BookingDemo = () => {
             status: "ready" as const,
             label: formatDurationMinutes(mins),
           };
-        } catch {
-          return { id, status: "none" as const };
-        }
-      });
+        });
 
-      if (cancelled) return;
-
-      setDurationByActivityId((prev) => {
-        const next = { ...prev };
-        for (const result of results) {
-          if (result.status === "ready") {
-            next[result.id] = { status: "ready", label: result.label };
-          } else {
-            next[result.id] = { status: "none" };
+        setDurationByActivityId((prev) => {
+          const next = { ...prev };
+          for (const result of results) {
+            if (result.status === "ready") {
+              next[result.id] = { status: "ready", label: result.label };
+            } else {
+              next[result.id] = { status: "none" };
+            }
           }
-        }
-        return next;
-      });
+          return next;
+        });
+      } catch {
+        if (cancelled) return;
+        setDurationByActivityId((prev) => {
+          const next = { ...prev };
+          for (const id of idsToFetch) next[id] = { status: "none" };
+          return next;
+        });
+      }
     }
 
     loadDurationsForCategory();
     return () => {
       cancelled = true;
+      setDurationByActivityId((prev) => {
+        const next = { ...prev };
+        let changed = false;
+        for (const id of idsToFetch) {
+          if (next[id]?.status === "loading") {
+            delete next[id];
+            changed = true;
+          }
+        }
+        return changed ? next : prev;
+      });
     };
   }, [expandedCategory, bookingServices]);
 
@@ -756,28 +729,36 @@ const BookingDemo = () => {
     const klinikk = pendingKlinikkRef.current;
     if (!klinikk || bookingData.clinic) return;
 
-    const sanityMatch = findSanityManagedClinicBySlug(sanityClinics, klinikk);
-    if (sanityMatch) {
-      setBookingData((prev) => ({ ...prev, clinic: sanityMatch }));
-      pendingKlinikkRef.current = null;
-      return;
+    const sanityRow = findSanityClinicBySlugOrId(sanityClinics, klinikk);
+    if (sanityRow) {
+      const managed = findSanityManagedClinicBySlug(sanityClinics, klinikk);
+      if (managed) {
+        setBookingData((prev) => ({ ...prev, clinic: managed }));
+        pendingKlinikkRef.current = null;
+        return;
+      }
     }
 
     if (!bookingData.service?.apiActivityId) return;
-    if (!availabilityFromApi || apiBookingClinics.length === 0) return;
+    if (!availabilityFromApi || enrichedMetodikaClinics.length === 0) return;
 
-    const byId = apiBookingClinics.find((c) => c.id === klinikk || c.id === `location-${klinikk}`);
-    const bySlug = apiBookingClinics.find((c) =>
+    const bySanitySlug = sanityRow
+      ? enrichedMetodikaClinics.find((c) => c.sanityClinicId === sanityRow.id)
+      : undefined;
+    const byId = enrichedMetodikaClinics.find(
+      (c) => c.id === klinikk || c.id === `location-${klinikk}`,
+    );
+    const bySlug = enrichedMetodikaClinics.find((c) =>
       c.label.toLowerCase().includes(klinikk.replace(/-/g, " ")),
     );
-    const match = byId ?? bySlug;
+    const match = bySanitySlug ?? byId ?? bySlug;
     if (match) {
       setBookingData((prev) => ({ ...prev, clinic: match }));
       pendingKlinikkRef.current = null;
     }
   }, [
     availabilityFromApi,
-    apiBookingClinics,
+    enrichedMetodikaClinics,
     bookingData.clinic,
     bookingData.service?.apiActivityId,
     sanityClinics,
@@ -1041,11 +1022,11 @@ const BookingDemo = () => {
     [sanityClinics, bookingData.categoryId, bookingData.categoryApiSlug],
   );
 
-  // Step 2: Metodika locations + Sanity-managed clinics (Pasientsky / external partner)
+  // Step 2: Metodika locations (enriched from Sanity) + Pasientsky / external from Sanity
   const availableClinics: BookingClinic[] = useMemo(() => {
-    const metodika = bookingData.service?.apiActivityId ? apiBookingClinics : [];
+    const metodika = bookingData.service?.apiActivityId ? enrichedMetodikaClinics : [];
     return mergeMetodikaAndSanityClinics(metodika, sanityManagedClinicOptions);
-  }, [bookingData.service?.apiActivityId, apiBookingClinics, sanityManagedClinicOptions]);
+  }, [bookingData.service?.apiActivityId, enrichedMetodikaClinics, sanityManagedClinicOptions]);
 
   const step2Ready =
     !bookingData.service?.apiActivityId || clinicsAvailabilityReady;
@@ -1488,9 +1469,7 @@ const BookingDemo = () => {
                   .sort(sortBookingCategories)
                   .map((category) => {
                     const clinicsForCategory = step1ClinicTagsByCategoryId[category.id] ?? [];
-                    const clinicsLoading = categoryClinicsLoading;
                     const showAlleKlinikker =
-                      !clinicsLoading &&
                       clinicsForCategory.length > 0 &&
                       allStep1ClinicTags.length > 0 &&
                       clinicsForCategory.length === allStep1ClinicTags.length;
@@ -1514,15 +1493,7 @@ const BookingDemo = () => {
                           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
                             <div className="flex items-center gap-1.5 flex-wrap justify-end max-w-[50vw] sm:max-w-[280px]">
                               {!isExpanded &&
-                                (clinicsLoading ? (
-                                  <span className="inline-flex items-center gap-1.5 text-xs text-brand-dark/55 font-light">
-                                    <span
-                                      className="w-3.5 h-3.5 rounded-full border-2 border-brand-dark/15 border-t-brand-dark/60 animate-spin"
-                                      aria-hidden="true"
-                                    />
-                                    {copy.step1LoadingClinics}
-                                  </span>
-                                ) : showAlleKlinikker ? (
+                                (showAlleKlinikker ? (
                                   <span className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light">
                                     {copy.step1AllClinicsBadge}
                                   </span>
@@ -1532,7 +1503,7 @@ const BookingDemo = () => {
                                       key={clinic.tagKey}
                                       className="text-xs px-2 py-0.5 rounded-full bg-white border border-brand-dark/10 text-brand-dark/70 font-light whitespace-nowrap"
                                     >
-                                      {clinicBadgeLabel(clinic.name)}
+                                      {clinic.label}
                                     </span>
                                   ))
                                 ))}
@@ -1654,22 +1625,36 @@ const BookingDemo = () => {
 
               {step2Ready && availableClinics.length > 0 && (
                 <div className="space-y-3">
-                  {availableClinics.map((clinic) => (
+                  {availableClinics.map((clinic) => {
+                    const sanityImage =
+                      isMetodikaClinic(clinic) ? clinic.sanityImage : undefined;
+                    return (
                     <button
                       key={clinic.id}
                       type="button"
                       onClick={() => handleSelectClinic(clinic)}
                       className="w-full flex items-center gap-4 p-5 bg-brand-beige/30 border border-brand-dark/10 rounded-2xl hover:bg-white hover:border-brand-dark/30 transition-colors text-left group"
                     >
-                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors">
-                        <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
+                      <div className="w-11 h-11 rounded-full bg-brand-beige flex items-center justify-center group-hover:bg-brand-dark/5 transition-colors overflow-hidden shrink-0">
+                        {sanityImage ? (
+                          <img
+                            src={sanityImage}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        ) : isExternalClinic(clinic) ? (
+                          <Phone className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
+                        ) : (
+                          <MapPin className="w-5 h-5 text-brand-dark" strokeWidth={1.5} />
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-normal text-brand-dark">{clinic.label}</p>
                       </div>
                       <ChevronRight className="w-5 h-5 text-brand-dark/40 group-hover:text-brand-dark group-hover:translate-x-0.5 transition-all" />
                     </button>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </motion.div>

@@ -19,10 +19,51 @@ export const BOOKING_URLS = {
 };
 
 const CACHE_TTL_MS = Number(process.env.BOOKING_CACHE_TTL_MS || 5 * 60 * 1000);
+const FREETIMES_CACHE_TTL_MS = Number(
+  process.env.BOOKING_FREETIMES_CACHE_TTL_MS || 3 * 60 * 1000,
+);
+const FREETIMES_NEGATIVE_CACHE_TTL_MS = Number(
+  process.env.BOOKING_FREETIMES_NEGATIVE_CACHE_MS || 45 * 1000,
+);
 const MAX_RETRIES = Number(process.env.BOOKING_FETCH_MAX_RETRIES || 3);
 const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
 
+const EMPTY_FREETIMES_SENTINEL = Symbol("empty-freetimes");
+
+const FREETIMES_MAX_IN_FLIGHT = Number(process.env.BOOKING_FREETIMES_MAX_IN_FLIGHT || 2);
+const FREETIMES_THROTTLE_MS = Number(process.env.BOOKING_FREETIMES_THROTTLE_MS || 120);
+
 const responseCache = new Map<string, { expiresAt: number; data: unknown }>();
+const inFlightRequests = new Map<string, Promise<unknown>>();
+
+let freetimesInFlight = 0;
+const freetimesWaitQueue: Array<() => void> = [];
+
+async function acquireFreetimesSlot(): Promise<void> {
+  if (freetimesInFlight < FREETIMES_MAX_IN_FLIGHT) {
+    freetimesInFlight++;
+    return;
+  }
+  await new Promise<void>((resolve) => {
+    freetimesWaitQueue.push(resolve);
+  });
+  freetimesInFlight++;
+}
+
+function releaseFreetimesSlot(): void {
+  freetimesInFlight--;
+  const next = freetimesWaitQueue.shift();
+  if (!next) return;
+  if (FREETIMES_THROTTLE_MS > 0) {
+    setTimeout(next, FREETIMES_THROTTLE_MS);
+  } else {
+    next();
+  }
+}
+
+function isFreetimesUrl(url: string): boolean {
+  return url.includes("/wbfreetimes");
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -96,12 +137,91 @@ export async function fetchBookingResource(
   return response.json();
 }
 
+function bookingCacheKey(url: string, apiKey: string): string {
+  return `${url}::${apiKey}`;
+}
+
+function freetimesUrlFor(wbactivityId: string | number): string {
+  return `${BOOKING_URLS.freetimes}?wbactivity-id=${encodeURIComponent(String(wbactivityId))}`;
+}
+
+/** Deduped fetch with optional TTL cache (shares in-flight requests for the same URL). */
+async function fetchBookingResourceDeduped(
+  url: string,
+  apiKey: string,
+  options: { cacheTtlMs: number; negativeCacheTtlMs?: number },
+): Promise<unknown> {
+  const cacheKey = bookingCacheKey(url, apiKey);
+  const hit = responseCache.get(cacheKey);
+  if (hit && hit.expiresAt > Date.now()) {
+    if (hit.data === EMPTY_FREETIMES_SENTINEL) {
+      throw new Error(`Upstream booking API recently failed for ${url}`);
+    }
+    return hit.data;
+  }
+
+  const inFlight = inFlightRequests.get(cacheKey);
+  if (inFlight) return inFlight;
+
+  const promise = (async () => {
+    const needsSlot = isFreetimesUrl(url);
+    if (needsSlot) await acquireFreetimesSlot();
+    try {
+      const data = await fetchBookingResource(url, apiKey);
+      responseCache.set(cacheKey, {
+        data,
+        expiresAt: Date.now() + options.cacheTtlMs,
+      });
+      return data;
+    } catch (error) {
+      const negativeTtl = options.negativeCacheTtlMs ?? 0;
+      if (negativeTtl > 0) {
+        responseCache.set(cacheKey, {
+          data: EMPTY_FREETIMES_SENTINEL,
+          expiresAt: Date.now() + negativeTtl,
+        });
+      }
+      throw error;
+    } finally {
+      if (needsSlot) releaseFreetimesSlot();
+      inFlightRequests.delete(cacheKey);
+    }
+  })();
+
+  inFlightRequests.set(cacheKey, promise);
+  return promise;
+}
+
+/** Cached + deduped wbfreetimes payload for one activity. */
+export async function fetchBookingFreetimesPayload(
+  wbactivityId: string | number,
+  apiKey: string,
+): Promise<unknown> {
+  return fetchBookingResourceDeduped(freetimesUrlFor(wbactivityId), apiKey, {
+    cacheTtlMs: FREETIMES_CACHE_TTL_MS,
+    negativeCacheTtlMs: FREETIMES_NEGATIVE_CACHE_TTL_MS,
+  });
+}
+
+/** wbfreetimes slot list; returns [] when upstream fails (does not throw). */
+export async function fetchBookingFreetimesList(
+  wbactivityId: string | number,
+  apiKey: string,
+): Promise<unknown[]> {
+  try {
+    const payload = await fetchBookingFreetimesPayload(wbactivityId, apiKey);
+    return unwrapList(payload);
+  } catch {
+    return [];
+  }
+}
+
 /** Cached fetch for relatively static catalog endpoints (groups, activities). */
 export async function fetchBookingResourceCached(
   url: string,
   apiKey: string,
 ): Promise<unknown> {
-  const cacheKey = `${url}::${apiKey}`;
+  const cacheKey = bookingCacheKey(url, apiKey);
   const hit = responseCache.get(cacheKey);
   if (hit && hit.expiresAt > Date.now()) return hit.data;
 

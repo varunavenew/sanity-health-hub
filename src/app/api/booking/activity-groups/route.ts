@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import {
   fetchProcedurePriceMap,
-  parsePriceFromActivityName,
+  resolveActivityPrice,
+  stripPriceFromActivityName,
 } from "@/lib/booking/item-prices";
 import { fetchBookingResourceCached, unwrapList } from "@/lib/booking/upstream";
 
@@ -105,13 +106,10 @@ function normalizeActivity(
   if (!rawName) return null;
 
   const procedureId = activityProcedureId(activity);
-  const price =
-    procedureId !== undefined && priceMap.has(procedureId)
-      ? priceMap.get(procedureId)!
-      : parsePriceFromActivityName(rawName);
+  const price = resolveActivityPrice(rawName, procedureId, priceMap);
 
   return {
-    name: cleanActivityName(rawName),
+    name: stripPriceFromActivityName(rawName),
     price,
     apiActivityId: activity.id,
   };
@@ -130,8 +128,8 @@ export async function GET(request: Request) {
     );
   }
 
-  const includePrices =
-    new URL(request.url).searchParams.get("prices") === "1";
+  const includeApiPrices =
+    new URL(request.url).searchParams.get("prices") === "api";
 
   try {
     const [groupsPayload, activitiesPayload] = await Promise.all([
@@ -142,7 +140,7 @@ export async function GET(request: Request) {
     const groups = unwrapList(groupsPayload) as ApiGroup[];
     const activities = unwrapList(activitiesPayload) as ApiActivity[];
 
-    const priceMap = includePrices
+    const priceMap = includeApiPrices
       ? await fetchProcedurePriceMap(
           [
             ...new Set(
