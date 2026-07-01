@@ -79,7 +79,6 @@ const Variant1 = ({ isChatOpen = false }: Props) => {
             <div className="space-y-3">
               <Button asChild variant="cta" size="lg" className="w-full sm:w-auto">
                 <Link to={`/spesialister/${specialist.slug}`}>
-                  <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                   Bestill time hos {firstName}
                 </Link>
               </Button>
@@ -174,7 +173,6 @@ const Variant1 = ({ isChatOpen = false }: Props) => {
             <div className="md:col-span-4 md:text-right">
               <Button asChild size="lg" className="rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90">
                 <Link to={`/spesialister/${specialist.slug}`}>
-                  <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
                   Velg time
                 </Link>
               </Button>

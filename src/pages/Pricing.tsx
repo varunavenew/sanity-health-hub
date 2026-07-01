@@ -308,7 +308,7 @@ const Pricing = ({ isChatOpen }: PageProps) => {
                                     // Book appointment action
                                   }}
                                 >
-                                  <Calendar className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                                  
                                   Bestill time
                                 </Button>
                               </div>

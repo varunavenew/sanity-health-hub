@@ -149,7 +149,6 @@ const Variant3 = ({ isChatOpen = false }: Props) => {
           </h2>
           <Button asChild size="lg" className="rounded-2xl bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to={`/spesialister/${specialist.slug}`}>
-              <Calendar className="w-4 h-4 mr-2" aria-hidden="true" />
               Velg time
             </Link>
           </Button>
