@@ -45,7 +45,6 @@ interface PageProps {
 
 const lifePhases = [
  {
- n: "01",
  title: "Menstruasjonssyklus, hormonell helse og prevensjon",
  desc:
  "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
