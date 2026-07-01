@@ -318,8 +318,8 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {children}
           </main>
 
-          {/* Footer — pad bottom on mobile so it isn't hidden by the bottom nav */}
-          <div className="pb-[calc(72px+env(safe-area-inset-bottom))] md:pb-0">
+          {/* Footer — pad bottom on mobile so it isn't hidden by floating CTAs */}
+          <div className="pb-[calc(96px+env(safe-area-inset-bottom))] md:pb-0">
             <Footer />
           </div>
         </div>
