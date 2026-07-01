@@ -318,10 +318,18 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {children}
           </main>
 
-          {/* Footer — pad bottom on mobile so it isn't hidden by floating CTAs */}
-          <div className="pb-[calc(96px+env(safe-area-inset-bottom))] md:pb-0">
-            <Footer />
-          </div>
+          {/* Footer — pad bottom on mobile ONLY on pages that render the floating LeadPopup CTA */}
+          {(() => {
+            const normalized = location.pathname.replace(/\/+$/, "") || "/";
+            const hasFloatingCta =
+              normalized === "/fertilitet" ||
+              normalized === "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi";
+            return (
+              <div className={hasFloatingCta ? "pb-[calc(96px+env(safe-area-inset-bottom))] md:pb-0" : ""}>
+                <Footer />
+              </div>
+            );
+          })()}
         </div>
       </div>
 
