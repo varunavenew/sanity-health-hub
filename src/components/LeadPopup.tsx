@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { X } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+
+// Kun disse sidene skal vise «Bestill gratis konsultasjon»-popupen
+const ALLOWED_PATHS = [
+  "/fertilitet",
+  "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi",
+];
 
 // ---- REDIGER INNHOLD HER ----
 const POPUP_CONFIG = {
@@ -31,7 +38,10 @@ export const LeadPopup = ({ show = true }: LeadPopupProps) => {
   const [sent, setSent] = useState(false);
   const { toast } = useToast();
 
+  const { pathname } = useLocation();
+  const normalized = pathname.replace(/\/+$/, "") || "/";
   if (!show) return null;
+  if (!ALLOWED_PATHS.includes(normalized)) return null;
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
