@@ -78,7 +78,7 @@ const rawPriceCategories: PriceCategory[] = [
     subcategories: [
       {
         label: 'Konsultasjoner',
-        path: '/behandlinger/urologi/konsultasjon',
+        path: '/urologi',
         items: [
           { name: "Konsultasjon 30 min", price: "fra 1.900,-", duration: "30 min" },
           { name: "Konsultasjon 60 minutter", price: "fra 2.600,-", duration: "60 min" },
@@ -86,7 +86,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Kirurgi',
-        path: '/behandlinger/urologi/inngrep',
+        path: '/urologi',
         items: [
           { name: "Fimose (trang forhud)", price: "fra 9.100,-", duration: "", requiresConsultation: true },
           { name: "Sterilisering (inkl. sædanalyse etter 3 mnd)", price: "6.500,-", duration: "", requiresConsultation: true },
@@ -113,7 +113,7 @@ const rawPriceCategories: PriceCategory[] = [
     subcategories: [
       {
         label: 'Fertilitetsutredning',
-        path: '/behandlinger/fertilitet/fertilitet-infertilitet',
+        path: '/behandlinger/fertilitet/fertilitetsutredning',
         items: [
           { name: "Fertilitetsutredning og rådgivning inkl. ultralyd", price: "2.850,-", duration: "" },
           { name: "Gynekologisk undersøkelse inkl. ultralyd", price: "2.100,-", duration: "" },
@@ -139,7 +139,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Frysebehandlinger (assistert befruktning)',
-        path: '/behandlinger/fertilitet/frys',
+        path: '/behandlinger/fertilitet/eggfrys',
         items: [
           { name: "Fryseforsøk (FET)", price: "17.500,-", duration: "", info: "Inkluderer prebehandling, undersøkelse, monitorering med ultralyd før tilbakesetting og første svangerskapskontroll.", requiresConsultation: true },
           { name: "Avbrutt behandling før fryseforsøk", price: "4.000,-", duration: "", requiresConsultation: true },
@@ -150,7 +150,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Inseminasjon',
-        path: '/behandlinger/fertilitet/inseminasjon',
+        path: '/behandlinger/fertilitet/assistert-befruktning',
         items: [
           { name: "Inseminasjon med donorsæd (AID)", price: "12.600,-", duration: "", requiresConsultation: true },
           { name: "Inseminasjon med partnersæd (AIH)", price: "12.600,-", duration: "", requiresConsultation: true },
@@ -173,7 +173,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Donorbehandling',
-        path: '/behandlinger/fertilitet/donor',
+        path: '/behandlinger/fertilitet/donorbehandling',
         items: [
           { name: "Partnerdonasjon", price: "45.000,-", duration: "", requiresConsultation: true },
           { name: "Eggdonasjon (inkl. tilbakesetting av én blastocyst)", price: "97.000,-", duration: "", info: "Beløpet splittes i to innbetalinger: 51.000,- ved oppstart av behandling og 46.000,- ved nedfrysing av blastocyst.", requiresConsultation: true },
@@ -198,7 +198,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Øvrige tjenester',
-        path: '/behandlinger/fertilitet/ovrige',
+        path: '/fertilitet',
         items: [
           { name: "Graviditetskontroll etter assistert befruktning", price: "2.100,-", duration: "", info: "Inkludert i IVF/ICSI-behandling. Pris gjelder ved øvrige behandlinger." },
           { name: "Office-hysteroskopi", price: "9.500,-", duration: "" },
@@ -221,7 +221,7 @@ const rawPriceCategories: PriceCategory[] = [
     subcategories: [
       {
         label: 'Konsultasjoner',
-        path: '/behandlinger/ortopedi/konsultasjon',
+        path: '/ortopedi',
         items: [
           { name: "Konsultasjon ortoped skulder", price: "1.800,-", duration: "30 min" },
           { name: "Konsultasjon ortoped kne", price: "1.800,-", duration: "30 min" },
@@ -241,7 +241,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Fysioterapi',
-        path: '/behandlinger/ortopedi/fysioterapi',
+        path: '/ortopedi',
         items: [
           { name: "Oppfølgingstime Fysioterapeut / Osteopat 60 min", price: "1.800,-", duration: "1 time" },
           { name: "Oppfølgingstime Fysioterapeut / Osteopat 30 min", price: "950,-", duration: "30 min" },
@@ -354,11 +354,11 @@ const rawPriceCategories: PriceCategory[] = [
   {
     id: 'aareknuter',
     label: 'Åreknutebehandling',
-    path: '/behandlinger/flere-fagomrader/areknutebehandling',
+    path: '/behandlinger/flere-fagomrader/areknuter',
     subcategories: [
       {
         label: 'Åreknutebehandling',
-        path: '/behandlinger/flere-fagomrader/areknutebehandling',
+        path: '/behandlinger/flere-fagomrader/areknuter',
         items: [
           { name: "Konsultasjon 30 min", price: "1.400,-", duration: "30 min" },
           { name: "Åreknuteoperasjon (laser/radiofrekvens – ett ben)", price: "fra 20.900,-", duration: "" },
@@ -374,7 +374,7 @@ const rawPriceCategories: PriceCategory[] = [
     subcategories: [
       {
         label: 'Svangerskapskontroll',
-        path: '/behandlinger/graviditet/svangerskapskontroll',
+        path: '/behandlinger/graviditet',
         items: [
           { name: "Svangerskapskontroll", price: "2.150,-", duration: "30 min" },
           { name: "Tidlig ultralyd enkel", price: "2.150,-", duration: "30 min" },
@@ -392,7 +392,7 @@ const rawPriceCategories: PriceCategory[] = [
       },
       {
         label: 'Fødselsforberedelse og oppfølging',
-        path: '/behandlinger/graviditet/fodselsforberedelse',
+        path: '/behandlinger/graviditet',
         items: [
           { name: "Fødselsforberedende samtale", price: "3.200,-", duration: "45 min" },
           { name: "Konsultasjon etter abort eller dødfødsel", price: "3.200,-", duration: "45 min" },
