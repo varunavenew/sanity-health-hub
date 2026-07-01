@@ -102,7 +102,14 @@ export default {
       title: 'Hero-bilde',
       type: 'image',
       options: { hotspot: true },
-      validation: (Rule: any) => Rule.required().error('Hero-bilde er påkrevd'),
+      description: 'Brukes når hero-video ikke er satt.',
+    },
+    {
+      name: 'heroVideo',
+      title: 'Hero-video',
+      type: 'file',
+      options: { accept: 'video/*' },
+      description: 'Valgfri bakgrunnsvideo i hero (overstyrer stillbilde når satt).',
     },
     {
       name: 'treatments',

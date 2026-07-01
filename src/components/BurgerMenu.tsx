@@ -35,7 +35,7 @@ const BurgerMenu = () => {
       ? [...siteSettings.mainNavigation, ...BURGER_EXTRA_NAV_ITEMS]
       : staticMenuItems;
     const seen = new Set<string>();
-    const deduped = raw.filter((item: { navId?: string }) => {
+    const deduped = raw.filter((item: { navId?: string; label?: string }) => {
       const key = item.navId || item.label;
       if (!key || seen.has(key)) return false;
       seen.add(key);

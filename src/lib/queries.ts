@@ -350,16 +350,24 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("primaryCtaLabel")},
       ${i18nStringLocale("secondaryCtaLabel")},
       ${i18nStringLocale("heroImageAlt")},
+      primaryBookingService,
+      ${i18nStringLocale("entryPriceLabel")},
+      ${i18nStringLocale("entryPriceValue")},
     },
     segmentsSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleLine2")},
+      layout,
       segments[]{
         id,
         ${i18nStringLocale("title")},
         ${i18nText("description")},
         tags,
+        tagLinks[]{
+          ${i18nStringLocale("label")},
+          href
+        },
         ${i18nStringLocale("ctaLabel")},
         href
       }
@@ -370,11 +378,46 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nText("description")},
       "image": image.asset->url,
       ${i18nStringLocale("imageAlt")},
+      ${i18nStringLocale("footerLinkLabel")},
+      footerLinkHref,
       steps[]{
         number,
         ${i18nStringLocale("title")},
         ${i18nText("description")}
       }
+    },
+    expertAreasSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      layout,
+      areas[]{
+        ${i18nStringLocale("title")},
+        ${i18nText("description")},
+        href,
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
+      }
+    },
+    supportSection{
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      areas[]{
+        ${i18nStringLocale("title")},
+        ${i18nText("description")},
+        href,
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
+      }
+    },
+    spotlightSection{
+      ${i18nStringLocale("title")},
+      ${i18nStringLocale("titleEmphasis")},
+      ${i18nText("text")},
+      ${i18nStringLocale("ctaLabel")},
+      ctaHref,
+      "image": image.asset->url,
+      ${i18nStringLocale("imageAlt")}
     },
     audiencesSection{
       ${i18nStringLocale("eyebrow")},
@@ -394,13 +437,23 @@ const CATEGORY_LANDING_GROQ = `
       items[]{
         ${i18nStringLocale("symptom")},
         ${i18nStringLocale("service")},
-        href
+        href,
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
       }
     },
     servicesSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")}
+      ${i18nText("description")},
+      groups[]{
+        ${i18nStringLocale("label")},
+        items[]{
+          ${i18nStringLocale("title")},
+          ${i18nStringLocale("description")},
+          href
+        }
+      }
     },
     resultsSection{
       ${i18nStringLocale("eyebrow")},
@@ -425,6 +478,7 @@ export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" 
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   ${i18nText('geoSummary')},
   "heroImage": heroImage.asset->url,
+  "heroVideo": heroVideo.asset->url,
   stats[]{
     value,
     ${i18nStringLocale("label")},
