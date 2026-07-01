@@ -284,9 +284,19 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                 <li key={idx} className="py-3 md:py-4">
                                   {/* Name (wraps) + price (top-right, no wrap) on the same row */}
                                   <div className="grid grid-cols-[1fr_120px] gap-3 items-start">
-                                    <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
-                                      {item.name}
-                                    </p>
+                                    {item.path ? (
+                                      <Link
+                                        to={item.path}
+                                        className="text-[15px] md:text-base font-normal text-brand-dark leading-snug inline-flex items-center gap-1 hover:underline"
+                                      >
+                                        {item.name}
+                                        <ArrowRight className="w-3.5 h-3.5 text-brand-dark/60 shrink-0" />
+                                      </Link>
+                                    ) : (
+                                      <p className="text-[15px] md:text-base font-normal text-brand-dark leading-snug">
+                                        {item.name}
+                                      </p>
+                                    )}
                                     <span className="text-[15px] md:text-base font-normal text-brand-dark tabular-nums text-right whitespace-normal leading-snug">
                                       {priceLabel}
                                     </span>
@@ -301,7 +311,7 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     </p>
                                   )}
 
-                                  {/* Actions row: "+" info toggle, Les mer link, Bestill time */}
+                                  {/* Actions row: info toggle + Bestill time */}
                                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                                     {item.info && (
                                       <button
@@ -316,15 +326,6 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                         </span>
                                         {isOpen ? 'Skjul beskrivelse' : 'Les beskrivelse'}
                                       </button>
-                                    )}
-                                    {item.path && (
-                                      <Link
-                                        to={item.path}
-                                        className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/70 hover:text-brand-dark transition-colors"
-                                      >
-                                        Les mer
-                                        <ArrowRight className="w-3 h-3" />
-                                      </Link>
                                     )}
                                     {!(isConsult || item.price === "Pris ved konsultasjon") && (
                                       <Link
