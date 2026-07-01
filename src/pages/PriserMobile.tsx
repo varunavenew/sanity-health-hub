@@ -320,10 +320,10 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     {item.path && (
                                       <Link
                                         to={item.path}
-                                        aria-label={`Les mer om ${item.name}`}
-                                        className="inline-flex items-center justify-center w-8 h-8 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+                                        className="inline-flex items-center gap-1 text-xs font-light text-brand-dark/70 hover:text-brand-dark transition-colors"
                                       >
-                                        <ArrowRight className="w-4 h-4" />
+                                        Les mer
+                                        <ArrowRight className="w-3 h-3" />
                                       </Link>
                                     )}
                                     {!(isConsult || item.price === "Pris ved konsultasjon") && (
