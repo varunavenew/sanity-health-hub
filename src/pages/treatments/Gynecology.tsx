@@ -102,7 +102,6 @@ const lifePhases = [
   href: "/behandlinger/gynekologi/urogynekologi",
   },
   {
-  n: "05",
   title: "Overgangsalder — på dine premisser",
   desc:
   "Perimenopause og menopause kan være krevende. Vi hjelper deg å forstå kroppen og finner riktig behandling for deg.",
