@@ -53,11 +53,12 @@ export const SpecialistsSectionElegant = () => {
             </div>
             <Link
               to="/spesialister"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 rounded-2xl md:rounded-full text-foreground font-light hover:bg-secondary transition-colors"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 rounded-2xl md:rounded-full text-foreground font-light hover:bg-secondary transition-colors"
             >
               {t("specialists.seeAll", { count: specialists.length })}
               <ArrowRight className="w-4 h-4" />
             </Link>
+
           </div>
         </div>
       </div>
