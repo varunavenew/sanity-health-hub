@@ -247,7 +247,7 @@ const BurgerMenu = () => {
 
 
  {/* Øvrige sider */}
- <div className="mt-10 pt-6 border-t border-border">
+ <div className="mt-10 pt-6 border-t border-brand-mid/20">
  <h3 className="text-xs uppercase tracking-normal text-foreground/50 mb-2">Mer</h3>
  <nav className="space-y-0.5">
  {menuItems.filter((m) => m.path !== '/tjenester').map((item) => (
