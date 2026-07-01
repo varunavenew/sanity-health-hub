@@ -139,19 +139,19 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
         </div>
       </div>
 
-      {/* Mobile: manual swipe with arrows */}
+      {/* Mobile: seamless auto-scroll marquee (>3 items), still manually swipeable */}
       <div className="md:hidden mt-4">
         <div
           ref={mobileScrollRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 pb-2"
+          className={`flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-2 ${mobileLoop ? "" : "snap-x snap-proximity"}`}
           style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
         >
-          {googleReviewsList.map((review) => {
+          {mobileList.map((review, idx) => {
             const isAnonymous = review.name === "Anonym";
             return (
               <div
-                key={review.id}
-                className="flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 snap-center"
+                key={`${review.id}-${idx}`}
+                className={`flex-shrink-0 w-[78vw] p-6 rounded-sm bg-white border border-brand-dark/10 ${mobileLoop ? "" : "snap-center"}`}
               >
                 <Quote className="w-7 h-7 text-brand-dark/10 rotate-180 mb-3" />
                 <div className="mb-3">
