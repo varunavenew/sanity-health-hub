@@ -1,7 +1,13 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, Clock, User } from "lucide-react";
+import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
