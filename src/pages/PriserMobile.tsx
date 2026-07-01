@@ -261,17 +261,11 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                         className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10 md:items-start"
                       >
                         <div className="md:sticky md:top-48 md:self-start">
-                           {sub.path ? (
-                             <Link to={sub.path} className="inline-flex items-center gap-1.5 text-lg font-normal text-brand-dark hover:underline">
-                               <ArrowRight className="w-4 h-4 text-brand-dark/60" />
-                               {sub.label}
-                             </Link>
-                           ) : (
-                             <h3 className="text-lg font-normal text-brand-dark">
-                               {sub.label}
-                             </h3>
-                           )}
+                          <h3 className="text-lg font-normal text-brand-dark">
+                            {sub.label}
+                          </h3>
                         </div>
+
 
                         <div>
                           <ul className="divide-y divide-brand-mid/30">
@@ -368,10 +362,11 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                       to={cat.path}
                       className="inline-flex items-center gap-1.5 text-sm font-light text-brand-dark hover:underline"
                     >
-                      <ArrowRight className="w-4 h-4 text-brand-dark/60" />
                       Se alle {cat.label.toLowerCase()}tjenester
+                      <ArrowRight className="w-4 h-4 text-brand-dark/60" />
                     </Link>
                   </div>
+
                 </section>
               ))}
             </div>
