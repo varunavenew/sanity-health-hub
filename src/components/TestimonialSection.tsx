@@ -64,8 +64,6 @@ const staticTestimonials = [
 export const TestimonialSection = () => {
   const { data: sanityTestimonials } = useTestimonials();
   const mobileScrollRef = useRef<HTMLDivElement>(null);
-  useAutoScroll(mobileScrollRef);
-
 
   const testimonials = sanityTestimonials && sanityTestimonials.length > 0
     ? sanityTestimonials.map((t, i) => ({
@@ -78,6 +76,10 @@ export const TestimonialSection = () => {
         treatment: t.treatment,
       }))
     : staticTestimonials;
+
+  const mobileLoop = testimonials.length > 3;
+  const mobileList = mobileLoop ? [...testimonials, ...testimonials] : testimonials;
+  useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
 
   return (
     <section id="tilbakemeldinger" className="py-20 bg-background">
