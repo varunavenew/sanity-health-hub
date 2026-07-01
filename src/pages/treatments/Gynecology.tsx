@@ -353,25 +353,26 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
    {p.desc}
    </p>
-   <div className="divide-y divide-foreground/10 mb-5">
-   {(p.tags ?? []).slice(0, 4).map((tag) => (
+    <div className="flex flex-wrap gap-2 mb-5">
+    {(p.tags ?? []).slice(0, 4).map((tag) => (
+     <Button
+      key={tag.label}
+      variant="outline"
+      size="sm"
+      asChild
+      className="rounded-2xl text-xs font-normal"
+     >
+      <Link to={tag.href}>{tag.label}</Link>
+     </Button>
+    ))}
+    </div>
     <Link
-     key={tag.label}
-     to={tag.href}
-     className="flex items-center justify-between py-3 text-sm font-light text-foreground hover:text-foreground/70 transition-colors group"
+    to={p.href}
+    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
     >
-     <span>{tag.label}</span>
-     <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-foreground transition-colors shrink-0 ml-3" />
+    Les mer
+    <ArrowRight className="w-3.5 h-3.5" />
     </Link>
-   ))}
-   </div>
-   <Link
-   to={p.href}
-   className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
-   >
-   Les mer
-   <ArrowRight className="w-3.5 h-3.5" />
-   </Link>
    </div>
    );
   })}
