@@ -132,6 +132,9 @@ export const ScrollArrows = ({
 
   if (!overflowing || count <= 1 || !pos || typeof document === "undefined") return null;
 
+  const displayCount = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
+  const displayActive = displayCount > 0 ? activeIdx % displayCount : 0;
+
   const vis =
     visibility === "mobile"
       ? "flex md:hidden"
@@ -153,16 +156,16 @@ export const ScrollArrows = ({
         role="tablist"
         aria-label="Karusell-indikator"
       >
-        {Array.from({ length: count }).map((_, i) => (
+        {Array.from({ length: displayCount }).map((_, i) => (
           <button
             key={i}
             type="button"
             onClick={() => goTo(i)}
             aria-label={`Gå til kort ${i + 1}`}
-            aria-selected={i === activeIdx}
+            aria-selected={i === displayActive}
             role="tab"
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === activeIdx ? "w-6 bg-brand-dark" : "w-1.5 bg-brand-dark/25"
+              i === displayActive ? "w-6 bg-brand-dark" : "w-1.5 bg-brand-dark/25"
             }`}
           />
         ))}
