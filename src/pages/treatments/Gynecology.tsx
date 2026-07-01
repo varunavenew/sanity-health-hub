@@ -1,7 +1,13 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, Clock, User } from "lucide-react";
+import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
@@ -39,7 +45,6 @@ interface PageProps {
 
 const lifePhases = [
  {
- n: "01",
  title: "Menstruasjonssyklus, hormonell helse og prevensjon",
  desc:
  "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
@@ -54,7 +59,6 @@ const lifePhases = [
  href: "/behandlinger/gynekologi/blodningsforstyrrelser",
  },
  {
- n: "02",
  title: "Smerter eller ubehag i underlivet og livmoren",
  desc:
  "Vondt under samleie, vedvarende underlivsplager eller funn som bør undersøkes — vi tar oss tid til å forstå hva som skjer.",
@@ -70,23 +74,21 @@ const lifePhases = [
  href: "/behandlinger/gynekologi/vulvalidelser",
  },
  {
- n: "03",
  title: "Graviditet, fødsel og tiden etter",
  desc:
  "Svangerskapskontroll, ultralyd, etterkontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
-   tags: [
-   { label: "Tidlig ultralyd", href: "/behandlinger/graviditet/ultralyd" },
-   { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
-   { label: "Graviditetsoppfølging", href: "/behandlinger/graviditet/svangerskapsteam" },
-   { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/gynekologi/fodselsskader" },
-   { label: "Spontanabort", href: "/behandlinger/gynekologi/spontanabort" },
-   { label: "Abort", href: "/behandlinger/gynekologi/undersokelse" },
-   { label: "Fødselsskader", href: "/behandlinger/gynekologi/fodselsskader" },
-   ],
-   href: "/behandlinger/graviditet",
-   },
+    tags: [
+    { label: "Tidlig ultralyd", href: "/behandlinger/graviditet/ultralyd" },
+    { label: "NIPT", href: "/behandlinger/graviditet/nipt" },
+    { label: "Graviditetsoppfølging", href: "/behandlinger/graviditet/svangerskapsteam" },
+    { label: "6-ukerskontroll etter fødsel", href: "/behandlinger/gynekologi/fodselsskader" },
+    { label: "Spontanabort", href: "/behandlinger/gynekologi/spontanabort" },
+    { label: "Abort", href: "/behandlinger/gynekologi/undersokelse" },
+    { label: "Fødselsskader", href: "/behandlinger/gynekologi/fodselsskader" },
+    ],
+    href: "/behandlinger/graviditet",
+    },
   {
-  n: "04",
   title: "Urogynekologi — fremfall og lekkasje",
   desc:
   "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
@@ -100,7 +102,6 @@ const lifePhases = [
   href: "/behandlinger/gynekologi/urogynekologi",
   },
   {
-  n: "05",
   title: "Overgangsalder — på dine premisser",
   desc:
   "Perimenopause og menopause kan være krevende. Vi hjelper deg å forstå kroppen og finner riktig behandling for deg.",
@@ -219,7 +220,6 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  return specialists.filter((s) => s.category === "gynekologi").slice(0, 5);
  }, []);
 
- const lifePhasesRef = useRef<HTMLDivElement>(null);
  const audiencesRef = useRef<HTMLDivElement>(null);
  const expertAreasRef = useRef<HTMLDivElement>(null);
  const reviewsRef = useRef<HTMLDivElement>(null);
@@ -332,57 +332,54 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. MØRK SEGMENT-SEKSJON — Livsfaser
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
- <div className="page-shell">
- <div className="max-w-6xl mx-auto">
- <div className="max-w-2xl mb-14">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Kroppen endrer seg gjennom livet — vi er her i alle fasene.
- </h2>
- </div>
+  <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+  <div className="page-shell">
+  <div className="max-w-3xl mx-auto">
+  <div className="max-w-2xl mb-10">
+  <h2 className="text-3xl md:text-5xl font-light leading-tight">
+  Kroppen endrer seg gjennom livet — vi er her i alle fasene.
+  </h2>
+  </div>
 
-   <div ref={lifePhasesRef} className="flex md:grid md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-px md:bg-brand-dark/10 md:rounded-sm overflow-x-auto md:overflow-hidden snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
-   {lifePhases.map((p, i) => {
-    // 3 + 2 layout: first three cards span 2/6, last two span 3/6
-    const span = i < 3 ? "lg:col-span-2" : "lg:col-span-3";
-    return (
-    <div key={p.n} className={`bg-background p-7 flex flex-col shrink-0 w-[78vw] md:w-auto snap-center rounded-sm md:rounded-none ${span} relative`}>
-    <span className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[hsl(25,24%,74%)]/60 to-transparent opacity-60" />
-    <span className="text-4xl font-light text-muted-foreground/25 leading-none mb-3 select-none">{p.n}</span>
-    <h3 className="text-lg font-normal mb-4 leading-snug text-foreground">
-    {p.title}
-    </h3>
-    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5 flex-1">
-    {p.desc}
-    </p>
-     <div className="mb-5">
-     {(p.tags ?? []).slice(0, 4).map((tag) => (
-      <Link
-       key={tag.label}
-       to={tag.href}
-       className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
-      >
-       <span>{tag.label}</span>
-       <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
-      </Link>
-     ))}
-     </div>
-     <Link
-     to={p.href}
-     className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all"
-     >
-     Les mer
-     <ArrowRight className="w-3.5 h-3.5" />
-     </Link>
-    </div>
-    );
-   })}
-   </div>
-   <ScrollArrows scrollRef={lifePhasesRef} />
+  <Accordion type="single" collapsible className="w-full">
+    {lifePhases.map((p) => (
+      <AccordionItem key={p.title} value={p.title} className="border-b border-border/30">
+        <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+          <span className="pr-4">{p.title}</span>
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="pb-2">
+            <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
+              {p.desc}
+            </p>
+            <div className="mb-5">
+              {(p.tags ?? []).map((tag) => (
+                <Link
+                  key={tag.label}
+                  to={tag.href}
+                  className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
+                >
+                  <span>{tag.label}</span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
+                </Link>
+              ))}
+            </div>
+            <Link
+              to={p.href}
+              className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
+            >
+              Les mer
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    ))}
+  </Accordion>
 
- </div>
- </div>
- </section>
+  </div>
+  </div>
+  </section>
 
  {/* ============================================================
  3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
