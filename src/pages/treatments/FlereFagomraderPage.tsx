@@ -119,7 +119,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  i tverrfaglige team — og utelukkende med det de kan aller best.
  </p>
 
- <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+ <div className="hidden sm:flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
  variant="cta"
  size="lg"
