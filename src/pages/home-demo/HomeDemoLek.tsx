@@ -54,6 +54,7 @@ const HomeDemoLek = ({ isChatOpen = false }: Props) => {
         className="!border-t-0"
       />
       <BookingCTA />
+      <HomeStickyBar />
     </PageLayout>
   );
 };
