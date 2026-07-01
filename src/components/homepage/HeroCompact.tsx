@@ -55,25 +55,25 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
         </div>
       )}
 
-      {/* Mobile: compact 2-per-row grid with small images + title */}
-      <div className="md:hidden page-shell">
-        <div className="grid grid-cols-2 gap-3" role="list" aria-label={t("services.title")}>
+      {/* Mobile: full-bleed 2-per-row grid — aspect matches source (~1250x1080 ≈ 1.16:1), object-cover */}
+      <div className="md:hidden">
+        <div className="grid grid-cols-2 gap-0" role="list" aria-label={t("services.title")}>
           {serviceCategories.map((category: any, index: number) => (
             <button
               key={category.id}
               onClick={() => navigate(category.path)}
-              className="group text-left flex flex-col gap-2"
+              className="group text-left flex flex-col"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
-              <div className="relative overflow-hidden aspect-[5/4] rounded-md bg-secondary/40">
+              <div className="relative overflow-hidden aspect-[1250/1080] bg-secondary/40">
                 <img
                   src={category.mobileImage ?? category.image}
                   alt=""
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                   loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
-              <div className="flex items-center justify-between gap-2 px-0.5">
+              <div className="flex items-center justify-between gap-2 px-3 py-2.5">
                 <h3 className="text-sm font-light text-foreground leading-tight">
                   {category.title}
                 </h3>
