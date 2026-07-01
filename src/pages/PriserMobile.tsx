@@ -322,15 +322,16 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                                     {item.path && (
                                       <Link
                                         to={item.path}
-                                        className="inline-flex items-center gap-1 text-xs font-light text-brand-dark underline underline-offset-4 decoration-brand-dark/40 hover:decoration-brand-dark transition-colors"
+                                        aria-label={`Les mer om ${item.name}`}
+                                        className="inline-flex items-center justify-center w-8 h-8 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
                                       >
-                                        Les mer
+                                        <ArrowRight className="w-4 h-4" />
                                       </Link>
                                     )}
                                     {!(isConsult || item.price === "Pris ved konsultasjon") && (
                                       <Link
                                         to={buildBookingUrl({ kategori: cat.id })}
-                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                        className="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-2xl text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
                                       >
                                         Bestill time
                                         <ArrowRight className="w-3 h-3" />
