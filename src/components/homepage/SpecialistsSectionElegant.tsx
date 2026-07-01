@@ -21,7 +21,7 @@ export const SpecialistsSectionElegant = () => {
   };
 
   return (
-    <section className="pt-10 md:pt-14 pb-0 bg-secondary/30 overflow-hidden">
+    <section className="pt-10 md:pt-14 pb-16 md:pb-0 bg-secondary/30 overflow-hidden">
       <div className="page-shell">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12">
@@ -53,11 +53,12 @@ export const SpecialistsSectionElegant = () => {
             </div>
             <Link
               to="/spesialister"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 rounded-2xl md:rounded-full text-foreground font-light hover:bg-secondary transition-colors"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 border border-foreground/20 rounded-2xl md:rounded-full text-foreground font-light hover:bg-secondary transition-colors"
             >
               {t("specialists.seeAll", { count: specialists.length })}
               <ArrowRight className="w-4 h-4" />
             </Link>
+
           </div>
         </div>
       </div>

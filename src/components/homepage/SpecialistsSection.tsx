@@ -21,7 +21,7 @@ export const SpecialistsSection = () => {
   };
 
   return (
-    <section className="pt-10 md:pt-14 pb-10 md:pb-14 bg-secondary/30 overflow-hidden">
+    <section className="pt-10 md:pt-14 pb-16 md:pb-14 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6 md:px-16">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
@@ -127,16 +127,11 @@ export const SpecialistsSection = () => {
         </div>
       </div>
 
-      {/* Mobile scroll hint + see all CTA */}
-      <div className="md:hidden flex flex-col items-center mt-4 gap-4 container mx-auto px-6">
+      {/* Mobile scroll hint */}
+      <div className="md:hidden flex justify-center mt-4">
         <span className="text-xs text-muted-foreground">{t("specialists.swipeHint")}</span>
-        <Button variant="cta-outline" asChild>
-          <Link to="/spesialister">
-            {t("specialists.seeAll", { count: specialists.length })}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        </Button>
       </div>
+
     </section>
   );
 };
