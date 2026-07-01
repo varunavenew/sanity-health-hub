@@ -180,6 +180,7 @@ export const TestimonialSection = () => {
             </div>
           ))}
         </div>
+        <ScrollArrows scrollRef={mobileScrollRef} slideCount={testimonials.length} />
         </div>
 
     </section>
