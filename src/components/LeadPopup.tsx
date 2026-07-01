@@ -57,10 +57,10 @@ export const LeadPopup = ({ show = true }: LeadPopupProps) => {
     <>
       {/* Trigger-knapp */}
       {!isOpen && (
-        <div className="fixed bottom-6 right-6 z-50">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:bottom-6 md:right-6 md:left-auto md:translate-x-0">
           <Button
             onClick={() => setIsOpen(true)}
-            className="rounded-2xl shadow-2xl px-5 py-3 h-auto text-sm font-light bg-accent text-accent-foreground hover:bg-accent/90 transition-all"
+            className="rounded-full md:rounded-2xl shadow-2xl px-4 py-2 md:px-5 md:py-3 h-auto text-xs md:text-sm font-light bg-accent text-accent-foreground hover:bg-accent/90 transition-all"
           >
             {POPUP_CONFIG.triggerLabel}
           </Button>
