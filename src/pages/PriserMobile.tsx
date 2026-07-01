@@ -365,10 +365,10 @@ const PriserMobile = ({ isChatOpen }: PageProps) => {
                   <div className="mt-10 pt-6 border-t border-brand-mid/30">
                     <Link
                       to={cat.path}
-                      aria-label={`Les mer om ${cat.label.toLowerCase()}`}
-                      className="inline-flex items-center justify-center w-10 h-10 rounded-2xl text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm font-light text-brand-dark hover:underline"
                     >
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 text-brand-dark/60" />
+                      Se alle {cat.label.toLowerCase()}tjenester
                     </Link>
                   </div>
                 </section>
