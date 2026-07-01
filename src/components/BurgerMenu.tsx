@@ -162,25 +162,26 @@ const BurgerMenu = () => {
   animate={{ opacity: 1, x: 0 }}
   exit={{ opacity: 0, x: '100%' }}
   transition={{ duration: 0.3, ease: 'easeOut' }}
-  className="md:hidden fixed inset-0 bg-background z-[100] overflow-y-auto"
-  role="dialog"
-  aria-modal="true"
-  aria-label={t("nav.navigationMenu")}
-  >
-  {/* Mobile Header */}
-  <div className="flex items-center justify-between px-5 py-4 border-b border-brand-mid/20">
-    <span className="text-xs uppercase text-foreground/50">Meny</span>
-    <button
-      onClick={() => setIsMenuOpen(false)}
-      className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
-      aria-label={t("nav.closeMenu")}
-    >
-      <X className="h-6 w-6" aria-hidden="true" />
-    </button>
-  </div>
+   className="md:hidden fixed inset-0 bg-background z-[100] overflow-y-auto flex flex-col"
+   role="dialog"
+   aria-modal="true"
+   aria-label={t("nav.navigationMenu")}
+   >
+   {/* Mobile Header — beige stripe */}
+   <div className="flex items-center justify-between px-5 py-4 border-b border-brand-mid/20 bg-brand-warm">
+     <span className="text-xs uppercase text-foreground/50">Meny</span>
+     <button
+       onClick={() => setIsMenuOpen(false)}
+       className="p-2 text-foreground/70 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded-md"
+       aria-label={t("nav.closeMenu")}
+     >
+       <X className="h-6 w-6" aria-hidden="true" />
+     </button>
+   </div>
 
-  {/* Mobile Content */}
-  <div className="p-5 pb-[calc(96px+env(safe-area-inset-bottom))]">
+   {/* Mobile Content */}
+   <div className="p-5 pb-6 flex-1">
+
     {/* Tjenester – accordion (Priser pill style) */}
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3 px-1">
