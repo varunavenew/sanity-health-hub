@@ -6,6 +6,12 @@ interface ScrollArrowsProps {
   /** Where the indicator is visible. Default: mobile only. */
   visibility?: "mobile" | "all" | "desktop";
   className?: string;
+  /**
+   * For seamless/looping carousels that duplicate children, pass the
+   * original slide count so the dot bar shows N dots (not 2N) and
+   * active index wraps via modulo.
+   */
+  slideCount?: number;
   /** Legacy props — kept for backwards compat, no longer used. */
   align?: "end" | "center" | "start";
   size?: "default" | "compact";
@@ -31,6 +37,7 @@ export const ScrollArrows = ({
   scrollRef,
   visibility = "mobile",
   className = "",
+  slideCount,
 }: ScrollArrowsProps) => {
   const [count, setCount] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -125,6 +132,9 @@ export const ScrollArrows = ({
 
   if (!overflowing || count <= 1 || !pos || typeof document === "undefined") return null;
 
+  const displayCount = slideCount && slideCount > 0 ? Math.min(slideCount, count) : count;
+  const displayActive = displayCount > 0 ? activeIdx % displayCount : 0;
+
   const vis =
     visibility === "mobile"
       ? "flex md:hidden"
@@ -146,16 +156,16 @@ export const ScrollArrows = ({
         role="tablist"
         aria-label="Karusell-indikator"
       >
-        {Array.from({ length: count }).map((_, i) => (
+        {Array.from({ length: displayCount }).map((_, i) => (
           <button
             key={i}
             type="button"
             onClick={() => goTo(i)}
             aria-label={`Gå til kort ${i + 1}`}
-            aria-selected={i === activeIdx}
+            aria-selected={i === displayActive}
             role="tab"
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === activeIdx ? "w-6 bg-brand-dark" : "w-1.5 bg-brand-dark/25"
+              i === displayActive ? "w-6 bg-brand-dark" : "w-1.5 bg-brand-dark/25"
             }`}
           />
         ))}

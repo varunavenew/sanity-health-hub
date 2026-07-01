@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";
 import { useTestimonials } from "@/hooks/useSanity";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
+import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 const staticTestimonials = [
   {
@@ -179,6 +180,7 @@ export const TestimonialSection = () => {
             </div>
           ))}
         </div>
+        <ScrollArrows scrollRef={mobileScrollRef} slideCount={testimonials.length} />
         </div>
 
     </section>

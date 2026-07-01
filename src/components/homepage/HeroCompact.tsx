@@ -55,29 +55,29 @@ export const HeroCompact = ({ showHeader = true }: HeroCompactProps) => {
         </div>
       )}
 
-      {/* Mobile: full-bleed 2-per-row grid — aspect matches source (~1250x1080 ≈ 1.16:1), object-cover */}
+      {/* Mobile: full-bleed 2-per-row magazine grid — portrait 3:4, title overlaid on scrim */}
       <div className="md:hidden">
         <div className="grid grid-cols-2 gap-0" role="list" aria-label={t("services.title")}>
           {serviceCategories.map((category: any, index: number) => (
             <button
               key={category.id}
               onClick={() => navigate(category.path)}
-              className="group text-left flex flex-col"
+              className="group relative overflow-hidden aspect-[3/4] text-left bg-secondary/40"
               aria-label={t("services.seeAllTreatments", { name: category.title })}
             >
-              <div className="relative overflow-hidden aspect-[1250/1080] bg-secondary/40">
-                <img
-                  src={category.mobileImage ?? category.image}
-                  alt=""
-                  className="w-full h-full object-cover"
-                  loading={index === 0 ? "eager" : "lazy"}
-                />
-              </div>
-              <div className="flex items-center justify-between gap-2 px-3 py-2.5">
-                <h3 className="text-sm font-light text-foreground leading-tight">
+              <img
+                src={category.mobileImage ?? category.image}
+                alt=""
+                style={{ objectPosition: category.objectPosition ?? "center" }}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/10 to-transparent" aria-hidden="true" />
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 px-3 py-3">
+                <h3 className="text-sm font-light text-white leading-tight">
                   {category.title}
                 </h3>
-                <ArrowRight className="w-3.5 h-3.5 text-foreground/60 shrink-0" aria-hidden="true" />
+                <ArrowRight className="w-3.5 h-3.5 text-white/80 shrink-0" aria-hidden="true" />
               </div>
             </button>
           ))}
