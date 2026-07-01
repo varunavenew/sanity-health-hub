@@ -175,7 +175,7 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
             );
           })}
         </div>
-        <ScrollArrows scrollRef={mobileScrollRef} slideCount={googleReviewsList.length} className="mt-3 relative !top-0 !left-0 !w-full" />
+        <ScrollArrows scrollRef={mobileScrollRef} slideCount={googleReviewsList.length} />
       </div>
 
 
