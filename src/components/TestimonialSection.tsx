@@ -139,17 +139,17 @@ export const TestimonialSection = () => {
         </div>
       </div>
 
-      {/* Mobile horizontal swipe */}
+      {/* Mobile horizontal swipe with seamless auto-scroll (>3 items) */}
       <div className="md:hidden">
         <div
           ref={mobileScrollRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 pb-2"
+          className={`flex gap-3 overflow-x-auto scrollbar-hide px-4 pb-2 ${mobileLoop ? "" : "snap-x snap-proximity"}`}
           style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
         >
-          {testimonials.map((testimonial) => (
+          {mobileList.map((testimonial, idx) => (
             <div
-              key={testimonial.id}
-              className="flex-shrink-0 w-[78vw] bg-[hsl(30,20%,96%)] rounded-xl p-6 snap-center"
+              key={`${testimonial.id}-${idx}`}
+              className={`flex-shrink-0 w-[78vw] bg-[hsl(30,20%,96%)] rounded-xl p-6 ${mobileLoop ? "" : "snap-center"}`}
             >
               <div className="flex gap-1 mb-3">
                 {[...Array(testimonial.rating)].map((_, i) => (
