@@ -1,4 +1,5 @@
 import { useEffect, useRef, ReactNode, ComponentType, SVGProps } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
@@ -156,6 +157,7 @@ const ReasonsEditorial = ({
    items: { n: string; title: string; desc: ReactNode }[];
    layout?: "prose" | "accordion" | "auto";
 }) => {
+   const isMobile = useIsMobile();
    // Filter out blacklisted items and items with no real content.
    const cleanItems = (items ?? []).filter(
      (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
@@ -196,7 +198,7 @@ const ReasonsEditorial = ({
                <Accordion
                  type="single"
                  collapsible
-                 defaultValue={`reason-0`}
+                 defaultValue={isMobile ? undefined : `reason-0`}
                  onValueChange={(val) => {
                    if (!val) return;
                    requestAnimationFrame(() => {

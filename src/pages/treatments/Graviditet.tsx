@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Quote } from "lucide-react";
@@ -212,6 +213,7 @@ const reviews = [
 
 const Graviditet = ({ isChatOpen }: PageProps) => {
   const expertAreasRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   useEffect(() => {
     document.title = "Graviditet og fostermedisin | CMedical";
   }, []);
@@ -343,7 +345,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
               <Accordion
                 type="single"
                 collapsible
-                defaultValue="faq-0"
+                defaultValue={isMobile ? undefined : "faq-0"}
                 className="border-t border-border/60"
               >
                 {[

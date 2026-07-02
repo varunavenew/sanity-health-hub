@@ -4,21 +4,30 @@ import { Plus, Minus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useFaqs } from "@/hooks/useSanity";
 
-const AccordionItem = ({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) => {
-  const [open, setOpen] = useState(defaultOpen);
+const AccordionItem = ({
+  title,
+  children,
+  isOpen,
+  onToggle,
+}: {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+}) => {
   return (
     <div className="border-b border-border/40 last:border-b-0">
       <button
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
+        onClick={onToggle}
+        aria-expanded={isOpen}
         className="w-full flex items-center justify-between py-5 text-sm font-normal text-foreground hover:text-brand-dark transition-colors"
       >
         {title}
-        {open ? <Minus className="w-4 h-4 text-muted-foreground" aria-hidden="true" /> : <Plus className="w-4 h-4 text-muted-foreground" aria-hidden="true" />}
+        {isOpen ? <Minus className="w-4 h-4 text-muted-foreground" aria-hidden="true" /> : <Plus className="w-4 h-4 text-muted-foreground" aria-hidden="true" />}
       </button>
       <motion.div
         initial={false}
-        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
         className="overflow-hidden"
       >
@@ -47,6 +56,9 @@ export const SpecialistFAQ = () => {
   const { data: sanityFinansiering } = useFaqs("finansiering");
   const { data: sanityPraktisk } = useFaqs("praktisk");
 
+  // Single-open across both groups (closed by default on all viewports).
+  const [openKey, setOpenKey] = useState<string | null>(null);
+
   const finansiering = sanityFinansiering && sanityFinansiering.length > 0
     ? sanityFinansiering
     : staticFinansiering;
@@ -54,6 +66,8 @@ export const SpecialistFAQ = () => {
   const praktisk = sanityPraktisk && sanityPraktisk.length > 0
     ? sanityPraktisk
     : staticPraktisk;
+
+  const toggle = (key: string) => setOpenKey((prev) => (prev === key ? null : key));
 
   return (
     <section className="py-16 md:py-24 bg-secondary">
@@ -88,17 +102,25 @@ export const SpecialistFAQ = () => {
               <h3 className="text-sm font-medium text-muted-foreground mb-4">
                 Finansiering
               </h3>
-              {finansiering.map((item: any, i: number) => (
-                <AccordionItem key={i} title={item.question}>
-                  <p className="text-sm text-muted-foreground font-light">
-                    {item.question === "Pris" ? (
-                      <Link to="/priser" className="text-brand-dark font-normal hover:underline">Prislister finnes her.</Link>
-                    ) : (
-                      item.answer
-                    )}
-                  </p>
-                </AccordionItem>
-              ))}
+              {finansiering.map((item: any, i: number) => {
+                const key = `fin-${i}`;
+                return (
+                  <AccordionItem
+                    key={key}
+                    title={item.question}
+                    isOpen={openKey === key}
+                    onToggle={() => toggle(key)}
+                  >
+                    <p className="text-sm text-muted-foreground font-light">
+                      {item.question === "Pris" ? (
+                        <Link to="/priser" className="text-brand-dark font-normal hover:underline">Prislister finnes her.</Link>
+                      ) : (
+                        item.answer
+                      )}
+                    </p>
+                  </AccordionItem>
+                );
+              })}
             </div>
 
             {/* Generelt group */}
@@ -106,17 +128,25 @@ export const SpecialistFAQ = () => {
               <h3 className="text-sm font-medium text-muted-foreground mb-4">
                 Ofte stilte spørsmål
               </h3>
-              {praktisk.map((item: any, i: number) => (
-                <AccordionItem key={i} title={item.question}>
-                  <p className="text-sm text-muted-foreground font-light">
-                    {item.question === "Personvernerklæring" ? (
-                      <>Her finner du vår <Link to="/personvern" className="text-brand-dark font-normal hover:underline">personvernerklæring</Link>.</>
-                    ) : (
-                      item.answer
-                    )}
-                  </p>
-                </AccordionItem>
-              ))}
+              {praktisk.map((item: any, i: number) => {
+                const key = `prakt-${i}`;
+                return (
+                  <AccordionItem
+                    key={key}
+                    title={item.question}
+                    isOpen={openKey === key}
+                    onToggle={() => toggle(key)}
+                  >
+                    <p className="text-sm text-muted-foreground font-light">
+                      {item.question === "Personvernerklæring" ? (
+                        <>Her finner du vår <Link to="/personvern" className="text-brand-dark font-normal hover:underline">personvernerklæring</Link>.</>
+                      ) : (
+                        item.answer
+                      )}
+                    </p>
+                  </AccordionItem>
+                );
+              })}
             </div>
           </motion.div>
         </div>
