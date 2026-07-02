@@ -290,7 +290,7 @@ const GraviditetEtterMaster = ({ isChatOpen }: PageProps) => {
               <Accordion
                 type="single"
                 collapsible
-                defaultValue="faq-0"
+                
                 className="border-t border-border/60"
               >
                 {[
