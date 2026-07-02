@@ -107,10 +107,10 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
             <CallUsClinicPicker variant="light" label="Ring oss" />
           </div>
 
-         <ul className="flex flex-nowrap gap-x-3 sm:gap-x-6 gap-y-2 text-[11px] sm:text-sm font-light text-brand-dark">
-           {["Ingen henvisning", "Korte ventetider", "Erfarne spesialister"].map((u) => (
-             <li key={u} className="inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-               <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" aria-hidden="true" />
+         <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+           {["Ingen henvisning", "Korte ventetider"].map((u) => (
+             <li key={u} className="flex items-center gap-2">
+               <Check className="w-4 h-4" aria-hidden="true" />
                <span>{u}</span>
              </li>
            ))}
