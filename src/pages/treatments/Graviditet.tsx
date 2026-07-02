@@ -213,6 +213,7 @@ const reviews = [
 
 const Graviditet = ({ isChatOpen }: PageProps) => {
   const expertAreasRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   useEffect(() => {
     document.title = "Graviditet og fostermedisin | CMedical";
   }, []);
