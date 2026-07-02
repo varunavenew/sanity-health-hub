@@ -12,6 +12,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
@@ -363,41 +364,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <Accordion type="single" collapsible className="w-full">
-   {segments.map((s) => (
-     <AccordionItem key={s.id} value={s.id} className="border-b border-border/30">
-       <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-         <span className="pr-4">{s.title}</span>
-       </AccordionTrigger>
-       <AccordionContent>
-         <div className="pb-2">
-           <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
-             {s.desc}
-           </p>
-           <div className="mb-5">
-             {(s.tags ?? []).map((tag) => (
-               <Link
-                 key={tag.label}
-                 to={tag.href}
-                 className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
-               >
-                 <span>{tag.label}</span>
-                 <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
-               </Link>
-             ))}
-           </div>
-           <Link
-             to={s.href}
-             className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
-           >
-             {s.cta}
-             <ArrowRight className="w-3.5 h-3.5" />
-           </Link>
-         </div>
-       </AccordionContent>
-     </AccordionItem>
-   ))}
- </Accordion>
+ <LifePhasesCarousel phases={segments.map((s) => ({ ...s, n: s.id }))} />
  </div>
  </div>
 
@@ -542,12 +509,12 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
 
-            <div ref={expertAreasRef} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" style={{ scrollbarWidth: 'none' }}>
+            <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
               {expertAreas.map((a) => (
                 <Link
                   key={a.title}
                   to={a.href}
-                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[85%] md:w-auto snap-start"
                 >
 
                   <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
@@ -654,10 +621,10 @@ const Fertility = ({ isChatOpen }: PageProps) => {
                 Støtte gjennom fertilitetsprosessen
               </h2>
             </div>
-            <div ref={stotteRef} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" style={{ scrollbarWidth: 'none' }}>
+            <div ref={stotteRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
               <Link
                 to="/behandlinger/flere-fagomrader/psykologi"
-                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[85%] md:w-auto snap-start"
               >
 
                 <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
@@ -681,7 +648,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
               </Link>
               <Link
                 to="/behandlinger/flere-fagomrader/sexologi"
-                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[85%] md:w-auto snap-start"
               >
 
                 <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
