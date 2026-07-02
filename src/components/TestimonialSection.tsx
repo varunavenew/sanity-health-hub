@@ -78,9 +78,11 @@ export const TestimonialSection = () => {
       }))
     : staticTestimonials;
 
-  const mobileLoop = testimonials.length > 3;
+  const mobileLoop = testimonials.length > 1;
   const mobileList = mobileLoop ? [...testimonials, ...testimonials] : testimonials;
+  const desktopList = [...testimonials, ...testimonials];
   useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
+
 
   return (
     <section id="tilbakemeldinger" className="py-20 bg-background">
