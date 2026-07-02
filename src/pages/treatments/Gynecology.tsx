@@ -490,7 +490,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {expertAreas.map((a) => (
  <Link
  key={a.title}
@@ -659,7 +659,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  Tilbakemeldinger fra ekte pasienter
  </h2>
  </div>
- <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+ <div ref={reviewsRef} className="flex md:grid md:grid-cols-3 gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {reviews.map((r, i) => (
  <div
  key={i}

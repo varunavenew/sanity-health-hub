@@ -35,13 +35,13 @@ export const LifePhasesCarousel = ({ phases }: Props) => {
       <div className="md:hidden">
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
+          className="flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
           style={{ scrollbarWidth: "none" }}
         >
           {phases.map((p, i) => (
             <article
               key={p.title + i}
-              className="shrink-0 w-[85%] snap-start bg-background rounded-sm border border-border/40 flex flex-col p-6"
+              className="shrink-0 w-[92%] snap-start bg-background rounded-sm border border-border/40 flex flex-col p-6"
             >
               <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
                 {p.title}
