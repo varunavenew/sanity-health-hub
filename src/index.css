@@ -323,38 +323,49 @@
   0%, 100% { transform: translate(-50%, -50%) translateY(0); }
   50% { transform: translate(-50%, -50%) translateY(-8px); }
 }
-/* ===== Mobile spacing rhythm (8px scale) — applies below md breakpoint ===== */
+/* ===== Mobile spacing rhythm (8px scale) — applies below md breakpoint =====
+   Consistent, tighter vertical rhythm across all treatment/category pages.
+   All values snap to an 8px grid (0.5rem = 8px). */
 @media (max-width: 767px) {
-  /* Section vertical padding — consistent breathing room, no oversized desktop values */
-  .py-32 { padding-top: 3rem; padding-bottom: 3rem; }
-  .py-28 { padding-top: 3rem; padding-bottom: 3rem; }
-  .py-24 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
-  .py-20 { padding-top: 2.25rem; padding-bottom: 2.25rem; }
-  .py-16 { padding-top: 2rem; padding-bottom: 2rem; }
-  .py-14 { padding-top: 2rem; padding-bottom: 2rem; }
-  .py-12 { padding-top: 1.75rem; padding-bottom: 1.75rem; }
+  /* Section vertical padding — one consistent rhythm, tighter than before */
+  .py-32 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-28 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-24 { padding-top: 2rem;   padding-bottom: 2rem; }
+  .py-20 { padding-top: 2rem;   padding-bottom: 2rem; }
+  .py-16 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-14 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-12 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+  .py-10 { padding-top: 1rem;   padding-bottom: 1rem; }
 
-  /* Heading → content margin, consistent */
-  .mb-20 { margin-bottom: 1.5rem; }
-  .mb-16 { margin-bottom: 1.5rem; }
-  .mb-14 { margin-bottom: 1.25rem; }
-  .mb-12 { margin-bottom: 1rem; }
-  .mb-10 { margin-bottom: 1rem; }
-  .mb-8  { margin-bottom: 0.75rem; }
+  /* Image bands between sections — even tighter, minimal chrome */
+  .mobile-image-band { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+
+  /* Heading → content margin, consistent 8/16px steps */
+  .mb-20 { margin-bottom: 1rem; }
+  .mb-16 { margin-bottom: 1rem; }
+  .mb-14 { margin-bottom: 1rem; }
+  .mb-12 { margin-bottom: 0.75rem; }
+  .mb-10 { margin-bottom: 0.75rem; }
+  .mb-8  { margin-bottom: 0.5rem; }
+  .mb-6  { margin-bottom: 0.5rem; }
 
   /* Top spacing (heading blocks) */
-  .mt-16 { margin-top: 1.5rem; }
-  .mt-12 { margin-top: 1rem; }
+  .mt-16 { margin-top: 1rem; }
+  .mt-12 { margin-top: 0.75rem; }
+  .mt-10 { margin-top: 0.75rem; }
+  .mt-8  { margin-top: 0.5rem; }
 
-  /* Space-y stacks — tighten oversized gaps */
-  .space-y-16 > * + * { margin-top: 1.5rem; }
-  .space-y-12 > * + * { margin-top: 1.25rem; }
-  .space-y-10 > * + * { margin-top: 1rem; }
+  /* Space-y stacks — tighten oversized gaps to 8px scale */
+  .space-y-16 > * + * { margin-top: 1rem; }
+  .space-y-12 > * + * { margin-top: 1rem; }
+  .space-y-10 > * + * { margin-top: 0.75rem; }
+  .space-y-8  > * + * { margin-top: 0.75rem; }
 
   /* Gap utilities — tighten large grid gaps to 8px scale */
-  .gap-12 { gap: 1rem; }
-  .gap-10 { gap: 1rem; }
+  .gap-12 { gap: 0.75rem; }
+  .gap-10 { gap: 0.75rem; }
   .gap-8  { gap: 0.75rem; }
+  .gap-6  { gap: 0.5rem; }
 
   /* Image-first ordering inside grid sections that combine a text column and an image column. */
   .mobile-image-first { display: flex; flex-direction: column-reverse; }
