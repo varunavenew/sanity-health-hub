@@ -9,6 +9,13 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { LeadPopup } from "@/components/LeadPopup";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
