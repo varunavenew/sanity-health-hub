@@ -26,6 +26,8 @@ export const RelatedServices = ({
 }: RelatedServicesProps) => {
   const filteredServices = services.filter(s => s.link !== currentPath);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-6 md:px-16">
@@ -34,12 +36,16 @@ export const RelatedServices = ({
           <p className="text-muted-foreground font-normal">{subtitle}</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div
+          ref={scrollRef}
+          className="flex md:grid md:grid-cols-3 gap-6 max-w-5xl mx-auto overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-6 md:mx-auto px-6 md:px-0 scrollbar-hide"
+          style={{ scrollbarWidth: "none" }}
+        >
           {filteredServices.slice(0, 3).map((service) => (
             <Link
               key={service.link}
               to={service.link}
-              className="group p-8 rounded-2xl bg-brand-warm hover:bg-brand-warm/80 transition-all"
+              className="group p-8 rounded-2xl bg-brand-warm hover:bg-brand-warm/80 transition-all shrink-0 w-[85%] md:w-auto snap-start"
             >
               <div className="mb-6">
                 <service.icon className="w-8 h-8 text-brand-dark/70" strokeWidth={1.5} />
@@ -55,6 +61,7 @@ export const RelatedServices = ({
             </Link>
           ))}
         </div>
+        <ScrollArrows scrollRef={scrollRef} />
       </div>
     </section>
   );
