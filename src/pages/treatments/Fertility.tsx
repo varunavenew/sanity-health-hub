@@ -364,41 +364,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  </h2>
  </div>
 
- <Accordion type="single" collapsible className="w-full">
-   {segments.map((s) => (
-     <AccordionItem key={s.id} value={s.id} className="border-b border-border/30">
-       <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-         <span className="pr-4">{s.title}</span>
-       </AccordionTrigger>
-       <AccordionContent>
-         <div className="pb-2">
-           <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
-             {s.desc}
-           </p>
-           <div className="mb-5">
-             {(s.tags ?? []).map((tag) => (
-               <Link
-                 key={tag.label}
-                 to={tag.href}
-                 className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
-               >
-                 <span>{tag.label}</span>
-                 <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
-               </Link>
-             ))}
-           </div>
-           <Link
-             to={s.href}
-             className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
-           >
-             {s.cta}
-             <ArrowRight className="w-3.5 h-3.5" />
-           </Link>
-         </div>
-       </AccordionContent>
-     </AccordionItem>
-   ))}
- </Accordion>
+ <LifePhasesCarousel phases={segments.map((s) => ({ ...s, n: s.id }))} />
  </div>
  </div>
 
