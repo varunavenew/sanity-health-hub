@@ -9,8 +9,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
-import {
-} from "@/components/ui/accordion";
 import { AnimatedStat } from "@/components/AnimatedStat";
 import { Button } from "@/components/ui/button";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
