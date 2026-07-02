@@ -277,14 +277,14 @@ const RelatedBlock = ({
     <>
       <div
         ref={ref}
-        className={`flex md:grid grid-cols-1 ${gridCols} gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide`}
+        className={`flex md:grid grid-cols-1 ${gridCols} gap-2 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide`}
         style={{ scrollbarWidth: "none" }}
       >
         {resolved.map((a) => (
           <Link
             key={a.title}
             to={a.href}
-            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[85%] md:w-auto snap-start"
+            className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[92%] md:w-auto snap-start"
           >
             <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
               {a.image && (
@@ -397,7 +397,7 @@ const RelatedServicesCarousel = ({
               key={a.title}
               data-related-card
               to={a.href}
-              className="relative flex-shrink-0 w-[78vw] sm:w-[360px] md:w-[400px] aspect-[4/5] snap-start rounded-sm overflow-hidden group bg-secondary"
+              className="relative flex-shrink-0 w-[85vw] sm:w-[360px] md:w-[400px] aspect-[4/5] snap-start rounded-sm overflow-hidden group bg-secondary"
             >
               {a.image && (
                 <img
@@ -774,7 +774,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   <Link
   key={a.title}
   to={a.href}
-  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[78vw] md:w-auto snap-center"
+  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[85vw] md:w-auto snap-center"
   >
   <div className="p-7 flex flex-col flex-1">
   <h3 className="text-xl font-light text-foreground mb-3">
@@ -821,7 +821,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
           <div className="max-w-6xl mx-auto">
           <div ref={promisesRef} className="flex md:grid md:grid-cols-3 gap-4 md:gap-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
             {c.promises.map((p, i) => (
-              <div key={p.title} className="group flex flex-col shrink-0 w-[78vw] md:w-auto snap-center">
+              <div key={p.title} className="group flex flex-col shrink-0 w-[85vw] md:w-auto snap-center">
                 <div className="relative w-full aspect-[4/3] overflow-hidden bg-secondary mb-6">
                   <img
                     src={promiseImages[i]}
