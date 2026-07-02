@@ -495,7 +495,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  <Link
  key={a.title}
  to={a.href}
- className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+ className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden shrink-0 w-[85%] md:w-auto snap-start"
  >
 
  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
