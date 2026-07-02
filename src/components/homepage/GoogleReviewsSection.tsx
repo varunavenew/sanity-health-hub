@@ -93,9 +93,10 @@ export const GoogleReviewsSection = ({ showTrustSection = true }: GoogleReviewsS
   const ctaTitle = settings?.ctaTitle ?? t("reviews.ctaTitle");
   const ctaSubtitle = settings?.ctaSubtitle ?? t("reviews.ctaSubtitle");
   const duplicatedReviews = [...googleReviewsList, ...googleReviewsList];
-  const mobileLoop = googleReviewsList.length > 3;
+  const mobileLoop = googleReviewsList.length > 1;
   const mobileList = mobileLoop ? duplicatedReviews : googleReviewsList;
   useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
+
 
   return (
     <section className="py-10 md:py-14 bg-brand-warm relative overflow-hidden">

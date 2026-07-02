@@ -78,9 +78,11 @@ export const TestimonialSection = () => {
       }))
     : staticTestimonials;
 
-  const mobileLoop = testimonials.length > 3;
+  const mobileLoop = testimonials.length > 1;
   const mobileList = mobileLoop ? [...testimonials, ...testimonials] : testimonials;
+  const desktopList = [...testimonials, ...testimonials];
   useAutoScroll(mobileScrollRef, { enabled: mobileLoop, seamless: true });
+
 
   return (
     <section id="tilbakemeldinger" className="py-20 bg-background">
@@ -103,42 +105,47 @@ export const TestimonialSection = () => {
           <p className="text-muted-foreground font-light">Gjennomsnittsvurdering på Google fra over 1000 fornøyde pasienter</p>
         </div>
         
-        {/* Desktop grid */}
-        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {testimonials.map((testimonial) => (
-            <div 
-              key={testimonial.id} 
-              className="bg-[hsl(30,20%,96%)] rounded-xl p-8 hover:shadow-lg transition-all hover:scale-105"
-            >
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
-              </div>
-              <p className="text-foreground mb-6 leading-relaxed font-light">
-                "{testimonial.text}"
-              </p>
-              <div className="flex items-center justify-between pt-4 border-t border-muted">
-                <div>
-                  <p className="font-light">{testimonial.name}{testimonial.age ? `, ${testimonial.age}` : ''}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+        {/* Desktop: infinite marquee */}
+        <div className="relative mt-8 hidden md:block -mx-6 md:-mx-16">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <div className="flex gap-8 animate-scroll-left hover:[animation-play-state:paused]">
+            {desktopList.map((testimonial, index) => (
+              <div
+                key={`${testimonial.id}-${index}`}
+                className="flex-shrink-0 w-[380px] bg-[hsl(30,20%,96%)] rounded-xl p-8 hover:shadow-lg transition-all"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                  ))}
                 </div>
-                {testimonial.treatment && (
-                  <div className={`text-xs px-3 py-1 rounded-full ${
-                    testimonial.treatment === 'Gynekologi' 
-                      ? 'bg-pink-100 text-pink-700' 
-                      : testimonial.treatment === 'Fertilitet'
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-blue-100 text-blue-700'
-                  }`}>
-                    {testimonial.treatment}
+                <p className="text-foreground mb-6 leading-relaxed font-light">
+                  "{testimonial.text}"
+                </p>
+                <div className="flex items-center justify-between pt-4 border-t border-muted">
+                  <div>
+                    <p className="font-light">{testimonial.name}{testimonial.age ? `, ${testimonial.age}` : ''}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
                   </div>
-                )}
+                  {testimonial.treatment && (
+                    <div className={`text-xs px-3 py-1 rounded-full ${
+                      testimonial.treatment === 'Gynekologi'
+                        ? 'bg-pink-100 text-pink-700'
+                        : testimonial.treatment === 'Fertilitet'
+                        ? 'bg-emerald-100 text-emerald-700'
+                        : 'bg-blue-100 text-blue-700'
+                    }`}>
+                      {testimonial.treatment}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
 
       {/* Mobile horizontal swipe with seamless auto-scroll (>3 items) */}
       <div className="md:hidden">
