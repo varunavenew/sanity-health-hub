@@ -1,4 +1,5 @@
 import { useEffect, useRef, ReactNode, ComponentType, SVGProps } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { Link } from "react-router-dom";
