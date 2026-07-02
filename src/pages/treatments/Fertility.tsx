@@ -12,6 +12,7 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
