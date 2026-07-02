@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CTASection } from "@/components/layout/CTASection";
-import { SplitHero } from "@/components/layout/SplitHero";
-import aboutHero from "@/assets/hero/about-hero.jpg";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import heroFamily from "@/assets/hero/hero-family.jpg";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { SpecialistsSection } from "@/components/homepage/SpecialistsSection";
 import { useAboutPage } from "@/hooks/useSanity";
@@ -15,7 +17,7 @@ interface AboutProps {
 
 type Block = { heading?: string; text?: string; bold?: boolean };
 
-// Static fallback content (current approved copy — do NOT edit verbatim text)
+// Static fallback content (current approved copy)
 const staticContent = {
   title: "Ledende ekspertise. Personlig omsorg.",
   bodyParagraphs: [
@@ -40,28 +42,25 @@ const staticContent = {
 };
 
 const About = ({ isChatOpen }: AboutProps) => {
+  const navigate = useNavigate();
   const { data: sanityData } = useAboutPage();
 
   const title = sanityData?.title || staticContent.title;
-  const heroImage = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : aboutHero;
+  const heroImage = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : heroFamily;
 
   const bodyParagraphs: Block[] =
     sanityData?.sections?.length
       ? sanityData.sections.map((s: any) => ({ text: s.content }))
       : staticContent.bodyParagraphs;
 
-  // Group into chapters: each heading starts a new chapter with its following paragraphs.
-  const chapters: { heading: string; paragraphs: Block[] }[] = [];
-  let intro: Block[] = [];
-  for (const block of bodyParagraphs) {
-    if (block.heading) {
-      chapters.push({ heading: block.heading, paragraphs: [] });
-    } else if (chapters.length === 0) {
-      intro.push(block);
-    } else {
-      chapters[chapters.length - 1].paragraphs.push(block);
-    }
-  }
+  // Split content so the image sits between the first chapter and the rest –
+  // mirroring the older letter-style layout.
+  let splitIndex = bodyParagraphs.findIndex(
+    (b, i) => i > 0 && b.heading
+  );
+  if (splitIndex === -1) splitIndex = Math.ceil(bodyParagraphs.length / 2);
+  const introBlocks = bodyParagraphs.slice(0, splitIndex);
+  const restBlocks = bodyParagraphs.slice(splitIndex);
 
   const seoTitle = "Om oss – Faglig trygghet og personlig omsorg";
   const seoDescription =
@@ -70,6 +69,27 @@ const About = ({ isChatOpen }: AboutProps) => {
   useEffect(() => {
     document.title = `${seoTitle} | CMedical`;
   }, []);
+
+  const renderBlock = (p: Block, i: number) => {
+    if (p.heading) {
+      return (
+        <h2
+          key={`h-${i}`}
+          className="text-xl md:text-2xl font-light text-brand-dark pt-6 first:pt-0"
+        >
+          {p.heading}
+        </h2>
+      );
+    }
+    return (
+      <p
+        key={`p-${i}`}
+        className={p.bold ? "text-brand-dark font-normal pt-2" : ""}
+      >
+        {p.text}
+      </p>
+    );
+  };
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -83,48 +103,53 @@ const About = ({ isChatOpen }: AboutProps) => {
         ]}
       />
 
-      <SplitHero
-        title={title}
-        description={intro[0]?.text}
-        image={heroImage}
-        imageAlt="CMedical – omsorg og fagmiljø"
-        primaryCta={{ label: "Bestill time", to: "/booking" }}
-        secondaryCta={{ label: "Kontakt oss", to: "/contact" }}
-      />
+      {/* Letter-style content */}
+      <article className="bg-brand-warm pt-20">
+        <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
+          <div className="max-w-3xl mx-auto">
+            <header className="mb-8 pb-6 border-b border-brand-dark/10">
+              
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
+                {title}
+              </h1>
+            </header>
 
-      {/* Chapters */}
-      <section className="bg-brand-warm">
-        <div className="container mx-auto px-6 md:px-16 py-16 md:py-24">
-          <div className="max-w-3xl mx-auto space-y-12 md:space-y-16">
-            {intro.slice(1).map((p, i) => (
-              <p
-                key={`intro-${i}`}
-                className="text-base md:text-lg text-brand-dark/80 leading-[1.8] font-light"
-              >
-                {p.text}
-              </p>
-            ))}
-
-            {chapters.map((chapter, i) => (
-              <article key={`ch-${i}`} className="space-y-4">
-                <h2 className="text-2xl md:text-3xl font-light text-brand-dark leading-tight">
-                  {chapter.heading}
-                </h2>
-                <div className="space-y-4 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
-                  {chapter.paragraphs.map((p, j) => (
-                    <p
-                      key={`p-${i}-${j}`}
-                      className={p.bold ? "text-brand-dark font-normal" : ""}
-                    >
-                      {p.text}
-                    </p>
-                  ))}
-                </div>
-              </article>
-            ))}
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+              {introBlocks.map(renderBlock)}
+            </div>
           </div>
         </div>
-      </section>
+
+        {/* Image */}
+        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto">
+            <img
+              src={heroImage}
+              alt="Omsorg hos CMedical - Familie"
+              className="w-full aspect-[3/2] object-cover object-[30%_20%]"
+            />
+          </div>
+        </div>
+
+        {/* Continued content */}
+        <div className="container mx-auto px-6 md:px-16 pb-10 md:pb-14">
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-5 text-brand-dark/80 text-[15px] md:text-base leading-[1.8] font-light">
+              {restBlocks.map(renderBlock)}
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-brand-dark/10">
+              <Button
+                className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 h-11 font-light"
+                onClick={() => navigate('/booking')}
+              >
+                Bestill konsultasjon
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </article>
 
       <ClinicGrid />
 
