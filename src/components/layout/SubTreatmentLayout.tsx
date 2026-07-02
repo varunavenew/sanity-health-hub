@@ -157,6 +157,7 @@ const ReasonsEditorial = ({
    items: { n: string; title: string; desc: ReactNode }[];
    layout?: "prose" | "accordion" | "auto";
 }) => {
+   const isMobile = useIsMobile();
    // Filter out blacklisted items and items with no real content.
    const cleanItems = (items ?? []).filter(
      (r) => !isBlacklisted(r.title) && (r.desc !== undefined && r.desc !== null && r.desc !== ""),
