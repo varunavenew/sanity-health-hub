@@ -304,7 +304,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
- <div ref={expertAreasRef} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" style={{ scrollbarWidth: 'none' }}>
+ <div ref={expertAreasRef} className="flex md:grid md:grid-cols-2 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
  {expertAreas.map((a) => (
  <Link
  key={a.title}
