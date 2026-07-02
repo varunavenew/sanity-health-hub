@@ -143,10 +143,6 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  <Check className="w-4 h-4" aria-hidden="true" />
  Korte ventetider
  </li>
- <li className="flex items-center gap-2">
- <Check className="w-4 h-4" aria-hidden="true" />
- Tverrfaglige team
- </li>
  </ul>
  </div>
  </div>
