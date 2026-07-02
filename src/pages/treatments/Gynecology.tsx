@@ -157,24 +157,24 @@ const expertAreas = [
 const audiences = [
  {
   title: "Første gynekologtime",
-  Icon: User,
   desc:
    "Det første møtet skal være trygt og forklart. Vi tar oss tid — uansett om det er prevensjon, syklus eller bare et spørsmål du har båret på lenge.",
    href: "/behandlinger/gynekologi/undersokelse",
+   image: getServiceImageFromHref("/behandlinger/gynekologi/undersokelse") ?? gynekologiHeroImg,
   },
   {
    title: "Gravid eller nylig forløst",
-   Icon: Users,
    desc:
     "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
    href: "/graviditet",
+   image: getServiceImageFromHref("/graviditet") ?? expertBekkenbunn,
  },
  {
   title: "Midt i livet og videre",
-  Icon: Clock,
   desc:
    "Overgangsalder, hormoner, urinlekkasje eller fremfall — vi hjelper deg å forstå kroppen og finne riktig behandling på dine premisser.",
   href: "/behandlinger/gynekologi/overgangsalder",
+  image: getServiceImageFromHref("/behandlinger/gynekologi/overgangsalder") ?? expertOvergangsalder,
  },
 ];
 
