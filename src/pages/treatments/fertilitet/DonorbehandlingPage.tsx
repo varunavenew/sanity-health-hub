@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, User, Heart } from "lucide-react";
+import { ArrowRight, Check, Star, Quote } from "lucide-react";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
