@@ -66,24 +66,28 @@ const segments = [
 const audiences = [
   {
     title: "Likekjønnede par",
-    Icon: Heart,
     desc:
       "Partnerdonasjon eller IUI med donorsæd. Du og partner velger sammen hvilken vei som passer dere best.",
-    href: BOOKING,
+    href: "/behandlinger/fertilitet/assistert-befruktning-par-og-single",
+    image:
+      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning-par-og-single") ??
+      audienceCouple,
   },
   {
     title: "Single",
-    Icon: User,
     desc:
       "IUI med donorsæd er ofte det enkleste første steget når du ønsker barn på egen hånd. Vi følger deg trygt gjennom hele forløpet.",
-    href: "/behandlinger/fertilitet/iui",
+    href: "/behandlinger/fertilitet/assistert-befruktning",
+    image:
+      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? audienceSingle,
   },
   {
     title: "Heterofile par",
-    Icon: Users,
     desc:
       "Når egne egg eller sæd ikke er et alternativ, kan donorbehandling være veien videre. Vi gjør en grundig vurdering først.",
     href: "/behandlinger/fertilitet/fertilitetsutredning",
+    image:
+      getServiceImageFromHref("/behandlinger/fertilitet/fertilitetsutredning") ?? audienceWaiting,
   },
 ];
 
