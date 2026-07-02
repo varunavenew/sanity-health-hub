@@ -19,6 +19,7 @@ import {
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller";
+import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import spotlightImg from "@/assets/hero/cmedical-hands.jpg";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
