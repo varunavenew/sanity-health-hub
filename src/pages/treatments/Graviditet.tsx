@@ -345,7 +345,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
               <Accordion
                 type="single"
                 collapsible
-                defaultValue="faq-0"
+                defaultValue={isMobile ? undefined : "faq-0"}
                 className="border-t border-border/60"
               >
                 {[
