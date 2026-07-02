@@ -157,24 +157,24 @@ const expertAreas = [
 const audiences = [
  {
   title: "Første gynekologtime",
-  Icon: User,
   desc:
    "Det første møtet skal være trygt og forklart. Vi tar oss tid — uansett om det er prevensjon, syklus eller bare et spørsmål du har båret på lenge.",
    href: "/behandlinger/gynekologi/undersokelse",
+   image: getServiceImageFromHref("/behandlinger/gynekologi/undersokelse") ?? gynekologiHeroImg,
   },
   {
    title: "Gravid eller nylig forløst",
-   Icon: Users,
    desc:
     "Ultralyd, svangerskapsoppfølging, 6-ukerskontroll og bekkenbunn — vi følger deg gjennom hele forløpet, også det som kommer etter.",
    href: "/graviditet",
+   image: getServiceImageFromHref("/graviditet") ?? expertBekkenbunn,
  },
  {
   title: "Midt i livet og videre",
-  Icon: Clock,
   desc:
    "Overgangsalder, hormoner, urinlekkasje eller fremfall — vi hjelper deg å forstå kroppen og finne riktig behandling på dine premisser.",
   href: "/behandlinger/gynekologi/overgangsalder",
+  image: getServiceImageFromHref("/behandlinger/gynekologi/overgangsalder") ?? expertOvergangsalder,
  },
 ];
 
@@ -437,28 +437,31 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
 
      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
       {audiences.map((a) => (
-       <div
-        key={a.title}
-        className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
-       >
-       <div className="mb-6 text-foreground/80">
-        <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
-       </div>
-       <h3 className="text-lg font-normal text-foreground mb-3">
-        {a.title}
-       </h3>
-       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
-        {a.desc}
-       </p>
        <Link
+        key={a.title}
         to={a.href}
-        className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
+        className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
        >
-        Les mer
-        <ArrowRight className="w-3.5 h-3.5" />
+        <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+         <img
+          src={a.image}
+          alt={a.title}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+         />
+        </div>
+        <div className="p-7 flex flex-col flex-1">
+         <h3 className="text-xl font-light text-foreground mb-3">{a.title}</h3>
+         <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
+          {a.desc}
+         </p>
+         <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+          Les mer
+          <ArrowRight className="w-3.5 h-3.5" />
+         </span>
+        </div>
        </Link>
-      </div>
-     ))}
+      ))}
       </div>
 
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, User, Heart } from "lucide-react";
+import { ArrowRight, Check, Star, Quote } from "lucide-react";
+import { getServiceImageFromHref } from "@/data/serviceImages";
 import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
@@ -65,24 +66,28 @@ const segments = [
 const audiences = [
   {
     title: "Likekjønnede par",
-    Icon: Heart,
     desc:
       "Partnerdonasjon eller IUI med donorsæd. Du og partner velger sammen hvilken vei som passer dere best.",
-    href: BOOKING,
+    href: "/behandlinger/fertilitet/assistert-befruktning-par-og-single",
+    image:
+      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning-par-og-single") ??
+      audienceCouple,
   },
   {
     title: "Single",
-    Icon: User,
     desc:
       "IUI med donorsæd er ofte det enkleste første steget når du ønsker barn på egen hånd. Vi følger deg trygt gjennom hele forløpet.",
-    href: "/behandlinger/fertilitet/iui",
+    href: "/behandlinger/fertilitet/assistert-befruktning",
+    image:
+      getServiceImageFromHref("/behandlinger/fertilitet/assistert-befruktning") ?? audienceSingle,
   },
   {
     title: "Heterofile par",
-    Icon: Users,
     desc:
       "Når egne egg eller sæd ikke er et alternativ, kan donorbehandling være veien videre. Vi gjør en grundig vurdering først.",
     href: "/behandlinger/fertilitet/fertilitetsutredning",
+    image:
+      getServiceImageFromHref("/behandlinger/fertilitet/fertilitetsutredning") ?? audienceWaiting,
   },
 ];
 
@@ -264,19 +269,30 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {audiences.map((a) => (
-                <div key={a.title} className="bg-background rounded-sm border border-border/40 flex flex-col p-7">
-                  <div className="mb-6 text-foreground/80">
-                    <a.Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+                <Link
+                  key={a.title}
+                  to={a.href}
+                  className="bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden"
+                >
+                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
+                    <img
+                      src={a.image}
+                      alt={a.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
                   </div>
-                  <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
-                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
-                  <Link to={a.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start">
-                    Les mer
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
+                  <div className="p-7 flex flex-col flex-1">
+                    <h3 className="text-xl font-light text-foreground mb-3">{a.title}</h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
+                    <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
+                      Les mer
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
