@@ -418,6 +418,13 @@ const Godkjenning = () => {
           <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
             <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background flex-wrap">
               <TabBtn active={tab === "sider"} onClick={() => setTab("sider")} icon={<ListChecks className="w-4 h-4" />} label="Sider" />
+              <TabBtn
+                active={tab === "tjenester"}
+                onClick={() => setTab("tjenester")}
+                icon={<Stethoscope className="w-4 h-4" />}
+                label="Tjenester"
+                badge={serviceCounts.avventer + serviceCounts.endringer}
+              />
               <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
               <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
               <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
