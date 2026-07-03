@@ -666,7 +666,6 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                     <div className="col-span-10 md:col-span-11">
                       <h3 className="text-base font-normal text-foreground mb-1.5">{step.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">{step.desc}</p>
-                      {step.tags && <TagList tags={step.tags} className="mt-3" initialVisible={5} />}
                     </div>
                   </div>
                 ))}
