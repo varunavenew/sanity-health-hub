@@ -105,16 +105,23 @@ async function main() {
     const pointerPath = path.join(dir, file);
     const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
     const fileBase = file.replace(/\.jpg\.asset\.json$/, "");
-    const { categoryId, subId } = parseImageSlug(fileBase);
 
-    const target = subId
-      ? treatmentByKey.get(`${categoryId}/${subId}`)
+    if (SKIP_PREFIXES.some((p) => fileBase.startsWith(p))) continue;
+
+    const { categoryId, subId } = parseImageSlug(fileBase);
+    const sanitySub = subId
+      ? ROUTE_TO_SANITY_SLUG[`${categoryId}/${subId}`] ?? subId
+      : undefined;
+
+    const target = sanitySub
+      ? treatmentByKey.get(`${categoryId}/${sanitySub}`)
       : catByKey.get(categoryId);
 
     if (!target) {
-      unmatched.push(`${fileBase} → ${categoryId}${subId ? "/" + subId : " (category)"}`);
+      unmatched.push(`${fileBase} → ${categoryId}${sanitySub ? "/" + sanitySub : " (category)"}`);
       continue;
     }
+
 
     if (target.heroImage?.asset) {
       skippedHasImage++;
