@@ -21,7 +21,7 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
-import { TagList } from "@/components/treatments/TagList";
+
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getCategoryEntryPrice } from "@/data/priceList";
 
@@ -159,45 +159,21 @@ const journey = [
     n: "01",
     title: "Bestill time",
     desc: "Du booker direkte — ingen henvisning, ingen ventetid. Vi finner et tidspunkt som passer ditt svangerskap.",
-    tags: [
-      { label: "Ingen henvisning", href: `${GRAV}/ultralyd` },
-      { label: "Direkte booking", href: `${GRAV}/ultralyd` },
-      "Kort ventetid",
-      "Graviditet",
-    ],
   },
   {
     n: "02",
     title: "Første konsultasjon",
     desc: "Du møter jordmoren eller spesialisten din. Vi tar oss tid til samtalen før vi gjør en grundig vurdering.",
-    tags: [
-      { label: "Tidlig ultralyd", href: `${GRAV}/ultralyd` },
-      { label: "NIPT", href: `${GRAV}/nipt` },
-      "Jordmor",
-      "Spesialist",
-    ],
   },
   {
     n: "03",
     title: "Plan og oppfølging",
     desc: "Sammen legger vi en plan for resten av svangerskapet, tilpasset deg og din historikk.",
-    tags: [
-      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
-      { label: "Fosterdiagnostikk", href: `${GRAV}/fosterdiagnostikk` },
-      "Fast jordmor",
-      "Personlig plan",
-    ],
   },
   {
     n: "04",
     title: "Etter fødsel",
     desc: "Vi følger deg også etter fødsel — med kontroll, ammehjelp og samtaler om det som var.",
-    tags: [
-      "Kontroll etter fødsel",
-      "Ammehjelp",
-      "Samtale",
-      "Oppfølging",
-    ],
   },
 ];
 
@@ -666,7 +642,6 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                     <div className="col-span-10 md:col-span-11">
                       <h3 className="text-base font-normal text-foreground mb-1.5">{step.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">{step.desc}</p>
-                      {step.tags && <TagList tags={step.tags} className="mt-3" initialVisible={5} />}
                     </div>
                   </div>
                 ))}
