@@ -449,7 +449,7 @@ const Godkjenning = () => {
             </div>
           </div>
 
-          {tab === "sider" && (
+          {(tab === "sider" || tab === "tjenester") && (
             <div className="mt-4 flex flex-col md:flex-row gap-3 md:items-center">
               <div className="relative md:max-w-xs flex-1">
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
