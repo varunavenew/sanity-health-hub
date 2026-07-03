@@ -28,21 +28,22 @@ export const ResultsStatsSection = ({
   className = "",
 }: ResultsStatsSectionProps) => {
   return (
-    <section className={`bg-brand-light text-foreground py-12 md:py-16 border-t border-brand-dark/5 ${className}`}>
+    <section className={`bg-brand-light text-foreground py-16 md:py-20 border-t border-brand-dark/5 ${className}`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+          <div className="grid lg:grid-cols-12 gap-4 md:gap-6 lg:gap-24 mb-10 md:mb-14">
             <div className="lg:col-span-5">
               <h2 className="text-2xl md:text-3xl font-light leading-tight">{title}</h2>
             </div>
             {description && (
-              <div className="lg:col-span-7 flex items-end">
+              <div className="lg:col-span-7 lg:flex lg:items-end">
                 <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
                   {description}
                 </p>
               </div>
             )}
           </div>
+
 
           <div className="border-t border-brand-dark/5 py-8 md:py-10">
             <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
