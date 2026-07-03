@@ -12,6 +12,7 @@ import SpecialistProfileMaster from "./masters/SpecialistProfileMaster";
 import MasterMalForrigeUke from "./demos/MasterMalForrigeUke";
 import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
 import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
+import FertilitetVarmHeroForslag from "./demos/FertilitetVarmHeroForslag";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -145,6 +146,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Fertilitet-siden satt opp etter mastermalen (gynekologi-snapshot, 2 uker siden). Struktur, design og seksjoner er identiske med mastermalen — kun innhold er fertilitetsspesifikt (tekst, bilder, hero-video, 'fra'-pris, spesialister, anmeldelser).",
     livePath: "/maler/fertilitetEtterMaster",
     render: () => <FertilitetEtterMaster isChatOpen={false} />,
+  },
+  fertilitetVarmHeroForslag: {
+    title: "Mal: Fertilitet – varm hero (forslag)",
+    description:
+      "Designforslag for Fertilitet-landingen: split-hero der hero-bildet ligger på den ene siden og et varmt korn-gradient-panel (korall/oransje/fersken/varm brun) på den andre. Små korn-gradient-flater rundt hero gir ekstra dybde. Alle tokens, typografi, radius og USP-stil er uendret. Kun forslag — den publiserte siden er ikke endret.",
+    livePath: "/maler/fertilitetVarmHeroForslag",
+    render: () => <FertilitetVarmHeroForslag isChatOpen={false} />,
   },
 };
 
