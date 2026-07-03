@@ -277,6 +277,181 @@ const HeroImageWithAccents = () => (
   </header>
 );
 
+// FORSLAG 4 — sentrert hero med stor korn-gradient-bakgrunn og tekst i midten
+const HeroCenteredGrain = () => (
+  <header
+    className="relative overflow-hidden text-white"
+    style={grainFullBlock}
+  >
+    <div
+      aria-hidden="true"
+      className="absolute -top-32 left-1/2 -translate-x-1/2 w-[720px] h-[720px] rounded-full pointer-events-none opacity-60"
+      style={grainAccentSoft}
+    />
+    <div
+      aria-hidden="true"
+      className="absolute -bottom-40 -left-24 w-[420px] h-[420px] rounded-full pointer-events-none opacity-70"
+      style={grainAccentDeep}
+    />
+    <div
+      aria-hidden="true"
+      className="absolute -bottom-24 -right-20 w-[380px] h-[380px] rounded-full pointer-events-none opacity-60"
+      style={grainAccentSoft}
+    />
+    <div className="relative z-10 py-24 lg:py-36 lg:min-h-[620px] flex items-center justify-center text-center">
+      <div className="max-w-2xl px-6 md:px-10">
+        <nav
+          aria-label="breadcrumb"
+          className="text-xs font-light flex items-center justify-center gap-2 mb-8 text-white/70"
+        >
+          <Link to="/" className="hover:text-white">Hjem</Link>
+          <span aria-hidden="true">›</span>
+          <span className="text-white/90">Fertilitet</span>
+        </nav>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 leading-[1.05] text-white">
+          Noen ganger trenger kroppen{" "}
+          <span className="block italic">litt hjelp på veien</span>
+        </h2>
+        <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-white/90 max-w-xl mx-auto">
+          Å ville bli foreldre er noe av det sterkeste man kan kjenne på. For
+          mange går det av seg selv. For andre tar det litt lenger tid — og
+          noen trenger hjelp.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
+          <Button
+            variant="cta"
+            size="lg"
+            className="px-8 w-full sm:w-auto"
+            onClick={() =>
+              (window.location.href = buildBookingUrl({ kategori: "fertilitet" }))
+            }
+          >
+            Bestill time
+          </Button>
+          <CallUsClinicPicker variant="dark" label="Ring oss" />
+        </div>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-white/95 justify-center">
+          {["Ingen henvisning", "Korte ventetider"].map((u) => (
+            <li key={u} className="flex items-center gap-2">
+              <Check className="w-4 h-4" aria-hidden="true" />
+              <span>{u}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </header>
+);
+
+// FORSLAG 5 — asymmetrisk split: bilde venstre (større), varm gradient-blokk høyre
+const HeroAsymmetricSplit = () => (
+  <header className="relative bg-brand-light overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="hidden lg:block absolute -top-24 right-1/3 w-72 h-72 rounded-full pointer-events-none opacity-60 z-10"
+      style={grainAccentSoft}
+    />
+    <div className="relative z-20 flex flex-col-reverse lg:grid lg:grid-cols-[1.35fr_1fr] lg:min-h-[640px]">
+      <div className="relative min-h-[420px] lg:min-h-full">
+        <img
+          src={fertilityHeroImg}
+          alt="Fertilitet hos CMedical"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+      <div
+        className="relative flex items-center px-6 md:px-10 lg:px-14 py-16 lg:py-24 text-white overflow-hidden"
+        style={grainPanel}
+      >
+        <div
+          aria-hidden="true"
+          className="absolute -top-10 -right-16 w-56 h-56 rounded-full pointer-events-none opacity-70"
+          style={grainAccentSoft}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-16 -left-10 w-52 h-52 rounded-full pointer-events-none opacity-60"
+          style={grainAccentDeep}
+        />
+        <HeroCopy tone="light" />
+      </div>
+    </div>
+  </header>
+);
+
+// FORSLAG 6 — rundt/organisk bilde-utsnitt med korn-aksentflater rundt
+const HeroOrganicImage = () => (
+  <header className="relative bg-brand-light overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="absolute -top-24 -left-16 w-80 h-80 rounded-full pointer-events-none opacity-70 z-10"
+      style={grainAccentSoft}
+    />
+    <div
+      aria-hidden="true"
+      className="absolute bottom-10 left-1/3 w-72 h-72 rounded-full pointer-events-none opacity-60 z-10"
+      style={grainAccentDeep}
+    />
+    <div
+      aria-hidden="true"
+      className="absolute -top-10 right-1/4 w-52 h-52 rounded-full pointer-events-none opacity-60 z-10"
+      style={grainAccentSoft}
+    />
+    <div className="relative z-20 flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[640px]">
+      <div className="flex items-center page-edge-text-left py-16 lg:py-24">
+        <HeroCopy tone="dark" />
+      </div>
+      <div className="relative min-h-[460px] lg:min-h-full flex items-center justify-center p-6 lg:p-12">
+        <div
+          aria-hidden="true"
+          className="absolute top-6 right-6 w-40 h-40 rounded-full pointer-events-none opacity-70"
+          style={grainAccentDeep}
+        />
+        <div
+          aria-hidden="true"
+          className="absolute bottom-4 left-4 w-48 h-48 rounded-full pointer-events-none opacity-60"
+          style={grainAccentSoft}
+        />
+        <div
+          className="relative w-full max-w-md aspect-square overflow-hidden shadow-2xl"
+          style={{ borderRadius: "48% 52% 42% 58% / 52% 44% 56% 48%" }}
+        >
+          <img
+            src={fertilityHeroImg}
+            alt="Fertilitet hos CMedical"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
+            style={{ backgroundImage: GRAIN_URL }}
+          />
+        </div>
+      </div>
+    </div>
+  </header>
+);
+
+// FORSLAG 7 (minimal) — kun varm gradient + tekst, uten foto, roligere komposisjon
+const HeroMinimalGradient = () => (
+  <header
+    className="relative overflow-hidden text-white"
+    style={{
+      backgroundImage: `${GRAIN_URL}, linear-gradient(115deg, hsl(20 65% 55%) 0%, hsl(24 55% 40%) 55%, hsl(22 40% 22%) 100%)`,
+      backgroundBlendMode: "overlay, normal, normal",
+    }}
+  >
+    <div
+      aria-hidden="true"
+      className="absolute top-10 right-10 w-60 h-60 rounded-full pointer-events-none opacity-50"
+      style={grainAccentSoft}
+    />
+    <div className="relative z-10 page-edge-text-left py-20 lg:py-28 lg:min-h-[480px] flex items-center">
+      <HeroCopy tone="light" />
+    </div>
+  </header>
+);
+
 /* ─────────────────────────── Section wrapper ─────────────────────────── */
 
 interface VariantSectionProps {
@@ -376,7 +551,7 @@ export default function FertilitetVarmHeroForslag({ isChatOpen }: Props) {
 
       <VariantSection
         status="Forslag"
-        label="Variant 1"
+        label="Forslag 1"
         title="Varm split med korn-gradient-panel"
         description="Hero-bildet ligger til høyre, mens venstre halvdel er et kornete gradient-panel i korall, oransje og varm brun. Små korn-flater rundt hero gir ekstra dybde."
       >
@@ -385,7 +560,7 @@ export default function FertilitetVarmHeroForslag({ isChatOpen }: Props) {
 
       <VariantSection
         status="Forslag"
-        label="Variant 2"
+        label="Forslag 2"
         title="Full farge-/gradient-blokk med tekst oppå"
         description="Ingen bilde — hele hero er en varm korn-gradient-flate med tekst og CTA plassert direkte oppå. Roligere komposisjon, sterkere farge-signal."
       >
@@ -394,11 +569,47 @@ export default function FertilitetVarmHeroForslag({ isChatOpen }: Props) {
 
       <VariantSection
         status="Forslag"
-        label="Variant 3"
+        label="Forslag 3"
         title="Bilde med korn-aksentflater rundt for dybde"
         description="Hero-bildet får avrundede kanter og ligger som en 'card' i komposisjonen, omkranset av mykt uskarpe korn-gradient-flater som løfter bildet og skaper dybde."
       >
         <HeroImageWithAccents />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 4"
+        title="Sentrert hero med stor korn-gradient-bakgrunn"
+        description="Tekst, CTA og USP er sentrert oppå en stor, varm korn-gradient-flate. Rolig og fokusert komposisjon der budskapet får hovedrollen."
+      >
+        <HeroCenteredGrain />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 5"
+        title="Asymmetrisk split — bilde venstre, gradient-blokk høyre"
+        description="Bildet får mer plass til venstre (~55%), mens den varme gradient-blokken til høyre bærer tekst og CTA. Skaper en tydelig visuell hierarki og varme uten å dominere."
+      >
+        <HeroAsymmetricSplit />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 6"
+        title="Organisk bilde-utsnitt med korn-aksentflater"
+        description="Hero-bildet er beskåret i en myk, organisk form (blob) og omkranses av korn-gradient-aksenter. Mer poetisk og mindre firkantet komposisjon."
+      >
+        <HeroOrganicImage />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 7 — minimal"
+        title="Minimal hero — kun varm gradient og tekst"
+        description="Ingen foto, ingen aksentflater — bare en rolig varm korn-gradient med tekst, CTA og USP. Nyttig som ekstra-variant når fokus skal ligge helt på ord og handling."
+      >
+        <HeroMinimalGradient />
       </VariantSection>
 
       <div className="h-16" aria-hidden="true" />
