@@ -23,6 +23,20 @@ const IMAGE_TO_CATEGORY: Record<string, string> = {
   flere: "flere-fagomrader",
 };
 
+// Skip these image slugs — not treatment/category hero images.
+const SKIP_PREFIXES = ["mobil-"];
+
+// Route subId → Sanity treatment slug (Norwegian). Only entries where the
+// image slug differs from the actual Sanity slug.
+const ROUTE_TO_SANITY_SLUG: Record<string, string> = {
+  "fertilitet/fertilitetsteamet": "teamet",
+  "gynekologi/tverrfaglig-team": "tverrfaglig",
+  "gynekologi/vaginalt-fremfall": "vaginale-fremfall",
+  "gynekologi/cyster-pa-eggstokkene": "cyster",
+  "gynekologi/gynekologisk-undersokelse": "undersokelse",
+  "gynekologi/gynekologisk-kirurgi": "kirurgi",
+};
+
 // Given an image slug like "gynekologi-tverrfaglig-team" or
 // "flere-overvektskirurgi", derive { categoryId, subId }.
 function parseImageSlug(fileBase: string): { categoryId: string; subId?: string } {
@@ -34,6 +48,7 @@ function parseImageSlug(fileBase: string): { categoryId: string; subId?: string 
   if (rest === "hero") return { categoryId };
   return { categoryId, subId: rest };
 }
+
 
 async function main() {
   const dryRun = !process.argv.includes("--write");
