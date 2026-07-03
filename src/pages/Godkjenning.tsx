@@ -74,6 +74,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/fertilitetEtterMaster",
     exampleLabel: "Åpne demo",
   },
+  {
+    key: "fertilitetVarmHeroForslag",
+    title: "Fertilitet – varm hero (forslag)",
+    description: "Forslag til redesignet Fertilitet-hero med mer varme og farge: split-hero der hero-bildet ligger ved siden av et varmt korn-gradient-panel (korall/oransje/fersken/varm brun), med små korn-gradient-flater som aksenter rundt hero for ekstra dybde. Samme tokens, typografi, radius og USP-stil som resten av siden. Kun demo — den publiserte Fertilitet-siden er uendret.",
+    examplePath: "/maler/fertilitetVarmHeroForslag",
+    exampleLabel: "Åpne forslag",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = [
