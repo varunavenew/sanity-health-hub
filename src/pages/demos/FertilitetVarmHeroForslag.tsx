@@ -551,7 +551,7 @@ export default function FertilitetVarmHeroForslag({ isChatOpen }: Props) {
 
       <VariantSection
         status="Forslag"
-        label="Variant 1"
+        label="Forslag 1"
         title="Varm split med korn-gradient-panel"
         description="Hero-bildet ligger til høyre, mens venstre halvdel er et kornete gradient-panel i korall, oransje og varm brun. Små korn-flater rundt hero gir ekstra dybde."
       >
@@ -560,7 +560,7 @@ export default function FertilitetVarmHeroForslag({ isChatOpen }: Props) {
 
       <VariantSection
         status="Forslag"
-        label="Variant 2"
+        label="Forslag 2"
         title="Full farge-/gradient-blokk med tekst oppå"
         description="Ingen bilde — hele hero er en varm korn-gradient-flate med tekst og CTA plassert direkte oppå. Roligere komposisjon, sterkere farge-signal."
       >
@@ -569,11 +569,47 @@ export default function FertilitetVarmHeroForslag({ isChatOpen }: Props) {
 
       <VariantSection
         status="Forslag"
-        label="Variant 3"
+        label="Forslag 3"
         title="Bilde med korn-aksentflater rundt for dybde"
         description="Hero-bildet får avrundede kanter og ligger som en 'card' i komposisjonen, omkranset av mykt uskarpe korn-gradient-flater som løfter bildet og skaper dybde."
       >
         <HeroImageWithAccents />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 4"
+        title="Sentrert hero med stor korn-gradient-bakgrunn"
+        description="Tekst, CTA og USP er sentrert oppå en stor, varm korn-gradient-flate. Rolig og fokusert komposisjon der budskapet får hovedrollen."
+      >
+        <HeroCenteredGrain />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 5"
+        title="Asymmetrisk split — bilde venstre, gradient-blokk høyre"
+        description="Bildet får mer plass til venstre (~55%), mens den varme gradient-blokken til høyre bærer tekst og CTA. Skaper en tydelig visuell hierarki og varme uten å dominere."
+      >
+        <HeroAsymmetricSplit />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 6"
+        title="Organisk bilde-utsnitt med korn-aksentflater"
+        description="Hero-bildet er beskåret i en myk, organisk form (blob) og omkranses av korn-gradient-aksenter. Mer poetisk og mindre firkantet komposisjon."
+      >
+        <HeroOrganicImage />
+      </VariantSection>
+
+      <VariantSection
+        status="Forslag"
+        label="Forslag 7 — minimal"
+        title="Minimal hero — kun varm gradient og tekst"
+        description="Ingen foto, ingen aksentflater — bare en rolig varm korn-gradient med tekst, CTA og USP. Nyttig som ekstra-variant når fokus skal ligge helt på ord og handling."
+      >
+        <HeroMinimalGradient />
       </VariantSection>
 
       <div className="h-16" aria-hidden="true" />
