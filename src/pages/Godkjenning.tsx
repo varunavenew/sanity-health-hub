@@ -322,8 +322,14 @@ const Godkjenning = () => {
     return m;
   }, [requests]);
 
+  const isServiceCategory = (category: string) =>
+    category === "Fagområder" || category.includes("underbehandlinger");
+
   const grouped = useMemo(() => {
-    const filtered = sitePages.filter((p) => {
+    const source = tab === "tjenester"
+      ? sitePages.filter((p) => isServiceCategory(p.category))
+      : sitePages;
+    const filtered = source.filter((p) => {
       const r = rows[p.path];
       const status = (r?.status ?? "avventer") as Status;
       if (filter !== "alle" && status !== filter) return false;
@@ -336,7 +342,17 @@ const Godkjenning = () => {
       map.get(p.category)!.push(p);
     });
     return Array.from(map.entries());
-  }, [rows, filter, search]);
+  }, [rows, filter, search, tab]);
+
+  const serviceCounts = useMemo(() => {
+    const services = sitePages.filter((p) => isServiceCategory(p.category));
+    const c = { total: services.length, godkjent: 0, avventer: 0, endringer: 0 };
+    services.forEach((p) => {
+      const s = (rows[p.path]?.status ?? "avventer") as Status;
+      c[s]++;
+    });
+    return c;
+  }, [rows]);
 
   const counts = useMemo(() => {
     const c = { total: sitePages.length, godkjent: 0, avventer: 0, endringer: 0 };
