@@ -10,7 +10,7 @@ const diagnoses = [
   "Endometriose",
   "Inkontinens",
   "Infertilitet",
-  "PCOS",
+  "PMOS",
   "Myomer",
   "Erektil dysfunksjon",
   "Blærebetennelse",

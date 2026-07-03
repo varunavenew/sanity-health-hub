@@ -56,7 +56,7 @@ const allBookingServices: BookingCategory[] = [
       { name: "Generell undersøkelse", price: "2100", duration: "30 min" },
       { name: "Endometriose / adenomyose", price: "3200", duration: "45 min" },
       { name: "Overgangsalder", price: "3200", duration: "45 min" },
-      { name: "PCOS / Hormonforstyrrelser", price: "3200", duration: "45 min" },
+      { name: "PMOS / Hormonforstyrrelser", price: "3200", duration: "45 min" },
       { name: "Kontroll etter fødsel", price: "2100", duration: "30 min" },
       { name: "Urinlekkasje", price: "2100", duration: "30 min" },
     ]

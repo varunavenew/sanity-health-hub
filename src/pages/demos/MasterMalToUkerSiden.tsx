@@ -40,7 +40,7 @@ const lifePhases = [
  "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
  tags: [
  { label: "Prevensjonsveiledning", href: "/booking?kategori=gynekologi" },
- { label: "PCOS & POI", href: "/behandlinger/gynekologi/pcos" },
+ { label: "PMOS & POI", href: "/behandlinger/gynekologi/pcos" },
  { label: "Hormonforstyrrelser", href: "/behandlinger/gynekologi/pcos" },
  { label: "PMS / PMDD", href: "/behandlinger/gynekologi/pms-pmdd" },
  { label: "Uregelmessige eller kraftige blødninger", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
@@ -131,7 +131,7 @@ const allServices = [
  { title: "Endometriose", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/endometriose" },
  { title: "Overgangsalder", desc: "Hormonbehandling og oppfølging", href: "/behandlinger/gynekologi/overgangsalder" },
  { title: "Urinlekkasje", desc: "Konservativ og kirurgisk behandling", href: "/behandlinger/gynekologi/urinlekkasje" },
- { title: "PCOS", desc: "Utredning og oppfølging", href: "/behandlinger/gynekologi/pcos" },
+ { title: "PMOS", desc: "Utredning og oppfølging", href: "/behandlinger/gynekologi/pcos" },
  { title: "Vulvalidelser", desc: "Spesialisert utredning", href: "/behandlinger/gynekologi/vulvalidelser" },
  { title: "Cellforandringer", desc: "Oppfølging og konisering", href: "/behandlinger/gynekologi/celleforandringer" },
  { title: "PMS og PMDD", desc: "Utredning og behandling", href: "/behandlinger/gynekologi/pms-pmdd" },
@@ -412,7 +412,7 @@ const MasterMalToUkerSiden = ({ isChatOpen }: PageProps) => {
  { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/booking?kategori=gynekologi&tjeneste=endometriose" },
  { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/booking?kategori=gynekologi&tjeneste=urinlekkasje" },
  { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/booking?kategori=gynekologi&tjeneste=overgangsalder" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PMOS-utredning", href: "/booking?kategori=gynekologi&tjeneste=pcos" },
+ { symptom: "Uregelmessig syklus eller mistanke om PMOS", service: "PMOS-utredning", href: "/booking?kategori=gynekologi&tjeneste=pcos" },
  { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/booking?kategori=gynekologi&tjeneste=vulvalidelser" },
  ]}
  />

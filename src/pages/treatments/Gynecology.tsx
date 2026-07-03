@@ -51,7 +51,7 @@ const lifePhases = [
  "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
  tags: [
  { label: "Prevensjonsveiledning", href: "/behandlinger/gynekologi/undersokelse" },
- { label: "PCOS & POI", href: "/behandlinger/gynekologi/pcos" },
+ { label: "PMOS & POI", href: "/behandlinger/gynekologi/pcos" },
  { label: "Hormonforstyrrelser", href: "/behandlinger/gynekologi/pcos" },
  { label: "PMS / PMDD", href: "/behandlinger/gynekologi/pms-pmdd" },
  { label: "Uregelmessige eller kraftige blødninger", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
@@ -540,7 +540,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  { symptom: "Kraftige eller langvarige menssmerter", service: "Endometriose-utredning", href: "/behandlinger/gynekologi/endometriose" },
  { symptom: "Urinlekkasje eller bekkenbunnsplager", service: "Bekkenbunnsutredning", href: "/behandlinger/gynekologi/urinlekkasje" },
  { symptom: "Hetetokter, søvnløshet, humørsvingninger", service: "Overgangsalder-konsultasjon", href: "/behandlinger/gynekologi/overgangsalder" },
- { symptom: "Uregelmessig syklus eller mistanke om PCOS", service: "PMOS-utredning", href: "/behandlinger/gynekologi/pcos" },
+ { symptom: "Uregelmessig syklus eller mistanke om PMOS", service: "PMOS-utredning", href: "/behandlinger/gynekologi/pcos" },
  { symptom: "Smerter, kløe eller ubehag i vulva", service: "Vulva-utredning", href: "/behandlinger/gynekologi/vulvalidelser" },
  ]}
  />

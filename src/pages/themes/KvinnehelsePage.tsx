@@ -15,7 +15,7 @@ interface PageProps {
 const staticLifePhases = [
  {
  title: "Ung kvinne",
- text: "Menstruasjonsutfordringer, prevensjon, PCOS, endometriose, smerter og hormonelle plager.",
+ text: "Menstruasjonsutfordringer, prevensjon, PMOS, endometriose, smerter og hormonelle plager.",
  },
  {
  title: "Fertil alder",

@@ -10,7 +10,7 @@ const categories = [
   { iconKey: "ultralyd-cl", title: "Graviditet & Ultralyd", services: ["Tidlig ultralyd", "NIPT-test", "Svangerskapskontroll", "3D/4D ultralyd"] },
   { iconKey: "vaginale-fremfall-cl", title: "Bekkenhelse", services: ["Bekkenbunnsutredning", "Kroniske smerter", "Endometriose", "Prolaps"] },
   { iconKey: "sexologi-cl", title: "Seksuell Helse", services: ["Seksologisk rådgivning", "STI-testing", "Intimhelse", "Par-terapi"] },
-  { iconKey: "endokrinologi-cl", title: "Hormoner & Endokrinologi", services: ["Hormonterapi", "PCOS", "Stoffskifte", "Testosteron"] },
+  { iconKey: "endokrinologi-cl", title: "Hormoner & Endokrinologi", services: ["Hormonterapi", "PMOS", "Stoffskifte", "Testosteron"] },
   { iconKey: "gynekologisk-kirurgi-cl", title: "Kirurgi", services: ["Gynekologisk kirurgi", "Urologisk kirurgi", "Laparoskopi", "Intimkirurgi"] },
 ];
 

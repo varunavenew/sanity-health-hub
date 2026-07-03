@@ -55,7 +55,7 @@ const bookingServices = [
  { name: "Generell undersøkelse", price: "2100", duration: "30 minutter" },
  { name: "Kontroll etter fødsel", price: "2100", duration: "30 minutter" },
  { name: "Overgangsalder", price: "3200", duration: "45 minutter" },
- { name: "PCOS / Hormonforstyrrelser", price: "3200", duration: "45 minutter" },
+ { name: "PMOS / Hormonforstyrrelser", price: "3200", duration: "45 minutter" },
  { name: "Smerter i underlivet / Vulvodyni / Vaginisme", price: "3200", duration: "45 minutter" },
  { name: "Tidlig ultralyd enkel", price: "2100", duration: "30 minutter" },
  { name: "Urinlekkasje", price: "2100", duration: "30 minutter" },
