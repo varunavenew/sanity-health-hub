@@ -99,11 +99,12 @@ async function main() {
     }
 
     // Download from CDN, upload to Sanity, patch document.
-    const url = pointer.url?.startsWith("http")
-      ? pointer.url
-      : `https://lovable-preview.dev${pointer.url}`;
-    // The pointer URL is a Lovable-relative path. Prefer the R2 public URL
-    // if you have one; here we assume the CLI-served preview host works.
+    // Pointer URL is relative to the Lovable preview host.
+    const HOST =
+      process.env.LOVABLE_ASSET_HOST ||
+      "https://id-preview--3dcc4aff-3deb-44f0-b035-de0201b2a94e.lovable.app";
+    const url = pointer.url?.startsWith("http") ? pointer.url : `${HOST}${pointer.url}`;
+
     const res = await fetch(url);
     if (!res.ok) {
       console.warn(`  ✗ download failed (${res.status}) for ${url}`);
