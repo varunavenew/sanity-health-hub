@@ -519,6 +519,21 @@ const Godkjenning = () => {
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
           <div className="space-y-12">
+            {tab === "tjenester" && (
+              <div className="pb-6 border-b border-border">
+                <h2 className="text-xl font-light text-foreground">Tjenester og undertjenester</h2>
+                <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+                  Alle hovedtjenester (fagområder) og tilhørende undertjenester. Klikk en side for å lese den, sett status
+                  og skriv kommentarer — endringene lagres for hele teamet.
+                </p>
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <StatCard label="Totalt" value={serviceCounts.total} />
+                  <StatCard label="Godkjent" value={serviceCounts.godkjent} accent="emerald" />
+                  <StatCard label="Avventer" value={serviceCounts.avventer} accent="amber" />
+                  <StatCard label="Endringer" value={serviceCounts.endringer} accent="rose" />
+                </div>
+              </div>
+            )}
             {grouped.map(([category, pages]) => (
               <section key={category}>
                 <h2 className="text-sm text-muted-foreground mb-4 pb-2 border-b border-border">
