@@ -56,7 +56,7 @@ const expertAreas: ExpertArea[] = [
  */
 
 const lifePhases = [
- { title: "Ung kvinne", text: "Menstruasjonsutfordringer, prevensjon, PCOS, endometriose, smerter og hormonelle plager." },
+ { title: "Ung kvinne", text: "Menstruasjonsutfordringer, prevensjon, PMOS, endometriose, smerter og hormonelle plager." },
  { title: "Fertil alder", text: "Prevensjonsveiledning, fertilitetsvurdering, graviditet, barseloppfølging og bekkenhelse." },
  { title: "Midtliv og overgangsalder", text: "Perimenopause og menopause, hormonbehandling, søvnproblemer, energitap, beinskjørhet og hjertehelse." },
  { title: "Senior kvinnehelse", text: "Forebygging, underlivsplager, inkontinens, seksualhelse og helhetlig oppfølging av kroniske tilstander." },

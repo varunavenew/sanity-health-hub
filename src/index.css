@@ -371,6 +371,20 @@
   .mobile-image-first { display: flex; flex-direction: column-reverse; }
 }
 
+/* ===== Heading → paragraph rhythm (all breakpoints) =====
+   Prevents oversized gap between a section heading and its lead paragraph,
+   which was making headings look glued to the top while the ingress floated
+   too far below. */
+:is(h1, h2, h3):has(+ p) {
+  margin-bottom: 0.5rem;
+}
+@media (min-width: 768px) {
+  :is(h1, h2, h3):has(+ p) {
+    margin-bottom: 0.75rem;
+  }
+}
+
+
 
 
 /* Hide native scrollbar for horizontal card carousels — dots handle indication */

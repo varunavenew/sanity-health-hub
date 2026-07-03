@@ -108,7 +108,7 @@ const relatedAreas = [
  href: "/behandlinger/gynekologi/blodningsforstyrrelser",
  },
  {
- title: "PCOS",
+ title: "PMOS",
  desc: "Polycystisk ovariesyndrom er vanlig, og kan gi uregelmessig syklus, akne og uttretthet — med mer. Vi gir utredning og oppfølging gjennom alle faser av livet.",
  href: "/behandlinger/gynekologi/pcos",
  },

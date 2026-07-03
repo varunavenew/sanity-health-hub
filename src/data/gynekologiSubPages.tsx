@@ -110,7 +110,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     related: [
       { title: "Endometriose", desc: "En av de vanligste gynekologiske sykdommene — og en av de mest oversette. Vi har lengre timer for grundig vurdering.", href: "/behandlinger/gynekologi/endometriose" },
       { title: "Blødningsforstyrrelser", desc: "Kraftige, langvarige eller uregelmessige blødninger kan skyldes myomer, polypper eller hormonell ubalanse — vi finner årsaken.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
-      { title: "PCOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "PMOS", desc: "Polycystisk ovariesyndrom kan gi uregelmessig syklus, akne og uttretthet. Vi gir utredning og oppfølging.", href: "/behandlinger/gynekologi/pcos" },
     ],
     ctaTitle: "Bestill gynekologisk\u00A0undersøkelse",
     ctaDescription:
@@ -355,53 +355,53 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       "Du trenger ikke leve med dette. Vi gir deg en grundig vurdering og en konkret plan.",
   },
 
-  /* ───────────────────────── PCOS ───────────────────────── */
+  /* ───────────────────────── PMOS ───────────────────────── */
   pcos: {
-    seoTitle: "PCOS | CMedical — utredning og oppfølging",
+    seoTitle: "PMOS | CMedical — utredning og oppfølging",
     seoDescription:
-      "Spesialisert utredning og oppfølging av PCOS (polycystisk ovariesyndrom) — gjennom alle faser av livet.",
+      "Spesialisert utredning og oppfølging av PMOS (polycystisk ovariesyndrom) — gjennom alle faser av livet.",
     canonical: "/behandlinger/gynekologi/pcos",
     parent,
-    title: "PCOS",
-    heroTitle: <>PCOS er mer enn <span className="italic">cyster</span></>,
+    title: "PMOS",
+    heroTitle: <>PMOS er mer enn <span className="italic">cyster</span></>,
     heroDescription:
       "Polycystisk ovariesyndrom påvirker hormoner, syklus, hud, vekt og fertilitet. Vi gir deg en helhetlig utredning — og en plan som faktisk fungerer i hverdagen din.",
     heroPoints: [
       { title: "Helhetlig utredning", desc: "Hormoner, ultralyd, metabolsk vurdering — vi kartlegger hele bildet." },
       { title: "Skreddersydd plan", desc: "Behandling tilpasset om du ønsker barn nå, senere — eller noe helt annet." },
       { title: "Tverrfaglig tilnærming", desc: "Tilgang til ernæring, fertilitetshjelp og psykologi når du trenger det." },
-      { title: "Langsiktig oppfølging", desc: "PCOS følger deg gjennom livet — vi gjør det også." },
+      { title: "Langsiktig oppfølging", desc: "PMOS følger deg gjennom livet — vi gjør det også." },
     ],
     rating: "4,8 — Spesialister på kvinnehelse",
     booking: { ...baseBooking, tjeneste: "pcos" },
     primaryCtaLabel: "Bestill utredning",
-    flowTitle: "Slik utreder vi PCOS",
+    flowTitle: "Slik utreder vi PMOS",
     flow: [
       { n: "Steg 01", title: "Samtale", desc: "Vi kartlegger syklus, symptomer, familiehistorikk og hva som er viktig for deg nå." },
       { n: "Steg 02", title: "Undersøkelse og prøver", desc: "Ultralyd av eggstokker, hormonprøver og metabolsk screening." },
-      { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi går gjennom funnene og forklarer hva PCOS betyr for akkurat deg." },
+      { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi går gjennom funnene og forklarer hva PMOS betyr for akkurat deg." },
       { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell, metabolsk eller fertilitetsrettet behandling — basert på dine mål." },
     ],
-    reasonsTitle: "Tegn på PCOS",
+    reasonsTitle: "Tegn på PMOS",
     reasonsLead:
-      "PCOS gir svært variable symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
+      "PMOS gir svært variable symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
     reasons: [
       { n: "01", title: "Uregelmessig eller manglende menstruasjon", desc: "Lange sykluser eller fravær av mens er et av de tydeligste tegnene." },
-      { n: "02", title: "Akne og fet hud", desc: "Hormonell akne hos voksne kan henge sammen med PCOS." },
+      { n: "02", title: "Akne og fet hud", desc: "Hormonell akne hos voksne kan henge sammen med PMOS." },
       { n: "03", title: "Økt hårvekst", desc: "Mer hårvekst i ansikt, bryst eller mage enn det som er typisk for deg." },
-      { n: "04", title: "Vansker med å bli gravid", desc: "Manglende eggløsning er en vanlig årsak til redusert fertilitet ved PCOS." },
+      { n: "04", title: "Vansker med å bli gravid", desc: "Manglende eggløsning er en vanlig årsak til redusert fertilitet ved PMOS." },
       { n: "05", title: "Vektendringer", desc: "Vansker med å gå ned i vekt eller uventet vektøkning, særlig rundt midjen." },
       { n: "06", title: "Tretthet og humørsvingninger", desc: "Insulinresistens og hormonell ubalanse påvirker energi og psyke." },
     ],
     promises: standardPromises,
     related: [
-      { title: "Fertilitetsutredning", desc: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PCOS.", href: "/behandlinger/fertilitet" },
-      { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PCOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Fertilitetsutredning", desc: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PMOS.", href: "/behandlinger/fertilitet" },
+      { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PMOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { title: "PMS og PMDD", desc: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", href: "/behandlinger/gynekologi/pms-pmdd" },
     ],
     ctaTitle: "Få en grundig PMOS-utredning",
     ctaDescription:
-      "PCOS påvirker hele deg — derfor utreder vi hele deg. Bestill time for en samtale som tar utgangspunkt i din situasjon.",
+      "PMOS påvirker hele deg — derfor utreder vi hele deg. Bestill time for en samtale som tar utgangspunkt i din situasjon.",
   },
 
   /* ───────────────────────── VULVALIDELSER ───────────────────────── */
@@ -542,7 +542,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     promises: standardPromises,
     related: [
-      { title: "PCOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "PMOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pcos" },
       { title: "Overgangsalder", desc: "PMDD kan endre karakter mot perimenopausen — og kreve ny tilnærming.", href: "/behandlinger/gynekologi/overgangsalder" },
       { title: "Endometriose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
     ],
@@ -641,7 +641,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Endometriose", desc: "Endometriomer (sjokoladecyster) er en form for endometriose med egne behandlingsbehov.", href: "/behandlinger/gynekologi/endometriose" },
-      { title: "PCOS", desc: "Mange små cyster på eggstokkene kan være tegn på PCOS.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "PMOS", desc: "Mange små cyster på eggstokkene kan være tegn på PMOS.", href: "/behandlinger/gynekologi/pcos" },
       { title: "Robotassistert kirurgi", desc: "Skånsom kirurgi for komplekse eller store cyster.", href: "/behandlinger/gynekologi/robotkirurgi" },
     ],
     ctaTitle: "Få vurdert en cyste hos spesialist",

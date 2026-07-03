@@ -260,10 +260,10 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
             </ul>
             <p className="text-sm text-muted-foreground mb-6">Viktig: MHT frarådes for kvinner med lupus og anti-fosfolipid antistoffer på grunn av økt risiko for blodpropp.</p>
 
-            <h3 className="text-lg font-normal text-foreground mb-3">PCOS (Polycystisk ovariesyndrom)</h3>
+            <h3 className="text-lg font-normal text-foreground mb-3">PMOS (Polycystisk ovariesyndrom)</h3>
             <ul className="list-disc pl-6 space-y-1 mb-6">
               <li>Transdermal østrogen + mikronisert progesteron eller Mirena-spiral.</li>
-              <li>Kvinner med PCOS kan ha nytte av testosteron som del av MHT.</li>
+              <li>Kvinner med PMOS kan ha nytte av testosteron som del av MHT.</li>
               <li>Livsstilsintervensjon (vektnedgang, kosthold, fysisk aktivitet) fortsatt viktig.</li>
             </ul>
           </Section>
@@ -316,7 +316,7 @@ const FastlegeveiledningOvergangsalder = ({ isChatOpen }: PageProps) => {
             <ol className="list-decimal pl-6 space-y-2 mb-6 text-sm">
               <li>Norsk gynekologisk veileder kapittel menopause 2024</li>
               <li>NICE NG23 Menopause guideline 2024 – menopause, POI, genitourinære symptomer</li>
-              <li>British Menopause Society retningslinjer 2022–2025 – endometriose, migrene, ADHD, autoimmune sykdommer, diabetes, metabolsk syndrom, PCOS</li>
+              <li>British Menopause Society retningslinjer 2022–2025 – endometriose, migrene, ADHD, autoimmune sykdommer, diabetes, metabolsk syndrom, PMOS</li>
               <li>European Society of Endocrinology guidelines 2025</li>
               <li>Osianlis E, et al. ADHD and Sex Hormones in Females: A Systematic Review. <em>Journal of Attention Disorders</em> 2025; 29(9):706-723</li>
             </ol>

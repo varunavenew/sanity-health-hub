@@ -187,7 +187,7 @@ export const specialists: Specialist[] = [
     image: birgitteAspenes,
     category: "gynekologi",
     slug: "birgitte-aspenes",
-    bio: "Dr. Birgitte Aspenes er utdannet lege ved Universitetet i Oslo. Etter noen år som allmennlege, spesialiserte hun seg i fødselshjelp og kvinnesykdommer ved Bærum Sykehus, hvor hun har jobbet som overlege. Hun har også erfaring fra kirurgisk avdeling på Bærum Sykehus og kvinneklinikken på Ullevål Sykehus.\n\nDe siste årene har Dr. Aspenes jobbet som privatpraktiserende spesialist. Hun har lang erfaring og kan hjelpe deg med alle gynekologiske problemstillinger, som prevensjonsveiledning, celleforandringer, blødningsforstyrrelser, overgangsalder, PMS/PMDD, PCOS og urinlekkasje. Hun er medlem av og jobber i Bayers nordiske menopause råd, og har særlig kompetanse innen behandling og oppfølging i overgangsalderen. Som gynekologisk kirurg opererer hun også vaginale fremfall og urinlekkasje her hos oss.\n\nHun er spesielt opptatt av å forklare og informere godt, slik at pasienten forstår sin egen diagnose og får en følelse av klarhet og kontroll.\n\nDr. Birgitte Aspenes jobber på avdeling Bekkestua.",
+    bio: "Dr. Birgitte Aspenes er utdannet lege ved Universitetet i Oslo. Etter noen år som allmennlege, spesialiserte hun seg i fødselshjelp og kvinnesykdommer ved Bærum Sykehus, hvor hun har jobbet som overlege. Hun har også erfaring fra kirurgisk avdeling på Bærum Sykehus og kvinneklinikken på Ullevål Sykehus.\n\nDe siste årene har Dr. Aspenes jobbet som privatpraktiserende spesialist. Hun har lang erfaring og kan hjelpe deg med alle gynekologiske problemstillinger, som prevensjonsveiledning, celleforandringer, blødningsforstyrrelser, overgangsalder, PMS/PMDD, PMOS og urinlekkasje. Hun er medlem av og jobber i Bayers nordiske menopause råd, og har særlig kompetanse innen behandling og oppfølging i overgangsalderen. Som gynekologisk kirurg opererer hun også vaginale fremfall og urinlekkasje her hos oss.\n\nHun er spesielt opptatt av å forklare og informere godt, slik at pasienten forstår sin egen diagnose og får en følelse av klarhet og kontroll.\n\nDr. Birgitte Aspenes jobber på avdeling Bekkestua.",
     clinics: ["Bekkestua"]
   },
   {
@@ -359,7 +359,7 @@ export const specialists: Specialist[] = [
     image: jacksonTok,
     category: "fertilitet",
     slug: "jackson-tok",
-    bio: "Jackson Tok er spesialist i gynekologi med subspesialisering innen ufrivillig kvinnelig og mannlig infertilitet. Før CMedical jobbet Jackson som overlege ved reproduksjonsmedisinsk avdeling ved Oslo universitetssykehus, der han var ansvarlig for utredning og behandling av mannlig infertilitet.\n\nJackson ledet etableringen av fertilitetsklinikken og er nå leder for CMedical Fertilitet Majorstuen. Han har omfattende erfaring innen utredning og behandling av infertilitet på alle nivåer og har godkjent sertifisering i mikrodisseksjon-TESE (mikro-TESE) ved Centre for Male Reproductive Medicine & Microsurgery ved Weill Cornell Medicine i New York. I tillegg til infertilitet har Jackson god erfaring innen PCOS, for tidlig overgangsalder og menopause.",
+    bio: "Jackson Tok er spesialist i gynekologi med subspesialisering innen ufrivillig kvinnelig og mannlig infertilitet. Før CMedical jobbet Jackson som overlege ved reproduksjonsmedisinsk avdeling ved Oslo universitetssykehus, der han var ansvarlig for utredning og behandling av mannlig infertilitet.\n\nJackson ledet etableringen av fertilitetsklinikken og er nå leder for CMedical Fertilitet Majorstuen. Han har omfattende erfaring innen utredning og behandling av infertilitet på alle nivåer og har godkjent sertifisering i mikrodisseksjon-TESE (mikro-TESE) ved Centre for Male Reproductive Medicine & Microsurgery ved Weill Cornell Medicine i New York. I tillegg til infertilitet har Jackson god erfaring innen PMOS, for tidlig overgangsalder og menopause.",
     clinics: ["Majorstuen"]
   },
   {
@@ -543,22 +543,22 @@ export const specialists: Specialist[] = [
     name: "Mari Borge Eskerud",
     title: "Ernæring",
     subtitle: "Ernæringsfysiolog",
-    expertise: ["Ernæring", "IBS", "LavFODMAP", "PCOS", "Fertilitet", "Overgangsalder"],
+    expertise: ["Ernæring", "IBS", "LavFODMAP", "PMOS", "Fertilitet", "Overgangsalder"],
     image: mariBorgeEskerud,
     category: "annet",
     slug: "mari-borge-eskerud",
-    bio: "Mari Borge Eskerud er klinisk ernæringsfysiolog med spesialisering innen IBS og lavFODMAP-dietten. Hun har tidligere jobbet ved Lovisenberg Diakonale Sykehus, hvor hun har hjulpet pasienter med irritabel tarm-syndrom (IBS) gjennom evidensbasert kostholdsveiledning. Mari er sertifisert i lavFODMAP-dietten av Monash University og har et stort engasjement for å gi pasientene sine kunnskapsbasert og individuelt tilpasset behandling.\n\nI tillegg til sin spesialisering innen mage- og tarmhelse, har hun særlig kompetanse innen ernæring relatert til fertilitet, overgangsalder, Polycystisk ovariesyndrom (PCOS) og graviditet. Hun jobber også med generell ernæringsveiledning for god helse og velvære.\n\nMari er medforfatter av boken «Sunn og frisk med sensitiv mage – en fullstendig guide til kosthold og mestring» (2018), sammen med Cecilie Hauge Ågotnes.",
+    bio: "Mari Borge Eskerud er klinisk ernæringsfysiolog med spesialisering innen IBS og lavFODMAP-dietten. Hun har tidligere jobbet ved Lovisenberg Diakonale Sykehus, hvor hun har hjulpet pasienter med irritabel tarm-syndrom (IBS) gjennom evidensbasert kostholdsveiledning. Mari er sertifisert i lavFODMAP-dietten av Monash University og har et stort engasjement for å gi pasientene sine kunnskapsbasert og individuelt tilpasset behandling.\n\nI tillegg til sin spesialisering innen mage- og tarmhelse, har hun særlig kompetanse innen ernæring relatert til fertilitet, overgangsalder, Polycystisk ovariesyndrom (PMOS) og graviditet. Hun jobber også med generell ernæringsveiledning for god helse og velvære.\n\nMari er medforfatter av boken «Sunn og frisk med sensitiv mage – en fullstendig guide til kosthold og mestring» (2018), sammen med Cecilie Hauge Ågotnes.",
     clinics: ["Majorstuen"]
   },
   {
     name: "Maria Thompson Clausen",
     title: "Ernæring",
     subtitle: "Ernæringsfysiolog",
-    expertise: ["Ernæring", "IBS", "PCOS", "Spiseforstyrrelser", "Overvekt", "Overgangsalder", "Diabetes type 2", "RED-s"],
+    expertise: ["Ernæring", "IBS", "PMOS", "Spiseforstyrrelser", "Overvekt", "Overgangsalder", "Diabetes type 2", "RED-s"],
     image: mariaThompsonClausen,
     category: "annet",
     slug: "maria-thompson-clausen",
-    bio: "Maria Thompson Clausen er utdannet klinisk ernæringsfysiolog fra Universitetet i Oslo, med videre spesialisering i bulimi og overspisingslidelse ved Norges idrettshøyskole. Hun har i tillegg fordypet seg i irritabel tarm (IBS), og har bred erfaring med sammensatte problemstillinger innen ernæring og helse.\n\nDe siste seks årene har Maria jobbet som kostholds- og treningsveileder og hjulpet mennesker med livsstilsendringer, overvekt, fedme, spiseforstyrrelser som bulimi og overspisingslidelse (BED), samt undervekt og mangelfull ernæring. Hun har et helhetlig syn på helse, der kroppen sees i sammenheng – fysisk og mentalt.\n\nMaria tilbyr evidensbasert veiledning for blant annet: IBS (irritabel tarm), PCOS, Diabetes type 2 og insulinresistens, Overspisingslidelse og bulimi, RED-s (Relative Energy Deficiency in Sport), Kosthold tilpasset overgangsalder, IBD, Cøliaki og Spisevansker.\n\nHun brenner for å gi mennesker kunnskap og verktøy som gjør det mulig å ta bærekraftige, sunne valg – tilpasset hver enkelt kropp og livssituasjon.",
+    bio: "Maria Thompson Clausen er utdannet klinisk ernæringsfysiolog fra Universitetet i Oslo, med videre spesialisering i bulimi og overspisingslidelse ved Norges idrettshøyskole. Hun har i tillegg fordypet seg i irritabel tarm (IBS), og har bred erfaring med sammensatte problemstillinger innen ernæring og helse.\n\nDe siste seks årene har Maria jobbet som kostholds- og treningsveileder og hjulpet mennesker med livsstilsendringer, overvekt, fedme, spiseforstyrrelser som bulimi og overspisingslidelse (BED), samt undervekt og mangelfull ernæring. Hun har et helhetlig syn på helse, der kroppen sees i sammenheng – fysisk og mentalt.\n\nMaria tilbyr evidensbasert veiledning for blant annet: IBS (irritabel tarm), PMOS, Diabetes type 2 og insulinresistens, Overspisingslidelse og bulimi, RED-s (Relative Energy Deficiency in Sport), Kosthold tilpasset overgangsalder, IBD, Cøliaki og Spisevansker.\n\nHun brenner for å gi mennesker kunnskap og verktøy som gjør det mulig å ta bærekraftige, sunne valg – tilpasset hver enkelt kropp og livssituasjon.",
     clinics: ["Bekkestua"]
   },
   {
