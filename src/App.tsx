@@ -74,6 +74,7 @@ import SpecialistEditorial from "./pages/specialist-design/EditorialVariant";
 import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
 import SpecialistAtelier from "./pages/specialist-design/AtelierVariant";
 import { useUiTranslations } from "./hooks/useUiTranslations";
+import { useServiceImagesSync } from "./hooks/useServiceImages";
 
 const queryClient = new QueryClient();
 
@@ -94,7 +95,9 @@ const ScrollToTop = () => {
 
 const AppContent = () => {
   useUiTranslations();
+  useServiceImagesSync();
   return (
+
     <>
       <Routes>
         <Route path="/" element={<HomeDemoLek isChatOpen={false} />} />

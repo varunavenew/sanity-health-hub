@@ -196,11 +196,36 @@ function normalize(categoryId: string, subId?: string): string {
   return sub ? `${cat}-${sub}` : `${cat}-hero`;
 }
 
+// ─── Sanity override cache ────────────────────────────────────────────
+// Populated at app startup by useServiceImagesSync() (see hooks/useServiceImages.ts).
+// Keys: `${categoryId}` for a category hero, `${categoryId}/${subId}` for a
+// treatment. When a Sanity image exists it wins; otherwise the CDN pointer
+// lookup below runs unchanged.
+const sanityImageCache: Record<string, string> = {};
+
+export function setSanityServiceImages(entries: Record<string, string>): void {
+  // Replace previous cache to reflect deletions in Sanity.
+  for (const k of Object.keys(sanityImageCache)) delete sanityImageCache[k];
+  Object.assign(sanityImageCache, entries);
+}
+
+function sanityLookup(categoryId: string, subId?: string): string | undefined {
+  if (subId) {
+    const key = `${categoryId}/${subId}`;
+    if (sanityImageCache[key]) return sanityImageCache[key];
+  } else {
+    if (sanityImageCache[categoryId]) return sanityImageCache[categoryId];
+  }
+  return undefined;
+}
+
 /**
  * Return the CDN URL for a service hero image given the route params.
  * Falls back to the category hero image, then undefined.
  */
 export function getServiceImage(categoryId: string, subId?: string): string | undefined {
+  const sanity = sanityLookup(categoryId, subId);
+  if (sanity) return sanity;
   if (subId) {
     const cross = CROSS_CATEGORY_ALIAS[`${categoryId}/${subId}`];
     if (cross && serviceImageBySlug[cross]) return serviceImageBySlug[cross];
@@ -216,7 +241,9 @@ export function getServiceImage(categoryId: string, subId?: string): string | un
     const altKey = `${ALIAS[categoryId] ?? categoryId}-${alt}`;
     if (serviceImageBySlug[altKey]) return serviceImageBySlug[altKey];
   }
-  // fallback: category hero
+  // fallback: category hero (Sanity first, then CDN)
+  const catSanity = sanityImageCache[ALIAS[categoryId] ?? categoryId] ?? sanityImageCache[categoryId];
+  if (catSanity) return catSanity;
   return serviceImageBySlug[`${ALIAS[categoryId] ?? categoryId}-hero`];
 }
 
@@ -228,6 +255,8 @@ export function getServiceImage(categoryId: string, subId?: string): string | un
  */
 export function getDedicatedServiceImage(categoryId: string, subId?: string): string | undefined {
   if (!subId) return undefined;
+  const sanity = sanityLookup(categoryId, subId);
+  if (sanity) return sanity;
   const cross = CROSS_CATEGORY_ALIAS[`${categoryId}/${subId}`];
   if (cross && serviceImageBySlug[cross]) return serviceImageBySlug[cross];
   const exact = serviceImageBySlug[normalize(categoryId, subId)];
@@ -241,6 +270,8 @@ export function getDedicatedServiceImage(categoryId: string, subId?: string): st
 }
 
 export function getCategoryHeroImage(categoryId: string): string | undefined {
+  const sanity = sanityImageCache[categoryId] ?? sanityImageCache[ALIAS[categoryId] ?? categoryId];
+  if (sanity) return sanity;
   return serviceImageBySlug[`${ALIAS[categoryId] ?? categoryId}-hero`];
 }
 
@@ -254,3 +285,4 @@ export function getServiceImageFromHref(href: string): string | undefined {
   if (!m) return undefined;
   return getServiceImage(m[1], m[2]);
 }
+

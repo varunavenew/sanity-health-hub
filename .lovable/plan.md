@@ -1,68 +1,53 @@
-## Mål
+# Migrate service hero images to Sanity
 
-Alle ~60 undertjenester skal følge Fertilitet-malen (samme strukturelle sections: hero → segments → flow → reasons → promises → related → CTA), med modulære sections som brukes der det gir mening. Innholdet hentes fra `CMedical_innhold_Lovable-7.md`, bildene fra Dropbox-mappen.
+Move the ~60 service hero images from CDN `.asset.json` pointers into Sanity so editors can manage them from the CMS. Sanity image wins when present; existing CDN pointer is the fallback so nothing breaks during/after migration.
 
-## Infrastruktur som allerede finnes
+## Current state
 
-- `SubTreatmentLayout.tsx` — rik master-layout med flow, reasons, promises, expertAreas, textSection, related, CTA, specialists, insurance, FAQ. Brukes allerede av gynekologi/undersokelse og driver alle generiske undersider via `GenericSubTreatmentPage`.
-- `treatmentToSubLayout.tsx` — adapter fra `TreatmentData` → `SubTreatmentContent`.
-- `treatmentContent.ts` — sentralt datalager (~1700 linjer) som allerede dekker mange undersider, men med tynt innhold.
+- Images live at `src/assets/services/*.jpg.asset.json` (CDN pointers on Cloudflare R2).
+- Resolved in code via `getServiceImage(categoryId, subId?)` in `src/data/serviceImages.ts` — used everywhere hero images render (category landings, sub-treatment pages, related cards, "Alle er velkomne" cards).
+- Sanity schema `treatment` and `treatmentCategory` already have a `heroImage` field of type `image` — no schema change needed.
 
-**Beslutning:** Behold dataarkitekturen. Jeg fyller `treatmentContent.ts` med rikt innhold fra dokumentet og kobler på riktige bilder per slug. Bespoke `.tsx`-sider (Sleeve, Ernæringsfysiolog) beholdes som de er — resten kjøres via den generiske ruten med rikere data. Resultat: alle 60 sider får master-layouten, men hver side er unik på innhold/bilder.
+## What to build
 
-## Runde 1 — Fundament (denne meldingen)
+### 1. Upload script (one-off)
 
-1. Last opp alle 63 Dropbox-bilder som Lovable Assets (én `.asset.json` per bilde under `src/assets/services/`).
-2. Bygg `src/data/serviceImages.ts` — en `Record<slug, { url, alt }>` som mapper hver tjenesteslug til sitt bilde. Inkluderer både kategori-hero (Hero_*.jpg) og undertjeneste-bilder.
-3. Utvid `treatmentToSubLayout.tsx` til å plukke `heroImage` fra `serviceImages` når `data.heroImage` mangler — så all bildelogikk er sentralisert.
-4. Verifiser med eksisterende ruter (Urologi → Prostata, Gynekologi → Endometriose) at bildene kommer fram.
+Create `test/sanity/upload-service-images.ts`:
+- Read every `src/assets/services/*.jpg.asset.json` pointer.
+- Download the binary from the `url` field.
+- Upload to Sanity via `client.assets.upload("image", buffer, { filename })`.
+- Match the returned asset to the correct `treatment` / `treatmentCategory` document by slug (using the same `categoryId` / `subId` derivation that `serviceImages.ts` uses, including the `ALIAS`, `SUB_ALIAS`, and `CROSS_CATEGORY_ALIAS` maps).
+- Patch each document: `client.patch(id).set({ heroImage: { _type: "image", asset: { _ref: assetId } } }).commit()`.
+- Skip documents that already have a `heroImage` (idempotent re-run).
+- Log a summary: uploaded, skipped, unmatched.
 
-Leverer: bilde-manifest + bilder synlige på eksisterende generiske sider.
+### 2. Frontend resolver (Sanity-first, CDN fallback)
 
-## Runde 2 — Innhold per kategori (etter godkjenning)
+Update `src/data/serviceImages.ts`:
+- Keep the existing `getServiceImage` / `getDedicatedServiceImage` / `getCategoryHeroImage` / `getServiceImageFromHref` signatures unchanged so no call sites need editing.
+- Add a small in-memory cache populated at app startup by a new `useServiceImagesFromSanity()` hook (or extend the existing `useServiceCategories`) that fetches `_id`, `slug.current`, `parentCategory->slug.current`, and `heroImage` from Sanity once.
+- Inside each `get*` function: check the Sanity cache first (keyed by `${categoryId}/${subId}` or `${categoryId}`); if a Sanity image URL exists, return it. Otherwise fall through to the current CDN pointer logic unchanged.
+- Use `urlFor()` from `src/lib/sanityClient.ts` to build the Sanity image URL (with `.width(1600).auto("format").url()`).
 
-Bygg ut `treatmentContent.ts` med rik tekst fra dokumentet, én kategori om gangen. For hver undertjeneste fylles:
+### 3. Keep CDN pointers in the repo
 
-- `description` — brødtekst fra dokumentet
-- `sections` — H4/H5-blokker (Symptomer, Diagnose, Behandling, Etter behandling)
-- `process` — tre steg når relevant (kirurgi/utredning)
-- `benefits` — bullet-liste fra dokumentet
-- `faqs` — egne FAQ-er der dokumentet har dem, ellers standard CMedical-FAQ
-- `relatedSpecialists` — slugs basert på spesialist-koblingene i dokumentet
-- `linkedServices` — søsken-tjenester i samme kategori
+Do NOT delete the `.asset.json` files after migration. They are the fallback and cost effectively nothing in bundle size (they're JSON pointers, not binaries). Once the team confirms every service has a Sanity image and editors are happy, a follow-up cleanup task can remove them.
 
-Rekkefølge (én runde per kategori, godkjenn mellom):
+## Out of scope
 
-1. **Urologi** (9): Blære og urinveier, Forhud, Mannlig infertilitet, Nyrer, Prostata, Refertilisering, Robotassistert kirurgi, Sterilisering, Testikler og pung
-2. **Gynekologi** (18): Blødningsforstyrrelser, Celleforandringer, Cyster, Endometriose, Fjerne livmor, Fødselsskader, Fostermedisin, Graviditet, Gynekologisk kirurgi, Hysteroskopi, Labiaplastikk, NIPT, Overgangsalder, PCOS, PMS/PMDD, Robotassistert, Spontanabort, Urinlekkasje, Vaginale fremfall, Vulvalidelser *(de eksisterende «godkjent copy»-sidene rører jeg ikke)*
-3. **Fertilitet** (9): IVF, IUI, Eggdonasjon, Nedfrysing, PGT, Mannlig fertilitet, Psykisk helsehjelp, Fertilitetssjekk, Donorbehandling
-4. **Ortopedi** (5): Fot/ankel, Hånd/albue, Hofte, Kne, Skulder
-5. **Flere fagområder** (12): Åreknute, Endokrinologi, Gastrokirurgi, Hudlege, Osteopati, Plastikkirurgi, Psykologi, Revmatologi, Sexologi, Bariatrisk-klyngen (Sleeve+Ernæring finnes alt)
+- No changes to the Sanity schema (`heroImage` already exists).
+- No changes to any component or page that renders images — the resolver signatures stay identical.
+- No removal of CDN pointers in this pass.
 
-## Runde 3 — Polish
+## Verification
 
-- Kategori-landingssider (UrologiPage, OrtopediPage, etc.) får oppdatert hero-bilder fra Hero_*.jpg.
-- Sjekke at related-cards mellom søsken-tjenester i samme kategori peker riktig.
-- SEO-titles, meta-descriptions og JSON-LD per side.
+- Run the upload script in a dry-run mode first (log matches without patching) to confirm slug matching is correct — especially for the alias cases (`flere-fagomrader` → `flere`, `gynekologi/tverrfaglig` → `tverrfaglig-team`, etc.).
+- Run for real, then load a handful of pages (Gynekologi landing, a fertility sub-page, a urologi sub-page, `/behandlinger/flere-fagomrader/*`) and confirm the Sanity image renders.
+- Temporarily unset one document's `heroImage` in Sanity and confirm the CDN fallback still shows.
+- `tsgo` typecheck clean.
 
-## Hva jeg IKKE rører
+## Technical notes
 
-- Eksisterende «godkjent copy»-sider: `/behandlinger/gynekologi`, `/behandlinger/fertilitet`, `/behandlinger/fertilitet/fertilitetssjekk`, `/behandlinger/gynekologi/undersokelse` (kun bilde-bytte hvis du ber om det).
-- Sleeve-siden og Ernæringsfysiolog-siden (bygget bespoke i forrige runde).
-- Spesialistdata (DEL 2 av dokumentet) — egen runde senere hvis du vil.
-
-## Teknisk
-
-```text
-src/
-  assets/services/
-    urologi-prostata.jpg.asset.json         (63 stk totalt)
-    ...
-  data/
-    serviceImages.ts        ← NY: slug → { url, alt }
-    treatmentContent.ts     ← UTVIDET med rik tekst
-  lib/
-    treatmentToSubLayout.tsx ← liten fallback til serviceImages
-```
-
-Si JA så starter jeg Runde 1 nå.
+- Auth: the upload script needs a Sanity write token (env var `SANITY_WRITE_TOKEN`). Users manage this locally; not needed at runtime by the frontend.
+- The Sanity fetch on the frontend is a single query, cached by React Query, keyed once — no per-image roundtrips.
+- Alias/cross-category maps in `serviceImages.ts` stay authoritative for slug resolution both in the upload script and the runtime resolver (import them, don't duplicate).
