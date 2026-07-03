@@ -18,10 +18,10 @@ import flereImg from "@/assets/hero/cmedical-family.jpg";
 
 // Mobile now uses the SAME image files as desktop (single source of truth per card).
 const staticCategories = [
-  { id: 'urologi', title: 'Urologi', image: urologiAsset.url, mobileImage: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
   { id: 'fertilitet', title: 'Fertilitet', image: fertilitetHeroAsset.url, mobileImage: fertilitetHeroAsset.url, path: '/fertilitet', objectPosition: 'center' },
   { id: 'gynekologi', title: 'Gynekologi', image: gynekologiHeroAsset.url, mobileImage: gynekologiHeroAsset.url, path: '/gynekologi', objectPosition: 'center' },
   { id: 'graviditet', title: 'Graviditet', image: graviditetAsset.url, mobileImage: graviditetAsset.url, path: '/graviditet', objectPosition: 'center' },
+  { id: 'urologi', title: 'Urologi', image: urologiAsset.url, mobileImage: urologiAsset.url, path: '/urologi', objectPosition: 'center top' },
   { id: 'ortopedi', title: 'Ortopedi', image: ortopediAsset.url, mobileImage: ortopediAsset.url, path: '/ortopedi', objectPosition: 'center' },
   { id: 'flere', title: 'Flere tjenester', image: flereImg, mobileImage: flereImg, path: '/flere-fagomrader', objectPosition: 'center' },
 ];
