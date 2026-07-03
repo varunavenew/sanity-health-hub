@@ -94,7 +94,9 @@ const ScrollToTop = () => {
 
 const AppContent = () => {
   useUiTranslations();
+  useServiceImagesSync();
   return (
+
     <>
       <Routes>
         <Route path="/" element={<HomeDemoLek isChatOpen={false} />} />
