@@ -5,7 +5,7 @@ export const HomeStickyBar = () => {
     <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden flex">
       <Link
         to="/booking"
-        className="flex-1 h-14 flex items-center justify-center bg-brand-dark text-brand-warm text-sm font-medium"
+        className="flex-1 h-14 flex items-center justify-center bg-accent text-accent-foreground text-sm font-medium"
       >
         Bestill time
       </Link>
