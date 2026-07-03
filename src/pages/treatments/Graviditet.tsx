@@ -21,7 +21,7 @@ import { SpecialistsScroller } from "@/components/treatments/SpecialistsScroller
 import { LifePhasesCarousel } from "@/components/treatments/LifePhasesCarousel";
 import { FeatureSpotlight } from "@/components/treatments/FeatureSpotlight";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
-import { TagList } from "@/components/treatments/TagList";
+
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { getCategoryEntryPrice } from "@/data/priceList";
 
