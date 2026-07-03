@@ -400,12 +400,13 @@ export default {
       description: 'Lavere tall vises først innenfor kategorien.',
       validation: (Rule: any) => Rule.required().error('Sorteringsrekkefølge er påkrevd'),
     },
-    // Hidden in Studio — not rendered on live treatment pages (TreatmentPage uses fields above).
     {
       name: 'layout',
       title: 'Sidelayout (SubTreatment)',
-      description: 'Hero, forløp, symptomer og relaterte behandlinger — brukes på gynekologi m.fl.',
+      description:
+        'Valgfritt. Hero, forløp, symptomer og relaterte behandlinger — kun for gynekologi/fertilitet sub-sider. Standard behandlingssider bruker feltene over.',
       type: 'subTreatmentLayout',
+      options: { collapsible: true, collapsed: true },
     },
     pageSectionsField,
     {
