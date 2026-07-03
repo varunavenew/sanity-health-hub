@@ -12,6 +12,7 @@ import SpecialistProfileMaster from "./masters/SpecialistProfileMaster";
 import MasterMalForrigeUke from "./demos/MasterMalForrigeUke";
 import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
 import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
+import FertilitetVarmHeroForslag from "./demos/FertilitetVarmHeroForslag";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
