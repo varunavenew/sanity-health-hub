@@ -23,6 +23,20 @@ const IMAGE_TO_CATEGORY: Record<string, string> = {
   flere: "flere-fagomrader",
 };
 
+// Skip these image slugs — not treatment/category hero images.
+const SKIP_PREFIXES = ["mobil-"];
+
+// Route subId → Sanity treatment slug (Norwegian). Only entries where the
+// image slug differs from the actual Sanity slug.
+const ROUTE_TO_SANITY_SLUG: Record<string, string> = {
+  "fertilitet/fertilitetsteamet": "teamet",
+  "gynekologi/tverrfaglig-team": "tverrfaglig",
+  "gynekologi/vaginalt-fremfall": "vaginale-fremfall",
+  "gynekologi/cyster-pa-eggstokkene": "cyster",
+  "gynekologi/gynekologisk-undersokelse": "undersokelse",
+  "gynekologi/gynekologisk-kirurgi": "kirurgi",
+};
+
 // Given an image slug like "gynekologi-tverrfaglig-team" or
 // "flere-overvektskirurgi", derive { categoryId, subId }.
 function parseImageSlug(fileBase: string): { categoryId: string; subId?: string } {
@@ -34,6 +48,7 @@ function parseImageSlug(fileBase: string): { categoryId: string; subId?: string 
   if (rest === "hero") return { categoryId };
   return { categoryId, subId: rest };
 }
+
 
 async function main() {
   const dryRun = !process.argv.includes("--write");
@@ -48,25 +63,39 @@ async function main() {
 
   // Fetch every treatmentCategory + treatment with current heroImage state.
   const [categories, treatments] = await Promise.all([
-    sanityClient.fetch<Array<{ _id: string; categoryId?: string; slug?: { current?: string }; heroImage?: any }>>(
-      `*[_type == "treatmentCategory"]{ _id, categoryId, slug, heroImage }`
+    sanityClient.fetch<Array<{ _id: string; categoryId?: string; slug?: string; heroImage?: any }>>(
+      `*[_type == "treatmentCategory"]{
+        _id,
+        categoryId,
+        "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
+        heroImage
+      }`
     ),
-    sanityClient.fetch<Array<{ _id: string; slug?: { current?: string }; category?: { categoryId?: string; slug?: { current?: string } }; heroImage?: any }>>(
-      `*[_type == "treatment"]{ _id, slug, "category": category->{ categoryId, slug }, heroImage }`
+    sanityClient.fetch<Array<{ _id: string; slug?: string; category?: { categoryId?: string; slug?: string }; heroImage?: any }>>(
+      `*[_type == "treatment"]{
+        _id,
+        "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
+        "category": category->{
+          categoryId,
+          "slug": coalesce(slug[language == "no"][0].value.current, slug.current)
+        },
+        heroImage
+      }`
     ),
   ]);
 
   const catByKey = new Map<string, typeof categories[number]>();
   for (const c of categories) {
-    const key = c.categoryId || c.slug?.current;
+    const key = c.categoryId || c.slug;
     if (key) catByKey.set(key, c);
   }
   const treatmentByKey = new Map<string, typeof treatments[number]>();
   for (const t of treatments) {
-    const catId = t.category?.categoryId || t.category?.slug?.current;
-    const slug = t.slug?.current;
+    const catId = t.category?.categoryId || t.category?.slug;
+    const slug = t.slug;
     if (catId && slug) treatmentByKey.set(`${catId}/${slug}`, t);
   }
+
 
   let uploaded = 0;
   let skippedHasImage = 0;
@@ -76,16 +105,23 @@ async function main() {
     const pointerPath = path.join(dir, file);
     const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
     const fileBase = file.replace(/\.jpg\.asset\.json$/, "");
-    const { categoryId, subId } = parseImageSlug(fileBase);
 
-    const target = subId
-      ? treatmentByKey.get(`${categoryId}/${subId}`)
+    if (SKIP_PREFIXES.some((p) => fileBase.startsWith(p))) continue;
+
+    const { categoryId, subId } = parseImageSlug(fileBase);
+    const sanitySub = subId
+      ? ROUTE_TO_SANITY_SLUG[`${categoryId}/${subId}`] ?? subId
+      : undefined;
+
+    const target = sanitySub
+      ? treatmentByKey.get(`${categoryId}/${sanitySub}`)
       : catByKey.get(categoryId);
 
     if (!target) {
-      unmatched.push(`${fileBase} → ${categoryId}${subId ? "/" + subId : " (category)"}`);
+      unmatched.push(`${fileBase} → ${categoryId}${sanitySub ? "/" + sanitySub : " (category)"}`);
       continue;
     }
+
 
     if (target.heroImage?.asset) {
       skippedHasImage++;
