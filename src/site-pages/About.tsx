@@ -10,9 +10,9 @@ import { getImageUrl } from "@/lib/sanityClient";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { ClinicGrid } from "@/components/ClinicGrid";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
-import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
+import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 
 interface AboutProps {
   isChatOpen: boolean;
@@ -23,12 +23,17 @@ const About = ({ isChatOpen }: AboutProps) => {
   const { t } = useTranslation();
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "nb";
-  const aboutPath = useNavCmsPath("about") || "/om-oss";
+  const routeLocale: AppLocale = params?.locale === "en" ? "en" : "no";
   const { data: sanityData } = useAboutPage();
   const pageSections = sanityData?.pageSections;
 
   const title = sanityData?.title?.trim() || "";
+  const heroEyebrow = sanityData?.heroEyebrow?.trim() || "";
   const heroImage = sanityData?.heroImage ? getImageUrl(sanityData.heroImage) : "";
+  const heroImageAlt = sanityData?.heroImageAlt?.trim() || "";
+  const aboutPath = sanityData?.slug
+    ? withLocalePath(routeLocale, `/${sanityData.slug}`)
+    : "";
   const aboutParagraphs = sanityData?.sections?.length
     ? sanityData.sections.map((s: any) => s.content).filter(Boolean)
     : [];
@@ -39,7 +44,7 @@ const About = ({ isChatOpen }: AboutProps) => {
         <div className="container mx-auto px-6 md:px-16 py-10 md:py-14">
           <div className="max-w-3xl mx-auto">
             <GeoPageEnhancements
-              name={title || "Om CMedical"}
+              name={title}
               geoSummary={sanityData?.geoSummary}
               fallbackDescription={sanityData?.subtitle?.trim() || aboutParagraphs[0]}
               path={aboutPath}
@@ -48,7 +53,9 @@ const About = ({ isChatOpen }: AboutProps) => {
             />
             {title ? (
               <header className="mb-8 pb-6 border-b border-brand-dark/10">
-                <p className="text-muted-foreground text-xs mb-2">Om CMedical</p>
+                {heroEyebrow ? (
+                  <p className="text-muted-foreground text-xs mb-2">{heroEyebrow}</p>
+                ) : null}
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark">
                   {title}
                 </h1>
@@ -70,7 +77,7 @@ const About = ({ isChatOpen }: AboutProps) => {
             <div className="max-w-3xl mx-auto">
               <AssetImg
                 src={heroImage}
-                alt={title || "CMedical"}
+                alt={heroImageAlt}
                 className="w-full aspect-[3/2] object-cover object-[30%_20%]"
               />
             </div>

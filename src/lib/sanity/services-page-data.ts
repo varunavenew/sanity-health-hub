@@ -1,11 +1,6 @@
 import { SERVICES_PAGE_QUERY } from "@/lib/queries";
-import {
-  behandlingerCategorySegment,
-  categoryLandingPath,
-} from "@/lib/sanity/category-keys";
 import { normalizeI18n } from "@/lib/sanity/normalize-i18n";
 import { normalizePageSections } from "@/lib/sanity/page-sections";
-import { sortBySortOrder } from "@/lib/sortAlphabetical";
 import { sanityClient } from "@/lib/sanityClient";
 
 function asPlainString(value: unknown): string {
@@ -41,6 +36,7 @@ export type ServicesPageFaq = {
 
 export type ServicesPageData = {
   breadcrumbHome: string;
+  slug: string;
   title: string;
   eyebrow: string;
   introText: string;
@@ -56,7 +52,9 @@ export type ServicesPageData = {
   moreServicesItems: ServicesPageListItem[];
   faqSectionTitle: string;
   faqs: ServicesPageFaq[];
-  faqCategory: string;
+  loadingLabel: string;
+  pageErrorMessage: string;
+  emptyCategoriesMessage: string;
   pageSections?: ReturnType<typeof normalizePageSections>;
   seo?: {
     metaTitle?: string;
@@ -68,32 +66,29 @@ export type ServicesPageData = {
 
 function mapCategoryTreatments(
   category: Record<string, unknown>,
-  lang: "no" | "en",
 ): ServicesPageListItem[] {
   const categoryId =
     asPlainString(category.categoryId) || asPlainString(category.slug) || "";
+  const categorySlug = asPlainString(category.slug);
   const treatmentsRaw = (category.treatments as unknown[]) || [];
-  return sortBySortOrder(
-    treatmentsRaw.map((row) => {
+  return treatmentsRaw
+    .map((row) => {
       const t = row as Record<string, unknown>;
       const slug = asPlainString(t.slug);
       return {
         title: asPlainString(t.title),
-        sortOrder: t.sortOrder,
-        path: slug
-          ? `/behandlinger/${behandlingerCategorySegment(categoryId, lang)}/${slug}`
-          : "",
+        path:
+          slug && categorySlug
+            ? `/behandlinger/${categorySlug}/${slug}`
+            : "",
       };
-    }),
-    (t) => t.sortOrder,
-    (t) => t.title,
-    lang,
-  );
+    })
+    .filter((item) => item.title && item.path);
 }
 
 export function mapServicesPageDocument(
   data: Record<string, unknown> | null | undefined,
-  lang: "no" | "en",
+  _lang: "no" | "en",
 ): ServicesPageData | null {
   if (!data) return null;
 
@@ -104,33 +99,24 @@ export function mapServicesPageDocument(
     .map((b) => asPlainString((b as Record<string, unknown>).label))
     .filter(Boolean);
 
-  const featuredRaw =
-    (data.featuredCategories as unknown[])?.length
-      ? (data.featuredCategories as unknown[])
-      : ((data.categories as unknown[]) || []).slice(0, 4);
+  const featuredRaw = (data.featuredCategories as unknown[]) || [];
 
-  const featuredCategories: ServicesPageCategoryCard[] = sortBySortOrder(
-    featuredRaw
+  const featuredCategories: ServicesPageCategoryCard[] = featuredRaw
       .map((row) => {
         const c = row as Record<string, unknown>;
         const categoryId =
           asPlainString(c.categoryId) || asPlainString(c.slug) || "";
         if (!categoryId) return null;
-        const card: ServicesPageCategoryCard & { sortOrder?: unknown } = {
+        const card: ServicesPageCategoryCard = {
           categoryId,
           title: asPlainString(c.title),
-          path: categoryLandingPath(categoryId, lang),
-          sortOrder: c.sortOrder,
+          path: asPlainString(c.slug) ? `/${asPlainString(c.slug)}` : "",
         };
         const heroImage = asPlainString(c.heroImage);
         if (heroImage) card.heroImage = heroImage;
         return card;
       })
-      .filter((c): c is ServicesPageCategoryCard & { sortOrder?: unknown } => c !== null),
-    (c) => c.sortOrder,
-    (c) => c.title,
-    lang,
-  ).map(({ sortOrder: _sortOrder, ...card }) => card);
+      .filter((c): c is ServicesPageCategoryCard => c !== null && Boolean(c.path));
 
   const moreServicesItems: ServicesPageListItem[] = [];
   const moreCategoriesRaw = (data.moreServicesCategories as unknown[]) || [];
@@ -140,16 +126,16 @@ export function mapServicesPageDocument(
     const category = (entry.category as Record<string, unknown>) || {};
     const categoryId =
       asPlainString(category.categoryId) || asPlainString(category.slug) || "";
-    const displayMode = asPlainString(entry.displayMode) || "categoryLink";
+    const displayMode = asPlainString(entry.displayMode);
 
-    if (!categoryId) continue;
+    if (!categoryId || !displayMode) continue;
 
     if (displayMode === "treatmentsList") {
-      moreServicesItems.push(...mapCategoryTreatments(category, lang));
+      moreServicesItems.push(...mapCategoryTreatments(category));
     } else {
       moreServicesItems.push({
         title: asPlainString(category.title),
-        path: categoryLandingPath(categoryId, lang),
+        path: asPlainString(category.slug) ? `/${asPlainString(category.slug)}` : "",
       });
     }
   }
@@ -177,6 +163,7 @@ export function mapServicesPageDocument(
 
   return {
     breadcrumbHome: asPlainString(data.breadcrumbHome),
+    slug: asPlainString(data.slug),
     title: asPlainString(data.title),
     eyebrow: asPlainString(data.eyebrow),
     introText: asPlainString(data.introText),
@@ -192,7 +179,9 @@ export function mapServicesPageDocument(
     moreServicesItems,
     faqSectionTitle: asPlainString(data.faqSectionTitle),
     faqs,
-    faqCategory: asPlainString(data.faqCategory) || "tjenester",
+    loadingLabel: asPlainString(data.loadingLabel),
+    pageErrorMessage: asPlainString(data.pageErrorMessage),
+    emptyCategoriesMessage: asPlainString(data.emptyCategoriesMessage),
     pageSections: normalizePageSections(data.pageSections),
     seo: seoRaw
       ? {

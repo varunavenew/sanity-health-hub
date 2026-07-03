@@ -271,6 +271,7 @@ export async function fetchPrivacyPolicyPageDocument(lang: "no" | "en"): Promise
   title?: string;
   body?: unknown[];
   cookiebotKey?: string;
+  seo?: DocWithSeo["seo"];
 } | null> {
   return sanityFetchCached({
     query: PRIVACY_POLICY_PAGE_QUERY,

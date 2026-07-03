@@ -5,20 +5,14 @@ import { ArrowRight, ChevronRight, Search } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useFaqs, useServicesPage, useTreatmentCategories } from "@/hooks/useSanity";
+import { useServicesPage } from "@/hooks/useSanity";
 import { PageBreadcrumbsJsonLd } from "@/components/seo/PageBreadcrumbsJsonLd";
 import { GeoPageEnhancements } from "@/components/seo/GeoPageEnhancements";
 import { FaqSection } from "@/components/layout/FaqSection";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
-import { useTranslation } from "react-i18next";
 import { useParams } from "@/lib/router";
-import { useNavCmsPath } from "@/hooks/useNavCmsPath";
-import { useSanityContentLang } from "@/lib/sanity/content-lang";
-import {
-  buildMoreServicesFromCategories,
-  buildMoreServicesFromStaticCategories,
-} from "@/lib/sanity/services-page-fallbacks";
+import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 
 interface PageProps {
   isChatOpen: boolean;
@@ -36,50 +30,36 @@ function filterSearchItems(
 
 const Services = ({ isChatOpen }: PageProps) => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "nb";
-  const servicesPath = useNavCmsPath("services") || (locale === "en" ? "/services" : "/tjenester");
-  const contentLang = useSanityContentLang();
+  const routeLocale: AppLocale = params?.locale === "en" ? "en" : "no";
   const { data: page, isPending } = useServicesPage();
-  const { data: treatmentCategories } = useTreatmentCategories();
-  const faqCategory = page?.faqCategory || "tjenester";
-  const { data: sanityFaqs, isPending: faqsPending } = useFaqs(
-    page?.faqs?.length ? undefined : faqCategory,
-  );
+  const loadingLabel = page?.loadingLabel || "";
+  const servicesPath = page?.slug
+    ? withLocalePath(routeLocale, `/${page.slug}`)
+    : "";
 
   const faqs = useMemo(() => {
-    const inline = (page?.faqs || [])
+    return (page?.faqs || [])
       .filter((f) => f.question?.trim() && f.answer?.trim())
       .map((f, i) => ({
         id: `faq-inline-${i}`,
         question: f.question,
         answer: f.answer,
       }));
-    if (inline.length > 0) return inline;
+  }, [page?.faqs]);
 
-    return (sanityFaqs || [])
-      .filter(
-        (f) =>
-          typeof f.question === "string" &&
-          f.question.trim() &&
-          typeof f.answer === "string" &&
-          f.answer.trim(),
-      )
-      .map((f, i) => ({
-        id: `faq-${i}`,
-        question: f.question,
-        answer: f.answer,
-      }));
-  }, [page?.faqs, sanityFaqs]);
+  const moreServicesItems = page?.moreServicesItems ?? [];
 
-  const moreServicesItems = useMemo(() => {
-    if (page?.moreServicesItems?.length) return page.moreServicesItems;
-    if (treatmentCategories?.length) {
-      return buildMoreServicesFromCategories(treatmentCategories, contentLang);
-    }
-    return buildMoreServicesFromStaticCategories(contentLang);
-  }, [page?.moreServicesItems, treatmentCategories, contentLang]);
+  const specialistsSections = useMemo(
+    () => (page?.pageSections ?? []).filter((s) => s._type === "pageSectionSpecialists"),
+    [page?.pageSections],
+  );
+
+  const trailingPageSections = useMemo(
+    () => (page?.pageSections ?? []).filter((s) => s._type !== "pageSectionSpecialists"),
+    [page?.pageSections],
+  );
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{ title: string; path: string }[]>([]);
@@ -138,7 +118,7 @@ const Services = ({ isChatOpen }: PageProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">…</p>
+          <p className="text-muted-foreground font-light">{loadingLabel}</p>
         </div>
       </PageLayout>
     );
@@ -149,7 +129,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
           <p className="text-muted-foreground font-light max-w-md">
-            Services page is not configured in Sanity yet (Tjenester / servicesPage).
+            {page?.pageErrorMessage}
           </p>
         </div>
       </PageLayout>
@@ -157,24 +137,6 @@ const Services = ({ isChatOpen }: PageProps) => {
   }
 
   const { moreServicesSection, featuredCategories } = page;
-
-  const moreSection = {
-    eyebrow:
-      moreServicesSection.eyebrow ||
-      t("services.moreServices", { lng: contentLang === "en" ? "en" : "nb" }),
-    title:
-      moreServicesSection.title ||
-      t("services.moreSectionTitle", { lng: contentLang === "en" ? "en" : "nb" }),
-    description:
-      moreServicesSection.description ||
-      t("services.moreSectionDescription", {
-        lng: contentLang === "en" ? "en" : "nb",
-      }),
-  };
-
-  const faqTitle =
-    page.faqSectionTitle ||
-    t("faq.title", { lng: contentLang === "en" ? "en" : "nb" });
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -270,7 +232,7 @@ const Services = ({ isChatOpen }: PageProps) => {
         </div>
       </section>
 
-      {featuredCategories.length > 0 && (
+      {featuredCategories.length > 0 ? (
         <section className="bg-background pb-10 md:pb-14">
           {page.featuredSectionTitle ? (
             <p className="text-sm text-muted-foreground font-light mb-6 px-6 md:px-16">
@@ -307,28 +269,30 @@ const Services = ({ isChatOpen }: PageProps) => {
             ))}
           </div>
         </section>
-      )}
+      ) : null}
 
       {moreServicesItems.length > 0 ? (
         <ServicesListSection
-          eyebrow={moreSection.eyebrow}
-          title={moreSection.title}
-          description={moreSection.description}
+          eyebrow={moreServicesSection.eyebrow}
+          title={moreServicesSection.title}
+          description={moreServicesSection.description}
           items={moreServicesItems.map((s) => ({ title: s.title, href: s.path }))}
         />
       ) : null}
 
-      {faqs.length > 0 ? (
-        <FaqSection faqs={faqs} title={faqTitle} />
-      ) : faqsPending ? (
-        <section className="py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-4 text-center text-muted-foreground font-light">
-            …
-          </div>
+      {featuredCategories.length === 0 || moreServicesItems.length === 0 ? (
+        <section className="bg-background px-6 md:px-16 py-12 text-center">
+          <p className="text-muted-foreground font-light">{page.emptyCategoriesMessage}</p>
         </section>
       ) : null}
 
-      <PageSectionsRenderer sections={page.pageSections} />
+      <PageSectionsRenderer sections={specialistsSections} />
+
+      {faqs.length > 0 ? (
+        <FaqSection faqs={faqs} title={page.faqSectionTitle} />
+      ) : null}
+
+      <PageSectionsRenderer sections={trailingPageSections} />
     </PageLayout>
   );
 };

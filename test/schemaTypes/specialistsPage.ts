@@ -11,6 +11,12 @@ export default {
   icon: SpecialistIcon,
   fields: [
     {
+      name: 'heroEyebrow',
+      title: 'Hero-etikett',
+      type: 'internationalizedArrayString',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
       name: 'title',
       title: 'Tittel',
       type: 'internationalizedArrayString',
@@ -22,6 +28,7 @@ export default {
       title: 'Undertekst',
       type: 'internationalizedArrayText',
       description: 'Kort beskrivelse under hovedtittelen',
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'heroImage',
@@ -40,6 +47,7 @@ export default {
       title: 'SEO',
       type: 'seo',
       description: 'Meta-tittel (metaTitle) og meta-beskrivelse (metaDescription) for /om-spesialister',
+      validation: (Rule: any) => Rule.required(),
     },
     geoSummaryField,
     pageSectionsField,

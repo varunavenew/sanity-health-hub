@@ -6,7 +6,15 @@ import { Link, useLocation, useNavigate, useLocaleParam } from "@/lib/router";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/homepage/Footer";
-import { ServicesDropdown } from "@/components/layout/ServicesDropdown";
+import { ServicesNavMenuItem } from "@/components/layout/ServicesDropdown";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import { siteNavMenuTriggerStyle } from "@/lib/navigation/site-nav-trigger-style";
+import { cn } from "@/lib/utils";
 import { LanguageSelector } from "@/components/layout/LanguageSelector";
 import { searchSuggestions, SearchItem } from "@/data/searchData";
 import { useSmartSearch } from "@/hooks/useSmartSearch";
@@ -16,6 +24,8 @@ import { useCmsRouteContext } from "@/lib/routing/cms-route-context";
 import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { DEFAULT_MAIN_NAVIGATION } from "@/lib/navigation/default-main-navigation";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
 
 interface PageLayoutProps {
@@ -42,29 +52,17 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
   const { data: siteSettings } = useSiteSettings();
   const { index: cmsRouteIndex, localeMap } = useCmsRouteContext();
 
-  const staticNavItems = useMemo(
-    () => [
-      { _key: "tjenester", navId: "services", isServicesDropdown: true },
-      { _key: "priser", navId: "pricing" },
-      { _key: "forsikring", navId: "insurance" },
-      { _key: "aktuelt", navId: "news" },
-      { _key: "om-oss", navId: "about" },
-      { _key: "klinikker", navId: "clinics" },
-      { _key: "kontakt", navId: "contact" },
-    ],
-    [],
-  );
-
   const navItems = useMemo(() => {
     const raw = siteSettings?.mainNavigation?.length
       ? siteSettings.mainNavigation
-      : staticNavItems;
+      : DEFAULT_MAIN_NAVIGATION;
     return raw.map((item: { _key?: string; label?: string; path?: string; navId?: string; isServicesDropdown?: boolean }) => ({
       ...item,
       label: resolveNavLabel(item, t, uiLang, localeMap),
       path: resolveNavPath(item, locale, cmsRouteIndex),
+      isServicesDropdown: item.isServicesDropdown || item.navId === "services",
     }));
-  }, [siteSettings?.mainNavigation, staticNavItems, t, locale, uiLang, cmsRouteIndex, localeMap]);
+  }, [siteSettings?.mainNavigation, t, locale, uiLang, cmsRouteIndex, localeMap]);
 
   const ctaButton = useMemo(() => {
     const raw = siteSettings?.ctaButton || { navId: "bookAppointment" };
@@ -185,22 +183,29 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
               />
             </Link>
             
-            {/* Main Navigation - Always visible */}
-          <div className="hidden md:flex items-center gap-1 text-white">
-              {navItems.map((item: any) =>
-                item.isServicesDropdown ? (
-                  <ServicesDropdown key={item._key} />
-                ) : (
-                  <Link
-                    key={item._key}
-                    to={item.path}
-                    className="px-3 py-1.5 text-sm font-light rounded-full transition-all hover:bg-white/10"
-                  >
-                    {item.label}
-                  </Link>
-                )
-              )}
-          </div>
+            {/* Main Navigation - shadcn NavigationMenu */}
+            <div className="hidden md:flex flex-1 justify-center">
+              <NavigationMenu
+                className="max-w-none"
+                viewportClassName="border-white/10 bg-brand-dark text-white shadow-2xl rounded-2xl"
+              >
+                <NavigationMenuList className="gap-0 space-x-0">
+                  {navItems.map((item: { _key?: string; label?: string; path?: string; isServicesDropdown?: boolean }) =>
+                    item.isServicesDropdown ? (
+                      <ServicesNavMenuItem key={item._key} />
+                    ) : (
+                      <NavigationMenuItem key={item._key}>
+                        <NavigationMenuLink asChild>
+                          <Link to={item.path ?? "/"} className={cn(siteNavMenuTriggerStyle())}>
+                            {item.label}
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    ),
+                  )}
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
 
           {/* Right side: Search, CTA, Menu */}
           <div className="flex items-center gap-1.5">
@@ -310,10 +315,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
       <div className="flex min-h-screen w-full bg-background">
         <div
-          className="flex-1 transition-all duration-300 overflow-x-hidden"
-          style={{ 
-            marginLeft: isChatOpen ? '360px' : '0',
-            maxWidth: isChatOpen ? 'calc(100vw - 360px)' : '100vw',
+          className="flex-1 overflow-x-hidden pb-[calc(4.25rem+env(safe-area-inset-bottom))] transition-all duration-300 md:pb-0"
+          style={{
+            marginLeft: isChatOpen ? "360px" : "0",
+            maxWidth: isChatOpen ? "calc(100vw - 360px)" : "100vw",
           }}
         >
           {/* Main Content */}
@@ -325,6 +330,10 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           <Footer />
         </div>
       </div>
+
+      <MobileBottomNav
+        style={{ marginLeft: isChatOpen ? "360px" : "0" }}
+      />
     </>
   );
 };

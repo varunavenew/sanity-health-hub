@@ -21,7 +21,13 @@
     "closeMenu": "Lukk meny",
     "skipToContent": "Hopp til hovedinnhold",
     "selectLanguage": "Velg språk",
-    "navigationMenu": "Navigasjonsmeny"
+    "navigationMenu": "Navigasjonsmeny",
+    "quickActions": "Hurtighandlinger",
+    "ring": "Ring",
+    "callPhone": "Ring {{phone}}",
+    "more": "Mer",
+    "allServices": "Alle tjenester",
+    "expandCategory": "Vis {{category}}"
   },
   "hero": {
     "kvinnehelse": {
@@ -130,6 +136,7 @@
     "bookSpecialistThisWeek": "Få {{title}} hos en spesialist denne uken.",
     "relatedEyebrow": "Relaterte områder",
     "relatedTitle": "Du er kanskje også interessert i",
+    "relatedServicesTitle": "Relaterte tjenester",
     "readMore": "Les mer",
     "specialistsEyebrow": "Menneskene bak",
     "specialistsTitle": "Spesialistene som følger deg.",
@@ -300,24 +307,6 @@
   },
   "promoBlocks": {
     "title": "Nyheter og artikler"
-  },
-  "news": {
-    "title": "Aktuelt",
-    "subtitle": "Hold deg oppdatert på det siste innen medisin og nyheter fra CMedical.",
-    "label": "Nyheter & Fagartikler",
-    "searchPlaceholder": "Søk i artikler...",
-    "moreArticles": "Flere artikler",
-    "noArticles": "Ingen artikler funnet for dette filteret.",
-    "readMore": "Les mer",
-    "specialistsEyebrowAll": "Møt teamet",
-    "specialistsEyebrowWithin": "Innen {{category}}",
-    "specialistsTitle": "Spesialister du kan bestille time hos",
-    "followSocial": "Følg oss på sosiale medier",
-    "filterAll": "Alle",
-    "filterPatientStories": "Pasienthistorier",
-    "filterMedia": "Oss i media",
-    "filterArticles": "Fagartikler",
-    "filterUpdates": "Nytt fra oss"
   },
   "clinicGrid": {
     "title": "Våre klinikker"

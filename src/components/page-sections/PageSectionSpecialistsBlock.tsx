@@ -79,6 +79,11 @@ export function PageSectionSpecialistsBlock({ config }: Props) {
     return (
       <SpecialistsScroller
         items={specialists}
+        fallbackCategory={
+          config.categorySlug ||
+          config.treatmentCategory?.categoryId ||
+          config.treatmentCategory?.slug
+        }
         eyebrow={config.eyebrow || undefined}
         title={config.title || undefined}
         description={config.description || undefined}

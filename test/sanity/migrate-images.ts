@@ -17,7 +17,7 @@ import * as path from "path";
 
 // Category images: categoryDocId → local file path (relative to project root)
 const categoryImages: Record<string, string> = {
-  "category-gynekologi": "../../src/assets/categories/gynekologi.jpg",
+  "category-gynekologi": "../../src/assets/categories/gynekologi-real.jpg",
   "category-fertilitet": "../../src/assets/categories/fertilitet.jpg",
   "category-urologi": "../../src/assets/categories/urologi.jpg",
   "category-ortopedi": "../../src/assets/categories/ortopedi.jpg",

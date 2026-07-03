@@ -24,11 +24,17 @@ function asStringArray(value: unknown): string[] {
   return value.map((v) => asPlainString(v)).filter(Boolean);
 }
 
+export type CategoryLandingSegmentTagLink = {
+  label: string;
+  href: string;
+};
+
 export type CategoryLandingSegment = {
   id?: string;
   title: string;
   desc: string;
   tags: string[];
+  tagLinks: CategoryLandingSegmentTagLink[];
   cta: string;
   href: string;
 };
@@ -43,13 +49,44 @@ export type CategoryLandingAudience = {
   title: string;
   desc: string;
   href: string;
-  icon: "couple" | "horizon" | "arch";
+  icon: "couple" | "horizon" | "arch" | "user" | "users" | "clock" | "";
+};
+
+export type CategoryLandingExpertArea = {
+  title: string;
+  desc: string;
+  href: string;
+  image?: string;
+  imageAlt: string;
+};
+
+export type CategoryLandingServiceItem = {
+  title: string;
+  desc: string;
+  href: string;
+};
+
+export type CategoryLandingServiceGroup = {
+  label: string;
+  items: CategoryLandingServiceItem[];
+};
+
+export type CategoryLandingSpotlight = {
+  title: string;
+  titleEmphasis: string;
+  text: string;
+  ctaLabel: string;
+  ctaHref: string;
+  image?: string;
+  imageAlt: string;
 };
 
 export type CategoryLandingSymptom = {
   symptom: string;
   service: string;
   href: string;
+  image?: string;
+  imageAlt: string;
 };
 
 export type CategoryLandingReview = {
@@ -60,6 +97,7 @@ export type CategoryLandingReview = {
 
 export type CategoryLandingPage = {
   srOnlyTitle?: string;
+  breadcrumbHomeLabel: string;
   hero: {
     eyebrow: string;
     heading: string;
@@ -69,11 +107,15 @@ export type CategoryLandingPage = {
     primaryCtaLabel: string;
     secondaryCtaLabel: string;
     heroImageAlt: string;
+    primaryBookingService?: string;
+    entryPriceLabel?: string;
+    entryPriceValue?: string;
   };
   segmentsSection: {
     eyebrow: string;
     title: string;
     titleLine2: string;
+    layout: "accordion" | "grid";
     segments: CategoryLandingSegment[];
   };
   whySection: {
@@ -82,6 +124,30 @@ export type CategoryLandingPage = {
     description: string;
     image?: string;
     imageAlt?: string;
+    footerLinkLabel?: string;
+    footerLinkHref?: string;
+    steps: CategoryLandingStep[];
+  };
+  expertAreasSection: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    layout: "grid" | "carousel";
+    readMoreLabel: string;
+    areas: CategoryLandingExpertArea[];
+  };
+  supportSection: {
+    title: string;
+    description: string;
+    readMoreLabel: string;
+    areas: CategoryLandingExpertArea[];
+  };
+  spotlightSection: CategoryLandingSpotlight | null;
+  journeySection: {
+    title: string;
+    description: string;
+    ctaLabel: string;
+    ctaHref: string;
     steps: CategoryLandingStep[];
   };
   audiencesSection: {
@@ -92,6 +158,7 @@ export type CategoryLandingPage = {
     audiences: CategoryLandingAudience[];
   };
   symptomsSection: {
+    eyebrow: string;
     title: string;
     description: string;
     items: CategoryLandingSymptom[];
@@ -100,6 +167,7 @@ export type CategoryLandingPage = {
     eyebrow: string;
     title: string;
     description: string;
+    groups: CategoryLandingServiceGroup[];
   };
   resultsSection: {
     eyebrow: string;
@@ -132,7 +200,10 @@ export type TreatmentCategoryData = {
   slug?: string;
   title: string;
   geoSummary?: string;
+  loadingLabel: string;
+  missingLandingMessage: string;
   heroImage?: string;
+  heroVideo?: string;
   categoryNumericId?: number;
   treatments: CategoryTreatmentLink[];
   stats: CategoryStat[];
@@ -147,6 +218,10 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   const hero = (raw.hero as Record<string, unknown>) || {};
   const segmentsSection = (raw.segmentsSection as Record<string, unknown>) || {};
   const whySection = (raw.whySection as Record<string, unknown>) || {};
+  const expertAreasSection = (raw.expertAreasSection as Record<string, unknown>) || {};
+  const supportSection = (raw.supportSection as Record<string, unknown>) || {};
+  const spotlightSection = (raw.spotlightSection as Record<string, unknown>) || {};
+  const journeySection = (raw.journeySection as Record<string, unknown>) || {};
   const audiencesSection = (raw.audiencesSection as Record<string, unknown>) || {};
   const symptomsSection = (raw.symptomsSection as Record<string, unknown>) || {};
   const servicesSection = (raw.servicesSection as Record<string, unknown>) || {};
@@ -155,11 +230,23 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
 
   const segments = ((segmentsSection.segments as unknown[]) || []).map((row, i) => {
     const s = row as Record<string, unknown>;
+    const tagLinksRaw = (s.tagLinks as unknown[]) || [];
+    const tagLinks = tagLinksRaw
+      .map((row) => {
+        const t = row as Record<string, unknown>;
+        const label = asPlainString(t.label);
+        const href = asPlainString(t.href);
+        if (!label || !href) return null;
+        return { label, href };
+      })
+      .filter((t): t is CategoryLandingSegmentTagLink => t !== null);
+
     return {
       id: asPlainString(s.id) || `segment-${i}`,
       title: asPlainString(s.title),
       desc: asPlainString(s.description),
       tags: asStringArray(s.tags),
+      tagLinks,
       cta: asPlainString(s.ctaLabel),
       href: asPlainString(s.href),
     };
@@ -177,13 +264,71 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   const audiences = ((audiencesSection.audiences as unknown[]) || []).map((row) => {
     const a = row as Record<string, unknown>;
     const icon = asPlainString(a.icon);
+    const validIcons = ["couple", "horizon", "arch", "user", "users", "clock"] as const;
     return {
       title: asPlainString(a.title),
       desc: asPlainString(a.description),
       href: asPlainString(a.href),
-      icon: (icon === "horizon" || icon === "arch" ? icon : "couple") as CategoryLandingAudience["icon"],
+      icon: (validIcons.includes(icon as (typeof validIcons)[number])
+        ? icon
+        : "") as CategoryLandingAudience["icon"],
     };
   });
+
+  const mapExpertAreas = (areasRaw: unknown) =>
+    ((areasRaw as unknown[]) || []).map((row) => {
+      const a = row as Record<string, unknown>;
+      return {
+        title: asPlainString(a.title),
+        desc: asPlainString(a.description),
+        href: asPlainString(a.href),
+        image: asPlainString(a.image) || undefined,
+        imageAlt: asPlainString(a.imageAlt),
+      };
+    });
+
+  const expertAreas = mapExpertAreas(expertAreasSection.areas);
+  const supportAreas = mapExpertAreas(supportSection.areas);
+  const expertAreasLayout = asPlainString(expertAreasSection.layout);
+
+  const serviceGroups = ((servicesSection.groups as unknown[]) || []).map((row) => {
+    const g = row as Record<string, unknown>;
+    const items = ((g.items as unknown[]) || []).map((itemRow) => {
+      const item = itemRow as Record<string, unknown>;
+      return {
+        title: asPlainString(item.title),
+        desc: asPlainString(item.description),
+        href: asPlainString(item.href),
+      };
+    });
+    return {
+      label: asPlainString(g.label),
+      items,
+    };
+  });
+
+  const segmentsLayout = asPlainString(segmentsSection.layout);
+  const journeySteps = ((journeySection.steps as unknown[]) || []).map((row) => {
+    const s = row as Record<string, unknown>;
+    return {
+      n: asPlainString(s.number),
+      title: asPlainString(s.title),
+      desc: asPlainString(s.description),
+    };
+  });
+  const spotlightTitle = asPlainString(spotlightSection.title);
+  const spotlight =
+    spotlightTitle || asPlainString(spotlightSection.text)
+      ? {
+          title: spotlightTitle,
+          titleEmphasis: asPlainString(spotlightSection.titleEmphasis),
+          text: asPlainString(spotlightSection.text),
+          ctaLabel: asPlainString(spotlightSection.ctaLabel),
+          ctaHref: asPlainString(spotlightSection.ctaHref),
+          image: asPlainString(spotlightSection.image) || undefined,
+          imageAlt: asPlainString(spotlightSection.imageAlt),
+        }
+      : null;
 
   const symptoms = ((symptomsSection.items as unknown[]) || []).map((row) => {
     const s = row as Record<string, unknown>;
@@ -191,6 +336,8 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       symptom: asPlainString(s.symptom),
       service: asPlainString(s.service),
       href: asPlainString(s.href),
+      image: asPlainString(s.image) || undefined,
+      imageAlt: asPlainString(s.imageAlt),
     };
   });
 
@@ -209,6 +356,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
 
   return {
     srOnlyTitle: asPlainString(raw.srOnlyTitle) || undefined,
+    breadcrumbHomeLabel: asPlainString(raw.breadcrumbHomeLabel),
     hero: {
       eyebrow: asPlainString(hero.eyebrow),
       heading: asPlainString(hero.heading),
@@ -218,11 +366,15 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       primaryCtaLabel: asPlainString(hero.primaryCtaLabel),
       secondaryCtaLabel: asPlainString(hero.secondaryCtaLabel),
       heroImageAlt: asPlainString(hero.heroImageAlt),
+      primaryBookingService: asPlainString(hero.primaryBookingService) || undefined,
+      entryPriceLabel: asPlainString(hero.entryPriceLabel) || undefined,
+      entryPriceValue: asPlainString(hero.entryPriceValue) || undefined,
     },
     segmentsSection: {
       eyebrow: asPlainString(segmentsSection.eyebrow),
       title: asPlainString(segmentsSection.title),
       titleLine2: asPlainString(segmentsSection.titleLine2),
+      layout: segmentsLayout === "accordion" ? "accordion" : "grid",
       segments,
     },
     whySection: {
@@ -231,7 +383,31 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       description: asPlainString(whySection.description),
       image: asPlainString(whySection.image) || undefined,
       imageAlt: asPlainString(whySection.imageAlt) || undefined,
+      footerLinkLabel: asPlainString(whySection.footerLinkLabel) || undefined,
+      footerLinkHref: asPlainString(whySection.footerLinkHref) || undefined,
       steps,
+    },
+    expertAreasSection: {
+      eyebrow: asPlainString(expertAreasSection.eyebrow),
+      title: asPlainString(expertAreasSection.title),
+      description: asPlainString(expertAreasSection.description),
+      layout: expertAreasLayout === "grid" ? "grid" : "carousel",
+      readMoreLabel: asPlainString(expertAreasSection.readMoreLabel),
+      areas: expertAreas,
+    },
+    supportSection: {
+      title: asPlainString(supportSection.title),
+      description: asPlainString(supportSection.description),
+      readMoreLabel: asPlainString(supportSection.readMoreLabel),
+      areas: supportAreas,
+    },
+    spotlightSection: spotlight,
+    journeySection: {
+      title: asPlainString(journeySection.title),
+      description: asPlainString(journeySection.description),
+      ctaLabel: asPlainString(journeySection.ctaLabel),
+      ctaHref: asPlainString(journeySection.ctaHref),
+      steps: journeySteps,
     },
     audiencesSection: {
       eyebrow: asPlainString(audiencesSection.eyebrow),
@@ -241,6 +417,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       audiences,
     },
     symptomsSection: {
+      eyebrow: asPlainString(symptomsSection.eyebrow),
       title: asPlainString(symptomsSection.title),
       description: asPlainString(symptomsSection.description),
       items: symptoms,
@@ -249,6 +426,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       eyebrow: asPlainString(servicesSection.eyebrow),
       title: asPlainString(servicesSection.title),
       description: asPlainString(servicesSection.description),
+      groups: serviceGroups,
     },
     resultsSection: {
       eyebrow: asPlainString(resultsSection.eyebrow),
@@ -311,7 +489,10 @@ export function mapTreatmentCategoryDocument(
     slug: asPlainString(data.slug) || undefined,
     title: asPlainString(data.title),
     geoSummary: asPlainString(data.geoSummary) || undefined,
+    loadingLabel: asPlainString(data.loadingLabel),
+    missingLandingMessage: asPlainString(data.missingLandingMessage),
     heroImage: asPlainString(data.heroImage) || undefined,
+    heroVideo: asPlainString(data.heroVideo) || undefined,
     categoryNumericId:
       typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
     treatments,

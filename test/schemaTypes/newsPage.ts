@@ -1,6 +1,11 @@
 import {defineField, defineType} from 'sanity'
 import { geoSummaryField } from './geoSummary'
-import {i18nSlugFieldFromTitle} from './i18n'
+import {
+  i18nSlugFieldFromTitle,
+  requiredNoEnI18n,
+  requiredNoEnSeo,
+  requiredNoEnSlug,
+} from './i18n'
 import { pageSectionsField } from './pageSections'
 
 export default defineType({
@@ -13,71 +18,100 @@ export default defineType({
       title: 'Label',
       type: 'internationalizedArrayString',
       description: 'Liten etikett over hovedtittel (f.eks. "Nyheter & Fagartikler")',
+      validation: requiredNoEnI18n('Label'),
     }),
     defineField({
       name: 'title',
       title: 'Tittel',
       type: 'internationalizedArrayString',
-      validation: (Rule) => Rule.required(),
+      validation: requiredNoEnI18n('Tittel'),
     }),
-    i18nSlugFieldFromTitle('title'),
+    {
+      ...i18nSlugFieldFromTitle('title'),
+      validation: requiredNoEnSlug(),
+    },
     defineField({
       name: 'subtitle',
       title: 'Undertittel',
       type: 'internationalizedArrayText',
+      validation: requiredNoEnI18n('Undertittel'),
     }),
     defineField({
       name: 'searchPlaceholder',
       title: 'Søk-placeholder',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Søk-placeholder'),
     }),
     defineField({
       name: 'moreArticlesTitle',
       title: 'Tittel: Flere artikler',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Tittel: Flere artikler'),
     }),
     defineField({
       name: 'noArticlesText',
       title: 'Tekst: Ingen artikler',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Tekst: Ingen artikler'),
     }),
     defineField({
       name: 'readMoreLabel',
       title: 'Lenketekst: Les mer',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Lenketekst: Les mer'),
     }),
     defineField({
       name: 'specialistsEyebrowAll',
       title: 'Spesialister-eyebrow (alle)',
       type: 'internationalizedArrayString',
       description: 'F.eks. "Møt teamet"',
+      validation: requiredNoEnI18n('Spesialister-eyebrow (alle)'),
     }),
     defineField({
       name: 'specialistsEyebrowWithin',
       title: 'Spesialister-eyebrow (innen kategori)',
       type: 'internationalizedArrayString',
       description: 'Bruk {{category}} som placeholder',
+      validation: requiredNoEnI18n('Spesialister-eyebrow (innen kategori)'),
     }),
     defineField({
       name: 'specialistsTitle',
       title: 'Spesialister-seksjon tittel',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Spesialister-seksjon tittel'),
     }),
     defineField({
       name: 'specialistsSeeAllLabel',
       title: 'Spesialister: Se alle',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Spesialister: Se alle'),
     }),
     defineField({
       name: 'socialSectionTitle',
       title: 'SoMe-seksjon tittel',
       type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('SoMe-seksjon tittel'),
     }),
     defineField({
-      name: 'showSocialSection',
-      title: 'Vis sosiale medier-seksjon',
-      type: 'boolean',
-      initialValue: true,
+      name: 'breadcrumbHomeLabel',
+      title: 'Brødsmule – hjem',
+      type: 'internationalizedArrayString',
+      validation: requiredNoEnI18n('Brødsmule – hjem'),
+    }),
+    defineField({
+      name: 'socialMode',
+      title: 'Kilde for sosiale innlegg',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Sanity-innlegg', value: 'cms'},
+          {title: 'Instagram API', value: 'api'},
+          {title: 'Lokale eksempelinnlegg', value: 'local'},
+          {title: 'Skjul seksjonen', value: 'hidden'},
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'socialPosts',
@@ -133,16 +167,27 @@ export default defineType({
           },
         },
       ],
-      validation: (Rule) => Rule.max(12),
-      hidden: ({ parent }) => parent?.showSocialSection === false,
+      validation: (Rule) =>
+        Rule.max(12).custom((value: unknown, context: any) => {
+          if (context.parent?.socialMode === 'cms' && (!Array.isArray(value) || value.length === 0)) {
+            return 'Velg minst ett Sanity-innlegg når kilden er Sanity.'
+          }
+          return true
+        }),
+      hidden: ({ parent }) => parent?.socialMode !== 'cms',
     }),
     defineField({
       name: 'socialPostLimit',
       title: 'Maks antall SoMe-innlegg',
       type: 'number',
-      initialValue: 4,
-      validation: (Rule) => Rule.min(1).max(12),
-      hidden: ({ parent }) => parent?.showSocialSection === false,
+      validation: (Rule) =>
+        Rule.integer().min(1).max(12).custom((value: unknown, context: any) => {
+          if (context.parent?.socialMode !== 'hidden' && typeof value !== 'number') {
+            return 'Antall SoMe-innlegg er påkrevd.'
+          }
+          return true
+        }),
+      hidden: ({ parent }) => parent?.socialMode === 'hidden',
     }),
     defineField({
       name: 'featuredArticles',
@@ -153,34 +198,51 @@ export default defineType({
       validation: (Rule) => Rule.max(4),
     }),
     defineField({
-      name: 'filterAllLabel',
-      title: 'Filter: Alle',
-      type: 'internationalizedArrayString',
+      name: 'filters',
+      title: 'Artikkelfiltre',
+      description: 'Første filter bør være «Alle» og ha tom kategoriliste.',
+      type: 'array',
+      of: [{
+        type: 'object',
+        name: 'newsFilter',
+        fields: [
+          {
+            name: 'key',
+            title: 'Stabil nøkkel',
+            type: 'string',
+            validation: (Rule: any) => Rule.required().regex(/^[a-z][a-zA-Z0-9_-]*$/),
+          },
+          {
+            name: 'label',
+            title: 'Visningsnavn',
+            type: 'internationalizedArrayString',
+            validation: requiredNoEnI18n('Filternavn'),
+          },
+          {
+            name: 'acceptedArticleCategories',
+            title: 'Godkjente artikkelkategorier',
+            type: 'array',
+            of: [{type: 'string'}],
+            validation: (Rule: any) => Rule.unique(),
+          },
+        ],
+        preview: {
+          select: {title: 'label', subtitle: 'key'},
+        },
+      }],
+      validation: (Rule) => Rule.required().min(1).unique(),
     }),
     defineField({
-      name: 'filterPatientStoriesLabel',
-      title: 'Filter: Pasienthistorier',
-      type: 'internationalizedArrayString',
-    }),
-    defineField({
-      name: 'filterMediaLabel',
-      title: 'Filter: Oss i media',
-      type: 'internationalizedArrayString',
-    }),
-    defineField({
-      name: 'filterArticlesLabel',
-      title: 'Filter: Fagartikler',
-      type: 'internationalizedArrayString',
-    }),
-    defineField({
-      name: 'filterUpdatesLabel',
-      title: 'Filter: Nytt fra oss',
-      type: 'internationalizedArrayString',
+      name: 'listSize',
+      title: 'Antall artikler per innlasting',
+      type: 'number',
+      validation: (Rule) => Rule.required().integer().min(1).max(48),
     }),
     defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      validation: requiredNoEnSeo,
     }),
     defineField({ ...geoSummaryField }),
     defineField(pageSectionsField),

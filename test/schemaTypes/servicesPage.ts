@@ -1,6 +1,12 @@
 // Schema: Services Page (Tjenester)
 import { TreatmentIcon } from "./icons";
-import { i18nFaqItemPreview, i18nSlugFieldFromTitle, pickNo } from "./i18n";
+import {
+  i18nFaqItemPreview,
+  i18nSlugFieldFromTitle,
+  pickNo,
+  requiredNoEnI18n,
+  requiredNoEnSeo,
+} from "./i18n";
 import { geoSummaryField } from "./geoSummary";
 import { pageSectionsField } from "./pageSections";
 
@@ -27,13 +33,14 @@ export default {
       title: "Brødsmule — hjem",
       group: "content",
       ...i18nString,
+      validation: requiredNoEnI18n("Brødsmule — hjem"),
     },
     {
       name: "title",
       title: "Sidetittel (H1)",
       group: "content",
       ...i18nString,
-      validation: (Rule: any) => Rule.required(),
+      validation: requiredNoEnI18n("Sidetittel"),
     },
     { ...i18nSlugFieldFromTitle("title", { group: "content" }) },
     {
@@ -41,6 +48,7 @@ export default {
       title: "Eyebrow over tittel",
       description: "Liten etikett over hovedoverskriften",
       ...i18nString,
+      validation: requiredNoEnI18n("Eyebrow"),
     },
     {
       name: "heroImage",
@@ -52,6 +60,7 @@ export default {
       name: "introText",
       title: "Introduksjonstekst",
       ...i18nText,
+      validation: requiredNoEnI18n("Introduksjonstekst"),
     },
     {
       name: "badges",
@@ -61,7 +70,12 @@ export default {
         {
           type: "object",
           fields: [
-            { name: "label", title: "Tekst", ...i18nString },
+            {
+              name: "label",
+              title: "Tekst",
+              ...i18nString,
+              validation: requiredNoEnI18n("Badge-tekst"),
+            },
           ],
           preview: {
             select: { label: "label" },
@@ -71,32 +85,52 @@ export default {
           },
         },
       ],
+      validation: (Rule: any) => Rule.required().min(1),
     },
     {
       name: "searchPlaceholder",
       title: "Søkefelt placeholder",
       ...i18nString,
+      validation: requiredNoEnI18n("Søkefelt placeholder"),
     },
     {
       name: "featuredSectionTitle",
       title: "Overskrift — utvalgte tjenester",
       ...i18nString,
+      validation: requiredNoEnI18n("Overskrift — utvalgte tjenester"),
     },
     {
       name: "featuredCategories",
       title: "Utvalgte kategorier (bildekort)",
       type: "array",
       of: [{ type: "reference", to: [{ type: "treatmentCategory" }] }],
+      validation: (Rule: any) => Rule.required().min(1).unique(),
     },
     {
       name: "moreServicesSection",
       title: "Flere tjenester-seksjon",
       type: "object",
       fields: [
-        { name: "eyebrow", title: "Eyebrow", ...i18nString },
-        { name: "title", title: "Tittel", ...i18nString },
-        { name: "description", title: "Beskrivelse", ...i18nText },
+        {
+          name: "eyebrow",
+          title: "Eyebrow",
+          ...i18nString,
+          validation: requiredNoEnI18n("Flere tjenester — eyebrow"),
+        },
+        {
+          name: "title",
+          title: "Tittel",
+          ...i18nString,
+          validation: requiredNoEnI18n("Flere tjenester — tittel"),
+        },
+        {
+          name: "description",
+          title: "Beskrivelse",
+          ...i18nText,
+          validation: requiredNoEnI18n("Flere tjenester — beskrivelse"),
+        },
       ],
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "moreServicesCategories",
@@ -128,7 +162,7 @@ export default {
                 ],
                 layout: "radio",
               },
-              initialValue: "categoryLink",
+              validation: (Rule: any) => Rule.required(),
             },
           ],
           preview: {
@@ -157,26 +191,14 @@ export default {
           },
         },
       ],
+      validation: (Rule: any) => Rule.required().min(1),
     },
     {
       name: "faqSectionTitle",
       title: "FAQ — seksjonstittel",
       group: "faq",
       ...i18nString,
-      initialValue: [
-        {
-          _type: "internationalizedArrayStringValue",
-          _key: "no",
-          language: "no",
-          value: "Ofte stilte spørsmål",
-        },
-        {
-          _type: "internationalizedArrayStringValue",
-          _key: "en",
-          language: "en",
-          value: "Frequently asked questions",
-        },
-      ],
+      validation: requiredNoEnI18n("FAQ — seksjonstittel"),
     },
     {
       name: "faqs",
@@ -195,51 +217,47 @@ export default {
               name: "question",
               title: "Spørsmål",
               type: "internationalizedArrayString",
-              validation: (Rule: any) => Rule.required(),
+              validation: requiredNoEnI18n("FAQ-spørsmål"),
             },
             {
               name: "answer",
               title: "Svar",
               type: "internationalizedArrayText",
-              validation: (Rule: any) => Rule.required(),
+              validation: requiredNoEnI18n("FAQ-svar"),
             },
           ],
           preview: i18nFaqItemPreview,
         },
       ],
+      validation: (Rule: any) => Rule.required().min(1),
     },
     {
-      name: "faqCategory",
-      title: "FAQ — Sanity-kategori (fallback)",
-      description:
-        "Brukes bare hvis listen over er tom. Henter FAQ-dokumenter med samme kategori.",
-      type: "string",
-      group: "faq",
-      hidden: ({ document }: { document?: { faqs?: unknown[] } }) =>
-        Array.isArray(document?.faqs) && document.faqs.length > 0,
-      initialValue: "tjenester",
-      options: {
-        list: [
-          { title: "Tjenester (services page)", value: "tjenester" },
-          { title: "Generelt (homepage)", value: "generelt" },
-          { title: "Priser", value: "priser" },
-          { title: "Urologi", value: "urologi" },
-        ],
-      },
+      name: "loadingLabel",
+      title: "Laster-tekst",
+      group: "content",
+      ...i18nString,
+      validation: requiredNoEnI18n("Laster-tekst"),
     },
-    /** @deprecated Use featuredCategories + moreServicesCategories */
     {
-      name: "categories",
-      title: "Tjenestekategorier (legacy)",
-      type: "array",
-      hidden: true,
-      of: [{ type: "reference", to: [{ type: "treatmentCategory" }] }],
+      name: "pageErrorMessage",
+      title: "Feilmelding for siden",
+      group: "content",
+      ...i18nText,
+      validation: requiredNoEnI18n("Feilmelding for siden"),
+    },
+    {
+      name: "emptyCategoriesMessage",
+      title: "Melding når kategorier mangler",
+      group: "content",
+      ...i18nText,
+      validation: requiredNoEnI18n("Melding når kategorier mangler"),
     },
     pageSectionsField,
     {
       name: "seo",
       title: "SEO",
       type: "seo",
+      validation: requiredNoEnSeo,
     },
     geoSummaryField,
   ],

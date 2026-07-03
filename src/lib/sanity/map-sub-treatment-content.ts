@@ -1,85 +1,21 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import type { TreatmentData, SubTreatmentLayoutData } from "@/lib/sanity/treatment-data";
-import {
-  behandlingerCategorySegment,
-  categoryLandingPath,
-  normalizeCategoryFilterKey,
-} from "@/lib/sanity/category-keys";
+import type { TreatmentData } from "@/lib/sanity/treatment-data";
+import { normalizeCategoryFilterKey } from "@/lib/sanity/category-keys";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
-const DEFAULT_PROMISES_NB = [
-  {
-    eyebrow: "Trygghet",
-    title: "Du bestemmer hva du er komfortabel med",
-    desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
-  },
-  {
-    eyebrow: "Kompetanse",
-    title: "Spesialister med dybde",
-    desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering.",
-  },
-  {
-    eyebrow: "Helhet",
-    title: "Alt under samme tak",
-    desc: "Trenger du videre utredning, kirurgi eller psykologhjelp — vi koordinerer hele forløpet for deg.",
-  },
-];
-
-const DEFAULT_PROMISES_EN = [
-  {
-    eyebrow: "Safety",
-    title: "You decide what you are comfortable with",
-    desc: "All examinations and procedures are done at your pace. You can stop at any time and ask questions along the way.",
-  },
-  {
-    eyebrow: "Expertise",
-    title: "Specialists with depth",
-    desc: "You meet doctors who have specialised in their field — not a generalist on rotation.",
-  },
-  {
-    eyebrow: "Holistic care",
-    title: "Everything under one roof",
-    desc: "If you need further assessment, surgery or psychological support, we coordinate the whole pathway for you.",
-  },
-];
-
-function padReasonIndex(i: number): string {
-  return String(i + 1).padStart(2, "0");
-}
-
-function localizeHref(path: string, categoryId: string, lang: "no" | "en"): string {
-  const trimmed = path.trim();
-  if (!trimmed) return trimmed;
-  if (lang === "no") return trimmed;
-
-  const noCat = behandlingerCategorySegment(categoryId, "no");
-  const enCat = behandlingerCategorySegment(categoryId, "en");
-  if (noCat !== enCat) {
-    return trimmed.replace(`/behandlinger/${noCat}/`, `/behandlinger/${enCat}/`);
-  }
-  return trimmed;
-}
-
-function seoText(
-  treatment: TreatmentData,
-  lang: "no" | "en",
-): { title: string; description: string } {
+function seoText(treatment: TreatmentData): { title: string; description: string } {
   const seo = treatment.seo as
     | { metaTitle?: string; metaDescription?: string }
     | undefined;
   const metaTitle = (seo?.metaTitle || "").trim();
   const metaDescription = (seo?.metaDescription || "").trim();
   return {
-    title: metaTitle || `${treatment.title} | CMedical`,
-    description:
-      metaDescription ||
-      treatment.description ||
-      (lang === "en"
-        ? `Learn more about ${treatment.title} at CMedical.`
-        : `Les mer om ${treatment.title} hos CMedical.`),
+    title: metaTitle,
+    description: metaDescription,
   };
 }
 
+/** Map Sanity treatment + layout block to SubTreatmentLayout content (no static fallbacks). */
 export function mapTreatmentToSubTreatmentContent(
   treatment: TreatmentData,
   options: {
@@ -88,112 +24,130 @@ export function mapTreatmentToSubTreatmentContent(
     lang: "no" | "en";
   },
 ): SubTreatmentContent {
-  const { categoryId, treatmentSlug, lang } = options;
+  const { categoryId, treatmentSlug } = options;
   const layout = treatment.layout;
-  const catSegment = behandlingerCategorySegment(categoryId, lang);
-  const canonical = `/behandlinger/${catSegment}/${treatmentSlug}`;
-  const parentName =
-    treatment.parentCategory?.trim() || categoryId;
-  const parentPath = categoryLandingPath(categoryId, lang);
-  const { title: seoTitle, description: seoDescription } = seoText(treatment, lang);
+  if (!layout) {
+    throw new Error("Treatment layout is required for SubTreatmentLayout");
+  }
 
-  const heroPoints =
-    layout?.heroPoints?.filter((p) => p.title || p.desc) ??
-    (treatment.benefits || [])
-      .filter((b) => b.title || b.description)
-      .map((b) => ({ title: b.title, desc: b.description }));
+  const canonical = `/behandlinger/${treatment.parentSlug}/${treatmentSlug}`;
+  const parentName = treatment.parentCategory?.trim() || "";
+  const parentPath = `/${treatment.parentSlug}`;
+  const { title: seoTitle, description: seoDescription } = seoText(treatment);
 
-  const flow =
-    layout?.flow?.filter((s) => s.title || s.desc) ??
-    (treatment.process || []).map((p, i) => ({
-      n: padReasonIndex(i),
-      title: p.title,
-      desc: p.description,
-    }));
+  const heroPoints = (layout.heroPoints ?? []).filter((p) => p.title || p.desc);
+  const flow = (layout.flow ?? []).filter((s) => s.title || s.desc);
+  const reasons = (layout.reasons ?? []).filter((r) => r.title || r.desc);
+  const promises = (layout.promises ?? []).filter((p) => p.title);
 
-  const reasons =
-    layout?.reasons?.filter((r) => r.title || r.desc) ??
-    (treatment.sections || []).map((s, i) => ({
-      n: padReasonIndex(i),
-      title: s.heading,
-      desc: s.content,
-    }));
-
-  const relatedFromLayout =
-    layout?.related?.map((r) => ({
-      eyebrow: r.eyebrow || (lang === "en" ? "Related" : "Relatert"),
+  const related = (layout.related ?? []).map((r) => ({
       title: r.title,
       desc: r.desc || "",
-      href: localizeHref(r.path, categoryId, lang),
-    })) ?? [];
-
-  const related =
-    relatedFromLayout.length > 0
-      ? relatedFromLayout
-      : (treatment.linkedServices || []).map((ls) => ({
-          eyebrow: lang === "en" ? "Related" : "Relatert",
-          title: ls.label,
-          desc: ls.description || "",
-          href: localizeHref(ls.path, categoryId, lang),
-        }));
-
-  const promises =
-    layout?.promises?.filter((p) => p.title) ??
-    (lang === "en" ? DEFAULT_PROMISES_EN : DEFAULT_PROMISES_NB);
+      href: r.path,
+      image: r.image,
+      imageAlt: r.imageAlt,
+    }));
 
   const specialistCategory = normalizeCategoryFilterKey(
     categoryId,
   ) as Specialist["category"];
 
-  const specialistSlugs =
-    treatment.relatedSpecialistSlugs?.filter(Boolean) ?? [];
+  const specialistSlugs = treatment.relatedSpecialistSlugs?.filter(Boolean) ?? [];
 
   return {
     seoTitle,
     seoDescription,
     canonical,
+    homeBreadcrumbLabel: layout.homeBreadcrumbLabel || "",
+    srOnlyTitle: layout.srOnlyTitle || "",
+    themesAriaLabel: layout.themesAriaLabel || "",
+    seePricesLabel: layout.seePricesLabel || "",
+    seePricesHref: layout.seePricesHref || "",
+    callCtaLabel: layout.callCtaLabel || "",
+    expertReadMoreLabel: layout.expertReadMoreLabel || "",
+    scrollLeftLabel: layout.scrollLeftLabel || "",
+    scrollRightLabel: layout.scrollRightLabel || "",
+    insuranceEyebrow: layout.insuranceEyebrow || "",
+    insuranceTitle: layout.insuranceTitle || "",
+    insurancePartners: layout.insurancePartners ?? [],
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
-    eyebrow: layout?.eyebrow || treatment.subtitle || parentName,
-    heroTitle: layout?.heroTitle || treatment.title,
-    heroDescription: layout?.heroDescription || treatment.description || "",
+    heroTitle: layout.heroTitle || "",
+    heroDescription: layout.heroDescription || "",
+    heroThemes: layout.heroThemes,
     heroPoints,
-    rating: layout?.rating,
+    heroAvailability: layout.heroAvailability,
+    heroPrice: layout.heroPrice,
+    hideSeePriser: layout.hideSeePriser,
+    heroImage: layout.heroImage,
+    heroImageAlt: layout.heroImageAlt,
+    heroVideo: layout.heroVideo,
+    rating: layout.rating,
     booking: {
       kategori: normalizeCategoryFilterKey(categoryId),
-      tjeneste: layout?.bookingService,
+      tjeneste: layout.bookingService,
     },
-    primaryCtaLabel: layout?.primaryCtaLabel,
-    flowEyebrow: layout?.flowEyebrow || (lang === "en" ? "The pathway" : "Forløpet"),
-    flowTitle:
-      layout?.flowTitle ||
-      (lang === "en" ? "What happens when you visit us" : "Hva skjer når du er hos oss"),
+    primaryCtaLabel: layout.primaryCtaLabel,
+    flowTitle: layout.flowTitle || "",
     flow,
-    reasonsEyebrow:
-      layout?.reasonsEyebrow || (lang === "en" ? "Who it is for" : "Hvem passer det for"),
-    reasonsTitle:
-      layout?.reasonsTitle ||
-      (lang === "en" ? "When treatment may be relevant" : "Når kan behandling være aktuelt?"),
-    reasonsLead: layout?.reasonsLead,
-    reasonsLead2: layout?.reasonsLead2,
+    flowImage: layout.flowImage,
+    flowImageAlt: layout.flowImageAlt,
+    flowLinkLabel: layout.flowLinkLabel,
+    flowLinkHref: layout.flowLinkHref,
+    reasonsTitle: layout.reasonsTitle || "",
+    reasonsLead: layout.reasonsLead,
+    reasonsLead2: layout.reasonsLead2,
     reasons,
-    promises,
-    relatedEyebrow: layout?.relatedEyebrow,
-    relatedTitle: layout?.relatedTitle,
+    reasonsLayout: layout.reasonsLayout,
+    promises: promises.map((p) => ({
+      title: p.title,
+      desc: p.desc,
+      eyebrow: p.eyebrow,
+      image: p.image,
+      imageAlt: p.imageAlt,
+    })),
+    expertAreas: layout.expertAreas
+      ? {
+          title: layout.expertAreas.title || "",
+          description: layout.expertAreas.description,
+          items: layout.expertAreas.items.map((item) => ({
+            title: item.title,
+            desc: item.desc,
+            href: item.path,
+            image: item.image,
+            imageAlt: item.imageAlt,
+          })),
+        }
+      : undefined,
+    textSection: layout.textSection
+      ? {
+          title: layout.textSection.title || "",
+          lead: layout.textSection.lead,
+          points: layout.textSection.points,
+          image: layout.textSection.image || "",
+          imageAlt: layout.textSection.imageAlt,
+        }
+      : undefined,
+    relatedTitle: layout.relatedTitle,
+    relatedLead: layout.relatedLead,
+    relatedAsIntro: layout.relatedAsIntro,
+    relatedAsServices: layout.relatedAsServices,
+    relatedSeeAll:
+      layout.relatedSeeAllHref && layout.relatedSeeAllLabel
+        ? {
+            href: layout.relatedSeeAllHref,
+            label: layout.relatedSeeAllLabel,
+          }
+        : undefined,
     related,
-    ctaTitle:
-      layout?.ctaTitle ||
-      (lang === "en"
-        ? `Book a consultation for ${treatment.title.toLowerCase()}`
-        : `Bestill samtale om ${treatment.title.toLowerCase()}`),
-    ctaDescription:
-      layout?.ctaDescription ||
-      (lang === "en"
-        ? "Short waiting times. No referral required."
-        : "Kort ventetid. Ingen henvisning nødvendig."),
+    ctaTitle: layout.ctaTitle || "",
+    ctaDescription: layout.ctaDescription || "",
+    conversationCtaTitle: layout.conversationCtaTitle,
     specialistCategory,
     specialistSlugs: specialistSlugs.length > 0 ? specialistSlugs : undefined,
-    specialistCtaLabel: layout?.specialistCtaLabel,
-    specialistCtaHref: layout?.specialistCtaHref,
+    specialistCtaLabel: layout.specialistCtaLabel,
+    specialistCtaHref: layout.specialistCtaHref,
+    specialistTitle: layout.specialistTitle,
+    specialistDescription: layout.specialistDescription,
   };
 }

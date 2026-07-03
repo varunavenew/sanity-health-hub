@@ -5,5 +5,12 @@ export type ImageRef = string | StaticImageData;
 
 export function assetSrc(src: ImageRef | undefined | null): string {
   if (src == null) return "";
-  return typeof src === "string" ? src : src.src;
+  if (typeof src === "string") return src;
+  if (typeof src === "object" && "src" in src && typeof src.src === "string") {
+    return src.src;
+  }
+  if (typeof src === "object" && "default" in src) {
+    return assetSrc((src as { default: ImageRef }).default);
+  }
+  return "";
 }

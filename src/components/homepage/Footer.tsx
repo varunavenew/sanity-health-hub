@@ -23,22 +23,13 @@ export const Footer = () => {
 
   FOOTER_LABEL_MAP["flere"] = t("footer.moreServices");
 
-  // Services links sorted to match reference design
-  const serviceLinks = categories.length > 0
-    ? [...categories]
-        .filter((c) => FOOTER_CATEGORY_ORDER.includes(c.id))
-        .sort((a, b) => FOOTER_CATEGORY_ORDER.indexOf(a.id) - FOOTER_CATEGORY_ORDER.indexOf(b.id))
-        .map((c) => ({
-          label: FOOTER_LABEL_MAP[c.id] || c.label,
-          path: c.path,
-        }))
-    : [
-        { label: "Gynekologi", path: "/gynekologi" },
-        { label: "Fertilitet", path: "/fertilitet" },
-        { label: "Urologi", path: "/urologi" },
-        { label: "Ortopedi", path: "/ortopedi" },
-        { label: t("footer.moreServices"), path: "/flere-fagomrader" },
-      ];
+  const serviceLinks = [...categories]
+    .filter((c) => FOOTER_CATEGORY_ORDER.includes(c.id))
+    .sort((a, b) => FOOTER_CATEGORY_ORDER.indexOf(a.id) - FOOTER_CATEGORY_ORDER.indexOf(b.id))
+    .map((c) => ({
+      label: FOOTER_LABEL_MAP[c.id] || c.label,
+      path: c.path,
+    }));
 
   const clinicLinks = (clinics || []).map((c: any) => ({
     label: c.label || c.title,
@@ -46,16 +37,7 @@ export const Footer = () => {
   }));
 
   const footerAboutLinks = useMemo(() => {
-    const raw = settings?.footerAboutLinks?.length
-      ? settings.footerAboutLinks
-      : [
-          { _key: "om-oss", navId: "about" },
-          { _key: "spesialister", navId: "specialists" },
-          { _key: "priser", navId: "pricing" },
-          { _key: "forsikring", navId: "insurance" },
-          { _key: "aktuelt", navId: "news" },
-          { _key: "karriere", path: "/karriere", pathNb: "/karriere", pathEn: "/karriere" },
-        ];
+    const raw = settings?.footerAboutLinks ?? [];
     return raw.map((link: { _key?: string; label?: string; path?: string; navId?: string }) => ({
       ...link,
       label: resolveNavLabel(link, t, uiLang),
@@ -63,9 +45,9 @@ export const Footer = () => {
     }));
   }, [settings?.footerAboutLinks, t, locale, uiLang, cmsRouteIndex]);
 
-  const phone = settings?.phone || "+47 22 60 00 50";
-  const email = settings?.email || "info@cmedical.no";
-  const address = settings?.address || "Oslo · Bekkestua · Moss · Moelv";
+  const phone = settings?.phone?.trim() || "";
+  const email = settings?.email?.trim() || "";
+  const address = settings?.address?.trim() || "";
   const social = settings?.socialMedia || {};
 
   return (
@@ -110,29 +92,43 @@ export const Footer = () => {
           <div>
             <h3 className="text-xs text-white/40 mb-4 font-normal">{t("footer.contact")}</h3>
             <div className="space-y-3">
-              <a href={`tel:${phone.replace(/\s/g, '')}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
-                <Phone className="w-4 h-4 flex-shrink-0" />
-                {phone}
-              </a>
-              <a href={`mailto:${email}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
-                <Mail className="w-4 h-4 flex-shrink-0" />
-                {email}
-              </a>
-              <div className="flex items-center gap-2.5 text-sm text-white/60 font-light">
-                <MapPin className="w-4 h-4 flex-shrink-0" />
-                {address}
-              </div>
-              <div className="flex gap-2.5 pt-3">
-                <a href={social.instagram || "#"} aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Instagram className="w-4 h-4 text-white/60" aria-hidden="true" />
+              {phone ? (
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
+                  <Phone className="w-4 h-4 flex-shrink-0" />
+                  {phone}
                 </a>
-                <a href={social.facebook || "#"} aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Facebook className="w-4 h-4 text-white/60" aria-hidden="true" />
+              ) : null}
+              {email ? (
+                <a href={`mailto:${email}`} className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors font-light">
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  {email}
                 </a>
-                <a href={social.linkedin || "#"} aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                  <Linkedin className="w-4 h-4 text-white/60" aria-hidden="true" />
-                </a>
-              </div>
+              ) : null}
+              {address ? (
+                <div className="flex items-center gap-2.5 text-sm text-white/60 font-light">
+                  <MapPin className="w-4 h-4 flex-shrink-0" />
+                  {address}
+                </div>
+              ) : null}
+              {social.instagram || social.facebook || social.linkedin ? (
+                <div className="flex gap-2.5 pt-3">
+                  {social.instagram ? (
+                    <a href={social.instagram} aria-label="Instagram" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                      <Instagram className="w-4 h-4 text-white/60" aria-hidden="true" />
+                    </a>
+                  ) : null}
+                  {social.facebook ? (
+                    <a href={social.facebook} aria-label="Facebook" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                      <Facebook className="w-4 h-4 text-white/60" aria-hidden="true" />
+                    </a>
+                  ) : null}
+                  {social.linkedin ? (
+                    <a href={social.linkedin} aria-label="LinkedIn" className="w-8 h-8 rounded-sm bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                      <Linkedin className="w-4 h-4 text-white/60" aria-hidden="true" />
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

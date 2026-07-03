@@ -83,29 +83,92 @@ const localizedGoogleReviewRow = `_id, author, rating, ${i18nText('text')}, date
 
 const SUB_TREATMENT_LAYOUT_GROQ = `
   layout{
+    ${i18nString('homeBreadcrumbLabel')},
+    ${i18nString('srOnlyTitle')},
+    ${i18nString('themesAriaLabel')},
+    ${i18nString('seePricesLabel')},
+    seePricesHref,
+    ${i18nString('callCtaLabel')},
+    ${i18nString('expertReadMoreLabel')},
+    ${i18nString('scrollLeftLabel')},
+    ${i18nString('scrollRightLabel')},
+    ${i18nString('insuranceEyebrow')},
+    ${i18nString('insuranceTitle')},
+    insurancePartners[]{ key, ${i18nString('label')} },
     ${i18nString('eyebrow')},
     ${i18nString('heroTitle')},
     ${i18nText('heroDescription')},
     ${i18nString('rating')},
+    ${i18nString('heroPrice')},
+    hideSeePriser,
+    ${i18nString('heroAvailability')},
+    heroThemes,
+    "heroImage": heroImage.asset->url,
+    ${i18nString('heroImageAlt')},
+    heroVideo,
     ${i18nString('primaryCtaLabel')},
     bookingService,
     ${i18nString('flowEyebrow')},
     ${i18nString('flowTitle')},
+    "flowImage": flowImage.asset->url,
+    ${i18nString('flowImageAlt')},
+    ${i18nString('flowLinkLabel')},
+    flowLinkHref,
     ${i18nString('reasonsEyebrow')},
     ${i18nString('reasonsTitle')},
     ${i18nText('reasonsLead')},
     ${i18nText('reasonsLead2')},
+    reasonsLayout,
     ${i18nString('ctaTitle')},
     ${i18nText('ctaDescription')},
+    ${i18nString('conversationCtaTitle')},
+    ${i18nString('specialistTitle')},
+    ${i18nText('specialistDescription')},
     ${i18nString('specialistCtaLabel')},
     specialistCtaHref,
     ${i18nString('relatedEyebrow')},
     ${i18nString('relatedTitle')},
+    ${i18nText('relatedLead')},
+    relatedAsIntro,
+    relatedAsServices,
+    relatedSeeAllHref,
+    ${i18nString('relatedSeeAllLabel')},
     heroPoints[]{ ${i18nString('title')}, ${i18nText('desc')} },
     flow[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
     reasons[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
-    promises[]{ ${i18nString('eyebrow')}, ${i18nString('title')}, ${i18nText('desc')} },
-    related[]{ ${i18nString('eyebrow')}, ${i18nString('title')}, ${i18nText('desc')}, path }
+    promises[]{
+      ${i18nString('eyebrow')},
+      ${i18nString('title')},
+      ${i18nText('desc')},
+      "image": image.asset->url,
+      ${i18nString('imageAlt')}
+    },
+    related[]{
+      ${i18nString('eyebrow')},
+      ${i18nString('title')},
+      ${i18nText('desc')},
+      path,
+      "image": image.asset->url,
+      ${i18nString('imageAlt')}
+    },
+    expertAreas{
+      ${i18nString('title')},
+      ${i18nText('description')},
+      items[]{
+        ${i18nString('title')},
+        ${i18nText('desc')},
+        path,
+        "image": image.asset->url,
+        ${i18nString('imageAlt')}
+      }
+    },
+    textSection{
+      ${i18nString('title')},
+      ${i18nText('lead')},
+      points[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+      "image": image.asset->url,
+      ${i18nString('imageAlt')}
+    }
   }
 `;
 
@@ -341,6 +404,7 @@ export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"]{
 const CATEGORY_LANDING_GROQ = `
   landingPage{
     ${i18nStringLocale("srOnlyTitle")},
+    ${i18nStringLocale("breadcrumbHomeLabel")},
     hero{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("heading")},
@@ -350,16 +414,24 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("primaryCtaLabel")},
       ${i18nStringLocale("secondaryCtaLabel")},
       ${i18nStringLocale("heroImageAlt")},
+      primaryBookingService,
+      ${i18nStringLocale("entryPriceLabel")},
+      ${i18nStringLocale("entryPriceValue")},
     },
     segmentsSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nStringLocale("titleLine2")},
+      layout,
       segments[]{
         id,
         ${i18nStringLocale("title")},
         ${i18nText("description")},
         tags,
+        tagLinks[]{
+          ${i18nStringLocale("label")},
+          href
+        },
         ${i18nStringLocale("ctaLabel")},
         href
       }
@@ -370,11 +442,59 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nText("description")},
       "image": image.asset->url,
       ${i18nStringLocale("imageAlt")},
+      ${i18nStringLocale("footerLinkLabel")},
+      footerLinkHref,
       steps[]{
         number,
         ${i18nStringLocale("title")},
         ${i18nText("description")}
       }
+    },
+    expertAreasSection{
+      ${i18nStringLocale("eyebrow")},
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      layout,
+      ${i18nStringLocale("readMoreLabel")},
+      areas[]{
+        ${i18nStringLocale("title")},
+        ${i18nText("description")},
+        href,
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
+      }
+    },
+    supportSection{
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      ${i18nStringLocale("readMoreLabel")},
+      areas[]{
+        ${i18nStringLocale("title")},
+        ${i18nText("description")},
+        href,
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
+      }
+    },
+    journeySection{
+      ${i18nStringLocale("title")},
+      ${i18nText("description")},
+      ${i18nStringLocale("ctaLabel")},
+      ctaHref,
+      steps[]{
+        number,
+        ${i18nStringLocale("title")},
+        ${i18nText("description")}
+      }
+    },
+    spotlightSection{
+      ${i18nStringLocale("title")},
+      ${i18nStringLocale("titleEmphasis")},
+      ${i18nText("text")},
+      ${i18nStringLocale("ctaLabel")},
+      ctaHref,
+      "image": image.asset->url,
+      ${i18nStringLocale("imageAlt")}
     },
     audiencesSection{
       ${i18nStringLocale("eyebrow")},
@@ -389,18 +509,29 @@ const CATEGORY_LANDING_GROQ = `
       }
     },
     symptomsSection{
+      ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
       ${i18nText("description")},
       items[]{
         ${i18nStringLocale("symptom")},
         ${i18nStringLocale("service")},
-        href
+        href,
+        "image": image.asset->url,
+        ${i18nStringLocale("imageAlt")}
       }
     },
     servicesSection{
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("title")},
-      ${i18nText("description")}
+      ${i18nText("description")},
+      groups[]{
+        ${i18nStringLocale("label")},
+        items[]{
+          ${i18nStringLocale("title")},
+          ${i18nStringLocale("description")},
+          href
+        }
+      }
     },
     resultsSection{
       ${i18nStringLocale("eyebrow")},
@@ -424,7 +555,10 @@ const CATEGORY_LANDING_GROQ = `
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   ${i18nText('geoSummary')},
+  ${i18nString('loadingLabel')},
+  ${i18nText('missingLandingMessage')},
   "heroImage": heroImage.asset->url,
+  "heroVideo": heroVideo.asset->url,
   stats[]{
     value,
     ${i18nStringLocale("label")},
@@ -454,10 +588,14 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${i18nString('subtitle')},
   ${i18nText('description')},
   ${i18nText('geoSummary')},
+  ${i18nString('heroImageAlt')},
   ${i18nString('benefitsTitle')},
   ${i18nStringLocale('linkedServicesSectionTitle')},
   ${i18nStringLocale('processSectionTitle')},
-  quickInfoItems,
+  quickInfoItems[]{
+    iconKey,
+    ${i18nString('label')}
+  },
   ${i18nStringLocale('faqSectionTitle')},
   bottomCta{
     ${i18nStringLocale('title')},
@@ -499,7 +637,10 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
 
 export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
   ${i18nString('title')},
+  ${localizedSlug},
   ${i18nBlockContent('body')},
+  ${i18nString('loadingLabel')},
+  ${i18nText('emptyMessage')},
   cookiebotKey,
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -508,8 +649,11 @@ export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
 
 export const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0]{
   "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+  ${localizedSlug},
+  ${i18nString('heroEyebrow')},
   "subtitle": coalesce(subtitle[language == $lang][0].value, subtitle[_key == $lang][0].value, subtitle[language == "no"][0].value, subtitle[_key == "no"][0].value, subtitle),
   "heroImage": heroImage.asset->url,
+  ${i18nString('heroImageAlt')},
   "body": coalesce(body[language == $lang][0].value, body[_key == $lang][0].value, body[language == "no"][0].value, body[_key == "no"][0].value, body),
   values,
   clinicsSection{
@@ -595,6 +739,7 @@ export const CONTACT_PAGE_QUERY = `*[_type == "contactPage"][0]{
 }`;
 
 export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
+  ${localizedSlug},
   ${i18nString("label")},
   ${i18nString("title")},
   ${i18nText("subtitle")},
@@ -607,7 +752,8 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
   ${i18nString("specialistsTitle")},
   ${i18nString("specialistsSeeAllLabel")},
   ${i18nString("socialSectionTitle")},
-  showSocialSection,
+  ${i18nString("breadcrumbHomeLabel")},
+  socialMode,
   socialPostLimit,
   socialPosts[]{
     _key,
@@ -618,11 +764,12 @@ export const NEWS_PAGE_QUERY = `*[_type == "newsPage"][0]{
     imageUrl,
     "image": coalesce(image.asset->url, imageUrl),
   },
-  ${i18nString("filterAllLabel")},
-  ${i18nString("filterPatientStoriesLabel")},
-  ${i18nString("filterMediaLabel")},
-  ${i18nString("filterArticlesLabel")},
-  ${i18nString("filterUpdatesLabel")},
+  "filters": filters[]{
+    key,
+    ${i18nString("label")},
+    acceptedArticleCategories
+  },
+  listSize,
   "featuredArticles": featuredArticles[]->{
     _id,
     "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -813,6 +960,7 @@ export const INSURANCE_PAGE_QUERY = `*[_type == "insurancePage"][0]{
 }`;
 
 export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
+  ${localizedSlug},
   ${i18nString("breadcrumbHome")},
   ${i18nString("title")},
   ${i18nString("eyebrow")},
@@ -820,7 +968,9 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   ${i18nString("searchPlaceholder")},
   ${i18nString("featuredSectionTitle")},
   ${i18nString("faqSectionTitle")},
-  faqCategory,
+  ${i18nString("loadingLabel")},
+  ${i18nText("pageErrorMessage")},
+  ${i18nText("emptyCategoriesMessage")},
   faqs[]{
     ${i18nString("question")},
     ${i18nText("answer")}
@@ -850,13 +1000,6 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
       ${localizedSlug},
       ${CATEGORY_TREATMENTS_GROQ}
     }
-  },
-  "categories": categories[]->{
-    categoryId,
-    sortOrder,
-    title,
-    ${localizedSlug},
-    "heroImage": heroImage.asset->url
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
@@ -997,6 +1140,12 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   email,
   address,
   socialMedia,
+  "treatmentPageUi": treatmentPageUi{
+    ${i18nNestedString("treatmentPageUi", "loadingLabel")},
+    ${i18nNestedString("treatmentPageUi", "notFoundTitle")},
+    ${i18nNestedText("treatmentPageUi", "notFoundBody")},
+    ${i18nNestedString("treatmentPageUi", "backLabel")}
+  },
   mainNavigation[]{
     _key,
     ${i18nString("label")},
@@ -1166,7 +1315,11 @@ export const CAREERS_PAGE_QUERY = `*[_type == "careersPage"][0]{
 }`;
 
 export const SPECIALISTS_PAGE_QUERY = `*[_type == "specialistsPage"][0]{
-  title, subtitle, body,
+  ${i18nString("heroEyebrow")},
+  ${i18nString("title")},
+  ${i18nText("subtitle")},
+  ${i18nBlockContent("body")},
+  ${localizedSlugBoth},
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},
   ${localizedSeoObject}

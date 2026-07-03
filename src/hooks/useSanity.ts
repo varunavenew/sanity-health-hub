@@ -490,10 +490,19 @@ export const usePrivacyPolicyPage = () => {
     queryFn: async () => {
       const data = await fetchSanity<{
         title?: string;
+        slug?: string;
         body?: unknown[];
+        loadingLabel?: string;
+        emptyMessage?: string;
         geoSummary?: string;
         cookiebotKey?: string;
         pageSections?: unknown;
+        seo?: {
+          metaTitle?: string;
+          metaDescription?: string;
+          ogImage?: unknown;
+          noIndex?: boolean;
+        };
       }>(PRIVACY_POLICY_PAGE_QUERY, { lang }, lang);
       if (!data) return null;
       const title = typeof data.title === "string" ? data.title : "";
@@ -1143,8 +1152,11 @@ export const useSpecialistsPage = () => {
     queryFn: async () =>
       withPageSections(
         await fetchSanity<{
+          heroEyebrow?: string;
           title?: string;
           subtitle?: string;
+          slugNb?: string;
+          slugEn?: string;
           geoSummary?: string;
           body?: any;
           seo?: { metaTitle?: string; metaDescription?: string; ogImage?: any; noIndex?: boolean };

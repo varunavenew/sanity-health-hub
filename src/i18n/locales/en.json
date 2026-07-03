@@ -21,7 +21,13 @@
     "closeMenu": "Close menu",
     "skipToContent": "Skip to main content",
     "selectLanguage": "Select language",
-    "navigationMenu": "Navigation menu"
+    "navigationMenu": "Navigation menu",
+    "quickActions": "Quick actions",
+    "ring": "Call",
+    "callPhone": "Call {{phone}}",
+    "more": "More",
+    "allServices": "All services",
+    "expandCategory": "Show {{category}}"
   },
   "hero": {
     "kvinnehelse": {
@@ -130,6 +136,7 @@
     "bookSpecialistThisWeek": "Get {{title}} with a specialist this week.",
     "relatedEyebrow": "Related areas",
     "relatedTitle": "You may also be interested in",
+    "relatedServicesTitle": "Related services",
     "readMore": "Read more",
     "specialistsEyebrow": "The people behind",
     "specialistsTitle": "The specialists who will support you.",
@@ -300,24 +307,6 @@
   },
   "promoBlocks": {
     "title": "News and articles"
-  },
-  "news": {
-    "title": "News",
-    "subtitle": "Stay updated on the latest in medicine and news from CMedical.",
-    "label": "News & Articles",
-    "searchPlaceholder": "Search articles...",
-    "moreArticles": "More articles",
-    "noArticles": "No articles found for this filter.",
-    "readMore": "Read more",
-    "specialistsEyebrowAll": "Meet the team",
-    "specialistsEyebrowWithin": "Within {{category}}",
-    "specialistsTitle": "Specialists you can book an appointment with",
-    "followSocial": "Follow us on social media",
-    "filterAll": "All",
-    "filterPatientStories": "Patient stories",
-    "filterMedia": "In the media",
-    "filterArticles": "Articles",
-    "filterUpdates": "News from us"
   },
   "clinicGrid": {
     "title": "Our clinics"

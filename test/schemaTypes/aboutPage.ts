@@ -19,6 +19,11 @@ export default {
     },
     i18nSlugFieldFromTitle('title'),
     {
+      name: 'heroEyebrow',
+      title: 'Hero – eyebrow',
+      type: 'internationalizedArrayString',
+    },
+    {
       name: 'subtitle',
       title: 'Undertittel',
       type: 'internationalizedArrayString',
@@ -28,6 +33,11 @@ export default {
       title: 'Hero-bilde',
       type: 'image',
       options: { hotspot: true },
+    },
+    {
+      name: 'heroImageAlt',
+      title: 'Hero-bilde – alternativ tekst',
+      type: 'internationalizedArrayString',
     },
     {
       name: 'body',

@@ -77,6 +77,12 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      // L5E asset URLs must not match `[locale]` — serve via API route.
+      {
+        source: "/__l5e/assets-v1/:assetId/:filename",
+        destination: "/api/l5e-assets/:assetId/:filename",
+      },
+
       // CMS nav aliases (siteSettings paths that differ from Next.js route folders).
       { source: "/en/prices", destination: "/en/pricing" },
       { source: "/en/current", destination: "/en/news" },

@@ -30,6 +30,8 @@ import TreatmentPage from "@/site-pages/treatments/TreatmentPage";
 import Guide from "@/site-pages/Guide";
 import GynekologiSubPage from "@/site-pages/treatments/GynekologiSubPage";
 import FertilitetSubPage from "@/site-pages/treatments/FertilitetSubPage";
+import SubTreatmentPage from "@/site-pages/treatments/SubTreatmentPage";
+import { resolveFertilitetTreatmentSlug } from "@/lib/sanity/fertilitet-slug-aliases";
 import {
   buildAboutMetadata,
   buildClinicsListingMetadata,
@@ -72,9 +74,12 @@ const SINGLETON_HANDLERS: Record<
   guidePage: { Component: Guide, buildMetadata: buildGuideMetadata },
 };
 
-const TREATMENT_COMPONENTS: Record<string, React.ComponentType<{ isChatOpen: boolean; sanityLang?: "no" | "en"; initialTreatment?: unknown }>> = {
+const TREATMENT_COMPONENTS: Record<string, React.ComponentType<{ isChatOpen: boolean; sanityLang?: "no" | "en"; initialTreatment?: unknown; categoryId?: string }>> = {
   gynekologi: GynekologiSubPage,
   fertilitet: FertilitetSubPage,
+  ortopedi: SubTreatmentPage,
+  urologi: SubTreatmentPage,
+  graviditet: SubTreatmentPage,
 };
 
 export async function buildCmsRouteMetadata(
@@ -154,11 +159,15 @@ export async function renderCmsRoute(
     case "treatment": {
       const categorySlug = route.categorySlug || route.categoryId || "";
       const categoryId = route.categoryId || categorySlug;
-      const initialTreatment = await fetchTreatmentData(categorySlug, route.slug, sanityLang);
+      const treatmentSlug =
+        categoryId === "fertilitet"
+          ? resolveFertilitetTreatmentSlug(route.slug)
+          : route.slug;
+      const initialTreatment = await fetchTreatmentData(categorySlug, treatmentSlug, sanityLang);
       const SubPage = TREATMENT_COMPONENTS[categoryId] || TreatmentPage;
       const queryClient = new QueryClient();
       queryClient.setQueryData(
-        ["sanity", "treatment", categorySlug, route.slug, sanityLang],
+        ["sanity", "treatment", categorySlug, treatmentSlug, sanityLang],
         initialTreatment,
       );
       return (
@@ -166,7 +175,7 @@ export async function renderCmsRoute(
           <TreatmentDataProvider
             lang={sanityLang}
             categorySlug={categorySlug}
-            treatmentSlug={route.slug}
+            treatmentSlug={treatmentSlug}
             contentSlug={route.slugPair.slugNb}
             data={initialTreatment}
           >

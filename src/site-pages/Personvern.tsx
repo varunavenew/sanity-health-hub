@@ -12,6 +12,7 @@ import { youtubeEmbedPortableTextType } from "@/lib/portable-text/youtube-embed-
 import { useTranslation } from "react-i18next";
 import { withLocalePath, type AppLocale } from "@/lib/i18n/routing";
 import { useParams } from "@/lib/router";
+import { getImageUrl } from "@/lib/sanity/image-url";
 
 interface PersonvernProps {
   isChatOpen?: boolean;
@@ -74,20 +75,28 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
 
   const defaultTitle = isEn ? "Privacy Policy" : "Personvernerklæring";
   const title = sanityData?.title || defaultTitle;
-  const privacyPath = localePath("/personvern");
-  const privacyDescription = isEn
+  const privacyPath = localePath(`/${sanityData?.slug || "personvern"}`);
+  const fallbackDescription = isEn
     ? "Read CMedical's privacy policy. Information about how we process your personal data in accordance with GDPR and applicable privacy legislation."
     : "Les CMedicals personvernerklæring. Informasjon om hvordan vi behandler dine personopplysninger i samsvar med GDPR og norsk personvernlovgivning.";
+  const seoTitle = sanityData?.seo?.metaTitle || title;
+  const privacyDescription = sanityData?.seo?.metaDescription || fallbackDescription;
+  const ogImage = sanityData?.seo?.ogImage
+    ? getImageUrl(sanityData.seo.ogImage)
+    : undefined;
+  const loadingLabel =
+    sanityData?.loadingLabel || (isEn ? "Loading…" : "Laster innhold…");
   const schemaLocale = locale === "en" ? "en" : "nb";
   const hasSanityBody = sanityData?.body && sanityData.body.length > 0;
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={title}
+        title={seoTitle}
         description={privacyDescription}
         canonical={privacyPath}
-        noIndex={false}
+        noIndex={!!sanityData?.seo?.noIndex}
+        ogImage={ogImage || undefined}
         breadcrumbs={[
           { name: isEn ? "Home" : "Hjem", path: localePath("/") },
           { name: t("footer.privacy"), path: privacyPath },
@@ -104,17 +113,20 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">{title}</h1>
         <div className="prose prose-lg max-w-none text-foreground/80 space-y-6">
           {loading ? (
-            <p className="text-muted-foreground">{isEn ? "Loading…" : "Laster innhold…"}</p>
+            <p className="text-muted-foreground">
+              {loadingLabel}
+            </p>
           ) : hasSanityBody ? (
             <PortableText
-              value={sanityData.body as PortableTextBlock[]}
+              value={(sanityData?.body ?? []) as PortableTextBlock[]}
               components={portableTextComponents}
             />
           ) : (
             <p className="text-muted-foreground">
-              {isEn
-                ? "Privacy policy content is not available in English yet."
-                : "Innholdet er ikke tilgjengelig."}
+              {sanityData?.emptyMessage ||
+                (isEn
+                  ? "Privacy policy content is not available in English yet."
+                  : "Innholdet er ikke tilgjengelig.")}
             </p>
           )}
         </div>
