@@ -63,25 +63,39 @@ async function main() {
 
   // Fetch every treatmentCategory + treatment with current heroImage state.
   const [categories, treatments] = await Promise.all([
-    sanityClient.fetch<Array<{ _id: string; categoryId?: string; slug?: { current?: string }; heroImage?: any }>>(
-      `*[_type == "treatmentCategory"]{ _id, categoryId, slug, heroImage }`
+    sanityClient.fetch<Array<{ _id: string; categoryId?: string; slug?: string; heroImage?: any }>>(
+      `*[_type == "treatmentCategory"]{
+        _id,
+        categoryId,
+        "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
+        heroImage
+      }`
     ),
-    sanityClient.fetch<Array<{ _id: string; slug?: { current?: string }; category?: { categoryId?: string; slug?: { current?: string } }; heroImage?: any }>>(
-      `*[_type == "treatment"]{ _id, slug, "category": category->{ categoryId, slug }, heroImage }`
+    sanityClient.fetch<Array<{ _id: string; slug?: string; category?: { categoryId?: string; slug?: string }; heroImage?: any }>>(
+      `*[_type == "treatment"]{
+        _id,
+        "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
+        "category": category->{
+          categoryId,
+          "slug": coalesce(slug[language == "no"][0].value.current, slug.current)
+        },
+        heroImage
+      }`
     ),
   ]);
 
   const catByKey = new Map<string, typeof categories[number]>();
   for (const c of categories) {
-    const key = c.categoryId || c.slug?.current;
+    const key = c.categoryId || c.slug;
     if (key) catByKey.set(key, c);
   }
   const treatmentByKey = new Map<string, typeof treatments[number]>();
   for (const t of treatments) {
-    const catId = t.category?.categoryId || t.category?.slug?.current;
-    const slug = t.slug?.current;
+    const catId = t.category?.categoryId || t.category?.slug;
+    const slug = t.slug;
     if (catId && slug) treatmentByKey.set(`${catId}/${slug}`, t);
   }
+
 
   let uploaded = 0;
   let skippedHasImage = 0;
