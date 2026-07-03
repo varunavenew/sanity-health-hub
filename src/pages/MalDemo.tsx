@@ -147,6 +147,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     livePath: "/maler/fertilitetEtterMaster",
     render: () => <FertilitetEtterMaster isChatOpen={false} />,
   },
+  fertilitetVarmHeroForslag: {
+    title: "Mal: Fertilitet – varm hero (forslag)",
+    description:
+      "Designforslag for Fertilitet-landingen: split-hero der hero-bildet ligger på den ene siden og et varmt korn-gradient-panel (korall/oransje/fersken/varm brun) på den andre. Små korn-gradient-flater rundt hero gir ekstra dybde. Alle tokens, typografi, radius og USP-stil er uendret. Kun forslag — den publiserte siden er ikke endret.",
+    livePath: "/maler/fertilitetVarmHeroForslag",
+    render: () => <FertilitetVarmHeroForslag isChatOpen={false} />,
+  },
 };
 
 
