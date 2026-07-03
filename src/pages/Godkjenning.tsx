@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock, Stethoscope } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
@@ -227,7 +227,7 @@ const Godkjenning = () => {
   const [reviewer, setReviewer] = useState("");
   const [filter, setFilter] = useState<"alle" | Status>("alle");
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"sider" | "innboks" | "booking" | "generelt" | "maler" | "demo" | "fremdrift">("sider");
+  const [tab, setTab] = useState<"sider" | "tjenester" | "innboks" | "booking" | "generelt" | "maler" | "demo" | "fremdrift">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
 
   useEffect(() => {
@@ -322,8 +322,14 @@ const Godkjenning = () => {
     return m;
   }, [requests]);
 
+  const isServiceCategory = (category: string) =>
+    category === "Fagområder" || category.includes("underbehandlinger");
+
   const grouped = useMemo(() => {
-    const filtered = sitePages.filter((p) => {
+    const source = tab === "tjenester"
+      ? sitePages.filter((p) => isServiceCategory(p.category))
+      : sitePages;
+    const filtered = source.filter((p) => {
       const r = rows[p.path];
       const status = (r?.status ?? "avventer") as Status;
       if (filter !== "alle" && status !== filter) return false;
@@ -336,7 +342,17 @@ const Godkjenning = () => {
       map.get(p.category)!.push(p);
     });
     return Array.from(map.entries());
-  }, [rows, filter, search]);
+  }, [rows, filter, search, tab]);
+
+  const serviceCounts = useMemo(() => {
+    const services = sitePages.filter((p) => isServiceCategory(p.category));
+    const c = { total: services.length, godkjent: 0, avventer: 0, endringer: 0 };
+    services.forEach((p) => {
+      const s = (rows[p.path]?.status ?? "avventer") as Status;
+      c[s]++;
+    });
+    return c;
+  }, [rows]);
 
   const counts = useMemo(() => {
     const c = { total: sitePages.length, godkjent: 0, avventer: 0, endringer: 0 };
@@ -402,6 +418,13 @@ const Godkjenning = () => {
           <div className="mt-6 flex items-center justify-between flex-wrap gap-3">
             <div className="flex gap-1 text-sm border border-border rounded-md p-1 bg-background flex-wrap">
               <TabBtn active={tab === "sider"} onClick={() => setTab("sider")} icon={<ListChecks className="w-4 h-4" />} label="Sider" />
+              <TabBtn
+                active={tab === "tjenester"}
+                onClick={() => setTab("tjenester")}
+                icon={<Stethoscope className="w-4 h-4" />}
+                label="Tjenester"
+                badge={serviceCounts.avventer + serviceCounts.endringer}
+              />
               <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
               <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
               <TabBtn active={tab === "generelt"} onClick={() => setTab("generelt")} icon={<Sparkles className="w-4 h-4" />} label="Generelt" badge={openGeneralCount} />
@@ -426,7 +449,7 @@ const Godkjenning = () => {
             </div>
           </div>
 
-          {tab === "sider" && (
+          {(tab === "sider" || tab === "tjenester") && (
             <div className="mt-4 flex flex-col md:flex-row gap-3 md:items-center">
               <div className="relative md:max-w-xs flex-1">
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -496,6 +519,21 @@ const Godkjenning = () => {
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
           <div className="space-y-12">
+            {tab === "tjenester" && (
+              <div className="pb-6 border-b border-border">
+                <h2 className="text-xl font-light text-foreground">Tjenester og undertjenester</h2>
+                <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+                  Alle hovedtjenester (fagområder) og tilhørende undertjenester. Klikk en side for å lese den, sett status
+                  og skriv kommentarer — endringene lagres for hele teamet.
+                </p>
+                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <StatCard label="Totalt" value={serviceCounts.total} />
+                  <StatCard label="Godkjent" value={serviceCounts.godkjent} accent="emerald" />
+                  <StatCard label="Avventer" value={serviceCounts.avventer} accent="amber" />
+                  <StatCard label="Endringer" value={serviceCounts.endringer} accent="rose" />
+                </div>
+              </div>
+            )}
             {grouped.map(([category, pages]) => (
               <section key={category}>
                 <h2 className="text-sm text-muted-foreground mb-4 pb-2 border-b border-border">
