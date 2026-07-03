@@ -8,11 +8,11 @@ export interface SymptomItem {
   service: string;
   href: string;
   image?: string;
-  imageAlt?: string;
+  imageAlt: string;
 }
 
 interface SymptomServiceSectionProps {
-  eyebrow?: string;
+  eyebrow: string;
   title: string;
   description?: string;
   items: SymptomItem[];
@@ -20,7 +20,7 @@ interface SymptomServiceSectionProps {
 }
 
 export function SymptomServiceSection({
-  eyebrow = "Symptomsjekk",
+  eyebrow,
   title,
   description,
   items,
@@ -66,7 +66,7 @@ export function SymptomServiceSection({
                   <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
                     <AssetImg
                       src={item.image}
-                      alt={item.imageAlt || item.symptom}
+                      alt={item.imageAlt}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />

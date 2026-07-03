@@ -52,13 +52,19 @@
         "path": "/behandlinger/flere-fagomrader/ernaringsfysiolog"
       }
     ],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "Vårt tverrfaglige team",
+    "relatedLead": "Våre gynekologer jobber kun med den kvinnesykdommen de kan aller best, og ved behov jobber vi i unike ekspert team med psykolog, sexolog, ernæringsfysiolog, fysioterapeut, osteopat og uroterapeut. Denne tverrfagligheten er helt unik!",
+    "relatedAsIntroOverride": true,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/undersokelse": {
     "title": "Gynekologisk undersøkelse",
     "subtitle": "Trygg og grundig undersøkelse hos erfarne gynekologer.",
     "parentCategory": "Gynekologi",
-    "description": "En gynekologisk undersøkelse er en viktig del av kvinners forebyggende helsearbeid. Hos CMedical utfører vi grundige undersøkelser i trygge omgivelser med erfarne gynekologer.\n\nVi anbefaler regelmessige gynekologiske kontroller for å forebygge og oppdage eventuelle tilstander tidlig. Undersøkelsen tilpasses dine behov og bekymringer.",
+    "description": "Hos CMedical hjelper vi deg med alt innen gynekologiske problemstillinger – fra utredning til behandling. Vi har et bredt behandlingstilbud av høyeste kvalitet. Hos oss møter du engasjerte gynekologer som jobber med den kvinnesykdommen de kan best. Hos oss kan du bestille rutinesjekk eller konsultasjon til annen gynekologisk utredning.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
       "Erfarne gynekologer med lang klinisk erfaring",
@@ -101,7 +107,13 @@
     ],
     "sections": [],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/urinlekkasje": {
     "title": "Urinlekkasje",
@@ -149,7 +161,13 @@
     "relatedSpecialistSlugs": [
       "madeleine-engen",
       "birgitte-aspenes"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/endometriose": {
     "title": "Endometriose",
@@ -194,7 +212,13 @@
       }
     ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/overgangsalder": {
     "title": "Overgangsalder",
@@ -265,13 +289,19 @@
         "path": "/behandlinger/flere-fagomrader/psykologi"
       }
     ],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/vaginale-fremfall": {
     "title": "Vaginale fremfall",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Gynekologi",
-    "description": "Vaginalt fremfall, også kjent som prolaps, er en tilstand der organer som livmoren, blæren eller endetarmen faller ned fra deres vanlige posisjon og presser inn i skjeden. Dette skjer vanligvis på grunn av svekkelse av bekkenbunnsmuskulaturen og støttevev, som kan være forårsaket av faktorer som graviditet, fødsel, aldring eller kirurgiske inngrep.",
+    "description": "Vaginalt fremfall, også kjent som prolaps, innebærer at skjedens fremre eller bakre vegg, eller livmor/livmorhals, buker ned i skjeden eller ut av skjedeinngangen. Dette skjer grunnet svekkelse og skader i bekkenbunnmuskulatur og støttevev etter graviditet, fødsel, aldring, økt buktrykk over lengre tid (forstoppelse, ubehandlet astma/kols) eller kirurgiske inngrep.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -297,13 +327,19 @@
       {
         "id": "behandling",
         "heading": "Behandling",
-        "content": "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.\n\nHos oss møter du noen av Nordens fremste eksperter på fremfall. Ta kontakt for mer informasjon eller bestill en konsultasjon."
+        "content": "Behandlingen avhenger av alvorlighetsgraden og symptomene, og kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering hvis man opplever symptomer på vaginalt fremfall. Hos oss møter du noen av Nordens fremste eksperter på fremfall."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "madeleine-engen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/blodningsforstyrrelser": {
     "title": "Blødningsforstyrrelser",
@@ -347,7 +383,13 @@
     "relatedSpecialistSlugs": [
       "birgitte-mitlid-mork",
       "birgitte-aspenes"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/celleforandringer": {
     "title": "Celleforandringer",
@@ -389,7 +431,7 @@
       {
         "id": "konisering",
         "heading": "Konisering",
-        "content": "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft.\n\nHos vår klinikk på Bekkestua tilbyr vi konisering i lokalbedøvelse. Inngrepet tar vanligvis rundt 15 minutter, og du blir godt ivaretatt i rolige og trygge omgivelser.\n\nVi vet at dette kan oppleves som en sårbar situasjon, derfor legger vi stor vekt på å møte deg med trygghet og omsorg gjennom hele prosessen. Inngrepet blir utført i narkose om du er veldig engstelig."
+        "content": "Konisering er et lite kirurgisk inngrep hvor en liten del av det ytterste laget på livmorhalsen fjernes. Inngrepet forhindrer celleforandringene fra å utvikle seg til livmorhalskreft.\n\nHos vår klinikk på Bekkestua tilbyr vi konisering i lokalbedøvelse, utført av vår erfarne gynekolog Birgitte Aspenes. Inngrepet tar vanligvis rundt 15 minutter, og du blir godt ivaretatt i rolige og trygge omgivelser. Inngrepet blir utført i narkose om du er veldig engstelig."
       }
     ],
     "linkedServices": [],
@@ -397,7 +439,13 @@
       "birgitte-aspenes",
       "ane-gerda-z-eriksson",
       "siri-klokstad"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/cyster": {
     "title": "Cyster på eggstokkene",
@@ -439,7 +487,7 @@
       {
         "id": "behandling",
         "heading": "Behandling",
-        "content": "Cyster på eggstokkene av en viss størrelse, som ikke blir borte av seg selv og som gir plager, er det anbefalt å operere bort. Dette gjøres vanligvis ved hjelp av en kikkehullsoperasjon. Da får man narkose og kirurgen fjerner cysten gjennom 3-4 hull i magen din. Inngrepet tar omtrent 45 minutter, men dette avhenger blant annet av hvor store cystene er. Ønsker du å snakke med en spesialist på dette, bestill time."
+        "content": "Cyster av en viss størrelse, som ikke blir borte av seg selv og som gir plager, anbefales operert bort. Dette gjøres vanligvis ved en kikkhullsoperasjon: du får narkose og kirurgen fjerner cysten gjennom 3–4 hull i magen. Inngrepet tar omtrent 45 minutter, avhengig av størrelsen."
       }
     ],
     "linkedServices": [],
@@ -447,7 +495,13 @@
       "ane-gerda-z-eriksson",
       "birgitte-aspenes",
       "henrik-michelsen-wahl"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/fjerne-livmor": {
     "title": "Fjerne livmor",
@@ -492,7 +546,13 @@
       "ane-gerda-z-eriksson",
       "henrik-michelsen-wahl",
       "thomas-fredrik-thaulow"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/graviditet": {
     "title": "Graviditet",
@@ -556,7 +616,13 @@
     "relatedSpecialistSlugs": [
       "ashi-ahmad",
       "madeleine-engen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/kirurgi": {
     "title": "Gynekologisk kirurgi",
@@ -601,7 +667,13 @@
       }
     ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/hormonforstyrrelser": {
     "title": "Hormonforstyrrelser",
@@ -637,12 +709,12 @@
       {
         "id": "pcos",
         "heading": "PCOS",
-        "content": "Polycystisk ovariesyndrom (PCOS) kjennetegnes ved at kjønnshormonene er i ubalanse. Dette kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PCOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPCOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. I dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur mot PCOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon."
+        "content": "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere omtalt som Polycystisk ovariesyndrom (PCOS).)\n\nDiagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir, noe som igjen kan føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon, eller 2–4 ganger i året ta tabletter som gir blødning, for å unngå risiko for celleforandringer i livmorslimhinnen som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens og har økt risiko for å utvikle diabetes mellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ingen spesiell test som gir diagnosen. Pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur, men det finnes medisiner og behandling som kan gjøre tilstanden bedre."
       },
       {
         "id": "pms-pmdd",
         "heading": "PMS og PMDD",
-        "content": "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75 % av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse) rammer 3-8 %.\n\nDe vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene.\n\nÅrsaken er relatert til svingende hormoner. Det er mulig å få god hjelp – du skal slippe å lide hver måned.\n\nFor spørsmål ta kontakt med oss eller bestill time."
+        "content": "Premenstruelt syndrom omfatter plagsomme fysiske og psykiske symptomer som opptrer regelmessig siste halvdel av syklus (lutealfasen). PMS (premenstruelt syndrom) er den milde formen som rammer opptil 75 % av alle kvinner, mens den alvorligere formen, PMDD (premenstruell dysforisk forstyrrelse), rammer 3–8 %.\n\nDe vanligste fysiske plagene er ømme bryst, oppblåsthet, magesmerter, vektøkning, hodepine, økt appetitt og tap av energi. Psykiske symptomer omfatter irritabilitet, humørsvingninger, depresjon, angst og indre uro. Noen kvinner kan også få selvmordstanker disse dagene.\n\nÅrsaken er relatert til svingende hormoner. Det er mulig å få god hjelp – du skal slippe å lide hver måned."
       }
     ],
     "linkedServices": [],
@@ -650,7 +722,13 @@
       "birgitte-mitlid-mork",
       "birgitte-aspenes",
       "siri-klokstad"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/hysteroskopi": {
     "title": "Hysteroskopi",
@@ -690,7 +768,13 @@
       }
     ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/labiaplastikk": {
     "title": "Labiaplastikk",
@@ -730,16 +814,22 @@
       }
     ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/robotkirurgi": {
-    "title": "Robotkirurgi – Gynekologi",
+    "title": "Robotassistert kirurgi – Gynekologi",
     "subtitle": "Nordens mest erfarne team innen robotassistert gynekologisk kirurgi.",
     "parentCategory": "Gynekologi",
-    "description": "CMedical er den eneste private aktøren i Norge som tilbyr robotassistert kirurgi innen gynekologi. Med da Vinci-systemet utfører vi avanserte inngrep med minimalt invasiv teknikk.\n\nRobotkirurgi gir bedre presisjon, mindre blødning, kortere sykehusopphold og raskere rekonvalesens sammenlignet med tradisjonell åpen kirurgi.",
+    "description": "CMedical er den eneste private aktøren i Norge som tilbyr robotassistert kirurgi innen gynekologi. Med da Vinci-systemet utfører vi avanserte inngrep med minimalt invasiv teknikk.\n\nRobotassistert kirurgi gir bedre presisjon, mindre blødning, kortere sykehusopphold og raskere rekonvalesens sammenlignet med tradisjonell åpen kirurgi.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
-      "Eneste private tilbyder av robotkirurgi i gynekologi i Norge",
+      "Eneste private tilbyder av robotassistert kirurgi i gynekologi i Norge",
       "da Vinci-systemet for maksimal presisjon",
       "Behandling av muskelknuter, dyp endometriose og hysterektomi",
       "Mindre smerter og kortere rekonvalesens",
@@ -752,8 +842,8 @@
         "answer": "Vi bruker robot til fjerning av muskelknuter, dyp endometriose, hysterektomi og enkelte andre komplekse inngrep."
       },
       {
-        "question": "Er robotkirurgi trygt?",
-        "answer": "Ja, robotkirurgi er vel dokumentert internasjonalt og gir ofte bedre resultater enn tradisjonelle metoder."
+        "question": "Er robotassistert kirurgi trygt?",
+        "answer": "Ja, robotassistert kirurgi er vel dokumentert internasjonalt og gir ofte bedre resultater enn tradisjonelle metoder."
       },
       {
         "question": "Henvisning",
@@ -764,9 +854,28 @@
         "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
       }
     ],
-    "sections": [],
+    "sections": [
+      {
+        "id": "robotassistert-kirurgi",
+        "heading": "Robotassistert kirurgi",
+        "content": "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde. Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning. Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner. De fleste pasientene kan reise hjem innen ett døgn. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ. Vi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP). Rask rehabilitering: Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling. En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Kortere sykemelding: Avhengig av jobb og inngrep kan du forvente en sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient). Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen. Presisjon som merkes: Med høyoppløselig 3D-kamera og avanserte instrumenter har kirurgen svært god kontroll. I bekkenet finnes ømfintlig vev som lett kan skades under kirurgi (f.eks. ved nervesparende operasjoner ved dyp endometriose eller fjerning av prostata). Robotassistert kirurgi gir bedre kontroll og lavere risiko ved slik nervedisseksjon. Ergonomi: Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling, noe som bidrar til økt konsentrasjon og mindre utmattelse."
+      },
+      {
+        "id": "safe-histology-surgery",
+        "heading": "Safe Histology Surgery",
+        "content": "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling."
+      }
+    ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [
+      "thomas-fredrik-thaulow"
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/spontanabort": {
     "title": "Spontanabort",
@@ -803,7 +912,169 @@
     "relatedSpecialistSlugs": [
       "birgitte-mitlid-mork",
       "ashi-ahmad"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "gynekologi/fodselsskader": {
+    "title": "Fødselsskader",
+    "subtitle": "Ingen ventetid • Ingen henvisning",
+    "parentCategory": "Gynekologi",
+    "description": "Fødselsskader er en samlebetegnelse på plager som kan oppstå etter en fødsel. Det kan være bristninger og arrvev, svekket bekkenbunn, diastase i magemuskulaturen, vaginale fremfall, urin- eller avføringslekkasje, eller smerter ved samleie. De fleste av disse plagene kan utredes og behandles. Plager etter fødsel bør undersøkes hos gynekolog. Det gjelder enten fødselen var nylig eller for flere år siden.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Henvisning",
+        "answer": "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke."
+      },
+      {
+        "question": "Sykemelding",
+        "answer": "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer."
+      },
+      {
+        "question": "Utredning",
+        "answer": "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter."
+      }
+    ],
+    "sections": [
+      {
+        "id": "section-0",
+        "heading": "Bristninger og arrvev",
+        "content": "Under fødselen kan det oppstå rifter i skjeden, mellomkjøttet (perineum) eller lukkemuskelen rundt endetarmen. Rifter graderes fra grad 1 til grad 4. Ved grad 3 og 4 er lukkemuskelen skadet, og dette kalles sfinkterskader. De fleste rifter leger seg godt. Noen kan likevel gi langvarige plager som smerter, stramme arr, nedsatt følsomhet eller ubehag ved samleie."
+      },
+      {
+        "id": "section-1",
+        "heading": "Svekket bekkenbunn",
+        "content": "Bekkenbunnen er muskulaturen som holder underlivsorganene på plass. Under graviditet og fødsel strekkes og belastes den, og hos noen blir den varig svekket. Det kan gi urinlekkasje, tyngdefølelse i underlivet, fremfall eller problemer med avføring. Målrettet bekkenbunnstrening hos fysioterapeut er ofte første behandlingsvalg. I noen tilfeller kan kirurgi være aktuelt."
+      },
+      {
+        "id": "section-2",
+        "heading": "Diastase (delte magemuskler)",
+        "content": "Diastase betyr at de rette magemusklene har delt seg på grunn av strekk under graviditeten. Det er vanlig etter fødsel, og hos mange går det gradvis tilbake av seg selv. Noen opplever likevel vedvarende svakhet i mage og kjerne, ryggsmerter eller en følelse av at magen henger ut. Da kan målrettet trening hjelpe, og i enkelte tilfeller kirurgi."
+      },
+      {
+        "id": "section-3",
+        "heading": "Vaginalt fremfall",
+        "content": "Fremfall vil si at livmoren, blæren eller endetarmen faller ned i eller ut av skjeden på grunn av svekket støttevev. Dette er vanlig etter fødsel, særlig flere år senere, og kan gi tyngdefølelse, ubehag eller lekkasje."
+      },
+      {
+        "id": "section-4",
+        "heading": "Urinlekkasje",
+        "content": "Lekkasje av urin ved hosting, nysing, trening eller trang er en av de vanligste fødselsrelaterte plagene. Den er godt behandlingsbar, og de fleste blir betydelig bedre med riktig utredning og oppfølging."
+      },
+      {
+        "id": "section-5",
+        "heading": "Avføringslekkasje",
+        "content": "Vansker med å holde på avføring eller luft kan være en følge av sfinkterskader under fødsel. Plagen er utredbar, og det finnes behandling."
+      },
+      {
+        "id": "section-6",
+        "heading": "Samleiesmerter og seksuelle plager",
+        "content": "Smerter ved samleie etter fødsel kan ha flere årsaker. Det kan være arrvev, stram bekkenbunn, tørre slimhinner (særlig i ammeperioden) eller psykiske faktorer. Vårt tverrfaglige team av gynekolog, sexolog, fysioterapeut og psykolog jobber sammen for å finne riktig behandling for deg."
+      },
+      {
+        "id": "section-7",
+        "heading": "Tverrfaglig tilnærming",
+        "content": "Fødselsskader handler sjelden om én enkelt plage. Mange har flere symptomer samtidig, og den beste behandlingen krever at flere fagpersoner jobber sammen. Hos CMedical har du tilgang til gynekolog, uroterapeut, fysioterapeut, sexolog, osteopat og psykolog under samme tak. Sammen skreddersyr vi utredning og behandling tilpasset deg."
+      }
+    ],
+    "linkedServices": [],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "gynekologi/fostermedisin": {
+    "title": "Fostermedisin",
+    "subtitle": "Ingen ventetid • Ingen henvisning",
+    "parentCategory": "Gynekologi",
+    "description": "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere. Deres kompetanse er din trygghet. Fostermedisin handler om fosterets helse og utvikling gjennom svangerskapet, og hos oss innebærer det tidlig ultralyd, NIPT og fosterdiagnostikk hos spesialist.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Henvisning",
+        "answer": "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke."
+      },
+      {
+        "question": "Utredning",
+        "answer": "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter."
+      }
+    ],
+    "sections": [
+      {
+        "id": "section-0",
+        "heading": "Tidlig ultralyd",
+        "content": "Vi skiller mellom tidlig ultralyd uke 6-10, uke 11-14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6-10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg."
+      },
+      {
+        "id": "section-1",
+        "heading": "Fosterdiagnostikk",
+        "content": "Dr. Ashi Ahmad har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp."
+      }
+    ],
+    "linkedServices": [],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "gynekologi/pmos": {
+    "title": "PMOS",
+    "subtitle": "Ingen ventetid • Ingen henvisning",
+    "parentCategory": "Gynekologi",
+    "description": "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PCOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen: Uregelmessige og sjeldne menstruasjoner; Polycystiske eggstokker; Hyperandrogenisme (økt behåring, akne og mannlig hårtap).\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Henvisning",
+        "answer": "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke."
+      },
+      {
+        "question": "Sykemelding",
+        "answer": "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer."
+      },
+      {
+        "question": "Utredning",
+        "answer": "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter."
+      }
+    ],
+    "sections": [],
+    "linkedServices": [],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "gynekologi/vulvalidelser": {
     "title": "Vulvalidelser",
@@ -865,13 +1136,19 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "ida-waagsbo-bjorntvedt"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/blaere": {
     "title": "Blære og urinveier",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Urologi",
-    "description": "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis man opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
+    "description": "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere. Blærefunksjonen er viktig for at kroppen skal opprettholde riktig væskebalanse og kvitte seg med avfallsstoffer. Når dette ikke fungerer, bør man kontakte en urolog.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis man opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -901,28 +1178,34 @@
       {
         "id": "blod-i-urinen",
         "heading": "Blod i urinen",
-        "content": "Synlig blod i urinen er ofte et tegn på potensielle urinveisproblemer eller sykdom. Det er derfor viktig å oppsøke en erfaren urolog for undersøkelse og rådgivning.\n\nVåre nyrer spiller en sentral rolle i å filtrere avfall og væske fra blodet for å produsere urin. Urinen blir skilt ut fra nyrene, sendes via urinlederne til urinblæren, før den skilles ut via urinrøret. Blod i urinen kan derfor stamme fra ulike deler av urinveissystemet. Det er flere mulige årsaker til blod i urinen, blant annet urinveisinfeksjoner, mulig kreft, medisinbruk, nyreinfeksjoner og forstørret prostata."
+        "content": "Synlig blod i urinen er ofte et tegn på potensielle urinveisproblemer eller sykdom. Det er derfor viktig å oppsøke en erfaren urolog for undersøkelse og rådgivning.\n\nVåre nyrer spiller en sentral rolle i å filtrere avfall og væske fra blodet for å produsere urin. Urinen blir skilt ut fra nyrene, sendes via urinlederne til urinblæren, før den skilles ut via urinrøret. Blod i urinen kan derfor stamme fra ulike deler av urinveissystemet. Det er flere mulige årsaker til blod i urinen. Blant annet kan det være indikasjon på urinveisinfeksjoner, mulig kreft, medisinbruk, nyreinfeksjoner og forstørret prostata.\n\nOpplever du blod i urinen, ta kontakt med oss eller bestill konsultasjon hos våre urologer."
       },
       {
         "id": "vannlatningsproblemer",
         "heading": "Vannlatningsproblemer",
-        "content": "Vannlatingsproblemer hos menn kan omfatte symptomer som plutselig sterk vannlatingstrang, hyppig vannlating, vanskeligheter med å starte vannlating, svak urinstråle og avbrutt vannlating. Problemene kan ha en rekke årsaker og det er derfor viktig å sjekke det hvis man har symptomer.\n\nUrineringsproblemer kan deles inn i **lagringssymptomer** og **tømningssymptomer**. Lagringssymptomer inkluderer plutselig sterk vannlatingstrang, hyppig vannlating, små urinmengder, nattlig vannlating, ubehag ved blærefylling og urinlekkasje. Tømningssymptomer innebærer vanskeligheter med å starte vannlating, svak urinstråle, følelse av ufullstendig tømming, avbrutt vannlating, behov for å anstrenge seg, etterskvetting, svie eller smerte under vannlating."
+        "content": "Vannlatingsproblemer hos menn kan omfatte symptomer som plutselig sterk vannlatingstrang, hyppig vannlating, vanskeligheter med å starte vannlating, svak urinstråle og avbrutt vannlating. Problemene kan ha en rekke årsaker og det er derfor viktig å sjekke det hvis man har symptomer.\n\nUrineringsproblemer kan deles inn i **lagringssymptomer** og **tømningssymptomer**. Lagringssymptomer inkluderer plutselig sterk vannlatingstrang, hyppig vannlating, små urinmengder, nattlig vannlating, ubehag ved blærefylling og urinlekkasje. Tømningssymptomer innebærer vanskeligheter med å starte vannlating, svak urinstråle, følelse av ufullstendig tømming, avbrutt vannlating, behov for å anstrenge seg, etterskvetting, svie eller smerte under vannlating, og tidligere opphør av vannlating. Hvis du har slike problemer er det viktig at du kontakter lege. Våre urologer er spesialister på dette og hjelper deg gjerne."
       },
       {
         "id": "tur-p-tur-b",
         "heading": "TUR-P og TUR-B",
-        "content": "**TUR-P** (Transuretral Reseksjon av Prostata) for forstørret prostata: TUR-P er en kirurgisk behandling for forstørret prostata. Ved dette inngrepet bruker kirurgen et urinrørskop for å skånsomt fjerne overflødig prostatavev. Pasienter som gjennomgår prosedyren ligger i narkose og kan normalt reise hjem dagen etter inngrepet.\n\n**TUR-B** (Transuretral Reseksjon av Blære) for blærekreft: TUR-B er en kirurgisk metode som brukes for å fjerne svulster i blæren. Kirurgen fjerner vevet gjennom urinrøret og sender det til analyse for å avgjøre behandlingsbehovet. Blærekreft kan manifestere seg som synlig blod i urinen, og derfor er det nødvendig med en grundig undersøkelse hos urolog."
+        "content": "**TUR-P** (Transuretral Reseksjon av Prostata) for forstørret prostata:\n\nTUR-P er en kirurgisk behandling for forstørret prostata. Ved dette inngrepet bruker kirurgen et urinrørskop for å skånsomt fjerne overflødig prostatavev. Pasienter som gjennomgår prosedyren ligger i narkose og kan normalt reise hjem dagen etter inngrepet.\n\n**TUR-B** (Transuretral Reseksjon av Blære) for blærekreft:\n\nTUR-B er en kirurgisk metode som brukes for å fjerne svulster i blæren. Kirurgen fjerner vevet gjennom urinrøret og sender det til analyse for å avgjøre behandlingsbehovet. Blærekreft kan manifestere seg som synlig blod i urinen, og derfor er det nødvendig med en grundig undersøkelse hos urolog. Dette inkluderer diagnostiske prosedyrer som cystoskopi og bildediagnostikk.\n\nØnsker du mer informasjon om dette, ikke nøl med å kontakte oss."
       },
       {
         "id": "innsnevring-urinroret",
         "heading": "Innsnevring i urinrøret",
-        "content": "Innsnevring i urinrøret, også kjent som uretrastriktur, kan forårsake problemer i nedre urinveier hos menn. Dette kan inkludere hyppige urinveisinfeksjoner og plutselige vannlatningsvansker.\n\nDiagnosen stilles ved å vurdere symptomer og utføre spesifikke medisinske undersøkelser som røntgen eller cystoskopi. Typiske symptomer inkluderer gradvis økende vanskeligheter med vannlating over tid. Urologiske undersøkelser er viktige for å bekrefte diagnosen."
+        "content": "Innsnevring i urinrøret, også kjent som uretrastriktur, kan forårsake problemer i nedre urinveier hos menn. Dette kan inkludere hyppige urinveisinfeksjoner og plutselige vannlatningsvansker.\n\nDiagnosen stilles ved å vurdere symptomer og utføre spesifikke medisinske undersøkelser som røntgen eller cystoskopi. Typiske symptomer inkluderer gradvis økende vanskeligheter med vannlating over tid. Urologiske undersøkelser er viktige for å bekrefte diagnosen.\n\nHvis du opplever slike symptomer, anbefales det å kontakte en lege eller en urolog for vurdering og behandling. Våre urologspesialister er her for å hjelpe deg."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "trond-jorgensen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/forhud": {
     "title": "Forhud",
@@ -964,7 +1247,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "trond-jorgensen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/infertilitet": {
     "title": "Mannlig infertilitet",
@@ -1006,13 +1295,19 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "trond-jorgensen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/nyrer": {
     "title": "Nyrer",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Urologi",
-    "description": "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robot-teknologi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep.",
+    "description": "Nyrene er et organ i kroppen som renser blodet ved å fjerne avfallsstoffer, overflødig væske og salter. Slik dannes det urin. I tillegg produserer nyrene hormoner som styrer blodtrykket og produksjonen av røde blodlegemer. Nyrene spiller derfor en viktig rolle for å holde kroppen sunn. Hos CMedical kan nyrene også opereres med robotassistert kirurgi, noe som gir større presisjon og bedre resultater ved kirurgiske inngrep – inkludert nefrektomi (fjerning av nyre).",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -1042,28 +1337,39 @@
       {
         "id": "nyrecyster",
         "heading": "Nyrecyster",
-        "content": "Nyrecyster er væskefylte hulrom som kan utvikle seg på nyrene. De er vanligvis godartede og oppdages ofte ved medisinske undersøkelser. Behandlingen avhenger av cystens størrelse, symptomer og mistanke om ondartethet:\n\n- **Overvåkning:** Små, asymptomatiske cyster overvåkes regelmessig.\n- **Drenasje:** Store eller symptomatiske cyster kan tømmes med en nål.\n- **Kirurgi:** Kirurgisk fjerning kan være nødvendig for store, symptomatiske eller potensielt ondartede cyster.\n- **Behandling av underliggende årsak:** Hvis cyster er relatert til en annen sykdom, behandles den underliggende tilstanden."
+        "content": "Nyrecyster er væskefylte hulrom som kan utvikle seg på nyrene. De er vanligvis godartede og oppdages ofte ved medisinske undersøkelser. Behandlingen avhenger av cystens størrelse, symptomer og mistanke om ondartethet:\n\n- **Overvåkning:** Små, asymptomatiske cyster overvåkes regelmessig.\n- **Drenasje:** Store eller symptomatiske cyster kan tømmes med en nål.\n- **Kirurgi:** Kirurgisk fjerning kan være nødvendig for store, symptomatiske eller potensielt ondartede cyster.\n- **Behandling av underliggende årsak:** Hvis cyster er relatert til en annen sykdom, behandles den underliggende tilstanden.\n\nFor mer informasjon om nyrecyster, ta kontakt med oss eller bestill en konsultasjon."
       },
       {
         "id": "tumor",
         "heading": "Tumor",
-        "content": "En nyretumor er en unormal vekst av celler i nyrene. De kan være enten godartede eller ondartede. Ondartede nyretumorer, som nyrekreft eller nyrekarsinom, utgjør en alvorlig helsefare. Nyretumorer kan utvikle seg i en eller begge nyrer og oppdages vanligvis ved bildeundersøkelser som røntgen eller ultralyd.\n\nBehandlingen av nyretumorer avhenger av flere faktorer, inkludert tumorstørrelse, type og utbredelse. Vanlige behandlingsalternativer inkluderer kirurgisk fjerning av tumoren, strålebehandling, kjemoterapi, målrettet terapi og immunterapi."
+        "content": "En nyretumor er en unormal vekst av celler i nyrene. De kan være enten godartede eller ondartede. Ondartede nyretumorer, som nyrekreft eller nyrekarsinom, utgjør en alvorlig helsefare. Nyretumorer kan utvikle seg i en eller begge nyrer og oppdages vanligvis ved bildeundersøkelser som røntgen eller ultralyd.\n\nBehandlingen av nyretumorer avhenger av flere faktorer, inkludert tumorstørrelse, type og utbredelse. Vanlige behandlingsalternativer inkluderer kirurgisk fjerning av tumoren, strålebehandling, kjemoterapi, målrettet terapi og immunterapi.\n\nDet er viktig å kontakte lege ved mistanke om en nyretumor for å få riktig diagnose og behandlingsplan. Tidlig påvisning og behandling kan være avgjørende for prognosen."
       },
       {
-        "id": "robotkirurgi-nyrekreft",
-        "heading": "Robotkirurgi for nyrekreft",
-        "content": "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotkirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotkirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene."
+        "id": "nefrektomi",
+        "heading": "Nefrektomi – fjerning av nyre",
+        "content": "Nefrektomi betyr kirurgisk fjerning av hele eller deler av en nyre. Inngrepet er ikke nødvendigvis knyttet til nyrekreft – det kan også være aktuelt ved blant annet store eller symptomgivende nyrecyster, alvorlig skade på nyren, gjentatte infeksjoner, hydronefrose med tap av nyrefunksjon, eller godartede tumorer som krever fjerning.\n\nHos oss utføres nefrektomi i hovedsak med robotassistert kirurgi. Det gir presisjon, små snitt, mindre blødning og raskere rekonvalesens enn tradisjonell åpen kirurgi. Ved enkelte tilfeller kan kirurgen velge å bevare så mye friskt nyrevev som mulig (partiell nefrektomi).\n\nHar du spørsmål rundt nefrektomi eller ønsker en vurdering, ta kontakt med oss."
       },
       {
-        "id": "nyrestein",
-        "heading": "Nyrestein",
-        "content": "Nyrestein, også kjent som nefrolithiasis, er små, faste formasjoner som dannes i nyrene når mineraler og salter i urinen krystalliserer. Disse steinene kan forårsake betydelig smerte når de beveger seg gjennom urinveiene.\n\nSymptomer på nyrestein kan være intense ryggsmerter, smerte i siden eller magen, hyppig vannlating, blod i urinen, og kvalme. De fleste nyresteiner er små nok til å passere naturlig, men i noen tilfeller kan de kreve medisinsk behandling.\n\nBehandlingen av nyrestein kan omfatte smertestillende medisiner, endringer i kostholdet, økt væskeinntak for å hjelpe steinene å passere, eller medisinske prosedyrer som knusing av steinene med sjokkbølger (ekstrakorporeal sjokkbølgeterapi) eller kirurgisk inngrep for å fjerne større steiner."
+        "id": "robotassistert-kirurgi-nyrekreft",
+        "heading": "Robotassistert kirurgi for nyrekreft",
+        "content": "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotassistert kirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotassistert kirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene. Det er viktig å merke seg at ikke alle pasienter er kandidater for robotassistert kirurgi, og kirurgen vil vurdere den beste tilnærmingen basert på pasientens individuelle forhold.\n\nHar du spørsmål knyttet til dette kan du kontakte oss på telefon."
+      },
+      {
+        "id": "blaerestein",
+        "heading": "Blærestein",
+        "content": "CMedical behandler ikke nyrestein, men vi tilbyr utredning og behandling av blærestein. Blærestein er harde formasjoner som dannes i urinblæren, ofte som følge av at urin blir stående og at avfallsstoffer krystalliseres. Tilstanden ses oftere hos menn, og henger gjerne sammen med forstørret prostata, dårlig blæretømming eller gjentatte urinveisinfeksjoner.\n\nVanlige symptomer kan være smerter eller svie ved vannlating, hyppig vannlating, plutselig avbrutt urinstråle, blod i urinen og smerter nederst i magen.\n\nUtredning gjøres med urinprøve, ultralyd og eventuelt cystoskopi (kikkertundersøkelse av blæren). Behandlingen avhenger av størrelse og årsak – små steiner kan av og til passere av seg selv, mens større steiner fjernes ved et kirurgisk inngrep gjennom urinrøret. Samtidig er det viktig å behandle den underliggende årsaken, for eksempel forstørret prostata, for å unngå nye steiner.\n\nMistenker du blærestein, ta kontakt med oss for en vurdering hos urolog."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "nabeel-yousaf-khan"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/prostata": {
     "title": "Prostata",
@@ -1099,23 +1405,29 @@
       {
         "id": "prostataundersokelse",
         "heading": "Hvordan foregår en prostataundersøkelse?",
-        "content": "En prostataundersøkelse består av PSA-blodprøve og ultralyd av prostata. Det er også nødvendig å kjenne på prostata gjennom endetarmen. Denne undersøkelsen kalles også for rektal prostataeksaminasjon (DRE). Legen eller urologen kjenner etter følgende:\n\n- Knudrete prostatakjertel\n- Asymmetri\n- Uregelmessigheter i prostatakjertel\n\nDet er mulig å få gjennomført prostataundersøkelser hos fastlegen. Stadig flere menn velger imidlertid å oppsøke privat urolog direkte for å sjekke prostata og stille spørsmål rundt prostatakreft."
+        "content": "En prostataundersøkelse består av PSA-blodprøve og ultralyd av prostata. Det er også nødvendig å kjenne på prostata gjennom endetarmen. Denne undersøkelsen kalles også for rektal prostataeksaminasjon (DRE). Legen eller urologen kjenner etter følgende:\n\n- Knudrete prostatakjertel\n- Asymmetri\n- Uregelmessigheter i prostatakjertel\n\nDet er mulig å få gjennomført prostataundersøkelser hos fastlegen. Stadig flere menn velger imidlertid å oppsøke privat urolog direkte for å sjekke prostata og stille spørsmål rundt prostatakreft. Dersom årlig prostata-sjekk gir indikasjon på prostatakreft, forstørret prostata eller betennelser, er det nødvendig med videre undersøkelser.\n\nVi har noen av landets fremste eksperter på prostata. Har du spørsmål kan du kontakte oss eller bestille time til konsultasjon."
       },
       {
         "id": "naar-sjekke",
         "heading": "Når skal man begynne å sjekke prostata?",
-        "content": "«Jeg anbefaler alle menn i 50-årsalderen å ta en PSA-test hvert år. Menn under 50 år som tilhører en risikogruppe bør også sjekke prostata jevnlig», oppfordrer Dr. Jørgensen.\n\nMed risikogrupper menes menn som har ett eller flere tilfeller av prostatakreft i familien. Risikogrupper inkluderer også menn som har kvinnelige slektninger med tilfeller av brystkreft eller eggstokkreft i ung alder.\n\nDet er 12,5 % sannsynlighet for at en mann får diagnosen prostatakreft frem til han er 75 år, med andre ord vil mer enn 1 av 10 menn få diagnosen før eller siden i sitt voksne liv."
+        "content": "«Jeg anbefaler alle menn i 50-årsalderen å ta en PSA-test hvert år. Menn under 50 år som tilhører en risikogruppe bør også ha sjekke prostata jevnlig», oppfordrer Dr. Jørgensen.\n\n«Med risikogrupper mener jeg menn som har ett eller flere tilfeller av prostatakreft i familien. Risikogrupper inkluderer også menn som har kvinnelige slektninger med tilfeller av brystkreft eller eggstokkreft i ung alder.»\n\nDr. Trond Jørgensen er tydelig på at jevnlig prostatakontroll og sjekk av PSA-verdier er viktig i kampen mot prostatakreft. Grunnet mye oppmerksomhet rundt prostatakreft de senere år, oppdages de fleste prostatakrefttilfellene i dag i et tidlig stadium. Derfor har de fleste menn ikke nevneverdige symptomer som kan lede en frem til diagnosen.\n\n«Det er 12,5 % sannsynlighet for at en mann får diagnosen prostatakreft frem til han er 75 år, med andre ord vil mer enn 1 av 10 menn få diagnosen før eller siden i sitt voksne liv. Risikoen øker med alder, men menn ned i 40-årsalder får diagnosen hvert eneste år», forteller Dr. Jørgensen."
       },
       {
         "id": "robotkirurgi",
-        "heading": "Robotkirurgi",
-        "content": "Robotassistert laparoskopisk prostatektomi (RALP), det vil si kirurgisk fjerning av prostata med kikkhullsoperasjon, er et av våre spesialområder. Som eneste private helsespesialist siden 2018 tilbyr vi kort ventetid på ledende robotkirurger og eksperter innen prostata og urologi.\n\nVi har Norges mest erfarne team innen robotkirurgi, med over 20 års erfaring, og det største volumet av robotassisterte inngrep i landet. Vårt team består av svært erfarne kirurger, leger, anestesipersonell og sykepleiere, noe som sikrer en stille og rolig atmosfære i alle ledd.\n\nVi behandler både prostatakreft og godartede prostataforstørrelser, og har det mest moderne utstyret tilgjengelig i Norge."
+        "heading": "Robotassistert kirurgi",
+        "content": "Robotassistert laparoskopisk prostatektomi (RALP), det vil si kirurgisk fjerning av prostata med kikkhullsoperasjon, er et av våre spesialområder. Som eneste private helsespesialist siden 2018 tilbyr vi kort ventetid på ledende robotkirurger og eksperter innen prostata og urologi.\n\nVi har Norges mest erfarne team innen robotkirurgi, med over 20 års erfaring, og det største volumet av robotassisterte inngrep i landet. Vårt team består av svært erfarne kirurger, leger, anestesipersonell og sykepleiere, noe som sikrer en stille og rolig atmosfære i alle ledd.\n\nVi behandler både prostatakreft og godartede prostataforstørrelser, og har det mest moderne utstyret tilgjengelig i Norge. Ønsker du en second opinion ved prostatakreft, eller vurderer behandling, kan vi hjelpe. Ta kontakt med oss for mer informasjon eller bestill time."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "trond-jorgensen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/refertilisering": {
     "title": "Refertilisering",
@@ -1156,7 +1468,7 @@
       {
         "id": "for-under-etter",
         "heading": "Før, under og etter operasjonen",
-        "content": "Reversering av sterilisering gjøres i lett narkose og du kan reise hjem samme dag. Du kan oppleve litt smerter og det kan være behov for noe smertestillende. For å redusere blødning og smerter bør du unngå stor fysisk aktivitet de første dagene etter inngrepet.\n\nDu kan oppleve noe hevelse og blåfarging av huden omkring der huden er åpnet.\n\nSeksuell aktivitet kan gjenopptas etter 2–3 uker.\n\nHar du fysisk krevende arbeide? Snakk med kirurgen om eventuelt behov for sykemelding. Kontroll avtales med kirurgen."
+        "content": "Reversering av sterilisering gjøres i lett narkose og du kan reise hjem samme dag. Du kan oppleve litt smerter og det kan være behov for noe smertestillende. For å redusere blødning og smerter bør du unngå stor fysisk aktivitet de første dagene etter inngrepet.\n\nDu kan oppleve noe hevelse og blåfarging av huden omkring der huden er åpnet.\n\nSeksuell aktivitet kan gjenopptas etter 2–3 uker.\n\nHar du fysisk krevende arbeide? Snakk med kirurgen om eventuelt behov for sykemelding.\n\nKontroll avtales med kirurgen."
       },
       {
         "id": "saedkontroll",
@@ -1167,13 +1479,19 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "nabeel-yousaf-khan"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/robotkirurgi": {
     "title": "Robotassistert kirurgi",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Urologi",
-    "description": "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nVi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi, brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP).",
+    "description": "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -1201,20 +1519,53 @@
     ],
     "sections": [
       {
+        "id": "om-robotassistert-kirurgi",
+        "heading": "Slik fungerer robotassistert kirurgi",
+        "content": "Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nRobotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.\n\nRobotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)\n\nHos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.\n\nLurer du på om robotassistert kirurgi er riktig for deg? Vi hjelper deg gjerne, kontakt oss på telefon 22 60 00 50."
+      },
+      {
         "id": "rask-rehabilitering",
         "heading": "Rask rehabilitering",
-        "content": "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen."
+        "content": "Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling, slik at du kommer deg trygt og godt gjennom hele operasjonsforløpet."
+      },
+      {
+        "id": "raskere-restitusjon",
+        "heading": "En raskere vei til restitusjon",
+        "content": "Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Det gir en roligere og mer forutsigbar opplevelse etter operasjonen."
+      },
+      {
+        "id": "kortere-sykemelding",
+        "heading": "Kortere sykemelding – raskere tilbake til hverdagen",
+        "content": "Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–6 uker. Kirurgen spesifiserer perioden per pasient. Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen. Noen studier indikerer også mindre smerter etter robotassistert kirurgi sammenlignet med vanlig kikkehullskirurgi (laparoskopi)."
       },
       {
         "id": "presisjon",
         "heading": "Presisjon som merkes",
-        "content": "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata.\n\n**Ergonomi – også for kirurgen:** Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.\n\n**Erfarne spesialister – trygg behandling:** Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen."
+        "content": "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata. Nerveskader i bekkenet kan gi seksuelle dysfunksjoner og problemer med blæretømming, både hos kvinner og menn. Robotassistert kirurgi gir bedre kontroll og er et effektivt verktøy for å gjennomføre slik nervedisseksjon med lavere risiko."
+      },
+      {
+        "id": "ergonomi",
+        "heading": "Ergonomi – også for kirurgen",
+        "content": "Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil."
+      },
+      {
+        "id": "safe-histology-surgery",
+        "heading": "Safe Histology Surgery",
+        "content": "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
-      "nicolai-wessel"
-    ]
+      "bjorn-brennhovd",
+      "nicolai-wessel",
+      "thomas-fredrik-thaulow"
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/sterilisering": {
     "title": "Sterilisering",
@@ -1262,7 +1613,13 @@
     "relatedSpecialistSlugs": [
       "trond-jorgensen",
       "nabeel-yousaf-khan"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "urologi/testikler": {
     "title": "Testikler og pung",
@@ -1309,7 +1666,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "nabeel-yousaf-khan"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/infertilitet": {
     "title": "Infertilitet",
@@ -1368,7 +1731,13 @@
       "jackson-tok",
       "birgitte-mitlid-mork",
       "kjersti-brenden"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/assistert-befruktning": {
     "title": "Assistert befruktning",
@@ -1435,74 +1804,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-ophaug"
-    ]
-  },
-  "fertilitet/ivf": {
-    "title": "IVF - Utredning og behandlingsprosess",
-    "subtitle": "Uten henvisning • Ingen ventetid",
-    "parentCategory": "Fertilitet",
-    "description": "IVF står for in vitro-fertilisering, også kalt prøverørsbehandling. IVF er en form for assistert befruktning der egget blir befruktet utenfor kroppen.\n\nDet er mange som synes dette virker komplisert og vanskelig. Derfor har vi lav terskel for at du kan ta kontakt og få svar på dine spørsmål. Hos oss vil du alltid få grundig informasjon og oppfølging.",
-    "benefitsTitle": "Hvorfor velge oss",
-    "benefits": [],
-    "process": [],
-    "faqs": [
-      {
-        "question": "Trenger jeg henvisning?",
-        "answer": "Nei, ingen henvisning er nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
-      },
-      {
-        "question": "Hvor lang er ventetiden?",
-        "answer": "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke."
-      },
-      {
-        "question": "Kan dere skrive ut sykemelding?",
-        "answer": "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer."
-      },
-      {
-        "question": "Hva innebærer en utredning?",
-        "answer": "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter."
-      },
-      {
-        "question": "Forsikring",
-        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
-      }
     ],
-    "sections": [
-      {
-        "id": "forste-motet",
-        "heading": "Det første møtet",
-        "content": "Hos oss skal du føle deg trygg og godt ivaretatt fra første møte. Vi vil skape rom for en god samtale om dine tanker og ønsker for behandlingen. Etter den første samtalen, er neste steg en grundig fertilitetssjekk av deg, og/eller din partner.\n\n**Fertilitetssjekk i tre steg:**\n- **Kvinner:** Grundig gynekologisk undersøkelse med innvendig ultralyd. Vi sjekker at alt ser bra ut i livmoren og eggstokkene.\n- **Menn:** Sædanalyse der vi sjekker antall spermier, konsentrasjon og bevegelighet.\n- **Blodprøver:** Vi tar blodprøver for å avdekke sykdommer som hepatitt B og C, syfilis og HIV/AIDS. For kvinner kan vi også måle hormoner og eggreserver."
-      },
-      {
-        "id": "hvem-kan-benytte",
-        "heading": "Hvem kan benytte IVF?",
-        "content": "Heterofile, lesbiske par og enslige kvinner kan benytte IVF-behandling. IVF kan tilbys både når det er problemer med kvinnelig og/eller mannlig infertilitet. Vi har ikke en absolutt øvre aldersgrense for mannen, dette vurderes individuelt.\n\nØvre aldersgrense for kvinnen ved inseminasjon eller innsetting av befruktet egg er satt av Bioteknologiloven, og kan ikke være eldre enn fylte 46 år."
-      },
-      {
-        "id": "hvordan-foregaar",
-        "heading": "Hvordan foregår IVF?",
-        "content": "IVF-behandling gjøres med en regulering av hormoner, samt en stimuleringsprosess for å modne flere egg.\n\n**I hovedtrekk kan vi dele IVF-behandling inn i åtte ulike faser:**\n1. Fertilitetssjekk\n2. Hormonstimulering\n3. Ultralyd\n4. Egguthenting\n5. Prøverørsbefruktning\n6. Tilbakesetting\n7. Ventetiden mellom innsett og graviditetstest\n8. Graviditetstest"
-      },
-      {
-        "id": "forste-faser",
-        "heading": "De første fasene ved IVF-behandling",
-        "content": "Neste steg i IVF-behandlingen er hormonstimulering. Ved hormonstimulering vil flere egg modne i løpet av en syklus, slik at sjansen for å bli gravid økes. Eggene hentes ut ved et lite inngrep som gjøres med lokalbedøvelse.\n\nNår stimuleringen nærmer seg ferdig, vil du få time til en innvendig ultralyd. Her vil vi undersøke om slimhinnen i livmoren samt antall og størrelsen av folliklene er slik vi ønsker."
-      },
-      {
-        "id": "egguthenting",
-        "heading": "Egguthenting",
-        "content": "Når det er tid for å gjøre en egguthenting vil vi ta dere godt imot, og gi dere all den informasjonen dere trenger for resten av dagen. Dere vil også få tildelt et eget rom hvor dere kan hvile både før og etter egguttak. Et egguttak vil normalt sett ta 15–25 minutter.\n\nVi ringer dere med resultatene av befruktningen dagen etter uttaket og avtaler time for innsett dersom det er mulig."
-      },
-      {
-        "id": "emosjonell-prosess",
-        "heading": "En emosjonell prosess",
-        "content": "Vi har stor forståelse for at det er mange følelser som spiller inn, og vi ønsker å være en støttespiller for deg og dere. Å starte en IVF-behandling kan for noen oppleves som tøft, mens for andre kan det oppfattes som en lettelse over at noe endelig skjer.\n\nSom et ledd i arbeidet med at du skal føle deg trygg og ivaretatt vil vi etterstrebe at du får møte en fast sykepleier og fertilitetslege ved dine besøk hos oss."
-      }
-    ],
-    "linkedServices": [],
-    "relatedSpecialistSlugs": [
-      "kristian-ophaug"
-    ]
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/eggfrys": {
     "title": "Eggfrys",
@@ -1564,7 +1872,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-ophaug"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/donorbehandling": {
     "title": "Donorbehandling",
@@ -1616,7 +1930,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-ophaug"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/hysteroskopi": {
     "title": "Hysteroskopi",
@@ -1663,7 +1983,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-ophaug"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/saedanalyse": {
     "title": "Sædanalyse",
@@ -1720,7 +2046,13 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-ophaug"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "fertilitet/teamet": {
     "title": "Fertilitetsteamet",
@@ -1752,13 +2084,19 @@
     ],
     "sections": [],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "ortopedi/fot-ankel": {
     "title": "Fot og ankel",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Ortopedi",
-    "description": "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    "description": "Vi tilbyr alle subspesialiteter innen ortopedisk fot- og ankelkirurgi, og våre spesialister kan utføre alle typer inngrep. Ved flere diagnoser benytter vi avanserte minimalt invasive operasjonsmetoder kalt **MIS (Minimally Invasive Surgery)** og **MICA (Minimally Invasive Chevron-Akin)**. Dette er operasjonsmetoder — ikke diagnoser — som lar oss korrigere feilstillinger og senerelaterte plager gjennom svært små snitt, med mindre vevsskade, mindre smerte og raskere rehabilitering. Hvilken metode som er aktuell for deg avhenger av diagnosen og funn ved undersøkelse.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -1786,6 +2124,11 @@
     ],
     "sections": [
       {
+        "id": "hallux-valgus",
+        "heading": "Hallux valgus (skjev stortå)",
+        "content": "Hallux valgus er en feilstilling der stortåen vinkles mot de andre tærne, samtidig som det dannes en kul (knyst) på innsiden av foten. Tilstanden gir ofte smerter ved bruk av sko, hevelse og gnagsår, og kan over tid endre belastningen av hele forfoten.\n\n**Behandling:** Ved milde plager kan brede sko, innleggssåler og fysioterapi være tilstrekkelig. Når plagene vedvarer er kirurgi aktuelt.\n\n**Operasjonsmetode — MIS / MICA:** Hos oss utfører vi inngrepet med minimalt invasiv teknikk (MIS / MICA — Minimally Invasive Chevron-Akin). Korrigeringen av stortåen gjøres gjennom svært små snitt, med presise beinkutt og fiksering med skruer. Sammenlignet med åpen kirurgi gir metoden generelt mindre hevelse, mindre arrdannelse og raskere mobilisering. MIS og MICA er operasjonsmetoder vi velger ut fra diagnose og funn, ikke egne diagnoser i seg selv."
+      },
+      {
         "id": "kompartment-syndrom",
         "heading": "Kompartment-syndrom",
         "content": "Muskelhinnen er ikke ettergivende og tøyes ikke i forhold til muskulaturen. Dette fører til økt trykk i muskulaturen og redusert blodsirkulasjon som resulterer i smerter (manglende blodtilstrømning gir smerter på grunn av oksygenmangel). Dette skjer oftest i fremre ytre leggmuskelkompartment. Smertene varer kun i aktivitet og forsvinner som regel etter trening og i hvile.\n\n**Behandling:** Behandling av kronisk kompartment-syndrom er i første omgang å unngå provoserende belastning samt alternativ trening i en periode på 3 måneder. Deretter gjenopptas treningen gradvis med tilpasset skotøy og god støtdempning. Dersom plagene kommer tilbake, er det grunn til å vurdere operasjon.\n\n**Operasjon:** Operasjon av kronisk kompartment-syndrom foregår i narkose. Muskelhinnene spaltes gjennom to små snitt i huden."
@@ -1807,13 +2150,19 @@
       }
     ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "ortopedi/hofte": {
     "title": "Hofte",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Ortopedi",
-    "description": "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfeller repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer.\n\nKontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker.",
+    "description": "Hos CMedical tilbyr vi både standard hofteartroskopi og mer avanserte inngrep i hoften. I tillegg til behandling av labrumskader, FAI (femoroacetabulær impingement) og bruskskader, gjør vi avanserte prosedyrer som tenodese av psoas- og iliopsoassenen, reinsertering av leddleppen og rekonstruksjon ved komplekse senerelaterte plager.\n\nVi opererer i hovedsak yngre, aktive pasienter med idrettsrelaterte hofteskader, der målet er å bevare leddet lengst mulig og få deg trygt tilbake til aktivitet. Med moderne kikkhullsteknikk kan skader i mange tilfeller repareres med små snitt og rask rehabilitering.\n\nHofteskopi utføres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime avtales ca. 6–8 uker etter operasjonen. Sykmeldingens lengde varierer fra 4–6 uker, avhengig av inngrepet og arbeidsoppgaver.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -1839,17 +2188,29 @@
         "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
       }
     ],
-    "sections": [],
+    "sections": [
+      {
+        "id": "hofteskopi",
+        "heading": "Hofteskopi — kikkhullsoperasjon av hofteleddet",
+        "content": "Behandling av skader i selve hofteleddet kan med moderne teknikk utføres som kikkhullsoperasjon. Ved hofteskopi kan skader i mange tilfelle repareres slik at leddet kan bevares lengst mulig. Jo mer skadet leddet er, desto mindre sikkert er det at leddet blir helt smertefritt. Mindre skader kan også føre til behov for hofteprotese på sikt. De fleste pasienter opplever betydelig lindring etter ca. 3 måneder.\n\nHofteskopi utføres ved hjelp av små snitt (kikkhull) som gir kirurgen tilgang til hofteleddet. Operasjonen gjøres under narkose og tar vanligvis 1–2 timer. Etter operasjonen overvåkes du før du kan reise hjem, vanligvis etter 1–2 timer. Kontrolltime på poliklinikken avtales ca. 6–8 uker etter operasjonen. Sykemeldingens lengde avhenger av operasjonen og arbeidsoppgaver, og varierer fra 4–6 uker."
+      }
+    ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-marstrand-warholm"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "ortopedi/hand-albue": {
     "title": "Hånd og albue",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Ortopedi",
-    "description": "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    "description": "Hånd- og albuekirurgi er et område der vi har samlet noen av landets mest erfarne spesialister. Ved avansert kirurgi jobber kirurgene våre ofte to og to — i såkalte «to-spann» — slik at to spesialister står sammen ved operasjonsbordet. Dette gir ekstra trygghet, presisjon og kvalitet i kompliserte inngrep, og er en arbeidsform vi mener pasienten fortjener.\n\nVi tilbyr utredning og behandling av blant annet karpaltunnelsyndrom, tennisalbue, håndleddsplager, senebetennelser, nerveskader og artroskopisk hånd- og albuekirurgi. Etter avanserte inngrep får du tett oppfølging av håndterapeut.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -1893,13 +2254,19 @@
       }
     ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "ortopedi/kne": {
     "title": "Kne",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Ortopedi",
-    "description": "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid.",
+    "description": "Hos CMedical er korsbånd- og meniskskader hovedområdene innen knekirurgi. Vi tilbyr utredning, kirurgi og oppfølging av idrettsrelaterte og degenerative skader i menisk, korsbånd og leddbånd. Vi utfører ikke protesekirurgi.\n\nVåre knekirurger har lang erfaring med avansert artroskopisk teknikk, korsbåndsrekonstruksjon og meniskreparasjon. Målet er å bevare leddet, gjenopprette stabilitet og få deg trygt tilbake til aktivitet.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [],
     "process": [],
@@ -1927,15 +2294,31 @@
     ],
     "sections": [
       {
+        "id": "om-knebehandling",
+        "heading": "Om knebehandling hos CMedical",
+        "content": "Vi tilbyr alle subspesialiteter innen ortopedisk kirurgi, og våre spesialister kan utføre alle typer ortopediske operasjoner. Bestill time hos en erfaren ortoped med kort ventetid."
+      },
+      {
         "id": "bruskskader",
         "heading": "Bruskskader i kneet",
-        "content": "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet.\n\nArtrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50 åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd.\n\n**Symptomer:** Smerter ved aktivitet, hevelse og stivhet (ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
+        "content": "Artrose, eller slitasjegikt, er en progressiv degenererende sykdom der leddbrusken slites ned og meniskene kan bli utslitte. Leddspalten forsnevres og beinpåleiringer dannes rundt leddet. Artrose er delvis en genetisk sykdom, delvis aldersrelatert, og blir forverret ved mye belastning over tid. 40–50-åringer begynner som regel å kjenne til leddsmertene, men tilstanden kan oppstå i yngre alder etter skader som meniskskader, korsbåndskader eller beinbrudd."
+      },
+      {
+        "id": "symptomer",
+        "heading": "Symptomer og problemer",
+        "content": "Sliter du med bruskskader i kneet? Symptomer inkluderer smerter ved aktivitet, hevelse og stivhet (dette skyldes ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "marc-jacob-strauss"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "ortopedi/skulder": {
     "title": "Skulder",
@@ -1970,30 +2353,36 @@
     "sections": [
       {
         "id": "kalkskulder",
-        "heading": "Kalkskulder",
-        "content": "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen.\n\nOfte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig, dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
+        "heading": "Skulderperitendinitt eller kalkskulder",
+        "content": "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen. Ofte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig, hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
       },
       {
         "id": "slap",
-        "heading": "SLAP",
-        "content": "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomy)."
+        "heading": "Hva er SLAP-lesjon og SLAP-skader?",
+        "content": "SLAP (Superior Labrum Anterior to Posterior) er øvre leddleppe (labrum)-skade i skulderbladskålen (glenoid) og indikerer en skadetype hvor øvre del av leddleppen i skulderen med feste for bicepssenen er løs.\n\n**Symptomer på SLAP-lesjon og skader:** Smerter og av og til kneppfølelse i skulderen, spesielt ved kasting. Diagnosen stilles med legeundersøkelse, MR og artroskopi.\n\n**Operasjon av SLAP-lesjon:** Med leddkikkert og mikrokirurgisk teknikk sys leddleppen og bicepssenefestet på plass mot leddskålen. Alternativt løsnes bicepssenen fra leddleppen og slippes ut i seneskjeden (bicepstenotomi)."
       },
       {
         "id": "frozen-shoulder",
         "heading": "Frozen shoulder",
-        "content": "Frozen shoulder er en betennelse i leddhinnen i skulderleddet. Det er en smertefull tilstand hvor man opplever smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten gjennom å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
+        "content": "En betennelse i leddhinnen i skulderleddet. En smertefull tilstand med smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet, og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten ved å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
       }
     ],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "tom-henry-sundoen"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "flere-fagomrader/endokrinologi": {
     "title": "Endokrinologi",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Flere fagområder",
-    "description": "Endokrinologi er en medisinsk spesialitet som handler om hormonsystemet og sykdommer knyttet til kjertler som produserer hormoner, som for eksempel skjoldbruskkjertelen, binyrene, hypofysen og biskjoldkjertlene.\n\nEndokrinologer utreder, behandler og følger opp pasienter med hormonelle forstyrrelser. For å finne ut om du har en hormonell sykdom starter vi med en grundig konsultasjon og undersøkelse, som ofte inkluderer blodprøver og eventuelt bildeundersøkelser.\n\nHar du plager knyttet til hormoner, stoffskifte, diabetes eller andre endokrine tilstander, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
+    "description": "Endokrinologi er en medisinsk spesialitet som handler om hormonsystemet og sykdommer knyttet til kjertler som produserer hormoner, som for eksempel skjoldbruskkjertelen, binyrene, hypofysen og biskjoldkjertlene. Endokrinologer utreder, behandler og følger opp pasienter med hormonelle forstyrrelser. For å finne ut om du har en hormonell sykdom starter vi med en grundig konsultasjon og undersøkelse, som ofte inkluderer blodprøver og eventuelt bildeundersøkelser. Har du plager knyttet til hormoner, stoffskifte, diabetes eller andre endokrine tilstander, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
       "Erfarne endokrinologer med spisskompetanse",
@@ -2028,47 +2417,17 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "ersan-krckov"
-    ]
-  },
-  "flere-fagomrader/hudlege": {
-    "title": "Hudlege",
-    "subtitle": "Ingen ventetid • Ingen henvisning",
-    "parentCategory": "Flere fagområder",
-    "description": "Dermatologi og venerologi er et medisinsk fagfelt som omhandler hud, hår, negler og slimhinner, og hvordan ulike tilstander påvirker hudhelsen. Vi utreder og behandler et bredt spekter av hudlidelser – fra vanlige tilstander som akne, eksem, rosacea, perioral dermatitt og psoriasis, til mer komplekse diagnoser som hudkreft og autoimmune tilstander i hud.\n\nI tillegg tilbys behandling av vorter, overdreven svette og solskader, samt føflekksjekk og fjerning ved behov.\n\nVi tilbyr grundig vurdering og behandling tilpasset din hud og dine behov – enten du søker medisinsk hjelp eller ønsker faglig rådgivning for sunnere hud.",
-    "benefitsTitle": "Hvorfor velge oss",
-    "benefits": [
-      "Bredt spekter av hudlidelser – akne, eksem, rosacea, psoriasis",
-      "Føflekksjekk og fjerning ved behov",
-      "Behandling av hudkreft og autoimmune tilstander",
-      "Vortebehandling og solskader",
-      "Grundig vurdering tilpasset din hud"
     ],
-    "process": [],
-    "faqs": [
-      {
-        "question": "Henvisning",
-        "answer": "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
-      },
-      {
-        "question": "Ventetid",
-        "answer": "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!"
-      },
-      {
-        "question": "Kan dere skrive ut sykemelding?",
-        "answer": "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer."
-      },
-      {
-        "question": "Hva skjer ved første konsultasjon?",
-        "answer": "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter."
-      },
-      {
-        "question": "Forsikring",
-        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
-      }
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Stoffskifte",
+      "Diabetes",
+      "Binyrer og hormoner"
     ],
-    "sections": [],
-    "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "heroVideo": ""
   },
   "flere-fagomrader/ernaringsfysiolog": {
     "title": "Ernæringsfysiolog",
@@ -2121,22 +2480,25 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "mari-borge-eskerud"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Vekt og kosthold",
+      "Matintoleranser",
+      "Sykdomsernæring"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/gastrokirurgi": {
-    "title": "Gastrokirurgi",
+    "title": "Mage- og tarmlidelser (Gastrokirurgi)",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Flere fagområder",
-    "description": "Gastrokirurgi er en medisinsk spesialitet som omhandler kirurgiske inngrep i fordøyelsessystemet, inkludert mage, tarm, lever, galleblære og bukspyttkjertel. Dette kan være operasjoner for å behandle tilstander som magekreft, tarmlidelser, gallestein og andre gastrointestinale sykdommer. Det inkluderer også fedmekirurgi, som for eksempel Gastric Sleeve, der målet er varig vektreduksjon og bedret helse.\n\nGastrokirurger benytter avanserte teknikker som kikkhullskirurgi og robotassistert kirurgi for å tilby mindre invasive behandlinger. Hos oss får du tilgang til noen av landets fremste spesialister.",
+    "description": "Mage og tarmkirurgi (gastrokirurgi) omhandler kirurgiske inngrep i fordøyelsessystemet. Hos oss møter du erfarne spesialister innen fagfeltet. Vi tilbyr et helhetlig og tverrfaglig tilbud, der avansert medisinsk teknologi møter tett oppfølging fra kirurger og klinisk ernæringsfysiolog.",
     "benefitsTitle": "Hvorfor velge oss",
-    "benefits": [
-      "Robotassistert bariatrisk kirurgi (sleeve gastrektomi)",
-      "Kikkhullsoperasjoner for gallestein",
-      "Utredning og behandling av endetarmsplager",
-      "Brokkbehandling med kikkehull og åpen teknikk",
-      "Gratis digital førstekonsultasjon for fedmevurdering",
-      "Tverrfaglig oppfølging med ernæringsfysiolog"
-    ],
+    "benefits": [],
     "process": [],
     "faqs": [
       {
@@ -2162,20 +2524,38 @@
     ],
     "sections": [
       {
-        "id": "bariatrisk-kirurgi",
-        "heading": "Bariatrisk kirurgi",
-        "content": "Med bariatrisk kirurgi kan vi tilby trygge og varige løsninger for vektreduksjon."
-      },
-      {
-        "id": "sleeve-gastrektomi",
-        "heading": "Sleeve gastrektomi",
-        "content": "Robotassistert kirurgi for sleeve gastrektomi – rSG – er en moderne form for laparoskopisk (kikkehull) overvektskirurgi, hvor den nyeste teknologien brukes for å oppnå enda større presisjon enn ved tradisjonell teknikk. Under dette inngrepet fjernes 60–80% av magesekken, og den gjenværende delen formes til en smal såkalt «sleeve» som begrenser matinntaket. Dette kan føre til betydelig vekttap, samtidig som kroppens evne til å ta opp næringsstoffer bevares.\n\nVed laparoskopisk robotassisterte inngrep benytter kirurgen tynne instrumenter som føres inn gjennom små snitt i bukveggen, i stedet for å lage et større snitt som ved tradisjonell åpen kirurgi. Denne skånsomme tilnærmingen gir flere fordeler for pasienten: mindre blodtap, mindre smerter, kortere restitusjonstid og penere kosmetisk resultat.\n\nDet er viktig å være klar over at det ikke er en robot som utfører operasjonen. Din kirurg styrer hele prosedyren ved hjelp av avansert robotteknologi. Kirurgen sitter ved en konsoll med høyoppløselig 3D-bilde av operasjonsfeltet, og styrer kirurgiske instrumenter med høy presisjon."
+        "id": "hva-vi-behandler",
+        "heading": "Hva vi behandler hos oss",
+        "content": "**Overvektskirurgi (slankeoperasjon):** Varig vektreduksjon med robotassistert presisjon.\n\n**Brokkoperasjon:** Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.\n\n**Hemorroider og endetarmsplager (rektocele):** Spesialistkompetanse på plager i endetarm og bekkenbunn."
       }
     ],
-    "linkedServices": [],
+    "linkedServices": [
+      {
+        "label": "Overvektskirurgi (slankeoperasjon)",
+        "description": "Varig vektreduksjon med robotassistert presisjon.",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi/overvektskirurgi"
+      },
+      {
+        "label": "Brokkoperasjon",
+        "description": "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon"
+      },
+      {
+        "label": "Hemorroider og endetarmsplager (rektocele)",
+        "description": "Spesialistkompetanse på plager i endetarm og bekkenbunn.",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager"
+      }
+    ],
     "relatedSpecialistSlugs": [
-      "marian-bale"
-    ]
+      "jan-roland-lambrecht",
+      "andreas-edenberg"
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "flere-fagomrader/osteopati": {
     "title": "Osteopati",
@@ -2236,13 +2616,23 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "ingvild-skarpas-aannerud"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Nakke og rygg",
+      "Kroniske smerter",
+      "Bekkenrelaterte plager"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/plastikkirurgi": {
     "title": "Plastikkirurgi",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Flere fagområder",
-    "description": "Plastisk kirurgi kan hjelpe til med å gjenopprette kroppens form og funksjon etter for eksempel kreftsykdom, brannskader, graviditet og fødsel. Dette inkluderer inngrep som bukplastikk, brystkirurgi og andre rekonstruktive behandlinger.\n\nVår plastiske kirurg har lang erfaring med løsninger godt tilpasset den enkelte pasient. Med avanserte teknikker og et trygt medisinsk miljø er du i de beste hender. Bestill en konsultasjon for en personlig vurdering og profesjonell veiledning.",
+    "description": "Plastisk kirurgi kan hjelpe til med å gjenopprette kroppens form og funksjon etter for eksempel kreftsykdom, brannskader, graviditet og fødsel. Dette inkluderer inngrep som bukplastikk, brystkirurgi og andre rekonstruktive behandlinger. Vår plastiske kirurg har lang erfaring med løsninger godt tilpasset den enkelte pasient. Med avanserte teknikker og et trygt medisinsk miljø er du i de beste hender. Bestill en konsultasjon for en personlig vurdering og profesjonell veiledning.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
       "Bukplastikk og brystkirurgi",
@@ -2279,7 +2669,18 @@
     ],
     "sections": [],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Bryst",
+      "Kropp",
+      "Ansikt",
+      "Rekonstruksjon"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/psykologi": {
     "title": "Psykologi",
@@ -2330,13 +2731,23 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kristian-ophaug"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Angst og depresjon",
+      "Traumer",
+      "Parterapi og relasjoner"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/revmatologi": {
     "title": "Revmatologi",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Flere fagområder",
-    "description": "Revmatologi er en spesialitet innen medisin som handler om å forstå og behandle problemer med ledd, muskler og bindevev i kroppen.\n\nRevmatologer utreder, behandler og følger opp pasienter med revmatisme. For å finne ut om du har revmatisme, starter vi med grundig konsultasjon og undersøkelse, som ofte innebærer ultralyd og blodprøver.\n\nHar du plager anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon.",
+    "description": "Revmatologi er en spesialitet innen medisin som handler om å forstå og behandle problemer med ledd, muskler og bindevev i kroppen. Revmatologer utreder, behandler og følger opp pasienter med revmatisme. For å finne ut om du har revmatisme starter vi med grundig konsultasjon og undersøkelse, som ofte innebærer ultralyd og blodprøver. Har du plager, anbefaler vi deg å ta kontakt med oss eller bestille en konsultasjon. Diagnoser: Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus. Revmatologer (spesialleger) bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten. Vi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
       "Erfarne revmatologer med spesialkompetanse",
@@ -2371,17 +2782,21 @@
         "answer": "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon."
       }
     ],
-    "sections": [
-      {
-        "id": "utredning",
-        "heading": "Utredning",
-        "content": "**Diagnoser:** Dette kan inkludere sykdommer der kroppens eget forsvarssystem angriper disse områdene, som for eksempel revmatoid artritt eller systemisk lupus erythematosus.\n\nRevmatologer, som er spesialleger, bruker forskjellige metoder som medisiner, fysisk terapi og livsstilsråd for å hjelpe mennesker med slike problemer og forbedre livskvaliteten deres.\n\nVi tilbyr rask tilgang til ledende revmatologer for utredning og behandling av revmatisme."
-      }
-    ],
+    "sections": [],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "birgir-gudbrandsson"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Leddgikt",
+      "Artrose",
+      "Bindevevssykdommer"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/robotkirurgi": {
     "title": "Robotassistert kirurgi",
@@ -2390,11 +2805,11 @@
     "description": "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotkirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
-      "Eneste private aktør med robotkirurgi i Norge",
+      "Eneste private aktør med robotassistert kirurgi i Norge",
       "da Vinci-systemet for maksimal presisjon",
       "Brukes innen gynekologi, urologi og gastrokirurgi",
       "Kortere sykehusopphold – hjem innen ett døgn",
-      "Sykemeldingsperiode på kun 2–3 uker",
+      "Sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient)",
       "Erfarne kirurger med høyt volum"
     ],
     "process": [],
@@ -2428,16 +2843,54 @@
       {
         "id": "rask-rehabilitering",
         "heading": "Rask rehabilitering",
-        "content": "Robotkirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–3 uker. Sammenlignet med tradisjonell åpen kirurgi gir robotkirurgi en raskere vei tilbake til hverdagen."
+        "content": "Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling.\n\n**En raskere vei til restitusjon:** Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen.\n\n**Kortere sykemelding:** Avhengig av hvilken type jobb og hvilket inngrep du har gjennomgått, kan du forvente en sykemeldingsperiode på 2–6 uker. Kirurgen spesifiserer perioden per pasient. Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen."
       },
       {
         "id": "presisjon",
         "heading": "Presisjon som merkes",
-        "content": "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata.\n\n**Ergonomi – også for kirurgen:** Under robotkirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.\n\n**Erfarne spesialister – trygg behandling:** Robotkirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen."
+        "content": "Med høyoppløselig 3D-kamera og avanserte instrumenter med stor presisjon har kirurgen svært god kontroll. Dette bidrar til skånsomhet og høy kvalitet i hvert inngrep. I bekkenet finnes det ømfintlig vev som lett kan skades under kirurgi, som ved nervesparende operasjoner ved dyp endometriose eller ved fjerning av prostata.\n\n**Ergonomi – også for kirurgen:** Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling. Dette bidrar til økt konsentrasjon og mindre utmattelse, noe som igjen reduserer risikoen for feil.\n\n**Erfarne spesialister – trygg behandling:** Robotassistert kirurgi hos oss utføres av spesialister innen urologi og gynekologi. Målet er alltid det samme: å gi deg den tryggeste behandlingen og den best mulige opplevelsen både før, under og etter operasjonen."
+      },
+      {
+        "id": "safe-histology-surgery",
+        "heading": "Safe Histology Surgery",
+        "content": "Ved Safe Histology Surgery kombinerer vi skånsom robotassistert kirurgi med nøyaktig vevsdiagnostikk underveis i inngrepet. Det gir kirurgen mulighet til å tilpasse operasjonen presist til funnene, og bidrar til trygg og målrettet behandling."
       }
     ],
-    "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "linkedServices": [
+      {
+        "label": "Gynekologisk robotkirurgi",
+        "description": "Brukes blant annet ved muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), og enkelte krefttilfeller som kreft i livmor.",
+        "path": "/behandlinger/gynekologi/robotkirurgi",
+        "image": ""
+      },
+      {
+        "label": "Urologisk robotkirurgi",
+        "description": "Brukes blant annet ved godartet forstørret prostata (RASP), prostatakreft (RALP), og nyrekirurgi (f.eks. nefrektomi).",
+        "path": "/behandlinger/urologi/robotkirurgi",
+        "image": ""
+      },
+      {
+        "label": "Gastrokirurgisk robotkirurgi",
+        "description": "Brukes blant annet ved overvektskirurgi (slankeoperasjon med rSG og SASI) og brokkoperasjon (bl.a. lyskebrokk).",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi",
+        "image": ""
+      }
+    ],
+    "relatedSpecialistSlugs": [
+      "bjorn-brennhovd",
+      "nicolai-wessel",
+      "thomas-fredrik-thaulow"
+    ],
+    "relatedTitleOverride": "Vi behandler blant annet:",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": true,
+    "themes": [
+      "Gynekologisk robotkirurgi",
+      "Urologisk robotkirurgi",
+      "Gastrokirurgisk robotkirurgi"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/sexologi": {
     "title": "Sexologi",
@@ -2488,13 +2941,23 @@
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "kjersti-margrete-finsrud"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Samliv og relasjoner",
+      "Seksuelle funksjonsplager",
+      "Identitet og legning"
+    ],
+    "heroVideo": ""
   },
   "flere-fagomrader/areknuter": {
     "title": "Åreknutebehandling",
     "subtitle": "Ingen ventetid • Ingen henvisning",
     "parentCategory": "Flere fagområder",
-    "description": "Åreknuter er veldig vanlig, og nesten 30% av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner.\n\nRisikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina.\n\nÅreknuter oppstår i de overfladiske venene grunnet svikt i klaffene. En god undersøkelse med ultralyd vil avdekke årsakene, og du vil få tilpasset en moderne og effektiv behandling.",
+    "description": "Åreknuter er veldig vanlig, og nesten 30 % av alle over 30 år har det i varierende grad. Det er like vanlig med åreknuter hos menn som hos kvinner. Risikofaktorer for utvikling av åreknuter er for eksempel arv (genetisk), graviditet, overvekt, alder eller yrker som medfører ekstra belastninger (stående og sittende) på beina. Åreknuter oppstår i de overfladiske venene grunnet svikt i klaffene. Synlige åreknuter på forsiden og på innsiden av leggen/låret tyder på at årsaken kommer fra lysken (70 %). Åreknuter foran og/eller bak på leggen tyder på at årsaken kommer fra knehasen (20 %). I tillegg finnes det flere årsaker til utvikling av åreknuter (10 %). Noen få har flere årsaker eller en kombinasjon. Det vanligste er å ha åreknuter i bare ett bein, men 1/3 av alle med åreknuter har det i begge beina. En god undersøkelse med ultralyd vil avdekke årsakene, og du vil få tilpasset en moderne og effektiv behandling.\n\nSymptomer: Symptomer varierer fra person til person. Mange andre tilstander kan gi tilsvarende symptomer, og derfor er det vanskelig å garantere at alle symptomer forsvinner etter behandling. De vanligste symptomene er: smerter, tunge eller trøtte bein, prikkende ubehag, kløe, nattekramper i leggene. Hevelse: Lindres symptomene dine ved bruk av støttestrømper, gir det en bedre prognose for lindring. Hvis du ikke ønsker behandling etter konsultasjon, anbefaler vi støttestrømper – men disse vil kun lindre symptomer, aldri fjerne åreknutene. Støttestrømper (klasse 2) kjøpes hos ulike apotek, men vi anbefaler personlig oppmøte hos bandagist.",
     "benefitsTitle": "Hvorfor velge oss",
     "benefits": [
       "En av Norges mest erfarne kar- og åreknutekirurger",
@@ -2530,22 +2993,21 @@
         "answer": "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon."
       }
     ],
-    "sections": [
-      {
-        "id": "symptomer",
-        "heading": "Symptomer",
-        "content": "Symptomer varierer fra person til person. De vanligste symptomene på åreknuter er:\n\n- Smerter\n- Tunge eller trøtte bein\n- Prikkende ubehag\n- Kløe\n- Nattekramper i leggene\n- Hevelse\n\nLindres symptomene dine ved bruk av støttestrømper, så gir det en bedre prognose med tanke på lindring av symptomer. Hvis du ikke ønsker behandling for dine åreknuter etter konsultasjon, anbefaler vi bruk av støttestrømper, men disse vil kun lindre symptomer og aldri fjerne åreknutene."
-      },
-      {
-        "id": "spesialist",
-        "heading": "Vår karkirurg",
-        "content": "Dr. Einar André Brevik er en av Norges mest erfarne kar- og åreknutekirurger. Han tilbyr fullverdig karkirurgisk vurdering og utredning for åreknuter, venøs insuffisiens ved lymfødem og lipødem, claudicatio (røykebein), Raynauds syndrom, aortaaneurismer og second opinion innen karkirurgi.\n\nDr. Brevik har vært aktiv i det karkirurgiske miljøet gjennom Norsk karkirurgisk forening som leder, nestleder og styremedlem fra 2014 til 2019. Siden 2020 har han jobbet ved karkirurgisk avdeling på Haukeland universitetssykehus.\n\nTotalt har Dr. Brevik operert over 2000 pasienter med åreknuter med de mest moderne og skånsomme metoder."
-      }
-    ],
+    "sections": [],
     "linkedServices": [],
     "relatedSpecialistSlugs": [
       "einar-andre-brevik"
-    ]
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [
+      "Sklerosering",
+      "Laserbehandling",
+      "Kirurgisk fjerning"
+    ],
+    "heroVideo": ""
   },
   "graviditet/ultralyd": {
     "title": "Ultralyd i svangerskapet",
@@ -2562,16 +3024,16 @@
     ],
     "process": [
       {
-        "title": "Tidlig ultralyd (uke 7-12)",
-        "description": "Bekreftelse av svangerskap, datering av termin, antall fostre og hjerteaktivitet."
+        "title": "Tidlig ultralyd (uke 6–10)",
+        "description": "Bekreftelse av svangerskap, datering av termin, antall fostre og hjerteaktivitet. Utføres med innvendig probe."
       },
       {
-        "title": "Nakketranslusensmåling (uke 11-14)",
-        "description": "Vurdering av risiko for kromosomavvik, kan kombineres med blodprøve."
+        "title": "Ultralyd uke 11–14",
+        "description": "Vurdering av fosterets utvikling, kan kombineres med nakketranslusensmåling og blodprøve."
       },
       {
-        "title": "Organrettet ultralyd (uke 18-20)",
-        "description": "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum."
+        "title": "Organrettet ultralyd (uke 18–20)",
+        "description": "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum med utvendig probe."
       }
     ],
     "faqs": [
@@ -2592,41 +3054,71 @@
         "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
       }
     ],
-    "sections": [],
+    "sections": [
+      {
+        "id": "section-0",
+        "heading": "Slik foregår ultralydundersøkelsen",
+        "content": "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6–10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg. Fra uke 11 utføres ultralyd med utvendig (abdominal) ultralydprobe."
+      },
+      {
+        "id": "section-1",
+        "heading": "Hvis undersøkelsen viser noe uventet",
+        "content": "Om undersøkelsen viser tegn på alvorlig sykdom eller skader hos fostret, vil du få veiledning og samtale med lege, og eventuelt henvisning til fostermedisinsk avdeling ved sykehuset."
+      },
+      {
+        "id": "section-2",
+        "heading": "Du bestemmer hva du er komfortabel med",
+        "content": "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Ved tidlig ultralydundersøkelse vil du få være avskjermet. Hos oss er det viktig at du føler deg komfortabel og trygg."
+      },
+      {
+        "id": "section-3",
+        "heading": "Erfarne fostermedisinere",
+        "content": "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere."
+      }
+    ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "graviditet/nipt": {
     "title": "NIPT",
-    "subtitle": "Non-invasiv prenatal test for kromosomanalyse.",
+    "subtitle": "Non-Invasive Prenatal Test fra svangerskapsuke 10.",
     "parentCategory": "Graviditet",
-    "description": "NIPT (Non-Invasive Prenatal Testing) er en blodprøve som analyserer fragmenter av fosterets DNA i morens blod for å påvise eventuelle kromosomavvik. Testen kan utføres fra uke 10 og har svært høy treffsikkerhet.\n\nNIPT kan påvise trisomi 21 (Downs syndrom), trisomi 18 (Edwards syndrom) og trisomi 13 (Pataus syndrom). Testen kan også bestemme kjønn.",
+    "description": "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
     "benefitsTitle": "Hvorfor velge oss",
-    "benefits": [
-      "Kan tas fra uke 10 i svangerskapet",
-      "Svært høy treffsikkerhet (over 99% for trisomi 21)",
-      "Enkel blodprøve – ingen risiko for fosteret",
-      "Resultat innen 7-10 virkedager",
-      "Kan også bestemme kjønn"
-    ],
+    "benefits": [],
     "process": [],
-    "faqs": [
+    "faqs": [],
+    "sections": [
       {
-        "question": "Hva er forskjellen på NIPT og fostervannsprøve?",
-        "answer": "NIPT er en screeningtest (blodprøve) uten risiko for fosteret. Fostervannsprøve er diagnostisk og gir sikkert svar, men har en liten risiko for spontanabort."
+        "id": "section-0",
+        "heading": "Hva undersøker NIPT?",
+        "content": "Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik."
       },
       {
-        "question": "Hvem bør ta NIPT?",
-        "answer": "NIPT kan tilbys alle gravide, men er spesielt anbefalt ved forhøyet risiko etter KUB-test eller ved alder over 38 år."
+        "id": "section-1",
+        "heading": "Er NIPT trygt?",
+        "content": "Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve."
       },
       {
-        "question": "Forsikring",
-        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
+        "id": "section-2",
+        "heading": "Fosterdiagnostikk hos spesialist",
+        "content": "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp."
       }
     ],
-    "sections": [],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "graviditet/svangerskapsteam": {
     "title": "Svangerskapsteam",
@@ -2658,7 +3150,13 @@
     ],
     "sections": [],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "graviditet/fosterdiagnostikk": {
     "title": "Fosterdiagnostikk",
@@ -2690,7 +3188,13 @@
     ],
     "sections": [],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   },
   "flere-fagomrader/hudhelse": {
     "title": "Hudhelse",
@@ -2721,64 +3225,771 @@
       }
     ],
     "sections": [],
-    "linkedServices": [],
-    "relatedSpecialistSlugs": []
-  },
-  "flere-fagomrader/overvektskirurgi": {
-    "title": "Overvektskirurgi",
-    "subtitle": "Robotassistert sleeve gastrektomi for varige resultater.",
-    "parentCategory": "Flere fagområder",
-    "description": "Ved CMedical tilbyr vi robotassistert overvektskirurgi med høyeste presisjon og skånsomhet – en teknologi som kombinerer avansert 3D-visualisering og mikrobevegelser styrt av erfarne kirurger. Denne metoden kan gi mindre smerter, raskere restitusjon og et bedre kosmetisk resultat.\n\nRobotassistert sleeve gastrektomi (rSG) er en moderne form for overvektskirurgi, også kalt slankeoperasjon. I denne prosedyren fjernes 60–80% av magesekken for å redusere matinntaket og fremme vektnedgang. Denne typen kirurgi er særlig egnet for deg som ønsker varige resultater med minimal belastning på kroppen.\n\nEtter ett år kan pasienter som gjennomgår sleeve gastrektomi forvente et vekttap på 20–25% av total kroppsvekt, med fortsatt vekttap frem mot to år etter operasjonen.",
-    "benefitsTitle": "Hvorfor velge oss",
-    "benefits": [
-      "Robotassistert kirurgi for høyeste presisjon",
-      "Mindre smerter og raskere restitusjon",
-      "Varig vekttap på 20-25% av kroppsvekt etter ett år",
-      "Gratis digital konsultasjon for vurdering",
-      "Tverrfaglig oppfølging med ernæringsfysiolog"
-    ],
-    "process": [
+    "linkedServices": [
       {
-        "title": "Konsultasjon",
-        "description": "Gratis digital eller fysisk konsultasjon med kirurg for vurdering av egnethet."
+        "label": "Hudbehandlinger",
+        "description": "Medisinsk forankrede hudbehandlinger utført av hudlege — pigment, rødhet, struktur, volum og føflekksjekk.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
       },
       {
-        "title": "Utredning",
-        "description": "Grundig medisinsk utredning inkludert blodprøver, gastroskopi og psykologisk vurdering."
+        "label": "Behandlingsutstyr",
+        "description": "IPL- og laserteknologi vi bruker — trygg behandling basert på dokumenterte metoder.",
+        "path": "/behandlinger/flere-fagomrader/behandlingsutstyr"
       },
       {
-        "title": "Operasjon",
-        "description": "Robotassistert sleeve gastrektomi. Inngrepet tar ca. 1-2 timer."
-      },
-      {
-        "title": "Oppfølging",
-        "description": "Tett oppfølging med ernæringsfysiolog og kirurg det første året etter operasjonen."
+        "label": "Hudpleieprodukter",
+        "description": "SkinCeuticals og medisinsk hudpleie anbefalt av hudlege — for daglig stell og oppfølging hjemme.",
+        "path": "/behandlinger/flere-fagomrader/hudpleieprodukter"
       }
     ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/overvektskirurgi": {
+    "title": "Overvektskirurgi (slankeoperasjon)",
+    "subtitle": "Presisjon, trygghet og varige resultater",
+    "parentCategory": "Flere fagområder",
+    "description": "Som den eneste private aktøren i Norden tilbyr vi robotassistert overvektskirurgi med høyeste presisjon og skånsomhet. Med avansert 3D-visualisering og mikrobevegelser styrt av erfarne kirurger, får du en trygg behandling som kan gi mindre smerter og raskere restitusjon.\n\nEtter ett år kan pasienter forvente et vekttap på 20–25 % av total kroppsvekt, samt en varig forbedring av helserelatert livskvalitet.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
     "faqs": [
-      {
-        "question": "Hvem kvalifiserer for overvektskirurgi?",
-        "answer": "Generelt kreves BMI over 40, eller over 35 med tilleggssykdommer. Vi gjør en individuell vurdering."
-      },
-      {
-        "question": "Er det gratis konsultasjon?",
-        "answer": "Ja, vi tilbyr gratis digital konsultasjon for vurdering av om du er egnet for overvektskirurgi."
-      },
-      {
-        "question": "Hva er fordelene med robotassistert teknikk?",
-        "answer": "Robotassistert kirurgi gir bedre presisjon, mindre smerter, raskere restitusjon og et bedre kosmetisk resultat sammenlignet med tradisjonell teknikk."
-      },
       {
         "question": "Henvisning",
         "answer": "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke. Ta kontakt med oss så finner vi en tid som passer deg!"
+      },
+      {
+        "question": "Sykemelding",
+        "answer": "I de tilfellene der det er behov er det mulig for oss å skrive ut sykmelding. Vi følger nasjonale retningslinjer. Etter overvektskirurgi er du vanligvis sykemeldt i ca. 4 uker (kortere for noen)."
+      },
+      {
+        "question": "Utredning",
+        "answer": "Vi anbefaler alle å starte med en utredning eller konsultasjon. En vanlig utredning hos oss varer ca 30 minutter."
+      },
+      {
+        "question": "Forsikring",
+        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
+      },
+      {
+        "question": "Nedbetaling",
+        "answer": "Hos oss kan du benytte deg av nedbetaling på utvalgte klinikker. Spør oss for mer informasjon."
+      }
+    ],
+    "sections": [
+      {
+        "id": "operasjonsmetoder",
+        "heading": "Våre operasjonsmetoder",
+        "content": "Vi tilbyr to ulike typer robotassistert overvektskirurgi.\n\n**1. Robotassistert Sleeve-gastrektomi (rSG)**\n\nDette er en moderne form for kikkhullskirurgi der 60–80 % av magesekken fjernes. Den gjenværende delen formes til en bananformet «sleeve» (slange) som begrenser matinntaket. Dette gir mindre sultfølelse og fører til betydelig vektreduksjon, uten å gå på kompromiss med kroppens evne til å ta opp næringsstoffer.\n\n**2. SASI – Robotassistert Sleeve Bypass**\n\nSASI står for Single Anastomosis Sleeve Ileal Bypass. Her formes også magesekken til en «sleeve», men i tillegg lages det en kobling direkte til den nedre delen av tynntarmen, uten at tarmen deles. Maten kan dermed følge to ulike løp ut av magesekken. At deler av maten følger den normale veien utgjør en stor fordel sammenlignet med en standard gastric bypass.\n\n**Viktig å understreke:** Det er ikke en robot som opererer deg selvstendig. Hele prosedyren styres av en erfaren kirurg som sitter ved en konsoll med høyoppløselig 3D-bilde. Den nyeste teknologien oversetter kirurgens hånd-, håndledd- og fingerbevegelser til mikrobevegelser i instrumentene, noe som gir enestående kontroll og nøyaktighet."
+      },
+      {
+        "id": "fordeler",
+        "heading": "Fordeler med robotassistert kirurgi",
+        "content": "- Mindre smerter og kortere restitusjonstid enn ved tradisjonell kirurgi.\n- Redusert blodtap og færre komplikasjoner.\n- Bedre kosmetisk resultat gjennom små, skånsomme snitt i bukveggen.\n- Raskere tilbake i hverdagen – mange reiser hjem allerede dagen etter operasjonen.\n- Kortere sykemelding – cirka fire uker (men for noen kortere)."
+      },
+      {
+        "id": "veien-gjennom-behandlingen",
+        "heading": "Veien gjennom behandlingen: Forberedelser og oppfølging",
+        "content": "Godt forarbeid og tett oppfølging gir de beste resultatene.\n\n**Før operasjonen:** Du møter vårt erfarne, tverrfaglige team for en grundig poliklinisk samtale. Du følger en medisinsk lavkaloridiétt i tre uker før operasjonsdagen.\n\n**Selve operasjonsdagen:** Inngrepet gjøres skånsomt via kikkhullskirurgi og tar ca. 30–60 minutter. Du tilbringer én natt hos oss til observasjon og reiser hjem neste formiddag.\n\n**Etter operasjonen:** Du får tett oppfølging. Inkludert i operasjonsprisen er en omfattende oppfølgingspakke på ett år med 4 konsultasjoner hos klinisk ernæringsfysiolog."
+      },
+      {
+        "id": "trygg-behandling",
+        "heading": "Trygg behandling hos erfarne spesialister",
+        "content": "**Dr. Jan Roland Lambrecht:** Over 25 års erfaring fra Norge og Danmark. En anerkjent ekspert innen overvektskirurgi, brokkirurgi og robotassistert kirurgi, som også utdanner neste generasjons kirurger.\n\n**Dr. Andreas Edenberg:** Spesialist i generell- og gastrokirurgi med særlig kompetanse på fedmebehandling og avansert endoskopi."
+      },
+      {
+        "id": "bestill",
+        "heading": "Bestill konsultasjon",
+        "content": "Bestill en gratis digital førstekonsultasjon her."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Mage- og tarmlidelser (Gastrokirurgi)",
+        "description": "Bredere oversikt over kirurgi i fordøyelsessystemet.",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi"
+      },
+      {
+        "label": "Brokkoperasjon",
+        "description": "Skånsom behandling av lyskebrokk, arrbrokk og navlebrokk med kikkhull/robot.",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi/brokkoperasjon"
+      },
+      {
+        "label": "Hemorroider og endetarmsplager (rektocele)",
+        "description": "Spesialistkompetanse på plager i endetarm og bekkenbunn.",
+        "path": "/behandlinger/flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager"
+      },
+      {
+        "label": "Ernæringsfysiolog",
+        "description": "Tverrfaglig kostholdsoppfølging før og etter operasjon.",
+        "path": "/behandlinger/flere-fagomrader/ernaringsfysiolog"
+      }
+    ],
+    "relatedSpecialistSlugs": [
+      "jan-roland-lambrecht",
+      "andreas-edenberg"
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "fertilitet/assistert-befruktning-for-par-og-single": {
+    "title": "Assistert befruktning for par og single",
+    "subtitle": "For par, to kvinner, single kvinner og menn",
+    "parentCategory": "Fertilitet",
+    "description": "Hos oss er det plass til ulike veier til det samme ønsket – å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, og kvinner som ønsker å bli mor på egen hånd nå eller bevare mulighetene for å bli gravid i fremtiden. Uansett livssituasjon møter vi deg eller dere med respekt, trygghet og forståelse.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Henvisning",
+        "answer": "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har fra ingen til veldig korte ventetider. Ta kontakt med oss så finner vi en tid som passer deg."
+      },
+      {
+        "question": "Aldersgrense",
+        "answer": "Øvre aldersgrense for kvinner ved inseminasjon eller innsetting av befruktet egg er 46 år, jf. Bioteknologiloven."
+      },
+      {
+        "question": "Donorsæd",
+        "answer": "Behandlingen skjer med donorsæd fra godkjente sædbanker. Etter norsk lov er donor ikke anonym, og barnet har rett til informasjon senere i livet."
       },
       {
         "question": "Forsikring",
         "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
       }
     ],
-    "sections": [],
+    "sections": [
+      {
+        "id": "section-0",
+        "heading": "Hvem kan få hjelp hos oss?",
+        "content": "Hos oss er det plass til ulike veier til det samme ønsket – å få barn. Assistert befruktning kan benyttes av mann og kvinne i parforhold, to kvinner i parforhold, og kvinner som ønsker å bli mor på egen hånd nå eller bevare mulighetene for å bli gravid i fremtiden. Uansett livssituasjon møter vi deg eller dere med respekt, trygghet og forståelse. Noen har prøvd lenge uten å lykkes. Andre er helt i startfasen og ønsker å vite mer om mulighetene. For mange kan det være et stort steg å ta kontakt – derfor er vi opptatt av å gjøre veien inn så trygg og forutsigbar som mulig. Rammene for behandling er regulert av Bioteknologiloven. For kvinner er øvre aldersgrense ved inseminasjon eller innsetting av befruktet egg satt til 46 år. I forkant av behandling må alle testes for hepatitt B og C samt HIV. Blodprøvene må være tatt i løpet av de siste 24 månedene før oppstart av IVF-behandling."
+      },
+      {
+        "id": "section-1",
+        "heading": "Mann og kvinne i parforhold — Har dere prøvd en stund uten å lykkes?",
+        "content": "Mange av parene som kommer til oss har forsøkt å bli gravide over tid. Uansett hvor dere er i prosessen, møter vi dere med forståelse og respekt. Et trygt første steg: Noen ønsker å starte med en uforpliktende samtale, mens andre er klare for fertilitetsutredning. Første gang setter vi av god tid, så dere kan senke skuldrene og bli godt ivaretatt. Vi blir kjent med dere som par: I første konsultasjon ønsker vi å forstå helheten – hvor lenge dere har prøvd, om dere har barn fra før, hva dere håper på, og hvordan dere opplever situasjonen. Undersøkelser som gir svar: For kvinnen ofte blodprøver for hormonnivå + gynekologisk undersøkelse og ultralyd. For mannen: sædprøve for vurdering av sædkvalitet. Veien videre – tilpasset dere: Noen ganger finner vi ingen konkret årsak, og det kan i seg selv gi trygghet til å fortsette på egen hånd. Andre ganger anbefaler vi behandling. Mulige alternativer: hormonstimulering, inseminasjon, IVF (prøverørsbehandling), donorsæd (ved behov). Vi tilpasser behandlingen til dere som par, basert på behov og situasjon, og er her for å støtte dere begge hele veien."
+      },
+      {
+        "id": "section-2",
+        "heading": "To kvinner i parforhold — Flere og flere kvinner velger å få barn sammen som par.",
+        "content": "Hos oss møter dere et fagmiljø med erfaring, trygghet og forståelse. Når dere tar kontakt, starter vi med en samtale hvor vi blir kjent med dere og deres ønsker. Sammen finner vi ut hvilken behandling som passer best og hvordan prosessen kan tilpasses deres liv. Donorsæd – trygt og oversiktlig: Vi hjelper dere gjennom hele prosessen – valg av donor i tråd med gjeldende lovverk, bestilling, transport og trygg oppbevaring av donorsæd, og oppfølging underveis. Behandlingsalternativer: Inseminasjon – ofte førstevalg, skånsom behandling, kan gjøres i naturlig syklus. IVF (prøverørsbehandling) – aktuelt dersom inseminasjon ikke gir ønsket resultat, høyere sannsynlighet per forsøk, mulighet for å fryse befruktede egg. En prosess på deres premisser: Vi tilpasser behandlingen til dere og deres livssituasjon – og er samtidig en trygg støtte gjennom en prosess som kan romme både forventning, sårbarhet og håp."
+      },
+      {
+        "id": "section-3",
+        "heading": "Singel kvinne — Ønsker du å få barn på egen hånd, eller bevare muligheten for senere?",
+        "content": "Å velge å få barn alene er et stort og viktig valg. Mange kvinner kommer til oss for å utforske mulighetene – enten de er klare for behandling, ønsker mer kunnskap, eller vurderer å fryse ned egg for fremtiden. Vi møter deg med respekt og trygghet, og tilpasser behandling og oppfølging til din situasjon."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Fertilitetsutredning",
+        "description": "Grundig kartlegging av fertiliteten — et trygt første steg.",
+        "path": "/behandlinger/fertilitet/fertilitetsutredning"
+      },
+      {
+        "label": "Assistert befruktning",
+        "description": "IVF, ICSI og IUI — vår hovedside om assistert befruktning.",
+        "path": "/behandlinger/fertilitet/assistert-befruktning"
+      },
+      {
+        "label": "Eggfrys",
+        "description": "Bevar muligheten for graviditet senere i livet.",
+        "path": "/behandlinger/fertilitet/eggfrys"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger": {
+    "title": "Hudbehandlinger",
+    "subtitle": "Medisinsk forankrede hudbehandlinger utført av hudlege",
+    "parentCategory": "Hudhelse",
+    "description": "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege — medisinsk forankret og tilpasset deg.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Hvor utføres behandlingene?",
+        "answer": "Alle hudbehandlinger utføres ved vår klinikk på Bekkestua."
+      },
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille time direkte uten henvisning."
+      },
+      {
+        "question": "Vurderes huden alltid medisinsk først?",
+        "answer": "Ja. Før en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden."
+      },
+      {
+        "question": "Forsikring",
+        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om-hudbehandlinger",
+        "heading": "Om hudbehandlinger",
+        "content": "Hos CMedical på Bekkestua tilbyr vi et utvalg hudbehandlinger som utføres av hudlege. Behandlingene er medisinsk forankret og tilpasses individuelt, med mål om å ivareta hudens helse samtidig som vi kan forbedre hudkvalitet og redusere synlige hudforandringer.\n\nVåre behandlinger tar utgangspunkt i medisinsk kunnskap om hud og utføres alltid etter en faglig vurdering hos hudlege. Hos oss møter du hudlege med erfaring innen både medisinsk og kosmetisk dermatologi.\n\nDersom du ønsker vurdering av hudforandringer eller informasjon om kosmetiske behandlinger, kan du bestille en konsultasjon hos hudlege. Under konsultasjonen vurderer vi hudens tilstand og gir råd om hvilke behandlinger som eventuelt kan være aktuelle. Behandlingene utføres ved vår klinikk på Bekkestua.\n\nVår tilnærming:\n\n- medisinsk vurdering før behandling\n- behandling utført av hudlege\n- naturlige og balanserte resultater\n- hudhelse på kort og lang sikt\n- trygg behandling basert på dokumenterte metoder\n\nFør en kosmetisk behandling gjennomføres, gjør hudlegen en medisinsk vurdering av huden. I noen tilfeller kan hudforandringer skyldes en underliggende hudsykdom som bør behandles på annen måte. Dette skiller behandling hos hudlege fra rene estetiske klinikker."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Pigmentforandringer og solskader",
+        "description": "Vurdering og behandling av pigmentflekker og solskadet hud — inkludert IPL.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/pigmentforandringer-og-solskader"
+      },
+      {
+        "label": "Rødhet og synlige blodkar",
+        "description": "Behandling av rosacea-relatert rødhet og sprengte blodkar i ansiktet.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/rodhet-og-synlige-blodkar"
+      },
+      {
+        "label": "Forbedring av hudstruktur",
+        "description": "Microneedling, mesoterapi og behandlinger som stimulerer hudens egen fornyelse.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/forbedring-av-hudstruktur"
+      },
+      {
+        "label": "Hudhelse og kosmetisk dermatologi",
+        "description": "Medisinske hudtilstander og kosmetisk dermatologi — vurdert av hudlege.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/kosmetisk-dermatologi"
+      },
+      {
+        "label": "Elastisitet og volum",
+        "description": "Rynkebehandling, Profhilo, Radiesse og Skin boosters tilpasset deg.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/elastisitet-og-volum"
+      },
+      {
+        "label": "Føflekksjekk",
+        "description": "Grundig dermatoskopisk vurdering av føflekker og hudforandringer.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger/foflekksjekk"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger/pigmentforandringer-og-solskader": {
+    "title": "Pigmentforandringer og solskader",
+    "subtitle": "Vurdering og behandling hos hudlege",
+    "parentCategory": "Hudbehandlinger",
+    "description": "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille time direkte uten henvisning."
+      },
+      {
+        "question": "Vurderes flekkene først?",
+        "answer": "Ja, hudlegen vurderer alltid pigmentforandringer medisinsk før behandling."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om",
+        "heading": "Om behandlingen",
+        "content": "Pigmentflekker og ujevn hudtone er vanlig etter mange år med solpåvirkning. Hos hudlege kan slike hudforandringer vurderes og behandles. Vi tilbyr blant annet:\n\n- IPL-behandling av pigmentflekker\n- behandling av solskadet hud\n- vurdering av pigmentforandringer\n\nFør behandling vurderer hudlegen alltid flekkene medisinsk."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Tilbake til oversikten over alle hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger/rodhet-og-synlige-blodkar": {
+    "title": "Rødhet og synlige blodkar",
+    "subtitle": "Behandling hos hudlege på Bekkestua",
+    "parentCategory": "Hudbehandlinger",
+    "description": "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Hvor utføres behandlingen?",
+        "answer": "På CMedical Bekkestua, av hudlege."
+      },
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille en uforpliktende vurdering direkte."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om",
+        "heading": "Om behandlingen",
+        "content": "Diffus rødhet i huden og sprengte blodkar er vanlig i ansiktet. Dette kan blant annet skyldes rosacea eller solpåvirkning. Aktuelle behandlinger:\n\n- IPL-behandling av rødhet\n- behandling av sprengte blodkar\n- behandling av diffus rødhet i ansiktet"
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Tilbake til oversikten over alle hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger/forbedring-av-hudstruktur": {
+    "title": "Forbedring av hudstruktur",
+    "subtitle": "Microneedling, mesoterapi og målrettede behandlinger",
+    "parentCategory": "Hudbehandlinger",
+    "description": "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille time direkte."
+      },
+      {
+        "question": "Hvem utfører behandlingen?",
+        "answer": "Behandlingen utføres av hudlege ved vår klinikk på Bekkestua."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om",
+        "heading": "Om behandlingen",
+        "content": "Noen opplever ujevn hudtekstur, aknearr eller redusert glød i huden. I slike tilfeller kan behandlinger som stimulerer hudens egen fornyelse være aktuelt. Vi tilbyr blant annet:\n\n- microneedling\n- mesoterapi\n- behandling for jevnere hudtone"
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Tilbake til oversikten over alle hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger/kosmetisk-dermatologi": {
+    "title": "Hudhelse og kosmetisk dermatologi",
+    "subtitle": "Medisinske hudtilstander og kosmetisk dermatologi",
+    "parentCategory": "Hudbehandlinger",
+    "description": "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Hvem behandler meg?",
+        "answer": "Du møter hudlege med erfaring innen både medisinsk og kosmetisk dermatologi."
+      },
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille time direkte uten henvisning."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om",
+        "heading": "Om behandlingen",
+        "content": "Ved CMedical arbeider vi både med medisinske hudtilstander og kosmetisk dermatologi. Mange pasienter oppsøker oss for tilstander som:\n\n- akne\n- perioral dermatitt\n- pigmentforandringer\n- solskadet hud\n- hudforandringer som bør vurderes av hudlege\n\nKosmetiske behandlinger kan i noen tilfeller være en del av en helhetlig behandling av huden."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Tilbake til oversikten over alle hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger/elastisitet-og-volum": {
+    "title": "Elastisitet og volum",
+    "subtitle": "Individuelt tilpassede behandlinger hos hudlege",
+    "parentCategory": "Hudbehandlinger",
+    "description": "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Hvem utfører behandlingen?",
+        "answer": "Behandlingen utføres av hudlege ved vår klinikk på Bekkestua."
+      },
+      {
+        "question": "Tilpasses behandlingen?",
+        "answer": "Ja, behandlingen tilpasses individuelt etter hudtype, alder og ønsket resultat."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om",
+        "heading": "Om behandlingen",
+        "content": "Med alderen reduseres hudens elastisitet og volum. Vi tilbyr behandlinger som kan bidra til å redusere synlige linjer og gi bedre hudstruktur. Aktuelle behandlinger kan inkludere:\n\n- rynkebehandling\n- Profhilo\n- Radiesse\n- behandling av slapp hud\n- Skin boosters\n\nBehandlingen tilpasses individuelt etter hudtype, alder og ønsket resultat."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Tilbake til oversikten over alle hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudbehandlinger/foflekksjekk": {
+    "title": "Føflekksjekk",
+    "subtitle": "Grundig dermatoskopisk vurdering hos hudlege",
+    "parentCategory": "Hudbehandlinger",
+    "description": "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Er undersøkelsen invasiv?",
+        "answer": "Nei, føflekksjekken er ikke-invasiv og gjennomføres i løpet av konsultasjonen."
+      },
+      {
+        "question": "Hva skjer hvis det oppdages noe?",
+        "answer": "Dersom hudlegen finner forandringer som bør utredes videre eller fjernes, får du råd om neste steg."
+      },
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille time direkte."
+      }
+    ],
+    "sections": [
+      {
+        "id": "om",
+        "heading": "Om føflekksjekken",
+        "content": "Regelmessig kontroll av føflekker er viktig for å oppdage tidlige tegn på hudforandringer som kan kreve behandling. Hos CMedical utfører hudlegen en grundig gjennomgang av hele huden, fra topp til tå.\n\nUnder en føflekksjekk bruker hudlegen et dermatoskop – et spesialisert optisk verktøy som gir forstørret og detaljert innsyn i hudens strukturer. Dette gjør det mulig å vurdere føflekker og andre hudforandringer med langt større nøyaktighet enn ved vanlig øyeundersøkelse.\n\nHudlegen ser etter spesifikke endringer i form, farge, grenser og struktur som kan tyde på malignitet eller andre tilstander som bør følges opp."
+      },
+      {
+        "id": "indikasjoner",
+        "heading": "Aktuelle indikasjoner for føflekksjekk",
+        "content": "- kontroll av eksisterende føflekker og pigmentforandringer\n- vurdering av nye eller endrede hudlesjoner\n- screening ved høy soleksponering eller familiær hudkrefthistorikk\n- jevnlig oppfølging for pasienter med mange føflekker\n\nUndersøkelsen er ikke-invasiv og gjennomføres i løpet av konsultasjonen. Dersom hudlegen finner forandringer som bør utredes videre eller fjernes, vil du få råd om neste steg."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Tilbake til oversikten over alle hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudhelse/hudbehandlinger"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/behandlingsutstyr": {
+    "title": "Behandlingsutstyr (IPL)",
+    "subtitle": "Laser- og IPL-behandling utført av hudlege",
+    "parentCategory": "Hudhelse",
+    "description": "Hos CMedical Bekkestua tilbyr vi laserbehandling og IPL-behandling (Intense Pulsed Light) — en trygg og effektiv metode som bruker lysenergi til å behandle ulike hudplager. Mange oppsøker oss for å få hjelp med rødhet, synlige blodkar, pigmentforandringer eller solskadet hud. Behandlingen kan også bidra til en jevnere hudtone og bedre hudkvalitet over tid.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Hvor utføres IPL?",
+        "answer": "På CMedical Bekkestua, av hudlege."
+      },
+      {
+        "question": "Hva kan IPL behandle?",
+        "answer": "Rødhet, synlige blodkar, pigmentforandringer og solskadet hud — for bedre hudhelse og jevnere hudtone over tid."
+      },
+      {
+        "question": "Trenger jeg henvisning?",
+        "answer": "Nei, du kan bestille en uforpliktende vurdering direkte."
+      }
+    ],
+    "sections": [
+      {
+        "id": "section-0",
+        "heading": "En skånsom behandling for bedre hudhelse",
+        "content": "For oss handler IPL om hudhelse og livskvalitet. Ujevn pigmentering, rosacea eller vedvarende rødhet kan være mer enn et kosmetisk problem — det kan påvirke både velvære og selvtillit. Vi møter deg med forståelse og medisinsk kompetanse, og vurderer alltid om IPL er riktig behandling for deg."
+      },
+      {
+        "id": "section-1",
+        "heading": "Trygghet, informasjon og realistiske forventninger",
+        "content": "Behandlingen utføres av hudlege, og vi legger vekt på trygghet, informasjon og realistiske forventninger."
+      },
+      {
+        "id": "section-2",
+        "heading": "Bestill en uforpliktende vurdering",
+        "content": "Ønsker du å vite om IPL kan være et godt alternativ for deg? Ta kontakt med Linnea hos oss for en uforpliktende vurdering — vi hjelper deg gjerne."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Oversikt over alle våre hudbehandlinger.",
+        "path": "/behandlinger/flere-fagomrader/hudbehandlinger"
+      },
+      {
+        "label": "Hudpleieprodukter",
+        "description": "SkinCeuticals — medisinsk hudpleie.",
+        "path": "/behandlinger/flere-fagomrader/hudpleieprodukter"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/hudpleieprodukter": {
+    "title": "Hudpleieprodukter — SkinCeuticals",
+    "subtitle": "Medisinsk hudpleie med dokumentert effekt",
+    "parentCategory": "Hudhelse",
+    "description": "SkinCeuticals er et anerkjent medisinsk hudpleiemerke utviklet med utgangspunkt i avansert dermatologisk forskning. Produktene er formulert for å beskytte sunn hud, korrigere eksisterende hudskader og forebygge fremtidige hudproblemer — med dokumenterte resultater.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [],
+    "faqs": [
+      {
+        "question": "Hvor får jeg kjøpt produktene?",
+        "answer": "På vår klinikk på Bekkestua."
+      },
+      {
+        "question": "Får jeg veiledning av fagperson?",
+        "answer": "Ja — vår dermatolog hjelper deg å sette sammen en hudpleieplan tilpasset din hud."
+      }
+    ],
+    "sections": [
+      {
+        "id": "section-0",
+        "heading": "Hudpleieprodukter med dokumentert effekt — oppdag SkinCeuticals",
+        "content": "Med høye konsentrasjoner av aktive ingredienser, som antioksidanter inkludert vitamin C, tilbyr SkinCeuticals målrettede løsninger for ulike hudtilstander. Serien passer både til daglig pleie og som et komplement til estetiske behandlinger, og produktene er ofte anbefalt av hudleger verden over.\n\nEnten du ønsker å redusere fine linjer, forbedre hudtekstur, jevne ut pigmentering eller styrke hudbarrieren, finnes det en SkinCeuticals-rutine tilpasset dine behov. Alle produkter er utviklet med fokus på effektivitet, sikkerhet og hudens naturlige balanse.\n\nFor best resultat anbefaler vi at du får hjelp av vår fagperson og dermatolog til å sette sammen en hudpleieplan som passer din hud og dine mål.\n\nProduktene kan kjøpes på vår klinikk på Bekkestua."
+      }
+    ],
+    "linkedServices": [
+      {
+        "label": "Hudbehandlinger",
+        "description": "Medisinsk forankrede behandlinger hos hudlege.",
+        "path": "/behandlinger/flere-fagomrader/hudbehandlinger"
+      },
+      {
+        "label": "Behandlingsutstyr (IPL)",
+        "description": "IPL- og laserbehandling.",
+        "path": "/behandlinger/flere-fagomrader/behandlingsutstyr"
+      }
+    ],
+    "relatedSpecialistSlugs": [],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/gastrokirurgi/brokkoperasjon": {
+    "title": "Brokkoperasjon",
+    "subtitle": "Skånsom behandling av lyskebrokk med kikkhull/robot",
+    "parentCategory": "Gastrokirurgi",
+    "description": "Lyskebrokk er en svært vanlig tilstand som skyldes en medfødt svakhet i bukveggen der sædlederen hos menn og det runde livmorsbåndet hos kvinner går gjennom bukveggen i lyskekanalen. Svakheten kan innebære at man utvikler et indirekte brokk der tarminnhold vandrer inn i lyskekanalen og noen ganger ned i pungen, eller et direkte brokk der tarminnhold lager seg en lomme ved siden av lyskekanalen. En sjelden gang kan også brokket ligge under lyskebåndet og ned mot øvre del av låret og kalles da for et lårbrokk. Hos CMedical opererer vi lyskebrokk med den nyeste og mest avanserte robotteknologien, noe som sikrer maksimal trygghet og et skånsomt forløp for deg.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [
+      {
+        "title": "Før operasjonen",
+        "description": "Før operasjonsdagen ber vi deg lese gjennom tilsendt informasjon om anestesi. Siden inngrepet gjøres via små snitt på magen, er en grundig vask av navlen på operasjonsdagen en viktig del av forberedelsene for å unngå infeksjon."
+      },
+      {
+        "title": "Utskrivelse og hjemreise",
+        "description": "Etter operasjonen ligger du til observasjon på vår postoperative avdeling. Før du reiser hjem samme dag, kommer kirurgen innom for en kort samtale om hvordan inngrepet gikk. Siden du har vært i narkose, kan du ikke kjøre bil selv, og du må ha en voksen person sammen med deg det første døgnet."
+      },
+      {
+        "title": "Tiden etterpå",
+        "description": "De første dagene er det helt normalt å kjenne seg litt oppblåst eller ha ubehag i skuldrene på grunn av gassen som brukes under inngrepet – dette lindres enkelt med vanlige smertestillende og rolige gåturer. Du bør unngå tunge løft over 10 kilo de første 6 ukene."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Henvisning",
+        "answer": "Ingen henvisning nødvendig."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg."
+      },
+      {
+        "question": "Sykemelding",
+        "answer": "Som regel er sykemeldingsperioden 4 uker etter brokkoperasjon."
+      },
+      {
+        "question": "Forsikring",
+        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
+      }
+    ],
+    "sections": [
+      {
+        "id": "fordeler",
+        "heading": "Fordeler med robotassistert brokkoperasjon",
+        "content": "Robotkirurger kan utføre ekstremt presise bevegelser gjennom kun tre små hull i magen. For deg som pasient gir denne moderne kikkhullsteknikken store fordeler:\n\n- Minimal skade på omkringliggende vev, nerver og organer.\n- Mindre smerter og ubehag etter inngrepet.\n- Raskere restitusjon og kortere sykemeldingsperiode (som regel 4 uker).\n- Penere kosmetisk resultat sammenlignet med tradisjonell, åpen kirurgi."
+      },
+      {
+        "id": "hvordan-foregar",
+        "heading": "Hvordan foregår operasjonen?",
+        "content": "Inngrepet gjøres i full narkose og tar cirka 60–90 minutter. Kirurgen trekker brokksekken forsiktig tilbake på plass og legger et forsterkende nett over svakheten i bukveggen for å forhindre at brokket kommer tilbake. Det settes lokalbedøvelse i de små sårene under operasjonen, noe som bidrar til lite smerter etter at du våkner."
+      },
+      {
+        "id": "spesialister",
+        "heading": "Trygg behandling hos landets fremste spesialister",
+        "content": "Dr. Jan Roland Lambrecht: Fagansvarlig gastrokirurg hos oss med over 25 års klinisk erfaring fra Norge og Danmark, og en doktorgrad fra UiO. Internasjonalt anerkjent ekspert innen robotassistert kirurgi, brokk- og bukveggskirurgi. Bakgrunn fra bl.a. Oslo universitetssykehus (Ullevål).\n\nDr. Andreas Edenberg: Spesialist i generell- og gastroenterologisk kirurgi med europeisk spesialistgodkjenning. Bred erfaring som overlege fra bl.a. Oslo Universitetssykehus (Ullevål). Ekspert på avansert endoskopi og fedmebehandling."
+      },
+      {
+        "id": "ta-forste-steget",
+        "heading": "Ta det første steget",
+        "content": "Ønsker du å bli kvitt plagene dine og få en vurdering av ditt brokk? Bestill en uforpliktende konsultasjon med våre kirurger."
+      }
+    ],
     "linkedServices": [],
-    "relatedSpecialistSlugs": []
+    "relatedSpecialistSlugs": [
+      "jan-roland-lambrecht",
+      "andreas-edenberg"
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
+  },
+  "flere-fagomrader/gastrokirurgi/hemorroider-og-endetarmsplager": {
+    "title": "Hemorroider og endetarmsplager (rektocele)",
+    "subtitle": "Spesialistkompetanse på plager i endetarm og bekkenbunn",
+    "parentCategory": "Gastrokirurgi",
+    "description": "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene.",
+    "benefitsTitle": "Hvorfor velge oss",
+    "benefits": [],
+    "process": [
+      {
+        "title": "Før operasjonen",
+        "description": "Les gjennom tilsendt informasjon om anestesi. Siden inngrepet gjøres i endetarmen, må du tømme tarmen med et Klyx (120 ml, kjøpes reseptfritt på apoteket) to timer før oppmøte hos oss."
+      },
+      {
+        "title": "Utskrivelse og hjemreise",
+        "description": "Inngrepet gjøres i narkose. Etterpå ligger du til observasjon på vår postoperative avdeling. Før hjemreise samme dag kommer kirurgen innom for en samtale. Siden du har vært i narkose, kan du ikke kjøre bil selv, og du må ha en voksen person med deg det første døgnet."
+      },
+      {
+        "title": "Oppfølging",
+        "description": "Du settes automatisk opp til kontroll hos din kirurg 6–8 uker etter inngrepet for å sikre at alt har grodd fint."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Henvisning",
+        "answer": "Ingen henvisning nødvendig."
+      },
+      {
+        "question": "Ventetid",
+        "answer": "Vi har korte ventetider. Ta kontakt så finner vi en tid som passer deg."
+      },
+      {
+        "question": "Sykemelding",
+        "answer": "Behov for sykemelding vurderes individuelt ut fra yrket ditt."
+      },
+      {
+        "question": "Forsikring",
+        "answer": "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker."
+      }
+    ],
+    "sections": [
+      {
+        "id": "behandling",
+        "heading": "Behandling av hemorroider og marisker",
+        "content": "Hemorroider er utposninger av blodårer i endetarmen, og kan best beskrives som en slags åreknute. Marisker kan sitte på de samme stedene, men består av hud og bindevev uten store blodårer. Dette er svært vanlige og ufarlige tilstander, men de kan skape betydelig ubehag og smerte i hverdagen. Når egenbehandling og reseptfrie salver ikke lenger hjelper, kan kirurgisk behandling være den beste løsningen for å bli helt kvitt plagene."
+      },
+      {
+        "id": "gode-rad",
+        "heading": "Gode råd og forholdsregler etter hjemkomst",
+        "content": "Det er helt vanlig med smerter i tiden rett etter operasjonen, særlig ved avføring de første ukene:\n\n- Smertelindring: Forvent behov for smertestillende i flere dager. Ha Paracetamol og Ibux klart hjemme. Ved behov for sterkere medisiner skriver kirurgen ut resept ved utskrivelse.\n- Skånsom sårpleie: Etter avføring, bruk en lunken hånddusj fremfor tørt papir. Våtservietter eller mykt toalettpapir forsiktig mot sårflaten uten å gni.\n- Bruk av innlegg: Normalt med litt blødning de første dagene – bruk truseinnlegg eller bind.\n- Ingen sting som skal fjernes: Eventuelle små sting løsner og forsvinner av seg selv.\n- Aktivitet og mage: Hold avføringen myk ved å drikke godt og evt. bruke Movicol eller andre bløtgjørende midler. Behov for sykemelding vurderes individuelt ut fra yrket ditt."
+      },
+      {
+        "id": "trygghet",
+        "heading": "Trygghet og ekspertise i sentrum",
+        "content": "Kirurgisk fjerning av hemorroider har lav risiko for komplikasjoner. Hos CMedical blir du operert av Dr. Marian Bale, som har bred erfaring med denne typen inngrep."
+      },
+      {
+        "id": "bestill",
+        "heading": "Bestill en uforpliktende konsultasjon",
+        "content": "Ønsker du å bli kvitt plagene dine? Ta kontakt med oss for en uforpliktende konsultasjon."
+      }
+    ],
+    "linkedServices": [],
+    "relatedSpecialistSlugs": [
+      "marian-bale"
+    ],
+    "relatedTitleOverride": "",
+    "relatedLead": "",
+    "relatedAsIntroOverride": false,
+    "relatedAsServicesOverride": false,
+    "themes": [],
+    "heroVideo": ""
   }
 }

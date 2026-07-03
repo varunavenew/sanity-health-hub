@@ -2,18 +2,15 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate, useParams, useLocation, useTreatmentSlug } from "@/lib/router";
-import { ArrowRight, Check, Phone, Clock, FileText, Shield, Plus, Minus, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, Phone, Clock, FileText, Shield, Info, Plus, Minus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import {
   useTreatment,
   useTreatmentCategory,
-  useFaqsByTreatmentCategory,
   useSiteSettings,
 } from "@/hooks/useSanity";
-import { bookingUrlForTreatment, resolveCategoryNumericId } from "@/lib/bookingLinks";
 import { PageSEO } from "@/components/seo/PageSEO";
 import {
   combineGeoJsonLd,
@@ -23,7 +20,7 @@ import {
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvider";
 import type { TreatmentData } from "@/lib/sanity/treatment-data";
-import { behandlingerCategorySegment, categoryLandingPath } from "@/lib/sanity/category-keys";
+import { getImageUrl } from "@/lib/sanity/image-url";
 
 interface TreatmentPageProps {
   categoryId: string;
@@ -37,7 +34,12 @@ type TreatmentPageContentProps = {
   isChatOpen: boolean;
 };
 
-const QUICK_INFO_ICONS = [FileText, Clock, Shield] as const;
+const QUICK_INFO_ICONS = {
+  "file-text": FileText,
+  clock: Clock,
+  shield: Shield,
+  info: Info,
+} as const;
 
 const formatInlineMarkdown = (text: string): string => {
   return text
@@ -106,27 +108,17 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
   const treatmentSlug = useTreatmentSlug();
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation();
   const { data: treatment, isLoading } = useTreatment(categoryId, treatmentSlug);
-  const { data: sanityCategory } = useTreatmentCategory(categoryId);
-  const { data: sanityFaqs } = useFaqsByTreatmentCategory(categoryId);
+  const { data: category } = useTreatmentCategory(categoryId);
   const { data: siteSettings } = useSiteSettings();
+  const treatmentPageUi = siteSettings?.treatmentPageUi;
 
   const locale = params.locale === "en" ? "en" : "nb";
-  const sanityLang = locale === "en" ? "en" : "no";
-  const behandlingerSegment = behandlingerCategorySegment(categoryId, sanityLang);
-  const categoryPath = categoryLandingPath(categoryId, sanityLang);
-
-  const categoryNumericId = useMemo(
-    () =>
-      resolveCategoryNumericId(categoryId, sanityCategory?.categoryNumericId ?? treatment?.categoryNumericId),
-    [categoryId, sanityCategory?.categoryNumericId, treatment?.categoryNumericId],
-  );
-
-  const treatmentBookingUrl = useMemo(
-    () => bookingUrlForTreatment(categoryId, undefined, categoryNumericId),
-    [categoryId, categoryNumericId],
-  );
+  const categoryPath = treatment?.parentSlug
+    ? `/${treatment.parentSlug}`
+    : category?.slug
+      ? `/${category.slug}`
+      : "";
 
   const breadcrumbHome = useMemo(() => {
     const nav = siteSettings?.mainNavigation as { path?: string; label?: string; navId?: string }[] | undefined;
@@ -136,10 +128,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
 
   const pageUi = useMemo(() => {
     const cta = treatment?.bottomCta;
-    const primaryPath = cta?.primaryPath?.trim() || treatmentBookingUrl;
-    const quickInfoItems = (treatment?.quickInfoItems ?? []).filter(
-      (label): label is string => typeof label === "string" && label.length > 0,
-    );
+    const quickInfoItems = treatment?.quickInfoItems ?? [];
 
     return {
       quickInfoItems,
@@ -150,17 +139,13 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       ctaSubtitle: (cta?.subtitle ?? "").trim(),
       ctaPrimaryLabel: (cta?.primaryLabel ?? "").trim(),
       ctaSecondaryLabel: (cta?.secondaryLabel ?? "").trim(),
-      ctaPrimaryPath: primaryPath,
+      ctaPrimaryPath: (cta?.primaryPath ?? "").trim(),
       ctaSecondaryPath: (cta?.secondaryPath ?? "").trim(),
     };
-  }, [treatment, treatmentBookingUrl]);
+  }, [treatment]);
 
-  const faqs = useMemo(() => {
-    if (sanityFaqs && sanityFaqs.length > 0) return sanityFaqs;
-    return treatment?.faqs ?? [];
-  }, [sanityFaqs, treatment?.faqs]);
-
-  const heroImage = treatment?.heroImage || sanityCategory?.heroImage || "";
+  const faqs = treatment?.faqs ?? [];
+  const heroImage = treatment?.heroImage || "";
 
   useEffect(() => {
     if (treatment?.title) {
@@ -181,7 +166,9 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">{t("common.loading")}</p>
+          <p className="text-muted-foreground font-light">
+            {treatmentPageUi?.loadingLabel}
+          </p>
         </div>
       </PageLayout>
     );
@@ -192,10 +179,14 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-3xl font-normal text-foreground mb-4">{t("treatmentPage.notFoundTitle")}</h1>
-            <p className="text-muted-foreground font-light mb-8">{t("treatmentPage.notFoundBody")}</p>
+            <h1 className="text-3xl font-normal text-foreground mb-4">
+              {treatmentPageUi?.notFoundTitle}
+            </h1>
+            <p className="text-muted-foreground font-light mb-8">
+              {treatmentPageUi?.notFoundBody}
+            </p>
             <Button onClick={() => navigate(categoryPath)} className="rounded-md">
-              {t("treatmentPage.backTo")} {categoryId}
+              {treatmentPageUi?.backLabel}
             </Button>
           </div>
         </div>
@@ -203,14 +194,14 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
     );
   }
 
-  const parentCategory =
-    treatment.parentCategory || sanityCategory?.title || categoryId;
+  const parentCategory = treatment.parentCategory || "";
   const showBottomCta = Boolean(pageUi.ctaTitle);
   const benefitsTitle = (treatment.benefitsTitle ?? "").trim();
-  const treatmentPath = `/behandlinger/${behandlingerSegment}/${treatmentSlug}`;
-  const summaryText =
-    treatment.geoSummary?.trim() ||
-    (treatment.description || "").split("\n")[0].trim();
+  const treatmentPath = `/behandlinger/${treatment.parentSlug}/${treatment.canonicalSlug}`;
+  const summaryText = treatment.geoSummary?.trim() || "";
+  const seo = treatment.seo as
+    | { metaTitle?: string; metaDescription?: string; ogImage?: unknown; noIndex?: boolean }
+    | undefined;
   const geoJsonLd = combineGeoJsonLd(
     medicalWebPageJsonLd({
       name: treatment.title,
@@ -233,9 +224,11 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <PageSEO
-        title={`${treatment.title} – ${parentCategory}`}
-        description={(treatment.description || "").split("\n")[0].slice(0, 155)}
+        title={seo?.metaTitle || ""}
+        description={seo?.metaDescription || ""}
         canonical={treatmentPath}
+        noIndex={!!seo?.noIndex}
+        ogImage={seo?.ogImage ? getImageUrl(seo.ogImage) : undefined}
         breadcrumbs={[
           ...(breadcrumbHome ? [{ name: breadcrumbHome, path: "/" }] : []),
           { name: parentCategory, path: categoryPath },
@@ -248,7 +241,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
         {heroImage ? (
           <AssetImg
             src={heroImage}
-            alt={treatment.title}
+            alt={treatment.heroImageAlt}
             className="w-full h-full object-cover object-[center_30%]"
             loading="eager"
           />
@@ -292,15 +285,15 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
           <div className="max-w-3xl mx-auto">
             {pageUi.quickInfoItems.length > 0 && (
               <div className="flex flex-wrap gap-3 mb-10">
-                {pageUi.quickInfoItems.map((label, i) => {
-                  const Icon = QUICK_INFO_ICONS[i] ?? FileText;
+                {pageUi.quickInfoItems.map((item, i) => {
+                  const Icon = QUICK_INFO_ICONS[item.iconKey];
                   return (
                     <div
-                      key={`${label}-${i}`}
+                      key={`${item.iconKey}-${item.label}-${i}`}
                       className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-secondary/50 border border-border/50"
                     >
                       <Icon className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={1.5} />
-                      <span className="text-xs md:text-sm text-foreground/70 font-light">{label}</span>
+                      <span className="text-xs md:text-sm text-foreground/70 font-light">{item.label}</span>
                     </div>
                   );
                 })}
@@ -547,7 +540,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
 
             <button
               type="button"
-              onClick={() => navigate(`/${categoryId}`)}
+              onClick={() => navigate(categoryPath)}
               className="text-sm text-muted-foreground hover:text-foreground font-light flex items-center gap-1.5 transition-colors"
             >
               <ArrowRight className="w-3.5 h-3.5 rotate-180" />

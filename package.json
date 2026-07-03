@@ -18,8 +18,6 @@
     "backfill:en:dry": "npm run backfill:en:dry --prefix test",
     "backfill:en:all": "npm run backfill:en:all --prefix test",
     "backfill:en:apply-cache": "npm run backfill:en:apply-cache --prefix test",
-    "generate:treatment-sections": "node scripts/generate-treatment-sections-json.mjs",
-    "generate:treatment-full-content": "node scripts/generate-treatment-full-content-json.mjs",
     "migrate:treatment-full": "npm run migrate:treatment-full --prefix test",
     "migrate:treatment-cta": "npm run migrate:treatment-cta --prefix test"
   },

@@ -49,7 +49,7 @@ export type CategoryLandingAudience = {
   title: string;
   desc: string;
   href: string;
-  icon: "couple" | "horizon" | "arch" | "user" | "users" | "clock";
+  icon: "couple" | "horizon" | "arch" | "user" | "users" | "clock" | "";
 };
 
 export type CategoryLandingExpertArea = {
@@ -57,7 +57,7 @@ export type CategoryLandingExpertArea = {
   desc: string;
   href: string;
   image?: string;
-  imageAlt?: string;
+  imageAlt: string;
 };
 
 export type CategoryLandingServiceItem = {
@@ -78,7 +78,7 @@ export type CategoryLandingSpotlight = {
   ctaLabel: string;
   ctaHref: string;
   image?: string;
-  imageAlt?: string;
+  imageAlt: string;
 };
 
 export type CategoryLandingSymptom = {
@@ -86,7 +86,7 @@ export type CategoryLandingSymptom = {
   service: string;
   href: string;
   image?: string;
-  imageAlt?: string;
+  imageAlt: string;
 };
 
 export type CategoryLandingReview = {
@@ -97,6 +97,7 @@ export type CategoryLandingReview = {
 
 export type CategoryLandingPage = {
   srOnlyTitle?: string;
+  breadcrumbHomeLabel: string;
   hero: {
     eyebrow: string;
     heading: string;
@@ -132,14 +133,23 @@ export type CategoryLandingPage = {
     title: string;
     description: string;
     layout: "grid" | "carousel";
+    readMoreLabel: string;
     areas: CategoryLandingExpertArea[];
   };
   supportSection: {
     title: string;
     description: string;
+    readMoreLabel: string;
     areas: CategoryLandingExpertArea[];
   };
   spotlightSection: CategoryLandingSpotlight | null;
+  journeySection: {
+    title: string;
+    description: string;
+    ctaLabel: string;
+    ctaHref: string;
+    steps: CategoryLandingStep[];
+  };
   audiencesSection: {
     eyebrow: string;
     title: string;
@@ -148,6 +158,7 @@ export type CategoryLandingPage = {
     audiences: CategoryLandingAudience[];
   };
   symptomsSection: {
+    eyebrow: string;
     title: string;
     description: string;
     items: CategoryLandingSymptom[];
@@ -189,6 +200,8 @@ export type TreatmentCategoryData = {
   slug?: string;
   title: string;
   geoSummary?: string;
+  loadingLabel: string;
+  missingLandingMessage: string;
   heroImage?: string;
   heroVideo?: string;
   categoryNumericId?: number;
@@ -208,6 +221,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   const expertAreasSection = (raw.expertAreasSection as Record<string, unknown>) || {};
   const supportSection = (raw.supportSection as Record<string, unknown>) || {};
   const spotlightSection = (raw.spotlightSection as Record<string, unknown>) || {};
+  const journeySection = (raw.journeySection as Record<string, unknown>) || {};
   const audiencesSection = (raw.audiencesSection as Record<string, unknown>) || {};
   const symptomsSection = (raw.symptomsSection as Record<string, unknown>) || {};
   const servicesSection = (raw.servicesSection as Record<string, unknown>) || {};
@@ -257,7 +271,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       href: asPlainString(a.href),
       icon: (validIcons.includes(icon as (typeof validIcons)[number])
         ? icon
-        : "couple") as CategoryLandingAudience["icon"],
+        : "") as CategoryLandingAudience["icon"],
     };
   });
 
@@ -269,7 +283,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
         desc: asPlainString(a.description),
         href: asPlainString(a.href),
         image: asPlainString(a.image) || undefined,
-        imageAlt: asPlainString(a.imageAlt) || undefined,
+        imageAlt: asPlainString(a.imageAlt),
       };
     });
 
@@ -294,6 +308,14 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
   });
 
   const segmentsLayout = asPlainString(segmentsSection.layout);
+  const journeySteps = ((journeySection.steps as unknown[]) || []).map((row) => {
+    const s = row as Record<string, unknown>;
+    return {
+      n: asPlainString(s.number),
+      title: asPlainString(s.title),
+      desc: asPlainString(s.description),
+    };
+  });
   const spotlightTitle = asPlainString(spotlightSection.title);
   const spotlight =
     spotlightTitle || asPlainString(spotlightSection.text)
@@ -304,7 +326,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
           ctaLabel: asPlainString(spotlightSection.ctaLabel),
           ctaHref: asPlainString(spotlightSection.ctaHref),
           image: asPlainString(spotlightSection.image) || undefined,
-          imageAlt: asPlainString(spotlightSection.imageAlt) || undefined,
+          imageAlt: asPlainString(spotlightSection.imageAlt),
         }
       : null;
 
@@ -315,7 +337,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       service: asPlainString(s.service),
       href: asPlainString(s.href),
       image: asPlainString(s.image) || undefined,
-      imageAlt: asPlainString(s.imageAlt) || undefined,
+      imageAlt: asPlainString(s.imageAlt),
     };
   });
 
@@ -334,6 +356,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
 
   return {
     srOnlyTitle: asPlainString(raw.srOnlyTitle) || undefined,
+    breadcrumbHomeLabel: asPlainString(raw.breadcrumbHomeLabel),
     hero: {
       eyebrow: asPlainString(hero.eyebrow),
       heading: asPlainString(hero.heading),
@@ -369,14 +392,23 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       title: asPlainString(expertAreasSection.title),
       description: asPlainString(expertAreasSection.description),
       layout: expertAreasLayout === "grid" ? "grid" : "carousel",
+      readMoreLabel: asPlainString(expertAreasSection.readMoreLabel),
       areas: expertAreas,
     },
     supportSection: {
       title: asPlainString(supportSection.title),
       description: asPlainString(supportSection.description),
+      readMoreLabel: asPlainString(supportSection.readMoreLabel),
       areas: supportAreas,
     },
     spotlightSection: spotlight,
+    journeySection: {
+      title: asPlainString(journeySection.title),
+      description: asPlainString(journeySection.description),
+      ctaLabel: asPlainString(journeySection.ctaLabel),
+      ctaHref: asPlainString(journeySection.ctaHref),
+      steps: journeySteps,
+    },
     audiencesSection: {
       eyebrow: asPlainString(audiencesSection.eyebrow),
       title: asPlainString(audiencesSection.title),
@@ -385,6 +417,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       audiences,
     },
     symptomsSection: {
+      eyebrow: asPlainString(symptomsSection.eyebrow),
       title: asPlainString(symptomsSection.title),
       description: asPlainString(symptomsSection.description),
       items: symptoms,
@@ -456,6 +489,8 @@ export function mapTreatmentCategoryDocument(
     slug: asPlainString(data.slug) || undefined,
     title: asPlainString(data.title),
     geoSummary: asPlainString(data.geoSummary) || undefined,
+    loadingLabel: asPlainString(data.loadingLabel),
+    missingLandingMessage: asPlainString(data.missingLandingMessage),
     heroImage: asPlainString(data.heroImage) || undefined,
     heroVideo: asPlainString(data.heroVideo) || undefined,
     categoryNumericId:

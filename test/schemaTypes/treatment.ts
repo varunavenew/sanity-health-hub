@@ -51,6 +51,12 @@ export default {
       validation: (Rule: any) => Rule.required().error('Hero-bilde er påkrevd'),
     },
     {
+      name: 'heroImageAlt',
+      title: 'Hero-bilde — alt-tekst',
+      type: 'internationalizedArrayString',
+      validation: reqI18n('Hero-bilde — alt-tekst'),
+    },
+    {
       name: 'description',
       title: 'Introduksjonstekst',
       type: 'internationalizedArrayText',
@@ -154,8 +160,38 @@ export default {
       name: 'quickInfoItems',
       title: 'Hurtiginfo',
       type: 'array',
-      of: [{ type: 'internationalizedArrayString' }],
-      description: 'F.eks. Ingen henvisning, Kort ventetid, Forsikring godkjent',
+      of: [{
+        type: 'object',
+        name: 'treatmentQuickInfoItem',
+        fields: [
+          {
+            name: 'iconKey',
+            title: 'Ikon',
+            type: 'string',
+            options: {
+              list: [
+                {title: 'Dokument', value: 'file-text'},
+                {title: 'Klokke', value: 'clock'},
+                {title: 'Skjold', value: 'shield'},
+                {title: 'Informasjon', value: 'info'},
+              ],
+            },
+            validation: reqStr('Ikon'),
+          },
+          {
+            name: 'label',
+            title: 'Tekst',
+            type: 'internationalizedArrayString',
+            validation: reqI18n('Hurtiginfo-tekst'),
+          },
+        ],
+        preview: {
+          select: {title: 'label', subtitle: 'iconKey'},
+          prepare({title, subtitle}: any) {
+            return {title: pickNo(title), subtitle}
+          },
+        },
+      }],
       validation: (Rule: any) => Rule.required().min(1).error('Legg til minst ett hurtiginfo-punkt'),
     },
     {
@@ -200,7 +236,7 @@ export default {
           name: 'primaryPath',
           title: 'Primær lenke',
           type: 'string',
-          description: 'Tom = booking for behandlingens kategori.',
+          validation: reqStr('Primær lenke'),
         },
         {
           name: 'secondaryPath',
@@ -365,12 +401,12 @@ export default {
       validation: (Rule: any) => Rule.required().error('Sorteringsrekkefølge er påkrevd'),
     },
     // Hidden in Studio — not rendered on live treatment pages (TreatmentPage uses fields above).
-    // {
-    //   name: 'layout',
-    //   title: 'Sidelayout',
-    //   description: 'Hero, forløp, symptomer og relaterte behandlinger (SubTreatmentLayout)',
-    //   type: 'subTreatmentLayout',
-    // },
+    {
+      name: 'layout',
+      title: 'Sidelayout (SubTreatment)',
+      description: 'Hero, forløp, symptomer og relaterte behandlinger — brukes på gynekologi m.fl.',
+      type: 'subTreatmentLayout',
+    },
     pageSectionsField,
     {
       name: 'seo',
@@ -378,7 +414,10 @@ export default {
       type: 'seo',
       validation: requiredNoEnSeo,
     },
-    geoSummaryField,
+    {
+      ...geoSummaryField,
+      validation: reqI18n('GEO-sammendrag'),
+    },
   ],
   orderings: [
     {

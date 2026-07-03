@@ -22,6 +22,18 @@ export default {
       type: 'internationalizedArrayBlockContent',
     },
     {
+      name: 'loadingLabel',
+      title: 'Laster-tekst',
+      type: 'internationalizedArrayString',
+      description: 'Vises mens personvernerklæringen lastes.',
+    },
+    {
+      name: 'emptyMessage',
+      title: 'Melding når innhold mangler',
+      type: 'internationalizedArrayText',
+      description: 'Vises når personvernerklæringen ikke har innhold på valgt språk.',
+    },
+    {
       name: 'cookiebotKey',
       title: 'Cookiebot Key',
       type: 'string',

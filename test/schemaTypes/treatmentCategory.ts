@@ -143,6 +143,18 @@ export default {
       validation: (Rule: any) => Rule.required().error('Sorteringsrekkefølge er påkrevd'),
     },
     categoryLandingPageField,
+    {
+      name: 'loadingLabel',
+      title: 'Laster-tekst',
+      type: 'internationalizedArrayString',
+      validation: reqI18n('Laster-tekst'),
+    },
+    {
+      name: 'missingLandingMessage',
+      title: 'Melding når landingsinnhold mangler',
+      type: 'internationalizedArrayText',
+      validation: reqI18n('Melding når landingsinnhold mangler'),
+    },
     pageSectionsField,
     {
       name: 'seo',
@@ -150,7 +162,10 @@ export default {
       type: 'seo',
       validation: requiredNoEnSeo,
     },
-    geoSummaryField,
+    {
+      ...geoSummaryField,
+      validation: reqI18n('GEO-sammendrag'),
+    },
   ],
   orderings: [
     {

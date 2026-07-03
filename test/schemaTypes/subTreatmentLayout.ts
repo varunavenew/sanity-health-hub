@@ -2,10 +2,12 @@
  * Rich treatment sub-page layout (hero, flow, reasons, promises, related).
  * Matches SubTreatmentLayout on the frontend.
  */
-import { pickNo } from './i18n'
+import { pickNo, requiredNoEnI18n } from './i18n'
 
 const i18nString = { type: 'internationalizedArrayString' as const }
 const i18nText = { type: 'internationalizedArrayText' as const }
+const reqI18n = requiredNoEnI18n
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
 
 const titledItemPreview = {
   select: { title: 'title' },
@@ -19,9 +21,33 @@ export const subTreatmentLayoutType = {
   title: 'Sidelayout (hero, forløp, symptomer)',
   type: 'object',
   fields: [
+    { name: 'homeBreadcrumbLabel', title: 'Brødsmule — hjem', ...i18nString, validation: reqI18n('Brødsmule — hjem') },
+    { name: 'srOnlyTitle', title: 'Skjult H1', ...i18nString, validation: reqI18n('Skjult H1') },
+    { name: 'themesAriaLabel', title: 'Temaer — aria-label', ...i18nString, validation: reqI18n('Temaer — aria-label') },
+    { name: 'seePricesLabel', title: 'Se priser — tekst', ...i18nString, validation: reqI18n('Se priser — tekst') },
+    { name: 'seePricesHref', title: 'Se priser — lenke', type: 'string', validation: reqStr('Se priser — lenke') },
+    { name: 'callCtaLabel', title: 'Ring oss — tekst', ...i18nString, validation: reqI18n('Ring oss — tekst') },
+    { name: 'expertReadMoreLabel', title: 'Ekspertkort — lenketekst', ...i18nString, validation: reqI18n('Ekspertkort — lenketekst') },
+    { name: 'scrollLeftLabel', title: 'Karusell — scroll venstre', ...i18nString, validation: reqI18n('Karusell — scroll venstre') },
+    { name: 'scrollRightLabel', title: 'Karusell — scroll høyre', ...i18nString, validation: reqI18n('Karusell — scroll høyre') },
+    { name: 'insuranceEyebrow', title: 'Forsikring — eyebrow', ...i18nString, validation: reqI18n('Forsikring — eyebrow') },
+    { name: 'insuranceTitle', title: 'Forsikring — tittel', ...i18nString, validation: reqI18n('Forsikring — tittel') },
+    {
+      name: 'insurancePartners',
+      title: 'Forsikringspartnere',
+      type: 'array',
+      validation: (Rule: any) => Rule.required().min(1),
+      of: [{
+        type: 'object',
+        fields: [
+          {name: 'key', title: 'Nøkkel', type: 'string', validation: reqStr('Nøkkel')},
+          {name: 'label', title: 'Navn', ...i18nString, validation: reqI18n('Navn')},
+        ],
+      }],
+    },
     { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
-    { name: 'heroTitle', title: 'Hero-tittel', ...i18nString },
-    { name: 'heroDescription', title: 'Hero-ingress', ...i18nText },
+    { name: 'heroTitle', title: 'Hero-tittel', ...i18nString, validation: reqI18n('Hero-tittel') },
+    { name: 'heroDescription', title: 'Hero-ingress', ...i18nText, validation: reqI18n('Hero-ingress') },
     {
       name: 'heroPoints',
       title: 'Hero-punkter',
@@ -38,7 +64,19 @@ export const subTreatmentLayoutType = {
       ],
     },
     { name: 'rating', title: 'Vurdering / tagline', ...i18nString },
-    { name: 'primaryCtaLabel', title: 'Primær CTA-tekst', ...i18nString },
+    { name: 'heroPrice', title: 'Hero — prislinje', ...i18nString },
+    { name: 'hideSeePriser', title: 'Skjul «Se priser»-lenke', type: 'boolean' },
+    { name: 'heroAvailability', title: 'Hero — tilgjengelighet', ...i18nString },
+    {
+      name: 'heroThemes',
+      title: 'Hero — tema-chips',
+      type: 'array',
+      of: [{ type: 'internationalizedArrayString' }],
+    },
+    { name: 'heroImage', title: 'Hero-bilde (høyre kolonne)', type: 'image', options: { hotspot: true }, validation: (Rule: any) => Rule.required() },
+    { name: 'heroImageAlt', title: 'Hero-bilde — alt', ...i18nString, validation: reqI18n('Hero-bilde — alt') },
+    { name: 'heroVideo', title: 'Hero-video URL', type: 'url' },
+    { name: 'primaryCtaLabel', title: 'Primær CTA-tekst', ...i18nString, validation: reqI18n('Primær CTA-tekst') },
     {
       name: 'bookingService',
       title: 'Booking tjeneste-ID',
@@ -46,7 +84,11 @@ export const subTreatmentLayoutType = {
       description: 'Valgfritt — sendes til booking (f.eks. hysterektomi)',
     },
     { name: 'flowEyebrow', title: 'Forløp — eyebrow', ...i18nString },
-    { name: 'flowTitle', title: 'Forløp — tittel', ...i18nString },
+    { name: 'flowTitle', title: 'Forløp — tittel', ...i18nString, validation: reqI18n('Forløp — tittel') },
+    { name: 'flowImage', title: 'Forløp — bilde', type: 'image', options: { hotspot: true } },
+    { name: 'flowImageAlt', title: 'Forløp — bilde alt', ...i18nString, validation: reqI18n('Forløp — bilde alt') },
+    { name: 'flowLinkLabel', title: 'Forløp — lenketekst', ...i18nString },
+    { name: 'flowLinkHref', title: 'Forløp — lenke', type: 'string' },
     {
       name: 'flow',
       title: 'Forløp — steg',
@@ -57,7 +99,7 @@ export const subTreatmentLayoutType = {
           fields: [
             { name: 'n', title: 'Steg-nummer / etikett', ...i18nString },
             { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
+            { name: 'desc', title: 'Beskrivelse', ...i18nText, validation: reqI18n('Beskrivelse') },
           ],
           preview: titledItemPreview,
         },
@@ -67,6 +109,20 @@ export const subTreatmentLayoutType = {
     { name: 'reasonsTitle', title: 'Symptomer — tittel', ...i18nString },
     { name: 'reasonsLead', title: 'Symptomer — ingress 1', ...i18nText },
     { name: 'reasonsLead2', title: 'Symptomer — ingress 2', ...i18nText },
+    {
+      name: 'reasonsLayout',
+      title: 'Symptomer — layout',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Prosa (standard)', value: 'prose' },
+          { title: 'Trekkspill', value: 'accordion' },
+          { title: 'Auto', value: 'auto' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'prose',
+    },
     {
       name: 'reasons',
       title: 'Symptomer / indikasjoner',
@@ -94,6 +150,8 @@ export const subTreatmentLayoutType = {
             { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
             { name: 'title', title: 'Tittel', ...i18nString },
             { name: 'desc', title: 'Beskrivelse', ...i18nText },
+            { name: 'image', title: 'Bilde', type: 'image', options: {hotspot: true}, validation: (Rule: any) => Rule.required() },
+            { name: 'imageAlt', title: 'Bilde — alt', ...i18nString, validation: reqI18n('Bilde — alt') },
           ],
           preview: titledItemPreview,
         },
@@ -101,6 +159,70 @@ export const subTreatmentLayoutType = {
     },
     { name: 'relatedEyebrow', title: 'Relatert — eyebrow', ...i18nString },
     { name: 'relatedTitle', title: 'Relatert — tittel', ...i18nString },
+    { name: 'relatedLead', title: 'Relatert — ingress', ...i18nText },
+    { name: 'relatedAsIntro', title: 'Relatert rett etter hero', type: 'boolean' },
+    { name: 'relatedAsServices', title: 'Relatert som tjenestekarusell', type: 'boolean' },
+    {
+      name: 'relatedSeeAllHref',
+      title: 'Relatert — «se alle»-lenke',
+      type: 'string',
+      description: 'F.eks. /behandlinger/fertilitet',
+    },
+    { name: 'relatedSeeAllLabel', title: 'Relatert — «se alle»-tekst', ...i18nString },
+    {
+      name: 'expertAreas',
+      title: 'Ekspertområder',
+      type: 'object',
+      fields: [
+        { name: 'title', title: 'Tittel', ...i18nString },
+        { name: 'description', title: 'Ingress', ...i18nText },
+        {
+          name: 'items',
+          title: 'Kort',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'title', title: 'Tittel', ...i18nString },
+                { name: 'desc', title: 'Beskrivelse', ...i18nText },
+                { name: 'path', title: 'Lenke', type: 'string', validation: reqStr('Lenke') },
+                { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true }, validation: (Rule: any) => Rule.required() },
+                { name: 'imageAlt', title: 'Bilde — alt', ...i18nString, validation: reqI18n('Bilde — alt') },
+              ],
+              preview: titledItemPreview,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'textSection',
+      title: 'Tekst + bilde-seksjon',
+      type: 'object',
+      fields: [
+        { name: 'title', title: 'Tittel', ...i18nString },
+        { name: 'lead', title: 'Ingress', ...i18nText },
+        {
+          name: 'points',
+          title: 'Punkter',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                { name: 'n', title: 'Nummer', ...i18nString },
+                { name: 'title', title: 'Tittel', ...i18nString },
+                { name: 'desc', title: 'Beskrivelse', ...i18nText },
+              ],
+              preview: titledItemPreview,
+            },
+          ],
+        },
+        { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true }, validation: (Rule: any) => Rule.required() },
+        { name: 'imageAlt', title: 'Bilde alt', ...i18nString, validation: reqI18n('Bilde alt') },
+      ],
+    },
     {
       name: 'related',
       title: 'Relaterte behandlinger',
@@ -116,8 +238,11 @@ export const subTreatmentLayoutType = {
               name: 'path',
               title: 'URL-sti (NO)',
               type: 'string',
+              validation: reqStr('URL-sti'),
               description: 'F.eks. /behandlinger/gynekologi/endometriose',
             },
+            { name: 'image', title: 'Kortbilde', type: 'image', options: { hotspot: true }, validation: (Rule: any) => Rule.required() },
+            { name: 'imageAlt', title: 'Kortbilde — alt', ...i18nString, validation: reqI18n('Kortbilde — alt') },
           ],
           preview: titledItemPreview,
         },
@@ -125,6 +250,9 @@ export const subTreatmentLayoutType = {
     },
     { name: 'ctaTitle', title: 'Avsluttende CTA — tittel', ...i18nString },
     { name: 'ctaDescription', title: 'Avsluttende CTA — tekst', ...i18nText },
+    { name: 'conversationCtaTitle', title: 'Midt-CTA — tittel', ...i18nString },
+    { name: 'specialistTitle', title: 'Spesialist-seksjon — tittel', ...i18nString },
+    { name: 'specialistDescription', title: 'Spesialist-seksjon — ingress', ...i18nText },
     {
       name: 'specialistCtaLabel',
       title: 'Spesialist-seksjon — CTA-tekst',

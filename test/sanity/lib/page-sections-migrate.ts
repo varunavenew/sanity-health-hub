@@ -316,8 +316,58 @@ export function buildHomepageSpecialistsSection() {
   })
 }
 
+export function buildServicesPageSpecialistsSection() {
+  return buildSpecialistsSection({
+    key: 'services-specialists',
+    displayMode: 'all',
+    titleNo: 'Spesialistene som utfører behandlingene',
+    titleEn: 'The specialists who perform the treatments',
+    seeAllNo: 'Se alle spesialister',
+    seeAllEn: 'See all specialists',
+    seeAllHref: '/spesialister',
+    limit: 24,
+    variant: 'carousel',
+  })
+}
+
 export function buildHomepageBookingCtaSection() {
   return buildBookingCtaSection({ key: 'homepage-booking-cta' })
+}
+
+export function bookingPathForTreatment(kategori: string, tjeneste?: string): string {
+  const sp = new URLSearchParams()
+  if (kategori.trim()) sp.set('kategori', kategori.trim())
+  if (tjeneste?.trim()) sp.set('tjeneste', tjeneste.trim())
+  const qs = sp.toString()
+  return qs ? `/booking?${qs}` : '/booking'
+}
+
+/** Dark footer booking CTA for treatment sub-pages (SubTreatmentLayout). */
+export function buildSubTreatmentBookingCtaSection(options: {
+  slug: string
+  categoryRef: string
+  kategori: string
+  tjeneste?: string
+  primaryLabelNo?: string
+  primaryLabelEn?: string
+}) {
+  const {
+    slug,
+    categoryRef,
+    kategori,
+    tjeneste,
+    primaryLabelNo = DEFAULT_BOOKING_NO.primaryLabel,
+    primaryLabelEn = DEFAULT_BOOKING_EN.primaryLabel,
+  } = options
+
+  return buildBookingCtaSection({
+    key: `booking-cta-${slug}`,
+    categoryRef,
+    primaryPath: bookingPathForTreatment(kategori, tjeneste),
+    primaryLabelNo,
+    primaryLabelEn,
+    variant: 'dark',
+  })
 }
 
 export function mergePageSections(

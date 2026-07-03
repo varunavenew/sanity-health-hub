@@ -58,19 +58,6 @@ const ABOUT_FALLBACK = {
   },
 } as const;
 
-const NEWS_FALLBACK = {
-  nb: {
-    title: "Aktuelt | CMedical",
-    description:
-      "Hold deg oppdatert med nyheter og medisinske fagartikler fra CMedical.",
-  },
-  en: {
-    title: "News | CMedical",
-    description:
-      "Stay updated with news and medical insights from CMedical.",
-  },
-} as const;
-
 export async function buildHomeMetadata(locale: string): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
@@ -128,14 +115,26 @@ export async function buildPrivacyMetadata(locale: string): Promise<Metadata> {
   const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchPrivacyPolicyPageDocument(sanityLang);
-  const title = data?.title?.trim() || PRIVACY_FALLBACK[lang].title;
-  const description = PRIVACY_FALLBACK[lang].description;
+  const seo = data?.seo;
+  const { title, description } = resolveMetaStrings(seo, lang, {
+    nb: {
+      title: data?.title?.trim() || PRIVACY_FALLBACK.nb.title,
+      description: PRIVACY_FALLBACK.nb.description,
+    },
+    en: {
+      title: data?.title?.trim() || PRIVACY_FALLBACK.en.title,
+      description: PRIVACY_FALLBACK.en.description,
+    },
+  });
+  const ogImage = seo?.ogImage ? getImageUrl(seo.ogImage) : undefined;
 
   return buildPageMetadata({
     locale,
     paths: await fetchSingletonLocalizedPaths("privacyPolicyPage"),
     title,
     description,
+    ogImage: ogImage || undefined,
+    noIndex: !!seo?.noIndex,
     type: "website",
   });
 }
@@ -196,11 +195,11 @@ export async function buildInsuranceMetadata(locale: string): Promise<Metadata> 
 }
 
 export async function buildNewsMetadata(locale: string): Promise<Metadata> {
-  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchNewsPageDocument(sanityLang);
   const seo = data?.seo;
-  const { title, description } = resolveMetaStrings(seo, lang, NEWS_FALLBACK);
+  const title = plainMetaString(seo?.metaTitle, "", sanityLang);
+  const description = plainMetaString(seo?.metaDescription, "", sanityLang);
 
   return buildPageMetadata({
     locale,
@@ -216,29 +215,12 @@ export async function buildNewsMetadata(locale: string): Promise<Metadata> {
   });
 }
 
-const SPECIALISTS_ABOUT_FALLBACK = {
-  nb: {
-    title: "Om våre spesialister – Erfaring og spisskompetanse",
-    description:
-      "Les om CMedicals spesialistteam. Ledende eksperter innen gynekologi, fertilitet, urologi og ortopedi – samlet på ett sted.",
-  },
-  en: {
-    title: "About our specialists – Experience and expertise",
-    description:
-      "Learn about CMedical's specialist team. Leading experts in gynecology, fertility, urology and orthopedics – all in one place.",
-  },
-} as const;
-
 export async function buildSpecialistsAboutMetadata(locale: string): Promise<Metadata> {
-  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const data = await fetchSpecialistsPageDocument(sanityLang);
   const seo = data?.seo;
-  const { title, description } = resolveMetaStrings(
-    seo,
-    lang,
-    SPECIALISTS_ABOUT_FALLBACK,
-  );
+  const title = plainMetaString(seo?.metaTitle, "", sanityLang);
+  const description = plainMetaString(seo?.metaDescription, "", sanityLang);
 
   return buildPageMetadata({
     locale,
@@ -254,36 +236,13 @@ export async function buildSpecialistsAboutMetadata(locale: string): Promise<Met
   });
 }
 
-const SERVICES_FALLBACK = {
-  nb: {
-    title: "Tjenester – Finn behandlingen som passer for deg",
-    description:
-      "Se alle tjenester hos CMedical: gynekologi, fertilitet, urologi, ortopedi og flere fagområder. Ingen henvisning, kort ventetid.",
-  },
-  en: {
-    title: "Services – Find the right treatment for you",
-    description:
-      "View all services at CMedical: gynecology, fertility, urology, orthopedics and more specialties. No referral needed, short waiting times.",
-  },
-} as const;
-
 export async function buildServicesMetadata(locale: string): Promise<Metadata> {
-  const lang = appLocaleFromParam(locale);
   const sanityLang = sanityContentLangFromLocale(locale);
   const paths = await fetchSingletonLocalizedPaths("servicesPage");
   const data = await fetchServicesPageDocument(sanityLang);
   const seo = data?.seo;
-  const resolved = resolveMetaStrings(seo, lang, SERVICES_FALLBACK);
-  const title = plainMetaString(
-    seo?.metaTitle,
-    data?.title?.trim() || resolved.title,
-    sanityLang,
-  );
-  const description = plainMetaString(
-    seo?.metaDescription,
-    data?.introText?.trim().slice(0, 160) || resolved.description,
-    sanityLang,
-  );
+  const title = plainMetaString(seo?.metaTitle, "", sanityLang);
+  const description = plainMetaString(seo?.metaDescription, "", sanityLang);
 
   return buildPageMetadata({
     locale,

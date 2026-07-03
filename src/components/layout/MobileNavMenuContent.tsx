@@ -5,7 +5,10 @@ import { ChevronDown, Phone, Mail, MapPin } from "lucide-react";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import type { ServiceCategory, SubCategory } from "@/data/serviceCategories";
+import type {
+  ServiceCategory,
+  SubCategory,
+} from "@/lib/sanity/service-category-types";
 
 type MobileNavMenuContentProps = {
   moreItems: { label: string; path: string }[];

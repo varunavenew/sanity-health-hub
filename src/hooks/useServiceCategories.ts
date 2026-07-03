@@ -1,5 +1,5 @@
 import { useServiceCategoriesFromSanity } from "@/hooks/useSanity";
-import type { ServiceCategory } from "@/data/serviceCategories";
+import type { ServiceCategory } from "@/lib/sanity/service-category-types";
 
 /** Fetches service categories from Sanity CMS (`treatmentCategory`). */
 export const useServiceCategories = (): {

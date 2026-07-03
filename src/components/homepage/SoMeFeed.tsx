@@ -103,7 +103,7 @@ const SoMePostImage = ({
   className,
 }: {
   post: SoMePost;
-  fallbackImage: ImageRef;
+  fallbackImage?: ImageRef;
   className?: string;
 }) => {
   const [src, setSrc] = useState<ImageRef>(post.image);
@@ -114,7 +114,7 @@ const SoMePostImage = ({
       alt={post.alt || ""}
       loading="lazy"
       className={className}
-      onError={() => setSrc(fallbackImage)}
+      onError={fallbackImage ? () => setSrc(fallbackImage) : undefined}
     />
   );
 };
@@ -124,15 +124,15 @@ interface SoMeFeedProps {
   compact?: boolean;
   /** CMS posts from Sanity — takes priority over live Instagram feed */
   posts?: SanitySocialPost[] | null;
-  /** When true, skip Instagram API and only use CMS / fallback images */
-  cmsOnly?: boolean;
+  /** Select one source explicitly; sources never fall through to one another. */
+  sourceMode?: "cms" | "api" | "local";
 }
 
 export const SoMeFeed = ({
   maxPosts,
   compact,
   posts: cmsPosts,
-  cmsOnly = false,
+  sourceMode = "local",
 }: SoMeFeedProps = {}) => {
   const { data: settings } = useSiteSettings();
   const social = settings?.socialMedia || fallbackSocial;
@@ -142,7 +142,7 @@ export const SoMeFeed = ({
     queryFn: fetchInstagramPosts,
     staleTime: 1000 * 60 * 15,
     retry: 1,
-    enabled: !cmsOnly && !cmsPosts?.length,
+    enabled: sourceMode === "api",
   });
 
   const cmsMapped = sanityPostsToSoMeFeed(cmsPosts || undefined, social);
@@ -158,9 +158,9 @@ export const SoMeFeed = ({
     }));
 
   const posts: SoMePost[] =
-    cmsMapped.length > 0
+    sourceMode === "cms"
       ? cmsMapped
-      : instagramPosts.length > 0
+      : sourceMode === "api"
         ? instagramPosts
         : fallbackPosts;
 
@@ -189,7 +189,11 @@ export const SoMeFeed = ({
           >
             <SoMePostImage
               post={post}
-              fallbackImage={fallbackPosts[index % fallbackPosts.length].image}
+              fallbackImage={
+                sourceMode === "local"
+                  ? fallbackPosts[index % fallbackPosts.length].image
+                  : undefined
+              }
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
@@ -231,7 +235,11 @@ export const SoMeFeed = ({
             <a key={post.id} href={post.permalink} target="_blank" rel="noopener noreferrer" className="group relative aspect-square rounded-sm overflow-hidden bg-secondary">
               <SoMePostImage
                 post={post}
-                fallbackImage={fallbackPosts[index % fallbackPosts.length].image}
+                fallbackImage={
+                  sourceMode === "local"
+                    ? fallbackPosts[index % fallbackPosts.length].image
+                    : undefined
+                }
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />

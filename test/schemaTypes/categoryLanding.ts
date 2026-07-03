@@ -113,7 +113,7 @@ const expertAreaCard = {
       type: 'image',
       options: { hotspot: true },
     },
-    { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr },
+    { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr, validation: reqI18n('Bilde alt-tekst') },
   ],
   preview: i18nTitleItemPreview,
 }
@@ -132,7 +132,7 @@ const symptomItem = {
       type: 'image',
       options: { hotspot: true },
     },
-    { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr },
+    { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr, validation: reqI18n('Bilde alt-tekst') },
   ],
   preview: {
     select: { title: 'symptom', subtitle: 'service' },
@@ -250,8 +250,8 @@ export const categoryLandingPageField = {
           ...i18nStr,
           validation: reqI18n('Sidebilde alt-tekst'),
         },
-        { name: 'footerLinkLabel', title: 'Footer-lenke tekst', ...i18nStr },
-        { name: 'footerLinkHref', title: 'Footer-lenke URL', type: 'string' },
+        { name: 'footerLinkLabel', title: 'Footer-lenke tekst', ...i18nStr, validation: reqI18n('Footer-lenke tekst') },
+        { name: 'footerLinkHref', title: 'Footer-lenke URL', type: 'string', validation: reqStr('Footer-lenke URL') },
       ],
     },
     {
@@ -262,6 +262,7 @@ export const categoryLandingPageField = {
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Overskrift', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
+        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr, validation: reqI18n('Les mer-tekst') },
         {
           name: 'layout',
           title: 'Visning',
@@ -290,12 +291,30 @@ export const categoryLandingPageField = {
       fields: [
         { name: 'title', title: 'Overskrift', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
+        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr, validation: reqI18n('Les mer-tekst') },
         {
           name: 'areas',
           title: 'Kort',
           type: 'array',
           of: [expertAreaCard],
         },
+      ],
+    },
+    {
+      name: 'journeySection',
+      title: 'Pasientreisen (valgfritt, etter anmeldelser)',
+      type: 'object',
+      fields: [
+        { name: 'title', title: 'Overskrift', ...i18nStr },
+        { name: 'description', title: 'Ingress', ...i18nTxt },
+        {
+          name: 'steps',
+          title: 'Steg',
+          type: 'array',
+          of: [stepItem],
+        },
+        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr, validation: reqI18n('Knappetekst') },
+        { name: 'ctaHref', title: 'Knappelenke', type: 'string' },
       ],
     },
     {
@@ -306,15 +325,15 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Overskrift', ...i18nStr },
         { name: 'titleEmphasis', title: 'Overskrift (kursiv del)', ...i18nStr },
         { name: 'text', title: 'Tekst', ...i18nTxt },
-        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr },
-        { name: 'ctaHref', title: 'Knappelenke', type: 'string' },
+        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr, validation: reqI18n('Knappetekst') },
+        { name: 'ctaHref', title: 'Knappelenke', type: 'string', validation: reqStr('Knappelenke') },
         {
           name: 'image',
           title: 'Bilde',
           type: 'image',
           options: { hotspot: true },
         },
-        { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr },
+        { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr, validation: reqI18n('Bilde alt-tekst') },
       ],
     },
     {
@@ -342,6 +361,7 @@ export const categoryLandingPageField = {
       type: 'object',
       validation: (Rule: any) => Rule.required().error('Symptomsjekk-seksjonen er påkrevd'),
       fields: [
+        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr, validation: reqI18n('Eyebrow') },
         { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
         { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
         {
@@ -364,9 +384,8 @@ export const categoryLandingPageField = {
         { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
         {
           name: 'groups',
-          title: 'Grupper (valgfritt)',
-          description:
-            'Gruppert tjenesteliste. Hvis tom, brukes behandlingslisten fra kategoridokumentet.',
+          title: 'Grupper',
+          description: 'Gruppert tjenesteliste i ønsket visningsrekkefølge.',
           type: 'array',
           of: [
             {
@@ -397,6 +416,7 @@ export const categoryLandingPageField = {
               preview: i18nTitleItemPreview,
             },
           ],
+          validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én tjenestegruppe'),
         },
       ],
     },
@@ -429,6 +449,12 @@ export const categoryLandingPageField = {
           validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én anmeldelse'),
         },
       ],
+    },
+    {
+      name: 'breadcrumbHomeLabel',
+      title: 'Brødsmule — hjem',
+      type: 'internationalizedArrayString',
+      validation: reqI18n('Brødsmule — hjem'),
     },
     {
       name: 'srOnlyTitle',

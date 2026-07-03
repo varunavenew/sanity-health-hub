@@ -2,7 +2,6 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "@/lib/router";
 import { ArrowRight, Check, Star, Quote, User, Users, Clock } from "lucide-react";
 import {
@@ -15,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
-import { categoryLandingPath } from "@/lib/sanity/category-keys";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
@@ -28,6 +26,7 @@ import type {
   CategoryLandingExpertArea,
   CategoryLandingSegment,
   CategoryLandingSpotlight,
+  CategoryLandingStep,
 } from "@/lib/sanity/category-data";
 import type { CategoryLandingPageProps } from "@/lib/behandlinger/create-category-landing-page";
 import {
@@ -64,7 +63,7 @@ const SegmentArchIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const AUDIENCE_ICONS: Record<
-  CategoryLandingAudience["icon"],
+  Exclude<CategoryLandingAudience["icon"], "">,
   React.ComponentType<React.SVGProps<SVGSVGElement>>
 > = {
   couple: SegmentCoupleIcon,
@@ -78,10 +77,12 @@ const AUDIENCE_ICONS: Record<
 function ExpertAreaCards({
   areas,
   layout,
+  readMoreLabel,
   scrollRef,
 }: {
   areas: CategoryLandingExpertArea[];
   layout: "grid" | "carousel";
+  readMoreLabel: string;
   scrollRef?: React.RefObject<HTMLDivElement | null>;
 }) {
   const isCarousel = layout === "carousel";
@@ -108,7 +109,7 @@ function ExpertAreaCards({
               {a.image ? (
                 <AssetImg
                   src={a.image}
-                  alt={a.imageAlt || a.title}
+                  alt={a.imageAlt}
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
@@ -120,7 +121,7 @@ function ExpertAreaCards({
                 {a.desc}
               </p>
               <span className="inline-flex items-center text-sm font-light text-foreground gap-2 group-hover:gap-2.5 transition-all">
-                Les mer
+                {readMoreLabel}
                 <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
@@ -171,11 +172,83 @@ function SegmentAccordionContent({ segment }: { segment: CategoryLandingSegment 
           to={segment.href}
           className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
         >
-          {segment.cta || "Les mer"}
+          {segment.cta}
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       ) : null}
     </div>
+  );
+}
+
+function PatientJourneySection({
+  title,
+  description,
+  steps,
+  ctaLabel,
+  ctaHref,
+  bookingParams,
+}: {
+  title: string;
+  description: string;
+  steps: CategoryLandingStep[];
+  ctaLabel: string;
+  ctaHref: string;
+  bookingParams: { kategori: string; tjeneste?: string };
+}) {
+  if (steps.length === 0) return null;
+
+  const ctaTarget =
+    ctaHref ||
+    buildBookingUrl(bookingParams);
+
+  return (
+    <section className="bg-background">
+      <div className="container mx-auto px-6 md:px-16 py-20 md:py-28">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-14 lg:gap-24">
+          <div className="lg:col-span-5">
+            {title ? (
+              <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground mb-8">
+                {title}
+              </h2>
+            ) : null}
+            {description ? (
+              <p className="text-base font-light text-muted-foreground leading-relaxed mb-10 max-w-md">
+                {description}
+              </p>
+            ) : null}
+            {ctaLabel ? (
+              <Button
+                variant="cta"
+                size="lg"
+                className="px-8"
+                onClick={() => {
+                  window.location.href = ctaTarget;
+                }}
+              >
+                {ctaLabel}
+              </Button>
+            ) : null}
+          </div>
+          <div className="lg:col-span-7">
+            <div className="divide-y divide-border/60 border-t border-border/60">
+              {steps.map((step) => (
+                <div key={step.n || step.title} className="grid grid-cols-12 gap-4 py-6">
+                  <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
+                    {step.n}
+                  </div>
+                  <div className="col-span-10 md:col-span-11">
+                    <h3 className="text-base font-normal text-foreground mb-1.5">{step.title}</h3>
+                    <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -203,7 +276,7 @@ function SpotlightSection({ spotlight }: { spotlight: CategoryLandingSpotlight }
                 to={spotlight.ctaHref}
                 className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
               >
-                {spotlight.ctaLabel || "Les mer"}
+                {spotlight.ctaLabel}
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             ) : null}
@@ -213,7 +286,7 @@ function SpotlightSection({ spotlight }: { spotlight: CategoryLandingSpotlight }
           <div className="relative min-h-[320px] lg:min-h-full order-1 lg:order-2">
             <AssetImg
               src={spotlight.image}
-              alt={spotlight.imageAlt || spotlight.title}
+              alt={spotlight.imageAlt}
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -229,11 +302,11 @@ const TreatmentCategoryLanding = ({
   categoryId,
   sanityLang = "no",
 }: TreatmentCategoryLandingProps) => {
-  const { t } = useTranslation();
   const { data: category, isPending } = useTreatmentCategory(categoryId);
   const landing = category?.landingPage;
   const heroImage = category?.heroImage;
   const heroVideo = category?.heroVideo;
+  const loadingLabel = category?.loadingLabel || "";
   const expertAreasRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
 
@@ -241,7 +314,9 @@ const TreatmentCategoryLanding = ({
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">{t("common.loading")}</p>
+          <p className="text-muted-foreground font-light" aria-live="polite">
+            {loadingLabel}
+          </p>
         </div>
       </PageLayout>
     );
@@ -251,8 +326,8 @@ const TreatmentCategoryLanding = ({
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
-          <p className="text-muted-foreground font-light max-w-md">
-            {category?.title || categoryId}: landing content is not configured in Sanity yet (Behandlingskategori → Landingsside).
+          <p className="text-muted-foreground font-light max-w-md" aria-live="polite">
+            {category?.missingLandingMessage}
           </p>
         </div>
       </PageLayout>
@@ -265,6 +340,7 @@ const TreatmentCategoryLanding = ({
     whySection,
     expertAreasSection,
     supportSection,
+    journeySection,
     spotlightSection,
     audiencesSection,
     symptomsSection,
@@ -273,35 +349,17 @@ const TreatmentCategoryLanding = ({
     reviewsSection,
   } = landing;
 
-  const serviceGroups =
-    servicesSection.groups.length > 0
-      ? servicesSection.groups
-      : category?.treatments?.length
-        ? [
-            {
-              label: servicesSection.eyebrow || servicesSection.title,
-              items: category.treatments.map((s) => ({
-                title: s.title,
-                desc: s.desc,
-                href: s.href,
-              })),
-            },
-          ]
-        : [];
+  const serviceGroups = servicesSection.groups;
 
   const stats = category?.stats?.length ? category.stats : [];
 
   const locale = sanityLang === "en" ? "en" : "nb";
-  const categoryPath = categoryLandingPath(categoryId, sanityLang);
-  const categoryTitle = category?.title || categoryId;
-  const summaryText =
-    category?.geoSummary?.trim() ||
-    hero.body?.split("\n")[0]?.trim() ||
-    categoryTitle ||
-    "";
+  const categoryPath = category?.slug ? `/${category.slug}` : "";
+  const categoryTitle = category?.title || "";
+  const summaryText = category?.geoSummary?.trim() || "";
   const geoJsonLd = combineGeoJsonLd(
     medicalWebPageJsonLd({
-      name: hero.heading || categoryTitle,
+      name: hero.heading,
       description: summaryText.slice(0, 320),
       url: categoryPath,
       inLanguage: locale === "en" ? "en" : "nb-NO",
@@ -317,14 +375,14 @@ const TreatmentCategoryLanding = ({
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <JsonLd data={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd} />
-      <h1 className="sr-only">{landing.srOnlyTitle || hero.heading}</h1>
+      <h1 className="sr-only">{landing.srOnlyTitle}</h1>
 
       {/* Hero */}
       <header className="bg-brand-light pt-24 lg:pt-0">
         <div className="lg:hidden px-6 md:px-16 pb-4">
           <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
             <Link to="/" className="hover:text-foreground">
-              {t("nav.home", "Hjem")}
+              {landing.breadcrumbHomeLabel}
             </Link>
             <span aria-hidden="true">›</span>
             <span className="text-foreground/80">{categoryTitle}</span>
@@ -347,7 +405,7 @@ const TreatmentCategoryLanding = ({
                 className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10"
               >
                 <Link to="/" className="hover:text-foreground">
-                  {t("nav.home", "Hjem")}
+                  {landing.breadcrumbHomeLabel}
                 </Link>
                 <span aria-hidden="true">›</span>
                 <span className="text-foreground/80">{categoryTitle}</span>
@@ -382,11 +440,11 @@ const TreatmentCategoryLanding = ({
                     window.location.href = buildBookingUrl(bookingParams);
                   }}
                 >
-                  {hero.primaryCtaLabel || t("cta.bookConsultation")}
+                  {hero.primaryCtaLabel}
                 </Button>
                 <CallUsClinicPicker
                   variant="light"
-                  label={hero.secondaryCtaLabel || t("booking.callUs")}
+                  label={hero.secondaryCtaLabel}
                 />
               </div>
 
@@ -418,7 +476,7 @@ const TreatmentCategoryLanding = ({
               ) : heroImage ? (
                 <AssetImg
                   src={heroImage}
-                  alt={hero.heroImageAlt || categoryTitle}
+                  alt={hero.heroImageAlt}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               ) : null}
@@ -430,7 +488,7 @@ const TreatmentCategoryLanding = ({
 
       {/* Segments — accordion or grid */}
       {segmentsSection.segments.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+        <section className="bg-brand-light text-foreground py-20 md:py-28">
           <div className="container mx-auto px-6 md:px-16">
             <div
               className={`mx-auto ${
@@ -477,7 +535,7 @@ const TreatmentCategoryLanding = ({
                           to={s.href}
                           className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all"
                         >
-                          {s.cta || "Les mer"}
+                          {s.cta}
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                       ) : null}
@@ -546,7 +604,7 @@ const TreatmentCategoryLanding = ({
                     to={whySection.footerLinkHref}
                     className="inline-flex items-center gap-2 mt-10 text-sm font-light text-foreground hover:gap-2.5 hover:text-foreground/70 transition-all"
                   >
-                    {whySection.footerLinkLabel || "Les mer"}
+                    {whySection.footerLinkLabel}
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 ) : null}
@@ -557,7 +615,7 @@ const TreatmentCategoryLanding = ({
               {whySection.image ? (
                 <AssetImg
                   src={whySection.image}
-                  alt={whySection.imageAlt || hero.heroImageAlt || categoryTitle}
+                  alt={whySection.imageAlt}
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -591,14 +649,16 @@ const TreatmentCategoryLanding = ({
 
               <div className={`${threeCardGridClass(audiencesSection.audiences.length)} gap-4 md:gap-6`}>
                 {audiencesSection.audiences.map((a) => {
-                  const Icon = AUDIENCE_ICONS[a.icon] || SegmentCoupleIcon;
+                  const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
                   return (
                     <div
                       key={a.title}
                       className="bg-background rounded-sm border border-border/40 flex flex-col p-7"
                     >
                       <div className="mb-6 text-foreground/80">
-                        <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+                        {Icon ? (
+                          <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" />
+                        ) : null}
                       </div>
                       <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
@@ -609,7 +669,7 @@ const TreatmentCategoryLanding = ({
                           to={a.href}
                           className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all self-start"
                         >
-                          {audiencesSection.readMoreLabel || "Les mer"}
+                          {audiencesSection.readMoreLabel}
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
                       ) : null}
@@ -650,6 +710,7 @@ const TreatmentCategoryLanding = ({
               <ExpertAreaCards
                 areas={expertAreasSection.areas}
                 layout={expertAreasSection.layout}
+                readMoreLabel={expertAreasSection.readMoreLabel}
                 scrollRef={expertAreasRef}
               />
             </div>
@@ -661,6 +722,7 @@ const TreatmentCategoryLanding = ({
       {symptomsSection.items.length > 0 ? (
         <SymptomServiceSection
           background="background"
+          eyebrow={symptomsSection.eyebrow}
           title={symptomsSection.title}
           description={symptomsSection.description}
           items={symptomsSection.items.map((item) => ({
@@ -671,6 +733,67 @@ const TreatmentCategoryLanding = ({
             imageAlt: item.imageAlt,
           }))}
         />
+      ) : null}
+
+      {/* Stats */}
+      {stats.length > 0 ? (
+        <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+                <div className="lg:col-span-5">
+                  {resultsSection.eyebrow ? (
+                    <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
+                      {resultsSection.eyebrow}
+                    </p>
+                  ) : null}
+                  <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                    {resultsSection.title}
+                  </h2>
+                </div>
+                <div className="lg:col-span-7 flex items-end">
+                  {resultsSection.description ? (
+                    <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
+                      {resultsSection.description}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="border-t border-brand-dark/5 py-8 md:py-10">
+                {resultsSection.categoryLabel ? (
+                  <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
+                    {resultsSection.categoryLabel}
+                  </p>
+                ) : null}
+                <dl
+                  className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15`}
+                >
+                  {stats.map((row, i) => (
+                    <div
+                      key={row.label}
+                      className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === stats.length - 1 ? "md:pr-0" : ""}`}
+                    >
+                      <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
+                        <AnimatedStat value={row.value} />
+                      </dd>
+                      <dt className="text-sm font-normal text-foreground mb-1">{row.label}</dt>
+                      {row.sub ? (
+                        <p className="text-xs font-light text-muted-foreground">{row.sub}</p>
+                      ) : null}
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              {resultsSection.footnote ? (
+                <p className="text-xs font-light text-muted-foreground mt-8">
+                  {resultsSection.footnote}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </section>
       ) : null}
 
       {/* Services — grouped list */}
@@ -742,68 +865,11 @@ const TreatmentCategoryLanding = ({
                   </p>
                 ) : null}
               </div>
-              <ExpertAreaCards areas={supportSection.areas} layout="grid" />
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {/* Stats */}
-      {stats.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-                <div className="lg:col-span-5">
-                  {resultsSection.eyebrow ? (
-                    <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
-                      {resultsSection.eyebrow}
-                    </p>
-                  ) : null}
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                    {resultsSection.title}
-                  </h2>
-                </div>
-                <div className="lg:col-span-7 flex items-end">
-                  {resultsSection.description ? (
-                    <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
-                      {resultsSection.description}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="border-t border-brand-dark/15 py-8 md:py-10">
-                {resultsSection.categoryLabel ? (
-                  <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
-                    {resultsSection.categoryLabel}
-                  </p>
-                ) : null}
-                <dl
-                  className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15`}
-                >
-                  {stats.map((row, i) => (
-                    <div
-                      key={row.label}
-                      className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === stats.length - 1 ? "md:pr-0" : ""}`}
-                    >
-                      <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
-                        <AnimatedStat value={row.value} />
-                      </dd>
-                      <dt className="text-sm font-normal text-foreground mb-1">{row.label}</dt>
-                      {row.sub ? (
-                        <p className="text-xs font-light text-muted-foreground">{row.sub}</p>
-                      ) : null}
-                    </div>
-                  ))}
-                </dl>
-              </div>
-
-              {resultsSection.footnote ? (
-                <p className="text-xs font-light text-muted-foreground mt-8">
-                  {resultsSection.footnote}
-                </p>
-              ) : null}
+              <ExpertAreaCards
+                areas={supportSection.areas}
+                layout="grid"
+                readMoreLabel={supportSection.readMoreLabel}
+              />
             </div>
           </div>
         </section>
@@ -862,6 +928,17 @@ const TreatmentCategoryLanding = ({
       {spotlightSection ? <SpotlightSection spotlight={spotlightSection} /> : null}
 
       <PageSectionsRenderer sections={category?.pageSections} />
+
+      {journeySection.steps.length > 0 ? (
+        <PatientJourneySection
+          title={journeySection.title}
+          description={journeySection.description}
+          steps={journeySection.steps}
+          ctaLabel={journeySection.ctaLabel}
+          ctaHref={journeySection.ctaHref}
+          bookingParams={bookingParams}
+        />
+      ) : null}
     </PageLayout>
   );
 };

@@ -8,7 +8,13 @@
  *   npm run migrate:services-page-content
  */
 import { sanityClient } from "./config";
+import { DEFAULT_PAGE_BOOKING_CTA } from "./data/page-booking-cta-copy";
 import { i18nString, i18nText } from "./lib/category-landing-i18n";
+import {
+  buildBookingCtaSectionFromCopy,
+  buildServicesPageSpecialistsSection,
+  hasSectionType,
+} from "./lib/page-sections-migrate";
 import { patchSingletonFields } from "./lib/patch-singleton";
 import { servicesPageFaqs } from "./data/services-page-faqs";
 
@@ -38,6 +44,22 @@ function hasBadges(value: unknown): boolean {
 
 function hasFeatured(value: unknown): boolean {
   return Array.isArray(value) && value.length > 0;
+}
+
+function buildServicesPageSections(existing: unknown[] | undefined): unknown[] {
+  const sections = Array.isArray(existing) ? [...existing] : [];
+
+  if (FORCE || !hasSectionType(sections, "pageSectionSpecialists")) {
+    sections.unshift(buildServicesPageSpecialistsSection());
+  }
+
+  if (FORCE || !hasSectionType(sections, "pageSectionBookingCta")) {
+    sections.push(
+      buildBookingCtaSectionFromCopy("services-booking-cta", DEFAULT_PAGE_BOOKING_CTA),
+    );
+  }
+
+  return sections;
 }
 
 const DEFAULTS: Record<string, unknown> = {
@@ -90,7 +112,15 @@ const DEFAULTS: Record<string, unknown> = {
   ],
   faqSectionTitle: i18nString("Ofte stilte spørsmål", "Frequently asked questions"),
   faqs: servicesPageFaqs,
-  faqCategory: "tjenester",
+  loadingLabel: i18nString("Laster tjenester…", "Loading services…"),
+  pageErrorMessage: i18nText(
+    "Tjenestesiden kunne ikke lastes.",
+    "The services page could not be loaded.",
+  ),
+  emptyCategoriesMessage: i18nText(
+    "Ingen tjenestekategorier er konfigurert ennå.",
+    "No service categories have been configured yet.",
+  ),
   seo: {
     _type: "seo",
     metaTitle: i18nString(
@@ -105,7 +135,12 @@ const DEFAULTS: Record<string, unknown> = {
 };
 
 function buildPatch(existing: Record<string, unknown> | null): Record<string, unknown> {
-  if (FORCE || !existing) return { ...DEFAULTS };
+  if (FORCE || !existing) {
+    return {
+      ...DEFAULTS,
+      pageSections: buildServicesPageSections(undefined),
+    };
+  }
 
   const patch: Record<string, unknown> = {};
 
@@ -117,6 +152,9 @@ function buildPatch(existing: Record<string, unknown> | null): Record<string, un
     "searchPlaceholder",
     "featuredSectionTitle",
     "faqSectionTitle",
+    "loadingLabel",
+    "pageErrorMessage",
+    "emptyCategoriesMessage",
   ] as const;
 
   for (const key of i18nFields) {
@@ -148,6 +186,20 @@ function buildPatch(existing: Record<string, unknown> | null): Record<string, un
   }
 
   if (!existing.seo) patch.seo = DEFAULTS.seo;
+
+  const existingSections = Array.isArray(existing.pageSections)
+    ? (existing.pageSections as unknown[])
+    : undefined;
+  const nextSections = buildServicesPageSections(existingSections);
+  const sectionsChanged =
+    FORCE ||
+    !existingSections?.length ||
+    nextSections.length !== existingSections.length ||
+    !hasSectionType(existingSections, "pageSectionSpecialists");
+
+  if (sectionsChanged) {
+    patch.pageSections = nextSections;
+  }
 
   return patch;
 }

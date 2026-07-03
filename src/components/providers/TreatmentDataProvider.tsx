@@ -7,7 +7,7 @@ type TreatmentInitial = {
   lang: "no" | "en";
   categorySlug: string;
   treatmentSlug: string;
-  /** Norwegian slug key for static sub-page content (gynekologiSubPages, etc.). */
+  /** Norwegian slug key used to match the server-provided Sanity document. */
   contentSlug?: string;
   data: TreatmentData | null;
 };

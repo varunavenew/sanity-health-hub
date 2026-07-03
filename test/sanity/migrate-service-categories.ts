@@ -76,7 +76,7 @@ const categoryImages: Record<string, string> = {
   "flere-fagomrader": "categories/flere-fagomrader.jpg",
 };
 
-// ── Static data (mirrored from src/data/serviceCategories.ts) ──
+// ── Historical seed data for the one-time Sanity migration ──
 
 interface SubItem {
   label: string;

@@ -1,7 +1,7 @@
 // Schema: Site Settings
 // Global settings: navigation menu, contact info, social media, 404 page
 import { SettingsIcon } from './icons'
-import { pickNo } from './i18n'
+import { pickNo, requiredNoEnI18n } from './i18n'
 
 export default {
   name: 'siteSettings',
@@ -14,9 +14,43 @@ export default {
     { name: 'footer', title: 'Footer' },
     { name: 'social', title: 'Sosiale medier' },
     { name: 'notFound', title: '404-side' },
+    { name: 'treatment', title: 'Behandlingsside' },
   ],
   fields: [
     // ── General ──
+    {
+      name: 'treatmentPageUi',
+      title: 'Generisk behandlingsside',
+      type: 'object',
+      group: 'treatment',
+      validation: (Rule: any) => Rule.required(),
+      fields: [
+        {
+          name: 'loadingLabel',
+          title: 'Laster-tekst',
+          type: 'internationalizedArrayString',
+          validation: requiredNoEnI18n('Laster-tekst'),
+        },
+        {
+          name: 'notFoundTitle',
+          title: 'Ikke funnet — tittel',
+          type: 'internationalizedArrayString',
+          validation: requiredNoEnI18n('Ikke funnet — tittel'),
+        },
+        {
+          name: 'notFoundBody',
+          title: 'Ikke funnet — tekst',
+          type: 'internationalizedArrayText',
+          validation: requiredNoEnI18n('Ikke funnet — tekst'),
+        },
+        {
+          name: 'backLabel',
+          title: 'Tilbake-lenke',
+          type: 'internationalizedArrayString',
+          validation: requiredNoEnI18n('Tilbake-lenke'),
+        },
+      ],
+    },
     {
       name: 'title',
       title: 'Nettstedsnavn',

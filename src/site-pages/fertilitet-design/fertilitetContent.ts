@@ -1,6 +1,6 @@
 // Shared content for the /fertilitet-design proposals.
 // Pulls real copy from src/site-pages/treatments/Fertility.tsx and
-// src/data/fertilitetSubPages.tsx so variants stay in sync.
+// Kept as design-preview content; production treatment pages are sourced from Sanity.
 
 import {
   HeartPulse,
