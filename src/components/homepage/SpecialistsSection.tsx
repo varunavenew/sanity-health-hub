@@ -1,3 +1,5 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Link } from "@/lib/router";

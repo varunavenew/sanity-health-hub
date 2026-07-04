@@ -154,7 +154,6 @@ export default {
           preview: i18nFaqItemPreview,
         },
       ],
-      validation: (Rule: any) => Rule.required().min(1).error('Legg til minst ett FAQ-element'),
     },
     {
       name: 'quickInfoItems',

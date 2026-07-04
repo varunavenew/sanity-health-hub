@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Quote, ArrowRight, User } from "lucide-react";
 import { PartialStars } from "@/components/ui/partial-stars";

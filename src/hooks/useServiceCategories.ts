@@ -1,3 +1,5 @@
+"use client";
+
 import { useServiceCategoriesFromSanity } from "@/hooks/useSanity";
 import type { ServiceCategory } from "@/lib/sanity/service-category-types";
 
