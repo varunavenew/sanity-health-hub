@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "@/lib/router";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useSpecialists, useSpecialist as useSanitySpecialist } from "@/hooks/useSanity";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 import { specialistMatchesCategory } from "@/lib/sanity/category-keys";

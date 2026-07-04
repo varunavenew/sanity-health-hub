@@ -1,3 +1,5 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { MapPin, Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 import { Link, useLocaleParam } from "@/lib/router";

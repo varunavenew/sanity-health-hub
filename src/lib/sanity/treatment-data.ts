@@ -121,6 +121,15 @@ export type TreatmentBottomCta = {
   secondaryPath?: string;
 };
 
+export type TreatmentQuickInfoIconKey = "file-text" | "clock" | "shield" | "info";
+
+const QUICK_INFO_ICON_KEYS: TreatmentQuickInfoIconKey[] = [
+  "file-text",
+  "clock",
+  "shield",
+  "info",
+];
+
 export type TreatmentData = {
   title: string;
   subtitle?: string;
@@ -134,7 +143,7 @@ export type TreatmentData = {
   benefits?: { title: string; description: string }[];
   linkedServicesSectionTitle?: string;
   processSectionTitle?: string;
-  quickInfoItems?: { iconKey: "file-text" | "clock" | "shield" | "info"; label: string }[];
+  quickInfoItems?: { iconKey: TreatmentQuickInfoIconKey; label: string }[];
   faqSectionTitle?: string;
   bottomCta?: TreatmentBottomCta;
   process?: { title: string; description: string }[];
@@ -176,16 +185,17 @@ export function mapTreatmentDocument(
 
   const bottomCtaRaw = data.bottomCta as Record<string, unknown> | undefined;
   const quickInfoItems = ((data.quickInfoItems as unknown[]) || [])
-    .map((item) => {
+    .map((item, index) => {
+      if (item == null || typeof item !== "object") return null;
       const row = item as Record<string, unknown>;
-      const iconKey = asPlainString(row.iconKey);
-      if (!["file-text", "clock", "shield", "info"].includes(iconKey)) return null;
+      const label = asPlainString(row.label);
+      if (!label) return null;
       return {
-        iconKey: iconKey as "file-text" | "clock" | "shield" | "info",
-        label: asPlainString(row.label),
+        iconKey: QUICK_INFO_ICON_KEYS[index % QUICK_INFO_ICON_KEYS.length],
+        label,
       };
     })
-    .filter((item): item is NonNullable<typeof item> => Boolean(item?.label));
+    .filter((item): item is NonNullable<typeof item> => item != null);
 
   return {
     title: asPlainString(data.title),

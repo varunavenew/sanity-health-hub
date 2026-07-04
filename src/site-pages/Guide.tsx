@@ -1,3 +1,5 @@
+"use client";
+
 import { useNavigate } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";

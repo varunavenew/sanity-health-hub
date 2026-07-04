@@ -1,3 +1,5 @@
+"use client";
+
 import { AssetImg } from "@/components/AssetImg";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "@/lib/router";
@@ -54,9 +56,10 @@ export const HeroBanner = () => {
   }, [heroSlides.length]);
 
   useEffect(() => {
+    if (heroSlides.length === 0) return;
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [heroSlides.length, next]);
 
   const dragStart = useRef<number | null>(null);
   const dragging = useRef(false);

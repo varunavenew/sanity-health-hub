@@ -126,7 +126,6 @@ export default {
           },
         },
       ],
-      validation: (Rule: any) => Rule.required().min(1).error('Velg minst én behandling'),
     },
     {
       name: 'stats',

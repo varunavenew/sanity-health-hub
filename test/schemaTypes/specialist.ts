@@ -222,8 +222,7 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
       description:
-        'Velg minst ett FAQ-element som vises på profilsiden. Hvert FAQ-dokument må ha spørsmål og svar på norsk og engelsk.',
-      validation: (Rule: any) => Rule.required().min(1).error('Velg minst ett FAQ-element'),
+        'Valgfrie FAQ-elementer som vises på profilsiden. Hvert FAQ-dokument må ha spørsmål og svar på norsk og engelsk.',
     },
     {
       name: 'relatedSpecialistsSection',
