@@ -143,13 +143,42 @@ const SUB_TREATMENT_LAYOUT_GROQ = `
       "image": image.asset->url,
       ${i18nString('imageAlt')}
     },
-    related[]{
-      ${i18nString('eyebrow')},
+    related[]->{
+      "eyebrow": coalesce(
+        category->title[language == $lang][0].value,
+        category->title[_key == $lang][0].value,
+        category->title[language == "no"][0].value,
+        category->title[_key == "no"][0].value
+      ),
       ${i18nString('title')},
-      ${i18nText('desc')},
-      path,
-      "image": image.asset->url,
-      ${i18nString('imageAlt')}
+      "desc": coalesce(
+        description[language == $lang][0].value,
+        description[_key == $lang][0].value,
+        description[language == "no"][0].value,
+        description[_key == "no"][0].value,
+        description
+      ),
+      "path": "/behandlinger/" + coalesce(
+        category->slug[language == $lang][0].value.current,
+        category->slug[_key == $lang][0].value.current,
+        category->slug[language == "no"][0].value.current,
+        category->slug[_key == "no"][0].value.current,
+        category->categoryId
+      ) + "/" + coalesce(
+        slug[language == $lang][0].value.current,
+        slug[_key == $lang][0].value.current,
+        slug[language == "no"][0].value.current,
+        slug[_key == "no"][0].value.current,
+        slug.current
+      ),
+      "image": heroImage.asset->url,
+      "imageAlt": coalesce(
+        heroImageAlt[language == $lang][0].value,
+        heroImageAlt[_key == $lang][0].value,
+        heroImageAlt[language == "no"][0].value,
+        heroImageAlt[_key == "no"][0].value,
+        heroImageAlt
+      )
     },
     expertAreas{
       ${i18nString('title')},

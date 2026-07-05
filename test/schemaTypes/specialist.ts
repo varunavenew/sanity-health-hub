@@ -347,13 +347,11 @@ export default {
         issues.push('Minst én booking kategori-ID må velges')
       }
       const faqs = document.faqs as unknown[] | undefined
-      if (!Array.isArray(faqs) || faqs.length === 0) {
-        issues.push('Minst ett FAQ-element må velges')
-      }
-      if (!pickNo(document.faqSectionTitle)?.trim()) {
+      const hasFaqs = Array.isArray(faqs) && faqs.length > 0
+      if (hasFaqs && !pickNo(document.faqSectionTitle)?.trim()) {
         issues.push('FAQ-overskrift (norsk) mangler')
       }
-      if (!pickForLang(document.faqSectionTitle, 'en')?.trim()) {
+      if (hasFaqs && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
         issues.push('FAQ-overskrift (engelsk) mangler')
       }
       const related = document.relatedSpecialistsSection as Record<string, unknown> | undefined

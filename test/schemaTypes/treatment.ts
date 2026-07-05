@@ -477,17 +477,15 @@ export default {
         issues.push('Overskrift behandlingsprosess (engelsk) mangler')
       }
       const faqs = document.faqs as unknown[] | undefined
-      if (!Array.isArray(faqs) || faqs.length === 0) {
-        issues.push('Minst ett FAQ-element må legges til')
-      }
+      const hasFaqs = Array.isArray(faqs) && faqs.length > 0
       const quickInfo = document.quickInfoItems as unknown[] | undefined
       if (!Array.isArray(quickInfo) || quickInfo.length === 0) {
         issues.push('Minst ett hurtiginfo-punkt må legges til')
       }
-      if (!pickNo(document.faqSectionTitle)?.trim()) {
+      if (hasFaqs && !pickNo(document.faqSectionTitle)?.trim()) {
         issues.push('FAQ-overskrift (norsk) mangler')
       }
-      if (!pickForLang(document.faqSectionTitle, 'en')?.trim()) {
+      if (hasFaqs && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
         issues.push('FAQ-overskrift (engelsk) mangler')
       }
       const bottomCta = document.bottomCta as Record<string, unknown> | undefined

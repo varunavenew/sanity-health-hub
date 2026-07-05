@@ -224,24 +224,12 @@ export const subTreatmentLayoutType = {
     {
       name: 'related',
       title: 'Relaterte behandlinger',
+      description: 'Velg og sorter behandlingene som skal vises i karusellen.',
       type: 'array',
       of: [
         {
-          type: 'object',
-          fields: [
-            { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
-            {
-              name: 'path',
-              title: 'URL-sti (NO)',
-              type: 'string',
-              description: 'F.eks. /behandlinger/gynekologi/endometriose',
-            },
-            { name: 'image', title: 'Kortbilde', type: 'image', options: { hotspot: true } },
-            { name: 'imageAlt', title: 'Kortbilde — alt', ...i18nString },
-          ],
-          preview: titledItemPreview,
+          type: 'reference',
+          to: [{ type: 'treatment' }],
         },
       ],
     },

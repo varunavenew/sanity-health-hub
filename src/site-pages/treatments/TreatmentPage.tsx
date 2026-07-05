@@ -6,6 +6,7 @@ import { useNavigate, useParams, useLocation, useTreatmentSlug } from "@/lib/rou
 import { ArrowRight, Check, Phone, Clock, FileText, Shield, Info, Plus, Minus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import {
   useTreatment,
   useTreatmentCategory,
@@ -20,6 +21,7 @@ import {
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { TreatmentDataProvider } from "@/components/providers/TreatmentDataProvider";
 import type { TreatmentData } from "@/lib/sanity/treatment-data";
+import { mapTreatmentToSubTreatmentContent } from "@/lib/sanity/map-sub-treatment-content";
 import { getImageUrl } from "@/lib/sanity/image-url";
 
 interface TreatmentPageProps {
@@ -191,6 +193,23 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
           </div>
         </div>
       </PageLayout>
+    );
+  }
+
+  if (treatment.layout) {
+    const content = mapTreatmentToSubTreatmentContent(treatment, {
+      categoryId,
+      treatmentSlug: treatmentSlug || treatment.canonicalSlug || "",
+      lang: locale === "en" ? "en" : "no",
+    });
+
+    return (
+      <SubTreatmentLayout
+        isChatOpen={isChatOpen}
+        content={content}
+        locale={locale === "en" ? "en" : "no"}
+        pageSections={treatment.pageSections}
+      />
     );
   }
 
