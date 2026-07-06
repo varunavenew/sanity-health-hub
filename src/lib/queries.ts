@@ -77,129 +77,32 @@ const localizedSlugBoth = `
   )
 `;
 
-const localizedFaqRow = `${i18nString('question')}, ${i18nText('answer')}`;
+const localizedFaqRow = `
+  "question": coalesce(
+    @->question[language == $lang][0].value,
+    @->question[_key == $lang][0].value,
+    @->question[language == "no"][0].value,
+    @->question[_key == "no"][0].value,
+    question[language == $lang][0].value,
+    question[_key == $lang][0].value,
+    question[language == "no"][0].value,
+    question[_key == "no"][0].value,
+    question
+  ),
+  "answer": coalesce(
+    @->answer[language == $lang][0].value,
+    @->answer[_key == $lang][0].value,
+    @->answer[language == "no"][0].value,
+    @->answer[_key == "no"][0].value,
+    answer[language == $lang][0].value,
+    answer[_key == $lang][0].value,
+    answer[language == "no"][0].value,
+    answer[_key == "no"][0].value,
+    answer
+  )
+`;
 
 const localizedGoogleReviewRow = `_id, author, rating, ${i18nText('text')}, date`;
-
-const SUB_TREATMENT_LAYOUT_GROQ = `
-  layout{
-    ${i18nString('homeBreadcrumbLabel')},
-    ${i18nString('srOnlyTitle')},
-    ${i18nString('themesAriaLabel')},
-    ${i18nString('seePricesLabel')},
-    seePricesHref,
-    ${i18nString('callCtaLabel')},
-    ${i18nString('expertReadMoreLabel')},
-    ${i18nString('scrollLeftLabel')},
-    ${i18nString('scrollRightLabel')},
-    ${i18nString('insuranceEyebrow')},
-    ${i18nString('insuranceTitle')},
-    insurancePartners[]{ key, ${i18nString('label')} },
-    ${i18nString('eyebrow')},
-    ${i18nString('heroTitle')},
-    ${i18nText('heroDescription')},
-    ${i18nString('rating')},
-    ${i18nString('heroPrice')},
-    hideSeePriser,
-    ${i18nString('heroAvailability')},
-    heroThemes,
-    "heroImage": heroImage.asset->url,
-    ${i18nString('heroImageAlt')},
-    heroVideo,
-    ${i18nString('primaryCtaLabel')},
-    bookingService,
-    ${i18nString('flowEyebrow')},
-    ${i18nString('flowTitle')},
-    "flowImage": flowImage.asset->url,
-    ${i18nString('flowImageAlt')},
-    ${i18nString('flowLinkLabel')},
-    flowLinkHref,
-    ${i18nString('reasonsEyebrow')},
-    ${i18nString('reasonsTitle')},
-    ${i18nText('reasonsLead')},
-    ${i18nText('reasonsLead2')},
-    reasonsLayout,
-    ${i18nString('ctaTitle')},
-    ${i18nText('ctaDescription')},
-    ${i18nString('conversationCtaTitle')},
-    ${i18nString('specialistTitle')},
-    ${i18nText('specialistDescription')},
-    ${i18nString('specialistCtaLabel')},
-    specialistCtaHref,
-    ${i18nString('relatedEyebrow')},
-    ${i18nString('relatedTitle')},
-    ${i18nText('relatedLead')},
-    relatedAsIntro,
-    relatedAsServices,
-    relatedSeeAllHref,
-    ${i18nString('relatedSeeAllLabel')},
-    heroPoints[]{ ${i18nString('title')}, ${i18nText('desc')} },
-    flow[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
-    reasons[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
-    promises[]{
-      ${i18nString('eyebrow')},
-      ${i18nString('title')},
-      ${i18nText('desc')},
-      "image": image.asset->url,
-      ${i18nString('imageAlt')}
-    },
-    related[]->{
-      "eyebrow": coalesce(
-        category->title[language == $lang][0].value,
-        category->title[_key == $lang][0].value,
-        category->title[language == "no"][0].value,
-        category->title[_key == "no"][0].value
-      ),
-      ${i18nString('title')},
-      "desc": coalesce(
-        description[language == $lang][0].value,
-        description[_key == $lang][0].value,
-        description[language == "no"][0].value,
-        description[_key == "no"][0].value,
-        description
-      ),
-      "path": "/behandlinger/" + coalesce(
-        category->slug[language == $lang][0].value.current,
-        category->slug[_key == $lang][0].value.current,
-        category->slug[language == "no"][0].value.current,
-        category->slug[_key == "no"][0].value.current,
-        category->categoryId
-      ) + "/" + coalesce(
-        slug[language == $lang][0].value.current,
-        slug[_key == $lang][0].value.current,
-        slug[language == "no"][0].value.current,
-        slug[_key == "no"][0].value.current,
-        slug.current
-      ),
-      "image": heroImage.asset->url,
-      "imageAlt": coalesce(
-        heroImageAlt[language == $lang][0].value,
-        heroImageAlt[_key == $lang][0].value,
-        heroImageAlt[language == "no"][0].value,
-        heroImageAlt[_key == "no"][0].value,
-        heroImageAlt
-      )
-    },
-    expertAreas{
-      ${i18nString('title')},
-      ${i18nText('description')},
-      items[]{
-        ${i18nString('title')},
-        ${i18nText('desc')},
-        path,
-        "image": image.asset->url,
-        ${i18nString('imageAlt')}
-      }
-    },
-    textSection{
-      ${i18nString('title')},
-      ${i18nText('lead')},
-      points[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
-      "image": image.asset->url,
-      ${i18nString('imageAlt')}
-    }
-  }
-`;
 
 /** Treatment category fields used on specialist profile featured-service block. */
 const specialistCategoryProjection = `
@@ -617,49 +520,104 @@ export const TREATMENT_BY_SLUG_QUERY = `*[_type == "treatment" && ${slugMatchesP
   ${i18nString('subtitle')},
   ${i18nText('description')},
   ${i18nText('geoSummary')},
-  ${i18nString('heroImageAlt')},
-  ${i18nString('benefitsTitle')},
-  ${i18nStringLocale('linkedServicesSectionTitle')},
-  ${i18nStringLocale('processSectionTitle')},
-  quickInfoItems[]{
-    iconKey,
-    ${i18nString('label')}
-  },
-  ${i18nStringLocale('faqSectionTitle')},
-  bottomCta{
-    ${i18nStringLocale('title')},
-    ${i18nText('subtitle')},
-    ${i18nStringLocale('primaryLabel')},
-    ${i18nStringLocale('secondaryLabel')},
-    primaryPath,
-    secondaryPath
-  },
-  benefits,
   "heroImage": heroImage.asset->url,
+  ${i18nString('heroImageAlt')},
   ${localizedParentCategory},
   ${localizedRefSlugField("category", "parentSlug")},
   "categoryNumericId": category->categoryNumericId,
-  process[]{
-    ${i18nString('title')},
-    ${i18nText('description')}
-  },
   faqs[]{${localizedFaqRow}},
-  sections[]{
-    id,
-    ${i18nString('heading')},
-    ${i18nText('content')}
-  },
   "relatedSpecialists": relatedSpecialists[]->{
     _id, name, role, subtitle, ${localizedSlug},
     "image": photo.asset->url,
     specialties
   },
-  linkedServices[]{
-    ${i18nString('label')},
-    ${i18nText('description')},
-    path
+  ${i18nString('homeBreadcrumbLabel')},
+  ${i18nString('srOnlyTitle')},
+  ${i18nString('themesAriaLabel')},
+  ${i18nString('seePricesLabel')},
+  seePricesHref,
+  ${i18nString('callCtaLabel')},
+  ${i18nString('expertReadMoreLabel')},
+  ${i18nString('scrollLeftLabel')},
+  ${i18nString('scrollRightLabel')},
+  ${i18nString('insuranceEyebrow')},
+  ${i18nString('insuranceTitle')},
+  insurancePartners[]{ key, ${i18nString('label')} },
+  ${i18nString('eyebrow')},
+  ${i18nString('heroTitle')},
+  ${i18nText('heroDescription')},
+  ${i18nString('rating')},
+  ${i18nString('heroPrice')},
+  hideSeePriser,
+  ${i18nString('heroAvailability')},
+  heroThemes,
+  heroVideo,
+  ${i18nString('primaryCtaLabel')},
+  bookingService,
+  ${i18nString('flowEyebrow')},
+  ${i18nString('flowTitle')},
+  "flowImage": flowImage.asset->url,
+  ${i18nString('flowImageAlt')},
+  ${i18nString('flowLinkLabel')},
+  flowLinkHref,
+  ${i18nString('reasonsEyebrow')},
+  ${i18nString('reasonsTitle')},
+  ${i18nText('reasonsLead')},
+  ${i18nText('reasonsLead2')},
+  reasonsLayout,
+  ${i18nString('ctaTitle')},
+  ${i18nText('ctaDescription')},
+  ${i18nString('conversationCtaTitle')},
+  ${i18nString('specialistTitle')},
+  ${i18nText('specialistDescription')},
+  ${i18nString('specialistCtaLabel')},
+  specialistCtaHref,
+  relatedSection{
+    ${i18nString('eyebrow')},
+    ${i18nString('title')},
+    ${i18nText('lead')},
+    asIntro,
+    asServices,
+    seeAllHref,
+    ${i18nString('seeAllLabel')},
+    items[]->{
+      _id,
+      ${i18nString('eyebrow')},
+      ${i18nString('title')},
+      ${i18nText('desc')},
+      "path": "/" + category->slug[language == $lang][0].value.current + "/" + slug[language == $lang][0].value.current,
+      "image": heroImage.asset->url,
+      ${i18nString('heroImageAlt')}
+    }
   },
-  ${SUB_TREATMENT_LAYOUT_GROQ},
+  heroPoints[]{ ${i18nString('title')}, ${i18nText('desc')} },
+  flow[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+  reasons[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+  promises[]{
+    ${i18nString('eyebrow')},
+    ${i18nString('title')},
+    ${i18nText('desc')},
+    "image": image.asset->url,
+    ${i18nString('imageAlt')}
+  },
+  expertAreas{
+    ${i18nString('title')},
+    ${i18nText('description')},
+    items[]{
+      ${i18nString('title')},
+      ${i18nText('desc')},
+      path,
+      "image": image.asset->url,
+      ${i18nString('imageAlt')}
+    }
+  },
+  textSection{
+    ${i18nString('title')},
+    ${i18nText('lead')},
+    points[]{ ${i18nString('n')}, ${i18nString('title')}, ${i18nText('desc')} },
+    "image": image.asset->url,
+    ${i18nString('imageAlt')}
+  },
   ${PAGE_SECTIONS_GROQ},
   ${localizedSeoObject}
 }`;

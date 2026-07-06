@@ -489,8 +489,8 @@ export function mapTreatmentCategoryDocument(
     slug: asPlainString(data.slug) || undefined,
     title: asPlainString(data.title),
     geoSummary: asPlainString(data.geoSummary) || undefined,
-    loadingLabel: asPlainString(data.loadingLabel),
-    missingLandingMessage: asPlainString(data.missingLandingMessage),
+    loadingLabel: asPlainString(data.loadingLabel) || "Laster...",
+    missingLandingMessage: asPlainString(data.missingLandingMessage) || "",
     heroImage: asPlainString(data.heroImage) || undefined,
     heroVideo: asPlainString(data.heroVideo) || undefined,
     categoryNumericId:

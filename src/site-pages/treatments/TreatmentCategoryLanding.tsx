@@ -97,9 +97,9 @@ function ExpertAreaCards({
         }
         style={{ scrollbarWidth: "none" }}
       >
-        {areas.map((a) => (
+        {areas.map((a, index) => (
           <Link
-            key={a.title}
+            key={`${a.title || "area"}-${index}`}
             to={a.href}
             className={`bg-background rounded-sm border border-border/40 flex flex-col group hover:border-foreground/30 transition-colors overflow-hidden ${
               isCarousel ? "shrink-0 w-[78vw] md:w-auto snap-center" : ""
@@ -146,10 +146,10 @@ function SegmentAccordionContent({ segment }: { segment: CategoryLandingSegment 
       </p>
       {links.length > 0 ? (
         <div className="mb-5">
-          {links.map((tag) =>
+          {links.map((tag, index) =>
             tag.href ? (
               <Link
-                key={`${tag.label}-${tag.href}`}
+                key={`${tag.label}-${tag.href}-${index}`}
                 to={tag.href}
                 className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
               >
@@ -158,7 +158,7 @@ function SegmentAccordionContent({ segment }: { segment: CategoryLandingSegment 
               </Link>
             ) : (
               <div
-                key={tag.label}
+                key={`${tag.label}-${index}`}
                 className="py-2.5 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
               >
                 {tag.label}
@@ -231,8 +231,8 @@ function PatientJourneySection({
           </div>
           <div className="lg:col-span-7">
             <div className="divide-y divide-border/60 border-t border-border/60">
-              {steps.map((step) => (
-                <div key={step.n || step.title} className="grid grid-cols-12 gap-4 py-6">
+              {steps.map((step, index) => (
+                <div key={`${step.n || "step"}-${step.title || ""}-${index}`} className="grid grid-cols-12 gap-4 py-6">
                   <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
                     {step.n}
                   </div>
@@ -450,8 +450,8 @@ const TreatmentCategoryLanding = ({
 
               {hero.bullets.length > 0 ? (
                 <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
-                  {hero.bullets.map((u) => (
-                    <li key={u} className="inline-flex items-center gap-2">
+                  {hero.bullets.map((u, index) => (
+                    <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
                       <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
                       <span>{u}</span>
                     </li>
@@ -513,8 +513,8 @@ const TreatmentCategoryLanding = ({
                 <div
                   className={`${segmentTileGridClass(segmentsSection.segments.length)} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}
                 >
-                  {segmentsSection.segments.map((s) => (
-                    <div key={s.id} className="bg-background p-7 flex flex-col">
+                  {segmentsSection.segments.map((s, index) => (
+                    <div key={`${s.id || "segment"}-${index}`} className="bg-background p-7 flex flex-col">
                       <h3 className="text-lg font-normal mb-4 leading-snug">{s.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">
                         {s.desc}
@@ -544,9 +544,9 @@ const TreatmentCategoryLanding = ({
                 </div>
               ) : (
                 <Accordion type="single" collapsible className="w-full">
-                  {segmentsSection.segments.map((p) => (
+                  {segmentsSection.segments.map((p, index) => (
                     <AccordionItem
-                      key={p.id || p.title}
+                      key={`${p.id || p.title}-${index}`}
                       value={p.id || p.title}
                       className="border-b border-border/30"
                     >
@@ -584,8 +584,8 @@ const TreatmentCategoryLanding = ({
                 ) : null}
 
                 <div className="divide-y divide-border/60 border-t border-border/60">
-                  {whySection.steps.map((step) => (
-                    <div key={step.n} className="grid grid-cols-12 gap-4 py-6">
+                  {whySection.steps.map((step, index) => (
+                    <div key={`${step.n || "step"}-${index}`} className="grid grid-cols-12 gap-4 py-6">
                       <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
                         {step.n}
                       </div>
@@ -817,12 +817,12 @@ const TreatmentCategoryLanding = ({
               </div>
 
               <div className="space-y-12">
-                {serviceGroups.map((group) => (
-                  <div key={group.label}>
+                {serviceGroups.map((group, index) => (
+                  <div key={`${group.label || "group"}-${index}`}>
                     <p className="text-xs font-light text-foreground/60 mb-4">{group.label}</p>
                     <ul className="border-t border-brand-dark/10">
-                      {group.items.map((s) => (
-                        <li key={s.title} className="border-b border-brand-dark/10">
+                      {group.items.map((s, idx) => (
+                        <li key={`${s.title || "service"}-${idx}`} className="border-b border-brand-dark/10">
                           <Link
                             to={s.href}
                             className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_1fr_auto] items-baseline gap-4 sm:gap-8 py-5 group"

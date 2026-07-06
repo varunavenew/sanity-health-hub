@@ -209,6 +209,10 @@ export default {
       group: "faq",
       of: [
         {
+          type: "reference",
+          to: [{ type: "faq" }],
+        },
+        {
           type: "object",
           name: "servicesFaq",
           title: "FAQ",
