@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock, Stethoscope } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock, Stethoscope, Copy, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
@@ -340,9 +340,8 @@ const Godkjenning = () => {
     category === "Fagområder" || category.includes("underbehandlinger");
 
   const grouped = useMemo(() => {
-    const source = tab === "tjenester"
-      ? sitePages.filter((p) => isServiceCategory(p.category))
-      : sitePages;
+    // Both "sider" and "tjenester" (nå "Innholdgodkjenning") lister ALLE sider samlet.
+    const source = sitePages;
     const filtered = source.filter((p) => {
       const r = rows[p.path];
       const status = (r?.status ?? "avventer") as Status;
@@ -367,6 +366,7 @@ const Godkjenning = () => {
     });
     return c;
   }, [rows]);
+
 
   const counts = useMemo(() => {
     const c = { total: sitePages.length, godkjent: 0, avventer: 0, endringer: 0 };
@@ -412,6 +412,62 @@ const Godkjenning = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Bygg en ren, strukturert liste for Lovable (markdown) — én linje per side med reell tilbakemelding.
+  const buildLovableMarkdown = (opts: { onlyWithFeedback?: boolean } = {}) => {
+    const { onlyWithFeedback = true } = opts;
+    const reqByPath = new Map<string, ChangeRequest[]>();
+    requests.forEach((r) => {
+      if (!reqByPath.has(r.page_path)) reqByPath.set(r.page_path, []);
+      reqByPath.get(r.page_path)!.push(r);
+    });
+
+    const lines: string[] = [];
+    lines.push(`# Innholdgodkjenning — tilbakemeldinger`);
+    lines.push(`Eksportert: ${new Date().toLocaleString("nb-NO")}`);
+    lines.push("");
+
+    sitePages.forEach((p) => {
+      const r = rows[p.path];
+      const status = (r?.status ?? "avventer") as Status;
+      const comment = (r?.comment ?? "").trim();
+      const pageReqs = (reqByPath.get(p.path) ?? []).filter((x) => x.status !== "ferdig");
+
+      if (onlyWithFeedback && !comment && pageReqs.length === 0 && status === "avventer") return;
+
+      const by = r?.updated_by || "—";
+      const endring = comment || "(ingen kommentar)";
+      lines.push(`- **Side:** ${p.name} (${p.path}) — **Status:** ${STATUS_META[status].label} — **Endringsønske:** ${endring.replace(/\n+/g, " / ")} — **Av:** ${by}`);
+      pageReqs.forEach((cr) => {
+        lines.push(`  - Forespørsel (${cr.status}): ${(cr.message || "").replace(/\n+/g, " / ")} — Av: ${cr.created_by || "—"}`);
+      });
+    });
+
+    if (lines.length === 3) lines.push("_Ingen tilbakemeldinger registrert ennå._");
+    return lines.join("\n");
+  };
+
+  const exportMarkdown = () => {
+    const md = buildLovableMarkdown({ onlyWithFeedback: false });
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `innholdgodkjenning-${new Date().toISOString().slice(0, 10)}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const copyToLovable = async () => {
+    const md = buildLovableMarkdown({ onlyWithFeedback: true });
+    try {
+      await navigator.clipboard.writeText(md);
+      toast({ title: "Kopiert", description: "Tilbakemeldingene er kopiert — lim inn i Lovable." });
+    } catch (e: any) {
+      toast({ title: "Kunne ikke kopiere", description: e?.message ?? "Prøv å eksportere som markdown i stedet.", variant: "destructive" });
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
@@ -436,8 +492,8 @@ const Godkjenning = () => {
                 active={tab === "tjenester"}
                 onClick={() => setTab("tjenester")}
                 icon={<Stethoscope className="w-4 h-4" />}
-                label="Tjenester"
-                badge={serviceCounts.avventer + serviceCounts.endringer}
+                label="Innholdgodkjenning"
+                badge={counts.avventer + counts.endringer}
               />
               <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
               <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
@@ -447,7 +503,7 @@ const Godkjenning = () => {
               <TabBtn active={tab === "fremdrift"} onClick={() => setTab("fremdrift")} icon={<CalendarClock className="w-4 h-4" />} label="Fremdriftsplan" />
             </div>
 
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center flex-wrap">
               <input
                 value={reviewer}
                 onChange={(e) => persistReviewer(e.target.value)}
@@ -455,12 +511,26 @@ const Godkjenning = () => {
                 className="border border-border bg-background px-3 py-2 text-sm rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-primary/40"
               />
               <button
+                onClick={copyToLovable}
+                title="Kopier alle tilbakemeldinger som markdown — lim rett inn i Lovable"
+                className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-2 text-sm rounded-md hover:opacity-90 transition-opacity"
+              >
+                <Copy className="w-4 h-4" /> Kopier alt til Lovable
+              </button>
+              <button
+                onClick={exportMarkdown}
+                className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
+              >
+                <FileText className="w-4 h-4" /> Markdown
+              </button>
+              <button
                 onClick={exportCsv}
                 className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
               >
                 <Download className="w-4 h-4" /> CSV
               </button>
             </div>
+
           </div>
 
           {(tab === "sider" || tab === "tjenester") && (
@@ -535,19 +605,21 @@ const Godkjenning = () => {
           <div className="space-y-12">
             {tab === "tjenester" && (
               <div className="pb-6 border-b border-border">
-                <h2 className="text-xl font-light text-foreground">Tjenester og undertjenester</h2>
+                <h2 className="text-xl font-light text-foreground">Innholdgodkjenning — alle sider</h2>
                 <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
-                  Alle hovedtjenester (fagområder) og tilhørende undertjenester. Klikk en side for å lese den, sett status
-                  og skriv kommentarer — endringene lagres for hele teamet.
+                  Komplett liste over alle sider på nettstedet — hovedsider, tjenester og undertjenester, fagområder,
+                  artikler, klinikker og Om oss. Klikk en side, skriv tilbakemelding i tekstfeltet, sett status og lagre.
+                  Bruk «Kopier alt til Lovable» øverst for å hente ut alle endringsønsker som en ren, strukturert liste.
                 </p>
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <StatCard label="Totalt" value={serviceCounts.total} />
-                  <StatCard label="Godkjent" value={serviceCounts.godkjent} accent="emerald" />
-                  <StatCard label="Avventer" value={serviceCounts.avventer} accent="amber" />
-                  <StatCard label="Endringer" value={serviceCounts.endringer} accent="rose" />
+                  <StatCard label="Totalt" value={counts.total} />
+                  <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
+                  <StatCard label="Avventer" value={counts.avventer} accent="amber" />
+                  <StatCard label="Endringer" value={counts.endringer} accent="rose" />
                 </div>
               </div>
             )}
+
             {grouped.map(([category, pages]) => (
               <section key={category}>
                 <div className="mb-5 flex items-baseline justify-between gap-3 pb-3 border-b border-border">
@@ -687,10 +759,11 @@ const PageApprovalCard = ({
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder={`Skriv en lengre tilbakemelding for «${page.name}» — hva som fungerer, hva som mangler, hva som bør endres. Bruk «Endringer ønskes» for konkrete oppgaver med vedlegg.`}
-            rows={6}
-            className="mt-2 block w-full border border-border bg-background px-4 py-3 text-sm rounded-md leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y min-h-[140px]"
+            placeholder={`Skriv en romslig tilbakemelding for «${page.name}» — konkrete endringsønsker, hva som fungerer, hva som mangler, forslag til ny tekst osv. Lange notater er ok — feltet vokser med innholdet.`}
+            rows={10}
+            className="mt-2 block w-full border border-border bg-background px-4 py-3 text-sm rounded-md leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y min-h-[220px]"
           />
+
         </label>
 
         <div className="mt-3 flex flex-wrap items-center gap-2 justify-between">
