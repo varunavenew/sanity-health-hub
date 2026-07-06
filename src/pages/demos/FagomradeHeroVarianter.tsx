@@ -7,9 +7,8 @@ import { getCategoryEntryPrice } from "@/data/priceList";
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import urologiImg from "@/assets/categories/urologi-real.jpg";
-import cmedicalHero1 from "@/assets/hero/cmedical-hero-1.jpg";
-import cmedicalHero2 from "@/assets/hero/cmedical-hero-2.jpg";
-import cmedicalFamily from "@/assets/hero/cmedical-family.jpg";
+import cmedicalSkinTexture from "@/assets/hero/cmedical-skin-texture.jpg";
+import skinTextureHero from "@/assets/hero/skin-texture-hero.webp";
 import blurSkinAsset from "@/assets/blur-skin-mid.jpg.asset.json";
 import fertilitetHeroVideo from "@/assets/fertilitet-hero.mp4.asset.json";
 
