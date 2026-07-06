@@ -1,3 +1,7 @@
+import { articles } from "./articles";
+import { specialists } from "./specialists";
+import { clinics } from "./clinicServices";
+
 export interface SitePage {
   path: string;
   name: string;
