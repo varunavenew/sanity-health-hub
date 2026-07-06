@@ -14,6 +14,7 @@ import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
 import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
 import FertilitetVarmHeroForslag from "./demos/FertilitetVarmHeroForslag";
 import FagomradeHeroVarianter from "./demos/FagomradeHeroVarianter";
+import FertilitetFargeveksling from "./demos/FertilitetFargeveksling";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
