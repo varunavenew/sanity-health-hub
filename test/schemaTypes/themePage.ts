@@ -7,7 +7,7 @@ import { geoSummaryField } from './geoSummary'
 
 export default {
   name: 'themePage',
-  title: 'Focus Area Pages',
+  title: 'Homepage Carousel',
   type: 'document',
   icon: ThemeIcon,
   fields: [
