@@ -697,27 +697,134 @@ const Godkjenning = () => {
           <DemoPanel />
         ) : tab === "fremdrift" ? (
           <FremdriftsplanPanel />
+        ) : tab === "tjenester" ? (
+          <div>
+            <div className="pb-6 border-b border-border">
+              <h2 className="text-xl font-light text-foreground">Innholdgodkjenning — per kategori</h2>
+              <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+                Alle sider er delt opp per tjeneste-/fagområde-kategori så teamet kan ta én
+                kategori av gangen. Klikk en kategori for å åpne/lukke den. Søk og statusfilter
+                virker på tvers.
+              </p>
+              <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <StatCard label="Totalt" value={counts.total} />
+                <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
+                <StatCard label="Avventer" value={counts.avventer} accent="amber" />
+                <StatCard label="Endringer" value={counts.endringer} accent="rose" />
+              </div>
+
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <button
+                  onClick={() => setOpenGroups(Object.fromEntries(SUPER_GROUPS.map((g) => [g.key, true])) as Record<SuperGroupKey, boolean>)}
+                  className="text-xs px-3 py-1.5 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+                >
+                  Åpne alle
+                </button>
+                <button
+                  onClick={() => setOpenGroups(Object.fromEntries(SUPER_GROUPS.map((g) => [g.key, false])) as Record<SuperGroupKey, boolean>)}
+                  className="text-xs px-3 py-1.5 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+                >
+                  Lukk alle
+                </button>
+                <div className="w-full h-px" />
+                {superGrouped.map((g) => {
+                  if (g.counts.total === 0) return null;
+                  return (
+                    <button
+                      key={g.key}
+                      onClick={() => setOpenGroups((prev) => ({ ...prev, [g.key]: true }))}
+                      className="text-xs px-3 py-1.5 rounded-full border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted inline-flex items-center gap-1.5"
+                    >
+                      {g.label}
+                      <span className="text-[10px] text-muted-foreground">({g.counts.total})</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-4">
+              {superGrouped.every((g) => g.pages.length === 0) && (
+                <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
+              )}
+              {superGrouped.map((g) => {
+                if (g.counts.total === 0) return null;
+                const isOpen = openGroups[g.key];
+                const visible = g.pages.length;
+                const hidden = g.counts.total - visible;
+                return (
+                  <section key={g.key} className="border border-border rounded-lg bg-card overflow-hidden">
+                    <button
+                      onClick={() => setOpenGroups((prev) => ({ ...prev, [g.key]: !prev[g.key] }))}
+                      className="w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-muted/40 transition-colors"
+                      aria-expanded={isOpen}
+                    >
+                      <ChevronDown
+                        className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform ${isOpen ? "" : "-rotate-90"}`}
+                        strokeWidth={1.5}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <h2 className="text-base md:text-lg font-light text-foreground">{g.label}</h2>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">
+                          {g.counts.total} {g.counts.total === 1 ? "side" : "sider"}
+                          {hidden > 0 ? ` · ${visible} matcher filter` : ""}
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex items-center gap-1.5 shrink-0">
+                        {g.counts.godkjent > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-900 border-emerald-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            {g.counts.godkjent}
+                          </span>
+                        )}
+                        {g.counts.avventer > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border bg-amber-50 text-amber-900 border-amber-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                            {g.counts.avventer}
+                          </span>
+                        )}
+                        {g.counts.endringer > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border bg-rose-50 text-rose-900 border-rose-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                            {g.counts.endringer}
+                          </span>
+                        )}
+                      </div>
+                    </button>
+
+                    {isOpen && (
+                      <div className="px-5 pb-5 pt-1 border-t border-border">
+                        {g.pages.length === 0 ? (
+                          <p className="text-sm text-muted-foreground py-4">Ingen sider i denne kategorien matcher filteret.</p>
+                        ) : (
+                          <div className="grid gap-4 mt-4">
+                            {g.pages.map((page) => (
+                              <PageApprovalCard
+                                key={page.path}
+                                page={page}
+                                row={rows[page.path]}
+                                reqs={requestCountByPath[page.path]}
+                                reviewer={reviewer}
+                                onReviewerChange={persistReviewer}
+                                onStatus={(status) => updateRow(page, { status })}
+                                onSaveComment={(comment) => updateRow(page, { comment })}
+                                onRequestChanges={() => openRequestDialog(page)}
+                                onJumpToInbox={() => setTab("innboks")}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+          </div>
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
           <div className="space-y-12">
-            {tab === "tjenester" && (
-              <div className="pb-6 border-b border-border">
-                <h2 className="text-xl font-light text-foreground">Innholdgodkjenning — alle sider</h2>
-                <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
-                  Komplett liste over alle sider på nettstedet — hovedsider, tjenester og undertjenester, fagområder,
-                  artikler, klinikker og Om oss. Klikk en side, skriv tilbakemelding i tekstfeltet, sett status og lagre.
-                  Bruk «Kopier tilbakemeldinger» øverst for å hente ut alle endringsønsker som en ren, strukturert liste.
-                </p>
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <StatCard label="Totalt" value={counts.total} />
-                  <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
-                  <StatCard label="Avventer" value={counts.avventer} accent="amber" />
-                  <StatCard label="Endringer" value={counts.endringer} accent="rose" />
-                </div>
-              </div>
-            )}
-
             {grouped.map(([category, pages]) => (
               <section key={category}>
                 <div className="mb-5 flex items-baseline justify-between gap-3 pb-3 border-b border-border">
@@ -744,6 +851,7 @@ const Godkjenning = () => {
             ))}
           </div>
         )}
+
       </main>
 
       {dialogPage && (
