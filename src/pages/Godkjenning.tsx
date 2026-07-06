@@ -412,7 +412,7 @@ const Godkjenning = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Bygg en ren, strukturert liste for Lovable (markdown) — én linje per side med reell tilbakemelding.
+  // Bygg en ren, strukturert liste (markdown) — én linje per side med reell tilbakemelding.
   const buildLovableMarkdown = (opts: { onlyWithFeedback?: boolean } = {}) => {
     const { onlyWithFeedback = true } = opts;
     const reqByPath = new Map<string, ChangeRequest[]>();
