@@ -340,9 +340,8 @@ const Godkjenning = () => {
     category === "Fagområder" || category.includes("underbehandlinger");
 
   const grouped = useMemo(() => {
-    const source = tab === "tjenester"
-      ? sitePages.filter((p) => isServiceCategory(p.category))
-      : sitePages;
+    // Both "sider" and "tjenester" (nå "Innholdgodkjenning") lister ALLE sider samlet.
+    const source = sitePages;
     const filtered = source.filter((p) => {
       const r = rows[p.path];
       const status = (r?.status ?? "avventer") as Status;
@@ -367,6 +366,7 @@ const Godkjenning = () => {
     });
     return c;
   }, [rows]);
+
 
   const counts = useMemo(() => {
     const c = { total: sitePages.length, godkjent: 0, avventer: 0, endringer: 0 };
