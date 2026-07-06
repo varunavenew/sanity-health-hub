@@ -40,10 +40,10 @@ const Index = ({ isChatOpen }: IndexProps) => {
         description="Du fortjener åpenhet. Her er noen av tallene som beskriver hverdagen vår — på tvers av spesialiteter, klinikker og pasientmøter."
         category="CMedical totalt"
         stats={[
-          { v: "45 000+", k: "Konsultasjoner", sub: "Per år" },
-          { v: "40+", k: "Spesialister", sub: "På tvers av fagfelt" },
-          { v: "98%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
-          { v: "< 3 dager", k: "Ventetid", sub: "Snitt til første time" },
+          { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
+          { v: "3 500", k: "Operasjoner", sub: "Per år" },
+          { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
+          { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
         ]}
         footnote="Tall oppdatert per Q1 2026. Resultater varierer individuelt."
       />

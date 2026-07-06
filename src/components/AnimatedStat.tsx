@@ -30,6 +30,13 @@ const formatNumber = (n: number, target: number) => {
   if (target >= 1000) {
     return rounded.toLocaleString("nb-NO").replace(/\u00A0/g, " ");
   }
+  // Localize decimals too (nb-NO uses comma), e.g. 4.8 -> "4,8"
+  if (!isInt) {
+    return rounded.toLocaleString("nb-NO", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
+  }
   return String(rounded);
 };
 

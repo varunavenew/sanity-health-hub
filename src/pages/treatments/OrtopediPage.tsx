@@ -351,10 +351,10 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  <div className="border-t border-brand-dark/5 py-8 md:py-10">
  <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
  {[
- { v: "12 400+", k: "Konsultasjoner", sub: "Per år" },
- { v: "1 800", k: "Inngrep og artroskopier", sub: "I 2024" },
- { v: "96%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
- { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+ { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
+ { v: "3 500", k: "Operasjoner", sub: "Per år" },
+ { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
+ { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
  ].map((row, i) => (
  <div
  key={row.k}

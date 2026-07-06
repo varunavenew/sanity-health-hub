@@ -341,10 +341,10 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
             <div className="border-t border-brand-dark/15 py-8 md:py-10">
               <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
                 {[
-                  { v: "42%", k: "Suksessrate IVF", sub: "Kvinner under 35 år" },
-                  { v: "3 800+", k: "Barn født", sub: "Siden oppstart i 1989" },
-                  { v: "11 200", k: "Egg uthentet", sub: "Siste 5 år" },
-                  { v: "1 450", k: "IVF-sykluser", sub: "Gjennomført i 2024" },
+                  { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
+                  { v: "3 500", k: "Operasjoner", sub: "Per år" },
+                  { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
+                  { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
                 ].map((row, i) => (
                   <div key={row.k} className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}>
                     <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
