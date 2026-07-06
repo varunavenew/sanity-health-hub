@@ -373,8 +373,8 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
  ============================================================ */}
- <section className="bg-background">
- <div className="grid lg:grid-cols-12">
+  <section className="bg-background">
+  <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
  <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
  <div className="max-w-xl">
   <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
