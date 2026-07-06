@@ -262,10 +262,10 @@ const Ortopedi = ({ isChatOpen }: PageProps) => {
  categoryLabel="Ortopedi"
  description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen ortopedi de siste årene."
  stats={[
- { v: "6 800+", k: "Konsultasjoner", sub: "Per år" },
- { v: "2 400", k: "Operasjoner", sub: "I 2024" },
- { v: "96%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
- { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+ { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
+ { v: "3 500", k: "Operasjoner", sub: "Per år" },
+ { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
+ { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
  ]}
  />
 

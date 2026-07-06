@@ -301,10 +301,10 @@ const Urology = ({ isChatOpen }: PageProps) => {
  categoryLabel="Urologi"
  description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen urologi de siste årene."
  stats={[
- { v: "400+", k: "Robotoperasjoner", sub: "Per år" },
- { v: "5 200", k: "Konsultasjoner", sub: "I 2024" },
- { v: "97%", k: "Vil anbefale oss", sub: "Pasientundersøkelse" },
- { v: "< 7 dager", k: "Ventetid", sub: "Snitt til første time" },
+ { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
+ { v: "3 500", k: "Operasjoner", sub: "Per år" },
+ { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
+ { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
  ]}
  />
 
