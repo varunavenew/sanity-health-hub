@@ -218,7 +218,7 @@ const reviews = [
  PAGE
  ────────────────────────────────────────────────────────────── */
 
-const Gynecology = ({ isChatOpen }: PageProps) => {
+const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
  const gynSpecialists = useMemo(() => {
  return specialists.filter((s) => s.category === "gynekologi").slice(0, 5);
  }, []);
@@ -230,18 +230,19 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
 
 
  useEffect(() => {
- document.title = "Gynekologi | CMedical — Kvinnehelse for livet";
+ document.title = "Mal-demo: Fagområde med hudbilder | CMedical";
  }, []);
 
  return (
  <PageLayout isChatOpen={isChatOpen}>
  <PageSEO
- title="Gynekologi | CMedical — Kvinnehelse for livet"
- description="Spesialistgynekologi hos CMedical. Endometriose, overgangsalder, urinlekkasje, fødselsskader og kvinnehelse — uten henvisning, uten ventetid."
- canonical="/gynekologi"
+ title="Mal-demo: Fagområde med hudbilder | CMedical"
+ description="Demo av fagområde-mastermalen med hudtonet split-hero og parallax-hud i statsseksjonen."
+ canonical="/maler/fagomradeSkinDemo"
  breadcrumbs={[
  { name: "Hjem", path: "/" },
- { name: "Gynekologi", path: "/gynekologi" },
+ { name: "Maler", path: "/godkjenning" },
+ { name: "Fagområde – hudbilder", path: "/maler/fagomradeSkinDemo" },
  ]}
  />
  <h1 className="sr-only">
