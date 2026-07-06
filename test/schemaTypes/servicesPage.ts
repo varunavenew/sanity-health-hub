@@ -20,7 +20,7 @@ const i18nText = {
 
 export default {
   name: "servicesPage",
-  title: "Tjenester",
+  title: "Services",
   type: "document",
   icon: TreatmentIcon,
   groups: [

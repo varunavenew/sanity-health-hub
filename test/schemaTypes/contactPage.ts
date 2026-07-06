@@ -20,7 +20,7 @@ const crI18n = (
 
 export default {
   name: 'contactPage',
-  title: 'Kontakt',
+  title: 'Contact',
   type: 'document',
   icon: ContactIcon,
   groups: [

@@ -6,7 +6,7 @@ import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'homepage',
-  title: 'Hjemmeside',
+  title: 'Homepage',
   type: 'document',
   icon: HomeIcon,
   groups: [

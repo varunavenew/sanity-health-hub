@@ -22,7 +22,7 @@ const i18nItemPreview = {
 
 export default {
   name: 'insurancePage',
-  title: 'Forsikring',
+  title: 'Insurance',
   type: 'document',
   icon: InsuranceIcon,
   fields: [

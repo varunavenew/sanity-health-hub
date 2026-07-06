@@ -1,3 +1,27 @@
+if (typeof window !== 'undefined') {
+  const originalRemoveChild = Node.prototype.removeChild;
+  Node.prototype.removeChild = function <T extends Node>(child: T): T {
+    if (child.parentNode !== this) {
+      if (child.parentNode) {
+        return originalRemoveChild.call(child.parentNode, child) as T;
+      }
+      return child;
+    }
+    return originalRemoveChild.call(this, child) as T;
+  };
+
+  const originalInsertBefore = Node.prototype.insertBefore;
+  Node.prototype.insertBefore = function <T extends Node>(newNode: T, referenceNode: Node | null): T {
+    if (referenceNode && referenceNode.parentNode !== this) {
+      if (referenceNode.parentNode) {
+        return originalInsertBefore.call(referenceNode.parentNode, newNode, referenceNode) as T;
+      }
+      return originalInsertBefore.call(this, newNode, null) as T;
+    }
+    return originalInsertBefore.call(this, newNode, referenceNode) as T;
+  };
+}
+
 import {defineConfig} from 'sanity'
 import {structureTool, type DefaultDocumentNodeResolver} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
@@ -154,20 +178,20 @@ export default defineConfig({
           )
 
         const treatmentCategoryItem = S.listItem()
-          .title('Behandlingskategori')
+          .title('Treatment Categories')
           .schemaType('treatmentCategory')
           .child(
             S.documentTypeList('treatmentCategory')
-              .title('Behandlingskategori')
+              .title('Treatment Categories')
               .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
           )
 
         const treatmentItem = S.listItem()
-          .title('Behandling')
+          .title('Treatments')
           .schemaType('treatment')
           .child(
             S.documentTypeList('treatment')
-              .title('Behandling')
+              .title('Treatments')
               .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }])
           )
 
@@ -208,7 +232,7 @@ export default defineConfig({
           )
 
         const bookingItem = S.listItem()
-          .title('Bestill time')
+          .title('Book Appointment')
           .child(
             S.document()
               .schemaType('bookingPage')
@@ -224,14 +248,14 @@ export default defineConfig({
           )
 
         const karriereItem = S.listItem()
-          .title('Karriere')
+          .title('Careers')
           .icon(JobIcon)
           .child(
             S.list()
-              .title('Karriere')
+              .title('Careers')
               .items([
                 S.listItem()
-                  .title('Karriere-side')
+                  .title('Careers Page')
                   .icon(JobIcon)
                   .child(
                     S.document()
@@ -239,11 +263,11 @@ export default defineConfig({
                       .documentId('careersPage'),
                   ),
                 S.documentTypeListItem('jobListing')
-                  .title('Stillingsannonser')
+                  .title('Job Listings')
                   .icon(JobIcon)
                   .child(
                     S.documentTypeList('jobListing')
-                      .title('Stillingsannonser')
+                      .title('Job Listings')
                       .defaultOrdering([
                         { field: 'publishedAt', direction: 'desc' },
                       ]),
@@ -252,14 +276,14 @@ export default defineConfig({
           )
 
         const priserItem = S.listItem()
-          .title('Priser')
+          .title('Pricing')
           .icon(PricingIcon)
           .child(
             S.list()
-              .title('Priser')
+              .title('Pricing')
               .items([
                 S.listItem()
-                  .title('Prisliste')
+                  .title('Pricing List')
                   .icon(PricingIcon)
                   .child(
                     S.document()
@@ -267,7 +291,7 @@ export default defineConfig({
                       .documentId('pricingPage')
                   ),
                 S.documentTypeListItem('testimonial')
-                  .title('Tilbakemeldinger')
+                  .title('Testimonials')
                   .icon(ReviewIcon),
               ])
           )
@@ -280,7 +304,7 @@ export default defineConfig({
               .title('Google Reviews')
               .items([
                 S.listItem()
-                  .title('Om Google Reviews')
+                  .title('About Google Reviews')
                   .icon(ReviewIcon)
                   .child(
                     S.document()
@@ -288,7 +312,7 @@ export default defineConfig({
                       .documentId('googleReviewSettings')
                   ),
                 S.documentTypeListItem('googleReview')
-                  .title('Google-anmeldelser')
+                  .title('Google Reviews List')
                   .icon(ReviewIcon),
               ])
           )

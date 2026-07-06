@@ -5,7 +5,7 @@ import { pickNo, requiredNoEnI18n } from './i18n'
 
 export default {
   name: 'siteSettings',
-  title: 'Nettstedsinnstillinger',
+  title: 'Site Settings',
   type: 'document',
   icon: SettingsIcon,
   groups: [

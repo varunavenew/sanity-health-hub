@@ -7,7 +7,7 @@ import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'aboutPage',
-  title: 'Om oss',
+  title: 'About Us',
   type: 'document',
   icon: GenericIcon,
   fields: [
