@@ -189,6 +189,49 @@ const STATUS_META: Record<Status, { label: string; bg: string; dot: string }> = 
 
 const STORAGE_REVIEWER = "cm_approval_reviewer";
 
+// Grupperer alle sider i tydelige tjeneste-/fagområde-bøtter for Innholdgodkjenning-fanen
+// slik at teamet kan gå gjennom én kategori av gangen i stedet for én lang liste.
+type SuperGroupKey =
+  | "hovedsider"
+  | "omoss"
+  | "gynekologi"
+  | "fertilitet"
+  | "urologi"
+  | "ortopedi"
+  | "hudhelse"
+  | "ovrige"
+  | "klinikker"
+  | "artikler";
+
+const SUPER_GROUPS: { key: SuperGroupKey; label: string }[] = [
+  { key: "hovedsider", label: "Hovedsider" },
+  { key: "omoss", label: "Om oss" },
+  { key: "gynekologi", label: "Gynekologi" },
+  { key: "fertilitet", label: "Fertilitet" },
+  { key: "urologi", label: "Urologi" },
+  { key: "ortopedi", label: "Ortopedi" },
+  { key: "hudhelse", label: "Hudhelse" },
+  { key: "ovrige", label: "Øvrige / Flere fagområder" },
+  { key: "klinikker", label: "Klinikker" },
+  { key: "artikler", label: "Artikler / Aktuelt" },
+];
+
+const superGroupFor = (p: SitePage): SuperGroupKey => {
+  const cat = p.category;
+  const path = p.path;
+  if (cat === "Klinikker") return "klinikker";
+  if (cat === "Aktuelt – artikler" || path === "/aktuelt") return "artikler";
+  if (cat === "Gynekologi – underbehandlinger" || path === "/gynekologi") return "gynekologi";
+  if (cat === "Fertilitet – underbehandlinger" || path === "/fertilitet") return "fertilitet";
+  if (cat === "Urologi – underbehandlinger" || path === "/urologi") return "urologi";
+  if (cat === "Ortopedi – underbehandlinger" || path === "/ortopedi") return "ortopedi";
+  if (path.includes("/hud") || cat.toLowerCase().includes("hud")) return "hudhelse";
+  if (path === "/om-oss" || path.startsWith("/om-oss/") || path === "/spesialister" || cat === "Spesialister") return "omoss";
+  if (cat === "Hovedsider") return "hovedsider";
+  // Fagområder-forsidene som ikke har egen bøtte, Tema, Flere – underbehandlinger osv.
+  return "ovrige";
+};
+
 const TabBtn = ({ active, onClick, icon, label, badge }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; badge?: number }) => (
   <button
     onClick={onClick}
