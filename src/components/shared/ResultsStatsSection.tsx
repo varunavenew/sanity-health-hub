@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatedStat } from "@/components/AnimatedStat";
-import skinBg from "@/assets/blur-skin-mid.jpg.asset.json";
+import skinBg from "@/assets/blur-belly.jpg.asset.json";
 
 export type ResultStat = {
   v: string;
