@@ -354,7 +354,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  2. SEGMENT — "Fortell oss hvor du er" (identifiser deg)
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
+ <section className="bg-brand-mid text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
 
  <div className="page-shell">
  <div className="max-w-3xl mx-auto">
@@ -374,7 +374,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  3. HVORFOR CMEDICAL — Det beste fra to klinikker (tillit tidlig)
  ============================================================ */}
-  <section className="bg-background">
+  <section className="bg-brand-light">
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
  <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
  <div className="max-w-xl">
@@ -447,7 +447,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  {/* ============================================================
  4. ALLE ER VELKOMNE — målgrupper (inkluderende beroligelse)
  ============================================================ */}
- <section className="bg-secondary/40 py-14 md:py-20">
+ <section className="bg-brand-mid py-14 md:py-20">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-2xl mb-14">
@@ -495,7 +495,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
       {/* ============================================================
        4b. EKSPERTER SOM JOBBER MED DET DE KAN ALLER BEST
        ============================================================ */}
-      <section className="bg-secondary/40 py-20 md:py-28">
+      <section className="bg-brand-light py-20 md:py-28">
         <div className="container mx-auto px-6 md:px-16">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
@@ -564,7 +564,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
   6. HVA VI TILBYR — gruppert oversikt
   ============================================================ */}
-  <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
+  <section className="bg-brand-mid text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
    <div className="container mx-auto px-6 md:px-16">
     <div className="max-w-6xl mx-auto">
      <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
@@ -699,7 +699,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
   {/* ============================================================
  8. TILBAKEMELDINGER — sosial bevis rett før spesialistene
  ============================================================ */}
- <section className="bg-brand-warm pt-10 md:pt-12 pb-14 md:pb-16">
+ <section className="bg-brand-mid pt-10 md:pt-12 pb-14 md:pb-16">
  <div className="page-shell">
  <div className="max-w-6xl mx-auto">
  <div className="max-w-xl mb-10">
