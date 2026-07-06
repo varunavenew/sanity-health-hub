@@ -7,9 +7,8 @@ import { getCategoryEntryPrice } from "@/data/priceList";
 import gynekologiImg from "@/assets/categories/gynekologi-real.jpg";
 import fertilitetImg from "@/assets/categories/fertilitet-real.jpg";
 import urologiImg from "@/assets/categories/urologi-real.jpg";
-import cmedicalHero1 from "@/assets/hero/cmedical-hero-1.jpg";
-import cmedicalHero2 from "@/assets/hero/cmedical-hero-2.jpg";
-import cmedicalFamily from "@/assets/hero/cmedical-family.jpg";
+import cmedicalSkinTexture from "@/assets/hero/cmedical-skin-texture.jpg";
+import skinTextureHero from "@/assets/hero/skin-texture-hero.webp";
 import blurSkinAsset from "@/assets/blur-skin-mid.jpg.asset.json";
 import fertilitetHeroVideo from "@/assets/fertilitet-hero.mp4.asset.json";
 
@@ -196,21 +195,43 @@ const urologi: CategoryHeroContent = {
 
 /* ─── Gjenbrukbare bilde/overlay-elementer ─── */
 
+type ScrimDirection = "left" | "right" | "center" | "bottom" | "none";
+
+const scrimClass = (dir: ScrimDirection) => {
+  switch (dir) {
+    case "left":
+      // Sterk dybde bak venstrestilt tekst, letter mot høyre for å la bildet puste
+      return "bg-[linear-gradient(90deg,hsl(20_40%_10%/0.78)_0%,hsl(20_40%_10%/0.55)_35%,hsl(20_40%_10%/0.15)_75%,transparent_100%)]";
+    case "right":
+      return "bg-[linear-gradient(270deg,hsl(20_40%_10%/0.78)_0%,hsl(20_40%_10%/0.55)_35%,hsl(20_40%_10%/0.15)_75%,transparent_100%)]";
+    case "center":
+      return "bg-[radial-gradient(ellipse_at_center,hsl(20_40%_10%/0.7)_0%,hsl(20_40%_10%/0.45)_45%,hsl(20_40%_10%/0.25)_75%,transparent_100%)]";
+    case "bottom":
+      return "bg-[linear-gradient(0deg,hsl(20_40%_10%/0.78)_0%,hsl(20_40%_10%/0.45)_45%,transparent_100%)]";
+    case "none":
+    default:
+      return "";
+  }
+};
+
 const ImagePanel = ({
   src,
   alt,
-  overlay = "dark",
+  scrim = "left",
+  baseTint = "warm",
 }: {
   src: string;
   alt: string;
-  overlay?: "dark" | "warm" | "soft";
+  scrim?: ScrimDirection;
+  /** Grunntone som legges over hele bildet for varme + basis-kontrast */
+  baseTint?: "warm" | "soft" | "deep";
 }) => {
-  const overlayClass =
-    overlay === "warm"
-      ? "bg-gradient-to-br from-black/55 via-black/35 to-[hsl(18_60%_20%/0.55)]"
-      : overlay === "soft"
-        ? "bg-gradient-to-br from-black/40 via-black/25 to-black/50"
-        : "bg-gradient-to-br from-black/65 via-black/45 to-black/70";
+  const baseClass =
+    baseTint === "soft"
+      ? "bg-[linear-gradient(135deg,hsl(20_35%_15%/0.28),hsl(18_45%_18%/0.35))]"
+      : baseTint === "deep"
+        ? "bg-[linear-gradient(135deg,hsl(20_45%_12%/0.55),hsl(18_50%_15%/0.6))]"
+        : "bg-[linear-gradient(135deg,hsl(20_40%_14%/0.4),hsl(18_50%_18%/0.5))]";
   return (
     <>
       <img
@@ -218,18 +239,24 @@ const ImagePanel = ({
         alt={alt}
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div aria-hidden="true" className={`absolute inset-0 ${overlayClass}`} />
+      {/* Varm grunntone — sikrer WCAG-kontrast før den retningsstyrte scrimen */}
+      <div aria-hidden="true" className={`absolute inset-0 ${baseClass}`} />
+      {/* Retningsstyrt scrim bak tekst-området */}
+      {scrim !== "none" && (
+        <div aria-hidden="true" className={`absolute inset-0 ${scrimClass(scrim)}`} />
+      )}
+      {/* Diskret korn for merkevare-følelse */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={grainOverlay} />
     </>
   );
 };
 
-/* ─── Variant 1 — Varm split med merkevare-bilde-panel ─── */
+/* ─── Variant 1 — Split: skin-tone merkevare-panel med tekst + kategori-bilde ─── */
 const Variant1SplitImage = ({ c }: { c: CategoryHeroContent }) => (
   <header className="relative bg-brand-light overflow-hidden">
     <div className="relative z-10 flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[640px]">
       <div className="relative flex items-center px-6 md:px-10 lg:px-16 py-16 lg:py-24 text-white overflow-hidden">
-        <ImagePanel src={cmedicalFamily} alt="CMedical merkevare" overlay="warm" />
+        <ImagePanel src={skinTextureHero} alt="Varm hudtone" scrim="left" baseTint="warm" />
         <div className="relative z-10 w-full">
           <HeroCopy c={c} tone="light" />
         </div>
@@ -245,20 +272,20 @@ const Variant1SplitImage = ({ c }: { c: CategoryHeroContent }) => (
   </header>
 );
 
-/* ─── Variant 2 — Full-bleed merkevare-bilde med tekst oppå ─── */
+/* ─── Variant 2 — Full-bleed hudtonet merkevare-bilde med tekst oppå ─── */
 const Variant2FullBleed = ({ c }: { c: CategoryHeroContent }) => (
   <header className="relative overflow-hidden text-white min-h-[560px] lg:min-h-[640px] flex items-center">
-    <ImagePanel src={cmedicalHero1} alt="CMedical" overlay="warm" />
+    <ImagePanel src={blurSkinAsset.url} alt="Varm hudtone" scrim="left" baseTint="warm" />
     <div className="relative z-10 px-6 md:px-10 lg:px-16 py-20 lg:py-28 w-full">
       <HeroCopy c={c} tone="light" />
     </div>
   </header>
 );
 
-/* ─── Variant 3 — Sentrert hero med varm skin-blur som bakgrunn ─── */
+/* ─── Variant 3 — Sentrert hero med varm hudtone-bakgrunn ─── */
 const Variant3Centered = ({ c }: { c: CategoryHeroContent }) => (
   <header className="relative overflow-hidden text-white min-h-[620px] flex items-center justify-center">
-    <ImagePanel src={blurSkinAsset.url} alt="" overlay="warm" />
+    <ImagePanel src={cmedicalSkinTexture} alt="" scrim="center" baseTint="warm" />
     <div className="relative z-10 py-24 lg:py-32 w-full">
       <div className="px-6 md:px-10 max-w-2xl w-full mx-auto">
         <HeroCopy c={c} tone="light" align="center" />
@@ -267,7 +294,7 @@ const Variant3Centered = ({ c }: { c: CategoryHeroContent }) => (
   </header>
 );
 
-/* ─── Variant 4 — Asymmetrisk: stort bilde venstre, merkevare-bilde-panel høyre ─── */
+/* ─── Variant 4 — Asymmetrisk: stort kategori-bilde + hudtone-panel med tekst ─── */
 const Variant4Asymmetric = ({ c }: { c: CategoryHeroContent }) => (
   <header className="relative bg-brand-light overflow-hidden">
     <div className="relative z-20 flex flex-col-reverse lg:grid lg:grid-cols-[1.35fr_1fr] lg:min-h-[640px]">
@@ -279,7 +306,7 @@ const Variant4Asymmetric = ({ c }: { c: CategoryHeroContent }) => (
         />
       </div>
       <div className="relative flex items-center px-6 md:px-10 lg:px-14 py-16 lg:py-24 text-white overflow-hidden">
-        <ImagePanel src={cmedicalHero2} alt="CMedical merkevare" overlay="warm" />
+        <ImagePanel src={skinTextureHero} alt="Varm hudtone" scrim="left" baseTint="deep" />
         <div className="relative z-10 w-full">
           <HeroCopy c={c} tone="light" />
         </div>
@@ -300,10 +327,13 @@ const Variant5VideoOnly = ({ c }: { c: CategoryHeroContent }) => (
       playsInline
       className="absolute inset-0 w-full h-full object-cover"
     />
+    {/* Varm grunntone for kontrast også når videoen er lys */}
     <div
       aria-hidden="true"
-      className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/45 to-[hsl(18_55%_18%/0.6)]"
+      className="absolute inset-0 bg-[linear-gradient(135deg,hsl(20_45%_12%/0.55),hsl(18_55%_18%/0.55))]"
     />
+    {/* Sterkere scrim bak tekst */}
+    <div aria-hidden="true" className={`absolute inset-0 ${scrimClass("left")}`} />
     <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={grainOverlay} />
     <div className="relative z-10 px-6 md:px-10 lg:px-16 py-20 lg:py-28 w-full">
       <HeroCopy c={c} tone="light" />
@@ -311,10 +341,10 @@ const Variant5VideoOnly = ({ c }: { c: CategoryHeroContent }) => (
   </header>
 );
 
-/* ─── Variant 6 — Ren og minimal: kategori-bilde med lett overlay, ingen aksenter ─── */
+/* ─── Variant 6 — Ren og minimal: kategori-bilde med varm scrim bak tekst ─── */
 const Variant6Minimal = ({ c }: { c: CategoryHeroContent }) => (
   <header className="relative overflow-hidden text-white min-h-[520px] lg:min-h-[560px] flex items-center">
-    <ImagePanel src={c.image} alt={c.imageAlt} overlay="soft" />
+    <ImagePanel src={c.image} alt={c.imageAlt} scrim="left" baseTint="soft" />
     <div className="relative z-10 px-6 md:px-10 lg:px-16 py-20 lg:py-24 w-full">
       <HeroCopy c={c} tone="light" />
     </div>
