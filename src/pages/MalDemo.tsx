@@ -15,6 +15,7 @@ import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
 import FertilitetVarmHeroForslag from "./demos/FertilitetVarmHeroForslag";
 import FagomradeHeroVarianter from "./demos/FagomradeHeroVarianter";
 import FertilitetFargeveksling from "./demos/FertilitetFargeveksling";
+import FagomradeSkinDemo from "./demos/FagomradeSkinDemo";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -169,6 +170,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Duplikat av fertilitet-siden der seksjonene veksler mellom light skin (#F2ECE6) og mid skin (#CCBAAD) for å bryte opp den flate cream-fargen. Stats-seksjonen bruker et hudtonet bilde som bakgrunn med parallax og en lett mørk overlay for lesbarhet. Layout, tekst og tall er uendret. Kun demo — den publiserte fertilitet-siden er ikke rørt.",
     livePath: "/maler/fertilitetFargeveksling",
     render: () => <FertilitetFargeveksling isChatOpen={false} />,
+  },
+  fagomradeSkinDemo: {
+    title: "Mal-demo: Fagområde med hudbilder",
+    description:
+      "Duplikat av fagområde-mastermalen (gynekologi) der hero er en split med hudbilde på høyre side og overskriften lagt oppå bildet med mørk gradient for lesbarhet. 'Tall som forteller en historie'-seksjonen har et annet hudbilde som bakgrunn med parallax-effekt og mørk overlay slik at tallene vises i hvit tekst. Ellers uendret struktur, tokens og innhold. Kun demo — den publiserte gynekologi-siden er ikke rørt.",
+    livePath: "/maler/fagomradeSkinDemo",
+    render: () => <FagomradeSkinDemo isChatOpen={false} />,
   },
 };
 
