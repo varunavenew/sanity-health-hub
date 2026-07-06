@@ -85,8 +85,8 @@ export interface SubTreatmentContent {
   relatedAsIntro?: boolean;
   relatedAsServices?: boolean;
   relatedSeeAll?: { href: string; label: string };
-  ctaTitle: string;
-  ctaDescription: string;
+  ctaTitle?: string;
+  ctaDescription?: string;
   conversationCtaTitle?: string;
   specialistCategory?: Specialist["category"];
   specialistSlugs?: string[];
@@ -447,17 +447,7 @@ export const SubTreatmentLayout = ({
 
   const heroTitle = useMemo(() => parseHeroTitle(c.heroTitle), [c.heroTitle]);
 
-  const sectionSpecialists = useMemo(() => {
-    if (!c.specialistSlugs?.length) return undefined;
-    const resolved = c.specialistSlugs
-      .map((slug) => specialists.find((s) => s.slug === slug))
-      .filter((s): s is Specialist => Boolean(s));
-    return resolved.length > 0 ? resolved : undefined;
-  }, [c.specialistSlugs, specialists]);
-
-  const showSpecialistsSection = Boolean(
-    sectionSpecialists?.length || c.specialistCategory,
-  );
+  // Obsolete specialists resolving logic removed as page builder pageSectionSpecialists is used instead
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -871,47 +861,7 @@ export const SubTreatmentLayout = ({
         </section>
       ) : null}
 
-      <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
-        <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="max-w-3xl">
-              <h2 className="text-xl md:text-3xl font-light leading-tight">
-                {c.conversationCtaTitle}
-              </h2>
-              {c.ctaDescription ? (
-                <p className="text-base font-light text-muted-foreground leading-relaxed mt-3">
-                  {c.ctaDescription}
-                </p>
-              ) : null}
-            </div>
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center w-full md:w-auto">
-              <Button
-                variant="cta"
-                size="lg"
-                className="px-6 w-full md:w-auto h-14 md:h-12"
-                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
-              >
-                {c.primaryCtaLabel}
-              </Button>
-              <CallUsClinicPicker variant="light" size="lg" label={c.callCtaLabel} />
-            </div>
-          </div>
-        </div>
-      </section>
-
       <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
-
-      {showSpecialistsSection ? (
-        <SpecialistsScroller
-          items={sectionSpecialists}
-          category={sectionSpecialists ? undefined : c.specialistCategory}
-          fallbackCategory={c.specialistCategory}
-          title={c.specialistTitle}
-          description={c.specialistDescription}
-          seeAllHref={c.specialistCtaHref}
-          seeAllLabel={c.specialistCtaLabel}
-        />
-      ) : null}
 
       <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">

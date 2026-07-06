@@ -15,7 +15,7 @@ function seoText(treatment: TreatmentData): { title: string; description: string
   };
 }
 
-/** Map Sanity treatment + layout block to SubTreatmentLayout content (no static fallbacks). */
+/** Map Sanity treatment (flat layout fields at root) to SubTreatmentLayout content. */
 export function mapTreatmentToSubTreatmentContent(
   treatment: TreatmentData,
   options: {
@@ -25,28 +25,25 @@ export function mapTreatmentToSubTreatmentContent(
   },
 ): SubTreatmentContent {
   const { categoryId, treatmentSlug } = options;
-  const layout = treatment.layout;
-  if (!layout) {
-    throw new Error("Treatment layout is required for SubTreatmentLayout");
-  }
+  const isEn = options.lang === "en";
 
   const canonical = `/behandlinger/${treatment.parentSlug}/${treatmentSlug}`;
   const parentName = treatment.parentCategory?.trim() || "";
   const parentPath = `/${treatment.parentSlug}`;
   const { title: seoTitle, description: seoDescription } = seoText(treatment);
 
-  const heroPoints = (layout.heroPoints ?? []).filter((p) => p.title || p.desc);
-  const flow = (layout.flow ?? []).filter((s) => s.title || s.desc);
-  const reasons = (layout.reasons ?? []).filter((r) => r.title || r.desc);
-  const promises = (layout.promises ?? []).filter((p) => p.title);
+  const heroPoints = (treatment.heroPoints ?? []).filter((p) => p.title || p.desc);
+  const flow = (treatment.flow ?? []).filter((s) => s.title || s.desc);
+  const reasons = (treatment.reasons ?? []).filter((r) => r.title || r.desc);
+  const promises = (treatment.promises ?? []).filter((p) => p.title);
 
-  const related = (layout.related ?? []).map((r) => ({
-      title: r.title,
-      desc: r.desc || "",
-      href: r.path,
-      image: r.image,
-      imageAlt: r.imageAlt,
-    }));
+  const related = (treatment.related ?? []).map((r) => ({
+    title: r.title,
+    desc: r.desc || "",
+    href: r.path,
+    image: r.image,
+    imageAlt: r.imageAlt,
+  }));
 
   const specialistCategory = normalizeCategoryFilterKey(
     categoryId,
@@ -58,47 +55,56 @@ export function mapTreatmentToSubTreatmentContent(
     seoTitle,
     seoDescription,
     canonical,
-    homeBreadcrumbLabel: layout.homeBreadcrumbLabel || "",
-    srOnlyTitle: layout.srOnlyTitle || "",
-    themesAriaLabel: layout.themesAriaLabel || "",
-    seePricesLabel: layout.seePricesLabel || "",
-    seePricesHref: layout.seePricesHref || "",
-    callCtaLabel: layout.callCtaLabel || "",
-    expertReadMoreLabel: layout.expertReadMoreLabel || "",
-    scrollLeftLabel: layout.scrollLeftLabel || "",
-    scrollRightLabel: layout.scrollRightLabel || "",
-    insuranceEyebrow: layout.insuranceEyebrow || "",
-    insuranceTitle: layout.insuranceTitle || "",
-    insurancePartners: layout.insurancePartners ?? [],
+    homeBreadcrumbLabel: treatment.homeBreadcrumbLabel || (isEn ? "Home" : "Hjem"),
+    srOnlyTitle: treatment.srOnlyTitle || (isEn ? "Treatment page at CMedical" : "Behandlingsside hos CMedical"),
+    themesAriaLabel: treatment.themesAriaLabel || (isEn ? "Topics" : "Temaer"),
+    seePricesLabel: treatment.seePricesLabel || (isEn ? "See prices" : "Se priser"),
+    seePricesHref: treatment.seePricesHref || "/priser",
+    callCtaLabel: treatment.callCtaLabel || (isEn ? "Call us" : "Ring oss"),
+    expertReadMoreLabel: treatment.expertReadMoreLabel || (isEn ? "Read more" : "Les mer"),
+    scrollLeftLabel: treatment.scrollLeftLabel || (isEn ? "Scroll left" : "Scroll venstre"),
+    scrollRightLabel: treatment.scrollRightLabel || (isEn ? "Scroll right" : "Scroll høyre"),
+    insuranceEyebrow: treatment.insuranceEyebrow || (isEn ? "Insurance partners" : "Forsikringspartnere"),
+    insuranceTitle: treatment.insuranceTitle || (isEn ? "We work with the leading insurance providers" : "Vi samarbeider med de største forsikringsselskapene"),
+    insurancePartners: treatment.insurancePartners ?? [
+      { key: "gjensidige", label: "Gjensidige" },
+      { key: "if", label: "If" },
+      { key: "fremtind", label: "Fremtind" },
+      { key: "storebrand", label: "Storebrand" },
+      { key: "tryg", label: "Tryg" },
+      { key: "vertikal", label: "Vertikal" },
+      { key: "codan", label: "Codan" },
+      { key: "eika", label: "Eika" },
+    ],
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
-    heroTitle: layout.heroTitle || "",
-    heroDescription: layout.heroDescription || "",
-    heroThemes: layout.heroThemes,
+    heroTitle: treatment.heroTitle || "",
+    heroDescription: treatment.heroDescription || "",
+    heroThemes: treatment.heroThemes,
     heroPoints,
-    heroAvailability: layout.heroAvailability,
-    heroPrice: layout.heroPrice,
-    hideSeePriser: layout.hideSeePriser,
-    heroImage: layout.heroImage,
-    heroImageAlt: layout.heroImageAlt,
-    heroVideo: layout.heroVideo,
-    rating: layout.rating,
+    heroAvailability: treatment.heroAvailability,
+    heroPrice: treatment.heroPrice,
+    hideSeePriser: treatment.hideSeePriser,
+    heroImage: treatment.heroImage,
+    heroImageAlt: treatment.heroImageAlt,
+    heroVideo: treatment.heroVideo,
+    rating: treatment.rating,
     booking: {
       kategori: normalizeCategoryFilterKey(categoryId),
-      tjeneste: layout.bookingService,
+      tjeneste: treatment.bookingService,
     },
-    primaryCtaLabel: layout.primaryCtaLabel,
-    flowTitle: layout.flowTitle || "",
+    primaryCtaLabel: treatment.primaryCtaLabel,
+    flowTitle: treatment.flowTitle || "",
     flow,
-    flowImage: layout.flowImage,
-    flowImageAlt: layout.flowImageAlt,
-    flowLinkLabel: layout.flowLinkLabel,
-    flowLinkHref: layout.flowLinkHref,
-    reasonsTitle: layout.reasonsTitle || "",
-    reasonsLead: layout.reasonsLead,
-    reasonsLead2: layout.reasonsLead2,
+    flowImage: treatment.flowImage,
+    flowImageAlt: treatment.flowImageAlt,
+    flowLinkLabel: treatment.flowLinkLabel,
+    flowLinkHref: treatment.flowLinkHref,
+    reasonsTitle: treatment.reasonsTitle || "",
+    reasonsLead: treatment.reasonsLead,
+    reasonsLead2: treatment.reasonsLead2,
     reasons,
-    reasonsLayout: layout.reasonsLayout,
+    reasonsLayout: treatment.reasonsLayout,
     promises: promises.map((p) => ({
       title: p.title,
       desc: p.desc,
@@ -106,11 +112,11 @@ export function mapTreatmentToSubTreatmentContent(
       image: p.image,
       imageAlt: p.imageAlt,
     })),
-    expertAreas: layout.expertAreas
+    expertAreas: treatment.expertAreas
       ? {
-          title: layout.expertAreas.title || "",
-          description: layout.expertAreas.description,
-          items: layout.expertAreas.items.map((item) => ({
+          title: treatment.expertAreas.title || "",
+          description: treatment.expertAreas.description,
+          items: treatment.expertAreas.items.map((item) => ({
             title: item.title,
             desc: item.desc,
             href: item.path,
@@ -119,35 +125,35 @@ export function mapTreatmentToSubTreatmentContent(
           })),
         }
       : undefined,
-    textSection: layout.textSection
+    textSection: treatment.textSection
       ? {
-          title: layout.textSection.title || "",
-          lead: layout.textSection.lead,
-          points: layout.textSection.points,
-          image: layout.textSection.image || "",
-          imageAlt: layout.textSection.imageAlt,
+          title: treatment.textSection.title || "",
+          lead: treatment.textSection.lead,
+          points: treatment.textSection.points,
+          image: treatment.textSection.image || "",
+          imageAlt: treatment.textSection.imageAlt,
         }
       : undefined,
-    relatedTitle: layout.relatedTitle,
-    relatedLead: layout.relatedLead,
-    relatedAsIntro: layout.relatedAsIntro,
-    relatedAsServices: layout.relatedAsServices,
+    relatedTitle: treatment.relatedTitle,
+    relatedLead: treatment.relatedLead,
+    relatedAsIntro: treatment.relatedAsIntro,
+    relatedAsServices: treatment.relatedAsServices,
     relatedSeeAll:
-      layout.relatedSeeAllHref && layout.relatedSeeAllLabel
+      treatment.relatedSeeAllHref && treatment.relatedSeeAllLabel
         ? {
-            href: layout.relatedSeeAllHref,
-            label: layout.relatedSeeAllLabel,
+            href: treatment.relatedSeeAllHref,
+            label: treatment.relatedSeeAllLabel,
           }
         : undefined,
     related,
-    ctaTitle: layout.ctaTitle || "",
-    ctaDescription: layout.ctaDescription || "",
-    conversationCtaTitle: layout.conversationCtaTitle,
+    ctaTitle: treatment.ctaTitle || "",
+    ctaDescription: treatment.ctaDescription || "",
+    conversationCtaTitle: treatment.conversationCtaTitle,
     specialistCategory,
     specialistSlugs: specialistSlugs.length > 0 ? specialistSlugs : undefined,
-    specialistCtaLabel: layout.specialistCtaLabel,
-    specialistCtaHref: layout.specialistCtaHref,
-    specialistTitle: layout.specialistTitle,
-    specialistDescription: layout.specialistDescription,
+    specialistCtaLabel: treatment.specialistCtaLabel,
+    specialistCtaHref: treatment.specialistCtaHref,
+    specialistTitle: treatment.specialistTitle,
+    specialistDescription: treatment.specialistDescription,
   };
 }

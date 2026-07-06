@@ -266,6 +266,10 @@ export default {
       group: 'extras',
       of: [
         {
+          type: 'reference',
+          to: [{ type: 'faq' }],
+        },
+        {
           type: 'object',
           name: 'clinicFaq',
           title: 'FAQ',

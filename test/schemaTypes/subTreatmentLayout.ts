@@ -15,6 +15,15 @@ const titledItemPreview = {
   },
 }
 
+const validateRelativePath = (Rule: any) =>
+  Rule.custom((value: any) => {
+    if (!value) return true
+    if (typeof value !== 'string') return true
+    return value.startsWith('/')
+      ? true
+      : 'Stien må være en relativ lenke som starter med skråstrek (f.eks. /priser)'
+  })
+
 export const subTreatmentLayoutType = {
   name: 'subTreatmentLayout',
   title: 'Sidelayout (hero, forløp, symptomer)',
@@ -24,7 +33,7 @@ export const subTreatmentLayoutType = {
     { name: 'srOnlyTitle', title: 'Skjult H1', ...i18nString },
     { name: 'themesAriaLabel', title: 'Temaer — aria-label', ...i18nString },
     { name: 'seePricesLabel', title: 'Se priser — tekst', ...i18nString },
-    { name: 'seePricesHref', title: 'Se priser — lenke', type: 'string' },
+    { name: 'seePricesHref', title: 'Se priser — lenke', type: 'string', validation: validateRelativePath },
     { name: 'callCtaLabel', title: 'Ring oss — tekst', ...i18nString },
     { name: 'expertReadMoreLabel', title: 'Ekspertkort — lenketekst', ...i18nString },
     { name: 'scrollLeftLabel', title: 'Karusell — scroll venstre', ...i18nString },
@@ -41,6 +50,15 @@ export const subTreatmentLayoutType = {
           { name: 'key', title: 'Nøkkel', type: 'string' },
           { name: 'label', title: 'Navn', ...i18nString },
         ],
+        preview: {
+          select: { title: 'label', subtitle: 'key' },
+          prepare({ title, subtitle }: any) {
+            return {
+              title: pickNo(title) || 'Uten navn',
+              subtitle,
+            }
+          },
+        },
       }],
     },
     { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
@@ -81,28 +99,6 @@ export const subTreatmentLayoutType = {
       type: 'string',
       description: 'Valgfritt — sendes til booking (f.eks. hysterektomi)',
     },
-    { name: 'flowEyebrow', title: 'Forløp — eyebrow', ...i18nString },
-    { name: 'flowTitle', title: 'Forløp — tittel', ...i18nString },
-    { name: 'flowImage', title: 'Forløp — bilde', type: 'image', options: { hotspot: true } },
-    { name: 'flowImageAlt', title: 'Forløp — bilde alt', ...i18nString },
-    { name: 'flowLinkLabel', title: 'Forløp — lenketekst', ...i18nString },
-    { name: 'flowLinkHref', title: 'Forløp — lenke', type: 'string' },
-    {
-      name: 'flow',
-      title: 'Forløp — steg',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'n', title: 'Steg-nummer / etikett', ...i18nString },
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
-          ],
-          preview: titledItemPreview,
-        },
-      ],
-    },
     { name: 'reasonsEyebrow', title: 'Symptomer — eyebrow', ...i18nString },
     { name: 'reasonsTitle', title: 'Symptomer — tittel', ...i18nString },
     { name: 'reasonsLead', title: 'Symptomer — ingress 1', ...i18nText },
@@ -137,36 +133,28 @@ export const subTreatmentLayoutType = {
         },
       ],
     },
+    { name: 'flowEyebrow', title: 'Forløp — eyebrow', ...i18nString },
+    { name: 'flowTitle', title: 'Forløp — tittel', ...i18nString },
+    { name: 'flowImage', title: 'Forløp — bilde', type: 'image', options: { hotspot: true } },
+    { name: 'flowImageAlt', title: 'Forløp — bilde alt', ...i18nString },
+    { name: 'flowLinkLabel', title: 'Forløp — lenketekst', ...i18nString },
+    { name: 'flowLinkHref', title: 'Forløp — lenke', type: 'string', validation: validateRelativePath },
     {
-      name: 'promises',
-      title: 'Løfter / fordeler (3 kolonner)',
+      name: 'flow',
+      title: 'Forløp — steg',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
+            { name: 'n', title: 'Steg-nummer / etikett', ...i18nString },
             { name: 'title', title: 'Tittel', ...i18nString },
             { name: 'desc', title: 'Beskrivelse', ...i18nText },
-            { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-            { name: 'imageAlt', title: 'Bilde — alt', ...i18nString },
           ],
           preview: titledItemPreview,
         },
       ],
     },
-    { name: 'relatedEyebrow', title: 'Relatert — eyebrow', ...i18nString },
-    { name: 'relatedTitle', title: 'Relatert — tittel', ...i18nString },
-    { name: 'relatedLead', title: 'Relatert — ingress', ...i18nText },
-    { name: 'relatedAsIntro', title: 'Relatert rett etter hero', type: 'boolean' },
-    { name: 'relatedAsServices', title: 'Relatert som tjenestekarusell', type: 'boolean' },
-    {
-      name: 'relatedSeeAllHref',
-      title: 'Relatert — «se alle»-lenke',
-      type: 'string',
-      description: 'F.eks. /behandlinger/fertilitet',
-    },
-    { name: 'relatedSeeAllLabel', title: 'Relatert — «se alle»-tekst', ...i18nString },
     {
       name: 'expertAreas',
       title: 'Ekspertområder',
@@ -184,13 +172,31 @@ export const subTreatmentLayoutType = {
               fields: [
                 { name: 'title', title: 'Tittel', ...i18nString },
                 { name: 'desc', title: 'Beskrivelse', ...i18nText },
-                { name: 'path', title: 'Lenke', type: 'string' },
+                { name: 'path', title: 'Lenke', type: 'string', validation: validateRelativePath },
                 { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
                 { name: 'imageAlt', title: 'Bilde — alt', ...i18nString },
               ],
               preview: titledItemPreview,
             },
           ],
+        },
+      ],
+    },
+    {
+      name: 'promises',
+      title: 'Løfter / fordeler (3 kolonner)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
+            { name: 'title', title: 'Tittel', ...i18nString },
+            { name: 'desc', title: 'Beskrivelse', ...i18nText },
+            { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
+            { name: 'imageAlt', title: 'Bilde — alt', ...i18nString },
+          ],
+          preview: titledItemPreview,
         },
       ],
     },
@@ -221,45 +227,25 @@ export const subTreatmentLayoutType = {
         { name: 'imageAlt', title: 'Bilde alt', ...i18nString },
       ],
     },
+    { name: 'relatedEyebrow', title: 'Relatert — eyebrow', ...i18nString },
+    { name: 'relatedTitle', title: 'Relatert — tittel', ...i18nString },
+    { name: 'relatedLead', title: 'Relatert — ingress', ...i18nText },
+    { name: 'relatedAsIntro', title: 'Relatert rett etter hero', type: 'boolean' },
+    { name: 'relatedAsServices', title: 'Relatert som tjenestekarusell', type: 'boolean' },
     {
-      name: 'related',
-      title: 'Relaterte behandlinger',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
-            {
-              name: 'path',
-              title: 'URL-sti (NO)',
-              type: 'string',
-              description: 'F.eks. /behandlinger/gynekologi/endometriose',
-            },
-            { name: 'image', title: 'Kortbilde', type: 'image', options: { hotspot: true } },
-            { name: 'imageAlt', title: 'Kortbilde — alt', ...i18nString },
-          ],
-          preview: titledItemPreview,
-        },
-      ],
-    },
-    { name: 'ctaTitle', title: 'Avsluttende CTA — tittel', ...i18nString },
-    { name: 'ctaDescription', title: 'Avsluttende CTA — tekst', ...i18nText },
-    { name: 'conversationCtaTitle', title: 'Midt-CTA — tittel', ...i18nString },
-    { name: 'specialistTitle', title: 'Spesialist-seksjon — tittel', ...i18nString },
-    { name: 'specialistDescription', title: 'Spesialist-seksjon — ingress', ...i18nText },
-    {
-      name: 'specialistCtaLabel',
-      title: 'Spesialist-seksjon — CTA-tekst',
-      ...i18nString,
-    },
-    {
-      name: 'specialistCtaHref',
-      title: 'Spesialist-seksjon — CTA-lenke',
+      name: 'relatedSeeAllHref',
+      title: 'Relatert — «se alle»-lenke',
       type: 'string',
-      description: 'F.eks. /spesialister?kategori=gynekologi',
+      description: 'F.eks. /behandlinger/fertilitet',
+      validation: validateRelativePath,
     },
+    { name: 'relatedSeeAllLabel', title: 'Relatert — «se alle»-tekst', ...i18nString },
+    { name: 'ctaTitle', title: 'Avsluttende CTA — tittel [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'ctaDescription', title: 'Avsluttende CTA — tekst [DEPRECATED]', ...i18nText, hidden: true, readOnly: true },
+    { name: 'conversationCtaTitle', title: 'Midt-CTA — tittel [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'specialistTitle', title: 'Spesialist-seksjon — tittel [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'specialistDescription', title: 'Spesialist-seksjon — ingress [DEPRECATED]', ...i18nText, hidden: true, readOnly: true },
+    { name: 'specialistCtaLabel', title: 'Spesialist-seksjon — CTA-tekst [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'specialistCtaHref', title: 'Spesialist-seksjon — CTA-lenke [DEPRECATED]', type: 'string', hidden: true, readOnly: true },
   ],
 }

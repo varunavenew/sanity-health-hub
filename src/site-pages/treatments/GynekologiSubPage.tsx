@@ -32,9 +32,6 @@ const GynekologiSubPage = ({
     );
   }
 
-  if (!resolved?.layout) {
-    return <NotFound isChatOpen={isChatOpen} />;
-  }
 
   const content = mapTreatmentToSubTreatmentContent(resolved, {
     categoryId: "gynekologi",

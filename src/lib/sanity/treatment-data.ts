@@ -42,7 +42,17 @@ export type TreatmentSection = {
   content: string;
 };
 
-export type SubTreatmentLayoutData = {
+export type TreatmentData = {
+  title: string;
+  subtitle?: string;
+  description: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  parentCategory?: string;
+  parentSlug?: string;
+  categoryNumericId?: number;
+  faqs?: { question: string; answer: string }[];
+  // Layout fields (formerly nested under layout{})
   homeBreadcrumbLabel?: string;
   srOnlyTitle?: string;
   themesAriaLabel?: string;
@@ -63,8 +73,6 @@ export type SubTreatmentLayoutData = {
   heroAvailability?: string;
   heroPrice?: string;
   hideSeePriser?: boolean;
-  heroImage?: string;
-  heroImageAlt?: string;
   heroVideo?: string;
   rating?: string;
   primaryCtaLabel?: string;
@@ -95,6 +103,16 @@ export type SubTreatmentLayoutData = {
     image?: string;
     imageAlt?: string;
   };
+  relatedSection?: {
+    eyebrow?: string;
+    title?: string;
+    lead?: string;
+    asIntro?: boolean;
+    asServices?: boolean;
+    seeAllHref?: string;
+    seeAllLabel?: string;
+    items?: { eyebrow?: string; title: string; desc: string; path: string; image?: string; imageAlt?: string }[];
+  };
   relatedEyebrow?: string;
   relatedTitle?: string;
   relatedLead?: string;
@@ -102,7 +120,6 @@ export type SubTreatmentLayoutData = {
   relatedAsServices?: boolean;
   relatedSeeAllHref?: string;
   relatedSeeAllLabel?: string;
-  related?: { eyebrow: string; title: string; desc: string; path: string; image?: string; imageAlt?: string }[];
   ctaTitle?: string;
   ctaDescription?: string;
   conversationCtaTitle?: string;
@@ -110,48 +127,8 @@ export type SubTreatmentLayoutData = {
   specialistDescription?: string;
   specialistCtaLabel?: string;
   specialistCtaHref?: string;
-};
-
-export type TreatmentBottomCta = {
-  title?: string;
-  subtitle?: string;
-  primaryLabel?: string;
-  secondaryLabel?: string;
-  primaryPath?: string;
-  secondaryPath?: string;
-};
-
-export type TreatmentQuickInfoIconKey = "file-text" | "clock" | "shield" | "info";
-
-const QUICK_INFO_ICON_KEYS: TreatmentQuickInfoIconKey[] = [
-  "file-text",
-  "clock",
-  "shield",
-  "info",
-];
-
-export type TreatmentData = {
-  title: string;
-  subtitle?: string;
-  description: string;
-  heroImage?: string;
-  heroImageAlt?: string;
-  parentCategory?: string;
-  parentSlug?: string;
-  categoryNumericId?: number;
-  benefitsTitle?: string;
-  benefits?: { title: string; description: string }[];
-  linkedServicesSectionTitle?: string;
-  processSectionTitle?: string;
-  quickInfoItems?: { iconKey: TreatmentQuickInfoIconKey; label: string }[];
-  faqSectionTitle?: string;
-  bottomCta?: TreatmentBottomCta;
-  process?: { title: string; description: string }[];
-  faqs?: { question: string; answer: string }[];
-  sections: TreatmentSection[];
-  linkedServices?: { label: string; description?: string; path: string }[];
-  layout?: SubTreatmentLayoutData;
   relatedSpecialistSlugs?: string[];
+  related?: { eyebrow?: string; title: string; desc: string; path: string; image?: string; imageAlt?: string }[];
   pageSections: ReturnType<typeof normalizePageSections>;
   /** Locale-specific slug from CMS (for canonical redirects). */
   canonicalSlug?: string;
@@ -164,107 +141,198 @@ export function mapTreatmentDocument(
 ): TreatmentData | null {
   if (!data) return null;
 
-  const sections = ((data.sections as unknown[]) || [])
-    .map((row, i) => {
-      const s = row as Record<string, unknown>;
-      return {
-        id: asPlainString(s.id) || `section-${i}`,
-        heading: asPlainString(s.heading),
-        content: asPlainString(s.content),
-      };
-    })
-    .filter((s) => s.heading || s.content);
-
-  const layoutRaw = data.layout as Record<string, unknown> | undefined;
-  const layout = layoutRaw ? mapLayoutDocument(layoutRaw) : undefined;
+  const row = (key: string) => asPlainString(data[key]) || undefined;
+  const mapPoints = (items: unknown, keys: { title: string; desc: string }) =>
+    ((items as unknown[]) || [])
+      .map((item) => {
+        const r = item as Record<string, unknown>;
+        return {
+          title: asPlainString(r[keys.title]),
+          desc: asPlainString(r[keys.desc]),
+        };
+      })
+      .filter((p) => p.title || p.desc);
 
   const relatedSpecialists = (data.relatedSpecialists as unknown[]) || [];
   const relatedSpecialistSlugs = relatedSpecialists
-    .map((row) => asPlainString((row as Record<string, unknown>).slug))
+    .map((r) => asPlainString((r as Record<string, unknown>).slug))
     .filter(Boolean);
-
-  const bottomCtaRaw = data.bottomCta as Record<string, unknown> | undefined;
-  const quickInfoItems = ((data.quickInfoItems as unknown[]) || [])
-    .map((item, index) => {
-      if (item == null || typeof item !== "object") return null;
-      const row = item as Record<string, unknown>;
-      const label = asPlainString(row.label);
-      if (!label) return null;
-      return {
-        iconKey: QUICK_INFO_ICON_KEYS[index % QUICK_INFO_ICON_KEYS.length],
-        label,
-      };
-    })
-    .filter((item): item is NonNullable<typeof item> => item != null);
 
   return {
     title: asPlainString(data.title),
-    subtitle: asPlainString(data.subtitle) || undefined,
+    subtitle: row("subtitle"),
     description: asPlainString(data.description),
-    geoSummary: asPlainString(data.geoSummary) || undefined,
-    heroImage: asPlainString(data.heroImage) || undefined,
-    heroImageAlt: asPlainString(data.heroImageAlt) || undefined,
-    parentCategory: asPlainString(data.parentCategory) || undefined,
-    parentSlug: asPlainString(data.parentSlug) || undefined,
+    geoSummary: row("geoSummary"),
+    heroImage: row("heroImage"),
+    heroImageAlt: row("heroImageAlt"),
+    parentCategory: row("parentCategory"),
+    parentSlug: row("parentSlug"),
     categoryNumericId:
-      typeof data.categoryNumericId === "number"
-        ? data.categoryNumericId
-        : undefined,
-    benefitsTitle: asPlainString(data.benefitsTitle) || undefined,
-    linkedServicesSectionTitle:
-      asPlainString(data.linkedServicesSectionTitle) || undefined,
-    processSectionTitle: asPlainString(data.processSectionTitle) || undefined,
-    quickInfoItems: quickInfoItems.length ? quickInfoItems : undefined,
-    faqSectionTitle: asPlainString(data.faqSectionTitle) || undefined,
-    bottomCta: bottomCtaRaw
-      ? {
-          title: asPlainString(bottomCtaRaw.title) || undefined,
-          subtitle: asPlainString(bottomCtaRaw.subtitle) || undefined,
-          primaryLabel: asPlainString(bottomCtaRaw.primaryLabel) || undefined,
-          secondaryLabel: asPlainString(bottomCtaRaw.secondaryLabel) || undefined,
-          primaryPath: asPlainString(bottomCtaRaw.primaryPath) || undefined,
-          secondaryPath: asPlainString(bottomCtaRaw.secondaryPath) || undefined,
-        }
-      : undefined,
-    benefits: ((data.benefits as unknown[]) || []).map((b) => {
-      const row = b as Record<string, unknown>;
-      if (row && typeof row === 'object' && 'title' in row) {
-        return {
-          title: asPlainString(row.title),
-          description: asPlainString(row.description),
-        };
-      }
-      // Legacy: bare internationalizedArrayString per array item
-      return {
-        title: asPlainString(b),
-        description: '',
-      };
-    }),
-    process: ((data.process as unknown[]) || []).map((p) => {
-      const row = p as Record<string, unknown>;
-      return {
-        title: asPlainString(row.title),
-        description: asPlainString(row.description),
-      };
-    }),
+      typeof data.categoryNumericId === "number" ? data.categoryNumericId : undefined,
     faqs: ((data.faqs as unknown[]) || []).map((f) => {
-      const row = f as Record<string, unknown>;
+      const r = f as Record<string, unknown>;
       return {
-        question: asPlainString(row.question),
-        answer: asPlainString(row.answer),
+        question: asPlainString(r.question),
+        answer: asPlainString(r.answer),
       };
     }),
-    sections,
-    linkedServices: ((data.linkedServices as unknown[]) || []).map((ls) => {
-      const row = ls as Record<string, unknown>;
+    // Flat layout fields
+    homeBreadcrumbLabel: row("homeBreadcrumbLabel"),
+    srOnlyTitle: row("srOnlyTitle"),
+    themesAriaLabel: row("themesAriaLabel"),
+    seePricesLabel: row("seePricesLabel"),
+    seePricesHref: row("seePricesHref"),
+    callCtaLabel: row("callCtaLabel"),
+    expertReadMoreLabel: row("expertReadMoreLabel"),
+    scrollLeftLabel: row("scrollLeftLabel"),
+    scrollRightLabel: row("scrollRightLabel"),
+    insuranceEyebrow: row("insuranceEyebrow"),
+    insuranceTitle: row("insuranceTitle"),
+    insurancePartners: ((data.insurancePartners as unknown[]) || [])
+      .filter(Boolean)
+      .map((item) => {
+        const r = item as Record<string, unknown>;
+        return { key: asPlainString(r.key), label: asPlainString(r.label) };
+      })
+      .filter((item) => item.key && item.label),
+    eyebrow: row("eyebrow"),
+    heroTitle: row("heroTitle"),
+    heroDescription: row("heroDescription"),
+    heroPoints: mapPoints(data.heroPoints, { title: "title", desc: "desc" }),
+    heroThemes: asStringArray(data.heroThemes),
+    heroAvailability: row("heroAvailability"),
+    heroPrice: row("heroPrice"),
+    hideSeePriser: data.hideSeePriser === true,
+    heroVideo: row("heroVideo"),
+    rating: row("rating"),
+    primaryCtaLabel: row("primaryCtaLabel"),
+    bookingService: row("bookingService"),
+    flowEyebrow: row("flowEyebrow"),
+    flowTitle: row("flowTitle"),
+    flowImage: row("flowImage"),
+    flowImageAlt: row("flowImageAlt"),
+    flowLinkLabel: row("flowLinkLabel"),
+    flowLinkHref: row("flowLinkHref"),
+    flow: ((data.flow as unknown[]) || [])
+      .filter(Boolean)
+      .map((item) => {
+        const r = item as Record<string, unknown>;
+        return {
+          n: asPlainString(r.n),
+          title: asPlainString(r.title),
+          desc: asPlainString(r.desc),
+        };
+      })
+      .filter((s) => s.title || s.desc),
+    reasonsEyebrow: row("reasonsEyebrow"),
+    reasonsTitle: row("reasonsTitle"),
+    reasonsLead: row("reasonsLead"),
+    reasonsLead2: row("reasonsLead2"),
+    reasonsLayout:
+      data.reasonsLayout === "accordion" || data.reasonsLayout === "auto"
+        ? data.reasonsLayout
+        : "prose",
+    reasons: ((data.reasons as unknown[]) || [])
+      .filter(Boolean)
+      .map((item) => {
+        const r = item as Record<string, unknown>;
+        return {
+          n: asPlainString(r.n),
+          title: asPlainString(r.title),
+          desc: asPlainString(r.desc),
+        };
+      })
+      .filter((r) => r.title || r.desc),
+    promises: ((data.promises as unknown[]) || [])
+      .filter(Boolean)
+      .map((item) => {
+        const r = item as Record<string, unknown>;
+        return {
+          eyebrow: asPlainString(r.eyebrow),
+          title: asPlainString(r.title),
+          desc: asPlainString(r.desc),
+          image: asPlainString(r.image) || undefined,
+          imageAlt: asPlainString(r.imageAlt) || undefined,
+        };
+      })
+      .filter((p) => p.title),
+    expertAreas: (() => {
+      const ea = data.expertAreas as Record<string, unknown> | undefined;
+      if (!ea) return undefined;
+      const items = ((ea.items as unknown[]) || [])
+        .filter(Boolean)
+        .map((item) => {
+          const r = item as Record<string, unknown>;
+          return {
+            title: asPlainString(r.title),
+            desc: asPlainString(r.desc),
+            path: asPlainString(r.path),
+            image: asPlainString(r.image) || undefined,
+            imageAlt: asPlainString(r.imageAlt) || undefined,
+          };
+        })
+        .filter((i) => i.title && i.path);
+      if (items.length === 0) return undefined;
       return {
-        label: asPlainString(row.label),
-        description: asPlainString(row.description) || undefined,
-        path: asPlainString(row.path),
+        title: asPlainString(ea.title) || undefined,
+        description: asPlainString(ea.description) || undefined,
+        items,
       };
-    }),
-    layout,
+    })(),
+    textSection: (() => {
+      const ts = data.textSection as Record<string, unknown> | undefined;
+      if (!ts) return undefined;
+      const points = ((ts.points as unknown[]) || [])
+        .filter(Boolean)
+        .map((item) => {
+          const r = item as Record<string, unknown>;
+          return {
+            n: asPlainString(r.n),
+            title: asPlainString(r.title),
+            desc: asPlainString(r.desc),
+          };
+        })
+        .filter((p) => p.title);
+      return {
+        title: asPlainString(ts.title) || undefined,
+        lead: asPlainString(ts.lead) || undefined,
+        points: points.length ? points : undefined,
+        image: asPlainString(ts.image) || undefined,
+        imageAlt: asPlainString(ts.imageAlt) || undefined,
+      };
+    })(),
+    relatedEyebrow: data.relatedSection && typeof data.relatedSection === "object" ? asPlainString((data.relatedSection as any).eyebrow) : undefined,
+    relatedTitle: data.relatedSection && typeof data.relatedSection === "object" ? asPlainString((data.relatedSection as any).title) : undefined,
+    relatedLead: data.relatedSection && typeof data.relatedSection === "object" ? asPlainString((data.relatedSection as any).lead) : undefined,
+    relatedAsIntro: data.relatedSection && typeof data.relatedSection === "object" ? (data.relatedSection as any).asIntro === true : false,
+    relatedAsServices: data.relatedSection && typeof data.relatedSection === "object" ? (data.relatedSection as any).asServices === true : false,
+    relatedSeeAllHref: data.relatedSection && typeof data.relatedSection === "object" ? asPlainString((data.relatedSection as any).seeAllHref) : undefined,
+    relatedSeeAllLabel: data.relatedSection && typeof data.relatedSection === "object" ? asPlainString((data.relatedSection as any).seeAllLabel) : undefined,
+    ctaTitle: row("ctaTitle"),
+    ctaDescription: row("ctaDescription"),
+    conversationCtaTitle: row("conversationCtaTitle"),
+    specialistTitle: row("specialistTitle"),
+    specialistDescription: row("specialistDescription"),
+    specialistCtaLabel: row("specialistCtaLabel"),
+    specialistCtaHref: row("specialistCtaHref"),
     relatedSpecialistSlugs,
+    related: (() => {
+      const rs = data.relatedSection as Record<string, unknown> | undefined;
+      return ((rs?.items as unknown[]) || [])
+        .filter(Boolean)
+        .map((item) => {
+          const r = item as Record<string, unknown>;
+          return {
+            eyebrow: asPlainString(r.eyebrow),
+            title: asPlainString(r.title),
+            desc: asPlainString(r.desc),
+            path: asPlainString(r.path),
+            image: asPlainString(r.image) || undefined,
+            imageAlt: asPlainString(r.imageAlt) || undefined,
+          };
+        })
+        .filter((r) => r.title && r.path);
+    })(),
     pageSections: normalizePageSections(data.pageSections),
     canonicalSlug: asPlainString(data.slug) || undefined,
     seo: data.seo as Record<string, unknown> | undefined,
@@ -294,164 +362,4 @@ export async function fetchTreatmentData(
   return mapped;
 }
 
-function mapLayoutDocument(raw: Record<string, unknown>): SubTreatmentLayoutData {
-  const row = (key: string) => asPlainString(raw[key]) || undefined;
-  const mapPoints = (items: unknown, keys: { title: string; desc: string }) =>
-    ((items as unknown[]) || [])
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return {
-          title: asPlainString(r[keys.title]),
-          desc: asPlainString(r[keys.desc]),
-        };
-      })
-      .filter((p) => p.title || p.desc);
 
-  return {
-    homeBreadcrumbLabel: row("homeBreadcrumbLabel"),
-    srOnlyTitle: row("srOnlyTitle"),
-    themesAriaLabel: row("themesAriaLabel"),
-    seePricesLabel: row("seePricesLabel"),
-    seePricesHref: row("seePricesHref"),
-    callCtaLabel: row("callCtaLabel"),
-    expertReadMoreLabel: row("expertReadMoreLabel"),
-    scrollLeftLabel: row("scrollLeftLabel"),
-    scrollRightLabel: row("scrollRightLabel"),
-    insuranceEyebrow: row("insuranceEyebrow"),
-    insuranceTitle: row("insuranceTitle"),
-    insurancePartners: ((raw.insurancePartners as unknown[]) || []).map((item) => {
-      const r = item as Record<string, unknown>;
-      return { key: asPlainString(r.key), label: asPlainString(r.label) };
-    }).filter((item) => item.key && item.label),
-    eyebrow: row("eyebrow"),
-    heroTitle: row("heroTitle"),
-    heroDescription: row("heroDescription"),
-    heroPoints: mapPoints(raw.heroPoints, { title: "title", desc: "desc" }),
-    heroThemes: asStringArray(raw.heroThemes),
-    heroAvailability: row("heroAvailability"),
-    heroPrice: row("heroPrice"),
-    hideSeePriser: raw.hideSeePriser === true,
-    heroImage: row("heroImage"),
-    heroImageAlt: row("heroImageAlt"),
-    heroVideo: row("heroVideo"),
-    rating: row("rating"),
-    primaryCtaLabel: row("primaryCtaLabel"),
-    bookingService: row("bookingService"),
-    flowEyebrow: row("flowEyebrow"),
-    flowTitle: row("flowTitle"),
-    flowImage: row("flowImage"),
-    flowImageAlt: row("flowImageAlt"),
-    flowLinkLabel: row("flowLinkLabel"),
-    flowLinkHref: row("flowLinkHref"),
-    flow: ((raw.flow as unknown[]) || [])
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return {
-          n: asPlainString(r.n),
-          title: asPlainString(r.title),
-          desc: asPlainString(r.desc),
-        };
-      })
-      .filter((s) => s.title || s.desc),
-    reasonsEyebrow: row("reasonsEyebrow"),
-    reasonsTitle: row("reasonsTitle"),
-    reasonsLead: row("reasonsLead"),
-    reasonsLead2: row("reasonsLead2"),
-    reasonsLayout:
-      raw.reasonsLayout === "accordion" || raw.reasonsLayout === "auto"
-        ? raw.reasonsLayout
-        : "prose",
-    reasons: ((raw.reasons as unknown[]) || [])
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return {
-          n: asPlainString(r.n),
-          title: asPlainString(r.title),
-          desc: asPlainString(r.desc),
-        };
-      })
-      .filter((r) => r.title || r.desc),
-    promises: ((raw.promises as unknown[]) || [])
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return {
-          eyebrow: asPlainString(r.eyebrow),
-          title: asPlainString(r.title),
-          desc: asPlainString(r.desc),
-          image: asPlainString(r.image) || undefined,
-          imageAlt: asPlainString(r.imageAlt) || undefined,
-        };
-      })
-      .filter((p) => p.title),
-    expertAreas: (() => {
-      const ea = raw.expertAreas as Record<string, unknown> | undefined;
-      if (!ea) return undefined;
-      const items = ((ea.items as unknown[]) || [])
-        .map((item) => {
-          const r = item as Record<string, unknown>;
-          return {
-            title: asPlainString(r.title),
-            desc: asPlainString(r.desc),
-            path: asPlainString(r.path),
-            image: asPlainString(r.image) || undefined,
-            imageAlt: asPlainString(r.imageAlt) || undefined,
-          };
-        })
-        .filter((i) => i.title && i.path);
-      if (items.length === 0) return undefined;
-      return {
-        title: asPlainString(ea.title) || undefined,
-        description: asPlainString(ea.description) || undefined,
-        items,
-      };
-    })(),
-    textSection: (() => {
-      const ts = raw.textSection as Record<string, unknown> | undefined;
-      if (!ts) return undefined;
-      const points = ((ts.points as unknown[]) || [])
-        .map((item) => {
-          const r = item as Record<string, unknown>;
-          return {
-            n: asPlainString(r.n),
-            title: asPlainString(r.title),
-            desc: asPlainString(r.desc),
-          };
-        })
-        .filter((p) => p.title);
-      return {
-        title: asPlainString(ts.title) || undefined,
-        lead: asPlainString(ts.lead) || undefined,
-        points: points.length ? points : undefined,
-        image: asPlainString(ts.image) || undefined,
-        imageAlt: asPlainString(ts.imageAlt) || undefined,
-      };
-    })(),
-    relatedEyebrow: row("relatedEyebrow"),
-    relatedTitle: row("relatedTitle"),
-    relatedLead: row("relatedLead"),
-    relatedAsIntro: raw.relatedAsIntro === true,
-    relatedAsServices: raw.relatedAsServices === true,
-    relatedSeeAllHref: row("relatedSeeAllHref"),
-    relatedSeeAllLabel: row("relatedSeeAllLabel"),
-    related: ((raw.related as unknown[]) || [])
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return {
-          eyebrow: asPlainString(r.eyebrow),
-          title: asPlainString(r.title),
-          desc: asPlainString(r.desc),
-          path: asPlainString(r.path),
-          image: asPlainString(r.image) || undefined,
-          imageAlt: asPlainString(r.imageAlt) || undefined,
-        };
-      })
-      .filter((r) => r.title && r.path),
-    ctaTitle: row("ctaTitle"),
-    ctaDescription: row("ctaDescription"),
-    conversationCtaTitle: row("conversationCtaTitle"),
-    specialistTitle: row("specialistTitle"),
-    specialistDescription: row("specialistDescription"),
-    specialistCtaLabel: row("specialistCtaLabel"),
-    specialistCtaHref: row("specialistCtaHref"),
-  };
-}

@@ -73,18 +73,30 @@ export default {
   title: 'Behandlingskategori',
   type: 'document',
   icon: CategoryIcon,
+  groups: [
+    { name: 'general', title: 'Generelt' },
+    { name: 'hero', title: 'Hero' },
+    { name: 'landingPage', title: 'Landingsside' },
+    { name: 'pageSections', title: 'Sidestruktur' },
+    { name: 'seo', title: 'SEO / Synlighet' },
+  ],
   fields: [
     {
       name: 'title',
       title: 'Kategorinavn',
       type: 'internationalizedArrayString',
+      group: 'general',
       validation: reqI18n('Kategorinavn'),
     },
-    i18nSlugFieldFromTitle('title'),
+    {
+      ...i18nSlugFieldFromTitle('title'),
+      group: 'general',
+    },
     {
       name: 'categoryId',
       title: 'Kategori-key (slug)',
       type: 'string',
+      group: 'general',
       description:
         'Intern nøkkel brukt i app-ruting: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader',
       validation: (Rule: any) => Rule.required(),
@@ -93,6 +105,7 @@ export default {
       name: 'categoryNumericId',
       title: 'Kategori-ID',
       type: 'number',
+      group: 'general',
       description:
         'Numerisk booking-ID. Eksempel: 8=Gynekologi, 1=Fertilitet, 6=Urologi, 17=Ortopedi, 10=Graviditet, 23=Flere fagområder',
       validation: (Rule: any) => Rule.required().min(1).max(999),
@@ -101,6 +114,7 @@ export default {
       name: 'heroImage',
       title: 'Hero-bilde',
       type: 'image',
+      group: 'hero',
       options: { hotspot: true },
       description: 'Brukes når hero-video ikke er satt.',
     },
@@ -108,12 +122,14 @@ export default {
       name: 'heroVideo',
       title: 'Hero-video',
       type: 'file',
+      group: 'hero',
       options: { accept: 'video/*' },
       description: 'Valgfri bakgrunnsvideo i hero (overstyrer stillbilde når satt).',
     },
     {
       name: 'treatments',
       title: 'Behandlinger',
+      group: 'general',
       description:
         'Behandlinger som vises på kategori-landingssiden (f.eks. «Alt under samme tak»). Kun behandlinger med Kategori = denne kategorien kan velges. Rekkefølgen her styrer visningen.',
       type: 'array',
@@ -130,6 +146,7 @@ export default {
     {
       name: 'stats',
       title: 'Statistikk',
+      group: 'general',
       type: 'array',
       of: [statItem],
       validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én statistikk-rad'),
@@ -138,31 +155,28 @@ export default {
       name: 'sortOrder',
       title: 'Sorteringsrekkefølge',
       type: 'number',
+      group: 'general',
       description: 'Lavere tall vises først.',
-      validation: (Rule: any) => Rule.required().error('Sorteringsrekkefølge er påkrevd'),
-    },
-    categoryLandingPageField,
-    {
-      name: 'loadingLabel',
-      title: 'Laster-tekst',
-      type: 'internationalizedArrayString',
-      validation: reqI18n('Laster-tekst'),
     },
     {
-      name: 'missingLandingMessage',
-      title: 'Melding når landingsinnhold mangler',
-      type: 'internationalizedArrayText',
-      validation: reqI18n('Melding når landingsinnhold mangler'),
+      ...categoryLandingPageField,
+      group: 'landingPage',
     },
-    pageSectionsField,
+    {
+      ...pageSectionsField,
+      group: 'pageSections',
+    },
+
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
+      group: 'seo',
       validation: requiredNoEnSeo,
     },
     {
       ...geoSummaryField,
+      group: 'seo',
       validation: reqI18n('GEO-sammendrag'),
     },
   ],
