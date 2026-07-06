@@ -859,13 +859,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
   {/* 4c. TEXT SECTION — optional split text+image, like "Det beste fra to klinikker" */}
   {c.textSection && (
   <section className="bg-background">
-  <h2 className="lg:hidden text-3xl font-light leading-[1.1] text-foreground px-6 md:px-16 pt-16 pb-4">
-  {c.textSection.title}
-  </h2>
   <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-stretch">
   <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 h-full flex flex-col justify-center">
   <div className="max-w-xl">
-  <h2 className="hidden lg:block text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
+  <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
   {c.textSection.title}
   </h2>
 
