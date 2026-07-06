@@ -246,29 +246,76 @@ const V2FullBleed = ({ c }: { c: CategoryHeroContent }) => (
   </header>
 );
 
-/* ─── Variant 3 — KUN video i bakgrunn med tekst oppå ─── */
-const V3VideoOnly = ({ c }: { c: CategoryHeroContent }) => (
-  <header className="relative overflow-hidden text-white min-h-[620px] lg:min-h-[680px] flex items-center">
-    <video
-      src={fertilitetHeroVideo.url}
-      poster={c.image}
-      autoPlay
-      muted
-      loop
-      playsInline
-      className="absolute inset-0 w-full h-full object-cover"
-    />
-    <div
-      aria-hidden="true"
-      className="absolute inset-0 bg-[linear-gradient(135deg,hsl(20_45%_12%/0.55),hsl(18_55%_18%/0.55))]"
-    />
-    <div aria-hidden="true" className={`absolute inset-0 ${scrimClass("left")}`} />
-    <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={grainOverlay} />
-    <div className="relative z-10 px-6 md:px-10 lg:px-16 py-20 lg:py-28 w-full">
-      <HeroCopy c={c} tone="light" />
-    </div>
-  </header>
-);
+/* ─── Variant 3 — Video på topp med overskrift oppå, innhold i varm seksjon under ─── */
+const V3VideoOnly = ({ c }: { c: CategoryHeroContent }) => {
+  const entry = getCategoryEntryPrice(c.categoryId);
+  return (
+    <header className="relative bg-brand-light overflow-hidden">
+      {/* Full-bredde video-topp med overskrift oppå */}
+      <div className="relative w-full h-[52vh] min-h-[380px] lg:h-[64vh] lg:min-h-[520px] overflow-hidden">
+        <video
+          src={fertilitetHeroVideo.url}
+          poster={c.image}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Lett overlay for lesbarhet */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(180deg,hsl(20_40%_10%/0.15)_0%,hsl(20_40%_10%/0.35)_60%,hsl(20_40%_10%/0.55)_100%)]"
+        />
+        <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={grainOverlay} />
+        <div className="relative z-10 h-full flex items-end">
+          <div className="w-full px-6 md:px-10 lg:px-16 pb-10 lg:pb-14">
+            <HeroBreadcrumb label={c.breadcrumb} tone="light" />
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.05] text-white max-w-3xl">
+              {c.title} <span className="block italic">{c.titleItalic}</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      {/* Varm seksjon rett under video med ingress, pris, knapper og USP */}
+      <div className="relative bg-brand-light">
+        <div className="px-6 md:px-10 lg:px-16 py-12 lg:py-16">
+          <div className="max-w-3xl">
+            <p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground mb-8">
+              {c.description}
+            </p>
+            {entry && (
+              <div className="mb-6 text-sm font-light text-foreground/80">
+                <span className="block text-base text-foreground">{entry.label}</span>
+                <span className="block">{entry.price}</span>
+              </div>
+            )}
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
+              <Button
+                variant="cta"
+                size="lg"
+                className="px-8 w-full sm:w-auto"
+                onClick={() => (window.location.href = buildBookingUrl({ kategori: c.categoryId }))}
+              >
+                Bestill time
+              </Button>
+              <CallUsClinicPicker variant="light" label="Ring oss" />
+            </div>
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+              {["Ingen henvisning", "Korte ventetider"].map((u) => (
+                <li key={u} className="flex items-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  <span>{u}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
 
 /* ─── Variant 4 — Sentrert hero med stor kornet bakgrunn ─── */
 const V4CenteredGrain = ({ c }: { c: CategoryHeroContent }) => (
