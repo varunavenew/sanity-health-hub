@@ -39,6 +39,15 @@ export default {
               type: 'object',
               fields: [
                 { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
+                {
+                  name: 'videoFile',
+                  title: 'Video-fil',
+                  type: 'file',
+                  options: {
+                    accept: 'video/*',
+                  },
+                  description: 'Last opp en video-fil (f.eks. MP4) som spilles av i bakgrunnen på sliden i stedet for bilde.',
+                },
                 { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
                 { name: 'subheading', title: 'Undertekst', type: 'internationalizedArrayString' },
                 { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },

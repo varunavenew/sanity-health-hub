@@ -29,6 +29,7 @@ export type HomepageHeroSlide = {
   cta: string;
   ctaPath: string;
   image: string;
+  videoUrl?: string;
   objectPosition: string;
 };
 
@@ -363,10 +364,11 @@ export function mapHomepageDocument(
           cta: asPlainString(s.ctaText) || "Les mer",
           ctaPath: asPlainString(s.ctaLink) || "/",
           image: asPlainString(s.image),
+          videoUrl: asPlainString(s.videoUrl) || undefined,
           objectPosition: "center 30%",
         };
       })
-      .filter((s) => s.image && s.label),
+      .filter((s) => (s.image || s.videoUrl) && s.label),
     categoryCards: serviceCategories
       .map((c) => {
         const row = c as Record<string, unknown> | null;

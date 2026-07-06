@@ -187,7 +187,8 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       ${i18nString("subheading")},
       ${i18nString("ctaText")},
       ${i18nString("ctaLink")},
-      "image": image.asset->url
+      "image": image.asset->url,
+      "videoUrl": videoFile.asset->url
     }
   },
   "serviceCategories": serviceCategories[]->{ _id, categoryId, sortOrder, ${i18nString("title")}, ${localizedSlug}, "heroImage": heroImage.asset->url },
