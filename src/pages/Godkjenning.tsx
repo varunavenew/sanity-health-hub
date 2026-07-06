@@ -412,7 +412,7 @@ const Godkjenning = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Bygg en ren, strukturert liste for Lovable (markdown) — én linje per side med reell tilbakemelding.
+  // Bygg en ren, strukturert liste (markdown) — én linje per side med reell tilbakemelding.
   const buildLovableMarkdown = (opts: { onlyWithFeedback?: boolean } = {}) => {
     const { onlyWithFeedback = true } = opts;
     const reqByPath = new Map<string, ChangeRequest[]>();
@@ -457,11 +457,11 @@ const Godkjenning = () => {
     URL.revokeObjectURL(url);
   };
 
-  const copyToLovable = async () => {
+  const copyToClipboard = async () => {
     const md = buildLovableMarkdown({ onlyWithFeedback: true });
     try {
       await navigator.clipboard.writeText(md);
-      toast({ title: "Kopiert", description: "Tilbakemeldingene er kopiert — lim inn i Lovable." });
+      toast({ title: "Kopiert", description: "Tilbakemeldingene er kopiert til utklippstavlen." });
     } catch (e: any) {
       toast({ title: "Kunne ikke kopiere", description: e?.message ?? "Prøv å eksportere som markdown i stedet.", variant: "destructive" });
     }
@@ -511,11 +511,11 @@ const Godkjenning = () => {
                 className="border border-border bg-background px-3 py-2 text-sm rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-primary/40"
               />
               <button
-                onClick={copyToLovable}
-                title="Kopier alle tilbakemeldinger som markdown — lim rett inn i Lovable"
+                onClick={copyToClipboard}
+                title="Kopier alle tilbakemeldinger som markdown til utklippstavlen"
                 className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-2 text-sm rounded-md hover:opacity-90 transition-opacity"
               >
-                <Copy className="w-4 h-4" /> Kopier alt til Lovable
+                <Copy className="w-4 h-4" /> Kopier tilbakemeldinger
               </button>
               <button
                 onClick={exportMarkdown}
@@ -609,7 +609,7 @@ const Godkjenning = () => {
                 <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
                   Komplett liste over alle sider på nettstedet — hovedsider, tjenester og undertjenester, fagområder,
                   artikler, klinikker og Om oss. Klikk en side, skriv tilbakemelding i tekstfeltet, sett status og lagre.
-                  Bruk «Kopier alt til Lovable» øverst for å hente ut alle endringsønsker som en ren, strukturert liste.
+                  Bruk «Kopier tilbakemeldinger» øverst for å hente ut alle endringsønsker som en ren, strukturert liste.
                 </p>
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
                   <StatCard label="Totalt" value={counts.total} />
