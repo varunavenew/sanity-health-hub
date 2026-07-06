@@ -605,19 +605,21 @@ const Godkjenning = () => {
           <div className="space-y-12">
             {tab === "tjenester" && (
               <div className="pb-6 border-b border-border">
-                <h2 className="text-xl font-light text-foreground">Tjenester og undertjenester</h2>
+                <h2 className="text-xl font-light text-foreground">Innholdgodkjenning — alle sider</h2>
                 <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
-                  Alle hovedtjenester (fagområder) og tilhørende undertjenester. Klikk en side for å lese den, sett status
-                  og skriv kommentarer — endringene lagres for hele teamet.
+                  Komplett liste over alle sider på nettstedet — hovedsider, tjenester og undertjenester, fagområder,
+                  artikler, klinikker og Om oss. Klikk en side, skriv tilbakemelding i tekstfeltet, sett status og lagre.
+                  Bruk «Kopier alt til Lovable» øverst for å hente ut alle endringsønsker som en ren, strukturert liste.
                 </p>
                 <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <StatCard label="Totalt" value={serviceCounts.total} />
-                  <StatCard label="Godkjent" value={serviceCounts.godkjent} accent="emerald" />
-                  <StatCard label="Avventer" value={serviceCounts.avventer} accent="amber" />
-                  <StatCard label="Endringer" value={serviceCounts.endringer} accent="rose" />
+                  <StatCard label="Totalt" value={counts.total} />
+                  <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
+                  <StatCard label="Avventer" value={counts.avventer} accent="amber" />
+                  <StatCard label="Endringer" value={counts.endringer} accent="rose" />
                 </div>
               </div>
             )}
+
             {grouped.map(([category, pages]) => (
               <section key={category}>
                 <div className="mb-5 flex items-baseline justify-between gap-3 pb-3 border-b border-border">
