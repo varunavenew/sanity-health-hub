@@ -271,9 +271,7 @@ const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
               <span aria-hidden="true">›</span>
               <span className="text-foreground/80">Gynekologi</span>
             </nav>
-            <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
-              Kvinnehelse <span className="block italic">for livet</span>
-            </h2>
+             {/* Overskriften vises oppå bildet på desktop */}
 
  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
  Vi følger deg gjennom hele livet — fra de første spørsmålene
