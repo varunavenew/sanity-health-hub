@@ -785,4 +785,4 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  );
 };
 
-export default Fertility;
+export default FertilitetFargeveksling;
