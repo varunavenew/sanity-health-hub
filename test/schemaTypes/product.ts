@@ -4,7 +4,7 @@ import { i18nSlugFieldFromString } from './i18n'
 
 export default defineType({
   name: 'product',
-  title: 'Produkt',
+  title: 'Products',
   type: 'document',
   icon: ProductIcon,
   fields: [

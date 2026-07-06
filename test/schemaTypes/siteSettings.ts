@@ -5,7 +5,7 @@ import { pickNo, requiredNoEnI18n } from './i18n'
 
 export default {
   name: 'siteSettings',
-  title: 'Nettstedsinnstillinger',
+  title: 'Site Settings',
   type: 'document',
   icon: SettingsIcon,
   groups: [
@@ -29,25 +29,21 @@ export default {
           name: 'loadingLabel',
           title: 'Laster-tekst',
           type: 'internationalizedArrayString',
-          validation: requiredNoEnI18n('Laster-tekst'),
         },
         {
           name: 'notFoundTitle',
           title: 'Ikke funnet — tittel',
           type: 'internationalizedArrayString',
-          validation: requiredNoEnI18n('Ikke funnet — tittel'),
         },
         {
           name: 'notFoundBody',
           title: 'Ikke funnet — tekst',
           type: 'internationalizedArrayText',
-          validation: requiredNoEnI18n('Ikke funnet — tekst'),
         },
         {
           name: 'backLabel',
           title: 'Tilbake-lenke',
           type: 'internationalizedArrayString',
-          validation: requiredNoEnI18n('Tilbake-lenke'),
         },
       ],
     },

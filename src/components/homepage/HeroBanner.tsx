@@ -11,7 +11,8 @@ import type { ImageRef } from "@/lib/media";
 
 interface HeroSlide {
   id: string;
-  image: ImageRef;
+  image?: ImageRef;
+  videoUrl?: string;
   alt: string;
   label: string;
   subtitle: string;
@@ -28,10 +29,11 @@ export const HeroBanner = () => {
   const [direction, setDirection] = useState(1);
 
   const heroSlides: HeroSlide[] = (homepage?.heroSlides || [])
-    .filter((s: any) => s?.image && s?.label)
+    .filter((s: any) => (s?.image || s?.videoUrl) && s?.label)
     .map((s: any, i: number) => ({
       id: s.id || `slide-${i}`,
       image: s.image,
+      videoUrl: s.videoUrl,
       alt: s.label || "",
       label: s.label,
       subtitle: s.subtitle || "",
@@ -117,13 +119,28 @@ export const HeroBanner = () => {
             if (!dragging.current && slide.ctaPath) navigate(slide.ctaPath);
           }}
         >
-          <AssetImg
-            src={slide.image}
-            alt={slide.alt}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-            style={{ objectPosition: slide.objectPosition }}
-            loading={current === 0 ? "eager" : "lazy"}
-          />
+          {slide.videoUrl ? (
+            <video
+              src={slide.videoUrl}
+              poster={typeof slide.image === "string" ? slide.image : undefined}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{ objectPosition: slide.objectPosition }}
+            />
+          ) : slide.image ? (
+            <AssetImg
+              src={slide.image}
+              alt={slide.alt}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{ objectPosition: slide.objectPosition }}
+              loading={current === 0 ? "eager" : "lazy"}
+            />
+          ) : (
+            <div className="w-full h-full bg-brand-dark/20" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 pb-20 md:pb-24">
             <motion.div

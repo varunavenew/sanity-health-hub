@@ -18,6 +18,8 @@ function asPlainString(value: unknown): string {
 }
 
 export type ServicesPageCategoryCard = {
+  _createdAt?: string;
+  sortOrder?: number;
   categoryId: string;
   title: string;
   heroImage?: string;
@@ -108,6 +110,8 @@ export function mapServicesPageDocument(
           asPlainString(c.categoryId) || asPlainString(c.slug) || "";
         if (!categoryId) return null;
         const card: ServicesPageCategoryCard = {
+          _createdAt: asPlainString(c._createdAt) || undefined,
+          sortOrder: typeof c.sortOrder === "number" ? c.sortOrder : undefined,
           categoryId,
           title: asPlainString(c.title),
           path: asPlainString(c.slug) ? `/${asPlainString(c.slug)}` : "",

@@ -9,6 +9,60 @@ const i18nTxt = { type: 'internationalizedArrayText' as const }
 const reqI18n = requiredNoEnI18n
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
 
+function hasActualContent(val: any): boolean {
+  if (val === undefined || val === null || val === '') return false
+  if (Array.isArray(val)) {
+    return val.some((item) => hasActualContent(item))
+  }
+  if (typeof val === 'object') {
+    const keys = Object.keys(val).filter((k) => k !== '_type' && k !== '_key' && k !== '_ref')
+    return keys.some((k) => hasActualContent(val[k]))
+  }
+  return true
+}
+
+const reqI18nIfActive = (fieldLabel: string) => (Rule: any) =>
+  Rule.custom((value: any, context: any) => {
+    const parent = context.parent
+    if (!parent) return true
+    const parentKeys = Object.keys(parent).filter((k) => k !== '_type' && k !== '_key')
+    const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
+    if (!parentHasValues) return true
+
+    if (!value || !Array.isArray(value)) return `${fieldLabel} er påkrevd`
+    const noVal = value.find((v: any) => (v.language ?? v._key) === 'no')?.value
+    const enVal = value.find((v: any) => (v.language ?? v._key) === 'en')?.value
+    if (!noVal?.trim()) return `${fieldLabel} (norsk) er påkrevd`
+    if (!enVal?.trim()) return `${fieldLabel} (engelsk) er påkrevd`
+    return true
+  })
+
+const reqStrIfActive = (fieldLabel: string) => (Rule: any) =>
+  Rule.custom((value: any, context: any) => {
+    const parent = context.parent
+    if (!parent) return true
+    const parentKeys = Object.keys(parent).filter((k) => k !== '_type' && k !== '_key')
+    const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
+    if (!parentHasValues) return true
+    if (!value || typeof value !== 'string' || value.trim() === '') {
+      return `${fieldLabel} er påkrevd`
+    }
+    return true
+  })
+
+const reqArrayIfActive = (fieldLabel: string, minCount = 1) => (Rule: any) =>
+  Rule.custom((value: any, context: any) => {
+    const parent = context.parent
+    if (!parent) return true
+    const parentKeys = Object.keys(parent).filter((k) => k !== '_type' && k !== '_key')
+    const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
+    if (!parentHasValues) return true
+    if (!Array.isArray(value) || value.length < minCount) {
+      return `Legg til minst ${minCount} element(er) i ${fieldLabel}`
+    }
+    return true
+  })
+
 const segmentTagLinkItem = {
   type: 'object',
   name: 'categoryLandingSegmentTagLink',
@@ -165,6 +219,19 @@ export const categoryLandingPageField = {
       type: 'object',
       validation: (Rule: any) => Rule.required().error('Hero-seksjonen er påkrevd'),
       fields: [
+        {
+          name: 'layout',
+          title: 'Layoutvisning',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Splittet (Tekst venstre, bilde høyre)', value: 'split' },
+              { title: 'Banner med full bredde (Tittel på bilde)', value: 'full' },
+            ],
+            layout: 'radio',
+          },
+          initialValue: 'split',
+        },
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'heading', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
         { name: 'headingEmphasis', title: 'Overskrift (kursiv del)', ...i18nStr },
@@ -259,16 +326,16 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
+        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18nIfActive('Overskrift') },
         { name: 'titleAccent', title: 'Overskrift (accent)', ...i18nStr },
         {
           name: 'audiences',
           title: 'Kort',
           type: 'array',
           of: [audienceItem],
-          validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én målgruppe'),
+          validation: reqArrayIfActive('Målgrupper', 1),
         },
-        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr, validation: reqI18n('Les mer-tekst') },
+        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr },
       ],
     },
     {
@@ -279,7 +346,7 @@ export const categoryLandingPageField = {
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
         { name: 'title', title: 'Overskrift', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
-        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr, validation: reqI18n('Les mer-tekst') },
+        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr },
         {
           name: 'layout',
           title: 'Visning',
@@ -306,15 +373,15 @@ export const categoryLandingPageField = {
       title: 'Symptomsjekk',
       type: 'object',
       fields: [
-        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr, validation: reqI18n('Eyebrow') },
-        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
-        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
+        { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
+        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18nIfActive('Overskrift') },
+        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
         {
           name: 'items',
           title: 'Rader',
           type: 'array',
           of: [symptomItem],
-          validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én symptom-rad'),
+          validation: reqArrayIfActive('Symptom-rader', 1),
         },
       ],
     },
@@ -324,9 +391,9 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
-        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
-        { name: 'categoryLabel', title: 'Kategori-etikett', ...i18nStr, validation: reqI18n('Kategori-etikett') },
+        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18nIfActive('Overskrift') },
+        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
+        { name: 'categoryLabel', title: 'Kategori-etikett', ...i18nStr },
         { name: 'footnote', title: 'Fotnote', ...i18nStr },
       ],
     },
@@ -336,8 +403,8 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
-        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
+        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18nIfActive('Overskrift') },
+        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
         {
           name: 'groups',
           title: 'Grupper',
@@ -372,7 +439,7 @@ export const categoryLandingPageField = {
               preview: i18nTitleItemPreview,
             },
           ],
-          validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én tjenestegruppe'),
+          validation: reqArrayIfActive('Tjenestegrupper', 1),
         },
       ],
     },
@@ -383,7 +450,7 @@ export const categoryLandingPageField = {
       fields: [
         { name: 'title', title: 'Overskrift', ...i18nStr },
         { name: 'description', title: 'Ingress', ...i18nTxt },
-        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr, validation: reqI18n('Les mer-tekst') },
+        { name: 'readMoreLabel', title: 'Les mer-tekst', ...i18nStr },
         {
           name: 'areas',
           title: 'Kort',
@@ -398,13 +465,13 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18n('Overskrift') },
+        { name: 'title', title: 'Overskrift', ...i18nStr, validation: reqI18nIfActive('Overskrift') },
         {
           name: 'reviews',
           title: 'Sitater',
           type: 'array',
           of: [reviewItem],
-          validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én anmeldelse'),
+          validation: reqArrayIfActive('Anmeldelser', 1),
         },
       ],
     },
@@ -416,15 +483,15 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Overskrift', ...i18nStr },
         { name: 'titleEmphasis', title: 'Overskrift (kursiv del)', ...i18nStr },
         { name: 'text', title: 'Tekst', ...i18nTxt },
-        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr, validation: reqI18n('Knappetekst') },
-        { name: 'ctaHref', title: 'Knappelenke', type: 'string', validation: reqStr('Knappelenke') },
+        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr, validation: reqI18nIfActive('Knappetekst') },
+        { name: 'ctaHref', title: 'Knappelenke', type: 'string', validation: reqStrIfActive('Knappelenke') },
         {
           name: 'image',
           title: 'Bilde',
           type: 'image',
           options: { hotspot: true },
         },
-        { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr, validation: reqI18n('Bilde alt-tekst') },
+        { name: 'imageAlt', title: 'Bilde alt-tekst', ...i18nStr, validation: reqI18nIfActive('Bilde alt-tekst') },
       ],
     },
     {
@@ -440,7 +507,7 @@ export const categoryLandingPageField = {
           type: 'array',
           of: [stepItem],
         },
-        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr, validation: reqI18n('Knappetekst') },
+        { name: 'ctaLabel', title: 'Knappetekst', ...i18nStr, validation: reqI18nIfActive('Knappetekst') },
         { name: 'ctaHref', title: 'Knappelenke', type: 'string' },
       ],
     },
@@ -448,13 +515,11 @@ export const categoryLandingPageField = {
       name: 'breadcrumbHomeLabel',
       title: 'Brødsmule — hjem',
       type: 'internationalizedArrayString',
-      validation: reqI18n('Brødsmule — hjem'),
     },
     {
       name: 'srOnlyTitle',
       title: 'Skjult H1 (SEO)',
       type: 'internationalizedArrayString',
-      validation: reqI18n('Skjult H1 (SEO)'),
     },
   ],
 }

@@ -52,6 +52,7 @@ type I18nValueItem = { language?: string; _key?: string; value?: unknown };
 
 export type RawSanitySpecialist = {
   _id?: string;
+  _createdAt?: string;
   name?: string;
   slug?: string;
   image?: string;
@@ -320,6 +321,7 @@ export function mapSanitySpecialistRow(
   const seoDescription = readLocalizedString(raw.seo?.metaDescription, lang);
 
   return {
+    _createdAt: raw._createdAt,
     name: raw.name!.trim(),
     slug: raw.slug!.trim(),
     image: raw.image!.trim(),
