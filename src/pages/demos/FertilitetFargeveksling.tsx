@@ -681,57 +681,19 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       </section>
 
   {/* ============================================================
- 7. RESULTATER — bevis etter at tilbudet er presentert
+ 7. RESULTATER — skin-bilde bakgrunn med parallax (delt komponent)
  ============================================================ */}
- <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12">
- <div className="page-shell">
- <div className="max-w-6xl mx-auto">
- <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
- <div className="lg:col-span-5">
- <h2 className="text-3xl md:text-5xl font-light leading-tight">
- Tall som forteller en historie.
- </h2>
- </div>
- <div className="lg:col-span-7 flex items-end">
- <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
- Vi måler det vi gjør — fordi du fortjener åpenhet. Her er
- resultatene våre innen fertilitetsbehandling de siste årene.
- </p>
- </div>
- </div>
-
- <div className="border-t border-brand-dark/15 py-8 md:py-10">
- <dl className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15">
- {[
- { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
- { v: "3 500", k: "Operasjoner", sub: "Per år" },
- { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
- { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
- ].map((row, i) => (
- <div
- key={row.k}
- className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === 3 ? "md:pr-0" : ""}`}
- >
- <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
- <AnimatedStat value={row.v} />
- </dd>
- <dt className="text-sm font-normal text-foreground mb-1">
- {row.k}
- </dt>
- <p className="text-xs font-light text-foreground/60">
- {row.sub}
- </p>
- </div>
- ))}
- </dl>
- </div>
-
- <p className="text-xs font-light text-muted-foreground mt-8">
- Tall oppdatert per Q1 2026. Resultater varierer individuelt.
- </p>
- </div>
-    </div>
-   </section>
+ <ResultsStatsSection
+   title="Tall som forteller en historie."
+   description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen fertilitetsbehandling de siste årene."
+   stats={[
+     { v: "60 000", k: "Årlige pasientbesøk", sub: "På tvers av klinikkene" },
+     { v: "3 500", k: "Operasjoner", sub: "Per år" },
+     { v: "4,8/5", k: "Snittvurdering", sub: "Fra pasienter på Google" },
+     { v: "50+", k: "Spesialister", sub: "På tvers av fagfelt" },
+   ]}
+   footnote="Tall oppdatert per Q1 2026. Resultater varierer individuelt."
+ />
 
   {/* ============================================================
  8. TILBAKEMELDINGER — sosial bevis rett før spesialistene
