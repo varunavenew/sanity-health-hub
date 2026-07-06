@@ -88,6 +88,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/fagomradeHeroVarianter",
     exampleLabel: "Åpne varianter",
   },
+  {
+    key: "fagomradeSkinDemo",
+    title: "Fagområde – hudbilde-demo (lekekasse)",
+    description: "Ny demo av fagområde-mastermalen (bygget på gynekologi) der hero er en split med hudbilde og overskrift oppå bildet, og 'Tall som forteller en historie'-seksjonen har et hudbilde som parallax-bakgrunn. Svart tekst på lys skin, hvit tekst på mørke partier med lett overlay. Publiserte sider er urørt.",
+    examplePath: "/maler/fagomradeSkinDemo",
+    exampleLabel: "Åpne demo",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = [
