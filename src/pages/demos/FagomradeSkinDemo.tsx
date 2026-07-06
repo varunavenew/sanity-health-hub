@@ -35,6 +35,8 @@ import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
 import kvinnehelseVideo from "@/assets/kvinnehelse-8.mp4.asset.json";
+import skinHero from "@/assets/blur-belly.jpg.asset.json";
+import skinStatsBg from "@/assets/blur-skin-mid.jpg.asset.json";
 
 interface PageProps {
  isChatOpen: boolean;
