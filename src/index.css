@@ -53,43 +53,43 @@
 
 @layer base {
   :root {
-    --background: 35 30% 95%;
+    --background: 30 31% 92%;
     --foreground: 0 71% 5%;
-    --card: 35 25% 97%;
+    --card: 30 31% 92%;
     --card-foreground: 0 71% 5%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 71% 5%;
     --primary: 22 22% 21%;
-    --primary-foreground: 35 30% 95%;
-    --secondary: 30 20% 88%;
+    --primary-foreground: 30 31% 92%;
+    --secondary: 25 23% 74%;
     --secondary-foreground: 0 71% 5%;
-    --muted: 30 18% 90%;
-    --muted-foreground: 22 15% 40%;
+    --muted: 30 24% 88%;
+    --muted-foreground: 22 15% 30%;
     --accent: 65 100% 74%;
     --accent-foreground: 0 71% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 30 15% 85%;
-    --input: 30 15% 90%;
+    --border: 25 20% 82%;
+    --input: 25 20% 86%;
     --ring: 22 22% 21%;
     --brand-dark: 22 22% 21%;
     --brand-yellow: 65 100% 74%;
-    --brand-warm: 35 30% 95%;
-    --brand-mid: 30 20% 80%;
-    --brand-beige: 35 25% 92%;
+    --brand-warm: 30 31% 92%;
+    --brand-mid: 25 23% 74%;
+    --brand-beige: 30 31% 92%;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
-    --chat-background: 30 27% 93%;
+    --chat-background: 30 31% 92%;
     --chat-foreground: 0 71% 5%;
     --chat-border: 25 20% 82%;
-    --chat-ai-bubble: 25 24% 80%;
+    --chat-ai-bubble: 25 23% 74%;
     --user-bubble: 65 100% 80%;
     
-    --sidebar-background: 30 27% 93%;
+    --sidebar-background: 30 31% 92%;
     --sidebar-foreground: 0 71% 5%;
     --sidebar-primary: 22 22% 21%;
-    --sidebar-primary-foreground: 30 27% 93%;
-    --sidebar-accent: 25 24% 80%;
+    --sidebar-primary-foreground: 30 31% 92%;
+    --sidebar-accent: 25 23% 74%;
     --sidebar-accent-foreground: 0 71% 5%;
     --sidebar-border: 25 20% 82%;
     --sidebar-ring: 22 22% 21%;
@@ -117,8 +117,8 @@
     --ring: 0 0% 85%;
     --brand-dark: 22 22% 21%;
     --brand-yellow: 65 100% 74%;
-    --brand-warm: 30 27% 93%;
-    --brand-mid: 25 24% 74%;
+    --brand-warm: 30 31% 92%;
+    --brand-mid: 25 23% 74%;
     
     --chat-background: 22 22% 21%;
     --chat-foreground: 0 0% 100%;
