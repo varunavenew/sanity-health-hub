@@ -492,8 +492,8 @@ const Godkjenning = () => {
                 active={tab === "tjenester"}
                 onClick={() => setTab("tjenester")}
                 icon={<Stethoscope className="w-4 h-4" />}
-                label="Tjenester"
-                badge={serviceCounts.avventer + serviceCounts.endringer}
+                label="Innholdgodkjenning"
+                badge={counts.avventer + counts.endringer}
               />
               <TabBtn active={tab === "innboks"} onClick={() => setTab("innboks")} icon={<Inbox className="w-4 h-4" />} label="Endringer" badge={openRequestsCount} />
               <TabBtn active={tab === "booking"} onClick={() => setTab("booking")} icon={<Calendar className="w-4 h-4" />} label="Booking" badge={openBookingCount} />
@@ -503,7 +503,7 @@ const Godkjenning = () => {
               <TabBtn active={tab === "fremdrift"} onClick={() => setTab("fremdrift")} icon={<CalendarClock className="w-4 h-4" />} label="Fremdriftsplan" />
             </div>
 
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center flex-wrap">
               <input
                 value={reviewer}
                 onChange={(e) => persistReviewer(e.target.value)}
@@ -511,12 +511,26 @@ const Godkjenning = () => {
                 className="border border-border bg-background px-3 py-2 text-sm rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-primary/40"
               />
               <button
+                onClick={copyToLovable}
+                title="Kopier alle tilbakemeldinger som markdown — lim rett inn i Lovable"
+                className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-2 text-sm rounded-md hover:opacity-90 transition-opacity"
+              >
+                <Copy className="w-4 h-4" /> Kopier alt til Lovable
+              </button>
+              <button
+                onClick={exportMarkdown}
+                className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
+              >
+                <FileText className="w-4 h-4" /> Markdown
+              </button>
+              <button
                 onClick={exportCsv}
                 className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
               >
                 <Download className="w-4 h-4" /> CSV
               </button>
             </div>
+
           </div>
 
           {(tab === "sider" || tab === "tjenester") && (
