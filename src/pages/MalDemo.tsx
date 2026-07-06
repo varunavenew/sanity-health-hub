@@ -163,6 +163,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     livePath: "/maler/fagomradeHeroVarianter",
     render: () => <FagomradeHeroVarianter isChatOpen={false} />,
   },
+  fertilitetFargeveksling: {
+    title: "Mal-demo: Fertilitet med fargeveksling",
+    description:
+      "Duplikat av fertilitet-siden der seksjonene veksler mellom light skin (#F2ECE6) og mid skin (#CCBAAD) for å bryte opp den flate cream-fargen. Stats-seksjonen bruker et hudtonet bilde som bakgrunn med parallax og en lett mørk overlay for lesbarhet. Layout, tekst og tall er uendret. Kun demo — den publiserte fertilitet-siden er ikke rørt.",
+    livePath: "/maler/fertilitetFargeveksling",
+    render: () => <FertilitetFargeveksling isChatOpen={false} />,
+  },
 };
 
 
