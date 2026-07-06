@@ -17,11 +17,20 @@ export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
     return beforeBookingCta ? <>{beforeBookingCta}</> : null;
   }
 
+  const sortedSections = [...sections].sort((a, b) => {
+    const order: Record<string, number> = {
+      pageSectionSpecialists: 1,
+      pageSectionArticles: 2,
+      pageSectionBookingCta: 3,
+    };
+    return (order[a._type] ?? 99) - (order[b._type] ?? 99);
+  });
+
   let insertedBeforeBooking = false;
 
   return (
     <>
-      {sections.map((section) => {
+      {sortedSections.map((section) => {
         const key = section._key ?? section._type;
 
         if (section._type === "pageSectionSpecialists") {
