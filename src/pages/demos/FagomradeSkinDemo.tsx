@@ -740,4 +740,4 @@ const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
  );
 };
 
-export default Gynecology;
+export default FagomradeSkinDemo;
