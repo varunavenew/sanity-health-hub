@@ -215,7 +215,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
 
       {/* 3. HVORFOR CMEDICAL */}
       <section className="bg-background">
-        <div className="grid lg:grid-cols-12">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-12">
           <div className="lg:col-span-7 page-edge-text-left py-14 lg:py-20">
             <div className="max-w-xl">
               
