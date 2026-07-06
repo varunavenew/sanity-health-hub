@@ -171,6 +171,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
     livePath: "/maler/fertilitetFargeveksling",
     render: () => <FertilitetFargeveksling isChatOpen={false} />,
   },
+  fagomradeSkinDemo: {
+    title: "Mal-demo: Fagområde med hudbilder",
+    description:
+      "Duplikat av fagområde-mastermalen (gynekologi) der hero er en split med hudbilde på høyre side og overskriften lagt oppå bildet med mørk gradient for lesbarhet. 'Tall som forteller en historie'-seksjonen har et annet hudbilde som bakgrunn med parallax-effekt og mørk overlay slik at tallene vises i hvit tekst. Ellers uendret struktur, tokens og innhold. Kun demo — den publiserte gynekologi-siden er ikke rørt.",
+    livePath: "/maler/fagomradeSkinDemo",
+    render: () => <FagomradeSkinDemo isChatOpen={false} />,
+  },
 };
 
 
