@@ -98,4 +98,24 @@ export const sitePages: SitePage[] = [
   { path: "/behandlinger/flere-fagomrader/robotkirurgi", name: "Robotkirurgi (flere)", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/sexologi", name: "Sexologi", category: "Flere – underbehandlinger" },
   { path: "/behandlinger/flere-fagomrader/areknuter", name: "Åreknutebehandling", category: "Flere – underbehandlinger" },
+  // Klinikker (detaljsider)
+  ...clinics.map((c) => ({
+    path: `/klinikker/${c.slug}`,
+    name: `Klinikk – ${c.label}`,
+    category: "Klinikker",
+  })),
+
+  // Spesialister (profilsider)
+  ...specialists.map((s) => ({
+    path: `/spesialister/${s.slug}`,
+    name: `Spesialist – ${s.name}`,
+    category: "Spesialister",
+  })),
+
+  // Aktuelt (artikler)
+  ...articles.map((a) => ({
+    path: `/aktuelt/${a.slug}`,
+    name: `Aktuelt – ${a.title}`,
+    category: "Aktuelt – artikler",
+  })),
 ];
