@@ -222,7 +222,7 @@ const reviews = [
  PAGE
  ────────────────────────────────────────────────────────────── */
 
-const Fertility = ({ isChatOpen }: PageProps) => {
+const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  // Spesialister: Madeleine først, deretter resten av fertilitetsspesialistene
  const fertilitySpecialists = useMemo(() => {
  const fertility = specialists.filter((s) => s.category === "fertilitet");
@@ -240,18 +240,19 @@ const Fertility = ({ isChatOpen }: PageProps) => {
 
  useEffect(() => {
  document.title =
- "Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap";
+ "Mal-demo: Fertilitet med fargeveksling | CMedical";
  }, []);
 
  return (
   <PageLayout isChatOpen={isChatOpen}>
   <PageSEO
-  title="Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap"
-  description="Fertilitetsbehandling hos CMedical. IVF, inseminasjon, eggfrys, fertilitetsutredning og donorbehandling — uten henvisning, uten ventetid."
-  canonical="/fertilitet"
+  title="Mal-demo: Fertilitet med fargeveksling | CMedical"
+  description="Demo-versjon av fertilitet-siden med vekslende skin-toned seksjonsbakgrunner og skin-bilde bak stats-seksjonen."
+  canonical="/maler/fertilitetFargeveksling"
   breadcrumbs={[
   { name: "Hjem", path: "/" },
-  { name: "Fertilitet", path: "/fertilitet" },
+  { name: "Maler", path: "/maler" },
+  { name: "Fertilitet fargeveksling", path: "/maler/fertilitetFargeveksling" },
   ]}
   />
   <h1 className="sr-only">
