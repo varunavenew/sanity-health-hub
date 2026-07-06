@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock, Stethoscope, Copy, FileText } from "lucide-react";
+import { ArrowUpRight, Check, Clock, MessageSquare, Search, Download, Inbox, ListChecks, Calendar, Sparkles, Plus, LayoutTemplate, Eye, CalendarClock, Stethoscope, Copy, FileText, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sitePages, type SitePage } from "@/data/sitePages";
 import { AccessGate } from "@/components/AccessGate";
@@ -189,6 +189,49 @@ const STATUS_META: Record<Status, { label: string; bg: string; dot: string }> = 
 
 const STORAGE_REVIEWER = "cm_approval_reviewer";
 
+// Grupperer alle sider i tydelige tjeneste-/fagområde-bøtter for Innholdgodkjenning-fanen
+// slik at teamet kan gå gjennom én kategori av gangen i stedet for én lang liste.
+type SuperGroupKey =
+  | "hovedsider"
+  | "omoss"
+  | "gynekologi"
+  | "fertilitet"
+  | "urologi"
+  | "ortopedi"
+  | "hudhelse"
+  | "ovrige"
+  | "klinikker"
+  | "artikler";
+
+const SUPER_GROUPS: { key: SuperGroupKey; label: string }[] = [
+  { key: "hovedsider", label: "Hovedsider" },
+  { key: "omoss", label: "Om oss" },
+  { key: "gynekologi", label: "Gynekologi" },
+  { key: "fertilitet", label: "Fertilitet" },
+  { key: "urologi", label: "Urologi" },
+  { key: "ortopedi", label: "Ortopedi" },
+  { key: "hudhelse", label: "Hudhelse" },
+  { key: "ovrige", label: "Øvrige / Flere fagområder" },
+  { key: "klinikker", label: "Klinikker" },
+  { key: "artikler", label: "Artikler / Aktuelt" },
+];
+
+const superGroupFor = (p: SitePage): SuperGroupKey => {
+  const cat = p.category;
+  const path = p.path;
+  if (cat === "Klinikker") return "klinikker";
+  if (cat === "Aktuelt – artikler" || path === "/aktuelt") return "artikler";
+  if (cat === "Gynekologi – underbehandlinger" || path === "/gynekologi") return "gynekologi";
+  if (cat === "Fertilitet – underbehandlinger" || path === "/fertilitet") return "fertilitet";
+  if (cat === "Urologi – underbehandlinger" || path === "/urologi") return "urologi";
+  if (cat === "Ortopedi – underbehandlinger" || path === "/ortopedi") return "ortopedi";
+  if (path.includes("/hud") || cat.toLowerCase().includes("hud")) return "hudhelse";
+  if (path === "/om-oss" || path.startsWith("/om-oss/") || path === "/spesialister" || cat === "Spesialister") return "omoss";
+  if (cat === "Hovedsider") return "hovedsider";
+  // Fagområder-forsidene som ikke har egen bøtte, Tema, Flere – underbehandlinger osv.
+  return "ovrige";
+};
+
 const TabBtn = ({ active, onClick, icon, label, badge }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; badge?: number }) => (
   <button
     onClick={onClick}
@@ -250,6 +293,18 @@ const Godkjenning = () => {
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"sider" | "tjenester" | "innboks" | "booking" | "generelt" | "maler" | "demo" | "fremdrift">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
+  const [openGroups, setOpenGroups] = useState<Record<SuperGroupKey, boolean>>(() => ({
+    hovedsider: true,
+    omoss: false,
+    gynekologi: false,
+    fertilitet: false,
+    urologi: false,
+    ortopedi: false,
+    hudhelse: false,
+    ovrige: false,
+    klinikker: false,
+    artikler: false,
+  }));
 
   useEffect(() => {
     document.title = "Godkjenning av sider · CMedical";
@@ -373,6 +428,42 @@ const Godkjenning = () => {
     });
     return c;
   }, [rows]);
+
+  // Bygger super-grupper for Innholdgodkjenning-fanen. Bruker samme filter/søk,
+  // og gir per-gruppe status-oppsummering (godkjent/avventer/endringer/total).
+  const superGrouped = useMemo(() => {
+    const filtered = sitePages.filter((p) => {
+      const r = rows[p.path];
+      const status = (r?.status ?? "avventer") as Status;
+      if (filter !== "alle" && status !== filter) return false;
+      if (search && !`${p.name} ${p.path}`.toLowerCase().includes(search.toLowerCase())) return false;
+      return true;
+    });
+    // Alle sider (uten filter) brukes til å beregne totaler per gruppe, slik at
+    // status-oppsummeringen alltid er komplett selv når man har aktivt filter.
+    const allByGroup: Record<SuperGroupKey, SitePage[]> = {
+      hovedsider: [], omoss: [], gynekologi: [], fertilitet: [], urologi: [],
+      ortopedi: [], hudhelse: [], ovrige: [], klinikker: [], artikler: [],
+    };
+    sitePages.forEach((p) => allByGroup[superGroupFor(p)].push(p));
+
+    const filteredByGroup: Record<SuperGroupKey, SitePage[]> = {
+      hovedsider: [], omoss: [], gynekologi: [], fertilitet: [], urologi: [],
+      ortopedi: [], hudhelse: [], ovrige: [], klinikker: [], artikler: [],
+    };
+    filtered.forEach((p) => filteredByGroup[superGroupFor(p)].push(p));
+
+    return SUPER_GROUPS.map(({ key, label }) => {
+      const all = allByGroup[key];
+      const counts = { total: all.length, godkjent: 0, avventer: 0, endringer: 0 };
+      all.forEach((p) => {
+        const s = (rows[p.path]?.status ?? "avventer") as Status;
+        counts[s]++;
+      });
+      return { key, label, pages: filteredByGroup[key], counts };
+    });
+  }, [rows, filter, search]);
+
 
 
   const counts = useMemo(() => {
@@ -606,27 +697,134 @@ const Godkjenning = () => {
           <DemoPanel />
         ) : tab === "fremdrift" ? (
           <FremdriftsplanPanel />
+        ) : tab === "tjenester" ? (
+          <div>
+            <div className="pb-6 border-b border-border">
+              <h2 className="text-xl font-light text-foreground">Innholdgodkjenning — per kategori</h2>
+              <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
+                Alle sider er delt opp per tjeneste-/fagområde-kategori så teamet kan ta én
+                kategori av gangen. Klikk en kategori for å åpne/lukke den. Søk og statusfilter
+                virker på tvers.
+              </p>
+              <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <StatCard label="Totalt" value={counts.total} />
+                <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
+                <StatCard label="Avventer" value={counts.avventer} accent="amber" />
+                <StatCard label="Endringer" value={counts.endringer} accent="rose" />
+              </div>
+
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <button
+                  onClick={() => setOpenGroups(Object.fromEntries(SUPER_GROUPS.map((g) => [g.key, true])) as Record<SuperGroupKey, boolean>)}
+                  className="text-xs px-3 py-1.5 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+                >
+                  Åpne alle
+                </button>
+                <button
+                  onClick={() => setOpenGroups(Object.fromEntries(SUPER_GROUPS.map((g) => [g.key, false])) as Record<SuperGroupKey, boolean>)}
+                  className="text-xs px-3 py-1.5 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+                >
+                  Lukk alle
+                </button>
+                <div className="w-full h-px" />
+                {superGrouped.map((g) => {
+                  if (g.counts.total === 0) return null;
+                  return (
+                    <button
+                      key={g.key}
+                      onClick={() => setOpenGroups((prev) => ({ ...prev, [g.key]: true }))}
+                      className="text-xs px-3 py-1.5 rounded-full border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted inline-flex items-center gap-1.5"
+                    >
+                      {g.label}
+                      <span className="text-[10px] text-muted-foreground">({g.counts.total})</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-4">
+              {superGrouped.every((g) => g.pages.length === 0) && (
+                <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
+              )}
+              {superGrouped.map((g) => {
+                if (g.counts.total === 0) return null;
+                const isOpen = openGroups[g.key];
+                const visible = g.pages.length;
+                const hidden = g.counts.total - visible;
+                return (
+                  <section key={g.key} className="border border-border rounded-lg bg-card overflow-hidden">
+                    <button
+                      onClick={() => setOpenGroups((prev) => ({ ...prev, [g.key]: !prev[g.key] }))}
+                      className="w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-muted/40 transition-colors"
+                      aria-expanded={isOpen}
+                    >
+                      <ChevronDown
+                        className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform ${isOpen ? "" : "-rotate-90"}`}
+                        strokeWidth={1.5}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <h2 className="text-base md:text-lg font-light text-foreground">{g.label}</h2>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">
+                          {g.counts.total} {g.counts.total === 1 ? "side" : "sider"}
+                          {hidden > 0 ? ` · ${visible} matcher filter` : ""}
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex items-center gap-1.5 shrink-0">
+                        {g.counts.godkjent > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-900 border-emerald-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            {g.counts.godkjent}
+                          </span>
+                        )}
+                        {g.counts.avventer > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border bg-amber-50 text-amber-900 border-amber-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                            {g.counts.avventer}
+                          </span>
+                        )}
+                        {g.counts.endringer > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border bg-rose-50 text-rose-900 border-rose-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                            {g.counts.endringer}
+                          </span>
+                        )}
+                      </div>
+                    </button>
+
+                    {isOpen && (
+                      <div className="px-5 pb-5 pt-1 border-t border-border">
+                        {g.pages.length === 0 ? (
+                          <p className="text-sm text-muted-foreground py-4">Ingen sider i denne kategorien matcher filteret.</p>
+                        ) : (
+                          <div className="grid gap-4 mt-4">
+                            {g.pages.map((page) => (
+                              <PageApprovalCard
+                                key={page.path}
+                                page={page}
+                                row={rows[page.path]}
+                                reqs={requestCountByPath[page.path]}
+                                reviewer={reviewer}
+                                onReviewerChange={persistReviewer}
+                                onStatus={(status) => updateRow(page, { status })}
+                                onSaveComment={(comment) => updateRow(page, { comment })}
+                                onRequestChanges={() => openRequestDialog(page)}
+                                onJumpToInbox={() => setTab("innboks")}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+          </div>
         ) : grouped.length === 0 ? (
           <p className="text-sm text-muted-foreground">Ingen sider matcher filteret.</p>
         ) : (
           <div className="space-y-12">
-            {tab === "tjenester" && (
-              <div className="pb-6 border-b border-border">
-                <h2 className="text-xl font-light text-foreground">Innholdgodkjenning — alle sider</h2>
-                <p className="text-sm text-muted-foreground mt-1 max-w-2xl font-light">
-                  Komplett liste over alle sider på nettstedet — hovedsider, tjenester og undertjenester, fagområder,
-                  artikler, klinikker og Om oss. Klikk en side, skriv tilbakemelding i tekstfeltet, sett status og lagre.
-                  Bruk «Kopier tilbakemeldinger» øverst for å hente ut alle endringsønsker som en ren, strukturert liste.
-                </p>
-                <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <StatCard label="Totalt" value={counts.total} />
-                  <StatCard label="Godkjent" value={counts.godkjent} accent="emerald" />
-                  <StatCard label="Avventer" value={counts.avventer} accent="amber" />
-                  <StatCard label="Endringer" value={counts.endringer} accent="rose" />
-                </div>
-              </div>
-            )}
-
             {grouped.map(([category, pages]) => (
               <section key={category}>
                 <div className="mb-5 flex items-baseline justify-between gap-3 pb-3 border-b border-border">
@@ -653,6 +851,7 @@ const Godkjenning = () => {
             ))}
           </div>
         )}
+
       </main>
 
       {dialogPage && (
