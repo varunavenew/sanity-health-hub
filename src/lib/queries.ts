@@ -118,6 +118,7 @@ const publishedClinicFilter = `!(_id in path("drafts.**"))`;
 /** Shared row shape for clinic lists (grid, about section, footer). */
 export const CLINIC_LIST_ROW_PROJECTION = `
   _id,
+  _createdAt,
   ${localizedSlug},
   "id": coalesce(slug[language == $lang][0].value.current, slug[language == "no"][0].value.current, slug[0].value.current, slug.current),
   "label": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
@@ -248,7 +249,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
 }`;
 
 export const SPECIALISTS_QUERY = `*[_type == "specialist" && !(_id in path("drafts.**"))]{
-  _id, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
+  _id, _createdAt, name, role, subtitle, specialties, shortBio, education, languages, bookingEnabled,
   bookingCategoryIds, sortOrder,
   "clinics": clinics[]->title,
   ${localizedSlug},
@@ -314,7 +315,7 @@ export const GOOGLE_REVIEW_SETTINGS_QUERY = `*[_type == "googleReviewSettings"][
 }`;
 
 const CATEGORY_TREATMENT_ROW = `
-  _id, title, sortOrder, ${localizedSlug}, description, subtitle,
+  _id, _createdAt, title, sortOrder, ${localizedSlug}, description, subtitle,
   "heroImage": heroImage.asset->url
 `;
 
@@ -327,7 +328,7 @@ const CATEGORY_TREATMENTS_GROQ = `
 `;
 
 export const TREATMENT_CATEGORIES_QUERY = `*[_type == "treatmentCategory"]{
-  _id, title, sortOrder, ${localizedSlug}, categoryId, categoryNumericId,
+  _id, _createdAt, title, sortOrder, ${localizedSlug}, categoryId, categoryNumericId,
   "heroImage": heroImage.asset->url,
   stats,
   ${CATEGORY_TREATMENTS_GROQ}
@@ -338,6 +339,7 @@ const CATEGORY_LANDING_GROQ = `
     ${i18nStringLocale("srOnlyTitle")},
     ${i18nStringLocale("breadcrumbHomeLabel")},
     hero{
+      layout,
       ${i18nStringLocale("eyebrow")},
       ${i18nStringLocale("heading")},
       ${i18nStringLocale("headingEmphasis")},
@@ -971,6 +973,8 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
     ${i18nText("description")}
   },
   "featuredCategories": featuredCategories[]->{
+    _id,
+    _createdAt,
     categoryId,
     sortOrder,
     title,
@@ -981,6 +985,8 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   moreServicesCategories[]{
     displayMode,
     "category": category->{
+      _id,
+      _createdAt,
       categoryId,
       sortOrder,
       title,
@@ -1256,9 +1262,9 @@ export const THEME_PAGE_QUERY = `*[_type == "themePage" && ${slugMatchesParam("s
 }`;
 
 export const SERVICE_CATEGORIES_DROPDOWN_QUERY = `*[_type == "treatmentCategory"]{
-  _id, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
+  _id, _createdAt, ${i18nString("title")}, sortOrder, categoryId, ${localizedSlug},
   "treatments": treatments[]->{
-    _id, ${i18nString("title")}, sortOrder, ${localizedSlug},
+    _id, _createdAt, ${i18nString("title")}, sortOrder, ${localizedSlug},
     subItems[]{
       ${i18nString("label")},
       anchor,
@@ -1399,4 +1405,11 @@ export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && ${slugMatchesParam
   _id, name, ${localizedSlug}, category, price, rating,
   "image": image.asset->url,
   tags, intent, description, benefits, results, howItWorks
+}`;
+
+export const LISTING_SORT_SETTINGS_QUERY = `*[_type == "listingSortSettings"][0]{
+  specialistsSort,
+  clinicsSort,
+  categoriesSort,
+  treatmentsSort
 }`;

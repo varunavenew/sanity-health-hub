@@ -372,97 +372,19 @@ const TreatmentCategoryLanding = ({
     ...(hero.primaryBookingService ? { tjeneste: hero.primaryBookingService } : {}),
   };
 
+  const isFullWidthHero = hero.layout === "full";
+
   return (
     <PageLayout isChatOpen={isChatOpen}>
       <JsonLd data={geoJsonLd.length === 1 ? geoJsonLd[0] : geoJsonLd} />
       <h1 className="sr-only">{landing.srOnlyTitle}</h1>
 
       {/* Hero */}
-      <header className="bg-brand-light pt-24 lg:pt-0">
-        <div className="lg:hidden px-6 md:px-16 pb-4">
-          <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
-            <Link to="/" className="hover:text-foreground">
-              {landing.breadcrumbHomeLabel}
-            </Link>
-            <span aria-hidden="true">›</span>
-            <span className="text-foreground/80">{categoryTitle}</span>
-          </nav>
-          <h2 className="text-4xl font-light text-foreground leading-[1.05]">
-            {hero.heading}
-            {hero.headingEmphasis ? (
-              <span className="block italic">{hero.headingEmphasis}</span>
-            ) : null}
-          </h2>
-        </div>
-
-        <div
-          className={`flex flex-col-reverse ${hasHeroMedia ? "lg:grid lg:grid-cols-2" : ""} lg:min-h-[720px]`}
-        >
-          <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
-            <div className="max-w-xl w-full">
-              <nav
-                aria-label="breadcrumb"
-                className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10"
-              >
-                <Link to="/" className="hover:text-foreground">
-                  {landing.breadcrumbHomeLabel}
-                </Link>
-                <span aria-hidden="true">›</span>
-                <span className="text-foreground/80">{categoryTitle}</span>
-              </nav>
-
-              <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
-                {hero.heading}
-                {hero.headingEmphasis ? (
-                  <span className="block italic">{hero.headingEmphasis}</span>
-                ) : null}
-              </h2>
-
-              {hero.body ? (
-                <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">
-                  {hero.body}
-                </p>
-              ) : null}
-
-              {hero.entryPriceLabel && hero.entryPriceValue ? (
-                <div className="mb-4 text-sm font-light text-foreground/80">
-                  <span className="block text-base text-foreground">{hero.entryPriceLabel}</span>
-                  <span className="block">{hero.entryPriceValue}</span>
-                </div>
-              ) : null}
-
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
-                <Button
-                  variant="cta"
-                  size="lg"
-                  className="px-8 w-full sm:w-auto"
-                  onClick={() => {
-                    window.location.href = buildBookingUrl(bookingParams);
-                  }}
-                >
-                  {hero.primaryCtaLabel}
-                </Button>
-                <CallUsClinicPicker
-                  variant="light"
-                  label={hero.secondaryCtaLabel}
-                />
-              </div>
-
-              {hero.bullets.length > 0 ? (
-                <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
-                  {hero.bullets.map((u, index) => (
-                    <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
-                      <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
-                      <span>{u}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-          </div>
-
-          {hasHeroMedia ? (
-            <div className="relative min-h-[420px] lg:min-h-full">
+      {isFullWidthHero ? (
+        <header className="relative">
+          {/* Banner */}
+          <div className="relative min-h-[420px] lg:min-h-[520px] flex items-end pb-12 lg:pb-16 px-6 md:px-16 lg:px-20 text-white pt-32">
+            <div className="absolute inset-0 z-0 overflow-hidden">
               {heroVideo ? (
                 <video
                   src={heroVideo}
@@ -471,20 +393,199 @@ const TreatmentCategoryLanding = ({
                   muted
                   loop
                   playsInline
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
               ) : heroImage ? (
                 <AssetImg
                   src={heroImage}
                   alt={hero.heroImageAlt}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="w-full h-full object-cover"
                 />
               ) : null}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" aria-hidden="true" />
             </div>
-          ) : null}
-        </div>
-        <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
-      </header>
+
+            <div className="relative z-10 max-w-4xl w-full">
+              <nav aria-label="breadcrumb" className="text-xs font-light text-white/70 flex items-center gap-2 mb-6">
+                <Link to="/" className="hover:text-white transition-colors">
+                  {landing.breadcrumbHomeLabel}
+                </Link>
+                <span aria-hidden="true">›</span>
+                <span className="text-white/90">{categoryTitle}</span>
+              </nav>
+
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] tracking-tight">
+                {hero.heading}
+                {hero.headingEmphasis ? (
+                  <span className="block italic">{hero.headingEmphasis}</span>
+                ) : null}
+              </h2>
+            </div>
+          </div>
+
+          {/* Under-hero Details */}
+          <div className="bg-brand-light py-12 lg:py-16 border-b border-brand-dark/10">
+            <div className="max-w-7xl mx-auto px-6 md:px-16 lg:px-20">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                <div className="lg:col-span-7">
+                  {hero.body ? (
+                    <p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground whitespace-pre-line">
+                      {hero.body}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className="lg:col-span-5 flex flex-col gap-4">
+                  {hero.entryPriceLabel && hero.entryPriceValue ? (
+                    <div className="text-sm font-light text-foreground/80 mb-2">
+                      <span className="block text-base text-foreground font-normal leading-normal">{hero.entryPriceLabel}</span>
+                      <span className="block text-muted-foreground font-light">{hero.entryPriceValue}</span>
+                    </div>
+                  ) : null}
+
+                  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center w-full">
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="px-8 w-full sm:w-auto"
+                      onClick={() => {
+                        window.location.href = buildBookingUrl(bookingParams);
+                      }}
+                    >
+                      {hero.primaryCtaLabel}
+                    </Button>
+                    <CallUsClinicPicker
+                      variant="light"
+                      label={hero.secondaryCtaLabel}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {hero.bullets && hero.bullets.length > 0 ? (
+                <div className="mt-10 pt-8 border-t border-brand-dark/10">
+                  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                    {hero.bullets.map((u, index) => (
+                      <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
+                        <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
+                        <span>{u}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </header>
+      ) : (
+        <header className="bg-brand-light pt-24 lg:pt-0">
+          <div className="lg:hidden px-6 md:px-16 pb-4">
+            <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
+              <Link to="/" className="hover:text-foreground">
+                {landing.breadcrumbHomeLabel}
+              </Link>
+              <span aria-hidden="true">›</span>
+              <span className="text-foreground/80">{categoryTitle}</span>
+            </nav>
+            <h2 className="text-4xl font-light text-foreground leading-[1.05]">
+              {hero.heading}
+              {hero.headingEmphasis ? (
+                <span className="block italic">{hero.headingEmphasis}</span>
+              ) : null}
+            </h2>
+          </div>
+
+          <div
+            className={`flex flex-col-reverse ${hasHeroMedia ? "lg:grid lg:grid-cols-2" : ""} lg:min-h-[720px]`}
+          >
+            <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24">
+              <div className="max-w-xl w-full">
+                <nav
+                  aria-label="breadcrumb"
+                  className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10"
+                >
+                  <Link to="/" className="hover:text-foreground">
+                    {landing.breadcrumbHomeLabel}
+                  </Link>
+                  <span aria-hidden="true">›</span>
+                  <span className="text-foreground/80">{categoryTitle}</span>
+                </nav>
+
+                <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+                  {hero.heading}
+                  {hero.headingEmphasis ? (
+                    <span className="block italic">{hero.headingEmphasis}</span>
+                  ) : null}
+                </h2>
+
+                {hero.body ? (
+                  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground whitespace-pre-line">
+                    {hero.body}
+                  </p>
+                ) : null}
+
+                {hero.entryPriceLabel && hero.entryPriceValue ? (
+                  <div className="mb-4 text-sm font-light text-foreground/80">
+                    <span className="block text-base text-foreground">{hero.entryPriceLabel}</span>
+                    <span className="block">{hero.entryPriceValue}</span>
+                  </div>
+                ) : null}
+
+                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+                  <Button
+                    variant="cta"
+                    size="lg"
+                    className="px-8 w-full sm:w-auto"
+                    onClick={() => {
+                      window.location.href = buildBookingUrl(bookingParams);
+                    }}
+                  >
+                    {hero.primaryCtaLabel}
+                  </Button>
+                  <CallUsClinicPicker
+                    variant="light"
+                    label={hero.secondaryCtaLabel}
+                  />
+                </div>
+
+                {hero.bullets.length > 0 ? (
+                  <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-light text-foreground">
+                    {hero.bullets.map((u, index) => (
+                      <li key={`${u}-${index}`} className="inline-flex items-center gap-2">
+                        <Check className="w-4 h-4 text-foreground" aria-hidden="true" />
+                        <span>{u}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            </div>
+
+            {hasHeroMedia ? (
+              <div className="relative min-h-[420px] lg:min-h-full">
+                {heroVideo ? (
+                  <video
+                    src={heroVideo}
+                    poster={heroImage}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : heroImage ? (
+                  <AssetImg
+                    src={heroImage}
+                    alt={hero.heroImageAlt}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+          <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+        </header>
+      )}
 
       {/* Segments — accordion or grid */}
       {segmentsSection.segments.length > 0 ? (

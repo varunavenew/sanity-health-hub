@@ -41,7 +41,7 @@ export const SUPPORTED_LANGUAGES = [
   {id: 'no', title: 'Norsk'},
   {id: 'en', title: 'English'},
 ] as const
-import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon, JobIcon} from './schemaTypes/icons'
+import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon, JobIcon, SortIcon} from './schemaTypes/icons'
 
 // Default document node with locale-specific preview panes (no + en)
 const defaultDocumentNode: DefaultDocumentNodeResolver = (S, {schemaType}) => {
@@ -94,6 +94,7 @@ const hiddenTypes = [
   'guidePage',
   'careersPage',
   'jobListing',
+  'listingSortSettings',
 ]
 
 export default defineConfig({
@@ -317,6 +318,15 @@ export default defineConfig({
               ])
           )
 
+        const listingSortSettingsItem = S.listItem()
+          .title('Sorting Preferences')
+          .icon(SortIcon)
+          .child(
+            S.document()
+              .schemaType('listingSortSettings')
+              .documentId('listingSortSettings')
+          )
+
         return S.list()
           .title('Content')
           .items([
@@ -331,6 +341,7 @@ export default defineConfig({
             karriereItem,
             priserItem,
             googleReviewsItem,
+            listingSortSettingsItem,
             ...otherItems.slice(mid),
           ])
       },

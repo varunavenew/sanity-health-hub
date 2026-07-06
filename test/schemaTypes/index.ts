@@ -32,6 +32,7 @@ import product from './product'
 import specialistsPage from './specialistsPage'
 import specialistsListingPage from './specialistsListingPage'
 import testimonial from './testimonial'
+import listingSortSettings from './listingSortSettings'
 import {
   pageSectionSpecialists,
   pageSectionArticles,
@@ -42,6 +43,7 @@ import { locationSearchType } from './locationSearch'
 
 
 export const schemaTypes = [
+  listingSortSettings,
   // Pages
   homepage,
   aboutPage,

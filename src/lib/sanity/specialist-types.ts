@@ -51,6 +51,7 @@ export type SpecialistBioBlock =
   | { type: "link"; href: string; label: string; description?: string };
 
 export interface Specialist {
+  _createdAt?: string;
   name: string;
   title: string;
   subtitle?: string;

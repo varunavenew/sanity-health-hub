@@ -99,6 +99,7 @@ export type CategoryLandingPage = {
   srOnlyTitle?: string;
   breadcrumbHomeLabel: string;
   hero: {
+    layout?: string;
     eyebrow: string;
     heading: string;
     headingEmphasis: string;
@@ -358,6 +359,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
     srOnlyTitle: asPlainString(raw.srOnlyTitle) || undefined,
     breadcrumbHomeLabel: asPlainString(raw.breadcrumbHomeLabel),
     hero: {
+      layout: asPlainString(hero.layout) || undefined,
       eyebrow: asPlainString(hero.eyebrow),
       heading: asPlainString(hero.heading),
       headingEmphasis: asPlainString(hero.headingEmphasis),

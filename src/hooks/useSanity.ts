@@ -16,6 +16,8 @@ import {
 } from "@/lib/sanity/published-docs";
 import { sortByLabel, sortBySortOrder, textForSort, parseSortOrder } from "@/lib/sortAlphabetical";
 import { fetchTreatmentCategoryData } from "@/lib/sanity/category-data";
+import { applyListingSort } from "@/lib/sanity/sort-utils";
+import { LISTING_SORT_SETTINGS_QUERY } from "@/lib/queries";
 import { mapHomepageDocument } from "@/lib/sanity/homepage-data";
 import {
   resolveBookingPageCopy,
@@ -244,8 +246,21 @@ export const useSpecialists = () => {
   return useQuery({
     queryKey: ["sanity", "specialists", lang],
     queryFn: async () => {
-      const data = await fetchSanity<RawSanitySpecialist[]>(SPECIALISTS_QUERY, undefined, lang);
-      return mapAndSortSanitySpecialists(data, lang);
+      const [specialists, sortSettings] = await Promise.all([
+        fetchSanity<RawSanitySpecialist[]>(SPECIALISTS_QUERY, undefined, lang),
+        fetchSanity<any>(LISTING_SORT_SETTINGS_QUERY, undefined, lang),
+      ]);
+      const mapped = (specialists || [])
+        .map((row) => mapSanitySpecialistRow(row, lang))
+        .filter((row): row is Specialist => row !== null);
+      return applyListingSort(
+        mapped,
+        sortSettings?.specialistsSort,
+        lang,
+        (s) => s.name,
+        (s) => s.sortOrder,
+        (s) => s._createdAt
+      );
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -360,8 +375,32 @@ export const useTreatmentCategories = () => {
   return useQuery({
     queryKey: ["sanity", "treatmentCategories", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang);
-      return data?.length ? sortCategoryTreatments(data, lang) : data;
+      const [categories, sortSettings] = await Promise.all([
+        fetchSanity<any[]>(TREATMENT_CATEGORIES_QUERY, undefined, lang),
+        fetchSanity<any>(LISTING_SORT_SETTINGS_QUERY, undefined, lang),
+      ]);
+      if (!categories?.length) return categories;
+
+      const sortedCategories = applyListingSort(
+        categories,
+        sortSettings?.categoriesSort,
+        lang,
+        (c) => c.title || c.slug,
+        (c) => c.sortOrder,
+        (c) => c._createdAt
+      );
+
+      return sortedCategories.map((cat: any) => ({
+        ...cat,
+        treatments: applyListingSort(
+          cat.treatments || [],
+          sortSettings?.treatmentsSort,
+          lang,
+          (t: any) => t.title || t.slug,
+          (t: any) => t.sortOrder,
+          (t: any) => t._createdAt
+        ),
+      }));
     },
     staleTime: 0,
     refetchOnMount: "always",
@@ -657,8 +696,24 @@ export const useServicesPage = () => {
   return useQuery({
     queryKey: ["sanity", "servicesPage", lang],
     queryFn: async () => {
-      const data = await fetchServicesPageData(lang);
-      return data;
+      const [pageData, sortSettings] = await Promise.all([
+        fetchServicesPageData(lang),
+        fetchSanity<any>(LISTING_SORT_SETTINGS_QUERY, undefined, lang),
+      ]);
+      if (!pageData) return null;
+
+      if (pageData.featuredCategories && pageData.featuredCategories.length > 0) {
+        pageData.featuredCategories = applyListingSort(
+          pageData.featuredCategories,
+          sortSettings?.categoriesSort,
+          lang,
+          (cat) => cat.title,
+          (cat) => cat.sortOrder,
+          (cat) => cat._createdAt
+        );
+      }
+
+      return pageData;
     },
     staleTime: 0,
     refetchOnMount: "always",
@@ -677,6 +732,7 @@ export type SanityClinicBooking = {
 };
 
 export type SanityClinicListRow = {
+  _createdAt?: string;
   id: string;
   slug: string;
   label: string;
@@ -727,6 +783,7 @@ function normalizeClinicRow(c: Record<string, unknown>): SanityClinicListRow {
       ? c.primaryImage.trim()
       : undefined;
   return {
+    _createdAt: typeof c._createdAt === "string" ? c._createdAt : undefined,
     label: label.trim(),
     slug: (c.slug as string) || (c.id as string) || "",
     id: (c.id as string) || (c.slug as string) || "",
@@ -757,8 +814,22 @@ export const useClinics = () => {
   return useQuery({
     queryKey: ["sanity", "clinics", lang],
     queryFn: async () => {
-      const data = await fetchSanity<unknown[]>(CLINICS_QUERY, undefined, lang);
-      return mapClinicListRows(data, lang);
+      const [clinics, sortSettings] = await Promise.all([
+        fetchSanity<unknown[]>(CLINICS_QUERY, undefined, lang),
+        fetchSanity<any>(LISTING_SORT_SETTINGS_QUERY, undefined, lang),
+      ]);
+      const published = filterPublishedDocuments(clinics || [])
+        .map((c) => normalizeClinicRow(c as Record<string, unknown>))
+        .filter((c) => c.label && c.address);
+      const deduped = dedupeBySlug(published);
+      return applyListingSort(
+        deduped,
+        sortSettings?.clinicsSort,
+        lang,
+        (c) => c.label,
+        (c) => c.sortOrder,
+        (c) => c._createdAt
+      );
     },
     staleTime: 5 * 60 * 1000,
   });
@@ -1016,7 +1087,10 @@ export const useServiceCategoriesFromSanity = () => {
   return useQuery({
     queryKey: ["sanity", "serviceCategories", lang],
     queryFn: async () => {
-      const data = await fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang);
+      const [data, sortSettings] = await Promise.all([
+        fetchSanity<any[]>(SERVICE_CATEGORIES_DROPDOWN_QUERY, undefined, lang),
+        fetchSanity<any>(LISTING_SORT_SETTINGS_QUERY, undefined, lang),
+      ]);
       if (!data || data.length === 0) return null;
 
       const seen = new Set<string>();
@@ -1027,15 +1101,26 @@ export const useServiceCategoriesFromSanity = () => {
         return true;
       });
 
-      return sortBySortOrder(unique, (cat) => cat.sortOrder, (cat) => cat.title || cat.slug, lang).map((cat) => ({
+      const sortedCategories = applyListingSort(
+        unique,
+        sortSettings?.categoriesSort,
+        lang,
+        (cat) => cat.title || cat.slug,
+        (cat) => cat.sortOrder,
+        (cat) => cat._createdAt
+      );
+
+      return sortedCategories.map((cat) => ({
         id: cat.categoryId || cat.slug,
         label: textForSort(cat.title, lang) || cat.categoryId || cat.slug,
         path: categoryLandingPath(cat.categoryId || cat.slug, lang),
-        subcategories: sortBySortOrder(
+        subcategories: applyListingSort(
           cat.treatments || [],
-          (t: any) => t.sortOrder,
-          (t: any) => t.title || t.slug,
+          sortSettings?.treatmentsSort,
           lang,
+          (t: any) => t.title || t.slug,
+          (t: any) => t.sortOrder,
+          (t: any) => t._createdAt
         ).map((t: any) => ({
           id: t.slug,
           label: textForSort(t.title, lang) || t.slug,
