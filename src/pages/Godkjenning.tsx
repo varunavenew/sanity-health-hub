@@ -550,94 +550,26 @@ const Godkjenning = () => {
             )}
             {grouped.map(([category, pages]) => (
               <section key={category}>
-                <h2 className="text-sm text-muted-foreground mb-4 pb-2 border-b border-border">
-                  {category} <span className="ml-1 text-foreground/60">({pages.length})</span>
-                </h2>
-                <ul className="divide-y divide-border">
-                  {pages.map((page) => {
-                    const r = rows[page.path];
-                    const status = (r?.status ?? "avventer") as Status;
-                    const reqs = requestCountByPath[page.path];
-                    return (
-                      <li key={page.path} className="py-5">
-                        <div className="grid md:grid-cols-[1fr_auto] gap-4 md:gap-6 md:items-start">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-3 flex-wrap">
-                              <Link
-                                to={page.path}
-                                className="group inline-flex items-center gap-1.5 text-base font-light text-foreground hover:underline underline-offset-4"
-                              >
-                                {page.name}
-                                <ArrowUpRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground" strokeWidth={1.5} />
-                              </Link>
-                              <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full border ${STATUS_META[status].bg}`}>
-                                <span className={`w-1.5 h-1.5 rounded-2xl ${STATUS_META[status].dot}`} />
-                                {STATUS_META[status].label}
-                              </span>
-                              {reqs && reqs.open > 0 && (
-                                <button
-                                  onClick={() => { setTab("innboks"); }}
-                                  className="text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
-                                >
-                                  {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
-                                </button>
-                              )}
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-1 font-mono truncate">{page.path}</p>
-                            {r?.updated_at && (
-                              <p className="text-[11px] text-muted-foreground mt-1 inline-flex items-center gap-1">
-                                <Clock className="w-3 h-3" />
-                                {new Date(r.updated_at).toLocaleString("nb-NO", { dateStyle: "short", timeStyle: "short" })}
-                                {r.updated_by ? ` · ${r.updated_by}` : ""}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex flex-wrap gap-1.5 md:justify-end">
-                            <button
-                              onClick={() => updateRow(page, { status: "godkjent" })}
-                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                status === "godkjent" ? `${STATUS_META.godkjent.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
-                              }`}
-                            >
-                              <Check className="inline w-3 h-3 mr-1" />Godkjent
-                            </button>
-                            <button
-                              onClick={() => updateRow(page, { status: "avventer" })}
-                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                status === "avventer" ? `${STATUS_META.avventer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
-                              }`}
-                            >
-                              Avventer
-                            </button>
-                            <button
-                              onClick={() => openRequestDialog(page)}
-                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                status === "endringer" ? `${STATUS_META.endringer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
-                              }`}
-                            >
-                              <MessageSquare className="inline w-3 h-3 mr-1" />Endringer ønskes
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="mt-3 flex gap-2 items-start">
-                          <MessageSquare className="w-4 h-4 mt-2.5 text-muted-foreground flex-shrink-0" />
-                          <textarea
-                            defaultValue={r?.comment ?? ""}
-                            onBlur={(e) => {
-                              const val = e.target.value;
-                              if (val !== (r?.comment ?? "")) updateRow(page, { comment: val });
-                            }}
-                            placeholder="Generell notis om siden (bruk «Endringer ønskes» for konkrete oppgaver med vedlegg)…"
-                            rows={2}
-                            className="flex-1 border border-border bg-background px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y"
-                          />
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="mb-5 flex items-baseline justify-between gap-3 pb-3 border-b border-border">
+                  <h2 className="text-lg font-light text-foreground">{category}</h2>
+                  <span className="text-xs text-muted-foreground">{pages.length} {pages.length === 1 ? "side" : "sider"}</span>
+                </div>
+                <div className="grid gap-4">
+                  {pages.map((page) => (
+                    <PageApprovalCard
+                      key={page.path}
+                      page={page}
+                      row={rows[page.path]}
+                      reqs={requestCountByPath[page.path]}
+                      reviewer={reviewer}
+                      onReviewerChange={persistReviewer}
+                      onStatus={(status) => updateRow(page, { status })}
+                      onSaveComment={(comment) => updateRow(page, { comment })}
+                      onRequestChanges={() => openRequestDialog(page)}
+                      onJumpToInbox={() => setTab("innboks")}
+                    />
+                  ))}
+                </div>
               </section>
             ))}
           </div>
@@ -656,6 +588,161 @@ const Godkjenning = () => {
     </div>
   );
 };
+const PageApprovalCard = ({
+  page,
+  row,
+  reqs,
+  reviewer,
+  onReviewerChange,
+  onStatus,
+  onSaveComment,
+  onRequestChanges,
+  onJumpToInbox,
+}: {
+  page: SitePage;
+  row?: ApprovalRow;
+  reqs?: { open: number; total: number };
+  reviewer: string;
+  onReviewerChange: (name: string) => void;
+  onStatus: (status: Status) => void;
+  onSaveComment: (comment: string) => void;
+  onRequestChanges: () => void;
+  onJumpToInbox: () => void;
+}) => {
+  const status = (row?.status ?? "avventer") as Status;
+  const savedComment = row?.comment ?? "";
+  const [draft, setDraft] = useState(savedComment);
+  const [localName, setLocalName] = useState(reviewer);
+
+  useEffect(() => { setDraft(savedComment); }, [savedComment]);
+  useEffect(() => { setLocalName(reviewer); }, [reviewer]);
+
+  const dirty = draft !== savedComment;
+
+  const StatusButton = ({ value, label, icon }: { value: Status; label: string; icon?: React.ReactNode }) => {
+    const active = status === value;
+    const onClick = value === "endringer" ? onRequestChanges : () => onStatus(value);
+    return (
+      <button
+        onClick={onClick}
+        className={`inline-flex items-center justify-center gap-1.5 text-xs px-3 py-2 rounded-md border transition-colors flex-1 md:flex-none ${
+          active
+            ? `${STATUS_META[value].bg} border-transparent font-normal`
+            : "border-border text-muted-foreground hover:text-foreground hover:bg-muted bg-background"
+        }`}
+      >
+        <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[value].dot}`} />
+        {icon}
+        {label}
+      </button>
+    );
+  };
+
+  return (
+    <article className="border border-border rounded-lg bg-card overflow-hidden">
+      {/* Header: page identity */}
+      <div className="p-5 md:p-6 border-b border-border">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="min-w-0 flex-1">
+            <Link
+              to={page.path}
+              className="group inline-flex items-center gap-1.5 text-base md:text-lg font-light text-foreground hover:underline underline-offset-4"
+            >
+              {page.name}
+              <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground" strokeWidth={1.5} />
+            </Link>
+            <p className="text-xs text-muted-foreground mt-1 font-mono truncate">{page.path}</p>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className={`inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full border ${STATUS_META[status].bg}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${STATUS_META[status].dot}`} />
+              {STATUS_META[status].label}
+            </span>
+            {reqs && reqs.open > 0 && (
+              <button
+                onClick={onJumpToInbox}
+                className="text-[11px] px-2.5 py-1 rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
+              >
+                {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Status buttons */}
+      <div className="px-5 md:px-6 pt-5">
+        <p className="text-[11px] uppercase tracking-normal text-muted-foreground mb-2">Status</p>
+        <div className="flex gap-2 flex-wrap md:flex-nowrap">
+          <StatusButton value="godkjent" label="Godkjent" icon={<Check className="w-3.5 h-3.5" />} />
+          <StatusButton value="avventer" label="Avventer" icon={<Clock className="w-3.5 h-3.5" />} />
+          <StatusButton value="endringer" label="Endringer ønskes" icon={<MessageSquare className="w-3.5 h-3.5" />} />
+        </div>
+      </div>
+
+      {/* Comment area */}
+      <div className="p-5 md:p-6 pt-5">
+        <label className="block">
+          <span className="text-[11px] uppercase tracking-normal text-muted-foreground">Kommentar / notis</span>
+          <textarea
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder={`Skriv en lengre tilbakemelding for «${page.name}» — hva som fungerer, hva som mangler, hva som bør endres. Bruk «Endringer ønskes» for konkrete oppgaver med vedlegg.`}
+            rows={6}
+            className="mt-2 block w-full border border-border bg-background px-4 py-3 text-sm rounded-md leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y min-h-[140px]"
+          />
+        </label>
+
+        <div className="mt-3 flex flex-wrap items-center gap-2 justify-between">
+          <div className="flex items-center gap-2 flex-1 min-w-[200px]">
+            <label className="text-[11px] uppercase text-muted-foreground shrink-0">Navn</label>
+            <input
+              value={localName}
+              onChange={(e) => setLocalName(e.target.value)}
+              onBlur={() => { if (localName !== reviewer) onReviewerChange(localName); }}
+              placeholder="Ditt navn"
+              className="flex-1 min-w-0 border border-border bg-background px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            {dirty && (
+              <button
+                type="button"
+                onClick={() => setDraft(savedComment)}
+                className="text-xs px-3 py-2 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+              >
+                Avbryt
+              </button>
+            )}
+            <button
+              type="button"
+              disabled={!dirty}
+              onClick={() => {
+                if (localName && localName !== reviewer) onReviewerChange(localName);
+                onSaveComment(draft);
+              }}
+              className={`inline-flex items-center gap-1.5 text-xs px-4 py-2 rounded-md transition-opacity ${
+                dirty ? "bg-foreground text-background hover:opacity-90" : "bg-muted text-muted-foreground cursor-not-allowed"
+              }`}
+            >
+              <Check className="w-3.5 h-3.5" />
+              {dirty ? "Lagre kommentar" : "Lagret"}
+            </button>
+          </div>
+        </div>
+
+        {row?.updated_at && (
+          <p className="text-[11px] text-muted-foreground mt-3 inline-flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            Sist oppdatert {new Date(row.updated_at).toLocaleString("nb-NO", { dateStyle: "short", timeStyle: "short" })}
+            {row.updated_by ? ` · ${row.updated_by}` : ""}
+          </p>
+        )}
+      </div>
+    </article>
+  );
+};
+
 
 const MasterTemplatesPanel = ({
   rows,
