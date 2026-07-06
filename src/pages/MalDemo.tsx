@@ -13,6 +13,7 @@ import MasterMalForrigeUke from "./demos/MasterMalForrigeUke";
 import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
 import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
 import FertilitetVarmHeroForslag from "./demos/FertilitetVarmHeroForslag";
+import FagomradeHeroVarianter from "./demos/FagomradeHeroVarianter";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -153,6 +154,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Designforslag for Fertilitet-landingen: split-hero der hero-bildet ligger på den ene siden og et varmt korn-gradient-panel (korall/oransje/fersken/varm brun) på den andre. Små korn-gradient-flater rundt hero gir ekstra dybde. Alle tokens, typografi, radius og USP-stil er uendret. Kun forslag — den publiserte siden er ikke endret.",
     livePath: "/maler/fertilitetVarmHeroForslag",
     render: () => <FertilitetVarmHeroForslag isChatOpen={false} />,
+  },
+  fagomradeHeroVarianter: {
+    title: "Mal: Fagområde – hero-varianter (5 innganger)",
+    description:
+      "Fem hero-varianter for hovedfagområde-siden (kategori-hero), stablet under hverandre og merket Variant 1–5. Bruker samme varme korn-gradient-retning som fertilitet-forslagene: varm split med gradient-panel, full farge-/gradientblokk, sentrert hero med stor korn-bakgrunn, asymmetrisk bilde+gradient, og en ren/minimal variant. Ekte innhold fra Gynekologi/Fertilitet/Urologi. Kun demo — publiserte sider er uendret.",
+    livePath: "/maler/fagomradeHeroVarianter",
+    render: () => <FagomradeHeroVarianter isChatOpen={false} />,
   },
 };
 

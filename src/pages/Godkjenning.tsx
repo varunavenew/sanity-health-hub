@@ -81,6 +81,13 @@ const MASTER_TEMPLATES: {
     examplePath: "/maler/fertilitetVarmHeroForslag",
     exampleLabel: "Åpne forslag",
   },
+  {
+    key: "fagomradeHeroVarianter",
+    title: "Fagområde – hero-varianter (5 innganger)",
+    description: "Fem hero-varianter for hovedfagområde-siden (kategori-hero), stablet under hverandre og merket Variant 1–5. Samme varme korn-gradient-retning som fertilitet-forslagene: varm split, full gradient-blokk, sentrert med stor korn-bakgrunn, asymmetrisk bilde+gradient, og ren/minimal. Ekte innhold fra Gynekologi/Fertilitet/Urologi. Kun demo — publiserte sider er uendret.",
+    examplePath: "/maler/fagomradeHeroVarianter",
+    exampleLabel: "Åpne varianter",
+  },
 ];
 
 const DEMO_GROUPS: { title: string; items: { to: string; name: string }[] }[] = [
