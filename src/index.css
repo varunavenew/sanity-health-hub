@@ -75,21 +75,21 @@
     --brand-dark: 22 22% 21%;
     --brand-yellow: 65 100% 74%;
     --brand-warm: 30 31% 92%;
-    --brand-mid: 30 20% 80%;
-    --brand-beige: 35 25% 92%;
+    --brand-mid: 25 23% 74%;
+    --brand-beige: 30 31% 92%;
     --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
-    --chat-background: 30 27% 93%;
+    --chat-background: 30 31% 92%;
     --chat-foreground: 0 71% 5%;
     --chat-border: 25 20% 82%;
-    --chat-ai-bubble: 25 24% 80%;
+    --chat-ai-bubble: 25 23% 74%;
     --user-bubble: 65 100% 80%;
     
-    --sidebar-background: 30 27% 93%;
+    --sidebar-background: 30 31% 92%;
     --sidebar-foreground: 0 71% 5%;
     --sidebar-primary: 22 22% 21%;
-    --sidebar-primary-foreground: 30 27% 93%;
-    --sidebar-accent: 25 24% 80%;
+    --sidebar-primary-foreground: 30 31% 92%;
+    --sidebar-accent: 25 23% 74%;
     --sidebar-accent-foreground: 0 71% 5%;
     --sidebar-border: 25 20% 82%;
     --sidebar-ring: 22 22% 21%;
