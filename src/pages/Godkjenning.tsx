@@ -759,10 +759,11 @@ const PageApprovalCard = ({
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder={`Skriv en lengre tilbakemelding for «${page.name}» — hva som fungerer, hva som mangler, hva som bør endres. Bruk «Endringer ønskes» for konkrete oppgaver med vedlegg.`}
-            rows={6}
-            className="mt-2 block w-full border border-border bg-background px-4 py-3 text-sm rounded-md leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y min-h-[140px]"
+            placeholder={`Skriv en romslig tilbakemelding for «${page.name}» — konkrete endringsønsker, hva som fungerer, hva som mangler, forslag til ny tekst osv. Lange notater er ok — feltet vokser med innholdet.`}
+            rows={10}
+            className="mt-2 block w-full border border-border bg-background px-4 py-3 text-sm rounded-md leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y min-h-[220px]"
           />
+
         </label>
 
         <div className="mt-3 flex flex-wrap items-center gap-2 justify-between">
