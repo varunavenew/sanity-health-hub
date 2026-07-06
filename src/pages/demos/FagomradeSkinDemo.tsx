@@ -1,7 +1,7 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown } from "lucide-react";
+import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown, Shield } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
