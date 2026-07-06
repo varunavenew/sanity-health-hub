@@ -429,6 +429,42 @@ const Godkjenning = () => {
     return c;
   }, [rows]);
 
+  // Bygger super-grupper for Innholdgodkjenning-fanen. Bruker samme filter/søk,
+  // og gir per-gruppe status-oppsummering (godkjent/avventer/endringer/total).
+  const superGrouped = useMemo(() => {
+    const filtered = sitePages.filter((p) => {
+      const r = rows[p.path];
+      const status = (r?.status ?? "avventer") as Status;
+      if (filter !== "alle" && status !== filter) return false;
+      if (search && !`${p.name} ${p.path}`.toLowerCase().includes(search.toLowerCase())) return false;
+      return true;
+    });
+    // Alle sider (uten filter) brukes til å beregne totaler per gruppe, slik at
+    // status-oppsummeringen alltid er komplett selv når man har aktivt filter.
+    const allByGroup: Record<SuperGroupKey, SitePage[]> = {
+      hovedsider: [], omoss: [], gynekologi: [], fertilitet: [], urologi: [],
+      ortopedi: [], hudhelse: [], ovrige: [], klinikker: [], artikler: [],
+    };
+    sitePages.forEach((p) => allByGroup[superGroupFor(p)].push(p));
+
+    const filteredByGroup: Record<SuperGroupKey, SitePage[]> = {
+      hovedsider: [], omoss: [], gynekologi: [], fertilitet: [], urologi: [],
+      ortopedi: [], hudhelse: [], ovrige: [], klinikker: [], artikler: [],
+    };
+    filtered.forEach((p) => filteredByGroup[superGroupFor(p)].push(p));
+
+    return SUPER_GROUPS.map(({ key, label }) => {
+      const all = allByGroup[key];
+      const counts = { total: all.length, godkjent: 0, avventer: 0, endringer: 0 };
+      all.forEach((p) => {
+        const s = (rows[p.path]?.status ?? "avventer") as Status;
+        counts[s]++;
+      });
+      return { key, label, pages: filteredByGroup[key], counts };
+    });
+  }, [rows, filter, search]);
+
+
 
   const counts = useMemo(() => {
     const c = { total: sitePages.length, godkjent: 0, avventer: 0, endringer: 0 };
