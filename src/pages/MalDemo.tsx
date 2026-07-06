@@ -14,6 +14,7 @@ import MasterMalToUkerSiden from "./demos/MasterMalToUkerSiden";
 import FertilitetEtterMaster from "./demos/FertilitetEtterMaster";
 import FertilitetVarmHeroForslag from "./demos/FertilitetVarmHeroForslag";
 import FagomradeHeroVarianter from "./demos/FagomradeHeroVarianter";
+import FertilitetFargeveksling from "./demos/FertilitetFargeveksling";
 import heroClinicLounge from "@/assets/hero/hero-clinic-lounge.jpg";
 
 // Demo-ikoner for promises-kortene (samme stil som "For deg som"-seksjonen)
@@ -161,6 +162,13 @@ const TEMPLATES: Record<string, TemplateConfig> = {
       "Fem hero-varianter for hovedfagområde-siden (kategori-hero), stablet under hverandre og merket Variant 1–5. Bruker samme varme korn-gradient-retning som fertilitet-forslagene: varm split med gradient-panel, full farge-/gradientblokk, sentrert hero med stor korn-bakgrunn, asymmetrisk bilde+gradient, og en ren/minimal variant. Ekte innhold fra Gynekologi/Fertilitet/Urologi. Kun demo — publiserte sider er uendret.",
     livePath: "/maler/fagomradeHeroVarianter",
     render: () => <FagomradeHeroVarianter isChatOpen={false} />,
+  },
+  fertilitetFargeveksling: {
+    title: "Mal-demo: Fertilitet med fargeveksling",
+    description:
+      "Duplikat av fertilitet-siden der seksjonene veksler mellom light skin (#F2ECE6) og mid skin (#CCBAAD) for å bryte opp den flate cream-fargen. Stats-seksjonen bruker et hudtonet bilde som bakgrunn med parallax og en lett mørk overlay for lesbarhet. Layout, tekst og tall er uendret. Kun demo — den publiserte fertilitet-siden er ikke rørt.",
+    livePath: "/maler/fertilitetFargeveksling",
+    render: () => <FertilitetFargeveksling isChatOpen={false} />,
   },
 };
 
