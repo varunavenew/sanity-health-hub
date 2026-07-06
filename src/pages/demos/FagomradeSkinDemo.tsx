@@ -249,94 +249,105 @@ const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
  Gynekologi hos CMedical — kvinnehelse for livet
  </h1>
 
- {/* ============================================================
- 1. HERO — split screen 50/50, bilde kant-i-kant
- ============================================================ */}
- <header className="bg-brand-light pt-24 lg:pt-0">
- <div className="lg:hidden page-edge-text-left pb-4">
-   <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
-     <Link to="/" className="hover:text-foreground">Hjem</Link>
-     <span aria-hidden="true">›</span>
-     <span className="text-foreground/80">Gynekologi</span>
-   </nav>
-   <h2 className="text-4xl font-light text-foreground leading-[1.05]">
-     Kvinnehelse <span className="block italic">for livet</span>
-   </h2>
- </div>
- <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
- <div className="flex items-center page-edge-text-left py-16 lg:py-24">
- <div className="max-w-xl w-full">
-            <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
-              <Link to="/" className="hover:text-foreground">Hjem</Link>
-              <span aria-hidden="true">›</span>
-              <span className="text-foreground/80">Gynekologi</span>
-            </nav>
-             {/* Overskriften vises oppå bildet på desktop */}
-
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Vi følger deg gjennom hele livet — fra de første spørsmålene
- i tenårene, gjennom svangerskap og overgangsalder, og videre.
- Gynekologene våre jobber med det de kan best, og vi tar oss
- alltid tid til å forstå hele deg.
- </p>
-
- {(() => {
- const entry = getCategoryEntryPrice("gynekologi");
- return entry ? (
- <div className="mb-4 text-sm font-light text-foreground/80">
- <span className="block text-base text-foreground">{entry.label}</span>
- <span className="block">{entry.price}</span>
- </div>
- ) : null;
- })()}
- <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
- <Button
- variant="cta"
- size="lg"
- className="px-8 w-full sm:w-auto"
- onClick={() =>
- (window.location.href = buildBookingUrl({
- kategori: "gynekologi",
- tjeneste: "generell-undersokelse",
- }))
- }
- >
- Bestill gynekologisk undersøkelse
- </Button>
- <CallUsClinicPicker variant="light" label="Ring oss" />
- </div>
-
-   <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
-    {["Ingen henvisning", "Korte ventetider"].map((u) => (
-     <li key={u} className="flex items-center gap-2">
-      <Check className="w-4 h-4" aria-hidden="true" />
-      <span>{u}</span>
-     </li>
-    ))}
-   </ul>
- </div>
- </div>
-
-  <div className="relative min-h-[420px] lg:min-h-full overflow-hidden">
-   <img
-    src={skinHero.url}
-    alt="Nærbilde av hud i varme toner"
-    className="absolute inset-0 w-full h-full object-cover"
-   />
-   {/* Mørk gradient nederst for at overskriften skal være lesbar */}
-   <div
-    className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent"
-    aria-hidden="true"
-   />
-   <div className="relative h-full flex items-end p-8 md:p-12 lg:p-16">
-    <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.05] max-w-md drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
-     Kvinnehelse <span className="block italic">for livet</span>
+  {/* ============================================================
+  1. HERO — split screen 50/50, bilde kant-i-kant
+      Venstre: skin-bilde med innhold over
+      Høyre: original video fra mastermalen
+  ============================================================ */}
+  <header className="bg-brand-light pt-24 lg:pt-0">
+  <div className="lg:hidden page-edge-text-left pb-4">
+    <nav aria-label="breadcrumb" className="text-xs font-light text-foreground/60 flex items-center gap-2 mb-4">
+      <Link to="/" className="hover:text-foreground">Hjem</Link>
+      <span aria-hidden="true">›</span>
+      <span className="text-foreground/80">Gynekologi</span>
+    </nav>
+    <h2 className="text-4xl font-light text-foreground leading-[1.05]">
+      Kvinnehelse <span className="block italic">for livet</span>
     </h2>
+  </div>
+  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+   {/* Venstre: skin-bilde med all tekst over */}
+   <div className="relative min-h-[520px] lg:min-h-full overflow-hidden order-2 lg:order-1">
+    <img
+     src={skinHero.url}
+     alt="Nærbilde av hud i varme toner"
+     className="absolute inset-0 w-full h-full object-cover"
+    />
+    {/* Lett varm overlay så svart tekst er lesbar på lyst skin */}
+    <div
+     className="absolute inset-0 bg-brand-light/50"
+     aria-hidden="true"
+    />
+    <div className="relative h-full flex items-center page-edge-text-left py-16 lg:py-24">
+     <div className="max-w-xl w-full">
+      <nav aria-label="breadcrumb" className="hidden lg:flex text-xs font-light text-foreground/60 items-center gap-2 mb-8 lg:mb-10">
+        <Link to="/" className="hover:text-foreground">Hjem</Link>
+        <span aria-hidden="true">›</span>
+        <span className="text-foreground/80">Gynekologi</span>
+      </nav>
+      <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
+        Kvinnehelse <span className="block italic">for livet</span>
+      </h2>
+
+      <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-foreground/80">
+      Vi følger deg gjennom hele livet — fra de første spørsmålene
+      i tenårene, gjennom svangerskap og overgangsalder, og videre.
+      Gynekologene våre jobber med det de kan best, og vi tar oss
+      alltid tid til å forstå hele deg.
+      </p>
+
+      {(() => {
+      const entry = getCategoryEntryPrice("gynekologi");
+      return entry ? (
+      <div className="mb-4 text-sm font-light text-foreground/80">
+      <span className="block text-base text-foreground">{entry.label}</span>
+      <span className="block">{entry.price}</span>
+      </div>
+      ) : null;
+      })()}
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
+      <Button
+      variant="cta"
+      size="lg"
+      className="px-8 w-full sm:w-auto"
+      onClick={() =>
+      (window.location.href = buildBookingUrl({
+      kategori: "gynekologi",
+      tjeneste: "generell-undersokelse",
+      }))
+      }
+      >
+      Bestill gynekologisk undersøkelse
+      </Button>
+      <CallUsClinicPicker variant="light" label="Ring oss" />
+      </div>
+
+      <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-light text-brand-dark">
+       {["Ingen henvisning", "Korte ventetider"].map((u) => (
+        <li key={u} className="flex items-center gap-2">
+         <Check className="w-4 h-4" aria-hidden="true" />
+         <span>{u}</span>
+        </li>
+       ))}
+      </ul>
+     </div>
+    </div>
+   </div>
+
+   {/* Høyre: original video fra mastermalen */}
+   <div className="relative min-h-[420px] lg:min-h-full order-1 lg:order-2">
+    <video
+     src={kvinnehelseVideo.url}
+     autoPlay
+     muted
+     loop
+     playsInline
+     className="absolute inset-0 w-full h-full object-cover"
+    />
    </div>
   </div>
- </div>
- <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
- </header>
+  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
+  </header>
 
  {/* ============================================================
  2. MØRK SEGMENT-SEKSJON — Livsfaser
