@@ -412,6 +412,62 @@ const Godkjenning = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Bygg en ren, strukturert liste for Lovable (markdown) — én linje per side med reell tilbakemelding.
+  const buildLovableMarkdown = (opts: { onlyWithFeedback?: boolean } = {}) => {
+    const { onlyWithFeedback = true } = opts;
+    const reqByPath = new Map<string, ChangeRequest[]>();
+    requests.forEach((r) => {
+      if (!reqByPath.has(r.page_path)) reqByPath.set(r.page_path, []);
+      reqByPath.get(r.page_path)!.push(r);
+    });
+
+    const lines: string[] = [];
+    lines.push(`# Innholdgodkjenning — tilbakemeldinger`);
+    lines.push(`Eksportert: ${new Date().toLocaleString("nb-NO")}`);
+    lines.push("");
+
+    sitePages.forEach((p) => {
+      const r = rows[p.path];
+      const status = (r?.status ?? "avventer") as Status;
+      const comment = (r?.comment ?? "").trim();
+      const pageReqs = (reqByPath.get(p.path) ?? []).filter((x) => x.status !== "ferdig");
+
+      if (onlyWithFeedback && !comment && pageReqs.length === 0 && status === "avventer") return;
+
+      const by = r?.updated_by || "—";
+      const endring = comment || "(ingen kommentar)";
+      lines.push(`- **Side:** ${p.name} (${p.path}) — **Status:** ${STATUS_META[status].label} — **Endringsønske:** ${endring.replace(/\n+/g, " / ")} — **Av:** ${by}`);
+      pageReqs.forEach((cr) => {
+        lines.push(`  - Forespørsel (${cr.status}): ${(cr.message || "").replace(/\n+/g, " / ")} — Av: ${cr.created_by || "—"}`);
+      });
+    });
+
+    if (lines.length === 3) lines.push("_Ingen tilbakemeldinger registrert ennå._");
+    return lines.join("\n");
+  };
+
+  const exportMarkdown = () => {
+    const md = buildLovableMarkdown({ onlyWithFeedback: false });
+    const blob = new Blob([md], { type: "text/markdown;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `innholdgodkjenning-${new Date().toISOString().slice(0, 10)}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const copyToLovable = async () => {
+    const md = buildLovableMarkdown({ onlyWithFeedback: true });
+    try {
+      await navigator.clipboard.writeText(md);
+      toast({ title: "Kopiert", description: "Tilbakemeldingene er kopiert — lim inn i Lovable." });
+    } catch (e: any) {
+      toast({ title: "Kunne ikke kopiere", description: e?.message ?? "Prøv å eksportere som markdown i stedet.", variant: "destructive" });
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
