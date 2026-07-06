@@ -319,15 +319,22 @@ const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
 
-  <div className="relative min-h-[420px] lg:min-h-full">
-  <video
-  src={kvinnehelseVideo.url}
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="absolute inset-0 w-full h-full object-cover"
-  />
+  <div className="relative min-h-[420px] lg:min-h-full overflow-hidden">
+   <img
+    src={skinHero.url}
+    alt="Nærbilde av hud i varme toner"
+    className="absolute inset-0 w-full h-full object-cover"
+   />
+   {/* Mørk gradient nederst for at overskriften skal være lesbar */}
+   <div
+    className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent"
+    aria-hidden="true"
+   />
+   <div className="relative h-full flex items-end p-8 md:p-12 lg:p-16">
+    <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.05] max-w-md drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
+     Kvinnehelse <span className="block italic">for livet</span>
+    </h2>
+   </div>
   </div>
  </div>
  <div className="h-px w-full bg-foreground/5" aria-hidden="true" />
