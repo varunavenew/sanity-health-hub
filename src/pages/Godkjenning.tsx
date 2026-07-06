@@ -550,94 +550,26 @@ const Godkjenning = () => {
             )}
             {grouped.map(([category, pages]) => (
               <section key={category}>
-                <h2 className="text-sm text-muted-foreground mb-4 pb-2 border-b border-border">
-                  {category} <span className="ml-1 text-foreground/60">({pages.length})</span>
-                </h2>
-                <ul className="divide-y divide-border">
-                  {pages.map((page) => {
-                    const r = rows[page.path];
-                    const status = (r?.status ?? "avventer") as Status;
-                    const reqs = requestCountByPath[page.path];
-                    return (
-                      <li key={page.path} className="py-5">
-                        <div className="grid md:grid-cols-[1fr_auto] gap-4 md:gap-6 md:items-start">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-3 flex-wrap">
-                              <Link
-                                to={page.path}
-                                className="group inline-flex items-center gap-1.5 text-base font-light text-foreground hover:underline underline-offset-4"
-                              >
-                                {page.name}
-                                <ArrowUpRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground" strokeWidth={1.5} />
-                              </Link>
-                              <span className={`inline-flex items-center gap-1.5 text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full border ${STATUS_META[status].bg}`}>
-                                <span className={`w-1.5 h-1.5 rounded-2xl ${STATUS_META[status].dot}`} />
-                                {STATUS_META[status].label}
-                              </span>
-                              {reqs && reqs.open > 0 && (
-                                <button
-                                  onClick={() => { setTab("innboks"); }}
-                                  className="text-[11px] px-2 py-0.5 rounded-2xl md:rounded-full bg-rose-50 text-rose-900 border border-rose-200 hover:bg-rose-100"
-                                >
-                                  {reqs.open} åpne {reqs.open === 1 ? "endring" : "endringer"}
-                                </button>
-                              )}
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-1 font-mono truncate">{page.path}</p>
-                            {r?.updated_at && (
-                              <p className="text-[11px] text-muted-foreground mt-1 inline-flex items-center gap-1">
-                                <Clock className="w-3 h-3" />
-                                {new Date(r.updated_at).toLocaleString("nb-NO", { dateStyle: "short", timeStyle: "short" })}
-                                {r.updated_by ? ` · ${r.updated_by}` : ""}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex flex-wrap gap-1.5 md:justify-end">
-                            <button
-                              onClick={() => updateRow(page, { status: "godkjent" })}
-                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                status === "godkjent" ? `${STATUS_META.godkjent.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
-                              }`}
-                            >
-                              <Check className="inline w-3 h-3 mr-1" />Godkjent
-                            </button>
-                            <button
-                              onClick={() => updateRow(page, { status: "avventer" })}
-                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                status === "avventer" ? `${STATUS_META.avventer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
-                              }`}
-                            >
-                              Avventer
-                            </button>
-                            <button
-                              onClick={() => openRequestDialog(page)}
-                              className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
-                                status === "endringer" ? `${STATUS_META.endringer.bg} border-transparent` : "border-border text-muted-foreground hover:text-foreground bg-background"
-                              }`}
-                            >
-                              <MessageSquare className="inline w-3 h-3 mr-1" />Endringer ønskes
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="mt-3 flex gap-2 items-start">
-                          <MessageSquare className="w-4 h-4 mt-2.5 text-muted-foreground flex-shrink-0" />
-                          <textarea
-                            defaultValue={r?.comment ?? ""}
-                            onBlur={(e) => {
-                              const val = e.target.value;
-                              if (val !== (r?.comment ?? "")) updateRow(page, { comment: val });
-                            }}
-                            placeholder="Generell notis om siden (bruk «Endringer ønskes» for konkrete oppgaver med vedlegg)…"
-                            rows={2}
-                            className="flex-1 border border-border bg-background px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-primary/40 resize-y"
-                          />
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="mb-5 flex items-baseline justify-between gap-3 pb-3 border-b border-border">
+                  <h2 className="text-lg font-light text-foreground">{category}</h2>
+                  <span className="text-xs text-muted-foreground">{pages.length} {pages.length === 1 ? "side" : "sider"}</span>
+                </div>
+                <div className="grid gap-4">
+                  {pages.map((page) => (
+                    <PageApprovalCard
+                      key={page.path}
+                      page={page}
+                      row={rows[page.path]}
+                      reqs={requestCountByPath[page.path]}
+                      reviewer={reviewer}
+                      onReviewerChange={persistReviewer}
+                      onStatus={(status) => updateRow(page, { status })}
+                      onSaveComment={(comment) => updateRow(page, { comment })}
+                      onRequestChanges={() => openRequestDialog(page)}
+                      onJumpToInbox={() => setTab("innboks")}
+                    />
+                  ))}
+                </div>
               </section>
             ))}
           </div>
