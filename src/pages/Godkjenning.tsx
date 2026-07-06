@@ -293,6 +293,18 @@ const Godkjenning = () => {
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState<"sider" | "tjenester" | "innboks" | "booking" | "generelt" | "maler" | "demo" | "fremdrift">("sider");
   const [dialogPage, setDialogPage] = useState<SitePage | null>(null);
+  const [openGroups, setOpenGroups] = useState<Record<SuperGroupKey, boolean>>(() => ({
+    hovedsider: true,
+    omoss: false,
+    gynekologi: false,
+    fertilitet: false,
+    urologi: false,
+    ortopedi: false,
+    hudhelse: false,
+    ovrige: false,
+    klinikker: false,
+    artikler: false,
+  }));
 
   useEffect(() => {
     document.title = "Godkjenning av sider · CMedical";
