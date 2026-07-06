@@ -1,7 +1,7 @@
 import { getCategoryEntryPrice } from "@/data/priceList";
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown } from "lucide-react";
+import { ArrowRight, Check, Star, Quote, Users, Clock, User, ChevronDown, Shield } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -753,11 +753,53 @@ const FagomradeSkinDemo = ({ isChatOpen }: PageProps) => {
  seeAllLabel="Se alle gynekologer"
  />
 
- {/* ============================================================
- 10. UNIFIED PRE-FOOTER CTA — samme som hjem
- ============================================================ */}
+  {/* ============================================================
+  10. UNIFIED PRE-FOOTER CTA — skinbilde-bakgrunn
+  ============================================================ */}
       <InsurancePartners />
-      <BookingCTA />
+      <section className="relative py-14 sm:py-16 md:py-20 overflow-hidden">
+        {/* Skinbilde-bakgrunn */}
+        <img
+          src={skinHero.url}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden="true"
+        />
+        {/* Mørk overlay for lesbarhet */}
+        <div className="absolute inset-0 bg-brand-dark/70" aria-hidden="true" />
+        <div className="relative w-full px-5 sm:px-8 md:container md:mx-auto md:px-16">
+          <div className="w-full md:max-w-3xl md:mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-light text-white mb-4">
+              Bestill time hos spesialist
+            </h2>
+            <p className="text-white/95 font-light text-base md:text-lg mb-10 max-w-xl mx-auto">
+              Velg tjeneste, klinikk og behandler – alt i én enkel bestilling.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:justify-center mb-12">
+              <Button
+                variant="cta-dark"
+                size="lg"
+                onClick={() => (window.location.href = "/booking")}
+                className="w-full sm:w-auto max-md:bg-accent max-md:text-accent-foreground max-md:hover:bg-accent/90"
+              >
+                Bestill time nå
+                <ArrowRight className="ml-2 w-5 h-5 hidden md:inline-block" />
+              </Button>
+              <CallUsClinicPicker variant="dark" size="lg" />
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-8">
+              <span className="flex items-center gap-2 text-sm text-white">
+                <Clock className="w-4 h-4" aria-hidden="true" />
+                Ledig time innen 1–3 dager
+              </span>
+              <span className="flex items-center gap-2 text-sm text-white">
+                <Shield className="w-4 h-4" aria-hidden="true" />
+                Ingen henvisning nødvendig
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
  </PageLayout>
  );
 };
