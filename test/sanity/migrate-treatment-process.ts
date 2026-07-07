@@ -1,9 +1,15 @@
 #!/usr/bin/env npx tsx
 /**
- * Migration: per-treatment `process` (Behandlingsprosess) steps.
+ * Migration: per-treatment `flow` (Forløp / Behandlingsprosess) steps.
  *
- * Reads src/data/treatmentContent.ts as source-of-truth and PATCHES each
- * matching Sanity `treatment` document. Only the `process` field is touched.
+ * Reads src/data/treatmentContent.ts as source-of-truth and PATCHES the
+ * `flow` array field on each matching Sanity `treatment` document.
+ *
+ * The treatment schema uses:
+ *   flow: [{ n, title, desc }]
+ * where each field is an internationalized array (no + en fallback).
+ *
+ * We also populate flowTitle / flowEyebrow if missing (optional, defaults).
  *
  * Idempotent: safe to re-run.
  *
@@ -91,43 +97,51 @@ async function run() {
   console.log(`   Parsed ${entries.length} entries with process steps.`);
 
   console.log("\n🏥 Fetching treatment slug → _id …");
-  const treatments: Array<{ _id: string; slug?: any; categorySlug?: any }> = await sanityClient.fetch(
+  const treatments: Array<{ _id: string; slug?: any; categorySlug?: any; flow?: any }> = await sanityClient.fetch(
     `*[_type == "treatment" && !(_id in path("drafts.**"))]{
        _id,
        "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
-       "categorySlug": coalesce(category->slug[language == "no"][0].value.current, category->slug.current)
+       "categorySlug": coalesce(category->slug[language == "no"][0].value.current, category->slug.current),
+       flow,
+       flowTitle
      }`
   );
-  const treatmentIdByKey = new Map<string, string>();
+  const treatmentByKey = new Map<string, typeof treatments[number]>();
   for (const t of treatments as any[]) {
-    if (t.categorySlug && t.slug) treatmentIdByKey.set(`${t.categorySlug}/${t.slug}`, t._id);
+    if (t.categorySlug && t.slug) treatmentByKey.set(`${t.categorySlug}/${t.slug}`, t);
   }
-  console.log(`   Loaded ${treatmentIdByKey.size} treatments.`);
+  console.log(`   Loaded ${treatmentByKey.size} treatments.`);
 
   let patched = 0;
   const missing: string[] = [];
 
   for (const e of entries) {
-    let treatmentId = treatmentIdByKey.get(e.key);
-    if (!treatmentId) {
-      const fallback = `treatment-${slugifyKey(e.key)}`;
-      const exists = treatments.find((t) => t._id === fallback);
-      if (exists) treatmentId = fallback;
+    let doc = treatmentByKey.get(e.key);
+    if (!doc) {
+      const fallbackId = `treatment-${slugifyKey(e.key)}`;
+      doc = treatments.find((t) => t._id === fallbackId);
     }
-    if (!treatmentId) {
+    if (!doc) {
       missing.push(e.key);
       continue;
     }
 
-    const process = e.process.map((step, idx) => ({
-      _key: `step-${idx}-${slugifyKey(step.title).slice(0, 12)}`,
+    const flow = e.process.map((step, idx) => ({
+      _key: `flow-${idx}-${slugifyKey(step.title).slice(0, 12)}`,
       _type: "object",
+      n: i18nString(String(idx + 1).padStart(2, "0")),
       title: i18nString(step.title),
-      description: i18nText(step.description),
+      desc: i18nText(step.description),
     }));
 
-    await sanityClient.patch(treatmentId).set({ process }).commit();
-    console.log(`   ✓ ${e.key} → ${process.length} steps`);
+    const patch: Record<string, unknown> = { flow };
+    // Only set flowTitle if not present, so we don't overwrite editor input
+    if (!doc.flowTitle || (Array.isArray(doc.flowTitle) && doc.flowTitle.length === 0)) {
+      patch.flowTitle = i18nString("Slik foregår det");
+    }
+
+    await sanityClient.patch(doc._id).set(patch).commit();
+    console.log(`   ✓ ${e.key} → ${flow.length} steg`);
     patched++;
   }
 
