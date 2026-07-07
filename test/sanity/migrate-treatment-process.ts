@@ -112,21 +112,46 @@ async function run() {
   }
   console.log(`   Loaded ${treatmentByKey.size} treatments.`);
 
+  // Generic 3-step fallback — mirrors src/lib/treatmentToSubLayout.tsx.
+  // Used for every treatment that doesn't have a per-treatment `process` in
+  // treatmentContent.ts, so editors see something in Studio instead of empty.
+  const GENERIC_FLOW: Array<{ title: string; description: string }> = [
+    {
+      title: "Samtale og kartlegging",
+      description: "Vi starter med en grundig samtale om dine plager og din historikk.",
+    },
+    {
+      title: "Undersøkelse og utredning",
+      description: "Spesialisten gjør de undersøkelsene som trengs for å forstå hva som ligger bak.",
+    },
+    {
+      title: "Plan for veien videre",
+      description: "Du får en tydelig plan — enten det er behandling, oppfølging eller trygghet i at alt er som det skal.",
+    },
+  ];
+
+  const specificByKey = new Map(entries.map((e) => [e.key, e.process] as const));
+
   let patched = 0;
+  let specificCount = 0;
+  let genericCount = 0;
   const missing: string[] = [];
 
-  for (const e of entries) {
-    let doc = treatmentByKey.get(e.key);
-    if (!doc) {
-      const fallbackId = `treatment-${slugifyKey(e.key)}`;
-      doc = treatments.find((t) => t._id === fallbackId);
-    }
-    if (!doc) {
-      missing.push(e.key);
+  // Iterate every treatment doc — write specific flow when we have one,
+  // otherwise seed the generic 3-step fallback. Never overwrite an existing
+  // non-empty `flow` on the doc (respects editor changes).
+  for (const [key, doc] of treatmentByKey.entries()) {
+    const hasExistingFlow = Array.isArray(doc.flow) && doc.flow.length > 0;
+    const specific = specificByKey.get(key);
+    const source = specific ?? GENERIC_FLOW;
+    const isGeneric = !specific;
+
+    if (hasExistingFlow && isGeneric) {
+      // Don't clobber editor-authored flow with generic content.
       continue;
     }
 
-    const flow = e.process.map((step, idx) => ({
+    const flow = source.map((step, idx) => ({
       _key: `flow-${idx}-${slugifyKey(step.title).slice(0, 12)}`,
       _type: "object",
       n: i18nString(String(idx + 1).padStart(2, "0")),
@@ -135,23 +160,33 @@ async function run() {
     }));
 
     const patch: Record<string, unknown> = { flow };
-    // Only set flowTitle if not present, so we don't overwrite editor input
     if (!doc.flowTitle || (Array.isArray(doc.flowTitle) && doc.flowTitle.length === 0)) {
       patch.flowTitle = i18nString("Slik foregår det");
     }
 
     await sanityClient.patch(doc._id).set(patch).commit();
-    console.log(`   ✓ ${e.key} → ${flow.length} steg`);
+    console.log(`   ✓ ${key} → ${flow.length} steg${isGeneric ? " (generic)" : ""}`);
     patched++;
+    if (isGeneric) genericCount++;
+    else specificCount++;
+  }
+
+  // Report entries from treatmentContent.ts that had no matching Sanity doc.
+  for (const key of specificByKey.keys()) {
+    if (!treatmentByKey.has(key)) {
+      const fallbackId = `treatment-${slugifyKey(key)}`;
+      if (!treatments.find((t) => t._id === fallbackId)) missing.push(key);
+    }
   }
 
   console.log("\n──────────────────────────────────────────");
-  console.log(`✅ Patched: ${patched} treatments`);
+  console.log(`✅ Patched: ${patched} treatments (${specificCount} specific, ${genericCount} generic)`);
   if (missing.length) {
     console.log(`⚠  Treatment doc not found in Sanity (${missing.length}):`);
     missing.forEach((k) => console.log(`     - ${k}`));
   }
 }
+
 
 run().catch((err) => {
   console.error("❌ Migration failed:", err);
