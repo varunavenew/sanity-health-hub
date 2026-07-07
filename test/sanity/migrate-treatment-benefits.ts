@@ -8,10 +8,13 @@
  *   - `benefitsTitle` (internationalizedArrayString)  ← optional heading
  *   - `benefits`      (array of internationalizedArrayString)
  *
- * Source of truth: src/data/treatmentContent.ts (fields `benefits` and
- * `benefitsTitle`). Only patches fields that are currently empty/missing on
- * the Sanity doc, so editor changes are never overwritten. Pass FORCE=1 to
- * overwrite existing values.
+ * Sources (in priority order — first hit wins per treatment key):
+ *   1. src/data/treatmentContent.ts    → `benefits` (string[]), `benefitsTitle`
+ *   2. src/data/gynekologiSubPages.tsx → `heroPoints[].title` (category: gynekologi)
+ *   3. src/data/fertilitetSubPages.tsx → `heroPoints[].title` (category: fertilitet)
+ *
+ * Only patches fields that are currently empty/missing on the Sanity doc, so
+ * editor changes are never overwritten. Pass FORCE=1 to overwrite.
  *
  * Idempotent. Safe to re-run.
  *
@@ -23,7 +26,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { sanityClient } from "./config";
 
-const SOURCE = path.resolve(__dirname, "../../src/data/treatmentContent.ts");
+const TC_SOURCE = path.resolve(__dirname, "../../src/data/treatmentContent.ts");
+const GYN_SOURCE = path.resolve(__dirname, "../../src/data/gynekologiSubPages.tsx");
+const FER_SOURCE = path.resolve(__dirname, "../../src/data/fertilitetSubPages.tsx");
 const FORCE = process.env.FORCE === "1";
 
 function slugifyKey(text: string): string {
@@ -60,6 +65,7 @@ function readBalanced(src: string, start: number, open: string, close: string): 
 
 interface Extracted { key: string; benefitsTitle?: string; benefits?: string[] }
 
+/** Parse treatmentContent.ts — keys look like `"category/sub": { ... }`. */
 function parseTreatmentContent(src: string): Extracted[] {
   const out: Extracted[] = [];
   const entryRe = /"([a-z0-9-]+\/[a-z0-9-]+)":\s*\{/g;
@@ -72,7 +78,6 @@ function parseTreatmentContent(src: string): Extracted[] {
 
     const entry: Extracted = { key };
 
-    // benefitsTitle
     const btRe = /(?:^|[\s,{])benefitsTitle\s*:\s*("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/;
     const bt = btRe.exec(body);
     if (bt) {
@@ -83,7 +88,6 @@ function parseTreatmentContent(src: string): Extracted[] {
       } catch { /* ignore */ }
     }
 
-    // benefits: array of strings
     const bMatch = /(?:^|[\s,{])benefits\s*:\s*\[/.exec(body);
     if (bMatch) {
       const start = bMatch.index + bMatch[0].length;
@@ -104,6 +108,51 @@ function parseTreatmentContent(src: string): Extracted[] {
   return out;
 }
 
+/**
+ * Parse a *SubPages.tsx file. Top-level entries in the exported record look
+ * like `undersokelse: { ... }` or `"assistert-befruktning": { ... }`. From
+ * each entry we extract `heroPoints[].title` — those become the benefit
+ * bullets for treatment key `${category}/${subKey}`.
+ */
+function parseSubPages(src: string, category: string): Extracted[] {
+  const out: Extracted[] = [];
+  const entryRe = /(?:^|\n)  (?:"([a-z0-9-]+)"|([a-zA-Z_][a-zA-Z0-9_-]*)):\s*\{/g;
+  let m: RegExpExecArray | null;
+  while ((m = entryRe.exec(src)) !== null) {
+    const subKey = m[1] ?? m[2];
+    if (!subKey) continue;
+    const bodyStart = m.index + m[0].length;
+    let bodyEnd: number, body: string;
+    try {
+      ({ end: bodyEnd, body } = readBalanced(src, bodyStart, "{", "}"));
+    } catch { continue; }
+    entryRe.lastIndex = bodyEnd + 1;
+
+    const hp = /(?:^|[\s,{])heroPoints\s*:\s*\[/.exec(body);
+    if (!hp) continue;
+    const arrStart = hp.index + hp[0].length;
+    let arrBody: string;
+    try {
+      ({ body: arrBody } = readBalanced(body, arrStart, "[", "]"));
+    } catch { continue; }
+
+    // Pull each `title: "..."` string in order (regex is safe: strings can't
+    // contain unescaped quotes that would confuse this pattern).
+    const titles: string[] = [];
+    const titleRe = /\btitle\s*:\s*("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/g;
+    let tm: RegExpExecArray | null;
+    while ((tm = titleRe.exec(arrBody)) !== null) {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        const v = new Function(`return ${tm[1]}`)() as string;
+        if (typeof v === "string" && v.trim()) titles.push(v.trim());
+      } catch { /* ignore */ }
+    }
+    if (titles.length) out.push({ key: `${category}/${subKey}`, benefits: titles });
+  }
+  return out;
+}
+
 const i18nString = (value: string) =>
   [{ _key: "no", _type: "internationalizedArrayStringValue", value }];
 
@@ -112,10 +161,19 @@ const isEmpty = (v: any) =>
   (Array.isArray(v) && (v.length === 0 || v.every((x: any) => !x?.value && !(Array.isArray(x) && x.some((y: any) => y?.value)))));
 
 async function run() {
-  console.log("📖 Reading treatmentContent.ts …");
-  const src = fs.readFileSync(SOURCE, "utf8");
-  const entries = parseTreatmentContent(src);
-  console.log(`   Parsed ${entries.length} entries with benefits and/or benefitsTitle.`);
+  console.log("📖 Reading source files …");
+  const tcEntries = parseTreatmentContent(fs.readFileSync(TC_SOURCE, "utf8"));
+  const gynEntries = parseSubPages(fs.readFileSync(GYN_SOURCE, "utf8"), "gynekologi");
+  const ferEntries = parseSubPages(fs.readFileSync(FER_SOURCE, "utf8"), "fertilitet");
+  console.log(`   treatmentContent.ts:    ${tcEntries.length} entries with benefits/title`);
+  console.log(`   gynekologiSubPages:     ${gynEntries.length} entries with heroPoints`);
+  console.log(`   fertilitetSubPages:     ${ferEntries.length} entries with heroPoints`);
+
+  // Merge: treatmentContent.ts wins per key. Sub-page files fill the gaps.
+  const merged = new Map<string, Extracted>();
+  for (const e of [...gynEntries, ...ferEntries, ...tcEntries]) merged.set(e.key, e);
+  const entries = [...merged.values()];
+  console.log(`   → ${entries.length} unique treatment keys to migrate.`);
   if (FORCE) console.log("   ⚠ FORCE=1 — existing values WILL be overwritten.");
 
   console.log("\n🏥 Fetching treatment docs …");
@@ -156,8 +214,6 @@ async function run() {
     }
 
     if (e.benefits?.length && (FORCE || isEmpty(doc.benefits))) {
-      // Schema: benefits is an array of `internationalizedArrayString`. Each
-      // item is a wrapper object whose `value` is the i18n entries array.
       patch.benefits = e.benefits.map((text, idx) => ({
         _key: `benefit-${idx}`,
         _type: "internationalizedArrayString",
