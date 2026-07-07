@@ -466,7 +466,7 @@ function specialistRef(slug: string, i: number) {
 // ============================================================
 // BUILD TREATMENT DOCUMENTS (schema-compliant)
 // ============================================================
-function buildTreatmentDocs(): Mutation[] {
+function buildTreatmentDocs(heroImageAssets: Map<string, string> = new Map()): Mutation[] {
   return treatments.map((t) => {
     const parts = t.key.split("/");
     const treatmentSlug = parts[1];
