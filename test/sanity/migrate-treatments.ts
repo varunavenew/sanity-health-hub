@@ -478,7 +478,20 @@ function buildTreatmentDocs(heroImageAssets: Map<string, string> = new Map()): M
 
       // ── General ────────────────────────────────────────────────
       title: i18nStr(t.title),
-      slug: { _type: "slug", current: treatmentSlug },
+      slug: [
+        {
+          _key: randKey(),
+          _type: "internationalizedArraySlugValue",
+          language: "no",
+          value: { _type: "slug", current: treatmentSlug },
+        },
+        {
+          _key: randKey(),
+          _type: "internationalizedArraySlugValue",
+          language: "en",
+          value: { _type: "slug", current: treatmentSlug },
+        },
+      ],
       subtitle: i18nStr(t.subtitle),
       category: { _type: "reference", _ref: categoryRef },
       parentCategoryLabel: i18nStr(t.parentCategory),
