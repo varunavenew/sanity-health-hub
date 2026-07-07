@@ -488,29 +488,8 @@ function buildTreatmentDocs(): Mutation[] {
       geoSummary: i18nText(t.description?.slice(0, 300) || t.subtitle),
     };
 
-    // ── Related specialists → references ───────────────────────
-    if (t.relatedSpecialists && t.relatedSpecialists.length > 0) {
-      doc.relatedSection = {
-        _type: "object",
-        title: i18nStr("Relaterte spesialister"),
-        items: [], // treatment references; leave empty — editors curate
-      };
-      // The schema stores specialists via pageSections, but for backwards
-      // compatibility we also write plain references here in case the app
-      // reads them directly. Convert slugs → refs.
-      doc.relatedSpecialistsRefs = t.relatedSpecialists.map((s, i) => specialistRef(s, i));
-    }
-
-    // ── Sub-menu items ─────────────────────────────────────────
-    if (t.subItems) {
-      doc.subItems = t.subItems.map((item, i) => ({
-        _type: "object",
-        _key: `sub${i}`,
-        label: i18nStr(item.label),
-        anchor: item.anchor || undefined,
-        path: item.path || undefined,
-      }));
-    }
+    // ── pageSections — leave empty; editors compose in Studio ──
+    doc.pageSections = [];
 
     return { createOrReplace: doc };
   });
