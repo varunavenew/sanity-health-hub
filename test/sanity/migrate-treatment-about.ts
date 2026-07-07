@@ -28,7 +28,10 @@ import * as path from "path";
 import { sanityClient } from "./config";
 
 const SOURCE = path.resolve(__dirname, "../../src/data/treatmentContent.ts");
+const GYN_SOURCE = path.resolve(__dirname, "../../src/data/gynekologiSubPages.tsx");
+const FER_SOURCE = path.resolve(__dirname, "../../src/data/fertilitetSubPages.tsx");
 const FORCE = process.env.FORCE === "1";
+
 
 function slugifyKey(text: string): string {
   return text
