@@ -12,6 +12,7 @@ export default {
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'footer', title: 'Footer' },
     { name: 'social', title: 'Sosiale medier' },
+    { name: 'insurance', title: 'Forsikringspartnere' },
     { name: 'notFound', title: '404-side' },
   ],
   fields: [
@@ -183,6 +184,24 @@ export default {
           validation: (Rule: any) => Rule.uri({ allowRelative: false, scheme: ['https'] }),
         },
       ],
+    },
+
+    // ── Insurance Partners (strip shown on treatment pages) ──
+    {
+      name: 'insuranceSectionTitle',
+      title: 'Overskrift',
+      type: 'string',
+      group: 'insurance',
+      description: 'Overskrift ved siden av logolisten',
+      initialValue: 'Vi har avtale med de største forsikringsselskapene i Norge.',
+    },
+    {
+      name: 'insurancePartners',
+      title: 'Forsikringsselskaper',
+      type: 'array',
+      group: 'insurance',
+      description: 'Navn på forsikringsselskaper som vises i strip-en på behandlingssider.',
+      of: [{ type: 'string' }],
     },
 
     // ── 404 Not Found Page ──
