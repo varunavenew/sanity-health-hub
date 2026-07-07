@@ -590,7 +590,11 @@ async function main() {
   console.log(`\n🏥 Migrating ${treatments.length} treatments to Sanity...`);
   console.log(`   Project: ${PROJECT_ID} | Dataset: ${DATASET}\n`);
 
-  const mutations = buildTreatmentDocs();
+  // Pass --skip-images to migrate metadata only (faster re-runs).
+  const skipImages = process.argv.includes("--skip-images");
+  const heroImageAssets = skipImages ? new Map<string, string>() : await uploadHeroImages();
+
+  const mutations = buildTreatmentDocs(heroImageAssets);
 
   console.log(`📝 Submitting ${mutations.length} treatment documents...`);
   await submitMutations(mutations);
