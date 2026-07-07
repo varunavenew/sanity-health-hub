@@ -105,7 +105,7 @@ const PROMISE_CARDS: Array<{ pointer: string; eyebrow: string; title: string; de
     desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
   },
   {
-    pointer: "alt-under-samme-tak.jpg.asset.json",
+    pointer: "endokrinologi.jpg.asset.json",
     eyebrow: "Helhet",
     title: "Alt under samme tak",
     desc: "Trenger du videre utredning, behandling eller oppfølging — vi koordinerer hele forløpet for deg.",
