@@ -678,9 +678,13 @@ async function main() {
 
   // Pass --skip-images to migrate metadata only (faster re-runs).
   const skipImages = process.argv.includes("--skip-images");
-  const heroImageAssets = skipImages ? new Map<string, string>() : await uploadHeroImages();
+  const [heroImageAssets, promiseImageAssets, specialistIdBySlug] = await Promise.all([
+    skipImages ? Promise.resolve(new Map<string, string>()) : uploadHeroImages(),
+    skipImages ? Promise.resolve([] as Array<string | null>) : uploadPromiseImages(),
+    fetchSpecialistIdBySlug(),
+  ]);
 
-  const mutations = buildTreatmentDocs(heroImageAssets);
+  const mutations = buildTreatmentDocs(heroImageAssets, promiseImageAssets, specialistIdBySlug);
 
   console.log(`📝 Submitting ${mutations.length} treatment documents...`);
   await submitMutations(mutations);
