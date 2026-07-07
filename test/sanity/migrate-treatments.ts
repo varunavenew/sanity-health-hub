@@ -352,7 +352,41 @@ const treatments: Array<{
 ];
 
 // ============================================================
-// BUILD TREATMENT DOCUMENTS
+// i18n HELPERS — schema uses sanity-plugin-internationalized-array
+// ============================================================
+type I18nEntry = { _key: string; _type: string; value: string };
+
+function i18nStr(value: string | undefined, langs: string[] = ["no", "en"]): I18nEntry[] {
+  if (!value) return [];
+  return langs.map((lang) => ({
+    _key: lang,
+    _type: "internationalizedArrayStringValue",
+    value,
+  }));
+}
+
+function i18nText(value: string | undefined, langs: string[] = ["no", "en"]): I18nEntry[] {
+  if (!value) return [];
+  return langs.map((lang) => ({
+    _key: lang,
+    _type: "internationalizedArrayTextValue",
+    value,
+  }));
+}
+
+// Convert a specialist slug ("madeleine-engen") to a Sanity reference.
+// Assumes specialist docs are keyed as `specialist-<slug>`. Adjust if your
+// project uses different IDs.
+function specialistRef(slug: string, i: number) {
+  return {
+    _type: "reference",
+    _key: `spec-${i}`,
+    _ref: `specialist-${slug}`,
+  };
+}
+
+// ============================================================
+// BUILD TREATMENT DOCUMENTS (schema-compliant)
 // ============================================================
 function buildTreatmentDocs(): Mutation[] {
   return treatments.map((t) => {
@@ -363,63 +397,116 @@ function buildTreatmentDocs(): Mutation[] {
     const doc: any = {
       _id: `treatment-${slug(t.key)}`,
       _type: "treatment",
-      title: t.title,
+
+      // ── General ────────────────────────────────────────────────
+      title: i18nStr(t.title),
       slug: { _type: "slug", current: treatmentSlug },
-      subtitle: t.subtitle,
+      subtitle: i18nStr(t.subtitle),
       category: { _type: "reference", _ref: categoryRef },
-      parentCategoryLabel: t.parentCategory,
-      description: t.description,
-      benefitsTitle: t.benefitsTitle || "Hvorfor velge oss",
-      benefits: t.benefits || [],
-    };
+      parentCategoryLabel: i18nStr(t.parentCategory),
+      description: i18nText(t.description),
 
-    if (t.sections) {
-      doc.sections = t.sections.map((s, i) => ({
+      // ── Hero (required by schema) ─────────────────────────────
+      // heroImage is required in the schema but we cannot fabricate one here.
+      // Studio will show a validation warning until an editor uploads a hero image.
+      heroTitle: i18nStr(t.title),
+      heroDescription: i18nText(t.subtitle || t.description?.split("\n")[0] || ""),
+      eyebrow: i18nStr(t.parentCategory),
+      homeBreadcrumbLabel: i18nStr("Hjem"),
+      primaryCtaLabel: i18nStr("Bestill time"),
+      callCtaLabel: i18nStr("Ring oss"),
+      seePricesLabel: i18nStr("Se priser"),
+      seePricesHref: "/priser",
+
+      // ── Symptoms / reasons (required, min 1) ──────────────────
+      // Map legacy `sections` → `reasons`. If no sections, seed one from description.
+      reasonsTitle: i18nStr("Om " + t.title.toLowerCase()),
+      reasons: (t.sections && t.sections.length > 0
+        ? t.sections.map((s, i) => ({
+            _type: "object",
+            _key: `reason${i}`,
+            n: i18nStr(String(i + 1).padStart(2, "0")),
+            title: i18nStr(s.heading),
+            desc: i18nText(s.content),
+          }))
+        : [
+            {
+              _type: "object",
+              _key: "reason0",
+              n: i18nStr("01"),
+              title: i18nStr(t.title),
+              desc: i18nText(t.description),
+            },
+          ]),
+
+      // ── Flow (from legacy `process`) ──────────────────────────
+      flowTitle: i18nStr("Slik foregår det"),
+      flow: (t.process || []).map((p, i) => ({
         _type: "object",
-        _key: `sec${i}`,
-        id: s.id || `section-${i}`,
-        heading: s.heading,
-        content: s.content,
-      }));
-    }
+        _key: `flow${i}`,
+        n: i18nStr(String(i + 1).padStart(2, "0")),
+        title: i18nStr(p.title),
+        desc: i18nText(p.description),
+      })),
 
-    if (t.process) {
-      doc.process = t.process.map((p, i) => ({
-        _type: "object",
-        _key: `step${i}`,
-        title: p.title,
-        description: p.description,
-      }));
-    }
+      // ── Promises (required, min 1) — seed from legacy `benefits` ──
+      promises: (t.benefits && t.benefits.length > 0
+        ? t.benefits.slice(0, 3).map((b, i) => ({
+            _type: "object",
+            _key: `promise${i}`,
+            eyebrow: i18nStr(t.benefitsTitle || "Hvorfor velge oss"),
+            title: i18nStr(b),
+            desc: i18nText(""),
+          }))
+        : [
+            {
+              _type: "object",
+              _key: "promise0",
+              eyebrow: i18nStr("Hvorfor velge oss"),
+              title: i18nStr("Erfarne spesialister"),
+              desc: i18nText("Vårt team har lang erfaring innen " + t.parentCategory.toLowerCase() + "."),
+            },
+          ]),
 
-    if (t.faqs) {
-      doc.faqs = t.faqs.map((f, i) => ({
+      // ── FAQs ─────────────────────────────────────────────────
+      faqs: (t.faqs || []).map((f, i) => ({
         _type: "object",
         _key: `faq${i}`,
-        question: f.question,
-        answer: f.answer,
-      }));
-    }
+        question: i18nStr(f.question),
+        answer: i18nText(f.answer),
+      })),
 
-    if (t.relatedSpecialists) {
-      doc.relatedSpecialists = t.relatedSpecialists;
-    }
+      // ── SEO (required NO+EN) ─────────────────────────────────
+      seo: {
+        _type: "seo",
+        metaTitle: i18nStr(`${t.title} | CMedical`),
+        metaDescription: i18nText(t.description?.slice(0, 155) || t.subtitle),
+        noIndex: false,
+      },
 
-    if (t.linkedServices) {
-      doc.linkedServices = t.linkedServices.map((ls, i) => ({
+      // ── GEO summary (required) ───────────────────────────────
+      geoSummary: i18nText(t.description?.slice(0, 300) || t.subtitle),
+    };
+
+    // ── Related specialists → references ───────────────────────
+    if (t.relatedSpecialists && t.relatedSpecialists.length > 0) {
+      doc.relatedSection = {
         _type: "object",
-        _key: `ls${i}`,
-        label: ls.label,
-        description: ls.description,
-        path: ls.path,
-      }));
+        title: i18nStr("Relaterte spesialister"),
+        items: [], // treatment references; leave empty — editors curate
+      };
+      // The schema stores specialists via pageSections, but for backwards
+      // compatibility we also write plain references here in case the app
+      // reads them directly. Convert slugs → refs.
+      doc.relatedSpecialistsRefs = t.relatedSpecialists.map((s, i) => specialistRef(s, i));
     }
 
+    // ── Sub-menu items ─────────────────────────────────────────
     if (t.subItems) {
       doc.subItems = t.subItems.map((item, i) => ({
         _type: "object",
         _key: `sub${i}`,
-        label: item.label,
+        label: i18nStr(item.label),
         anchor: item.anchor || undefined,
         path: item.path || undefined,
       }));
@@ -428,6 +515,7 @@ function buildTreatmentDocs(): Mutation[] {
     return { createOrReplace: doc };
   });
 }
+
 
 // ============================================================
 // MAIN
