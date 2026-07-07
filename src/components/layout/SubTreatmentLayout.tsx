@@ -861,6 +861,10 @@ export const SubTreatmentLayout = ({
         </section>
       ) : null}
 
+      <PageSectionsRenderer
+        sections={pageSections?.filter((s) => s._type !== "pageSectionBookingCta")}
+      />
+
       <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
 
       <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
@@ -890,21 +894,23 @@ export const SubTreatmentLayout = ({
         </div>
       </section>
 
-      <PageSectionsRenderer
-        sections={pageSections}
-        beforeBookingCta={
-          c.related.length > 0 && !c.relatedAsIntro ? (
-            <RelatedServicesCarousel
-              title={c.relatedTitle || ""}
-              items={c.related}
-              seeAll={c.relatedSeeAll ?? null}
-              beforeBooking
-              scrollLeftLabel={c.scrollLeftLabel}
-              scrollRightLabel={c.scrollRightLabel}
-            />
-          ) : null
-        }
-      />
+      {c.related.length > 0 && !c.relatedAsIntro ? (
+        <RelatedServicesCarousel
+          title={c.relatedTitle || ""}
+          items={c.related}
+          seeAll={c.relatedSeeAll ?? null}
+          scrollLeftLabel={c.scrollLeftLabel}
+          scrollRightLabel={c.scrollRightLabel}
+        />
+      ) : null}
+
+      {(() => {
+        const bookingCtaSections = pageSections?.filter((s) => s._type === "pageSectionBookingCta");
+        return bookingCtaSections && bookingCtaSections.length > 0 ? (
+          <PageSectionsRenderer sections={bookingCtaSections} />
+        ) : null;
+      })()}
+
     </PageLayout>
   );
 };
