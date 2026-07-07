@@ -44,6 +44,25 @@ function imageBasenameForKey(key: string): string {
   return sub ? `${prefix}-${sub}` : `${prefix}-hero`;
 }
 
+async function uploadPointer(pointerPath: string, label: string): Promise<string | null> {
+  try {
+    const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
+    const url = pointer.url?.startsWith("http") ? pointer.url : `${ASSET_HOST}${pointer.url}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`download ${res.status}`);
+    const buf = Buffer.from(await res.arrayBuffer());
+    const asset = await sanityClient.assets.upload("image", buf, {
+      filename: pointer.original_filename || path.basename(pointerPath).replace(/\.asset\.json$/, ""),
+      contentType: pointer.content_type || "image/jpeg",
+    });
+    console.log(`   ✓ ${label} → ${asset._id}`);
+    return asset._id;
+  } catch (e: any) {
+    console.warn(`   ✗ ${label}: ${e.message}`);
+    return null;
+  }
+}
+
 async function uploadHeroImages(): Promise<Map<string, string>> {
   const map = new Map<string, string>();
   if (!fs.existsSync(SERVICES_DIR)) {
@@ -51,7 +70,7 @@ async function uploadHeroImages(): Promise<Map<string, string>> {
     return map;
   }
   console.log(`\n🖼️  Uploading hero images from src/assets/services/ ...`);
-  let ok = 0, missing = 0, failed = 0;
+  let ok = 0, missing = 0;
   for (const t of treatments) {
     const base = imageBasenameForKey(t.key);
     const pointerPath = path.join(SERVICES_DIR, `${base}.jpg.asset.json`);
@@ -60,25 +79,66 @@ async function uploadHeroImages(): Promise<Map<string, string>> {
       console.log(`   – no image for ${t.key} (looked for ${base}.jpg)`);
       continue;
     }
-    try {
-      const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
-      const url = pointer.url?.startsWith("http") ? pointer.url : `${ASSET_HOST}${pointer.url}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`download ${res.status}`);
-      const buf = Buffer.from(await res.arrayBuffer());
-      const asset = await sanityClient.assets.upload("image", buf, {
-        filename: pointer.original_filename || `${base}.jpg`,
-        contentType: pointer.content_type || "image/jpeg",
-      });
-      map.set(t.key, asset._id);
-      ok++;
-      console.log(`   ✓ ${t.key} → ${asset._id}`);
-    } catch (e: any) {
-      failed++;
-      console.warn(`   ✗ ${t.key}: ${e.message}`);
-    }
+    const id = await uploadPointer(pointerPath, t.key);
+    if (id) { map.set(t.key, id); ok++; }
   }
-  console.log(`   Summary: ${ok} uploaded, ${missing} missing, ${failed} failed.\n`);
+  console.log(`   Summary: ${ok} uploaded, ${missing} missing.\n`);
+  return map;
+}
+
+// ============================================================
+// PROMISE IMAGES (3 canonical cards shown on every treatment page)
+// Source folder: src/assets/promises/
+// ============================================================
+const PROMISES_DIR = path.resolve(__dirname, "../../src/assets/promises");
+const PROMISE_CARDS: Array<{ pointer: string; eyebrow: string; title: string; desc: string }> = [
+  {
+    pointer: "familie-komfort.webp.asset.json",
+    eyebrow: "Trygghet",
+    title: "Du bestemmer hva du er komfortabel med",
+    desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
+  },
+  {
+    pointer: "spesialister-med-dybde.jpg.asset.json",
+    eyebrow: "Kompetanse",
+    title: "Spesialister med dybde",
+    desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
+  },
+  {
+    pointer: "alt-under-samme-tak.jpg.asset.json",
+    eyebrow: "Helhet",
+    title: "Alt under samme tak",
+    desc: "Trenger du videre utredning, behandling eller oppfølging — vi koordinerer hele forløpet for deg.",
+  },
+];
+
+async function uploadPromiseImages(): Promise<Array<string | null>> {
+  console.log(`\n🖼️  Uploading promise card images from src/assets/promises/ ...`);
+  const ids: Array<string | null> = [];
+  for (const card of PROMISE_CARDS) {
+    const p = path.join(PROMISES_DIR, card.pointer);
+    ids.push(fs.existsSync(p) ? await uploadPointer(p, card.title) : null);
+  }
+  return ids;
+}
+
+// ============================================================
+// SPECIALIST slug → _id map (for relatedSpecialists references)
+// ============================================================
+async function fetchSpecialistIdBySlug(): Promise<Map<string, string>> {
+  console.log(`\n👥 Fetching specialist docs from Sanity ...`);
+  const rows = await sanityClient.fetch<Array<{ _id: string; slug?: any }>>(
+    `*[_type == "specialist" && !(_id in path("drafts.**"))]{
+      _id,
+      "slug": coalesce(slug[language == "no"][0].value.current, slug.current, slug)
+    }`
+  );
+  const map = new Map<string, string>();
+  for (const r of rows) {
+    const s = typeof r.slug === "string" ? r.slug : r.slug?.current;
+    if (s) map.set(s, r._id);
+  }
+  console.log(`   Loaded ${map.size} specialist references.`);
   return map;
 }
 
