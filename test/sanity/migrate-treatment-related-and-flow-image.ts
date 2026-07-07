@@ -123,24 +123,38 @@ async function run() {
   console.log(`   Parsed ${entries.length} entries.`);
 
   console.log("\n🏥 Fetching treatment slug → _id …");
-  const treatments: Array<{ _id: string; slug?: string; categorySlug?: string; flowImage?: any }> =
+  const treatments: Array<{ _id: string; slug?: string; categorySlug?: string; flowImage?: any; relatedSection?: any }> =
     await sanityClient.fetch(
       `*[_type == "treatment" && !(_id in path("drafts.**"))]{
          _id,
          flowImage,
+         relatedSection,
          "slug": coalesce(slug[language == "no"][0].value.current, slug.current),
          "categorySlug": coalesce(category->slug[language == "no"][0].value.current, category->slug.current)
        }`
     );
   const treatmentIdByKey = new Map<string, string>();
   const flowImageByKey = new Map<string, any>();
+  const relatedSectionByKey = new Map<string, any>();
+  const siblingsByCategory = new Map<string, Array<{ key: string; id: string }>>();
   for (const t of treatments) {
     if (t.categorySlug && t.slug) {
-      treatmentIdByKey.set(`${t.categorySlug}/${t.slug}`, t._id);
-      flowImageByKey.set(`${t.categorySlug}/${t.slug}`, t.flowImage);
+      const key = `${t.categorySlug}/${t.slug}`;
+      treatmentIdByKey.set(key, t._id);
+      flowImageByKey.set(key, t.flowImage);
+      relatedSectionByKey.set(key, t.relatedSection);
+      if (!siblingsByCategory.has(t.categorySlug)) siblingsByCategory.set(t.categorySlug, []);
+      siblingsByCategory.get(t.categorySlug)!.push({ key, id: t._id });
     }
   }
   console.log(`   Loaded ${treatmentIdByKey.size} treatments.`);
+
+  // Ensure every treatment (even those absent from treatmentContent.ts) gets a
+  // generic fallback relatedSection built from its category siblings.
+  const entryKeys = new Set(entries.map((e) => e.key));
+  for (const key of treatmentIdByKey.keys()) {
+    if (!entryKeys.has(key)) entries.push({ key });
+  }
 
   // ── Upload shared flow image once ───────────────────────────
   console.log(`\n🖼  Uploading shared flow image (${FLOW_IMAGE_FILENAME}) …`);
@@ -180,27 +194,40 @@ async function run() {
       patch.flowImageAlt = i18nNoEn(FLOW_IMAGE_ALT_NO, FLOW_IMAGE_ALT_EN);
     }
 
-    // relatedSection — from linkedServices, resolved to references
-    if (e.linkedServices?.length) {
-      const [categorySlug] = e.key.split("/");
-      const items = e.linkedServices
-        .map((ls, idx) => {
-          // Path shape: /behandlinger/<cat>/<sub> or /<cat>/<sub>
-          const m = ls.path.match(/\/([^/?#]+)\/([^/?#]+)\/?$/);
-          if (!m) return null;
-          const key = `${m[1]}/${m[2]}`;
-          let id = treatmentIdByKey.get(key);
-          if (!id) {
-            const fallback = `treatment-${slugifyKey(key)}`;
-            if (treatments.find((t) => t._id === fallback)) id = fallback;
-          }
-          if (!id) {
-            unresolvedLinks.push({ treatment: e.key, path: ls.path });
-            return null;
-          }
-          return { _type: "reference" as const, _ref: id, _key: `rel-${idx}-${id.slice(-6)}` };
-        })
-        .filter((x): x is { _type: "reference"; _ref: string; _key: string } => !!x);
+    // relatedSection — only patch when the doc has none yet.
+    const [categorySlug] = e.key.split("/");
+    const hasExisting = !!relatedSectionByKey.get(e.key);
+    if (!hasExisting) {
+      let items: Array<{ _type: "reference"; _ref: string; _key: string }> = [];
+
+      if (e.linkedServices?.length) {
+        // Specific: resolve linkedServices paths to references.
+        items = e.linkedServices
+          .map((ls, idx) => {
+            const m = ls.path.match(/\/([^/?#]+)\/([^/?#]+)\/?$/);
+            if (!m) return null;
+            const key = `${m[1]}/${m[2]}`;
+            let id = treatmentIdByKey.get(key);
+            if (!id) {
+              const fallback = `treatment-${slugifyKey(key)}`;
+              if (treatments.find((t) => t._id === fallback)) id = fallback;
+            }
+            if (!id) {
+              unresolvedLinks.push({ treatment: e.key, path: ls.path });
+              return null;
+            }
+            return { _type: "reference" as const, _ref: id, _key: `rel-${idx}-${id.slice(-6)}` };
+          })
+          .filter((x): x is { _type: "reference"; _ref: string; _key: string } => !!x);
+      } else {
+        // Generic fallback: sibling treatments in the same category (excl. self), max 8.
+        const siblings = (siblingsByCategory.get(categorySlug) ?? []).filter((s) => s.key !== e.key);
+        items = siblings.slice(0, 8).map((s, idx) => ({
+          _type: "reference" as const,
+          _ref: s.id,
+          _key: `rel-${idx}-${s.id.slice(-6)}`,
+        }));
+      }
 
       if (items.length) {
         const catLabel = CATEGORY_LABEL_NO[categorySlug] ?? categorySlug;
