@@ -526,7 +526,11 @@ function specialistRef(slug: string, i: number) {
 // ============================================================
 // BUILD TREATMENT DOCUMENTS (schema-compliant)
 // ============================================================
-function buildTreatmentDocs(heroImageAssets: Map<string, string> = new Map()): Mutation[] {
+function buildTreatmentDocs(
+  heroImageAssets: Map<string, string> = new Map(),
+  promiseImageAssets: Array<string | null> = [],
+  specialistIdBySlug: Map<string, string> = new Map()
+): Mutation[] {
   return treatments.map((t) => {
     const parts = t.key.split("/");
     const treatmentSlug = parts[1];
