@@ -186,6 +186,24 @@ export default {
       ],
     },
 
+    // ── Insurance Partners (strip shown on treatment pages) ──
+    {
+      name: 'insuranceSectionTitle',
+      title: 'Overskrift',
+      type: 'string',
+      group: 'insurance',
+      description: 'Overskrift ved siden av logolisten',
+      initialValue: 'Vi har avtale med de største forsikringsselskapene i Norge.',
+    },
+    {
+      name: 'insurancePartners',
+      title: 'Forsikringsselskaper',
+      type: 'array',
+      group: 'insurance',
+      description: 'Navn på forsikringsselskaper som vises i strip-en på behandlingssider.',
+      of: [{ type: 'string' }],
+    },
+
     // ── 404 Not Found Page ──
     {
       name: 'notFoundTitle',
