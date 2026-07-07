@@ -613,24 +613,33 @@ function buildTreatmentDocs(
         desc: i18nText(p.description),
       })),
 
-      // ── Promises (required, min 1) — seed from legacy `benefits` ──
-      promises: (t.benefits && t.benefits.length > 0
-        ? t.benefits.slice(0, 3).map((b, i) => ({
-            _type: "object",
-            _key: `promise${i}`,
-            eyebrow: i18nStr(t.benefitsTitle || "Hvorfor velge oss"),
-            title: i18nStr(b),
-            desc: i18nText(""),
-          }))
-        : [
-            {
-              _type: "object",
-              _key: "promise0",
-              eyebrow: i18nStr("Hvorfor velge oss"),
-              title: i18nStr("Erfarne spesialister"),
-              desc: i18nText("Vårt team har lang erfaring innen " + t.parentCategory.toLowerCase() + "."),
-            },
-          ]),
+      // ── Promises (3 canonical cards with images) ─────────────
+      // Same 3 cards on every treatment page, matching the current
+      // frontend defaults. Editors can override per-treatment in Studio.
+      promises: PROMISE_CARDS.map((card, i) => ({
+        _type: "object",
+        _key: `promise${i}`,
+        eyebrow: i18nStr(card.eyebrow),
+        title: i18nStr(card.title),
+        desc: i18nText(card.desc),
+        ...(promiseImageAssets[i]
+          ? {
+              image: {
+                _type: "image",
+                asset: { _type: "reference", _ref: promiseImageAssets[i]! },
+              },
+            }
+          : {}),
+      })),
+
+      // ── Related specialists (real references, matched by slug) ──
+      relatedSpecialists: (t.relatedSpecialists || [])
+        .map((s, i) => {
+          const id = specialistIdBySlug.get(s);
+          if (!id) return null;
+          return { _type: "reference", _key: `spec${i}`, _ref: id };
+        })
+        .filter(Boolean),
 
       // ── FAQs ─────────────────────────────────────────────────
       faqs: (t.faqs || []).map((f, i) => ({
