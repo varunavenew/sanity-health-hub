@@ -156,17 +156,8 @@ async function run() {
     }
 
     if (e.benefits?.length && (FORCE || isEmpty(doc.benefits))) {
-      patch.benefits = e.benefits.map((text, idx) => ({
-        _key: `benefit-${idx}`,
-        _type: "internationalizedArrayString",
-        ...Object.fromEntries(Object.entries({})), // no-op keeps shape clear
-      })).map((wrapper, idx) => ({
-        _key: `benefit-${idx}`,
-        ...i18nString(e.benefits![idx])[0],
-        // Sanity expects each array item to be an internationalizedArrayString
-        // (which itself is an array of value objects). Build that shape:
-      })) as any;
-      // Rebuild properly: each item is an internationalizedArrayString value.
+      // Schema: benefits is an array of `internationalizedArrayString`. Each
+      // item is a wrapper object whose `value` is the i18n entries array.
       patch.benefits = e.benefits.map((text, idx) => ({
         _key: `benefit-${idx}`,
         _type: "internationalizedArrayString",
