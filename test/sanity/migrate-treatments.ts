@@ -9,11 +9,79 @@
  *   cd test && SANITY_TOKEN=<token> npx tsx sanity/migrate-treatments.ts
  */
 
-import { API_URL, SANITY_TOKEN as TOKEN, API_VERSION, PROJECT_ID, DATASET } from "./config";
+import * as fs from "fs";
+import * as path from "path";
+import { API_URL, SANITY_TOKEN as TOKEN, API_VERSION, PROJECT_ID, DATASET, sanityClient } from "./config";
 
 interface Mutation {
   createOrReplace: Record<string, any>;
 }
+
+// ============================================================
+// HERO IMAGE UPLOAD
+// ------------------------------------------------------------
+// Source folder: src/assets/services/  (CDN .asset.json pointers)
+// Filename shape: "{catPrefix}-{subId}.jpg.asset.json"
+//   catPrefix: category id, except "flere-fagomrader" → "flere"
+// Cross-category aliases (image lives under a different category prefix
+// than the treatment's own category) are listed in IMAGE_ALIAS below.
+// ============================================================
+const SERVICES_DIR = path.resolve(__dirname, "../../src/assets/services");
+const ASSET_HOST =
+  process.env.LOVABLE_ASSET_HOST ||
+  "https://id-preview--3dcc4aff-3deb-44f0-b035-de0201b2a94e.lovable.app";
+
+// treatment.key ("category/sub") → image basename (without .jpg.asset.json)
+// Only add entries when the derived default doesn't match a real file.
+const IMAGE_ALIAS: Record<string, string> = {
+  "gynekologi/tverrfaglig": "gynekologi-tverrfaglig-team",
+};
+
+function imageBasenameForKey(key: string): string {
+  if (IMAGE_ALIAS[key]) return IMAGE_ALIAS[key];
+  const [cat, sub] = key.split("/");
+  const prefix = cat === "flere-fagomrader" ? "flere" : cat;
+  return sub ? `${prefix}-${sub}` : `${prefix}-hero`;
+}
+
+async function uploadHeroImages(): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  if (!fs.existsSync(SERVICES_DIR)) {
+    console.warn(`⚠️  ${SERVICES_DIR} not found — skipping hero images.`);
+    return map;
+  }
+  console.log(`\n🖼️  Uploading hero images from src/assets/services/ ...`);
+  let ok = 0, missing = 0, failed = 0;
+  for (const t of treatments) {
+    const base = imageBasenameForKey(t.key);
+    const pointerPath = path.join(SERVICES_DIR, `${base}.jpg.asset.json`);
+    if (!fs.existsSync(pointerPath)) {
+      missing++;
+      console.log(`   – no image for ${t.key} (looked for ${base}.jpg)`);
+      continue;
+    }
+    try {
+      const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
+      const url = pointer.url?.startsWith("http") ? pointer.url : `${ASSET_HOST}${pointer.url}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`download ${res.status}`);
+      const buf = Buffer.from(await res.arrayBuffer());
+      const asset = await sanityClient.assets.upload("image", buf, {
+        filename: pointer.original_filename || `${base}.jpg`,
+        contentType: pointer.content_type || "image/jpeg",
+      });
+      map.set(t.key, asset._id);
+      ok++;
+      console.log(`   ✓ ${t.key} → ${asset._id}`);
+    } catch (e: any) {
+      failed++;
+      console.warn(`   ✗ ${t.key}: ${e.message}`);
+    }
+  }
+  console.log(`   Summary: ${ok} uploaded, ${missing} missing, ${failed} failed.\n`);
+  return map;
+}
+
 
 function slug(text: string): string {
   return text
