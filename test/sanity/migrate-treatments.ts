@@ -484,9 +484,18 @@ function buildTreatmentDocs(heroImageAssets: Map<string, string> = new Map()): M
       parentCategoryLabel: i18nStr(t.parentCategory),
       description: i18nText(t.description),
 
-      // ── Hero (required by schema) ─────────────────────────────
-      // heroImage is required in the schema but we cannot fabricate one here.
-      // Studio will show a validation warning until an editor uploads a hero image.
+      // ── Hero ─────────────────────────────────────────────────
+      // heroImage is uploaded upfront (see uploadHeroImages) and attached
+      // by asset id. If no matching file was found, the field is omitted
+      // and Studio will show a validation warning until an editor uploads one.
+      ...(heroImageAssets.get(t.key)
+        ? {
+            heroImage: {
+              _type: "image",
+              asset: { _type: "reference", _ref: heroImageAssets.get(t.key)! },
+            },
+          }
+        : {}),
       heroTitle: i18nStr(t.title),
       heroDescription: i18nText(t.subtitle || t.description?.split("\n")[0] || ""),
       eyebrow: i18nStr(t.parentCategory),
