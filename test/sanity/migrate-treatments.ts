@@ -354,13 +354,22 @@ const treatments: Array<{
 // ============================================================
 // i18n HELPERS — schema uses sanity-plugin-internationalized-array
 // ============================================================
-type I18nEntry = { _key: string; _type: string; value: string };
+// v5 format of sanity-plugin-internationalized-array:
+// language is stored in a `language` FIELD (not in `_key`), and `_key` is a
+// random unique string. Writing v4 format ("_key: 'no'") triggers the
+// "Data migration required" + "Invalid property value" warnings in Studio.
+type I18nEntry = { _key: string; _type: string; language: string; value: string };
+
+let __i18nKeyCounter = 0;
+const randKey = () =>
+  `k${Date.now().toString(36)}${(__i18nKeyCounter++).toString(36)}${Math.random().toString(36).slice(2, 8)}`;
 
 function i18nStr(value: string | undefined, langs: string[] = ["no", "en"]): I18nEntry[] {
   if (!value) return [];
   return langs.map((lang) => ({
-    _key: lang,
+    _key: randKey(),
     _type: "internationalizedArrayStringValue",
+    language: lang,
     value,
   }));
 }
@@ -368,8 +377,9 @@ function i18nStr(value: string | undefined, langs: string[] = ["no", "en"]): I18
 function i18nText(value: string | undefined, langs: string[] = ["no", "en"]): I18nEntry[] {
   if (!value) return [];
   return langs.map((lang) => ({
-    _key: lang,
+    _key: randKey(),
     _type: "internationalizedArrayTextValue",
+    language: lang,
     value,
   }));
 }
