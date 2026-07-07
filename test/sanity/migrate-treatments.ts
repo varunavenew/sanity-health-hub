@@ -44,6 +44,25 @@ function imageBasenameForKey(key: string): string {
   return sub ? `${prefix}-${sub}` : `${prefix}-hero`;
 }
 
+async function uploadPointer(pointerPath: string, label: string): Promise<string | null> {
+  try {
+    const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
+    const url = pointer.url?.startsWith("http") ? pointer.url : `${ASSET_HOST}${pointer.url}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`download ${res.status}`);
+    const buf = Buffer.from(await res.arrayBuffer());
+    const asset = await sanityClient.assets.upload("image", buf, {
+      filename: pointer.original_filename || path.basename(pointerPath).replace(/\.asset\.json$/, ""),
+      contentType: pointer.content_type || "image/jpeg",
+    });
+    console.log(`   ✓ ${label} → ${asset._id}`);
+    return asset._id;
+  } catch (e: any) {
+    console.warn(`   ✗ ${label}: ${e.message}`);
+    return null;
+  }
+}
+
 async function uploadHeroImages(): Promise<Map<string, string>> {
   const map = new Map<string, string>();
   if (!fs.existsSync(SERVICES_DIR)) {
@@ -51,7 +70,7 @@ async function uploadHeroImages(): Promise<Map<string, string>> {
     return map;
   }
   console.log(`\n🖼️  Uploading hero images from src/assets/services/ ...`);
-  let ok = 0, missing = 0, failed = 0;
+  let ok = 0, missing = 0;
   for (const t of treatments) {
     const base = imageBasenameForKey(t.key);
     const pointerPath = path.join(SERVICES_DIR, `${base}.jpg.asset.json`);
@@ -60,25 +79,66 @@ async function uploadHeroImages(): Promise<Map<string, string>> {
       console.log(`   – no image for ${t.key} (looked for ${base}.jpg)`);
       continue;
     }
-    try {
-      const pointer = JSON.parse(fs.readFileSync(pointerPath, "utf-8"));
-      const url = pointer.url?.startsWith("http") ? pointer.url : `${ASSET_HOST}${pointer.url}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`download ${res.status}`);
-      const buf = Buffer.from(await res.arrayBuffer());
-      const asset = await sanityClient.assets.upload("image", buf, {
-        filename: pointer.original_filename || `${base}.jpg`,
-        contentType: pointer.content_type || "image/jpeg",
-      });
-      map.set(t.key, asset._id);
-      ok++;
-      console.log(`   ✓ ${t.key} → ${asset._id}`);
-    } catch (e: any) {
-      failed++;
-      console.warn(`   ✗ ${t.key}: ${e.message}`);
-    }
+    const id = await uploadPointer(pointerPath, t.key);
+    if (id) { map.set(t.key, id); ok++; }
   }
-  console.log(`   Summary: ${ok} uploaded, ${missing} missing, ${failed} failed.\n`);
+  console.log(`   Summary: ${ok} uploaded, ${missing} missing.\n`);
+  return map;
+}
+
+// ============================================================
+// PROMISE IMAGES (3 canonical cards shown on every treatment page)
+// Source folder: src/assets/promises/
+// ============================================================
+const PROMISES_DIR = path.resolve(__dirname, "../../src/assets/promises");
+const PROMISE_CARDS: Array<{ pointer: string; eyebrow: string; title: string; desc: string }> = [
+  {
+    pointer: "familie-komfort.webp.asset.json",
+    eyebrow: "Trygghet",
+    title: "Du bestemmer hva du er komfortabel med",
+    desc: "Alle undersøkelser og inngrep gjøres i ditt tempo. Du kan stoppe når som helst, stille spørsmål underveis, og ta med noen om du ønsker det.",
+  },
+  {
+    pointer: "spesialister-med-dybde.jpg.asset.json",
+    eyebrow: "Kompetanse",
+    title: "Spesialister med dybde",
+    desc: "Hos oss møter du leger som har spesialisert seg innenfor sitt fagfelt — ikke en generalist på utplassering. Du får riktig kompetanse fra første konsultasjon.",
+  },
+  {
+    pointer: "alt-under-samme-tak.jpg.asset.json",
+    eyebrow: "Helhet",
+    title: "Alt under samme tak",
+    desc: "Trenger du videre utredning, behandling eller oppfølging — vi koordinerer hele forløpet for deg.",
+  },
+];
+
+async function uploadPromiseImages(): Promise<Array<string | null>> {
+  console.log(`\n🖼️  Uploading promise card images from src/assets/promises/ ...`);
+  const ids: Array<string | null> = [];
+  for (const card of PROMISE_CARDS) {
+    const p = path.join(PROMISES_DIR, card.pointer);
+    ids.push(fs.existsSync(p) ? await uploadPointer(p, card.title) : null);
+  }
+  return ids;
+}
+
+// ============================================================
+// SPECIALIST slug → _id map (for relatedSpecialists references)
+// ============================================================
+async function fetchSpecialistIdBySlug(): Promise<Map<string, string>> {
+  console.log(`\n👥 Fetching specialist docs from Sanity ...`);
+  const rows = await sanityClient.fetch<Array<{ _id: string; slug?: any }>>(
+    `*[_type == "specialist" && !(_id in path("drafts.**"))]{
+      _id,
+      "slug": coalesce(slug[language == "no"][0].value.current, slug.current, slug)
+    }`
+  );
+  const map = new Map<string, string>();
+  for (const r of rows) {
+    const s = typeof r.slug === "string" ? r.slug : r.slug?.current;
+    if (s) map.set(s, r._id);
+  }
+  console.log(`   Loaded ${map.size} specialist references.`);
   return map;
 }
 
@@ -466,7 +526,11 @@ function specialistRef(slug: string, i: number) {
 // ============================================================
 // BUILD TREATMENT DOCUMENTS (schema-compliant)
 // ============================================================
-function buildTreatmentDocs(heroImageAssets: Map<string, string> = new Map()): Mutation[] {
+function buildTreatmentDocs(
+  heroImageAssets: Map<string, string> = new Map(),
+  promiseImageAssets: Array<string | null> = [],
+  specialistIdBySlug: Map<string, string> = new Map()
+): Mutation[] {
   return treatments.map((t) => {
     const parts = t.key.split("/");
     const treatmentSlug = parts[1];
@@ -549,24 +613,33 @@ function buildTreatmentDocs(heroImageAssets: Map<string, string> = new Map()): M
         desc: i18nText(p.description),
       })),
 
-      // ── Promises (required, min 1) — seed from legacy `benefits` ──
-      promises: (t.benefits && t.benefits.length > 0
-        ? t.benefits.slice(0, 3).map((b, i) => ({
-            _type: "object",
-            _key: `promise${i}`,
-            eyebrow: i18nStr(t.benefitsTitle || "Hvorfor velge oss"),
-            title: i18nStr(b),
-            desc: i18nText(""),
-          }))
-        : [
-            {
-              _type: "object",
-              _key: "promise0",
-              eyebrow: i18nStr("Hvorfor velge oss"),
-              title: i18nStr("Erfarne spesialister"),
-              desc: i18nText("Vårt team har lang erfaring innen " + t.parentCategory.toLowerCase() + "."),
-            },
-          ]),
+      // ── Promises (3 canonical cards with images) ─────────────
+      // Same 3 cards on every treatment page, matching the current
+      // frontend defaults. Editors can override per-treatment in Studio.
+      promises: PROMISE_CARDS.map((card, i) => ({
+        _type: "object",
+        _key: `promise${i}`,
+        eyebrow: i18nStr(card.eyebrow),
+        title: i18nStr(card.title),
+        desc: i18nText(card.desc),
+        ...(promiseImageAssets[i]
+          ? {
+              image: {
+                _type: "image",
+                asset: { _type: "reference", _ref: promiseImageAssets[i]! },
+              },
+            }
+          : {}),
+      })),
+
+      // ── Related specialists (real references, matched by slug) ──
+      relatedSpecialists: (t.relatedSpecialists || [])
+        .map((s, i) => {
+          const id = specialistIdBySlug.get(s);
+          if (!id) return null;
+          return { _type: "reference", _key: `spec${i}`, _ref: id };
+        })
+        .filter(Boolean),
 
       // ── FAQs ─────────────────────────────────────────────────
       faqs: (t.faqs || []).map((f, i) => ({
@@ -605,9 +678,13 @@ async function main() {
 
   // Pass --skip-images to migrate metadata only (faster re-runs).
   const skipImages = process.argv.includes("--skip-images");
-  const heroImageAssets = skipImages ? new Map<string, string>() : await uploadHeroImages();
+  const [heroImageAssets, promiseImageAssets, specialistIdBySlug] = await Promise.all([
+    skipImages ? Promise.resolve(new Map<string, string>()) : uploadHeroImages(),
+    skipImages ? Promise.resolve([] as Array<string | null>) : uploadPromiseImages(),
+    fetchSpecialistIdBySlug(),
+  ]);
 
-  const mutations = buildTreatmentDocs(heroImageAssets);
+  const mutations = buildTreatmentDocs(heroImageAssets, promiseImageAssets, specialistIdBySlug);
 
   console.log(`📝 Submitting ${mutations.length} treatment documents...`);
   await submitMutations(mutations);
