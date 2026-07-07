@@ -12,6 +12,7 @@ export default {
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'footer', title: 'Footer' },
     { name: 'social', title: 'Sosiale medier' },
+    { name: 'insurance', title: 'Forsikringspartnere' },
     { name: 'notFound', title: '404-side' },
   ],
   fields: [
