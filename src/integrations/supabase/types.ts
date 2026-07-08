@@ -53,6 +53,30 @@ export type Database = {
         }
         Relationships: []
       }
+      content_overrides: {
+        Row: {
+          field_id: string
+          page_path: string
+          updated_at: string
+          updated_by: string | null
+          value: string
+        }
+        Insert: {
+          field_id: string
+          page_path: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: string
+        }
+        Update: {
+          field_id?: string
+          page_path?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
       page_approvals: {
         Row: {
           category: string
