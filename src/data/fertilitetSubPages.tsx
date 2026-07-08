@@ -43,7 +43,7 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     flowTitle: "Når bør du kontakte en fertilitetsklinikk?",
     flow: [
       { n: "≤ 35 år", title: "Etter 12 måneder uten graviditet", desc: "Vurder fertilitetsutredning dersom du ikke har oppnådd graviditet etter 12 måneder med regelmessige forsøk." },
-      { n: "≤ 35 år", title: "Uregelmessig menstruasjonen", desc: "Sjeldne eller uregelmessige menstruasjoner kan tyde på eggløsningsforstyrrelser." },
+      { n: "≤ 35 år", title: "Uregelmessig menstruasjon", desc: "Sjeldne eller uregelmessige menstruasjoner kan tyde på eggløsningsforstyrrelser." },
       { n: "≤ 35 år", title: "Kjente medisinske forhold", desc: "Endometriose, tidligere underlivsinfeksjoner eller andre forhold som kan påvirke fertiliteten." },
       { n: "> 35 år", title: "Etter 6 måneder uten graviditet", desc: "Kontakt fertilitetsklinikk eller gynekolog dersom du ikke har oppnådd graviditet etter 6 måneder med regelmessige forsøk." },
       { n: "> 35 år", title: "Kjente forhold som kan påvirke fertiliteten", desc: "Ta tidlig kontakt dersom du har kjente forhold som kan påvirke fertiliteten." },
