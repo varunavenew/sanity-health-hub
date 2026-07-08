@@ -75,6 +75,9 @@ import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
 import SpecialistAtelier from "./pages/specialist-design/AtelierVariant";
 import { useUiTranslations } from "./hooks/useUiTranslations";
 import { useServiceImagesSync } from "./hooks/useServiceImages";
+import Rediger from "./pages/Rediger";
+import { EditableProvider } from "./lib/editable/EditableContext";
+import { EditModeBar } from "./components/editable/EditModeBar";
 
 const queryClient = new QueryClient();
 
