@@ -1721,7 +1721,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Non-Invasive Prenatal Test fra svangerskapsuke 10.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
     sections: [
       {
         heading: "Hva undersøker NIPT?",
@@ -1733,7 +1733,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
       {
         heading: "Fosterdiagnostikk hos spesialist",
-        content: "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+        content: "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
       },
     ],
   },
