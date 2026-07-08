@@ -317,7 +317,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   }))
   }
   >
-  Bestill time
+  <Editable field="hero.cta" pagePath="/fertilitet">Bestill time</Editable>
   </Button>
   <CallUsClinicPicker variant="light" label="Ring oss" />
   </div>
