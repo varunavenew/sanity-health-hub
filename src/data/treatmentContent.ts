@@ -386,7 +386,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "6-ukerskontroll",
         heading: "6-ukerskontroll",
-        content: "Ved 6-ukerskontrollen vil du treffe medgründer og gynekolog [Madeleine Engen](/spesialister/madeleine-engen). Hun har særlig erfaring med fødselsskader som kan føre til [vaginale fremfall](/behandlinger/gynekologi/vaginale-fremfall) eller [urinlekkasje](/behandlinger/gynekologi/urinlekkasje). Ta gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.\n\nPå denne kontrollen vil hovedfokuset være mors bekken. Dersom du ønsker så forklarer Madeleine endringer i underlivet ved hjelp av speil eller tegninger. Hun sjekker også hvor god kontroll og kontakt du har med bekkenbunnsmuskulaturen. Videre forklares eventuelle skader du har, hvordan du kan forebygge disse videre og hva du kan forvente i fremtiden.\n\n- Kort om svangerskap og fødsel\n- Renselse, amming\n- Mors psykiske helse\n- Sex og samliv\n- Prevensjon/prevensjonsveiledning\n- På indikasjon tar vi BT, puls eller blodprøver",
+        content: "På 6-ukerskontrollen har vi hovedfokus på bekkenbunn og din psykiske helse etter fødsel. Du treffer erfaren gynekolog som går grundig gjennom hvordan kroppen har hentet seg inn, sjekker bekkenbunnsmuskulaturen og tar seg tid til hvordan du har det. Vi snakker om amming, søvn, samliv og eventuelle plager — og legger en plan for veien videre.\n\nTa gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.",
       },
       {
         id: "traumatisk-fodsel",
@@ -1686,30 +1686,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Tidlig ultralyd, terminbekreftelse og organrettet ultralyd.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Vi tilbyr ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 7 til organrettet ultralyd i uke 18-20. Våre fostermedisinere bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.\n\nTidlig ultralyd bekrefter svangerskapet, daterer terminen og vurderer fosterets utvikling. Ved organrettet ultralyd gjennomgås fosterets organer systematisk for å avdekke eventuelle avvik.",
+    description: "Hos CMedical får du ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 6, til organrettet ultralyd i uke 18-20. Våre fostermedisinere og gynekologer bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.",
     benefits: [
-      "Tidlig ultralyd fra uke 7 for å bekrefte svangerskap og termin",
+      "Tidlig ultralyd fra uke 6 for å bekrefte svangerskap og termin",
       "Organrettet ultralyd uke 18-20 med detaljert gjennomgang",
-      "Erfarne fostermedisinere med spisskompetanse",
+      "Erfarne fostermedisinere og gynekologer",
       "Moderne utstyr for best mulig bildekvalitet",
       "Kort ventetid – time innen få dager",
     ],
     sections: [
       {
-        heading: "Slik foregår ultralydundersøkelsen",
-        content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6–10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg. Fra uke 11 utføres ultralyd med utvendig (abdominal) ultralydprobe.",
+        heading: "Om ultralyd i svangerskapet",
+        content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Vi gjør også organrettet ultralyd i uke 18-20, eller ultralyd senere i svangerskapet ved behov eller ønske.",
       },
       {
-        heading: "Hvis undersøkelsen viser noe uventet",
-        content: "Om undersøkelsen viser tegn på alvorlig sykdom eller skader hos fostret, vil du få veiledning og samtale med lege, og eventuelt henvisning til fostermedisinsk avdeling ved sykehuset.",
-      },
-      {
-        heading: "Du bestemmer hva du er komfortabel med",
-        content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Ved tidlig ultralydundersøkelse vil du få være avskjermet. Hos oss er det viktig at du føler deg komfortabel og trygg.",
-      },
-      {
-        heading: "Erfarne fostermedisinere",
-        content: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere.",
+        heading: "Vi tar hensyn til dine behov",
+        content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Hos oss er det viktig at du føler deg komfortabel og trygg.",
       },
     ],
     process: [
@@ -1718,7 +1710,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { title: "Organrettet ultralyd (uke 18–20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum med utvendig probe." },
     ],
     faqs: [
-      { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
+      { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 6. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
       { question: "Hva koster ultralyd i svangerskapet?", answer: "Se vår prisliste for oppdaterte priser. Kontakt oss gjerne for mer informasjon." },
       { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
@@ -1729,7 +1721,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Non-Invasive Prenatal Test fra svangerskapsuke 10.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+    description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
     sections: [
       {
         heading: "Hva undersøker NIPT?",
@@ -1741,22 +1733,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
       },
       {
         heading: "Fosterdiagnostikk hos spesialist",
-        content: "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+        content: "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
       },
     ],
   },
 
 
   "graviditet/svangerskapsteam": {
-    title: "Svangerskapsteam",
+    title: "Graviditetsoppfølging",
     subtitle: "Tverrfaglig oppfølging gjennom svangerskapet.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Vårt svangerskapsteam gir deg helhetlig oppfølging gjennom hele svangerskapet. Teamet består av erfarne fostermedisinere, jordmødre og gynekologer som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
+    description: "Vi gir deg helhetlig graviditetsoppfølging gjennom hele svangerskapet. Teamet består av erfarne gynekologer og fostermedisinere som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
     benefits: [
-      "Erfarne fostermedisinere og jordmødre",
+      "Erfarne gynekologer og fostermedisinere",
       "Skreddersydd oppfølging tilpasset dine behov",
-      "Oppfølging av risikosvangersskap",
+      "Oppfølging av risikosvangerskap",
       "Tilgjengelig for spørsmål gjennom hele svangerskapet",
       "Samarbeid med fødeavdeling ved behov",
     ],

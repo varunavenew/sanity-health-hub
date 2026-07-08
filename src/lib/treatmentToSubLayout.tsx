@@ -87,7 +87,7 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
   "ortopedi/hand-albue",
   "ortopedi/skulder",
   // Graviditet
-  "graviditet/nipt",
+  // (per fagansvarlig batch 3: NIPT vises som prose, ikke nedtrekk)
   // Øvrige
   "flere-fagomrader/sexologi",
 ]);
@@ -291,7 +291,11 @@ export const treatmentToSubLayout = ({
     heroImage: heroImage ?? getServiceImage(categoryId, subId),
     heroImageAlt: data.title,
     heroVideo: data.heroVideo,
-    reasonsTitle: data.sections && data.sections.length > 0 ? `Om ${data.title}` : "Når bør du ta kontakt",
+    reasonsTitle: data.sections && data.sections.length > 0
+      ? `Om ${data.title.length > 1 && data.title[1] === data.title[1].toLowerCase()
+          ? data.title.charAt(0).toLowerCase() + data.title.slice(1)
+          : data.title}`
+      : "Når bør du ta kontakt",
     reasonsLead: data.sections && data.sections.length > 0 ? summarize(firstParagraph, 240) : undefined,
     reasons,
     reasonsLayout: FORM_B_ACCORDION.has(`${categoryId}/${subId}`) ? "accordion" : "prose",

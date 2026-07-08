@@ -92,7 +92,7 @@ const segments = [
     desc:
       "Tett, personlig oppfølging gjennom hele svangerskapet — i ro og uten ventetid. Du møter de samme folkene hver gang.",
     tags: [
-      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
+      { label: "Graviditetsoppfølging", href: `${GRAV}/svangerskapsteam` },
       { label: "Jordmor", href: `${GRAV}/svangerskapsteam` },
     ],
     cta: "Les mer",
@@ -123,9 +123,9 @@ const expertAreas = [
     image: fosterImg,
   },
   {
-    title: "Svangerskapsteam og jordmor",
+    title: "Graviditetsoppfølging",
     desc:
-      "Fast jordmor og lege gjennom hele svangerskapet. Tett, personlig oppfølging — i ro og uten ventetid.",
+      "Erfarne gynekologer og fostermedisinere følger deg gjennom hele svangerskapet. Tett, personlig oppfølging — i ro og uten ventetid.",
     href: `${GRAV}/svangerskapsteam`,
     image: teamImg,
   },
@@ -150,7 +150,7 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   {
     label: "Oppfølging gjennom svangerskapet",
     items: [
-      { title: "Svangerskapsteam", desc: "Fast jordmor og lege hele veien", href: `${GRAV}/svangerskapsteam` },
+      { title: "Graviditetsoppfølging", desc: "Erfarne gynekologer og fostermedisinere hele veien", href: `${GRAV}/svangerskapsteam` },
     ],
   },
 ];
@@ -243,7 +243,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                 pagePath="/graviditet"
                 className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
               >
-                {`Du skal kjenne deg trygg, sett og fulgt opp — fra det første hjerteslaget til dagene etter fødselen. Hos CMedical møter du den samme jordmoren og legen gjennom hele svangerskapet.`}
+                {`Barneønske, svangerskapskontroll og tiden etter fødsel — vi følger deg gjennom hele forløpet.`}
               </Editable>
 
               {entryPrice && (
