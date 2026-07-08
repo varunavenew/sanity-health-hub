@@ -92,7 +92,7 @@ const segments = [
     desc:
       "Tett, personlig oppfølging gjennom hele svangerskapet — i ro og uten ventetid. Du møter de samme folkene hver gang.",
     tags: [
-      { label: "Svangerskapsteam", href: `${GRAV}/svangerskapsteam` },
+      { label: "Graviditetsoppfølging", href: `${GRAV}/svangerskapsteam` },
       { label: "Jordmor", href: `${GRAV}/svangerskapsteam` },
     ],
     cta: "Les mer",
