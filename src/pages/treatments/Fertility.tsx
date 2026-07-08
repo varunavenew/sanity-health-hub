@@ -8,6 +8,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { Editable } from "@/components/editable/Editable";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
