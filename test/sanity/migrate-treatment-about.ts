@@ -165,8 +165,8 @@ const isEmpty = (v: any) =>
 async function run() {
   console.log("📖 Reading source files …");
   const tcEntries = parseTreatmentContent(fs.readFileSync(SOURCE, "utf8"));
-  const gynEntries = parseSubPagesDescriptions(fs.readFileSync(GYN_SOURCE, "utf8"), "gynekologi");
-  const ferEntries = parseSubPagesDescriptions(fs.readFileSync(FER_SOURCE, "utf8"), "fertilitet");
+  const gynEntries = parseSubPagesDescriptions(fs.readFileSync(GYN_SOURCE, "utf8"), "gynekologi", "gynekologiSubPages");
+  const ferEntries = parseSubPagesDescriptions(fs.readFileSync(FER_SOURCE, "utf8"), "fertilitet", "fertilitetSubPages");
   console.log(`   treatmentContent.ts:    ${tcEntries.length} entries with description/sections`);
   console.log(`   gynekologiSubPages:     ${gynEntries.length} heroDescriptions`);
   console.log(`   fertilitetSubPages:     ${ferEntries.length} heroDescriptions`);
