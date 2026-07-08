@@ -144,9 +144,9 @@ async function main() {
       "https://id-preview--3dcc4aff-3deb-44f0-b035-de0201b2a94e.lovable.app";
     const url = pointer.url?.startsWith("http") ? pointer.url : `${HOST}${pointer.url}`;
 
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.warn(`  ✗ download failed (${res.status}) for ${url}`);
+    const res = await fetchWithRetry(url);
+    if (!res || !res.ok) {
+      console.warn(`  ✗ download failed for ${url}`);
       continue;
     }
     const buf = Buffer.from(await res.arrayBuffer());
