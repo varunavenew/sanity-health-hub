@@ -685,6 +685,7 @@ const FertilitetFargeveksling = ({ isChatOpen }: PageProps) => {
  7. RESULTATER — skin-bilde bakgrunn med parallax (delt komponent)
  ============================================================ */}
  <ResultsStatsSection
+   variant="warm"
    title="Tall som forteller en historie."
    description="Vi måler det vi gjør — fordi du fortjener åpenhet. Her er resultatene våre innen fertilitetsbehandling de siste årene."
    stats={[

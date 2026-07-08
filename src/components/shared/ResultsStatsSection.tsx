@@ -15,12 +15,21 @@ interface ResultsStatsSectionProps {
   stats: ResultStat[];
   footnote?: string;
   className?: string;
+  /**
+   * Visual variant:
+   * - "plain" (default): clean brand-light bg, no parallax. Used on live pages.
+   * - "warm": skin-toned parallax bg with overlay. RESERVED for template
+   *   experiments under `/maler/*` and `/hjem-demo/*` demo variants.
+   */
+  variant?: "plain" | "warm";
 }
 
 /**
  * ResultsStatsSection – "Tall som forteller en historie"-mønsteret.
- * Warm skin-toned parallax background with a subtle dark overlay
- * to keep numbers and copy comfortably readable.
+ *
+ * The warm skin-toned parallax variant is a template experiment and must
+ * NOT be used on real live pages. Pass `variant="warm"` only from pages
+ * under `/maler/*` or template demos under `/hjem-demo/*`.
  */
 export const ResultsStatsSection = ({
   title,
@@ -28,11 +37,13 @@ export const ResultsStatsSection = ({
   stats,
   footnote,
   className = "",
+  variant = "plain",
 }: ResultsStatsSectionProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
+    if (variant !== "warm") return;
     const prefersReduced =
       typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -43,10 +54,9 @@ export const ResultsStatsSection = ({
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      // -1 (section below viewport) → 1 (above). 0 when centered.
       const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
       const clamped = Math.max(-1, Math.min(1, progress));
-      setOffset(clamped * 60); // px range
+      setOffset(clamped * 60);
     };
     const onScroll = () => {
       cancelAnimationFrame(raf);
@@ -60,35 +70,40 @@ export const ResultsStatsSection = ({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [variant]);
+
+  const isWarm = variant === "warm";
 
   return (
     <section
       ref={sectionRef}
-      className={`relative overflow-hidden text-foreground py-16 md:py-20 border-t border-brand-dark/5 ${className}`}
+      className={`relative overflow-hidden text-foreground py-16 md:py-20 border-t border-brand-dark/5 ${isWarm ? "" : "bg-brand-light"} ${className}`}
     >
-      {/* Parallax skin-toned background */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 -top-16 -bottom-16 will-change-transform"
-        style={{ transform: `translate3d(0, ${offset}px, 0)` }}
-      >
-        <img
-          src={skinBg.url}
-          alt=""
-          loading="lazy"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      {/* Warm/dark overlay for readability while keeping copy dark */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-brand-light/70"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-brand-light/40 via-brand-light/20 to-brand-light/60"
-      />
+      {isWarm && (
+        <>
+          {/* Parallax skin-toned background */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 -top-16 -bottom-16 will-change-transform"
+            style={{ transform: `translate3d(0, ${offset}px, 0)` }}
+          >
+            <img
+              src={skinBg.url}
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-brand-light/70"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-brand-light/40 via-brand-light/20 to-brand-light/60"
+          />
+        </>
+      )}
 
       <div className="relative container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
