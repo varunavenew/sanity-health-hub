@@ -9,6 +9,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { Editable } from "@/components/editable/Editable";
 import {
   Accordion,
   AccordionContent,
