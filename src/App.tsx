@@ -268,8 +268,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
-        <AppContent />
+        <EditableProvider>
+          <ScrollToTop />
+          <AppContent />
+        </EditableProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
