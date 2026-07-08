@@ -123,7 +123,8 @@ async function main() {
     }
 
 
-    if (target.heroImage?.asset) {
+    const overwrite = process.argv.includes("--overwrite");
+    if (target.heroImage?.asset && !overwrite) {
       skippedHasImage++;
       continue;
     }
