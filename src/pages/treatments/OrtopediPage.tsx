@@ -223,7 +223,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill ortopedtime
+ <Editable field="hero.cta" pagePath="/ortopedi">Bestill ortopedtime</Editable>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
