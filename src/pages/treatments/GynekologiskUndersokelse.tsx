@@ -62,7 +62,7 @@ const reasons = [
  {
  n: "02",
  title: "Uregelmessig eller kraftig blødning",
- desc: "Mensen kommer for sent eller for tidlig, kraftig eller for lite — det kan være lurt å sjekke hva som ligger bak.",
+ desc: "Menstruasjon kommer for sent eller for tidlig, kraftig eller for lite — det kan være lurt å sjekke hva som ligger bak.",
  },
  {
  n: "03",

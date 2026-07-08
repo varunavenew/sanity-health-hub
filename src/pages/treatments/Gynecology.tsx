@@ -433,9 +433,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
    <div className="max-w-6xl mx-auto">
     <div className="max-w-2xl mb-14">
      <h2 className="text-3xl md:text-5xl font-light leading-tight text-foreground">
-      Alle er velkomne
-      <br />
-      <span className="text-foreground/70">— uansett livsfase.</span>
+      Kvinnehelse gjennom hele livsløpet.
      </h2>
     </div>
 

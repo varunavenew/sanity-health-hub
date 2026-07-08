@@ -665,8 +665,10 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
 
 
- {/* 3. FLOW — image on opposite side from hero (left) so two split sections don't stack on same side */}
-  {c.flowImage ? (
+ {/* 3. FLOW — per fagansvarlig: kun vist på "Gynekologisk undersøkelse"-siden.
+     Seksjonen «Slik foregår det» ble fjernet globalt fra alle andre undersider. */}
+  {c.canonical === "/behandlinger/gynekologi/undersokelse" && (
+    c.flowImage ? (
  <section className="bg-brand-light text-foreground">
  <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-12 pt-12 pb-4">
  {c.flowTitle}
@@ -681,7 +683,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  />
  </div>
  <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center order-2 lg:order-none">
-  <div className="max-w-lg">
+   <div className="max-w-lg">
  <h2 className="hidden lg:block text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
  {c.flowTitle}
  </h2>
@@ -749,7 +751,8 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
  </div>
  </div>
  </section>
- )}
+ )
+  )}
 
  {/* 3b. EXPERT AREAS — image cards (optional) */}
  {c.expertAreas && c.expertAreas.items.length > 0 && (
