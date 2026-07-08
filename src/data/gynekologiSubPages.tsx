@@ -123,8 +123,8 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       "Spesialisert utredning og behandling av endometriose. Vi tar smertene dine på alvor — uten henvisning og uten ventetid.",
     canonical: "/behandlinger/gynekologi/endometriose",
     parent,
-    title: "Endometriose",
-    heroTitle: <>Vondt er ikke bare <span className="italic">mensen</span></>,
+    title: "Endometriose og adenomyose",
+    heroTitle: <>Vondt er ikke bare <span className="italic">menstruasjon</span></>,
     heroDescription:
       "Endometriose er en av de vanligste — og mest oversette — gynekologiske sykdommene. Hos oss møter du spesialister som tar smertene dine på alvor og finner svar.",
     heroPoints: [
@@ -364,7 +364,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     title: "PMOS",
     heroTitle: <>PMOS er mer enn <span className="italic">cyster</span></>,
     heroDescription:
-      "Polycystisk ovariesyndrom påvirker hormoner, syklus, hud, vekt og fertilitet. Vi gir deg en helhetlig utredning — og en plan som faktisk fungerer i hverdagen din.",
+      "Polyendokrint metabolsk ovarialsyndrom (PMOS), tidligere Polycystisk ovariesyndrom (PCOS), er en hormonell forstyrrelse som gir mange ulike symptomer. Vi hjelper deg slik at du får en bedre hverdag.",
     heroPoints: [
       { title: "Helhetlig utredning", desc: "Hormoner, ultralyd, metabolsk vurdering — vi kartlegger hele bildet." },
       { title: "Skreddersydd plan", desc: "Behandling tilpasset om du ønsker barn nå, senere — eller noe helt annet." },
@@ -383,7 +383,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ],
     reasonsTitle: "Tegn på PMOS",
     reasonsLead:
-      "PMOS gir svært variable symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
+      "PMOS gir svært ulike symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
     reasons: [
       { n: "01", title: "Uregelmessig eller manglende menstruasjon", desc: "Lange sykluser eller fravær av mens er et av de tydeligste tegnene." },
       { n: "02", title: "Akne og fet hud", desc: "Hormonell akne hos voksne kan henge sammen med PMOS." },
@@ -410,7 +410,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       "Smerter og ubehag i vulva blir ofte oversett. Vi har spesialister som forstår — og finner svar.",
     canonical: "/behandlinger/gynekologi/vulvalidelser",
     parent,
-    title: "Vulvalidelser",
+    title: "Vulvalidelser og vulvodyni",
     heroTitle: <>Smertene er <span className="italic">ekte</span> — og de kan behandles</>,
     heroDescription:
       "Vulvodyni, lichen og kroniske vulvasmerter blir ofte avfeid eller oversett. Hos oss møter du spesialister som har erfaring med nettopp dette feltet.",
@@ -509,12 +509,12 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     canonical: "/behandlinger/gynekologi/pms-pmdd",
     parent,
     title: "PMS og PMDD",
-    heroTitle: <>Når mensen tar over <span className="italic">halve livet</span></>,
+    heroTitle: <>Når menstruasjon tar over <span className="italic">halve livet</span></>,
     heroDescription:
       "PMDD er en alvorlig form for premenstruelt syndrom og rammer 3–8 % av kvinner. Hos oss møter du spesialister som tar plagene på alvor — og tilbyr moderne behandling.",
     heroPoints: [
       { title: "Moderne diagnostikk", desc: "Vi bruker validerte verktøy for å skille PMS fra PMDD og annen psykisk sykdom." },
-      { title: "Bredt behandlingsspekter", desc: "Hormonell, medikamentell og psykologisk behandling — i kombinasjon når det trengs." },
+      { title: "Riktig behandling", desc: "Hormonell, medikamentell og psykologisk behandling — i kombinasjon når det trengs." },
       { title: "Helhetlig vurdering", desc: "Vi ser også på søvn, livsstil og andre faktorer som forsterker plagene." },
       { title: "Tverrfaglig støtte", desc: "Tilgang til psykolog og ernæringsfysiolog når det er aktuelt." },
     ],
@@ -542,8 +542,8 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "PMOS", desc: "Hormonell ubalanse kan forsterke premenstruelle plager.", href: "/behandlinger/gynekologi/pcos" },
-      { title: "Overgangsalder", desc: "PMDD kan endre karakter mot perimenopausen — og kreve ny tilnærming.", href: "/behandlinger/gynekologi/overgangsalder" },
-      { title: "Endometriose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "Fertilitet", desc: "Hormonelle svingninger og syklusforstyrrelser kan påvirke fertiliteten — vi utreder og behandler.", href: "/behandlinger/fertilitet" },
+      { title: "Endometriose og adenomyose", desc: "Sterke menssmerter i tillegg til PMS bør utredes for endometriose.", href: "/behandlinger/gynekologi/endometriose" },
     ],
     ctaTitle: "Få en grundig PMS/PMDD-utredning",
     ctaDescription:
