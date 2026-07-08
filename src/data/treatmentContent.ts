@@ -1686,30 +1686,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
     subtitle: "Tidlig ultralyd, terminbekreftelse og organrettet ultralyd.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Vi tilbyr ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 7 til organrettet ultralyd i uke 18-20. Våre fostermedisinere bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.\n\nTidlig ultralyd bekrefter svangerskapet, daterer terminen og vurderer fosterets utvikling. Ved organrettet ultralyd gjennomgås fosterets organer systematisk for å avdekke eventuelle avvik.",
+    description: "Hos CMedical får du ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 6, til organrettet ultralyd i uke 18-20. Våre fostermedisinere og gynekologer bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.",
     benefits: [
-      "Tidlig ultralyd fra uke 7 for å bekrefte svangerskap og termin",
+      "Tidlig ultralyd fra uke 6 for å bekrefte svangerskap og termin",
       "Organrettet ultralyd uke 18-20 med detaljert gjennomgang",
-      "Erfarne fostermedisinere med spisskompetanse",
+      "Erfarne fostermedisinere og gynekologer",
       "Moderne utstyr for best mulig bildekvalitet",
       "Kort ventetid – time innen få dager",
     ],
     sections: [
       {
-        heading: "Slik foregår ultralydundersøkelsen",
-        content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6–10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg. Fra uke 11 utføres ultralyd med utvendig (abdominal) ultralydprobe.",
+        heading: "Om ultralyd i svangerskapet",
+        content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Vi gjør også organrettet ultralyd i uke 18-20, eller ultralyd senere i svangerskapet ved behov eller ønske.",
       },
       {
-        heading: "Hvis undersøkelsen viser noe uventet",
-        content: "Om undersøkelsen viser tegn på alvorlig sykdom eller skader hos fostret, vil du få veiledning og samtale med lege, og eventuelt henvisning til fostermedisinsk avdeling ved sykehuset.",
-      },
-      {
-        heading: "Du bestemmer hva du er komfortabel med",
-        content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Ved tidlig ultralydundersøkelse vil du få være avskjermet. Hos oss er det viktig at du føler deg komfortabel og trygg.",
-      },
-      {
-        heading: "Erfarne fostermedisinere",
-        content: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere.",
+        heading: "Vi tar hensyn til dine behov",
+        content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Hos oss er det viktig at du føler deg komfortabel og trygg.",
       },
     ],
     process: [
@@ -1718,7 +1710,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       { title: "Organrettet ultralyd (uke 18–20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum med utvendig probe." },
     ],
     faqs: [
-      { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
+      { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 6. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
       { question: "Hva koster ultralyd i svangerskapet?", answer: "Se vår prisliste for oppdaterte priser. Kontakt oss gjerne for mer informasjon." },
       { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
       { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
