@@ -49,6 +49,25 @@ function parseImageSlug(fileBase: string): { categoryId: string; subId?: string 
   return { categoryId, subId: rest };
 }
 
+async function fetchWithRetry(url: string, attempts = 4): Promise<Response | null> {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        // 60s connect+read timeout (default undici connect = 10s)
+        // @ts-expect-error Node undici RequestInit
+        dispatcher: undefined,
+        signal: AbortSignal.timeout(60_000),
+      });
+      if (res.ok) return res;
+      console.warn(`  … attempt ${i} HTTP ${res.status} for ${url}`);
+    } catch (err: any) {
+      console.warn(`  … attempt ${i} failed: ${err?.code || err?.message || err}`);
+    }
+    await new Promise((r) => setTimeout(r, 1000 * i));
+  }
+  return null;
+}
+
 
 async function main() {
   const dryRun = !process.argv.includes("--write");
