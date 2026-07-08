@@ -134,7 +134,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill time
+ <Editable field="hero.cta" pagePath="/flere-fagomrader">Bestill time</Editable>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
