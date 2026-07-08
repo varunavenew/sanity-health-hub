@@ -241,7 +241,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill urologtime
+ <Editable field="hero.cta" pagePath="/urologi">Bestill urologtime</Editable>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
