@@ -113,11 +113,15 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
   Spesialister <span className="block italic">i team</span>
   </h2>
 
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Vi har samlet noen av Nordens fremste spesialister innen hud,
- psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber
- i tverrfaglige team — og utelukkende med det de kan aller best.
- </p>
+ <Editable
+   as="p"
+   field="hero.description"
+   multiline
+   pagePath="/flere-fagomrader"
+   className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+ >
+   {`Vi har samlet noen av Nordens fremste spesialister innen hud, psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber i tverrfaglige team — og utelukkende med det de kan aller best.`}
+ </Editable>
 
  <div className="hidden sm:flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
