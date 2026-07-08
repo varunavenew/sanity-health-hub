@@ -12,20 +12,20 @@ const pickNo = (v: any) =>
 
 export default {
   name: 'pricingPage',
-  title: 'Priser',
+  title: 'Pricing',
   type: 'document',
   icon: PricingIcon,
   fields: [
     {
       name: 'title',
-      title: 'Sidetittel',
+      title: 'Page Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     i18nSlugFieldFromTitle('title'),
     {
       name: 'heroImage',
-      title: 'Hero-bilde',
+      title: 'Hero image',
       type: 'image',
       options: { hotspot: true },
     },
@@ -57,9 +57,9 @@ export default {
                 {
                   type: 'object',
                   fields: [
-                    { name: 'name', title: 'Behandling', type: 'internationalizedArrayString' },
+                    { name: 'name', title: 'Treatment', type: 'internationalizedArrayString' },
                     { name: 'price', title: 'Pris (NOK)', type: 'number' },
-                    { name: 'priceLabel', title: 'Prisvisning', type: 'internationalizedArrayString', description: 'F.eks. "fra 2500,-" eller "1500,- per time"' },
+                    { name: 'priceLabel', title: 'Prisvisning', type: 'internationalizedArrayString', description: 'E.g. "from 2500,-" or "1500,- per hour"' },
                     { name: 'note', title: 'Merknad', type: 'internationalizedArrayString' },
                   ],
                   preview: {
@@ -67,7 +67,7 @@ export default {
                     prepare({ title, subtitle, priceLabel }: any) {
                       const label = pickNo(priceLabel)
                       return {
-                        title: pickNo(title) || 'Uten navn',
+                        title: pickNo(title) || 'Unnamed',
                         subtitle: label || (subtitle != null ? `${subtitle} kr` : ''),
                       }
                     },
@@ -79,7 +79,7 @@ export default {
           preview: {
             select: { title: 'categoryName' },
             prepare({ title }: any) {
-              return { title: pickNo(title) || 'Uten navn' }
+              return { title: pickNo(title) || 'Unnamed' }
             },
           },
         },
@@ -90,16 +90,16 @@ export default {
       title: 'Tilbakemeldinger',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'testimonial' }] }],
-      description: 'Velg tilbakemeldinger som skal vises på prissiden',
+      description: 'Select reviews to display on the pricing page',
     },
     {
       name: 'testimonialsTitle',
-      title: 'Overskrift tilbakemeldinger',
+      title: 'Reviews Heading',
       type: 'internationalizedArrayString',
     },
     {
       name: 'faqTitle',
-      title: 'Overskrift FAQ',
+      title: 'FAQ Heading',
       type: 'internationalizedArrayString',
     },
     {
@@ -118,7 +118,7 @@ export default {
   preview: {
     select: { title: 'title' },
     prepare({ title }: any) {
-      return { title: pickNo(title) || 'Priser' }
+      return { title: pickNo(title) || 'Pricing' }
     },
   },
 }

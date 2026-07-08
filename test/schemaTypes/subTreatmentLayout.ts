@@ -21,25 +21,25 @@ const validateRelativePath = (Rule: any) =>
     if (typeof value !== 'string') return true
     return value.startsWith('/')
       ? true
-      : 'Stien må være en relativ lenke som starter med skråstrek (f.eks. /priser)'
+      : 'The path must be a relative link starting with a slash (e.g. /prices)'
   })
 
 export const subTreatmentLayoutType = {
   name: 'subTreatmentLayout',
-  title: 'Sidelayout (hero, forløp, symptomer)',
+  title: 'Page layout (hero, process, symptoms)',
   type: 'object',
   fields: [
-    { name: 'homeBreadcrumbLabel', title: 'Brødsmule — hjem', ...i18nString },
+    { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', ...i18nString },
     { name: 'srOnlyTitle', title: 'Skjult H1', ...i18nString },
     { name: 'themesAriaLabel', title: 'Temaer — aria-label', ...i18nString },
-    { name: 'seePricesLabel', title: 'Se priser — tekst', ...i18nString },
-    { name: 'seePricesHref', title: 'Se priser — lenke', type: 'string', validation: validateRelativePath },
-    { name: 'callCtaLabel', title: 'Ring oss — tekst', ...i18nString },
+    { name: 'seePricesLabel', title: 'See prices — text', ...i18nString },
+    { name: 'seePricesHref', title: 'See prices — link', type: 'string', validation: validateRelativePath },
+    { name: 'callCtaLabel', title: 'Call us — text', ...i18nString },
     { name: 'expertReadMoreLabel', title: 'Ekspertkort — lenketekst', ...i18nString },
     { name: 'scrollLeftLabel', title: 'Karusell — scroll venstre', ...i18nString },
-    { name: 'scrollRightLabel', title: 'Karusell — scroll høyre', ...i18nString },
-    { name: 'insuranceEyebrow', title: 'Forsikring — eyebrow', ...i18nString },
-    { name: 'insuranceTitle', title: 'Forsikring — tittel', ...i18nString },
+    { name: 'scrollRightLabel', title: 'Carousel — scroll right', ...i18nString },
+    { name: 'insuranceEyebrow', title: 'Insurance — eyebrow', ...i18nString },
+    { name: 'insuranceTitle', title: 'Insurance — title', ...i18nString },
     {
       name: 'insurancePartners',
       title: 'Forsikringspartnere',
@@ -47,14 +47,14 @@ export const subTreatmentLayoutType = {
       of: [{
         type: 'object',
         fields: [
-          { name: 'key', title: 'Nøkkel', type: 'string' },
-          { name: 'label', title: 'Navn', ...i18nString },
+          { name: 'key', title: 'Key', type: 'string' },
+          { name: 'label', title: 'Name', ...i18nString },
         ],
         preview: {
           select: { title: 'label', subtitle: 'key' },
           prepare({ title, subtitle }: any) {
             return {
-              title: pickNo(title) || 'Uten navn',
+              title: pickNo(title) || 'Unnamed',
               subtitle,
             }
           },
@@ -62,7 +62,7 @@ export const subTreatmentLayoutType = {
       }],
     },
     { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
-    { name: 'heroTitle', title: 'Hero-tittel', ...i18nString },
+    { name: 'heroTitle', title: 'Hero Title', ...i18nString },
     { name: 'heroDescription', title: 'Hero-ingress', ...i18nText },
     {
       name: 'heroPoints',
@@ -72,8 +72,8 @@ export const subTreatmentLayoutType = {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
+            { name: 'title', title: 'Title', ...i18nString },
+            { name: 'desc', title: 'Description', ...i18nText },
           ],
           preview: titledItemPreview,
         },
@@ -81,7 +81,7 @@ export const subTreatmentLayoutType = {
     },
     { name: 'rating', title: 'Vurdering / tagline', ...i18nString },
     { name: 'heroPrice', title: 'Hero — prislinje', ...i18nString },
-    { name: 'hideSeePriser', title: 'Skjul «Se priser»-lenke', type: 'boolean' },
+    { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean' },
     { name: 'heroAvailability', title: 'Hero — tilgjengelighet', ...i18nString },
     {
       name: 'heroThemes',
@@ -89,29 +89,29 @@ export const subTreatmentLayoutType = {
       type: 'array',
       of: [{ type: 'internationalizedArrayString' }],
     },
-    { name: 'heroImage', title: 'Hero-bilde (høyre kolonne)', type: 'image', options: { hotspot: true } },
-    { name: 'heroImageAlt', title: 'Hero-bilde — alt', ...i18nString },
+    { name: 'heroImage', title: 'Hero image (right column)', type: 'image', options: { hotspot: true } },
+    { name: 'heroImageAlt', title: 'Hero image — alt', ...i18nString },
     { name: 'heroVideo', title: 'Hero-video URL', type: 'url' },
-    { name: 'primaryCtaLabel', title: 'Primær CTA-tekst', ...i18nString },
+    { name: 'primaryCtaLabel', title: 'Primary CTA text', ...i18nString },
     {
       name: 'bookingService',
-      title: 'Booking tjeneste-ID',
+      title: 'Booking service ID',
       type: 'string',
-      description: 'Valgfritt — sendes til booking (f.eks. hysterektomi)',
+      description: 'Optional — sent to booking (e.g. hysterectomy)',
     },
-    { name: 'reasonsEyebrow', title: 'Symptomer — eyebrow', ...i18nString },
-    { name: 'reasonsTitle', title: 'Symptomer — tittel', ...i18nString },
-    { name: 'reasonsLead', title: 'Symptomer — ingress 1', ...i18nText },
-    { name: 'reasonsLead2', title: 'Symptomer — ingress 2', ...i18nText },
+    { name: 'reasonsEyebrow', title: 'Symptoms — eyebrow', ...i18nString },
+    { name: 'reasonsTitle', title: 'Symptoms — title', ...i18nString },
+    { name: 'reasonsLead', title: 'Symptoms — introduction 1', ...i18nText },
+    { name: 'reasonsLead2', title: 'Symptoms — introduction 2', ...i18nText },
     {
       name: 'reasonsLayout',
-      title: 'Symptomer — layout',
+      title: 'Symptoms — layout',
       type: 'string',
       options: {
         list: [
           { title: 'Prosa (standard)', value: 'prose' },
           { title: 'Trekkspill', value: 'accordion' },
-          { title: 'Auto', value: 'auto' },
+          { title: 'Automatic', value: 'auto' },
         ],
         layout: 'radio',
       },
@@ -119,37 +119,37 @@ export const subTreatmentLayoutType = {
     },
     {
       name: 'reasons',
-      title: 'Symptomer / indikasjoner',
+      title: 'Symptoms / indications',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
             { name: 'n', title: 'Nummer', ...i18nString },
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
+            { name: 'title', title: 'Title', ...i18nString },
+            { name: 'desc', title: 'Description', ...i18nText },
           ],
           preview: titledItemPreview,
         },
       ],
     },
-    { name: 'flowEyebrow', title: 'Forløp — eyebrow', ...i18nString },
-    { name: 'flowTitle', title: 'Forløp — tittel', ...i18nString },
-    { name: 'flowImage', title: 'Forløp — bilde', type: 'image', options: { hotspot: true } },
-    { name: 'flowImageAlt', title: 'Forløp — bilde alt', ...i18nString },
-    { name: 'flowLinkLabel', title: 'Forløp — lenketekst', ...i18nString },
-    { name: 'flowLinkHref', title: 'Forløp — lenke', type: 'string', validation: validateRelativePath },
+    { name: 'flowEyebrow', title: 'Process — eyebrow', ...i18nString },
+    { name: 'flowTitle', title: 'Process — title', ...i18nString },
+    { name: 'flowImage', title: 'Process — image', type: 'image', options: { hotspot: true } },
+    { name: 'flowImageAlt', title: 'Process — image alt', ...i18nString },
+    { name: 'flowLinkLabel', title: 'Process — link text', ...i18nString },
+    { name: 'flowLinkHref', title: 'Process — link', type: 'string', validation: validateRelativePath },
     {
       name: 'flow',
-      title: 'Forløp — steg',
+      title: 'Process — steps',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'n', title: 'Steg-nummer / etikett', ...i18nString },
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
+            { name: 'n', title: 'Step number / label', ...i18nString },
+            { name: 'title', title: 'Title', ...i18nString },
+            { name: 'desc', title: 'Description', ...i18nText },
           ],
           preview: titledItemPreview,
         },
@@ -157,10 +157,10 @@ export const subTreatmentLayoutType = {
     },
     {
       name: 'expertAreas',
-      title: 'Ekspertområder',
+      title: 'Areas of expertise',
       type: 'object',
       fields: [
-        { name: 'title', title: 'Tittel', ...i18nString },
+        { name: 'title', title: 'Title', ...i18nString },
         { name: 'description', title: 'Ingress', ...i18nText },
         {
           name: 'items',
@@ -170,11 +170,11 @@ export const subTreatmentLayoutType = {
             {
               type: 'object',
               fields: [
-                { name: 'title', title: 'Tittel', ...i18nString },
-                { name: 'desc', title: 'Beskrivelse', ...i18nText },
-                { name: 'path', title: 'Lenke', type: 'string', validation: validateRelativePath },
-                { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-                { name: 'imageAlt', title: 'Bilde — alt', ...i18nString },
+                { name: 'title', title: 'Title', ...i18nString },
+                { name: 'desc', title: 'Description', ...i18nText },
+                { name: 'path', title: 'Link', type: 'string', validation: validateRelativePath },
+                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+                { name: 'imageAlt', title: 'Image — alt', ...i18nString },
               ],
               preview: titledItemPreview,
             },
@@ -184,17 +184,17 @@ export const subTreatmentLayoutType = {
     },
     {
       name: 'promises',
-      title: 'Løfter / fordeler (3 kolonner)',
+      title: 'Promises / advantages (3 columns)',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
             { name: 'eyebrow', title: 'Eyebrow', ...i18nString },
-            { name: 'title', title: 'Tittel', ...i18nString },
-            { name: 'desc', title: 'Beskrivelse', ...i18nText },
-            { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-            { name: 'imageAlt', title: 'Bilde — alt', ...i18nString },
+            { name: 'title', title: 'Title', ...i18nString },
+            { name: 'desc', title: 'Description', ...i18nText },
+            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'imageAlt', title: 'Image — alt', ...i18nString },
           ],
           preview: titledItemPreview,
         },
@@ -202,10 +202,10 @@ export const subTreatmentLayoutType = {
     },
     {
       name: 'textSection',
-      title: 'Tekst + bilde-seksjon',
+      title: 'Text + image section',
       type: 'object',
       fields: [
-        { name: 'title', title: 'Tittel', ...i18nString },
+        { name: 'title', title: 'Title', ...i18nString },
         { name: 'lead', title: 'Ingress', ...i18nText },
         {
           name: 'points',
@@ -216,36 +216,36 @@ export const subTreatmentLayoutType = {
               type: 'object',
               fields: [
                 { name: 'n', title: 'Nummer', ...i18nString },
-                { name: 'title', title: 'Tittel', ...i18nString },
-                { name: 'desc', title: 'Beskrivelse', ...i18nText },
+                { name: 'title', title: 'Title', ...i18nString },
+                { name: 'desc', title: 'Description', ...i18nText },
               ],
               preview: titledItemPreview,
             },
           ],
         },
-        { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-        { name: 'imageAlt', title: 'Bilde alt', ...i18nString },
+        { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+        { name: 'imageAlt', title: 'Image alt', ...i18nString },
       ],
     },
     { name: 'relatedEyebrow', title: 'Relatert — eyebrow', ...i18nString },
-    { name: 'relatedTitle', title: 'Relatert — tittel', ...i18nString },
+    { name: 'relatedTitle', title: 'Related — title', ...i18nString },
     { name: 'relatedLead', title: 'Relatert — ingress', ...i18nText },
     { name: 'relatedAsIntro', title: 'Relatert rett etter hero', type: 'boolean' },
-    { name: 'relatedAsServices', title: 'Relatert som tjenestekarusell', type: 'boolean' },
+    { name: 'relatedAsServices', title: 'Related as service carousel', type: 'boolean' },
     {
       name: 'relatedSeeAllHref',
-      title: 'Relatert — «se alle»-lenke',
+      title: 'Related — \'see all\' link',
       type: 'string',
-      description: 'F.eks. /behandlinger/fertilitet',
+      description: 'E.g. /treatments/fertility',
       validation: validateRelativePath,
     },
-    { name: 'relatedSeeAllLabel', title: 'Relatert — «se alle»-tekst', ...i18nString },
-    { name: 'ctaTitle', title: 'Avsluttende CTA — tittel [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
-    { name: 'ctaDescription', title: 'Avsluttende CTA — tekst [DEPRECATED]', ...i18nText, hidden: true, readOnly: true },
-    { name: 'conversationCtaTitle', title: 'Midt-CTA — tittel [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
-    { name: 'specialistTitle', title: 'Spesialist-seksjon — tittel [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
-    { name: 'specialistDescription', title: 'Spesialist-seksjon — ingress [DEPRECATED]', ...i18nText, hidden: true, readOnly: true },
-    { name: 'specialistCtaLabel', title: 'Spesialist-seksjon — CTA-tekst [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
-    { name: 'specialistCtaHref', title: 'Spesialist-seksjon — CTA-lenke [DEPRECATED]', type: 'string', hidden: true, readOnly: true },
+    { name: 'relatedSeeAllLabel', title: 'Related — \'see all\' text', ...i18nString },
+    { name: 'ctaTitle', title: 'Closing CTA — Title [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'ctaDescription', title: 'Closing CTA — Text [DEPRECATED]', ...i18nText, hidden: true, readOnly: true },
+    { name: 'conversationCtaTitle', title: 'Mid-page CTA — title [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'specialistTitle', title: 'Specialist section — title [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'specialistDescription', title: 'Specialist section — introduction [DEPRECATED]', ...i18nText, hidden: true, readOnly: true },
+    { name: 'specialistCtaLabel', title: 'Specialist section — CTA text [DEPRECATED]', ...i18nString, hidden: true, readOnly: true },
+    { name: 'specialistCtaHref', title: 'Specialist section — CTA link [DEPRECATED]', type: 'string', hidden: true, readOnly: true },
   ],
 }

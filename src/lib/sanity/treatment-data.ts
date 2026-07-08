@@ -188,13 +188,16 @@ export function mapTreatmentDocument(
     scrollRightLabel: row("scrollRightLabel"),
     insuranceEyebrow: row("insuranceEyebrow"),
     insuranceTitle: row("insuranceTitle"),
-    insurancePartners: ((data.insurancePartners as unknown[]) || [])
-      .filter(Boolean)
-      .map((item) => {
-        const r = item as Record<string, unknown>;
-        return { key: asPlainString(r.key), label: asPlainString(r.label) };
-      })
-      .filter((item) => item.key && item.label),
+    insurancePartners: (() => {
+      const partners = ((data.insurancePartners as unknown[]) || [])
+        .filter(Boolean)
+        .map((item) => {
+          const r = item as Record<string, unknown>;
+          return { key: asPlainString(r.key), label: asPlainString(r.label) };
+        })
+        .filter((item) => item.key && item.label);
+      return partners.length > 0 ? partners : undefined;
+    })(),
     eyebrow: row("eyebrow"),
     heroTitle: row("heroTitle"),
     heroDescription: row("heroDescription"),

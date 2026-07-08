@@ -10,6 +10,7 @@ interface Props {
   variant?: "light" | "dark";
   size?: "default" | "lg";
   label?: string;
+  className?: string;
 }
 
 /**
@@ -20,7 +21,8 @@ export const CallUsClinicPicker = ({
   variant = "light",
   size = "lg",
   label,
-}: Props) => {
+  className
+}: Props & { className?: string }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data: clinics = [] } = useClinics();

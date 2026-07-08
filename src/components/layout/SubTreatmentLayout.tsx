@@ -2,6 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -53,7 +54,7 @@ export interface SubTreatmentContent {
   booking: { kategori: string; tjeneste?: string };
   primaryCtaLabel?: string;
   flowTitle: string;
-  flow: { n: string; title: string; desc: string }[];
+  flow: { n: string; title: string; desc: string | ReactNode }[];
   flowImage?: string;
   flowImageAlt?: string;
   heroImage?: string;
@@ -64,24 +65,24 @@ export interface SubTreatmentContent {
   reasonsTitle: string;
   reasonsLead?: string;
   reasonsLead2?: string;
-  reasons: { n: string; title: string; desc: string }[];
+  reasons: { n: string; title: string; desc: string | ReactNode }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
-  promises: { eyebrow?: string; title: string; desc: string; image?: string; imageAlt?: string }[];
+  promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
   textSection?: {
     title: string;
     lead?: string;
-    points?: { n: string; title: string; desc: string }[];
+    points?: { n: string; title: string; desc: string | ReactNode }[];
     image: string;
     imageAlt?: string;
   };
   expertAreas?: {
     title: string;
     description?: string;
-    items: { title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+    items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   };
   relatedTitle?: string;
   relatedLead?: string;
-  related: { eyebrow?: string; title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+  related: { eyebrow?: string; title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   relatedAsIntro?: boolean;
   relatedAsServices?: boolean;
   relatedSeeAll?: { href: string; label: string };
@@ -148,11 +149,11 @@ function ReasonsEditorial({
   title: string;
   lead?: string;
   lead2?: string;
-  items: { n: string; title: string; desc: string }[];
+  items: { n: string; title: string; desc: string | ReactNode }[];
   layout?: "prose" | "accordion" | "auto";
 }) {
   const cleanItems = (items ?? []).filter(
-    (item) => !isBlacklistedReason(item.title) && item.desc?.trim(),
+    (item) => !isBlacklistedReason(item.title) && (typeof item.desc === "string" ? item.desc.trim() : !!item.desc),
   );
 
   if (cleanItems.length === 0) return null;
@@ -237,7 +238,7 @@ function RelatedServicesCarousel({
   scrollRightLabel,
 }: {
   title: string;
-  items: { title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+  items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   seeAll: { href: string; label: string } | null;
   /** Tighter bottom spacing when placed directly above the booking CTA. */
   beforeBooking?: boolean;
@@ -355,7 +356,7 @@ function RelatedBlock({
 }: {
   title: string;
   lead?: string;
-  items: { title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+  items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   readMoreLabel: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -514,7 +515,7 @@ export const SubTreatmentLayout = ({
               <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 {heroTitle}
               </h2>
-              <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground whitespace-pre-line">
                 {c.heroDescription}
               </p>
 
@@ -861,7 +862,46 @@ export const SubTreatmentLayout = ({
         </section>
       ) : null}
 
+      <PageSectionsRenderer
+        sections={pageSections?.filter(
+          (s) => s._type !== "pageSectionBookingCta" && s._type !== "pageSectionSpecialists"
+        )}
+      />
+
+      {/* MID-PAGE CONVERSION BAND */}
+      <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-3xl">
+              <h2 className="text-xl md:text-3xl font-light leading-tight">
+                {c.conversationCtaTitle ?? "Snakk med en av våre spesialister"}
+              </h2>
+            </div>
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center w-full md:w-auto">
+              <Button
+                variant="cta"
+                size="lg"
+                className="px-6 w-full md:w-auto h-14 md:h-12"
+                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+              >
+                {c.primaryCtaLabel || "Se ledige tider og book"}
+              </Button>
+              <div className="w-full md:w-auto">
+                <CallUsClinicPicker variant="light" label={c.callCtaLabel || "Ring oss"} className="w-full h-14 md:h-12" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
+
+      {(() => {
+        const specialistsSections = pageSections?.filter((s) => s._type === "pageSectionSpecialists");
+        return specialistsSections && specialistsSections.length > 0 ? (
+          <PageSectionsRenderer sections={specialistsSections} />
+        ) : null;
+      })()}
 
       <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
@@ -890,21 +930,24 @@ export const SubTreatmentLayout = ({
         </div>
       </section>
 
-      <PageSectionsRenderer
-        sections={pageSections}
-        beforeBookingCta={
-          c.related.length > 0 && !c.relatedAsIntro ? (
-            <RelatedServicesCarousel
-              title={c.relatedTitle || ""}
-              items={c.related}
-              seeAll={c.relatedSeeAll ?? null}
-              beforeBooking
-              scrollLeftLabel={c.scrollLeftLabel}
-              scrollRightLabel={c.scrollRightLabel}
-            />
-          ) : null
+      {c.related.length > 0 && !c.relatedAsIntro ? (
+        <RelatedServicesCarousel
+          title={c.relatedTitle || ""}
+          items={c.related}
+          seeAll={c.relatedSeeAll ?? null}
+          scrollLeftLabel={c.scrollLeftLabel}
+          scrollRightLabel={c.scrollRightLabel}
+        />
+      ) : null}
+
+      {(() => {
+        const bookingCtaSections = pageSections?.filter((s) => s._type === "pageSectionBookingCta");
+        if (bookingCtaSections && bookingCtaSections.length > 0) {
+          return <PageSectionsRenderer sections={bookingCtaSections} />;
         }
-      />
+        return <BookingCTA bookingCategoryId={c.booking.kategori} />;
+      })()}
+
     </PageLayout>
   );
 };

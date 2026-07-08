@@ -79,7 +79,7 @@ export function mapTreatmentToSubTreatmentContent(
     parent: { name: parentName, path: parentPath },
     title: treatment.title,
     heroTitle: treatment.heroTitle || "",
-    heroDescription: treatment.heroDescription || "",
+    heroDescription: treatment.description || treatment.heroDescription || "",
     heroThemes: treatment.heroThemes,
     heroPoints,
     heroAvailability: treatment.heroAvailability,

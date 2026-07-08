@@ -10,8 +10,16 @@ const blockedParentReact = path.resolve(
   "react",
 );
 
-Module._nodeModulePaths = function () {
-  return [projectNodeModules];
+const projectRoot = path.resolve(__dirname, "..");
+const originalNodeModulePaths = Module._nodeModulePaths;
+
+Module._nodeModulePaths = function (from) {
+  const paths = originalNodeModulePaths.call(this, from);
+  return paths.filter(p => {
+    const resolvedPath = path.resolve(p);
+    const relative = path.relative(projectRoot, resolvedPath);
+    return !relative.startsWith("..");
+  });
 };
 
 const originalResolveFilename = Module._resolveFilename;

@@ -6,13 +6,13 @@ import { geoSummaryField } from './geoSummary'
 
 export default defineType({
   name: 'article',
-  title: 'Artikkel / Side',
+  title: 'Article / Page',
   type: 'document',
   icon: ArticleIcon,
   fields: [
     defineField({
       name: 'title',
-      title: 'Tittel',
+      title: 'Title',
       type: 'internationalizedArrayString',
       validation: (Rule) => Rule.required(),
     }),
@@ -25,7 +25,7 @@ export default defineType({
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt-tekst',
+          title: 'Alt text',
           type: 'internationalizedArrayString',
         }),
       ],
@@ -37,17 +37,17 @@ export default defineType({
     }),
     defineField({
       name: 'body',
-      title: 'Innhold',
+      title: 'Content',
       type: 'internationalizedArrayBlockContent',
     }),
     defineField({
       name: 'category',
-      title: 'Kategori',
+      title: 'Category',
       type: 'string',
       options: {
         list: [
           {title: 'Fagartikkel', value: 'fagartikkel'},
-          {title: 'Nytt fra oss', value: 'nyheter'},
+          {title: 'News from us', value: 'news'},
           {title: 'Prisliste', value: 'prisliste'},
           {title: 'Stillingsutlysning', value: 'stillingsutlysning'},
         ],
@@ -58,10 +58,10 @@ export default defineType({
       name: 'publishedAt',
       title: 'Publiseringsdato',
       type: 'datetime',
-      description: 'Påkrevd for publisering. Settes automatisk på nye artikler.',
+      description: 'Required for publishing. Automatically set on new articles.',
       initialValue: () => new Date().toISOString(),
       validation: (Rule) =>
-        Rule.required().error('Publiseringsdato mangler — velg dato før du publiserer'),
+        Rule.required().error('Publishing date is missing — select date before publishing'),
     }),
     defineField({
       name: 'seo',
@@ -73,12 +73,12 @@ export default defineType({
   ],
   orderings: [
     {
-      title: 'Publiseringsdato (nyeste først)',
+      title: 'Publishing date (newest first)',
       name: 'publishedAtDesc',
       by: [{field: 'publishedAt', direction: 'desc'}],
     },
     {
-      title: 'Publiseringsdato (eldste først)',
+      title: 'Publishing date (oldest first)',
       name: 'publishedAtAsc',
       by: [{field: 'publishedAt', direction: 'asc'}],
     },
@@ -93,16 +93,16 @@ export default defineType({
     prepare({title, media, category, publishedAt}) {
       const categoryLabels: Record<string, string> = {
         fagartikkel: 'Fagartikkel',
-        nyheter: 'Nytt fra oss',
+        nyheter: 'News from us',
         prisliste: 'Prisliste',
         stillingsutlysning: 'Stillingsutlysning',
       }
       const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'Ingen dato'
-      const cat = categoryLabels[category] || category || 'Ingen kategori'
+      const cat = categoryLabels[category] || category || 'No category'
       // title is now an internationalizedArray — pull NO entry first, fallback to first
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Uten tittel')
-        : (title || 'Uten tittel')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Untitled')
+        : (title || 'Untitled')
       return {
         title: titleStr,
         subtitle: `${cat} · ${date}`,

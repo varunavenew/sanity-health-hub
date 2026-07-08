@@ -85,33 +85,30 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
         <JsonLd data={geoJsonLd} />
       )}
       {(heroEyebrow || heroTitle || heroDescription) ? (
-      <section className="bg-brand-dark pt-24 pb-10 md:pt-28 md:pb-14">
+      <section className="bg-brand-dark pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="max-w-2xl">
-            {heroEyebrow ? (
-              <p className="text-white/60 text-xs mb-2">{heroEyebrow}</p>
-            ) : null}
+          <div className="max-w-4xl">
             {heroTitle ? (
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white mb-3">
+              <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-light text-white tracking-tight leading-none mb-4 md:mb-5">
                 {heroTitle}
               </h1>
             ) : null}
             {heroDescription ? (
-              <p className="text-white/70 font-light text-base md:text-lg">
+              <p className="text-white/80 font-light text-lg md:text-[20px] lg:text-[22px] leading-relaxed">
                 {heroDescription}
               </p>
             ) : null}
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-6">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-12 md:mt-16">
             {Object.entries(categoryLabels).map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setActiveFilter(key)}
-                className={`px-4 py-1.5 rounded-sm text-sm font-light transition-colors ${
+                className={`transition-all duration-200 ${
                   activeFilter === key
-                    ? "bg-white text-brand-dark"
-                    : "border border-white/30 text-white/70 hover:bg-white/10"
+                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
+                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
                 }`}
               >
                 {label}
@@ -119,29 +116,29 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-4 md:mt-5">
             <button
               onClick={() => setActiveClinic("alle")}
-              className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
+              className={`transition-all duration-200 flex items-center gap-2 ${
                 activeClinic === "alle"
-                  ? "bg-white/20 text-white"
-                  : "border border-white/20 text-white/60 hover:bg-white/10"
+                  ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
+                  : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
               }`}
             >
-              <MapPin className="w-3 h-3" />
+              <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === "alle" ? "text-white" : "text-brand-dark"}`} />
               {t("specialists.filters.allClinics")}
             </button>
             {clinicNames.map((clinic) => (
               <button
                 key={clinic}
                 onClick={() => setActiveClinic(clinic)}
-                className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
+                className={`transition-all duration-200 flex items-center gap-2 ${
                   activeClinic === clinic
-                    ? "bg-white/20 text-white"
-                    : "border border-white/20 text-white/60 hover:bg-white/10"
+                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
+                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
                 }`}
               >
-                <MapPin className="w-3 h-3" />
+                <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === clinic ? "text-white" : "text-brand-dark"}`} />
                 {clinic}
               </button>
             ))}
@@ -149,17 +146,17 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
         </div>
       </section>
       ) : (
-      <section className="bg-brand-dark pt-24 pb-6 md:pt-28">
+      <section className="bg-brand-dark pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="container mx-auto px-6 md:px-16">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4">
             {Object.entries(categoryLabels).map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setActiveFilter(key)}
-                className={`px-4 py-1.5 rounded-sm text-sm font-light transition-colors ${
+                className={`transition-all duration-200 ${
                   activeFilter === key
-                    ? "bg-white text-brand-dark"
-                    : "border border-white/30 text-white/70 hover:bg-white/10"
+                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
+                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
                 }`}
               >
                 {label}
@@ -167,29 +164,29 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-4 md:mt-5">
             <button
               onClick={() => setActiveClinic("alle")}
-              className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
+              className={`transition-all duration-200 flex items-center gap-2 ${
                 activeClinic === "alle"
-                  ? "bg-white/20 text-white"
-                  : "border border-white/20 text-white/60 hover:bg-white/10"
+                  ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
+                  : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
               }`}
             >
-              <MapPin className="w-3 h-3" />
+              <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === "alle" ? "text-white" : "text-brand-dark"}`} />
               {t("specialists.filters.allClinics")}
             </button>
             {clinicNames.map((clinic) => (
               <button
                 key={clinic}
                 onClick={() => setActiveClinic(clinic)}
-                className={`px-4 py-1.5 rounded-sm text-xs font-light transition-colors flex items-center gap-1.5 ${
+                className={`transition-all duration-200 flex items-center gap-2 ${
                   activeClinic === clinic
-                    ? "bg-white/20 text-white"
-                    : "border border-white/20 text-white/60 hover:bg-white/10"
+                    ? "bg-transparent text-white font-medium px-4 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:opacity-80"
+                    : "bg-white text-brand-dark font-medium px-6 py-2.5 md:py-3 text-sm md:text-[15px] rounded-full hover:bg-white/90 border border-transparent shadow-sm"
                 }`}
               >
-                <MapPin className="w-3 h-3" />
+                <MapPin className={`w-4 h-4 flex-shrink-0 ${activeClinic === clinic ? "text-white" : "text-brand-dark"}`} />
                 {clinic}
               </button>
             ))}
@@ -203,32 +200,33 @@ const Specialists = ({ isChatOpen }: SpecialistsProps) => {
           {countText ? (
             <p className="text-sm text-muted-foreground mb-6">{countText}</p>
           ) : null}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-0 gap-y-8 md:gap-y-12">
             {filtered.map((specialist) => (
               <Link
                 key={specialist.slug}
                 to={`/spesialister/${specialist.slug}`}
                 className="group"
               >
-                <div className="relative aspect-[3/4] rounded-sm overflow-hidden mb-2 bg-secondary">
+                <div className="relative aspect-[3/4] rounded-none overflow-hidden mb-3 bg-secondary">
                   <AssetImg
                     src={specialist.image}
                     alt={specialist.name}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 saturate-[0.7] brightness-[0.95] contrast-[1.05]"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-brand-dark/15 mix-blend-multiply" />
                 </div>
-                <h3 className="text-sm font-medium text-foreground">{specialist.name}</h3>
-                <p className="text-xs text-muted-foreground font-light">
-                  {specialist.title}
-                  {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
-                </p>
-                {specialist.clinics && specialist.clinics.length > 0 && (
-                  <p className="flex items-center gap-1 text-xs text-muted-foreground/60 font-light mt-0.5">
-                    <MapPin className="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" />
-                    {specialist.clinics.join(" · ")}
+                <div className="pr-4 md:pr-6">
+                  <h3 className="text-sm md:text-base font-semibold text-foreground mb-0.5">{specialist.name}</h3>
+                  <p className="text-xs md:text-[13px] text-muted-foreground font-light mb-1">
+                    {specialist.title}
+                    {specialist.subtitle && specialist.subtitle !== specialist.title && ` · ${specialist.subtitle}`}
                   </p>
-                )}
+                  {specialist.clinics && specialist.clinics.length > 0 && (
+                    <p className="flex items-center gap-1 text-xs md:text-[13px] text-muted-foreground/60 font-light">
+                      <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-muted-foreground/50" aria-hidden="true" />
+                      {specialist.clinics.join(" · ")}
+                    </p>
+                  )}
+                </div>
               </Link>
             ))}
           </div>

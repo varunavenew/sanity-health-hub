@@ -13,14 +13,14 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Sidetittel',
+      title: 'Page Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     i18nSlugFieldFromTitle('title'),
     {
       name: 'heroImage',
-      title: 'Hero-bilde',
+      title: 'Hero image',
       type: 'image',
       options: { hotspot: true },
     },
@@ -38,16 +38,16 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
+            { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
             {
               name: 'paragraphs',
-              title: 'Avsnitt',
+              title: 'Paragraph',
               type: 'array',
               of: [{ type: 'internationalizedArrayText' }],
             },
             {
               name: 'bulletPoints',
-              title: 'Punktliste (valgfritt)',
+              title: 'Bullet list (optional)',
               type: 'array',
               of: [{ type: 'internationalizedArrayString' }],
             },
@@ -68,14 +68,14 @@ export default {
     {
       name: 'lifePhases',
       title: 'Livsfaser',
-      description: 'Brukes på Kvinnehelse-siden for å vise ulike livsfaser',
+      description: 'Used on the Women\'s Health page to show different life phases',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Fasens tittel', type: 'internationalizedArrayString' },
-            { name: 'text', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'title', title: 'Phase title', type: 'internationalizedArrayString' },
+            { name: 'text', title: 'Description', type: 'internationalizedArrayText' },
           ],
           preview: {
             select: { title: 'title' },
@@ -97,7 +97,7 @@ export default {
     },
     {
       name: 'ctaLink',
-      title: 'CTA-lenke',
+      title: 'CTA link',
       type: 'string',
       initialValue: '/booking',
     },

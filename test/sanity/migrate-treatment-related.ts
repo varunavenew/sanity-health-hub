@@ -60,26 +60,27 @@ async function run() {
     }
 
     const relatedSection: Record<string, any> = {}
-    if (doc.relatedEyebrow !== undefined) relatedSection.eyebrow = doc.relatedEyebrow
-    if (doc.relatedTitle !== undefined) relatedSection.title = doc.relatedTitle
-    if (doc.relatedLead !== undefined) relatedSection.lead = doc.relatedLead
-    if (doc.relatedAsIntro !== undefined) relatedSection.asIntro = doc.relatedAsIntro
-    if (doc.relatedAsServices !== undefined) relatedSection.asServices = doc.relatedAsServices
-    if (doc.relatedSeeAllHref !== undefined) relatedSection.seeAllHref = doc.relatedSeeAllHref
-    if (doc.relatedSeeAllLabel !== undefined) relatedSection.seeAllLabel = doc.relatedSeeAllLabel
-    if (Array.isArray(doc.related)) {
-      relatedSection.items = doc.related.map((ref, idx) => ({
-        _type: 'reference',
-        _ref: ref._ref,
-        _key: ref._key || `rel-${idx}`
-      }))
+    if (doc.relatedEyebrow !== undefined && doc.relatedEyebrow !== null) relatedSection.eyebrow = doc.relatedEyebrow
+    if (doc.relatedTitle !== undefined && doc.relatedTitle !== null) relatedSection.title = doc.relatedTitle
+    if (doc.relatedLead !== undefined && doc.relatedLead !== null) relatedSection.lead = doc.relatedLead
+    if (doc.relatedAsIntro !== undefined && doc.relatedAsIntro !== null) relatedSection.asIntro = doc.relatedAsIntro
+    if (doc.relatedAsServices !== undefined && doc.relatedAsServices !== null) relatedSection.asServices = doc.relatedAsServices
+    if (doc.relatedSeeAllHref !== undefined && doc.relatedSeeAllHref !== null) relatedSection.seeAllHref = doc.relatedSeeAllHref
+    if (doc.relatedSeeAllLabel !== undefined && doc.relatedSeeAllLabel !== null) relatedSection.seeAllLabel = doc.relatedSeeAllLabel
+    if (Array.isArray(doc.related) && doc.related.length > 0) {
+      relatedSection.items = doc.related
+        .filter(ref => ref && ref._ref)
+        .map((ref, idx) => ({
+          _type: 'reference',
+          _ref: ref._ref,
+          _key: ref._key || `rel-${idx}`
+        }))
     }
 
     console.log(`  Updating treatment doc: ${doc._id}`)
     updatedCount++
 
-    transaction.patch(doc._id, {
-      set: { relatedSection },
+    const patchOps: Record<string, any> = {
       unset: [
         'relatedEyebrow',
         'relatedTitle',
@@ -90,7 +91,15 @@ async function run() {
         'relatedSeeAllLabel',
         'related'
       ]
-    })
+    }
+
+    if (Object.keys(relatedSection).length > 0) {
+      patchOps.set = { relatedSection }
+    } else {
+      patchOps.unset.push('relatedSection')
+    }
+
+    transaction.patch(doc._id, patchOps)
   }
 
   if (updatedCount === 0) {

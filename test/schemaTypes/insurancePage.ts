@@ -14,7 +14,7 @@ const i18nItemPreview = {
   select: { title: 'title', subtitle: 'description' },
   prepare({ title, subtitle }: any) {
     return {
-      title: pickNo(title) || 'Uten navn',
+      title: pickNo(title) || 'Unnamed',
       subtitle: pickNo(subtitle) || undefined,
     }
   },
@@ -28,14 +28,14 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Sidetittel',
+      title: 'Page Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     i18nSlugFieldFromTitle('title'),
     {
       name: 'heroImage',
-      title: 'Hero-bilde',
+      title: 'Hero image',
       type: 'image',
       options: { hotspot: true },
     },
@@ -49,17 +49,17 @@ export default {
       title: 'Forsikringspartnere',
       type: 'array',
       of: [{ type: 'string' }],
-      description: 'Navn på forsikringspartnere (ikke oversettes)',
+      description: 'Name of insurance partners (do not translate)',
     },
     {
       name: 'partnersLocalized',
       title: 'Forsikringspartnere (oversatt)',
       type: 'array',
-      description: 'Brukes for språkstyrte partnernavn (NO/EN).',
+      description: 'Used for language-controlled partner names (NO/EN).',
       of: [
         {
           type: 'object',
-          fields: [{ name: 'name', title: 'Navn', type: 'internationalizedArrayString' }],
+          fields: [{ name: 'name', title: 'Name', type: 'internationalizedArrayString' }],
           preview: {
             select: { name: 'name' },
             prepare({name}: any) {
@@ -77,8 +77,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
           ],
           preview: i18nItemPreview,
         },
@@ -92,8 +92,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
           ],
           preview: i18nItemPreview,
         },
@@ -110,7 +110,7 @@ export default {
   preview: {
     select: { title: 'title', media: 'heroImage' },
     prepare({ title, media }: any) {
-      return { title: pickNo(title) || 'Forsikring', media }
+      return { title: pickNo(title) || 'Insurance', media }
     },
   },
 }

@@ -24,35 +24,35 @@ export default {
   type: "document",
   icon: TreatmentIcon,
   groups: [
-    { name: "content", title: "Innhold", default: true },
+    { name: "content", title: "Content", default: true },
     { name: "faq", title: "FAQ" },
   ],
   fields: [
     {
       name: "breadcrumbHome",
-      title: "Brødsmule — hjem",
+      title: "Breadcrumb — home",
       group: "content",
       ...i18nString,
-      validation: requiredNoEnI18n("Brødsmule — hjem"),
+      validation: requiredNoEnI18n("Breadcrumb — home"),
     },
     {
       name: "title",
-      title: "Sidetittel (H1)",
+      title: "Page title (H1)",
       group: "content",
       ...i18nString,
-      validation: requiredNoEnI18n("Sidetittel"),
+      validation: requiredNoEnI18n("Page Title"),
     },
     { ...i18nSlugFieldFromTitle("title", { group: "content" }) },
     {
       name: "eyebrow",
-      title: "Eyebrow over tittel",
-      description: "Liten etikett over hovedoverskriften",
+      title: "Eyebrow above title",
+      description: "Small label above the main heading",
       ...i18nString,
       validation: requiredNoEnI18n("Eyebrow"),
     },
     {
       name: "heroImage",
-      title: "Hero-bilde",
+      title: "Hero image",
       type: "image",
       options: { hotspot: true },
     },
@@ -72,9 +72,9 @@ export default {
           fields: [
             {
               name: "label",
-              title: "Tekst",
+              title: "Text",
               ...i18nString,
-              validation: requiredNoEnI18n("Badge-tekst"),
+              validation: requiredNoEnI18n("Badge text"),
             },
           ],
           preview: {
@@ -89,15 +89,15 @@ export default {
     },
     {
       name: "searchPlaceholder",
-      title: "Søkefelt placeholder",
+      title: "Search field placeholder",
       ...i18nString,
-      validation: requiredNoEnI18n("Søkefelt placeholder"),
+      validation: requiredNoEnI18n("Search field placeholder"),
     },
     {
       name: "featuredSectionTitle",
-      title: "Overskrift — utvalgte tjenester",
+      title: "Selected services heading",
       ...i18nString,
-      validation: requiredNoEnI18n("Overskrift — utvalgte tjenester"),
+      validation: requiredNoEnI18n("Selected services heading"),
     },
     {
       name: "featuredCategories",
@@ -108,7 +108,7 @@ export default {
     },
     {
       name: "moreServicesSection",
-      title: "Flere tjenester-seksjon",
+      title: "More services section",
       type: "object",
       fields: [
         {
@@ -119,15 +119,15 @@ export default {
         },
         {
           name: "title",
-          title: "Tittel",
+          title: "Title",
           ...i18nString,
-          validation: requiredNoEnI18n("Flere tjenester — tittel"),
+          validation: requiredNoEnI18n("More services — title"),
         },
         {
           name: "description",
-          title: "Beskrivelse",
+          title: "Description",
           ...i18nText,
-          validation: requiredNoEnI18n("Flere tjenester — beskrivelse"),
+          validation: requiredNoEnI18n("More services — description"),
         },
       ],
       validation: (Rule: any) => Rule.required(),
@@ -136,17 +136,17 @@ export default {
       name: "moreServicesCategories",
       title: "Flere tjenester — kategorier",
       description:
-        "Velg kategorier som vises under «Flere tjenester». Sett visningsmodus til «Behandlingsliste» for å vise alle behandlinger i kategorien (f.eks. Flere fagområder).",
+        "Select categories displayed under 'More services'. Set display mode to 'Treatment list' to show all treatments in the category (e.g. Other specialties).",
       type: "array",
       of: [
         {
           type: "object",
           name: "moreServicesCategory",
-          title: "Kategori",
+          title: "Category",
           fields: [
             {
               name: "category",
-              title: "Kategori",
+              title: "Category",
               type: "reference",
               to: [{ type: "treatmentCategory" }],
               validation: (Rule: any) => Rule.required(),
@@ -157,7 +157,7 @@ export default {
               type: "string",
               options: {
                 list: [
-                  { title: "Lenke til kategori", value: "categoryLink" },
+                  { title: "Link to category", value: "categoryLink" },
                   { title: "Liste behandlinger", value: "treatmentsList" },
                 ],
                 layout: "radio",
@@ -182,7 +182,7 @@ export default {
             }) {
               const mode =
                 displayMode === "treatmentsList" ? "Behandlingsliste" : "Kategorilenke";
-              const label = pickNo(categoryTitle) || categoryId || "Velg kategori";
+              const label = pickNo(categoryTitle) || categoryId || "Select category";
               return {
                 title: label,
                 subtitle: mode,
@@ -202,9 +202,9 @@ export default {
     },
     {
       name: "faqs",
-      title: "FAQ — spørsmål og svar",
+      title: "FAQ — questions and answers",
       description:
-        "Legg til, rediger og sorter FAQ-rader her. Vises på tjenester-siden.",
+        "Add, edit and sort FAQ rows here. Displayed on the services page.",
       type: "array",
       group: "faq",
       of: [
@@ -219,13 +219,13 @@ export default {
           fields: [
             {
               name: "question",
-              title: "Spørsmål",
+              title: "Question",
               type: "internationalizedArrayString",
-              validation: requiredNoEnI18n("FAQ-spørsmål"),
+              validation: requiredNoEnI18n("FAQ Question"),
             },
             {
               name: "answer",
-              title: "Svar",
+              title: "Answer",
               type: "internationalizedArrayText",
               validation: requiredNoEnI18n("FAQ-svar"),
             },
@@ -237,24 +237,24 @@ export default {
     },
     {
       name: "loadingLabel",
-      title: "Laster-tekst",
+      title: "Loading Text",
       group: "content",
       ...i18nString,
-      validation: requiredNoEnI18n("Laster-tekst"),
+      validation: requiredNoEnI18n("Loading Text"),
     },
     {
       name: "pageErrorMessage",
-      title: "Feilmelding for siden",
+      title: "Error Message for the Page",
       group: "content",
       ...i18nText,
-      validation: requiredNoEnI18n("Feilmelding for siden"),
+      validation: requiredNoEnI18n("Error Message for the Page"),
     },
     {
       name: "emptyCategoriesMessage",
-      title: "Melding når kategorier mangler",
+      title: "Message when categories are missing",
       group: "content",
       ...i18nText,
-      validation: requiredNoEnI18n("Melding når kategorier mangler"),
+      validation: requiredNoEnI18n("Message when categories are missing"),
     },
     pageSectionsField,
     {
@@ -271,8 +271,8 @@ export default {
       const titleStr = Array.isArray(title)
         ? (title.find((t) => (t.language || t._key) === "no")?.value ||
             title[0]?.value ||
-            "Tjenester")
-        : (title || "Tjenester");
+            "Services")
+        : (title || "Services");
       return { title: titleStr };
     },
   },

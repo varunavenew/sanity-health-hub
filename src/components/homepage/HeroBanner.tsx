@@ -12,6 +12,7 @@ import type { ImageRef } from "@/lib/media";
 interface HeroSlide {
   id: string;
   image?: ImageRef;
+  imageRight?: ImageRef;
   videoUrl?: string;
   alt: string;
   label: string;
@@ -33,6 +34,7 @@ export const HeroBanner = () => {
     .map((s: any, i: number) => ({
       id: s.id || `slide-${i}`,
       image: s.image,
+      imageRight: s.imageRight,
       videoUrl: s.videoUrl,
       alt: s.label || "",
       label: s.label,
@@ -119,60 +121,115 @@ export const HeroBanner = () => {
             if (!dragging.current && slide.ctaPath) navigate(slide.ctaPath);
           }}
         >
-          {slide.videoUrl ? (
-            <video
-              src={slide.videoUrl}
-              poster={typeof slide.image === "string" ? slide.image : undefined}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
-            />
-          ) : slide.image ? (
-            <AssetImg
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              style={{ objectPosition: slide.objectPosition }}
-              loading={current === 0 ? "eager" : "lazy"}
-            />
+          {slide.imageRight ? (
+            <div className="absolute inset-0 w-full h-full grid grid-cols-1 lg:grid-cols-2">
+              {/* Left Column (Image or Video) */}
+              <div className="relative w-full h-full">
+                {slide.videoUrl ? (
+                  <video
+                    src={slide.videoUrl}
+                    poster={typeof slide.image === "string" ? slide.image : undefined}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    style={{ objectPosition: slide.objectPosition }}
+                  />
+                ) : slide.image ? (
+                  <AssetImg
+                    src={slide.image}
+                    alt={slide.alt}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    style={{ objectPosition: slide.objectPosition }}
+                    loading={current === 0 ? "eager" : "lazy"}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-brand-dark/20" />
+                )}
+              </div>
+
+              {/* Right Column (Second Image - Desktop only) */}
+              <div className="relative w-full h-full hidden lg:block overflow-hidden">
+                <AssetImg
+                  src={slide.imageRight}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  style={{ objectPosition: slide.objectPosition }}
+                  loading={current === 0 ? "eager" : "lazy"}
+                />
+              </div>
+            </div>
           ) : (
-            <div className="w-full h-full bg-brand-dark/20" />
+            // Full Width Background Image/Video
+            <>
+              {slide.videoUrl ? (
+                <video
+                  src={slide.videoUrl}
+                  poster={typeof slide.image === "string" ? slide.image : undefined}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  style={{ objectPosition: slide.objectPosition }}
+                />
+              ) : slide.image ? (
+                <AssetImg
+                  src={slide.image}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  style={{ objectPosition: slide.objectPosition }}
+                  loading={current === 0 ? "eager" : "lazy"}
+                />
+              ) : (
+                <div className="w-full h-full bg-brand-dark/20" />
+              )}
+            </>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 pb-20 md:pb-24">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="max-w-xl"
-            >
-              <span className="block text-xs text-white/80 mb-3 font-light">
-                {slide.subtitle}
-              </span>
-              <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
-                {slide.label}
-              </p>
-              {slide.cta && slide.ctaPath ? (
-                <span
-                  className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(slide.ctaPath);
-                  }}
+
+          {/* Overlays for readability and style */}
+          {/* A bottom-to-top gradient overlay to ensure contrast for indicators and text at the bottom */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent z-10" />
+          
+          {/* A soft left-to-right gradient overlay to make the text on the left readable, without blocking the image */}
+          <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 bg-gradient-to-r from-black/45 via-black/10 to-transparent z-10" />
+
+          {/* Slide Content */}
+          <div className="absolute inset-0 z-20">
+            <div className="container mx-auto h-full px-6 md:px-16 flex items-center">
+              <div className="max-w-xl lg:max-w-[45%] w-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 }}
                 >
-                  {slide.cta}
-                  <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
-                </span>
-              ) : null}
-            </motion.div>
+                  <span className="block text-xs text-white/80 mb-3 font-light tracking-wider uppercase">
+                    {slide.subtitle}
+                  </span>
+                  <p className="text-3xl md:text-5xl lg:text-6xl font-light leading-tight tracking-tight text-white whitespace-pre-line mb-6" aria-live="polite">
+                    {slide.label}
+                  </p>
+                  {slide.cta && slide.ctaPath ? (
+                    <span
+                      className="inline-flex items-center text-sm md:text-base text-white font-normal hover:underline underline-offset-4 transition-all cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(slide.ctaPath);
+                      }}
+                    >
+                      {slide.cta}
+                      <ArrowRight className="ml-2 w-4 h-4 transition-transform hover:translate-x-1" />
+                    </span>
+                  ) : null}
+                </motion.div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute bottom-0 inset-x-0 z-20">
+      <div className="absolute bottom-0 inset-x-0 z-30">
         <div className="container mx-auto px-6 md:px-16 pb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {heroSlides.map((_, i) => (

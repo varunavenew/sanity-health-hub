@@ -9,16 +9,16 @@ export default {
       title: 'YouTube-URL',
       type: 'url',
       description:
-        'Lim inn en YouTube-lenke (f.eks. https://www.youtube.com/watch?v=…, https://youtu.be/… eller embed-URL).',
+        'Paste a YouTube link (e.g. https://www.youtube.com/watch?v=..., https://youtu.be/... or embed URL).',
       validation: (Rule: any) =>
         Rule.required().custom((value: string | undefined) => {
-          if (!value?.trim()) return 'URL er påkrevd'
+          if (!value?.trim()) return 'URL is required'
           try {
             const host = new URL(value.trim()).hostname.replace(/^www\./, '')
             if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtu.be') {
               return true
             }
-            return 'Må være en YouTube-lenke (youtube.com eller youtu.be)'
+            return 'Must be a YouTube link (youtube.com or youtu.be)'
           } catch {
             return 'Ugyldig URL'
           }
@@ -26,7 +26,7 @@ export default {
     },
     {
       name: 'caption',
-      title: 'Bildetekst (valgfritt)',
+      title: 'Caption (optional)',
       type: 'string',
     },
   ],
@@ -34,7 +34,7 @@ export default {
     select: { url: 'url', caption: 'caption' },
     prepare({ url, caption }: { url?: string; caption?: string }) {
       return {
-        title: caption || 'YouTube-video',
+        title: caption || 'YouTube Video',
         subtitle: url,
       }
     },

@@ -54,8 +54,8 @@ export function requiredNoI18n(message: string) {
 export function requiredNoEnI18n(label: string) {
   return (Rule: any) =>
     Rule.custom((value: unknown) => {
-      if (!pickNo(value)?.trim()) return `${label} (norsk) er påkrevd`
-      if (!pickForLang(value, 'en')?.trim()) return `${label} (engelsk) er påkrevd`
+      if (!pickNo(value)?.trim()) return `${label} (Norwegian) is required`
+      if (!pickForLang(value, 'en')?.trim()) return `${label} (English) is required`
       return true
     })
 }
@@ -71,8 +71,8 @@ function slugForLang(value: unknown, lang: string): string {
 export function requiredNoEnSlug() {
   return (Rule: any) =>
     Rule.custom((value: unknown) => {
-      if (!slugForLang(value, 'no')) return 'URL-slug (norsk) er påkrevd'
-      if (!slugForLang(value, 'en')) return 'URL-slug (engelsk) er påkrevd'
+      if (!slugForLang(value, 'no')) return 'URL slug (Norwegian) is required'
+      if (!slugForLang(value, 'en')) return 'URL slug (English) is required'
       return true
     })
 }
@@ -91,8 +91,8 @@ function hasLangBlockContent(value: unknown, lang: string): boolean {
 export function requiredNoEnBlockContent(label: string) {
   return (Rule: any) =>
     Rule.custom((value: unknown) => {
-      if (!hasLangBlockContent(value, 'no')) return `${label} (norsk) er påkrevd`
-      if (!hasLangBlockContent(value, 'en')) return `${label} (engelsk) er påkrevd`
+      if (!hasLangBlockContent(value, 'no')) return `${label} (Norwegian) is required`
+      if (!hasLangBlockContent(value, 'en')) return `${label} (English) is required`
       return true
     })
 }
@@ -105,10 +105,10 @@ export function hasNoEnBlockContent(value: unknown): boolean {
 /** Sanity validation: SEO object with Norwegian meta title and description. */
 export function requiredNoSeo(Rule: any) {
   return Rule.required().custom((seo: unknown) => {
-    if (!seo || typeof seo !== 'object') return 'SEO-innstillinger er påkrevd'
+    if (!seo || typeof seo !== 'object') return 'SEO settings are required'
     const s = seo as Record<string, unknown>
-    if (!pickNo(s.metaTitle)?.trim()) return 'Meta-tittel (norsk) er påkrevd'
-    if (!pickNo(s.metaDescription)?.trim()) return 'Meta-beskrivelse (norsk) er påkrevd'
+    if (!pickNo(s.metaTitle)?.trim()) return 'Meta title (Norwegian) is required'
+    if (!pickNo(s.metaDescription)?.trim()) return 'Meta description (Norwegian) is required'
     return true
   })
 }
@@ -116,13 +116,13 @@ export function requiredNoSeo(Rule: any) {
 /** Sanity validation: SEO object with NO + EN meta title and description. */
 export function requiredNoEnSeo(Rule: any) {
   return Rule.required().custom((seo: unknown) => {
-    if (!seo || typeof seo !== 'object') return 'SEO-innstillinger er påkrevd'
+    if (!seo || typeof seo !== 'object') return 'SEO settings are required'
     const s = seo as Record<string, unknown>
-    if (!pickNo(s.metaTitle)?.trim()) return 'Meta-tittel (norsk) er påkrevd'
-    if (!pickForLang(s.metaTitle, 'en')?.trim()) return 'Meta-tittel (engelsk) er påkrevd'
-    if (!pickNo(s.metaDescription)?.trim()) return 'Meta-beskrivelse (norsk) er påkrevd'
+    if (!pickNo(s.metaTitle)?.trim()) return 'Meta title (Norwegian) is required'
+    if (!pickForLang(s.metaTitle, 'en')?.trim()) return 'Meta title (English) is required'
+    if (!pickNo(s.metaDescription)?.trim()) return 'Meta description (Norwegian) is required'
     if (!pickForLang(s.metaDescription, 'en')?.trim()) {
-      return 'Meta-beskrivelse (engelsk) er påkrevd'
+      return 'Meta description (English) is required'
     }
     return true
   })
@@ -158,7 +158,7 @@ export const i18nTitleItemPreview = {
   prepare({ title, subtitle }: { title?: unknown; subtitle?: unknown }) {
     const desc = pickNo(subtitle)
     return {
-      title: pickNo(title) || 'Uten tittel',
+      title: pickNo(title) || 'Untitled',
       subtitle: desc ? truncate(desc) : undefined,
     }
   },
@@ -176,7 +176,7 @@ type SlugFieldOverrides = {
 export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFieldOverrides = {}) {
   return {
     name: 'slug',
-    title: overrides.title ?? 'URL-slug',
+    title: overrides.title ?? 'URL Slug',
     type: 'internationalizedArraySlug',
     description:
       overrides.description ??
@@ -202,7 +202,7 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
 export function i18nSlugFieldFromString(sourceField: string, overrides: SlugFieldOverrides = {}) {
   return {
     name: 'slug',
-    title: overrides.title ?? 'URL-slug',
+    title: overrides.title ?? 'URL Slug',
     type: 'internationalizedArraySlug',
     description:
       overrides.description ??

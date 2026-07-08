@@ -13,24 +13,24 @@ export default {
   fields: [
     {
       name: 'metaTitle',
-      title: 'Meta-tittel',
+      title: 'Meta title',
       type: 'internationalizedArrayString',
-      description: 'Maks 60 tegn per språk',
+      description: 'Max 60 characters per language',
     },
     {
       name: 'metaDescription',
-      title: 'Meta-beskrivelse',
+      title: 'Meta description',
       type: 'internationalizedArrayText',
-      description: 'Maks 160 tegn per språk',
+      description: 'Max 160 characters per language',
     },
     {
       name: 'ogImage',
-      title: 'OG-bilde (deling)',
+      title: 'OG Image (sharing)',
       type: 'image',
     },
     {
       name: 'noIndex',
-      title: 'Skjul fra søkemotorer',
+      title: 'Hide from search engines',
       type: 'boolean',
       initialValue: false,
     },

@@ -9,13 +9,13 @@ export default {
   fields: [
     {
       name: 'name',
-      title: 'Navn',
+      title: 'Name',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'age',
-      title: 'Alder',
+      title: 'Age',
       type: 'number',
     },
     {
@@ -26,7 +26,7 @@ export default {
     },
     {
       name: 'text',
-      title: 'Tekst',
+      title: 'Text',
       type: 'text',
       rows: 3,
       validation: (Rule: any) => Rule.required(),
@@ -38,24 +38,24 @@ export default {
     },
     {
       name: 'treatment',
-      title: 'Behandling',
+      title: 'Treatment',
       type: 'string',
       options: {
         list: [
-          { title: 'Gynekologi', value: 'Gynekologi' },
-          { title: 'Urologi', value: 'Urologi' },
-          { title: 'Fertilitet', value: 'Fertilitet' },
+          { title: 'Gynecology', value: 'Gynecology' },
+          { title: 'Urology', value: 'Urology' },
+          { title: 'Fertility', value: 'Fertility' },
         ],
       },
     },
     {
       name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
+      title: 'Sorting order',
       type: 'number'    },
   ],
   orderings: [
     {
-      title: 'Publisert rekkefølge (manuell → A–Å)',
+      title: 'Published order (manual → A–Z)',
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
@@ -63,7 +63,7 @@ export default {
       ],
     },
     {
-      title: 'Vurdering (høyest først)',
+      title: 'Rating (highest first)',
       name: 'ratingDesc',
       by: [{ field: 'rating', direction: 'desc' }],
     },

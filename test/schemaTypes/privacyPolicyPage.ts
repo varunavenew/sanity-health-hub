@@ -11,27 +11,27 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Tittel',
+      title: 'Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     i18nSlugFieldFromTitle('title', { title: 'Slug' }),
     {
       name: 'body',
-      title: 'Innhold',
+      title: 'Content',
       type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'loadingLabel',
-      title: 'Laster-tekst',
+      title: 'Loading Text',
       type: 'internationalizedArrayString',
-      description: 'Vises mens personvernerklæringen lastes.',
+      description: 'Displayed while the privacy policy is loading.',
     },
     {
       name: 'emptyMessage',
-      title: 'Melding når innhold mangler',
+      title: 'Message when content is missing',
       type: 'internationalizedArrayText',
-      description: 'Vises når personvernerklæringen ikke har innhold på valgt språk.',
+      description: 'Displayed when the privacy policy has no content in the selected language.',
     },
     {
       name: 'cookiebotKey',

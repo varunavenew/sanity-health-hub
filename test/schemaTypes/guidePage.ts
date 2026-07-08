@@ -6,18 +6,18 @@ import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'guidePage',
-  title: 'Guide-side',
+  title: 'Guide page',
   type: 'document',
   icon: GenericIcon,
   fields: [
     {
       name: 'heroTitle',
-      title: 'Hero – tittel',
+      title: 'Hero – title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     i18nSlugFieldFromTitle('heroTitle', {
-      description: 'URL-sti uten locale, f.eks. /guide (NO og EN).',
+      description: 'URL path without locale, e.g. /guide (NO and EN).',
     }),
     {
       name: 'heroSubtitle',
@@ -32,17 +32,17 @@ export default {
     },
     {
       name: 'featuredCategories',
-      title: 'Kategorier (valgfritt)',
+      title: 'Categories (optional)',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'treatmentCategory' }] }],
       description:
-        'Velg rekkefølge. La stå tom for å vise alle behandlingskategorier sortert etter sortOrder.',
+        'Select order. Leave blank to show all treatment categories sorted by sortOrder.',
       hidden: ({ parent }: { parent?: { showCategorySections?: boolean } }) =>
         parent?.showCategorySections === false,
     },
     {
       name: 'ctaTitle',
-      title: 'CTA – tittel',
+      title: 'CTA – title',
       type: 'internationalizedArrayString',
     },
     {
@@ -57,10 +57,10 @@ export default {
     },
     {
       name: 'ctaButtonPath',
-      title: 'CTA – lenke',
+      title: 'CTA – link',
       type: 'string',
       initialValue: '/booking',
-      description: 'Intern sti uten locale, f.eks. /booking',
+      description: 'Internal path without locale, e.g. /booking',
     },
     {
       name: 'seo',

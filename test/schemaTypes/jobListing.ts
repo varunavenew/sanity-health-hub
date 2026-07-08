@@ -19,14 +19,14 @@ export default {
     i18nSlugFieldFromString('title'),
     {
       name: 'department',
-      title: 'Avdeling / Tjenesteområde',
+      title: 'Department / Service area',
       type: 'string',
       options: {
         list: [
-          { title: 'Gynekologi', value: 'gynekologi' },
-          { title: 'Fertilitet', value: 'fertilitet' },
-          { title: 'Urologi', value: 'urologi' },
-          { title: 'Ortopedi', value: 'ortopedi' },
+          { title: 'Gynecology', value: 'gynekologi' },
+          { title: 'Fertility', value: 'fertilitet' },
+          { title: 'Urology', value: 'urologi' },
+          { title: 'Orthopedics', value: 'ortopedi' },
           { title: 'Hud', value: 'hud' },
           { title: 'Administrasjon', value: 'administrasjon' },
           { title: 'IT / Teknologi', value: 'it' },
@@ -38,7 +38,7 @@ export default {
       name: 'location',
       title: 'Arbeidssted',
       type: 'string',
-      description: 'F.eks. "Oslo Majorstuen", "Bekkestua", "Moss"',
+      description: 'E.g. "Oslo Majorstuen", "Bekkestua", "Moss"',
     },
     {
       name: 'employmentType',
@@ -55,14 +55,14 @@ export default {
     },
     {
       name: 'excerpt',
-      title: 'Kort beskrivelse',
+      title: 'Short description',
       type: 'text',
       rows: 3,
-      description: 'Vises i stillingslisten',
+      description: 'Displayed in the job list',
     },
     {
       name: 'body',
-      title: 'Full beskrivelse',
+      title: 'Full description',
       type: 'blockContent',
     },
     {
@@ -73,9 +73,9 @@ export default {
     },
     {
       name: 'deadline',
-      title: 'Søknadsfrist',
+      title: 'Application deadline',
       type: 'date',
-      description: 'La stå tom for "Løpende"',
+      description: 'Leave blank for \'Ongoing\'',
     },
     {
       name: 'contactName',
@@ -84,32 +84,32 @@ export default {
     },
     {
       name: 'contactEmail',
-      title: 'Kontakt e-post',
+      title: 'Contact email',
       type: 'string',
     },
     {
       name: 'contactPhone',
-      title: 'Kontakt telefon',
+      title: 'Contact phone',
       type: 'string',
     },
     {
       name: 'applyUrl',
-      title: 'Søknadslenke (ekstern)',
+      title: 'Application link (external)',
       type: 'url',
-      description: 'Ekstern URL for søknadsskjema. La stå tom om søknad sendes på e-post.',
+      description: 'External URL for application form. Leave blank if the application is sent via email.',
     },
     {
       name: 'active',
-      title: 'Aktiv',
+      title: 'Active',
       type: 'boolean',
       initialValue: true,
-      description: 'Deaktiver for å skjule stillingen uten å slette den.',
+      description: 'Deactivate to hide the job listing without deleting it.',
     },
     pageSectionsField,
   ],
   orderings: [
     {
-      title: 'Publiseringsdato (nyeste først)',
+      title: 'Publishing date (newest first)',
       name: 'publishedAtDesc',
       by: [{ field: 'publishedAt', direction: 'desc' }],
     },

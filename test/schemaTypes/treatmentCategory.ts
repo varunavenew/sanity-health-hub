@@ -46,24 +46,24 @@ function treatmentRefsForCategoryFilter({
 const statItem = {
   type: 'object',
   fields: [
-    { name: 'value', title: 'Verdi', type: 'string', validation: reqStr('Verdi') },
+    { name: 'value', title: 'Value', type: 'string', validation: reqStr('Value') },
     {
       name: 'label',
-      title: 'Etikett',
+      title: 'Label',
       type: 'internationalizedArrayString',
-      validation: reqI18n('Etikett'),
+      validation: reqI18n('Label'),
     },
     {
       name: 'sub',
-      title: 'Undertekst',
+      title: 'Subheading',
       type: 'internationalizedArrayString',
-      validation: reqI18n('Undertekst'),
+      validation: reqI18n('Subheading'),
     },
   ],
   preview: {
     select: { value: 'value', label: 'label' },
     prepare({ value, label }: { value?: string; label?: unknown }) {
-      return { title: value || 'Statistikk', subtitle: pickNo(label) || undefined }
+      return { title: value || 'Statistics', subtitle: pickNo(label) || undefined }
     },
   },
 }
@@ -74,7 +74,7 @@ export default {
   type: 'document',
   icon: CategoryIcon,
   groups: [
-    { name: 'general', title: 'Generelt' },
+    { name: 'general', title: 'General' },
     { name: 'hero', title: 'Hero' },
     { name: 'landingPage', title: 'Landingsside' },
     { name: 'pageSections', title: 'Sidestruktur' },
@@ -94,29 +94,29 @@ export default {
     },
     {
       name: 'categoryId',
-      title: 'Kategori-key (slug)',
+      title: 'Category key (slug)',
       type: 'string',
       group: 'general',
       description:
-        'Intern nøkkel brukt i app-ruting: gynekologi, fertilitet, urologi, ortopedi, graviditet, flere-fagomrader',
+        'Internal key used in app routing: gynecology, fertility, urology, orthopedics, pregnancy, other-specialties',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'categoryNumericId',
-      title: 'Kategori-ID',
+      title: 'Category ID',
       type: 'number',
       group: 'general',
       description:
-        'Numerisk booking-ID. Eksempel: 8=Gynekologi, 1=Fertilitet, 6=Urologi, 17=Ortopedi, 10=Graviditet, 23=Flere fagområder',
+        'Numeric booking ID. Example: 8=Gynecology, 1=Fertility, 6=Urology, 17=Orthopedics, 10=Pregnancy, 23=Other specialties',
       validation: (Rule: any) => Rule.required().min(1).max(999),
     },
     {
       name: 'heroImage',
-      title: 'Hero-bilde',
+      title: 'Hero image',
       type: 'image',
       group: 'hero',
       options: { hotspot: true },
-      description: 'Brukes når hero-video ikke er satt.',
+      description: 'Used when hero video is not set.',
     },
     {
       name: 'heroVideo',
@@ -124,14 +124,14 @@ export default {
       type: 'file',
       group: 'hero',
       options: { accept: 'video/*' },
-      description: 'Valgfri bakgrunnsvideo i hero (overstyrer stillbilde når satt).',
+      description: 'Optional background video in hero (overrides image when set).',
     },
     {
       name: 'treatments',
-      title: 'Behandlinger',
+      title: 'Treatments',
       group: 'general',
       description:
-        'Behandlinger som vises på kategori-landingssiden (f.eks. «Alt under samme tak»). Kun behandlinger med Kategori = denne kategorien kan velges. Rekkefølgen her styrer visningen.',
+        'Treatments displayed on the category landing page (e.g. \'All under one roof\'). Only treatments with Category = this category can be selected. The order here controls display.',
       type: 'array',
       of: [
         {
@@ -145,18 +145,18 @@ export default {
     },
     {
       name: 'stats',
-      title: 'Statistikk',
+      title: 'Statistics',
       group: 'general',
       type: 'array',
       of: [statItem],
-      validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én statistikk-rad'),
+      validation: (Rule: any) => Rule.required().min(1).error('Add at least one statistics row'),
     },
     {
       name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
+      title: 'Sorting order',
       type: 'number',
       group: 'general',
-      description: 'Lavere tall vises først.',
+      description: 'Lower numbers are shown first.',
     },
     {
       ...categoryLandingPageField,
@@ -182,7 +182,7 @@ export default {
   ],
   orderings: [
     {
-      title: 'Manuell rekkefølge',
+      title: 'Manual order',
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
@@ -190,7 +190,7 @@ export default {
       ],
     },
     {
-      title: 'Tittel (A–Å)',
+      title: 'Title (A–Z)',
       name: 'titleAsc',
       by: [{ field: 'categoryId', direction: 'asc' }],
     },
@@ -201,7 +201,7 @@ export default {
       const idPart = numericId != null ? `#${numericId}` : ''
       const keyPart = subtitle ? `${subtitle}` : ''
       const previewSubtitle = [idPart, keyPart].filter(Boolean).join(' • ')
-      return { title: pickNo(title) || 'Kategori', subtitle: previewSubtitle, media }
+      return { title: pickNo(title) || 'Category', subtitle: previewSubtitle, media }
     },
   },
 }
