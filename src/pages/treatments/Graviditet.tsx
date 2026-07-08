@@ -9,6 +9,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { Editable } from "@/components/editable/Editable";
 import {
   Accordion,
   AccordionContent,
@@ -235,11 +236,15 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                 Et svangerskap er noe av <span className="block italic">det mest sårbare som finnes</span>
               </h2>
 
-              <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
-                Du skal kjenne deg trygg, sett og fulgt opp — fra det første
-                hjerteslaget til dagene etter fødselen. Hos CMedical møter du
-                den samme jordmoren og legen gjennom hele svangerskapet.
-              </p>
+              <Editable
+                as="p"
+                field="hero.description"
+                multiline
+                pagePath="/graviditet"
+                className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+              >
+                {`Du skal kjenne deg trygg, sett og fulgt opp — fra det første hjerteslaget til dagene etter fødselen. Hos CMedical møter du den samme jordmoren og legen gjennom hele svangerskapet.`}
+              </Editable>
 
               {entryPrice && (
                 <div className="mb-4 text-sm font-light text-foreground/80">
@@ -257,7 +262,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                     (window.location.href = buildBookingUrl({ kategori: "graviditet" }))
                   }
                 >
-                  Bestill time
+                  <Editable field="hero.cta" pagePath="/graviditet">Bestill time</Editable>
                 </Button>
                 <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>

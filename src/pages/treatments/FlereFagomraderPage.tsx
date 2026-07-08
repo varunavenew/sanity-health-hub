@@ -7,6 +7,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { Editable } from "@/components/editable/Editable";
 import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
@@ -112,11 +113,15 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
   Spesialister <span className="block italic">i team</span>
   </h2>
 
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Vi har samlet noen av Nordens fremste spesialister innen hud,
- psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber
- i tverrfaglige team — og utelukkende med det de kan aller best.
- </p>
+ <Editable
+   as="p"
+   field="hero.description"
+   multiline
+   pagePath="/flere-fagomrader"
+   className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+ >
+   {`Vi har samlet noen av Nordens fremste spesialister innen hud, psykologi, sexologi, ernæring og kirurgi. Spesialistene jobber i tverrfaglige team — og utelukkende med det de kan aller best.`}
+ </Editable>
 
  <div className="hidden sm:flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
@@ -129,7 +134,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill time
+ <Editable field="hero.cta" pagePath="/flere-fagomrader">Bestill time</Editable>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>

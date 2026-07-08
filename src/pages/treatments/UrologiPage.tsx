@@ -8,6 +8,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { Editable } from "@/components/editable/Editable";
 import { LeadPopup } from "@/components/LeadPopup";
 import {
   Accordion,
@@ -219,11 +220,15 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
   Spesialister <span className="block italic">du kan stole på</span>
   </h2>
 
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Plager i underlivet er vanligere enn du tror — og enklere å
- hjelpe enn du kanskje frykter. CMedical er eneste private aktør
- i Norge som tilbyr robotassisterte operasjoner.
- </p>
+ <Editable
+   as="p"
+   field="hero.description"
+   multiline
+   pagePath="/urologi"
+   className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+ >
+   {`Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du kanskje frykter. CMedical er eneste private aktør i Norge som tilbyr robotassisterte operasjoner.`}
+ </Editable>
 
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
@@ -236,7 +241,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill urologtime
+ <Editable field="hero.cta" pagePath="/urologi">Bestill urologtime</Editable>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>

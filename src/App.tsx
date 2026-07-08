@@ -75,6 +75,9 @@ import SpecialistKlinisk from "./pages/specialist-design/KliniskVariant";
 import SpecialistAtelier from "./pages/specialist-design/AtelierVariant";
 import { useUiTranslations } from "./hooks/useUiTranslations";
 import { useServiceImagesSync } from "./hooks/useServiceImages";
+import Rediger from "./pages/Rediger";
+import { EditableProvider } from "./lib/editable/EditableContext";
+import { EditModeBar } from "./components/editable/EditModeBar";
 
 const queryClient = new QueryClient();
 
@@ -247,10 +250,13 @@ const AppContent = () => {
         <Route path="/spesialist-design/editorial" element={<SpecialistEditorial isChatOpen={false} />} />
         <Route path="/spesialist-design/klinisk" element={<SpecialistKlinisk isChatOpen={false} />} />
         <Route path="/spesialist-design/atelier" element={<SpecialistAtelier isChatOpen={false} />} />
+        {/* Internal editor */}
+        <Route path="/rediger" element={<Rediger />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
 
+      <EditModeBar />
       {/* LeadPopup moved to category pages only */}
     </>
   );
@@ -262,8 +268,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
-        <AppContent />
+        <EditableProvider>
+          <ScrollToTop />
+          <AppContent />
+        </EditableProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
