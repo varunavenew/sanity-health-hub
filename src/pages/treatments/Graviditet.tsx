@@ -123,9 +123,9 @@ const expertAreas = [
     image: fosterImg,
   },
   {
-    title: "Svangerskapsteam og jordmor",
+    title: "Graviditetsoppfølging",
     desc:
-      "Fast jordmor og lege gjennom hele svangerskapet. Tett, personlig oppfølging — i ro og uten ventetid.",
+      "Erfarne gynekologer og fostermedisinere følger deg gjennom hele svangerskapet. Tett, personlig oppfølging — i ro og uten ventetid.",
     href: `${GRAV}/svangerskapsteam`,
     image: teamImg,
   },
