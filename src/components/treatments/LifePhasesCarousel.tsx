@@ -13,7 +13,8 @@ export interface LifePhase {
   title: string;
   desc: string;
   tags?: { label: string; href: string }[];
-  href: string;
+  /** Optional "Les mer"-lenke nederst på kortet. Utelates for å skjule linken. */
+  href?: string;
   cta?: string;
   n?: string;
 }
@@ -63,13 +64,15 @@ export const LifePhasesCarousel = ({ phases }: Props) => {
                   ))}
                 </div>
               )}
-              <Link
-                to={p.href}
-                className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
-              >
-                {p.cta ?? "Les mer"}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              {p.href && (
+                <Link
+                  to={p.href}
+                  className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
+                >
+                  {p.cta ?? "Les mer"}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              )}
             </article>
           ))}
         </div>
@@ -105,13 +108,15 @@ export const LifePhasesCarousel = ({ phases }: Props) => {
                       </Link>
                     ))}
                   </div>
-                  <Link
-                    to={p.href}
-                    className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
-                  >
-                    {p.cta ?? "Les mer"}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                  {p.href && (
+                    <Link
+                      to={p.href}
+                      className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
+                    >
+                      {p.cta ?? "Les mer"}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
                 </div>
               </AccordionContent>
             </AccordionItem>
