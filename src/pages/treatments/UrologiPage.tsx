@@ -220,11 +220,15 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
   Spesialister <span className="block italic">du kan stole på</span>
   </h2>
 
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Plager i underlivet er vanligere enn du tror — og enklere å
- hjelpe enn du kanskje frykter. CMedical er eneste private aktør
- i Norge som tilbyr robotassisterte operasjoner.
- </p>
+ <Editable
+   as="p"
+   field="hero.description"
+   multiline
+   pagePath="/urologi"
+   className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+ >
+   {`Plager i underlivet er vanligere enn du tror — og enklere å hjelpe enn du kanskje frykter. CMedical er eneste private aktør i Norge som tilbyr robotassisterte operasjoner.`}
+ </Editable>
 
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-10">
  <Button
