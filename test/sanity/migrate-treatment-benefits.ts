@@ -114,17 +114,28 @@ function parseTreatmentContent(src: string): Extracted[] {
  * each entry we extract `heroPoints[].title` — those become the benefit
  * bullets for treatment key `${category}/${subKey}`.
  */
-function parseSubPages(src: string, category: string): Extracted[] {
+function parseSubPages(src: string, category: string, recordName: string): Extracted[] {
   const out: Extracted[] = [];
-  const entryRe = /(?:^|\n)  (?:"([a-z0-9-]+)"|([a-zA-Z_][a-zA-Z0-9_-]*)):\s*\{/g;
+  // Find the exported record and grab its body — indentation-agnostic.
+  const recRe = new RegExp(`export\\s+const\\s+${recordName}\\s*:[^=]*=\\s*\\{`);
+  const rm = recRe.exec(src);
+  if (!rm) {
+    console.warn(`   ⚠ ${recordName}: export not found`);
+    return out;
+  }
+  const recordBodyStart = rm.index + rm[0].length;
+  const { body: recordBody } = readBalanced(src, recordBodyStart, "{", "}");
+
+  // Entries at depth 1 within the record. Match `key:` or `"key":` at any indent.
+  const entryRe = /(?:^|\n)\s*(?:"([a-z0-9-]+)"|([a-zA-Z_][a-zA-Z0-9_-]*))\s*:\s*\{/g;
   let m: RegExpExecArray | null;
-  while ((m = entryRe.exec(src)) !== null) {
+  while ((m = entryRe.exec(recordBody)) !== null) {
     const subKey = m[1] ?? m[2];
     if (!subKey) continue;
     const bodyStart = m.index + m[0].length;
     let bodyEnd: number, body: string;
     try {
-      ({ end: bodyEnd, body } = readBalanced(src, bodyStart, "{", "}"));
+      ({ end: bodyEnd, body } = readBalanced(recordBody, bodyStart, "{", "}"));
     } catch { continue; }
     entryRe.lastIndex = bodyEnd + 1;
 
@@ -136,8 +147,6 @@ function parseSubPages(src: string, category: string): Extracted[] {
       ({ body: arrBody } = readBalanced(body, arrStart, "[", "]"));
     } catch { continue; }
 
-    // Pull each `title: "..."` string in order (regex is safe: strings can't
-    // contain unescaped quotes that would confuse this pattern).
     const titles: string[] = [];
     const titleRe = /\btitle\s*:\s*("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/g;
     let tm: RegExpExecArray | null;
