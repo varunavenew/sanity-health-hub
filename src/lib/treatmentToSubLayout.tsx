@@ -87,7 +87,7 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
   "ortopedi/hand-albue",
   "ortopedi/skulder",
   // Graviditet
-  "graviditet/nipt",
+  // (per fagansvarlig batch 3: NIPT vises som prose, ikke nedtrekk)
   // Øvrige
   "flere-fagomrader/sexologi",
 ]);
