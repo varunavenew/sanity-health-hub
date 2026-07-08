@@ -52,16 +52,15 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     hideSeePriser: true,
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
-    flowTitle: "Slik foregår timen",
+    flowTitle: "Slik foregår det",
     flowImage: imgMajorstuen,
     flowImageAlt: "Interiør fra CMedical-klinikken",
     flowLinkLabel: "Les mer om klinikken",
     flowLinkHref: "/klinikker/majorstuen",
     flow: [
-      { n: "Minutt 0–10", title: "Samtale og historikk", desc: "Vi starter med en grundig samtale om hva du opplever, syklushistorie og eventuelle spørsmål. Ingen spørsmål er for små eller for private." },
-      { n: "Minutt 10–25", title: "Den kliniske undersøkelsen", desc: "Vi gjennomfører en gynekologisk undersøkelse, eventuelt med ultralyd — med ditt tempo og din komfort i fokus." },
-      { n: "Minutt 25–40", title: "Funn og forklaring", desc: "Legen gjennomgår hva vi finner, forklarer med klare ord — og spør hvordan du opplever det." },
-      { n: "Minutt 40–55", title: "Plan for veien videre", desc: "Trenger du ikke mer nå, avslutter vi der. Trenger du oppfølging eller behandling, legger vi en konkret plan." },
+      { n: "01", title: "Samtale og kartlegging", desc: "Grundig samtale om dine plager og din historikk." },
+      { n: "02", title: "Undersøkelse og utredning", desc: "Gynekologen undersøker deg og tar supplerende prøver ved behov." },
+      { n: "03", title: "Veien videre", desc: "Gynekologen sørger for riktig behandling og sammen legger dere en plan for videre oppfølging." },
     ],
     reasonsTitle: "Du trenger ikke ha en diagnose for å\u00A0bestille",
     reasonsLead:
@@ -151,7 +150,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "01", title: "Sterke menssmerter", desc: "Smerter som ikke lindres av vanlige smertestillende, eller som hindrer deg i å fungere normalt." },
       { n: "02", title: "Smerter ved samleie", desc: "Dype smerter under eller etter samleie er ikke normalt og kan tyde på endometriose." },
       { n: "03", title: "Kronisk bekkensmerte", desc: "Vedvarende smerter i nedre del av magen, også utenom mensen." },
-      { n: "04", title: "Tarm- og urinplager ved mens", desc: "Smerter ved avføring eller vannlating, særlig i forbindelse med menstruasjon." },
+      { n: "04", title: "Tarm- og urinplager ved mens", desc: "Smerter ved avføring eller vannlating, særlig i forbindelse med menstruasjonen." },
       { n: "05", title: "Problemer med å bli gravid", desc: "Endometriose er en kjent årsak til fertilitetsproblemer — og kan behandles." },
       { n: "06", title: "Utmattelse og kvalme", desc: "Kraftig tretthet og kvalme rundt mensen kan være tegn på underliggende sykdom." },
     ],
@@ -246,7 +245,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
       { n: "Steg 02", title: "Undersøkelse", desc: "Klinisk undersøkelse av bekkenbunn, vurdering av fremfall, eventuell ultralyd og urinprøve." },
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
-      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først." },
+      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først." },
     ],
     textSection: {
       title: "Vaginale fremfall (prolaps)",
@@ -257,7 +256,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
           n: "Behandling",
           title: "Tilpasset alvorlighetsgrad",
           desc:
-            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.",
+            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis du opplever symptomer på vaginalt fremfall.",
         },
         {
           n: "Eksperter",
@@ -273,7 +272,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     reasonsLead:
       "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
     reasonsLead2:
-      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
     reasons: [
       {
         n: "01",
@@ -285,7 +284,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
         n: "02",
         title: "Tranginkontinens",
         desc:
-          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Man er ofte plaget av hyppig toalettbesøk, hvor man ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
+          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Du er ofte plaget av hyppig toalettbesøk, hvor du ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
       },
       {
         n: "03",

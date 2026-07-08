@@ -50,12 +50,12 @@ export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
     ],
     reasonsTitle: "Hva kan være årsaken til infertilitet?",
     reasonsLead:
-      "Årsakene er ofte sammensatte. Hos noen finner man én tydelig årsak, mens flere faktorer kan bidra samtidig. Utfordringene deles vanligvis inn i fire hovedgrupper — og infertilitet rammer kvinner og menn omtrent like ofte.",
+      "Årsakene er ofte sammensatte. Hos noen finner du én tydelig årsak, mens flere faktorer kan bidra samtidig. Utfordringene deles vanligvis inn i fire hovedgrupper — og infertilitet rammer kvinner og menn omtrent like ofte.",
     reasons: [
       { n: "01", title: "Kvinnelige årsaker", desc: "Kvinner fødes med et begrenset antall egg. Antallet og kvaliteten reduseres gradvis gjennom livet, særlig etter 35-årsalderen. Vanlige årsaker: eggløsningsforstyrrelser, PMOS, endometriose, skader eller blokkeringer i egglederne, muskelknuter (myomer) eller adenomyose, tidligere kirurgi i underlivet, cellegift, og økende alder." },
       { n: "02", title: "Mannlige årsaker", desc: "Menn produserer sædceller kontinuerlig, men antall, kvalitet og funksjon kan påvirkes. Vanlige årsaker: nedsatt eller manglende sædproduksjon, genetiske tilstander, hormonelle forstyrrelser, blokkeringer i sædveiene, tidligere infeksjoner eller operasjoner, problemer med ereksjon eller utløsning, legemidler eller anabole steroider, og testikkelsykdommer (inkludert tidligere testikkelkreft)." },
       { n: "03", title: "Kombinerte årsaker", desc: "Hos mange par finner vi bidrag fra begge parter. Begge bør derfor utredes samtidig — det gir det fulle bildet." },
-      { n: "04", title: "Uforklarlig infertilitet", desc: "Hos omtrent 20–30 % av par finner man ingen tydelig medisinsk forklaring. Selv om alle undersøkelser ser normale ut, kan det finnes biologiske forhold dagens tester ikke fanger opp." },
+      { n: "04", title: "Uforklarlig infertilitet", desc: "Hos omtrent 20–30 % av par finner du ingen tydelig medisinsk forklaring. Selv om alle undersøkelser ser normale ut, kan det finnes biologiske forhold dagens tester ikke fanger opp." },
       { n: "05", title: "Livsstilsfaktorer", desc: "Røyking reduserer fertiliteten hos både kvinner og menn. Høyt alkoholforbruk og overvekt kan påvirke fruktbarheten negativt. Enkelte legemidler kan påvirke eggløsning, sædkvalitet eller muligheten for graviditet — faste medisiner bør vurderes som del av utredningen." },
     ],
     promises: standardPromises,
