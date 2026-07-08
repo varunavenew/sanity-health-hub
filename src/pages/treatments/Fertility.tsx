@@ -287,12 +287,15 @@ const Fertility = ({ isChatOpen }: PageProps) => {
   </h2>
 
 
-  <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
-  Å ville bli foreldre er noe av det sterkeste man kan kjenne på.
-  For mange går det av seg selv. For andre tar det litt lenger
-  tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og
-  det finnes svar.
-  </p>
+  <Editable
+    as="p"
+    field="hero.description"
+    multiline
+    pagePath="/fertilitet"
+    className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+  >
+    {`Å ville bli foreldre er noe av det sterkeste man kan kjenne på. For mange går det av seg selv. For andre tar det litt lenger tid — og noen trenger hjelp. Det er mer vanlig enn du tror, og det finnes svar.`}
+  </Editable>
 
   {(() => {
   const entry = getCategoryEntryPrice("fertilitet");
