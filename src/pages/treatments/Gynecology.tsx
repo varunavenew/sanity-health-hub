@@ -304,7 +304,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  }))
  }
  >
- Bestill gynekologisk undersøkelse
+ <Editable field="hero.cta" pagePath="/gynekologi">Bestill gynekologisk undersøkelse</Editable>
  </Button>
  <CallUsClinicPicker variant="light" label="Ring oss" />
  </div>
