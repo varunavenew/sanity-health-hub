@@ -245,7 +245,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "Steg 01", title: "Kartlegging", desc: "Vi går gjennom plager, hverdag og hvordan symptomene påvirker deg — fysisk og sosialt." },
       { n: "Steg 02", title: "Undersøkelse", desc: "Klinisk undersøkelse av bekkenbunn, vurdering av fremfall, eventuell ultralyd og urinprøve." },
       { n: "Steg 03", title: "Behandlingsplan", desc: "Vi starter som regel med konservative tiltak — bekkenbunnstrening, pessar, livsstilsråd og lokal hormonbehandling ved behov." },
-      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først." },
+      { n: "Steg 04", title: "Kirurgi om nødvendig", desc: "Hvis konservativ behandling ikke er nok, vurderer vi moderne, skånsomme inngrep — inkludert robotassistert kirurgi for komplekse fremfall. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først." },
     ],
     textSection: {
       title: "Vaginale fremfall (prolaps)",
@@ -256,7 +256,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
           n: "Behandling",
           title: "Tilpasset alvorlighetsgrad",
           desc:
-            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis man opplever symptomer på vaginalt fremfall.",
+            "Behandlingen avhenger av alvorlighetsgraden av tilstanden og symptomene, og det kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller, kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering og rådgivning hvis du opplever symptomer på vaginalt fremfall.",
         },
         {
           n: "Eksperter",
@@ -272,7 +272,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     reasonsLead:
       "Nesten 25 % av alle kvinner rammes av urinlekkasje i løpet av livet - noe som gir redusert livskvalitet. Hos oss møter du noen av landets fremste eksperter på urinlekkasje og du får effektiv behandling for alle typer urinveislekkasje, tilpasset deg.",
     reasonsLead2:
-      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+      "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.). Det finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner. Ved samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
     reasons: [
       {
         n: "01",
@@ -284,7 +284,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
         n: "02",
         title: "Tranginkontinens",
         desc:
-          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Man er ofte plaget av hyppig toalettbesøk, hvor man ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
+          "En plutselig sterk trang til å late vannet etterfulgt av lekkasje. Du er ofte plaget av hyppig toalettbesøk, hvor du ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte. Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle.",
       },
       {
         n: "03",
