@@ -115,17 +115,26 @@ function parseTreatmentContent(src: string): Extracted[] {
  * fallback source for `description` on treatments not covered by
  * treatmentContent.ts.
  */
-function parseSubPagesDescriptions(src: string, category: string): Extracted[] {
+function parseSubPagesDescriptions(src: string, category: string, recordName: string): Extracted[] {
   const out: Extracted[] = [];
-  const entryRe = /(?:^|\n)  (?:"([a-z0-9-]+)"|([a-zA-Z_][a-zA-Z0-9_-]*)):\s*\{/g;
+  const recRe = new RegExp(`export\\s+const\\s+${recordName}\\s*:[^=]*=\\s*\\{`);
+  const rm = recRe.exec(src);
+  if (!rm) {
+    console.warn(`   ⚠ ${recordName}: export not found`);
+    return out;
+  }
+  const recordBodyStart = rm.index + rm[0].length;
+  const { body: recordBody } = readBalanced(src, recordBodyStart, "{", "}");
+
+  const entryRe = /(?:^|\n)\s*(?:"([a-z0-9-]+)"|([a-zA-Z_][a-zA-Z0-9_-]*))\s*:\s*\{/g;
   let m: RegExpExecArray | null;
-  while ((m = entryRe.exec(src)) !== null) {
+  while ((m = entryRe.exec(recordBody)) !== null) {
     const subKey = m[1] ?? m[2];
     if (!subKey) continue;
     const bodyStart = m.index + m[0].length;
     let bodyEnd: number, body: string;
     try {
-      ({ end: bodyEnd, body } = readBalanced(src, bodyStart, "{", "}"));
+      ({ end: bodyEnd, body } = readBalanced(recordBody, bodyStart, "{", "}"));
     } catch { continue; }
     entryRe.lastIndex = bodyEnd + 1;
 
