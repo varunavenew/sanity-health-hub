@@ -40,6 +40,13 @@ export default {
               fields: [
                 { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
                 {
+                  name: 'imageRight',
+                  title: 'Right Image (Second Image)',
+                  type: 'image',
+                  options: { hotspot: true },
+                  description: 'Optional. If uploaded, the slide will display a 50/50 split layout: the left side will show the first Image (with the text overlay), and the right side will show this Right Image (clear and bright).',
+                },
+                {
                   name: 'videoFile',
                   title: 'Video File',
                   type: 'file',

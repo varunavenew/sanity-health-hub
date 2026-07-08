@@ -19,7 +19,7 @@ const standardPromises = [
     },
 ];
 
-export const fertilitetSubPages: Record<string, SubTreatmentContent> = {
+export const fertilitetSubPages: Record<string, Partial<SubTreatmentContent>> = {
     /* ───────────────────────── INFERTILITET ───────────────────────── */
     infertilitet: {
         seoTitle: "Infertilitet | CMedical — utredning og veien videre",

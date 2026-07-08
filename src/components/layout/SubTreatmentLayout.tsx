@@ -54,7 +54,7 @@ export interface SubTreatmentContent {
   booking: { kategori: string; tjeneste?: string };
   primaryCtaLabel?: string;
   flowTitle: string;
-  flow: { n: string; title: string; desc: string }[];
+  flow: { n: string; title: string; desc: string | ReactNode }[];
   flowImage?: string;
   flowImageAlt?: string;
   heroImage?: string;
@@ -65,24 +65,24 @@ export interface SubTreatmentContent {
   reasonsTitle: string;
   reasonsLead?: string;
   reasonsLead2?: string;
-  reasons: { n: string; title: string; desc: string }[];
+  reasons: { n: string; title: string; desc: string | ReactNode }[];
   reasonsLayout?: "prose" | "accordion" | "auto";
-  promises: { eyebrow?: string; title: string; desc: string; image?: string; imageAlt?: string }[];
+  promises: { eyebrow?: string; title: string; desc: string | ReactNode; image?: string; imageAlt?: string }[];
   textSection?: {
     title: string;
     lead?: string;
-    points?: { n: string; title: string; desc: string }[];
+    points?: { n: string; title: string; desc: string | ReactNode }[];
     image: string;
     imageAlt?: string;
   };
   expertAreas?: {
     title: string;
     description?: string;
-    items: { title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+    items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   };
   relatedTitle?: string;
   relatedLead?: string;
-  related: { eyebrow?: string; title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+  related: { eyebrow?: string; title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   relatedAsIntro?: boolean;
   relatedAsServices?: boolean;
   relatedSeeAll?: { href: string; label: string };
@@ -149,11 +149,11 @@ function ReasonsEditorial({
   title: string;
   lead?: string;
   lead2?: string;
-  items: { n: string; title: string; desc: string }[];
+  items: { n: string; title: string; desc: string | ReactNode }[];
   layout?: "prose" | "accordion" | "auto";
 }) {
   const cleanItems = (items ?? []).filter(
-    (item) => !isBlacklistedReason(item.title) && item.desc?.trim(),
+    (item) => !isBlacklistedReason(item.title) && (typeof item.desc === "string" ? item.desc.trim() : !!item.desc),
   );
 
   if (cleanItems.length === 0) return null;
@@ -238,7 +238,7 @@ function RelatedServicesCarousel({
   scrollRightLabel,
 }: {
   title: string;
-  items: { title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+  items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   seeAll: { href: string; label: string } | null;
   /** Tighter bottom spacing when placed directly above the booking CTA. */
   beforeBooking?: boolean;
@@ -356,7 +356,7 @@ function RelatedBlock({
 }: {
   title: string;
   lead?: string;
-  items: { title: string; desc: string; href: string; image?: string; imageAlt?: string }[];
+  items: { title: string; desc: string | ReactNode; href: string; image?: string; imageAlt?: string }[];
   readMoreLabel: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);

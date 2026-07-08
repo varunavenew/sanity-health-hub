@@ -1,16 +1,35 @@
 // Hero images - using existing assets
-import gynekologiImg from "@/assets/categories/gynekologi.jpg";
+import gynekologiImgAsset from "@/assets/categories/gynekologi.jpg";
+const gynekologiImg = typeof gynekologiImgAsset === "string" ? gynekologiImgAsset : (gynekologiImgAsset as any).src;
+
 import urologiHeroAsset from "@/assets/services/urologi-hero.jpg.asset.json";
 const urologiImg = urologiHeroAsset.url;
-import fertilitetImg from "@/assets/categories/fertilitet.jpg";
-import ortopediImg from "@/assets/categories/ortopedi.jpg";
-import flereFagImg from "@/assets/categories/flere-fagomrader.jpg";
-import heroTreatment from "@/assets/hero/hero-treatment.jpg";
-import heroFamily from "@/assets/hero/hero-family.jpg";
-import heroPregnancy from "@/assets/hero/hero-pregnancy.jpg";
-import heroClinic from "@/assets/hero/cmedical-clinic.jpg";
-import heroTech from "@/assets/hero/hero-technology.jpg";
-import tverrfagligTeamVideo from "@/assets/tverrfaglig-team-2.mp4.asset.json";
+
+import fertilitetImgAsset from "@/assets/categories/fertilitet.jpg";
+const fertilitetImg = typeof fertilitetImgAsset === "string" ? fertilitetImgAsset : (fertilitetImgAsset as any).src;
+
+import ortopediImgAsset from "@/assets/categories/ortopedi.jpg";
+const ortopediImg = typeof ortopediImgAsset === "string" ? ortopediImgAsset : (ortopediImgAsset as any).src;
+
+import flereFagImgAsset from "@/assets/categories/flere-fagomrader.jpg";
+const flereFagImg = typeof flereFagImgAsset === "string" ? flereFagImgAsset : (flereFagImgAsset as any).src;
+
+import heroTreatmentAsset from "@/assets/hero/hero-treatment.jpg";
+const heroTreatment = typeof heroTreatmentAsset === "string" ? heroTreatmentAsset : (heroTreatmentAsset as any).src;
+
+import heroFamilyAsset from "@/assets/hero/hero-family.jpg";
+const heroFamily = typeof heroFamilyAsset === "string" ? heroFamilyAsset : (heroFamilyAsset as any).src;
+
+import heroPregnancyAsset from "@/assets/hero/hero-pregnancy.jpg";
+const heroPregnancy = typeof heroPregnancyAsset === "string" ? heroPregnancyAsset : (heroPregnancyAsset as any).src;
+
+import heroClinicAsset from "@/assets/hero/cmedical-clinic.jpg";
+const heroClinic = typeof heroClinicAsset === "string" ? heroClinicAsset : (heroClinicAsset as any).src;
+
+import heroTechAsset from "@/assets/hero/hero-technology.jpg";
+const heroTech = typeof heroTechAsset === "string" ? heroTechAsset : (heroTechAsset as any).src;
+
+import tverrfagligTeamVideo from "@/assets/hero/tverrfaglig-hero.mp4.asset.json";
 import robotkirurgiHeroImg from "@/assets/hero/robotkirurgi-hero-dropbox.jpg.asset.json";
 import overvektskirurgiHero from "@/assets/hero/overvektskirurgi-hero.jpg.asset.json";
 import gastrokirurgiCardImg from "@/assets/services/flere-gastrokirurgi.jpg.asset.json";

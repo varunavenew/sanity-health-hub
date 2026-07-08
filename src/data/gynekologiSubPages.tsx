@@ -1,11 +1,15 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
-import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
-const imgMajorstuen = majorstuenVenteromTv.url;
+import imgMajorstuen from "@/assets/clinics/majorstuen.jpg";
+const imgMajorstuenSrc = typeof imgMajorstuen === "string" ? imgMajorstuen : (imgMajorstuen as any).src;
 
 import expertEndometriose from "@/assets/hero/gynecology-hero.jpg";
+const expertEndometrioseSrc = typeof expertEndometriose === "string" ? expertEndometriose : (expertEndometriose as any).src;
 import expertBekkenbunn from "@/assets/hero/hero-pregnancy.jpg";
+const expertBekkenbunnSrc = typeof expertBekkenbunn === "string" ? expertBekkenbunn : (expertBekkenbunn as any).src;
 import expertOvergangsalder from "@/assets/hero/cmedical-hero-2.jpg";
+const expertOvergangsalderSrc = typeof expertOvergangsalder === "string" ? expertOvergangsalder : (expertOvergangsalder as any).src;
 import expertVulva from "@/assets/hero/kvinnehelse-hero.jpg";
+const expertVulvaSrc = typeof expertVulva === "string" ? expertVulva : (expertVulva as any).src;
 import urogynekologiHero from "@/assets/urogynekologi-hero.jpg.asset.json";
 const imgUrogynekologiHero = urogynekologiHero.url;
 import robotkirurgiHeroVideo from "@/assets/hero/robotkirurgi-hero.mp4.asset.json";
@@ -29,7 +33,7 @@ const standardPromises = [
   },
 ];
 
-export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
+export const gynekologiSubPages: Record<string, Partial<SubTreatmentContent>> = {
   /* ───────────────────────── GYNEKOLOGISK UNDERSØKELSE ───────────────────────── */
   undersokelse: {
     seoTitle: "Gynekologisk undersøkelse | CMedical",
@@ -53,7 +57,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     booking: { kategori: "gynekologi", tjeneste: "undersokelse" },
     primaryCtaLabel: "Se ledige tider",
     flowTitle: "Slik foregår timen",
-    flowImage: imgMajorstuen,
+    flowImage: imgMajorstuenSrc,
     flowImageAlt: "Interiør fra CMedical-klinikken",
     flowLinkLabel: "Les mer om klinikken",
     flowLinkHref: "/klinikker/majorstuen",
@@ -85,25 +89,25 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
           title: "Endometriose",
           desc: "Vi er ledende i Nord-Europa på endometriosebehandling med robotassistert kirurgi — også de kompliserte tilfellene.",
           href: "/behandlinger/gynekologi/endometriose",
-          image: expertEndometriose,
+          image: expertEndometrioseSrc,
         },
         {
           title: "Fødselsskader og bekkenbunnshelse",
           desc: "Fra rifter til urinlekkasje — vi behandler både i samtale og kirurgisk når det trengs. Du fortjener å bli hørt.",
           href: "/behandlinger/gynekologi/urinlekkasje",
-          image: expertBekkenbunn,
+          image: expertBekkenbunnSrc,
         },
         {
           title: "Overgangsalder",
           desc: "Trygg og oppdatert hormonbehandling — basert på din historie og dine ønsker. Vi tar oss tid til samtalen.",
           href: "/behandlinger/gynekologi/overgangsalder",
-          image: expertOvergangsalder,
+          image: expertOvergangsalderSrc,
         },
         {
           title: "Vulvasmerter",
           desc: "Smerter og ubehag i vulva blir ofte oversett. Hos oss møter du spesialister som forstår — og finner svar.",
           href: "/behandlinger/gynekologi/vulvalidelser",
-          image: expertVulva,
+          image: expertVulvaSrc,
         },
       ],
     },
@@ -238,7 +242,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     heroImage: imgUrogynekologiHero,
     heroImageAlt: "Hender som støtter underlivet",
     flowTitle: "Slik utreder og behandler vi",
-    flowImage: imgMajorstuen,
+    flowImage: imgMajorstuenSrc,
     flowImageAlt: "Interiør fra CMedical-klinikken",
     flowLinkLabel: "Les mer om klinikken",
     flowLinkHref: "/klinikker/majorstuen",

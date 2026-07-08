@@ -35,14 +35,6 @@ const ROUTE_TO_SANITY_SLUG: Record<string, string> = {
   "gynekologi/cyster-pa-eggstokkene": "cyster",
   "gynekologi/gynekologisk-undersokelse": "undersokelse",
   "gynekologi/gynekologisk-kirurgi": "kirurgi",
-  "flere-fagomrader/areknutebehandling": "areknuter",
-  "flere-fagomrader/ernaeringsfysologi": "ernaringsfysiolog",
-  "ortopedi/fot-og-ankel": "fot-ankel",
-  "ortopedi/hand-og-albue": "hand-albue",
-  "urologi/blaere-og-urinveier": "blaere",
-  "urologi/mannlig-infertilitet": "infertilitet",
-  "urologi/nyrer": "nyra",
-  "urologi/testikler-og-pung": "testikler",
 };
 
 // Given an image slug like "gynekologi-tverrfaglig-team" or
@@ -57,17 +49,38 @@ function parseImageSlug(fileBase: string): { categoryId: string; subId?: string 
   return { categoryId, subId: rest };
 }
 
+async function fetchWithRetry(url: string, attempts = 4): Promise<Response | null> {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        // 60s connect+read timeout (default undici connect = 10s)
+        // @ts-expect-error Node undici RequestInit
+        dispatcher: undefined,
+        signal: AbortSignal.timeout(60_000),
+      });
+      if (res.ok) return res;
+      console.warn(`  … attempt ${i} HTTP ${res.status} for ${url}`);
+    } catch (err: any) {
+      console.warn(`  … attempt ${i} failed: ${err?.code || err?.message || err}`);
+    }
+    await new Promise((r) => setTimeout(r, 1000 * i));
+  }
+  return null;
+}
+
 
 async function main() {
   const dryRun = !process.argv.includes("--write");
   console.log(dryRun ? "🔍 DRY-RUN (pass --write to apply)" : "✍️  WRITE mode");
 
+  const heroOnly = process.argv.includes("--hero-only");
   const dir = path.resolve(__dirname, "../../src/assets/services");
   const files = fs
     .readdirSync(dir)
-    .filter((f) => f.endsWith(".jpg.asset.json"));
+    .filter((f) => f.endsWith(".jpg.asset.json"))
+    .filter((f) => !heroOnly || f.endsWith("-hero.jpg.asset.json"));
 
-  console.log(`Found ${files.length} asset pointers.`);
+  console.log(`Found ${files.length} asset pointers${heroOnly ? " (hero-only)" : ""}.`);
 
   // Fetch every treatmentCategory + treatment with current heroImage state.
   const [categories, treatments] = await Promise.all([
@@ -100,10 +113,7 @@ async function main() {
   const treatmentByKey = new Map<string, typeof treatments[number]>();
   for (const t of treatments) {
     const catId = t.category?.categoryId || t.category?.slug;
-    const idPrefix = catId ? `treatment-${catId}-` : "";
-    const slug =
-      t.slug ||
-      (idPrefix && t._id.startsWith(idPrefix) ? t._id.slice(idPrefix.length) : "");
+    const slug = t.slug;
     if (catId && slug) treatmentByKey.set(`${catId}/${slug}`, t);
   }
 
@@ -134,7 +144,8 @@ async function main() {
     }
 
 
-    if (target.heroImage?.asset) {
+    const overwrite = process.argv.includes("--overwrite");
+    if (target.heroImage?.asset && !overwrite) {
       skippedHasImage++;
       continue;
     }
@@ -152,9 +163,9 @@ async function main() {
       "https://id-preview--3dcc4aff-3deb-44f0-b035-de0201b2a94e.lovable.app";
     const url = pointer.url?.startsWith("http") ? pointer.url : `${HOST}${pointer.url}`;
 
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.warn(`  ✗ download failed (${res.status}) for ${url}`);
+    const res = await fetchWithRetry(url);
+    if (!res || !res.ok) {
+      console.warn(`  ✗ download failed for ${url}`);
       continue;
     }
     const buf = Buffer.from(await res.arrayBuffer());
