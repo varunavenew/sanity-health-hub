@@ -150,7 +150,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "01", title: "Sterke menssmerter", desc: "Smerter som ikke lindres av vanlige smertestillende, eller som hindrer deg i å fungere normalt." },
       { n: "02", title: "Smerter ved samleie", desc: "Dype smerter under eller etter samleie er ikke normalt og kan tyde på endometriose." },
       { n: "03", title: "Kronisk bekkensmerte", desc: "Vedvarende smerter i nedre del av magen, også utenom mensen." },
-      { n: "04", title: "Tarm- og urinplager ved mens", desc: "Smerter ved avføring eller vannlating, særlig i forbindelse med menstruasjon." },
+      { n: "04", title: "Tarm- og urinplager ved mens", desc: "Smerter ved avføring eller vannlating, særlig i forbindelse med menstruasjonen." },
       { n: "05", title: "Problemer med å bli gravid", desc: "Endometriose er en kjent årsak til fertilitetsproblemer — og kan behandles." },
       { n: "06", title: "Utmattelse og kvalme", desc: "Kraftig tretthet og kvalme rundt mensen kan være tegn på underliggende sykdom." },
     ],
@@ -385,7 +385,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     reasonsLead:
       "PMOS gir svært variable symptomer. Mange går udiagnostisert i årevis fordi tegnene tolkes hver for seg.",
     reasons: [
-      { n: "01", title: "Uregelmessig eller manglende menstruasjon", desc: "Lange sykluser eller fravær av mens er et av de tydeligste tegnene." },
+      { n: "01", title: "Uregelmessig eller manglende menstruasjonen", desc: "Lange sykluser eller fravær av mens er et av de tydeligste tegnene." },
       { n: "02", title: "Akne og fet hud", desc: "Hormonell akne hos voksne kan henge sammen med PMOS." },
       { n: "03", title: "Økt hårvekst", desc: "Mer hårvekst i ansikt, bryst eller mage enn det som er typisk for deg." },
       { n: "04", title: "Vansker med å bli gravid", desc: "Manglende eggløsning er en vanlig årsak til redusert fertilitet ved PMOS." },
@@ -395,7 +395,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     promises: standardPromises,
     related: [
       { title: "Fertilitetsutredning", desc: "Ønsker du barn? Vi utreder og behandler fertilitetsproblemer relatert til PMOS.", href: "/behandlinger/fertilitet" },
-      { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjon er kjernesymptomet ved PMOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Blødningsforstyrrelser", desc: "Uregelmessig menstruasjonen er kjernesymptomet ved PMOS og kan behandles.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
       { title: "PMS og PMDD", desc: "Hormonell ubalanse kan gi kraftige premenstruelle plager — som også kan lindres.", href: "/behandlinger/gynekologi/pms-pmdd" },
     ],
     ctaTitle: "Få en grundig PMOS-utredning",
@@ -633,7 +633,7 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
       { n: "01", title: "Smerter i nedre del av magen", desc: "Vedvarende eller tilbakevendende smerter på den ene siden." },
       { n: "02", title: "Plutselige, kraftige smerter", desc: "Akutte smerter kan tyde på sprukket eller tvistet cyste — søk hjelp raskt." },
       { n: "03", title: "Tyngdefornemmelse", desc: "Følelse av oppfylling eller trykk i bekkenet." },
-      { n: "04", title: "Endret menstruasjon", desc: "Uregelmessig syklus eller endrede blødninger kan henge sammen." },
+      { n: "04", title: "Endret menstruasjonen", desc: "Uregelmessig syklus eller endrede blødninger kan henge sammen." },
       { n: "05", title: "Cyster oppdaget ved annen undersøkelse", desc: "Tilfeldig funn bør vurderes av spesialist for å avklare karakter." },
       { n: "06", title: "Familiehistorikk", desc: "Ved kjent familiær risiko for eggstokkreft anbefales tett oppfølging." },
     ],
