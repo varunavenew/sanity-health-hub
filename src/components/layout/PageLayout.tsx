@@ -151,11 +151,11 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         {/* Navigation Bar */}
         <nav className={`transition-colors duration-300 ${isAtTop ? 'bg-gradient-to-b from-black/70 via-black/35 to-transparent' : 'bg-brand-dark/95 backdrop-blur-md'}`} aria-label="Hovednavigasjon">
           <div className="page-shell h-16 flex items-center justify-between relative">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center shrink-0">
               <img 
                 src={cmWordmarkNegative} 
                 alt="CMedical" 
-                className="h-5 md:h-6 w-auto" 
+                className="h-5 md:h-6 w-auto shrink-0" 
               />
             </Link>
             
