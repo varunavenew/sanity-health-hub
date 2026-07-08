@@ -49,6 +49,25 @@ function parseImageSlug(fileBase: string): { categoryId: string; subId?: string 
   return { categoryId, subId: rest };
 }
 
+async function fetchWithRetry(url: string, attempts = 4): Promise<Response | null> {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        // 60s connect+read timeout (default undici connect = 10s)
+        // @ts-expect-error Node undici RequestInit
+        dispatcher: undefined,
+        signal: AbortSignal.timeout(60_000),
+      });
+      if (res.ok) return res;
+      console.warn(`  … attempt ${i} HTTP ${res.status} for ${url}`);
+    } catch (err: any) {
+      console.warn(`  … attempt ${i} failed: ${err?.code || err?.message || err}`);
+    }
+    await new Promise((r) => setTimeout(r, 1000 * i));
+  }
+  return null;
+}
+
 
 async function main() {
   const dryRun = !process.argv.includes("--write");
@@ -144,9 +163,9 @@ async function main() {
       "https://id-preview--3dcc4aff-3deb-44f0-b035-de0201b2a94e.lovable.app";
     const url = pointer.url?.startsWith("http") ? pointer.url : `${HOST}${pointer.url}`;
 
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.warn(`  ✗ download failed (${res.status}) for ${url}`);
+    const res = await fetchWithRetry(url);
+    if (!res || !res.ok) {
+      console.warn(`  ✗ download failed for ${url}`);
       continue;
     }
     const buf = Buffer.from(await res.arrayBuffer());
