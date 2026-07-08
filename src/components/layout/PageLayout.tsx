@@ -160,7 +160,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             </Link>
             
             {/* Main Navigation - Always visible */}
-          <div className="hidden md:flex items-center gap-1 text-white">
+          <div className="hidden md:flex items-center gap-0 lg:gap-1 text-white">
               {navItems.map((item: any) =>
                 item.isServicesDropdown ? (
                   <ServicesDropdown key={item._key} />
@@ -168,7 +168,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   <Link
                     key={item._key}
                     to={item.path}
-                    className="px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10"
+                    className="px-2 lg:px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10"
                   >
                     {item.label}
                   </Link>
