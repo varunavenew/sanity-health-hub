@@ -272,12 +272,15 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
               Kvinnehelse <span className="block italic">for livet</span>
             </h2>
 
- <p className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground">
- Vi følger deg gjennom hele livet — fra de første spørsmålene
- i tenårene, gjennom svangerskap og overgangsalder, og videre.
- Gynekologene våre jobber med det de kan best, og vi tar oss
- alltid tid til å forstå hele deg.
- </p>
+ <Editable
+   as="p"
+   field="hero.description"
+   multiline
+   pagePath="/gynekologi"
+   className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
+ >
+   {`Vi følger deg gjennom hele livet — fra de første spørsmålene i tenårene, gjennom svangerskap og overgangsalder, og videre. Gynekologene våre jobber med det de kan best, og vi tar oss alltid tid til å forstå hele deg.`}
+ </Editable>
 
  {(() => {
  const entry = getCategoryEntryPrice("gynekologi");
