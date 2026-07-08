@@ -74,10 +74,11 @@ function readPointerUrl(pointerRelPath: string): string | null {
 }
 
 async function fetchWithRetry(url: string, attempts = 4): Promise<Buffer | null> {
-  const full = url.startsWith("http") ? url : `https://cdn.lovable.dev${url}`;
+  const ASSET_HOST = process.env.ASSET_HOST || "https://sanity-care-craft.lovable.app";
+  const full = url.startsWith("http") ? url : `${ASSET_HOST}${url}`;
   for (let i = 1; i <= attempts; i++) {
     try {
-      const res = await fetch(full, { signal: AbortSignal.timeout(60_000) });
+      const res = await fetch(full, { signal: AbortSignal.timeout(60_000), redirect: "follow" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return Buffer.from(await res.arrayBuffer());
     } catch (err) {
