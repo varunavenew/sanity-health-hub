@@ -1740,15 +1740,15 @@ export const treatmentContent: Record<string, TreatmentData> = {
 
 
   "graviditet/svangerskapsteam": {
-    title: "Svangerskapsteam",
+    title: "Graviditetsoppfølging",
     subtitle: "Tverrfaglig oppfølging gjennom svangerskapet.",
     parentCategory: "Graviditet",
     heroImage: heroPregnancy,
-    description: "Vårt svangerskapsteam gir deg helhetlig oppfølging gjennom hele svangerskapet. Teamet består av erfarne fostermedisinere, jordmødre og gynekologer som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
+    description: "Vi gir deg helhetlig graviditetsoppfølging gjennom hele svangerskapet. Teamet består av erfarne gynekologer og fostermedisinere som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
     benefits: [
-      "Erfarne fostermedisinere og jordmødre",
+      "Erfarne gynekologer og fostermedisinere",
       "Skreddersydd oppfølging tilpasset dine behov",
-      "Oppfølging av risikosvangersskap",
+      "Oppfølging av risikosvangerskap",
       "Tilgjengelig for spørsmål gjennom hele svangerskapet",
       "Samarbeid med fødeavdeling ved behov",
     ],
