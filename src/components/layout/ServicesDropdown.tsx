@@ -148,7 +148,7 @@ export const ServicesDropdown = () => {
  setIsOpen(false);
  }, 200);
  }}
- className="px-2 lg:px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
+ className="px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
  aria-expanded={isOpen}
  aria-haspopup="true"
  >
