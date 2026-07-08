@@ -17,11 +17,11 @@ export default defineType({
     i18nSlugFieldFromString('name'),
     defineField({
       name: 'category',
-      title: 'Kategori',
+      title: 'Category',
       type: 'string',
       options: {
         list: [
-          {title: 'Tørr hud', value: 'tørr_hud'},
+          {title: 'Dry skin', value: 'dry_skin'},
           {title: 'Fet hud', value: 'fet_hud'},
           {title: 'Anti-aging', value: 'anti_aging'},
           {title: 'Akne', value: 'akne'},
@@ -44,7 +44,7 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Bilde',
+      title: 'Image',
       type: 'image',
       options: {hotspot: true},
     }),
@@ -56,12 +56,12 @@ export default defineType({
     }),
     defineField({
       name: 'intent',
-      title: 'Bruksområde',
+      title: 'Area of use',
       type: 'string',
     }),
     defineField({
       name: 'description',
-      title: 'Beskrivelse',
+      title: 'Description',
       type: 'text',
     }),
     defineField({
@@ -77,7 +77,7 @@ export default defineType({
     }),
     defineField({
       name: 'howItWorks',
-      title: 'Slik fungerer det',
+      title: 'How it works',
       type: 'text',
     }),
     defineField({
@@ -88,18 +88,18 @@ export default defineType({
     }),
     defineField({
       name: 'seasonalOrder',
-      title: 'Sesong visningsrekkefølge',
+      title: 'Seasonal display order',
       type: 'number',
     }),
     defineField({
       name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
+      title: 'Sorting order',
       type: 'number'
     }),
   ],
   orderings: [
     {
-      title: 'Publisert rekkefølge (manuell → A–Å)',
+      title: 'Published order (manual → A–Z)',
       name: 'sortOrderAsc',
       by: [
         {field: 'sortOrder', direction: 'asc'},
@@ -107,7 +107,7 @@ export default defineType({
       ],
     },
     {
-      title: 'Sesongrekkefølge',
+      title: 'Seasonal order',
       name: 'seasonalOrderAsc',
       by: [
         {field: 'seasonalOrder', direction: 'asc'},
@@ -115,7 +115,7 @@ export default defineType({
       ],
     },
     {
-      title: 'Navn (A–Å)',
+      title: 'Name (A–Z)',
       name: 'nameAsc',
       by: [{field: 'name', direction: 'asc'}],
     },

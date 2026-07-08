@@ -22,20 +22,20 @@ const validateRelativePath = (Rule: any) =>
     if (typeof value !== 'string') return true
     return value.startsWith('/')
       ? true
-      : 'Stien må være en relativ lenke som starter med skråstrek (f.eks. /priser)'
+      : 'The path must be a relative link starting with a slash (e.g. /prices)'
   })
 
 export default {
   name: 'treatment',
-  title: 'Behandling',
+  title: 'Treatment',
   type: 'document',
   icon: TreatmentIcon,
   groups: [
-    { name: 'general', title: 'Generelt' },
-    { name: 'hero', title: 'Hero-seksjon' },
-    { name: 'symptoms', title: 'Symptomer (Om oss)' },
-    { name: 'flow', title: 'Forløp (Slik foregår det)' },
-    { name: 'features', title: 'Ekspertområder & Løfter' },
+    { name: 'general', title: 'General' },
+    { name: 'hero', title: 'Hero section' },
+    { name: 'symptoms', title: 'Symptoms (About us)' },
+    { name: 'flow', title: 'Process (How it works)' },
+    { name: 'features', title: 'Areas of expertise & promises' },
     { name: 'seo', title: 'SEO / Synlighet' },
   ],
   fields: [
@@ -52,18 +52,18 @@ export default {
     },
     {
       name: 'category',
-      title: 'Kategori',
+      title: 'Category',
       type: 'reference',
       group: 'general',
       to: [{ type: 'treatmentCategory' }],
     },
     {
       name: 'parentCategoryLabel',
-      title: 'Overordnet kategori (visningsnavn)',
+      title: 'Parent category (display name)',
       type: 'internationalizedArrayString',
       group: 'general',
-      description: 'F.eks. "Gynekologi" — vises som breadcrumb',
-      validation: reqI18n('Overordnet kategori'),
+      description: 'F.eks. "Gynecology" — vises som breadcrumb',
+      validation: reqI18n('Parent Category'),
     },
     {
       name: 'description',
@@ -75,7 +75,7 @@ export default {
     // FAQs
     {
       name: 'faqs',
-      title: 'Vanlige spørsmål',
+      title: 'Frequently Asked Questions',
       type: 'array',
       group: 'general',
       of: [
@@ -89,15 +89,15 @@ export default {
           fields: [
             {
               name: 'question',
-              title: 'Spørsmål',
+              title: 'Question',
               type: 'internationalizedArrayString',
-              validation: reqI18n('Spørsmål'),
+              validation: reqI18n('Question'),
             },
             {
               name: 'answer',
-              title: 'Svar',
+              title: 'Answer',
               type: 'internationalizedArrayText',
-              validation: reqI18n('Svar'),
+              validation: reqI18n('Answer'),
             },
           ],
           preview: i18nFaqItemPreview,
@@ -109,7 +109,7 @@ export default {
       name: 'subItems',
       title: 'Undermeny-elementer',
       group: 'general',
-      description: 'Vises som tredje kolonne i tjeneste-dropdown i menyen',
+      description: 'Displayed as the third column in the services dropdown in the menu',
       type: 'array',
       of: [
         {
@@ -117,21 +117,21 @@ export default {
           fields: [
             {
               name: 'label',
-              title: 'Tittel',
+              title: 'Title',
               type: 'internationalizedArrayString',
-              validation: reqI18n('Tittel'),
+              validation: reqI18n('Title'),
             },
             {
               name: 'anchor',
-              title: 'Anker (valgfritt)',
+              title: 'Anchor (optional)',
               type: 'string',
-              description: 'Anker-lenke på siden (#seksjon)',
+              description: 'Anchor link on page (#section)',
             },
             {
               name: 'path',
-              title: 'Egen URL (valgfritt)',
+              title: 'Custom URL (optional)',
               type: 'string',
-              description: 'Full URL hvis elementet skal lenke til en annen side',
+              description: 'Full URL if the element should link to another page',
             },
           ],
           preview: {
@@ -145,67 +145,67 @@ export default {
     },
     {
       name: 'subtitle',
-      title: 'Undertittel',
+      title: 'Subtitle',
       type: 'internationalizedArrayString',
       group: 'general',
-      description: 'Kort tekst som vises under behandlingsnavnet (brukes som eyebrow i hero-seksjonen).',
-      validation: reqI18n('Undertittel'),
+      description: 'Short text shown under the treatment name (used as eyebrow in the hero section).',
+      validation: reqI18n('Subtitle'),
     },
     {
       name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
+      title: 'Sorting order',
       type: 'number',
       group: 'general',
-      description: 'Lavere tall vises først innenfor kategorien.',
+      description: 'Lower numbers are shown first within the category.',
     },
     // ─── Hero Section ────────────────────────────────────────────────────────
-    { name: 'homeBreadcrumbLabel', title: 'Brødsmule — hjem', type: 'internationalizedArrayString', group: 'hero', description: 'Teksten som vises som første ledd i brødsmule-navigasjonen, f.eks. «Hjem».' },
-    { name: 'srOnlyTitle', title: 'Skjult H1 (skjermleser)', type: 'internationalizedArrayString', group: 'hero', description: 'En skjult overskrift kun for skjermlesere. Beskriv siden kort, f.eks. «Behandlingsside for hysteroskopi hos CMedical».' },
+    { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', type: 'internationalizedArrayString', group: 'hero', description: 'The text displayed as the first segment in the breadcrumb navigation, e.g. \'Home\'.' },
+    { name: 'srOnlyTitle', title: 'Skjult H1 (skjermleser)', type: 'internationalizedArrayString', group: 'hero', description: 'A hidden heading for screen readers only. Briefly describe the page, e.g. \'Treatment page for hysteroscopy at CMedical\'.' },
     { name: 'themesAriaLabel', title: 'Temaer — aria-label', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'eyebrow', title: 'Eyebrow (over hero-tittel)', type: 'internationalizedArrayString', group: 'hero', description: 'Liten tekst over tittelen i hero-seksjonen, f.eks. «Gynekologi».' },
+    { name: 'eyebrow', title: 'Eyebrow (above hero title)', type: 'internationalizedArrayString', group: 'hero', description: 'Small text above the title in the hero section, e.g. \'Gynecology\'.' },
     {
       name: 'heroTitle',
-      title: 'Hero-tittel',
+      title: 'Hero Title',
       type: 'internationalizedArrayString',
       group: 'hero',
-      description: 'Hovedtittelen som vises stort i hero-seksjonen på behandlingssiden. Hold den kort og slagkraftig.',
-      validation: reqI18n('Hero-tittel'),
+      description: 'The main title displayed large in the hero section on the treatment page. Keep it short and punchy.',
+      validation: reqI18n('Hero Title'),
     },
     {
       name: 'heroDescription',
       title: 'Hero-ingress',
       type: 'internationalizedArrayText',
       group: 'hero',
-      description: 'Kort ingressen under hero-tittelen. 1–3 setninger som beskriver behandlingen.',
+      description: 'Short introduction under the hero title. 1–3 sentences describing the treatment.',
       validation: reqI18n('Hero-ingress'),
     },
     {
       name: 'heroImage',
-      title: 'Hero-bilde',
+      title: 'Hero image',
       type: 'image',
       group: 'hero',
       options: { hotspot: true },
-      description: 'Bilde som vises til høyre i hero-seksjonen. Anbefalt størrelse: 800×600px or better.',
-      validation: (Rule: any) => Rule.required().error('Hero-bilde er påkrevd'),
+      description: 'Image displayed to the right in the hero section. Recommended size: 800×600px or better.',
+      validation: (Rule: any) => Rule.required().error('Hero image is required'),
     },
-    { name: 'heroImageAlt', title: 'Hero-bilde — alt-tekst', type: 'internationalizedArrayString', group: 'hero', description: 'Beskrivende alt-tekst for tilgjengelighet, f.eks. «Lege utfører hysteroskopi».' },
+    { name: 'heroImageAlt', title: 'Hero image — alt text', type: 'internationalizedArrayString', group: 'hero', description: 'Descriptive alt text for accessibility, e.g. "Doctor performs hysteroscopy".' },
     {
       name: 'heroVideo',
       title: 'Hero-video URL',
       type: 'url',
       group: 'hero',
-      description: 'Valgfri video-URL som spilles av i hero-seksjonen. Last opp en MP4-video (maks 10MB, 16:9-format) og lim inn URL-en her.',
+      description: 'Optional video URL played in the hero section. Upload an MP4 video (max 10MB, 16:9 format) and paste the URL here.',
     },
-    { name: 'rating', title: 'Vurdering / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Kort tekst som vises under hero-bildet, f.eks. «4.9/5 fra 200 pasienter».' },
-    { name: 'heroPrice', title: 'Hero — prislinje', type: 'internationalizedArrayString', group: 'hero', description: 'Kortfattet prisinformasjon i hero-seksjonen, f.eks. «Fra 2 500 kr».' },
-    { name: 'hideSeePriser', title: 'Skjul «Se priser»-lenke', type: 'boolean', group: 'hero', initialValue: false },
-    { name: 'heroAvailability', title: 'Hero — tilgjengelighet', type: 'internationalizedArrayString', group: 'hero', description: 'Tilgjengelighetstekst i hero-seksjonen, f.eks. «Tilgjengelig på 3 klinikker».' },
+    { name: 'rating', title: 'Vurdering / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Short text shown under the hero image, e.g. \'4.9/5 from 200 patients\'.' },
+    { name: 'heroPrice', title: 'Hero — prislinje', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
+    { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean', group: 'hero', initialValue: false },
+    { name: 'heroAvailability', title: 'Hero — tilgjengelighet', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
     {
       name: 'heroThemes',
       title: 'Hero — tema-chips',
       type: 'array',
       group: 'hero',
-      description: 'Nøkkelord/tema-chips som vises i hero-seksjonen.',
+      description: 'Keywords/theme chips shown in the hero section.',
       of: [{ type: 'internationalizedArrayString' }],
     },
     {
@@ -213,19 +213,19 @@ export default {
       title: 'Hero-punkter',
       type: 'array',
       group: 'hero',
-      description: 'Korte fordels-punkter som vises i hero-seksjonen.',
+      description: 'Short benefit points shown in the hero section.',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
           ],
           preview: {
             select: { title: 'title', subtitle: 'desc' },
             prepare({ title, subtitle }: any) {
               return {
-                title: pickNo(title) || 'Uten tittel',
+                title: pickNo(title) || 'Untitled',
                 subtitle: pickNo(subtitle),
               }
             },
@@ -234,33 +234,33 @@ export default {
       ],
     },
     // ─── Booking / CTA ───────────────────────────────────────────────────────
-    { name: 'primaryCtaLabel', title: 'Primær CTA-tekst', type: 'internationalizedArrayString', group: 'hero', description: 'Teksten på «Bestill time»-knappen i hero-seksjonen.' },
-    { name: 'seePricesLabel', title: 'Se priser — tekst', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'seePricesHref', title: 'Se priser — lenke', type: 'string', group: 'hero', description: 'URL til prissiden, f.eks. /priser.', validation: validateRelativePath },
-    { name: 'callCtaLabel', title: 'Ring oss — tekst', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'bookingService', title: 'Booking tjeneste-ID', type: 'string', group: 'hero', description: 'Valgfri tjeneste-ID som sendes til booking-systemet (f.eks. «hysterektomi»).' },
+    { name: 'primaryCtaLabel', title: 'Primary CTA text', type: 'internationalizedArrayString', group: 'hero', description: 'The text on the \'Book appointment\' button in the hero section.' },
+    { name: 'seePricesLabel', title: 'See prices — text', type: 'internationalizedArrayString', group: 'hero' },
+    { name: 'seePricesHref', title: 'See prices — link', type: 'string', group: 'hero', description: 'URL to pricing page, e.g. /prices.', validation: validateRelativePath },
+    { name: 'callCtaLabel', title: 'Call us — text', type: 'internationalizedArrayString', group: 'hero' },
+    { name: 'bookingService', title: 'Booking service ID', type: 'string', group: 'hero', description: 'Optional service ID sent to the booking system (e.g. \'hysterectomy\').' },
     // ─── Reasons / Symptoms ──────────────────────────────────────────────────
-    { name: 'reasonsEyebrow', title: 'Symptomer — eyebrow', type: 'internationalizedArrayString', group: 'symptoms' },
+    { name: 'reasonsEyebrow', title: 'Symptoms — eyebrow', type: 'internationalizedArrayString', group: 'symptoms' },
     {
       name: 'reasonsTitle',
-      title: 'Symptomer — tittel',
+      title: 'Symptoms — title',
       type: 'internationalizedArrayString',
       group: 'symptoms',
-      description: 'Overskriften for symptom/indikasjons-seksjonen.',
-      validation: reqI18n('Symptomer — tittel'),
+      description: 'Heading for the symptoms/indications section.',
+      validation: reqI18n('Symptoms — title'),
     },
-    { name: 'reasonsLead', title: 'Symptomer — ingress 1', type: 'internationalizedArrayText', group: 'symptoms' },
-    { name: 'reasonsLead2', title: 'Symptomer — ingress 2', type: 'internationalizedArrayText', group: 'symptoms' },
+    { name: 'reasonsLead', title: 'Symptoms — introduction 1', type: 'internationalizedArrayText', group: 'symptoms' },
+    { name: 'reasonsLead2', title: 'Symptoms — introduction 2', type: 'internationalizedArrayText', group: 'symptoms' },
     {
       name: 'reasonsLayout',
-      title: 'Symptomer — layout',
+      title: 'Symptoms — layout',
       type: 'string',
       group: 'symptoms',
       options: {
         list: [
           { title: 'Prosa (standard)', value: 'prose' },
           { title: 'Trekkspill', value: 'accordion' },
-          { title: 'Auto', value: 'auto' },
+          { title: 'Automatic', value: 'auto' },
         ],
         layout: 'radio',
       },
@@ -268,25 +268,25 @@ export default {
     },
     {
       name: 'reasons',
-      title: 'Symptomer / indikasjoner',
+      title: 'Symptoms / indications',
       type: 'array',
       group: 'symptoms',
-      description: 'Legg til symptomer eller indikasjoner for denne behandlingen.',
-      validation: (Rule: any) => Rule.required().min(1).error('Minst ett symptom/indikasjon må legges til'),
+      description: 'Add symptoms or indications for this treatment.',
+      validation: (Rule: any) => Rule.required().min(1).error('At least one symptom/indication must be added'),
       of: [
         {
           type: 'object',
           fields: [
             { name: 'n', title: 'Nummer', type: 'internationalizedArrayString' },
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
           ],
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
             prepare({ title, n, subtitle }: any) {
               const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
               return {
-                title: `${prefix}${pickNo(title) || 'Uten tittel'}`,
+                title: `${prefix}${pickNo(title) || 'Untitled'}`,
                 subtitle: pickNo(subtitle),
               }
             },
@@ -295,32 +295,32 @@ export default {
       ],
     },
     // ─── Flow (Treatment Steps) ───────────────────────────────────────────────
-    { name: 'flowEyebrow', title: 'Forløp — eyebrow', type: 'internationalizedArrayString', group: 'flow' },
-    { name: 'flowTitle', title: 'Forløp — tittel', type: 'internationalizedArrayString', group: 'flow', description: 'Overskriften for «Slik foregår det»-seksjonen.' },
-    { name: 'flowImage', title: 'Forløp — bilde', type: 'image', group: 'flow', options: { hotspot: true } },
-    { name: 'flowImageAlt', title: 'Forløp — bilde alt', type: 'internationalizedArrayString', group: 'flow' },
-    { name: 'flowLinkLabel', title: 'Forløp — lenketekst', type: 'internationalizedArrayString', group: 'flow' },
-    { name: 'flowLinkHref', title: 'Forløp — lenke', type: 'string', group: 'flow', validation: validateRelativePath },
+    { name: 'flowEyebrow', title: 'Process — eyebrow', type: 'internationalizedArrayString', group: 'flow' },
+    { name: 'flowTitle', title: 'Process — title', type: 'internationalizedArrayString', group: 'flow', description: 'Heading for the \'How it works\' section.' },
+    { name: 'flowImage', title: 'Process — image', type: 'image', group: 'flow', options: { hotspot: true } },
+    { name: 'flowImageAlt', title: 'Process — image alt', type: 'internationalizedArrayString', group: 'flow' },
+    { name: 'flowLinkLabel', title: 'Process — link text', type: 'internationalizedArrayString', group: 'flow' },
+    { name: 'flowLinkHref', title: 'Process — link', type: 'string', group: 'flow', validation: validateRelativePath },
     {
       name: 'flow',
-      title: 'Forløp — steg',
+      title: 'Process — steps',
       type: 'array',
       group: 'flow',
-      description: 'Legg til behandlingssteg som vises i «Slik foregår det»-seksjonen, f.eks. «Konsultasjon», «Undersøkelse», «Etterbehandling».',
+      description: 'Add treatment steps displayed in the \'How it works\' section, e.g. \'Consultation\', \'Examination\', \'Aftercare\'.',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'n', title: 'Steg-nummer / etikett', type: 'internationalizedArrayString' },
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+            { name: 'n', title: 'Step number / label', type: 'internationalizedArrayString' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
           ],
           preview: {
             select: { title: 'title', n: 'n', subtitle: 'desc' },
             prepare({ title, n, subtitle }: any) {
               const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
               return {
-                title: `${prefix}${pickNo(title) || 'Uten tittel'}`,
+                title: `${prefix}${pickNo(title) || 'Untitled'}`,
                 subtitle: pickNo(subtitle),
               }
             },
@@ -331,11 +331,11 @@ export default {
     // ─── Expert Areas ────────────────────────────────────────────────────────
     {
       name: 'expertAreas',
-      title: 'Ekspertområder',
+      title: 'Areas of expertise',
       type: 'object',
       group: 'features',
       fields: [
-        { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
         { name: 'description', title: 'Ingress', type: 'internationalizedArrayText' },
         {
           name: 'items',
@@ -345,17 +345,17 @@ export default {
             {
               type: 'object',
               fields: [
-                { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-                { name: 'desc', title: 'Beskrivelse', type: 'internationalizedArrayText' },
-                { name: 'path', title: 'Lenke', type: 'string', validation: validateRelativePath },
-                { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-                { name: 'imageAlt', title: 'Bilde — alt', type: 'internationalizedArrayString' },
+                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+                { name: 'path', title: 'Link', type: 'string', validation: validateRelativePath },
+                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+                { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
               ],
               preview: {
                 select: { title: 'title', subtitle: 'desc', media: 'image' },
                 prepare({ title, subtitle, media }: any) {
                   return {
-                    title: pickNo(title) || 'Uten tittel',
+                    title: pickNo(title) || 'Untitled',
                     subtitle: pickNo(subtitle),
                     media,
                   }
@@ -369,26 +369,26 @@ export default {
     // ─── Promises (3-column benefits) ────────────────────────────────────────
     {
       name: 'promises',
-      title: 'Løfter / fordeler (3 kolonner)',
+      title: 'Promises / advantages (3 columns)',
       type: 'array',
       group: 'features',
-      description: 'Vis tre fremhevede fordeler med bilde og tekst.',
-      validation: (Rule: any) => Rule.required().min(1).error('Minst én fordel/løfte må legges til'),
+      description: 'Show three highlighted benefits with image and text.',
+      validation: (Rule: any) => Rule.required().min(1).error('At least one advantage/promise must be added'),
       of: [
         {
           type: 'object',
           fields: [
             { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'desc', title: 'Beskrivelse', type: 'internationalizedArrayText' },
-            { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-            { name: 'imageAlt', title: 'Bilde — alt', type: 'internationalizedArrayString' },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
+            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'imageAlt', title: 'Image — alt', type: 'internationalizedArrayString' },
           ],
           preview: {
             select: { title: 'title', subtitle: 'desc', media: 'image' },
             prepare({ title, subtitle, media }: any) {
               return {
-                title: pickNo(title) || 'Uten tittel',
+                title: pickNo(title) || 'Untitled',
                 subtitle: pickNo(subtitle),
                 media,
               }
@@ -400,11 +400,11 @@ export default {
     // ─── Text + Image Section ────────────────────────────────────────────────
     {
       name: 'textSection',
-      title: 'Tekst + bilde-seksjon',
+      title: 'Text + image section',
       type: 'object',
       group: 'features',
       fields: [
-        { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
+        { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
         { name: 'lead', title: 'Ingress', type: 'internationalizedArrayText' },
         {
           name: 'points',
@@ -415,15 +415,15 @@ export default {
               type: 'object',
               fields: [
                 { name: 'n', title: 'Nummer', type: 'internationalizedArrayString' },
-                { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-                { name: 'desc', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+                { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+                { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
               ],
               preview: {
                 select: { title: 'title', n: 'n', subtitle: 'desc' },
                 prepare({ title, n, subtitle }: any) {
                   const prefix = pickNo(n) ? `${pickNo(n)}: ` : ''
                   return {
-                    title: `${prefix}${pickNo(title) || 'Uten tittel'}`,
+                    title: `${prefix}${pickNo(title) || 'Untitled'}`,
                     subtitle: pickNo(subtitle),
                   }
                 },
@@ -431,8 +431,8 @@ export default {
             },
           ],
         },
-        { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-        { name: 'imageAlt', title: 'Bilde alt', type: 'internationalizedArrayString' },
+        { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+        { name: 'imageAlt', title: 'Image alt', type: 'internationalizedArrayString' },
       ],
     },
     // ─── Related Section ─────────────────────────────────────────────────────
@@ -443,16 +443,16 @@ export default {
       group: 'features',
       fields: [
         { name: 'eyebrow', title: 'Relatert — eyebrow', type: 'internationalizedArrayString' },
-        { name: 'title', title: 'Relatert — tittel', type: 'internationalizedArrayString' },
+        { name: 'title', title: 'Related — title', type: 'internationalizedArrayString' },
         { name: 'lead', title: 'Relatert — ingress', type: 'internationalizedArrayText' },
         { name: 'asIntro', title: 'Relatert rett etter hero', type: 'boolean' },
-        { name: 'asServices', title: 'Relatert som tjenestekarusell', type: 'boolean' },
-        { name: 'seeAllHref', title: 'Relatert — «se alle»-lenke', type: 'string', description: 'F.eks. /behandlinger/fertilitet', validation: validateRelativePath },
-        { name: 'seeAllLabel', title: 'Relatert — «se alle»-tekst', type: 'internationalizedArrayString' },
+        { name: 'asServices', title: 'Related as service carousel', type: 'boolean' },
+        { name: 'seeAllHref', title: 'Related — \'see all\' link', type: 'string', description: 'E.g. /treatments/fertility', validation: validateRelativePath },
+        { name: 'seeAllLabel', title: 'Related — \'see all\' text', type: 'internationalizedArrayString' },
         {
           name: 'items',
           title: 'Relaterte behandlinger',
-          description: 'Velg og sorter behandlingene som skal vises i karusellen (Relaterte tjenester).',
+          description: 'Select and sort treatments to display in the carousel (Related services).',
           type: 'array',
           of: [
             {
@@ -466,18 +466,18 @@ export default {
     // ─── CTA Sections ────────────────────────────────────────────────────────
     // [DEPRECATED] CTA and Specialist Section fields moved to pageSections
     /*
-    { name: 'ctaTitle', title: 'Avsluttende CTA — tittel', type: 'internationalizedArrayString' },
-    { name: 'ctaDescription', title: 'Avsluttende CTA — tekst', type: 'internationalizedArrayText' },
-    { name: 'conversationCtaTitle', title: 'Midt-CTA — tittel', type: 'internationalizedArrayString' },
+    { name: 'ctaTitle', title: 'Closing CTA — title', type: 'internationalizedArrayString' },
+    { name: 'ctaDescription', title: 'Final CTA — text', type: 'internationalizedArrayText' },
+    { name: 'conversationCtaTitle', title: 'Mid-page CTA — title', type: 'internationalizedArrayString' },
     // ─── Specialist Section ──────────────────────────────────────────────────
-    { name: 'specialistTitle', title: 'Spesialist-seksjon — tittel', type: 'internationalizedArrayString' },
-    { name: 'specialistDescription', title: 'Spesialist-seksjon — ingress', type: 'internationalizedArrayText' },
-    { name: 'specialistCtaLabel', title: 'Spesialist-seksjon — CTA-tekst', type: 'internationalizedArrayString' },
-    { name: 'specialistCtaHref', title: 'Spesialist-seksjon — CTA-lenke', type: 'string', description: 'F.eks. /spesialister?kategori=gynekologi' },
+    { name: 'specialistTitle', title: 'Specialist section — title', type: 'internationalizedArrayString' },
+    { name: 'specialistDescription', title: 'Specialist section — introduction', type: 'internationalizedArrayText' },
+    { name: 'specialistCtaLabel', title: 'Specialist section — CTA text', type: 'internationalizedArrayString' },
+    { name: 'specialistCtaHref', title: 'Specialist section — CTA link', type: 'string', description: 'E.g. /specialists?category=gynecology' },
     */
     // ─── Insurance ───────────────────────────────────────────────────────────
-    { name: 'insuranceEyebrow', title: 'Forsikring — eyebrow', type: 'internationalizedArrayString', group: 'features' },
-    { name: 'insuranceTitle', title: 'Forsikring — tittel', type: 'internationalizedArrayString', group: 'features' },
+    { name: 'insuranceEyebrow', title: 'Insurance — eyebrow', type: 'internationalizedArrayString', group: 'features' },
+    { name: 'insuranceTitle', title: 'Insurance — title', type: 'internationalizedArrayString', group: 'features' },
     {
       name: 'insurancePartners',
       title: 'Forsikringspartnere',
@@ -486,14 +486,14 @@ export default {
       of: [{
         type: 'object',
         fields: [
-          { name: 'key', title: 'Nøkkel', type: 'string' },
-          { name: 'label', title: 'Navn', type: 'internationalizedArrayString' },
+          { name: 'key', title: 'Key', type: 'string' },
+          { name: 'label', title: 'Name', type: 'internationalizedArrayString' },
         ],
         preview: {
           select: { title: 'label', subtitle: 'key' },
           prepare({ title, subtitle }: any) {
             return {
-              title: pickNo(title) || 'Uten navn',
+              title: pickNo(title) || 'Unnamed',
               subtitle,
             }
           },
@@ -503,7 +503,7 @@ export default {
     // ─── UI Labels ───────────────────────────────────────────────────────────
     { name: 'expertReadMoreLabel', title: 'Ekspertkort — lenketekst', type: 'internationalizedArrayString', group: 'general' },
     { name: 'scrollLeftLabel', title: 'Karusell — scroll venstre', type: 'internationalizedArrayString', group: 'general' },
-    { name: 'scrollRightLabel', title: 'Karusell — scroll høyre', type: 'internationalizedArrayString', group: 'general' },
+    { name: 'scrollRightLabel', title: 'Carousel — scroll right', type: 'internationalizedArrayString', group: 'general' },
     {
       ...pageSectionsField,
       group: 'general',
@@ -523,14 +523,14 @@ export default {
   ],
   orderings: [
     {
-      title: 'Manuell rekkefølge',
+      title: 'Manual order',
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
       ],
     },
     {
-      title: 'Tittel (A–Å)',
+      title: 'Title (A–Z)',
       name: 'titleAsc',
       by: [{ field: 'title', direction: 'asc' }],
     },
@@ -543,8 +543,8 @@ export default {
     },
     prepare({ title, subtitle, media }: any) {
       return {
-        title: pickNo(title) || 'Behandling',
-        subtitle: pickNo(subtitle) || 'Ingen kategori',
+        title: pickNo(title) || 'Treatment',
+        subtitle: pickNo(subtitle) || 'No category',
         media,
       }
     },
@@ -559,10 +559,10 @@ export default {
       }
 
       // Validation for the new flat design fields
-      if (!document.heroImage) issues.push('Hero-bilde mangler')
-      if (!pickNo(document.heroTitle)?.trim()) issues.push('Hero-tittel (norsk) mangler')
+      if (!document.heroImage) issues.push('Hero image is missing')
+      if (!pickNo(document.heroTitle)?.trim()) issues.push('Hero title (Norwegian) is missing')
       if (!pickForLang(document.heroTitle, 'en')?.trim()) {
-        issues.push('Hero-tittel (engelsk) mangler')
+        issues.push('Hero title (English) is missing')
       }
       if (!pickNo(document.heroDescription)?.trim()) issues.push('Hero-ingress (norsk) mangler')
       if (!pickForLang(document.heroDescription, 'en')?.trim()) {
@@ -572,30 +572,30 @@ export default {
 
       const reasons = document.reasons as unknown[] | undefined
       if (!Array.isArray(reasons) || reasons.length === 0) {
-        issues.push('Minst ett symptom/indikasjon må legges til')
+        issues.push('At least one symptom/indication must be added')
       }
       if (!pickNo(document.reasonsTitle)?.trim()) {
-        issues.push('Symptomer — tittel (norsk) mangler')
+        issues.push('Symptoms — title (Norwegian) is missing')
       }
       if (!pickForLang(document.reasonsTitle, 'en')?.trim()) {
-        issues.push('Symptomer — tittel (engelsk) mangler')
+        issues.push('Symptoms — title (English) is missing')
       }
 
       const promises = document.promises as unknown[] | undefined
       if (!Array.isArray(promises) || promises.length === 0) {
-        issues.push('Minst én fordel/løfte må legges til')
+        issues.push('At least one advantage/promise must be added')
       }
 
       const seo = document.seo as Record<string, unknown> | undefined
-      if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta-tittel (norsk) mangler')
+      if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta title (Norwegian) is missing')
       if (!pickForLang(seo?.metaTitle, 'en')?.trim()) {
-        issues.push('SEO meta-tittel (engelsk) mangler')
+        issues.push('SEO meta title (English) is missing')
       }
       if (!pickNo(seo?.metaDescription)?.trim()) {
-        issues.push('SEO meta-beskrivelse (norsk) mangler')
+        issues.push('SEO meta description (Norwegian) is missing')
       }
       if (!pickForLang(seo?.metaDescription, 'en')?.trim()) {
-        issues.push('SEO meta-beskrivelse (engelsk) mangler')
+        issues.push('SEO meta description (English) is missing')
       }
       if (issues.length === 0) return true
       return issues.join('. ')

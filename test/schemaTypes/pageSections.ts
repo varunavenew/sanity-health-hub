@@ -10,9 +10,9 @@ const displayModeSpecialists = {
   title: 'Visning',
   options: {
     list: [
-      { title: 'Alle spesialister', value: 'all' },
+      { title: 'All specialists', value: 'all' },
       { title: 'Velg manuelt', value: 'manual' },
-      { title: 'Filtrer på kategori', value: 'category' },
+      { title: 'Filter by category', value: 'category' },
     ],
     layout: 'radio',
   },
@@ -27,7 +27,7 @@ const displayModeArticles = {
     list: [
       { title: 'Nyeste artikler', value: 'latest' },
       { title: 'Velg manuelt', value: 'manual' },
-      { title: 'Filtrer på kategori', value: 'category' },
+      { title: 'Filter by category', value: 'category' },
     ],
     layout: 'radio',
   },
@@ -36,18 +36,18 @@ const displayModeArticles = {
 
 export const pageSectionSpecialists = {
   name: 'pageSectionSpecialists',
-  title: 'Spesialister',
+  title: 'Specialists',
   type: 'object',
   fields: [
     {
       name: 'eyebrow',
-      title: 'Eyebrow / etikett',
+      title: 'Eyebrow / label',
       type: 'internationalizedArrayString',
-      description: 'Valgfri liten tekst over overskriften',
+      description: 'Optional small text above heading',
     },
     {
       name: 'title',
-      title: 'Overskrift',
+      title: 'Heading',
       type: 'internationalizedArrayString',
     },
     {
@@ -58,7 +58,7 @@ export const pageSectionSpecialists = {
     displayModeSpecialists,
     {
       name: 'specialists',
-      title: 'Spesialister (manuelt valg)',
+      title: 'Specialists (manual selection)',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
@@ -74,22 +74,22 @@ export const pageSectionSpecialists = {
     },
     {
       name: 'categorySlug',
-      title: 'Kategori-slug (alternativ)',
+      title: 'Category slug (alternative)',
       type: 'string',
       description:
-        'F.eks. gynekologi, fertilitet — brukes hvis kategori-referanse ikke er satt',
+        'E.g. gynecology, fertility — used if category reference is not set',
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
         parent?.displayMode !== 'category',
     },
     {
       name: 'seeAllLabel',
-      title: 'Se alle-tekst',
+      title: 'See all text',
       type: 'internationalizedArrayString',
-      description: 'F.eks. «Se alle spesialister – Gynekologi»',
+      description: 'E.g. \'See all specialists – Gynecology\'',
     },
     {
       name: 'seeAllHref',
-      title: 'Se alle-lenke',
+      title: 'See all link',
       type: 'string',
       initialValue: '/spesialister',
     },
@@ -107,7 +107,7 @@ export const pageSectionSpecialists = {
       options: {
         list: [
           { title: 'Horisontal karusell', value: 'carousel' },
-          { title: 'Mørkt rutenett', value: 'gridDark' },
+          { title: 'Dark grid', value: 'gridDark' },
           { title: 'Lyst rutenett', value: 'gridLight' },
         ],
         layout: 'radio',
@@ -127,7 +127,7 @@ export const pageSectionSpecialists = {
       displayMode?: string
     }) {
       return {
-        title: pickNo(title) || 'Spesialister',
+        title: pickNo(title) || 'Specialists',
         subtitle: `${displayMode || 'all'} · ${variant || 'carousel'}`,
       }
     },
@@ -136,17 +136,17 @@ export const pageSectionSpecialists = {
 
 export const pageSectionArticles = {
   name: 'pageSectionArticles',
-  title: 'Artikler',
+  title: 'Articles',
   type: 'object',
   fields: [
     {
       name: 'eyebrow',
-      title: 'Eyebrow / etikett',
+      title: 'Eyebrow / label',
       type: 'internationalizedArrayString',
     },
     {
       name: 'title',
-      title: 'Overskrift',
+      title: 'Heading',
       type: 'internationalizedArrayString',
     },
     {
@@ -170,7 +170,7 @@ export const pageSectionArticles = {
       options: {
         list: [
           { title: 'Fagartikkel', value: 'fagartikkel' },
-          { title: 'Nytt fra oss', value: 'nyheter' },
+          { title: 'News from us', value: 'news' },
           { title: 'Prisliste', value: 'prisliste' },
           { title: 'Stillingsutlysning', value: 'stillingsutlysning' },
         ],
@@ -200,12 +200,12 @@ export const pageSectionArticles = {
     },
     {
       name: 'ctaLabel',
-      title: 'Lenketekst til Aktuelt',
+      title: 'Link text to News',
       type: 'internationalizedArrayString',
     },
     {
       name: 'ctaPath',
-      title: 'Lenke til Aktuelt',
+      title: 'Link to News',
       type: 'string',
       initialValue: '/aktuelt',
     },
@@ -214,7 +214,7 @@ export const pageSectionArticles = {
     select: { title: 'title', displayMode: 'displayMode' },
     prepare({ title, displayMode }: { title?: unknown; displayMode?: string }) {
       return {
-        title: pickNo(title) || 'Artikler',
+        title: pickNo(title) || 'Articles',
         subtitle: displayMode || 'latest',
       }
     },
@@ -231,14 +231,14 @@ const quickInfoIconOptions = {
 
 export const pageSectionBookingCta = {
   name: 'pageSectionBookingCta',
-  title: 'Bestill time (CTA)',
+  title: 'Book appointment (CTA)',
   type: 'object',
   fields: [
     {
       name: 'title',
-      title: 'Overskrift',
+      title: 'Heading',
       type: 'internationalizedArrayString',
-      description: 'F.eks. «Bestill time hos spesialist»',
+      description: 'E.g. \'Book appointment with specialist\'',
     },
     {
       name: 'subtitle',
@@ -247,14 +247,14 @@ export const pageSectionBookingCta = {
     },
     {
       name: 'image',
-      title: 'Bilde (valgfritt)',
+      title: 'Image (optional)',
       type: 'image',
       options: { hotspot: true },
-      description: 'Vises ved siden av teksten når «Med bilde»-variant er valgt',
+      description: 'Displayed next to the text when the \'With image\' variant is selected',
       fields: [
         {
           name: 'alt',
-          title: 'Alt-tekst',
+          title: 'Alt text',
           type: 'internationalizedArrayString',
         },
       ],
@@ -265,9 +265,9 @@ export const pageSectionBookingCta = {
       type: 'string',
       options: {
         list: [
-          { title: 'Mørk (standard)', value: 'dark' },
+          { title: 'Dark (default)', value: 'dark' },
           { title: 'Varm bakgrunn', value: 'warm' },
-          { title: 'Med bilde', value: 'withImage' },
+          { title: 'With image', value: 'withImage' },
         ],
         layout: 'radio',
       },
@@ -275,43 +275,43 @@ export const pageSectionBookingCta = {
     },
     {
       name: 'primaryLabel',
-      title: 'Primærknapp',
+      title: 'Primary button',
       type: 'internationalizedArrayString',
-      initialValue: [{ _key: 'no', language: 'no', value: 'Bestill time nå' }],
+      initialValue: [{ _key: 'no', language: 'no', value: 'Book appointment now' }],
     },
     {
       name: 'primaryPath',
-      title: 'Primær lenke',
+      title: 'Primary link',
       type: 'string',
       initialValue: '/booking',
-      description: 'Intern sti (f.eks. /booking) eller full URL',
+      description: 'Internal path (e.g. /booking) or full URL',
     },
     {
       name: 'bookingCategory',
-      title: 'Booking-kategori (valgfritt)',
+      title: 'Booking category (optional)',
       type: 'reference',
       to: [{ type: 'treatmentCategory' }],
-      description: 'Legger til ?kategori= på booking-lenken når primær lenke er /booking',
+      description: 'Adds ?category= to the booking link when the primary link is /booking',
     },
     {
       name: 'showSecondaryButton',
-      title: 'Vis «Ring oss»-knapp',
+      title: 'Show \'Call us\' button',
       type: 'boolean',
       initialValue: true,
     },
     {
       name: 'secondaryLabel',
-      title: 'Sekundærknapp-tekst',
+      title: 'Secondary button text',
       type: 'internationalizedArrayString',
       hidden: ({ parent }: { parent?: { showSecondaryButton?: boolean } }) =>
         parent?.showSecondaryButton === false,
     },
     {
       name: 'secondaryPath',
-      title: 'Sekundær lenke (valgfritt)',
+      title: 'Secondary link (optional)',
       type: 'string',
       description:
-        'Intern sti (f.eks. /kontakt). Når satt brukes lenkeknapp i stedet for «Ring oss»-velger.',
+        'Internal path (e.g. /contact). When set, a link button is used instead of the \'Call us\' selector.',
       hidden: ({ parent }: { parent?: { showSecondaryButton?: boolean } }) =>
         parent?.showSecondaryButton === false,
     },
@@ -325,14 +325,14 @@ export const pageSectionBookingCta = {
           fields: [
             {
               name: 'icon',
-              title: 'Ikon',
+              title: 'Icon',
               type: 'string',
               options: quickInfoIconOptions,
               initialValue: 'clock',
             },
             {
               name: 'text',
-              title: 'Tekst',
+              title: 'Text',
               type: 'internationalizedArrayString',
             },
           ],
@@ -353,8 +353,8 @@ export const pageSectionBookingCta = {
     select: { title: 'title' },
     prepare({ title }: { title?: unknown }) {
       return {
-        title: pickNo(title) || 'Bestill time (CTA)',
-        subtitle: 'Booking-seksjon',
+        title: pickNo(title) || 'Book appointment (CTA)',
+        subtitle: 'Booking section',
       }
     },
   },
@@ -363,9 +363,9 @@ export const pageSectionBookingCta = {
 /** Reusable page-builder field — add to any document schema `fields` array. */
 export const pageSectionsField = defineField({
   name: 'pageSections',
-  title: 'Modulære seksjoner',
+  title: 'Modular sections',
   description:
-    'Page builder: legg til, fjern og sorter spesialist-, artikkel- og booking-CTA-blokker. Vises etter sidens hovedinnhold.',
+    'Page builder: add, remove and sort specialist, article and booking CTA blocks. Displayed after the page\'s main content.',
   type: 'array',
   of: [
     { type: 'pageSectionSpecialists' },

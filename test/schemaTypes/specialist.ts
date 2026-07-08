@@ -17,15 +17,15 @@ import { BOOKING_ACTIVITY_GROUP_IDS } from './bookingActivityGroups'
 
 export default {
   name: 'specialist',
-  title: 'Spesialist',
+  title: 'Specialist',
   type: 'document',
   icon: SpecialistIcon,
   fields: [
     {
       name: 'name',
-      title: 'Navn',
+      title: 'Name',
       type: 'string',
-      validation: (Rule: any) => Rule.required().error('Navn er påkrevd for publisering'),
+      validation: (Rule: any) => Rule.required().error('Name is required for publishing'),
       description: 'Personnavn (oversettes ikke)',
     },
     i18nSlugFieldFromString('name'),
@@ -34,59 +34,59 @@ export default {
       title: 'Profilbilde',
       type: 'image',
       options: { hotspot: true },
-      validation: (Rule: any) => Rule.required().error('Profilbilde er påkrevd for publisering'),
+      validation: (Rule: any) => Rule.required().error('Profile picture is required for publishing'),
     },
     {
       name: 'role',
-      title: 'Tittel/rolle',
+      title: 'Title/role',
       type: 'internationalizedArrayString',
-      description: 'F.eks. "Gynekolog", "Urolog", "Ortoped"',
-      validation: requiredNoEnI18n('Tittel/rolle'),
+      description: 'E.g. "Gynecologist", "Urologist", "Orthopedist"',
+      validation: requiredNoEnI18n('Title/role'),
     },
     {
       name: 'subtitle',
-      title: 'Undertittel',
+      title: 'Subtitle',
       type: 'internationalizedArrayString',
-      description: 'F.eks. "Robotkirurg", "Spesialist", "Kirurg"',
+      description: 'E.g. "Robot surgeon", "Specialist", "Surgeon"',
     },
     {
       name: 'specialties',
-      title: 'Expertise / Spesialområder',
+      title: 'Expertise / Specialties',
       type: 'array',
       options: { layout: 'list' },
       of: [
         {
           type: 'object',
           name: 'specialtyItem',
-          title: 'Spesialområde',
+          title: 'Specialty / Area of expertise',
           fields: [
             {
               name: 'label',
-              title: 'Tekst',
+              title: 'Text',
               type: 'internationalizedArrayString',
-              validation: requiredNoEnI18n('Spesialområde'),
+              validation: requiredNoEnI18n('Specialty / Area of expertise'),
             },
           ],
           preview: {
             select: { label: 'label' },
             prepare({ label }: { label?: unknown }) {
-              return { title: pickSpecialtyLabel({ label }) || 'Nytt spesialområde' }
+              return { title: pickSpecialtyLabel({ label }) || 'New specialty' }
             },
           },
         },
       ],
       description:
-        'Korte stikkord som vises på profilsiden og i spesialistkort (på nettsiden: «expertise»). F.eks. «Robotkirurgi», «Fertilitet». Klikk + Add item, fyll inn norsk (NO) og engelsk (EN) tekst.',
+        'Short keywords shown on the profile page and in specialist cards (on website: \'expertise\'). E.g. \'Robot surgery\', \'Fertility\'. Click + Add item, fill in Norwegian (NO) and English (EN) text.',
       validation: (Rule: any) =>
         Rule.custom((items: unknown[] | undefined) => {
           if (!Array.isArray(items) || items.length === 0) {
-            return 'Legg til minst ett spesialområde'
+            return 'Add at least one specialty'
           }
           if (!hasSpecialtyWithNoText(items)) {
-            return 'Fyll inn norsk (NO) tekst for minst ett spesialområde'
+            return 'Fill in Norwegian (NO) text for at least one specialty'
           }
           if (!hasSpecialtyWithEnText(items)) {
-            return 'Fyll inn engelsk (EN) tekst for minst ett spesialområde'
+            return 'Fill in English (EN) text for at least one specialty'
           }
           return true
         }),
@@ -106,12 +106,12 @@ export default {
     },
     {
       name: 'bookingCategoryIds',
-      title: 'Booking kategori-IDer (Metodika)',
+      title: 'Booking category IDs (Methodology)',
       type: 'array',
       of: [
         {
           type: 'number',
-          title: 'Kategori-ID',
+          title: 'Category ID',
           validation: (Rule: any) =>
             Rule.required()
               .integer()
@@ -122,16 +122,16 @@ export default {
         },
       ],
       description:
-        'Én eller flere numeriske wbactivitygroup-IDer (kun tall). Eksempel: 8=Gynekolog, 10=Fostermedisiner, 6=Urolog, 17=Ortoped, 1=Fertilitet.',
+        'One or more numeric wbactivitygroup IDs (numbers only). Example: 8=Gynecologist, 10=Fetal Medicine Specialist, 6=Urologist, 17=Orthopedist, 1=Fertility.',
       validation: (Rule: any) =>
-        Rule.required().min(1).error('Velg minst én booking kategori-ID'),
+        Rule.required().min(1).error('Select at least one booking category ID'),
     },
     {
       name: 'treatments',
-      title: 'Behandlinger',
+      title: 'Treatments',
       type: 'array',
       description:
-        'Valgfritt: velg spesifikke behandlinger. Tom liste = alle behandlinger i tilknyttede kategorier (på nettsiden når det vises).',
+        'Optional: select specific treatments. Empty list = all treatments in linked categories (when displayed on the website).',
       of: [
         {
           type: 'reference',
@@ -156,24 +156,24 @@ export default {
     },
     {
       name: 'clinics',
-      title: 'Klinikker',
+      title: 'Clinics',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
-      description: 'Klinikker spesialisten jobber ved – velg fra eksisterende klinikkdokumenter.',
-      validation: (Rule: any) => Rule.required().min(1).error('Velg minst én klinikk'),
+      description: 'Clinics the specialist works at – select from existing clinic documents.',
+      validation: (Rule: any) => Rule.required().min(1).error('Select at least one clinic'),
     },
     {
       name: 'bio',
-      title: 'Biografi',
+      title: 'Biography',
       type: 'internationalizedArrayBlockContent',
-      description: 'Utvidet biografi på profilsiden. Må fylles ut på norsk og engelsk.',
-      validation: requiredNoEnBlockContent('Biografi'),
+      description: 'Extended biography on the profile page. Must be filled out in Norwegian and English.',
+      validation: requiredNoEnBlockContent('Biography'),
     },
     {
       name: 'shortBio',
       title: 'Kort biografi',
       type: 'internationalizedArrayText',
-      description: 'Vises på profilsiden og i spesialistkort.',
+      description: 'Displayed on the profile page and in specialist cards.',
       validation: requiredNoEnI18n('Kort biografi'),
     },
     {
@@ -189,7 +189,7 @@ export default {
           fields: [
             {
               name: 'label',
-              title: 'Tekst',
+              title: 'Text',
               type: 'internationalizedArrayString',
             },
           ],
@@ -204,17 +204,17 @@ export default {
     },
     {
       name: 'languages',
-      title: 'Språk',
+      title: 'Language',
       type: 'array',
       of: [{ type: 'string' }],
-      description: 'Språkkoder/navn (oversettes ikke)',
+      description: 'Language codes/names (do not translate)',
     },
     {
       name: 'faqSectionTitle',
-      title: 'FAQ-overskrift',
+      title: 'FAQ Heading',
       type: 'internationalizedArrayString',
-      description: 'Overskrift over FAQ-seksjonen (f.eks. «Ofte stilte spørsmål»). Må fylles ut på norsk og engelsk.',
-      validation: requiredNoEnI18n('FAQ-overskrift'),
+      description: 'Heading for the FAQ section (e.g. \'Frequently Asked Questions\'). Must be filled out in Norwegian and English.',
+      validation: requiredNoEnI18n('FAQ Heading'),
     },
     {
       name: 'faqs',
@@ -222,63 +222,63 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
       description:
-        'Valgfrie FAQ-elementer som vises på profilsiden. Hvert FAQ-dokument må ha spørsmål og svar på norsk og engelsk.',
+        'Optional FAQ items shown on the profile page. Each FAQ document must have questions and answers in Norwegian and English.',
     },
     {
       name: 'relatedSpecialistsSection',
-      title: 'Relaterte spesialister',
+      title: 'Related specialists',
       type: 'object',
       description:
-        'Seksjonen «Andre spesialister» nederst på profilsiden. Velg minst én annen spesialist som skal vises.',
+        'The \'Other specialists\' section at the bottom of the profile page. Select at least one other specialist to display.',
       options: { collapsible: true, collapsed: false },
-      validation: (Rule: any) => Rule.required().error('Relaterte spesialister må fylles ut'),
+      validation: (Rule: any) => Rule.required().error('Related specialists must be filled out'),
       fields: [
         {
           name: 'eyebrow',
-          title: 'Undertekst',
+          title: 'Subheading',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Samme fagområde». Må fylles ut på norsk og engelsk.',
-          validation: requiredNoEnI18n('Undertekst'),
+          description: 'E.g. \'Same specialty\'. Must be filled out in Norwegian and English.',
+          validation: requiredNoEnI18n('Subheading'),
         },
         {
           name: 'heading',
-          title: 'Overskrift',
+          title: 'Heading',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Andre spesialister». Må fylles ut på norsk og engelsk.',
-          validation: requiredNoEnI18n('Overskrift'),
+          description: 'E.g. \'Other specialists\'. Must be filled out in Norwegian and English.',
+          validation: requiredNoEnI18n('Heading'),
         },
         {
           name: 'ctaLabel',
-          title: 'Lenketekst',
+          title: 'Link Text',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Se alle». Må fylles ut på norsk og engelsk.',
-          validation: requiredNoEnI18n('Lenketekst'),
+          description: 'E.g. \'See all\'. Must be filled out in Norwegian and English.',
+          validation: requiredNoEnI18n('Link Text'),
         },
         {
           name: 'ctaPath',
-          title: 'Lenke',
+          title: 'Link',
           type: 'string',
-          description: 'Intern sti uten språkprefix, f.eks. /spesialister',
+          description: 'Internal path without language prefix, e.g. /specialists',
           initialValue: '/spesialister',
-          validation: (Rule: any) => Rule.required().error('Lenke er påkrevd'),
+          validation: (Rule: any) => Rule.required().error('Link is required'),
         },
         {
           name: 'specialists',
-          title: 'Spesialister',
+          title: 'Specialists',
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
           description:
-            'Velg hvilke spesialister som vises (rekkefølgen fra Studio beholdes). Minst én påkrevd.',
+            'Select which specialists to display (order from Studio is kept). At least one required.',
           validation: (Rule: any) =>
             Rule.required()
               .min(1)
-              .error('Velg minst én spesialist')
+              .error('Select at least one specialist')
               .custom((refs: Array<{ _ref?: string }> | undefined, context: { document?: { _id?: string } }) => {
                 if (!Array.isArray(refs) || refs.length === 0) return true
                 const docId = String(context.document?._id || '').replace(/^drafts\./, '')
                 if (!docId) return true
                 const includesSelf = refs.some((ref) => ref?._ref === docId)
-                return includesSelf ? 'Velg andre spesialister — ikke profilen du redigerer' : true
+                return includesSelf ? 'Select other specialists — not the profile you are editing' : true
               }),
         },
       ],
@@ -291,24 +291,24 @@ export default {
     },
     {
       name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
+      title: 'Sorting order',
       type: 'number',
-      description: 'Lavere tall vises først. La stå tom for alfabetisk.',
+      description: 'Lower numbers are shown first. Leave blank for alphabetical.',
     },
     {
       name: 'patientReviews',
-      title: 'Pasientanmeldelser',
+      title: 'Patient Reviews',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
       description:
-        'Velg Google-anmeldelser som vises i «Hva pasientene sier» på profilsiden. Rekkefølgen fra Studio beholdes. Tom liste = automatisk utvalg basert på navn og fagområde.',
-      validation: (Rule: any) => Rule.max(6).error('Velg maks seks anmeldelser'),
+        'Select Google reviews shown in \'What patients say\' on the profile page. Order from Studio is kept. Empty list = auto-selection based on name and specialty.',
+      validation: (Rule: any) => Rule.max(6).error('Select up to six reviews'),
     },
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      description: 'Meta-tittel og meta-beskrivelse for spesialistens profilside',
+      description: 'Meta title and meta description for the specialist profile page',
       validation: requiredNoEnSeo,
     },
     geoSummaryField,
@@ -317,88 +317,88 @@ export default {
     Rule.custom((document: Record<string, unknown> | undefined) => {
       if (!document) return true
       const issues: string[] = []
-      if (!String(document.name || '').trim()) issues.push('Navn mangler')
+      if (!String(document.name || '').trim()) issues.push('Name is missing')
       if (!document.photo) issues.push('Profilbilde mangler')
-      if (!pickNo(document.role)?.trim()) issues.push('Tittel/rolle (norsk) mangler')
-      if (!pickForLang(document.role, 'en')?.trim()) issues.push('Tittel/rolle (engelsk) mangler')
+      if (!pickNo(document.role)?.trim()) issues.push('Title/role (Norwegian) is missing')
+      if (!pickForLang(document.role, 'en')?.trim()) issues.push('Title/role (English) is missing')
       if (!pickNo(document.shortBio)?.trim()) issues.push('Kort biografi (norsk) mangler')
       if (!pickForLang(document.shortBio, 'en')?.trim()) {
         issues.push('Kort biografi (engelsk) mangler')
       }
       if (!hasNoEnBlockContent(document.bio)) {
-        issues.push('Biografi (norsk og engelsk) mangler')
+        issues.push('Biography (Norwegian and English) is missing')
       }
       if (!hasSpecialtyWithNoText(document.specialties)) {
-        issues.push('Minst ett spesialområde med norsk tekst mangler')
+        issues.push('At least one specialty with Norwegian text is missing')
       }
       if (!hasSpecialtyWithEnText(document.specialties)) {
-        issues.push('Minst ett spesialområde med engelsk tekst mangler')
+        issues.push('At least one specialty with English text is missing')
       }
       const categories = document.categories as unknown[] | undefined
       if (!Array.isArray(categories) || categories.length === 0) {
-        issues.push('Minst én behandlingskategori må velges')
+        issues.push('At least one treatment category must be selected')
       }
       const clinics = document.clinics as unknown[] | undefined
       if (!Array.isArray(clinics) || clinics.length === 0) {
-        issues.push('Minst én klinikk må velges')
+        issues.push('At least one clinic must be selected')
       }
       const bookingIds = document.bookingCategoryIds as unknown[] | undefined
       if (!Array.isArray(bookingIds) || bookingIds.length === 0) {
-        issues.push('Minst én booking kategori-ID må velges')
+        issues.push('At least one booking category ID must be selected')
       }
       const faqs = document.faqs as unknown[] | undefined
       const hasFaqs = Array.isArray(faqs) && faqs.length > 0
       if (hasFaqs && !pickNo(document.faqSectionTitle)?.trim()) {
-        issues.push('FAQ-overskrift (norsk) mangler')
+        issues.push('FAQ heading (Norwegian) is missing')
       }
       if (hasFaqs && !pickForLang(document.faqSectionTitle, 'en')?.trim()) {
-        issues.push('FAQ-overskrift (engelsk) mangler')
+        issues.push('FAQ heading (English) is missing')
       }
       const related = document.relatedSpecialistsSection as Record<string, unknown> | undefined
       if (!related || typeof related !== 'object') {
-        issues.push('Relaterte spesialister-seksjonen mangler')
+        issues.push('Related specialists section is missing')
       }
       if (!pickNo(related?.eyebrow)?.trim()) {
-        issues.push('Relaterte spesialister: undertekst (norsk) mangler')
+        issues.push('Related specialists: subheading (Norwegian) is missing')
       }
       if (!pickForLang(related?.eyebrow, 'en')?.trim()) {
-        issues.push('Relaterte spesialister: undertekst (engelsk) mangler')
+        issues.push('Related specialists: subheading (English) is missing')
       }
       if (!pickNo(related?.heading)?.trim()) {
-        issues.push('Relaterte spesialister: overskrift (norsk) mangler')
+        issues.push('Related specialists: heading (Norwegian) is missing')
       }
       if (!pickForLang(related?.heading, 'en')?.trim()) {
-        issues.push('Relaterte spesialister: overskrift (engelsk) mangler')
+        issues.push('Related specialists: heading (English) is missing')
       }
       if (!pickNo(related?.ctaLabel)?.trim()) {
-        issues.push('Relaterte spesialister: lenketekst (norsk) mangler')
+        issues.push('Related specialists: link text (Norwegian) is missing')
       }
       if (!pickForLang(related?.ctaLabel, 'en')?.trim()) {
-        issues.push('Relaterte spesialister: lenketekst (engelsk) mangler')
+        issues.push('Related specialists: link text (English) is missing')
       }
       if (!String(related?.ctaPath || '').trim()) {
-        issues.push('Relaterte spesialister: lenke mangler')
+        issues.push('Related specialists: link is missing')
       }
       const relatedSpecialists = related?.specialists as unknown[] | undefined
       if (!Array.isArray(relatedSpecialists) || relatedSpecialists.length === 0) {
-        issues.push('Relaterte spesialister: velg minst én spesialist')
+        issues.push('Related specialists: select at least one specialist')
       }
       const seo = document.seo as Record<string, unknown> | undefined
-      if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta-tittel (norsk) mangler')
+      if (!pickNo(seo?.metaTitle)?.trim()) issues.push('SEO meta title (Norwegian) is missing')
       if (!pickForLang(seo?.metaTitle, 'en')?.trim()) {
-        issues.push('SEO meta-tittel (engelsk) mangler')
+        issues.push('SEO meta title (English) is missing')
       }
       if (!pickNo(seo?.metaDescription)?.trim()) {
-        issues.push('SEO meta-beskrivelse (norsk) mangler')
+        issues.push('SEO meta description (Norwegian) is missing')
       }
       if (!pickForLang(seo?.metaDescription, 'en')?.trim()) {
-        issues.push('SEO meta-beskrivelse (engelsk) mangler')
+        issues.push('SEO meta description (English) is missing')
       }
       return issues.length ? issues.join('. ') : true
     }),
   orderings: [
     {
-      title: 'Manuell rekkefølge',
+      title: 'Manual order',
       name: 'sortOrderAsc',
       by: [
         { field: 'sortOrder', direction: 'asc' },
@@ -406,12 +406,12 @@ export default {
       ],
     },
     {
-      title: 'Navn (A–Å)',
+      title: 'Name (A–Z)',
       name: 'nameAsc',
       by: [{ field: 'name', direction: 'asc' }],
     },
     {
-      title: 'Rolle → Navn',
+      title: 'Role → Name',
       name: 'roleName',
       by: [
         { field: 'role', direction: 'asc' },
@@ -432,7 +432,7 @@ export default {
     },
     prepare({ title, role, media, booking, bookingCategoryIds, t0, t1, t2 }: any) {
       const treatmentNames = [t0, t1, t2].map(pickNo).filter(Boolean)
-      const roleLabel = pickNo(role) || 'Ingen rolle'
+      const roleLabel = pickNo(role) || 'No role'
       const idPart =
         Array.isArray(bookingCategoryIds) && bookingCategoryIds.length
           ? ` · Booking #${bookingCategoryIds.join(', #')}`

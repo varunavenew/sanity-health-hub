@@ -10,21 +10,21 @@ import { pageSectionsField } from './pageSections'
 
 export default defineType({
   name: 'newsPage',
-  title: 'Aktuelt-side',
+  title: 'News page',
   type: 'document',
   fields: [
     defineField({
       name: 'label',
       title: 'Label',
       type: 'internationalizedArrayString',
-      description: 'Liten etikett over hovedtittel (f.eks. "Nyheter & Fagartikler")',
+      description: 'Small label above the main title (e.g. "News & Articles")',
       validation: requiredNoEnI18n('Label'),
     }),
     defineField({
       name: 'title',
-      title: 'Tittel',
+      title: 'Title',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Tittel'),
+      validation: requiredNoEnI18n('Title'),
     }),
     {
       ...i18nSlugFieldFromTitle('title'),
@@ -32,27 +32,27 @@ export default defineType({
     },
     defineField({
       name: 'subtitle',
-      title: 'Undertittel',
+      title: 'Subtitle',
       type: 'internationalizedArrayText',
-      validation: requiredNoEnI18n('Undertittel'),
+      validation: requiredNoEnI18n('Subtitle'),
     }),
     defineField({
       name: 'searchPlaceholder',
-      title: 'Søk-placeholder',
+      title: 'Search placeholder',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Søk-placeholder'),
+      validation: requiredNoEnI18n('Search placeholder'),
     }),
     defineField({
       name: 'moreArticlesTitle',
-      title: 'Tittel: Flere artikler',
+      title: 'Title: More articles',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Tittel: Flere artikler'),
+      validation: requiredNoEnI18n('Title: More articles'),
     }),
     defineField({
       name: 'noArticlesText',
-      title: 'Tekst: Ingen artikler',
+      title: 'Text: No articles',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Tekst: Ingen artikler'),
+      validation: requiredNoEnI18n('Text: No articles'),
     }),
     defineField({
       name: 'readMoreLabel',
@@ -62,45 +62,45 @@ export default defineType({
     }),
     defineField({
       name: 'specialistsEyebrowAll',
-      title: 'Spesialister-eyebrow (alle)',
+      title: 'Specialists-eyebrow (all)',
       type: 'internationalizedArrayString',
-      description: 'F.eks. "Møt teamet"',
-      validation: requiredNoEnI18n('Spesialister-eyebrow (alle)'),
+      description: 'E.g. "Meet the team"',
+      validation: requiredNoEnI18n('Specialists-eyebrow (all)'),
     }),
     defineField({
       name: 'specialistsEyebrowWithin',
-      title: 'Spesialister-eyebrow (innen kategori)',
+      title: 'Specialists-eyebrow (within category)',
       type: 'internationalizedArrayString',
-      description: 'Bruk {{category}} som placeholder',
-      validation: requiredNoEnI18n('Spesialister-eyebrow (innen kategori)'),
+      description: 'Use {{category}} as placeholder',
+      validation: requiredNoEnI18n('Specialists-eyebrow (within category)'),
     }),
     defineField({
       name: 'specialistsTitle',
-      title: 'Spesialister-seksjon tittel',
+      title: 'Specialists section title',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Spesialister-seksjon tittel'),
+      validation: requiredNoEnI18n('Specialists section title'),
     }),
     defineField({
       name: 'specialistsSeeAllLabel',
-      title: 'Spesialister: Se alle',
+      title: 'Specialists: See all',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Spesialister: Se alle'),
+      validation: requiredNoEnI18n('Specialists: See all'),
     }),
     defineField({
       name: 'socialSectionTitle',
-      title: 'SoMe-seksjon tittel',
+      title: 'Social media section title',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('SoMe-seksjon tittel'),
+      validation: requiredNoEnI18n('Social media section title'),
     }),
     defineField({
       name: 'breadcrumbHomeLabel',
-      title: 'Brødsmule – hjem',
+      title: 'Breadcrumb – home',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Brødsmule – hjem'),
+      validation: requiredNoEnI18n('Breadcrumb – home'),
     }),
     defineField({
       name: 'socialMode',
-      title: 'Kilde for sosiale innlegg',
+      title: 'Source for social posts',
       type: 'string',
       options: {
         list: [
@@ -116,7 +116,7 @@ export default defineType({
     defineField({
       name: 'socialPosts',
       title: 'SoMe-innlegg',
-      description: 'Bilder som vises i «Følg oss på sosiale medier»-seksjonen. Rekkefølgen her er visningsrekkefølgen.',
+      description: 'Images displayed in the \'Follow us on social media\' section. The order here is the display order.',
       type: 'array',
       of: [
         {
@@ -125,19 +125,19 @@ export default defineType({
           fields: [
             {
               name: 'image',
-              title: 'Bilde',
+              title: 'Image',
               type: 'image',
               options: { hotspot: true },
               validation: (Rule: any) => Rule.required(),
             },
             {
               name: 'imageUrl',
-              title: 'Bilde-URL (legacy)',
+              title: 'Image URL (legacy)',
               type: 'url',
-              description: 'Kun for eldre innlegg — bruk bildefeltet over.',
+              description: 'Only for legacy posts — use the image field above.',
               hidden: true,
             },
-            { name: 'alt', title: 'Alt-tekst', type: 'string' },
+            { name: 'alt', title: 'Alt text', type: 'string' },
             {
               name: 'platform',
               title: 'Plattform',
@@ -153,8 +153,8 @@ export default defineType({
               },
               initialValue: 'instagram',
             },
-            { name: 'caption', title: 'Bildetekst', type: 'text', rows: 2 },
-            { name: 'postUrl', title: 'Lenke', type: 'url' },
+            { name: 'caption', title: 'Caption', type: 'text', rows: 2 },
+            { name: 'postUrl', title: 'Link', type: 'url' },
           ],
           preview: {
             select: { title: 'caption', subtitle: 'platform' },
@@ -170,7 +170,7 @@ export default defineType({
       validation: (Rule) =>
         Rule.max(12).custom((value: unknown, context: any) => {
           if (context.parent?.socialMode === 'cms' && (!Array.isArray(value) || value.length === 0)) {
-            return 'Velg minst ett Sanity-innlegg når kilden er Sanity.'
+            return 'Select at least one Sanity post when the source is Sanity.'
           }
           return true
         }),
@@ -183,7 +183,7 @@ export default defineType({
       validation: (Rule) =>
         Rule.integer().min(1).max(12).custom((value: unknown, context: any) => {
           if (context.parent?.socialMode !== 'hidden' && typeof value !== 'number') {
-            return 'Antall SoMe-innlegg er påkrevd.'
+            return 'Number of social media posts is required.'
           }
           return true
         }),
@@ -192,7 +192,7 @@ export default defineType({
     defineField({
       name: 'featuredArticles',
       title: 'Fremhevede artikler (top 4)',
-      description: 'Vises øverst på Aktuelt-siden (når filter = Alle).',
+      description: 'Displayed at the top of the News page (when filter = All).',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'article'}]}],
       validation: (Rule) => Rule.max(4),
@@ -200,7 +200,7 @@ export default defineType({
     defineField({
       name: 'filters',
       title: 'Artikkelfiltre',
-      description: 'Første filter bør være «Alle» og ha tom kategoriliste.',
+      description: 'First filter should be \'All\' and have an empty category list.',
       type: 'array',
       of: [{
         type: 'object',
@@ -208,7 +208,7 @@ export default defineType({
         fields: [
           {
             name: 'key',
-            title: 'Stabil nøkkel',
+            title: 'Stable key',
             type: 'string',
             validation: (Rule: any) => Rule.required().regex(/^[a-z][a-zA-Z0-9_-]*$/),
           },
@@ -256,7 +256,7 @@ export default defineType({
         ? title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value
         : title
       return {
-        title: titleValue || 'Aktuelt-side',
+        title: titleValue || 'News page',
       }
     },
   },

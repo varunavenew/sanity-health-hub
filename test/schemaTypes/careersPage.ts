@@ -21,24 +21,24 @@ const optionRowPreview = {
 
 export default {
   name: 'careersPage',
-  title: 'Karriere-side',
+  title: 'Careers page',
   type: 'document',
   icon: GenericIcon,
   groups: [
-    { name: 'content', title: 'Innhold', default: true },
-    { name: 'labels', title: 'Etiketter' },
+    { name: 'content', title: 'Content', default: true },
+    { name: 'labels', title: 'Labels' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
     {
       name: 'breadcrumbHome',
-      title: 'Brødsmule — hjem',
+      title: 'Breadcrumb — home',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'title',
-      title: 'Hero — tittel',
+      title: 'Hero — title',
       group: 'content',
       ...i18nString,
       validation: (Rule: any) => Rule.required(),
@@ -52,7 +52,7 @@ export default {
     },
     {
       name: 'jobsSectionTitle',
-      title: 'Stillingsliste — overskrift',
+      title: 'Job list — heading',
       group: 'content',
       ...i18nString,
     },
@@ -64,7 +64,7 @@ export default {
     },
     {
       name: 'searchPlaceholder',
-      title: 'Søkefelt — placeholder',
+      title: 'Search field — placeholder',
       group: 'content',
       ...i18nString,
     },
@@ -76,62 +76,62 @@ export default {
     },
     {
       name: 'emptyResultsMessage',
-      title: 'Tomt søk — melding',
+      title: 'Empty search — message',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'emptyResultsResetHint',
-      title: 'Tomt søk — hint før lenke',
+      title: 'Empty search — hint before link',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'emptyResultsResetLabel',
-      title: 'Tomt søk — lenketekst',
+      title: 'Empty search — link text',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'deadlineLabel',
       title: 'Frist — prefiks',
-      description: 'F.eks. «Frist:» (dato legges til automatisk)',
+      description: 'E.g. \'Deadline:\' (date added automatically)',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'ongoingLabel',
-      title: 'Løpende — etikett (liste)',
+      title: 'Ongoing — label (list)',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'ongoingDeadlineLabel',
-      title: 'Løpende — etikett (detalj)',
+      title: 'Ongoing — label (detail)',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'spontaneousTitle',
-      title: 'Spontansøknad — tittel',
+      title: 'Unsolicited application — title',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'spontaneousText',
-      title: 'Spontansøknad — tekst',
+      title: 'Unsolicited application — text',
       group: 'content',
       ...i18nText,
     },
     {
       name: 'spontaneousButtonLabel',
-      title: 'Spontansøknad — knapp',
+      title: 'Unsolicited application — button',
       group: 'content',
       ...i18nString,
     },
     {
       name: 'spontaneousEmail',
-      title: 'Spontansøknad — e-post',
+      title: 'Unsolicited application — email',
       type: 'string',
       group: 'content',
       initialValue: 'jobb@cmedical.no',
@@ -145,8 +145,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'value', title: 'Verdi', type: 'string' },
-            { name: 'label', title: 'Etikett', ...i18nString },
+            { name: 'value', title: 'Value', type: 'string' },
+            { name: 'label', title: 'Label', ...i18nString },
           ],
           preview: optionRowPreview,
         },
@@ -161,8 +161,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'value', title: 'Verdi', type: 'string' },
-            { name: 'label', title: 'Etikett', ...i18nString },
+            { name: 'value', title: 'Value', type: 'string' },
+            { name: 'label', title: 'Label', ...i18nString },
           ],
           preview: optionRowPreview,
         },
@@ -170,56 +170,56 @@ export default {
     },
     {
       name: 'notFoundTitle',
-      title: '404 — tittel',
+      title: '404 — title',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'notFoundDescription',
-      title: '404 — beskrivelse',
+      title: '404 — description',
       group: 'labels',
       ...i18nText,
     },
     {
       name: 'backToJobsLabel',
-      title: '404 — tilbake-knapp',
+      title: '404 — back button',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'backLinkLabel',
-      title: 'Detalj — tilbake-lenke',
+      title: 'Detail — back link',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'applyCardTitle',
-      title: 'Detalj — søk-kort tittel',
+      title: 'Detail — search card title',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'applyExternalLabel',
-      title: 'Detalj — ekstern søknad',
+      title: 'Detail — external application',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'applyEmailLabel',
-      title: 'Detalj — e-post søknad',
+      title: 'Detail — email application',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'contactCardTitle',
-      title: 'Detalj — kontakt tittel',
+      title: 'Detail — contact title',
       group: 'labels',
       ...i18nString,
     },
     {
       name: 'jobSeoTitleSuffix',
-      title: 'SEO — suffiks for stilling',
-      description: 'F.eks. «– Karriere hos CMedical»',
+      title: 'SEO — suffix for job title',
+      description: 'E.g. \'– Careers at CMedical\'',
       group: 'seo',
       ...i18nString,
     },
@@ -238,7 +238,7 @@ export default {
       const t = Array.isArray(title)
         ? (title.find((x: any) => (x.language || x._key) === 'no')?.value || title[0]?.value)
         : title
-      return { title: (t as string) || 'Karriere' }
+      return { title: (t as string) || 'Careers' }
     },
   },
 }

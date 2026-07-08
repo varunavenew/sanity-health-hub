@@ -23,11 +23,11 @@ function whenBookingMethod(method: string, validate: (rule: any) => any) {
 
 export default {
   name: 'clinicPage',
-  title: 'Klinikk',
+  title: 'Clinic',
   type: 'document',
   icon: ClinicIcon,
   groups: [
-    { name: 'main', title: 'Innhold', default: true },
+    { name: 'main', title: 'Content', default: true },
     { name: 'booking', title: 'Booking' },
     { name: 'extras', title: 'FAQ & seksjoner' },
     { name: 'seo', title: 'SEO' },
@@ -35,9 +35,9 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Navn',
+      title: 'Name',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Navn'),
+      validation: requiredNoEnI18n('Name'),
       group: 'main',
     },
     {
@@ -56,18 +56,18 @@ export default {
     },
     {
       name: 'description',
-      title: 'Beskrivelse',
+      title: 'Description',
       type: 'internationalizedArrayText',
-      validation: requiredNoEnI18n('Beskrivelse'),
+      validation: requiredNoEnI18n('Description'),
       group: 'main',
     },
     {
       name: 'sortOrder',
-      title: 'Sorteringsrekkefølge',
+      title: 'Sorting order',
       type: 'number',
-      description: 'Lavere tall vises først i klinikkoversikten.',
+      description: 'Lower numbers are shown first in the clinic list.',
       initialValue: 0,
-      validation: (Rule: any) => Rule.integer().min(0).error('Må være 0 eller høyere'),
+      validation: (Rule: any) => Rule.integer().min(0).error('Must be 0 or higher'),
       group: 'main',
     },
     {
@@ -78,36 +78,36 @@ export default {
       group: 'main',
       fields: [
         { name: 'valueProposition1', title: 'Verdiforslag 1', type: 'internationalizedArrayString' },
-        { name: 'valueProposition2', title: 'Åpningstider', type: 'string', placeholder: '08:00–16:00' },
+        { name: 'valueProposition2', title: 'Opening hours', type: 'string', placeholder: '08:00–16:00' },
         { name: 'socialProof', title: 'Sosialt bevis', type: 'internationalizedArrayString' },
       ],
     },
     {
       name: 'address',
-      title: 'Adresse',
+      title: 'Address',
       type: 'string',
-      validation: reqStr('Adresse'),
+      validation: reqStr('Address'),
       group: 'main',
     },
     {
       name: 'phone',
-      title: 'Telefon',
+      title: 'Phone',
       type: 'string',
-      validation: reqStr('Telefon'),
+      validation: reqStr('Phone'),
       group: 'main',
     },
     {
       name: 'email',
-      title: 'E-post',
+      title: 'Email',
       type: 'string',
-      validation: (Rule: any) => Rule.required().email().error('Gyldig e-post er påkrevd'),
+      validation: (Rule: any) => Rule.required().email().error('Valid email is required'),
       group: 'main',
     },
     {
       name: 'hours',
-      title: 'Åpningstider',
+      title: 'Opening hours',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Åpningstider'),
+      validation: requiredNoEnI18n('Opening hours'),
       group: 'main',
     },
     {
@@ -125,46 +125,46 @@ export default {
       validation: (Rule: any) =>
         Rule.required().custom((value: { lat?: number; lng?: number } | undefined) => {
           if (value?.lat == null || value?.lng == null) {
-            return 'Breddegrad og lengdegrad er påkrevd'
+            return 'Latitude and longitude are required'
           }
           return true
         }),
       fields: [
         {
           name: 'lat',
-          title: 'Breddegrad',
+          title: 'Latitude',
           type: 'number',
-          validation: reqStr('Breddegrad'),
+          validation: reqStr('Latitude'),
         },
         {
           name: 'lng',
-          title: 'Lengdegrad',
+          title: 'Longitude',
           type: 'number',
-          validation: reqStr('Lengdegrad'),
+          validation: reqStr('Longitude'),
         },
       ],
     },
     {
       name: 'treatments',
-      title: 'Behandlinger',
+      title: 'Treatments',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'treatment' }] }],
       group: 'main',
     },
     {
       name: 'specialists',
-      title: 'Spesialister',
+      title: 'Specialists',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'specialist' }] }],
       group: 'main',
     },
     {
       name: 'services',
-      title: 'Tjeneste-IDer',
+      title: 'Service IDs',
       type: 'array',
       of: [{ type: 'string' }],
-      description: 'Kategori-IDer som denne klinikken tilbyr',
-      validation: (Rule: any) => Rule.required().min(1).error('Legg til minst én tjeneste-ID'),
+      description: 'Category IDs that this clinic offers',
+      validation: (Rule: any) => Rule.required().min(1).error('Add at least one service ID'),
       group: 'main',
     },
     {
@@ -220,7 +220,7 @@ export default {
         {
           name: 'serviceProviderId',
           title: 'Service Provider Id',
-          description: 'Pasientsky Service Provider ID (kun når Method = Pasientsky)',
+          description: 'Patientsky Service Provider ID (only when Method = Patientsky)',
           type: 'string',
           validation: whenBookingMethod('pasientsky', (rule) =>
             rule.custom((value: string | undefined) =>
@@ -232,7 +232,7 @@ export default {
           name: 'metodikaLocationId',
           title: 'Metodika location ID',
           description:
-            'Metodika `location-id` for denne klinikken (kun når Method = Metodika). Anbefales for korrekt kobling i booking steg 2.',
+            'Metodika `location-id` for this clinic (only when Method = Metodika). Recommended for correct linking in booking step 2.',
           type: 'number',
           hidden: ({ parent }: { parent?: { method?: string } }) => parent?.method !== 'metodika',
         },
@@ -241,14 +241,14 @@ export default {
           title: 'External booking URL',
           type: 'url',
           description:
-            'Kun når Method = contact info og booking går via ekstern partner.',
+            'Only when Method = contact info and booking goes via external partner.',
           hidden: ({ parent }: { parent?: { method?: string } }) => parent?.method !== 'info',
         },
         {
           name: 'closedMessage',
           title: 'Message when closed',
           type: 'internationalizedArrayText',
-          description: 'Kun når Method = Closed for booking',
+          description: 'Only when Method = Closed for booking',
           validation: whenBookingMethod('closed', (rule) =>
             rule.custom((value: unknown) => {
               if (!pickNo(value)?.trim()) return 'Message when closed (Norwegian) is required'
@@ -274,8 +274,8 @@ export default {
           name: 'clinicFaq',
           title: 'FAQ',
           fields: [
-            { name: 'question', title: 'Spørsmål', type: 'internationalizedArrayString', validation: requiredNoEnI18n('Spørsmål') },
-            { name: 'answer', title: 'Svar', type: 'internationalizedArrayText', validation: requiredNoEnI18n('Svar') },
+            { name: 'question', title: 'Question', type: 'internationalizedArrayString', validation: requiredNoEnI18n('Question') },
+            { name: 'answer', title: 'Answer', type: 'internationalizedArrayText', validation: requiredNoEnI18n('Answer') },
           ],
           preview: i18nFaqItemPreview,
         },
@@ -285,7 +285,7 @@ export default {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      description: 'Meta-tittel og meta-beskrivelse for klinikkens profilside (NO/EN).',
+      description: 'Meta title and meta description for the clinic profile page (NO/EN).',
       options: { collapsible: true, collapsed: false },
       validation: requiredNoEnSeo,
       group: 'seo',
@@ -295,12 +295,12 @@ export default {
   ],
   orderings: [
     {
-      title: 'Manuell rekkefølge',
+      title: 'Manual order',
       name: 'sortOrderAsc',
       by: [{ field: 'sortOrder', direction: 'asc' }],
     },
     {
-      title: 'Navn (A–Å)',
+      title: 'Name (A–Z)',
       name: 'titleAsc',
       by: [{ field: 'sortOrder', direction: 'asc' }],
     },
@@ -308,7 +308,7 @@ export default {
   preview: {
     select: { title: 'title', subtitle: 'address', media: 'primaryImage' },
     prepare({ title, subtitle, media }: any) {
-      return { title: pickNo(title) || 'Klinikk', subtitle: subtitle || '', media }
+      return { title: pickNo(title) || 'Clinic', subtitle: subtitle || '', media }
     },
   },
 }

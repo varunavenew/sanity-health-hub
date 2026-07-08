@@ -13,7 +13,7 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Sidetittel',
+      title: 'Page Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
@@ -25,45 +25,45 @@ export default {
     },
     {
       name: 'subtitle',
-      title: 'Undertittel',
+      title: 'Subtitle',
       type: 'internationalizedArrayString',
     },
     {
       name: 'heroImage',
-      title: 'Hero-bilde',
+      title: 'Hero image',
       type: 'image',
       options: { hotspot: true },
     },
     {
       name: 'heroImageAlt',
-      title: 'Hero-bilde – alternativ tekst',
+      title: 'Hero image – alt text',
       type: 'internationalizedArrayString',
     },
     {
       name: 'body',
-      title: 'Innhold',
+      title: 'Content',
       type: 'internationalizedArrayBlockContent',
     },
     {
       name: 'values',
-      title: 'Våre verdier',
+      title: 'Our values',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'icon', title: 'Ikon', type: 'string' },
-            { name: 'title', title: 'Tittel', type: 'string' },
-            { name: 'description', title: 'Beskrivelse', type: 'text', rows: 2 },
+            { name: 'icon', title: 'Icon', type: 'string' },
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'description', title: 'Description', type: 'text', rows: 2 },
           ],
         },
       ],
     },
     {
       name: 'clinicsSection',
-      title: 'Seksjon — klinikker',
+      title: 'Section — clinics',
       description:
-        'Vises på Om oss (og Kontakt). Tom klinikkliste = alle publiserte klinikker.',
+        'Displayed on About us (and Contact). Empty clinic list = all published clinics.',
       type: 'object',
       fields: [
         {
@@ -74,13 +74,13 @@ export default {
         },
         {
           name: 'title',
-          title: 'Overskrift',
+          title: 'Heading',
           type: 'internationalizedArrayString',
           description: 'F.eks. «Våre klinikker»',
         },
         {
           name: 'clinics',
-          title: 'Klinikker (valgfritt)',
+          title: 'Clinics (optional)',
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
           description:
@@ -100,8 +100,8 @@ export default {
     select: { title: 'title', media: 'heroImage' },
     prepare({ title, media }: any) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Om oss')
-        : (title || 'Om oss')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'About us')
+        : (title || 'About us')
       return { title: titleStr, media }
     },
   },

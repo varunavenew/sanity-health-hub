@@ -8,16 +8,16 @@ export default {
   type: 'document',
   icon: ReviewIcon,
   description:
-    'Gjennomsnittsvurderinger for behandlingskategorier. Forsidens anmeldelses-seksjon redigeres under Hjemmeside → Pasientanmeldelser.',
+    'Average reviews for treatment categories. The homepage review section is edited under Homepage → Patient Reviews.',
   fields: [
     {
       name: 'heading',
-      title: 'Overskrift',
+      title: 'Heading',
       type: 'internationalizedArrayString',
     },
     {
       name: 'subheading',
-      title: 'Undertekst',
+      title: 'Subheading',
       type: 'internationalizedArrayString',
     },
     {
@@ -36,12 +36,12 @@ export default {
     },
     {
       name: 'ctaTitle',
-      title: 'CTA tittel',
+      title: 'CTA title',
       type: 'internationalizedArrayString',
     },
     {
       name: 'ctaSubtitle',
-      title: 'CTA undertekst',
+      title: 'CTA subtitle',
       type: 'internationalizedArrayString',
     },
   ],

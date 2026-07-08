@@ -2,6 +2,7 @@
 
 import { AssetImg } from "@/components/AssetImg";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -514,7 +515,7 @@ export const SubTreatmentLayout = ({
               <h2 className="hidden lg:block text-4xl md:text-5xl lg:text-6xl font-light mb-8 text-foreground leading-[1.05]">
                 {heroTitle}
               </h2>
-              <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground">
+              <p className="text-base md:text-lg font-light leading-relaxed mb-6 text-muted-foreground whitespace-pre-line">
                 {c.heroDescription}
               </p>
 
@@ -862,10 +863,45 @@ export const SubTreatmentLayout = ({
       ) : null}
 
       <PageSectionsRenderer
-        sections={pageSections?.filter((s) => s._type !== "pageSectionBookingCta")}
+        sections={pageSections?.filter(
+          (s) => s._type !== "pageSectionBookingCta" && s._type !== "pageSectionSpecialists"
+        )}
       />
 
+      {/* MID-PAGE CONVERSION BAND */}
+      <section className="bg-brand-light text-foreground py-10 md:py-16 border-t border-brand-dark/10">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-3xl">
+              <h2 className="text-xl md:text-3xl font-light leading-tight">
+                {c.conversationCtaTitle ?? "Snakk med en av våre spesialister"}
+              </h2>
+            </div>
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center w-full md:w-auto">
+              <Button
+                variant="cta"
+                size="lg"
+                className="px-6 w-full md:w-auto h-14 md:h-12"
+                onClick={() => (window.location.href = buildBookingUrl(c.booking))}
+              >
+                {c.primaryCtaLabel || "Se ledige tider og book"}
+              </Button>
+              <div className="w-full md:w-auto">
+                <CallUsClinicPicker variant="light" label={c.callCtaLabel || "Ring oss"} className="w-full h-14 md:h-12" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <CategoryReviews categoryId={c.booking.kategori} categoryTitle={c.parent.name} />
+
+      {(() => {
+        const specialistsSections = pageSections?.filter((s) => s._type === "pageSectionSpecialists");
+        return specialistsSections && specialistsSections.length > 0 ? (
+          <PageSectionsRenderer sections={specialistsSections} />
+        ) : null;
+      })()}
 
       <section className="bg-brand-light text-foreground py-14 md:py-16 border-t border-brand-dark/10">
         <div className="container mx-auto px-6 md:px-16">
@@ -906,9 +942,10 @@ export const SubTreatmentLayout = ({
 
       {(() => {
         const bookingCtaSections = pageSections?.filter((s) => s._type === "pageSectionBookingCta");
-        return bookingCtaSections && bookingCtaSections.length > 0 ? (
-          <PageSectionsRenderer sections={bookingCtaSections} />
-        ) : null;
+        if (bookingCtaSections && bookingCtaSections.length > 0) {
+          return <PageSectionsRenderer sections={bookingCtaSections} />;
+        }
+        return <BookingCTA bookingCategoryId={c.booking.kategori} />;
       })()}
 
     </PageLayout>

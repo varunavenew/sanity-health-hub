@@ -4,13 +4,13 @@ import { pickNo } from './i18n'
 
 export default {
   name: 'googleReview',
-  title: 'Google-anmeldelse',
+  title: 'Google Review',
   type: 'document',
   icon: ReviewIcon,
   fields: [
     {
       name: 'author',
-      title: 'Forfatter',
+      title: 'Author',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
@@ -28,7 +28,7 @@ export default {
     },
     {
       name: 'date',
-      title: 'Dato',
+      title: 'Date',
       type: 'date',
     },
     {
@@ -42,7 +42,7 @@ export default {
     prepare({ title, subtitle }: { title?: string; subtitle?: unknown }) {
       const excerpt = pickNo(subtitle)
       return {
-        title: title || 'Anmeldelse',
+        title: title || 'Review',
         subtitle: excerpt ? `${excerpt.slice(0, 60)}…` : '',
       }
     },

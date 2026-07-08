@@ -11,14 +11,14 @@ export default {
   icon: HomeIcon,
   groups: [
     { name: 'hero', title: 'Hero & tagline', default: true },
-    { name: 'sections', title: 'Seksjoner' },
-    { name: 'reviews', title: 'Pasientanmeldelser' },
-    { name: 'seo', title: 'SEO & meta' },
+    { name: 'sections', title: 'Sections' },
+    { name: 'reviews', title: 'Patient Reviews' },
+    { name: 'seo', title: 'SEO & Meta' },
   ],
   fields: [
     {
       name: 'title',
-      title: 'Sidetittel',
+      title: 'Page Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
       group: 'hero',
@@ -38,25 +38,25 @@ export default {
             {
               type: 'object',
               fields: [
-                { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
+                { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
                 {
                   name: 'videoFile',
-                  title: 'Video-fil',
+                  title: 'Video File',
                   type: 'file',
                   options: {
                     accept: 'video/*',
                   },
-                  description: 'Last opp en video-fil (f.eks. MP4) som spilles av i bakgrunnen på sliden i stedet for bilde.',
+                  description: 'Upload a video file (e.g. MP4) to play in the background of the slide instead of an image.',
                 },
-                { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
-                { name: 'subheading', title: 'Undertekst', type: 'internationalizedArrayString' },
-                { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },
+                { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
+                { name: 'subheading', title: 'Subheading', type: 'internationalizedArrayString' },
+                { name: 'ctaText', title: 'CTA text', type: 'internationalizedArrayString' },
                 {
                   name: 'ctaLink',
-                  title: 'CTA-lenke',
+                  title: 'CTA link',
                   type: 'internationalizedArrayString',
                   description:
-                    'Intern sti uten locale. NO: f.eks. /gynekologi — EN: f.eks. /gynecology',
+                    'Internal path without locale. NO: e.g. /gynecology — EN: e.g. /gynecology',
                 },
               ],
               preview: {
@@ -85,7 +85,7 @@ export default {
     {
       name: 'serviceCategories',
       title: 'Tjenester (kategorier)',
-      description: 'Kategoriene som vises i tjeneste-griden på forsiden',
+      description: 'The categories displayed in the service grid on the homepage',
       type: 'array',
       group: 'sections',
       of: [
@@ -99,66 +99,66 @@ export default {
       name: 'patientTrustBanner',
       title: 'Pasienttillit-banner',
       description:
-        'Terrakotta banner under hero med stort tall og lenke (f.eks. «150 000 +» / «Se våre tjenester»)',
+        'Terracotta banner under hero with a large number and link (e.g., \'150,000+\' / \'See our services\')',
       type: 'object',
       group: 'sections',
       fields: [
         {
           name: 'backgroundImage',
-          title: 'Bakgrunnsbilde',
+          title: 'Background Image',
           type: 'image',
           options: { hotspot: true },
-          description: 'Valgfritt teksturert bakgrunnsbilde (f.eks. blur-skin). Terrakotta brukes som fallback.',
+          description: 'Optional textured background image (e.g. blur-skin). Terracotta used as fallback.',
         },
         {
           name: 'value',
-          title: 'Tall / verdi',
+          title: 'Number / value',
           type: 'string',
-          description: 'F.eks. «150 000 +»',
+          description: 'E.g. \'150 000 +\'',
         },
-        { name: 'label', title: 'Undertekst', type: 'internationalizedArrayString' },
-        { name: 'ctaText', title: 'Lenketekst', type: 'internationalizedArrayString' },
+        { name: 'label', title: 'Subheading', type: 'internationalizedArrayString' },
+        { name: 'ctaText', title: 'Link Text', type: 'internationalizedArrayString' },
         {
           name: 'ctaLink',
-          title: 'Lenke',
+          title: 'Link',
           type: 'string',
-          description: 'Intern sti uten locale, f.eks. /tjenester',
+          description: 'Internal path without locale, e.g. /services',
         },
       ],
     },
     {
       name: 'newsSplitSection',
-      title: 'Nyheter – splitscreen',
-      description: 'Venstre kolonne i «Nyheter og artikler»-seksjonen',
+      title: 'News – splitscreen',
+      description: 'Left column in the \'News and articles\' section',
       type: 'object',
       group: 'sections',
       fields: [
-        { name: 'heading', title: 'Overskrift', type: 'internationalizedArrayString' },
-        { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
-        { name: 'ctaLabel', title: 'Lenketekst', type: 'internationalizedArrayString' },
+        { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
+        { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
+        { name: 'ctaLabel', title: 'Link Text', type: 'internationalizedArrayString' },
         {
           name: 'ctaPath',
-          title: 'Lenke',
+          title: 'Link',
           type: 'string',
-          description: 'Intern sti uten locale, f.eks. /aktuelt',
+          description: 'Internal path without locale, e.g. /news',
         },
       ],
     },
     {
       name: 'resultsStatsSection',
       title: 'Resultatstatistikk',
-      description: '«Tall som forteller en historie»-seksjonen',
+      description: '\'Numbers that tell a story\' section',
       type: 'object',
       group: 'sections',
       fields: [
-        { name: 'title', title: 'Overskrift', type: 'internationalizedArrayString' },
-        { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
+        { name: 'title', title: 'Heading', type: 'internationalizedArrayString' },
+        { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
         {
           name: 'category',
-          title: 'Kategori-etikett (valgfritt)',
+          title: 'Category label (optional)',
           type: 'internationalizedArrayString',
         },
-        { name: 'footnote', title: 'Fotnote', type: 'internationalizedArrayString' },
+        { name: 'footnote', title: 'Footnote', type: 'internationalizedArrayString' },
         {
           name: 'stats',
           title: 'Statistikkrader',
@@ -167,9 +167,9 @@ export default {
             {
               type: 'object',
               fields: [
-                { name: 'value', title: 'Verdi', type: 'string' },
-                { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
-                { name: 'sub', title: 'Undertekst', type: 'internationalizedArrayString' },
+                { name: 'value', title: 'Value', type: 'string' },
+                { name: 'label', title: 'Label', type: 'internationalizedArrayString' },
+                { name: 'sub', title: 'Subheading', type: 'internationalizedArrayString' },
               ],
               preview: {
                 select: { title: 'value', subtitle: 'label' },
@@ -196,8 +196,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'value', title: 'Verdi', type: 'string' },
-            { name: 'label', title: 'Etikett', type: 'internationalizedArrayString' },
+            { name: 'value', title: 'Value', type: 'string' },
+            { name: 'label', title: 'Label', type: 'internationalizedArrayString' },
           ],
           preview: {
             select: { title: 'value', subtitle: 'label' },
@@ -222,8 +222,8 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'icon', title: 'Ikon', type: 'string', description: 'Lucide icon name' },
-            { name: 'label', title: 'Tekst', type: 'internationalizedArrayString' },
+            { name: 'icon', title: 'Icon', type: 'string', description: 'Lucide icon name' },
+            { name: 'label', title: 'Text', type: 'internationalizedArrayString' },
           ],
           preview: {
             select: { title: 'label', subtitle: 'icon' },
@@ -240,8 +240,8 @@ export default {
     },
     {
       name: 'promoBlocksTitle',
-      title: 'Overskrift – promoseksjon',
-      description: 'Tittel over promoblokkene (f.eks. «Nyheter og artikler»)',
+      title: 'Promo section heading',
+      description: 'Title above promo blocks (e.g. \'News and articles\')',
       type: 'internationalizedArrayString',
       group: 'sections',
     },
@@ -255,11 +255,11 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'image', title: 'Bilde', type: 'image', options: { hotspot: true } },
-            { name: 'title', title: 'Tittel', type: 'internationalizedArrayString' },
-            { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
-            { name: 'ctaText', title: 'CTA-tekst', type: 'internationalizedArrayString' },
-            { name: 'ctaLink', title: 'CTA-lenke', type: 'string' },
+            { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
+            { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
+            { name: 'description', title: 'Description', type: 'internationalizedArrayText' },
+            { name: 'ctaText', title: 'CTA text', type: 'internationalizedArrayString' },
+            { name: 'ctaLink', title: 'CTA link', type: 'string' },
           ],
           preview: {
             select: { title: 'title', subtitle: 'description', media: 'image' },
@@ -280,8 +280,8 @@ export default {
     },
     {
       name: 'faqSectionTitle',
-      title: 'FAQ-overskrift',
-      description: 'Overskrift over FAQ-seksjonen (f.eks. «Ofte stilte spørsmål»)',
+      title: 'FAQ Heading',
+      description: 'Heading for the FAQ section (e.g. \'Frequently Asked Questions\')',
       type: 'internationalizedArrayString',
       group: 'sections',
     },
@@ -291,19 +291,19 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'faq' }] }],
       description:
-        'FAQ-elementer som vises på forsiden. Velg og sorter spørsmål fra FAQ-dokumenter i Sanity.',
+        'FAQ items displayed on the homepage. Select and sort questions from FAQ documents in Sanity.',
       group: 'sections',
     },
     {
       name: 'reviewsSubheading',
-      title: 'Anmeldelser – undertekst',
-      description: 'F.eks. «Våre pasienter forteller»',
+      title: 'Reviews - Subtitle',
+      description: 'E.g. \'What our patients say\'',
       type: 'internationalizedArrayString',
       group: 'reviews',
     },
     {
       name: 'reviewsHeading',
-      title: 'Anmeldelser – overskrift',
+      title: 'Reviews - Headline',
       type: 'internationalizedArrayString',
       group: 'reviews',
     },
@@ -325,22 +325,22 @@ export default {
     },
     {
       name: 'reviewsCtaTitle',
-      title: 'Anmeldelser – CTA tittel',
+      title: 'Reviews - CTA title',
       type: 'internationalizedArrayString',
       group: 'reviews',
     },
     {
       name: 'reviewsCtaSubtitle',
-      title: 'Anmeldelser – CTA undertekst',
+      title: 'Reviews - CTA subtitle',
       type: 'internationalizedArrayString',
       group: 'reviews',
     },
     {
       name: 'googleReviews',
-      title: 'Google-anmeldelser på forsiden',
+      title: 'Google Reviews on the homepage',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'googleReview' }] }],
-      description: 'Velg og sorter anmeldelser som vises i karusellen på forsiden.',
+      description: 'Select and sort reviews shown in the carousel on the homepage.',
       group: 'reviews',
     },
     // SEO

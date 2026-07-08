@@ -9,11 +9,11 @@ export default {
   type: 'document',
   icon: SettingsIcon,
   groups: [
-    { name: 'general', title: 'Generelt', default: true },
+    { name: 'general', title: 'General', default: true },
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'footer', title: 'Footer' },
     { name: 'social', title: 'Sosiale medier' },
-    { name: 'notFound', title: '404-side' },
+    { name: 'notFound', title: '404 page' },
     { name: 'treatment', title: 'Behandlingsside' },
   ],
   fields: [
@@ -27,22 +27,22 @@ export default {
       fields: [
         {
           name: 'loadingLabel',
-          title: 'Laster-tekst',
+          title: 'Loading Text',
           type: 'internationalizedArrayString',
         },
         {
           name: 'notFoundTitle',
-          title: 'Ikke funnet — tittel',
+          title: 'Not found — title',
           type: 'internationalizedArrayString',
         },
         {
           name: 'notFoundBody',
-          title: 'Ikke funnet — tekst',
+          title: 'Not found — text',
           type: 'internationalizedArrayText',
         },
         {
           name: 'backLabel',
-          title: 'Tilbake-lenke',
+          title: 'Back link',
           type: 'internationalizedArrayString',
         },
       ],
@@ -56,22 +56,22 @@ export default {
     },
     {
       name: 'phone',
-      title: 'Telefon',
+      title: 'Phone',
       type: 'string',
       group: 'general',
     },
     {
       name: 'email',
-      title: 'E-post',
+      title: 'Email',
       type: 'string',
       group: 'general',
     },
     {
       name: 'address',
-      title: 'Adresse',
+      title: 'Address',
       type: 'string',
       group: 'general',
-      description: 'Kort adressetekst for footer (f.eks. "Oslo · Bekkestua · Moss · Moelv")',
+      description: 'Short address text for footer (e.g. "Oslo · Bekkestua · Moss · Moelv")',
     },
 
     // ── Navigation ──
@@ -80,7 +80,7 @@ export default {
       title: 'Hovedmeny',
       type: 'array',
       group: 'navigation',
-      description: 'Menyelementer som vises i headeren. Dra for å endre rekkefølge.',
+      description: 'Menu items displayed in the header. Drag to reorder.',
       of: [
         {
           type: 'object',
@@ -89,7 +89,7 @@ export default {
           fields: [
             {
               name: 'label',
-              title: 'Tekst',
+              title: 'Text',
               type: 'internationalizedArrayString',
               validation: (Rule: any) => Rule.required(),
             },
@@ -98,26 +98,26 @@ export default {
               title: 'Meny-ID (fallback)',
               type: 'string',
               description:
-                'Valgfri. Brukes til automatisk oversettelse når engelsk tekst mangler (f.eks. services, pricing).',
+                'Optional. Used for automatic translation when English text is missing (e.g. services, pricing).',
               options: {
                 list: [
-                  { title: 'Tjenester', value: 'services' },
-                  { title: 'Priser', value: 'pricing' },
-                  { title: 'Forsikring', value: 'insurance' },
-                  { title: 'Aktuelt', value: 'news' },
-                  { title: 'Om oss', value: 'about' },
-                  { title: 'Klinikker', value: 'clinics' },
-                  { title: 'Kontakt', value: 'contact' },
-                  { title: 'Spesialister', value: 'specialists' },
+                  { title: 'Services', value: 'services' },
+                  { title: 'Pricing', value: 'pricing' },
+                  { title: 'Insurance', value: 'insurance' },
+                  { title: 'News', value: 'news' },
+                  { title: 'About us', value: 'about' },
+                  { title: 'Clinics', value: 'clinics' },
+                  { title: 'Contact', value: 'contact' },
+                  { title: 'Specialists', value: 'specialists' },
                 ],
               },
             },
             {
               name: 'path',
-              title: 'Lenke',
+              title: 'Link',
               type: 'internationalizedArrayString',
               description:
-                'Synkroniseres automatisk fra sidens URL-slug når du publiserer (f.eks. Tjenester, Priser, Kontakt). Du kan fortsatt redigere manuelt; neste publisering av siden overskriver lenken igjen.',
+                'Automatically synchronized from the page\'s URL slug when you publish (e.g. Services, Prices, Contact). You can still edit manually; the next publication of the page overwrites the link again.',
               validation: (Rule: any) => Rule.required(),
               readOnly: ({ parent }: { parent?: { navId?: string } }) =>
                 Boolean(
@@ -138,7 +138,7 @@ export default {
               name: 'isServicesDropdown',
               title: 'Er tjenestermeny?',
               type: 'boolean',
-              description: 'Aktiver for å vise tjenester-dropdown i stedet for vanlig lenke',
+              description: 'Enable to show services dropdown instead of regular link',
               initialValue: false,
             },
           ],
@@ -157,21 +157,21 @@ export default {
     },
     {
       name: 'ctaButton',
-      title: 'CTA-knapp',
+      title: 'CTA button',
       type: 'object',
       group: 'navigation',
-      description: 'Handlingsknapp i headeren (f.eks. "Bestill time")',
+      description: 'Action button in the header (e.g. "Book appointment")',
       fields: [
         {
           name: 'label',
-          title: 'Tekst',
+          title: 'Text',
           type: 'internationalizedArrayString',
         },
         {
           name: 'path',
-          title: 'Lenke',
+          title: 'Link',
           type: 'internationalizedArrayString',
-          description: 'Intern sti per språk, f.eks. NO: /booking · EN: /book-appointment',
+          description: 'Internal path per language, e.g. NO: /booking · EN: /book-appointment',
           initialValue: undefined,
         },
       ],
@@ -180,19 +180,19 @@ export default {
     // ── Footer ──
     {
       name: 'footerAboutLinks',
-      title: 'Om CMedical-lenker (footer)',
+      title: 'About CMedical links (footer)',
       type: 'array',
       group: 'footer',
-      description: 'Lenker som vises i "Om CMedical"-kolonnen i footeren. Dra for å endre rekkefølge.',
+      description: 'Links displayed in the \'About CMedical\' column in the footer. Drag to reorder.',
       of: [
         {
           type: 'object',
           name: 'footerLink',
-          title: 'Footer-lenke',
+          title: 'Footer link',
           fields: [
             {
               name: 'label',
-              title: 'Tekst',
+              title: 'Text',
               type: 'internationalizedArrayString',
               validation: (Rule: any) => Rule.required(),
             },
@@ -202,20 +202,20 @@ export default {
               type: 'string',
               options: {
                 list: [
-                  { title: 'Om oss', value: 'about' },
-                  { title: 'Spesialister', value: 'specialists' },
-                  { title: 'Priser', value: 'pricing' },
-                  { title: 'Forsikring', value: 'insurance' },
-                  { title: 'Aktuelt', value: 'news' },
+                  { title: 'About us', value: 'about' },
+                  { title: 'Specialists', value: 'specialists' },
+                  { title: 'Pricing', value: 'pricing' },
+                  { title: 'Insurance', value: 'insurance' },
+                  { title: 'News', value: 'news' },
                 ],
               },
             },
             {
               name: 'path',
-              title: 'Lenke',
+              title: 'Link',
               type: 'internationalizedArrayString',
               description:
-                'Synkroniseres automatisk fra sidens URL-slug ved publisering når Meny-ID er satt.',
+                'Automatically synchronized from the page\'s URL slug upon publishing when Menu ID is set.',
               validation: (Rule: any) => Rule.required(),
               readOnly: ({ parent }: { parent?: { navId?: string } }) =>
                 Boolean(
@@ -233,7 +233,7 @@ export default {
                 typeof subtitle === 'string'
                   ? subtitle
                   : pickNo(subtitle)
-              return { title: pickNo(title) || 'Footer-lenke', subtitle: pathStr }
+              return { title: pickNo(title) || 'Footer link', subtitle: pathStr }
             },
           },
         },
@@ -289,34 +289,34 @@ export default {
     // ── 404 Not Found Page ──
     {
       name: 'notFoundTitle',
-      title: 'Overskrift',
+      title: 'Heading',
       type: 'string',
       group: 'notFound',
-      description: 'Overskrift på 404-siden',
+      description: 'Heading on the 404 page',
       initialValue: 'Siden ble ikke funnet',
     },
     {
       name: 'notFoundText',
-      title: 'Brødtekst',
+      title: 'Body text',
       type: 'text',
       group: 'notFound',
-      description: 'Forklarende tekst på 404-siden',
-      initialValue: 'Beklager, vi finner ikke siden du leter etter. Den kan ha blitt flyttet eller slettet.',
+      description: 'Explanatory text on the 404 page',
+      initialValue: 'Sorry, we cannot find the page you are looking for. It may have been moved or deleted.',
     },
     {
       name: 'notFoundImage',
-      title: 'Bilde',
+      title: 'Image',
       type: 'image',
       group: 'notFound',
-      description: 'Valgfritt bilde som vises på 404-siden',
+      description: 'Optional image displayed on the 404 page',
       options: { hotspot: true },
     },
     {
       name: 'notFoundCtaLabel',
-      title: 'Knappetekst',
+      title: 'Button Text',
       type: 'string',
       group: 'notFound',
-      initialValue: 'Tilbake til forsiden',
+      initialValue: 'Back to homepage',
     },
     {
       name: 'notFoundCtaPath',

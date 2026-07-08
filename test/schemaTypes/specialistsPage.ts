@@ -6,28 +6,28 @@ import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'specialistsPage',
-  title: 'Spesialister-side',
+  title: 'Specialists page',
   type: 'document',
   icon: SpecialistIcon,
   fields: [
     {
       name: 'heroEyebrow',
-      title: 'Hero-etikett',
+      title: 'Hero label',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'title',
-      title: 'Tittel',
+      title: 'Title',
       type: 'internationalizedArrayString',
       validation: (Rule: any) => Rule.required(),
     },
     i18nSlugFieldFromTitle('title'),
     {
       name: 'subtitle',
-      title: 'Undertekst',
+      title: 'Subheading',
       type: 'internationalizedArrayText',
-      description: 'Kort beskrivelse under hovedtittelen',
+      description: 'Short description under the main title',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -38,15 +38,15 @@ export default {
     },
     {
       name: 'body',
-      title: 'Innhold',
+      title: 'Content',
       type: 'internationalizedArrayBlockContent',
-      description: 'Hovedinnhold for "Om våre spesialister"-siden',
+      description: 'Main content for "About our specialists" page',
     },
     {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-      description: 'Meta-tittel (metaTitle) og meta-beskrivelse (metaDescription) for /om-spesialister',
+      description: 'Meta title (metaTitle) and meta description (metaDescription) for /about-specialists',
       validation: (Rule: any) => Rule.required(),
     },
     geoSummaryField,
@@ -56,8 +56,8 @@ export default {
     select: { title: 'title' },
     prepare({ title }: any) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Spesialister')
-        : (title || 'Spesialister')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Specialists')
+        : (title || 'Specialists')
       return { title: titleStr }
     },
   },

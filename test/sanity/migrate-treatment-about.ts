@@ -28,7 +28,10 @@ import * as path from "path";
 import { sanityClient } from "./config";
 
 const SOURCE = path.resolve(__dirname, "../../src/data/treatmentContent.ts");
+const GYN_SOURCE = path.resolve(__dirname, "../../src/data/gynekologiSubPages.tsx");
+const FER_SOURCE = path.resolve(__dirname, "../../src/data/fertilitetSubPages.tsx");
 const FORCE = process.env.FORCE === "1";
+
 
 function slugifyKey(text: string): string {
     return text
@@ -107,6 +110,39 @@ function parseTreatmentContent(src: string): Extracted[] {
     return out;
 }
 
+/**
+ * Parse *SubPages.tsx to extract `heroDescription` per sub-key. Used as a
+ * fallback source for `description` on treatments not covered by
+ * treatmentContent.ts.
+ */
+function parseSubPagesDescriptions(src: string, category: string): Extracted[] {
+    const out: Extracted[] = [];
+    const entryRe = /(?:^|\n)  (?:"([a-z0-9-]+)"|([a-zA-Z_][a-zA-Z0-9_-]*)):\s*\{/g;
+    let m: RegExpExecArray | null;
+    while ((m = entryRe.exec(src)) !== null) {
+        const subKey = m[1] ?? m[2];
+        if (!subKey) continue;
+        const bodyStart = m.index + m[0].length;
+        let bodyEnd: number, body: string;
+        try {
+            ({ end: bodyEnd, body } = readBalanced(src, bodyStart, "{", "}"));
+        } catch { continue; }
+        entryRe.lastIndex = bodyEnd + 1;
+
+        const descRe = /(?:^|[\s,{])heroDescription\s*:\s*("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/;
+        const dm = descRe.exec(body);
+        if (!dm) continue;
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-implied-eval
+            const v = new Function(`return ${dm[1]}`)() as string;
+            if (typeof v === "string" && v.trim()) {
+                out.push({ key: `${category}/${subKey}`, description: v });
+            }
+        } catch { /* ignore */ }
+    }
+    return out;
+}
+
 // i18n helpers (Norwegian-only; frontend falls back to no when en missing)
 const i18nString = (value: string) =>
     [{ _key: "no", _type: "internationalizedArrayStringValue", value }];
@@ -118,11 +154,29 @@ const isEmpty = (v: any) =>
     (Array.isArray(v) && (v.length === 0 || v.every((x: any) => !x?.value)));
 
 async function run() {
-    console.log("📖 Reading treatmentContent.ts …");
-    const src = fs.readFileSync(SOURCE, "utf8");
-    const entries = parseTreatmentContent(src);
-    console.log(`   Parsed ${entries.length} entries (description and/or sections).`);
+    console.log("📖 Reading source files …");
+    const tcEntries = parseTreatmentContent(fs.readFileSync(SOURCE, "utf8"));
+    const gynEntries = parseSubPagesDescriptions(fs.readFileSync(GYN_SOURCE, "utf8"), "gynekologi");
+    const ferEntries = parseSubPagesDescriptions(fs.readFileSync(FER_SOURCE, "utf8"), "fertilitet");
+    console.log(`   treatmentContent.ts:    ${tcEntries.length} entries with description/sections`);
+    console.log(`   gynekologiSubPages:     ${gynEntries.length} heroDescriptions`);
+    console.log(`   fertilitetSubPages:     ${ferEntries.length} heroDescriptions`);
+
+    // Merge: treatmentContent.ts wins per key; sub-pages fill gaps for description only.
+    const merged = new Map<string, Extracted>();
+    for (const e of [...gynEntries, ...ferEntries]) merged.set(e.key, e);
+    for (const e of tcEntries) {
+        const existing = merged.get(e.key);
+        merged.set(e.key, {
+            key: e.key,
+            description: e.description ?? existing?.description,
+            sections: e.sections ?? existing?.sections,
+        });
+    }
+    const entries = [...merged.values()];
+    console.log(`   → ${entries.length} unique treatment keys to migrate.`);
     if (FORCE) console.log("   ⚠ FORCE=1 — existing values WILL be overwritten.");
+
 
     console.log("\n🏥 Fetching treatment docs …");
     const treatments: Array<{ _id: string; slug?: string; categorySlug?: string; description?: any; sections?: any }> =
