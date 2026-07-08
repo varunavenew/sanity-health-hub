@@ -52,28 +52,28 @@ const lifePhases = [
  "Vi hjelper deg med prevensjon, syklusforstyrrelser og hormonelle plager — og finner ut hva som er normalt for nettopp deg.",
  tags: [
  { label: "Prevensjonsveiledning", href: "/behandlinger/gynekologi/undersokelse" },
- { label: "PMOS & POI", href: "/behandlinger/gynekologi/pcos" },
- { label: "Hormonforstyrrelser", href: "/behandlinger/gynekologi/pcos" },
+ { label: "PMOS", href: "/behandlinger/gynekologi/pcos" },
+ { label: "POI", href: "/behandlinger/gynekologi/poi" },
  { label: "PMS / PMDD", href: "/behandlinger/gynekologi/pms-pmdd" },
- { label: "Uregelmessige eller kraftige blødninger", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
- { label: "Muskelknuter og polypper", href: "/behandlinger/gynekologi/cyster" },
+ { label: "Blødningsforstyrrelser", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+ { label: "Cyster på eggstokkene", href: "/behandlinger/gynekologi/cyster" },
  ],
- href: "/behandlinger/gynekologi/blodningsforstyrrelser",
+ // «Les mer»-linken fjernet — den gikk feilaktig til blødningsforstyrrelser.
  },
  {
  title: "Smerter eller ubehag i underlivet og livmoren",
  desc:
  "Vondt under samleie, vedvarende underlivsplager eller funn som bør undersøkes — vi tar oss tid til å forstå hva som skjer.",
  tags: [
- { label: "Vulvodyni", href: "/behandlinger/gynekologi/vulvalidelser" },
- { label: "Vaginisme", href: "/behandlinger/gynekologi/vulvalidelser" },
+ { label: "Vulvalidelser og vulvodyni", href: "/behandlinger/gynekologi/vulvalidelser" },
+ { label: "Vaginisme", href: "/behandlinger/gynekologi/vaginisme" },
  { label: "Hudproblemer i vulva", href: "/behandlinger/gynekologi/vulvalidelser" },
  { label: "Test for klamydia / gonoré", href: "/behandlinger/gynekologi/undersokelse" },
- { label: "Celleforandringer og cyster", href: "/behandlinger/gynekologi/celleforandringer" },
+ { label: "Celleforandringer", href: "/behandlinger/gynekologi/celleforandringer" },
  { label: "Konisering", href: "/behandlinger/gynekologi/celleforandringer" },
- { label: "Endometriose", href: "/behandlinger/gynekologi/endometriose" },
+ { label: "Endometriose og adenomyose", href: "/behandlinger/gynekologi/endometriose" },
  ],
- href: "/behandlinger/gynekologi/vulvalidelser",
+ // «Les mer»-linken fjernet — den gikk feilaktig til vulvalidelser.
  },
  {
  title: "Graviditet, fødsel og tiden etter",
