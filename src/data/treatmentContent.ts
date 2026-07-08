@@ -386,7 +386,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
       {
         id: "6-ukerskontroll",
         heading: "6-ukerskontroll",
-        content: "Ved 6-ukerskontrollen vil du treffe medgründer og gynekolog [Madeleine Engen](/spesialister/madeleine-engen). Hun har særlig erfaring med fødselsskader som kan føre til [vaginale fremfall](/behandlinger/gynekologi/vaginale-fremfall) eller [urinlekkasje](/behandlinger/gynekologi/urinlekkasje). Ta gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.\n\nPå denne kontrollen vil hovedfokuset være mors bekken. Dersom du ønsker så forklarer Madeleine endringer i underlivet ved hjelp av speil eller tegninger. Hun sjekker også hvor god kontroll og kontakt du har med bekkenbunnsmuskulaturen. Videre forklares eventuelle skader du har, hvordan du kan forebygge disse videre og hva du kan forvente i fremtiden.\n\n- Kort om svangerskap og fødsel\n- Renselse, amming\n- Mors psykiske helse\n- Sex og samliv\n- Prevensjon/prevensjonsveiledning\n- På indikasjon tar vi BT, puls eller blodprøver",
+        content: "På 6-ukerskontrollen har vi hovedfokus på bekkenbunn og din psykiske helse etter fødsel. Du treffer erfaren gynekolog som går grundig gjennom hvordan kroppen har hentet seg inn, sjekker bekkenbunnsmuskulaturen og tar seg tid til hvordan du har det. Vi snakker om amming, søvn, samliv og eventuelle plager — og legger en plan for veien videre.\n\nTa gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.",
       },
       {
         id: "traumatisk-fodsel",
