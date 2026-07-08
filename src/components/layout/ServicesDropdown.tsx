@@ -140,18 +140,18 @@ export const ServicesDropdown = () => {
  onMouseEnter={handleMouseEnter}
  onMouseLeave={handleMouseLeave}
  >
- <button 
- onClick={handleNavigateServices}
- onFocus={handleMouseEnter}
- onBlur={() => {
- timeoutRef.current = setTimeout(() => {
- setIsOpen(false);
- }, 200);
- }}
- className="px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
- aria-expanded={isOpen}
- aria-haspopup="true"
- >
+  <button 
+  onClick={handleNavigateServices}
+  onFocus={handleMouseEnter}
+  onBlur={() => {
+  timeoutRef.current = setTimeout(() => {
+  setIsOpen(false);
+  }, 200);
+  }}
+  className="px-1.5 lg:px-3 py-1.5 text-xs lg:text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10 text-white flex items-center gap-1"
+  aria-expanded={isOpen}
+  aria-haspopup="true"
+  >
  {t("nav.services")}
  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
  </button>

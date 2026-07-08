@@ -150,7 +150,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
         
         {/* Navigation Bar */}
         <nav className={`transition-colors duration-300 ${isAtTop ? 'bg-gradient-to-b from-black/70 via-black/35 to-transparent' : 'bg-brand-dark/95 backdrop-blur-md'}`} aria-label="Hovednavigasjon">
-          <div className="page-shell h-16 flex items-center justify-between relative">
+          <div className="page-shell h-16 flex items-center justify-between relative md:px-5 lg:px-16">
             <Link to="/" className="flex items-center shrink-0">
               <img 
                 src={cmWordmarkNegative} 
@@ -160,7 +160,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             </Link>
             
             {/* Main Navigation - Always visible */}
-          <div className="hidden md:flex items-center gap-1 text-white">
+          <div className="hidden md:flex items-center gap-0 lg:gap-1 text-white">
               {navItems.map((item: any) =>
                 item.isServicesDropdown ? (
                   <ServicesDropdown key={item._key} />
@@ -168,7 +168,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
                   <Link
                     key={item._key}
                     to={item.path}
-                    className="px-3 py-1.5 text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10"
+                    className="px-1.5 lg:px-3 py-1.5 text-xs lg:text-sm font-light rounded-2xl md:rounded-full transition-all hover:bg-white/10"
                   >
                     {item.label}
                   </Link>
@@ -177,7 +177,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           </div>
 
           {/* Right side: Search, CTA, Menu */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0.5 lg:gap-1.5">
             {/* Language Selector */}
             <LanguageSelector />
             {/* Search Toggle - always visible (mobile + desktop) */}
@@ -194,7 +194,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
             {/* CTA Button - hidden on mobile (in bottom nav) */}
             <Button 
               size="sm" 
-              className="hidden md:inline-flex bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-4 md:px-6 text-sm"
+              className="hidden md:inline-flex bg-accent text-accent-foreground hover:bg-accent/90 font-light rounded-2xl px-2 md:px-3 lg:px-6 text-xs lg:text-sm"
               onClick={() => navigate(ctaButton.path)}
             >
               {ctaButton.label}

@@ -25,7 +25,7 @@ export const LanguageSelector = () => {
     <div className="relative" ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-all"
+        className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 py-1.5 text-xs lg:text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-all"
         aria-label={t("nav.selectLanguage")}
       >
         <span className="text-sm">{current.flag}</span>
