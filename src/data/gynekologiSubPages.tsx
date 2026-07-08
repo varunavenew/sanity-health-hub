@@ -1170,4 +1170,150 @@ export const gynekologiSubPages: Record<string, SubTreatmentContent> = {
     ctaTitle: "Bestill tverrfaglig vurdering",
     ctaDescription: "Når én spesialitet ikke holder — vi setter sammen riktig team for deg.",
   },
+
+  /* ───────────────────────── POI (prematur ovariesvikt) ───────────────────────── */
+  poi: {
+    seoTitle: "POI – prematur ovariesvikt | CMedical",
+    seoDescription:
+      "Utredning og oppfølging av prematur ovariesvikt (POI) og hormonforstyrrelser. Rask vurdering, tett oppfølging.",
+    canonical: "/behandlinger/gynekologi/poi",
+    parent,
+    title: "POI (prematur ovariesvikt)",
+    heroTitle: <>Når hormonene <span className="italic">svikter</span> tidlig</>,
+    heroDescription:
+      "Prematur ovariesvikt (POI) er en hormonell forstyrrelse der eggstokkene mister funksjon før 40 års alder. Det gir uregelmessig eller uteblitt menstruasjon, hetetokter, søvnproblemer og påvirker fertiliteten. Vi tilbyr grundig utredning, moderne hormonbehandling og tett oppfølging.",
+    heroPoints: [
+      { title: "Grundig utredning", desc: "Hormoner, ultralyd og blodprøver for å kartlegge årsak og alvorlighetsgrad." },
+      { title: "Individuell hormonbehandling", desc: "Tilpasset din alder, historie og hva som er viktig for deg." },
+      { title: "Fertilitetsvurdering", desc: "Ønsker du barn, kobles fertilitetsteamet inn tidlig i forløpet." },
+      { title: "Langsiktig oppfølging", desc: "POI krever tett oppfølging over tid — vi følger deg gjennom livet." },
+    ],
+    rating: "4,8 — Spesialister på kvinnehelse",
+    booking: { ...baseBooking, tjeneste: "poi" },
+    primaryCtaLabel: "Bestill utredning",
+    flowTitle: "Slik utreder vi POI",
+    flow: [
+      { n: "Steg 01", title: "Samtale", desc: "Vi går gjennom syklushistorikk, symptomer, familiehistorie og hva du opplever i hverdagen." },
+      { n: "Steg 02", title: "Prøver og undersøkelse", desc: "Hormonprøver (FSH, AMH, østradiol), ultralyd av eggstokker og eventuelle tilleggsprøver." },
+      { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi forklarer hva funnene betyr — og hva POI innebærer for din helse og eventuell fertilitet." },
+      { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell substitusjonsbehandling, livsstilsråd og fertilitetsplan der det er aktuelt." },
+    ],
+    reasonsTitle: "Tegn på POI og hormonforstyrrelser",
+    reasonsLead:
+      "Hormonforstyrrelser handler om unormale nivåer av hormoner — for mye, for lite eller ujevn produksjon. Disse tegnene bør utredes.",
+    reasons: [
+      { n: "01", title: "Uregelmessig eller uteblitt menstruasjon", desc: "Sykluser som blir sjeldnere, uregelmessige eller opphører før 40 år." },
+      { n: "02", title: "Hetetokter og nattesvette", desc: "Klassiske symptomer på østrogenmangel — også i ung alder." },
+      { n: "03", title: "Søvnproblemer og tretthet", desc: "Hormonell ubalanse kan forstyrre søvn og gi vedvarende utmattelse." },
+      { n: "04", title: "Humørsvingninger og nedstemthet", desc: "Endringer i psyke og energi kan ha hormonell bakgrunn." },
+      { n: "05", title: "Vaginal tørrhet", desc: "Slimhinneendringer og ubehag ved samleie kan komme tidlig ved POI." },
+      { n: "06", title: "Vansker med å bli gravid", desc: "Redusert eggreserve gir nedsatt fertilitet — vi kobler inn fertilitetsteamet." },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "PMOS", desc: "En annen vanlig hormonell tilstand som gir forstyrret syklus og fertilitetsutfordringer.", href: "/behandlinger/gynekologi/pcos" },
+      { title: "Overgangsalder", desc: "Behandlingsprinsippene overlapper — vi tilbyr trygg, oppdatert hormonbehandling.", href: "/behandlinger/gynekologi/overgangsalder" },
+      { title: "Fertilitet", desc: "Ønsker du barn? Fertilitetsteamet vårt jobber tett med gynekologene ved POI.", href: "/behandlinger/fertilitet" },
+    ],
+    ctaTitle: "Få en grundig POI-utredning",
+    ctaDescription:
+      "Tidlig svikt i eggstokkene skal ikke stå ubehandlet. Bestill time for utredning og en plan tilpasset deg.",
+  },
+
+  /* ───────────────────────── VAGINISME ───────────────────────── */
+  vaginisme: {
+    seoTitle: "Vaginisme | CMedical — tverrfaglig behandling",
+    seoDescription:
+      "Vaginisme gir smerter og ufrivillige spenninger i bekkenbunnen. Vår vulvaklinikk tilbyr tverrfaglig utredning og behandling.",
+    canonical: "/behandlinger/gynekologi/vaginisme",
+    parent,
+    title: "Vaginisme",
+    heroTitle: <>Kroppen sier <span className="italic">stopp</span> — vi hjelper deg videre</>,
+    heroDescription:
+      "Vaginisme beskriver smerter i bekkenbunnsmuskulaturen som ofte oppstår ved forsøk på samleie, bruk av tampong, gynekologisk undersøkelse, sykling eller trange klær. Smertene skyldes ufrivillige sammentrekninger. Det finnes god behandling — og du er ikke alene.",
+    heroPoints: [
+      { title: "Egen vulvaklinikk", desc: "Tverrfaglig team med gynekolog, hudlege, bekkenbunnsfysioterapeut, sexolog og psykolog." },
+      { title: "Tid og trygghet", desc: "Vi setter av lange konsultasjoner og går i ditt tempo — alltid." },
+      { title: "Skånsom utredning", desc: "Ingen undersøkelse gjøres mot din vilje. Vi tilpasser alt til det du er komfortabel med." },
+      { title: "Målrettet behandling", desc: "Fra fysioterapi og sexologisk oppfølging til Botoxbehandling ved vedvarende plager." },
+    ],
+    rating: "4,8 — Spesialister på kvinnehelse",
+    booking: { ...baseBooking, tjeneste: "vaginisme" },
+    primaryCtaLabel: "Bestill konsultasjon",
+    flowTitle: "Slik utreder vi vaginisme",
+    flow: [
+      { n: "Steg 01", title: "Samtale", desc: "Vi snakker om når smertene oppstår, hva som utløser dem, og hva du har prøvd tidligere." },
+      { n: "Steg 02", title: "Skånsom undersøkelse", desc: "Kun det du er komfortabel med. Vi bruker spesialiserte teknikker for ikke å utløse smerter." },
+      { n: "Steg 03", title: "Tverrfaglig vurdering", desc: "Ved behov kobles fysioterapeut, sexolog og psykolog inn i samme forløp." },
+      { n: "Steg 04", title: "Behandlingsplan", desc: "Bekkenbunnsfysioterapi, sexologisk oppfølging, eventuelt Botoxbehandling — tilpasset deg." },
+    ],
+    reasonsTitle: "Når bør du ta kontakt?",
+    reasonsLead:
+      "Vaginisme rammer flere enn du tror, men blir sjelden snakket om. Disse situasjonene fortjener spesialistvurdering.",
+    reasons: [
+      { n: "01", title: "Smerter ved samleie", desc: "Ufrivillige spenninger som gjør penetrasjon vanskelig eller umulig." },
+      { n: "02", title: "Umulig å bruke tampong", desc: "Kroppen strammer seg til når noe skal føres inn." },
+      { n: "03", title: "Frykt for gynekologisk undersøkelse", desc: "Tidligere vonde opplevelser eller vedvarende angst for underlivsundersøkelser." },
+      { n: "04", title: "Smerter ved sykling eller trange klær", desc: "Trykk mot bekkenbunnen utløser smerter i hverdagen." },
+      { n: "05", title: "Vedvarende bekkenbunnsspenninger", desc: "Kroppen klarer ikke slippe muskulaturen — verken bevisst eller ubevisst." },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "Vulvalidelser og vulvodyni", desc: "Kroniske smerter i vulva utredes og behandles av samme tverrfaglige team.", href: "/behandlinger/gynekologi/vulvalidelser" },
+      { title: "Gynekologisk undersøkelse", desc: "Skånsom, tilpasset undersøkelse i ditt tempo — også om du har vaginisme.", href: "/behandlinger/gynekologi/undersokelse" },
+      { title: "Fødselsskader", desc: "Bekkenbunnsproblemer etter fødsel kan gi lignende symptombilde.", href: "/behandlinger/gynekologi/fodselsskader" },
+    ],
+    ctaTitle: "Få hjelp med vaginisme",
+    ctaDescription:
+      "Du skal ikke leve med smerter du ikke tør å snakke om. Vi tar deg på alvor — og vi har verktøyene som hjelper.",
+  },
+
+  /* ───────────────────────── ADENOMYOSE ───────────────────────── */
+  adenomyose: {
+    seoTitle: "Adenomyose | CMedical — utredning og behandling",
+    seoDescription:
+      "Adenomyose gir smerter, kraftige blødninger og påvirker fertiliteten. Vi tilbyr grundig utredning og moderne behandling.",
+    canonical: "/behandlinger/gynekologi/adenomyose",
+    parent,
+    title: "Adenomyose",
+    heroTitle: <>Når livmoren <span className="italic">verker</span> innenfra</>,
+    heroDescription:
+      "Adenomyose er en tilstand der endometrievev vokser inn i livmormuskelen. Det gir kraftige menssmerter, langvarige blødninger og kan påvirke fertiliteten. Tilstanden går ofte hånd i hånd med endometriose og utredes derfor samlet hos oss.",
+    heroPoints: [
+      { title: "Erfarne spesialister", desc: "Du møter gynekologer som jobber tett med endometriose og adenomyose." },
+      { title: "Avansert ultralyd", desc: "Vi bruker høyoppløselig ultralyd for å identifisere adenomyose presist." },
+      { title: "Individuell behandling", desc: "Fra hormonell behandling til kirurgi — tilpasset dine plager og dine mål." },
+      { title: "Fertilitetskompetanse", desc: "Adenomyose påvirker fertiliteten — vi jobber tverrfaglig med fertilitetsteamet." },
+    ],
+    rating: "4,8 — Spesialister på kvinnehelse",
+    booking: { ...baseBooking, tjeneste: "adenomyose" },
+    primaryCtaLabel: "Bestill utredning",
+    flowTitle: "Slik utreder vi adenomyose",
+    flow: [
+      { n: "Steg 01", title: "Samtale og kartlegging", desc: "Vi går gjennom smerteforløp, blødningsmønster og hvordan plagene påvirker hverdagen." },
+      { n: "Steg 02", title: "Klinisk undersøkelse", desc: "Gynekologisk undersøkelse og høyoppløselig ultralyd for å vurdere livmoren." },
+      { n: "Steg 03", title: "Diagnose og forklaring", desc: "Vi forklarer hva adenomyose innebærer for deg — og hvordan det henger sammen med eventuell endometriose." },
+      { n: "Steg 04", title: "Behandlingsplan", desc: "Hormonell behandling, smertelindring eller kirurgi — vi finner det som passer deg." },
+    ],
+    reasonsTitle: "Symptomer på adenomyose",
+    reasonsLead:
+      "Symptomene overlapper med endometriose og blødningsforstyrrelser, og tilstanden blir ofte oversett. Disse tegnene fortjener utredning.",
+    reasons: [
+      { n: "01", title: "Kraftige menssmerter", desc: "Smerter som forverres over tid og ikke lindres av vanlige smertestillende." },
+      { n: "02", title: "Langvarige og kraftige blødninger", desc: "Blødninger som varer mer enn 7 dager eller er svært rikelige." },
+      { n: "03", title: "Trykk og tyngdefølelse i underlivet", desc: "Forstørret livmor kan gi press i bekkenet og korsryggen." },
+      { n: "04", title: "Smerter ved samleie", desc: "Dype smerter under eller etter samleie er ikke normalt." },
+      { n: "05", title: "Vansker med å bli gravid", desc: "Adenomyose kan påvirke implantasjon og fertilitet — og bør vurderes i utredning." },
+      { n: "06", title: "Utmattelse ved menstruasjon", desc: "Kraftige blødninger kan gi jernmangel og vedvarende tretthet." },
+    ],
+    promises: standardPromises,
+    related: [
+      { title: "Endometriose og adenomyose", desc: "Tilstandene henger tett sammen og utredes ofte samlet.", href: "/behandlinger/gynekologi/endometriose" },
+      { title: "Blødningsforstyrrelser", desc: "Kraftige eller langvarige blødninger krever grundig utredning.", href: "/behandlinger/gynekologi/blodningsforstyrrelser" },
+      { title: "Fjerne livmor", desc: "Ved alvorlige plager kan hysterektomi være et godt behandlingsalternativ.", href: "/behandlinger/gynekologi/fjerne-livmor" },
+    ],
+    ctaTitle: "Få en grundig adenomyose-vurdering",
+    ctaDescription:
+      "Du fortjener å bli hørt — og du fortjener svar. Bestill utredning hos våre spesialister.",
+  },
 };
