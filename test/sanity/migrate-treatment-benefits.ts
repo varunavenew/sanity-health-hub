@@ -172,8 +172,8 @@ const isEmpty = (v: any) =>
 async function run() {
   console.log("📖 Reading source files …");
   const tcEntries = parseTreatmentContent(fs.readFileSync(TC_SOURCE, "utf8"));
-  const gynEntries = parseSubPages(fs.readFileSync(GYN_SOURCE, "utf8"), "gynekologi");
-  const ferEntries = parseSubPages(fs.readFileSync(FER_SOURCE, "utf8"), "fertilitet");
+  const gynEntries = parseSubPages(fs.readFileSync(GYN_SOURCE, "utf8"), "gynekologi", "gynekologiSubPages");
+  const ferEntries = parseSubPages(fs.readFileSync(FER_SOURCE, "utf8"), "fertilitet", "fertilitetSubPages");
   console.log(`   treatmentContent.ts:    ${tcEntries.length} entries with benefits/title`);
   console.log(`   gynekologiSubPages:     ${gynEntries.length} entries with heroPoints`);
   console.log(`   fertilitetSubPages:     ${ferEntries.length} entries with heroPoints`);
