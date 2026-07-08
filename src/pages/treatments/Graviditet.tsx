@@ -262,7 +262,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                     (window.location.href = buildBookingUrl({ kategori: "graviditet" }))
                   }
                 >
-                  Bestill time
+                  <Editable field="hero.cta" pagePath="/graviditet">Bestill time</Editable>
                 </Button>
                 <CallUsClinicPicker variant="light" label="Ring oss" />
               </div>
