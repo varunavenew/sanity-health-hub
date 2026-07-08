@@ -177,7 +177,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
           </div>
 
           {/* Right side: Search, CTA, Menu */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 md:gap-1.5">
             {/* Language Selector */}
             <LanguageSelector />
             {/* Search Toggle - always visible (mobile + desktop) */}
