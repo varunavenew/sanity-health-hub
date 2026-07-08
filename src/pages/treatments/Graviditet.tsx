@@ -243,7 +243,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
                 pagePath="/graviditet"
                 className="text-base md:text-lg font-light leading-relaxed mb-10 text-muted-foreground block"
               >
-                {`Du skal kjenne deg trygg, sett og fulgt opp — fra det første hjerteslaget til dagene etter fødselen. Hos CMedical møter du den samme jordmoren og legen gjennom hele svangerskapet.`}
+                {`Barneønske, svangerskapskontroll og tiden etter fødsel — vi følger deg gjennom hele forløpet.`}
               </Editable>
 
               {entryPrice && (
