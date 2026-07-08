@@ -150,7 +150,7 @@ const serviceGroups: { label: string; items: { title: string; desc: string; href
   {
     label: "Oppfølging gjennom svangerskapet",
     items: [
-      { title: "Svangerskapsteam", desc: "Fast jordmor og lege hele veien", href: `${GRAV}/svangerskapsteam` },
+      { title: "Graviditetsoppfølging", desc: "Erfarne gynekologer og fostermedisinere hele veien", href: `${GRAV}/svangerskapsteam` },
     ],
   },
 ];
