@@ -54,12 +54,14 @@ async function main() {
   const dryRun = !process.argv.includes("--write");
   console.log(dryRun ? "🔍 DRY-RUN (pass --write to apply)" : "✍️  WRITE mode");
 
+  const heroOnly = process.argv.includes("--hero-only");
   const dir = path.resolve(__dirname, "../../src/assets/services");
   const files = fs
     .readdirSync(dir)
-    .filter((f) => f.endsWith(".jpg.asset.json"));
+    .filter((f) => f.endsWith(".jpg.asset.json"))
+    .filter((f) => !heroOnly || f.endsWith("-hero.jpg.asset.json"));
 
-  console.log(`Found ${files.length} asset pointers.`);
+  console.log(`Found ${files.length} asset pointers${heroOnly ? " (hero-only)" : ""}.`);
 
   // Fetch every treatmentCategory + treatment with current heroImage state.
   const [categories, treatments] = await Promise.all([
