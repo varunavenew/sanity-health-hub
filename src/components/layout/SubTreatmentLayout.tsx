@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { CategoryReviews } from "@/components/treatments/CategoryReviews";
 import { buildBookingUrl } from "@/lib/bookingLinks";
