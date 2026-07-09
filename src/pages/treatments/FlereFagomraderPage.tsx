@@ -8,6 +8,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Editable } from "@/components/editable/Editable";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { LeadPopup } from "@/components/LeadPopup";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
@@ -70,7 +71,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title="Flere fagområder | CMedical — Tverrfaglige spesialister"
  description="Hud, psykologi, sexologi, ernæring, kirurgi og mer — Nordens fremste spesialister, ofte i tverrfaglige team. Kort ventetid, ingen henvisning."
@@ -379,7 +380,7 @@ const FlereFagomraderPage = ({ isChatOpen }: PageProps) => {
       <BookingCTA />
 
  <LeadPopup />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

@@ -9,6 +9,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Editable } from "@/components/editable/Editable";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { LeadPopup } from "@/components/LeadPopup";
 import {
   Accordion,
@@ -176,7 +177,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title="Urologi | CMedical — Spesialister du kan stole på"
  description="Spesialisturologi hos CMedical. Prostata, blære, testikler, ereksjon og robotkirurgi — uten henvisning, uten ventetid."
@@ -565,7 +566,7 @@ const UrologiPage = ({ isChatOpen }: PageProps) => {
       <BookingCTA />
 
  <LeadPopup />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

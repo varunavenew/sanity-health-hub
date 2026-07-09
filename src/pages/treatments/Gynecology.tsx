@@ -16,6 +16,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Editable } from "@/components/editable/Editable";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
@@ -95,7 +96,7 @@ const lifePhases = [
   desc:
   "Tyngdefølelse i underlivet, fremfall (prolaps) eller urinlekkasje kan oppstå i alle livsfaser. Vi utreder og behandler både konservativt og kirurgisk.",
   tags: [
-  { label: "Urogynekologi (samlet)", href: "/behandlinger/gynekologi/urogynekologi" },
+  { label: "Urogynekologi", href: "/behandlinger/gynekologi/urogynekologi" },
   { label: "Vaginale fremfall", href: "/behandlinger/gynekologi/vaginale-fremfall" },
   { label: "Urininkontinens", href: "/behandlinger/gynekologi/urinlekkasje" },
   { label: "Bekkenbunnsdysfunksjon", href: "/behandlinger/gynekologi/urogynekologi" },
@@ -233,7 +234,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title="Gynekologi | CMedical — Kvinnehelse for livet"
  description="Spesialistgynekologi hos CMedical. Endometriose, overgangsalder, urinlekkasje, fødselsskader og kvinnehelse — uten henvisning, uten ventetid."
@@ -735,7 +736,7 @@ const Gynecology = ({ isChatOpen }: PageProps) => {
  ============================================================ */}
       <InsurancePartners />
       <BookingCTA />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

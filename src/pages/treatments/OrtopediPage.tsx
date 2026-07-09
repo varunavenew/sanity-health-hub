@@ -9,6 +9,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Editable } from "@/components/editable/Editable";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { LeadPopup } from "@/components/LeadPopup";
 import {
   Accordion,
@@ -160,7 +161,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title="Ortopedi | CMedical — Når det gjør vondt"
  description="Spesialistortopedi hos CMedical. Skulder, kne, hofte, hånd og fot — diagnose og plan på første konsultasjon. Ingen henvisning, ingen ventetid."
@@ -546,7 +547,7 @@ const OrtopediPage = ({ isChatOpen }: PageProps) => {
       <BookingCTA />
 
  <LeadPopup />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

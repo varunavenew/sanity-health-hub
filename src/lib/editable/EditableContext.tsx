@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -25,6 +26,7 @@ import { supabase } from "@/integrations/supabase/client";
  */
 
 type OverridesMap = Record<string, string>;
+export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 interface EditableContextValue {
   session: Session | null;
@@ -37,6 +39,7 @@ interface EditableContextValue {
   saveOverride: (pagePath: string, fieldId: string, value: string) => Promise<void>;
   resetOverride: (pagePath: string, fieldId: string) => Promise<void>;
   loading: boolean;
+  saveStatus: SaveStatus;
 }
 
 const EditableContext = createContext<EditableContextValue | null>(null);
@@ -62,6 +65,14 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
       /* ignore */
     }
   }, []);
+
+  // Toggle a body class so global CSS can style the auto-edit outlines.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const active = editMode && canEdit;
+    document.body.classList.toggle("cm-edit-mode", active);
+    return () => document.body.classList.remove("cm-edit-mode");
+  }, [editMode, canEdit]);
 
   // Auth session
   useEffect(() => {
@@ -153,10 +164,20 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
     [overrides],
   );
 
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const flashSaved = useCallback(() => {
+    setSaveStatus("saved");
+    if (savedTimerRef.current) clearTimeout(savedTimerRef.current);
+    savedTimerRef.current = setTimeout(() => setSaveStatus("idle"), 1800);
+  }, []);
+
   const saveOverride = useCallback(
     async (pagePath: string, fieldId: string, value: string) => {
       // Optimistic
       setOverrides((prev) => ({ ...prev, [keyOf(pagePath, fieldId)]: value }));
+      setSaveStatus("saving");
       const { error } = await supabase.from("content_overrides").upsert(
         {
           page_path: pagePath,
@@ -167,9 +188,13 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
         },
         { onConflict: "page_path,field_id" },
       );
-      if (error) throw error;
+      if (error) {
+        setSaveStatus("error");
+        throw error;
+      }
+      flashSaved();
     },
-    [session],
+    [session, flashSaved],
   );
 
   const resetOverride = useCallback(async (pagePath: string, fieldId: string) => {
@@ -178,13 +203,18 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
       delete next[keyOf(pagePath, fieldId)];
       return next;
     });
+    setSaveStatus("saving");
     const { error } = await supabase
       .from("content_overrides")
       .delete()
       .eq("page_path", pagePath)
       .eq("field_id", fieldId);
-    if (error) throw error;
-  }, []);
+    if (error) {
+      setSaveStatus("error");
+      throw error;
+    }
+    flashSaved();
+  }, [flashSaved]);
 
   const value = useMemo<EditableContextValue>(
     () => ({
@@ -198,8 +228,9 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
       saveOverride,
       resetOverride,
       loading,
+      saveStatus,
     }),
-    [session, canEdit, editMode, setEditMode, overrides, getOverride, saveOverride, resetOverride, loading],
+    [session, canEdit, editMode, setEditMode, overrides, getOverride, saveOverride, resetOverride, loading, saveStatus],
   );
 
   return <EditableContext.Provider value={value}>{children}</EditableContext.Provider>;
