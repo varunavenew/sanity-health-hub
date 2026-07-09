@@ -66,6 +66,14 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  // Toggle a body class so global CSS can style the auto-edit outlines.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const active = editMode && canEdit;
+    document.body.classList.toggle("cm-edit-mode", active);
+    return () => document.body.classList.remove("cm-edit-mode");
+  }, [editMode, canEdit]);
+
   // Auth session
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
