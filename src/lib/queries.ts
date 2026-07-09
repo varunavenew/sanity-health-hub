@@ -149,6 +149,7 @@ export const CLINICS_QUERY = `*[_type == "clinicPage"] | order(sortOrder asc, ti
   locationSearch,
   sortOrder,
   "primaryImage": primaryImage.asset->url,
+  "gallery": gallery[]{ "src": asset->url, alt },
   booking,
   detail,
   faqs[]{question, answer},
