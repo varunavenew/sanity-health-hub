@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -87,7 +88,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
  const lifePhasesHeading = "Livsfaser vi følger";
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title={page?.seo?.metaTitle || "Kvinnehelse for livet – Helhetlig kvinnehelse gjennom alle livsfaser"}
  description={page?.seo?.metaDescription || "CMedical tilbyr helhetlig kvinnehelse fra pubertet til senior. Gynekologi, fertilitet, hormonbehandling og tverrfaglig oppfølging – av ledende spesialister."}
@@ -191,7 +192,7 @@ const KvinnehelsePage = ({ isChatOpen }: PageProps) => {
   </div>
   </div>
   </section>
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

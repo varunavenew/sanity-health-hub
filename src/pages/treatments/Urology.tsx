@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star, Phone, Quote, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import {
  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -142,7 +143,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
  );
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <h1 className="sr-only">Urologi hos CMedical — prostata, urinveier og mannehelse</h1>
 
  {/* 1. HERO */}
@@ -464,7 +465,7 @@ const Urology = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

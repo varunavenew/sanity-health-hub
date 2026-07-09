@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Star, Phone, Clock, FileX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { getServiceImageFromHref } from "@/data/serviceImages";
@@ -121,7 +122,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title="Gynekologisk undersøkelse | CMedical"
  description="Trygg gynekologisk undersøkelse uten henvisning og uten ventetid. Du møter en spesialist som tar seg tid — og forklarer alt underveis."
@@ -410,7 +411,7 @@ const GynekologiskUndersokelse = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

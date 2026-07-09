@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +58,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  const entryPrice = getCategoryEntryPrice(categoryId);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title={`${content.title} – Spesialistbehandling hos CMedical`}
  description={content.description.slice(0, 155)}
@@ -300,7 +301,7 @@ const CategoryPageNew = ({ categoryId, isChatOpen }: CategoryPageNewProps) => {
  </section>
 
  <LeadPopup />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
 import { useTreatmentCategory } from "@/hooks/useSanity";
 import { PageSEO } from "@/components/seo/PageSEO";
@@ -358,7 +359,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  const sanitySections = (sanityCategory as any)?.sections;
  if (Array.isArray(sanitySections) && sanitySections.length > 0) {
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title={`${category.title} – Spesialistbehandling hos CMedical`}
  description={(category.description || '').split('\n')[0].slice(0, 155)}
@@ -370,12 +371,12 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  ]}
  />
  <SectionRenderer sections={sanitySections} />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
  }
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title={`${category.title} – Spesialistbehandling hos CMedical`}
  description={category.description.split('\n')[0].slice(0, 155)}
@@ -617,7 +618,7 @@ export const CategoryPage = ({ categoryId, isChatOpen }: CategoryPageProps) => {
  <BookingCTA />
 
  <LeadPopup />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 
