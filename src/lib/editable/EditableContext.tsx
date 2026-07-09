@@ -25,6 +25,7 @@ import { supabase } from "@/integrations/supabase/client";
  */
 
 type OverridesMap = Record<string, string>;
+export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 interface EditableContextValue {
   session: Session | null;
@@ -37,6 +38,7 @@ interface EditableContextValue {
   saveOverride: (pagePath: string, fieldId: string, value: string) => Promise<void>;
   resetOverride: (pagePath: string, fieldId: string) => Promise<void>;
   loading: boolean;
+  saveStatus: SaveStatus;
 }
 
 const EditableContext = createContext<EditableContextValue | null>(null);
