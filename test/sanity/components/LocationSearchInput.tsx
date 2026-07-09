@@ -58,7 +58,8 @@ declare global {
 const DEFAULT_CENTER = {lat: 59.9139, lng: 10.7522}
 
 function getMapsApiKey(): string | undefined {
-  const fromVite = import.meta.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+  const fromVite = (import.meta as unknown as {env?: Record<string, string>}).env
+    ?.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
   if (typeof fromVite === 'string' && fromVite.length > 0) return fromVite
 
   const fromNext = typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY : undefined

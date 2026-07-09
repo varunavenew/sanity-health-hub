@@ -18,6 +18,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const HOMEPAGE_ID = "homepage";
+const HOMEPAGE_DRAFT_ID = `drafts.${HOMEPAGE_ID}`;
 const ASSETS_ROOT = path.resolve(__dirname, "../../src/assets");
 
 type SlideDef = {
@@ -107,9 +108,17 @@ async function uploadFromPointer(pointerRelPath: string): Promise<string | null>
     return asset._id;
 }
 
+let i18nKeyCounter = 0;
+const i18nKey = () =>
+    `i18n-${Date.now().toString(36)}-${(i18nKeyCounter++).toString(36)}-${Math.random()
+        .toString(36)
+        .slice(2, 8)}`;
+
+// v5 format: language field stores the locale identifier.
+// _key is only Sanity's unique array key and must not be the locale.
 const i18n = (no: string, en: string) => [
-    { _key: "no", _type: "internationalizedArrayStringValue", language: "no", value: no },
-    { _key: "en", _type: "internationalizedArrayStringValue", language: "en", value: en },
+    { _key: i18nKey(), _type: "internationalizedArrayStringValue", language: "no", value: no },
+    { _key: i18nKey(), _type: "internationalizedArrayStringValue", language: "en", value: en },
 ];
 
 async function migrate() {
@@ -134,7 +143,7 @@ async function migrate() {
                 image: { _type: "image", asset: { _type: "reference", _ref: desktopId } },
             }),
             ...(mobileId && {
-                imageRight: { _type: "image", asset: { _type: "reference", _ref: mobileId } },
+                mobileImage: { _type: "image", asset: { _type: "reference", _ref: mobileId } },
             }),
             heading: i18n(s.heading.no, s.heading.en),
             subheading: i18n(s.subheading.no, s.subheading.en),
@@ -143,12 +152,19 @@ async function migrate() {
         });
     }
 
-    await client
-        .patch(HOMEPAGE_ID)
-        .set({ heroBanner: { slides } })
-        .commit();
+    const targetIds = [HOMEPAGE_ID];
+    const draft = await client.getDocument(HOMEPAGE_DRAFT_ID);
+    if (draft) targetIds.push(HOMEPAGE_DRAFT_ID);
 
-    console.log(`\n✅ Migrated ${slides.length} hero slides to homepage.heroBanner`);
+    for (const id of targetIds) {
+        await client
+            .patch(id)
+            .set({ heroBanner: { slides } })
+            .commit();
+        console.log(`   patched ${id}`);
+    }
+
+    console.log(`\n✅ Migrated ${slides.length} hero slides to homepage.heroBanner in ${targetIds.length} document(s)`);
 }
 
 migrate().catch((err) => {

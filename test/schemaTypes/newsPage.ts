@@ -56,9 +56,9 @@ export default defineType({
     }),
     defineField({
       name: 'readMoreLabel',
-      title: 'Lenketekst: Les mer',
+      title: 'Link text: Read more',
       type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Lenketekst: Les mer'),
+      validation: requiredNoEnI18n('Link text: Read more'),
     }),
     defineField({
       name: 'specialistsEyebrowAll',
@@ -107,7 +107,7 @@ export default defineType({
           {title: 'Sanity-innlegg', value: 'cms'},
           {title: 'Instagram API', value: 'api'},
           {title: 'Lokale eksempelinnlegg', value: 'local'},
-          {title: 'Skjul seksjonen', value: 'hidden'},
+          {title: 'Hide section', value: 'hidden'},
         ],
         layout: 'radio',
       },
@@ -115,7 +115,7 @@ export default defineType({
     }),
     defineField({
       name: 'socialPosts',
-      title: 'SoMe-innlegg',
+      title: 'Social media posts',
       description: 'Images displayed in the \'Follow us on social media\' section. The order here is the display order.',
       type: 'array',
       of: [
@@ -160,7 +160,7 @@ export default defineType({
             select: { title: 'caption', subtitle: 'platform' },
             prepare({ title, subtitle }: any) {
               return {
-                title: title?.trim() || 'SoMe-innlegg',
+                title: title?.trim() || 'Social media post',
                 subtitle: subtitle || 'instagram',
               }
             },
@@ -178,7 +178,7 @@ export default defineType({
     }),
     defineField({
       name: 'socialPostLimit',
-      title: 'Maks antall SoMe-innlegg',
+      title: 'Maximum number of social media posts',
       type: 'number',
       validation: (Rule) =>
         Rule.integer().min(1).max(12).custom((value: unknown, context: any) => {
@@ -191,7 +191,7 @@ export default defineType({
     }),
     defineField({
       name: 'featuredArticles',
-      title: 'Fremhevede artikler (top 4)',
+      title: 'Featured articles (top 4)',
       description: 'Displayed at the top of the News page (when filter = All).',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'article'}]}],
@@ -220,7 +220,7 @@ export default defineType({
           },
           {
             name: 'acceptedArticleCategories',
-            title: 'Godkjente artikkelkategorier',
+            title: 'Allowed article categories',
             type: 'array',
             of: [{type: 'string'}],
             validation: (Rule: any) => Rule.unique(),

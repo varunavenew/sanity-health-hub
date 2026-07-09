@@ -12,15 +12,15 @@ export default {
     { name: 'general', title: 'General', default: true },
     { name: 'navigation', title: 'Navigasjon' },
     { name: 'footer', title: 'Footer' },
-    { name: 'social', title: 'Sosiale medier' },
+    { name: 'social', title: 'Social media' },
     { name: 'notFound', title: '404 page' },
-    { name: 'treatment', title: 'Behandlingsside' },
+    { name: 'treatment', title: 'Treatment page' },
   ],
   fields: [
     // ── General ──
     {
       name: 'treatmentPageUi',
-      title: 'Generisk behandlingsside',
+      title: 'Generic treatment page',
       type: 'object',
       group: 'treatment',
       validation: (Rule: any) => Rule.required(),
@@ -49,7 +49,7 @@ export default {
     },
     {
       name: 'title',
-      title: 'Nettstedsnavn',
+      title: 'Site name',
       type: 'string',
       group: 'general',
       validation: (Rule: any) => Rule.required(),
@@ -77,7 +77,7 @@ export default {
     // ── Navigation ──
     {
       name: 'mainNavigation',
-      title: 'Hovedmeny',
+      title: 'Main menu',
       type: 'array',
       group: 'navigation',
       description: 'Menu items displayed in the header. Drag to reorder.',
@@ -136,7 +136,7 @@ export default {
             },
             {
               name: 'isServicesDropdown',
-              title: 'Er tjenestermeny?',
+              title: 'Is services menu?',
               type: 'boolean',
               description: 'Enable to show services dropdown instead of regular link',
               initialValue: false,
@@ -243,7 +243,7 @@ export default {
     // ── Social Media ──
     {
       name: 'socialMedia',
-      title: 'Sosiale medier',
+      title: 'Social media',
       type: 'object',
       group: 'social',
       fields: [
@@ -320,7 +320,7 @@ export default {
     },
     {
       name: 'notFoundCtaPath',
-      title: 'Knappelenke',
+      title: 'Button link',
       type: 'string',
       group: 'notFound',
       initialValue: '/',

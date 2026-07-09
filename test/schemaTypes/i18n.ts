@@ -180,7 +180,7 @@ export function i18nSlugFieldFromTitle(titleField = 'title', overrides: SlugFiel
     type: 'internationalizedArraySlug',
     description:
       overrides.description ??
-      'Én slug per språk. Genereres fra tittel; kan redigeres for engelske URL-er.',
+      'One slug per language. Generated from the title; can be edited for English URLs.',
     group: overrides.group,
     options: {
       source: (doc: any, context: any) => {
@@ -206,7 +206,7 @@ export function i18nSlugFieldFromString(sourceField: string, overrides: SlugFiel
     type: 'internationalizedArraySlug',
     description:
       overrides.description ??
-      'Én slug per språk. Genereres fra kildefeltet; kan redigeres manuelt.',
+      'One slug per language. Generated from the source field; can be edited manually.',
     group: overrides.group,
     options: {
       source: (doc: any) => {

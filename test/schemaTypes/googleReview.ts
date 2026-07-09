@@ -16,13 +16,13 @@ export default {
     },
     {
       name: 'rating',
-      title: 'Vurdering (1-5)',
+      title: 'Rating (1-5)',
       type: 'number',
       validation: (Rule: any) => Rule.required().min(1).max(5),
     },
     {
       name: 'text',
-      title: 'Anmeldelsestekst',
+      title: 'Review text',
       type: 'internationalizedArrayText',
       validation: (Rule: any) => Rule.required(),
     },
@@ -33,7 +33,7 @@ export default {
     },
     {
       name: 'avatar',
-      title: 'Profilbilde',
+      title: 'Profile image',
       type: 'image',
     },
   ],

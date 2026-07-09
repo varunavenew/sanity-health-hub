@@ -46,7 +46,7 @@ export default {
     { ...i18nSlugFieldFromTitle('title', { group: 'content' }) },
     {
       name: 'heroSubtitle',
-      title: 'Hero — undertittel',
+      title: 'Hero — subtitle',
       group: 'content',
       ...i18nText,
     },
@@ -58,7 +58,7 @@ export default {
     },
     {
       name: 'introText',
-      title: 'Stillingsliste — intro',
+      title: 'Job list — intro',
       group: 'content',
       ...i18nText,
     },
@@ -94,7 +94,7 @@ export default {
     },
     {
       name: 'deadlineLabel',
-      title: 'Frist — prefiks',
+      title: 'Deadline — prefix',
       description: 'E.g. \'Deadline:\' (date added automatically)',
       group: 'content',
       ...i18nString,
@@ -138,7 +138,7 @@ export default {
     },
     {
       name: 'departmentOptions',
-      title: 'Avdeling — etiketter',
+      title: 'Department — labels',
       group: 'labels',
       type: 'array',
       of: [
@@ -154,7 +154,7 @@ export default {
     },
     {
       name: 'employmentTypeOptions',
-      title: 'Stillingstype — etiketter',
+      title: 'Position type — labels',
       group: 'labels',
       type: 'array',
       of: [

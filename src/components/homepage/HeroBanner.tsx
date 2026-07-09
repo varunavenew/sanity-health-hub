@@ -12,7 +12,7 @@ import type { ImageRef } from "@/lib/media";
 interface HeroSlide {
   id: string;
   image?: ImageRef;
-  imageRight?: ImageRef;
+  mobileImage?: ImageRef;
   videoUrl?: string;
   alt: string;
   label: string;
@@ -34,7 +34,7 @@ export const HeroBanner = () => {
     .map((s: any, i: number) => ({
       id: s.id || `slide-${i}`,
       image: s.image,
-      imageRight: s.imageRight,
+      mobileImage: s.mobileImage,
       videoUrl: s.videoUrl,
       alt: s.label || "",
       label: s.label,
@@ -121,72 +121,40 @@ export const HeroBanner = () => {
             if (!dragging.current && slide.ctaPath) navigate(slide.ctaPath);
           }}
         >
-          {slide.imageRight ? (
-            <div className="absolute inset-0 w-full h-full grid grid-cols-1 lg:grid-cols-2">
-              {/* Left Column (Image or Video) */}
-              <div className="relative w-full h-full">
-                {slide.videoUrl ? (
-                  <video
-                    src={slide.videoUrl}
-                    poster={typeof slide.image === "string" ? slide.image : undefined}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                    style={{ objectPosition: slide.objectPosition }}
-                  />
-                ) : slide.image ? (
-                  <AssetImg
-                    src={slide.image}
-                    alt={slide.alt}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                    style={{ objectPosition: slide.objectPosition }}
-                    loading={current === 0 ? "eager" : "lazy"}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-brand-dark/20" />
-                )}
-              </div>
+          {slide.mobileImage ? (
+            <AssetImg
+              src={slide.mobileImage}
+              alt={slide.alt}
+              className="block md:hidden w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+              style={{ objectPosition: slide.objectPosition }}
+              loading={current === 0 ? "eager" : "lazy"}
+            />
+          ) : null}
 
-              {/* Right Column (Second Image - Desktop only) */}
-              <div className="relative w-full h-full hidden lg:block overflow-hidden">
-                <AssetImg
-                  src={slide.imageRight}
-                  alt={slide.alt}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                  style={{ objectPosition: slide.objectPosition }}
-                  loading={current === 0 ? "eager" : "lazy"}
-                />
-              </div>
-            </div>
-          ) : (
-            // Full Width Background Image/Video
-            <>
-              {slide.videoUrl ? (
-                <video
-                  src={slide.videoUrl}
-                  poster={typeof slide.image === "string" ? slide.image : undefined}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                  style={{ objectPosition: slide.objectPosition }}
-                />
-              ) : slide.image ? (
-                <AssetImg
-                  src={slide.image}
-                  alt={slide.alt}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                  style={{ objectPosition: slide.objectPosition }}
-                  loading={current === 0 ? "eager" : "lazy"}
-                />
-              ) : (
-                <div className="w-full h-full bg-brand-dark/20" />
-              )}
-            </>
-          )}
+          <div className={slide.mobileImage ? "hidden md:block w-full h-full" : "w-full h-full"}>
+            {slide.videoUrl ? (
+              <video
+                src={slide.videoUrl}
+                poster={typeof slide.image === "string" ? slide.image : undefined}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                style={{ objectPosition: slide.objectPosition }}
+              />
+            ) : slide.image ? (
+              <AssetImg
+                src={slide.image}
+                alt={slide.alt}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                style={{ objectPosition: slide.objectPosition }}
+                loading={current === 0 ? "eager" : "lazy"}
+              />
+            ) : (
+              <div className="w-full h-full bg-brand-dark/20" />
+            )}
+          </div>
 
           {/* Overlays for readability and style */}
           {/* A bottom-to-top gradient overlay to ensure contrast for indicators and text at the bottom */}

@@ -182,6 +182,8 @@ export type CategoryLandingPage = {
     title: string;
     reviews: CategoryLandingReview[];
   };
+  /** Ordered list of section keys from Sanity. Empty = use default order. */
+  sectionOrder: string[];
 };
 
 export type CategoryTreatmentLink = {
@@ -442,6 +444,9 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       title: asPlainString(reviewsSection.title),
       reviews,
     },
+    sectionOrder: Array.isArray(raw.sectionOrder)
+      ? (raw.sectionOrder as unknown[]).map(asPlainString).filter(Boolean)
+      : [],
   };
 }
 

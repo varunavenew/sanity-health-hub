@@ -4,7 +4,7 @@ import { pickNo } from './i18n'
 
 export default {
   name: 'googleReviewSettings',
-  title: 'Google Review-innstillinger',
+  title: 'Google review settings',
   type: 'document',
   icon: ReviewIcon,
   description:
@@ -22,14 +22,14 @@ export default {
     },
     {
       name: 'googleAverageRating',
-      title: 'Google gjennomsnittsvurdering',
+      title: 'Google average rating',
       type: 'number',
       validation: (Rule: any) => Rule.min(1).max(5).precision(1),
       initialValue: 4.6,
     },
     {
       name: 'legelistenAverageRating',
-      title: 'Legelisten gjennomsnittsvurdering',
+      title: 'Legelisten average rating',
       type: 'number',
       validation: (Rule: any) => Rule.min(1).max(5).precision(1),
       initialValue: 4.8,
@@ -48,7 +48,7 @@ export default {
   preview: {
     select: { title: 'heading' },
     prepare({ title }: { title?: unknown }) {
-      return { title: pickNo(title) || 'Google Review-innstillinger' }
+      return { title: pickNo(title) || 'Google review settings' }
     },
   },
 }

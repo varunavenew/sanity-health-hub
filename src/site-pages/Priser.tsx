@@ -1,8 +1,8 @@
 "use client";
 
 import { AssetImg } from "@/components/AssetImg";
-import { useEffect, useState } from "react";
-import { ArrowRight, ChevronRight, Plus, Minus, Clock, Star } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, Plus, Minus, Clock, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "@/lib/router";
@@ -17,6 +17,7 @@ import { SplitHero } from "@/components/layout/SplitHero";
 import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { formatDurationMinutes } from "@/lib/booking/duration";
+import { bookingCategoryPageIdForClinicService, buildBookingUrl } from "@/lib/bookingLinks";
 import type { BookingCategory } from "@/app/api/booking/activity-groups/route";
 
 interface PageProps { isChatOpen: boolean }
@@ -130,7 +131,7 @@ function useBookingPriceCategories(): {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/booking/activity-groups")
+    fetch("/api/booking/activity-groups?prices=api")
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -154,9 +155,15 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const params = useParams<{ locale?: string }>();
   const locale = params?.locale === "en" ? "en" : "nb";
 
-  const [expandedCategory,    setExpandedCategory]    = useState<string | null>(null);
-  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
-  const [openFaq,             setOpenFaq]             = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("");
+  const [showStickyNav, setShowStickyNav] = useState(false);
+  const [navTop, setNavTop] = useState(80);
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+  const navScrollerRef = useRef<HTMLDivElement | null>(null);
+  const overviewRef = useRef<HTMLDivElement | null>(null);
+  const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const suspendSpyUntil = useRef(0);
 
   const [durationByActivityId, setDurationByActivityId] = useState<Record<number, DurationState>>({});
   const { sorted }              = useSpecialistsData();
@@ -197,16 +204,30 @@ const Priser = ({ isChatOpen }: PageProps) => {
     if (seoTitle) document.title = `${seoTitle} | CMedical`;
   }, [seoTitle]);
 
-  // ─── Load durations from freetimes when a category is expanded ─────────────
-  // Exact same pattern as BookingDemo's expandedCategory effect
+  const prioritized = useMemo(() => ["gynekolog", "urolog", "fertilitet", "ortoped"], []);
+  const sortedCategories = useMemo(
+    () => [
+      ...bookingCategories
+        .filter((c) => prioritized.includes(c.id))
+        .sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
+      ...bookingCategories
+        .filter((c) => !prioritized.includes(c.id))
+        .sort((a, b) => a.label.localeCompare(b.label, sortLocale)),
+    ],
+    [bookingCategories, prioritized, sortLocale],
+  );
+
   useEffect(() => {
-    if (!expandedCategory) return;
+    if (!activeCategory && sortedCategories.length > 0) {
+      setActiveCategory(sortedCategories[0].id);
+    }
+  }, [activeCategory, sortedCategories]);
 
-    const category = bookingCategories.find((c) => c.id === expandedCategory);
-    if (!category) return;
-
-    // Collect all apiActivityIds across all subcategories
-    const activityIds = category.subcategories
+  // ─── Load durations from freetimes for Metodika services ───────────────────
+  // Same data source as BookingDemo; cached per activity id.
+  useEffect(() => {
+    const activityIds = sortedCategories
+      .flatMap((category) => category.subcategories)
       .flatMap((sub) => sub.items)
       .map((item) => item.apiActivityId)
       .filter((id): id is number => typeof id === "number");
@@ -284,25 +305,101 @@ const Priser = ({ isChatOpen }: PageProps) => {
         return changed ? next : prev;
       });
     };
-  }, [expandedCategory, bookingCategories]);
+  }, [sortedCategories]);
 
-  const toggleCategory = (id: string) => {
-    setExpandedCategory(expandedCategory === id ? null : id);
-    setExpandedSubcategory(null);
+  useEffect(() => {
+    const sections = sortedCategories
+      .map((c) => document.getElementById(`cat-${c.id}`))
+      .filter(Boolean) as HTMLElement[];
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (Date.now() < suspendSpyUntil.current) return;
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) {
+          setActiveCategory(visible[0].target.id.replace("cat-", ""));
+        }
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [sortedCategories]);
+
+  useEffect(() => {
+    const scroller = navScrollerRef.current;
+    const pill = pillRefs.current[activeCategory];
+    if (!scroller || !pill) return;
+    const margin = 24;
+    const pillLeft = pill.offsetLeft;
+    const pillRight = pillLeft + pill.offsetWidth;
+    const visibleLeft = scroller.scrollLeft;
+    const visibleRight = visibleLeft + scroller.clientWidth;
+    if (pillLeft < visibleLeft + margin) {
+      scroller.scrollTo({ left: Math.max(0, pillLeft - margin), behavior: "smooth" });
+    } else if (pillRight > visibleRight - margin) {
+      scroller.scrollTo({ left: pillRight - scroller.clientWidth + margin, behavior: "smooth" });
+    }
+  }, [activeCategory]);
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (!header) return;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      window.requestAnimationFrame(() => {
+        setNavTop(Math.max(0, header.getBoundingClientRect().bottom));
+        ticking = false;
+      });
+      ticking = true;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = overviewRef.current;
+    if (!el) return;
+    const check = () => {
+      setShowStickyNav(el.getBoundingClientRect().bottom < navTop + 8);
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [navTop]);
+
+  const scrollToCat = (id: string) => {
+    const el = document.getElementById(`cat-${id}`);
+    if (!el) return;
+    const navHeight = navScrollerRef.current?.getBoundingClientRect().height ?? 48;
+    suspendSpyUntil.current = Date.now() + 900;
+    setActiveCategory(id);
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - navTop - navHeight - 16,
+      behavior: "smooth",
+    });
   };
-  const toggleSubcategory = (label: string) =>
-    setExpandedSubcategory(expandedSubcategory === label ? null : label);
-  const toggleFaq = (id: string) => setOpenFaq(openFaq === id ? null : id);
 
-  const prioritized = ["gynekologi", "urologi", "fertilitet", "ortopedi"];
-  const sortedCategories = [
-    ...bookingCategories
-      .filter((c) => prioritized.includes(c.id))
-      .sort((a, b) => prioritized.indexOf(a.id) - prioritized.indexOf(b.id)),
-    ...bookingCategories
-      .filter((c) => !prioritized.includes(c.id))
-      .sort((a, b) => a.label.localeCompare(b.label, sortLocale)),
-  ];
+  const categoryBookingUrl = (categoryId: string, serviceName?: string) =>
+    buildBookingUrl({
+      kategori: bookingCategoryPageIdForClinicService(categoryId),
+      tjeneste: serviceName,
+    });
+
+  const toggleItem = (key: string) => {
+    setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+  const toggleFaq = (id: string) => setOpenFaq(openFaq === id ? null : id);
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
@@ -334,15 +431,14 @@ const Priser = ({ isChatOpen }: PageProps) => {
       />
 
       {/* Price List Section */}
-      <section id="prisliste" className="py-10 md:py-14 bg-background">
+      <section id="prisliste" className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-5xl mx-auto mb-6">
+          <div className="max-w-5xl mx-auto mb-8">
             <p className="text-sm text-muted-foreground font-light">
               {t("pricing.disclaimer")}
             </p>
           </div>
 
-          {/* Loading state */}
           {bookingLoading && (
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-col items-center justify-center py-20 gap-4">
@@ -363,171 +459,235 @@ const Priser = ({ isChatOpen }: PageProps) => {
             </div>
           )}
 
-          {/* Error state */}
           {bookingError && !bookingLoading && (
             <p className="text-center text-destructive font-light py-8">
               {t("pricing.loadError")}
             </p>
           )}
 
-          {/* Category list — booking API only */}
           {hasApiPrices && (
-            <div className="max-w-5xl mx-auto space-y-4">
-              {sortedCategories.map((category) => (
-                <div
-                  key={category.id}
-                  className={`rounded-xl overflow-hidden transition-all duration-300 border ${
-                    expandedCategory === category.id
-                      ? "bg-white border-border shadow-sm"
-                      : "bg-white/60 border-border/50 hover:bg-white hover:border-border"
-                  }`}
-                >
-                  {/* Category Header */}
-                  <button
-                    onClick={() => toggleCategory(category.id)}
-                    className="w-full flex items-center justify-between p-5 md:p-6 cursor-pointer text-left"
-                    aria-expanded={expandedCategory === category.id}
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className="text-xl md:text-2xl font-light text-foreground">
-                        {category.label}
-                      </span>
-                      <span className="text-sm font-light text-muted-foreground">
-                        {expandedCategory === category.id
-                          ? t("pricing.closePriceList")
-                          : t("pricing.seePrices")}
-                      </span>
-                    </div>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-foreground/5 border border-foreground/10">
-                      {expandedCategory === category.id
-                        ? <Minus className="w-4 h-4 text-foreground/50" />
-                        : <Plus  className="w-4 h-4 text-foreground/50" />}
-                    </div>
-                  </button>
-
-                  {/* Subcategories */}
-                  <AnimatePresence>
-                    {expandedCategory === category.id && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="overflow-hidden"
+            <>
+              <div className="max-w-5xl mx-auto">
+                <div className="hidden md:block mb-10 md:mb-14" ref={overviewRef}>
+                  <h2 className="text-3xl md:text-4xl font-light text-brand-dark mb-6">
+                    {t("pricing.menuTitle", "Our menu")}
+                  </h2>
+                  <p className="text-xs font-light text-brand-dark/60 mb-4">
+                    {t("pricing.jumpToCategory", "Choose a category to jump directly:")}
+                  </p>
+                  <div className="flex flex-wrap gap-2 md:gap-3">
+                    {sortedCategories.map((category) => (
+                      <button
+                        key={category.id}
+                        onClick={() => scrollToCat(category.id)}
+                        className="inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-light whitespace-nowrap border bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark transition-colors"
                       >
-                        <div className="px-5 md:px-6 pb-6 md:pb-8 space-y-3">
-                          {category.subcategories.map((sub) => (
-                            <div
-                              key={`${category.id}-${sub.label}`}
-                              className={`rounded-lg transition-all border ${
-                                expandedSubcategory === sub.label
-                                  ? "bg-secondary/60 border-border/50"
-                                  : "bg-secondary/30 border-transparent hover:bg-secondary/50 hover:border-border/30"
-                              }`}
-                            >
-                              <button
-                                onClick={() => toggleSubcategory(sub.label)}
-                                className="w-full flex items-center justify-between p-4 cursor-pointer"
-                                aria-expanded={expandedSubcategory === sub.label}
-                              >
-                                <span className={`text-[15px] font-light transition-colors ${
-                                  expandedSubcategory === sub.label
-                                    ? "text-foreground font-normal"
-                                    : "text-foreground/70"
-                                }`}>
-                                  {sub.label}
-                                </span>
-                                <div className="flex items-center gap-3">
-                                  <span className="text-muted-foreground text-sm">
-                                    {sub.items.length} tjenester
-                                  </span>
-                                  <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${
-                                    expandedSubcategory === sub.label ? "rotate-90 text-foreground/50" : ""
-                                  }`} />
-                                </div>
-                              </button>
+                        {category.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-                              {/* Price items */}
-                              <AnimatePresence>
-                                {expandedSubcategory === sub.label && (
-                                  <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: "auto", opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.15 }}
-                                    className="overflow-hidden"
-                                  >
-                                    <div className="px-4 pb-4">
-                                      <div className="pt-2 border-t border-border/50">
-                                        {sub.items.map((item, idx) => {
-                                          // ─── Same pattern as BookingDemo ──
-                                          const { label: durationLabel, loading: durationLoading } =
-                                            resolveDisplayDuration(item, durationByActivityId);
+              <div
+                className={`sticky z-30 mb-10 md:mb-14 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-y md:border-b md:border-t-0 border-brand-dark/10 transition-opacity duration-200 -mx-4 md:mx-0 ${
+                  showStickyNav ? "md:opacity-100" : "md:opacity-0 md:pointer-events-none"
+                }`}
+                style={{ top: `${navTop}px` }}
+              >
+                <div className="container mx-auto px-4 md:px-8">
+                  <div
+                    ref={navScrollerRef}
+                    className="flex gap-2 overflow-x-auto py-2 scrollbar-hide [scroll-behavior:smooth]"
+                    style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                  >
+                    {sortedCategories.map((category) => {
+                      const isActive = activeCategory === category.id;
+                      return (
+                        <button
+                          key={category.id}
+                          ref={(el) => {
+                            pillRefs.current[category.id] = el;
+                          }}
+                          onClick={() => scrollToCat(category.id)}
+                          className={`inline-flex items-center justify-center px-3 md:px-4 py-1.5 md:py-1 min-h-[36px] md:min-h-[36px] rounded-full md:rounded-full text-xs font-light whitespace-nowrap border transition-colors shrink-0 ${
+                            isActive
+                              ? "bg-brand-dark text-brand-warm border-brand-dark"
+                              : "bg-white text-brand-dark border-brand-dark/20 hover:bg-brand-dark hover:text-brand-warm hover:border-brand-dark"
+                          }`}
+                          aria-current={isActive ? "true" : undefined}
+                        >
+                          {category.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
 
-                                          return (
-                                            <button
-                                              key={idx}
-                                              onClick={() =>
-                                                navigate(
-                                                  `/booking?kategori=${category.id}&tjeneste=${encodeURIComponent(item.name)}`,
-                                                )
-                                              }
-                                              className="w-full flex items-center justify-between py-3 border-b border-border/30 last:border-b-0 hover:bg-white rounded-sm px-2 -mx-2 transition-colors group/item text-left"
-                                            >
-                                              <div className="flex-1">
-                                                <p className="text-foreground text-sm font-light underline underline-offset-4 decoration-foreground/20 group-hover/item:decoration-foreground/60 transition-colors">
-                                                  {item.name}
-                                                </p>
-                                                {/* Duration — loading spinner or label */}
-                                                {durationLoading ? (
-                                                  <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5 animate-pulse">
-                                                    <Clock className="w-3 h-3" />
-                                                    Henter varighet…
-                                                  </p>
-                                                ) : durationLabel ? (
-                                                  <p className="text-muted-foreground text-xs flex items-center gap-1 mt-0.5">
-                                                    <Clock className="w-3 h-3" />
-                                                    {durationLabel}
-                                                  </p>
-                                                ) : null}
-                                              </div>
-                                              <div className="flex items-center gap-3">
-                                                <p className="font-normal text-foreground text-sm whitespace-nowrap">
-                                                  {item.price === "0,-" ? "Gratis" : item.price}
-                                                </p>
-                                                <ArrowRight className="w-3.5 h-3.5 text-foreground/20 group-hover/item:text-foreground/50 transition-colors" />
-                                              </div>
-                                            </button>
-                                          );
-                                        })}
+              <div className="max-w-5xl mx-auto space-y-20 md:space-y-28">
+                {sortedCategories.map((category) => (
+                  <section key={category.id} id={`cat-${category.id}`} className="scroll-mt-40">
+                    <div className="mb-10 pb-4 border-b border-brand-dark/20">
+                      <h2 className="text-2xl md:text-3xl font-light text-brand-dark">
+                        {category.label}
+                      </h2>
+                    </div>
+
+                    <div className="space-y-12">
+                      {category.subcategories.map((sub, subIndex) => (
+                        <div
+                          key={`${category.id}-${sub.label}`}
+                          className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 md:gap-10 md:items-start"
+                        >
+                          <div className="md:sticky md:top-48 md:self-start">
+                            <h3 className="text-lg md:text-sm font-normal text-brand-dark">
+                              {sub.label}
+                            </h3>
+                          </div>
+
+                          <div>
+                            <ul className="divide-y divide-brand-mid/30">
+                              {sub.items.map((item, idx) => {
+                                const { label: durationLabel, loading: durationLoading } =
+                                  resolveDisplayDuration(item, durationByActivityId);
+                                const itemKey = `${category.id}-${subIndex}-${idx}`;
+                                const isOpen = !!openItems[itemKey];
+                                const priceLabel = item.price === "0,-" ? t("pricing.free", "Free") : item.price;
+                                const bookingUrl = categoryBookingUrl(category.id, item.name);
+
+                                return (
+                                  <li key={itemKey} className="py-3 md:py-5">
+                                    <div className="md:hidden">
+                                      <div className="grid grid-cols-[1fr_120px] gap-3 items-start">
+                                        <p className="text-[15px] font-normal text-brand-dark leading-snug">
+                                          {item.name}
+                                        </p>
+                                        <span className="text-[15px] font-normal text-brand-dark tabular-nums text-right whitespace-normal leading-snug">
+                                          {priceLabel}
+                                        </span>
+                                      </div>
+
+                                      {(durationLoading || durationLabel) && (
+                                        <p className="mt-1 text-xs font-light text-brand-dark/60 flex items-center gap-1">
+                                          <Clock className="w-3 h-3" />
+                                          {durationLoading
+                                            ? t("pricing.loadingDuration", "Loading duration...")
+                                            : durationLabel}
+                                        </p>
+                                      )}
+
+                                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
+                                        {(durationLabel || durationLoading) && (
+                                          <button
+                                            type="button"
+                                            onClick={() => toggleItem(itemKey)}
+                                            className="inline-flex items-center gap-1.5 text-xs font-light text-brand-dark hover:text-brand-dark/80 transition-colors"
+                                            aria-expanded={isOpen}
+                                            aria-controls={`info-${itemKey}`}
+                                          >
+                                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-brand-dark/30 text-brand-dark">
+                                              {isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                                            </span>
+                                            {isOpen
+                                              ? t("pricing.hideDetails", "Hide details")
+                                              : t("pricing.aboutService", "About the service")}
+                                          </button>
+                                        )}
+
+                                        <Link
+                                          to={bookingUrl}
+                                          className="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap"
+                                        >
+                                          {t("nav.bookAppointment")}
+                                          <ArrowRight className="w-3 h-3" />
+                                        </Link>
+                                      </div>
+
+                                      <AnimatePresence initial={false}>
+                                        {isOpen && (
+                                          <motion.div
+                                            id={`info-${itemKey}`}
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="overflow-hidden"
+                                          >
+                                            <p className="mt-3 text-xs font-light text-brand-dark/75 leading-relaxed">
+                                              {durationLabel
+                                                ? t("pricing.durationDetail", {
+                                                    duration: durationLabel,
+                                                    defaultValue: "Estimated duration: {{duration}}",
+                                                  })
+                                                : t("pricing.durationUnavailable", "Duration is confirmed during booking.")}
+                                            </p>
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </div>
+
+                                    <div className="hidden md:flex md:items-start gap-3">
+                                      <div className="flex-1 min-w-0">
+                                        <p className="font-normal text-brand-dark">{item.name}</p>
+                                        {(durationLoading || durationLabel) && (
+                                          <p className="mt-1 text-xs font-light text-brand-dark/60 flex items-center gap-1">
+                                            <Clock className="w-3 h-3" />
+                                            {durationLoading
+                                              ? t("pricing.loadingDuration", "Loading duration...")
+                                              : durationLabel}
+                                          </p>
+                                        )}
+                                      </div>
+
+                                      <div className="flex items-center gap-4 shrink-0 pt-0.5">
+                                        <span className="text-sm font-light text-brand-dark tabular-nums whitespace-nowrap w-20 text-right">
+                                          {priceLabel}
+                                        </span>
+                                        <Link
+                                          to={bookingUrl}
+                                          className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-light text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors whitespace-nowrap w-28 justify-center"
+                                        >
+                                          {t("nav.bookAppointment")}
+                                          <ArrowRight className="w-3 h-3" />
+                                        </Link>
                                       </div>
                                     </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
-                            </div>
-                          ))}
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
+                      ))}
+                    </div>
 
-            </div>
-          )}
+                    <div className="mt-10 pt-6 border-t border-brand-mid/30">
+                      <Link
+                        to={`/${bookingCategoryPageIdForClinicService(category.id)}`}
+                        className="inline-flex items-center gap-2 text-sm font-light text-brand-dark hover:gap-3 transition-all"
+                      >
+                        {t("pricing.seeAllCategoryServices", {
+                          category: category.label.toLowerCase(),
+                          defaultValue: "See all {{category}} services",
+                        })}
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </section>
+                ))}
+              </div>
 
-          {/* CTA */}
-          {hasApiPrices && (
-            <div className="mt-16 md:mt-20 text-center">
-              <button
-                onClick={() => navigate("/booking")}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-dark text-white rounded-full font-normal hover:bg-brand-dark/90 transition-colors"
-              >
-                {t("nav.bookAppointment")}
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
+              <div className="mt-20 md:mt-24 text-center">
+                <button
+                  onClick={() => navigate("/booking")}
+                  className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full font-normal text-brand-dark border border-brand-dark/25 hover:border-brand-dark/60 transition-colors"
+                >
+                  {t("nav.bookAppointment")}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </>
           )}
         </div>
       </section>

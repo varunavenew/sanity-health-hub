@@ -26,12 +26,12 @@ export default {
     { name: 'general', title: 'General', default: true },
     { name: 'step1', title: 'Step 1 – Service' },
     { name: 'step2', title: 'Step 2 – Clinic' },
-    { name: 'step3', title: 'Steg 3 – Behandler' },
-    { name: 'step4', title: 'Steg 4 – Tid' },
-    { name: 'step5', title: 'Steg 5 – Bekreft' },
+    { name: 'step3', title: 'Step 3 - Practitioner' },
+    { name: 'step4', title: 'Step 4 - Time' },
+    { name: 'step5', title: 'Step 5 - Confirm' },
     { name: 'success', title: 'Confirmed screen' },
-    { name: 'form', title: 'Skjema' },
-    { name: 'errors', title: 'Feilmeldinger' },
+    { name: 'form', title: 'Form' },
+    { name: 'errors', title: 'Error messages' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
@@ -40,18 +40,18 @@ export default {
     i18n('backLabel', 'Back link', 'general'),
     i18n(
       'stepProgressTemplate',
-      'Steg-indikator',
+      'Step indicator',
       'general',
       'Use {{step}} and {{total}}. E.g., \'Step {{step}} of {{total}}\'',
     ),
     i18n('stepLabelService', 'Step name: Service', 'general'),
     i18n('stepLabelClinic', 'Step name: Clinic', 'general'),
-    i18n('stepLabelSpecialist', 'Stegnavn: Behandler', 'general'),
-    i18n('stepLabelTime', 'Stegnavn: Tid', 'general'),
-    i18n('stepLabelConfirm', 'Stegnavn: Bekreft', 'general'),
+    i18n('stepLabelSpecialist', 'Step label: Practitioner', 'general'),
+    i18n('stepLabelTime', 'Step label: Time', 'general'),
+    i18n('stepLabelConfirm', 'Step label: Confirm', 'general'),
     i18n('summaryServiceLabel', 'Summary: Service', 'general'),
     i18n('summaryClinicLabel', 'Summary: Clinic', 'general'),
-    i18n('summarySpecialistLabel', 'Oppsummering: Behandler', 'general'),
+    i18n('summarySpecialistLabel', 'Summary: Practitioner', 'general'),
     {
       name: 'supportPhone',
       title: 'Phone (empty states)',
@@ -68,13 +68,13 @@ export default {
       'step1',
       'Use {{category}} for category name',
     ),
-    i18n('step1ShowAllServices', '«Vis alle tjenester»', 'step1'),
+    i18n('step1ShowAllServices', '"Show all services"', 'step1'),
     i18n('step1Loading', 'Loading text', 'step1'),
     i18n('step1AllClinicsBadge', '\'All clinics\' badge', 'step1'),
     i18n('step1EmptyTitle', 'Empty state – title', 'step1'),
-    i18n('step1EmptyMessage', 'Tom tilstand – melding', 'step1', undefined, 'internationalizedArrayText'),
+    i18n('step1EmptyMessage', 'Empty state - message', 'step1', undefined, 'internationalizedArrayText'),
     i18n('step1PriceFree', 'Gratis-pris', 'step1'),
-    i18n('step1PriceFrom', 'Pris fra (mal)', 'step1', 'Use {{price}}. E.g., \'From NOK {{price}},-\''),
+    i18n('step1PriceFrom', 'Price from (template)', 'step1', 'Use {{price}}. E.g., \'From NOK {{price}},-\''),
     i18n('step1LoadingDuration', 'Laster varighet', 'step1'),
     {
       name: 'step1CategoryClinicBadges',
@@ -99,7 +99,7 @@ export default {
             },
             {
               name: 'badges',
-              title: 'Klinikkmerker',
+              title: 'Clinic badges',
               type: 'array',
               validation: (Rule) => Rule.required().min(1),
               of: [
@@ -115,7 +115,7 @@ export default {
                     },
                     {
                       name: 'label',
-                      title: 'Merketekst',
+                      title: 'Badge text',
                       type: 'internationalizedArrayString',
                       validation: (Rule) => Rule.required(),
                     },
@@ -148,7 +148,7 @@ export default {
                     select: { title: 'label', subtitle: 'badgeKey' },
                     prepare({ title, subtitle }: { title?: unknown; subtitle?: string }) {
                       return {
-                        title: pickNo(title) || subtitle || 'Klinikkmerke',
+                        title: pickNo(title) || subtitle || 'Clinic badge',
                         subtitle,
                       }
                     },
@@ -170,7 +170,7 @@ export default {
               const badgeCount = badges?.length ?? 0
               return {
                 title: keyList || 'Category',
-                subtitle: `${badgeCount} merke${badgeCount === 1 ? '' : 'r'}`,
+                subtitle: `${badgeCount} badge${badgeCount === 1 ? '' : 's'}`,
               }
             },
           },
@@ -181,7 +181,7 @@ export default {
     i18n('step2Heading', 'Heading', 'step2'),
     i18n('step2Loading', 'Loading text', 'step2'),
     i18n('step2EmptyTitle', 'Empty state – title', 'step2'),
-    i18n('step2EmptyMessage', 'Tom tilstand – melding', 'step2', undefined, 'internationalizedArrayText'),
+    i18n('step2EmptyMessage', 'Empty state - message', 'step2', undefined, 'internationalizedArrayText'),
 
     i18n('step3Heading', 'Heading', 'step3'),
     i18n('step3Subtitle', 'Subtitle', 'step3', undefined, 'internationalizedArrayText'),
@@ -189,7 +189,7 @@ export default {
     i18n('step3FirstAvailableTitle', '\'First available\' – title', 'step3'),
     i18n('step3FirstAvailableSubtitle', '\'First available\' – subtitle', 'step3', undefined, 'internationalizedArrayText'),
     i18n('step3EmptyNoCaregiversTitle', 'No specialists – title', 'step3'),
-    i18n('step3EmptyNoCaregiversMessage', 'Ingen behandlere – melding', 'step3', undefined, 'internationalizedArrayText'),
+    i18n('step3EmptyNoCaregiversMessage', 'No practitioners - message', 'step3', undefined, 'internationalizedArrayText'),
     i18n('step3EmptyFetchTitle', 'Could not fetch – title', 'step3'),
     i18n('step3EmptyFetchMessage', 'Kunne ikke hente – melding', 'step3', undefined, 'internationalizedArrayText'),
 
@@ -214,8 +214,8 @@ export default {
     i18n('step5LabelDate', 'Label: Date', 'step5'),
     i18n('step5LabelTime', 'Label: Time', 'step5'),
     i18n('step5PriceFree', 'Gratis-pris', 'step5'),
-    i18n('step5PriceFrom', 'Pris fra (mal)', 'step5', 'Bruk {{price}}'),
-    i18n('step5PriceNote', 'Pris fotnote', 'step5', undefined, 'internationalizedArrayText'),
+    i18n('step5PriceFrom', 'Price from (template)', 'step5', 'Use {{price}}'),
+    i18n('step5PriceNote', 'Price footnote', 'step5', undefined, 'internationalizedArrayText'),
     i18n('step5PersonalInfoTitle', 'Personal details – title', 'step5'),
     i18n('step5SubmitLabel', 'Confirm button', 'step5'),
     i18n('step5SubmittingLabel', 'Submit button', 'step5'),
@@ -238,8 +238,8 @@ export default {
     i18n('formTermsLinkText', 'Terms link text (infobox)', 'form'),
     i18n('formTermsInlineLinkText', 'Terms link text (checkbox)', 'form'),
     i18n('formTermsCheckbox', 'Terms consent', 'form', 'Use {{termsLink}} for link text'),
-    i18n('formPrivacyLinkText', 'Personvern-lenketekst', 'form'),
-    i18n('formPrivacyCheckbox', 'Personvern-samtykke', 'form', 'Use {{privacyLink}} for link text'),
+    i18n('formPrivacyLinkText', 'Privacy link text', 'form'),
+    i18n('formPrivacyCheckbox', 'Privacy consent', 'form', 'Use {{privacyLink}} for link text'),
     i18n('formMarketingCheckbox', 'Nyhetsbrev-samtykke', 'form', undefined, 'internationalizedArrayText'),
 
     i18n('successTitle', 'Title', 'success'),

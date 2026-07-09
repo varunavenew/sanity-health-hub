@@ -19,7 +19,7 @@ export default defineType({
     i18nSlugFieldFromTitle('title'),
     defineField({
       name: 'primaryImage',
-      title: 'Hovedbilde',
+      title: 'Main image',
       type: 'image',
       options: {hotspot: true},
       fields: [
@@ -32,7 +32,7 @@ export default defineType({
     }),
     defineField({
       name: 'excerpt',
-      title: 'Utdrag',
+      title: 'Excerpt',
       type: 'internationalizedArrayText',
     }),
     defineField({
@@ -46,17 +46,17 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'Fagartikkel', value: 'fagartikkel'},
+          {title: 'Professional article', value: 'fagartikkel'},
           {title: 'News from us', value: 'news'},
-          {title: 'Prisliste', value: 'prisliste'},
-          {title: 'Stillingsutlysning', value: 'stillingsutlysning'},
+          {title: 'Price list', value: 'prisliste'},
+          {title: 'Job posting', value: 'stillingsutlysning'},
         ],
       },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'publishedAt',
-      title: 'Publiseringsdato',
+      title: 'Publish date',
       type: 'datetime',
       description: 'Required for publishing. Automatically set on new articles.',
       initialValue: () => new Date().toISOString(),
@@ -92,12 +92,12 @@ export default defineType({
     },
     prepare({title, media, category, publishedAt}) {
       const categoryLabels: Record<string, string> = {
-        fagartikkel: 'Fagartikkel',
+        fagartikkel: 'Professional article',
         nyheter: 'News from us',
-        prisliste: 'Prisliste',
-        stillingsutlysning: 'Stillingsutlysning',
+        prisliste: 'Price list',
+        stillingsutlysning: 'Job posting',
       }
-      const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'Ingen dato'
+      const date = publishedAt ? new Date(publishedAt).toLocaleDateString('nb-NO') : 'No date'
       const cat = categoryLabels[category] || category || 'No category'
       // title is now an internationalizedArray — pull NO entry first, fallback to first
       const titleStr = Array.isArray(title)

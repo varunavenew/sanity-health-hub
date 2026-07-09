@@ -1,4 +1,4 @@
-// Schema: Services Page (Tjenester)
+// Schema: Services Page
 import { TreatmentIcon } from "./icons";
 import {
   i18nFaqItemPreview,
@@ -58,9 +58,9 @@ export default {
     },
     {
       name: "introText",
-      title: "Introduksjonstekst",
+      title: "Intro text",
       ...i18nText,
-      validation: requiredNoEnI18n("Introduksjonstekst"),
+      validation: requiredNoEnI18n("Intro text"),
     },
     {
       name: "badges",
@@ -101,7 +101,7 @@ export default {
     },
     {
       name: "featuredCategories",
-      title: "Utvalgte kategorier (bildekort)",
+      title: "Featured categories (image cards)",
       type: "array",
       of: [{ type: "reference", to: [{ type: "treatmentCategory" }] }],
       validation: (Rule: any) => Rule.required().min(1).unique(),
@@ -115,7 +115,7 @@ export default {
           name: "eyebrow",
           title: "Eyebrow",
           ...i18nString,
-          validation: requiredNoEnI18n("Flere tjenester — eyebrow"),
+          validation: requiredNoEnI18n("More services — eyebrow"),
         },
         {
           name: "title",
@@ -134,7 +134,7 @@ export default {
     },
     {
       name: "moreServicesCategories",
-      title: "Flere tjenester — kategorier",
+      title: "More services — categories",
       description:
         "Select categories displayed under 'More services'. Set display mode to 'Treatment list' to show all treatments in the category (e.g. Other specialties).",
       type: "array",
@@ -158,7 +158,7 @@ export default {
               options: {
                 list: [
                   { title: "Link to category", value: "categoryLink" },
-                  { title: "Liste behandlinger", value: "treatmentsList" },
+                  { title: "List treatments", value: "treatmentsList" },
                 ],
                 layout: "radio",
               },
@@ -181,7 +181,7 @@ export default {
               displayMode?: string;
             }) {
               const mode =
-                displayMode === "treatmentsList" ? "Behandlingsliste" : "Kategorilenke";
+                displayMode === "treatmentsList" ? "Treatment list" : "Category link";
               const label = pickNo(categoryTitle) || categoryId || "Select category";
               return {
                 title: label,
@@ -195,10 +195,10 @@ export default {
     },
     {
       name: "faqSectionTitle",
-      title: "FAQ — seksjonstittel",
+      title: "FAQ — section title",
       group: "faq",
       ...i18nString,
-      validation: requiredNoEnI18n("FAQ — seksjonstittel"),
+      validation: requiredNoEnI18n("FAQ — section title"),
     },
     {
       name: "faqs",

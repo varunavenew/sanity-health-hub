@@ -40,11 +40,12 @@ export default {
               fields: [
                 { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
                 {
-                  name: 'imageRight',
-                  title: 'Right Image (Second Image)',
+                  name: 'mobileImage',
+                  title: 'Mobile Image',
                   type: 'image',
                   options: { hotspot: true },
-                  description: 'Optional. If uploaded, the slide will display a 50/50 split layout: the left side will show the first Image (with the text overlay), and the right side will show this Right Image (clear and bright).',
+                  description:
+                    'Optional. Used instead of the main Image on mobile screens. Desktop keeps using the main Image or video.',
                 },
                 {
                   name: 'videoFile',
@@ -88,10 +89,10 @@ export default {
       type: 'internationalizedArrayString',
       group: 'hero',
     },
-    // Service Categories (Tjenester)
+    // Service Categories
     {
       name: 'serviceCategories',
-      title: 'Tjenester (kategorier)',
+      title: 'Services (categories)',
       description: 'The categories displayed in the service grid on the homepage',
       type: 'array',
       group: 'sections',
@@ -104,7 +105,7 @@ export default {
     },
     {
       name: 'patientTrustBanner',
-      title: 'Pasienttillit-banner',
+      title: 'Patient trust banner',
       description:
         'Terracotta banner under hero with a large number and link (e.g., \'150,000+\' / \'See our services\')',
       type: 'object',
@@ -153,7 +154,7 @@ export default {
     },
     {
       name: 'resultsStatsSection',
-      title: 'Resultatstatistikk',
+      title: 'Result statistics',
       description: '\'Numbers that tell a story\' section',
       type: 'object',
       group: 'sections',
@@ -168,7 +169,7 @@ export default {
         { name: 'footnote', title: 'Footnote', type: 'internationalizedArrayString' },
         {
           name: 'stats',
-          title: 'Statistikkrader',
+          title: 'Statistic rows',
           type: 'array',
           of: [
             {
@@ -196,7 +197,7 @@ export default {
     // Stats Bar
     {
       name: 'statsBar',
-      title: 'Statistikkbar',
+      title: 'Statistics bar',
       type: 'array',
       group: 'sections',
       of: [
@@ -222,7 +223,7 @@ export default {
     // Value Badges
     {
       name: 'valueBadges',
-      title: 'Verdibadges',
+      title: 'Value badges',
       type: 'array',
       group: 'sections',
       of: [
@@ -255,7 +256,7 @@ export default {
     // Promo Blocks
     {
       name: 'promoBlocks',
-      title: 'Promosjonsblokker',
+      title: 'Promotion blocks',
       type: 'array',
       group: 'sections',
       of: [
@@ -316,7 +317,7 @@ export default {
     },
     {
       name: 'reviewsGoogleRating',
-      title: 'Google gjennomsnittsvurdering',
+      title: 'Google average rating',
       type: 'number',
       group: 'reviews',
       validation: (Rule: any) => Rule.min(1).max(5).precision(1),
@@ -324,7 +325,7 @@ export default {
     },
     {
       name: 'reviewsLegelistenRating',
-      title: 'Legelisten gjennomsnittsvurdering',
+      title: 'Legelisten average rating',
       type: 'number',
       group: 'reviews',
       validation: (Rule: any) => Rule.min(1).max(5).precision(1),
@@ -363,8 +364,8 @@ export default {
     select: { title: 'title' },
     prepare({ title }: any) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Hjemmeside')
-        : (title || 'Hjemmeside')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Homepage')
+        : (title || 'Homepage')
       return { title: titleStr }
     },
   },

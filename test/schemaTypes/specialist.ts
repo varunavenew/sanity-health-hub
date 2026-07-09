@@ -31,7 +31,7 @@ export default {
     i18nSlugFieldFromString('name'),
     {
       name: 'photo',
-      title: 'Profilbilde',
+      title: 'Profile image',
       type: 'image',
       options: { hotspot: true },
       validation: (Rule: any) => Rule.required().error('Profile picture is required for publishing'),
@@ -93,7 +93,7 @@ export default {
     },
     {
       name: 'categories',
-      title: 'Tilknyttede kategorier',
+      title: 'Assigned categories',
       type: 'array',
       of: [
         {
@@ -102,7 +102,7 @@ export default {
         },
       ],
       validation: (Rule: any) =>
-        Rule.required().min(1).error('Velg minst én behandlingskategori'),
+        Rule.required().min(1).error('Select at least one treatment category'),
     },
     {
       name: 'bookingCategoryIds',
@@ -171,10 +171,10 @@ export default {
     },
     {
       name: 'shortBio',
-      title: 'Kort biografi',
+      title: 'Short biography',
       type: 'internationalizedArrayText',
       description: 'Displayed on the profile page and in specialist cards.',
-      validation: requiredNoEnI18n('Kort biografi'),
+      validation: requiredNoEnI18n('Short biography'),
     },
     {
       name: 'education',
@@ -318,12 +318,12 @@ export default {
       if (!document) return true
       const issues: string[] = []
       if (!String(document.name || '').trim()) issues.push('Name is missing')
-      if (!document.photo) issues.push('Profilbilde mangler')
+      if (!document.photo) issues.push('Profile image is missing')
       if (!pickNo(document.role)?.trim()) issues.push('Title/role (Norwegian) is missing')
       if (!pickForLang(document.role, 'en')?.trim()) issues.push('Title/role (English) is missing')
-      if (!pickNo(document.shortBio)?.trim()) issues.push('Kort biografi (norsk) mangler')
+      if (!pickNo(document.shortBio)?.trim()) issues.push('Short biography (Norwegian) is missing')
       if (!pickForLang(document.shortBio, 'en')?.trim()) {
-        issues.push('Kort biografi (engelsk) mangler')
+        issues.push('Short biography (English) is missing')
       }
       if (!hasNoEnBlockContent(document.bio)) {
         issues.push('Biography (Norwegian and English) is missing')
@@ -438,7 +438,7 @@ export default {
           ? ` · Booking #${bookingCategoryIds.join(', #')}`
           : ''
       const treatmentLine = treatmentNames.length
-        ? ` · Behandlinger: ${treatmentNames.join(', ')}${treatmentNames.length === 3 ? '…' : ''}`
+        ? ` · Treatments: ${treatmentNames.join(', ')}${treatmentNames.length === 3 ? '…' : ''}`
         : ''
       return {
         title: `${booking === false ? '🚫 ' : ''}${title || ''}`,

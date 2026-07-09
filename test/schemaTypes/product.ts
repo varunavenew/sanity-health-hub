@@ -10,7 +10,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Produktnavn',
+      title: 'Product name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -32,13 +32,13 @@ export default defineType({
     }),
     defineField({
       name: 'price',
-      title: 'Pris',
+      title: 'Price',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'rating',
-      title: 'Vurdering',
+      title: 'Rating',
       type: 'number',
       validation: (Rule) => Rule.min(0).max(5),
     }),
@@ -50,7 +50,7 @@ export default defineType({
     }),
     defineField({
       name: 'tags',
-      title: 'Merkelapper',
+      title: 'Tags',
       type: 'array',
       of: [{type: 'string'}],
     }),
@@ -66,13 +66,13 @@ export default defineType({
     }),
     defineField({
       name: 'benefits',
-      title: 'Fordeler',
+      title: 'Benefits',
       type: 'array',
       of: [{type: 'string'}],
     }),
     defineField({
       name: 'results',
-      title: 'Resultater',
+      title: 'Results',
       type: 'text',
     }),
     defineField({
