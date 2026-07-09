@@ -1,49 +1,84 @@
 import { Link } from "react-router-dom";
-import { Pencil, PencilOff, LogOut } from "lucide-react";
+import { Pencil, PencilOff, LogOut, Loader2, Check, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEditable } from "@/lib/editable/EditableContext";
 import { cn } from "@/lib/utils";
 
 /**
- * EditModeBar — discreet floating pill visible only to authenticated
- * editors/admins. Toggles inline edit mode on/off, links to /rediger,
- * and offers sign-out. Renders nothing for regular visitors.
+ * EditModeBar — floating control shown only to authenticated editors/admins.
+ * Clearly communicates edit-mode state ("Redigering PÅ / AV") and save state
+ * ("Lagrer…" / "Lagret ✓" / error) with high contrast so editors always know
+ * what will happen when they click into text.
  */
 export const EditModeBar = () => {
-  const { canEdit, editMode, setEditMode, user } = useEditable();
+  const { canEdit, editMode, setEditMode, user, saveStatus } = useEditable();
 
   if (!user || !canEdit) return null;
+
+  const statusPill = (() => {
+    if (saveStatus === "saving") {
+      return (
+        <span className="inline-flex items-center gap-1.5 text-brand-dark bg-white/95 rounded-full px-3 py-1.5">
+          <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+          Lagrer…
+        </span>
+      );
+    }
+    if (saveStatus === "saved") {
+      return (
+        <span className="inline-flex items-center gap-1.5 text-[#0b3a1f] bg-[#B9F5C9] rounded-full px-3 py-1.5">
+          <Check className="w-3.5 h-3.5" aria-hidden="true" />
+          Lagret
+        </span>
+      );
+    }
+    if (saveStatus === "error") {
+      return (
+        <span className="inline-flex items-center gap-1.5 text-white bg-red-600 rounded-full px-3 py-1.5">
+          <AlertCircle className="w-3.5 h-3.5" aria-hidden="true" />
+          Feil ved lagring
+        </span>
+      );
+    }
+    return null;
+  })();
 
   return (
     <div
       className={cn(
-        "fixed z-[60] bottom-4 right-4 flex items-center gap-2",
-        "bg-brand-dark text-brand-light rounded-full pl-3 pr-1 py-1 shadow-lg",
-        "text-xs font-light",
+        "fixed z-[60] bottom-5 right-5 flex items-center gap-2",
+        "bg-brand-dark text-brand-light rounded-full pl-2 pr-2 py-2 shadow-2xl",
+        "ring-1 ring-black/20",
+        "text-sm font-normal",
       )}
       role="toolbar"
       aria-label="Redigeringsverktøy"
     >
-      <span className="hidden sm:inline opacity-70">
-        {editMode ? "Rediger PÅ" : "Rediger AV"}
-      </span>
+      {/* Prominent status + toggle */}
       <button
         type="button"
         onClick={() => setEditMode(!editMode)}
-        className={cn(
-          "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-colors",
-          editMode
-            ? "bg-[#F4FF78] text-brand-dark"
-            : "bg-brand-light/10 hover:bg-brand-light/20",
-        )}
         aria-pressed={editMode}
+        className={cn(
+          "inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors font-medium",
+          editMode
+            ? "bg-[#F4FF78] text-brand-dark hover:brightness-95"
+            : "bg-white text-brand-dark hover:bg-white/90",
+        )}
       >
-        {editMode ? <PencilOff className="w-3.5 h-3.5" /> : <Pencil className="w-3.5 h-3.5" />}
-        <span>{editMode ? "Skru av" : "Rediger side"}</span>
+        {editMode ? (
+          <Pencil className="w-4 h-4" aria-hidden="true" />
+        ) : (
+          <PencilOff className="w-4 h-4" aria-hidden="true" />
+        )}
+        <span>{editMode ? "Redigering PÅ" : "Redigering AV"}</span>
       </button>
+
+      {statusPill}
+
       <Link
         to="/rediger"
-        className="rounded-full px-2 py-1.5 hover:bg-brand-light/10"
+        className="rounded-full px-3 py-2 text-brand-light hover:bg-white/10"
         aria-label="Åpne redigeringspanelet"
       >
         Panel
@@ -51,11 +86,11 @@ export const EditModeBar = () => {
       <button
         type="button"
         onClick={() => supabase.auth.signOut()}
-        className="rounded-full p-1.5 hover:bg-brand-light/10"
+        className="rounded-full p-2 text-brand-light hover:bg-white/10"
         aria-label="Logg ut"
         title="Logg ut"
       >
-        <LogOut className="w-3.5 h-3.5" />
+        <LogOut className="w-4 h-4" aria-hidden="true" />
       </button>
     </div>
   );
