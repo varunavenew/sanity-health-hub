@@ -164,6 +164,7 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && slug.current == 
   locationSearch,
   sortOrder,
   "primaryImage": primaryImage.asset->url,
+  "gallery": gallery[]{ "src": asset->url, alt },
   booking,
   detail,
   faqs[]{question, answer},
