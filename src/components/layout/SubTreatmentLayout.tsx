@@ -966,7 +966,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
       {/* BESTILL TIME — unified pre-footer CTA */}
       <BookingCTA />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 
