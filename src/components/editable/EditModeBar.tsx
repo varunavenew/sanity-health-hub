@@ -1,17 +1,24 @@
 import { Link } from "react-router-dom";
-import { Pencil, PencilOff, LogOut, Loader2, Check, AlertCircle } from "lucide-react";
+import { Pencil, PencilOff, LogOut, Loader2, Check, AlertCircle, Save, Undo2 } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useEditable } from "@/lib/editable/EditableContext";
 import { cn } from "@/lib/utils";
 
 /**
  * EditModeBar — floating control shown only to authenticated editors/admins.
- * Clearly communicates edit-mode state ("Redigering PÅ / AV") and save state
- * ("Lagrer…" / "Lagret ✓" / error) with high contrast so editors always know
- * what will happen when they click into text.
  */
 export const EditModeBar = () => {
-  const { canEdit, editMode, setEditMode, user, saveStatus } = useEditable();
+  const {
+    canEdit,
+    editMode,
+    setEditMode,
+    user,
+    saveStatus,
+    pendingCount,
+    saveAllPending,
+    discardAllPending,
+  } = useEditable();
 
   if (!user || !canEdit) return null;
 
