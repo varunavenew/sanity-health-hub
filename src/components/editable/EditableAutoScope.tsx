@@ -83,7 +83,7 @@ const isSafeSoloText = (text: Text, parent: Element): boolean => {
 };
 
 export const EditableAutoScope = ({ path, children }: Props) => {
-  const { editMode, overrides, canEdit, saveOverride } = useEditable();
+  const { editMode, overrides, canEdit, saveOverride, setPending, clearPending, discardNonce } = useEditable();
   const location = useLocation();
   const pagePath = path ?? location.pathname;
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -129,13 +129,11 @@ export const EditableAutoScope = ({ path, children }: Props) => {
         parentByKey.current.set(key, parent);
       }
     } catch (err) {
-      // Never let DOM walking crash the tree.
       if (typeof console !== "undefined") console.warn("EditableAutoScope walk failed", err);
     }
   });
 
-  // Toggle contentEditable on each tagged parent (NOT on the display:contents
-  // root — Chrome doesn't support contentEditable on such wrappers).
+  // Toggle contentEditable on tagged parents.
   useEffect(() => {
     const active = editMode && canEdit;
     const parents = Array.from(parentByKey.current.values());
@@ -151,11 +149,10 @@ export const EditableAutoScope = ({ path, children }: Props) => {
           p.removeAttribute(EDIT_MARK_ATTR);
         }
       } catch {
-        /* ignore individual node errors */
+        /* ignore */
       }
     }
     return () => {
-      // On unmount / re-run, always clear editing attrs we added.
       for (const p of parents) {
         try {
           if (p.getAttribute(EDIT_MARK_ATTR) === "1") {
@@ -170,30 +167,70 @@ export const EditableAutoScope = ({ path, children }: Props) => {
     };
   }, [editMode, canEdit, overrides]);
 
-  // On blur inside the scope, check keyed nodes for changes and save.
+  // Discard: restore all tagged nodes to their last saved value.
+  useEffect(() => {
+    if (discardNonce === 0) return;
+    for (const [key, parent] of parentByKey.current.entries()) {
+      const saved = currentValues.current.get(key);
+      if (saved === undefined) continue;
+      for (const child of Array.from(parent.childNodes)) {
+        if (child.nodeType === Node.TEXT_NODE && (child.nodeValue ?? "").trim()) {
+          if (child.nodeValue !== saved) child.nodeValue = saved;
+          break;
+        }
+      }
+    }
+  }, [discardNonce]);
+
+  // Track pending edits on input; save on blur.
   useEffect(() => {
     if (!editMode || !canEdit) return;
     const root = rootRef.current;
     if (!root) return;
 
+    const readValue = (parent: Element): string | null => {
+      for (const child of Array.from(parent.childNodes)) {
+        if (child.nodeType === Node.TEXT_NODE && child.nodeValue?.trim()) {
+          return (child.nodeValue ?? "").replace(/\u00A0/g, " ");
+        }
+      }
+      return null;
+    };
+
+    const findKeyFor = (target: EventTarget | null): { key: string; parent: Element } | null => {
+      if (!(target instanceof Element)) return null;
+      const parent = target.closest(`[${FIELD_ATTR}]`);
+      if (!parent) return null;
+      const key = parent.getAttribute(FIELD_ATTR);
+      if (!key) return null;
+      return { key, parent };
+    };
+
+    const onInput = (e: Event) => {
+      const found = findKeyFor(e.target);
+      if (!found) return;
+      const next = readValue(found.parent);
+      if (next === null) return;
+      const saved = currentValues.current.get(found.key) ?? "";
+      if (next.trim() === saved.trim()) {
+        clearPending(pagePath, found.key);
+      } else {
+        setPending(pagePath, found.key, next.trim());
+      }
+    };
+
     const onFocusOut = async () => {
       await Promise.resolve();
       for (const [key, parent] of parentByKey.current.entries()) {
         if (!root.contains(parent)) continue;
-        let text: Text | null = null;
-        for (const child of Array.from(parent.childNodes)) {
-          if (child.nodeType === Node.TEXT_NODE && child.nodeValue?.trim()) {
-            text = child as Text;
-            break;
-          }
-        }
-        if (!text) continue;
-        const next = (text.nodeValue ?? "").replace(/\u00A0/g, " ");
+        const next = readValue(parent);
+        if (next === null) continue;
         const prev = currentValues.current.get(key) ?? "";
         if (next.trim() === prev.trim()) continue;
         currentValues.current.set(key, next);
         try {
           await saveOverride(pagePath, key, next.trim());
+          clearPending(pagePath, key);
         } catch (err: unknown) {
           const msg = err instanceof Error ? err.message : "Kunne ikke lagre";
           toast.error(msg);
@@ -201,9 +238,13 @@ export const EditableAutoScope = ({ path, children }: Props) => {
       }
     };
 
+    root.addEventListener("input", onInput);
     root.addEventListener("focusout", onFocusOut);
-    return () => root.removeEventListener("focusout", onFocusOut);
-  }, [editMode, canEdit, pagePath, saveOverride]);
+    return () => {
+      root.removeEventListener("input", onInput);
+      root.removeEventListener("focusout", onFocusOut);
+    };
+  }, [editMode, canEdit, pagePath, saveOverride, setPending, clearPending]);
 
   return (
     <div

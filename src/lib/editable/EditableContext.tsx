@@ -28,6 +28,12 @@ import { supabase } from "@/integrations/supabase/client";
 type OverridesMap = Record<string, string>;
 export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
+export interface PendingChange {
+  pagePath: string;
+  fieldId: string;
+  value: string;
+}
+
 interface EditableContextValue {
   session: Session | null;
   user: User | null;
@@ -40,6 +46,13 @@ interface EditableContextValue {
   resetOverride: (pagePath: string, fieldId: string) => Promise<void>;
   loading: boolean;
   saveStatus: SaveStatus;
+  pendingChanges: Record<string, PendingChange>;
+  pendingCount: number;
+  setPending: (pagePath: string, fieldId: string, value: string) => void;
+  clearPending: (pagePath: string, fieldId: string) => void;
+  saveAllPending: () => Promise<void>;
+  discardAllPending: () => void;
+  discardNonce: number;
 }
 
 const EditableContext = createContext<EditableContextValue | null>(null);
@@ -216,6 +229,67 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
     flashSaved();
   }, [flashSaved]);
 
+  // ─── Pending (unsaved) changes buffer ──────────────────────────────
+  const [pendingChanges, setPendingChanges] = useState<Record<string, PendingChange>>({});
+  const [discardNonce, setDiscardNonce] = useState(0);
+
+  const setPending = useCallback((pagePath: string, fieldId: string, value: string) => {
+    setPendingChanges((prev) => ({
+      ...prev,
+      [keyOf(pagePath, fieldId)]: { pagePath, fieldId, value },
+    }));
+  }, []);
+
+  const clearPending = useCallback((pagePath: string, fieldId: string) => {
+    setPendingChanges((prev) => {
+      const k = keyOf(pagePath, fieldId);
+      if (!(k in prev)) return prev;
+      const next = { ...prev };
+      delete next[k];
+      return next;
+    });
+  }, []);
+
+  const saveAllPending = useCallback(async () => {
+    const entries = Object.values(pendingChanges);
+    if (entries.length === 0) return;
+    setSaveStatus("saving");
+    try {
+      const rows = entries.map((e) => ({
+        page_path: e.pagePath,
+        field_id: e.fieldId,
+        value: e.value,
+        updated_by: session?.user?.id ?? null,
+        updated_at: new Date().toISOString(),
+      }));
+      // Optimistic
+      setOverrides((prev) => {
+        const next = { ...prev };
+        for (const e of entries) next[keyOf(e.pagePath, e.fieldId)] = e.value;
+        return next;
+      });
+      const { error } = await supabase
+        .from("content_overrides")
+        .upsert(rows, { onConflict: "page_path,field_id" });
+      if (error) {
+        setSaveStatus("error");
+        throw error;
+      }
+      setPendingChanges({});
+      flashSaved();
+    } catch (err) {
+      setSaveStatus("error");
+      throw err;
+    }
+  }, [pendingChanges, session, flashSaved]);
+
+  const discardAllPending = useCallback(() => {
+    setPendingChanges({});
+    setDiscardNonce((n) => n + 1);
+  }, []);
+
+  const pendingCount = Object.keys(pendingChanges).length;
+
   const value = useMemo<EditableContextValue>(
     () => ({
       session,
@@ -229,8 +303,15 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
       resetOverride,
       loading,
       saveStatus,
+      pendingChanges,
+      pendingCount,
+      setPending,
+      clearPending,
+      saveAllPending,
+      discardAllPending,
+      discardNonce,
     }),
-    [session, canEdit, editMode, setEditMode, overrides, getOverride, saveOverride, resetOverride, loading, saveStatus],
+    [session, canEdit, editMode, setEditMode, overrides, getOverride, saveOverride, resetOverride, loading, saveStatus, pendingChanges, pendingCount, setPending, clearPending, saveAllPending, discardAllPending, discardNonce],
   );
 
   return <EditableContext.Provider value={value}>{children}</EditableContext.Provider>;
