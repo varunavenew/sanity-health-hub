@@ -309,16 +309,24 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
  )}
 
       {/* Clinic images – hidden entirely when no real images exist */}
-      {(clinicGalleries[clinic.slug]?.length > 0 || clinic.primaryImage) && (
+      {(() => {
+        const sanityGallery: { src: string; alt: string }[] = Array.isArray((clinic as any).gallery)
+          ? (clinic as any).gallery
+              .filter((g: any) => g?.src)
+              .map((g: any) => ({ src: g.src, alt: g.alt || `CMedical ${clinic.label}` }))
+          : [];
+        const gallery = sanityGallery.length > 0 ? sanityGallery : clinicGalleries[clinic.slug];
+        if (!(gallery && gallery.length > 0) && !clinic.primaryImage) return null;
+        return (
         <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${clinic.label}`}>
           <div className="container mx-auto px-6 md:px-16 mb-6">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
             </div>
           </div>
-          {clinicGalleries[clinic.slug] && clinicGalleries[clinic.slug].length > 0 ? (
+          {gallery && gallery.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
-              {clinicGalleries[clinic.slug].map((img) => (
+              {gallery.map((img) => (
                 <div key={img.src} className="aspect-[4/5] overflow-hidden bg-brand-mid/10">
                   <img
                     src={img.src}
@@ -335,7 +343,8 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
             </div>
           )}
         </section>
-      )}
+        );
+      })()}
 
  {/* Google Maps embed */}
  <section className="bg-background py-10 md:py-14">

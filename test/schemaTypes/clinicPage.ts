@@ -46,6 +46,22 @@ export default {
       group: 'overview',
     },
     {
+      name: 'gallery',
+      title: 'Bildegalleri (interiør)',
+      description: 'Ekstra bilder som vises under hovedbildet på klinikksiden.',
+      type: 'array',
+      group: 'overview',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            { name: 'alt', title: 'Alt-tekst', type: 'string' },
+          ],
+        },
+      ],
+    },
+    {
       name: 'description',
       title: 'Beskrivelse',
       type: 'internationalizedArrayText',
