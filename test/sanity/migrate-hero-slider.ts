@@ -107,9 +107,11 @@ async function uploadFromPointer(pointerRelPath: string): Promise<string | null>
   return asset._id;
 }
 
+// v5 format: language field instead of _key for the locale identifier.
+// _key still required by Sanity as a unique array key.
 const i18n = (no: string, en: string) => [
-  { _key: "no", _type: "internationalizedArrayStringValue", value: no },
-  { _key: "en", _type: "internationalizedArrayStringValue", value: en },
+  { _key: "no", _type: "internationalizedArrayStringValue", language: "no", value: no },
+  { _key: "en", _type: "internationalizedArrayStringValue", language: "en", value: en },
 ];
 
 async function migrate() {
