@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -74,7 +75,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
   }, []);
 
   return (
-    <PageLayout isChatOpen={isChatOpen}>
+    <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
       <PageSEO
         title={sanityData?.seo?.metaTitle || "Robotassistert kirurgi – Presisjon og skånsomhet"}
         description={sanityData?.seo?.metaDescription || "CMedical tilbyr robotassistert kirurgi innen gynekologi og urologi. Mindre smerte, raskere rekonvalesens og færre komplikasjoner med Da Vinci-robot."}
@@ -180,7 +181,7 @@ const RobotkirurgiPage = ({ isChatOpen }: PageProps) => {
           </div>
         </div>
       </section>
-    </PageLayout>
+    </EditableAutoScope></PageLayout>
   );
 };
 

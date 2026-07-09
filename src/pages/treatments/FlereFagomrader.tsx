@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star, Phone, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import {
  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -80,7 +81,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
 
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <h1 className="sr-only">Flere fagområder hos CMedical</h1>
 
  {/* HERO */}
@@ -313,7 +314,7 @@ const FlereFagomrader = ({ isChatOpen }: PageProps) => {
  </div>
  </div>
  </section>
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

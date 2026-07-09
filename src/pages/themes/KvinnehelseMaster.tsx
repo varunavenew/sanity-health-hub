@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { Button } from "@/components/ui/button";
 import { VideoPlayer } from "@/components/ui/video-player";
 import { ServicesListSection } from "@/components/layout/ServicesListSection";
@@ -122,7 +123,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  }, []);
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  {/* ───────────── Hero – Variant A: med video ───────────── */}
  <MasterLabel>Hero – Variant A: med video (samme mønster som /om-oss)</MasterLabel>
  <HeroWithVideo title={title} ctaLink={ctaLink} ctaText={ctaText} navigate={navigate} />
@@ -307,7 +308,7 @@ const KvinnehelseMaster = ({ isChatOpen }: { isChatOpen: boolean }) => {
  {/* ───────────── BookingCTA før footer ───────────── */}
  <MasterLabel>BookingCTA – står alltid like over footer</MasterLabel>
  <BookingCTA />
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation, Link } from "react-router-dom";
 import { ArrowRight, Check, Phone, Calendar, MapPin, Clock, FileText, Shield, Plus, Minus, ChevronRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import SubTreatmentLayout from "@/components/layout/SubTreatmentLayout";
 import { treatmentContent, TreatmentData, ContentSection, LinkedService } from "@/data/treatmentContent";
 import { Specialist } from "@/data/specialists";
@@ -319,7 +320,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
 
   if (!treatment) {
     return (
-      <PageLayout isChatOpen={isChatOpen}>
+      <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-3xl font-normal text-foreground mb-4">Siden finnes ikke</h1>
@@ -329,14 +330,14 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
             </Button>
           </div>
         </div>
-      </PageLayout>
+      </EditableAutoScope></PageLayout>
     );
   }
 
   const specialistLabel = specialistLabels[categoryId] || "spesialist";
 
   return (
-    <PageLayout isChatOpen={isChatOpen}>
+    <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
       <PageSEO
         title={`${treatment.title} – ${treatment.parentCategory || categoryId}`}
         description={(treatment.description || "").split('\n')[0].slice(0, 155)}
@@ -626,7 +627,7 @@ const TreatmentPage = ({ categoryId, isChatOpen }: TreatmentPageProps) => {
         </div>
       </section>
 
-    </PageLayout>
+    </EditableAutoScope></PageLayout>
   );
 };
 

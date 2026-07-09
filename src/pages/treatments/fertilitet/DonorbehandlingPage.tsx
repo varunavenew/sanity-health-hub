@@ -6,6 +6,7 @@ import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import { PageSEO } from "@/components/seo/PageSEO";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
@@ -116,7 +117,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
   }, []);
 
   return (
-    <PageLayout isChatOpen={isChatOpen}>
+    <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
       <PageSEO
         title="Donorbehandling | CMedical"
         description="Donorbehandling hos CMedical — donorsæd, donoregg og partnerdonasjon. Vi følger Bioteknologiloven og veileder deg gjennom alle valg."
@@ -415,7 +416,7 @@ const DonorbehandlingPage = ({ isChatOpen }: PageProps) => {
       {/* 10. CTA */}
       <InsurancePartners />
       <BookingCTA />
-    </PageLayout>
+    </EditableAutoScope></PageLayout>
   );
 };
 
