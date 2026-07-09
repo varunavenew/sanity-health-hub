@@ -83,6 +83,45 @@ export const EditModeBar = () => {
 
       {statusPill}
 
+      {editMode && pendingCount > 0 && (
+        <>
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await saveAllPending();
+              } catch (err) {
+                const msg = err instanceof Error ? err.message : "Kunne ikke lagre";
+                toast.error(msg);
+              }
+            }}
+            disabled={saveStatus === "saving"}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full px-4 py-2 font-medium",
+              "bg-[#F4FF78] text-brand-dark hover:brightness-95 transition",
+              "disabled:opacity-60 disabled:cursor-not-allowed",
+            )}
+            aria-label={`Lagre ${pendingCount} endringer`}
+          >
+            <Save className="w-4 h-4" aria-hidden="true" />
+            <span>Lagre endringer</span>
+            <span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-brand-dark text-brand-light text-xs">
+              {pendingCount}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={discardAllPending}
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-brand-light/80 hover:text-brand-light hover:bg-white/10 transition"
+            aria-label="Forkast endringer"
+            title="Forkast endringer"
+          >
+            <Undo2 className="w-4 h-4" aria-hidden="true" />
+            <span>Forkast</span>
+          </button>
+        </>
+      )}
+
       <Link
         to="/rediger"
         className="rounded-full px-3 py-2 text-brand-light hover:bg-white/10"
