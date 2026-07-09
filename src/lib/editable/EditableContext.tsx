@@ -28,6 +28,12 @@ import { supabase } from "@/integrations/supabase/client";
 type OverridesMap = Record<string, string>;
 export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
+export interface PendingChange {
+  pagePath: string;
+  fieldId: string;
+  value: string;
+}
+
 interface EditableContextValue {
   session: Session | null;
   user: User | null;
@@ -40,6 +46,13 @@ interface EditableContextValue {
   resetOverride: (pagePath: string, fieldId: string) => Promise<void>;
   loading: boolean;
   saveStatus: SaveStatus;
+  pendingChanges: Record<string, PendingChange>;
+  pendingCount: number;
+  setPending: (pagePath: string, fieldId: string, value: string) => void;
+  clearPending: (pagePath: string, fieldId: string) => void;
+  saveAllPending: () => Promise<void>;
+  discardAllPending: () => void;
+  discardNonce: number;
 }
 
 const EditableContext = createContext<EditableContextValue | null>(null);
