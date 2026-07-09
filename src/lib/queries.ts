@@ -53,6 +53,9 @@ const SPECIALIST_PROFILE_UI_GROQ = `
 const i18nStringLocale = (field: string) =>
   `"${field}": coalesce(${field}[language == $lang][0].value, ${field}[_key == $lang][0].value)`;
 
+const i18nStringArrayLocale = (field: string) =>
+  `"${field}": ${field}[]{"value": coalesce(@[language == $lang][0].value, @[_key == $lang][0].value)}`;
+
 /** Both locales — for nav path switching and CMS-driven URLs. */
 const i18nPathBoth = (field: string) => `
   "pathNb": coalesce(${field}[language == "no"][0].value, ${field}[_key == "no"][0].value, ${field}[0].value),
@@ -346,7 +349,7 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("heading")},
       ${i18nStringLocale("headingEmphasis")},
       ${i18nText("body")},
-      bullets,
+      ${i18nStringArrayLocale("bullets")},
       ${i18nStringLocale("primaryCtaLabel")},
       ${i18nStringLocale("secondaryCtaLabel")},
       ${i18nStringLocale("heroImageAlt")},
@@ -363,7 +366,7 @@ const CATEGORY_LANDING_GROQ = `
         id,
         ${i18nStringLocale("title")},
         ${i18nText("description")},
-        tags,
+        ${i18nStringArrayLocale("tags")},
         tagLinks[]{
           ${i18nStringLocale("label")},
           href

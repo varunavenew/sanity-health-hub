@@ -836,67 +836,6 @@ const TreatmentCategoryLanding = ({
         />
       ) : null}
 
-      {/* Stats */}
-      {stats.length > 0 ? (
-        <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-12 md:pb-16 border-t border-brand-dark/5">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
-                <div className="lg:col-span-5">
-                  {resultsSection.eyebrow ? (
-                    <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
-                      {resultsSection.eyebrow}
-                    </p>
-                  ) : null}
-                  <h2 className="text-3xl md:text-5xl font-light leading-tight">
-                    {resultsSection.title}
-                  </h2>
-                </div>
-                <div className="lg:col-span-7 flex items-end">
-                  {resultsSection.description ? (
-                    <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
-                      {resultsSection.description}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="border-t border-brand-dark/5 py-8 md:py-10">
-                {resultsSection.categoryLabel ? (
-                  <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
-                    {resultsSection.categoryLabel}
-                  </p>
-                ) : null}
-                <dl
-                  className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15`}
-                >
-                  {stats.map((row, i) => (
-                    <div
-                      key={row.label}
-                      className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === stats.length - 1 ? "md:pr-0" : ""}`}
-                    >
-                      <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
-                        <AnimatedStat value={row.value} />
-                      </dd>
-                      <dt className="text-sm font-normal text-foreground mb-1">{row.label}</dt>
-                      {row.sub ? (
-                        <p className="text-xs font-light text-muted-foreground">{row.sub}</p>
-                      ) : null}
-                    </div>
-                  ))}
-                </dl>
-              </div>
-
-              {resultsSection.footnote ? (
-                <p className="text-xs font-light text-muted-foreground mt-8">
-                  {resultsSection.footnote}
-                </p>
-              ) : null}
-            </div>
-          </div>
-        </section>
-      ) : null}
-
       {/* Services — grouped list */}
       {serviceGroups.length > 0 ? (
         <section className="bg-brand-light text-foreground pt-20 md:pt-28 pb-16 md:pb-20">
@@ -971,6 +910,67 @@ const TreatmentCategoryLanding = ({
                 layout="grid"
                 readMoreLabel={supportSection.readMoreLabel}
               />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Stats */}
+      {stats.length > 0 ? (
+        <section className="bg-brand-light text-foreground pt-14 md:pt-16 pb-10 md:pb-12 border-t border-brand-dark/5">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
+                <div className="lg:col-span-5">
+                  {resultsSection.eyebrow ? (
+                    <p className="text-xs tracking-wide text-foreground/60 mb-4 uppercase">
+                      {resultsSection.eyebrow}
+                    </p>
+                  ) : null}
+                  <h2 className="text-3xl md:text-5xl font-light leading-tight">
+                    {resultsSection.title}
+                  </h2>
+                </div>
+                <div className="lg:col-span-7 flex items-end">
+                  {resultsSection.description ? (
+                    <p className="text-base font-light text-muted-foreground leading-relaxed max-w-xl">
+                      {resultsSection.description}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="border-t border-brand-dark/5 py-8 md:py-10">
+                {resultsSection.categoryLabel ? (
+                  <p className="text-[11px] tracking-[0.18em] text-brand-dark mb-6 uppercase">
+                    {resultsSection.categoryLabel}
+                  </p>
+                ) : null}
+                <dl
+                  className={`${statsGridClass(stats.length)} gap-y-8 md:gap-y-0 md:divide-x divide-brand-dark/15`}
+                >
+                  {stats.map((row, i) => (
+                    <div
+                      key={row.label}
+                      className={`md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i === stats.length - 1 ? "md:pr-0" : ""}`}
+                    >
+                      <dd className="text-3xl md:text-4xl font-light tracking-tight leading-none mb-3">
+                        <AnimatedStat value={row.value} />
+                      </dd>
+                      <dt className="text-sm font-normal text-foreground mb-1">{row.label}</dt>
+                      {row.sub ? (
+                        <p className="text-xs font-light text-muted-foreground">{row.sub}</p>
+                      ) : null}
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              {resultsSection.footnote ? (
+                <p className="text-xs font-light text-muted-foreground mt-8">
+                  {resultsSection.footnote}
+                </p>
+              ) : null}
             </div>
           </div>
         </section>
