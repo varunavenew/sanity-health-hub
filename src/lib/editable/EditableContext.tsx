@@ -155,10 +155,20 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
     [overrides],
   );
 
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const flashSaved = useCallback(() => {
+    setSaveStatus("saved");
+    if (savedTimerRef.current) clearTimeout(savedTimerRef.current);
+    savedTimerRef.current = setTimeout(() => setSaveStatus("idle"), 1800);
+  }, []);
+
   const saveOverride = useCallback(
     async (pagePath: string, fieldId: string, value: string) => {
       // Optimistic
       setOverrides((prev) => ({ ...prev, [keyOf(pagePath, fieldId)]: value }));
+      setSaveStatus("saving");
       const { error } = await supabase.from("content_overrides").upsert(
         {
           page_path: pagePath,
@@ -169,9 +179,13 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
         },
         { onConflict: "page_path,field_id" },
       );
-      if (error) throw error;
+      if (error) {
+        setSaveStatus("error");
+        throw error;
+      }
+      flashSaved();
     },
-    [session],
+    [session, flashSaved],
   );
 
   const resetOverride = useCallback(async (pagePath: string, fieldId: string) => {
@@ -180,13 +194,18 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
       delete next[keyOf(pagePath, fieldId)];
       return next;
     });
+    setSaveStatus("saving");
     const { error } = await supabase
       .from("content_overrides")
       .delete()
       .eq("page_path", pagePath)
       .eq("field_id", fieldId);
-    if (error) throw error;
-  }, []);
+    if (error) {
+      setSaveStatus("error");
+      throw error;
+    }
+    flashSaved();
+  }, [flashSaved]);
 
   const value = useMemo<EditableContextValue>(
     () => ({
@@ -200,8 +219,9 @@ export const EditableProvider = ({ children }: { children: ReactNode }) => {
       saveOverride,
       resetOverride,
       loading,
+      saveStatus,
     }),
-    [session, canEdit, editMode, setEditMode, overrides, getOverride, saveOverride, resetOverride, loading],
+    [session, canEdit, editMode, setEditMode, overrides, getOverride, saveOverride, resetOverride, loading, saveStatus],
   );
 
   return <EditableContext.Provider value={value}>{children}</EditableContext.Provider>;
