@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Editable } from "@/components/editable/Editable";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { specialists } from "@/data/specialists";
@@ -245,7 +246,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
  }, []);
 
  return (
-  <PageLayout isChatOpen={isChatOpen}>
+  <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
   <PageSEO
   title="Fertilitet | CMedical — fertilitetsbehandling for alle veier til foreldreskap"
   description="Fertilitetsbehandling hos CMedical. IVF, inseminasjon, eggfrys, fertilitetsutredning og donorbehandling — uten henvisning, uten ventetid."
@@ -822,7 +823,7 @@ const Fertility = ({ isChatOpen }: PageProps) => {
       <BookingCTA />
 
 
- </PageLayout>
+ </EditableAutoScope></PageLayout>
  );
 };
 

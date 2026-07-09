@@ -10,6 +10,7 @@ import { InsurancePartners } from "@/components/treatments/InsurancePartners";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { Editable } from "@/components/editable/Editable";
+import { EditableAutoScope } from "@/components/editable/EditableAutoScope";
 import {
   Accordion,
   AccordionContent,
@@ -198,7 +199,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
   const entryPrice = getCategoryEntryPrice("graviditet");
 
   return (
-    <PageLayout isChatOpen={isChatOpen}>
+    <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
       <PageSEO
         title="Graviditet og fostermedisin | CMedical — trygg oppfølging gjennom hele svangerskapet"
         description="Svangerskapskontroll, tidlig ultralyd, NIPT, fosterdiagnostikk og fødselsforberedelse hos CMedical. Fast jordmor, ingen henvisning, korte ventetider."
@@ -659,7 +660,7 @@ const Graviditet = ({ isChatOpen }: PageProps) => {
       {/* 11. PRE-FOOTER CTA */}
       <BookingCTA />
       <InsurancePartners />
-    </PageLayout>
+    </EditableAutoScope></PageLayout>
   );
 };
 
