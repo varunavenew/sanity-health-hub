@@ -453,7 +453,7 @@ export const SubTreatmentLayout = ({ isChatOpen, content: c }: Props) => {
 
 
  return (
- <PageLayout isChatOpen={isChatOpen}>
+ <PageLayout isChatOpen={isChatOpen}><EditableAutoScope>
  <PageSEO
  title={c.seoTitle}
  description={c.seoDescription}
