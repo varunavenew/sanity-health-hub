@@ -7,7 +7,7 @@ const i18nStr = { type: 'internationalizedArrayString' as const }
 const i18nTxt = { type: 'internationalizedArrayText' as const }
 
 const reqI18n = requiredNoEnI18n
-const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
 function hasActualContent(val: any): boolean {
   if (val === undefined || val === null || val === '') return false
@@ -29,11 +29,11 @@ const reqI18nIfActive = (fieldLabel: string) => (Rule: any) =>
     const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
     if (!parentHasValues) return true
 
-    if (!value || !Array.isArray(value)) return `${fieldLabel} er påkrevd`
+    if (!value || !Array.isArray(value)) return `${fieldLabel} is required`
     const noVal = value.find((v: any) => (v.language ?? v._key) === 'no')?.value
     const enVal = value.find((v: any) => (v.language ?? v._key) === 'en')?.value
-    if (!noVal?.trim()) return `${fieldLabel} (norsk) er påkrevd`
-    if (!enVal?.trim()) return `${fieldLabel} (engelsk) er påkrevd`
+    if (!noVal?.trim()) return `${fieldLabel} (Norwegian) is required`
+    if (!enVal?.trim()) return `${fieldLabel} (English) is required`
     return true
   })
 
@@ -45,7 +45,7 @@ const reqStrIfActive = (fieldLabel: string) => (Rule: any) =>
     const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
     if (!parentHasValues) return true
     if (!value || typeof value !== 'string' || value.trim() === '') {
-      return `${fieldLabel} er påkrevd`
+      return `${fieldLabel} is required`
     }
     return true
   })
@@ -58,7 +58,7 @@ const reqArrayIfActive = (fieldLabel: string, minCount = 1) => (Rule: any) =>
     const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
     if (!parentHasValues) return true
     if (!Array.isArray(value) || value.length < minCount) {
-      return `Legg til minst ${minCount} element(er) i ${fieldLabel}`
+      return `Add at least ${minCount} item(s) to ${fieldLabel}`
     }
     return true
   })
@@ -84,7 +84,7 @@ const segmentItem = {
   name: 'categoryLandingSegment',
   title: 'Segment',
   fields: [
-    { name: 'id', title: 'ID (valgfri)', type: 'string' },
+    { name: 'id', title: 'ID (optional)', type: 'string' },
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
     { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
     {
@@ -116,9 +116,9 @@ const segmentItem = {
 const stepItem = {
   type: 'object',
   name: 'categoryLandingStep',
-  title: 'Steg',
+  title: 'Step',
   fields: [
-    { name: 'number', title: 'Nummer', type: 'string', validation: reqStr('Nummer') },
+    { name: 'number', title: 'Number', type: 'string', validation: reqStr('Number') },
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
     { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
   ],
@@ -139,12 +139,12 @@ const audienceItem = {
       type: 'string',
       options: {
         list: [
-          { title: 'Par', value: 'couple' },
-          { title: 'Horisont', value: 'horizon' },
-          { title: 'Bue', value: 'arch' },
+          { title: 'Couple', value: 'couple' },
+          { title: 'Horizon', value: 'horizon' },
+          { title: 'Arch', value: 'arch' },
           { title: 'Person', value: 'user' },
-          { title: 'Personer', value: 'users' },
-          { title: 'Klokke', value: 'clock' },
+          { title: 'People', value: 'users' },
+          { title: 'Clock', value: 'clock' },
         ],
       },
       validation: reqStr('Icon'),
@@ -156,7 +156,7 @@ const audienceItem = {
 const expertAreaCard = {
   type: 'object',
   name: 'categoryLandingExpertArea',
-  title: 'Kort',
+  title: 'Card',
   fields: [
     { name: 'title', title: 'Title', ...i18nStr, validation: reqI18n('Title') },
     { name: 'description', title: 'Text', ...i18nTxt, validation: reqI18n('Text') },
@@ -199,9 +199,9 @@ const reviewItem = {
   name: 'categoryLandingReview',
   title: 'Review',
   fields: [
-    { name: 'text', title: 'Sitat', ...i18nTxt, validation: reqI18n('Sitat') },
+    { name: 'text', title: 'Quote', ...i18nTxt, validation: reqI18n('Quote') },
     { name: 'author', title: 'Name', type: 'string', validation: reqStr('Name') },
-    { name: 'date', title: 'Dato / kontekst', ...i18nStr, validation: reqI18n('Dato / kontekst') },
+    { name: 'date', title: 'Date / context', ...i18nStr, validation: reqI18n('Date / context') },
   ],
   preview: i18nTitleItemPreview,
 }
@@ -209,7 +209,7 @@ const reviewItem = {
 export const categoryLandingPageField = {
   name: 'landingPage',
   title: 'Landing page (category)',
-  description: 'Innhold for markedsføringslandingssiden (f.eks. /fertilitet). Alle felt er påkrevd (norsk + engelsk).',
+  description: 'Content for the marketing landing page, e.g. /fertilitet. All fields are required in Norwegian and English.',
   type: 'object',
   validation: (Rule: any) => Rule.required().error('Landing page content is required'),
   fields: [
@@ -221,7 +221,7 @@ export const categoryLandingPageField = {
       fields: [
         {
           name: 'layout',
-          title: 'Layoutvisning',
+          title: 'Layout view',
           type: 'string',
           options: {
             list: [
@@ -257,7 +257,7 @@ export const categoryLandingPageField = {
     },
     {
       name: 'segmentsSection',
-      title: 'Segmenter',
+      title: 'Segments',
       type: 'object',
       validation: (Rule: any) => Rule.required().error('The \'Segments\' section is required'),
       fields: [
@@ -271,7 +271,7 @@ export const categoryLandingPageField = {
           options: {
             list: [
               { title: 'Accordion', value: 'accordion' },
-              { title: 'Kort-rutenett', value: 'grid' },
+              { title: 'Card grid', value: 'grid' },
             ],
             layout: 'radio',
           },
@@ -279,7 +279,7 @@ export const categoryLandingPageField = {
         },
         {
           name: 'segments',
-          title: 'Kort',
+          title: 'Cards',
           type: 'array',
           of: [segmentItem],
           validation: (Rule: any) => Rule.required().min(1).error('Add at least one segment'),
@@ -297,7 +297,7 @@ export const categoryLandingPageField = {
         { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
         {
           name: 'steps',
-          title: 'Steg',
+          title: 'Steps',
           type: 'array',
           of: [stepItem],
           validation: (Rule: any) => Rule.required().min(1).error('Add at least one step'),
@@ -330,7 +330,7 @@ export const categoryLandingPageField = {
         { name: 'titleAccent', title: 'Heading (accent)', ...i18nStr },
         {
           name: 'audiences',
-          title: 'Kort',
+          title: 'Cards',
           type: 'array',
           of: [audienceItem],
           validation: reqArrayIfActive('Target groups', 1),
@@ -362,7 +362,7 @@ export const categoryLandingPageField = {
         },
         {
           name: 'areas',
-          title: 'Kort',
+          title: 'Cards',
           type: 'array',
           of: [expertAreaCard],
         },
@@ -387,7 +387,7 @@ export const categoryLandingPageField = {
     },
     {
       name: 'resultsSection',
-      title: 'Resultater',
+      title: 'Results',
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
@@ -407,14 +407,14 @@ export const categoryLandingPageField = {
         { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
         {
           name: 'groups',
-          title: 'Grupper',
+          title: 'Groups',
           description: 'Grouped services list in the desired display order.',
           type: 'array',
           of: [
             {
               type: 'object',
               name: 'categoryLandingServiceGroup',
-              title: 'Tjenestegruppe',
+              title: 'Service group',
               fields: [
                 { name: 'label', title: 'Gruppetittel', ...i18nStr, validation: reqI18n('Gruppetittel') },
                 {
@@ -439,7 +439,7 @@ export const categoryLandingPageField = {
               preview: i18nTitleItemPreview,
             },
           ],
-          validation: reqArrayIfActive('Tjenestegrupper', 1),
+          validation: reqArrayIfActive('Service groups', 1),
         },
       ],
     },
@@ -453,7 +453,7 @@ export const categoryLandingPageField = {
         { name: 'readMoreLabel', title: 'Read more text', ...i18nStr },
         {
           name: 'areas',
-          title: 'Kort',
+          title: 'Cards',
           type: 'array',
           of: [expertAreaCard],
         },
@@ -468,7 +468,7 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr, validation: reqI18nIfActive('Heading') },
         {
           name: 'reviews',
-          title: 'Sitater',
+          title: 'Quotes',
           type: 'array',
           of: [reviewItem],
           validation: reqArrayIfActive('Reviews', 1),
@@ -484,7 +484,7 @@ export const categoryLandingPageField = {
         { name: 'titleEmphasis', title: 'Heading (italic part)', ...i18nStr },
         { name: 'text', title: 'Text', ...i18nTxt },
         { name: 'ctaLabel', title: 'Button Text', ...i18nStr, validation: reqI18nIfActive('Button Text') },
-        { name: 'ctaHref', title: 'Knappelenke', type: 'string', validation: reqStrIfActive('Knappelenke') },
+        { name: 'ctaHref', title: 'Button link', type: 'string', validation: reqStrIfActive('Button link') },
         {
           name: 'image',
           title: 'Image',
@@ -503,13 +503,36 @@ export const categoryLandingPageField = {
         { name: 'description', title: 'Ingress', ...i18nTxt },
         {
           name: 'steps',
-          title: 'Steg',
+          title: 'Steps',
           type: 'array',
           of: [stepItem],
         },
         { name: 'ctaLabel', title: 'Button Text', ...i18nStr, validation: reqI18nIfActive('Button Text') },
-        { name: 'ctaHref', title: 'Knappelenke', type: 'string' },
+        { name: 'ctaHref', title: 'Button link', type: 'string' },
       ],
+    },
+    {
+      name: 'sectionOrder',
+      title: 'Section order',
+      description:
+        'Choose and sort which sections are shown on the page. Drag to reorder. The hero is always shown first and is not included here. Leave empty to use the default order.',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Segments / life stages',   value: 'segments'    },
+          { title: 'Why choose us (split)',    value: 'why'         },
+          { title: 'Target groups (cards)',    value: 'audiences'   },
+          { title: 'Areas of expertise',       value: 'expertAreas' },
+          { title: 'Symptom checker',         value: 'symptoms'    },
+          { title: 'What we offer',           value: 'services'    },
+          { title: 'Support services',        value: 'support'     },
+          { title: 'Results / statistics',    value: 'results'     },
+          { title: 'Patient reviews',         value: 'reviews'     },
+          { title: 'Spotlight / CTA-blokk',   value: 'spotlight'   },
+          { title: 'Patient journey',         value: 'journey'     },
+        ],
+      },
     },
     {
       name: 'breadcrumbHomeLabel',
@@ -518,7 +541,7 @@ export const categoryLandingPageField = {
     },
     {
       name: 'srOnlyTitle',
-      title: 'Skjult H1 (SEO)',
+      title: 'Hidden H1 (SEO)',
       type: 'internationalizedArrayString',
     },
   ],

@@ -11,7 +11,7 @@ const displayModeSpecialists = {
   options: {
     list: [
       { title: 'All specialists', value: 'all' },
-      { title: 'Velg manuelt', value: 'manual' },
+      { title: 'Choose manually', value: 'manual' },
       { title: 'Filter by category', value: 'category' },
     ],
     layout: 'radio',
@@ -26,7 +26,7 @@ const displayModeArticles = {
   options: {
     list: [
       { title: 'Nyeste artikler', value: 'latest' },
-      { title: 'Velg manuelt', value: 'manual' },
+      { title: 'Choose manually', value: 'manual' },
       { title: 'Filter by category', value: 'category' },
     ],
     layout: 'radio',
@@ -66,7 +66,7 @@ export const pageSectionSpecialists = {
     },
     {
       name: 'treatmentCategory',
-      title: 'Behandlingskategori',
+      title: 'Treatment category',
       type: 'reference',
       to: [{ type: 'treatmentCategory' }],
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>
@@ -165,14 +165,14 @@ export const pageSectionArticles = {
     },
     {
       name: 'articleCategory',
-      title: 'Artikkelkategori',
+      title: 'Article category',
       type: 'string',
       options: {
         list: [
-          { title: 'Fagartikkel', value: 'fagartikkel' },
+          { title: 'Professional article', value: 'fagartikkel' },
           { title: 'News from us', value: 'news' },
-          { title: 'Prisliste', value: 'prisliste' },
-          { title: 'Stillingsutlysning', value: 'stillingsutlysning' },
+          { title: 'Price list', value: 'prisliste' },
+          { title: 'Job posting', value: 'stillingsutlysning' },
         ],
       },
       hidden: ({ parent }: { parent?: { displayMode?: string } }) =>

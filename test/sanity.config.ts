@@ -38,7 +38,7 @@ import {createLocalePreviewPane} from './sanity/components/LocalePreviewIframe'
 // Languages enabled for field-level localization across the project.
 // Add SE here later if/when Swedish content is added.
 export const SUPPORTED_LANGUAGES = [
-  {id: 'no', title: 'Norsk'},
+  {id: 'no', title: 'Norwegian'},
   {id: 'en', title: 'English'},
 ] as const
 import {SpecialistIcon, PricingIcon, ReviewIcon, ClinicIcon, JobIcon, SortIcon} from './schemaTypes/icons'

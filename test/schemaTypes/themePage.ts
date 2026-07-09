@@ -1,4 +1,4 @@
-// Schema: Theme Page (e.g. Kvinnehelse, Robotkirurgi, Tverrfaglige)
+// Schema: Theme Page
 // Reusable schema for thematic focus area pages
 import { ThemeIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
@@ -26,13 +26,13 @@ export default {
     },
     {
       name: 'introTexts',
-      title: 'Introduksjonstekster',
+      title: 'Intro texts',
       type: 'array',
       of: [{ type: 'internationalizedArrayText' }],
     },
     {
       name: 'sections',
-      title: 'Innholdsseksjoner',
+      title: 'Content sections',
       type: 'array',
       of: [
         {

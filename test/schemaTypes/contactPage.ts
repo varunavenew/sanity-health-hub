@@ -1,4 +1,4 @@
-// Schema: Contact Page (Kontakt)
+// Schema: Contact Page
 // Aligned with migration data: title, introText, phone, email, address, openingHours, seo
 import { ContactIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
@@ -46,7 +46,7 @@ export default {
     },
     {
       name: 'introText',
-      title: 'Introduksjonstekst',
+      title: 'Intro text',
       type: 'internationalizedArrayText',
       group: 'content',
     },
@@ -70,7 +70,7 @@ export default {
       fields: [
         { name: 'street', title: 'Gateadresse', type: 'string' },
         { name: 'city', title: 'City', type: 'string' },
-        { name: 'zip', title: 'Postnummer', type: 'string' },
+        { name: 'zip', title: 'Postal code', type: 'string' },
       ],
     },
     {
@@ -123,7 +123,7 @@ export default {
             { name: 'ctaLink', title: 'CTA link (if navigate)', type: 'string' },
             {
               name: 'variant',
-              title: 'Knappevariant',
+              title: 'Button variant',
               type: 'string',
               options: {
                 list: [
@@ -174,7 +174,7 @@ export default {
     crI18n('cancelButton', 'Button – cancel'),
     crI18n('submitButton', 'Button – send'),
     crI18n('submittingButton', 'Button – sending'),
-    crI18n('privacyNote', 'Personvern fotnote', undefined, 'internationalizedArrayText'),
+    crI18n('privacyNote', 'Privacy footnote', undefined, 'internationalizedArrayText'),
     crI18n('toastValidationTitle', 'Validation – toast title'),
     crI18n('toastValidationDescription', 'Validering – toast melding (generell)'),
     crI18n('validationNameRequired', 'Validation – name'),

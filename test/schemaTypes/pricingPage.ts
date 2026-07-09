@@ -1,4 +1,4 @@
-// Schema: Pricing Page (Priser)
+// Schema: Pricing Page
 // Aligned with migration data: title, introText, priceCategories[], insuranceNote, seo
 import { PricingIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
@@ -31,35 +31,35 @@ export default {
     },
     {
       name: 'introText',
-      title: 'Introduksjonstekst',
+      title: 'Intro text',
       type: 'internationalizedArrayText',
     },
     {
       name: 'priceCategories',
-      title: 'Priskategorier',
+      title: 'Price categories',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
-            { name: 'categoryName', title: 'Kategorinavn', type: 'internationalizedArrayString' },
+            { name: 'categoryName', title: 'Category name', type: 'internationalizedArrayString' },
             {
               name: 'category',
-              title: 'Behandlingskategori',
+              title: 'Treatment category',
               type: 'reference',
               to: [{ type: 'treatmentCategory' }],
             },
             {
               name: 'items',
-              title: 'Prislinjer',
+              title: 'Price lines',
               type: 'array',
               of: [
                 {
                   type: 'object',
                   fields: [
                     { name: 'name', title: 'Treatment', type: 'internationalizedArrayString' },
-                    { name: 'price', title: 'Pris (NOK)', type: 'number' },
-                    { name: 'priceLabel', title: 'Prisvisning', type: 'internationalizedArrayString', description: 'E.g. "from 2500,-" or "1500,- per hour"' },
+                    { name: 'price', title: 'Price (NOK)', type: 'number' },
+                    { name: 'priceLabel', title: 'Price display', type: 'internationalizedArrayString', description: 'E.g. "from 2500,-" or "1500,- per hour"' },
                     { name: 'note', title: 'Merknad', type: 'internationalizedArrayString' },
                   ],
                   preview: {
@@ -87,7 +87,7 @@ export default {
     },
     {
       name: 'testimonials',
-      title: 'Tilbakemeldinger',
+      title: 'Feedback',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'testimonial' }] }],
       description: 'Select reviews to display on the pricing page',
@@ -104,7 +104,7 @@ export default {
     },
     {
       name: 'insuranceNote',
-      title: 'Forsikringsinformasjon',
+      title: 'Insurance information',
       type: 'internationalizedArrayText',
     },
     pageSectionsField,

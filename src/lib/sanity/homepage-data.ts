@@ -29,7 +29,7 @@ export type HomepageHeroSlide = {
   cta: string;
   ctaPath: string;
   image: string;
-  imageRight?: string;
+  mobileImage?: string;
   videoUrl?: string;
   objectPosition: string;
 };
@@ -365,7 +365,7 @@ export function mapHomepageDocument(
           cta: asPlainString(s.ctaText) || "Les mer",
           ctaPath: asPlainString(s.ctaLink) || "/",
           image: asPlainString(s.image),
-          imageRight: asPlainString(s.imageRight) || undefined,
+          mobileImage: asPlainString(s.mobileImage) || undefined,
           videoUrl: asPlainString(s.videoUrl) || undefined,
           objectPosition: "center 30%",
         };

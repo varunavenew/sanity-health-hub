@@ -14,7 +14,7 @@ import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 
 const reqI18n = requiredNoEnI18n
-const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
 const validateRelativePath = (Rule: any) =>
   Rule.custom((value: any) => {
@@ -41,10 +41,10 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Behandlingsnavn',
+      title: 'Treatment name',
       type: 'internationalizedArrayString',
       group: 'general',
-      validation: reqI18n('Behandlingsnavn'),
+      validation: reqI18n('Treatment name'),
     },
     {
       ...i18nSlugFieldFromTitle('title'),
@@ -67,10 +67,10 @@ export default {
     },
     {
       name: 'description',
-      title: 'Introduksjonstekst',
+      title: 'Intro text',
       type: 'internationalizedArrayText',
       group: 'general',
-      validation: reqI18n('Introduksjonstekst'),
+      validation: reqI18n('Intro text'),
     },
     // FAQs
     {
@@ -107,7 +107,7 @@ export default {
     // Sub-items (shown in 3rd column of service dropdown)
     {
       name: 'subItems',
-      title: 'Undermeny-elementer',
+      title: 'Submenu items',
       group: 'general',
       description: 'Displayed as the third column in the services dropdown in the menu',
       type: 'array',
@@ -160,7 +160,7 @@ export default {
     },
     // ─── Hero Section ────────────────────────────────────────────────────────
     { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', type: 'internationalizedArrayString', group: 'hero', description: 'The text displayed as the first segment in the breadcrumb navigation, e.g. \'Home\'.' },
-    { name: 'srOnlyTitle', title: 'Skjult H1 (skjermleser)', type: 'internationalizedArrayString', group: 'hero', description: 'A hidden heading for screen readers only. Briefly describe the page, e.g. \'Treatment page for hysteroscopy at CMedical\'.' },
+    { name: 'srOnlyTitle', title: 'Hidden H1 (screen reader)', type: 'internationalizedArrayString', group: 'hero', description: 'A hidden heading for screen readers only. Briefly describe the page, e.g. \'Treatment page for hysteroscopy at CMedical\'.' },
     { name: 'themesAriaLabel', title: 'Temaer — aria-label', type: 'internationalizedArrayString', group: 'hero' },
     { name: 'eyebrow', title: 'Eyebrow (above hero title)', type: 'internationalizedArrayString', group: 'hero', description: 'Small text above the title in the hero section, e.g. \'Gynecology\'.' },
     {
@@ -196,7 +196,7 @@ export default {
       group: 'hero',
       description: 'Optional video URL played in the hero section. Upload an MP4 video (max 10MB, 16:9 format) and paste the URL here.',
     },
-    { name: 'rating', title: 'Vurdering / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Short text shown under the hero image, e.g. \'4.9/5 from 200 patients\'.' },
+    { name: 'rating', title: 'Rating / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Short text shown under the hero image, e.g. \'4.9/5 from 200 patients\'.' },
     { name: 'heroPrice', title: 'Hero — prislinje', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
     { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean', group: 'hero', initialValue: false },
     { name: 'heroAvailability', title: 'Hero — tilgjengelighet', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
@@ -277,7 +277,7 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'n', title: 'Nummer', type: 'internationalizedArrayString' },
+            { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
             { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
           ],
@@ -339,7 +339,7 @@ export default {
         { name: 'description', title: 'Ingress', type: 'internationalizedArrayText' },
         {
           name: 'items',
-          title: 'Kort',
+          title: 'Cards',
           type: 'array',
           of: [
             {
@@ -414,7 +414,7 @@ export default {
             {
               type: 'object',
               fields: [
-                { name: 'n', title: 'Nummer', type: 'internationalizedArrayString' },
+                { name: 'n', title: 'Number', type: 'internationalizedArrayString' },
                 { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
                 { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
               ],
@@ -438,7 +438,7 @@ export default {
     // ─── Related Section ─────────────────────────────────────────────────────
     {
       name: 'relatedSection',
-      title: 'Relaterte tjenester',
+      title: 'Related services',
       type: 'object',
       group: 'features',
       fields: [
@@ -451,7 +451,7 @@ export default {
         { name: 'seeAllLabel', title: 'Related — \'see all\' text', type: 'internationalizedArrayString' },
         {
           name: 'items',
-          title: 'Relaterte behandlinger',
+          title: 'Related treatments',
           description: 'Select and sort treatments to display in the carousel (Related services).',
           type: 'array',
           of: [
@@ -480,7 +480,7 @@ export default {
     { name: 'insuranceTitle', title: 'Insurance — title', type: 'internationalizedArrayString', group: 'features' },
     {
       name: 'insurancePartners',
-      title: 'Forsikringspartnere',
+      title: 'Insurance partners',
       type: 'array',
       group: 'features',
       of: [{
@@ -501,7 +501,7 @@ export default {
       }],
     },
     // ─── UI Labels ───────────────────────────────────────────────────────────
-    { name: 'expertReadMoreLabel', title: 'Ekspertkort — lenketekst', type: 'internationalizedArrayString', group: 'general' },
+    { name: 'expertReadMoreLabel', title: 'Expert card — link text', type: 'internationalizedArrayString', group: 'general' },
     { name: 'scrollLeftLabel', title: 'Karusell — scroll venstre', type: 'internationalizedArrayString', group: 'general' },
     { name: 'scrollRightLabel', title: 'Carousel — scroll right', type: 'internationalizedArrayString', group: 'general' },
     {
@@ -553,9 +553,9 @@ export default {
     Rule.custom((document: Record<string, unknown> | undefined) => {
       if (!document) return true
       const issues: string[] = []
-      if (!pickNo(document.title)?.trim()) issues.push('Behandlingsnavn (norsk) mangler')
+      if (!pickNo(document.title)?.trim()) issues.push('Treatment name (Norwegian) is missing')
       if (!pickForLang(document.title, 'en')?.trim()) {
-        issues.push('Behandlingsnavn (engelsk) mangler')
+        issues.push('Treatment name (English) is missing')
       }
 
       // Validation for the new flat design fields

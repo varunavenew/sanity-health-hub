@@ -67,7 +67,7 @@ export default {
     },
     {
       name: 'publishedAt',
-      title: 'Publiseringsdato',
+      title: 'Publish date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
     },
@@ -79,7 +79,7 @@ export default {
     },
     {
       name: 'contactName',
-      title: 'Kontaktperson',
+      title: 'Contact person',
       type: 'string',
     },
     {

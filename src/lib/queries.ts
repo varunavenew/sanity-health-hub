@@ -191,7 +191,7 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
       ${i18nString("ctaText")},
       ${i18nString("ctaLink")},
       "image": image.asset->url,
-      "imageRight": imageRight.asset->url,
+      "mobileImage": mobileImage.asset->url,
       "videoUrl": videoFile.asset->url
     }
   },

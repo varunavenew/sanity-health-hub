@@ -1,4 +1,4 @@
-// Schema: Specialists List Page (Om våre spesialister)
+// Schema: Specialists List Page
 import { SpecialistIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
 import { geoSummaryField } from './geoSummary'
@@ -32,7 +32,7 @@ export default {
     },
     {
       name: 'heroImage',
-      title: 'Heltebilde',
+      title: 'Hero image',
       type: 'image',
       options: { hotspot: true },
     },

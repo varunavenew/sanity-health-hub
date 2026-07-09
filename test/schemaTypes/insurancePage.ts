@@ -41,19 +41,19 @@ export default {
     },
     {
       name: 'introText',
-      title: 'Introduksjonstekst',
+      title: 'Intro text',
       type: 'internationalizedArrayText',
     },
     {
       name: 'partners',
-      title: 'Forsikringspartnere',
+      title: 'Insurance partners',
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Name of insurance partners (do not translate)',
     },
     {
       name: 'partnersLocalized',
-      title: 'Forsikringspartnere (oversatt)',
+      title: 'Insurance partners (translated)',
       type: 'array',
       description: 'Used for language-controlled partner names (NO/EN).',
       of: [
@@ -71,7 +71,7 @@ export default {
     },
     {
       name: 'steps',
-      title: 'Steg',
+      title: 'Steps',
       type: 'array',
       of: [
         {
@@ -86,7 +86,7 @@ export default {
     },
     {
       name: 'benefits',
-      title: 'Fordeler',
+      title: 'Benefits',
       type: 'array',
       of: [
         {

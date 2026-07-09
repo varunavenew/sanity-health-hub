@@ -11,7 +11,7 @@ import {
 import { pageSectionsFieldForGroup } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 
-const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
 /** Avoid Studio GroupSelect crashes: skip validation when booking method does not apply. */
 function whenBookingMethod(method: string, validate: (rule: any) => any) {
@@ -29,7 +29,7 @@ export default {
   groups: [
     { name: 'main', title: 'Content', default: true },
     { name: 'booking', title: 'Booking' },
-    { name: 'extras', title: 'FAQ & seksjoner' },
+    { name: 'extras', title: 'FAQ & sections' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
@@ -48,10 +48,10 @@ export default {
     },
     {
       name: 'primaryImage',
-      title: 'Hovedbilde',
+      title: 'Main image',
       type: 'image',
       options: { hotspot: true },
-      validation: reqStr('Hovedbilde'),
+      validation: reqStr('Main image'),
       group: 'main',
     },
     {
@@ -72,14 +72,14 @@ export default {
     },
     {
       name: 'valueProposition',
-      title: 'Verdiforslag',
+      title: 'Value propositions',
       type: 'object',
       options: { collapsible: true },
       group: 'main',
       fields: [
-        { name: 'valueProposition1', title: 'Verdiforslag 1', type: 'internationalizedArrayString' },
+        { name: 'valueProposition1', title: 'Value proposition 1', type: 'internationalizedArrayString' },
         { name: 'valueProposition2', title: 'Opening hours', type: 'string', placeholder: '08:00–16:00' },
-        { name: 'socialProof', title: 'Sosialt bevis', type: 'internationalizedArrayString' },
+        { name: 'socialProof', title: 'Social proof', type: 'internationalizedArrayString' },
       ],
     },
     {
@@ -112,13 +112,13 @@ export default {
     },
     {
       name: 'contactDescription',
-      title: 'Kontaktbeskrivelse',
+      title: 'Contact description',
       type: 'internationalizedArrayText',
       group: 'main',
     },
     {
       name: 'locationSearch',
-      title: 'Koordinater',
+      title: 'Coordinates',
       type: 'object',
       options: { collapsible: true },
       group: 'main',
@@ -169,28 +169,28 @@ export default {
     },
     {
       name: 'detail',
-      title: 'Praktisk informasjon',
+      title: 'Practical information',
       type: 'object',
       options: { collapsible: true },
       group: 'main',
       fields: [
         {
           name: 'parking',
-          title: 'Parkering',
+          title: 'Parking',
           type: 'internationalizedArrayText',
-          validation: requiredNoEnI18n('Parkering'),
+          validation: requiredNoEnI18n('Parking'),
         },
         {
           name: 'publicTransport',
-          title: 'Kollektivtransport',
+          title: 'Public transport',
           type: 'internationalizedArrayText',
-          validation: requiredNoEnI18n('Kollektivtransport'),
+          validation: requiredNoEnI18n('Public transport'),
         },
         {
           name: 'accessibility',
-          title: 'Tilgjengelighet',
+          title: 'Accessibility',
           type: 'internationalizedArrayText',
-          validation: requiredNoEnI18n('Tilgjengelighet'),
+          validation: requiredNoEnI18n('Accessibility'),
         },
       ],
     },
@@ -209,7 +209,7 @@ export default {
             layout: 'radio',
             list: [
               { title: 'Show screen with contact info', value: 'info' },
-              { title: 'Show Pasientsky form', value: 'pasientsky' },
+              { title: 'Show PatientSky form', value: 'pasientsky' },
               { title: 'Show Metodika form', value: 'metodika' },
               { title: 'Closed for booking', value: 'closed' },
             ],
@@ -224,7 +224,7 @@ export default {
           type: 'string',
           validation: whenBookingMethod('pasientsky', (rule) =>
             rule.custom((value: string | undefined) =>
-              value?.trim() ? true : 'Pasientsky Service Provider ID is required',
+              value?.trim() ? true : 'PatientSky Service Provider ID is required',
             ),
           ),
         },

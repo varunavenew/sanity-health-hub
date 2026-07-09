@@ -21,12 +21,12 @@ export default {
     }),
     {
       name: 'heroSubtitle',
-      title: 'Hero – undertittel',
+      title: 'Hero - subtitle',
       type: 'internationalizedArrayText',
     },
     {
       name: 'showCategorySections',
-      title: 'Vis behandlingskategorier',
+      title: 'Show treatment categories',
       type: 'boolean',
       initialValue: true,
     },
@@ -47,12 +47,12 @@ export default {
     },
     {
       name: 'ctaSubtitle',
-      title: 'CTA – undertittel',
+      title: 'CTA - subtitle',
       type: 'internationalizedArrayText',
     },
     {
       name: 'ctaButtonLabel',
-      title: 'CTA – knappetekst',
+      title: 'CTA - button text',
       type: 'internationalizedArrayString',
     },
     {

@@ -12,9 +12,9 @@ import { pageSectionsField } from './pageSections'
 import { geoSummaryField } from './geoSummary'
 
 const reqI18n = requiredNoEnI18n
-const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} er påkrevd`)
+const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
-/** Reference picker: only treatments whose Kategori points at this category document. */
+/** Reference picker: only treatments whose category points at this category document. */
 function treatmentRefsForCategoryFilter({
   document,
 }: {
@@ -70,7 +70,7 @@ const statItem = {
 
 export default {
   name: 'treatmentCategory',
-  title: 'Behandlingskategori',
+  title: 'Treatment category',
   type: 'document',
   icon: CategoryIcon,
   groups: [
@@ -83,10 +83,10 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Kategorinavn',
+      title: 'Category name',
       type: 'internationalizedArrayString',
       group: 'general',
-      validation: reqI18n('Kategorinavn'),
+      validation: reqI18n('Category name'),
     },
     {
       ...i18nSlugFieldFromTitle('title'),

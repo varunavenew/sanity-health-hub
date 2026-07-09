@@ -1,4 +1,4 @@
-// Schema: About Page (Om oss)
+// Schema: About Page
 // Aligned with migration data: title, subtitle, body (blockContent), seo
 import { GenericIcon } from './icons'
 import { i18nSlugFieldFromTitle } from './i18n'
@@ -68,7 +68,7 @@ export default {
       fields: [
         {
           name: 'showSection',
-          title: 'Vis seksjonen',
+          title: 'Show section',
           type: 'boolean',
           initialValue: true,
         },
@@ -76,7 +76,7 @@ export default {
           name: 'title',
           title: 'Heading',
           type: 'internationalizedArrayString',
-          description: 'F.eks. «Våre klinikker»',
+          description: 'For example: "Our clinics"',
         },
         {
           name: 'clinics',
@@ -84,7 +84,7 @@ export default {
           type: 'array',
           of: [{ type: 'reference', to: [{ type: 'clinicPage' }] }],
           description:
-            'Velg rekkefølge. La stå tom for å liste alle publiserte klinikker automatisk.',
+            'Choose the order. Leave empty to list all published clinics automatically.',
         },
       ],
     },

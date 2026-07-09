@@ -30,7 +30,7 @@ export const subTreatmentLayoutType = {
   type: 'object',
   fields: [
     { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', ...i18nString },
-    { name: 'srOnlyTitle', title: 'Skjult H1', ...i18nString },
+    { name: 'srOnlyTitle', title: 'Hidden H1', ...i18nString },
     { name: 'themesAriaLabel', title: 'Temaer — aria-label', ...i18nString },
     { name: 'seePricesLabel', title: 'See prices — text', ...i18nString },
     { name: 'seePricesHref', title: 'See prices — link', type: 'string', validation: validateRelativePath },
@@ -42,7 +42,7 @@ export const subTreatmentLayoutType = {
     { name: 'insuranceTitle', title: 'Insurance — title', ...i18nString },
     {
       name: 'insurancePartners',
-      title: 'Forsikringspartnere',
+      title: 'Insurance partners',
       type: 'array',
       of: [{
         type: 'object',
@@ -79,7 +79,7 @@ export const subTreatmentLayoutType = {
         },
       ],
     },
-    { name: 'rating', title: 'Vurdering / tagline', ...i18nString },
+    { name: 'rating', title: 'Rating / tagline', ...i18nString },
     { name: 'heroPrice', title: 'Hero — prislinje', ...i18nString },
     { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean' },
     { name: 'heroAvailability', title: 'Hero — tilgjengelighet', ...i18nString },
@@ -125,7 +125,7 @@ export const subTreatmentLayoutType = {
         {
           type: 'object',
           fields: [
-            { name: 'n', title: 'Nummer', ...i18nString },
+            { name: 'n', title: 'Number', ...i18nString },
             { name: 'title', title: 'Title', ...i18nString },
             { name: 'desc', title: 'Description', ...i18nText },
           ],
@@ -164,7 +164,7 @@ export const subTreatmentLayoutType = {
         { name: 'description', title: 'Ingress', ...i18nText },
         {
           name: 'items',
-          title: 'Kort',
+          title: 'Cards',
           type: 'array',
           of: [
             {
@@ -215,7 +215,7 @@ export const subTreatmentLayoutType = {
             {
               type: 'object',
               fields: [
-                { name: 'n', title: 'Nummer', ...i18nString },
+                { name: 'n', title: 'Number', ...i18nString },
                 { name: 'title', title: 'Title', ...i18nString },
                 { name: 'desc', title: 'Description', ...i18nText },
               ],

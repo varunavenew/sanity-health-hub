@@ -1,5 +1,5 @@
 // Schema: Block Content (rik tekst)
-// Gjenbrukbart Portable Text-skjema for brødtekst
+// Reusable Portable Text schema for body text
 import { BlockContentIcon } from './icons'
 
 export default {
@@ -15,16 +15,16 @@ export default {
         { title: 'Heading 2', value: 'h2' },
         { title: 'Heading 3', value: 'h3' },
         { title: 'Heading 4', value: 'h4' },
-        { title: 'Sitat', value: 'blockquote' },
+        { title: 'Quote', value: 'blockquote' },
       ],
       lists: [
-        { title: 'Punktliste', value: 'bullet' },
-        { title: 'Nummerert liste', value: 'number' },
+        { title: 'Bullet list', value: 'bullet' },
+        { title: 'Numbered list', value: 'number' },
       ],
       marks: {
         decorators: [
-          { title: 'Fet', value: 'strong' },
-          { title: 'Kursiv', value: 'em' },
+          { title: 'Bold', value: 'strong' },
+          { title: 'Italic', value: 'em' },
         ],
         annotations: [
           {
