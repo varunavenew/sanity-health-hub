@@ -399,3 +399,25 @@
     height: 0;
   }
 }
+
+/* ===== Inline edit mode (auto-editable scope) =====
+   When body has `.cm-edit-mode`, subtle outlines appear on hover/focus of any
+   text-bearing element inside an EditableAutoScope. Purely visual — behavior
+   is handled in TypeScript. */
+body.cm-edit-mode [data-editable-scope] [data-auto-field] {
+  outline: 1px dashed hsl(var(--brand-dark) / 0.25);
+  outline-offset: 2px;
+  border-radius: 2px;
+  transition: outline-color 120ms ease, background-color 120ms ease;
+}
+body.cm-edit-mode [data-editable-scope] [data-auto-field]:hover {
+  outline-color: hsl(var(--brand-dark) / 0.6);
+}
+body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus,
+body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus-within {
+  outline: 2px solid hsl(var(--brand-dark));
+  background-color: hsl(var(--brand-light) / 0.6);
+}
+body.cm-edit-mode [data-editable-scope] {
+  caret-color: hsl(var(--brand-dark));
+}
