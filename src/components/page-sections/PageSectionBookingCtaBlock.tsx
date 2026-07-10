@@ -14,7 +14,7 @@ export function PageSectionBookingCtaBlock({ config }: Props) {
       subtitle={config.subtitle}
       image={config.image}
       imageAlt={config.imageAlt}
-      variant={config.variant}
+      variant="dark"
       primaryLabel={config.primaryLabel}
       primaryPath={config.primaryPath}
       bookingCategoryId={config.bookingCategory?.categoryId}

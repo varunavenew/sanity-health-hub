@@ -479,7 +479,12 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       {bookingCtaSections.length > 0 ? (
         <PageSectionsRenderer sections={bookingCtaSections} />
       ) : (
-        <BookingCTA primaryPath={clinicBookingPath} />
+        <BookingCTA
+          primaryPath={clinicBookingPath}
+          title={`Bestill time ved CMedical ${label}`}
+          subtitle="Velg tjeneste, klinikk og behandler – alt i én enkel booking."
+          variant="dark"
+        />
       )}
       {otherPageSections.length > 0 ? (
         <PageSectionsRenderer sections={otherPageSections} />

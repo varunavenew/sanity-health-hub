@@ -41,9 +41,9 @@ export default {
             { name: 'heading', title: 'Heading', type: 'internationalizedArrayString' },
             {
               name: 'paragraphs',
-              title: 'Paragraph',
+              title: 'Paragraphs',
               type: 'array',
-              of: [{ type: 'internationalizedArrayText' }],
+              of: [{ type: 'text' }],
             },
             {
               name: 'bulletPoints',
@@ -68,7 +68,7 @@ export default {
     {
       name: 'lifePhases',
       title: 'Livsfaser',
-      description: 'Used on the Women\'s Health page to show different life phases',
+      description: "Used on the Women's Health page to show different life phases",
       type: 'array',
       of: [
         {

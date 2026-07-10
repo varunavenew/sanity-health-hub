@@ -93,30 +93,9 @@ export default defineType({
       validation: requiredNoEnI18n('Social media section title'),
     }),
     defineField({
-      name: 'breadcrumbHomeLabel',
-      title: 'Breadcrumb – home',
-      type: 'internationalizedArrayString',
-      validation: requiredNoEnI18n('Breadcrumb – home'),
-    }),
-    defineField({
-      name: 'socialMode',
-      title: 'Source for social posts',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Sanity-innlegg', value: 'cms'},
-          {title: 'Instagram API', value: 'api'},
-          {title: 'Lokale eksempelinnlegg', value: 'local'},
-          {title: 'Hide section', value: 'hidden'},
-        ],
-        layout: 'radio',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'socialPosts',
       title: 'Social media posts',
-      description: 'Images displayed in the \'Follow us on social media\' section. The order here is the display order.',
+      description: "Images displayed in the 'Follow us on social media' section. The order here is the display order.",
       type: 'array',
       of: [
         {
@@ -167,28 +146,10 @@ export default defineType({
           },
         },
       ],
-      validation: (Rule) =>
-        Rule.max(12).custom((value: unknown, context: any) => {
-          if (context.parent?.socialMode === 'cms' && (!Array.isArray(value) || value.length === 0)) {
-            return 'Select at least one Sanity post when the source is Sanity.'
-          }
-          return true
-        }),
-      hidden: ({ parent }) => parent?.socialMode !== 'cms',
+      validation: (Rule) => Rule.max(12),
     }),
-    defineField({
-      name: 'socialPostLimit',
-      title: 'Maximum number of social media posts',
-      type: 'number',
-      validation: (Rule) =>
-        Rule.integer().min(1).max(12).custom((value: unknown, context: any) => {
-          if (context.parent?.socialMode !== 'hidden' && typeof value !== 'number') {
-            return 'Number of social media posts is required.'
-          }
-          return true
-        }),
-      hidden: ({ parent }) => parent?.socialMode === 'hidden',
-    }),
+
+
     defineField({
       name: 'featuredArticles',
       title: 'Featured articles (top 4)',
@@ -197,47 +158,8 @@ export default defineType({
       of: [{type: 'reference', to: [{type: 'article'}]}],
       validation: (Rule) => Rule.max(4),
     }),
-    defineField({
-      name: 'filters',
-      title: 'Artikkelfiltre',
-      description: 'First filter should be \'All\' and have an empty category list.',
-      type: 'array',
-      of: [{
-        type: 'object',
-        name: 'newsFilter',
-        fields: [
-          {
-            name: 'key',
-            title: 'Stable key',
-            type: 'string',
-            validation: (Rule: any) => Rule.required().regex(/^[a-z][a-zA-Z0-9_-]*$/),
-          },
-          {
-            name: 'label',
-            title: 'Visningsnavn',
-            type: 'internationalizedArrayString',
-            validation: requiredNoEnI18n('Filternavn'),
-          },
-          {
-            name: 'acceptedArticleCategories',
-            title: 'Allowed article categories',
-            type: 'array',
-            of: [{type: 'string'}],
-            validation: (Rule: any) => Rule.unique(),
-          },
-        ],
-        preview: {
-          select: {title: 'label', subtitle: 'key'},
-        },
-      }],
-      validation: (Rule) => Rule.required().min(1).unique(),
-    }),
-    defineField({
-      name: 'listSize',
-      title: 'Antall artikler per innlasting',
-      type: 'number',
-      validation: (Rule) => Rule.required().integer().min(1).max(48),
-    }),
+
+
     defineField({
       name: 'seo',
       title: 'SEO',

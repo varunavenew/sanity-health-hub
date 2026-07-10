@@ -117,7 +117,7 @@ export default {
       name: 'email',
       title: 'Email',
       type: 'string',
-      validation: (Rule: any) => Rule.required().email().error('Valid email is required'),
+      validation: (Rule: any) => Rule.email().error('Must be a valid email address'),
       group: 'main',
     },
     {
