@@ -37,6 +37,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
   const treatmentPageUi = siteSettings?.treatmentPageUi;
 
   const locale = params.locale === "en" ? "en" : "nb";
+  const loadingLabel = locale === "en" ? "Loading..." : "Laster...";
   const categoryPath = treatment?.parentSlug
     ? `/${treatment.parentSlug}`
     : category?.slug
@@ -63,7 +64,7 @@ const TreatmentPageContent = ({ categoryId, isChatOpen }: TreatmentPageContentPr
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center">
           <p className="text-muted-foreground font-light">
-            {treatmentPageUi?.loadingLabel}
+            {loadingLabel}
           </p>
         </div>
       </PageLayout>

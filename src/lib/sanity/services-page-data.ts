@@ -54,8 +54,6 @@ export type ServicesPageData = {
   moreServicesItems: ServicesPageListItem[];
   faqSectionTitle: string;
   faqs: ServicesPageFaq[];
-  loadingLabel: string;
-  pageErrorMessage: string;
   emptyCategoriesMessage: string;
   pageSections?: ReturnType<typeof normalizePageSections>;
   seo?: {
@@ -183,8 +181,6 @@ export function mapServicesPageDocument(
     moreServicesItems,
     faqSectionTitle: asPlainString(data.faqSectionTitle),
     faqs,
-    loadingLabel: asPlainString(data.loadingLabel),
-    pageErrorMessage: asPlainString(data.pageErrorMessage),
     emptyCategoriesMessage: asPlainString(data.emptyCategoriesMessage),
     pageSections: normalizePageSections(data.pageSections),
     seo: seoRaw

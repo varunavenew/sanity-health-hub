@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 
 import BurgerMenu from "@/components/BurgerMenu";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { DEFAULT_MAIN_NAVIGATION } from "@/lib/navigation/default-main-navigation";
+import { DEFAULT_MAIN_NAVIGATION, withRequiredMainNavigation } from "@/lib/navigation/default-main-navigation";
 import cmWordmarkNegative from "@/assets/logos/cm-wordmark-negative.png";
 
 interface PageLayoutProps {
@@ -54,7 +54,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
   const navItems = useMemo(() => {
     const raw = siteSettings?.mainNavigation?.length
-      ? siteSettings.mainNavigation
+      ? withRequiredMainNavigation(siteSettings.mainNavigation)
       : DEFAULT_MAIN_NAVIGATION;
     return raw.map((item: { _key?: string; label?: string; path?: string; navId?: string; isServicesDropdown?: boolean }) => ({
       ...item,

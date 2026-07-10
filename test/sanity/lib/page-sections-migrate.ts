@@ -334,6 +334,22 @@ export function buildHomepageBookingCtaSection() {
   return buildBookingCtaSection({ key: 'homepage-booking-cta' })
 }
 
+/** Booking CTA for individual clinic detail pages (ClinicDetailPage). */
+export function buildClinicBookingCtaSection(options: {
+  slug: string
+  labelNo: string
+  labelEn?: string
+}) {
+  const { slug, labelNo, labelEn = labelNo } = options
+  return buildBookingCtaSection({
+    key: `booking-cta-${slug}`,
+    titleNo: `Bestill time ved CMedical ${labelNo}`,
+    titleEn: `Book an appointment at CMedical ${labelEn}`,
+    primaryPath: `/booking?klinikk=${encodeURIComponent(slug)}`,
+    variant: 'warm',
+  })
+}
+
 export function bookingPathForTreatment(kategori: string, tjeneste?: string): string {
   const sp = new URLSearchParams()
   if (kategori.trim()) sp.set('kategori', kategori.trim())

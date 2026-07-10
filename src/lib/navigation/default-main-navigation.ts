@@ -19,3 +19,15 @@ export type MainNavItemSeed = {
   navId?: string;
   isServicesDropdown?: boolean;
 };
+
+export function withRequiredMainNavigation(items: readonly MainNavItemSeed[]): MainNavItemSeed[] {
+  const next = [...items];
+  const hasClinics = next.some((item) => item.navId === "clinics" || item.path === "/klinikker" || item.path === "/clinics");
+  if (!hasClinics) {
+    const contactIndex = next.findIndex((item) => item.navId === "contact" || item.path === "/kontakt" || item.path === "/contact");
+    const clinicsItem = { _key: "klinikker", navId: "clinics" };
+    if (contactIndex >= 0) next.splice(contactIndex, 0, clinicsItem);
+    else next.push(clinicsItem);
+  }
+  return next;
+}

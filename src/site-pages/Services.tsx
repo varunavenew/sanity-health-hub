@@ -34,7 +34,11 @@ const Services = ({ isChatOpen }: PageProps) => {
   const locale = params?.locale === "en" ? "en" : "nb";
   const routeLocale: AppLocale = params?.locale === "en" ? "en" : "no";
   const { data: page, isPending } = useServicesPage();
-  const loadingLabel = page?.loadingLabel || "";
+  const loadingLabel = locale === "en" ? "Loading services..." : "Laster tjenester...";
+  const pageErrorMessage =
+    locale === "en"
+      ? "We could not load the services page right now."
+      : "Vi kunne ikke laste tjenestesiden akkurat nå.";
   const servicesPath = page?.slug
     ? withLocalePath(routeLocale, `/${page.slug}`)
     : "";
@@ -129,7 +133,7 @@ const Services = ({ isChatOpen }: PageProps) => {
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[40vh] flex items-center justify-center px-6 text-center">
           <p className="text-muted-foreground font-light max-w-md">
-            {page?.pageErrorMessage}
+            {pageErrorMessage}
           </p>
         </div>
       </PageLayout>

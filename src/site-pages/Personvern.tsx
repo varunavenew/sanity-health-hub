@@ -84,8 +84,7 @@ const Personvern = ({ isChatOpen = false }: PersonvernProps) => {
   const ogImage = sanityData?.seo?.ogImage
     ? getImageUrl(sanityData.seo.ogImage)
     : undefined;
-  const loadingLabel =
-    sanityData?.loadingLabel || (isEn ? "Loading…" : "Laster innhold…");
+  const loadingLabel = isEn ? "Loading..." : "Laster innhold...";
   const schemaLocale = locale === "en" ? "en" : "nb";
   const hasSanityBody = sanityData?.body && sanityData.body.length > 0;
 

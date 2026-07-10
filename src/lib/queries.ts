@@ -30,7 +30,6 @@ const i18nNestedText = (parent: string, field: string) =>
 
 const SPECIALIST_PROFILE_UI_GROQ = `
   "profileUi": profileUi {
-    ${i18nNestedString("profileUi", "loadingLabel")},
     ${i18nNestedString("profileUi", "notFoundTitle")},
     ${i18nNestedString("profileUi", "notFoundBackLabel")},
     ${i18nNestedString("profileUi", "breadcrumbHomeLabel")},
@@ -494,7 +493,6 @@ const CATEGORY_LANDING_GROQ = `
 export const TREATMENT_CATEGORY_BY_SLUG_QUERY = `*[_type == "treatmentCategory" && (${slugMatchesParam("slug")} || categoryId == $slug)][0]{
   _id, title, ${localizedSlug}, categoryId, categoryNumericId,
   ${i18nText('geoSummary')},
-  ${i18nString('loadingLabel')},
   ${i18nText('missingLandingMessage')},
   "heroImage": heroImage.asset->url,
   "heroVideo": heroVideo.asset->url,
@@ -633,7 +631,6 @@ export const PRIVACY_POLICY_PAGE_QUERY = `*[_type == "privacyPolicyPage"][0]{
   ${i18nString('title')},
   ${localizedSlug},
   ${i18nBlockContent('body')},
-  ${i18nString('loadingLabel')},
   ${i18nText('emptyMessage')},
   cookiebotKey,
   ${PAGE_SECTIONS_GROQ},
@@ -962,8 +959,6 @@ export const SERVICES_PAGE_QUERY = `*[_type == "servicesPage"][0]{
   ${i18nString("searchPlaceholder")},
   ${i18nString("featuredSectionTitle")},
   ${i18nString("faqSectionTitle")},
-  ${i18nString("loadingLabel")},
-  ${i18nText("pageErrorMessage")},
   ${i18nText("emptyCategoriesMessage")},
   faqs[]{
     ${i18nString("question")},
@@ -1026,6 +1021,10 @@ export const CLINIC_BY_SLUG_QUERY = `*[_type == "clinicPage" && ${publishedClini
   valueProposition,
   locationSearch,
   "primaryImage": primaryImage.asset->url,
+  "gallery": gallery[]{
+    "url": asset->url,
+    alt
+  },
   booking,
   detail,
   faqs[]{${localizedFaqRow}},
@@ -1139,7 +1138,6 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   address,
   socialMedia,
   "treatmentPageUi": treatmentPageUi{
-    ${i18nNestedString("treatmentPageUi", "loadingLabel")},
     ${i18nNestedString("treatmentPageUi", "notFoundTitle")},
     ${i18nNestedText("treatmentPageUi", "notFoundBody")},
     ${i18nNestedString("treatmentPageUi", "backLabel")}

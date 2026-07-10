@@ -22,12 +22,6 @@ export default {
       type: 'internationalizedArrayBlockContent',
     },
     {
-      name: 'loadingLabel',
-      title: 'Loading Text',
-      type: 'internationalizedArrayString',
-      description: 'Displayed while the privacy policy is loading.',
-    },
-    {
       name: 'emptyMessage',
       title: 'Message when content is missing',
       type: 'internationalizedArrayText',

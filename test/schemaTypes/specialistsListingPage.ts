@@ -72,7 +72,6 @@ export default {
         'Common texts on individual specialist pages (/specialists/[slug]). Use {firstName} where first name should be inserted.',
       options: { collapsible: true, collapsed: true },
       fields: [
-        profileUiStringField('loadingLabel', 'Loading Text', 'Displayed while the profile is fetched.'),
         profileUiStringField('notFoundTitle', 'Not found – title'),
         profileUiStringField('notFoundBackLabel', 'Not found – back button'),
         profileUiStringField('breadcrumbHomeLabel', 'Breadcrumb – home'),

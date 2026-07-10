@@ -13,6 +13,20 @@ import { useParams } from "@/lib/router";
 import { useTranslation } from "react-i18next";
 import { SplitHero } from "@/components/layout/SplitHero";
 import { Button } from "@/components/ui/button";
+import { clinics as staticClinics } from "@/data/clinicServices";
+import type { ImageRef } from "@/lib/media";
+
+import majorstuenVenteromTv from "@/assets/clinics/majorstuen/venterom-tv.asset.json";
+import imgBekkestua from "@/assets/clinics/bekkestua.jpg";
+import imgMoss from "@/assets/clinics/moss.jpg";
+import imgMoelv from "@/assets/clinics/moelv.jpg";
+
+const clinicImages: Record<string, ImageRef> = {
+  majorstuen: majorstuenVenteromTv.url,
+  bekkestua: imgBekkestua,
+  moss: imgMoss,
+  moelv: imgMoelv,
+};
 
 function formatEyebrow(template: string, count: number): string {
   return template.replace(/\{count\}/g, String(count));
@@ -29,10 +43,32 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
   const navigate = useNavigate();
   const { data: page } = useClinicsPage();
   const { data: sanityClinics = [] } = useClinics();
-  const list: any[] = sanityClinics.map((c: any) => ({
-    ...c,
-    detail: c.detail || {},
-  }));
+  const sanityBySlug = new Map(sanityClinics.map((clinic: any) => [clinic.slug, clinic]));
+  const usedSlugs = new Set<string>();
+  const mergedStaticClinics = staticClinics.map((staticClinic) => {
+    const fromSanity = sanityBySlug.get(staticClinic.slug);
+    usedSlugs.add(staticClinic.slug);
+    if (!fromSanity) return staticClinic;
+
+    const overrides: Record<string, any> = {};
+    for (const [key, value] of Object.entries(fromSanity)) {
+      if (value !== null && value !== undefined && value !== "") overrides[key] = value;
+    }
+
+    return {
+      ...staticClinic,
+      ...overrides,
+      detail: { ...staticClinic.detail, ...(fromSanity.detail || {}) },
+    };
+  });
+  const extraSanityClinics = sanityClinics
+    .filter((clinic: any) => clinic.slug && !usedSlugs.has(clinic.slug))
+    .map((clinic: any) => ({ ...clinic, detail: clinic.detail || {} }));
+  const list: any[] = [...mergedStaticClinics, ...extraSanityClinics].sort((a, b) => {
+    const ao = typeof a.sortOrder === "number" ? a.sortOrder : 999;
+    const bo = typeof b.sortOrder === "number" ? b.sortOrder : 999;
+    return ao - bo;
+  });
 
   const clinicCount = list.length;
   const heroEyebrow = page?.heroEyebrow?.trim()
@@ -128,42 +164,38 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
         {list.map((clinic: (typeof list)[number], idx: number) => {
           const detailHref = `/klinikker/${clinic.slug}`;
           const serviceCount = clinic.services?.length || 0;
-          const image = clinic.primaryImage;
+          const image = clinic.primaryImage || clinicImages[clinic.slug];
           const reverse = idx % 2 === 1;
-          const altBg = idx % 2 === 1 ? "bg-brand-warm/40" : "bg-background";
 
           return (
             <div
               key={clinic.id}
-              className={`${altBg} border-t border-border/40`}
+              className="relative grid min-h-screen grid-cols-1 border-t border-border/40 lg:grid-cols-2"
             >
-              <div className="container mx-auto px-6 md:px-16 py-12 md:py-20">
-                <div
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
-                    reverse ? "lg:[&>*:first-child]:order-2" : ""
-                  }`}
-                >
-                  <Link
-                    to={detailHref}
-                    className="group block overflow-hidden rounded-sm aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5]"
-                    aria-label={`Les mer om CMedical ${clinic.label}`}
-                  >
-                    {image ? (
-                      <AssetImg
-                        src={image}
-                        alt={`CMedical ${clinic.label}`}
-                        loading="lazy"
-                        width={1024}
-                        height={1024}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-brand-mid/20" />
-                    )}
-                  </Link>
+              <Link
+                to={detailHref}
+                className={`group relative block h-[60vh] overflow-hidden lg:h-auto lg:min-h-screen ${
+                  reverse ? "lg:order-2" : ""
+                }`}
+                aria-label={`Les mer om CMedical ${clinic.label}`}
+              >
+                {image ? (
+                  <AssetImg
+                    src={image}
+                    alt={`CMedical ${clinic.label}`}
+                    loading="lazy"
+                    width={1280}
+                    height={1280}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-brand-mid/20" />
+                )}
+              </Link>
 
-                  <div className="flex flex-col">
-                    <p className="text-xs text-muted-foreground font-light uppercase tracking-[0.15em] mb-3">
+              <div className={`flex items-center bg-background ${reverse ? "lg:order-1" : ""}`}>
+                <div className="w-full max-w-xl px-6 py-12 md:px-12 lg:px-16 lg:py-20">
+                    <p className="mb-3 text-xs font-light uppercase tracking-[0.15em] text-muted-foreground">
                       Klinikk
                     </p>
                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-light text-brand-dark leading-tight mb-5">
@@ -248,7 +280,6 @@ const Clinics = ({ isChatOpen }: ClinicsProps) => {
                         </a>
                       )}
                     </div>
-                  </div>
                 </div>
               </div>
             </div>

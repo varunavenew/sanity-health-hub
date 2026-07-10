@@ -48,16 +48,16 @@ export function slugMatchesParam(paramName: string): string {
 
 /** Match slug param on a reference path (e.g. `category->slug`). */
 export function slugMatchesRefParam(refPath: string, paramName: string): string {
-  return slugMatchExpr(`${refPath}.slug`, paramName);
+  return slugMatchExpr(`${refPath}->slug`, paramName);
 }
 
 /** Project a referenced document's slug under a custom result key. */
 export const localizedRefSlugField = (refPath: string, asName = "slug") =>
   `"${asName}": coalesce(
-    ${refPath}.slug[language == $lang][0].value.current,
-    ${refPath}.slug[_key == $lang][0].value.current,
-    ${refPath}.slug[language == "no"][0].value.current,
-    ${refPath}.slug[_key == "no"][0].value.current,
-    ${refPath}.slug[0].value.current,
-    ${refPath}.slug.current
+    ${refPath}->slug[language == $lang][0].value.current,
+    ${refPath}->slug[_key == $lang][0].value.current,
+    ${refPath}->slug[language == "no"][0].value.current,
+    ${refPath}->slug[_key == "no"][0].value.current,
+    ${refPath}->slug[0].value.current,
+    ${refPath}->slug.current
   )`;

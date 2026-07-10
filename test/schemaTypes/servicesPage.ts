@@ -235,27 +235,6 @@ export default {
       ],
       validation: (Rule: any) => Rule.required().min(1),
     },
-    {
-      name: "loadingLabel",
-      title: "Loading Text",
-      group: "content",
-      ...i18nString,
-      validation: requiredNoEnI18n("Loading Text"),
-    },
-    {
-      name: "pageErrorMessage",
-      title: "Error Message for the Page",
-      group: "content",
-      ...i18nText,
-      validation: requiredNoEnI18n("Error Message for the Page"),
-    },
-    {
-      name: "emptyCategoriesMessage",
-      title: "Message when categories are missing",
-      group: "content",
-      ...i18nText,
-      validation: requiredNoEnI18n("Message when categories are missing"),
-    },
     pageSectionsField,
     {
       name: "seo",
