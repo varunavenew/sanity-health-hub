@@ -100,7 +100,13 @@ async function main() {
     gallery
   }`);
 
-  const bySlug = new Map(clinics.map((c) => [c.slug || "", c]));
+  // Match by slug when present, otherwise fall back to `_id` suffix
+  // (docs are stored as `clinicPage-<slug>` in this dataset).
+  const bySlug = new Map<string, typeof clinics[number]>();
+  for (const c of clinics) {
+    const key = c.slug || c._id.replace(/^clinicPage-/, "");
+    bySlug.set(key, c);
+  }
   console.log(`Found ${clinics.length} clinicPage docs in Sanity.\n`);
 
   for (const [slug, file] of Object.entries(PRIMARY)) {
