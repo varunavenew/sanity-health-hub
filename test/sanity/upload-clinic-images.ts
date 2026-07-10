@@ -115,6 +115,18 @@ async function main() {
       console.warn(`• ${slug}: no matching clinicPage in Sanity — skipping primary`);
       continue;
     }
+
+    // Backfill missing slug (docs in this dataset have slug.current = null,
+    // which breaks the frontend merge in Clinics.tsx and CLINIC_BY_SLUG_QUERY).
+    if (!doc.slug) {
+      console.log(`  slug ← "${slug}" (was null)`);
+      if (!dryRun) {
+        await sanityClient
+          .patch(doc._id)
+          .set({ slug: { _type: "slug", current: slug } })
+          .commit();
+      }
+    }
     if (doc.primaryImage?.asset && !overwrite) {
       console.log(`• ${slug}: primary already set — skip`);
     } else {
