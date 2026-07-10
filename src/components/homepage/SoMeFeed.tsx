@@ -7,25 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { ImageRef } from "@/lib/media";
 
-// Local fallback images
-import socialPost1 from "@/assets/social/social-post-1.jpg";
-import socialPost2 from "@/assets/social/social-post-2.jpg";
-import socialPost3 from "@/assets/social/social-post-3.jpg";
-import socialPost4 from "@/assets/social/social-post-4.jpg";
-import socialPost5 from "@/assets/social/social-post-5.jpg";
-import socialPost6 from "@/assets/social/social-post-6.jpg";
-
-const fallbackPosts = [
-  { id: "1", platform: "instagram" as const, image: socialPost1, caption: "Vårt team er klare for en ny uke med å hjelpe pasienter! 💛 #CMedical #Kvinnehelse", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "2", platform: "instagram" as const, image: socialPost2, caption: "Vi er stolte av å annonsere vår nye robotassisterte kirurgienhet.", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "3", platform: "instagram" as const, image: socialPost3, caption: "Visste du at vi tilbyr uforpliktende telefonsamtaler med sykepleier om fertilitet? 🤍", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "4", platform: "instagram" as const, image: socialPost4, caption: "Møt vår nye gynekolog som har spesialisering innen endometriose. Velkommen! 🩺", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "5", platform: "instagram" as const, image: socialPost5, caption: "CMedical deltar på Nordens største konferanse for reproduksjonsmedisin.", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "6", platform: "instagram" as const, image: socialPost6, caption: "Trygge omgivelser for deg og din familie. Velkommen til våre nyrenoverte lokaler ✨", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "7", platform: "instagram" as const, image: socialPost1, caption: "En ny dag, en ny mulighet til å hjelpe familier på veien mot drømmen 🌟", permalink: "https://www.instagram.com/cmedical.no" },
-  { id: "8", platform: "instagram" as const, image: socialPost3, caption: "Vi er her for deg – uansett hvor du er i livet. Bestill en uforpliktende samtale i dag 💙", permalink: "https://www.instagram.com/cmedical.no" },
-];
-
 const PlatformIcon = ({ platform }: { platform: string }) => {
   switch (platform) {
     case "instagram": return <Instagram className="w-4 h-4" />;
@@ -34,12 +15,6 @@ const PlatformIcon = ({ platform }: { platform: string }) => {
     case "youtube": return <Youtube className="w-4 h-4" />;
     default: return <Instagram className="w-4 h-4" />;
   }
-};
-
-const fallbackSocial = {
-  instagram: "https://www.instagram.com/cmedical.no",
-  facebook: "https://www.facebook.com/cmedical.no",
-  linkedin: "https://www.linkedin.com/company/cmedical",
 };
 
 type SoMePost = {
@@ -66,13 +41,13 @@ function defaultPermalinkForPlatform(
 ): string {
   switch (platform) {
     case "facebook":
-      return social.facebook || fallbackSocial.facebook;
+      return social.facebook || "";
     case "linkedin":
-      return social.linkedin || fallbackSocial.linkedin;
+      return social.linkedin || "";
     case "youtube":
-      return social.youtube || fallbackSocial.instagram;
+      return social.youtube || "";
     default:
-      return social.instagram || fallbackSocial.instagram;
+      return social.instagram || "";
   }
 }
 
@@ -99,11 +74,9 @@ export function sanityPostsToSoMeFeed(
 
 const SoMePostImage = ({
   post,
-  fallbackImage,
   className,
 }: {
   post: SoMePost;
-  fallbackImage?: ImageRef;
   className?: string;
 }) => {
   const [src, setSrc] = useState<ImageRef>(post.image);
@@ -114,7 +87,7 @@ const SoMePostImage = ({
       alt={post.alt || ""}
       loading="lazy"
       className={className}
-      onError={fallbackImage ? () => setSrc(fallbackImage) : undefined}
+      onError={() => setSrc("")}
     />
   );
 };
@@ -125,17 +98,17 @@ interface SoMeFeedProps {
   /** CMS posts from Sanity — takes priority over live Instagram feed */
   posts?: SanitySocialPost[] | null;
   /** Select one source explicitly; sources never fall through to one another. */
-  sourceMode?: "cms" | "api" | "local";
+  sourceMode?: "cms" | "api";
 }
 
 export const SoMeFeed = ({
   maxPosts,
   compact,
   posts: cmsPosts,
-  sourceMode = "local",
+  sourceMode = "cms",
 }: SoMeFeedProps = {}) => {
   const { data: settings } = useSiteSettings();
-  const social = settings?.socialMedia || fallbackSocial;
+  const social = settings?.socialMedia || {};
 
   const { data: livePosts } = useQuery({
     queryKey: ["instagram-feed"],
@@ -154,15 +127,13 @@ export const SoMeFeed = ({
       platform: "instagram" as const,
       image: p.image,
       caption: p.caption || "",
-      permalink: p.permalink || fallbackSocial.instagram,
+      permalink: p.permalink || social.instagram || "",
     }));
 
   const posts: SoMePost[] =
     sourceMode === "cms"
       ? cmsMapped
-      : sourceMode === "api"
-        ? instagramPosts
-        : fallbackPosts;
+      : instagramPosts;
 
   const socialLinks = [
     social?.instagram && { platform: "Instagram", url: social.instagram, icon: Instagram },
@@ -179,7 +150,7 @@ export const SoMeFeed = ({
   if (compact) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {displayPosts.map((post, index) => (
+        {displayPosts.map((post) => (
           <a
             key={post.id}
             href={post.permalink}
@@ -189,11 +160,6 @@ export const SoMeFeed = ({
           >
             <SoMePostImage
               post={post}
-              fallbackImage={
-                sourceMode === "local"
-                  ? fallbackPosts[index % fallbackPosts.length].image
-                  : undefined
-              }
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
@@ -231,15 +197,10 @@ export const SoMeFeed = ({
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-6xl mx-auto">
-          {displayPosts.map((post, index) => (
+          {displayPosts.map((post) => (
             <a key={post.id} href={post.permalink} target="_blank" rel="noopener noreferrer" className="group relative aspect-square rounded-sm overflow-hidden bg-secondary">
               <SoMePostImage
                 post={post}
-                fallbackImage={
-                  sourceMode === "local"
-                    ? fallbackPosts[index % fallbackPosts.length].image
-                    : undefined
-                }
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
