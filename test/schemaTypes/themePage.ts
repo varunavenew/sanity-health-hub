@@ -67,7 +67,7 @@ export default {
     },
     {
       name: 'lifePhases',
-      title: 'Livsfaser',
+      title: 'Life phases',
       description: "Used on the Women's Health page to show different life phases",
       type: 'array',
       of: [
@@ -92,7 +92,7 @@ export default {
     },
     {
       name: 'ctaText',
-      title: 'CTA-knappetekst',
+      title: 'CTA button text',
       type: 'internationalizedArrayString',
     },
     {
@@ -116,8 +116,8 @@ export default {
     },
     prepare({ title, media }: any) {
       const titleStr = Array.isArray(title)
-        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Temaside')
-        : (title || 'Temaside')
+        ? (title.find((t: any) => (t.language || t._key) === 'no')?.value || title[0]?.value || 'Theme page')
+        : (title || 'Theme page')
       return { title: titleStr, media }
     },
   },

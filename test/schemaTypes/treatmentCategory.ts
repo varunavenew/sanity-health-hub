@@ -46,18 +46,16 @@ function treatmentRefsForCategoryFilter({
 const statItem = {
   type: 'object',
   fields: [
-    { name: 'value', title: 'Value', type: 'string', validation: reqStr('Value') },
+    { name: 'value', title: 'Value', type: 'string' },
     {
       name: 'label',
       title: 'Label',
       type: 'internationalizedArrayString',
-      validation: reqI18n('Label'),
     },
     {
       name: 'sub',
       title: 'Subheading',
       type: 'internationalizedArrayString',
-      validation: reqI18n('Subheading'),
     },
   ],
   preview: {
@@ -149,7 +147,6 @@ export default {
       group: 'general',
       type: 'array',
       of: [statItem],
-      validation: (Rule: any) => Rule.required().min(1).error('Add at least one statistics row'),
     },
     {
       name: 'sortOrder',

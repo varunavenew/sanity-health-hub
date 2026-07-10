@@ -808,11 +808,6 @@ const BOOKING_PAGE_I18N_FIELDS = [
   "step3EmptyFetchTitle",
   "step4Heading",
   "step4SelectedDayLabel",
-  "step4NoDaysLabel",
-  "step4TodayLabel",
-  "step4PickTimeLabel",
-  "step4DurationPrefix",
-  "step4LoadingTimes",
   "step4NotOnlineTitle",
   "step4NoSlotsTitle",
   "step5Heading",
@@ -923,6 +918,11 @@ export const PRICING_PAGE_QUERY = `*[_type == "pricingPage"][0]{
     rating,
     text,
     treatment
+  },
+  faqs[]->{
+    _id,
+    sortOrder,
+    ${localizedFaqRow}
   },
   ${PAGE_SECTIONS_GROQ},
   ${GEO_SUMMARY},

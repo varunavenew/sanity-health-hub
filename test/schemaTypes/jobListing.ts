@@ -1,18 +1,18 @@
 // Schema: Job Listing
-// Stillingsannonser for karrieresiden
+// Job listings for the careers page
 import { JobIcon } from './icons'
 import { i18nSlugFieldFromString } from './i18n'
 import { pageSectionsField } from './pageSections'
 
 export default {
   name: 'jobListing',
-  title: 'Stillingsannonse',
+  title: 'Job Listing',
   type: 'document',
   icon: JobIcon,
   fields: [
     {
       name: 'title',
-      title: 'Stillingstittel',
+      title: 'Job title',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
@@ -27,29 +27,29 @@ export default {
           { title: 'Fertility', value: 'fertilitet' },
           { title: 'Urology', value: 'urologi' },
           { title: 'Orthopedics', value: 'ortopedi' },
-          { title: 'Hud', value: 'hud' },
-          { title: 'Administrasjon', value: 'administrasjon' },
-          { title: 'IT / Teknologi', value: 'it' },
-          { title: 'Annet', value: 'annet' },
+          { title: 'Skin', value: 'hud' },
+          { title: 'Administration', value: 'administrasjon' },
+          { title: 'IT / Technology', value: 'it' },
+          { title: 'Other', value: 'annet' },
         ],
       },
     },
     {
       name: 'location',
-      title: 'Arbeidssted',
+      title: 'Workplace',
       type: 'string',
       description: 'E.g. "Oslo Majorstuen", "Bekkestua", "Moss"',
     },
     {
       name: 'employmentType',
-      title: 'Stillingstype',
+      title: 'Employment type',
       type: 'string',
       options: {
         list: [
-          { title: 'Fast stilling', value: 'fast' },
-          { title: 'Deltid', value: 'deltid' },
-          { title: 'Vikar', value: 'vikar' },
-          { title: 'Engasjement', value: 'engasjement' },
+          { title: 'Permanent position', value: 'fast' },
+          { title: 'Part-time', value: 'deltid' },
+          { title: 'Temporary substitute', value: 'vikar' },
+          { title: 'Fixed-term engagement', value: 'engasjement' },
         ],
       },
     },
@@ -123,7 +123,7 @@ export default {
     prepare({ title, subtitle, active }: any) {
       return {
         title: `${active === false ? '🔴 ' : ''}${title}`,
-        subtitle: subtitle || 'Ingen lokasjon',
+        subtitle: subtitle || 'No location',
       };
     },
   },

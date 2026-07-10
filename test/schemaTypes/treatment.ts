@@ -247,7 +247,6 @@ export default {
       type: 'internationalizedArrayString',
       group: 'symptoms',
       description: 'Heading for the symptoms/indications section.',
-      validation: reqI18n('Symptoms — title'),
     },
     { name: 'reasonsLead', title: 'Symptoms — introduction 1', type: 'internationalizedArrayText', group: 'symptoms' },
     { name: 'reasonsLead2', title: 'Symptoms — introduction 2', type: 'internationalizedArrayText', group: 'symptoms' },
@@ -272,7 +271,6 @@ export default {
       type: 'array',
       group: 'symptoms',
       description: 'Add symptoms or indications for this treatment.',
-      validation: (Rule: any) => Rule.required().min(1).error('At least one symptom/indication must be added'),
       of: [
         {
           type: 'object',
@@ -569,17 +567,6 @@ export default {
         issues.push('Hero-ingress (engelsk) mangler')
       }
       // Specialists validation removed as they are now managed under pageSections
-
-      const reasons = document.reasons as unknown[] | undefined
-      if (!Array.isArray(reasons) || reasons.length === 0) {
-        issues.push('At least one symptom/indication must be added')
-      }
-      if (!pickNo(document.reasonsTitle)?.trim()) {
-        issues.push('Symptoms — title (Norwegian) is missing')
-      }
-      if (!pickForLang(document.reasonsTitle, 'en')?.trim()) {
-        issues.push('Symptoms — title (English) is missing')
-      }
 
       const promises = document.promises as unknown[] | undefined
       if (!Array.isArray(promises) || promises.length === 0) {

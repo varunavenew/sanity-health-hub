@@ -8,7 +8,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Link, useNavigate } from "@/lib/router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSpecialistsData } from "@/hooks/useSpecialistsData";
-import { usePricingPage, useFaqs } from "@/hooks/useSanity";
+import { usePricingPage } from "@/hooks/useSanity";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { buildMedicalWebPageGeoJsonLd } from "@/lib/seo/geo-page";
@@ -28,6 +28,12 @@ interface PricingTestimonial {
   rating: number;
   text: string;
   treatment?: string;
+}
+
+interface PricingFaq {
+  _id: string;
+  question: string;
+  answer: string;
 }
 
 interface PriceItem {
@@ -169,7 +175,6 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const { sorted }              = useSpecialistsData();
   const specialists             = sorted.slice(0, 8);
   const { data: sanityPricing } = usePricingPage();
-  const { data: sanityFaqs }    = useFaqs("priser");
 
   const {
     categories: bookingCategories,
@@ -180,11 +185,9 @@ const Priser = ({ isChatOpen }: PageProps) => {
   const hasApiPrices =
     !bookingLoading && !bookingError && bookingCategories.length > 0;
 
-  const faqs = (sanityFaqs ?? []).map((f, i) => ({
-    id: `faq-${i}`,
-    question: f.question,
-    answer: f.answer,
-  }));
+  const faqs: PricingFaq[] = (sanityPricing?.faqs ?? []).filter(
+    (item): item is PricingFaq => Boolean(item?._id && item?.question && item?.answer),
+  );
 
   const testimonials: PricingTestimonial[] = (sanityPricing?.testimonials ?? []).filter(
     (item): item is PricingTestimonial =>
@@ -791,24 +794,24 @@ const Priser = ({ isChatOpen }: PageProps) => {
             ) : null}
             <div className="space-y-0">
               {faqs.map((faq, index) => (
-                <div key={faq.id} className={index !== 0 ? "border-t border-border" : ""}>
+                <div key={faq._id} className={index !== 0 ? "border-t border-border" : ""}>
                   <button
-                    onClick={() => toggleFaq(faq.id)}
+                    onClick={() => toggleFaq(faq._id)}
                     className="w-full flex items-center justify-between py-5 text-left group"
                   >
                     <span className="text-base md:text-lg font-normal text-foreground group-hover:text-foreground/80 transition-colors">
                       {faq.question}
                     </span>
                     <div className={`w-8 h-8 rounded-full border border-border flex items-center justify-center transition-all ${
-                      openFaq === faq.id ? "bg-secondary" : ""
+                      openFaq === faq._id ? "bg-secondary" : ""
                     }`}>
-                      {openFaq === faq.id
+                      {openFaq === faq._id
                         ? <Minus className="w-4 h-4 text-muted-foreground" />
                         : <Plus  className="w-4 h-4 text-muted-foreground" />}
                     </div>
                   </button>
                   <AnimatePresence>
-                    {openFaq === faq.id && (
+                    {openFaq === faq._id && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}

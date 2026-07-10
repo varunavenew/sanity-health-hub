@@ -178,7 +178,7 @@ export default {
     },
     {
       name: 'education',
-      title: 'Utdanning',
+      title: 'Education',
       type: 'array',
       options: { layout: 'list' },
       of: [

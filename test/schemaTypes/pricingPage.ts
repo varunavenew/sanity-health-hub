@@ -103,6 +103,13 @@ export default {
       type: 'internationalizedArrayString',
     },
     {
+      name: 'faqs',
+      title: 'FAQs',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'faq' }] }],
+      description: 'Select FAQ rows to display on the pricing page',
+    },
+    {
       name: 'insuranceNote',
       title: 'Insurance information',
       type: 'internationalizedArrayText',
