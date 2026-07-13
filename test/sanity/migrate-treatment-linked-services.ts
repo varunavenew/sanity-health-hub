@@ -348,7 +348,7 @@ async function main() {
       continue
     }
 
-    const value = buildLinkedServices(items)
+    const value = await buildLinkedServices(items)
     console.log(`  ✦ ${doc._id} [${slugNo}] → ${value.length} linked service(s)`)
     if (DRY_RUN) continue
 
