@@ -18,6 +18,8 @@
  */
 
 import { randomUUID } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
+import { basename, resolve } from 'node:path'
 import { sanityClient } from './config'
 
 const FORCE = process.env.FORCE === '1'
@@ -34,7 +36,17 @@ const i18nText = (no: string, en: string) => [
   { _key: 'en', _type: 'internationalizedArrayTextValue', value: en },
 ]
 
-type Item = { labelNo: string; labelEn: string; descNo: string; descEn: string; path: string }
+type Item = {
+  labelNo: string
+  labelEn: string
+  descNo: string
+  descEn: string
+  path: string
+  /** Optional local image path (relative to project root). Uploaded to Sanity assets, then referenced. */
+  localImage?: string
+  imageAltNo?: string
+  imageAltEn?: string
+}
 
 /**
  * Keyed by the LAST segment of the treatment slug (matches Sanity `slug.current` NO).
@@ -103,7 +115,10 @@ const CONTENT: Record<string, Item[]> = {
     { labelNo: 'Gynekologisk robotkirurgi', labelEn: 'Gynaecological robotic surgery',
       descNo: 'Brukes blant annet ved muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), og enkelte krefttilfeller som kreft i livmor.',
       descEn: 'Used for fibroids (fertility-preserving surgery), deep endometriosis, hysterectomy (also for enlarged uterus) and selected cancers such as uterine cancer.',
-      path: '/behandlinger/gynekologi/robotkirurgi' },
+      path: '/behandlinger/gynekologi/robotkirurgi',
+      localImage: 'src/assets/categories/gynekologi.jpg',
+      imageAltNo: 'Gynekologisk robotkirurgi',
+      imageAltEn: 'Gynaecological robotic surgery' },
     { labelNo: 'Urologisk robotkirurgi', labelEn: 'Urological robotic surgery',
       descNo: 'Brukes blant annet ved godartet forstørret prostata (RASP), prostatakreft (RALP), og nyrekirurgi (f.eks. nefrektomi).',
       descEn: 'Used for benign prostate enlargement (RASP), prostate cancer (RALP) and kidney surgery (e.g. nephrectomy).',
@@ -257,14 +272,47 @@ const CONTENT: Record<string, Item[]> = {
   ],
 }
 
-const buildLinkedServices = (items: Item[]) =>
-  items.map((it) => ({
-    _key: k(),
-    _type: 'object',
-    label: i18nStr(it.labelNo, it.labelEn),
-    description: i18nText(it.descNo, it.descEn),
-    path: it.path,
-  }))
+/**
+ * Upload a local image to Sanity Assets and return an image reference object.
+ * Cached per-run so the same file isn't re-uploaded.
+ */
+const uploadCache = new Map<string, string>()
+async function uploadImageAsset(localPath: string): Promise<string> {
+  if (uploadCache.has(localPath)) return uploadCache.get(localPath)!
+  const abs = resolve(process.cwd(), localPath)
+  const buf = await readFile(abs)
+  const asset = await sanityClient.assets.upload('image', buf, {
+    filename: basename(localPath),
+  })
+  uploadCache.set(localPath, asset._id)
+  console.log(`   ⇡ uploaded ${localPath} → ${asset._id}`)
+  return asset._id
+}
+
+async function buildLinkedServices(items: Item[]) {
+  const out: any[] = []
+  for (const it of items) {
+    const entry: any = {
+      _key: k(),
+      _type: 'object',
+      label: i18nStr(it.labelNo, it.labelEn),
+      description: i18nText(it.descNo, it.descEn),
+      path: it.path,
+    }
+    if (it.localImage) {
+      const assetId = await uploadImageAsset(it.localImage)
+      entry.image = {
+        _type: 'image',
+        asset: { _type: 'reference', _ref: assetId },
+      }
+      if (it.imageAltNo || it.imageAltEn) {
+        entry.imageAlt = i18nStr(it.imageAltNo || '', it.imageAltEn || '')
+      }
+    }
+    out.push(entry)
+  }
+  return out
+}
 
 const isEmpty = (v: any) => v === undefined || v === null || (Array.isArray(v) && v.length === 0)
 
@@ -300,7 +348,7 @@ async function main() {
       continue
     }
 
-    const value = buildLinkedServices(items)
+    const value = await buildLinkedServices(items)
     console.log(`  ✦ ${doc._id} [${slugNo}] → ${value.length} linked service(s)`)
     if (DRY_RUN) continue
 
