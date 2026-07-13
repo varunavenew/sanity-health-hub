@@ -1,20 +1,40 @@
 /**
- * Migrate `linkedServices` content into existing `treatment` documents.
+ * Migrate `linkedServices` content (with images) into `treatment` documents.
  *
- * Source: src/data/treatmentContent.ts (static content).
- * Target: `linkedServices` field on the matching Sanity `treatment` document.
- * Match:  by NO slug (last segment of the static key).
+ * Source data:  src/data/treatmentContent.ts (label / description / path)
+ * Source images: src/assets/services/*.jpg.asset.json (Lovable CDN pointers)
+ * Target:       `linkedServices` field on the matching Sanity treatment doc.
+ * Match:        by NO slug (last segment of the static key).
  *
- * Shape: Sanity v5 `internationalizedArray` (NO + EN) for `label` (string) and
- *        `description` (text). `path` is a plain string.
+ * Shape (Sanity v5 internationalizedArray, NO + EN):
+ *   {
+ *     label:       internationalizedArrayString (no,en),
+ *     description: internationalizedArrayText   (no,en),
+ *     path:        string,
+ *     image?:      image reference (uploaded to Sanity assets),
+ *     imageAlt?:   internationalizedArrayString (no,en),
+ *   }
  *
- * Idempotent: skips docs where `linkedServices` is already non-empty.
- *             Use FORCE=1 to overwrite.
+ * For each item this script:
+ *   1) Resolves the local `src/assets/services/<cat>-<sub>.jpg.asset.json`
+ *      pointer by parsing the item's `path` (same logic as the frontend's
+ *      getDedicatedServiceImage in src/data/serviceImages.ts).
+ *   2) Reads the pointer, fetches the binary from the Lovable CDN
+ *      (`${LOVABLE_APP_URL}${pointer.url}`), and uploads it to Sanity Assets.
+ *   3) Attaches the returned asset ref as `image`, with NO+EN alt text.
+ *
+ * Idempotent: skips docs that already have linkedServices. FORCE=1 overwrites.
+ *             DRY_RUN=1 prints without fetching or writing anything.
+ *
+ * Env:
+ *   SANITY_TOKEN      required
+ *   LOVABLE_APP_URL   optional, defaults to https://sanity-care-craft.lovable.app
+ *   DRY_RUN=1         no uploads, no writes
+ *   FORCE=1           overwrite existing linkedServices
  *
  * Usage:
  *   DRY_RUN=1 SANITY_TOKEN=<token> npx tsx test/sanity/migrate-treatment-linked-services.ts
  *   SANITY_TOKEN=<token> npx tsx test/sanity/migrate-treatment-linked-services.ts
- *   FORCE=1  SANITY_TOKEN=<token> npx tsx test/sanity/migrate-treatment-linked-services.ts
  */
 
 import { randomUUID } from 'node:crypto'
