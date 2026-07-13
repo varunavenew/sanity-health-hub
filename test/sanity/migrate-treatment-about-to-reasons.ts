@@ -66,6 +66,44 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
 const layoutFor = (key: string): "accordion" | "prose" =>
   FORM_B_ACCORDION.has(key) ? "accordion" : "prose";
 
+// ─── Derived-content helpers (mirror src/lib/treatmentToSubLayout.tsx) ────
+// These reproduce the exact strings the current design renders for the
+// "About …" block heading and lead paragraph, so we can migrate them into
+// `reasonsTitle` and `reasonsLead` on the Sanity doc.
+const stripMarkdown = (s: string): string =>
+  s
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/_(.*?)_/g, "$1")
+    .trim();
+
+const summarize = (text: string, maxChars = 220): string => {
+  const cleaned = stripMarkdown(text.split("\n").find((l) => l.trim().length > 0) ?? text);
+  if (cleaned.length <= maxChars) return cleaned;
+  const cut = cleaned.slice(0, maxChars);
+  const lastDot = cut.lastIndexOf(". ");
+  return lastDot > 80 ? cut.slice(0, lastDot + 1) : cut.trim() + "…";
+};
+
+const firstParagraphOf = (text: string): string =>
+  text.split(/\n\n+/).find((p) => p.trim().length > 0)?.trim() ?? text;
+
+/**
+ * Build the "Om <title>" heading exactly like the frontend does:
+ *   - If the title's 2nd char is lowercase (regular word, e.g. "Hysteroskopi"),
+ *     lowercase the first char → "Om hysteroskopi".
+ *   - Otherwise (acronym like "NIPT" / "IVF"), keep original casing → "Om NIPT".
+ */
+const buildOmTitle = (title: string): string => {
+  if (!title) return "Om behandlingen";
+  const t = title.length > 1 && title[1] === title[1].toLowerCase()
+    ? title.charAt(0).toLowerCase() + title.slice(1)
+    : title;
+  return `Om ${t}`;
+};
+
+
+
 
 function slugifyKey(text: string): string {
   return text
