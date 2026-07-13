@@ -18,6 +18,8 @@
  */
 
 import { randomUUID } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
+import { basename, resolve } from 'node:path'
 import { sanityClient } from './config'
 
 const FORCE = process.env.FORCE === '1'
