@@ -139,7 +139,7 @@ const BurgerMenu = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[100] overflow-y-auto bg-white md:hidden"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-brand-warm md:hidden"
       role="dialog"
       aria-modal="true"
       aria-label={t("nav.navigationMenu")}

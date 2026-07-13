@@ -53,44 +53,44 @@
 
 @layer base {
   :root {
-    --background: 35 30% 95%;
+    --background: 30 31% 92%;
     --foreground: 0 71% 5%;
-    --card: 35 25% 97%;
+    --card: 0 0% 100%;
     --card-foreground: 0 71% 5%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 71% 5%;
     --primary: 22 22% 21%;
-    --primary-foreground: 35 30% 95%;
-    --secondary: 30 20% 88%;
+    --primary-foreground: 30 31% 92%;
+    --secondary: 25 23% 74%;
     --secondary-foreground: 0 71% 5%;
-    --muted: 30 18% 90%;
-    --muted-foreground: 22 15% 40%;
+    --muted: 30 24% 88%;
+    --muted-foreground: 22 15% 30%;
     --accent: 65 100% 74%;
     --accent-foreground: 0 71% 5%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 30 15% 85%;
-    --input: 30 15% 90%;
+    --border: 25 20% 82%;
+    --input: 25 20% 86%;
     --ring: 22 22% 21%;
     --brand-dark: 22 22% 21%;
     --brand-yellow: 65 100% 74%;
-    --brand-warm: 35 30% 95%;
-    --brand-mid: 30 20% 80%;
-    --brand-beige: 35 25% 92%;
+    --brand-warm: 30 31% 92%;
+    --brand-mid: 25 23% 74%;
+    --brand-beige: 30 31% 92%;
     --brand-terracotta: 18 48% 44%;
-    --radius: 0.5rem;
+    --radius: 0.625rem; /* 10px — felles for alle knapper, kort og bokser */
     
-    --chat-background: 30 27% 93%;
+    --chat-background: 30 31% 92%;
     --chat-foreground: 0 71% 5%;
     --chat-border: 25 20% 82%;
-    --chat-ai-bubble: 25 24% 80%;
+    --chat-ai-bubble: 25 23% 74%;
     --user-bubble: 65 100% 80%;
     
-    --sidebar-background: 30 27% 93%;
+    --sidebar-background: 30 31% 92%;
     --sidebar-foreground: 0 71% 5%;
     --sidebar-primary: 22 22% 21%;
-    --sidebar-primary-foreground: 30 27% 93%;
-    --sidebar-accent: 25 24% 80%;
+    --sidebar-primary-foreground: 30 31% 92%;
+    --sidebar-accent: 25 23% 74%;
     --sidebar-accent-foreground: 0 71% 5%;
     --sidebar-border: 25 20% 82%;
     --sidebar-ring: 22 22% 21%;
@@ -118,8 +118,8 @@
     --ring: 0 0% 85%;
     --brand-dark: 22 22% 21%;
     --brand-yellow: 65 100% 74%;
-    --brand-warm: 30 27% 93%;
-    --brand-mid: 25 24% 74%;
+    --brand-warm: 30 31% 92%;
+    --brand-mid: 25 23% 74%;
     
     --chat-background: 22 22% 21%;
     --chat-foreground: 0 0% 100%;
@@ -139,6 +139,25 @@
 }
 
 @layer base {
+  :root {
+    /* Felles horisontal gutter — matcher sidens innholdscontainere
+       (px-6 mobil, md:px-16 desktop), slik at logo og innhold flukter. */
+    --gutter: 1.5rem;
+    --max-shell: 1400px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --gutter: 4rem;
+    }
+  }
+
+  html {
+    /* Fluid base font-size: scales tekst proporsjonalt med bred skjerm.
+       16px @ ≤1280px → ~19px @ 1920px+. All rem-basert tekst skalerer med. */
+    font-size: clamp(16px, 0.9rem + 0.18vw, 19px);
+  }
+
   * {
     @apply border-border;
   }
@@ -158,6 +177,39 @@
   h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
     letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Felles "edge" — beregner avstand fra venstre/høyre viewport-kant til
+     content-edge. Bruker max() så den faller tilbake til --gutter på smale
+     skjermer og holder seg på shell-kant ((100vw - max-shell)/2 + gutter)
+     på brede skjermer. Logo, headere, content-seksjoner og split-tekst
+     kolonner bruker alle samme verdi → alt flukter på samme x-akse. */
+  .page-shell {
+    width: 100%;
+    max-width: var(--max-shell);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  /* Split-screen tekstkolonne: bilde går kant-i-kant på motsatt side,
+     tekst starter på samme x som logoen. */
+  .page-edge-text-left {
+    padding-left: max(var(--gutter), calc((100vw - var(--max-shell)) / 2 + var(--gutter)));
+    padding-right: var(--gutter);
+  }
+  @media (min-width: 768px) {
+    .page-edge-text-left {
+      padding-right: 3rem;
+    }
   }
 }
 
@@ -271,4 +323,100 @@
 @keyframes wordFloat {
   0%, 100% { transform: translate(-50%, -50%) translateY(0); }
   50% { transform: translate(-50%, -50%) translateY(-8px); }
+}
+
+/* ===== Mobile spacing rhythm (8px scale) — applies below md breakpoint =====
+   Consistent, tighter vertical rhythm across all treatment/category pages.
+   All values snap to an 8px grid (0.5rem = 8px). */
+@media (max-width: 767px) {
+  /* Section vertical padding — one consistent rhythm, tighter than before */
+  .py-32 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-28 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-24 { padding-top: 2rem;   padding-bottom: 2rem; }
+  .py-20 { padding-top: 2rem;   padding-bottom: 2rem; }
+  .py-16 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-14 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-12 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+  .py-10 { padding-top: 1rem;   padding-bottom: 1rem; }
+
+  /* Image bands between sections — even tighter, minimal chrome */
+  .mobile-image-band { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+
+  /* Heading → content margin, consistent 8/16px steps */
+  .mb-20 { margin-bottom: 1rem; }
+  .mb-16 { margin-bottom: 1rem; }
+  .mb-14 { margin-bottom: 1rem; }
+  .mb-12 { margin-bottom: 0.75rem; }
+  .mb-10 { margin-bottom: 0.75rem; }
+  .mb-8  { margin-bottom: 0.5rem; }
+  .mb-6  { margin-bottom: 0.5rem; }
+
+  /* Top spacing (heading blocks) */
+  .mt-16 { margin-top: 1rem; }
+  .mt-12 { margin-top: 0.75rem; }
+  .mt-10 { margin-top: 0.75rem; }
+  .mt-8  { margin-top: 0.5rem; }
+
+  /* Space-y stacks — tighten oversized gaps to 8px scale */
+  .space-y-16 > * + * { margin-top: 1rem; }
+  .space-y-12 > * + * { margin-top: 1rem; }
+  .space-y-10 > * + * { margin-top: 0.75rem; }
+  .space-y-8  > * + * { margin-top: 0.75rem; }
+
+  /* Grid/gap utilities — tighten large grid gaps to 8px scale */
+  .gap-12 { gap: 0.75rem; }
+  .gap-10 { gap: 0.75rem; }
+  .gap-8  { gap: 0.75rem; }
+  .gap-6  { gap: 0.5rem; }
+
+  /* Image-first ordering inside grid sections that combine a text column and an image column. */
+  .mobile-image-first { display: flex; flex-direction: column-reverse; }
+}
+
+/* ===== Heading → paragraph rhythm (all breakpoints) =====
+   Prevents oversized gap between a section heading and its lead paragraph,
+   which was making headings look glued to the top while the ingress floated
+   too far below. */
+:is(h1, h2, h3):has(+ p) {
+  margin-bottom: 0.5rem;
+}
+@media (min-width: 768px) {
+  :is(h1, h2, h3):has(+ p) {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Hide native scrollbar for horizontal card carousels — dots handle indication */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* ===== Inline edit mode (auto-editable scope) =====
+   When body has `.cm-edit-mode`, subtle outlines appear on hover/focus of any
+   text-bearing element inside an EditableAutoScope. Purely visual — behavior
+   is handled in TypeScript. */
+body.cm-edit-mode [data-editable-scope] [data-auto-field] {
+  outline: 1px dashed hsl(var(--brand-dark) / 0.25);
+  outline-offset: 2px;
+  border-radius: 2px;
+  transition: outline-color 120ms ease, background-color 120ms ease;
+}
+body.cm-edit-mode [data-editable-scope] [data-auto-field]:hover {
+  outline-color: hsl(var(--brand-dark) / 0.6);
+}
+body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus,
+body.cm-edit-mode [data-editable-scope] [data-auto-field]:focus-within {
+  outline: 2px solid hsl(var(--brand-dark));
+  background-color: hsl(var(--brand-light) / 0.6);
+}
+body.cm-edit-mode [data-editable-scope] {
+  caret-color: hsl(var(--brand-dark));
 }

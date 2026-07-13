@@ -315,7 +315,7 @@ export const PageLayout = ({ children, isChatOpen, darkHero = true }: PageLayout
 
       <div className="flex min-h-screen w-full bg-background">
         <div
-          className="flex-1 overflow-x-hidden pb-[calc(4.25rem+env(safe-area-inset-bottom))] transition-all duration-300 md:pb-0"
+          className="flex-1 overflow-x-clip pb-[calc(4.25rem+env(safe-area-inset-bottom))] transition-all duration-300 md:pb-0"
           style={{
             marginLeft: isChatOpen ? "360px" : "0",
             maxWidth: isChatOpen ? "calc(100vw - 360px)" : "100vw",

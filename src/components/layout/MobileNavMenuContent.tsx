@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Phone, Mail, MapPin } from "lucide-react";
+import { ChevronDown, ChevronRight, Phone, Mail, MapPin } from "lucide-react";
 import { useServiceCategories } from "@/hooks/useServiceCategories";
+import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import type {
@@ -53,7 +54,7 @@ function ServiceCategoryRow({
         <button
           type="button"
           onClick={() => onNavigate(category.path)}
-          className="min-h-[48px] flex-1 px-4 py-3 text-left text-[15px] font-normal text-brand-dark"
+          className="min-h-[48px] flex-1 px-5 py-3.5 text-left text-[15px] font-normal text-brand-dark hover:bg-brand-beige/5 transition-colors"
         >
           {category.label}
         </button>
@@ -64,12 +65,14 @@ function ServiceCategoryRow({
             aria-expanded={isExpanded}
             aria-label={t("nav.expandCategory", { category: category.label })}
             className={cn(
-              "flex min-h-[48px] items-center justify-center border-l border-brand-dark/10 bg-transparent px-4 text-brand-dark/60 transition-colors hover:bg-brand-dark/5",
-              isExpanded && "bg-brand-dark/5",
+              "flex w-14 items-center justify-center self-stretch transition-colors border-l border-brand-dark/10",
+              isExpanded
+                ? "bg-[#3e3025] text-white hover:bg-[#3e3025]/95"
+                : "bg-transparent text-brand-dark/45 hover:bg-brand-dark/5",
             )}
           >
             <ChevronDown
-              className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-180")}
+              className={cn("h-5 w-5 transition-transform duration-300", isExpanded && "rotate-180")}
               aria-hidden="true"
             />
           </button>
@@ -78,38 +81,46 @@ function ServiceCategoryRow({
             type="button"
             onClick={() => onNavigate(category.path)}
             aria-label={t("nav.expandCategory", { category: category.label })}
-            className="flex min-h-[48px] items-center justify-center border-l border-brand-dark/10 bg-transparent px-4 text-brand-dark/60 transition-colors hover:bg-brand-dark/5"
+            className="flex w-14 items-center justify-center self-stretch bg-transparent text-brand-dark/45 transition-colors hover:bg-brand-dark/5 border-l border-brand-dark/10"
           >
-            <ChevronDown className="h-4 w-4" aria-hidden="true" />
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
         )}
       </div>
 
       {hasChildren && isExpanded && (
-        <div className="border-t border-brand-dark/10 px-4 py-2">
-          <ul className="space-y-0.5">
+        <div className="border-t border-brand-dark/10 bg-white">
+          <div className="divide-y divide-brand-dark/10">
             {category.subcategories.map((sub) => (
-              <li key={sub.id ?? sub.path}>
+              <div key={sub.id ?? sub.path} className="flex flex-col">
                 <button
                   type="button"
                   onClick={() => onNavigate(sub.path)}
-                  className="w-full py-2.5 text-left text-sm font-normal text-brand-dark/80 hover:text-brand-dark"
+                  className="w-full flex items-center justify-between py-4 px-5 text-left transition-colors hover:bg-brand-beige/10 group"
                 >
-                  {sub.label}
+                  <span className="text-[15px] font-normal text-brand-dark/90">
+                    {sub.label}
+                  </span>
+                  <ChevronRight className="h-4 w-4 text-brand-dark/30 group-hover:text-brand-dark/60 group-hover:translate-x-0.5 transition-all" />
                 </button>
-                {sub.items?.map((item, index) => (
-                  <button
-                    key={`${sub.path}-${item.label}-${index}`}
-                    type="button"
-                    onClick={() => onNavigate(subItemPath(sub, item))}
-                    className="block w-full py-1.5 pl-3 text-left text-xs font-light text-brand-dark/60 hover:text-brand-dark"
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </li>
+                {sub.items && sub.items.length > 0 && (
+                  <div className="bg-brand-beige/5 divide-y divide-brand-dark/5 border-t border-brand-dark/5">
+                    {sub.items.map((item, index) => (
+                      <button
+                        key={`${sub.path}-${item.label}-${index}`}
+                        type="button"
+                        onClick={() => onNavigate(subItemPath(sub, item))}
+                        className="w-full flex items-center justify-between py-3 pl-8 pr-5 text-left text-sm font-light text-brand-dark/70 hover:bg-brand-beige/10 hover:text-brand-dark transition-colors group/sub"
+                      >
+                        <span>{item.label}</span>
+                        <ChevronRight className="h-3.5 w-3.5 text-brand-dark/25 group-hover/sub:text-brand-dark/50 group-hover/sub:translate-x-0.5 transition-all" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>
@@ -128,12 +139,25 @@ export function MobileNavMenuContent({
   const { t } = useTranslation();
   const { categories } = useServiceCategories();
   const [expandedCategoryId, setExpandedCategoryId] = useState<string | null>(null);
+  const servicesPath = useNavCmsPath("services");
   const telHref = `tel:${phone.replace(/\s/g, "")}`;
 
   return (
     <div className="p-5 pb-[calc(96px+env(safe-area-inset-bottom))]">
       <div className="mb-6">
-        <h3 className="mb-3 px-1 text-xs uppercase text-foreground/50">{t("nav.services")}</h3>
+        <div className="flex items-center justify-between mb-4 px-1">
+          <h3 className="text-xs font-semibold text-brand-dark/50 uppercase tracking-widest">
+            {t("nav.services")}
+          </h3>
+          <button
+            type="button"
+            onClick={() => onNavigate(servicesPath)}
+            className="text-xs font-normal text-brand-dark/75 hover:text-brand-dark transition-colors flex items-center gap-1"
+          >
+            {t("nav.allServices")}{" "}
+            <ChevronRight className="h-3.5 w-3.5 text-brand-dark/45" />
+          </button>
+        </div>
         <nav aria-label={t("nav.allServices")} className="space-y-2">
           {categories.map((category) => (
             <ServiceCategoryRow
