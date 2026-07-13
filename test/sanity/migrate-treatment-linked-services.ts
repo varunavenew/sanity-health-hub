@@ -1,20 +1,40 @@
 /**
- * Migrate `linkedServices` content into existing `treatment` documents.
+ * Migrate `linkedServices` content (with images) into `treatment` documents.
  *
- * Source: src/data/treatmentContent.ts (static content).
- * Target: `linkedServices` field on the matching Sanity `treatment` document.
- * Match:  by NO slug (last segment of the static key).
+ * Source data:  src/data/treatmentContent.ts (label / description / path)
+ * Source images: src/assets/services/*.jpg.asset.json (Lovable CDN pointers)
+ * Target:       `linkedServices` field on the matching Sanity treatment doc.
+ * Match:        by NO slug (last segment of the static key).
  *
- * Shape: Sanity v5 `internationalizedArray` (NO + EN) for `label` (string) and
- *        `description` (text). `path` is a plain string.
+ * Shape (Sanity v5 internationalizedArray, NO + EN):
+ *   {
+ *     label:       internationalizedArrayString (no,en),
+ *     description: internationalizedArrayText   (no,en),
+ *     path:        string,
+ *     image?:      image reference (uploaded to Sanity assets),
+ *     imageAlt?:   internationalizedArrayString (no,en),
+ *   }
  *
- * Idempotent: skips docs where `linkedServices` is already non-empty.
- *             Use FORCE=1 to overwrite.
+ * For each item this script:
+ *   1) Resolves the local `src/assets/services/<cat>-<sub>.jpg.asset.json`
+ *      pointer by parsing the item's `path` (same logic as the frontend's
+ *      getDedicatedServiceImage in src/data/serviceImages.ts).
+ *   2) Reads the pointer, fetches the binary from the Lovable CDN
+ *      (`${LOVABLE_APP_URL}${pointer.url}`), and uploads it to Sanity Assets.
+ *   3) Attaches the returned asset ref as `image`, with NO+EN alt text.
+ *
+ * Idempotent: skips docs that already have linkedServices. FORCE=1 overwrites.
+ *             DRY_RUN=1 prints without fetching or writing anything.
+ *
+ * Env:
+ *   SANITY_TOKEN      required
+ *   LOVABLE_APP_URL   optional, defaults to https://sanity-care-craft.lovable.app
+ *   DRY_RUN=1         no uploads, no writes
+ *   FORCE=1           overwrite existing linkedServices
  *
  * Usage:
  *   DRY_RUN=1 SANITY_TOKEN=<token> npx tsx test/sanity/migrate-treatment-linked-services.ts
  *   SANITY_TOKEN=<token> npx tsx test/sanity/migrate-treatment-linked-services.ts
- *   FORCE=1  SANITY_TOKEN=<token> npx tsx test/sanity/migrate-treatment-linked-services.ts
  */
 
 import { randomUUID } from 'node:crypto'
@@ -273,11 +293,83 @@ const CONTENT: Record<string, Item[]> = {
 }
 
 /**
- * Upload a local image to Sanity Assets and return an image reference object.
- * Cached per-run so the same file isn't re-uploaded.
+ * Base URL where Lovable CDN assets are reachable. Override with LOVABLE_APP_URL.
+ * Defaults to the published site so this works from any machine.
+ */
+const APP_BASE_URL = (process.env.LOVABLE_APP_URL || 'https://sanity-care-craft.lovable.app').replace(/\/$/, '')
+
+/** Category slug in `path` → filename prefix used under src/assets/services/. */
+const CATEGORY_ALIAS: Record<string, string> = {
+  'flere-fagomrader': 'flere',
+  'gynekologi': 'gynekologi',
+  'urologi': 'urologi',
+  'fertilitet': 'fertilitet',
+  'graviditet': 'graviditet',
+  'ortopedi': 'ortopedi',
+}
+
+/**
+ * Given a linkedServices `path` like `/behandlinger/<cat>/<...>/<sub>`,
+ * find the local `.asset.json` pointer in src/assets/services/, if any.
+ */
+async function resolveAssetPointerForPath(path: string): Promise<string | null> {
+  const m = path.match(/^\/behandlinger\/([^/?#]+)(?:\/(.+))?$/)
+  if (!m) return null
+  const cat = m[1]
+  const rest = m[2]
+  if (!rest) return null
+  const prefix = CATEGORY_ALIAS[cat] ?? cat
+  // Try each segment of the tail from most-specific to least-specific.
+  const segments = rest.split('/').filter(Boolean)
+  const candidates: string[] = []
+  for (let i = segments.length - 1; i >= 0; i--) {
+    const sub = segments[i]
+    candidates.push(`${prefix}-${sub}`)
+    // Norwegian char normalisation used by src/data/serviceImages.ts
+    const alt = sub.replace(/oe/g, 'o').replace(/ae/g, 'a').replace(/aa/g, 'a')
+    if (alt !== sub) candidates.push(`${prefix}-${alt}`)
+  }
+  for (const name of candidates) {
+    const pointer = resolve(process.cwd(), 'src/assets/services', `${name}.jpg.asset.json`)
+    try {
+      await readFile(pointer)
+      return pointer
+    } catch {
+      /* try next */
+    }
+  }
+  return null
+}
+
+/**
+ * Upload a local image file (jpg on disk) or a CDN-hosted image (pointer JSON)
+ * to Sanity Assets. Cached per-run so the same URL isn't re-uploaded.
+ * Returns the Sanity asset _id, or null if the source can't be resolved.
  */
 const uploadCache = new Map<string, string>()
-async function uploadImageAsset(localPath: string): Promise<string> {
+
+async function uploadFromPointer(pointerPath: string): Promise<string | null> {
+  if (uploadCache.has(pointerPath)) return uploadCache.get(pointerPath)!
+  const pointer = JSON.parse(await readFile(pointerPath, 'utf8'))
+  const url = `${APP_BASE_URL}${pointer.url}`
+  const filename = pointer.original_filename || basename(pointer.url)
+  console.log(`   ↓ fetching ${url}`)
+  const res = await fetch(url)
+  if (!res.ok) {
+    console.warn(`   ⚠ HTTP ${res.status} for ${url} — skipping`)
+    return null
+  }
+  const buf = Buffer.from(await res.arrayBuffer())
+  const asset = await sanityClient.assets.upload('image', buf, {
+    filename,
+    contentType: pointer.content_type || 'image/jpeg',
+  })
+  uploadCache.set(pointerPath, asset._id)
+  console.log(`   ⇡ uploaded ${filename} → ${asset._id}`)
+  return asset._id
+}
+
+async function uploadLocalFile(localPath: string): Promise<string> {
   if (uploadCache.has(localPath)) return uploadCache.get(localPath)!
   const abs = resolve(process.cwd(), localPath)
   const buf = await readFile(abs)
@@ -299,16 +391,32 @@ async function buildLinkedServices(items: Item[]) {
       description: i18nText(it.descNo, it.descEn),
       path: it.path,
     }
+
+    // Priority: explicit `localImage` on the item → resolved CDN image by path.
+    let assetId: string | null = null
     if (it.localImage) {
-      const assetId = await uploadImageAsset(it.localImage)
+      if (!DRY_RUN) assetId = await uploadLocalFile(it.localImage)
+      else console.log(`   [dry] would upload local file: ${it.localImage}`)
+    } else {
+      const pointer = await resolveAssetPointerForPath(it.path)
+      if (pointer) {
+        if (!DRY_RUN) assetId = await uploadFromPointer(pointer)
+        else console.log(`   [dry] would fetch+upload pointer: ${pointer}`)
+      } else {
+        console.log(`   · no image resolved for ${it.path}`)
+      }
+    }
+
+    if (assetId) {
       entry.image = {
         _type: 'image',
         asset: { _type: 'reference', _ref: assetId },
       }
-      if (it.imageAltNo || it.imageAltEn) {
-        entry.imageAlt = i18nStr(it.imageAltNo || '', it.imageAltEn || '')
-      }
+      const altNo = it.imageAltNo ?? it.labelNo
+      const altEn = it.imageAltEn ?? it.labelEn
+      entry.imageAlt = i18nStr(altNo, altEn)
     }
+
     out.push(entry)
   }
   return out
