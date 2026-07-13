@@ -34,7 +34,17 @@ const i18nText = (no: string, en: string) => [
   { _key: 'en', _type: 'internationalizedArrayTextValue', value: en },
 ]
 
-type Item = { labelNo: string; labelEn: string; descNo: string; descEn: string; path: string }
+type Item = {
+  labelNo: string
+  labelEn: string
+  descNo: string
+  descEn: string
+  path: string
+  /** Optional local image path (relative to project root). Uploaded to Sanity assets, then referenced. */
+  localImage?: string
+  imageAltNo?: string
+  imageAltEn?: string
+}
 
 /**
  * Keyed by the LAST segment of the treatment slug (matches Sanity `slug.current` NO).
