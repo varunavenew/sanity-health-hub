@@ -273,6 +273,8 @@ async function run() {
       patch.description = i18nText(e.description);
     }
 
+    const desiredLayout = layoutFor(e.key);
+
     if (e.sections?.length && (FORCE || isEmpty(doc.reasons))) {
       patch.reasons = e.sections.map((s, idx) => {
         const anchor = s.id || slugifyKey(s.heading).slice(0, 40) || `section-${idx}`;
@@ -280,15 +282,17 @@ async function run() {
         return {
           _key: key,
           _type: "object",
-          // `reasons` items have {n, title, desc}. We leave `n` empty
-          // (accordion layout doesn't render numbers) and map heading→title,
-          // content→desc.
+          // `reasons` items have {n, title, desc}. `n` stays empty — neither
+          // prose nor accordion layout renders a number for these items.
           title: i18nString(s.heading),
           desc: i18nText(s.content || ""),
         };
       });
-      // Force accordion layout so the section renders like the old "Om …" block.
-      patch.reasonsLayout = "accordion";
+      patch.reasonsLayout = desiredLayout;
+    } else if (e.sections?.length && doc.reasonsLayout !== desiredLayout) {
+      // Reasons already populated but layout doesn't match the per-page
+      // design. Align only the layout flag (safe — no content change).
+      patch.reasonsLayout = desiredLayout;
     }
 
     if (Object.keys(patch).length === 0) { skipped.push(e.key); continue; }
@@ -296,7 +300,10 @@ async function run() {
     await sanityClient.patch(doc._id).set(patch).commit();
     const parts: string[] = [];
     if (patch.description) { parts.push("description"); descCount++; }
-    if (patch.reasons) { parts.push(`reasons(${(patch.reasons as any[]).length}, accordion)`); reasonsCount++; }
+    if (patch.reasons) { parts.push(`reasons(${(patch.reasons as any[]).length}, ${desiredLayout})`); reasonsCount++; }
+    else if (patch.reasonsLayout) { parts.push(`reasonsLayout=${desiredLayout}`); }
+    console.log(`   ✓ ${e.key} → ${parts.join(" + ")}`);
+
     console.log(`   ✓ ${e.key} → ${parts.join(" + ")}`);
     patched++;
   }
