@@ -40,6 +40,33 @@ const FORCE = process.env.FORCE === "1";
 const LANGS = ["no", "en"] as const;
 type Lang = (typeof LANGS)[number];
 
+// Per-page layout mapping — mirrors FORM_B_ACCORDION in
+// src/lib/treatmentToSubLayout.tsx. Pages listed here render the reasons
+// block as an accordion ("Trekkspill"); everything else stays "prose"
+// ("Prosa (standard)"), matching what users see today.
+const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
+  "urologi/blaere",
+  "urologi/nyrer",
+  "urologi/prostata",
+  "gynekologi/overgangsalder",
+  "gynekologi/celleforandringer",
+  "gynekologi/cyster",
+  "gynekologi/vulvalidelser",
+  "gynekologi/graviditet",
+  "fertilitet/infertilitet",
+  "fertilitet/assistert-befruktning",
+  "fertilitet/donorbehandling",
+  "fertilitet/eggfrys",
+  "fertilitet/saedanalyse",
+  "ortopedi/fot-ankel",
+  "ortopedi/hand-albue",
+  "ortopedi/skulder",
+  "flere-fagomrader/sexologi",
+]);
+const layoutFor = (key: string): "accordion" | "prose" =>
+  FORM_B_ACCORDION.has(key) ? "accordion" : "prose";
+
+
 function slugifyKey(text: string): string {
   return text
     .toLowerCase()
