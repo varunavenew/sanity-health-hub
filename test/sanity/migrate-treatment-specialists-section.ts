@@ -41,10 +41,11 @@ type Treatment = {
   pageSections?: any[];
 };
 
-const HEADING_NO = "Møt våre spesialister";
-const HEADING_EN = "Meet our specialists";
-const INTRO_NO = "Erfarne spesialister som utfører denne behandlingen.";
-const INTRO_EN = "Experienced specialists who perform this treatment.";
+// Exact strings used by the live treatment page (SubTreatmentLayout.tsx).
+const HEADING_NO = "Spesialister som utfører dette";
+const HEADING_EN = "Specialists who perform this";
+const INTRO_NO = "Erfaring, spisskompetanse og moderne teknologi samlet på ett sted.";
+const INTRO_EN = "Experience, specialist expertise and modern technology gathered in one place.";
 
 const i18nString = (no: string, en: string) => [
   { _key: "no", _type: "internationalizedArrayStringValue", language: "no", value: no },
