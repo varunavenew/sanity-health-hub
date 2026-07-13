@@ -66,6 +66,44 @@ const FORM_B_ACCORDION: ReadonlySet<string> = new Set([
 const layoutFor = (key: string): "accordion" | "prose" =>
   FORM_B_ACCORDION.has(key) ? "accordion" : "prose";
 
+// ─── Derived-content helpers (mirror src/lib/treatmentToSubLayout.tsx) ────
+// These reproduce the exact strings the current design renders for the
+// "About …" block heading and lead paragraph, so we can migrate them into
+// `reasonsTitle` and `reasonsLead` on the Sanity doc.
+const stripMarkdown = (s: string): string =>
+  s
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/_(.*?)_/g, "$1")
+    .trim();
+
+const summarize = (text: string, maxChars = 220): string => {
+  const cleaned = stripMarkdown(text.split("\n").find((l) => l.trim().length > 0) ?? text);
+  if (cleaned.length <= maxChars) return cleaned;
+  const cut = cleaned.slice(0, maxChars);
+  const lastDot = cut.lastIndexOf(". ");
+  return lastDot > 80 ? cut.slice(0, lastDot + 1) : cut.trim() + "…";
+};
+
+const firstParagraphOf = (text: string): string =>
+  text.split(/\n\n+/).find((p) => p.trim().length > 0)?.trim() ?? text;
+
+/**
+ * Build the "Om <title>" heading exactly like the frontend does:
+ *   - If the title's 2nd char is lowercase (regular word, e.g. "Hysteroskopi"),
+ *     lowercase the first char → "Om hysteroskopi".
+ *   - Otherwise (acronym like "NIPT" / "IVF"), keep original casing → "Om NIPT".
+ */
+const buildOmTitle = (title: string): string => {
+  if (!title) return "Om behandlingen";
+  const t = title.length > 1 && title[1] === title[1].toLowerCase()
+    ? title.charAt(0).toLowerCase() + title.slice(1)
+    : title;
+  return `Om ${t}`;
+};
+
+
+
 
 function slugifyKey(text: string): string {
   return text
@@ -234,15 +272,21 @@ async function run() {
     _id: string;
     slug?: string;
     categorySlug?: string;
+    title?: string;
     description?: any;
     reasons?: any;
+    reasonsTitle?: any;
+    reasonsLead?: any;
     reasonsLayout?: string;
   }> = await sanityClient.fetch(
     `*[_type == "treatment" && !(_id in path("drafts.**"))]{
        _id,
        description,
        reasons,
+       reasonsTitle,
+       reasonsLead,
        reasonsLayout,
+       "title": coalesce(title[language == "no"][0].value, title[_key == "no"][0].value),
        "slug": coalesce(slug[language == "no"][0].value.current, slug[_key == "no"][0].value.current, slug.current),
        "categorySlug": coalesce(category->slug[language == "no"][0].value.current, category->slug[_key == "no"][0].value.current, category->slug.current)
      }`
@@ -251,6 +295,7 @@ async function run() {
   for (const t of treatments) {
     if (t.categorySlug && t.slug) byKey.set(`${t.categorySlug}/${t.slug}`, t);
   }
+
   console.log(`   Loaded ${byKey.size} treatments.`);
 
   let patched = 0;
@@ -295,6 +340,21 @@ async function run() {
       patch.reasonsLayout = desiredLayout;
     }
 
+    // ── Migrate the currently-hardcoded "Om <title>" heading + lead ────────
+    // In the old design these were derived in code from `data.title` +
+    // `data.description`. We persist them as real Sanity fields so editors
+    // can override them, but only when the treatment actually has an about
+    // block (i.e. `sections` exist).
+    if (e.sections?.length) {
+      const noTitle = doc.title || "";
+      if (noTitle && (FORCE || isEmpty(doc.reasonsTitle))) {
+        patch.reasonsTitle = i18nString(buildOmTitle(noTitle));
+      }
+      if (e.description && (FORCE || isEmpty(doc.reasonsLead))) {
+        patch.reasonsLead = i18nText(summarize(firstParagraphOf(e.description), 240));
+      }
+    }
+
     if (Object.keys(patch).length === 0) { skipped.push(e.key); continue; }
 
     await sanityClient.patch(doc._id).set(patch).commit();
@@ -302,11 +362,12 @@ async function run() {
     if (patch.description) { parts.push("description"); descCount++; }
     if (patch.reasons) { parts.push(`reasons(${(patch.reasons as any[]).length}, ${desiredLayout})`); reasonsCount++; }
     else if (patch.reasonsLayout) { parts.push(`reasonsLayout=${desiredLayout}`); }
-    console.log(`   ✓ ${e.key} → ${parts.join(" + ")}`);
-
+    if (patch.reasonsTitle) parts.push("reasonsTitle");
+    if (patch.reasonsLead) parts.push("reasonsLead");
     console.log(`   ✓ ${e.key} → ${parts.join(" + ")}`);
     patched++;
   }
+
 
   console.log("\n──────────────────────────────────────────");
   console.log(`✅ Patched: ${patched} treatments  (description: ${descCount}, reasons: ${reasonsCount})`);
