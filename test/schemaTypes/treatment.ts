@@ -154,6 +154,8 @@ export default {
             { name: 'label', title: 'Tittel', type: 'internationalizedArrayString', validation: (Rule: any) => Rule.required() },
             { name: 'description', title: 'Beskrivelse', type: 'internationalizedArrayText' },
             { name: 'path', title: 'URL-sti', type: 'string', validation: (Rule: any) => Rule.required() },
+            { name: 'image', title: 'Bilde (valgfritt)', type: 'image', options: { hotspot: true } },
+            { name: 'imageAlt', title: 'Alt-tekst (valgfritt)', type: 'internationalizedArrayString' },
           ],
           preview: {
             select: { title: 'label' },
