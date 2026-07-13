@@ -340,6 +340,21 @@ async function run() {
       patch.reasonsLayout = desiredLayout;
     }
 
+    // ── Migrate the currently-hardcoded "Om <title>" heading + lead ────────
+    // In the old design these were derived in code from `data.title` +
+    // `data.description`. We persist them as real Sanity fields so editors
+    // can override them, but only when the treatment actually has an about
+    // block (i.e. `sections` exist).
+    if (e.sections?.length) {
+      const noTitle = doc.title || "";
+      if (noTitle && (FORCE || isEmpty(doc.reasonsTitle))) {
+        patch.reasonsTitle = i18nString(buildOmTitle(noTitle));
+      }
+      if (e.description && (FORCE || isEmpty(doc.reasonsLead))) {
+        patch.reasonsLead = i18nText(summarize(firstParagraphOf(e.description), 240));
+      }
+    }
+
     if (Object.keys(patch).length === 0) { skipped.push(e.key); continue; }
 
     await sanityClient.patch(doc._id).set(patch).commit();
@@ -347,11 +362,12 @@ async function run() {
     if (patch.description) { parts.push("description"); descCount++; }
     if (patch.reasons) { parts.push(`reasons(${(patch.reasons as any[]).length}, ${desiredLayout})`); reasonsCount++; }
     else if (patch.reasonsLayout) { parts.push(`reasonsLayout=${desiredLayout}`); }
-    console.log(`   ✓ ${e.key} → ${parts.join(" + ")}`);
-
+    if (patch.reasonsTitle) parts.push("reasonsTitle");
+    if (patch.reasonsLead) parts.push("reasonsLead");
     console.log(`   ✓ ${e.key} → ${parts.join(" + ")}`);
     patched++;
   }
+
 
   console.log("\n──────────────────────────────────────────");
   console.log(`✅ Patched: ${patched} treatments  (description: ${descCount}, reasons: ${reasonsCount})`);
