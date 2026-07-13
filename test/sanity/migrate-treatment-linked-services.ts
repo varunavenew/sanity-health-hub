@@ -272,14 +272,47 @@ const CONTENT: Record<string, Item[]> = {
   ],
 }
 
-const buildLinkedServices = (items: Item[]) =>
-  items.map((it) => ({
-    _key: k(),
-    _type: 'object',
-    label: i18nStr(it.labelNo, it.labelEn),
-    description: i18nText(it.descNo, it.descEn),
-    path: it.path,
-  }))
+/**
+ * Upload a local image to Sanity Assets and return an image reference object.
+ * Cached per-run so the same file isn't re-uploaded.
+ */
+const uploadCache = new Map<string, string>()
+async function uploadImageAsset(localPath: string): Promise<string> {
+  if (uploadCache.has(localPath)) return uploadCache.get(localPath)!
+  const abs = resolve(process.cwd(), localPath)
+  const buf = await readFile(abs)
+  const asset = await sanityClient.assets.upload('image', buf, {
+    filename: basename(localPath),
+  })
+  uploadCache.set(localPath, asset._id)
+  console.log(`   ⇡ uploaded ${localPath} → ${asset._id}`)
+  return asset._id
+}
+
+async function buildLinkedServices(items: Item[]) {
+  const out: any[] = []
+  for (const it of items) {
+    const entry: any = {
+      _key: k(),
+      _type: 'object',
+      label: i18nStr(it.labelNo, it.labelEn),
+      description: i18nText(it.descNo, it.descEn),
+      path: it.path,
+    }
+    if (it.localImage) {
+      const assetId = await uploadImageAsset(it.localImage)
+      entry.image = {
+        _type: 'image',
+        asset: { _type: 'reference', _ref: assetId },
+      }
+      if (it.imageAltNo || it.imageAltEn) {
+        entry.imageAlt = i18nStr(it.imageAltNo || '', it.imageAltEn || '')
+      }
+    }
+    out.push(entry)
+  }
+  return out
+}
 
 const isEmpty = (v: any) => v === undefined || v === null || (Array.isArray(v) && v.length === 0)
 
