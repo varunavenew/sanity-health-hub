@@ -234,15 +234,21 @@ async function run() {
     _id: string;
     slug?: string;
     categorySlug?: string;
+    title?: string;
     description?: any;
     reasons?: any;
+    reasonsTitle?: any;
+    reasonsLead?: any;
     reasonsLayout?: string;
   }> = await sanityClient.fetch(
     `*[_type == "treatment" && !(_id in path("drafts.**"))]{
        _id,
        description,
        reasons,
+       reasonsTitle,
+       reasonsLead,
        reasonsLayout,
+       "title": coalesce(title[language == "no"][0].value, title[_key == "no"][0].value),
        "slug": coalesce(slug[language == "no"][0].value.current, slug[_key == "no"][0].value.current, slug.current),
        "categorySlug": coalesce(category->slug[language == "no"][0].value.current, category->slug[_key == "no"][0].value.current, category->slug.current)
      }`
@@ -251,6 +257,7 @@ async function run() {
   for (const t of treatments) {
     if (t.categorySlug && t.slug) byKey.set(`${t.categorySlug}/${t.slug}`, t);
   }
+
   console.log(`   Loaded ${byKey.size} treatments.`);
 
   let patched = 0;
