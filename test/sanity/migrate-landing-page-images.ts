@@ -8,6 +8,7 @@
  *   - expertAreasSection.areas[].image  (per-card; matched by href)
  *   - symptomsSection.items[].image     (per-row;  matched by href)
  *   - supportSection.areas[].image      (per-card; matched by href)
+ *   - audiencesSection.audiences[].image (per-card; matched by href)
  *   - spotlightSection.image            (single)
  *
  * The hero image is NOT part of landingPage in the schema — it's the root
@@ -234,6 +235,7 @@ async function main() {
     await processArray("expertAreasSection", "areas", lp.expertAreasSection?.areas);
     await processArray("symptomsSection", "items", lp.symptomsSection?.items);
     await processArray("supportSection", "areas", lp.supportSection?.areas);
+    await processArray("audiencesSection", "audiences", lp.audiencesSection?.audiences);
 
     // --- single-image sections: whySection.image, spotlightSection.image
     async function processSingle(sectionPath: string, section: any) {
