@@ -70,6 +70,12 @@ export const NewsSplitScreen = () => {
   const copy = homepage?.newsSplitSection;
 
   const items = useMemo(() => {
+    if (homepage?.featuredArticles && homepage.featuredArticles.length > 0) {
+      return homepage.featuredArticles.map((article, index) =>
+        articleToItem(article, FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]),
+      );
+    }
+
     const source =
       sanityArticles && sanityArticles.length > 0
         ? sanityArticles.map(
@@ -94,7 +100,7 @@ export const NewsSplitScreen = () => {
     }
 
     return buildFallbackItems(source);
-  }, [sanityArticles]);
+  }, [sanityArticles, homepage?.featuredArticles]);
 
   return (
     <section aria-labelledby="news-split-heading" className="bg-brand-warm">

@@ -152,6 +152,24 @@ export default {
         },
       ],
     },
+    // Featured Articles – 2×2 news grid on the homepage
+    {
+      name: 'featuredArticles',
+      title: 'Featured articles (top 4)',
+      description: 'Displayed in the 2×2 news grid on the homepage. Select and sort up to 4 articles by reference.',
+      type: 'array',
+      group: 'sections',
+      validation: (Rule: any) => Rule.max(4),
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'article' }],
+        },
+      ],
+      options: {
+        sortable: true,
+      },
+    },
     {
       name: 'resultsStatsSection',
       title: 'Result statistics',
