@@ -144,14 +144,6 @@ export default {
       ],
     },
     {
-      name: 'subtitle',
-      title: 'Subtitle',
-      type: 'internationalizedArrayString',
-      group: 'general',
-      description: 'Short text shown under the treatment name (used as eyebrow in the hero section).',
-      validation: reqI18n('Subtitle'),
-    },
-    {
       name: 'sortOrder',
       title: 'Sorting order',
       type: 'number',
@@ -161,8 +153,6 @@ export default {
     // ─── Hero Section ────────────────────────────────────────────────────────
     { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', type: 'internationalizedArrayString', group: 'hero', description: 'The text displayed as the first segment in the breadcrumb navigation, e.g. \'Home\'.' },
     { name: 'srOnlyTitle', title: 'Hidden H1 (screen reader)', type: 'internationalizedArrayString', group: 'hero', description: 'A hidden heading for screen readers only. Briefly describe the page, e.g. \'Treatment page for hysteroscopy at CMedical\'.' },
-    { name: 'themesAriaLabel', title: 'Temaer — aria-label', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'eyebrow', title: 'Eyebrow (above hero title)', type: 'internationalizedArrayString', group: 'hero', description: 'Small text above the title in the hero section, e.g. \'Gynecology\'.' },
     {
       name: 'heroTitle',
       title: 'Hero Title',
@@ -240,7 +230,7 @@ export default {
     { name: 'callCtaLabel', title: 'Call us — text', type: 'internationalizedArrayString', group: 'hero' },
     { name: 'bookingService', title: 'Booking service ID', type: 'string', group: 'hero', description: 'Optional service ID sent to the booking system (e.g. \'hysterectomy\').' },
     // ─── Reasons / Symptoms ──────────────────────────────────────────────────
-    { name: 'reasonsEyebrow', title: 'Symptoms — eyebrow', type: 'internationalizedArrayString', group: 'symptoms' },
+
     {
       name: 'reasonsTitle',
       title: 'Symptoms — title',
@@ -293,7 +283,7 @@ export default {
       ],
     },
     // ─── Flow (Treatment Steps) ───────────────────────────────────────────────
-    { name: 'flowEyebrow', title: 'Process — eyebrow', type: 'internationalizedArrayString', group: 'flow' },
+
     { name: 'flowTitle', title: 'Process — title', type: 'internationalizedArrayString', group: 'flow', description: 'Heading for the \'How it works\' section.' },
     { name: 'flowImage', title: 'Process — image', type: 'image', group: 'flow', options: { hotspot: true } },
     { name: 'flowImageAlt', title: 'Process — image alt', type: 'internationalizedArrayString', group: 'flow' },
@@ -376,7 +366,7 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
+
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
             { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
             { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
@@ -440,7 +430,7 @@ export default {
       type: 'object',
       group: 'features',
       fields: [
-        { name: 'eyebrow', title: 'Relatert — eyebrow', type: 'internationalizedArrayString' },
+
         { name: 'title', title: 'Related — title', type: 'internationalizedArrayString' },
         { name: 'lead', title: 'Relatert — ingress', type: 'internationalizedArrayText' },
         { name: 'asIntro', title: 'Relatert rett etter hero', type: 'boolean' },

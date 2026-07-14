@@ -154,8 +154,10 @@ async function run() {
     for (const t of treatments) {
         const label = pickNo(t.title) || t._id;
         try {
-            // 1. Prefer the live source of truth (treatmentContent.ts).
-            const liveKey = t.categorySlug && t.slug ? `${t.categorySlug}/${t.slug}` : "";
+            let liveKey = t.categorySlug && t.slug ? `${t.categorySlug}/${t.slug}` : "";
+            if (t.categorySlug === "ovrige" && t.slug) {
+                liveKey = `flere-fagomrader/${t.slug}`;
+            }
             const liveSlugs = liveKey ? liveMap[liveKey] : undefined;
 
             let manualRefs: Ref[] = [];

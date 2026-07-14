@@ -183,7 +183,12 @@ async function run() {
         );
 
     const byKey = new Map<string, typeof treatments[number]>();
-    for (const t of treatments) if (t.categorySlug && t.slug) byKey.set(`${t.categorySlug}/${t.slug}`, t);
+    for (const t of treatments) {
+        if (t.categorySlug && t.slug) {
+            const catSlug = t.categorySlug === "ovrige" ? "flere-fagomrader" : t.categorySlug;
+            byKey.set(`${catSlug}/${t.slug}`, t);
+        }
+    }
     console.log(`   Loaded ${byKey.size} treatments.`);
 
     let patched = 0, fromBenefits = 0, fromFallback = 0, skipped = 0, errors = 0;
