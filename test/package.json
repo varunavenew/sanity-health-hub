@@ -187,7 +187,7 @@
     "sanity-plugin-iframe-pane": "^5.0.13",
     "sanity-plugin-internationalized-array": "^5.1.1",
     "styled-components": "^6.1.18",
-    "vercel": "^54.11.1"
+    "vercel": "^54.21.1"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^6.0.0",

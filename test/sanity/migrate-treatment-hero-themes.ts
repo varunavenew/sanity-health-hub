@@ -161,11 +161,7 @@ async function run() {
             if (entry.themes && entry.themes.length > 0) {
                 const alreadyHas = Array.isArray(t.heroThemes) && t.heroThemes.length > 0;
                 if (!alreadyHas || FORCE) {
-                    patch.heroThemes = entry.themes.map<I18nString>((val) => ({
-                        _key: randomUUID(),
-                        _type: "internationalizedArrayString",
-                        value: i18nStringVals(val),
-                    }));
+                    patch.heroThemes = entry.themes.map((val) => i18nStringVals(val));
                 }
             }
 

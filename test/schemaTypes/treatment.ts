@@ -187,9 +187,9 @@ export default {
       description: 'Optional video URL played in the hero section. Upload an MP4 video (max 10MB, 16:9 format) and paste the URL here.',
     },
     { name: 'rating', title: 'Rating / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Short text shown under the hero image, e.g. \'4.9/5 from 200 patients\'.' },
-    { name: 'heroPrice', title: 'Hero — prislinje', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
+    { name: 'heroPrice', title: 'Hero — Price info', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
     { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean', group: 'hero', initialValue: false },
-    { name: 'heroAvailability', title: 'Hero — tilgjengelighet', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
+    { name: 'heroAvailability', title: 'Hero — Availability', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
     {
       name: 'heroThemes',
       title: 'Hero — tema-chips',
@@ -200,7 +200,7 @@ export default {
     },
     {
       name: 'heroPoints',
-      title: 'Hero-punkter',
+      title: 'Hero Points',
       type: 'array',
       group: 'hero',
       description: 'Short benefit points shown in the hero section.',
@@ -223,7 +223,6 @@ export default {
         },
       ],
     },
-    // ─── Booking / CTA ───────────────────────────────────────────────────────
     { name: 'primaryCtaLabel', title: 'Primary CTA text', type: 'internationalizedArrayString', group: 'hero', description: 'The text on the \'Book appointment\' button in the hero section.' },
     { name: 'seePricesLabel', title: 'See prices — text', type: 'internationalizedArrayString', group: 'hero' },
     { name: 'seePricesHref', title: 'See prices — link', type: 'string', group: 'hero', description: 'URL to pricing page, e.g. /prices.', validation: validateRelativePath },
