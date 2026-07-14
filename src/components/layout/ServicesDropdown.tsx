@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation, useLocaleParam } from "@/lib/router";
@@ -15,7 +15,7 @@ import { siteNavMenuTriggerStyle } from "@/lib/navigation/site-nav-trigger-style
 import { cn } from "@/lib/utils";
 
 export const ServicesNavMenuItem = () => {
-  const { categories: serviceCategories } = useServiceCategories();
+  const { categories } = useServiceCategories();
   const { t } = useTranslation();
   const location = useLocation();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -23,7 +23,7 @@ export const ServicesNavMenuItem = () => {
   const navigate = useNavigate();
   const locale = useLocaleParam();
 
-  const currentCategory = serviceCategories
+  const currentCategory = categories
     .filter((c) => c.path && (location.pathname === c.path || location.pathname.startsWith(c.path + "/")))
     .sort((a, b) => b.path.length - a.path.length)[0];
 
@@ -34,7 +34,7 @@ export const ServicesNavMenuItem = () => {
   };
 
   const activeCategoryData =
-    serviceCategories.find((c) => c.id === activeCategory) ?? serviceCategories[0];
+    categories.find((c) => c.id === activeCategory) ?? categories[0];
 
   const activeSubcategoryData =
     activeCategoryData && activeSubcategory
@@ -44,20 +44,20 @@ export const ServicesNavMenuItem = () => {
       : null;
 
   useEffect(() => {
-    if (serviceCategories.length === 0) return;
+    if (categories.length === 0) return;
     const valid =
-      activeCategory && serviceCategories.some((c) => c.id === activeCategory);
+      activeCategory && categories.some((c) => c.id === activeCategory);
     if (!valid) {
-      setActiveCategory(currentCategory?.id ?? serviceCategories[0].id);
+      setActiveCategory(currentCategory?.id ?? categories[0].id);
       setActiveSubcategory(null);
     }
-  }, [serviceCategories, activeCategory, currentCategory?.id]);
+  }, [categories, activeCategory, currentCategory?.id]);
 
   useEffect(() => {
     setActiveSubcategory(null);
-  }, [locale, serviceCategories]);
+  }, [locale, categories]);
 
-  if (serviceCategories.length === 0) {
+  if (categories.length === 0) {
     return (
       <NavigationMenuItem>
         <NavigationMenuTrigger className={siteNavMenuTriggerStyle()}>
@@ -76,12 +76,13 @@ export const ServicesNavMenuItem = () => {
       <NavigationMenuContent className="p-0">
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-brand-dark shadow-2xl">
           <div className="flex">
-            <div className="w-[180px] border-r border-white/10 p-4">
-              <h3 className="mb-2 px-2 text-sm font-light tracking-wider text-white/50">
+            {/* Column 1: Main Categories */}
+            <div className="w-[190px] border-r border-white/10 p-4">
+              <h3 className="mb-3 px-2 text-[11px] font-normal uppercase tracking-wider text-white/40">
                 {t("nav.services")}
               </h3>
-              <nav className="space-y-0">
-                {serviceCategories.map((category) => (
+              <nav className="space-y-1">
+                {categories.map((category) => (
                   <button
                     key={category.id}
                     type="button"
@@ -91,17 +92,17 @@ export const ServicesNavMenuItem = () => {
                     }}
                     onClick={() => handleNavigate(category.path)}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-md px-2 py-2 text-left text-[13px] font-light transition-all",
+                      "flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[14px] font-light transition-all",
                       activeCategory === category.id
-                        ? "bg-white/10 text-white"
-                        : "text-white/70 hover:bg-white/5 hover:text-white",
+                        ? "bg-white/10 text-white font-normal shadow-sm"
+                        : "text-white/80 hover:bg-white/5 hover:text-white",
                     )}
                   >
-                    {category.label}
+                    <span>{category.label}</span>
                     <ChevronRight
                       className={cn(
-                        "h-3.5 w-3.5 transition-transform",
-                        activeCategory === category.id && "translate-x-1",
+                        "h-3.5 w-3.5 text-white/50 transition-transform",
+                        activeCategory === category.id && "translate-x-0.5 text-white",
                       )}
                     />
                   </button>
@@ -109,19 +110,20 @@ export const ServicesNavMenuItem = () => {
               </nav>
             </div>
 
-            <div className="max-h-[calc(100vh-140px)] w-[220px] overflow-y-auto border-r border-white/10 bg-white/5 p-4">
-              <h3 className="mb-2 px-2 text-sm font-light tracking-wider text-white/50">
+            {/* Column 2: Subcategories (Treatments) */}
+            <div className="max-h-[420px] w-[240px] overflow-y-auto border-r border-white/10 bg-white/[0.02] p-4 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
+              <h3 className="mb-3 px-2 text-[11px] font-normal uppercase tracking-wider text-white/40">
                 {activeCategoryData.label}
               </h3>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCategoryData.id}
-                  initial={{ opacity: 0, x: 10 }}
+                  initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
+                  exit={{ opacity: 0, x: -8 }}
                   transition={{ duration: 0.12 }}
                 >
-                  <nav className="grid grid-cols-1 gap-0">
+                  <nav className="grid grid-cols-1 gap-1">
                     {(activeCategoryData.subcategories ?? []).map((sub) => (
                       <button
                         key={sub.id ?? sub.label}
@@ -129,20 +131,20 @@ export const ServicesNavMenuItem = () => {
                         onMouseEnter={() => setActiveSubcategory(sub.id ?? sub.label)}
                         onClick={() => handleNavigate(sub.path)}
                         className={cn(
-                          "group flex w-full items-center justify-between rounded px-2 py-2 text-left text-[13px] font-light transition-colors",
+                          "group flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[14px] font-light transition-colors",
                           activeSubcategory === (sub.id ?? sub.label)
-                            ? "bg-white/10 text-white"
-                            : "text-white/70 hover:bg-white/10 hover:text-white",
+                            ? "bg-white/10 text-white font-normal"
+                            : "text-white/80 hover:bg-white/5 hover:text-white",
                         )}
                       >
                         <span>{sub.label}</span>
                         {sub.items && sub.items.length > 0 && (
                           <ChevronRight
                             className={cn(
-                              "h-3.5 w-3.5 transition-all",
+                              "h-3.5 w-3.5 text-white/50 transition-all",
                               activeSubcategory === (sub.id ?? sub.label)
-                                ? "translate-x-1 opacity-100"
-                                : "opacity-50",
+                                ? "translate-x-0.5 text-white opacity-100"
+                                : "opacity-40 group-hover:opacity-100",
                             )}
                           />
                         )}
@@ -153,21 +155,22 @@ export const ServicesNavMenuItem = () => {
               </AnimatePresence>
             </div>
 
+            {/* Column 3: Items/Anchors (if present) */}
             <AnimatePresence>
               {activeSubcategoryData?.items && activeSubcategoryData.items.length > 0 && (
                 <motion.div
                   key="third-column"
                   initial={{ opacity: 0, width: 0 }}
-                  animate={{ opacity: 1, width: 200 }}
+                  animate={{ opacity: 1, width: 220 }}
                   exit={{ opacity: 0, width: 0 }}
                   transition={{ duration: 0.15 }}
                   className="overflow-hidden"
                 >
-                  <div className="max-h-[calc(100vh-140px)] w-[200px] overflow-y-auto bg-white/[0.03] p-4">
-                    <h3 className="mb-2 px-2 text-sm font-light tracking-wider text-white/50">
+                  <div className="max-h-[420px] w-[220px] overflow-y-auto bg-white/[0.04] p-4 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15 hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
+                    <h3 className="mb-3 px-2 text-[11px] font-normal uppercase tracking-wider text-white/40">
                       {activeSubcategoryData.label}
                     </h3>
-                    <nav className="grid grid-cols-1 gap-0">
+                    <nav className="grid grid-cols-1 gap-1">
                       {activeSubcategoryData.items.map((item, index) => (
                         <button
                           key={`${item.label}-${item.anchor ?? index}`}
@@ -187,7 +190,7 @@ export const ServicesNavMenuItem = () => {
                               handleNavigate(`${activeSubcategoryData.path}#${anchor}`);
                             }
                           }}
-                          className="w-full rounded px-2 py-1.5 text-left text-[12px] font-light text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                          className="w-full rounded-lg px-3 py-1.5 text-left text-[13px] font-light text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                         >
                           {item.label}
                         </button>
