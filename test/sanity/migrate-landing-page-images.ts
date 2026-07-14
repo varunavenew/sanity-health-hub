@@ -234,6 +234,7 @@ async function main() {
     await processArray("expertAreasSection", "areas", lp.expertAreasSection?.areas);
     await processArray("symptomsSection", "items", lp.symptomsSection?.items);
     await processArray("supportSection", "areas", lp.supportSection?.areas);
+    await processArray("audiencesSection", "audiences", lp.audiencesSection?.audiences);
 
     // --- single-image sections: whySection.image, spotlightSection.image
     async function processSingle(sectionPath: string, section: any) {
