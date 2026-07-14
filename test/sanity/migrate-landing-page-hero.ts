@@ -102,10 +102,8 @@ const HEROES: Record<string, HeroDef> = {
     ],
   },
   fertilitet: {
-    imagePointer: "hero-fertilitet.jpg.asset.json",
-    videoPointer: "hero/fertilitet-hero-v2.jpg.asset.json".replace(".jpg", ".mp4") // fallback resolve below
-      ? "hero/fertilitet-hero.mp4.asset.json"
-      : undefined,
+    imagePointer: "services/fertilitet-hero.jpg.asset.json",
+    videoPointer: "fertilitet-hero-v2.mp4.asset.json",
     points: [
       BASE_POINTS.ingenHenvisning,
       BASE_POINTS.moderneTeknologi,
