@@ -11,6 +11,7 @@ import { MobileNavMenuContent } from '@/components/layout/MobileNavMenuContent';
 import {
   BURGER_EXTRA_NAV_ITEMS,
   DEFAULT_MAIN_NAVIGATION,
+  withRequiredMainNavigation,
 } from '@/lib/navigation/default-main-navigation';
 
 const BurgerMenu = () => {
@@ -32,7 +33,7 @@ const BurgerMenu = () => {
 
   const menuItems = useMemo(() => {
     const raw = siteSettings?.mainNavigation?.length
-      ? [...siteSettings.mainNavigation, ...BURGER_EXTRA_NAV_ITEMS]
+      ? [...withRequiredMainNavigation(siteSettings.mainNavigation), ...BURGER_EXTRA_NAV_ITEMS]
       : staticMenuItems;
     const seen = new Set<string>();
     const deduped = raw.filter((item: { navId?: string; label?: string }) => {
@@ -138,7 +139,7 @@ const BurgerMenu = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[100] overflow-y-auto bg-white md:hidden"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-brand-warm md:hidden"
       role="dialog"
       aria-modal="true"
       aria-label={t("nav.navigationMenu")}

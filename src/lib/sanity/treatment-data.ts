@@ -296,12 +296,21 @@ export function mapTreatmentDocument(
           };
         })
         .filter((p) => p.title);
+      const title = asPlainString(ts.title) || undefined;
+      const lead = asPlainString(ts.lead) || undefined;
+      const image = asPlainString(ts.image) || undefined;
+      const imageAlt = asPlainString(ts.imageAlt) || undefined;
+
+      if (!title && !lead && !points.length && !image) {
+        return undefined;
+      }
+
       return {
-        title: asPlainString(ts.title) || undefined,
-        lead: asPlainString(ts.lead) || undefined,
+        title,
+        lead,
         points: points.length ? points : undefined,
-        image: asPlainString(ts.image) || undefined,
-        imageAlt: asPlainString(ts.imageAlt) || undefined,
+        image,
+        imageAlt,
       };
     })(),
     relatedEyebrow: data.relatedSection && typeof data.relatedSection === "object" ? asPlainString((data.relatedSection as any).eyebrow) : undefined,

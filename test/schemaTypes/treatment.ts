@@ -144,14 +144,6 @@ export default {
       ],
     },
     {
-      name: 'subtitle',
-      title: 'Subtitle',
-      type: 'internationalizedArrayString',
-      group: 'general',
-      description: 'Short text shown under the treatment name (used as eyebrow in the hero section).',
-      validation: reqI18n('Subtitle'),
-    },
-    {
       name: 'sortOrder',
       title: 'Sorting order',
       type: 'number',
@@ -161,8 +153,6 @@ export default {
     // ─── Hero Section ────────────────────────────────────────────────────────
     { name: 'homeBreadcrumbLabel', title: 'Breadcrumb — home', type: 'internationalizedArrayString', group: 'hero', description: 'The text displayed as the first segment in the breadcrumb navigation, e.g. \'Home\'.' },
     { name: 'srOnlyTitle', title: 'Hidden H1 (screen reader)', type: 'internationalizedArrayString', group: 'hero', description: 'A hidden heading for screen readers only. Briefly describe the page, e.g. \'Treatment page for hysteroscopy at CMedical\'.' },
-    { name: 'themesAriaLabel', title: 'Temaer — aria-label', type: 'internationalizedArrayString', group: 'hero' },
-    { name: 'eyebrow', title: 'Eyebrow (above hero title)', type: 'internationalizedArrayString', group: 'hero', description: 'Small text above the title in the hero section, e.g. \'Gynecology\'.' },
     {
       name: 'heroTitle',
       title: 'Hero Title',
@@ -197,9 +187,9 @@ export default {
       description: 'Optional video URL played in the hero section. Upload an MP4 video (max 10MB, 16:9 format) and paste the URL here.',
     },
     { name: 'rating', title: 'Rating / tagline', type: 'internationalizedArrayString', group: 'hero', description: 'Short text shown under the hero image, e.g. \'4.9/5 from 200 patients\'.' },
-    { name: 'heroPrice', title: 'Hero — prislinje', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
+    { name: 'heroPrice', title: 'Hero — Price info', type: 'internationalizedArrayString', group: 'hero', description: 'Brief price info in the hero section, e.g., \'From NOK 2,500\'.' },
     { name: 'hideSeePriser', title: 'Hide \'See prices\' link', type: 'boolean', group: 'hero', initialValue: false },
-    { name: 'heroAvailability', title: 'Hero — tilgjengelighet', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
+    { name: 'heroAvailability', title: 'Hero — Availability', type: 'internationalizedArrayString', group: 'hero', description: 'Availability text in the hero section, e.g., \'Available at 3 clinics\'.' },
     {
       name: 'heroThemes',
       title: 'Hero — tema-chips',
@@ -210,7 +200,7 @@ export default {
     },
     {
       name: 'heroPoints',
-      title: 'Hero-punkter',
+      title: 'Hero Points',
       type: 'array',
       group: 'hero',
       description: 'Short benefit points shown in the hero section.',
@@ -233,21 +223,19 @@ export default {
         },
       ],
     },
-    // ─── Booking / CTA ───────────────────────────────────────────────────────
     { name: 'primaryCtaLabel', title: 'Primary CTA text', type: 'internationalizedArrayString', group: 'hero', description: 'The text on the \'Book appointment\' button in the hero section.' },
     { name: 'seePricesLabel', title: 'See prices — text', type: 'internationalizedArrayString', group: 'hero' },
     { name: 'seePricesHref', title: 'See prices — link', type: 'string', group: 'hero', description: 'URL to pricing page, e.g. /prices.', validation: validateRelativePath },
     { name: 'callCtaLabel', title: 'Call us — text', type: 'internationalizedArrayString', group: 'hero' },
     { name: 'bookingService', title: 'Booking service ID', type: 'string', group: 'hero', description: 'Optional service ID sent to the booking system (e.g. \'hysterectomy\').' },
     // ─── Reasons / Symptoms ──────────────────────────────────────────────────
-    { name: 'reasonsEyebrow', title: 'Symptoms — eyebrow', type: 'internationalizedArrayString', group: 'symptoms' },
+
     {
       name: 'reasonsTitle',
       title: 'Symptoms — title',
       type: 'internationalizedArrayString',
       group: 'symptoms',
       description: 'Heading for the symptoms/indications section.',
-      validation: reqI18n('Symptoms — title'),
     },
     { name: 'reasonsLead', title: 'Symptoms — introduction 1', type: 'internationalizedArrayText', group: 'symptoms' },
     { name: 'reasonsLead2', title: 'Symptoms — introduction 2', type: 'internationalizedArrayText', group: 'symptoms' },
@@ -272,7 +260,6 @@ export default {
       type: 'array',
       group: 'symptoms',
       description: 'Add symptoms or indications for this treatment.',
-      validation: (Rule: any) => Rule.required().min(1).error('At least one symptom/indication must be added'),
       of: [
         {
           type: 'object',
@@ -295,7 +282,7 @@ export default {
       ],
     },
     // ─── Flow (Treatment Steps) ───────────────────────────────────────────────
-    { name: 'flowEyebrow', title: 'Process — eyebrow', type: 'internationalizedArrayString', group: 'flow' },
+
     { name: 'flowTitle', title: 'Process — title', type: 'internationalizedArrayString', group: 'flow', description: 'Heading for the \'How it works\' section.' },
     { name: 'flowImage', title: 'Process — image', type: 'image', group: 'flow', options: { hotspot: true } },
     { name: 'flowImageAlt', title: 'Process — image alt', type: 'internationalizedArrayString', group: 'flow' },
@@ -378,7 +365,7 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'eyebrow', title: 'Eyebrow', type: 'internationalizedArrayString' },
+
             { name: 'title', title: 'Title', type: 'internationalizedArrayString' },
             { name: 'desc', title: 'Description', type: 'internationalizedArrayText' },
             { name: 'image', title: 'Image', type: 'image', options: { hotspot: true } },
@@ -442,7 +429,7 @@ export default {
       type: 'object',
       group: 'features',
       fields: [
-        { name: 'eyebrow', title: 'Relatert — eyebrow', type: 'internationalizedArrayString' },
+
         { name: 'title', title: 'Related — title', type: 'internationalizedArrayString' },
         { name: 'lead', title: 'Relatert — ingress', type: 'internationalizedArrayText' },
         { name: 'asIntro', title: 'Relatert rett etter hero', type: 'boolean' },
@@ -569,17 +556,6 @@ export default {
         issues.push('Hero-ingress (engelsk) mangler')
       }
       // Specialists validation removed as they are now managed under pageSections
-
-      const reasons = document.reasons as unknown[] | undefined
-      if (!Array.isArray(reasons) || reasons.length === 0) {
-        issues.push('At least one symptom/indication must be added')
-      }
-      if (!pickNo(document.reasonsTitle)?.trim()) {
-        issues.push('Symptoms — title (Norwegian) is missing')
-      }
-      if (!pickForLang(document.reasonsTitle, 'en')?.trim()) {
-        issues.push('Symptoms — title (English) is missing')
-      }
 
       const promises = document.promises as unknown[] | undefined
       if (!Array.isArray(promises) || promises.length === 0) {

@@ -154,12 +154,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "stressinkontinens",
                 heading: "Typer urinlekkasje",
-                content: "**Stressinkontinens**\nUrinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.\n\n**Tranginkontinens**\nEn plutselig sterk trang til å late vannet etterfulgt av lekkasje. Man er ofte plaget av hyppig toalettbesøk, hvor man ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte.\n\n_Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle._\n\n**Blandingsinkontinens**\nKombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person.\n\nEr du plaget med dette anbefaler vi deg å ta kontakt med oss.",
+                content: "**Stressinkontinens**\nUrinlekkasje ved fysisk aktivitet, hoste eller latter skyldes oftest svekkelse i bindevev/muskulatur som holder urinrør og urinblære på plass. Stressinkontinens oppstår typisk grunnet skader som kommer etter fødsler eller tungt fysisk arbeid.\n\n**Tranginkontinens**\nEn plutselig sterk trang til å late vannet etterfulgt av lekkasje. Du er ofte plaget av hyppig toalettbesøk, hvor du ikke alltid når frem i tide. Dette skyldes feil i nervesignalene til blæremuskelaturen slik at denne trekker seg sammen ukontrollert og ofte.\n\n_Kronisk UVI eller betennelse i blæreveggen kan forveksles med trang, dette kan vi også behandle._\n\n**Blandingsinkontinens**\nKombinasjon av stress og trang, hvilken type som dominerer avhenger fra person til person.\n\nEr du plaget med dette anbefaler vi deg å ta kontakt med oss.",
             },
             {
                 id: "behandling",
                 heading: "Behandling",
-                content: "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.).\n\nDet finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner.\n\nVed samtidig vaginale fremfall og stressurinlekkasje vil man bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
+                content: "Hvilken behandling vi anbefaler deg avhenger av hvilken type lekkasje du har, hvor mye du lekker og dine risikofaktorer (BMI, tidligere kirurgi osv.).\n\nDet finnes trygge og effektive behandlinger, som for eksempel blæretrening, bekkenbunnstrening, medikamentell behandling eller ulike typer operasjoner.\n\nVed samtidig vaginale fremfall og stressurinlekkasje vil du bestandig operere det vaginale fremfallet først. Har du spørsmål om dette kan du alltid kontakte oss for en uforpliktende prat.",
             },
         ],
         relatedSpecialists: ["madeleine-engen", "birgitte-aspenes"],
@@ -181,7 +181,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "symptomer",
                 heading: "Symptomer",
-                content: "Symptomene på endometriose er individuelle. Det vanligste symptomet er smerter ved menstruasjon eller utenom. Smertene kan variere i styrke fra minimale menstruasjonssmerter til invalidiserende smerter. Andre symptomer kan være kvalme, diaré eller forstoppelse, økt trettbarhet, smerter ved vannlatning eller ved samleie. Omtrent 10% av kvinner rammes, og hele 30% av disse lider av underlivssmerter.",
+                content: "Symptomene på endometriose er individuelle. Det vanligste symptomet er smerter ved menstruasjonen eller utenom. Smertene kan variere i styrke fra minimale menstruasjonssmerter til invalidiserende smerter. Andre symptomer kan være kvalme, diaré eller forstoppelse, økt trettbarhet, smerter ved vannlatning eller ved samleie. Omtrent 10% av kvinner rammes, og hele 30% av disse lider av underlivssmerter.",
             },
             {
                 id: "kirurgi",
@@ -260,7 +260,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "behandling",
                 heading: "Behandling",
-                content: "Behandlingen avhenger av alvorlighetsgraden og symptomene, og kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering hvis man opplever symptomer på vaginalt fremfall. Hos oss møter du noen av Nordens fremste eksperter på fremfall.",
+                content: "Behandlingen avhenger av alvorlighetsgraden og symptomene, og kan inkludere bekkenbunnstrening, bruk av støtteinnretninger, eller i mer alvorlige tilfeller kirurgiske inngrep. Det er viktig å oppsøke helsepersonell for en grundig vurdering hvis du opplever symptomer på vaginalt fremfall. Hos oss møter du noen av Nordens fremste eksperter på fremfall.",
             },
         ],
         relatedSpecialists: ["madeleine-engen"],
@@ -276,7 +276,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Gynekologi",
         heroImage: gynekologiImg,
-        description: "Blødningsforstyrrelser kan være at intervallet mellom menstruasjonene endrer seg, at de blir hyppigere eller sjeldnere. Det kan være at mengden blod som kommer hver gang øker eller minker, eller det kan være blødninger som kommer mellom menstruasjoner.\n\nHvis man opplever mensen som plagsomt stor, uregelmessig eller smertefull, bør dette undersøkes hos gynekolog. Da vil vi gjøre ultralyd og ta ulike prøver for å finne ut av hvorfor du har blødningsforstyrrelser.",
+        description: "Blødningsforstyrrelser kan være at intervallet mellom menstruasjonene endrer seg, at de blir hyppigere eller sjeldnere. Det kan være at mengden blod som kommer hver gang øker eller minker, eller det kan være blødninger som kommer mellom menstruasjoner.\n\nHvis du opplever menstruasjonen som plagsomt stor, uregelmessig eller smertefull, bør dette undersøkes hos gynekolog. Da vil vi gjøre ultralyd og ta ulike prøver for å finne ut av hvorfor du har blødningsforstyrrelser.",
         sections: [
             {
                 id: "vanlige-arsaker",
@@ -286,7 +286,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "prevensjon",
                 heading: "Prevensjon",
-                content: "Dersom man bruker prevensjon kan man få uregelmessige blødninger på grunn av det. Det er sjelden farlig, og som oftest er det bare å bytte prevensjonsmiddel så blir det bedre. Opplever du plager kan du alltid ta kontakt med oss eller bestille time.",
+                content: "Dersom du bruker prevensjon kan du få uregelmessige blødninger på grunn av det. Det er sjelden farlig, og som oftest er det bare å bytte prevensjonsmiddel så blir det bedre. Opplever du plager kan du alltid ta kontakt med oss eller bestille time.",
             },
         ],
         relatedSpecialists: ["birgitte-mitlid-mork", "birgitte-aspenes"],
@@ -312,7 +312,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "behandling",
                 heading: "Behandling",
-                content: "Lavgradige celleforandringer i livmorhalsen går ofte tilbake av seg selv. De behandles kun hvis de vedvarer. Ved lavgradige celleforandringer anbefales det å ta en ny celleprøve om 12 måneder.\n\nHøygradige celleforandringer behandles individuelt. Her henvises man først til gynekolog som utfører kolposkopi. Det er en vanlig undersøkelse der gynekologen studerer livmorhalsen ved hjelp av et mikroskop. Samtidig tas det også en vevsprøve (biopsi) fra både livmorhalskanalen og livmortappen for å nærmere studere funnene fra celleprøven.\n\nDersom man trenger behandling gjøres det med et lite kirurgisk inngrep som kalles konisering.",
+                content: "Lavgradige celleforandringer i livmorhalsen går ofte tilbake av seg selv. De behandles kun hvis de vedvarer. Ved lavgradige celleforandringer anbefales det å ta en ny celleprøve om 12 måneder.\n\nHøygradige celleforandringer behandles individuelt. Her henvises du først til gynekolog som utfører kolposkopi. Det er en vanlig undersøkelse der gynekologen studerer livmorhalsen ved hjelp av et mikroskop. Samtidig tas det også en vevsprøve (biopsi) fra både livmorhalskanalen og livmortappen for å nærmere studere funnene fra celleprøven.\n\nDersom du trenger behandling gjøres det med et lite kirurgisk inngrep som kalles konisering.",
             },
             {
                 id: "konisering",
@@ -343,7 +343,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "for-og-etter-overgangsalder",
                 heading: "Før og etter overgangsalder",
-                content: "Hos kvinner før overgangsalder er de aller fleste cyster godartede. Hvis gynekologen finner en cyste ved ultralydundersøkelse, blir du fulgt opp videre med ultralyd, avhengig av hva slags cyste det er du har. Det er som oftest ikke nødvendig med blodprøve.\n\nEtter overgangsalder er det mindre vanlig med cyster og risikoen for at en cyste er ondartet er større. Her vil det være viktig med blodprøve, flere ultralydundersøkelser og andre bildeundersøkelser før man eventuelt opererer bort cysten.",
+                content: "Hos kvinner før overgangsalder er de aller fleste cyster godartede. Hvis gynekologen finner en cyste ved ultralydundersøkelse, blir du fulgt opp videre med ultralyd, avhengig av hva slags cyste det er du har. Det er som oftest ikke nødvendig med blodprøve.\n\nEtter overgangsalder er det mindre vanlig med cyster og risikoen for at en cyste er ondartet er større. Her vil det være viktig med blodprøve, flere ultralydundersøkelser og andre bildeundersøkelser før du eventuelt opererer bort cysten.",
             },
             {
                 id: "behandling",
@@ -364,7 +364,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Gynekologi",
         heroImage: gynekologiImg,
-        description: "Fjerning av livmor (hysterektomi) anbefales ved plagsomme muskelknuter (myomer), blødningsforstyrrelser, kreft i livmor eller livmorhals. Det kan også være aktuelt ved endometriose eller ved vedvarende celleforandringer i livmorhals. Ved operasjonen fjernes livmoren i sin helhet, eggstokker blir stående igjen dersom man ikke er kommet i overgangsalderen.",
+        description: "Fjerning av livmor (hysterektomi) anbefales ved plagsomme muskelknuter (myomer), blødningsforstyrrelser, kreft i livmor eller livmorhals. Det kan også være aktuelt ved endometriose eller ved vedvarende celleforandringer i livmorhals. Ved operasjonen fjernes livmoren i sin helhet, eggstokker blir stående igjen dersom du ikke er kommet i overgangsalderen.",
         sections: [
             {
                 id: "hysterektomi",
@@ -400,12 +400,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "nipt",
                 heading: "NIPT",
-                content: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det derfor ingen økt risiko for abort som for eksempel ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+                content: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det derfor ingen økt risiko for abort som for eksempel ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
             },
             {
                 id: "6-ukerskontroll",
                 heading: "6-ukerskontroll",
-                content: "Ved 6-ukerskontrollen vil du treffe medgründer og gynekolog [Madeleine Engen](/spesialister/madeleine-engen). Hun har særlig erfaring med fødselsskader som kan føre til [vaginale fremfall](/behandlinger/gynekologi/vaginale-fremfall) eller [urinlekkasje](/behandlinger/gynekologi/urinlekkasje). Ta gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.\n\nPå denne kontrollen vil hovedfokuset være mors bekken. Dersom du ønsker så forklarer Madeleine endringer i underlivet ved hjelp av speil eller tegninger. Hun sjekker også hvor god kontroll og kontakt du har med bekkenbunnsmuskulaturen. Videre forklares eventuelle skader du har, hvordan man kan forebygge disse videre og hva man kan forvente i fremtiden.\n\n- Kort om svangerskap og fødsel\n- Renselse, amming\n- Mors psykiske helse\n- Sex og samliv\n- Prevensjon/prevensjonsveiledning\n- På indikasjon tar vi BT, puls eller blodprøver",
+                content: "På 6-ukerskontrollen har vi hovedfokus på bekkenbunn og din psykiske helse etter fødsel. Du treffer erfaren gynekolog som går grundig gjennom hvordan kroppen har hentet seg inn, sjekker bekkenbunnsmuskulaturen og tar seg tid til hvordan du har det. Vi snakker om amming, søvn, samliv og eventuelle plager — og legger en plan for veien videre.\n\nTa gjerne med deg epikrisen fra oppholdet på sykehuset til konsultasjonen.",
             },
             {
                 id: "traumatisk-fodsel",
@@ -467,7 +467,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "pcos",
                 heading: "PMOS",
-                content: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere omtalt som Polycystisk ovariesyndrom (PMOS).)\n\nDiagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir, noe som igjen kan føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon, eller 2–4 ganger i året ta tabletter som gir blødning, for å unngå risiko for celleforandringer i livmorslimhinnen som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens og har økt risiko for å utvikle diabetes mellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ingen spesiell test som gir diagnosen. Pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur, men det finnes medisiner og behandling som kan gjøre tilstanden bedre.",
+                content: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere omtalt som Polycystisk ovariesyndrom (PMOS).)\n\nDiagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir, noe som igjen kan føre til at du mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon, eller 2–4 ganger i året ta tabletter som gir blødning, for å unngå risiko for celleforandringer i livmorslimhinnen som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens og har økt risiko for å utvikle diabetes mellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ingen spesiell test som gir diagnosen. Pasienten må oppfylle 2 av 3 kriterier for å få diagnosen:\n\n- Uregelmessige og sjeldne menstruasjoner\n- Polycystiske eggstokker\n- Hyperandrogenisme (økt behåring, akne og mannlig hårtap)\n\nDet finnes ingen kur, men det finnes medisiner og behandling som kan gjøre tilstanden bedre.",
             },
             {
                 id: "pms-pmdd",
@@ -543,7 +543,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "robotassistert-kirurgi",
                 heading: "Robotassistert kirurgi",
-                content: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde. Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning. Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner. De fleste pasientene kan reise hjem innen ett døgn. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ. Vi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP). Rask rehabilitering: Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling. En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Kortere sykemelding: Avhengig av jobb og inngrep kan du forvente en sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient). Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen. Presisjon som merkes: Med høyoppløselig 3D-kamera og avanserte instrumenter har kirurgen svært god kontroll. I bekkenet finnes ømfintlig vev som lett kan skades under kirurgi (f.eks. ved nervesparende operasjoner ved dyp endometriose eller fjerning av prostata). Robotassistert kirurgi gir bedre kontroll og lavere risiko ved slik nervedisseksjon. Ergonomi: Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling, noe som bidrar til økt konsentrasjon og mindre utmattelse.",
+                content: "Robotassistert kirurgi er en avansert, men skånsom form for behandling. Operasjonen gjennomføres som ved klassisk kikkhullskirurgi, gjennom små åpninger i huden. Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde. Robotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning. Robotassistert kirurgi er ofte foretrukket ved kompliserte operasjoner, spesielt når du kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner. De fleste pasientene kan reise hjem innen ett døgn. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ. Vi tilbyr robotassistert kirurgi innen blant annet: muskelknuter (fertilitetsbevarende kirurgi), dyp endometriose, hysterektomi (også ved forstørret livmor), brokk, godartet forstørret prostata (RASP) og prostatakreft (RALP). Rask rehabilitering: Robotassistert kirurgi er en moderne og skånsom operasjonsmetode hvor kirurgen opererer gjennom små snitt i stedet for et større operasjonssår. Dette gir mindre ubehag, redusert blødning, færre komplikasjoner og raskere tilheling. En raskere vei til restitusjon: Mange pasienter kan reise hjem allerede dagen etter inngrepet. Allerede samme kveld er det mulig å spise, bevege seg og føle seg mer som seg selv igjen. Kortere sykemelding: Avhengig av jobb og inngrep kan du forvente en sykemeldingsperiode på 2–6 uker (kirurgen spesifiserer per pasient). Sammenlignet med tradisjonell åpen kirurgi gir robotassistert kirurgi en raskere vei tilbake til hverdagen. Presisjon som merkes: Med høyoppløselig 3D-kamera og avanserte instrumenter har kirurgen svært god kontroll. I bekkenet finnes ømfintlig vev som lett kan skades under kirurgi (f.eks. ved nervesparende operasjoner ved dyp endometriose eller fjerning av prostata). Robotassistert kirurgi gir bedre kontroll og lavere risiko ved slik nervedisseksjon. Ergonomi: Under robotassistert kirurgi sitter kirurgen i en ergonomisk og komfortabel arbeidsstilling, noe som bidrar til økt konsentrasjon og mindre utmattelse.",
             },
             {
                 id: "safe-histology-surgery",
@@ -618,7 +618,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Gynekologi",
         heroImage: gynekologiImg,
-        description: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PMOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at man mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har man landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen: Uregelmessige og sjeldne menstruasjoner; Polycystiske eggstokker; Hyperandrogenisme (økt behåring, akne og mannlig hårtap).\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
+        description: "Polyendokrint Metabolsk Ovarialsyndrom (PMOS) kjennetegnes ved at kjønnshormonene er i ubalanse. (Tidligere ble dette omtalt som Polycystisk ovariesyndrom (PMOS), men endret diagnosenavn 12. mai 2026.)\n\nDenne diagnosen kan føre til at eggcellene ikke får modnet og at eggløsning uteblir. Det kan igjen føre til at du mister eller får sjeldne menstruasjoner. Kvinner med PMOS kan oftere oppleve ufrivillig barnløshet og trenger hyppigere hjelp til å bli gravid. Kvinner med sjelden eller uteblitt menstruasjon bør benytte prevensjon eller 2-4 ganger i året ta tabletter som gir blødning. Dette for å unngå risiko for celleforandringer i livmorslimhinnen og som på sikt kan forårsake endometriekreft.\n\nMange opplever også insulinresistens, og de har økt risiko for å utvikle diabetesmellitus type 2, samt høyt kolesterol og blodtrykk. Risikoen for hjerte- og karsykdommer øker også.\n\nPMOS er ikke en spesifikk endokrin sykdom, men et syndrom med forskjellige symptomer og tegn. Det finnes ikke en spesiell test som gir diagnosen. Ikke overraskende, har det vært utfordrende og kontroversielt å etablere diagnostiske kriterier.\n\nI dag har du landet på at pasienten må oppfylle 2 av 3 kriterier for å få diagnosen: Uregelmessige og sjeldne menstruasjoner; Polycystiske eggstokker; Hyperandrogenisme (økt behåring, akne og mannlig hårtap).\n\nDet finnes ingen kur mot PMOS, men det finnes medisiner og behandling som kan gjøre tilstanden bedre. Har du spørsmål knyttet til dette kan du snakke med en av våre sekretærer eller bestille en konsultasjon.",
         faqs: [
             { question: "Henvisning", answer: "Ingen henvisning nødvendig. Vi er en privathelseklinikk og har derfor ingen refusjonsavtale med det offentlige." },
             { question: "Ventetid", answer: "Vi har fra ingen til veldig korte ventetider. Generelt sett skal du få hjelp innen en uke." },
@@ -631,17 +631,17 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Gynekologi",
         heroImage: gynekologiImg,
-        description: "Kompliserte sykdommer som vulvasykdommer trenger en tverrfaglig tilnærming. Vårt multidisiplinære team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut. Avhengig av vulvovaginal lidelse og diagnose, vil man få tilbud om videre konsultasjon med andre spesialister.",
+        description: "Kompliserte sykdommer som vulvasykdommer trenger en tverrfaglig tilnærming. Vårt multidisiplinære team består derfor av gynekolog, hudlege, sexolog, psykolog og bekkenbunnsfysioterapeut. Avhengig av vulvovaginal lidelse og diagnose, vil du få tilbud om videre konsultasjon med andre spesialister.",
         sections: [
             {
                 id: "infeksjoner",
                 heading: "Infeksjoner",
-                content: "I en normal flora i skjeden er det bakterier som beskytter og er en del av immunforsvaret for kvinnen. Det er likevel mulig å få en infeksjon eller ubalanse i vaginal floraen. Noen bakterier overføres seksuelt kjent som kjønnsykdommer og omhandler Chlamydia, Gonore og Syfillis. Disse skal alltid behandles for å unngå komplikasjoner. Andre tilstander som soppinfeksjoner skal behandles når de gir plager. Enkelte kvinner kan også få en ubalanse i normal flora enten gjennom bakteriell vaginose eller aerobisk vaginitt. Dette kan være svært plagsomt. Man kan enkelt diagnostisere disse tilstandene ved å gjøre mikroskopi av utstryk av utflod. Behandling vil da kunne startes etter denne undersøkelsen.",
+                content: "I en normal flora i skjeden er det bakterier som beskytter og er en del av immunforsvaret for kvinnen. Det er likevel mulig å få en infeksjon eller ubalanse i vaginal floraen. Noen bakterier overføres seksuelt kjent som kjønnsykdommer og omhandler Chlamydia, Gonore og Syfillis. Disse skal alltid behandles for å unngå komplikasjoner. Andre tilstander som soppinfeksjoner skal behandles når de gir plager. Enkelte kvinner kan også få en ubalanse i normal flora enten gjennom bakteriell vaginose eller aerobisk vaginitt. Dette kan være svært plagsomt. Du kan enkelt diagnostisere disse tilstandene ved å gjøre mikroskopi av utstryk av utflod. Behandling vil da kunne startes etter denne undersøkelsen.",
             },
             {
                 id: "vaginal-torrhet",
                 heading: "Vaginal tørrhet",
-                content: "Vaginal tørrhet er et symptom som plager mange kvinner. Vaginal tørrhet kan oppstå i ulike faser i løpet av livet, men hyppigst forekommer det i perimenopausen eller etter overgangsalder. Østrogen er viktig for å bevare elastisitet og fuktighet i skjeden. Ved mangel på østrogen kan mange oppleve tørrhet i skjeden som kan medføre hyppigere urinveisinfeksjoner, smerter ved samleie, sprekkdannelser i slimhinner, svie og kløe. Vulvaplager og vaginal tørrhet bør alltid undersøkes slik at man kan unngå de plager dette kan medføre.",
+                content: "Vaginal tørrhet er et symptom som plager mange kvinner. Vaginal tørrhet kan oppstå i ulike faser i løpet av livet, men hyppigst forekommer det i perimenopausen eller etter overgangsalder. Østrogen er viktig for å bevare elastisitet og fuktighet i skjeden. Ved mangel på østrogen kan mange oppleve tørrhet i skjeden som kan medføre hyppigere urinveisinfeksjoner, smerter ved samleie, sprekkdannelser i slimhinner, svie og kløe. Vulvaplager og vaginal tørrhet bør alltid undersøkes slik at du kan unngå de plager dette kan medføre.",
             },
             {
                 id: "vaginisme",
@@ -677,7 +677,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Urologi",
         heroImage: urologiImg,
-        description: "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere. Blærefunksjonen er viktig for at kroppen skal opprettholde riktig væskebalanse og kvitte seg med avfallsstoffer. Når dette ikke fungerer, bør man kontakte en urolog.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis man opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
+        description: "Blæren er en hul muskel som lagrer urin, et avfallsstoff som kroppen skiller ut fra nyrene. Urinen produseres i nyrene, filtreres fra blodet, og sendes deretter til blæren gjennom urinlederne. Når blæren er full, gir den signal til hjernen om at vi må urinere. Blærefunksjonen er viktig for at kroppen skal opprettholde riktig væskebalanse og kvitte seg med avfallsstoffer. Når dette ikke fungerer, bør du kontakte en urolog.\n\nVed problemer med vannlating, som at blæren ikke blir tømt helt eller at trykket på urinstrålen er dårlig, kan dette være symptomer på både forstyrrelser i blæren og prostata. Blod i urinen kan også være et tegn på slike problemer. Hvis du opplever noen av disse symptomene, er det viktig å oppsøke en urolog for videre undersøkelse.",
         sections: [
             {
                 id: "blod-i-urinen",
@@ -687,7 +687,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "vannlatningsproblemer",
                 heading: "Vannlatningsproblemer",
-                content: "Vannlatingsproblemer hos menn kan omfatte symptomer som plutselig sterk vannlatingstrang, hyppig vannlating, vanskeligheter med å starte vannlating, svak urinstråle og avbrutt vannlating. Problemene kan ha en rekke årsaker og det er derfor viktig å sjekke det hvis man har symptomer.\n\nUrineringsproblemer kan deles inn i **lagringssymptomer** og **tømningssymptomer**. Lagringssymptomer inkluderer plutselig sterk vannlatingstrang, hyppig vannlating, små urinmengder, nattlig vannlating, ubehag ved blærefylling og urinlekkasje. Tømningssymptomer innebærer vanskeligheter med å starte vannlating, svak urinstråle, følelse av ufullstendig tømming, avbrutt vannlating, behov for å anstrenge seg, etterskvetting, svie eller smerte under vannlating, og tidligere opphør av vannlating. Hvis du har slike problemer er det viktig at du kontakter lege. Våre urologer er spesialister på dette og hjelper deg gjerne.",
+                content: "Vannlatingsproblemer hos menn kan omfatte symptomer som plutselig sterk vannlatingstrang, hyppig vannlating, vanskeligheter med å starte vannlating, svak urinstråle og avbrutt vannlating. Problemene kan ha en rekke årsaker og det er derfor viktig å sjekke det hvis du har symptomer.\n\nUrineringsproblemer kan deles inn i **lagringssymptomer** og **tømningssymptomer**. Lagringssymptomer inkluderer plutselig sterk vannlatingstrang, hyppig vannlating, små urinmengder, nattlig vannlating, ubehag ved blærefylling og urinlekkasje. Tømningssymptomer innebærer vanskeligheter med å starte vannlating, svak urinstråle, følelse av ufullstendig tømming, avbrutt vannlating, behov for å anstrenge seg, etterskvetting, svie eller smerte under vannlating, og tidligere opphør av vannlating. Hvis du har slike problemer er det viktig at du kontakter lege. Våre urologer er spesialister på dette og hjelper deg gjerne.",
             },
             {
                 id: "tur-p-tur-b",
@@ -778,7 +778,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "robotassistert-kirurgi-nyrekreft",
                 heading: "Robotassistert kirurgi for nyrekreft",
-                content: "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotassistert kirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt manøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotassistert kirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene. Det er viktig å merke seg at ikke alle pasienter er kandidater for robotassistert kirurgi, og kirurgen vil vurdere den beste tilnærmingen basert på pasientens individuelle forhold.\n\nHar du spørsmål knyttet til dette kan du kontakte oss på telefon.",
+                content: "Robotassistert kirurgi har revolusjonert behandlingen av nyrekreft. Denne avanserte teknologien gir kirurger en nøyaktig og minimalt invasiv måte å fjerne nyretumorer.\n\nUnder robotassistert kirurgi for nyrekreft bruker kirurgen et spesialdesignet robotisk kirurgisystem som gir høy presisjon og økt duøvrerbarhet. Dette tillater kirurgen å utføre inngrepet gjennom små snitt i stedet for store åpne snitt, noe som reduserer smerter, blødning og rekonvalesenstid for pasienten.\n\nRobotassistert kirurgi gir også fordelen av forstørret 3D-visning, som gir kirurgen en detaljert oversikt over tumoren og omkringliggende vev. Dette gjør det mulig å fjerne kreftvevet mer presist og bevare så mye friskt vev som mulig.\n\nFordeler inkluderer kortere sykehusopphold og raskere rehabilitering for pasientene. Det er viktig å merke seg at ikke alle pasienter er kandidater for robotassistert kirurgi, og kirurgen vil vurdere den beste tilnærmingen basert på pasientens individuelle forhold.\n\nHar du spørsmål knyttet til dette kan du kontakte oss på telefon.",
             },
             {
                 id: "blaerestein",
@@ -809,7 +809,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
             {
                 id: "naar-sjekke",
-                heading: "Når skal man begynne å sjekke prostata?",
+                heading: "Når skal du begynne å sjekke prostata?",
                 content: "«Jeg anbefaler alle menn i 50-årsalderen å ta en PSA-test hvert år. Menn under 50 år som tilhører en risikogruppe bør også ha sjekke prostata jevnlig», oppfordrer Dr. Jørgensen.\n\n«Med risikogrupper mener jeg menn som har ett eller flere tilfeller av prostatakreft i familien. Risikogrupper inkluderer også menn som har kvinnelige slektninger med tilfeller av brystkreft eller eggstokkreft i ung alder.»\n\nDr. Trond Jørgensen er tydelig på at jevnlig prostatakontroll og sjekk av PSA-verdier er viktig i kampen mot prostatakreft. Grunnet mye oppmerksomhet rundt prostatakreft de senere år, oppdages de fleste prostatakrefttilfellene i dag i et tidlig stadium. Derfor har de fleste menn ikke nevneverdige symptomer som kan lede en frem til diagnosen.\n\n«Det er 12,5 % sannsynlighet for at en mann får diagnosen prostatakreft frem til han er 75 år, med andre ord vil mer enn 1 av 10 menn få diagnosen før eller siden i sitt voksne liv. Risikoen øker med alder, men menn ned i 40-årsalder får diagnosen hvert eneste år», forteller Dr. Jørgensen.",
             },
             {
@@ -832,12 +832,12 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Urologi",
         heroImage: urologiImg,
-        description: "Sterilisering er en enkel og vanlig prevensjonsmetode for menn. Metoden innebærer at man kutter sædlederen som transporterer sædceller fra testiklene til sædblæren.\n\nAngrer du på steriliseringen, kan sædlederne sys sammen igjen. Dette kalles refertilisering.",
+        description: "Sterilisering er en enkel og vanlig prevensjonsmetode for menn. Metoden innebærer at du kutter sædlederen som transporterer sædceller fra testiklene til sædblæren.\n\nAngrer du på steriliseringen, kan sædlederne sys sammen igjen. Dette kalles refertilisering.",
         sections: [
             {
                 id: "resultat",
                 heading: "Resultatet av refertilisering",
-                content: "Det er flere faktorer som kan avgjøre om en refertilisering blir vellykket eller ikke. Viktige faktorer er blant annet alder, samt hvor lenge det er siden du ble sterilisert.\n\nGenerelt kan man si at 70–80 % av pasientene kan regne med å få spermier i sæduttømmingen etter inngrepet. Muligheten for graviditet vil også påvirkes av forhold hos din partner.",
+                content: "Det er flere faktorer som kan avgjøre om en refertilisering blir vellykket eller ikke. Viktige faktorer er blant annet alder, samt hvor lenge det er siden du ble sterilisert.\n\nGenerelt kan du si at 70–80 % av pasientene kan regne med å få spermier i sæduttømmingen etter inngrepet. Muligheten for graviditet vil også påvirkes av forhold hos din partner.",
             },
             {
                 id: "for-under-etter",
@@ -869,7 +869,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "om-robotassistert-kirurgi",
                 heading: "Slik fungerer robotassistert kirurgi",
-                content: "Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nRobotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.\n\nRobotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når man kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)\n\nHos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.\n\nLurer du på om robotassistert kirurgi er riktig for deg? Vi hjelper deg gjerne, kontakt oss på telefon 22 60 00 50.",
+                content: "Ved robotassistert kirurgi styrer kirurgen instrumentene elektronisk fra en konsoll ved siden av pasienten. Maskinholdte instrumenter gir svært presise bevegelser, og et høyoppløselig, stereoskopisk 3D-kamera gir kirurgen et usedvanlig godt bilde.\n\nRobotsystemet er et kraftig verktøy som gir kirurgen optimal oversikt og tilgang, slik at avanserte inngrep kan utføres med høy presisjon og minimal belastning.\n\nRobotassistert kirurgi har mange fordeler, og er ofte foretrukket ved kompliserte operasjoner, spesielt når du kan unngå åpen kirurgi (laparotomi). Det gir raskere rekonvalesens og lavere risiko for komplikasjoner, både under og etter operasjonen. De fleste pasientene kan reise hjem innen ett døgn etter behandlingen. Ved enkelte krefttilfeller, som kreft i livmor, kan robotassistert kirurgi være et svært godt alternativ – nettopp fordi presisjon og skånsomhet er så viktig.\n\nVi tilbyr robotassistert kirurgi innen blant annet:\n\n- Muskelknuter (fertilitetsbevarende kirurgi)\n- Dyp endometriose\n- Hysterektomi, også ved forstørret livmor\n- Brokk\n- Godartet forstørret prostata (RASP)\n- Prostatakreft (RALP)\n\nHos oss i CMedical setter vi alltid pasienten i sentrum. Vårt mål er å tilby moderne, trygg og skreddersydd behandling – med minst mulig smerte, lav risiko og en rask vei tilbake til hverdagen.\n\nLurer du på om robotassistert kirurgi er riktig for deg? Vi hjelper deg gjerne, kontakt oss på telefon 22 60 00 50.",
             },
             {
                 id: "rask-rehabilitering",
@@ -927,7 +927,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "for-og-etter",
                 heading: "Før og etter inngrepet",
-                content: "**Slik forbereder du deg til sterilisering:** Barber testiklene dagen før operasjonen. Dette er for å hindre at hår kommer i operasjonssårene, noe som kan føre til infeksjon. Før inngrepet må du informere oss om du bruker blodfortynnende medisiner. Du må undertegne et egenerklæringsskjema. Du kan kjøre bil både før og etter operasjon.\n\n**Dette tar du hensyn til etter inngrepet:** Dagen etter steriliseringen skal du dusje med bandasjen som ble satt på etter inngrepet. Etter dusjen skifter du den våte bandasjen til en ny bandasje som du får med deg fra oss. Hevelse og misfarging er normalt, og dette vil gå over av seg selv. Stingene løser seg opp og faller av etter cirka 2–3 uker.\n\nEjakulering og orgasme vil foregå helt likt etter sterilisering, men ejakulasjonen vil se noe klarere ut da den ikke lenger inneholder sædceller. Det er viktig å gjennomføre en sædanalyse etter 3 måneder før man slutter med andre prevensjonsmidler.",
+                content: "**Slik forbereder du deg til sterilisering:** Barber testiklene dagen før operasjonen. Dette er for å hindre at hår kommer i operasjonssårene, noe som kan føre til infeksjon. Før inngrepet må du informere oss om du bruker blodfortynnende medisiner. Du må undertegne et egenerklæringsskjema. Du kan kjøre bil både før og etter operasjon.\n\n**Dette tar du hensyn til etter inngrepet:** Dagen etter steriliseringen skal du dusje med bandasjen som ble satt på etter inngrepet. Etter dusjen skifter du den våte bandasjen til en ny bandasje som du får med deg fra oss. Hevelse og misfarging er normalt, og dette vil gå over av seg selv. Stingene løser seg opp og faller av etter cirka 2–3 uker.\n\nEjakulering og orgasme vil foregå helt likt etter sterilisering, men ejakulasjonen vil se noe klarere ut da den ikke lenger inneholder sædceller. Det er viktig å gjennomføre en sædanalyse etter 3 måneder før du slutter med andre prevensjonsmidler.",
             },
         ],
         relatedSpecialists: ["trond-jorgensen", "nabeel-yousaf-khan"],
@@ -949,7 +949,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "testikkelkreft",
                 heading: "Testikkelkreft",
-                content: "Selv om årsaken til testikkelkreft ikke er fullstendig kjent, er det flere mulige risikofaktorer. Disse inkluderer forsinket nedstigning av testiklene i pungen før fødselen, familiehistorie av testikkelkreft, underutviklede testikler, sterilitet, HIV-infeksjon, og miljømessige faktorer.\n\nVanligvis oppdages tilstanden med en kul i testikkelen eller følelse av ubehag i en testikkel. Hvis du opplever slike symptomer, er det viktig å oppsøke en urolog for en undersøkelse. Undersøkelsen inkluderer en ultralyd av testiklene.\n\n**Behandling av testikkelkreft**\n\nValg av behandlingsmetode for testikkelkreft avhenger av krefttypen og hvor avansert sykdommen er. Vanligvis inkluderer behandlingen kirurgi, der testikkelen fjernes, etterfulgt av cellegift.\n\nStrålebehandling kan også vurderes, men brukes ikke lenger som standardbehandling. Dette er kun aktuelt i visse tilfeller og stadier av testikkelkreft.\n\n**Livet etter behandling**\n\nGenerelt blir de fleste som har hatt testikkelkreft friske uten langsiktige komplikasjoner.\n\nSelv om en testikkel fjernes, påvirker det sjelden seksuell funksjon negativt. Hvis cellegiftbehandling er nødvendig, kan reproduksjonsevnen bli svekket i opptil to år, før den normaliserer seg.\n\nNoen kan oppleve det som utfordrende å ha bare én testikkel etter behandlingen, og i slike tilfeller kan man vurdere å få satt inn en testikkelprotese.",
+                content: "Selv om årsaken til testikkelkreft ikke er fullstendig kjent, er det flere mulige risikofaktorer. Disse inkluderer forsinket nedstigning av testiklene i pungen før fødselen, familiehistorie av testikkelkreft, underutviklede testikler, sterilitet, HIV-infeksjon, og miljømessige faktorer.\n\nVanligvis oppdages tilstanden med en kul i testikkelen eller følelse av ubehag i en testikkel. Hvis du opplever slike symptomer, er det viktig å oppsøke en urolog for en undersøkelse. Undersøkelsen inkluderer en ultralyd av testiklene.\n\n**Behandling av testikkelkreft**\n\nValg av behandlingsmetode for testikkelkreft avhenger av krefttypen og hvor avansert sykdommen er. Vanligvis inkluderer behandlingen kirurgi, der testikkelen fjernes, etterfulgt av cellegift.\n\nStrålebehandling kan også vurderes, men brukes ikke lenger som standardbehandling. Dette er kun aktuelt i visse tilfeller og stadier av testikkelkreft.\n\n**Livet etter behandling**\n\nGenerelt blir de fleste som har hatt testikkelkreft friske uten langsiktige komplikasjoner.\n\nSelv om en testikkel fjernes, påvirker det sjelden seksuell funksjon negativt. Hvis cellegiftbehandling er nødvendig, kan reproduksjonsevnen bli svekket i opptil to år, før den normaliserer seg.\n\nNoen kan oppleve det som utfordrende å ha bare én testikkel etter behandlingen, og i slike tilfeller kan du vurdere å få satt inn en testikkelprotese.",
             },
             {
                 id: "kul-i-pungen",
@@ -985,7 +985,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "kvinnelig-faktor",
                 heading: "Kvinnelig faktor til infertilitet",
-                content: "Kvinner fødes med ett bestemt antall egg, så den kvinnelige kroppen produserer derfor ikke flere. Ved hver menstruasjon utvikles ett eller flere egg til modning. Antall egg synker med årene, og i tillegg reduseres kvaliteten på eggene. Gjennom både erfaring og ulike studier er det avdekket en rekke forhold som kan påvirke den kvinnelige fertiliteten:\n\n- Eggløsningsproblemer som skyldes hormoner\n- PMOS (polyscystiske eggstokker) – Eggposene modnes ikke slik at man får sjelden eller ingen eggløsning\n- Skade på eggleder: for eksempel etter klamydiainfeksjon eller blindtarmoperasjon\n- Utfordringer med livmor: for eksempel muskelknuter eller adenomyose\n- Endometriose\n- Medisinske årsaker knyttet til medikamentbruk, som for eksempel cellegift\n- Alder",
+                content: "Kvinner fødes med ett bestemt antall egg, så den kvinnelige kroppen produserer derfor ikke flere. Ved hver menstruasjon utvikles ett eller flere egg til modning. Antall egg synker med årene, og i tillegg reduseres kvaliteten på eggene. Gjennom både erfaring og ulike studier er det avdekket en rekke forhold som kan påvirke den kvinnelige fertiliteten:\n\n- Eggløsningsproblemer som skyldes hormoner\n- PMOS (polyscystiske eggstokker) – Eggposene modnes ikke slik at du får sjelden eller ingen eggløsning\n- Skade på eggleder: for eksempel etter klamydiainfeksjon eller blindtarmoperasjon\n- Utfordringer med livmor: for eksempel muskelknuter eller adenomyose\n- Endometriose\n- Medisinske årsaker knyttet til medikamentbruk, som for eksempel cellegift\n- Alder",
             },
             {
                 id: "mannlig-faktor",
@@ -995,7 +995,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "uforklarlige-arsaker",
                 heading: "Uforklarlige årsaker til infertilitet",
-                content: "I ca 30 % av alle infertile tilfeller finner vi ingen årsak til hvorfor man ikke lykkes med å bli gravid. Vi forstår at det kan være en frustrerende beskjed å få etter å ha prøvd en lang stund. Om alle prøvene fra fertilitetssjekken ser fine ut, kan én eller flere av årsakene nedenfor være med på å minske sjansene for en graviditet:\n\n- Røyking og alkohol har en negativ påvirkning på mannlig og kvinnelig fertilitet\n- Overvekt kan ha en negativ påvirkning for både mannlig og kvinnelig fertilitet\n- Overforbruk av ulike legemidler som Naproxen, Voltaren, Ibux og andre smertestillende har dokumentert negativ effekt på sannsynligheten for å bli gravid",
+                content: "I ca 30 % av alle infertile tilfeller finner vi ingen årsak til hvorfor du ikke lykkes med å bli gravid. Vi forstår at det kan være en frustrerende beskjed å få etter å ha prøvd en lang stund. Om alle prøvene fra fertilitetssjekken ser fine ut, kan én eller flere av årsakene nedenfor være med på å minske sjansene for en graviditet:\n\n- Røyking og alkohol har en negativ påvirkning på mannlig og kvinnelig fertilitet\n- Overvekt kan ha en negativ påvirkning for både mannlig og kvinnelig fertilitet\n- Overforbruk av ulike legemidler som Naproxen, Voltaren, Ibux og andre smertestillende har dokumentert negativ effekt på sannsynligheten for å bli gravid",
             },
         ],
         relatedSpecialists: ["jackson-tok", "birgitte-mitlid-mork", "kjersti-brenden"],
@@ -1085,7 +1085,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "risiko",
                 heading: "Hva er risiko ved nedfrysning av egg?",
-                content: "Som ved all medisinsk behandling vil det alltid være en viss risiko knyttet til behandlingen.\n\n- **Overstimulering:** I noen tilfeller kan bruk av fertilitetsmedisin føre til at eggstokkene hovner opp. Du vil da kunne oppleve smerter og stinn mage under hormonbehandlingen eller etter uttaket.\n- **Komplikasjoner ved egguttak:** Alvorlige komplikasjoner skjer svært sjelden, men det kan forekomme blødninger, infeksjon i bekkenet eller skader på tarm.\n- **Emosjonell reaksjon:** Å bestemme seg for å fryse ned egg kan oppleves som en trygghet. Det er viktig at nedfrysning ikke gir noen garanti for graviditet, men at mulighetene er større enn dersom man velger det bort.",
+                content: "Som ved all medisinsk behandling vil det alltid være en viss risiko knyttet til behandlingen.\n\n- **Overstimulering:** I noen tilfeller kan bruk av fertilitetsmedisin føre til at eggstokkene hovner opp. Du vil da kunne oppleve smerter og stinn mage under hormonbehandlingen eller etter uttaket.\n- **Komplikasjoner ved egguttak:** Alvorlige komplikasjoner skjer svært sjelden, men det kan forekomme blødninger, infeksjon i bekkenet eller skader på tarm.\n- **Emosjonell reaksjon:** Å bestemme seg for å fryse ned egg kan oppleves som en trygghet. Det er viktig at nedfrysning ikke gir noen garanti for graviditet, men at mulighetene er større enn dersom du velger det bort.",
             },
         ],
         relatedSpecialists: ["kristian-ophaug"],
@@ -1107,7 +1107,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "partnerdonasjon",
                 heading: "Partnerdonasjon",
-                content: "Partnerdonasjon ble tillatt i Norge 01.01.2021 og kan være aktuelt for to kvinner i et parforhold.\n\nI den nye Bioteknologiloven som kom i 2020 ble det tillat med partnerdonasjon, men det måtte da begrunnes medisinsk. Imidlertid kom det en endring og presisering i 2021, slik at begrunnelsen nå også kan være kun sosial. Dette betyr at kvinner i likekjønnet par selv kan bestemme hvem som skal gå gravid.\n\nNoen kvinner har medisinske utfordringer knyttet til sin fertilitet, eggstokker som produserer lite eller ingen egg, tidlig overgangsalder eller på andre måter har redusert eggkvalitet. Sjansen for å lykkes med reproduksjon kan da være minimale. Da kan man ha mulighet til å få egg fra en annen kvinne. Dersom eggene som brukes er av god kvalitet har man en god sjanse for å lykkes med behandling. Eggene vil da befruktes med donorsperm.\n\nPartnerdonasjon er kun aktuelt for to kvinner som er gift eller samboer i ekteskapslignende forhold.\n\nFremgangsmåte ved partnerdonasjon er ganske lik IVF-behandling. Egget hentes ut fra den ene kvinnen (giver) og befruktes med donorsæd. Embryoet fryses ned og tines, for så å settes tilbake i partners livmor (mottaker) ved et fryseforsøk. Behandlingen er tillatt der det foreligger en sosial eller medisinsk grunn til at partner (mottaker) ikke kan bli gravid med egne egg."
+                content: "Partnerdonasjon ble tillatt i Norge 01.01.2021 og kan være aktuelt for to kvinner i et parforhold.\n\nI den nye Bioteknologiloven som kom i 2020 ble det tillat med partnerdonasjon, men det måtte da begrunnes medisinsk. Imidlertid kom det en endring og presisering i 2021, slik at begrunnelsen nå også kan være kun sosial. Dette betyr at kvinner i likekjønnet par selv kan bestemme hvem som skal gå gravid.\n\nNoen kvinner har medisinske utfordringer knyttet til sin fertilitet, eggstokker som produserer lite eller ingen egg, tidlig overgangsalder eller på andre måter har redusert eggkvalitet. Sjansen for å lykkes med reproduksjon kan da være minimale. Da kan du ha mulighet til å få egg fra en annen kvinne. Dersom eggene som brukes er av god kvalitet har du en god sjanse for å lykkes med behandling. Eggene vil da befruktes med donorsperm.\n\nPartnerdonasjon er kun aktuelt for to kvinner som er gift eller samboer i ekteskapslignende forhold.\n\nFremgangsmåte ved partnerdonasjon er ganske lik IVF-behandling. Egget hentes ut fra den ene kvinnen (giver) og befruktes med donorsæd. Embryoet fryses ned og tines, for så å settes tilbake i partners livmor (mottaker) ved et fryseforsøk. Behandlingen er tillatt der det foreligger en sosial eller medisinsk grunn til at partner (mottaker) ikke kan bli gravid med egne egg."
             },
             {
                 id: "donorsaed",
@@ -1162,7 +1162,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Uten henvisning • Ingen ventetid",
         parentCategory: "Fertilitet",
         heroImage: fertilitetImg,
-        description: "En sædanalyse er en trygg og enkel måte å kartlegge mannens sædkvalitet på. Prøven gir viktig informasjon om antall, bevegelighet og utseende på spermiene, og brukes ofte som første steg når man ønsker å undersøke fertilitet eller planlegger assistert befruktning.\n\nPrøven tas ved utløsning og kan leveres på klinikken. Analysen gir et tydelig bilde av sædkvaliteten og kan bidra til å avgjøre om videre utredning eller behandling er nødvendig.\n\nSædanalyse kan også være første steg dersom man ønsker å fryse ned spermier for fremtidig bruk – for eksempel før medisinsk behandling eller andre inngrep som kan påvirke fertiliteten.",
+        description: "En sædanalyse er en trygg og enkel måte å kartlegge mannens sædkvalitet på. Prøven gir viktig informasjon om antall, bevegelighet og utseende på spermiene, og brukes ofte som første steg når du ønsker å undersøke fertilitet eller planlegger assistert befruktning.\n\nPrøven tas ved utløsning og kan leveres på klinikken. Analysen gir et tydelig bilde av sædkvaliteten og kan bidra til å avgjøre om videre utredning eller behandling er nødvendig.\n\nSædanalyse kan også være første steg dersom du ønsker å fryse ned spermier for fremtidig bruk – for eksempel før medisinsk behandling eller andre inngrep som kan påvirke fertiliteten.",
         sections: [
             {
                 id: "enkel-saedprove",
@@ -1242,7 +1242,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "haglunds-hael",
                 heading: "Haglunds hæl",
-                content: "Mellom hælbeinet og achillessenen finnes en slimpose. Denne kan bli betent på grunn av kronisk irritasjon og trange sko. Etter hvert kan denne irritasjonen føre til bein- og bruskdannelse bak på hælbeinet – det vokser frem en kul på en allerede prominent knokkel. Røntgen med skråbilder viser som regel denne kulen (Haglunds hæl). I første omgang må man bygge opp under hælen for å avlaste trykket.\n\n**Operasjonen:** Ved langvarige plager og betydelig kul kan det bli nødvendig å fjerne kulen kirurgisk. Operasjonen gjøres i lokalbedøvelse og med avslappende medisin. Det legges på en gipsskinne som pasienten beholder i to uker. Deretter starter et opptreningsprogram. Man må minst regne med åtte uker før man gjenopptar vanlig trening."
+                content: "Mellom hælbeinet og achillessenen finnes en slimpose. Denne kan bli betent på grunn av kronisk irritasjon og trange sko. Etter hvert kan denne irritasjonen føre til bein- og bruskdannelse bak på hælbeinet – det vokser frem en kul på en allerede prominent knokkel. Røntgen med skråbilder viser som regel denne kulen (Haglunds hæl). I første omgang må du bygge opp under hælen for å avlaste trykket.\n\n**Operasjonen:** Ved langvarige plager og betydelig kul kan det bli nødvendig å fjerne kulen kirurgisk. Operasjonen gjøres i lokalbedøvelse og med avslappende medisin. Det legges på en gipsskinne som pasienten beholder i to uker. Deretter starter et opptreningsprogram. Du må minst regne med åtte uker før du gjenopptar vanlig trening."
             },
             {
                 id: "achilles-tendinalgi",
@@ -1333,7 +1333,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "symptomer",
                 heading: "Symptomer og problemer",
-                content: "Sliter du med bruskskader i kneet? Symptomer inkluderer smerter ved aktivitet, hevelse og stivhet (dette skyldes ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og man begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
+                content: "Sliter du med bruskskader i kneet? Symptomer inkluderer smerter ved aktivitet, hevelse og stivhet (dette skyldes ofte økt væske i kneet). Problemer med god sovestilling for knærne, morgenstivhet, startvansker og forverring ved kulde er også vanlig. Muskulaturen i benet blir svakere og du begynner å halte. I senere faser kan kneet få en skjevstilling grunnet mer slitasje på en av sidene."
             },
         ],
         relatedSpecialists: ["marc-jacob-strauss"],
@@ -1355,7 +1355,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "kalkskulder",
                 heading: "Skulderperitendinitt eller kalkskulder",
-                content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen. Ofte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at man legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig, hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
+                content: "Årsaken til kalkskulder er kalk i senen. Kalken oppstår som et resultat av senebetennelser under skulderbuen. Det gir smerter ved bruk av armen. Ofte er tilstanden til stede sammen med impingementsyndrom og må behandles samtidig. Operasjon av kalkskulder kan være nødvendig dersom plagene ikke kan reduseres med trykkbølger, medikamenter og fysioterapi.\n\n**Operasjon og behandling:** Operasjon av kalkskulder foregår ved at du legger et snitt i senen og fjerner kalkmassene. Som regel gjøres en subacromiell dekompresjonsoperasjon samtidig, hvor skulderbladkantens underside jevnes for å unngå innklemming av senen når armen løftes."
             },
             {
                 id: "slap",
@@ -1365,7 +1365,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             {
                 id: "frozen-shoulder",
                 heading: "Frozen shoulder",
-                content: "En betennelse i leddhinnen i skulderleddet. En smertefull tilstand med smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet, og man oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten ved å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
+                content: "En betennelse i leddhinnen i skulderleddet. En smertefull tilstand med smerter og nedsatt funksjon i skulder og ofte arm. Både kvinner og menn kan få frozen shoulder, men de som rammes hyppigst er kvinner i aldersgruppen 40–60 år.\n\n**Operasjonen:** Kapselløsning gjøres i narkose med artroskopi (kikkhullsoperasjon) av skulderleddet, og du oppnår full bevegelse med en gang etter operasjonen. Hensikten er å bedre bevegeligheten ved å løsne kontrollert på den stive skulderkapselen og tøye skulderen til full bevegelighet."
             },
         ],
         relatedSpecialists: ["tom-henry-sundoen"],
@@ -1648,13 +1648,13 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Ingen ventetid • Ingen henvisning",
         parentCategory: "Flere fagområder",
         heroImage: flereFagImg,
-        description: "Når man rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
+        description: "Når du rammes av sykdom eller helseutfordringer, enten fysiske eller psykiske, kan det også oppstå utfordringer knyttet til seksuell helse. Dette kan dreie seg om seksuell funksjon, lyst, tenning, selvbilde, kroppsbilde, seksuell glede, relasjoner eller identitet. Seksualitetsrelaterte utfordringer påvirker ofte den generelle livskvaliteten.\n\nEn sexolog kan gjennom terapeutiske samtaler gi støtte, veiledning og råd til enkeltpersoner eller par som opplever vanskeligheter knyttet til seksuell trivsel og intimitet. Samtalene kan bidra til å utforske og håndtere det som oppleves som utfordrende, eller gi veiledning om seksualtekniske hjelpemidler.",
         themes: ["Samliv og relasjoner", "Seksuelle funksjonsplager", "Identitet og legning"],
         sections: [
             {
                 id: "skreddersydd-veiledning",
                 heading: "Skreddersydd veiledning",
-                content: "Ved diagnoser som er assosiert med smerte og fysisk ubehag, gir en sexolog tilpasset veiledning for å håndtere disse utfordringene. Dette kan inkludere strategier for smertelindring, utforsking av alternative former for seksuell nytelse og styrking av kommunikasjonen om man er i et parforhold.\n\nFor par som opplever ufrivillig barnløshet, kan en sexologisk rådgiver hjelpe dem med å navigere gjennom det som er følelsesmessig utfordrende slik at intimiteten opprettholdes og stress reduseres."
+                content: "Ved diagnoser som er assosiert med smerte og fysisk ubehag, gir en sexolog tilpasset veiledning for å håndtere disse utfordringene. Dette kan inkludere strategier for smertelindring, utforsking av alternative former for seksuell nytelse og styrking av kommunikasjonen om du er i et parforhold.\n\nFor par som opplever ufrivillig barnløshet, kan en sexologisk rådgiver hjelpe dem med å navigere gjennom det som er følelsesmessig utfordrende slik at intimiteten opprettholdes og stress reduseres."
             },
             {
                 id: "kompetanseomrader",
@@ -1705,30 +1705,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Tidlig ultralyd, terminbekreftelse og organrettet ultralyd.",
         parentCategory: "Graviditet",
         heroImage: heroPregnancy,
-        description: "Vi tilbyr ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 7 til organrettet ultralyd i uke 18-20. Våre fostermedisinere bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.\n\nTidlig ultralyd bekrefter svangerskapet, daterer terminen og vurderer fosterets utvikling. Ved organrettet ultralyd gjennomgås fosterets organer systematisk for å avdekke eventuelle avvik.",
+        description: "Hos CMedical får du ultralydundersøkelser gjennom hele svangerskapet, fra tidlig ultralyd i uke 6, til organrettet ultralyd i uke 18-20. Våre fostermedisinere og gynekologer bruker det nyeste utstyret for best mulig bildekvalitet og diagnostikk.",
         benefits: [
-            "Tidlig ultralyd fra uke 7 for å bekrefte svangerskap og termin",
+            "Tidlig ultralyd fra uke 6 for å bekrefte svangerskap og termin",
             "Organrettet ultralyd uke 18-20 med detaljert gjennomgang",
-            "Erfarne fostermedisinere med spisskompetanse",
+            "Erfarne fostermedisinere og gynekologer",
             "Moderne utstyr for best mulig bildekvalitet",
             "Kort ventetid – time innen få dager",
         ],
         sections: [
             {
-                heading: "Slik foregår ultralydundersøkelsen",
-                content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Tidlig ultralyd uke 6–10 utføres ved hjelp av en innvendig probe. Dette er helt ufarlig og smertefritt for både barnet og deg. Fra uke 11 utføres ultralyd med utvendig (abdominal) ultralydprobe.",
+                heading: "Om ultralyd i svangerskapet",
+                content: "Vi skiller mellom tidlig ultralyd uke 6–10, uke 11–14, og ultralyd fra uke 14+0. Vi gjør også organrettet ultralyd i uke 18-20, eller ultralyd senere i svangerskapet ved behov eller ønske.",
             },
             {
-                heading: "Hvis undersøkelsen viser noe uventet",
-                content: "Om undersøkelsen viser tegn på alvorlig sykdom eller skader hos fostret, vil du få veiledning og samtale med lege, og eventuelt henvisning til fostermedisinsk avdeling ved sykehuset.",
-            },
-            {
-                heading: "Du bestemmer hva du er komfortabel med",
-                content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Ved tidlig ultralydundersøkelse vil du få være avskjermet. Hos oss er det viktig at du føler deg komfortabel og trygg.",
-            },
-            {
-                heading: "Erfarne fostermedisinere",
-                content: "Hos oss møter du høyt kompetente, erfarne og dedikerte gynekologer med spesialisering innen fostermedisin, også kalt fostermedisinere.",
+                heading: "Vi tar hensyn til dine behov",
+                content: "Dersom du ønsker, er det fullt mulig å ta med seg en partner eller en støttespiller til ultralydtimen. Hos oss er det viktig at du føler deg komfortabel og trygg.",
             },
         ],
         process: [
@@ -1737,7 +1729,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
             { title: "Organrettet ultralyd (uke 18–20)", description: "Systematisk gjennomgang av fosterets organer, vekst og fostervannsvolum med utvendig probe." },
         ],
         faqs: [
-            { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 7. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
+            { question: "Når kan jeg ta første ultralyd?", answer: "Tidlig ultralyd kan utføres fra uke 6. Da kan vi se fosterets hjerteaktivitet og beregne termin." },
             { question: "Hva koster ultralyd i svangerskapet?", answer: "Se vår prisliste for oppdaterte priser. Kontakt oss gjerne for mer informasjon." },
             { question: "Trenger jeg henvisning?", answer: "Nei, du kan bestille time direkte uten henvisning." },
             { question: "Forsikring", answer: "Vi har forsikringsavtale med EuroAccident, Falck, Fremtind, Gjensidige, If Vertikal Helse, Storebrand og Tryg. Sjekk med ditt forsikringsselskap hva din forsikring dekker." },
@@ -1748,11 +1740,11 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Non-Invasive Prenatal Test fra svangerskapsuke 10.",
         parentCategory: "Graviditet",
         heroImage: heroPregnancy,
-        description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/spesialister/ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
+        description: "Fra og med svangerskapsuke 10 kan du ta NIPT-test og tidlig ultralyd hos oss. NIPT er en forkortelse for Non-Invasive Prenatal Test. Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik. Da vi kun trenger en blodprøve fra mor, er det ingen økt risiko for abort, slik det for eksempel kan være ved morkakeprøve eller fostervannsprøve.\n\n[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.\n\nNIPT er en del av vårt tilbud innen fostermedisin.\n\nBestill konsultasjon eller ta kontakt hvis du lurer på noe.",
         sections: [
             {
                 heading: "Hva undersøker NIPT?",
-                content: "Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan man undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik.",
+                content: "Ved hjelp av en blodprøve fra armen til mor, kombinert med en ultralydundersøkelse, kan du undersøke om fosteret har trisomi 13, 18 eller 21, også kjent som kromosomavvik.",
             },
             {
                 heading: "Er NIPT trygt?",
@@ -1760,22 +1752,22 @@ export const treatmentContent: Record<string, TreatmentData> = {
             },
             {
                 heading: "Fosterdiagnostikk hos spesialist",
-                content: "Dr. Ashi Ahmad hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
+                content: "[Dr. Ashi Ahmad](/booking?spesialist=ashi-ahmad) hos oss har fått virksomhetsgodkjenning for å tilby fosterdiagnostikk til gravide kvinner. Ashi Ahmad er spesialist i gynekologi og fødselshjelp og har doktorgrad i epidemiologi og fødselshjelp.",
             },
         ],
     },
 
 
     "graviditet/svangerskapsteam": {
-        title: "Svangerskapsteam",
+        title: "Graviditetsoppfølging",
         subtitle: "Tverrfaglig oppfølging gjennom svangerskapet.",
         parentCategory: "Graviditet",
         heroImage: heroPregnancy,
-        description: "Vårt svangerskapsteam gir deg helhetlig oppfølging gjennom hele svangerskapet. Teamet består av erfarne fostermedisinere, jordmødre og gynekologer som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
+        description: "Vi gir deg helhetlig graviditetsoppfølging gjennom hele svangerskapet. Teamet består av erfarne gynekologer og fostermedisinere som samarbeider for å gi deg den tryggeste oppfølgingen.\n\nVi tilbyr skreddersydd svangerskapskontroll tilpasset dine behov, enten du ønsker ekstra oppfølging eller har en risikograviditet.",
         benefits: [
-            "Erfarne fostermedisinere og jordmødre",
+            "Erfarne gynekologer og fostermedisinere",
             "Skreddersydd oppfølging tilpasset dine behov",
-            "Oppfølging av risikosvangersskap",
+            "Oppfølging av risikosvangerskap",
             "Tilgjengelig for spørsmål gjennom hele svangerskapet",
             "Samarbeid med fødeavdeling ved behov",
         ],
@@ -2162,7 +2154,7 @@ export const treatmentContent: Record<string, TreatmentData> = {
         subtitle: "Skånsom behandling av lyskebrokk med kikkhull/robot",
         parentCategory: "Gastrokirurgi",
         heroImage: flereFagImg,
-        description: "Lyskebrokk er en svært vanlig tilstand som skyldes en medfødt svakhet i bukveggen der sædlederen hos menn og det runde livmorsbåndet hos kvinner går gjennom bukveggen i lyskekanalen. Svakheten kan innebære at man utvikler et indirekte brokk der tarminnhold vandrer inn i lyskekanalen og noen ganger ned i pungen, eller et direkte brokk der tarminnhold lager seg en lomme ved siden av lyskekanalen. En sjelden gang kan også brokket ligge under lyskebåndet og ned mot øvre del av låret og kalles da for et lårbrokk. Hos CMedical opererer vi lyskebrokk med den nyeste og mest avanserte robotteknologien, noe som sikrer maksimal trygghet og et skånsomt forløp for deg.",
+        description: "Lyskebrokk er en svært vanlig tilstand som skyldes en medfødt svakhet i bukveggen der sædlederen hos menn og det runde livmorsbåndet hos kvinner går gjennom bukveggen i lyskekanalen. Svakheten kan innebære at du utvikler et indirekte brokk der tarminnhold vandrer inn i lyskekanalen og noen ganger ned i pungen, eller et direkte brokk der tarminnhold lager seg en lomme ved siden av lyskekanalen. En sjelden gang kan også brokket ligge under lyskebåndet og ned mot øvre del av låret og kalles da for et lårbrokk. Hos CMedical opererer vi lyskebrokk med den nyeste og mest avanserte robotteknologien, noe som sikrer maksimal trygghet og et skånsomt forløp for deg.",
         sections: [
             {
                 id: "fordeler",
@@ -2241,5 +2233,5 @@ export const treatmentContent: Record<string, TreatmentData> = {
         ],
     },
 
-}
+};
 

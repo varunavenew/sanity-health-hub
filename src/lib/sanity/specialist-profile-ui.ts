@@ -1,6 +1,5 @@
 /** Shared UI copy for specialist profile pages — sourced from `specialistsListingPage.profileUi`. */
 export type SpecialistProfileUi = {
-  loadingLabel: string;
   notFoundTitle: string;
   notFoundBackLabel: string;
   breadcrumbHomeLabel: string;
@@ -45,7 +44,6 @@ export function withProfileUiNames(
 
 const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
   no: {
-    loadingLabel: "Laster…",
     notFoundTitle: "Spesialist ikke funnet",
     notFoundBackLabel: "Gå tilbake",
     breadcrumbHomeLabel: "Hjem",
@@ -65,7 +63,6 @@ const DEFAULT_PROFILE_UI: Record<"no" | "en", SpecialistProfileUi> = {
     anonymousReviewLabel: "Anonym",
   },
   en: {
-    loadingLabel: "Loading…",
     notFoundTitle: "Specialist not found",
     notFoundBackLabel: "Go back",
     breadcrumbHomeLabel: "Home",
@@ -91,7 +88,6 @@ export function defaultSpecialistProfileUi(lang: "no" | "en" = "no"): Specialist
 }
 
 const PROFILE_UI_KEYS: (keyof SpecialistProfileUi)[] = [
-  "loadingLabel",
   "notFoundTitle",
   "notFoundBackLabel",
   "breadcrumbHomeLabel",

@@ -26,11 +26,6 @@ export default {
       validation: (Rule: any) => Rule.required(),
       fields: [
         {
-          name: 'loadingLabel',
-          title: 'Loading Text',
-          type: 'internationalizedArrayString',
-        },
-        {
           name: 'notFoundTitle',
           title: 'Not found — title',
           type: 'internationalizedArrayString',

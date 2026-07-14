@@ -533,7 +533,6 @@ export const usePrivacyPolicyPage = () => {
         title?: string;
         slug?: string;
         body?: unknown[];
-        loadingLabel?: string;
         emptyMessage?: string;
         geoSummary?: string;
         cookiebotKey?: string;

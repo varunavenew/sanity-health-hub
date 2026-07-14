@@ -9,60 +9,6 @@ const i18nTxt = { type: 'internationalizedArrayText' as const }
 const reqI18n = requiredNoEnI18n
 const reqStr = (label: string) => (Rule: any) => Rule.required().error(`${label} is required`)
 
-function hasActualContent(val: any): boolean {
-  if (val === undefined || val === null || val === '') return false
-  if (Array.isArray(val)) {
-    return val.some((item) => hasActualContent(item))
-  }
-  if (typeof val === 'object') {
-    const keys = Object.keys(val).filter((k) => k !== '_type' && k !== '_key' && k !== '_ref')
-    return keys.some((k) => hasActualContent(val[k]))
-  }
-  return true
-}
-
-const reqI18nIfActive = (fieldLabel: string) => (Rule: any) =>
-  Rule.custom((value: any, context: any) => {
-    const parent = context.parent
-    if (!parent) return true
-    const parentKeys = Object.keys(parent).filter((k) => k !== '_type' && k !== '_key')
-    const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
-    if (!parentHasValues) return true
-
-    if (!value || !Array.isArray(value)) return `${fieldLabel} is required`
-    const noVal = value.find((v: any) => (v.language ?? v._key) === 'no')?.value
-    const enVal = value.find((v: any) => (v.language ?? v._key) === 'en')?.value
-    if (!noVal?.trim()) return `${fieldLabel} (Norwegian) is required`
-    if (!enVal?.trim()) return `${fieldLabel} (English) is required`
-    return true
-  })
-
-const reqStrIfActive = (fieldLabel: string) => (Rule: any) =>
-  Rule.custom((value: any, context: any) => {
-    const parent = context.parent
-    if (!parent) return true
-    const parentKeys = Object.keys(parent).filter((k) => k !== '_type' && k !== '_key')
-    const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
-    if (!parentHasValues) return true
-    if (!value || typeof value !== 'string' || value.trim() === '') {
-      return `${fieldLabel} is required`
-    }
-    return true
-  })
-
-const reqArrayIfActive = (fieldLabel: string, minCount = 1) => (Rule: any) =>
-  Rule.custom((value: any, context: any) => {
-    const parent = context.parent
-    if (!parent) return true
-    const parentKeys = Object.keys(parent).filter((k) => k !== '_type' && k !== '_key')
-    const parentHasValues = parentKeys.some((k) => hasActualContent(parent[k]))
-    if (!parentHasValues) return true
-    if (!Array.isArray(value) || value.length < minCount) {
-      return `Add at least ${minCount} item(s) to ${fieldLabel}`
-    }
-    return true
-  })
-
 const segmentTagLinkItem = {
   type: 'object',
   name: 'categoryLandingSegmentTagLink',
@@ -209,7 +155,7 @@ const reviewItem = {
 export const categoryLandingPageField = {
   name: 'landingPage',
   title: 'Landing page (category)',
-  description: 'Content for the marketing landing page, e.g. /fertilitet. All fields are required in Norwegian and English.',
+  description: 'Content for the marketing landing page, e.g. /fertilitet. Segments and Why choose us are required; other sections are optional.',
   type: 'object',
   validation: (Rule: any) => Rule.required().error('Landing page content is required'),
   fields: [
@@ -217,7 +163,6 @@ export const categoryLandingPageField = {
       name: 'hero',
       title: 'Hero',
       type: 'object',
-      validation: (Rule: any) => Rule.required().error('Hero section is required'),
       fields: [
         {
           name: 'layout',
@@ -233,18 +178,18 @@ export const categoryLandingPageField = {
           initialValue: 'split',
         },
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'heading', title: 'Heading', ...i18nStr, validation: reqI18n('Heading') },
+        { name: 'heading', title: 'Heading', ...i18nStr },
         { name: 'headingEmphasis', title: 'Heading (italic part)', ...i18nStr },
-        { name: 'body', title: 'Ingress', ...i18nTxt, validation: reqI18n('Ingress') },
+        { name: 'body', title: 'Ingress', ...i18nTxt },
         {
           name: 'bullets',
           title: 'Hurtigpunkter',
           type: 'array',
           of: [i18nStr],
         },
-        { name: 'primaryCtaLabel', title: 'Primary button', ...i18nStr, validation: reqI18n('Primary button') },
-        { name: 'secondaryCtaLabel', title: 'Secondary button (call)', ...i18nStr, validation: reqI18n('Secondary button') },
-        { name: 'heroImageAlt', title: 'Hero image alt text', ...i18nStr, validation: reqI18n('Hero image alt text') },
+        { name: 'primaryCtaLabel', title: 'Primary button', ...i18nStr },
+        { name: 'secondaryCtaLabel', title: 'Secondary button (call)', ...i18nStr },
+        { name: 'heroImageAlt', title: 'Hero image alt text', ...i18nStr },
         {
           name: 'primaryBookingService',
           title: 'Booking service (slug)',
@@ -316,8 +261,18 @@ export const categoryLandingPageField = {
           ...i18nStr,
           validation: reqI18n('Sidebar image alt text'),
         },
-        { name: 'footerLinkLabel', title: 'Footer link text', ...i18nStr, validation: reqI18n('Footer link text') },
-        { name: 'footerLinkHref', title: 'Footer link URL', type: 'string', validation: reqStr('Footer link URL') },
+        {
+          name: 'footerLinkLabel',
+          title: 'Footer link text',
+          ...i18nStr,
+          description: 'Example: NO "Se alle tjenester" / EN "See all services".',
+        },
+        {
+          name: 'footerLinkHref',
+          title: 'Footer link URL',
+          type: 'string',
+          description: 'Internal link example: /tjenester or /priser. External link example: https://www.cmedical.no.',
+        },
       ],
     },
     {
@@ -326,14 +281,13 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Heading', ...i18nStr, validation: reqI18nIfActive('Heading') },
+        { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleAccent', title: 'Heading (accent)', ...i18nStr },
         {
           name: 'audiences',
           title: 'Cards',
           type: 'array',
           of: [audienceItem],
-          validation: reqArrayIfActive('Target groups', 1),
         },
         { name: 'readMoreLabel', title: 'Read more text', ...i18nStr },
       ],
@@ -374,14 +328,13 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Heading', ...i18nStr, validation: reqI18nIfActive('Heading') },
-        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
+        { name: 'title', title: 'Heading', ...i18nStr },
+        { name: 'description', title: 'Ingress', ...i18nTxt },
         {
           name: 'items',
           title: 'Rader',
           type: 'array',
           of: [symptomItem],
-          validation: reqArrayIfActive('Symptom-rader', 1),
         },
       ],
     },
@@ -391,8 +344,8 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Heading', ...i18nStr, validation: reqI18nIfActive('Heading') },
-        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
+        { name: 'title', title: 'Heading', ...i18nStr },
+        { name: 'description', title: 'Ingress', ...i18nTxt },
         { name: 'categoryLabel', title: 'Category label', ...i18nStr },
         { name: 'footnote', title: 'Footnote', ...i18nStr },
       ],
@@ -403,8 +356,8 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Heading', ...i18nStr, validation: reqI18nIfActive('Heading') },
-        { name: 'description', title: 'Ingress', ...i18nTxt, validation: reqI18nIfActive('Ingress') },
+        { name: 'title', title: 'Heading', ...i18nStr },
+        { name: 'description', title: 'Ingress', ...i18nTxt },
         {
           name: 'groups',
           title: 'Groups',
@@ -439,7 +392,6 @@ export const categoryLandingPageField = {
               preview: i18nTitleItemPreview,
             },
           ],
-          validation: reqArrayIfActive('Service groups', 1),
         },
       ],
     },
@@ -465,13 +417,12 @@ export const categoryLandingPageField = {
       type: 'object',
       fields: [
         { name: 'eyebrow', title: 'Eyebrow', ...i18nStr },
-        { name: 'title', title: 'Heading', ...i18nStr, validation: reqI18nIfActive('Heading') },
+        { name: 'title', title: 'Heading', ...i18nStr },
         {
           name: 'reviews',
           title: 'Quotes',
           type: 'array',
           of: [reviewItem],
-          validation: reqArrayIfActive('Reviews', 1),
         },
       ],
     },
@@ -483,15 +434,15 @@ export const categoryLandingPageField = {
         { name: 'title', title: 'Heading', ...i18nStr },
         { name: 'titleEmphasis', title: 'Heading (italic part)', ...i18nStr },
         { name: 'text', title: 'Text', ...i18nTxt },
-        { name: 'ctaLabel', title: 'Button Text', ...i18nStr, validation: reqI18nIfActive('Button Text') },
-        { name: 'ctaHref', title: 'Button link', type: 'string', validation: reqStrIfActive('Button link') },
+        { name: 'ctaLabel', title: 'Button Text', ...i18nStr },
+        { name: 'ctaHref', title: 'Button link', type: 'string' },
         {
           name: 'image',
           title: 'Image',
           type: 'image',
           options: { hotspot: true },
         },
-        { name: 'imageAlt', title: 'Image alt text', ...i18nStr, validation: reqI18nIfActive('Image alt text') },
+        { name: 'imageAlt', title: 'Image alt text', ...i18nStr },
       ],
     },
     {
@@ -507,7 +458,7 @@ export const categoryLandingPageField = {
           type: 'array',
           of: [stepItem],
         },
-        { name: 'ctaLabel', title: 'Button Text', ...i18nStr, validation: reqI18nIfActive('Button Text') },
+        { name: 'ctaLabel', title: 'Button Text', ...i18nStr },
         { name: 'ctaHref', title: 'Button link', type: 'string' },
       ],
     },

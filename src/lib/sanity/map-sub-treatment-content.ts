@@ -1,6 +1,9 @@
 import type { SubTreatmentContent } from "@/components/layout/SubTreatmentLayout";
 import type { TreatmentData } from "@/lib/sanity/treatment-data";
-import { normalizeCategoryFilterKey } from "@/lib/sanity/category-keys";
+import {
+  behandlingerCategorySegment,
+  normalizeCategoryFilterKey,
+} from "@/lib/sanity/category-keys";
 import type { Specialist } from "@/lib/sanity/specialist-types";
 
 function seoText(treatment: TreatmentData): { title: string; description: string } {
@@ -26,10 +29,13 @@ export function mapTreatmentToSubTreatmentContent(
 ): SubTreatmentContent {
   const { categoryId, treatmentSlug } = options;
   const isEn = options.lang === "en";
+  const parentSegment =
+    treatment.parentSlug?.trim() ||
+    behandlingerCategorySegment(categoryId, options.lang);
+  const parentPath = parentSegment ? `/behandlinger/${parentSegment}` : "/behandlinger";
 
-  const canonical = `/behandlinger/${treatment.parentSlug}/${treatmentSlug}`;
+  const canonical = treatmentSlug ? `${parentPath}/${treatmentSlug}` : parentPath;
   const parentName = treatment.parentCategory?.trim() || "";
-  const parentPath = `/${treatment.parentSlug}`;
   const { title: seoTitle, description: seoDescription } = seoText(treatment);
 
   const heroPoints = (treatment.heroPoints ?? []).filter((p) => p.title || p.desc);

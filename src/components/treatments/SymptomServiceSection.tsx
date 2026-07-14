@@ -1,7 +1,5 @@
 import { Link } from "@/lib/router";
 import { ArrowRight } from "lucide-react";
-import { AssetImg } from "@/components/AssetImg";
-import { symptomCardGridClass } from "@/lib/ui/grid-cols-for-count";
 
 export interface SymptomItem {
   symptom: string;
@@ -12,7 +10,7 @@ export interface SymptomItem {
 }
 
 interface SymptomServiceSectionProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description?: string;
   items: SymptomItem[];
@@ -20,7 +18,6 @@ interface SymptomServiceSectionProps {
 }
 
 export function SymptomServiceSection({
-  eyebrow,
   title,
   description,
   items,
@@ -34,14 +31,11 @@ export function SymptomServiceSection({
       : "bg-background";
 
   return (
-    <section className={`${bgClass} text-foreground py-20 md:py-28`}>
+    <section className={`${bgClass} text-foreground py-14 md:py-20`}>
       <div className="container mx-auto px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 mb-14">
+          <div className="grid lg:grid-cols-12 gap-14 lg:gap-24 mb-14">
             <div className="lg:col-span-6">
-              <p className="text-xs tracking-wide text-foreground/60 mb-4">
-                {eyebrow}
-              </p>
               <h2 className="text-3xl md:text-5xl font-light leading-tight">
                 {title}
               </h2>
@@ -55,23 +49,13 @@ export function SymptomServiceSection({
             )}
           </div>
 
-          <div className={`${symptomCardGridClass(items.length)} gap-4 md:gap-5`}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {items.map((item) => (
               <Link
                 key={item.symptom}
                 to={item.href}
-                className="bg-background border border-foreground/10 rounded-sm overflow-hidden flex flex-col hover:border-foreground/30 hover:bg-brand-light transition-colors group min-h-[180px]"
+                className="bg-background border border-foreground/10 rounded-sm overflow-hidden flex flex-col hover:border-foreground/30 transition-colors group"
               >
-                {item.image ? (
-                  <div className="relative w-full aspect-[16/9] overflow-hidden bg-secondary">
-                    <AssetImg
-                      src={item.image}
-                      alt={item.imageAlt}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                ) : null}
                 <div className="p-6 md:p-7 flex flex-col justify-between gap-5 flex-1">
                   <h3 className="text-lg md:text-xl font-light leading-snug text-foreground">
                     {item.symptom}

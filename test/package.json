@@ -102,6 +102,8 @@
     "migrate:homepage-faqs": "tsx sanity/migrate-homepage-faqs.ts",
     "migrate:clinic-seo:dry": "DRY_RUN=1 tsx sanity/migrate-clinic-seo.ts",
     "migrate:clinic-seo": "tsx sanity/migrate-clinic-seo.ts",
+    "migrate:clinic-page-sections:dry": "DRY_RUN=1 tsx sanity/migrate-clinic-page-sections.ts",
+    "migrate:clinic-page-sections": "tsx sanity/migrate-clinic-page-sections.ts",
     "fix:specialist-specialties:dry": "DRY_RUN=1 tsx sanity/fix-specialist-specialties.ts",
     "fix:specialist-specialties": "tsx sanity/fix-specialist-specialties.ts",
     "fix:treatment-benefits-shape:dry": "DRY_RUN=1 tsx sanity/fix-treatment-benefits-shape.ts",
@@ -185,7 +187,7 @@
     "sanity-plugin-iframe-pane": "^5.0.13",
     "sanity-plugin-internationalized-array": "^5.1.1",
     "styled-components": "^6.1.18",
-    "vercel": "^54.11.1"
+    "vercel": "^54.21.1"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^6.0.0",

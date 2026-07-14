@@ -17,7 +17,6 @@ import { combineGeoJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
 import { buildBookingUrl } from "@/lib/bookingLinks";
 import { SymptomServiceSection } from "@/components/treatments/SymptomServiceSection";
-import { TagList } from "@/components/treatments/TagList";
 import { CallUsClinicPicker } from "@/components/booking/CallUsClinicPicker";
 import { ScrollArrows } from "@/components/ui/ScrollArrows";
 import { useTreatmentCategory } from "@/hooks/useSanity";
@@ -30,7 +29,6 @@ import type {
 } from "@/lib/sanity/category-data";
 import type { CategoryLandingPageProps } from "@/lib/behandlinger/create-category-landing-page";
 import {
-  segmentTileGridClass,
   statsGridClass,
   threeCardGridClass,
 } from "@/lib/ui/grid-cols-for-count";
@@ -133,51 +131,147 @@ function ExpertAreaCards({
   );
 }
 
-function SegmentAccordionContent({ segment }: { segment: CategoryLandingSegment }) {
-  const links =
-    segment.tagLinks.length > 0
-      ? segment.tagLinks
-      : segment.tags.map((label) => ({ label, href: "" }));
+type LifePhase = {
+  title: string;
+  desc: string;
+  tags?: { label: string; href?: string }[];
+  href?: string;
+  cta?: string;
+  n?: string;
+};
+
+function LifePhasesCarousel({ phases }: { phases: LifePhase[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="pb-2">
-      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
-        {segment.desc}
-      </p>
-      {links.length > 0 ? (
-        <div className="mb-5">
-          {links.map((tag, index) =>
-            tag.href ? (
-              <Link
-                key={`${tag.label}-${tag.href}-${index}`}
-                to={tag.href}
-                className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
-              >
-                <span>{tag.label}</span>
-                <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
-              </Link>
-            ) : (
-              <div
-                key={`${tag.label}-${index}`}
-                className="py-2.5 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
-              >
-                {tag.label}
-              </div>
-            ),
-          )}
-        </div>
-      ) : null}
-      {segment.href ? (
-        <Link
-          to={segment.href}
-          className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
+    <>
+      <div className="md:hidden">
+        <div
+          ref={scrollRef}
+          className="flex gap-2 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scrollbar-hide"
+          style={{ scrollbarWidth: "none" }}
         >
-          {segment.cta}
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
-      ) : null}
-    </div>
+          {phases.map((phase, index) => (
+            <article
+              key={`${phase.title}-${index}`}
+              className="shrink-0 w-[92%] snap-start bg-background rounded-sm border border-border/40 flex flex-col p-6"
+            >
+              <h3 className="text-base font-normal text-foreground mb-3 leading-snug">
+                {phase.title}
+              </h3>
+              <p className="text-sm font-light text-muted-foreground leading-relaxed mb-4">
+                {phase.desc}
+              </p>
+              {phase.tags && phase.tags.length > 0 ? (
+                <div className="mb-4">
+                  {phase.tags.slice(0, 4).map((tag, tagIndex) =>
+                    tag.href ? (
+                      <Link
+                        key={`${tag.label}-${tag.href}-${tagIndex}`}
+                        to={tag.href}
+                        className="flex items-center justify-between py-2 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
+                      >
+                        <span>{tag.label}</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+                      </Link>
+                    ) : (
+                      <div
+                        key={`${tag.label}-${tagIndex}`}
+                        className="py-2 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
+                      >
+                        {tag.label}
+                      </div>
+                    ),
+                  )}
+                </div>
+              ) : null}
+              {phase.href ? (
+                <Link
+                  to={phase.href}
+                  className="inline-flex items-center text-sm font-light text-foreground gap-2 mt-auto pt-2"
+                >
+                  {phase.cta || "Les mer"}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              ) : null}
+            </article>
+          ))}
+        </div>
+        <ScrollArrows scrollRef={scrollRef} />
+      </div>
+
+      <div className="hidden md:block">
+        <Accordion type="single" collapsible className="w-full">
+          {phases.map((phase, index) => (
+            <AccordionItem
+              key={`${phase.title}-${index}`}
+              value={phase.n || phase.title}
+              className="border-b border-border/30"
+            >
+              <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                <span className="pr-4">{phase.title}</span>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="pb-2">
+                  <p className="text-sm font-light text-muted-foreground leading-relaxed mb-5">
+                    {phase.desc}
+                  </p>
+                  {phase.tags && phase.tags.length > 0 ? (
+                    <div className="mb-5">
+                      {phase.tags.map((tag, tagIndex) =>
+                        tag.href ? (
+                          <Link
+                            key={`${tag.label}-${tag.href}-${tagIndex}`}
+                            to={tag.href}
+                            className="group flex items-center justify-between py-2.5 text-sm font-light text-foreground hover:text-foreground/60 transition-colors border-b border-border/30 last:border-b-0"
+                          >
+                            <span>{tag.label}</span>
+                            <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-muted-foreground" />
+                          </Link>
+                        ) : (
+                          <div
+                            key={`${tag.label}-${tagIndex}`}
+                            className="py-2.5 text-sm font-light text-foreground border-b border-border/30 last:border-b-0"
+                          >
+                            {tag.label}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  ) : null}
+                  {phase.href ? (
+                    <Link
+                      to={phase.href}
+                      className="inline-flex items-center text-sm font-light text-foreground hover:gap-2.5 gap-2 transition-all pb-2"
+                    >
+                      {phase.cta || "Les mer"}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  ) : null}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </>
   );
+}
+
+function segmentToLifePhase(segment: CategoryLandingSegment): LifePhase {
+  const tags =
+    segment.tagLinks.length > 0
+      ? segment.tagLinks
+      : segment.tags.map((label) => ({ label, href: segment.href }));
+
+  return {
+    title: segment.title,
+    desc: segment.desc,
+    tags,
+    href: segment.href,
+    cta: segment.cta,
+    n: segment.id,
+  };
 }
 
 function PatientJourneySection({
@@ -255,43 +349,57 @@ function PatientJourneySection({
 function SpotlightSection({ spotlight }: { spotlight: CategoryLandingSpotlight }) {
   if (!spotlight.title && !spotlight.text) return null;
 
-  return (
-    <section className="bg-background">
-      <div className="grid lg:grid-cols-2 min-h-[420px]">
-        <div className="flex items-center px-6 md:px-16 lg:px-20 py-16 lg:py-24 order-2 lg:order-1">
-          <div className="max-w-xl">
-            <h2 className="text-3xl md:text-4xl font-light text-foreground leading-tight mb-6">
-              {spotlight.title}
-              {spotlight.titleEmphasis ? (
-                <span className="italic"> {spotlight.titleEmphasis}</span>
-              ) : null}
-            </h2>
-            {spotlight.text ? (
-              <p className="text-base font-light text-muted-foreground leading-relaxed mb-8">
-                {spotlight.text}
-              </p>
-            ) : null}
-            {spotlight.ctaHref ? (
-              <Link
-                to={spotlight.ctaHref}
-                className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
-              >
-                {spotlight.ctaLabel}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            ) : null}
-          </div>
-        </div>
-        {spotlight.image ? (
-          <div className="relative min-h-[320px] lg:min-h-full order-1 lg:order-2">
-            <AssetImg
-              src={spotlight.image}
-              alt={spotlight.imageAlt}
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
+  const title = (
+    <>
+      {spotlight.title}
+      {spotlight.titleEmphasis ? (
+        <span className="italic"> {spotlight.titleEmphasis}</span>
+      ) : null}
+    </>
+  );
+
+  const copy = (
+    <div className="px-6 md:px-12 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+      <div className="max-w-lg">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-[1.15] text-foreground mb-8">
+          {title}
+        </h2>
+        {spotlight.text ? (
+          <p className="text-base font-light text-muted-foreground leading-relaxed mb-10">
+            {spotlight.text}
+          </p>
         ) : null}
+        {spotlight.ctaHref ? (
+          <Link
+            to={spotlight.ctaHref}
+            className="inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
+          >
+            {spotlight.ctaLabel}
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        ) : null}
+      </div>
+    </div>
+  );
+
+  const media = (
+    <div className="relative bg-secondary/40 min-h-[360px] lg:min-h-screen h-full overflow-hidden">
+      {spotlight.image ? (
+        <AssetImg
+          src={spotlight.image}
+          alt={spotlight.imageAlt}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : null}
+    </div>
+  );
+
+  return (
+    <section className="bg-brand-light text-foreground">
+      <div className="grid lg:grid-cols-2 items-stretch min-h-screen">
+        {copy}
+        {media}
       </div>
     </section>
   );
@@ -307,7 +415,7 @@ const TreatmentCategoryLanding = ({
   const landing = category?.landingPage;
   const heroImage = category?.heroImage;
   const heroVideo = category?.heroVideo;
-  const loadingLabel = category?.loadingLabel || "";
+  const loadingLabel = sanityLang === "en" ? "Loading..." : "Laster...";
   const expertAreasRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
 
@@ -382,49 +490,16 @@ const TreatmentCategoryLanding = ({
   const SECTION_RENDERERS: Record<string, () => React.ReactNode> = {
     segments: () =>
       segmentsSection.segments.length > 0 ? (
-        <section className="bg-brand-light text-foreground py-20 md:py-28">
+        <section className="bg-brand-light text-foreground pt-8 md:pt-12 pb-12 md:pb-16">
           <div className="container mx-auto px-6 md:px-16">
-            <div className={`mx-auto ${segmentsSection.layout === "grid" ? "max-w-6xl" : "max-w-3xl"}`}>
+            <div className="max-w-3xl mx-auto">
               <div className="max-w-2xl mb-10">
-                {segmentsSection.eyebrow ? (
-                  <p className="text-xs tracking-wide text-foreground/60 mb-4">{segmentsSection.eyebrow}</p>
-                ) : null}
                 <h2 className="text-3xl md:text-5xl font-light leading-tight">
                   {segmentsSection.title}
                   {segmentsSection.titleLine2 ? <span className="block">{segmentsSection.titleLine2}</span> : null}
                 </h2>
               </div>
-              {segmentsSection.layout === "grid" ? (
-                <div className={`${segmentTileGridClass(segmentsSection.segments.length)} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
-                  {segmentsSection.segments.map((s, index) => (
-                    <div key={`${s.id || "segment"}-${index}`} className="bg-background p-7 flex flex-col">
-                      <h3 className="text-lg font-normal mb-4 leading-snug">{s.title}</h3>
-                      <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{s.desc}</p>
-                      {s.tagLinks.length > 0 || s.tags.length > 0 ? (
-                        <TagList tags={s.tagLinks.length > 0 ? s.tagLinks.map((t) => t.label) : s.tags} initialVisible={3} className="mb-5" />
-                      ) : null}
-                      {s.href ? (
-                        <Link to={s.href} className="inline-flex items-center text-sm font-light text-foreground hover:text-foreground/70 hover:gap-2.5 gap-2 transition-all">
-                          {s.cta}<ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <Accordion type="single" collapsible className="w-full">
-                  {segmentsSection.segments.map((p, index) => (
-                    <AccordionItem key={`${p.id || p.title}-${index}`} value={p.id || p.title} className="border-b border-border/30">
-                      <AccordionTrigger className="text-left text-base md:text-lg font-normal py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                        <span className="pr-4">{p.title}</span>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <SegmentAccordionContent segment={p} />
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              )}
+              <LifePhasesCarousel phases={segmentsSection.segments.map(segmentToLifePhase)} />
             </div>
           </div>
         </section>

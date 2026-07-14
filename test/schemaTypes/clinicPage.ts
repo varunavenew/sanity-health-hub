@@ -55,6 +55,23 @@ export default {
       group: 'main',
     },
     {
+  name: 'gallery',
+  title: 'Interior gallery',
+  description: 'Extra images shown as the "Fra klinikken" strip on the clinic page.',
+  type: 'array',
+  group: 'main',
+  of: [
+    {
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        { name: 'alt', title: 'Alt text', type: 'string' },
+      ],
+    },
+  ],
+},
+
+    {
       name: 'description',
       title: 'Description',
       type: 'internationalizedArrayText',
@@ -100,7 +117,7 @@ export default {
       name: 'email',
       title: 'Email',
       type: 'string',
-      validation: (Rule: any) => Rule.required().email().error('Valid email is required'),
+      validation: (Rule: any) => Rule.email().error('Must be a valid email address'),
       group: 'main',
     },
     {

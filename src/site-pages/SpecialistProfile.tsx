@@ -40,6 +40,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
   const profileUi = listingPage?.profileUi ?? defaultSpecialistProfileUi(
     params?.locale === "en" ? "en" : "no",
   );
+  const loadingLabel = params?.locale === "en" ? "Loading..." : "Laster...";
 
   const isLoading = specialistLoading || listingLoading;
 
@@ -47,7 +48,7 @@ const SpecialistProfile = ({ isChatOpen }: SpecialistProfileProps) => {
     return (
       <PageLayout isChatOpen={isChatOpen}>
         <div className="min-h-[60vh] flex items-center justify-center">
-          <p className="text-muted-foreground font-light">{profileUi.loadingLabel}</p>
+          <p className="text-muted-foreground font-light">{loadingLabel}</p>
         </div>
       </PageLayout>
     );

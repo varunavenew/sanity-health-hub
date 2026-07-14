@@ -270,7 +270,7 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
   };
 
   const socialPostLimit = newsPage?.socialPostLimit ?? 0;
-  const socialMode = newsPage?.socialMode as "cms" | "api" | "local" | "hidden" | undefined;
+  const socialMode = newsPage?.socialMode as "cms" | "api" | "hidden" | undefined;
   const showSocialSection = Boolean(socialMode && socialMode !== "hidden");
   const socialSectionPosts = useMemo(() => {
     if (!showSocialSection || !Array.isArray(newsPage?.socialPosts)) return [];

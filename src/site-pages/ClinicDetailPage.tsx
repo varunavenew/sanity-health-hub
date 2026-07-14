@@ -9,12 +9,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useClinic, useTreatmentCategories } from "@/hooks/useSanity";
 import { useNavCmsPath } from "@/hooks/useNavCmsPath";
 import { PageSectionsRenderer } from "@/components/page-sections/PageSectionsRenderer";
+import { BookingCTA } from "@/components/homepage/BookingCTA";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { combineGeoJsonLd, faqPageJsonLd, medicalWebPageJsonLd } from "@/lib/seo/geo-jsonld";
 import { ClinicMap } from "@/components/clinic/ClinicMap";
-import { ClinicBookingBlock } from "@/components/clinic/ClinicBookingBlock";
 import { clinicMapsEmbedUrl } from "@/lib/maps/clinic-location";
 import { buildClinicServiceLinks } from "@/lib/sanity/clinic-service-links";
+import type { PageSection } from "@/lib/sanity/page-sections";
 import { plainMetaString } from "@/lib/seo/seo-fields";
 import { useTranslation } from "react-i18next";
 
@@ -103,18 +104,21 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       answer: plainMetaString(faq.answer, "", sanityLang),
     }))
     .filter((faq) => faq.question && faq.answer);
-  const booking = (clinic as { booking?: Record<string, unknown> }).booking
-    ? {
-        ...(clinic as { booking?: Record<string, unknown> }).booking,
-        closedMessage: plainMetaString(
-          (clinic as { booking?: { closedMessage?: unknown } }).booking?.closedMessage,
-          "",
-          sanityLang,
-        ),
-      }
-    : undefined;
+  const pageSections = (clinic.pageSections ?? []) as PageSection[];
+  const bookingCtaSections = pageSections.filter((s) => s._type === "pageSectionBookingCta");
+  const otherPageSections = pageSections.filter((s) => s._type !== "pageSectionBookingCta");
+  const clinicBookingPath = clinic.id
+    ? `/booking?klinikk=${encodeURIComponent(clinic.id)}`
+    : "/booking";
   const mapsUrl = clinic.mapsUrl;
   const mapsEmbedUrl = clinicMapsEmbedUrl(clinic.locationSearch, clinic.address);
+  const galleryImages = (
+    (clinic as { gallery?: { url?: string; alt?: string }[] }).gallery ?? []
+  ).filter(
+    (img): img is { url: string; alt?: string } =>
+      typeof img?.url === "string" && img.url.trim().length > 0,
+  );
+  const hasClinicImages = galleryImages.length > 0;
   const seoTitle = plainMetaString(
     clinic.seo?.metaTitle,
     `CMedical ${label} – Klinikk`,
@@ -344,26 +348,27 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
       )}
 
       {/* Clinic images – full bleed, no gap (matches homepage tjenester pattern) */}
-      <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${label}`}>
-        <div className="container mx-auto px-6 md:px-16 mb-6">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-0 w-full">
-          {clinic.primaryImage ? (
-            <div className="aspect-[4/3] col-span-2 md:col-span-3 overflow-hidden">
-              <img src={clinic.primaryImage} alt={`CMedical ${label}`} className="w-full h-full object-cover" loading="lazy" />
+      {hasClinicImages ? (
+        <section className="bg-background pt-10 md:pt-14" aria-label={`Fra CMedical ${label}`}>
+          <div className="container mx-auto px-6 md:px-16 mb-6">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-lg font-normal text-foreground">Fra klinikken</h2>
             </div>
-          ) : (
-            [1, 2, 3].map((i) => (
-              <div key={i} className="aspect-[4/3] bg-brand-mid/20 flex items-center justify-center">
-                <span className="text-xs text-muted-foreground font-light">Bilde kommer</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 w-full">
+            {galleryImages.map((img, i) => (
+              <div key={`${img.url}-${i}`} className="aspect-[4/3] overflow-hidden">
+                <img
+                  src={img.url}
+                  alt={img.alt?.trim() || `CMedical ${label}`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
-            ))
-          )}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {mapsEmbedUrl ? (
         <section className="bg-background py-10 md:py-14">
@@ -471,14 +476,19 @@ const ClinicDetailPage = ({ isChatOpen }: ClinicDetailPageProps) => {
         </section>
       )}
 
-      <ClinicBookingBlock
-        booking={booking as any}
-        clinicLabel={label}
-        clinicId={clinic.id}
-        phone={clinic.phone}
-        email={(clinic as any).email}
-      />
-      <PageSectionsRenderer sections={clinic.pageSections} />
+      {bookingCtaSections.length > 0 ? (
+        <PageSectionsRenderer sections={bookingCtaSections} />
+      ) : (
+        <BookingCTA
+          primaryPath={clinicBookingPath}
+          title={`Bestill time ved CMedical ${label}`}
+          subtitle="Velg tjeneste, klinikk og behandler – alt i én enkel booking."
+          variant="dark"
+        />
+      )}
+      {otherPageSections.length > 0 ? (
+        <PageSectionsRenderer sections={otherPageSections} />
+      ) : null}
     </PageLayout>
   );
 };

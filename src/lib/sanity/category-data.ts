@@ -203,7 +203,6 @@ export type TreatmentCategoryData = {
   slug?: string;
   title: string;
   geoSummary?: string;
-  loadingLabel: string;
   missingLandingMessage: string;
   heroImage?: string;
   heroVideo?: string;
@@ -496,7 +495,6 @@ export function mapTreatmentCategoryDocument(
     slug: asPlainString(data.slug) || undefined,
     title: asPlainString(data.title),
     geoSummary: asPlainString(data.geoSummary) || undefined,
-    loadingLabel: asPlainString(data.loadingLabel) || "Laster...",
     missingLandingMessage: asPlainString(data.missingLandingMessage) || "",
     heroImage: asPlainString(data.heroImage) || undefined,
     heroVideo: asPlainString(data.heroVideo) || undefined,

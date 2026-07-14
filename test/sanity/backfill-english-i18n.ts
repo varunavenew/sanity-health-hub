@@ -95,11 +95,76 @@ function getLang(item: I18nItem): string | undefined {
   return item.language || item._key
 }
 
-function enHasValue(enItem: I18nItem | undefined): boolean {
-  if (!enItem || enItem.value == null) return false
-  if (typeof enItem.value === 'string') return enItem.value.trim().length > 0
-  if (Array.isArray(enItem.value)) return enItem.value.length > 0
-  return true
+function isNorwegian(text: string): boolean {
+  const t = text.toLowerCase();
+  if (/[æøå]/.test(t)) return true;
+  const noWords = [
+    ' og ', ' eller ', ' som ', ' med ', ' fra ', ' til ', ' inngrep ',
+    ' inngrepet ', ' pasient ', ' pasientene ', ' refertilisering ', 
+    ' sterilisering ', ' sæd ', ' sædleder ', ' sædlederne ', ' sædblæren ', 
+    ' testiklene ', ' sædceller ', ' sædprøve ', ' sæduttømmingen ', 
+    ' narkose ', ' reise ', ' hjem ', ' samme ', ' dag ', ' spesialist ',
+    ' er en ', ' for menn ', ' man ', ' kutter ', ' transportere ',
+    ' av pasientene ', ' kan regne ', ' få spermier ', ' etter inngrepet ',
+    ' gjøres i ', ' lett narkose ', ' kan reise ', ' en kontroll ', ' måned ',
+    ' måneder ', ' etter inngrepet ', ' stoffskifte ', ' hormonsykdommer ',
+    ' hormonutredning ', ' ventetid ', ' henvisning '
+  ];
+  for (const word of noWords) {
+    if (t.includes(word)) return true;
+  }
+  return false;
+}
+
+function enHasValue(enItem: I18nItem | undefined, noItem: I18nItem | undefined): boolean {
+  if (!enItem || enItem.value == null) return false;
+  
+  if (typeof enItem.value === 'string') {
+    const val = enItem.value.trim();
+    if (val.length === 0) return false;
+    
+    if (noItem && typeof noItem.value === 'string') {
+      const noVal = noItem.value.trim();
+      if (val === noVal && val.length > 8) {
+        return false;
+      }
+    }
+    
+    if (isNorwegian(val)) {
+      return false;
+    }
+    
+    return true;
+  }
+  
+  if (Array.isArray(enItem.value)) {
+    if (enItem.value.length === 0) return false;
+    
+    const textContent = enItem.value
+      .map((block: any) => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map((child: any) => child.text || '').join(' ');
+        }
+        return '';
+      })
+      .join(' ');
+      
+    if (isNorwegian(textContent)) {
+      return false;
+    }
+    
+    if (noItem && Array.isArray(noItem.value)) {
+      if (JSON.stringify(enItem.value) === JSON.stringify(noItem.value)) {
+        if (textContent.trim().length > 12) {
+          return false;
+        }
+      }
+    }
+    
+    return true;
+  }
+  
+  return true;
 }
 
 function collectJobs(node: unknown, path: (string | number)[], jobs: Job[]) {
@@ -116,7 +181,7 @@ function collectJobs(node: unknown, path: (string | number)[], jobs: Job[]) {
       const items = node as I18nItem[]
       const noItem = items.find((i) => getLang(i) === 'no')
       const enItem = items.find((i) => getLang(i) === 'en')
-      if (noItem && noItem.value != null && (FORCE || !enHasValue(enItem))) {
+      if (noItem && noItem.value != null && (FORCE || !enHasValue(enItem, noItem))) {
         const ptBlocks =
           noItem._type === 'internationalizedArrayBlockContentValue' &&
           Array.isArray(noItem.value)

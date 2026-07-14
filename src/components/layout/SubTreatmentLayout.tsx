@@ -452,7 +452,8 @@ export const SubTreatmentLayout = ({
 
   return (
     <PageLayout isChatOpen={isChatOpen}>
-      <PageSEO
+      <div className="bg-background">
+        <PageSEO
         title={c.seoTitle}
         description={c.seoDescription}
         canonical={c.canonical}
@@ -577,23 +578,14 @@ export const SubTreatmentLayout = ({
                 </div>
               ) : null}
 
-              <ul className="space-y-4">
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm md:text-base font-light text-foreground">
                 {c.heroPoints.map((point) => (
-                  <li key={point.title} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-background border border-border flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3.5 h-3.5 text-foreground" />
-                    </span>
-                    <div>
-                      <h3 className="text-base font-normal text-foreground mb-1">
-                        {point.title}
-                      </h3>
-                      <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                        {point.desc}
-                      </p>
-                    </div>
-                  </li>
+                  <div key={point.title} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-foreground/80 flex-shrink-0" />
+                    <span>{point.title}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
 
@@ -639,87 +631,89 @@ export const SubTreatmentLayout = ({
         layout={c.reasonsLayout}
       />
 
-      {c.flowImage ? (
-        <section className="bg-brand-light text-foreground">
-          <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-16 pt-12 pb-4">
-            {c.flowTitle}
-          </h2>
-          <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
-            <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
-              <AssetImg
-                src={c.flowImage}
-                alt={c.flowImageAlt}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-            <div className="px-6 md:px-16 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
-              <div className="max-w-lg">
-                <h2 className="hidden lg:block text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
-                  {c.flowTitle}
-                </h2>
-                <ol className="divide-y divide-border/40 border-t border-border/40">
-                  {c.flow.map((step) => (
-                    <li key={`${step.n}-${step.title}`} className="py-5">
-                      <h3 className="text-base font-normal text-foreground mb-1.5 leading-snug">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
-                {c.flowLinkHref ? (
-                  <Link
-                    to={c.flowLinkHref}
-                    className="mt-10 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
-                  >
-                    {c.flowLinkLabel}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                ) : null}
+      {c.flow && c.flow.length > 0 ? (
+        c.flowImage ? (
+          <section className="bg-brand-light text-foreground">
+            <h2 className="lg:hidden text-3xl font-light leading-tight text-foreground px-6 md:px-16 pt-12 pb-4">
+              {c.flowTitle}
+            </h2>
+            <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:items-stretch lg:min-h-screen">
+              <div className="relative bg-secondary/40 min-h-[420px] lg:min-h-full overflow-hidden">
+                <AssetImg
+                  src={c.flowImage}
+                  alt={c.flowImageAlt}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
-            </div>
-          </div>
-        </section>
-      ) : (
-        <section className="bg-brand-light text-foreground py-20 md:py-28">
-          <div className="container mx-auto px-6 md:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="max-w-2xl mb-14">
-                <h2 className="text-3xl md:text-5xl font-light leading-tight">{c.flowTitle}</h2>
-              </div>
-              {(() => {
-                const colMap: Record<number, string> = {
-                  3: "md:grid-cols-3",
-                  4: "md:grid-cols-4",
-                  5: "md:grid-cols-5",
-                  6: "md:grid-cols-3",
-                };
-                const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
-                return (
-                  <div className={`grid grid-cols-2 ${cols} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
+              <div className="px-6 md:px-16 lg:px-20 py-16 lg:py-24 flex flex-col justify-center">
+                <div className="max-w-lg">
+                  <h2 className="hidden lg:block text-3xl md:text-5xl font-light leading-tight text-foreground mb-12">
+                    {c.flowTitle}
+                  </h2>
+                  <ol className="divide-y divide-border/40 border-t border-border/40">
                     {c.flow.map((step) => (
-                      <div key={`${step.n}-${step.title}`} className="bg-background p-5 md:p-6 flex flex-col">
-                        <p className="text-[11px] tracking-wider text-brand-dark mb-4 uppercase">
-                          {step.n}
-                        </p>
-                        <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug text-foreground">
+                      <li key={`${step.n}-${step.title}`} className="py-5">
+                        <h3 className="text-base font-normal text-foreground mb-1.5 leading-snug">
                           {step.title}
                         </h3>
                         <p className="text-sm font-light text-muted-foreground leading-relaxed">
                           {step.desc}
                         </p>
-                      </div>
+                      </li>
                     ))}
-                  </div>
-                );
-              })()}
+                  </ol>
+                  {c.flowLinkHref ? (
+                    <Link
+                      to={c.flowLinkHref}
+                      className="mt-10 inline-flex items-center gap-2 text-sm font-light text-foreground hover:gap-2.5 transition-all"
+                    >
+                      {c.flowLinkLabel}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  ) : null}
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        ) : (
+          <section className="bg-brand-light text-foreground py-20 md:py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <div className="max-w-6xl mx-auto">
+                <div className="max-w-2xl mb-14">
+                  <h2 className="text-3xl md:text-5xl font-light leading-tight">{c.flowTitle}</h2>
+                </div>
+                {(() => {
+                  const colMap: Record<number, string> = {
+                    3: "md:grid-cols-3",
+                    4: "md:grid-cols-4",
+                    5: "md:grid-cols-5",
+                    6: "md:grid-cols-3",
+                  };
+                  const cols = colMap[c.flow.length] ?? "md:grid-cols-4";
+                  return (
+                    <div className={`grid grid-cols-2 ${cols} gap-px bg-brand-dark/10 rounded-sm overflow-hidden`}>
+                      {c.flow.map((step) => (
+                        <div key={`${step.n}-${step.title}`} className="bg-background p-5 md:p-6 flex flex-col">
+                          <p className="text-[11px] tracking-wider text-brand-dark mb-4 uppercase">
+                            {step.n}
+                          </p>
+                          <h3 className="text-base md:text-lg font-normal mb-2 md:mb-3 leading-snug text-foreground">
+                            {step.title}
+                          </h3>
+                          <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                            {step.desc}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          </section>
+        )
+      ) : null}
 
       {c.expertAreas && c.expertAreas.items.length > 0 ? (
         <section className="bg-secondary/40 py-20 md:py-28">
@@ -816,47 +810,37 @@ export const SubTreatmentLayout = ({
       </section>
 
       {c.textSection ? (
-        <section className="bg-background">
-          <h2 className="lg:hidden text-3xl font-light leading-[1.1] text-foreground px-6 md:px-16 pt-16 pb-4">
-            {c.textSection.title}
-          </h2>
-          <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-stretch">
-            <div className="lg:col-span-7 px-6 md:px-16 lg:px-20 py-20 lg:py-28 h-full flex flex-col justify-center">
-              <div className="max-w-xl">
-                <h2 className="hidden lg:block text-3xl md:text-4xl lg:text-[2.75rem] font-light leading-[1.1] text-foreground mb-6">
-                  {c.textSection.title}
-                </h2>
-                {c.textSection.lead ? (
-                  <p className="text-base font-light text-muted-foreground leading-relaxed mb-12">
-                    {c.textSection.lead}
-                  </p>
-                ) : null}
+        <section className="py-20 md:py-28 bg-background">
+          <div className="container mx-auto px-6 md:px-16">
+            <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 lg:gap-28">
+              <div className="lg:col-span-5">
+                <div className="lg:sticky lg:top-28">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground leading-[1.1] mb-6">
+                    {c.textSection.title}
+                  </h2>
+                  {c.textSection.lead && (
+                    <p className="text-base font-light text-muted-foreground leading-relaxed">
+                      {c.textSection.lead}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="lg:col-span-7">
                 {c.textSection.points && c.textSection.points.length > 0 ? (
-                  <div className="divide-y divide-border/60 border-t border-border/60">
-                    {c.textSection.points.map((point) => (
-                      <div key={`${point.n}-${point.title}`} className="grid grid-cols-12 gap-4 py-6">
-                        <div className="col-span-2 md:col-span-1 text-xs font-light text-foreground/60 pt-1">
-                          {point.n}
-                        </div>
-                        <div className="col-span-10 md:col-span-11">
-                          <h3 className="text-base font-normal text-foreground mb-1.5">{point.title}</h3>
-                          <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-md">
-                            {point.desc}
-                          </p>
+                  <div className="border-t border-border/60">
+                    {c.textSection.points.map((point, i) => (
+                      <div key={i} className="border-b border-border/60">
+                        <h3 className="py-6 text-left text-lg md:text-xl font-normal text-foreground leading-snug">
+                          {point.title}
+                        </h3>
+                        <div className="pb-8 text-sm md:text-base font-light text-muted-foreground leading-relaxed space-y-3">
+                          <p>{point.desc}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : null}
               </div>
-            </div>
-            <div className="lg:col-span-5 relative bg-secondary/40 min-h-[420px] lg:h-full overflow-hidden">
-              <AssetImg
-                src={c.textSection.image}
-                alt={c.textSection.imageAlt}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
             </div>
           </div>
         </section>
@@ -948,6 +932,7 @@ export const SubTreatmentLayout = ({
         return <BookingCTA bookingCategoryId={c.booking.kategori} />;
       })()}
 
+      </div>
     </PageLayout>
   );
 };

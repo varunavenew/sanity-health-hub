@@ -1,4 +1,15 @@
-import { Calendar, ExternalLink, Phone, Mail, Lock } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import {
+  Calendar,
+  ExternalLink,
+  Phone,
+  Mail,
+  Lock,
+  ArrowRight,
+  Clock,
+  Shield,
+  ChevronDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
 
@@ -18,8 +29,8 @@ interface ClinicBookingBlockProps {
 }
 
 /**
- * Standardized booking flow visualization for clinic pages.
- * Pasientsky / Metodika clinics link to /booking?klinikk=… (iframe on booking page).
+ * Premium dark booking CTA for clinic pages.
+ * Matches the homepage BookingCTA dark variant design.
  */
 export const ClinicBookingBlock = ({
   booking,
@@ -33,113 +44,198 @@ export const ClinicBookingBlock = ({
     ? `/booking?klinikk=${encodeURIComponent(clinicId)}`
     : "/booking";
 
-  return (
-    <section className="bg-background py-10 md:py-14" aria-labelledby="booking-heading">
-      <div className="container mx-auto px-6 md:px-16">
-        <div className="max-w-3xl mx-auto">
-          <div className="flex items-center gap-2 mb-2">
-            <Calendar className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
-            <p className="text-xs text-muted-foreground font-light uppercase tracking-wide">
-              Booking
+  const [showPhonePicker, setShowPhonePicker] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShowPhonePicker(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  /* ── CLOSED state: keep it contained + tasteful ── */
+  if (method === "closed") {
+    return (
+      <section className="py-20 md:py-28 bg-brand-dark" aria-labelledby="booking-heading">
+        <div className="container mx-auto px-6 md:px-16">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <Lock className="w-4 h-4 text-white/40" strokeWidth={1.5} aria-hidden="true" />
+              <span className="text-xs text-white/40 uppercase tracking-widest font-light">
+                Booking
+              </span>
+            </div>
+            <h2 id="booking-heading" className="text-2xl md:text-3xl font-light text-white mb-4">
+              Bestill time ved CMedical {clinicLabel}
+            </h2>
+            <p className="text-white/60 font-light text-base mb-10 max-w-xl mx-auto leading-relaxed">
+              {booking?.closedMessage ||
+                `Bookingsystemet ved CMedical ${clinicLabel} er midlertidig utilgjengelig. Kontakt oss på telefon eller e-post for å bestille time.`}
             </p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              {phone && (
+                <a
+                  href={`tel:+47${phone.replace(/\s/g, "")}`}
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white text-sm font-light rounded-sm hover:bg-white/10 transition-colors"
+                >
+                  <Phone className="w-4 h-4" aria-hidden="true" />
+                  {phone}
+                </a>
+              )}
+              {email && (
+                <a
+                  href={`mailto:${email}`}
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white text-sm font-light rounded-sm hover:bg-white/10 transition-colors"
+                >
+                  <Mail className="w-4 h-4" aria-hidden="true" />
+                  {email}
+                </a>
+              )}
+            </div>
           </div>
-          <h2 id="booking-heading" className="text-lg font-normal text-foreground mb-6">
+        </div>
+      </section>
+    );
+  }
+
+  /* ── ACTIVE booking states (pasientsky / metodika / info) ── */
+  const subtitle =
+    method === "metodika"
+      ? "Velg tjeneste, klinikk og behandler – alt i én enkel booking."
+      : method === "pasientsky"
+      ? "Velg spesialist, dato og tidspunkt som passer for deg."
+      : booking?.externalBookingUrl
+      ? "Velg tjeneste, klinikk og behandler – alt i én enkel booking."
+      : "Ring oss eller send e-post, så finner vi riktig spesialist og tid for deg.";
+
+  const hasBookingLink =
+    method === "pasientsky" ||
+    method === "metodika" ||
+    (method === "info" && (booking?.externalBookingUrl || clinicId));
+
+  return (
+    <section className="py-20 md:py-28 bg-brand-dark" aria-labelledby="clinic-booking-heading">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="max-w-3xl mx-auto text-center">
+
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-2 mb-6">
+            <Calendar className="w-4 h-4 text-white/40" strokeWidth={1.5} aria-hidden="true" />
+            <span className="text-xs text-white/40 uppercase tracking-widest font-light">
+              Booking
+            </span>
+          </div>
+
+          {/* Title */}
+          <h2
+            id="clinic-booking-heading"
+            className="text-2xl md:text-3xl font-light text-white mb-4"
+          >
             Bestill time ved CMedical {clinicLabel}
           </h2>
 
-          {(method === "pasientsky" || method === "metodika") && (
-            <div className="border border-border/40 rounded-sm p-6 bg-brand-warm/30">
-              <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
-                {method === "metodika"
-                  ? "Bestill time i Metodika-bookingsystemet. Du velger tjeneste, klinikk, dato og tidspunkt."
-                  : "Bestill time direkte i vårt bookingsystem. Du velger spesialist, dato og tidspunkt som passer for deg."}
-              </p>
-              <Button asChild className="rounded-sm">
-                <Link to={bookingHref}>Book time nå</Link>
+          {/* Subtitle */}
+          <p className="text-white/60 font-light text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+            {subtitle}
+          </p>
+
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            {hasBookingLink ? (
+              <Button variant="cta-dark" size="lg" asChild>
+                <Link to={bookingHref}>
+                  <Calendar className="mr-2 w-5 h-5" />
+                  Bestill time nå
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
               </Button>
-            </div>
-          )}
-
-          {method === "info" && (
-            <div className="border border-border/40 rounded-sm p-6">
-              <p className="text-sm text-foreground font-light leading-[1.8] mb-5">
-                {booking?.externalBookingUrl
-                  ? "Bestill time direkte hos vår bookingpartner. Du velger spesialist, dato og tidspunkt som passer for deg."
-                  : "Bestill time ved å ringe oss eller sende en e-post. Vi hjelper deg med å finne riktig spesialist og tidspunkt."}
-              </p>
-              {booking?.externalBookingUrl && clinicId ? (
-                <Button asChild className="rounded-sm mb-5">
-                  <Link to={bookingHref}>Book time nå</Link>
+            ) : (
+              /* info-only with no booking link — just a phone CTA */
+              phone && (
+                <Button variant="cta-dark" size="lg" asChild>
+                  <a href={`tel:+47${phone.replace(/\s/g, "")}`}>
+                    <Phone className="mr-2 w-5 h-5" />
+                    Ring oss
+                  </a>
                 </Button>
-              ) : null}
-              <div className="space-y-3">
-                {phone && (
-                  <a
-                    href={`tel:+47${phone.replace(/\s/g, "")}`}
-                    className="flex items-center gap-3 text-sm text-foreground hover:text-brand-dark transition-colors group"
-                  >
-                    <Phone className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
-                    <span className="font-light group-hover:underline">{phone}</span>
-                  </a>
-                )}
-                {email && (
-                  <a
-                    href={`mailto:${email}`}
-                    className="flex items-center gap-3 text-sm text-foreground hover:text-brand-dark transition-colors group"
-                  >
-                    <Mail className="w-4 h-4 text-brand-dark/50" strokeWidth={1.5} aria-hidden="true" />
-                    <span className="font-light group-hover:underline">{email}</span>
-                  </a>
-                )}
-                {booking?.externalBookingUrl && (
-                  <a
-                    href={booking.externalBookingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm font-normal text-brand-dark hover:gap-2.5 transition-all border-b border-brand-dark/40 hover:border-brand-dark pb-1 mt-2"
-                  >
-                    Gå til ekstern bookinglenke
-                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                  </a>
-                )}
-              </div>
-            </div>
-          )}
+              )
+            )}
 
-          {method === "closed" && (
-            <div className="border border-border/40 rounded-sm p-6 bg-muted/40">
-              <div className="flex items-start gap-3">
-                <Lock className="w-4 h-4 text-brand-dark/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
-                <div>
-                  <p className="text-sm font-normal text-foreground mb-1">Stengt for booking</p>
-                  <p className="text-sm text-muted-foreground font-light leading-[1.8]">
-                    {booking?.closedMessage ||
-                      `Bookingsystemet ved CMedical ${clinicLabel} er midlertidig utilgjengelig. Kontakt oss på telefon eller e-post for å bestille time.`}
-                  </p>
-                  <div className="flex flex-wrap gap-4 mt-4">
+            {/* Secondary: phone picker or email */}
+            {hasBookingLink && (phone || email) && (
+              <div className="relative" ref={dropdownRef}>
+                <Button
+                  variant="cta-outline-dark"
+                  size="lg"
+                  onClick={() => setShowPhonePicker(!showPhonePicker)}
+                >
+                  <Phone className="mr-2 w-5 h-5" />
+                  Ring oss
+                  <ChevronDown
+                    className={`ml-2 w-4 h-4 transition-transform ${showPhonePicker ? "rotate-180" : ""}`}
+                  />
+                </Button>
+
+                {showPhonePicker && (
+                  <div className="absolute top-full mt-2 left-0 right-0 bg-white rounded-lg shadow-xl border border-border overflow-hidden z-50 min-w-[240px]">
                     {phone && (
                       <a
                         href={`tel:+47${phone.replace(/\s/g, "")}`}
-                        className="inline-flex items-center gap-1.5 text-sm text-brand-dark hover:underline"
+                        className="flex items-center justify-between px-4 py-3 hover:bg-secondary transition-colors"
                       >
-                        <Phone className="w-3.5 h-3.5" aria-hidden="true" />
-                        {phone}
+                        <span className="text-sm font-normal text-foreground">
+                          CMedical {clinicLabel}
+                        </span>
+                        <span className="text-sm text-muted-foreground font-light">{phone}</span>
                       </a>
                     )}
                     {email && (
                       <a
                         href={`mailto:${email}`}
-                        className="inline-flex items-center gap-1.5 text-sm text-brand-dark hover:underline"
+                        className="flex items-center justify-between px-4 py-3 hover:bg-secondary transition-colors border-t border-border"
                       >
-                        <Mail className="w-3.5 h-3.5" aria-hidden="true" />
-                        {email}
+                        <span className="text-sm font-normal text-foreground flex items-center gap-1.5">
+                          <Mail className="w-3.5 h-3.5" />
+                          E-post
+                        </span>
+                        <span className="text-sm text-muted-foreground font-light truncate max-w-[130px]">
+                          {email}
+                        </span>
+                      </a>
+                    )}
+                    {booking?.externalBookingUrl && (
+                      <a
+                        href={booking.externalBookingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-3 hover:bg-secondary transition-colors border-t border-border text-sm text-brand-dark font-light"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Ekstern bookinglenke
                       </a>
                     )}
                   </div>
-                </div>
+                )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          {/* Quick-info badges */}
+          <div className="flex flex-wrap items-center justify-center gap-8">
+            <span className="flex items-center gap-2 text-sm text-white/50">
+              <Clock className="w-4 h-4" aria-hidden="true" />
+              Ledig time innen 1–3 dager
+            </span>
+            <span className="flex items-center gap-2 text-sm text-white/50">
+              <Shield className="w-4 h-4" aria-hidden="true" />
+              Ingen henvisning nødvendig
+            </span>
+          </div>
+
         </div>
       </div>
     </section>
