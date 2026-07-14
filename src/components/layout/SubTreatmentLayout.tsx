@@ -201,7 +201,7 @@ function ReasonsEditorial({
                       {item.title}
                     </AccordionTrigger>
                     <AccordionContent className="pb-8">
-                      <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                      <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed whitespace-pre-line">
                         {item.desc}
                       </p>
                     </AccordionContent>
@@ -215,7 +215,7 @@ function ReasonsEditorial({
                     <h3 className="text-lg md:text-xl font-normal text-foreground mb-3 leading-snug">
                       {item.title}
                     </h3>
-                    <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed">
+                    <p className="text-sm md:text-base font-light text-muted-foreground leading-relaxed whitespace-pre-line">
                       {item.desc}
                     </p>
                   </div>

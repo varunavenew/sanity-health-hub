@@ -243,7 +243,7 @@ const Services = ({ isChatOpen }: PageProps) => {
               {page.featuredSectionTitle}
             </p>
           ) : null}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-0">
             {featuredCategories.map((item, idx) => (
               <motion.button
                 key={item.categoryId}
