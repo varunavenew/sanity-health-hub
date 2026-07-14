@@ -318,7 +318,7 @@ export default {
     // ─── Expert Areas ────────────────────────────────────────────────────────
     {
       name: 'expertAreas',
-      title: 'Areas of expertise',
+      title: 'Linked services',
       type: 'object',
       group: 'features',
       fields: [
@@ -326,7 +326,7 @@ export default {
         { name: 'description', title: 'Ingress', type: 'internationalizedArrayText' },
         {
           name: 'items',
-          title: 'Cards',
+          title: 'Linked services',
           type: 'array',
           of: [
             {
