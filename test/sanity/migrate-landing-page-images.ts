@@ -8,6 +8,7 @@
  *   - expertAreasSection.areas[].image  (per-card; matched by href)
  *   - symptomsSection.items[].image     (per-row;  matched by href)
  *   - supportSection.areas[].image      (per-card; matched by href)
+ *   - audiencesSection.audiences[].image (per-card; matched by href)
  *   - spotlightSection.image            (single)
  *
  * The hero image is NOT part of landingPage in the schema — it's the root
