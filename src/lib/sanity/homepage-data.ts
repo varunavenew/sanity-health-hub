@@ -7,6 +7,7 @@ import {
 import type { SortLocale } from "@/lib/sortAlphabetical";
 import type { SanitySeoFields } from "@/lib/seo/seo-fields";
 import { sanityClient } from "@/lib/sanityClient";
+import type { Article } from "@/data/articles";
 
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
@@ -113,6 +114,7 @@ export type HomepageData = {
   }[];
   patientTrustBanner: HomepagePatientTrustBanner;
   newsSplitSection: HomepageNewsSplitSection;
+  featuredArticles?: Article[];
   resultsStatsSection: HomepageResultsStatsSection;
   pageSections: ReturnType<typeof normalizePageSections>;
   seo?: SanitySeoFields;
@@ -405,6 +407,17 @@ export function mapHomepageDocument(
     }),
     patientTrustBanner: mapPatientTrustBanner(data.patientTrustBanner, lang),
     newsSplitSection: mapNewsSplitSection(data.newsSplitSection, lang),
+    featuredArticles: Array.isArray(data.featuredArticles)
+      ? data.featuredArticles.map((a: any): Article => ({
+          slug: asPlainString(a.slug),
+          title: asPlainString(a.title),
+          excerpt: asPlainString(a.excerpt),
+          image: asPlainString(a.image),
+          date: asPlainString(a.date),
+          category: asPlainString(a.category),
+          externalUrl: asPlainString(a.externalUrl) || undefined,
+        }))
+      : undefined,
     resultsStatsSection: mapResultsStatsSection(data.resultsStatsSection, lang),
     pageSections: normalizePageSections(data.pageSections),
     seo: data.seo as SanitySeoFields | undefined,

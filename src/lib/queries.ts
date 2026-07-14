@@ -209,6 +209,15 @@ export const HOMEPAGE_QUERY = `*[_type == "homepage"][0]{
     ${i18nString("ctaLabel")},
     ctaPath
   },
+  "featuredArticles": featuredArticles[]->{
+    _id,
+    "title": coalesce(title[language == $lang][0].value, title[_key == $lang][0].value, title[language == "no"][0].value, title[_key == "no"][0].value, title),
+    ${localizedSlug},
+    "excerpt": coalesce(excerpt[language == $lang][0].value, excerpt[_key == $lang][0].value, excerpt[language == "no"][0].value, excerpt[_key == "no"][0].value, excerpt),
+    "image": primaryImage.asset->url,
+    "date": publishedAt,
+    category,
+  },
   resultsStatsSection{
     ${i18nString("title")},
     ${i18nText("description")},
