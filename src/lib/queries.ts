@@ -176,6 +176,10 @@ export const PAGE_SECTIONS_GROQ = `
       "image": primaryImage.asset->url,
       "date": publishedAt,
       category
+    },
+    partners[]{
+      key,
+      "label": coalesce(label[language == $lang][0].value, label[_key == $lang][0].value, label[language == "no"][0].value, label[_key == "no"][0].value, label)
     }
   }
 `;
@@ -357,7 +361,14 @@ const CATEGORY_LANDING_GROQ = `
       ${i18nStringLocale("heading")},
       ${i18nStringLocale("headingEmphasis")},
       ${i18nText("body")},
-      ${i18nStringArrayLocale("bullets")},
+      "bullets": bullets[]{
+        "value": coalesce(
+          title[language == $lang][0].value,
+          title[_key == $lang][0].value,
+          title[language == \"no\"][0].value,
+          title[_key == \"no\"][0].value
+        )
+      },
       ${i18nStringLocale("primaryCtaLabel")},
       ${i18nStringLocale("secondaryCtaLabel")},
       ${i18nStringLocale("heroImageAlt")},
@@ -452,7 +463,8 @@ const CATEGORY_LANDING_GROQ = `
         ${i18nStringLocale("title")},
         ${i18nText("description")},
         href,
-        icon
+        icon,
+        "image": image.asset->url
       }
     },
     symptomsSection{

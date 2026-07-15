@@ -5,6 +5,7 @@ import type { PageSection } from "@/lib/sanity/page-sections";
 import { PageSectionArticlesBlock } from "./PageSectionArticlesBlock";
 import { PageSectionBookingCtaBlock } from "./PageSectionBookingCtaBlock";
 import { PageSectionSpecialistsBlock } from "./PageSectionSpecialistsBlock";
+import { PageSectionInsuranceBlock } from "./PageSectionInsuranceBlock";
 
 type Props = {
   sections?: PageSection[] | null;
@@ -20,8 +21,9 @@ export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
   const sortedSections = [...sections].sort((a, b) => {
     const order: Record<string, number> = {
       pageSectionSpecialists: 1,
-      pageSectionArticles: 2,
-      pageSectionBookingCta: 3,
+      pageSectionInsurance: 2,
+      pageSectionArticles: 3,
+      pageSectionBookingCta: 4,
     };
     return (order[a._type] ?? 99) - (order[b._type] ?? 99);
   });
@@ -39,6 +41,10 @@ export function PageSectionsRenderer({ sections, beforeBookingCta }: Props) {
 
         if (section._type === "pageSectionArticles") {
           return <PageSectionArticlesBlock key={key} config={section} />;
+        }
+
+        if (section._type === "pageSectionInsurance") {
+          return <PageSectionInsuranceBlock key={key} config={section} />;
         }
 
         if (section._type === "pageSectionBookingCta") {

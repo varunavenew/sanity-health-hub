@@ -8,6 +8,12 @@ import { behandlingerCategorySegment } from "@/lib/sanity/category-keys";
 function asPlainString(value: unknown): string {
   if (typeof value === "string") return value;
   if (value == null) return "";
+  // Handle plain {value: string} objects — returned by GROQ's i18nStringArrayLocale projection
+  // e.g. bullets[]{value: coalesce(@[language == $lang][0].value, ...)}
+  if (typeof value === "object" && !Array.isArray(value) && "value" in value) {
+    const inner = (value as { value: unknown }).value;
+    if (typeof inner === "string") return inner;
+  }
   if (Array.isArray(value)) {
     const first = value[0];
     if (typeof first === "string") return first;
@@ -50,6 +56,7 @@ export type CategoryLandingAudience = {
   desc: string;
   href: string;
   icon: "couple" | "horizon" | "arch" | "user" | "users" | "clock" | "";
+  image?: string;
 };
 
 export type CategoryLandingExpertArea = {
@@ -274,6 +281,7 @@ function mapLandingPage(raw: Record<string, unknown> | null | undefined): Catego
       icon: (validIcons.includes(icon as (typeof validIcons)[number])
         ? icon
         : "") as CategoryLandingAudience["icon"],
+      image: asPlainString(a.image) || undefined,
     };
   });
 

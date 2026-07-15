@@ -10,7 +10,7 @@ interface SplitHeroProps {
   description?: string;
   image?: ImageRef;
   imageAlt?: string;
-  primaryCta?: { label: string; to: string };
+  primaryCta?: { label: string; to: string; variant?: "cta" | "contact" };
   secondaryCta?: { label: string; to: string };
 }
 
@@ -24,7 +24,7 @@ export const SplitHero = ({
   description,
   image,
   imageAlt,
-  primaryCta = { label: "Bestill time", to: "/booking" },
+  primaryCta = { label: "Bestill time", to: "/booking", variant: "cta" },
   secondaryCta,
 }: SplitHeroProps) => {
   const navigate = useNavigate();
@@ -34,16 +34,16 @@ export const SplitHero = ({
   const hasImage = Boolean(imageSrc);
 
   return (
-    <header className="bg-brand-warm pt-16">
+    <header className="bg-brand-warm">
       <div
         className={
           hasImage
-            ? "grid md:grid-cols-2 min-h-[420px] md:min-h-[520px]"
+            ? "grid md:grid-cols-2 min-h-[360px] md:min-h-[460px]"
             : "flex flex-col"
         }
       >
         {/* Left: text */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 py-16 md:py-20 order-2 md:order-1">
+        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-8 pb-12 md:pt-12 md:pb-16 order-2 md:order-1">
           {eyebrow?.trim() ? (
             <p className="text-xs text-foreground/60 font-light tracking-wide mb-4">
               {eyebrow}
@@ -60,15 +60,27 @@ export const SplitHero = ({
             </p>
           ) : null}
           <div className="flex flex-wrap gap-3">
-            <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
-              {primaryCta.label}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            {primaryCta.variant === "contact" ? (
+              <Button
+                variant="outline"
+                size="lg"
+                className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl px-6 py-5 text-sm font-light flex items-center"
+                onClick={() => navigate(primaryCta.to)}
+              >
+                <Phone className="mr-2 w-4 h-4 text-foreground group-hover:text-white" strokeWidth={1.5} />
+                {primaryCta.label}
+              </Button>
+            ) : (
+              <Button variant="cta" size="lg" onClick={() => navigate(primaryCta.to)}>
+                {primaryCta.label}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            )}
             {secondaryCta ? (
               <Button
                 variant="ghost"
                 size="lg"
-                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-2xl"
+                className="border border-foreground/30 text-foreground hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl"
                 onClick={() => navigate(secondaryCta.to)}
               >
                 <Phone className="mr-2 w-4 h-4" />

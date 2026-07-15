@@ -379,15 +379,15 @@ const Aktuelt = ({ isChatOpen }: AktueltProps) => {
               className="w-full pl-10 pr-4 py-2.5 bg-secondary/50 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
             />
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {filterOptions.map((opt) => (
               <button
                 key={opt.key}
                 onClick={() => setActiveFilter(opt.key)}
-                className={`px-4 py-1.5 rounded-2xl text-sm transition-colors ${
+                className={`px-5 py-2 rounded-full text-xs md:text-sm font-light border transition-all ${
                   activeFilter === opt.key
-                    ? "bg-brand-dark text-white"
-                    : "bg-secondary/60 text-foreground/70 hover:bg-secondary hover:text-foreground"
+                    ? "bg-brand-dark text-white border-brand-dark"
+                    : "bg-white text-foreground/80 border-foreground/15 hover:border-foreground/30 hover:text-foreground"
                 }`}
               >
                 {opt.label}

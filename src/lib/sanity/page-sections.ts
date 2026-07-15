@@ -64,9 +64,23 @@ export type PageSectionArticleCard = {
   externalUrl?: string;
 };
 
+export type PageSectionInsurancePartner = {
+  key: string;
+  label: string;
+};
+
+export type PageSectionInsuranceConfig = {
+  _type: "pageSectionInsurance";
+  _key?: string;
+  eyebrow?: string;
+  title?: string;
+  partners?: PageSectionInsurancePartner[];
+};
+
 export type PageSection =
   | PageSectionSpecialistsConfig
   | PageSectionArticlesConfig
+  | PageSectionInsuranceConfig
   | PageSectionBookingCtaConfig;
 
 /** Attach normalized page sections to any Sanity page document. */
@@ -161,6 +175,31 @@ export function normalizePageSections(raw: unknown): PageSection[] {
           variant: (block.variant as PageSectionArticlesConfig["variant"]) || "grid",
           ctaLabel: str(block.ctaLabel) || undefined,
           ctaPath: str(block.ctaPath) || "/aktuelt",
+        };
+      }
+
+      if (type === "pageSectionInsurance") {
+        const partners = Array.isArray(block.partners)
+          ? block.partners
+              .map((p): PageSectionInsurancePartner | null => {
+                if (!p || typeof p !== "object") return null;
+                const row = p as Record<string, unknown>;
+                const key = str(row.key);
+                if (!key) return null;
+                return {
+                  key,
+                  label: str(row.label),
+                };
+              })
+              .filter((x): x is PageSectionInsurancePartner => x != null)
+          : [];
+
+        return {
+          _type: "pageSectionInsurance",
+          _key: block._key as string | undefined,
+          eyebrow: str(block.eyebrow),
+          title: str(block.title),
+          partners,
         };
       }
 

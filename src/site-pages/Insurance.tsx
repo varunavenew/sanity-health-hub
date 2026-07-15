@@ -43,18 +43,19 @@ const Insurance = ({ isChatOpen }: PageProps) => {
           description={subtitle || undefined}
           image={heroImage}
           imageAlt="Forsikring hos CMedical"
-          primaryCta={{ label: t("nav.bookAppointment"), to: "/booking" }}
+          primaryCta={{ label: t("cta.contactUs", "Kontakt oss"), to: "/kontakt", variant: "contact" }}
         />
       ) : (
         <div className="bg-brand-warm pt-20 pb-8">
           <div className="container mx-auto px-6 md:px-16">
             <Button
-              variant="cta"
+              variant="outline"
               size="lg"
-              onClick={() => navigate("/booking")}
+              className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light flex items-center"
+              onClick={() => navigate("/kontakt")}
             >
-              {t("nav.bookAppointment")}
-              <ArrowRight className="ml-2 w-4 h-4" />
+              <Phone className="mr-2 w-4 h-4" strokeWidth={1.5} />
+              {t("cta.contactUs", "Kontakt oss")}
             </Button>
           </div>
         </div>
@@ -155,11 +156,15 @@ const Insurance = ({ isChatOpen }: PageProps) => {
               </div>
             </div>
             <div className="flex gap-3">
-              <Button variant="outline" className="border-foreground/20 hover:bg-muted" asChild>
-                <Link to="/kontakt">{t("cta.contactUs")}</Link>
-              </Button>
-              <Button className="bg-brand-dark text-white hover:bg-brand-dark/90" onClick={() => navigate('/booking')}>
-                {t("nav.bookAppointment")}<ArrowRight className="ml-2 w-4 h-4" />
+              <Button
+                variant="outline"
+                className="border border-foreground/30 text-foreground bg-transparent hover:bg-brand-dark hover:text-white hover:border-brand-dark rounded-xl md:rounded-2xl px-6 py-5 text-sm font-light flex items-center"
+                asChild
+              >
+                <Link to="/kontakt">
+                  <Phone className="mr-2 w-4 h-4 text-foreground hover:text-white" strokeWidth={1.5} />
+                  {t("cta.contactUs")}
+                </Link>
               </Button>
             </div>
           </div>

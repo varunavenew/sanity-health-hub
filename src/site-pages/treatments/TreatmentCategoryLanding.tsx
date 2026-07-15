@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { AssetImg } from "@/components/AssetImg";
 import { Fragment, useRef } from "react";
@@ -559,10 +559,21 @@ const TreatmentCategoryLanding = ({
                 {audiencesSection.audiences.map((a) => {
                   const Icon = a.icon ? AUDIENCE_ICONS[a.icon] : null;
                   return (
-                    <div key={a.title} className="bg-background rounded-sm border border-border/40 flex flex-col p-7">
-                      <div className="mb-6 text-foreground/80">
-                        {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
-                      </div>
+                    <div key={a.title} className="bg-background rounded-sm border border-border/40 flex flex-col p-7 overflow-hidden">
+                      {a.image ? (
+                        <div className="relative aspect-[16/10] -mx-7 -mt-7 mb-6 overflow-hidden bg-secondary">
+                          <img
+                            src={a.image}
+                            alt={a.title}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="mb-6 text-foreground/80">
+                          {Icon ? <Icon className="w-6 h-6" strokeWidth={1.25} aria-hidden="true" /> : null}
+                        </div>
+                      )}
                       <h3 className="text-lg font-normal text-foreground mb-3">{a.title}</h3>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed mb-6 flex-1">{a.desc}</p>
                       {a.href ? (
