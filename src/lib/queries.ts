@@ -365,8 +365,8 @@ const CATEGORY_LANDING_GROQ = `
         "value": coalesce(
           title[language == $lang][0].value,
           title[_key == $lang][0].value,
-          title[language == \"no\"][0].value,
-          title[_key == \"no\"][0].value
+          title[language == "no"][0].value,
+          title[_key == "no"][0].value
         )
       },
       ${i18nStringLocale("primaryCtaLabel")},
