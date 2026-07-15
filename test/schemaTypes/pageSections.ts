@@ -360,16 +360,69 @@ export const pageSectionBookingCta = {
   },
 }
 
+export const pageSectionInsurance = {
+  name: 'pageSectionInsurance',
+  title: 'Insurance partners',
+  type: 'object',
+  fields: [
+    {
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      type: 'internationalizedArrayString',
+      initialValue: [{ _key: 'no', language: 'no', value: 'Forsikringspartnere' }],
+    },
+    {
+      name: 'title',
+      title: 'Heading',
+      type: 'internationalizedArrayString',
+      initialValue: [
+        { _key: 'no', language: 'no', value: 'Vi har avtale med de største forsikringsselskapene i Norge.' },
+        { _key: 'en', language: 'en', value: 'We have agreements with the largest insurance companies in Norway.' }
+      ],
+    },
+    {
+      name: 'partners',
+      title: 'Insurance Partners',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'key', type: 'string', title: 'Internal key (e.g. if, tryg)' },
+            { name: 'label', type: 'internationalizedArrayString', title: 'Display name' },
+          ],
+          preview: {
+            select: { title: 'label' },
+            prepare({ title }: { title?: unknown }) {
+              return { title: pickNo(title) || 'Partner' }
+            },
+          },
+        },
+      ],
+    },
+  ],
+  preview: {
+    select: { title: 'title' },
+    prepare({ title }: { title?: unknown }) {
+      return {
+        title: pickNo(title) || 'Insurance partners',
+        subtitle: 'Insurance section',
+      }
+    },
+  },
+}
+
 /** Reusable page-builder field — add to any document schema `fields` array. */
 export const pageSectionsField = defineField({
   name: 'pageSections',
   title: 'Modular sections',
   description:
-    'Page builder: add, remove and sort specialist, article and booking CTA blocks. Displayed after the page\'s main content.',
+    'Page builder: add, remove and sort specialist, article, insurance and booking CTA blocks. Displayed after the page\'s main content.',
   type: 'array',
   of: [
     { type: 'pageSectionSpecialists' },
     { type: 'pageSectionArticles' },
+    { type: 'pageSectionInsurance' },
     { type: 'pageSectionBookingCta' },
   ],
   options: {

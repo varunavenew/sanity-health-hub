@@ -136,8 +136,8 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                     <Button
                       className={
                         isOutline
-                          ? "rounded-sm w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
-                          : "bg-white text-brand-dark hover:bg-white/90 rounded-sm w-full font-light"
+                          ? "rounded-full w-full border border-white/30 bg-transparent text-white hover:bg-white hover:text-brand-dark font-light"
+                          : "bg-white text-brand-dark hover:bg-white/90 rounded-full w-full font-light"
                       }
                       onClick={handleClick}
                     >
@@ -241,7 +241,7 @@ const Contact = ({ isChatOpen }: ContactProps) => {
                 <Button 
                   type="submit" 
                   size="lg"
-                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-sm px-8 font-light"
+                  className="bg-brand-dark text-white hover:bg-brand-dark/90 rounded-full px-8 font-light"
                 >
                   {t("contact.form.submit")}
                   <ArrowRight className="ml-2 w-4 h-4" />

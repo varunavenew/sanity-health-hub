@@ -37,6 +37,7 @@ import {
   pageSectionSpecialists,
   pageSectionArticles,
   pageSectionBookingCta,
+  pageSectionInsurance,
 } from './pageSections'
 import { subTreatmentLayoutType } from './subTreatmentLayout'
 import { locationSearchType } from './locationSearch'
@@ -79,6 +80,7 @@ export const schemaTypes = [
   subTreatmentLayoutType,
   pageSectionSpecialists,
   pageSectionArticles,
+  pageSectionInsurance,
   pageSectionBookingCta,
   youtubeEmbed,
   blockContent,

@@ -118,6 +118,8 @@
     "migrate:homepage-layout-sections": "tsx sanity/migrate-homepage-layout-sections.ts",
     "migrate:insurance-page-seo:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-seo.ts",
     "migrate:insurance-page-seo": "FORCE=1 tsx sanity/migrate-insurance-page-seo.ts",
+    "migrate:hero-bullets:dry": "tsx sanity/migrate-hero-bullets.ts",
+    "migrate:hero-bullets": "tsx sanity/migrate-hero-bullets.ts --write",
     "migrate:insurance-page-content:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-content.ts",
     "migrate:insurance-page-content": "tsx sanity/migrate-insurance-page-content.ts",
     "migrate:insurance-page-restore:dry": "DRY_RUN=1 tsx sanity/migrate-insurance-page-restore.ts",
